@@ -54,5 +54,8 @@ class Message : public MessageBase {
 
 };
 
+template<class T>
+using MessagePtr = std::shared_ptr<Message<T>>;
+
 } // namespace scrimmage
 #endif

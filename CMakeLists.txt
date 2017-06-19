@@ -226,6 +226,19 @@ else()
 endif()
 
 ########################################################
+# Find ROS
+########################################################
+find_package(catkin QUIET 
+  COMPONENTS geometry_msgs roscpp sensor_msgs std_msgs
+  )
+
+if (catkin_FOUND)
+    add_definitions(-DENABLE_ROS=1)
+else() 
+    add_definitions(-DENABLE_ROS=0)
+endif() 
+
+########################################################
 # Recurse into src, share, and plugins
 ########################################################
 #add_subdirectory(plugins)

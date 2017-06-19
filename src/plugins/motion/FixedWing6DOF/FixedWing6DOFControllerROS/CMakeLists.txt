@@ -6,10 +6,6 @@ SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
 
-find_package(catkin QUIET 
-  COMPONENTS geometry_msgs roscpp sensor_msgs std_msgs
-  )
-
 if (NOT catkin_FOUND)
   #message(STATUS "ROS not found. Not building FixedWing6DOFControllerROS.")
 else() 

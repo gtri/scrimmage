@@ -29,7 +29,6 @@
  * A Long description goes here.
  *
  */
-
 #ifndef EXTERNAL_H_
 #define EXTERNAL_H_
 
@@ -37,6 +36,16 @@
 #include <scrimmage/common/ID.h>
 #include <scrimmage/common/FileSearch.h>
 #include <map>
+#include <string>
+#include <vector>
+
+#ifdef ROSCPP_ROS_H
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <functional>
+#endif
 
 namespace scrimmage {
 
@@ -59,6 +68,63 @@ class External {
     FileSearch file_search_;
     PluginManagerPtr plugin_manager_;
     int max_entities_;
+
+#ifdef ROSCPP_ROS_H
+
+ protected:
+    std::vector<ros::Subscriber> ros_subs_;
+    std::vector<std::function<void()>> ros_pub_funcs_;
+
+ public:
+    void publish_all() {
+        for (auto &func : ros_pub_funcs_) {
+            func();
+        }
+    }
+
+    template <typename RosType, typename Ros2ScFunc>
+    void add_subscriber(
+        ros::NodeHandle &nh,
+        scrimmage::SubscriberPtr sc_sub,
+        Ros2ScFunc ros2sc_func,
+        std::string ros_topic = "",
+        std::function<void(const boost::shared_ptr<RosType const> &)> pre_func =
+            [](const boost::shared_ptr<RosType const> &msg) {return;},
+        std::function<void(const boost::shared_ptr<RosType const> &)> post_func =
+            [](const boost::shared_ptr<RosType const> &msg) {return;}) {
+
+        boost::function<void(const boost::shared_ptr<RosType const> &)> callback =
+            [=](const boost::shared_ptr<RosType const> &ros_msg) {
+                pre_func(ros_msg);
+                sc_sub->msg_list().push_back(ros2sc_func(ros_msg));
+                post_func(ros_msg);
+            };
+
+        std::string topic = ros_topic == "" ? sc_sub->get_topic() : ros_topic;
+        ros_subs_.push_back(nh.subscribe(topic, 5, callback));
+    }
+
+    template <class ScrimmageType, class Sc2RosFunc>
+    void add_publisher(
+        const ros::Publisher &ros_pub,
+        scrimmage::PublisherPtr sc_pub,
+        Sc2RosFunc sc2ros_func,
+        std::function<void()> pre_func = [](){return;},
+        std::function<void()> post_func = [](){return;}) {
+
+        auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
+        auto func = [=]() {
+            pre_func();
+            for (auto msg : sc_pub->msgs<scrimmage::Message<ScrimmageType>>(true, false)) {
+                ros_pub_ptr->publish(sc2ros_func(msg));
+            }
+            post_func();
+        };
+
+        ros_pub_funcs_.push_back(func);
+    }
+
+#endif
 };
 
 } // namespace scrimmage
