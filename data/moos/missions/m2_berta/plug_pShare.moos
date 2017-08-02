@@ -1,0 +1,36 @@
+//---------------------------------------------------------
+// pShare Config Block  (Created from Plugin)
+
+ProcessConfig = pShare
+{
+  AppTick    = 2
+  CommsTick  = 2
+
+  input = route =  localhost:$(SHARE_LISTEN)
+  output = src_name=Y, dest_name=B, route=localhost:9300
+
+
+  // =======================================================
+  // Usage Info below
+  // =======================================================
+
+  // Simple forward of X to A on channel 8
+  // output = src_name = X,dest_name=A, route=multicast_8
+ 
+  // Simple forward of Y to B on a udp address
+
+  //output = src_name=Y, dest_name=B, route=localhost:9300
+ 
+  // Simple forward of Z to Z on a named address (no renaming)
+  // output = src_name = Z, route = oceanai.mit.edu:9020
+ 
+  // Setting up an input
+  // input = route = multicast_9
+  
+  //input = route = localhost:$(SHARE_LISTEN) & multicast_9
+
+ 
+  // Setting up lots of inputs at once
+  // input = route = "localhost:9069 & multicast_19 & multicast_65"
+}
+

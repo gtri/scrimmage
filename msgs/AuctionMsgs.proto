@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package auction;
+
+message StartAuction {
+
+        enum TaskType {
+             GOTO = 0;    
+             SEARCH = 1;         
+             TRAIL = 2;
+        }
+        
+        int32 originator_id = 1;
+        TaskType task = 2;
+}
+
+message BidAuction {
+        int32 originator_id = 1;
+        double bid = 2;
+}

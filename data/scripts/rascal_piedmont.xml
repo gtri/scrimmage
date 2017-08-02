@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSimScript.xsl"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://jsbsim.sf.net/JSBSimScript.xsd"
+    name="C172 cruise at 4K, 100% power">
+  <description>Fly the Rascal in Atlanta's beautiful Piedmont Park.</description>
+  <use aircraft="Rascal" initialize="reset-piedmont"/>
+
+  <run start="0.0" end="100000" dt="0.0083333">
+
+    <property value="0"> simulation/notify-time-trigger </property>
+
+    <event name="1 - Start Engine and Autopilot">
+      <condition>
+        simulation/sim-time-sec  ge  0.01
+      </condition>
+      <set name="fcs/throttle-cmd-norm" action="FG_RAMP" value="0.90" tc="0.05"/>
+      <set name="propulsion/engine[0]/set-running" value="1"/>
+      <set name="ap/bank_setpoint" value="0.0"/>
+      <set name="ap/bank_hold" value="1"/>
+      <set name="ap/altitude_setpoint" value="1200.0"/>
+      <set name="ap/altitude_hold" value="1"/>
+      <set name="ap/airspeed_setpoint" value="60.0"/>
+      <set name="ap/airspeed_hold" value="1"/>
+      <!--
+      <notify>
+        <property>propulsion/engine[0]/thrust-lbs</property>
+        <property>velocities/vc-kts</property>
+        <property>position/h-agl-ft</property>
+      </notify>
+        -->
+    </event>        
+    
+    <!--
+    <event name="Repeating Notify" persistent="true">
+      <description>Output message at .5 second intervals</description>
+      <notify>
+        <property>velocities/vtrue-kts</property>
+        <property>fcs/throttle-cmd-norm</property>
+        <property>fcs/throttle-pos-norm</property>
+        <property>position/h-agl-ft</property>
+        <property>position/h-sl-meters</property>
+        <property>position/long-gc-deg</property>
+        <property>position/lat-gc-deg</property>
+        <property>propulsion/engine[0]/thrust-lbs</property>
+      </notify>
+      <condition> simulation/sim-time-sec >= simulation/notify-time-trigger </condition>
+      <set name="simulation/notify-time-trigger" value="0.5" type="FG_DELTA"/>
+    </event>        
+    -->
+        
+  </run>
+</runscript>

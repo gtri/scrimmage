@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>GroundCollision_plugin</library>  
+  
+  <!-- if defined, ground_collision_altitude has priority -->
+  <!--<ground_collision_altitude>300</ground_collision_altitude>-->
+  <ground_collision_z>0</ground_collision_z> <!-- uses altitude origin -->
+  
+</params>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>MotorSchemas_plugin</library>  
+
+  <max_speed>21</max_speed>
+  
+  <show_shapes>true</show_shapes>
+  
+  <!-- move-to-goal parameters -->
+  
+  <!-- goal is set to directly in front of initial position -->
+  <use_initial_heading>true</use_initial_heading>
+  <goal>100 0 0</goal> <!-- if use_initial_heading is false -->
+  <move_to_goal_gain>1.0</move_to_goal_gain>
+  
+  <!-- avoid_robot parameters -->
+  <avoid_robot_gain>3.0</avoid_robot_gain>
+  <sphere_of_influence>10</sphere_of_influence>
+  <minimum_range>2</minimum_range>
+  <axis_ratio>1.0</axis_ratio> <!-- Forward axis over lateral axis -->
+</params>

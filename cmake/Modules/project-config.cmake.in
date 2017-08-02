@@ -1,0 +1,52 @@
+# - Config file for the FooBar package
+# It defines the following variables
+#  SCRIMMAGE_INCLUDE_DIRS - include directories for FooBar
+#  SCRIMMAGE_LIBRARIES    - libraries to link against
+
+# Compute paths
+get_filename_component(PROJECT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+## Our library dependencies (contains definitions for IMPORTED targets)
+include("${PROJECT_CMAKE_DIR}/@PROJECT_NAME@-targets.cmake")
+
+set(SCRIMMAGE_INCLUDE_DIRS "@PROJECT_INCLUDE_DIRS@")
+set(SCRIMMAGE_LIBRARIES "@PROJECT_LIBS@")
+set(SCRIMMAGE_VIEWER_LIB "scrimmage-viewer")
+set(SCRIMMAGE_PLUGINS "@PROJECT_PLUGINS@")
+set(SCRIMMAGE_ENABLE_PYTHON_BINDINGS "@ENABLE_PYTHON_BINDINGS@")
+
+###############################################################################
+# Include references to the important 3rd-party libraries and utilities that
+# scrimmage uses:
+###############################################################################
+
+# jsbsim
+set(SCRIMMAGE_JSBSIM_FOUND "@JSBSIM_FOUND@")
+set(SCRIMMMGE_JSBSIM_LIBRARIES "@JSBSIM_LIBRARIES@")
+set(SCRIMMAGE_JSBSIM_INCLUDE_DIR "@JSBSIM_INCLUDE_DIR@")
+
+# geographiclib
+set(SCRIMMAGE_GeographicLib_FOUND TRUE)
+set(SCRIMMAGE_GeographicLib_INCLUDE_DIRS "@GeographicLib_INCLUDE_DIRS@")
+set(SCRIMMAGE_GeographicLib_LIBRARIES "@GeographicLib_LIBRARIES@")
+
+# protobuf
+set(SCRIMMAGE_PROTOBUF_FOUND TRUE)
+set(SCRIMMAGE_PROTOBUF_PROTOC_EXECUTABLE "@PROTOBUF_PROTOC_EXECUTABLE@")
+set(SCRIMMAGE_PROTOBUF_LIBRARIES "@PROTOBUF_LIBRARIES@")
+set(SCRIMMAGE_PROTOBUF_INCLUDE "@PROTOBUF_INCLUDE@")
+
+# grpc
+set(SCRIMMAGE_GRPC_FOUND "@GRPC_FOUND@")
+set(SCRIMMAGE_GRPC_CPP_PLUGIN "@GRPC_CPP_PLUGIN@")
+set(SCRIMMAGE_GRPC_PYTHON_PLUGIN "@GRPC_PYTHON_PLUGIN@")
+set(SCRIMMAGE_GRPC_LIBRARIES "@GRPC_LIBRARIES@")
+set(SCRIMMAGE_GRPC_INCLUDE_DIRS "@GRPC_INCLUDE_DIRS@")
+
+# python
+set(SCRIMMAGE_PYTHON_LIBRARIES "@PYTHON_LIBRARIES@")
+set(SCRIMMAGE_PYTHON_INCLUDE_DIRS "@PYTHON_INCLUDE_DIRS@")
+set(SCRIMMAGE_PYTHON_FOUND @PYTHON_FOUND@)
+set(SCRIMMAGE_PYTHONLIBS_VERSION_STRING "@PYTHONLIBS_VERSION_STRING@")
+set(SCRIMMAGE_PYBIND11_PYTHON_VERSION "@PYBIND11_PYTHON_VERSION@")
+set(SCRIMMAGE_PYBIND11_INCLUDE_DIRS "@PYBIND11_INCLUDE_DIRS@")

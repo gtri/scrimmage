@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>Boids_plugin</library>
+  <align_weight>0.01</align_weight>
+  <avoid_weight>0.95</avoid_weight>
+  <centroid_weight>0.05</centroid_weight>
+</params>

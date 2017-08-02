@@ -1,0 +1,64 @@
+//--------    FILE: alpha.bhv   -------------
+
+initialize   DEPLOY = false
+initialize   RETURN = false
+
+//----------------------------------------------
+Behavior = BHV_Waypoint
+{ 
+  name      = waypt_survey
+  pwt       = 100
+  condition = RETURN = false
+  condition = DEPLOY = true
+  endflag   = RETURN = true
+
+  idleflag  = WPTING = idle
+  runflag   = WPTING = running
+  endflag   = WPTING = end
+  inactiveflag = WPTING = inactive
+
+  updates     = WPT_UPDATE
+  perpetual   = true
+   templating = clone
+                lead = 8
+         lead_damper = 1
+       lead_to_start = true
+               speed = 2   // meters per second
+        capture_line = true
+      capture_radius = 5.0
+         slip_radius = 15.0
+	efficiency_measure = all
+
+             polygon = 60,-40 : 60,-160 : 150,-160 : 180,-100 : 150,-40
+             repeat = 0
+
+// uPokeDB alpha.moos++ WPT_UPDATE="name=1#polygon=60,-50 : 60,-170 : 150,-170 : 180,-110 : 150,-50#duration=20"
+// uPokeDB alpha.moos++ WPT_UPDATE="name=1#speed=2"
+
+//	ipf_type = roc
+
+    visual_hints = nextpt_color=yellow
+    visual_hints = nextpt_vertex_size=8
+    visual_hints = nextpt_lcolor=gray70
+    visual_hints = vertex_color=dodger_blue, edge_color=white
+    visual_hints = vertex_size=5, edge_size=1
+}
+
+//----------------------------------------------
+Behavior=BHV_Waypoint
+{
+  name       = waypt_return
+  pwt        = 100
+  condition  = RETURN = true
+  condition  = DEPLOY = true
+  perpetual  = true
+  updates    = RETURN_UPDATE
+  endflag    = RETURN = false
+  endflag    = DEPLOY = false
+  endflag    = MISSION = complete
+
+           speed = 2.0
+  capture_radius = 2.0
+     slip_radius = 8.0
+          points = 0,-20
+ }

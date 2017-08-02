@@ -1,0 +1,11 @@
+//------------------------------------------------
+// uXMS_COMPASS Config Block -  Berta Variation #1
+
+ProcessConfig = uXMS_COMPASS
+{
+  var = COMPASS_HEADING
+  var = COMPASS_YAW
+
+  display_virgins = true
+  display_time    = true
+}

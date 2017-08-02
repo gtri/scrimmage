@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+import "scrimmage/proto/Vector3d.proto";
+import "scrimmage/proto/Quaternion.proto";
+
+message State {
+Vector3d position = 1;
+Vector3d velocity = 2;
+Quaternion orientation = 3;
+}

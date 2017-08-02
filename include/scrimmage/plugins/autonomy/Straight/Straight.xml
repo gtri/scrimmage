@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>Straight_plugin</library>
+  <speed>21</speed>
+  <show_camera_images>true</show_camera_images>
+  <save_camera_images>false</save_camera_images>
+</params>

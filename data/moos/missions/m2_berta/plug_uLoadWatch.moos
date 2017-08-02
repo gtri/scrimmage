@@ -1,0 +1,14 @@
+//--------------------------------------------------
+// uLoadWatch configuration block from plugin
+
+ProcessConfig = uLoadWatch
+{
+  AppTick   = 1
+  CommsTick = 1
+
+  thresh = app=pHelmIvP,  gapthresh=3
+  thresh = app=pHostInfo, gapthresh=5
+  thresh = app=any,       gapthresh=2.0
+
+  breach_trigger = 5
+}

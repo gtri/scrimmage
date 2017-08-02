@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+import "scrimmage/proto/Color.proto";
+
+message UTMTerrain {
+        double time = 1;
+        string terrain_name = 2;
+        string poly_data_file = 3;
+        string texture_file = 4;
+        double x_translate = 5;
+        double y_translate = 6;
+        double z_translate = 7;
+        string system = 8;
+        int32 zone = 9;
+        string hemisphere = 10;
+        bool enable_grid = 11;
+        Color background = 12;
+        bool enable_terrain = 13;
+        double grid_spacing = 14;
+        double grid_size = 15;
+        bool show_origin = 16;
+        double origin_length = 17;
+}
+
+message SimInfo {
+        double time = 1;
+        double desired_warp = 2;
+        double actual_warp = 3;
+        bool shutting_down = 4;
+}
+
+message ContactVisual {
+        double time = 1;
+        string name = 2;
+        int32 id = 3;
+        enum VisualMode {
+             TEXTURE = 0;
+             COLOR = 1;
+        }
+        VisualMode visual_mode = 4;
+        string model_file = 5;
+        string texture_file = 6;
+        double scale = 7;
+        repeated double rotate = 8 [packed=true];
+        Color color = 9;
+        bool update_required = 10;
+        double opacity = 11;
+}

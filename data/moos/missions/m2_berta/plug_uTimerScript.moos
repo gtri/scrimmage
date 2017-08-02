@@ -1,0 +1,25 @@
+//--------------------------------------------------------
+// uTimerScript Configuration Block
+
+ProcessConfig = uTimerScript
+{
+  AppTick   = 4
+  CommsTick = 4
+  
+  PAUSED     = false
+  RESET_MAX  = unlimited
+  RESET_TIME = end
+
+  RANDVAR = varname=X, min=0,  max=100, key=at_reset
+  RANDVAR = varname=Y, min=0,  max=100, key=at_reset
+
+  EVENT = var=NODE_MESSAGE_LOCAL, val="src_node=$(VNAME),dest_node=all,var_name=FOOBAR,string_val=$[X],$[Y]", time=0:30 
+  EVENT = var=NODE_MESSAGE_LOCAL, val="src_node=$(VNAME),dest_node=all,var_name=FOOBAR,string_val=$[X],$[Y]", time=15:45 
+  EVENT = var=NODE_MESSAGE_LOCAL, val="src_node=$(VNAME),dest_node=all,var_name=FOOBAR,string_val=$[X],$[Y]", time=30:60 
+  EVENT = var=NODE_MESSAGE_LOCAL, val="src_node=$(VNAME),dest_node=all,var_name=FOOBAR,string_val=$[X],$[Y]", time=45:75 
+  EVENT = var=NODE_MESSAGE_LOCAL, val="src_node=$(VNAME),dest_node=all,var_name=FOOBAR,string_val=$[X],$[Y]", time=60:90 
+}
+
+
+ 
+

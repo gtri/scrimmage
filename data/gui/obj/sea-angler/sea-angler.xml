@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <model>SeaAngler.obj</model>  
+  <visual_scale>0.9</visual_scale>
+  <visual_rpy>0 90 90</visual_rpy>
+</params>

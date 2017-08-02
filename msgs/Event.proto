@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+
+package scrimmage_msgs;
+
+message EndTime {
+}
+
+message OneTeamPresent {
+        int32 team_id = 1;
+}
+
+message NoTeamsPresent {
+}
+
+message EntityPresentAtEnd {
+        int32 entity_id = 1;
+}
+
+message UserForcedExit {
+}
+
+message EntityGenerated {
+        int32 entity_id = 1;
+}
+
+message EntityRemoved {
+        int32 entity_id = 1;
+}
+
+message EntityInteractionExit {
+}

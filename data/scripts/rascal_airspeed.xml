@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSimScript.xsl"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://jsbsim.sf.net/JSBSimScript.xsd"
+    name="C172 cruise at 4K, 100% power">
+  <description>This run is for testing the C172 altitude hold autopilot and cruise performance</description>
+  <use aircraft="Rascal" initialize="reset-flying"/>
+
+  <run start="0.0" end="100000" dt="0.0083333">
+  
+    <event name="Set Altitude: 4000">
+      <condition>
+        simulation/sim-time-sec  ge  0.0
+      </condition>      
+      <set name="ap/altitude_setpoint" value="4000.0"/>
+    </event>
+    
+    <event name="Start engine">
+      <condition>
+        simulation/sim-time-sec  ge  0.01
+      </condition>
+      <set name="fcs/throttle-cmd-norm" action="FG_RAMP" value="0.90" tc="0.05"/>
+      <set name="propulsion/engine[0]/set-running" value="1"/>
+      <notify>
+        <property>propulsion/engine[0]/thrust-lbs</property>
+      </notify>
+    </event> 
+  
+    <property value="0"> simulation/notify-time-trigger </property>
+
+<!--
+    <event name="Trim">
+      <condition>
+        simulation/sim-time-sec  gt  5.0
+      </condition>
+      <notify>
+        <property>propulsion/engine[0]/thrust-lbs</property>
+      </notify>
+      <set name="simulation/do_simple_trim" value="1"/>  
+    </event>
+  -->
+
+   <event name="1 - Hold speed and altitude">
+      <condition>simulation/sim-time-sec ge 5</condition>
+      <set name="ap/airspeed_setpoint" value="60.0"/>
+      <set name="ap/airspeed_hold" value="1"/>
+      <set name="ap/attitude_hold" value="1"/>
+      <set name="ap/altitude_setpoint" value="4000.0"/>
+      <set name="ap/altitude_hold" value="1"/>
+      <notify/>
+    </event>
+
+    <event name="2 - Speed up">
+      <condition>simulation/sim-time-sec ge 30</condition>
+      <set name="ap/airspeed_setpoint" value="80"/>    
+      <notify/>
+    </event>
+
+    <event name="3 - Slow down">
+      <condition>simulation/sim-time-sec ge 60</condition>
+      <set name="ap/airspeed_setpoint" value="40"/>      
+      <notify/>
+    </event>
+
+    <event name="4 - Back to cruise">
+      <condition>simulation/sim-time-sec ge 90</condition>
+      <set name="ap/airspeed_setpoint" value="60"/>      
+      <notify/>
+    </event>
+
+    <event name="Repeating Notify" persistent="true">
+      <description>Output message at .5 second intervals</description>
+      <notify>
+        <property>velocities/vtrue-kts</property>
+        <property>fcs/throttle-cmd-norm</property>
+        <property>fcs/throttle-pos-norm</property>
+        <property>position/h-agl-ft</property>
+        <property>position/h-sl-meters</property>
+        <property>position/long-gc-deg</property>
+        <property>position/lat-gc-deg</property>
+      </notify>
+      <condition> simulation/sim-time-sec >= simulation/notify-time-trigger </condition>
+      <set name="simulation/notify-time-trigger" value="0.5" type="FG_DELTA"/>
+    </event>
+
+        
+  </run>
+</runscript>

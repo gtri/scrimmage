@@ -1,0 +1,23 @@
+ProcessConfig = uXMS_NAV
+{                                                               
+  AppTick   = 4                                                 
+  CommsTick = 4                                                 
+                                                                
+  VAR = NAV_X, NAV_Y, NAV_SPEED, NAV_HEADING                    
+                                                                
+  DISPLAY_VIRGINS = true          // default                    
+  DISPLAY_EMPTY_STRINGS = true    // default                    
+  DISPLAY_SOURCE        = true
+  DISPLAY_TIME          = true
+  DISPLAY_COMMUNITY     = false   // default                    
+  DISPLAY_ALL           = false   // default                    
+
+  TRUNC_DATA            = true
+                                                                
+  TERM_REPORT_INTERVAL  = 0.6     // default (seconds           
+                                                                
+  COLOR_MAP    = NAV_SPEED, blue // Only var NAV_SPEED is blue  
+                                                                
+  REFRESH_MODE = paused
+  CONTENT_MODE = scoping         // default (or history)       
+}                                      

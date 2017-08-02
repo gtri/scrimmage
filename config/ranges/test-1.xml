@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<ranges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
+    name="Random Orientations">
+
+  <heading low="0" high="360" type="float"/>
+  <altitude low="500" high="600" type="float"/>  
+  <x low="0" high="2000" type="float"/>  
+  <y low="0" high="2000" type="float"/>  
+  
+  <!--<latitude low="33.780" high="33.784" type="float"/>-->
+  <!--<longitude low="-84.3719" high="-84.3710" type="float"/>-->
+  <!--<health low="1" high="5" type="int"/>-->
+
+</ranges>

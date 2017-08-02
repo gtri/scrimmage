@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<autonomy>
+  <library>(>>>PLUGIN_NAME<<<)_plugin</library>  
+</autonomy>

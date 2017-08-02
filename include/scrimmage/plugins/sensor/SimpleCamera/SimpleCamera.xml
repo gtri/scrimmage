@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>SimpleCamera_plugin</library>  
+  <fov_azimuth>15</fov_azimuth>
+  <fov_elevation>15</fov_elevation>
+  <range>100</range>
+  <draw_cone>true</draw_cone>
+</params>

@@ -1,0 +1,13 @@
+# - Config file for the FooBar package
+# It defines the following variables
+#  SCRIMMAGE_CUAS_INCLUDE_DIRS - include directories for FooBar
+#  SCRIMMAGE_CUAS_LIBRARIES    - libraries to link against
+
+# Compute paths
+get_filename_component(PROJECT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+## Our library dependencies (contains definitions for IMPORTED targets)
+include("${PROJECT_CMAKE_DIR}/@PROJECT_NAME@-targets.cmake")
+
+set(SCRIMMAGE_CUAS_INCLUDE_DIRS "@PROJECT_INCLUDE_DIRS@")
+set(SCRIMMAGE_CUAS_LIBRARIES "@PROJECT_LIBS@")

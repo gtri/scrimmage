@@ -1,0 +1,3 @@
+add_subdirectory(UnitDisk)
+
+set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)

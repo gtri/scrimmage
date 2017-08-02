@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <model>iris.obj</model>    
+  <visual_scale>10</visual_scale>
+  <visual_rpy>0 0 180</visual_rpy>  
+</params>

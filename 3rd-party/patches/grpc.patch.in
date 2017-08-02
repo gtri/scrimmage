@@ -1,0 +1,22 @@
+commit f9f39281f4c51f8a85dcb84946e9b6728f1ad079
+Author: Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
+Date:   Wed Sep 14 15:34:53 2016 -0400
+
+    Include local build's include, library path, and load library path
+
+diff --git a/Makefile b/Makefile
+index eb0e216..23aefd9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -373,6 +373,11 @@ endif
+ INCLUDES = . include $(GENDIR)
+ LDFLAGS += -Llibs/$(CONFIG)
+ 
++# Patch for inclusion of local protobuf installation
++INCLUDES += ${CMAKE_INSTALL_PREFIX}/include
++LDFLAGS += -L${CMAKE_INSTALL_PREFIX}/lib
++LD_LIBRARY_PATH = ${CMAKE_INSTALL_PREFIX}/lib
++
+ ifeq ($(SYSTEM),Darwin)
+ ifneq ($(wildcard /usr/local/ssl/include),)
+ INCLUDES += /usr/local/ssl/include

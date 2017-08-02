@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+option java_outer_classname = "FrameService";
+
+package scrimmage_proto;
+
+import "scrimmage/proto/Frame.proto";
+import "scrimmage/proto/Shape.proto";
+import "scrimmage/proto/Visual.proto";
+import "scrimmage/proto/GUIControl.proto";
+
+// Messages output from simulation controller to GUI
+service ScrimmageService {
+rpc SendFrame (Frame) returns (BlankReply) {}
+rpc SendUTMTerrain (UTMTerrain) returns (BlankReply) {}
+rpc SendSimInfo (SimInfo) returns (BlankReply) {}
+rpc SendContactVisual (ContactVisual) returns (BlankReply) {}
+rpc SendShapes (Shapes) returns (BlankReply) {}
+
+rpc SendGUIMsg (GUIMsg) returns (BlankReply) {}
+}
+
+message BlankReply {
+int32 success = 1;
+
+}

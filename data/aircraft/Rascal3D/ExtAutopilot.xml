@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+
+Author:   Kevin DeMarco
+Date:     03 August 2016
+Function: Provides autopilot interface to external program
+
+ap/elevator_cmd,
+ap/aileron_cmd,
+ap/attitude_hold,
+ap/altitude_hold,
+ap/heading_hold,
+ap/altitude_setpoint,
+ap/heading_setpoint
+
+-->
+<autopilot name="External Autopilot">
+
+  <!-- INTERFACE PROPERTIES -->
+  <property> ap/altitude_hold     </property>
+  <property> ap/heading_hold      </property>
+  <property> ap/altitude_setpoint </property>
+  <property> ap/heading_setpoint  </property>
+  <property> ap/aileron_cmd       </property>
+  <property> ap/elevator_cmd      </property>
+  <property> ap/airspeed_setpoint </property>
+  <property> ap/airspeed_hold     </property>
+  <property> ap/throttle-cmd-norm </property>
+  <property> ap/bank_hold         </property>
+  <property> ap/bank_setpoint     </property>
+  <property> ap/rudder_cmd        </property>
+
+</autopilot>

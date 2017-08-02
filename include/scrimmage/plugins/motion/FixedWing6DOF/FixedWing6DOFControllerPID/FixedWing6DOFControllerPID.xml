@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>FixedWing6DOFControllerPID_plugin</library>  
+  <heading_pid>0.2, 0.01, 0.001, 9</heading_pid>
+  <alt_pid>0.0025, 0.0001, 0.0002, 1</alt_pid>
+  <vel_pid>1, 0.1, 0, 1</vel_pid>
+</params>

@@ -1,0 +1,10 @@
+add_subdirectory(autonomy)
+add_subdirectory(sensor)
+add_subdirectory(motion)
+add_subdirectory(metrics)
+if (NOT EXTERNAL)
+    add_subdirectory(interaction)
+    add_subdirectory(network)
+endif()
+
+set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)

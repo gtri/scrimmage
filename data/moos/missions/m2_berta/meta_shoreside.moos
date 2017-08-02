@@ -1,0 +1,246 @@
+//*******************************************************
+// ShoreSide Configuration File
+//
+
+ServerHost = localhost
+ServerPort = $(SPORT)
+Community  = $(SNAME)
+
+#include plug_origin_warp.moos
+  
+//--------------------------------------------------------
+Processconfig = ANTLER
+{
+  MSBetweenLaunches = 100
+
+  Run = MOOSDB          @ NewConsole = false
+  Run = uTimerScript    @ NewConsole = false
+  Run = pMarineViewer   @ NewConsole = false
+  Run = pLogger         @ NewConsole = false
+  //Run = pSearchGrid     @ NewConsole = false
+  Run = uXMS            @ NewConsole = false
+  Run = uProcessWatch   @ NewConsole = false
+
+  Run = pShare          @ NewConsole = false
+  Run = pHostInfo       @ NewConsole = false
+  Run = uFldShoreBroker @ NewConsole = false
+  Run = uFldNodeComms   @ NewConsole = false
+}
+
+#include plug_pShare.moos
+
+//--------------------------------------------------
+// uMAC Configuration Block
+
+ProcessConfig = uMAC
+{
+  AppTick       = 1
+  CommsTick     = 1
+}
+
+//--------------------------------------------------
+// uMACView Configuration Block
+
+ProcessConfig = uMACView
+{
+  AppTick       = 3
+  CommsTick     = 3
+
+  nodes_font_size      = medium
+  procs_font_size      = medium
+  appcast_font_size    = small
+  refresh_mode         = events
+  appcast_color_scheme = beige
+
+  appcast_height     = 30
+  appcast_color_scheme = beige
+}
+
+//--------------------------------------------------
+// uFldShoreBroker Configuration Block
+
+ProcessConfig = uFldShoreBroker
+{
+  AppTick       = 1
+  CommsTick     = 1
+
+  // Note: [QBRIDGE = FOO]  is shorthand for                    
+  //       [BRIDGE = src=FOO_$V,  alias=FOO] and                
+  //       [BRIDGE = src=FOO_ALL, alias=FOO]
+
+  qbridge  = DEPLOY, RETURN, STATION_KEEP, NODE_REPORT, NODE_MESSAGE
+  qbridge  = MOOS_MANUAL_OVERRIDE, APPCAST_REQ, AVOID
+
+  bridge   = src=UP_LOITER_$N, alias=UP_LOITER
+  bridge   = src=DRIFT_VECTOR_ADD, alias=DRIFT_VECTOR_ADD
+  bridge   = src=HELM_MAP_CLEAR, alias=HELM_MAP_CLEAR
+}
+
+//--------------------------------------------------
+// ufldnodecomms Configuration Block
+
+ProcessConfig = uFldNodeComms
+{
+  AppTick       = 2
+  CommsTick     = 2
+
+  // SCRIMMAGE mod: These two ranges ensure that NODE_REPORTS aren't
+  // communicated between MOOS communities. SCRIMMAGE is in control of
+  // passing NODE_REPORTS between MOOS communities.
+  comms_range      = 0.02
+  critical_range   = 0.01
+
+  min_msg_interval = 15
+  max_msg_length   = 1000
+
+  groups           = true
+
+  view_node_rpt_pulses = false
+}
+
+//--------------------------------------------------
+// pHostInfo configuration block from plugin
+
+ProcessConfig = pHostInfo
+{
+  AppTick 	= 1
+  CommsTick = 1
+}
+
+//--------------------------------------------------
+// uXMS Configuration Block
+
+ProcessConfig = uXMS
+{
+  AppTick       = 1
+  CommsTick     = 1
+
+  var = APPCAST_REQ
+}
+
+//--------------------------------------------------
+// pSearchGrid Configuration Block
+
+ProcessConfig = pSearchGrid
+{
+  AppTick       = 1
+  CommsTick     = 1
+
+  grid_config = pts={-50,-40: -10,0: 180,0: 180,-150: -50,-150}
+  grid_config = cell_size=5
+  grid_config = cell_vars=x:0:y:0:z:0
+  grid_config = cell_min=x:0
+  grid_config = cell_max=x:10
+}
+
+//--------------------------------------------------
+// pLogger Configuration Block
+
+ProcessConfig = pLogger
+{
+  AppTick       = 10
+  CommsTick     = 10
+  
+  File          = LOG_SHORESIDE
+  PATH          = ./
+  SyncLog       = true @ 0.2
+  AsyncLog      = true
+  FileTimeStamp = true
+
+	LogAuxSrc     = true
+
+  // Log it all!!!!!
+  WildCardLogging = true 
+
+  WildCardOmitPattern = *_STATUS
+  WildCardOmitPattern = DB_VARSUMMARY
+  WildCardOmitPattern = DB_RWSUMMARY
+}
+
+
+//--------------------------------------------------------
+ProcessConfig = pMarineViewer
+{
+  AppTick    = 4
+  CommsTick  = 4
+
+  TIFF_FILE            = forrest19.tif
+  set_pan_x            = -90
+  set_pan_y            = -280
+  zoom                 = 0.65
+  vehicles_shape_scale = 1.5
+  vehicles_name_mode   = names
+
+  circle_viewable_all = false
+  
+  appcast_viewable = true
+  appcast_color_scheme = indigo
+
+  scope = PSHARE_INPUT_SUMMARY
+  scope = NODE_BROKER_PING
+  scope = DEPLOY_ALL
+  scope = CONTACT_INFO
+
+  action = PERMUTING = true
+  action = PERMUTING = false
+
+  action = WIND_GUSTS = true
+  action = WIND_GUSTS = false
+
+  action = STATION_KEEP_ALL = false
+  action = STATION_KEEP_ALL = true
+
+  button_one   = DEPLOY  # DEPLOY_ALL=true 
+  button_one   = MOOS_MANUAL_OVERRIDE_ALL=false 
+  button_one   = AVOID_ALL=true
+  button_one   = RETURN_ALL=false # STATION_KEEP_ALL=false
+
+  button_two   = RETURN  # RETURN_ALL=true
+  button_two   = RETURN  # STATION_KEEP_ALL=false
+  button_three = PERMUTE   # UTS_FORWARD=0
+  button_four  = STATION   # STATION_KEEP_ALL=true
+}
+
+//--------------------------------------------------------
+// uTimerScript Configuration Block
+
+ProcessConfig = uTimerScript
+{
+  AppTick   = 4
+  CommsTick = 4
+  
+  paused     = false
+  reset_max  = unlimited
+  reset_time = end
+
+  randvar = varname=X1, min=-25,  max=25,  key=at_reset
+  randvar = varname=Y1, min=-100, max=-50, key=at_reset
+
+  randvar = varname=X2, min=100,  max=150, key=at_reset
+  randvar = varname=Y2, min=-75,  max=-25, key=at_reset
+
+  event = var=UP_LOITER_2, val="center_assign=$[X1],$[Y1]", time=180 
+  event = var=UP_LOITER_1, val="center_assign=$[X2],$[Y2]", time=180
+
+  event = var=UP_LOITER_1, val="center_assign=$[X1],$[Y1]", time=360
+  event = var=UP_LOITER_2, val="center_assign=$[X2],$[Y2]", time=360
+}
+
+
+//--------------------------------------------------------
+// uProcessWatch Configuration Block
+
+ProcessConfig = uProcessWatch
+{
+  AppTick   = 1
+  CommsTick = 1
+
+  allow_retractions = true
+  
+  watch_all = true      // default is true
+
+  nowatch = uXMS*
+  nowatch = uPokeDB*
+
+  summary_wait = 12
+}

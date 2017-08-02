@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package simple;
+
+message Base {
+    int32 sender_id = 1;
+    int32 receiver_id = 2;
+    string msg = 3;
+    int32 msg2 = 4;
+    int32 msg3 = 5;
+}
+
+message Vector3d {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+message Twist {
+    Vector3d linear = 1;
+    Vector3d angular = 2;
+}
+
+message Enable {
+    bool enable = 1;
+}
+
+message Float {
+    float number = 1;
+}
+
+message Temp {
+    int32 sender_id = 1;
+    int32 self_team = 2;
+    int32 other_team = 3;
+    int32 self_large = 4;
+    int32 other_large = 5;
+    double last_update = 6;
+}

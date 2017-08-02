@@ -1,0 +1,70 @@
+commit aaa75f97b7e37b4749be75853a26651513663c75
+Author: Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
+Date:   Tue Oct 4 11:59:39 2016 -0400
+
+    GTRI patch for SCRIMMAGE
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 7336db9..f747299 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -117,6 +117,10 @@ install(TARGETS libJSBSim LIBRARY DESTINATION lib
+ add_executable(JSBSim JSBSim.cpp)
+ target_link_libraries(JSBSim libJSBSim)
+ 
+-install(TARGETS JSBSim RUNTIME DESTINATION bin)
++option(INSTALL_JSBSIM_EXEC "INSTALL_JSBSIM_EXEC" OFF)
++if (INSTALL_JSBSIM_EXEC)
++  install(TARGETS JSBSim RUNTIME DESTINATION bin)
++endif()
++
+ install(FILES ${HEADERS} DESTINATION include/JSBSim)
+ 
+diff --git a/src/FGFDMExec.cpp b/src/FGFDMExec.cpp
+index 8552a51..23e6f30 100644
+--- a/src/FGFDMExec.cpp
++++ b/src/FGFDMExec.cpp
+@@ -209,7 +209,7 @@ FGFDMExec::~FGFDMExec()
+ 
+   PropertyCatalog.clear();
+   
+-  SetGroundCallback(0);
++  //SetGroundCallback(0);
+ 
+   if (FDMctr > 0) (*FDMctr)--;
+ 
+diff --git a/src/simgear/props/props.hxx b/src/simgear/props/props.hxx
+index b3ce4fb..c7cfee7 100644
+--- a/src/simgear/props/props.hxx
++++ b/src/simgear/props/props.hxx
+@@ -31,29 +31,7 @@
+ # define SG_WARN		1
+ # define SG_LOG(type, level, message) (type) ? (std::cerr <<message << endl) : (std::cout <<message << endl)
+ #endif
+-namespace boost {
+-  template <bool B, class T = void>
+-  struct enable_if_c {
+-    typedef T type;
+-  };
+-
+-  template <class T>
+-  struct enable_if_c<false, T> {};
+-
+-  template <class Cond, class T = void>
+-  struct enable_if : public enable_if_c<Cond::value, T> {};
+-
+-  template <bool B, class T = void>
+-  struct disable_if_c {
+-    typedef T type;
+-  };
+-
+-  template <class T>
+-  struct disable_if_c<true, T> {};
+-
+-  template <class Cond, class T = void>
+-  struct disable_if : public disable_if_c<Cond::value, T> {};
+-}
++#include <boost/utility/enable_if.hpp>
+ #else
+ # include <boost/utility.hpp>
+ # include <boost/type_traits/is_enum.hpp>

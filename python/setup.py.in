@@ -1,0 +1,14 @@
+from setuptools import setup, find_packages, Extension
+import sys, os.path
+
+setup(
+    name="scrimmage",
+    version="${SCRIMMAGE_VERSION}",
+    packages=["scrimmage", "scrimmage.bindings", "scrimmage.proto"],
+    install_requires=[
+        "pandas",
+        "protobuf==${PROTOBUF_VERSION}",
+        "grpcio==${GRPC_VERSION}",
+    ],
+    package_data={"scrimmage.bindings": ["*.so"]},
+)

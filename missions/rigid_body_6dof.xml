@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
+    name="Simple Aircraft 3D Maneuvers">
+  
+  <run start="0.0" end="1000" dt="0.1" 
+       time_warp="5" 
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+  
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+  
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->  
+  
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+  
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+  
+  <plot_tracks>false</plot_tracks>
+  <output_type weights_file="unity">all</output_type>
+  <show_plugins>false</show_plugins>
+  
+  <log_dir>~/.scrimmage/logs</log_dir>  
+      
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>      
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+  
+  <entity_interaction order="0">SimpleCollision</entity_interaction>
+  
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <!--<seed>1714060370</seed>-->
+  
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity>
+    <team_id>1</team_id> 
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+    
+    <x>0</x>
+    <y>0</y>
+    <z>10</z>
+    <heading>45</heading>
+    
+    <controller>RigidBody6DOFControllerROS</controller>
+    <motion_model>RigidBody6DOF</motion_model>
+    <visual_model>zephyr-blue</visual_model>    
+    <autonomy>Control3D</autonomy>    
+
+  </entity>
+  
+</runscript>

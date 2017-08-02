@@ -1,0 +1,118 @@
+//---------------------------------------------------
+// Helm Behavior file 
+
+initialize   DEPLOY  = false
+initialize   RETURN  = false
+initialize   STATION_KEEP = false
+initialize   LOITER  = true
+initialize   AVOID   = true
+
+set MODE = ACTIVE {
+  DEPLOY = true
+} INACTIVE
+
+set MODE = STATION-KEEPING {
+  MODE = ACTIVE
+  STATION_KEEP = true
+}                       
+
+set MODE = RETURNING {
+  MODE = ACTIVE
+  RETURN = true
+} 
+
+set MODE = LOITERING {
+  MODE = ACTIVE
+  LOITER = true
+} 
+
+
+//----------------------------------------------
+Behavior = BHV_Loiter
+{
+  name      = loiter
+  pwt       = 100
+  condition = MODE==LOITERING
+  updates   = UP_LOITER
+  runflag   = VEHICLE_UNDERWAY = TRUE
+  endflag   = VEHICLE_UNDERWAY = FALSE
+
+   post_suffix = A
+         speed = 1.3
+     clockwise = false
+        radius = 8.0
+     nm_radius = 15.0
+       polygon = radial:: $(LOITER_POS), radius=20, pts=8, snap=1, label=$(VNAME)_LOITER
+  visual_hints = nextpt_color=white, nextpt_lcolor=khaki
+  visual_hints = edge_color=orange, vertex_color=white
+  visual_hints = edge_size=1, vertex_size=2
+}
+
+
+//----------------------------------------------
+Behavior = BHV_Waypoint
+{
+  name      = waypt_return
+  pwt       = 100
+  updates   = RETURN_UPDATES
+  condition = MODE==RETURNING
+  endflag   = STATION_KEEP = true
+  endflag   = AVOID = false
+
+      speed = 1.3
+     radius = 3.0
+  nm_radius = 15.0
+     points = $(START_POS)
+     repeat = 10
+       lead = 8
+}
+
+//----------------------------------------------
+Behavior = BHV_StationKeep
+{
+  name         = station-keep
+  pwt          = 100
+  condition    = MODE==STATION-KEEPING
+  inactiveflag = STATIONING = false
+  activeflag   = STATIONING = true
+
+     center_activate = true
+        inner_radius = 5
+        outer_radius = 10 
+         outer_speed = 1.0
+
+       transit_speed = 1.3
+          swing_time = 7
+//  hibernation_radius = 25
+        visual_hints = vertex_size=0, edge_color=gray50
+}
+
+
+//----------------------------------------------
+Behavior = BHV_AvoidCollision
+{
+  name         = ac_
+  pwt          = 200
+  condition    = AVOID = true 
+  updates      = CONTACT_INFO
+  idleflag     = AVOIDING = idle
+  activeflag   = AVOIDING = active
+  inactiveflag = AVOIDING = inactive
+  runflag      = AVOIDING = running
+  endflag      = AVOIDING = end
+  endflag      = CONTACT_RESOLVED = $[CONTACT]
+  templating   = spawn
+
+             contact = to-be-set
+    on_no_contact_ok = true
+         extrapolate = true
+               decay = 30,60
+
+        pwt_outer_dist = 40
+        pwt_inner_dist = 20
+        completed_dist = 100
+     min_util_cpa_dist = 8
+     max_util_cpa_dist = 25
+             pwt_grade = linear
+   bearing_line_config = white:0, green:0.65, yellow:0.8, red:1.0
+}

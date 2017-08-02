@@ -1,0 +1,20 @@
+<!--
+<output name="localhost" type="FLIGHTGEAR" port="5600" rate="60" protocol="UDP"/>
+-->
+
+<output name="localhost" type="SOCKET" port="6055" protocol="UDP" rate="1">
+<!--<output name="10.108.21.70" type="SOCKET" port="6055" protocol="UDP" rate="1">-->
+  <simulation> OFF </simulation>
+  <atmosphere> OFF </atmosphere>
+  <massprops> OFF</massprops>
+  <rates> OFF </rates>
+  <velocities> ON </velocities>
+  <forces> OFF </forces>
+  <moments> OFF </moments>
+  <position> ON </position>
+  <propulsion> OFF </propulsion>
+  <aerosurfaces> OFF </aerosurfaces>
+  <fcs> OFF </fcs>
+  <ground_reactions> OFF </ground_reactions>
+  <coefficients> OFF </coefficients>
+</output>

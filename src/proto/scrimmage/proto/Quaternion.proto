@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+message Quaternion {
+double x = 1;
+double y = 2;
+double z = 3;
+double w = 4;
+}

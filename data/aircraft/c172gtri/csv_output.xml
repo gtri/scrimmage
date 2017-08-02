@@ -1,0 +1,20 @@
+<output name="JSBout172B.csv" type="CSV" rate="10">
+  <rates> ON             </rates>
+  <velocities> ON        </velocities>
+  <position> ON          </position>
+  <atmosphere> OFF       </atmosphere>
+  <fcs> ON               </fcs>
+  <ground_reactions> OFF </ground_reactions>
+  <propulsion> ON       </propulsion>
+  <simulation> ON        </simulation>
+  <massprops> ON        </massprops>
+  <forces> OFF           </forces>
+  <moments> OFF          </moments>
+  <aerosurfaces> OFF      </aerosurfaces>
+  <property> position/vrp-gc-latitude_deg </property>
+  <property> position/vrp-longitude_deg   </property>
+  <property> position/vrp-radius-ft       </property>
+  <function name="velocities/pi-deg_sec">
+    <todegrees> <p> velocities/pi-rad_sec </p> </todegrees>
+  </function>
+</output>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>SimpleCarControllerHeading_plugin</library>  
+  <p_gain>0.1</p_gain>
+  <i_gain>0.001</p_gain>
+  <d_gain>0.2</p_gain>
+  <i_lim>10000000</i_lim>
+</params>

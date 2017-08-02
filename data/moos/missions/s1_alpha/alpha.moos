@@ -1,0 +1,221 @@
+//-------------------------------------------------
+// NAME: M. Benjamin, MIT CSAIL
+// FILE: alpha.moos
+//-------------------------------------------------
+
+ServerHost = localhost
+ServerPort = 9000
+Community  = alpha
+
+MOOSTimeWarp = 1
+
+// Forest Lake
+LatOrigin  = 43.825300 
+LongOrigin = -70.330400 
+
+// MIT Sailing Pavilion (use this one)
+// LatOrigin  = 42.358456 
+// LongOrigin = -71.087589
+
+//------------------------------------------
+// Antler configuration  block
+ProcessConfig = ANTLER
+{
+  MSBetweenLaunches = 200
+
+  Run = MOOSDB            @ NewConsole = false
+  //Run = pLogger           @ NewConsole = false
+  //Run = uSimMarine        @ NewConsole = false
+  //Run = pMarinePID        @ NewConsole = false
+  Run = pHelmIvP          @ NewConsole = false
+  Run = pMarineViewer	  @ NewConsole = false, ExtraProcessParams=one
+  //Run = uProcessWatch	  @ NewConsole = false
+  Run = pNodeReporter	  @ NewConsole = false  
+
+  one = --size=1200x1000
+}
+
+//------------------------------------------
+// pLogger config block
+
+ProcessConfig = scrimmage
+{
+  AppTick   = 8
+  CommsTick = 8
+}
+
+ProcessConfig = pLogger
+{
+  AppTick   = 8
+  CommsTick = 8
+
+  AsyncLog = true
+
+  // For variables that are published in a bundle on their first post,
+  // explicitly declare their logging request
+
+  Log = IVPHELM_LIFE_EVENT @ 0 NOSYNC
+  Log = REPORT @ 0 NOSYNC
+
+  LogAuxSrc = true
+  WildCardLogging = true
+  WildCardOmitPattern = *_STATUS
+  WildCardOmitPattern = DB_VARSUMMARY
+  WildCardOmitPattern = DB_RWSUMMARY
+  WildCardExclusionLog = true
+}
+
+//------------------------------------------
+// uProcessWatch
+
+ProcessConfig = uProcessWatch
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  watch_all = true
+	nowatch   = uPokeDB*
+	nowatch   = uXMS*
+}
+
+//------------------------------------------
+// uSimMarine config block
+
+ProcessConfig = uSimMarine
+{
+  AppTick  	= 4
+  CommsTick	= 4
+
+  start_x       = 0
+  start_y       = -20
+  start_heading = 180
+  start_speed   = 0
+
+  prefix        = NAV
+
+	//max_rudder_degs_per_sec = 12
+
+  turn_rate     = 40
+  thrust_map    = 0:0, 20:1, 40:2, 60:3, 80:4, 100:5
+  thrust_reflect = true
+}
+
+//------------------------------------------
+// pHelmIvP config block
+
+ProcessConfig = pHelmIvP
+{
+  AppTick    = 4
+  CommsTick  = 4
+
+  bhv_dir_not_found_ok = true
+
+  behaviors  = alpha.bhv
+  domain     = course:0:359:360
+  domain     = speed:0:4:41
+}
+
+//------------------------------------------
+// pMarinePID config block
+
+ProcessConfig = pMarinePID
+{
+  AppTick    = 20
+  CommsTick  = 20
+
+  verbose       = true
+  depth_control = false
+
+  // SIM_INSTABILITY = 20
+
+  // Yaw PID controller
+  yaw_pid_kp		 = 1.2
+  yaw_pid_kd		 = 0.0
+  yaw_pid_ki		 = 0.3
+  yaw_pid_integral_limit = 0.07
+
+  // Speed PID controller
+  speed_pid_kp		 = 1.0
+  speed_pid_kd		 = 0.0
+  speed_pid_ki		 = 0.0
+  speed_pid_integral_limit = 0.07
+
+  //MAXIMUMS
+  maxrudder    = 100
+  maxthrust    = 100
+
+  // A non-zero SPEED_FACTOR overrides use of SPEED_PID
+  // Will set DESIRED_THRUST = DESIRED_SPEED * SPEED_FACTOR
+  speed_factor = 20
+}
+
+//------------------------------------------
+// pMarineViewer config block
+
+ProcessConfig = pMarineViewer
+{
+  AppTick    = 4
+  CommsTick  = 4
+
+  tiff_file            = forrest19.tif
+
+  set_pan_x            = -90
+  set_pan_y            = -280
+  zoom                 = 0.65
+  vehicle_shape_scale  = 1.5
+  hash_delta           = 50
+  hash_shade           = 0.4
+  hash_viewable        = true
+
+  trails_point_size   = 1
+
+  // Appcast configuration
+  appcast_height       = 75
+  appcast_width        = 30
+  appcast_viewable     = true
+  appcast_color_scheme = indigo
+  nodes_font_size      = medium
+  procs_font_size      = medium
+  appcast_font_size    = small
+  
+  //datum_viewable = true
+  //datum_size     = 18
+  //gui_size = small
+
+  //left_context[survey-point] = DEPLOY=true
+  //left_context[survey-point] = MOOS_MANUAL_OVERRIDE=false
+  //left_context[survey-point] = RETURN=false
+
+  right_context[return] = DEPLOY=true
+  right_context[return] = MOOS_MANUAL_OVERRIDE=false
+  right_context[return] = RETURN=false
+
+  scope  = MISSION
+  scope  = SURVEY_DIST_TO_NEXT
+  scope  = SURVEY_DIST_TO_PREV
+  scope  = RETURN
+  scope  = WPT_STAT
+  scope  = MVIEWER_LCLICK
+
+  button_one = DEPLOY # DEPLOY=true
+  button_one = MOOS_MANUAL_OVERRIDE=false # RETURN=false
+  button_two = RETURN # RETURN=true
+
+  action  = MENU_KEY=deploy # DEPLOY = true # RETURN = false
+  action+ = MENU_KEY=deploy # MOOS_MANUAL_OVERRIDE=false
+  action  = RETURN=true
+  action  = UPDATES_RETURN=speed=1.4
+}
+
+//------------------------------------------
+// pNodeReporter config block
+
+ProcessConfig = pNodeReporter
+{
+  AppTick    = 2
+  CommsTick	 = 2
+
+  platform_type   = KAYAK
+  platform_length = 4
+}
+

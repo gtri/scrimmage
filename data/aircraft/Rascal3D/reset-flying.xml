@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<initialize name="Start up location">  
+  <latitude unit="DEG"> 35.718719 </latitude>
+  <longitude unit="DEG"> -120.769818 </longitude>
+  <altitude unit="FT"> 100 </altitude>
+  <vt unit="KTS"> 9 </vt>
+  <psi unit="DEG"> 0 </psi>
+  <running> 0 </running>
+</initialize>
+<!--
+<initialize name="Start up location">  
+  <ubody unit="FT/SEC">  10.0  </ubody>
+  <vbody unit="FT/SEC">    0.0  </vbody>
+  <wbody unit="FT/SEC">  10  </wbody>
+  <latitude unit="DEG"> 35.718719 </latitude>
+  <longitude unit="DEG"> -120.769818 </longitude>
+  <altitude unit="FT"> 100 </altitude>
+  <vt unit="KTS"> 60 </vt>
+  <gamma unit="DEG"> 0.0 </gamma>
+  <phi unit="DEG"> 0.0 </phi>
+  <theta unit="DEG"> 0 </theta>
+  <psi unit="DEG"> 0 </psi>
+</initialize>
+-->
+

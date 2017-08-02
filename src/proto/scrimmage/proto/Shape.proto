@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+import "scrimmage/proto/Vector3d.proto";
+import "scrimmage/proto/Color.proto";
+
+message Shape {
+
+enum Type {
+Point = 0;
+Plane = 1;
+Line = 2;
+Triangle = 3;
+Rectangle = 4;
+Sphere = 5;
+Polygon = 6;
+Polydata = 7;
+Pointcloud = 8;
+Arrow = 9;
+Cone = 10;
+Circle = 11;
+Text = 12;
+}
+
+int32 id = 1;
+Type type = 2;
+Color color = 3;
+double opacity = 4;
+int32 ttl = 5;
+bool persistent = 6;
+double size = 7;
+double radius = 8;
+double height = 9;
+double base_radius = 10;
+Vector3d center = 11;
+Vector3d apex = 12;
+Vector3d direction = 13;
+repeated Vector3d point = 14;
+repeated Color point_color = 15;
+Vector3d normal = 16;
+string text = 17;
+}
+
+message Shapes {
+double time = 1;
+repeated Shape shape = 2;  
+}

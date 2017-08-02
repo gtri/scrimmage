@@ -1,0 +1,28 @@
+//--------------------------------------------------------
+// uXMS Configuration Block (Created from Plugin)
+
+ProcessConfig = uXMS
+{
+  AppTick   = 2
+  CommsTick = 2
+  
+  VAR = CONTACTS_LIST
+  VAR = CONTACTS_ALERTED
+  VAR = CONTACTS_UNALERTED
+  VAR = CONTACTS_RECAP
+  VAR = CONTACTS_RETIRED
+  VAR = NODE_REPORT
+  VAR = CONTACT_INFO
+  VAR = CONTACT_RESOLVED
+  VAR = CONTACT_MGR_WARNING
+
+  DISPLAY_SOURCE        = true
+  DISPLAY_TIME          = true
+  DISPLAY_COMMUNITY     = false   // default                    
+
+  TRUNC_DATA            = true
+       
+  REFRESH_MODE = streaming
+}
+
+

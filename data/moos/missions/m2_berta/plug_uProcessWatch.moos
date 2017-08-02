@@ -1,0 +1,25 @@
+//--------------------------------------------------------
+// uProcessWatch Configuration Block (Created from Plugin)
+
+ProcessConfig = uProcessWatch
+{
+  AppTick   = 1
+  CommsTick = 1
+
+  ALLOW_RETRACTIONS = true
+  
+  WATCH_ALL = true      // default is true
+
+  WATCH  = uSimMarine
+  WATCH  = pMOOSBridge*
+  WATCH  = pNodeReporter
+  WATCH  = pMarinePID
+  WATCH  = pHelmIvP
+
+  NOWATCH = uXMS*
+  NOWATCH = uPokeDB*
+
+  SUMMARY_WAIT = 12
+}
+
+

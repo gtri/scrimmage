@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>JSBSimControl_plugin</library>  
+
+  <roll_kp>10</roll_kp>
+  <roll_ki>0.5</roll_ki>
+  <roll_kd>0</roll_kd>
+
+  <pitch_kp>2</pitch_kp>
+  <pitch_ki>0.5</pitch_ki>
+  <pitch_kd>0</pitch_kd>
+
+  <yaw_kp>2</yaw_kp>
+  <yaw_ki>0.5</yaw_ki>
+  <yaw_kd>0</yaw_kd>
+
+</params>

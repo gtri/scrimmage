@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+
+package scrimmage_msgs;
+
+message GroundCollision{
+        int32 entity_id = 2;
+}
+
+message TeamCollision{
+        int32 entity_id_1 = 2;
+        int32 entity_id_2 = 3;
+}
+
+message NonTeamCollision{
+        int32 entity_id_1 = 2;
+        int32 entity_id_2 = 3;
+}

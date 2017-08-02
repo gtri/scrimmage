@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>SimpleCollisionMetrics_plugin</library>
+
+  <!-- weights for scoring function -->
+  <flight_time_w>0.0</flight_time_w>
+  <team_collisions_w>-1.0</team_collisions_w>
+  <non_team_collisions_w>-1.0</non_team_collisions_w>
+  
+</params>

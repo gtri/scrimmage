@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>FixedWing6DOF_plugin</library>
+  <min_velocity>0</min_velocity>
+  <max_velocity>40</max_velocity>
+  <max_roll>30</max_roll> <!-- degrees -->
+</params>

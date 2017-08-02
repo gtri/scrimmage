@@ -1,0 +1,66 @@
+ServerHost = localhost
+ServerPort = $(VPORT)
+Simulator  = true
+
+// Community name IS the vehicle name
+Community  = $(VNAME)
+
+#include plug_origin_warp.moos
+
+//------------------------------------------------------------
+Processconfig = ANTLER
+{
+  MSBetweenLaunches = 50
+   
+  Run = MOOSDB           @ NewConsole = false
+  Run = uProcessWatch    @ NewConsole = false
+  Run = pShare           @ NewConsole = false
+  //Run = uSimMarine       @ NewConsole = false // SCRIMMAGE mod
+  Run = pLogger          @ NewConsole = false
+  Run = pNodeReporter    @ NewConsole = false
+  //Run = pMarinePID       @ NewConsole = false // SCRIMMAGE mod
+  Run = pHelmIvP         @ NewConsole = false
+  Run = pBasicContactMgr @ NewConsole = false
+  Run = pHostInfo        @ NewConsole = false
+  Run = uFldNodeBroker   @ NewConsole = false
+  Run = uLoadWatch       @ NewConsole = false
+
+#ifdef VARIATION 1
+  Run = uXMS             @ NewConsole = false ~ uXMS_GPS
+  Run = uXMS             @ NewConsole = false ~ uXMS_BATTERY_MONITOR
+  Run = uXMS             @ NewConsole = false ~ uXMS_COMPASS
+#endif
+
+#ifdef VARIATION 2
+  //Run = uFldMessageHandler @ NewConsole = false
+#ifdef VNAME henry
+  Run = uTimerScript       @ NewConsole = false
+#endif
+#endif
+}
+
+#include plug_uFldNodeBroker.moos
+#include plug_pShare.moos
+#include plug_pHostInfo.moos
+#include plug_uSimMarine.moos
+#include plug_pHelmIvP.moos
+#include plug_pMarinePID.moos
+#include plug_pLogger.moos
+#include plug_pNodeReporter.moos
+#include plug_uProcessWatch.moos
+#include plug_uLoadWatch.moos
+#include plug_pBasicContactMgr.moos
+
+#ifdef VARIATION 1 
+  #include plug_V1_uXMS_GPS.moos
+  #include plug_V1_uXMS_Battery.moos 
+  #include plug_V1_uXMS_Compass.moos
+#endif
+
+#ifdef VARIATION 2
+
+  #include plug_v2_uFldMessageHandler.moos
+#ifdef VNAME henry
+  #include plug_v2_uTimerScript.moos
+#endif
+#endif

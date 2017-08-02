@@ -1,0 +1,72 @@
+/*!
+ * @file
+ *
+ * @section LICENSE
+ *
+ * Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
+ *
+ * This file is part of SCRIMMAGE.
+ *
+ *   SCRIMMAGE is free software: you can redistribute it and/or modify it under
+ *   the terms of the GNU Lesser General Public License as published by the
+ *   Free Software Foundation, either version 3 of the License, or (at your
+ *   option) any later version.
+ *
+ *   SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT
+ *   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+ *   License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public License
+ *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
+ * @author Eric Squires <eric.squires@gtri.gatech.edu>
+ * @date 31 July 2017
+ * @version 0.1.0
+ * @brief Brief file description.
+ * @section DESCRIPTION
+ * A Long description goes here.
+ *
+ */
+
+#include <memory>
+
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/common/ID.h>
+
+namespace scrimmage {
+
+Contact::Contact() : state_(std::make_shared<State>()) {}
+
+Contact::Contact(ID &id, double radius, StatePtr &state, Type type,
+                 ContactVisualPtr cv,
+                 std::unordered_map<std::string, std::list<SensablePtr>> sp) :
+    id_(id), state_(state), type_(type), contact_visual_(cv),
+    sensables_(sp), active_(true), radius_(radius) {}
+
+void Contact::set_id(const ID &id) { id_ = id; }
+
+ID &Contact::id() { return id_; }
+
+void Contact::set_state(StatePtr &state) { state_ = state; }
+
+StatePtr &Contact::state() { return state_; }
+
+void Contact::set_type(Contact::Type type) { type_ = type; }
+
+Contact::Type Contact::type() { return type_; }
+
+ContactVisualPtr &Contact::contact_visual()
+{ return contact_visual_; }
+
+std::unordered_map<std::string, std::list<SensablePtr> > &Contact::sensables() {
+    return sensables_;
+}
+
+void Contact::set_active(bool active) { active_ = active; }
+
+bool Contact::active() { return active_; }
+
+} // namespace scrimmage

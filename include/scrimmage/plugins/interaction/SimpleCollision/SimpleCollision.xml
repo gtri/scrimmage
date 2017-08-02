@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>SimpleCollision_plugin</library>  
+  <collision_range>2</collision_range>
+  
+  <startup_collisions_only>false</startup_collisions_only>
+  
+  <init_alt_deconflict>false</init_alt_deconflict>
+
+  <enable_team_collisions>true</enable_team_collisions>
+  <enable_non_team_collisions>true</enable_non_team_collisions>  
+  
+</params>

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
+           name="SASC Capture the Flag">
+  
+  <run start="0.0" end="100" dt="0.01" 
+       time_warp="10" 
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+  
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+  
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->  
+  
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+  
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+  
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+
+  <!--<metrics order="0">SimpleCollisionMetrics</metrics>-->
+  
+  <log_dir>~/.scrimmage/logs</log_dir>  
+  
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>      
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+  
+  <entity_interaction order="0">BulletCollision</entity_interaction>   
+  
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <!--<seed>2147483648</seed>-->
+  
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity>
+    <team_id>1</team_id> 
+    <color>77 77 255</color>
+    <count>20</count>
+    <health>1</health>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+    
+    <x>-3</x>
+    <y>5</y>
+    <z>100</z>
+    <heading>0</heading>
+
+    <controller>SimpleCarControllerHeading</controller>
+    <motion_model>SimpleCar</motion_model>
+    <!--<visual_model>volkswagen</visual_model-->
+    <visual_model>Sphere</visual_model>
+    <autonomy>Straight</autonomy>
+        
+  </entity>
+
+  <entity>    
+    <team_id>2</team_id>      
+    <color>255 0 0</color>
+    <count>20</count>
+    <health>1</health>
+    
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>2</x>
+    <y>0</y>
+    <z>100</z>
+    
+    <heading>180</heading>        
+
+    <controller>SimpleCarControllerHeading</controller>
+    <motion_model>SimpleCar</motion_model>
+    <!--<visual_model>volkswagen</visual_model-->
+    <visual_model>Sphere</visual_model>
+    <autonomy>Straight</autonomy>    
+  </entity>
+
+</runscript>

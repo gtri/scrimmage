@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <polydata>mcmillan.vtk</polydata>
+  <texture>mcmillan.jpg</texture>
+  <system>UTM</system>
+  <hemisphere>north</hemisphere>
+  <zone>10</zone>  
+  <enable_grid>false</enable_grid>
+</params>

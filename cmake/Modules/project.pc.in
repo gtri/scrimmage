@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX_SHADOW@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: @CMAKE_PROJECT_NAME@
+Description: @PROJECT_DESCRIPTION@
+Requires:
+Version: 0.1
+Cflags: -I${includedir}
+Libs: -L${libdir} @LIBS_STRING@

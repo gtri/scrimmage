@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>SimpleAircraft_plugin</library>
+  <turning_radius>13</turning_radius>
+  <min_velocity>15</min_velocity>
+  <max_velocity>40</max_velocity>
+  <max_roll>30</max_roll> <!-- degrees -->
+</params>
