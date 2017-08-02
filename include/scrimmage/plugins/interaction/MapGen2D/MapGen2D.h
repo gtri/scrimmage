@@ -34,19 +34,29 @@
 #define MapGen2D_H_
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 namespace sc = scrimmage;
+namespace sp = scrimmage_proto;
 
 class MapGen2D : public scrimmage::EntityInteraction
 {
-    public:
-        MapGen2D();
-        bool init(std::map<std::string,std::string> &mission_params,
-                std::map<std::string,std::string> &plugin_params);
-        bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                     double t, double dt);
-    protected:
-    private:     
+public:
+    MapGen2D();
+    bool init(std::map<std::string,std::string> &mission_params,
+              std::map<std::string,std::string> &plugin_params);
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                 double t, double dt);
+protected:
+    std::shared_ptr<sp::Shape> connect_points(Eigen::Vector2d &p,
+                                              Eigen::Vector2d &prev_p);
+
+    double wall_bottom_z_;
+    double wall_height_;
+    double wall_thickness_;
+    double resolution_;
+    
+private:     
 };
 
 #endif

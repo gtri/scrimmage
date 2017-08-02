@@ -35,7 +35,8 @@
 
 namespace scrimmage {
 
-void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src) {
+void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src)
+{
     dst->set_x(src(0));
     dst->set_y(src(1));
     dst->set_z(src(2));
@@ -105,9 +106,18 @@ void set(scrimmage_proto::Color *color, int r, int g, int b) {
     set(color, c);
 }
 
-void set(scrimmage_proto::Color *color, int grayscale) {
+void set(scrimmage_proto::Color *color, int grayscale)
+{
     Color_t c = GetColor_matlab(grayscale, 0, 255);
     set(color, c);
+}
+
+void set(scrimmage_proto::Quaternion *dst, Quaternion &src)
+{
+    dst->set_x(src.x());
+    dst->set_y(src.y());
+    dst->set_z(src.z());
+    dst->set_w(src.w());
 }
 
 Eigen::Vector3d eigen(const scrimmage_proto::Vector3d src)

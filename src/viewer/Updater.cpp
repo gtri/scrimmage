@@ -57,6 +57,7 @@
 #include <vtkCallbackCommand.h>
 #include <vtkCellArray.h>
 #include <vtkSphereSource.h>
+#include <vtkCubeSource.h>
 #include <vtkPyramid.h>
 #include <vtkUnstructuredGrid.h>
 #include <vtkConeSource.h>
@@ -337,6 +338,8 @@ namespace scrimmage {
                 status = draw_polydata(shape, actor, mapper);
             } else if (shape.type() == scrimmage_proto::Shape::Plane) {
                 status = draw_plane(shape, actor, mapper);
+            } else if (shape.type() == scrimmage_proto::Shape::Cube) {
+                status = draw_cube(shape, actor, mapper);
             } else if (shape.type() == scrimmage_proto::Shape::Pointcloud) {
                 status = draw_pointcloud(shape, actor, mapper);
             } else if (shape.type() == scrimmage_proto::Shape::Circle) {
@@ -1426,17 +1429,43 @@ namespace scrimmage {
                              vtkSmartPointer<vtkActor> &actor,
                              vtkSmartPointer<vtkPolyDataMapper> &mapper)
     {
-        // TODO: NOT REALLY WORKING YET...
         vtkSmartPointer<vtkPlaneSource> planeSource =
             vtkSmartPointer<vtkPlaneSource>::New();
+                
         planeSource->SetCenter(s.center().x(), s.center().y(), s.center().z());
         planeSource->SetNormal(s.normal().x(), s.normal().y(), s.normal().z());
         planeSource->Update();
-
+        
         vtkPolyData* plane_polydata = planeSource->GetOutput();
         mapper->SetInputData(plane_polydata);
         actor->SetMapper(mapper);
+        
+        return true;
+    }
 
+    bool Updater::draw_cube(const scrimmage_proto::Shape &s,
+                            vtkSmartPointer<vtkActor> &actor,
+                            vtkSmartPointer<vtkPolyDataMapper> &mapper)
+    {
+        // Create a cube.
+        vtkSmartPointer<vtkCubeSource> cubeSource = 
+            vtkSmartPointer<vtkCubeSource>::New();
+        
+        cubeSource->SetCenter(0,0,0); // Place cube at center of actor
+        cubeSource->SetXLength(s.xyz_lengths().x());
+        cubeSource->SetYLength(s.xyz_lengths().y());
+        cubeSource->SetZLength(s.xyz_lengths().z());
+                
+        mapper->SetInputConnection(cubeSource->GetOutputPort());
+        actor->SetMapper(mapper);
+        
+        // Set the actor's position
+        actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
+
+        // Rotate the actor
+        Quaternion quat = proto_2_quat(s.quat());
+        actor->RotateZ(sc::Angles::rad2deg(quat.yaw()));
+        
         return true;
     }
 

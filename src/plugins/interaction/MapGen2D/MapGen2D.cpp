@@ -42,6 +42,8 @@
 
 #include <scrimmage/plugins/interaction/MapGen2D/MapGen2D.h>
 
+#include <scrimmage/proto/ProtoConversions.h>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -74,8 +76,11 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
         return false;
     }
 
-    //double resolution = sc::get<double>("resolution", map_parse.params(), 1.0);
-    
+    resolution_ = sc::get<double>("resolution", map_parse.params(), 1.0);
+    wall_bottom_z_ = sc::get<double>("wall_bottom_z", map_parse.params(), 0.0);
+    wall_height_ = sc::get<double>("wall_height", map_parse.params(), 5.0);
+    wall_thickness_ = sc::get<double>("wall_thickness", map_parse.params(), 0.1);
+            
     std::string filename = map_parse.params()["XML_DIR"] + "/" +
         map_parse.params()["filename"];
     
@@ -86,22 +91,24 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     }
     cv::imshow("Original", img);
 
-    // cv::Mat dst, cdst;
-    // cv::Canny(img, dst, 50, 200, 3);
-    // cv::cvtColor(dst, cdst, CV_GRAY2BGR);
-    // 
-    // std::vector<cv::Vec4i> lines;
-    // cv::HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
-    // for(size_t i = 0; i < lines.size(); i++ ) {
-    //     cv::Vec4i l = lines[i];
-    //     cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-    //               cv::Scalar(0,0,255), 3, CV_AA);
-    // 
-    //     cout << "Line: " << l << endl;
-    // }
-    // 
-    // cv::imshow("lines", cdst);
-    // cv::waitKey(10);
+    /// cv::Mat dst, cdst;
+    /// cv::Canny(img, dst, 50, 200, 3);
+    /// cv::cvtColor(dst, cdst, CV_GRAY2BGR);    
+    /// std::vector<cv::Vec4i> lines;
+    /// cv::HoughLinesP(dst, lines, 1, CV_PI/180, 3, 3, 10 );
+    /// for(size_t i = 0; i < lines.size(); i++ ) {
+    ///     cv::Vec4i l = lines[i];
+    ///     cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
+    ///               cv::Scalar(0,0,255), 3, CV_AA);
+    /// 
+    ///     cv::circle(cdst, cv::Point(l[0], l[1]), 4, cv::Scalar(255,0,0), 1, 8, 0);
+    ///     cv::circle(cdst, cv::Point(l[2], l[3]), 4, cv::Scalar(255,0,0), 1, 8, 0);
+    /// 
+    ///     cout << "Line: " << l << endl;
+    /// }
+    /// 
+    /// cv::imshow("lines", cdst);
+    /// cv::waitKey(10);
     
     /// Convert image to gray and blur it
     cv::Mat gray;
@@ -116,25 +123,38 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     cv::Mat canny_output;
     cv::Canny(gray, canny_output, thresh, thresh*2, 3);
     /// Find contours
-    cv::findContours(canny_output, contours, hierarchy, CV_CHAIN_APPROX_SIMPLE,
-                     CV_CHAIN_APPROX_SIMPLE, cv::Point(0,0));
+    cv::findContours(canny_output, contours, hierarchy, CV_RETR_TREE,
+                     CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));    
     
     /// Draw contours and publish 3D shapes for each cont
     cv::Mat drawing = cv::Mat::zeros( canny_output.size(), CV_8UC3 );
     for(unsigned int i = 0; i < contours.size(); i++ ) {
         cv::drawContours(drawing, contours, i, cv::Scalar(0,0,255), 2, 8,
                          hierarchy, 0, cv::Point());
-    
-        //cout << "Point: " << contours[i] << endl;
+
+        Eigen::Vector2d prev_p;
         for (unsigned int j = 0; j < contours[i].size(); j++) {
-            cv::circle(drawing, contours[i][j], 1, cv::Scalar(255,0,0), 1, 8, 0);
+            cv::Point p_img = contours[i][j];
+
+            Eigen::Vector2d p(p_img.x * resolution_,
+                              (img.rows - p_img.y) * resolution_);
+            
+            if (j > 0) {
+                shapes_.push_back(connect_points(p, prev_p));
+            }
+            prev_p = p;
+            
+            cv::circle(drawing, p_img, 1, cv::Scalar(255,0,0), 1, 8,
+                       0);            
         }
+        Eigen::Vector2d p_first(contours[i][0].x * resolution_,
+                               (img.rows - contours[i][0].y) * resolution_);
+        shapes_.push_back(connect_points(prev_p, p_first));
     }    
-    
+                    
     /// Show in a window
     cv::namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
     cv::imshow( "Contours", drawing );
-    
     cv::waitKey(10);
     
     return true;
@@ -149,4 +169,27 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     }
 
     return true;
+}
+
+std::shared_ptr<sp::Shape> MapGen2D::connect_points(Eigen::Vector2d &p,
+                                                    Eigen::Vector2d &prev_p)
+{
+    double theta = atan2(p(1) - prev_p(1), p(0) - prev_p(0));
+    sc::Quaternion quat(0,0,theta);    
+    
+    Eigen::Vector3d center((p(0) + prev_p(0)) / 2,
+                           (p(1) + prev_p(1)) / 2,
+                           wall_bottom_z_ + wall_height_ / 2.0);
+
+    std::shared_ptr<sp::Shape> wall(new sp::Shape);
+    wall->set_type(sp::Shape::Cube);
+    sc::set(wall->mutable_color(), 0, 0, 255);
+    wall->set_opacity(1.0);
+    sc::set(wall->mutable_center(), center);
+    sc::set(wall->mutable_xyz_lengths(), (p-prev_p).norm(),
+            wall_thickness_, wall_height_);
+    sc::set(wall->mutable_quat(), quat);
+    wall->set_persistent(true);
+    
+    return wall;    
 }

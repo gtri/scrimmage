@@ -6,6 +6,7 @@ option java_package = "com.syllo.scrimmage";
 package scrimmage_proto;
 
 import "scrimmage/proto/Vector3d.proto";
+import "scrimmage/proto/Quaternion.proto";
 import "scrimmage/proto/Color.proto";
 
 message Shape {
@@ -24,6 +25,7 @@ Arrow = 9;
 Cone = 10;
 Circle = 11;
 Text = 12;
+Cube = 13;
 }
 
 int32 id = 1;
@@ -43,6 +45,8 @@ repeated Vector3d point = 14;
 repeated Color point_color = 15;
 Vector3d normal = 16;
 string text = 17;
+Vector3d xyz_lengths = 18;
+Quaternion quat = 19;
 }
 
 message Shapes {

@@ -174,6 +174,9 @@ namespace scrimmage {
         bool draw_sphere(const scrimmage_proto::Shape &s,
                          vtkSmartPointer<vtkActor> &actor,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper);
+        bool draw_cube(const scrimmage_proto::Shape &s,
+                       vtkSmartPointer<vtkActor> &actor,
+                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
         bool draw_circle(const scrimmage_proto::Shape &s,
                          vtkSmartPointer<vtkActor> &actor,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper);

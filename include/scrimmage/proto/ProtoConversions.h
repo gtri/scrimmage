@@ -63,7 +63,6 @@ typedef std::shared_ptr<scrimmage_proto::Shape> ShapePtr;
 
 void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src);
 void set(scrimmage_proto::Vector3d *dst, double x, double y, double z);
-
 void set(scrimmage_proto::Color *dst, std::vector<int> &src);
 void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src);
 void set(Eigen::Vector3d &dst, scrimmage_proto::Vector3d *src);
@@ -74,6 +73,7 @@ void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src);
 void set(scrimmage_proto::Color *dst, scrimmage::Color_t src);
 void set(scrimmage_proto::Color *color, int r, int g, int b);
 void set(scrimmage_proto::Color *color, int grayscale);
+void set(scrimmage_proto::Quaternion *dst, Quaternion &src);
 
 Eigen::Vector3d eigen(const scrimmage_proto::Vector3d src);
 
