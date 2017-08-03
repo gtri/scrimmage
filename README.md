@@ -1,6 +1,9 @@
 # SCRIMMAGE Multi-Agent Simulator
 
-![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean.png)
+[![Build Status](https://travis-ci.org/gtri/scrimmage.png?branch=master)](https://travis-ci.org/gtri/scrimmage)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gtri/scrimmage/issues)
+
+![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean_medium.png)
 
 ## Build SCRIMMAGE
 
