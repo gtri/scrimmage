@@ -1,0 +1,11 @@
+sudo: required
+
+language: cpp
+
+services:
+  - docker
+  
+# Build steps
+script:
+  - docker build -t gtri/scrimmage -f ./ci/Dockerfile-ubuntu-16.04 .
+  
