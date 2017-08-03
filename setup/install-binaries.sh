@@ -94,6 +94,7 @@ DEPS_DPKG=(
     libbullet-dev
     python-sphinx
     sphinx-rtd-theme-common
+    graphviz
     doxygen
     libopencv-dev
     #google-mock

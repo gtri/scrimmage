@@ -4,6 +4,10 @@ env:
   global:
   - ENCRYPTION_LABEL: dcc9512392ad
 
+addons:
+  ssh_known_hosts:
+  - scrimmagesim.org
+  
 before_install:
 - sudo apt-get install tar
 

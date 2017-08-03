@@ -21,11 +21,11 @@ ssh-add ./ci/keys/deploy_key
 tar -czf doc_output.tar.gz ./doc_output
 
 # Send the tarball to the document server
-scp ./doc_output.tar.gz kevindem@kevindemarco.com:~/public_html/scrimmagesim
+scp ./doc_output.tar.gz kevindem@scrimmagesim.org:~/public_html/scrimmagesim
 
 # ssh into the documentation server.
 # 1. Remove the old docs folder.
 # 2. Recreate the docs folder.
 # 3. Untar the docs
 # 4. Move the sphinx and doxygen html output to the correct directories.
-ssh kevindem@kevindemarco.com 'cd public_html/scrimmagesim; rm -rf ./docs; mkdir -p ./docs; tar xf doc_output.tar.gz; mv ./doc_output/sphinx ./docs/; mv ./doc_output/doxygen ./docs/'
+ssh kevindem@scrimmagesim.org 'cd public_html/scrimmagesim; rm -rf ./docs; mkdir -p ./docs; tar xf doc_output.tar.gz; mv ./doc_output/sphinx ./docs/; mv ./doc_output/doxygen ./docs/'
