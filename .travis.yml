@@ -1,12 +1,23 @@
 sudo: required
 
+env:
+  global:
+  - ENCRYPTION_LABEL: dcc9512392ad
+
+before_install:
+- sudo apt-get install tar
+
 dist: trusty
+
 language: cpp
 
 services:
-  - docker
-  
-# Build steps
+- docker
+
 script:
-  - docker build -t gtri/scrimmage -f ./ci/Dockerfile-ubuntu-16.04 .
-  
+- docker build -t gtri/scrimmage:latest -f ./ci/dockerfiles/ubuntu-16.04 .
+
+after_success:
+- docker create --name mycontainer gtri/scrimmage:latest
+- docker cp mycontainer:/root/scrimmage/build/docs ./doc_output
+- bash ./ci/scripts/deploy-docs.sh

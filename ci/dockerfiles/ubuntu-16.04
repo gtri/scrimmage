@@ -22,14 +22,15 @@ RUN /bin/bash -c "cd 3rd-party && \
     source ~/.scrimmage/setup.bash && \
     make"
 
+# Build scrimmage core, plugins, and documentation
 RUN /bin/bash -c "mkdir -p build && \
     cd build && \
-    cmake .. -DBUILD_TESTS=ON && \
+    cmake .. -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
     source ~/.scrimmage/setup.bash && \
-    make"
+    make && \
+    make docs"
 
-# Run tests (TODO: this will eventually be in Jenkins workflow when a plugin
-# bug is fixed
+# Run tests
 RUN /bin/bash -c "cd build && \
     source ~/.scrimmage/setup.bash && \
     make test && \

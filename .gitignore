@@ -13,7 +13,8 @@ gdb_monitor.log
 *.*~
 *.*#
 *.so
-id_rsa*
+id_rsa
+deploy_key
 .ycm_extra_conf.py
 callgrind*
 *toolchain.cmake*
