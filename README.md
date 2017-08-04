@@ -5,6 +5,12 @@
 
 ![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean_medium.png)
 
+## Online Documentation
+
+[Tutorials](http://www.scrimmagesim.org/docs/sphinx/html/index.html)
+
+[SCRIMMAGE API](http://www.scrimmagesim.org/docs/doxygen/html/index.html)
+
 ## Build SCRIMMAGE
 
 ### Install Binary Dependencies
