@@ -74,6 +74,7 @@ DEPS_DPKG=(
     python-pandas
     python-wxtools
     python-dev
+    python-pip
     libeigen3-dev
     libgeographic-dev
     libboost-thread-dev
@@ -223,3 +224,9 @@ if [ "$PKGSTOINSTALL" != "" ]; then
 else
     echo "All dependencies are installed. No further action is required."
 fi
+
+
+########################
+# Install Pip Packages
+########################
+pip install sphinx-git

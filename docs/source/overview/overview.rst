@@ -10,4 +10,5 @@ Overview
    viewer
    workflow
    environment-vars
-   core-plugins           
+   core-plugins
+   changelog
