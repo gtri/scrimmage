@@ -246,63 +246,45 @@ endif()
 # Add gtest
 ###################################################################
 option(BUILD_TESTS "BUILD_TESTS" OFF)
-option(BUILD_GTEST "Build_GTEST" ON)
 if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   enable_testing()
   
-  if (BUILD_GTEST)
-    ########################################################
-    # Download and build googletest
-    ########################################################
-    include(ExternalProject)
-    set(EXTERNAL_PROJECT_GTEST googletest)
-    ExternalProject_Add (
-      ${EXTERNAL_PROJECT_GTEST} 
-      PREFIX ${CMAKE_CURRENT_BINARY_DIR}/3rd-party
-      CMAKE_COMMAND cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/3rd-party ..
-      GIT_REPOSITORY "https://github.com/google/googletest.git"
-      PATCH_COMMAND ""
-      UPDATE_COMMAND ""
-      INSTALL_COMMAND make install
-      )
+  ############################################################
+  # copied from
+  # https://github.com/google/googletest/tree/master/googletest#incorporating-into-an-existing-cmake-project
+  ############################################################
 
-    ExternalProject_Get_Property(${EXTERNAL_PROJECT_GTEST} install_dir)
-    set(GTEST_INCLUDE_DIRS ${install_dir}/include)
-    set(GMOCK_INCLUDE_DIRS ${install_dir}/include)
-    
-    set(GTEST_LIBRARIES
-      ${install_dir}/lib/libgtest.so
-      )
-    set(GTEST_MAIN_LIBRARIES
-      ${install_dir}/lib/libgtest_main.so
-      )
-    set(GTEST_BOTH_LIBRARIES
-      ${GTEST_LIBRARIES}
-      ${GTEST_MAIN_LIBRARIES}
-      )
-
-    set(GMOCK_LIBRARIES
-      ${install_dir}/lib/libgmock.so
-      )
-    set(GMOCK_MAIN_LIBRARIES
-      ${install_dir}/lib/libgmock_main.so
-      )
-    set(GMOCK_BOTH_LIBRARIES
-      ${GMOCK_LIBRARIES}
-      ${GMOCK_MAIN_LIBRARIES}
-      )    
-  else()
-    ########################################################
-    # Find GTest
-    ########################################################
-    set(EXTERNAL_PROJECT_GTEST "")
-    find_package (GTest REQUIRED)
-    find_package (GMock REQUIRED)
+  # Download and unpack googletest at configure time
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in googletest-download/CMakeLists.txt)
+  execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+    RESULT_VARIABLE result
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+  if(result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+  endif()
+  execute_process(COMMAND ${CMAKE_COMMAND} --build .
+    RESULT_VARIABLE result
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+  if(result)
+    message(FATAL_ERROR "Build step for googletest failed: ${result}")
   endif()
   
-  include_directories(${GTEST_INCLUDE_DIRS})
-  include_directories(${GMOCK_INCLUDE_DIRS})
-
+  # Prevent overriding the parent project's compiler/linker
+  # settings on Windows
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  
+  # Add googletest directly to our build. This defines
+  # the gtest and gtest_main targets.
+  add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
+                   ${CMAKE_BINARY_DIR}/googletest-build)
+  
+  # The gtest/gtest_main targets carry header search path
+  # dependencies automatically when using CMake 2.8.11 or
+  # later. Otherwise we have to add them here ourselves.
+  if (CMAKE_VERSION VERSION_LESS 2.8.11)
+    include_directories("${gtest_SOURCE_DIR}/include")
+  endif()
+  
   add_subdirectory(test)  
 endif()
 

@@ -42,7 +42,6 @@
 #include <scrimmage/math/State.h>
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 using std::cout;
 using std::endl;

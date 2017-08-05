@@ -4,7 +4,7 @@ macro(AddExternalTarget _VARS)
   list(REMOVE_AT LST 0)
 
   foreach(EXT_TGT ${LST})
-    if (NOT ${EXT_TGT} MATCHES "")
+    if (${EXT_TGT})
       add_dependencies(${TGT} ${${EXT_TGT}})
     endif()
   endforeach() 

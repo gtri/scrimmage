@@ -32,7 +32,6 @@
 
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
 #include <Eigen/Dense>

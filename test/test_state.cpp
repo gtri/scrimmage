@@ -31,7 +31,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <scrimmage/math/State.h>
 #include <Eigen/Dense>
 #define _USE_MATH_DEFINES
