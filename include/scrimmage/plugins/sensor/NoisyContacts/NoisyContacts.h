@@ -42,7 +42,8 @@ class NoisyContacts : public scrimmage::Sensor {
 public:
     NoisyContacts() {}
     virtual void init(std::map<std::string,std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t, bool &valid);
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+
 protected:        
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;

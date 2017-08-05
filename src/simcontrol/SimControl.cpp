@@ -1058,12 +1058,6 @@ namespace scrimmage {
                     }
                 }
 
-                //for (auto &kv : task->ent->sensors()) {
-                //    for (SensorPtr &sensor : kv.second) {
-                //        success &= sensor->sense(t_, dt_);
-                //    }
-                //}
-
                 for (AutonomyPtr &autonomy : task->ent->autonomies()) {
                     success &= autonomy->step_autonomy(t_, dt_);
                 }
@@ -1117,12 +1111,6 @@ namespace scrimmage {
                         sensable->update(t_, dt_);
                     }
                 }
-
-                //for (auto &kv : ent->sensors()) {
-                //    for (SensorPtr &sensor : kv.second) {
-                //        sensor->sense(t_, dt_);
-                //    }
-                //}
 
                 for (AutonomyPtr &autonomy : ent->autonomies()) {
                     autonomy->step_autonomy(t_, dt_);

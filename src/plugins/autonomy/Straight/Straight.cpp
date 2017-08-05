@@ -116,37 +116,27 @@ bool Straight::step_autonomy(double t, double dt)
     // Read data from sensors...
     sc::State own_state;
     for (auto kv : parent_->sensors()) {
-        bool valid;
         if (kv.first == "NoisyState") {
-            auto msg = kv.second->sense<sc::Message<sc::State>>(t, valid);
-            if (valid) {
-                own_state = msg->data;
+            auto msg = kv.second->sense<sc::State>(t);
+            if (msg) {
+                own_state = (*msg)->data;
             }
             
         } else if (kv.first == "NoisyContacts") {
-            auto msg = kv.second->sense<sc::Message<std::list<sc::Contact>>>(t, valid);
-            //if (valid) {
-            //    cout << "Contacts: " << endl;
-            //    for (sc::Contact c : msg->data) {
-            //        cout << "ID: " << c.id().id() << endl;
-            //        cout << "----------------------" << endl;
-            //        cout << "Pos: " << c.state()->pos() << endl;
-            //    }
-            //}
-            
+            auto msg = kv.second->sense<std::list<sc::Contact>>(t);
         } else if (kv.first == "ContactBlobCamera") {
 #if ENABLE_OPENCV == 1
             if (show_camera_images_ || save_camera_images_) {
-                auto msg = kv.second->sense<sc::Message<ContactBlobCameraType>>(t, valid);
-                if (valid) {
+                auto msg = kv.second->sense<ContactBlobCameraType>(t);
+                if (msg) {
                     if (save_camera_images_) {
                         std::string img_name = "./imgs/camera_" +
                             std::to_string(frame_number_++) + ".png";
-                        cv::imwrite(img_name, msg->data.frame);
+                        cv::imwrite(img_name, (*msg)->data.frame);
                     }
 
                     if (show_camera_images_) {
-                        cv::imshow("Camera Sensor", msg->data.frame);
+                        cv::imshow("Camera Sensor", (*msg)->data.frame);
                         cv::waitKey(1);
                     }
                 }

@@ -29,45 +29,51 @@
  * A Long description goes here.
  *
  */
-
-#ifndef SENSOR_H_
-#define SENSOR_H_
-
-#include <map>
-#include <memory>
+#ifndef INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
+#define INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
 
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/fwd_decl.h>
+#include <scrimmage/pubsub/Message.h>
+
+#include <map>
+#include <memory>
+#include <string>
+
+#include <boost/optional.hpp>
 
 namespace scrimmage {
 
 class Sensor : public Plugin {
  public:
-    virtual inline void init(std::map<std::string,std::string> &params)
-    {return;}
-    
+    virtual inline void init(std::map<std::string, std::string> &params) {return;}
+
     virtual std::string name() { return std::string("Sensor"); }
     virtual std::string type() { return std::string("Sensor"); }
-    virtual scrimmage::MessageBasePtr sensor_msg(double t, bool &valid)
-    { return nullptr; }
-    
-    template <class T=MessageBase>
-        std::shared_ptr<T> sense(double t, bool &valid)
-        {
-            MessageBasePtr sensor_msg = this->sensor_msg(t, valid);
-            if (!valid) return nullptr;
-            auto msg_cast = std::dynamic_pointer_cast<T>(sensor_msg);
-            if (msg_cast) {
-                return msg_cast;
-            } else {
-                return nullptr;
-            }
-        }        
-    
- protected: 
+
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t) = 0;
+
+    template <class T = MessageBase,
+              class = typename std::enable_if<std::is_same<T, MessageBase>::value, void>::type>
+    boost::optional<MessageBasePtr> sense(double t) {
+        return sensor_msg(t);
+    }
+
+    template <class T = MessageBase,
+              class = typename std::enable_if<!std::is_same<T, MessageBase>::value, void>::type>
+    boost::optional<std::shared_ptr<scrimmage::Message<T>>> sense(double t) {
+        auto msg = sensor_msg(t);
+        if (msg) {
+            auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(*msg);
+            return msg_cast ?
+                boost::optional<std::shared_ptr<scrimmage::Message<T>>>(msg_cast) : boost::none;
+        } else {
+            return boost::none;
+        }
+    }
 };
 
 using SensorPtr = std::shared_ptr<Sensor>;
 }  // namespace scrimmage
 
-#endif // SENSOR
+#endif // INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
