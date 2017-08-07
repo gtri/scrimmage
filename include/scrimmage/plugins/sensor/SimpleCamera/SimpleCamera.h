@@ -30,27 +30,24 @@
  *
  */
 
-#ifndef SIMPLE_CAMERA_H_
-#define SIMPLE_CAMERA_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLECAMERA_SIMPLECAMERA_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLECAMERA_SIMPLECAMERA_H_
 
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+
+#include <map>
+#include <string>
 
 class SimpleCamera : public scrimmage::Sensor {
-public:
-    SimpleCamera() {}
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual bool sense(double t, double dt);
-    std::map<int, scrimmage::Contact> &sensed_contacts() {return sensed_contacts_;}
-    
-protected:
-    std::map<int, scrimmage::Contact> sensed_contacts_;
-    double range_;
-    double fov_azimuth_;
-    double fov_elevation_;
-    bool draw_cone_;
-private:     
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+
+ protected:
+    double range_ = 0;
+    double fov_az_ = 0;
+    double fov_el_ = 0;
+    bool draw_cone_ = false;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLECAMERA_SIMPLECAMERA_H_

@@ -97,7 +97,7 @@ void NoisyState::init(std::map<std::string,std::string> &params)
     return;
 }
 
-sc::MessageBasePtr NoisyState::sensor_msg(double t, bool &valid)
+boost::optional<scrimmage::MessageBasePtr> NoisyState::sensor_msg(double t)
 {
     // Make a copy of the current state
     sc::State ns = *(parent_->state());
@@ -116,6 +116,5 @@ sc::MessageBasePtr NoisyState::sensor_msg(double t, bool &valid)
         * sc::Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener_))
         * sc::Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener_));
 
-    valid = true;
-    return msg;
+    return boost::optional<scrimmage::MessageBasePtr>(msg);
 }

@@ -29,52 +29,53 @@
  * A Long description goes here.
  *
  */
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include "SimpleCamera.h"
-#include <scrimmage/common/ID.h>
-#include <vector>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/SimpleCamera/SimpleCamera.h>
+#include <scrimmage/common/ID.h>
+#include <scrimmage/Hash.h>
+
+#include <vector>
+#include <unordered_set>
 
 REGISTER_PLUGIN(scrimmage::Sensor, SimpleCamera, SimpleCamera_plugin)
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-void SimpleCamera::init(std::map<std::string,std::string> &params) {
+void SimpleCamera::init(std::map<std::string, std::string> &params) {
     range_ = std::stod(params.at("range"));
-    fov_azimuth_ = sc::Angles::deg2rad(std::stod(params.at("fov_azimuth")));
-    fov_elevation_ = sc::Angles::deg2rad(std::stod(params.at("fov_elevation")));
+    fov_az_ = sc::Angles::deg2rad(std::stod(params.at("fov_az")));
+    fov_el_ = sc::Angles::deg2rad(std::stod(params.at("fov_el")));
     draw_cone_ = sc::str2bool(params.at("draw_cone"));
     return;
 }
 
-bool SimpleCamera::sense(double t, double dt) {
+boost::optional<scrimmage::MessageBasePtr> SimpleCamera::sensor_msg(double t) {
 
     int my_id = parent_->id().id();
+    auto msg = std::make_shared<sc::Message<std::unordered_set<sc::ID>>>();
 
     std::vector<sc::ID> neigh;
-    sc::StatePtr &state = contacts_->at(my_id).state();
+    sc::ContactMapPtr c = parent_->contacts();
+    sc::StatePtr s = (*c)[my_id].state();
 
-    rtree_->neighbors_in_range(state->pos(), neigh, range_, my_id);
+    parent_->rtree()->neighbors_in_range(s->pos(), neigh, range_, my_id);
 
-    sensed_contacts_.clear();
-    for (sc::ID &id : neigh) {
-        sc::State &other_state = *contacts_->at(id.id()).state();
-        if (state->InFieldOfView(other_state, fov_azimuth_, fov_elevation_)) {
-            sensed_contacts_[id.id()] = contacts_->at(id.id());
-        }
-    }
+    std::copy_if(neigh.begin(), neigh.end(), std::inserter(msg->data, msg->data.end()),
+        [&](sc::ID &id) {return s->InFieldOfView(*c->at(id.id()).state(), fov_az_, fov_el_);});
 
     if (draw_cone_ && !parent_->autonomies().empty()) {
-        sc::Quaternion &q = state->quat();
+        sc::Quaternion &q = s->quat();
         double pitch = q.pitch();
         double yaw = q.yaw();
         Eigen::Vector3d orient(cos(yaw) * cos(pitch),
@@ -82,16 +83,16 @@ bool SimpleCamera::sense(double t, double dt) {
                                -sin(pitch));
 
         parent_->autonomies().front()->shapes().clear();
-        std::shared_ptr<scrimmage_proto::Shape> cone(new scrimmage_proto::Shape());
-        sc::set(cone->mutable_apex(), state->pos());
+        auto cone = std::make_shared<scrimmage_proto::Shape>();
+        sc::set(cone->mutable_apex(), s->pos());
         cone->set_opacity(0.2);
         sc::set(cone->mutable_direction(), orient);
         cone->set_height(range_);
-        cone->set_base_radius(range_ * sin(fov_azimuth_ / 2.0));
+        cone->set_base_radius(range_ * sin(fov_az_ / 2.0));
         cone->set_type(scrimmage_proto::Shape::Cone);
         cone->set_ttl(1);
         parent_->autonomies().front()->shapes().push_back(cone);
-    } 
+    }
 
-    return true;
+    return boost::optional<sc::MessageBasePtr>(msg);
 }

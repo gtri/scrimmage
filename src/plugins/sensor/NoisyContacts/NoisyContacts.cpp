@@ -97,7 +97,7 @@ void NoisyContacts::init(std::map<std::string,std::string> &params)
     return;
 }
 
-sc::MessageBasePtr NoisyContacts::sensor_msg(double t, bool &valid)
+boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t)
 {
     auto msg = std::make_shared<sc::Message<std::list<sc::Contact>>>();
 
@@ -137,6 +137,5 @@ sc::MessageBasePtr NoisyContacts::sensor_msg(double t, bool &valid)
         msg->data.push_back(c);
     }
 
-    valid = true;
-    return msg;
+    return boost::optional<sc::MessageBasePtr>(msg);
 }
