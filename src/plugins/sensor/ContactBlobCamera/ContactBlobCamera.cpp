@@ -105,13 +105,12 @@ void ContactBlobCamera::init(std::map<std::string,std::string> &params)
     return;
 }
 
-sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t, bool &valid)
+boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
 {
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
     if ((t - last_frame_t_) < 1.0 / fps_) {
-        valid = false;
-        return nullptr;
+        return boost::optional<sc::MessageBasePtr>{};
     }
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
@@ -204,8 +203,7 @@ sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t, bool &valid)
     frame_ = msg->data.frame;
     last_frame_t_ = t;
 
-    valid = true;
-    return msg;
+    return boost::optional<sc::MessageBasePtr>(msg);
 }
 
 Eigen::Vector2d ContactBlobCamera::project_rel_3d_to_2d(Eigen::Vector3d rel_pos)
