@@ -4,7 +4,7 @@
   <library>MOOSAutonomy_plugin</library>
   <moos_app_name>scrimmage</moos_app_name>
 
-  <moos_mission_file>~/repos/3rd-party/moos-ivp/ivp/missions/s1_alpha/alpha.moos</moos_mission_file>
+  <moos_mission_file>~/scrimmage/scrimmage/data/moos/missions/s1_alpha/alpha.moos</moos_mission_file>
   
   <!--
   <autonomy_moos_name>alpha</autonomy_moos_name>  
