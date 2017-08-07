@@ -1,3 +1,2 @@
 setup.py
-scrimmage/proto/*
 scrimmage/bindings/*.so

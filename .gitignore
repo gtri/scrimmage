@@ -26,3 +26,5 @@ debug
 *egg-info*
 grpc.patch
 py_bindings
+*_pb2_grpc.py
+*_pb2.py
