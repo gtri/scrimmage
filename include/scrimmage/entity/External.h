@@ -29,22 +29,24 @@
  * A Long description goes here.
  *
  */
-#ifndef EXTERNAL_H_
-#define EXTERNAL_H_
+#ifndef INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
+#define INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/ID.h>
 #include <scrimmage/common/FileSearch.h>
 #include <map>
 #include <string>
-#include <vector>
 
 #ifdef ROSCPP_ROS_H
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/autonomy/Autonomy.h>
+
 #include <functional>
+#include <vector>
 #endif
 
 namespace scrimmage {
@@ -73,6 +75,7 @@ class External {
 
  protected:
     std::vector<ros::Subscriber> ros_subs_;
+    std::vector<ros::ServiceServer> ros_service_servers_;
     std::vector<std::function<void()>> ros_pub_funcs_;
 
  public:
@@ -124,9 +127,83 @@ class External {
         ros_pub_funcs_.push_back(func);
     }
 
+    template <class RosType, class ScrimmageResponseType, class ScServiceFunc, class Ros2ScRequestFunc, class Sc2RosResponseFunc>
+    void advertise_service(
+        ros::NodeHandle &nh,
+        const std::string &service_name,
+        Ros2ScRequestFunc ros2sc_request_func,
+        ScServiceFunc sc_service_func,
+        Sc2RosResponseFunc sc2ros_response_func,
+        std::function<bool(typename RosType::Request&)> pre_func = [](typename RosType::Request&){return true;},
+        std::function<bool(typename RosType::Response&)> post_func = [](typename RosType::Response&){return true;}) {
+
+        boost::function<bool(typename RosType::Request &, typename RosType::Response &)> callback =
+            [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
+                if (!pre_func(ros_req)) {
+                    return false;
+                }
+
+                auto sc_req = ros2sc_request_func(ros_req);
+
+                auto sc_req_base = std::dynamic_pointer_cast<scrimmage::MessageBase>(sc_req);
+                auto sc_res_base = std::make_shared<scrimmage::MessageBase>();
+                if (!sc_req_base || !sc_service_func(sc_req_base, sc_res_base)) {
+                    return false;
+                }
+
+                auto sc_res = std::dynamic_pointer_cast<ScrimmageResponseType>(sc_res_base);
+                if (!sc_res) {
+                    return false;
+                }
+
+                ros_res = sc2ros_response_func(sc_res);
+                if (!post_func(ros_res)) {
+                    return false;
+                }
+                return true;
+            };
+
+        ros::ServiceServer srv = nh.advertiseService(service_name.c_str(), callback);
+        ros_service_servers_.push_back(srv);
+    }
+
+    template <class RosServiceType, class ScrimmageReqType,
+            class Sc2RosRequestFunc, class Ros2ScResponseFunc>
+    add_service(ros::NodeHandle &nh,
+        Sc2RosRequestFunc sc2ros_request_func,
+        Ros2ScResponseFunc ros2sc_response_func,
+        const std::string &sc_topic,
+        const std::string &ros_topic = "") {
+
+        std::string topic = ros_topic == "" ? sc_topic : ros_topic;
+        auto service_client =
+            std::make_shared<ros::ServiceClient>(nh.serviceClient<RosServiceType>(topic));
+
+        auto call_service =
+            [=](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
+                auto sc_req_cast =
+                    std::dynamic_pointer_cast<ScrimmageReqType>(sc_req);
+                if (!sc_req_cast) {
+                    return false;
+                }
+
+                RosServiceType srv;
+                srv.request = sc2ros_request_func(sc_req_cast);
+
+                if (!service_client->call(srv)) {
+                    return false;
+                }
+
+                sc_res = ros2sc_response_func(srv.response);
+                return true;
+            };
+
+        entity_->services()[sc_topic] = call_service;
+    }
+
 #endif
 };
 
 } // namespace scrimmage
 
-#endif // EXTERNAL_H_
+#endif // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_

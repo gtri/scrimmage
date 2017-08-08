@@ -33,18 +33,20 @@
 #ifndef Network_Device_H_
 #define Network_Device_H_
 
-#include <list>
-#include <memory>
-#include <string>
-
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/MessageBase.h>
+
+#include <list>
+#include <memory>
+#include <string>
 
 namespace scrimmage {
 
 class NetworkDevice {
  public:
+    NetworkDevice();
+
     std::string get_topic() const;
     void set_topic(std::string topic);
 

@@ -36,6 +36,8 @@
 
 namespace scrimmage {
 
+NetworkDevice::NetworkDevice() : plugin_(new Plugin()) {}
+
 std::string NetworkDevice::get_topic() const {return topic_;}
 void NetworkDevice::set_topic(std::string topic) {topic_ = topic;}
 
@@ -47,4 +49,4 @@ unsigned int NetworkDevice::max_queue_size() {return max_queue_size_;}
 
 PluginPtr &NetworkDevice::plugin() {return plugin_;}
 
-}
+} // namespace scrimmage
