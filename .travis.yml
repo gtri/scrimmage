@@ -19,9 +19,11 @@ services:
 - docker
 
 script:
-- docker build -t gtri/scrimmage:latest -f ./ci/dockerfiles/ubuntu-16.04 .
+- docker build -t $DOCKER_USERNAME/scrimmage:latest -f ./ci/dockerfiles/ubuntu-16.04 .
 
 after_success:
-- docker create --name mycontainer gtri/scrimmage:latest
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker create --name mycontainer $DOCKER_USERNAME/scrimmage:latest
 - docker cp mycontainer:/root/scrimmage/build/docs ./doc_output
 - bash ./ci/scripts/deploy-docs.sh
+- docker push $DOCKER_USERNAME/scrimmage:latest
