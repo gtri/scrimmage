@@ -3,4 +3,5 @@
 <params>
   <library>MapGen2D_plugin</library>
   <map>maze_2d_1</map>
+  <show_polygon_count>true</show_polygon_count>
 </params>

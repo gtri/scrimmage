@@ -62,6 +62,10 @@ MapGen2D::MapGen2D()
 bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
                     std::map<std::string,std::string> &plugin_params)
 {
+
+    show_polygon_count_ = sc::get<bool>("show_polygon_count", plugin_params,
+                                        false);
+    
     ///////////////////////////////
     // Find the map params
     sc::ConfigParse map_parse;
@@ -80,7 +84,8 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     wall_bottom_z_ = sc::get<double>("wall_bottom_z", map_parse.params(), 0.0);
     wall_height_ = sc::get<double>("wall_height", map_parse.params(), 5.0);
     wall_thickness_ = sc::get<double>("wall_thickness", map_parse.params(), 0.1);
-            
+    polygon_simplification_ = sc::get<double>("polygon_simplification", map_parse.params(), 3);    
+    
     std::string filename = map_parse.params()["XML_DIR"] + "/" +
         map_parse.params()["filename"];
     
@@ -91,31 +96,37 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     }
     cv::imshow("Original", img);
 
-    /// cv::Mat dst, cdst;
-    /// cv::Canny(img, dst, 50, 200, 3);
-    /// cv::cvtColor(dst, cdst, CV_GRAY2BGR);    
-    /// std::vector<cv::Vec4i> lines;
-    /// cv::HoughLinesP(dst, lines, 1, CV_PI/180, 3, 3, 10 );
-    /// for(size_t i = 0; i < lines.size(); i++ ) {
-    ///     cv::Vec4i l = lines[i];
-    ///     cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-    ///               cv::Scalar(0,0,255), 3, CV_AA);
-    /// 
-    ///     cv::circle(cdst, cv::Point(l[0], l[1]), 4, cv::Scalar(255,0,0), 1, 8, 0);
-    ///     cv::circle(cdst, cv::Point(l[2], l[3]), 4, cv::Scalar(255,0,0), 1, 8, 0);
-    /// 
-    ///     cout << "Line: " << l << endl;
-    /// }
-    /// 
-    /// cv::imshow("lines", cdst);
-    /// cv::waitKey(10);
+#if 0    
+    cv::Mat dst, cdst;
+    cv::Canny(img, dst, 50, 200, 3);
+    cv::cvtColor(dst, cdst, CV_GRAY2BGR);    
+    std::vector<cv::Vec4i> lines;
+    cv::HoughLinesP(dst, lines, 1, CV_PI/180, 3, 3, 10 );
+    int line_count = 0;
+    for(size_t i = 0; i < lines.size(); i++ ) {
+        cv::Vec4i l = lines[i];
+        cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
+                  cv::Scalar(0,0,255), 3, CV_AA);
+    
+        cv::circle(cdst, cv::Point(l[0], l[1]), 4, cv::Scalar(255,0,0), 1, 8, 0);
+        cv::circle(cdst, cv::Point(l[2], l[3]), 4, cv::Scalar(255,0,0), 1, 8, 0);
+    
+        cout << "Line: " << l << endl;
+        line_count++;
+    }
+
+    cout << "line count: " << line_count << endl;
+    
+    cv::imshow("lines", cdst);
+    cv::waitKey(10);
+#endif
     
     /// Convert image to gray and blur it
     cv::Mat gray;
     cv::cvtColor(img, gray, CV_BGR2GRAY);
     cv::blur(gray, gray, cv::Size(3,3));
     
-    std::vector<std::vector<cv::Point>> contours;
+    std::vector<std::vector<cv::Point>> contours_initial;
     std::vector<cv::Vec4i> hierarchy;
     
     /// Detect edges using canny
@@ -123,9 +134,16 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     cv::Mat canny_output;
     cv::Canny(gray, canny_output, thresh, thresh*2, 3);
     /// Find contours
-    cv::findContours(canny_output, contours, hierarchy, CV_RETR_TREE,
+    cv::findContours(canny_output, contours_initial, hierarchy, CV_RETR_TREE,
                      CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));    
 
+    std::vector<std::vector<cv::Point> > contours;
+    contours.resize(contours_initial.size());
+    for (size_t k = 0; k < contours_initial.size(); k++) {
+        cv::approxPolyDP(cv::Mat(contours_initial[k]), contours[k],
+                         polygon_simplification_, false);
+    }
+    
     int count = 0;
     
     /// Draw contours and publish 3D shapes for each cont
@@ -154,14 +172,16 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
                                 (img.rows - contours[i][0].y) * resolution_,
                                 0);
         shapes_.push_back(connect_points(prev_p, p_first));        
-    }    
-                    
-    /// Show in a window
-    cv::namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
-    cv::imshow( "Contours", drawing );
-    cv::waitKey(10);
+    }                            
 
-    cout << "Object Count: " << count << endl;
+    if (show_polygon_count_) {
+        cout << "Wall Polygon Count: " << count << endl;
+
+        /// Show in a window
+        cv::namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
+        cv::imshow( "Contours", drawing );
+        cv::waitKey(10);
+    }
     
     return true;
 }

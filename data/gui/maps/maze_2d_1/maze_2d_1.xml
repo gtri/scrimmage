@@ -4,9 +4,11 @@
   <!--<filename>hospital_section.png</filename>-->
   <!--<filename>maze_2d_1.pgm</filename>-->
   <!--<filename>cave.png</filename>-->
-  <!--<filename>line-vertical.pgm</filename>-->
+  <filename>line-vertical.pgm</filename>
 
-  <filename>rectangle.png</filename>
+  <!--<filename>rectangle.png</filename>-->
+
+  <polygon_simplification>1</polygon_simplification>
   
   <resolution>0.10</resolution> <!-- 10 cm -->
 

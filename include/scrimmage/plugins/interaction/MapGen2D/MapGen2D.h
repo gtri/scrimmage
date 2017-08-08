@@ -51,10 +51,13 @@ protected:
     std::shared_ptr<sp::Shape> connect_points(Eigen::Vector3d &p,
                                               Eigen::Vector3d &prev_p);
 
+    bool show_polygon_count_;
+    
     double wall_bottom_z_;
     double wall_height_;
     double wall_thickness_;
     double resolution_;
+    double polygon_simplification_;    
     
 private:     
 };
