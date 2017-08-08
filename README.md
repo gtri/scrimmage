@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/gtri/scrimmage.png?branch=master)](https://travis-ci.org/gtri/scrimmage)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gtri/scrimmage/issues)
+[![Docker Pulls](https://img.shields.io/docker/pulls/syllogismrxs/scrimmage.svg?maxAge=2592000)](https://hub.docker.com/r/syllogismrxs/scrimmage)
 
 ![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean_medium.png)
 
@@ -165,12 +166,24 @@ tree:
 
     cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
 
-## Obtain Pre-Built SCRIMMAGE Docker Image
+## Download SCRIMMAGE Docker Image
 
-The SCRIMMAGE docker image isn't publicly available yet, but for GTRI
-employees, they can use the internal docker registry.
+The SCRIMMAGE docker image is pushed to a public repository after a successful
+build on Travis. If docker is installed on your machine, you can obtain the
+SCRIMMAGE docker image by running the following command:
 
-1. Allow non-https connections for your docker client. Add the following
+    $ docker pull syllogismrxs/scrimmage:latest
+
+Now you can run an instance of the SCRIMMAGE docker image and run SCRIMMAGE in
+headless mode:
+
+    $ docker run -it syllogismrxs/scrimmage:latest /bin/bash
+    $ source ~/.scrimmage/setup.bash
+    $ scrimmage ./missions/straight-no-gui.xml
+
+### Docker Troubleshooting Notes
+
+1. To allow non-https connections for your docker client. Add the following
    information to your /etc/docker/daemon.json file:
 
         {
@@ -184,16 +197,6 @@ employees, they can use the internal docker registry.
 2. Restart docker service:
 
         $ sudo service docker restart
-
-3. Pull the image:
-
-        $ docker pull 10.108.21.229:5000/scrimmage:latest
-
-4. Run scrimmage (without GUI):
-
-        $ docker run -it 10.108.21.229:5000/scrimmage:latest /bin/bash
-        $ scrimmage ./missions/straight-no-gui.xml
-
 
 ## Installing and Configuring Open Grid Engine
 
