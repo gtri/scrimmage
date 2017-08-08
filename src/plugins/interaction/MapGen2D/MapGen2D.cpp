@@ -125,6 +125,8 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     /// Find contours
     cv::findContours(canny_output, contours, hierarchy, CV_RETR_TREE,
                      CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));    
+
+    int count = 0;
     
     /// Draw contours and publish 3D shapes for each cont
     cv::Mat drawing = cv::Mat::zeros( canny_output.size(), CV_8UC3 );
@@ -132,12 +134,12 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
         cv::drawContours(drawing, contours, i, cv::Scalar(0,0,255), 2, 8,
                          hierarchy, 0, cv::Point());
 
-        Eigen::Vector2d prev_p;
+        Eigen::Vector3d prev_p;
         for (unsigned int j = 0; j < contours[i].size(); j++) {
             cv::Point p_img = contours[i][j];
 
-            Eigen::Vector2d p(p_img.x * resolution_,
-                              (img.rows - p_img.y) * resolution_);
+            Eigen::Vector3d p(p_img.x * resolution_,
+                              (img.rows - p_img.y) * resolution_, 0);
             
             if (j > 0) {
                 shapes_.push_back(connect_points(p, prev_p));
@@ -145,17 +147,21 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
             prev_p = p;
             
             cv::circle(drawing, p_img, 1, cv::Scalar(255,0,0), 1, 8,
-                       0);            
+                       0);
+            count++;
         }
-        Eigen::Vector2d p_first(contours[i][0].x * resolution_,
-                               (img.rows - contours[i][0].y) * resolution_);
-        shapes_.push_back(connect_points(prev_p, p_first));
+        Eigen::Vector3d p_first(contours[i][0].x * resolution_,
+                                (img.rows - contours[i][0].y) * resolution_,
+                                0);
+        shapes_.push_back(connect_points(prev_p, p_first));        
     }    
                     
     /// Show in a window
     cv::namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
     cv::imshow( "Contours", drawing );
     cv::waitKey(10);
+
+    cout << "Object Count: " << count << endl;
     
     return true;
 }
@@ -171,9 +177,10 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     return true;
 }
 
-std::shared_ptr<sp::Shape> MapGen2D::connect_points(Eigen::Vector2d &p,
-                                                    Eigen::Vector2d &prev_p)
+std::shared_ptr<sp::Shape> MapGen2D::connect_points(Eigen::Vector3d &p,
+                                                    Eigen::Vector3d &prev_p)
 {
+#if 0    
     double theta = atan2(p(1) - prev_p(1), p(0) - prev_p(0));
     sc::Quaternion quat(0,0,theta);    
     
@@ -189,6 +196,18 @@ std::shared_ptr<sp::Shape> MapGen2D::connect_points(Eigen::Vector2d &p,
     sc::set(wall->mutable_xyz_lengths(), (p-prev_p).norm(),
             wall_thickness_, wall_height_);
     sc::set(wall->mutable_quat(), quat);
+    
+#else    
+    std::shared_ptr<sp::Shape> wall(new sp::Shape);
+    wall->set_type(sp::Shape::Polygon);
+    sc::set(wall->mutable_color(), 0, 0, 255);
+    wall->set_opacity(1.0);
+
+    sc::add_point(wall, p + Eigen::Vector3d::UnitZ()*wall_bottom_z_);
+    sc::add_point(wall, prev_p + Eigen::Vector3d::UnitZ()*wall_bottom_z_);
+    sc::add_point(wall, prev_p + Eigen::Vector3d::UnitZ()*(wall_bottom_z_ + wall_height_));
+    sc::add_point(wall, p + Eigen::Vector3d::UnitZ()*(wall_bottom_z_ + wall_height_));        
+#endif
     wall->set_persistent(true);
     
     return wall;    

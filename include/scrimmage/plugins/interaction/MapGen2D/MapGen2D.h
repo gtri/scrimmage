@@ -48,8 +48,8 @@ public:
     bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                  double t, double dt);
 protected:
-    std::shared_ptr<sp::Shape> connect_points(Eigen::Vector2d &p,
-                                              Eigen::Vector2d &prev_p);
+    std::shared_ptr<sp::Shape> connect_points(Eigen::Vector3d &p,
+                                              Eigen::Vector3d &prev_p);
 
     double wall_bottom_z_;
     double wall_height_;
