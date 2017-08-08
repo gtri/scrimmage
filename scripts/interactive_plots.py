@@ -271,7 +271,7 @@ class CanvasFrame(wx.Frame):
             self.keySizer.Add(s)
         self.keySizer.Layout()
 
-        self.ax.set_xlabel("Time Since Start of Autonomous Flight")
+        self.ax.set_xlabel("Time")
         self.ax.relim()
         self.ax.autoscale_view()
 

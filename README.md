@@ -122,7 +122,8 @@ you can use the Python\_ADDITIONAL\_VARIABLES cmake argument, e.g.
 
     $ cmake .. -DPython_ADDITIONAL_VERSIONS=3.5
 
-Otherwise, cmake will choose on its own.
+Otherwise, cmake will choose on its own. It should be noted that
+`interactive_plots.py` uses wxPython which is only compatible with python2.
 
 ### Install protobuf Python package
 
