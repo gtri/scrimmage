@@ -30,10 +30,8 @@
  *
  */
 
-#include <iostream>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-
 #include <scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h>
 
 namespace sc = scrimmage;
@@ -47,10 +45,10 @@ SimpleCollisionScore::SimpleCollisionScore() {
     entity_count_ = 0;
 }
 
-bool SimpleCollisionScore::set_weights(std::map<std::string,std::string> &params) {
+bool SimpleCollisionScore::set_weights(std::map<std::string, std::string> &params) {
     flight_time_w_ = sc::get<double>("flight_time_w", params, 0.0);
     team_collisions_w_ = sc::get<double>("team_collisions_w", params, 0.0);
-    non_team_collisions_w_ = sc::get<double>("non_team_collisions_w", params, 0.0);    
+    non_team_collisions_w_ = sc::get<double>("non_team_collisions_w", params, 0.0);
 
     return true;
 }

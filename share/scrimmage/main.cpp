@@ -30,30 +30,27 @@
  *
  */
 
-#include <iostream>
-#include <ctime>
-#include <signal.h>
-
-#include <unordered_set>
-#include <cstdlib>
-#include <string>
-#include <ostream>
-#include <cstdlib>
-#include <memory>
 #include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/entity/Contact.h>
-
 #include <scrimmage/simcontrol/SimControl.h>
-
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/metrics/Metrics.h>
 
+#include <signal.h>
+#include <cstdlib>
+
+#include <iostream>
+#include <ctime>
+
+#include <unordered_set>
+#include <string>
+#include <ostream>
+#include <memory>
 #if ENABLE_VIEWER == 1
 #include <scrimmage/viewer/Viewer.h>
 #endif
@@ -107,8 +104,6 @@ int main(int argc, char *argv[]) {
             break;
         case '?':
             if (optopt == 't') {
-                fprintf(stderr, "Option -%d requires an integer argument.\n", optopt);
-            } else if (optopt == 't') {
                 fprintf(stderr, "Option -%d requires an integer argument.\n", optopt);
             } else {
                 fprintf(stderr,
@@ -203,7 +198,7 @@ int main(int argc, char *argv[]) {
         simcontrol.force_exit();
         simcontrol.join();
     } else {
-        //simcontrol.pause(false);
+        // simcontrol.pause(false);
         simcontrol.run();
         // if (mp->network_gui()) {
         //    scrimmage::Viewer viewer;
