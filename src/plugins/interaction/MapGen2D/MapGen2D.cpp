@@ -63,8 +63,8 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
                     std::map<std::string,std::string> &plugin_params)
 {
 
-    show_polygon_count_ = sc::get<bool>("show_polygon_count", plugin_params,
-                                        false);
+    show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params,
+                                    false);    
     
     ///////////////////////////////
     // Find the map params
@@ -83,9 +83,22 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
     resolution_ = sc::get<double>("resolution", map_parse.params(), 1.0);
     wall_bottom_z_ = sc::get<double>("wall_bottom_z", map_parse.params(), 0.0);
     wall_height_ = sc::get<double>("wall_height", map_parse.params(), 5.0);
-    wall_thickness_ = sc::get<double>("wall_thickness", map_parse.params(), 0.1);
-    polygon_simplification_ = sc::get<double>("polygon_simplification", map_parse.params(), 3);    
-    
+    enable_map_boundary_ = sc::get<bool>("enable_map_boundary",
+                                         map_parse.params(), false);
+
+    // Parse wall_color (default to blue)
+    std::string color_str = sc::get<std::string>("wall_color",
+                                                 map_parse.params(),
+                                                 "0 0 255");
+
+    // Parse wall color
+    std::vector<int> color;
+    bool color_status = sc::str2vec(color_str, " ", color, 3);
+    if (!color_status) {
+        cout << "Warning: Failed to parse wall color." << endl;
+        color = {0, 0, 255};
+    }
+                
     std::string filename = map_parse.params()["XML_DIR"] + "/" +
         map_parse.params()["filename"];
     
@@ -94,94 +107,33 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
         cout << "Failed to open file: " << filename << endl;
         return false;
     }
-    cv::imshow("Original", img);
 
-#if 0    
-    cv::Mat dst, cdst;
-    cv::Canny(img, dst, 50, 200, 3);
-    cv::cvtColor(dst, cdst, CV_GRAY2BGR);    
-    std::vector<cv::Vec4i> lines;
-    cv::HoughLinesP(dst, lines, 1, CV_PI/180, 3, 3, 10 );
-    int line_count = 0;
-    for(size_t i = 0; i < lines.size(); i++ ) {
-        cv::Vec4i l = lines[i];
-        cv::line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-                  cv::Scalar(0,0,255), 3, CV_AA);
+    std::list<cv::Rect> rects = find_rectangles(img, 150);  
+   
+    for (cv::Rect rect : rects) {
+        double x = rect.x * resolution_;
+        double y = (img.rows - rect.y) * resolution_;
+        double width = rect.width * resolution_;
+        double height = rect.height * resolution_;
+        
+        // Convert rectangle into cube shape
+        Eigen::Vector3d center (x + width/2.0,
+                                y - height/2.0,
+                                wall_bottom_z_ + wall_height_ /2.0);
+        
+        sc::Quaternion quat(0,0,0);
     
-        cv::circle(cdst, cv::Point(l[0], l[1]), 4, cv::Scalar(255,0,0), 1, 8, 0);
-        cv::circle(cdst, cv::Point(l[2], l[3]), 4, cv::Scalar(255,0,0), 1, 8, 0);
-    
-        cout << "Line: " << l << endl;
-        line_count++;
-    }
-
-    cout << "line count: " << line_count << endl;
-    
-    cv::imshow("lines", cdst);
-    cv::waitKey(10);
-#endif
-    
-    /// Convert image to gray and blur it
-    cv::Mat gray;
-    cv::cvtColor(img, gray, CV_BGR2GRAY);
-    cv::blur(gray, gray, cv::Size(3,3));
-    
-    std::vector<std::vector<cv::Point>> contours_initial;
-    std::vector<cv::Vec4i> hierarchy;
-    
-    /// Detect edges using canny
-    double thresh = 100;
-    cv::Mat canny_output;
-    cv::Canny(gray, canny_output, thresh, thresh*2, 3);
-    /// Find contours
-    cv::findContours(canny_output, contours_initial, hierarchy, CV_RETR_TREE,
-                     CV_CHAIN_APPROX_TC89_L1, cv::Point(0,0));    
-
-    std::vector<std::vector<cv::Point> > contours;
-    contours.resize(contours_initial.size());
-    for (size_t k = 0; k < contours_initial.size(); k++) {
-        cv::approxPolyDP(cv::Mat(contours_initial[k]), contours[k],
-                         polygon_simplification_, false);
-    }
-    
-    int count = 0;
-    
-    /// Draw contours and publish 3D shapes for each cont
-    cv::Mat drawing = cv::Mat::zeros( canny_output.size(), CV_8UC3 );
-    for(unsigned int i = 0; i < contours.size(); i++ ) {
-        cv::drawContours(drawing, contours, i, cv::Scalar(0,0,255), 2, 8,
-                         hierarchy, 0, cv::Point());
-
-        Eigen::Vector3d prev_p;
-        for (unsigned int j = 0; j < contours[i].size(); j++) {
-            cv::Point p_img = contours[i][j];
-
-            Eigen::Vector3d p(p_img.x * resolution_,
-                              (img.rows - p_img.y) * resolution_, 0);
-            
-            if (j > 0) {
-                shapes_.push_back(connect_points(p, prev_p));
-            }
-            prev_p = p;
-            
-            cv::circle(drawing, p_img, 1, cv::Scalar(255,0,0), 1, 8,
-                       0);
-            count++;
-        }
-        Eigen::Vector3d p_first(contours[i][0].x * resolution_,
-                                (img.rows - contours[i][0].y) * resolution_,
-                                0);
-        shapes_.push_back(connect_points(prev_p, p_first));        
-    }                            
-
-    if (show_polygon_count_) {
-        cout << "Wall Polygon Count: " << count << endl;
-
-        /// Show in a window
-        cv::namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
-        cv::imshow( "Contours", drawing );
-        cv::waitKey(10);
-    }
+        std::shared_ptr<sp::Shape> wall(new sp::Shape);
+        wall->set_type(sp::Shape::Cube);
+        sc::set(wall->mutable_color(), color[0], color[1], color[2]);
+        wall->set_opacity(1.0);
+        wall->set_persistent(true);
+        sc::set(wall->mutable_center(), center);       
+        sc::set(wall->mutable_xyz_lengths(), width, height, wall_height_);
+        sc::set(wall->mutable_quat(), quat);        
+                            
+        shapes_.push_back(wall);
+    }    
     
     return true;
 }
@@ -197,38 +149,81 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     return true;
 }
 
-std::shared_ptr<sp::Shape> MapGen2D::connect_points(Eigen::Vector3d &p,
-                                                    Eigen::Vector3d &prev_p)
+std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold)
 {
-#if 0    
-    double theta = atan2(p(1) - prev_p(1), p(0) - prev_p(0));
-    sc::Quaternion quat(0,0,theta);    
-    
-    Eigen::Vector3d center((p(0) + prev_p(0)) / 2,
-                           (p(1) + prev_p(1)) / 2,
-                           wall_bottom_z_ + wall_height_ / 2.0);
+    // Make sure image is gray and apply threshold
+    cv::Mat gray;
+    cv::cvtColor(img, gray, CV_BGR2GRAY);    
 
-    std::shared_ptr<sp::Shape> wall(new sp::Shape);
-    wall->set_type(sp::Shape::Cube);
-    sc::set(wall->mutable_color(), 0, 0, 255);
-    wall->set_opacity(1.0);
-    sc::set(wall->mutable_center(), center);
-    sc::set(wall->mutable_xyz_lengths(), (p-prev_p).norm(),
-            wall_thickness_, wall_height_);
-    sc::set(wall->mutable_quat(), quat);
-    
-#else    
-    std::shared_ptr<sp::Shape> wall(new sp::Shape);
-    wall->set_type(sp::Shape::Polygon);
-    sc::set(wall->mutable_color(), 0, 0, 255);
-    wall->set_opacity(1.0);
+    cv::Mat thresh;
+    cv::threshold(gray, thresh, threshold, 255, cv::THRESH_BINARY_INV);    
 
-    sc::add_point(wall, p + Eigen::Vector3d::UnitZ()*wall_bottom_z_);
-    sc::add_point(wall, prev_p + Eigen::Vector3d::UnitZ()*wall_bottom_z_);
-    sc::add_point(wall, prev_p + Eigen::Vector3d::UnitZ()*(wall_bottom_z_ + wall_height_));
-    sc::add_point(wall, p + Eigen::Vector3d::UnitZ()*(wall_bottom_z_ + wall_height_));        
-#endif
-    wall->set_persistent(true);
+    cv::Mat img_rects = img.clone();
     
-    return wall;    
+    std::list<cv::Rect> rects;
+
+    cv::Mat I = thresh.clone();
+
+    // Scan image looking for non-zero pixel
+    for (int i = 0; i < I.rows; i++) {
+        for (int j = 0; j < I.cols; j++) {            
+            if (I.at<uchar>(i,j) > 0) {
+                // Non-zero pixel found, search for largest rectangle of
+                // non-zero pixels
+                
+                bool end_c_found = false;
+                int end_c = I.cols;
+                int end_r = I.rows;
+
+                // Scan rows and columns looking for a zero-valued pixel
+                for (int r = i; r < end_r; r++) {
+                    for (int c = j; c < end_c; c++) {                        
+                        if (I.at<uchar>(r,c) == 0) {
+                            // Zero pixel found
+                            if (!end_c_found) {
+                                // Use this column number as end column of
+                                // rectangle
+                                end_c_found = true;
+                                end_c = c;
+                            } else {
+                                // Use this row number as end row of rectangle
+                                end_r = r;
+                            }
+                        }
+                    }
+                    
+                    if (end_c == I.cols) {
+                        // If end_c is still the same as I.cols, then the
+                        // rectangle extended to the end of the image.
+                        end_c_found = true;
+                    }
+                }
+
+                cv::Rect rect(j, i, end_c-j, end_r-i);
+                cv::rectangle(img_rects, rect, cv::Scalar(0,0,255), 1, 8, 0);
+                cv::Mat roi = I(rect);
+                roi.setTo(0);
+
+                rects.push_back(rect);
+            }
+        }
+    }
+
+    if (enable_map_boundary_) {        
+        rects.push_back(cv::Rect(0,0,img.cols,1)); //top rect
+        rects.push_back(cv::Rect(0,0,1,img.rows)); //left rect
+        rects.push_back(cv::Rect(img.cols,0,1,img.rows)); //right rect
+        rects.push_back(cv::Rect(0,img.rows,img.cols,1)); //bottom rect        
+    }
+    
+
+    if (show_map_debug_) {
+        cout << "Number of rectangles: " << rects.size() << endl;
+        cv::imshow("Original", img);
+        cv::imshow("Gray", gray);
+        cv::imshow("Thresh", thresh);
+        cv::imshow("Rects", img_rects);
+        cv::waitKey(0);
+    }        
+    return rects;
 }

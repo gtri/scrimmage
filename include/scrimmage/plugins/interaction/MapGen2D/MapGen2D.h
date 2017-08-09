@@ -32,6 +32,9 @@
 
 #ifndef MapGen2D_H_
 #define MapGen2D_H_
+
+#include <opencv2/core/core.hpp>
+
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -51,13 +54,16 @@ protected:
     std::shared_ptr<sp::Shape> connect_points(Eigen::Vector3d &p,
                                               Eigen::Vector3d &prev_p);
 
-    bool show_polygon_count_;
+    std::list<cv::Rect> find_rectangles(cv::Mat &img, int threshold);
+
+    Eigen::Vector3d img_xy_to_xyz(int x, int y, cv::Mat &img);
+
+    bool show_map_debug_;
+    bool enable_map_boundary_;
     
     double wall_bottom_z_;
-    double wall_height_;
-    double wall_thickness_;
-    double resolution_;
-    double polygon_simplification_;    
+    double wall_height_;    
+    double resolution_;    
     
 private:     
 };
