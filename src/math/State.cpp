@@ -78,7 +78,7 @@ Eigen::Vector3d State::pos_offset(double distance, bool offset_with_velocity) co
 }
 
 Eigen::Vector3d State::orient_global_frame() const {
-    return quat_.rotate_reverse(Eigen::Vector3d::UnitX());
+    return quat_.rotate(Eigen::Vector3d::UnitX());
 }
 
 double State::rel_az(const Eigen::Vector3d &other) {

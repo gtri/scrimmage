@@ -63,8 +63,8 @@ void Quaternion::set(double w_coeff, double x_coeff, double y_coeff, double z_co
 }
 
 void Quaternion::set(const Eigen::Vector3d &vector, double angle_radians) {
-    w() = cos(angle_radians / 2);
-    Eigen::Vector3d unit_vec = vector.normalized() * sin(angle_radians);
+    w() = cos(angle_radians / 2.0);
+    Eigen::Vector3d unit_vec = vector.normalized() * sin(angle_radians / 2.0);
     x() = unit_vec.x();
     y() = unit_vec.y();
     z() = unit_vec.z();

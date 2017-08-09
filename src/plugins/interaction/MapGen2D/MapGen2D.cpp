@@ -40,6 +40,8 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 
+#include <scrimmage/pubsub/Message.h>
+
 #include <scrimmage/plugins/interaction/MapGen2D/MapGen2D.h>
 
 #include <scrimmage/proto/ProtoConversions.h>
@@ -63,6 +65,8 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
                     std::map<std::string,std::string> &plugin_params)
 {
 
+    pub_shape_gen_ = create_publisher("ShapeGenerated");
+    
     show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params,
                                     false);    
     
@@ -108,8 +112,9 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
         return false;
     }
 
+    auto msg = std::make_shared<sc::Message<sp::Shapes>>();
     std::list<cv::Rect> rects = find_rectangles(img, 150);  
-   
+    
     for (cv::Rect rect : rects) {
         double x = rect.x * resolution_;
         double y = (img.rows - rect.y) * resolution_;
@@ -133,7 +138,14 @@ bool MapGen2D::init(std::map<std::string,std::string> &mission_params,
         sc::set(wall->mutable_quat(), quat);        
                             
         shapes_.push_back(wall);
-    }    
+
+        
+        sp::Shape *shape = msg->data.add_shape();
+        *shape = *wall;        
+    }
+
+    cout << "Publishing shapes: " << msg->data.shape_size() << endl;
+    pub_shape_gen_->publish(msg, 0);
     
     return true;
 }

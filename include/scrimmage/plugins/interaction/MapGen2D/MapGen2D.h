@@ -35,6 +35,7 @@
 
 #include <opencv2/core/core.hpp>
 
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -63,7 +64,9 @@ protected:
     
     double wall_bottom_z_;
     double wall_height_;    
-    double resolution_;    
+    double resolution_;
+
+    sc::PublisherPtr pub_shape_gen_;
     
 private:     
 };

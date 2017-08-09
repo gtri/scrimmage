@@ -92,7 +92,9 @@ void MotorSchemas::init(std::map<std::string,std::string> &params)
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt)
-{       
+{
+    shapes_.clear();
+    
     // move-to-goal schema
     Eigen::Vector3d v_goal = (goal_ - state_->pos()).normalized();
     
@@ -168,7 +170,7 @@ bool MotorSchemas::step_autonomy(double t, double dt)
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
     ///////////////////////////////////////////////////////////////////////////
-    // Draw sphere of influence:
+    // Draw sphere of influence:    
     if (show_shapes_) {
         sc::ShapePtr shape(new scrimmage_proto::Shape);
         shape->set_type(scrimmage_proto::Shape::Circle);
