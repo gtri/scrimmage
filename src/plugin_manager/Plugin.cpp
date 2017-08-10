@@ -30,13 +30,14 @@
  *
  */
 
-#include <memory>
-
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
+
+#include <string>
+#include <memory>
 
 namespace scrimmage {
 

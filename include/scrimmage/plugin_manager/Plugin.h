@@ -30,28 +30,30 @@
  *
  */
 
-#ifndef PLUGIN_H_
-#define PLUGIN_H_
-#include <memory>
-#include <map>
+#ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
+#define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
 #include <scrimmage/fwd_decl.h>
+
 #include <unordered_set>
+#include <memory>
+#include <map>
+#include <string>
 
 namespace scrimmage {
 
 class Plugin : public std::enable_shared_from_this<Plugin> {
-public:
+ public:
     Plugin();
     virtual ~Plugin();
-    
+
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
-    
+
     NetworkPtr &network();
     void set_network(NetworkPtr network);
 
@@ -68,23 +70,23 @@ public:
     void stop_subscribing(SubscriberPtr &sub);
 
     void publish_immediate(double t, PublisherPtr pub, MessageBasePtr msg);
-    
+
     void clear_subscribers();
     int get_network_id() {return network_id_;}
 
     std::unordered_set<int> ping();
     bool ping(int network_id);
 
-protected:    
+ protected:
     int network_id_;
     static int plugin_count_;
     EntityPtr parent_;
     NetworkPtr network_;
-    
+
     std::map<std::string, PublisherPtr> pubs_;
-    std::map<std::string, SubscriberPtr> subs_;    
+    std::map<std::string, SubscriberPtr> subs_;
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;
-}
-#endif
+} // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
