@@ -164,7 +164,7 @@ namespace scrimmage {
                           vtkSmartPointer<vtkPolyDataMapper> &mapper);
         bool draw_polydata(const scrimmage_proto::Shape &s,
                            vtkSmartPointer<vtkActor> &actor,
-                           vtkSmartPointer<vtkPolyDataMapper> &mapper);        
+                           vtkSmartPointer<vtkPolyDataMapper> &mapper);
         bool draw_plane(const scrimmage_proto::Shape &s,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper);
@@ -177,6 +177,9 @@ namespace scrimmage {
         bool draw_circle(const scrimmage_proto::Shape &s,
                          vtkSmartPointer<vtkActor> &actor,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper);
+        bool draw_text(const scrimmage_proto::Shape &s,
+                       vtkSmartPointer<vtkActor> &actor,
+                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
 
     protected:
         vtkSmartPointer<vtkRenderWindowInteractor> rwi_;
@@ -214,7 +217,7 @@ namespace scrimmage {
         vtkSmartPointer<vtkTextActor> heading_actor_;
         vtkSmartPointer<vtkTextActor> alt_actor_;
         vtkSmartPointer<vtkTextActor> fps_actor_;
-        
+
         std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visuals_;
 
         std::list<std::pair<scrimmage_proto::Shape, vtkSmartPointer<vtkActor> > > shapes_;

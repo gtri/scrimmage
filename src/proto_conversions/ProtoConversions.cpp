@@ -41,6 +41,13 @@ void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src) {
     dst->set_z(src(2));
 }
 
+void set(scrimmage_proto::Vector3d *dst, double x, double y, double z)
+{
+    dst->set_x(x);
+    dst->set_y(y);
+    dst->set_z(z);
+}
+
 void set(scrimmage_proto::Color *dst, std::vector<int> &src) {
     dst->set_r(src[0]);
     dst->set_g(src[1]);

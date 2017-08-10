@@ -343,6 +343,8 @@ namespace scrimmage {
                 status = draw_circle(shape, actor, mapper);
             } else if (shape.type() == scrimmage_proto::Shape::Sphere) {
                 status = draw_sphere(shape, actor, mapper);
+            } else if (shape.type() == scrimmage_proto::Shape::Text) {
+                status = draw_text(shape, actor, mapper);
             } else {
                 status = draw_sphere(shape, actor, mapper);
             }
@@ -1471,6 +1473,33 @@ namespace scrimmage {
 
         actor->SetMapper(mapper);
         actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
+        return true;
+    }
+
+    bool Updater::draw_text(const scrimmage_proto::Shape &s,
+                            vtkSmartPointer<vtkActor> &actor,
+                            vtkSmartPointer<vtkPolyDataMapper> &mapper)
+    {
+        // Add the object label
+        vtkSmartPointer<vtkVectorText> textSource =
+            vtkSmartPointer<vtkVectorText>::New();
+        textSource->SetText(s.text().c_str());
+
+        mapper->SetInputConnection( textSource->GetOutputPort() );
+
+        // Create a subclass of vtkActor: a vtkFollower that remains facing the
+        // camera
+        actor = vtkSmartPointer<vtkFollower>::New();
+        actor->SetMapper(mapper);
+
+        actor->SetPosition(s.center().x(), s.center().y(),
+                           s.center().z());
+
+        // We created this actor object in this function, so we can use a
+        // static_cast. Need to extract the raw pointer from vtk's smartpointer
+        // system first.
+        static_cast<vtkFollower*>(&*actor)->SetCamera(renderer_->GetActiveCamera());
+
         return true;
     }
 }

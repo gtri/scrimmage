@@ -39,6 +39,7 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/proto/State.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #if ENABLE_OPENCV == 1
 #include <opencv2/core/core.hpp>
@@ -67,14 +68,15 @@ Straight::Straight()
 }
 
 void Straight::init(std::map<std::string,std::string> &params)
-{    
+{
 
     speed_ = scrimmage::get("speed", params, 0.0);
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);
+    show_text_label_ = scrimmage::get<bool>("show_text_label", params, false);
 
     if (save_camera_images_) {
-        /////////////////////////////////////////////////////////    
+        /////////////////////////////////////////////////////////
         // Remove all img files from previous run
         if (fs::exists("./imgs")) {
             fs::recursive_directory_iterator it("./imgs");
@@ -97,11 +99,11 @@ void Straight::init(std::map<std::string,std::string> &params)
         }
         /////////////////////////////////////////////////////////
     }
-    
+
     desired_state_->vel() = speed_*Eigen::Vector3d::UnitX();
     desired_state_->quat().set(0,0,state_->quat().yaw());
     desired_state_->pos() = state_->pos()(2)*Eigen::Vector3d::UnitZ();
-    
+
     // Project goal in front...
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*2000;
     Eigen::Vector3d unit_vector = rel_pos.normalized();
@@ -109,6 +111,20 @@ void Straight::init(std::map<std::string,std::string> &params)
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
 
     frame_number_ = 0;
+
+    if (show_text_label_) {
+        // Draw a text label 30 meters in front of vehicle:
+        Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
+
+        sc::ShapePtr shape(new sp::Shape());
+        shape->set_type(sp::Shape::Text);
+        sc::set(shape->mutable_color(),255,255,255);
+        sc::set(shape->mutable_center(), in_front);
+        shape->set_persistent(true);
+        shape->set_text("Hello SCRIMMAGE!");
+        shape->set_opacity(1.0);
+        shapes_.push_back(shape);
+    }
 }
 
 bool Straight::step_autonomy(double t, double dt)
@@ -121,7 +137,7 @@ bool Straight::step_autonomy(double t, double dt)
             if (msg) {
                 own_state = (*msg)->data;
             }
-            
+
         } else if (kv.first == "NoisyContacts") {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
         } else if (kv.first == "ContactBlobCamera") {
@@ -143,11 +159,11 @@ bool Straight::step_autonomy(double t, double dt)
             }
 #endif
         }
-    }    
-    
+    }
+
     Eigen::Vector3d diff = goal_ - own_state.pos();
     Eigen::Vector3d v = speed_ * diff.normalized();
-    
+
     ///////////////////////////////////////////////////////////////////////////
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
@@ -161,10 +177,10 @@ bool Straight::step_autonomy(double t, double dt)
     double pitch = scrimmage::Angles::angle_2pi(atan2(v(2), xy.norm()));
 
     // Set Desired Altitude to goal's z-position
-    desired_state_->pos()(2) = goal_(2);    
+    desired_state_->pos()(2) = goal_(2);
 
     // Set the desired pitch and heading
     desired_state_->quat().set(0, pitch, heading);
-    
+
     return true;
 }

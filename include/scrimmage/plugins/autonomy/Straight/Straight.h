@@ -48,6 +48,7 @@ protected:
      int frame_number_;
      bool show_camera_images_;
      bool save_camera_images_;
+     bool show_text_label_;
 private:     
 };
 
