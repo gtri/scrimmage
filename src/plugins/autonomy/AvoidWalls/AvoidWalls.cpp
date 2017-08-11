@@ -67,15 +67,17 @@ void AvoidWalls::init(std::map<std::string,std::string> &params)
 
 bool AvoidWalls::step_autonomy(double t, double dt)
 {
+    bool all_close_points = true;
     std::list<Eigen::Vector3d> points;
-
     for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
-        // Find closest point and move away from it        
+        // Find closest point and move away from it
         for (RayTrace::PCPoint &p : msg->data.points) {
             if (p.point.norm() < avoid_distance_) {
                 points.push_back(p.point);
+            } else {
+                all_close_points = false;
             }
-        }        
+        }
     }
 
     if (points.size() > 0) {
@@ -103,22 +105,28 @@ bool AvoidWalls::step_autonomy(double t, double dt)
             O_vec += *it;
         }
 
-        Eigen::Vector3d dir = O_vec.normalized() * 10;
+        Eigen::Vector3d dir;
+        // Just turn left if all points are too close (reduces chattering)
+        if (all_close_points) {
+            dir = state_->quat().rotate(Eigen::Vector3d(0,-1,0));
+        } else {
+            dir = O_vec.normalized();
+        }
+        dir *= 10;
 
-        std::shared_ptr<sp::Shape> vec(new sp::Shape);
-        vec->set_type(sp::Shape::Line);
-        sc::set(vec->mutable_color(), 255, 255, 255);
-        vec->set_opacity(1.0);
-        sc::add_point(vec, state_->pos());
-        sc::add_point(vec, state_->pos() + dir);
-        shapes_.push_back(vec);
+        //std::shared_ptr<sp::Shape> vec(new sp::Shape);
+        //vec->set_type(sp::Shape::Line);
+        //sc::set(vec->mutable_color(), 255, 255, 255);
+        //vec->set_opacity(1.0);
+        //sc::add_point(vec, state_->pos());
+        //sc::add_point(vec, state_->pos() + dir);
+        //shapes_.push_back(vec);
 
         double heading = atan2(dir(1), dir(0));
-        
-        
-        desired_state_->quat().set(0,0,heading);        
+
+        desired_state_->quat().set(0,0,heading);
         desired_state_->vel() = Eigen::Vector3d::UnitX() * 10;
-                
+
     } else {
         desired_state_->quat().set(0,0,state_->quat().yaw());
     }

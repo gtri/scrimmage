@@ -42,7 +42,7 @@ public:
     virtual bool step_autonomy(double t, double dt);
 protected:
     scrimmage::SubscriberPtr pcl_sub_;
-    double avoid_distance_;
+    double avoid_distance_;    
 private:     
 };
 

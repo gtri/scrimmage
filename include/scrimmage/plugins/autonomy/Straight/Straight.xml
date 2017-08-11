@@ -3,7 +3,7 @@
 <params>
   <library>Straight_plugin</library>
   <speed>21</speed>
-  <show_camera_images>true</show_camera_images>
+  <show_camera_images>false</show_camera_images>
   <save_camera_images>false</save_camera_images>
   <show_text_label>false</show_text_label>
 </params>

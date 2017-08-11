@@ -11,7 +11,7 @@
   <angle_res_vert>45</angle_res_vert> <!-- degrees -->
   <num_rays_vert>1</num_rays_vert>
   
-  <angle_res_horiz>5</angle_res_horiz>  <!-- degrees -->
+  <angle_res_horiz>2</angle_res_horiz>  <!-- degrees -->
   <num_rays_horiz>20</num_rays_horiz>
   
   <max_range>30</max_range>

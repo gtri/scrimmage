@@ -3,5 +3,5 @@
 <params>
   <library>AvoidWalls_plugin</library>
   <initial_speed>24.3</initial_speed>
-  <avoid_distance>30</avoid_distance>
+  <avoid_distance>20</avoid_distance>
 </params>
