@@ -49,16 +49,22 @@
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
     <variance_z>0</variance_z>
+
+    <sensor order="0">RayTrace</sensor>
     
-    <x>0</x>
-    <y>0</y>
+    <x>7</x>
+    <y>12</y>
     <z>0.42</z>
     <heading>45</heading>            
     <controller>SimpleCarControllerHeading</controller>
-    <motion_model>SimpleCar</motion_model>
+        <motion_model>SimpleCar</motion_model>
+    
+    <!--<motion_model>SingleIntegrator</motion_model>
+        <controller>SingleIntegratorControllerSimple</controller>
+        -->
     <visual_model>volkswagen</visual_model>
     
-    <autonomy show_shapes="false">MotorSchemas</autonomy>    
+    <autonomy>AvoidWalls</autonomy>    
     
   </entity>  
 

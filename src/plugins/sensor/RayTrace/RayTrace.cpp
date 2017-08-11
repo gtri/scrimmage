@@ -43,20 +43,20 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
 
-#include <(>>>PROJECT_NAME<<<)/plugins/sensor/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Sensor, (>>>PLUGIN_NAME<<<), (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, RayTrace, RayTrace_plugin)
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
+RayTrace::RayTrace()
 {
 }
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
+void RayTrace::init(std::map<std::string,std::string> &params)
 {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
@@ -74,23 +74,20 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
             pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
+
+    angle_res_vert_ = sc::Angles::deg2rad(sc::get<double>("angle_res_vert", params, 1));
+    angle_res_horiz_ = sc::Angles::deg2rad(sc::get<double>("angle_res_horiz", params, 1));
+    num_rays_vert_ = sc::get<int>("num_rays_vert", params, 1);
+    num_rays_horiz_ = sc::get<int>("num_rays_horiz", params, 1);
+    max_range_ = sc::get<double>("max_range", params, 1);
+    min_range_ = sc::get<double>("min_range", params, 1);
+    max_sample_rate_ = sc::get<double>("max_sample_rate", params, 1);
         
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> (>>>PLUGIN_NAME<<<)::sensor_msg(double t)
+boost::optional<scrimmage::MessageBasePtr> RayTrace::sensor_msg(double t)
 {
-    // Make a copy of the current state
-    sc::State ns = *(parent_->state());
-
-    // Create a message to hold the modified state
-    auto msg = std::make_shared<sc::Message<sc::State>>();
-
-    // Add noise to the three scalars in the 3D position vector.
-    for (int i = 0; i < 3; i++) {
-        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);    
-    }    
-
     // Return the sensor message.
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return boost::optional<sc::MessageBasePtr> {};
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>RayTrace_plugin</library>
+  
+  <!-- noise params are defined with (mean, standard deviation) -->
+  <pos_noise_0>0.0 5.0</pos_noise_0> <!-- x position noise -->
+  <pos_noise_1>0.0 5.0</pos_noise_1> <!-- y position noise -->
+  <pos_noise_2>0.0 1.0</pos_noise_2> <!-- z position noise -->
+
+  <angle_res_vert>45</angle_res_vert> <!-- degrees -->
+  <num_rays_vert>1</num_rays_vert>
+  
+  <angle_res_horiz>10</angle_res_horiz>  <!-- degrees -->
+  <num_rays_horiz>10</num_rays_horiz>
+  
+  <max_range>30</max_range>
+  <min_range>0</min_range>
+  <max_sample_rate>0.1</max_sample_rate>
+  
+</params>

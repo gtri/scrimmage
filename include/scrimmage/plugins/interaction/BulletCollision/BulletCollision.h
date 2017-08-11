@@ -36,6 +36,7 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <btBulletDynamicsCommon.h>
 
@@ -61,8 +62,8 @@ protected:
 
 
     sc::PublisherPtr team_collision_pub_;
-    sc::PublisherPtr non_team_collision_pub_;
-
+    sc::PublisherPtr non_team_collision_pub_;        
+    
     double scene_size_;
     unsigned int max_objects_;
 
@@ -72,6 +73,15 @@ protected:
     sc::SubscriberPtr sub_shape_gen_;
 
     btSphereShape * sphere_shape_; // todo remove
+
+    // Key 1: Entity ID
+    // Value 2: map
+    // Key 2: Ray Sensor ID
+    // Value 2: List of rays
+    std::map<int, std::map<int, std::list<Eigen::Vector3d>>> rays_;
+    std::map<int, std::map<int, sc::PublisherPtr>> pcl_pubs_;
+
+    bool show_rays_;
 
 private:
 };

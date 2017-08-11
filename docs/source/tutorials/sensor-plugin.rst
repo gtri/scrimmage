@@ -28,7 +28,7 @@ noise sources that will be used to add noise to our own state's position.
 .. code-block:: c++
    :linenos:
 
-   void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
+   void MyNoisyState::init(std::map<std::string,std::string> &params)
    {
        // Use the same generator as the parent so that the simulation is
        // completely deterministic with respect to the simulation seed.
@@ -51,12 +51,15 @@ noise sources that will be used to add noise to our own state's position.
    }
  
 A Sensor plugin must implement the ``sensor_msg`` method, which returns message
-containing the sampled sensor data.
+containing the sampled sensor data. The sensor message is wrapped by a
+boost::optional instance, which allows sensor_msg to return an "invalid" sensor
+message by returning ``boost::optional<sc::MessageBasePtr>{}`` if the sensor
+plugins wants to simulate invalid readings or enforce a sampling rate.
 
 .. code-block:: c++
    :linenos:
-                
-   sc::MessageBasePtr MyNoisyState::sensor_msg(double t, bool &valid)
+
+   boost::optional<scrimmage::MessageBasePtr> MyNoisyState::sensor_msg(double t)
    {
        // Make a copy of the current state
        sc::State ns = *(parent_->state());
@@ -67,18 +70,12 @@ containing the sampled sensor data.
        // Add noise to the three scalars in the 3D position vector.
        for (int i = 0; i < 3; i++) {
            msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);    
-       }
-   
-       // Set "valid" to true if this is a valid sensor measurement. If the
-       // developer wanted to limit sensor sampling, the time variable, t, could
-       // be used and valid could be set to false if the sampling is occurring too
-       // frequently.
-       valid = true;
+       }    
    
        // Return the sensor message.
-       return msg;
+       return boost::optional<sc::MessageBasePtr>(msg);
    }
-
+     
 An Autonomy or Controller plugin can use this sensor by adding the sensor to
 the entity block in the mission file:
 

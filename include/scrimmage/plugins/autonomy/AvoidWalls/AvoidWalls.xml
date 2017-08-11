@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>AvoidWalls_plugin</library>
+  <initial_speed>24.3</initial_speed>
+  <avoid_distance>10</avoid_distance>
+</params>

@@ -1,6 +1,7 @@
 add_subdirectory(SimpleCamera)
 add_subdirectory(NoisyState)
 add_subdirectory(NoisyContacts)
+add_subdirectory(RayTrace)
 if (OPENCV_FOUND)
     add_subdirectory(ContactBlobCamera)
 endif()

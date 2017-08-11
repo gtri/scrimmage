@@ -49,10 +49,13 @@
 #include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/sensor/Sensor.h>
 
 #include <scrimmage/motion/MotionModel.h>
 
 #include <scrimmage/plugins/interaction/BulletCollision/BulletCollision.h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -65,7 +68,7 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, BulletCollision,
                 BulletCollision_plugin)
 
 BulletCollision::BulletCollision()
-{
+{        
     scene_size_ = 500;
     max_objects_ = 16000;
 
@@ -99,18 +102,20 @@ BulletCollision::~BulletCollision()
 bool BulletCollision::init(std::map<std::string,std::string> &mission_params,
                            std::map<std::string,std::string> &plugin_params)
 {
+    show_rays_ = sc::get<bool>("show_rays", plugin_params, false);
+    
     sub_ent_gen_ = create_subscriber("EntityGenerated");
     sub_shape_gen_ = create_subscriber("ShapeGenerated");
 
     btCollisionObject* coll_object = new btCollisionObject();
     btCollisionShape* ground_shape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
-    
+
     coll_object->setUserIndex(0);
     coll_object->setCollisionShape(ground_shape);
     coll_object->getWorldTransform().setOrigin(btVector3((btScalar) 0,
                                                          (btScalar) 0,
                                                          (btScalar) 0));
-    
+
     bt_collision_world->addCollisionObject(coll_object);
 
     return true;
@@ -121,7 +126,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt)
 {
     shapes_.clear();
-    
+
     // Maybe we should use a map by default
     std::map<int, sc::EntityPtr> int_to_ent_map;
     for (sc::EntityPtr &ent : ents) {
@@ -150,8 +155,8 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
     // Get newly created objects
     for (auto msg : sub_ent_gen_->msgs<sc::Message<sm::EntityGenerated>>()) {
-        int id = msg->data.entity_id();
-        
+        int id = msg->data.entity_id();        
+
         btCollisionObject* coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
         coll_object->getWorldTransform().setOrigin(btVector3((btScalar) int_to_ent_map[id]->state()->pos()(0),
@@ -159,8 +164,47 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                              (btScalar) int_to_ent_map[id]->state()->pos()(2)));
         coll_object->setCollisionShape(sphere_shape_);
         bt_collision_world->addCollisionObject(coll_object);
-        
+
         objects_[id] = coll_object;
+
+        // What types of sensors need to be attached to this entity?
+        int num_ray_sensors = 0;
+        for (auto &kv : int_to_ent_map[id]->sensors()) {
+            if (kv.second->type() == "Ray") {
+                // Create a publisher for this sensor
+                // "entity_id/ray_sensor_id/pointcloud"
+                pcl_pubs_[id][num_ray_sensors] =                        \
+                    create_publisher(std::to_string(id) + "/" +         \
+                                     std::to_string(num_ray_sensors)  + \
+                                     "/pointcloud");
+                
+                std::shared_ptr<RayTrace> rs =                      \
+                    std::dynamic_pointer_cast<RayTrace>(kv.second);
+                if (rs) {
+                    double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz()-1);
+                    double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert()-1);
+                    double start_angle_horiz = -fov_horiz / 2.0;
+                    double start_angle_vert = -fov_vert / 2.0;
+
+                    double angle_vert = start_angle_vert;
+                    for (int v = 0; v < rs->num_rays_vert(); v++) {
+                        double angle_horiz = start_angle_horiz;
+                        for (int h = 0; h < rs->num_rays_horiz(); h++) {
+                            Eigen::Vector3d r(rs->max_range(),0,0);
+                            sc::Quaternion rot_vert(Eigen::Vector3d(0,1,0), angle_vert);
+                            r = rot_vert.rotate(r);
+
+                            sc::Quaternion rot_horiz(Eigen::Vector3d(0,0,1), angle_horiz);
+                            r = rot_horiz.rotate(r);
+
+                            rays_[id][num_ray_sensors].push_back(r);
+                            angle_horiz += rs->angle_res_horiz();
+                        }
+                        angle_vert += rs->angle_res_vert();
+                    }
+                }
+            }
+        }
     }
 
     // Update positions of all objects
@@ -169,58 +213,114 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                            (btScalar) int_to_ent_map[kv.first]->state()->pos()(1),
                                                            (btScalar) int_to_ent_map[kv.first]->state()->pos()(2)));
     }
-    
-    double start_angle = -M_PI/2.0;
-    double end_angle = M_PI/2.0;
-    int num_rays = 30;
-    double angle_step = (end_angle - start_angle) / (double)num_rays;
-    double max_range = 30; // meters
 
-    std::vector<double> headings;
-    double angle = start_angle;
-    for (int i = 0; i < num_rays; i++) {
-        headings.push_back(angle);
-        angle += angle_step;
-    }
+    // For all ray-based sensors, compute point clouds
+    for (auto &kv : rays_) {
+        Eigen::Vector3d own_pos = int_to_ent_map[kv.first]->state()->pos();
         
-    Eigen::Vector3d own_pos = int_to_ent_map[1]->state()->pos();            
-    for (double heading : headings) {                
-        btVector3 btFrom(own_pos(0), own_pos(1), own_pos(2));                         
-        Eigen::Vector3d dir = int_to_ent_map[1]->state()->orient_global_frame() * max_range;
+        for (auto &kv2 : kv.second) {
+            auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
+            msg->data.max_range = kv2.second.front().norm();
+            for (Eigen::Vector3d &original_ray : kv2.second) {
+                btVector3 btFrom(own_pos(0), own_pos(1), own_pos(2));
 
-        Eigen::Vector3d rot_axis(0,0,1);
-        sc::Quaternion quat(rot_axis, heading);
-        Eigen::Vector3d ray = quat.rotate(dir) + own_pos;
+                // Rotate ray into entity's forward frame
+                Eigen::Vector3d rotated_ray = int_to_ent_map[kv.first]->state()->quat().rotate(original_ray);
+                Eigen::Vector3d ray = rotated_ray + own_pos;
 
-        btVector3 btTo(ray(0), ray(1), ray(2));
-        
-        btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
-        bt_collision_world->rayTest(btFrom, btTo, res);       
+                btVector3 btTo(ray(0), ray(1), ray(2));
 
-        if(res.hasHit()){
-            std::shared_ptr<sp::Shape> arrow(new sp::Shape);
-            arrow->set_type(sp::Shape::Line);
-            sc::set(arrow->mutable_color(), 255, 0, 0);
-            arrow->set_opacity(1.0);        
-            sc::add_point(arrow, own_pos);
-            sc::add_point(arrow, Eigen::Vector3d(res.m_hitPointWorld.x(), res.m_hitPointWorld.y(), res.m_hitPointWorld.z()));
-            shapes_.push_back(arrow);
-            //cout << "hit shape " << res.m_collisionObject->getCollisionShape()->getName() << endl;
-        } else {        
-            std::shared_ptr<sp::Shape> arrow(new sp::Shape);
-            arrow->set_type(sp::Shape::Line);
-            sc::set(arrow->mutable_color(), 0, 0, 255);
-            arrow->set_opacity(0.5);        
-            sc::add_point(arrow, own_pos);
-            sc::add_point(arrow, ray);
-            shapes_.push_back(arrow);        
+                btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+                bt_collision_world->rayTest(btFrom, btTo, res);
+
+                if(res.hasHit()){
+                    // Use original ray's direction, but shorten to length of
+                    // detection ray, this way we don't have to use a rotation
+                    // matrix.
+                    Eigen::Vector3d hit_point(res.m_hitPointWorld.x(), res.m_hitPointWorld.y(), res.m_hitPointWorld.z());
+                    
+                    msg->data.points.push_back(                        
+                        RayTrace::PCPoint(original_ray.normalized() * (hit_point-own_pos).norm(), 255));
+                    
+                    if (show_rays_) {
+                        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
+                        arrow->set_type(sp::Shape::Line);
+                        sc::set(arrow->mutable_color(), 255, 0, 0);
+                        arrow->set_opacity(1.0);
+                        sc::add_point(arrow, own_pos);
+                        sc::add_point(arrow, hit_point);
+                        shapes_.push_back(arrow);
+                    }
+                    //cout << "hit shape " << res.m_collisionObject->getCollisionShape()->getName() << endl;
+                } else {
+                    msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255));
+                    //pointcloud.points.push_back(original_ray);
+                    if (show_rays_) {
+                        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
+                        arrow->set_type(sp::Shape::Line);
+                        sc::set(arrow->mutable_color(), 0, 0, 255);
+                        arrow->set_opacity(0.5);
+                        sc::add_point(arrow, own_pos);
+                        sc::add_point(arrow, ray);
+                        shapes_.push_back(arrow);
+                    }
+                }
+            }
+            pcl_pubs_[kv.first][kv2.first]->publish(msg, t);
         }
-    }            
+    }
+
+    //double start_angle = -M_PI/2.0;
+    //double end_angle = M_PI/2.0;
+    //int num_rays = 30;
+    //double angle_step = (end_angle - start_angle) / (double)num_rays;
+    //double max_range = 30; // meters
+    //
+    //std::vector<double> headings;
+    //double angle = start_angle;
+    //for (int i = 0; i < num_rays; i++) {
+    //    headings.push_back(angle);
+    //    angle += angle_step;
+    //}
+
+    //Eigen::Vector3d own_pos = int_to_ent_map[1]->state()->pos();
+    //for (double heading : headings) {
+    //    btVector3 btFrom(own_pos(0), own_pos(1), own_pos(2));
+    //    Eigen::Vector3d dir = int_to_ent_map[1]->state()->orient_global_frame() * max_range;
+    //
+    //    Eigen::Vector3d rot_axis(0,0,1);
+    //    sc::Quaternion quat(rot_axis, heading);
+    //    Eigen::Vector3d ray = quat.rotate(dir) + own_pos;
+    //
+    //    btVector3 btTo(ray(0), ray(1), ray(2));
+    //
+    //    btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+    //    bt_collision_world->rayTest(btFrom, btTo, res);
+    //
+    //    if(res.hasHit()){
+    //        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
+    //        arrow->set_type(sp::Shape::Line);
+    //        sc::set(arrow->mutable_color(), 255, 0, 0);
+    //        arrow->set_opacity(1.0);
+    //        sc::add_point(arrow, own_pos);
+    //        sc::add_point(arrow, Eigen::Vector3d(res.m_hitPointWorld.x(), res.m_hitPointWorld.y(), res.m_hitPointWorld.z()));
+    //        shapes_.push_back(arrow);
+    //        //cout << "hit shape " << res.m_collisionObject->getCollisionShape()->getName() << endl;
+    //    } else {
+    //        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
+    //        arrow->set_type(sp::Shape::Line);
+    //        sc::set(arrow->mutable_color(), 0, 0, 255);
+    //        arrow->set_opacity(0.5);
+    //        sc::add_point(arrow, own_pos);
+    //        sc::add_point(arrow, ray);
+    //        shapes_.push_back(arrow);
+    //    }
+    //}
 
     bt_collision_world->performDiscreteCollisionDetection();
-    
+
     int numManifolds = bt_collision_world->getDispatcher()->getNumManifolds();
-    
+
     //For each contact manifold
     for (int i = 0; i < numManifolds; i++) {
         btPersistentManifold* contactManifold = bt_collision_world->getDispatcher()->getManifoldByIndexInternal(i);
@@ -228,12 +328,12 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
         contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
         int numContacts = contactManifold->getNumContacts();
-    
+
         //For each contact point in that manifold
         for (int j = 0; j < numContacts; j++) {
-    
+
             //cout << "Collision: " << obA->getUserIndex() << " - " << obB->getUserIndex() << endl;
-    
+
             //Get the contact information
             btManifoldPoint& pt = contactManifold->getContactPoint(j);
             //btVector3 ptA = pt.getPositionWorldOnA();
@@ -242,7 +342,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             //cout << "ptdist: " << ptdist << endl;
             //cout << "impulse: " << pt.getAppliedImpulse() << endl;
             //cout << "normal: " << pt.m_normalWorldOnB.x() << ", " << pt.m_normalWorldOnB.y() << ", " << pt.m_normalWorldOnB.z() << endl;
-    
+
             //sc::MotionModelPtr &motionA = int_to_ent_map[obA->getUserIndex()]->motion();
             //sc::MotionModelPtr &motionB = int_to_ent_map[obB->getUserIndex()]->motion();
             //
@@ -253,16 +353,16 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             Eigen::Vector3d normal_B(pt.m_normalWorldOnB.x(),
                                      pt.m_normalWorldOnB.y(),
                                      pt.m_normalWorldOnB.z());
-    
+
             //cout << "----" << endl;
             //cout << "Normal: " << obA->getUserIndex() << ", " << normal_B << endl;
             //cout << "Normal: " << obB->getUserIndex() << ", " << -normal_B << endl;
-    
+
             //Eigen::Vector3d force_B_dir = -normal_B * force;
             //
             //cout << "Force on " << obA->getUserIndex() << ", " << -force_B_dir << endl;
             //cout << "Force on " << obB->getUserIndex() << ", " << force_B_dir << endl;
-    
+
             if (int_to_ent_map.count(obB->getUserIndex()) > 0) {
                 int_to_ent_map[obB->getUserIndex()]->motion()->set_external_force(-normal_B);
             }

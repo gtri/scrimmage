@@ -30,24 +30,20 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef AvoidWalls_H_
+#define AvoidWalls_H_
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
-#include <random>
-
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
-
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
+class AvoidWalls : public scrimmage::Autonomy {
 public:
-    (>>>PLUGIN_NAME<<<)();
+    AvoidWalls();
     virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual bool step_autonomy(double t, double dt);
 protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
+    scrimmage::SubscriberPtr pcl_sub_;
+    double avoid_distance_;
+private:     
 };
 
 #endif
