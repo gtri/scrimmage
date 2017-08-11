@@ -37,6 +37,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #include <scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
@@ -66,40 +67,61 @@ void AvoidWalls::init(std::map<std::string,std::string> &params)
 
 bool AvoidWalls::step_autonomy(double t, double dt)
 {
-    bool min_point_found = false;
-    Eigen::Vector3d min_point(0,0,0);
+    std::list<Eigen::Vector3d> points;
 
-    cout << "-----------" << endl;
     for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
         // Find closest point and move away from it        
-        double min_dist = std::numeric_limits<double>::infinity();        
         for (RayTrace::PCPoint &p : msg->data.points) {
-            double dist = p.point.norm();            
-            if (dist < avoid_distance_ && dist < min_dist) {                
-                min_dist = dist;
-                min_point = p.point;
-                min_point_found = true;
+            if (p.point.norm() < avoid_distance_) {
+                points.push_back(p.point);
             }
         }        
     }
 
-    if (min_point_found) {
-        // Transform the min_point to global coordinate space
-        min_point = state_->quat().rotate(min_point);
-        min_point += state_->pos();        
-        
-        // Go in opposite direction
-        Eigen::Vector3d diff = state_->pos() - min_point;
-        desired_state_->vel() = diff.normalized()  * 10;
+    if (points.size() > 0) {
+        std::vector<Eigen::Vector3d> O_vecs;
+        for (Eigen::Vector3d &p : points) {
+            // Transform the point to global coordinate space
+            double dist = p.norm();
+            p = state_->quat().rotate(p);
+            p += state_->pos();
 
-        cout << "vel: " << desired_state_->vel() << endl;
-        
-        //double heading = atan2(dir(1) - state_->pos()(1),
-        //                       dir(0) - state_->pos()(0));       
+            // Get vector pointing towards point
+            Eigen::Vector3d diff = p - state_->pos();
+            double O_mag = avoid_distance_ - dist;
 
-        // Set the heading
-            //desired_state_->quat().set(0, 0, heading); // roll, pitch, heading
-    }        
+            Eigen::Vector3d O_dir = - O_mag * diff.normalized();
+            O_vecs.push_back(O_dir);
+        }
+
+        // Normalize each repulsion vector and sum
+        Eigen::Vector3d O_vec(0,0,0);
+        for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
+            if (it->hasNaN()) {
+                continue; // ignore misbehaved vectors
+            }
+            O_vec += *it;
+        }
+
+        Eigen::Vector3d dir = O_vec.normalized() * 10;
+
+        std::shared_ptr<sp::Shape> vec(new sp::Shape);
+        vec->set_type(sp::Shape::Line);
+        sc::set(vec->mutable_color(), 255, 255, 255);
+        vec->set_opacity(1.0);
+        sc::add_point(vec, state_->pos());
+        sc::add_point(vec, state_->pos() + dir);
+        shapes_.push_back(vec);
+
+        double heading = atan2(dir(1), dir(0));
+        
+        
+        desired_state_->quat().set(0,0,heading);        
+        desired_state_->vel() = Eigen::Vector3d::UnitX() * 10;
+                
+    } else {
+        desired_state_->quat().set(0,0,state_->quat().yaw());
+    }
 
     return true;
 }

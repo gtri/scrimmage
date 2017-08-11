@@ -4,7 +4,7 @@
     name="Cars in 2D Maze">
   
   <run start="0.0" end="100" dt="0.01" 
-       time_warp="0" 
+       time_warp="10" 
        enable_gui="true"
        network_gui="false"
        start_paused="true"/>
@@ -34,7 +34,7 @@
   
   <!--<entity_interaction order="0">SimpleCollision</entity_interaction>-->
   <entity_interaction order="0">MapGen2D</entity_interaction>
-  <entity_interaction order="1">BulletCollision</entity_interaction>
+  <entity_interaction order="1" enable_collision_detection="false">BulletCollision</entity_interaction>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>1714060370</seed>-->
@@ -52,12 +52,12 @@
 
     <sensor order="0">RayTrace</sensor>
     
-    <x>7</x>
-    <y>12</y>
+    <x>20</x>
+    <y>40</y>
     <z>0.42</z>
     <heading>45</heading>            
     <controller>SimpleCarControllerHeading</controller>
-        <motion_model>SimpleCar</motion_model>
+    <motion_model length="2">SimpleCar</motion_model>
     
     <!--<motion_model>SingleIntegrator</motion_model>
         <controller>SingleIntegratorControllerSimple</controller>

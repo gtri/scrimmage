@@ -103,6 +103,8 @@ bool BulletCollision::init(std::map<std::string,std::string> &mission_params,
                            std::map<std::string,std::string> &plugin_params)
 {
     show_rays_ = sc::get<bool>("show_rays", plugin_params, false);
+    enable_collision_detection_ = sc::get<bool>("enable_collision_detection", plugin_params, true);
+    enable_ray_tracing_ = sc::get<bool>("enable_ray_tracing", plugin_params, true);
     
     sub_ent_gen_ = create_subscriber("EntityGenerated");
     sub_shape_gen_ = create_subscriber("ShapeGenerated");
@@ -167,40 +169,42 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
         objects_[id] = coll_object;
 
-        // What types of sensors need to be attached to this entity?
-        int num_ray_sensors = 0;
-        for (auto &kv : int_to_ent_map[id]->sensors()) {
-            if (kv.second->type() == "Ray") {
-                // Create a publisher for this sensor
-                // "entity_id/ray_sensor_id/pointcloud"
-                pcl_pubs_[id][num_ray_sensors] =                        \
-                    create_publisher(std::to_string(id) + "/" +         \
-                                     std::to_string(num_ray_sensors)  + \
-                                     "/pointcloud");
+        if (enable_ray_tracing_) {
+            // What types of sensors need to be attached to this entity?
+            int num_ray_sensors = 0;
+            for (auto &kv : int_to_ent_map[id]->sensors()) {
+                if (kv.second->type() == "Ray") {
+                    // Create a publisher for this sensor
+                    // "entity_id/ray_sensor_id/pointcloud"
+                    pcl_pubs_[id][num_ray_sensors] =                        \
+                        create_publisher(std::to_string(id) + "/" +         \
+                                         std::to_string(num_ray_sensors)  + \
+                                         "/pointcloud");
                 
-                std::shared_ptr<RayTrace> rs =                      \
-                    std::dynamic_pointer_cast<RayTrace>(kv.second);
-                if (rs) {
-                    double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz()-1);
-                    double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert()-1);
-                    double start_angle_horiz = -fov_horiz / 2.0;
-                    double start_angle_vert = -fov_vert / 2.0;
+                    std::shared_ptr<RayTrace> rs =                      \
+                        std::dynamic_pointer_cast<RayTrace>(kv.second);
+                    if (rs) {
+                        double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz()-1);
+                        double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert()-1);
+                        double start_angle_horiz = -fov_horiz / 2.0;
+                        double start_angle_vert = -fov_vert / 2.0;
 
-                    double angle_vert = start_angle_vert;
-                    for (int v = 0; v < rs->num_rays_vert(); v++) {
-                        double angle_horiz = start_angle_horiz;
-                        for (int h = 0; h < rs->num_rays_horiz(); h++) {
-                            Eigen::Vector3d r(rs->max_range(),0,0);
-                            sc::Quaternion rot_vert(Eigen::Vector3d(0,1,0), angle_vert);
-                            r = rot_vert.rotate(r);
+                        double angle_vert = start_angle_vert;
+                        for (int v = 0; v < rs->num_rays_vert(); v++) {
+                            double angle_horiz = start_angle_horiz;
+                            for (int h = 0; h < rs->num_rays_horiz(); h++) {
+                                Eigen::Vector3d r(rs->max_range(),0,0);
+                                sc::Quaternion rot_vert(Eigen::Vector3d(0,1,0), angle_vert);
+                                r = rot_vert.rotate(r);
 
-                            sc::Quaternion rot_horiz(Eigen::Vector3d(0,0,1), angle_horiz);
-                            r = rot_horiz.rotate(r);
+                                sc::Quaternion rot_horiz(Eigen::Vector3d(0,0,1), angle_horiz);
+                                r = rot_horiz.rotate(r);
 
-                            rays_[id][num_ray_sensors].push_back(r);
-                            angle_horiz += rs->angle_res_horiz();
+                                rays_[id][num_ray_sensors].push_back(r);
+                                angle_horiz += rs->angle_res_horiz();
+                            }
+                            angle_vert += rs->angle_res_vert();
                         }
-                        angle_vert += rs->angle_res_vert();
                     }
                 }
             }
@@ -270,104 +274,59 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         }
     }
 
-    //double start_angle = -M_PI/2.0;
-    //double end_angle = M_PI/2.0;
-    //int num_rays = 30;
-    //double angle_step = (end_angle - start_angle) / (double)num_rays;
-    //double max_range = 30; // meters
-    //
-    //std::vector<double> headings;
-    //double angle = start_angle;
-    //for (int i = 0; i < num_rays; i++) {
-    //    headings.push_back(angle);
-    //    angle += angle_step;
-    //}
+    if (enable_collision_detection_) {
+        bt_collision_world->performDiscreteCollisionDetection();
+        
+        int numManifolds = bt_collision_world->getDispatcher()->getNumManifolds();
+        
+        //For each contact manifold
+        for (int i = 0; i < numManifolds; i++) {
+            btPersistentManifold* contactManifold = bt_collision_world->getDispatcher()->getManifoldByIndexInternal(i);
+            const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
+            const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
+            contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
+            int numContacts = contactManifold->getNumContacts();
 
-    //Eigen::Vector3d own_pos = int_to_ent_map[1]->state()->pos();
-    //for (double heading : headings) {
-    //    btVector3 btFrom(own_pos(0), own_pos(1), own_pos(2));
-    //    Eigen::Vector3d dir = int_to_ent_map[1]->state()->orient_global_frame() * max_range;
-    //
-    //    Eigen::Vector3d rot_axis(0,0,1);
-    //    sc::Quaternion quat(rot_axis, heading);
-    //    Eigen::Vector3d ray = quat.rotate(dir) + own_pos;
-    //
-    //    btVector3 btTo(ray(0), ray(1), ray(2));
-    //
-    //    btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
-    //    bt_collision_world->rayTest(btFrom, btTo, res);
-    //
-    //    if(res.hasHit()){
-    //        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
-    //        arrow->set_type(sp::Shape::Line);
-    //        sc::set(arrow->mutable_color(), 255, 0, 0);
-    //        arrow->set_opacity(1.0);
-    //        sc::add_point(arrow, own_pos);
-    //        sc::add_point(arrow, Eigen::Vector3d(res.m_hitPointWorld.x(), res.m_hitPointWorld.y(), res.m_hitPointWorld.z()));
-    //        shapes_.push_back(arrow);
-    //        //cout << "hit shape " << res.m_collisionObject->getCollisionShape()->getName() << endl;
-    //    } else {
-    //        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
-    //        arrow->set_type(sp::Shape::Line);
-    //        sc::set(arrow->mutable_color(), 0, 0, 255);
-    //        arrow->set_opacity(0.5);
-    //        sc::add_point(arrow, own_pos);
-    //        sc::add_point(arrow, ray);
-    //        shapes_.push_back(arrow);
-    //    }
-    //}
+            //For each contact point in that manifold
+            for (int j = 0; j < numContacts; j++) {
 
-    bt_collision_world->performDiscreteCollisionDetection();
+                //cout << "Collision: " << obA->getUserIndex() << " - " << obB->getUserIndex() << endl;
 
-    int numManifolds = bt_collision_world->getDispatcher()->getNumManifolds();
+                //Get the contact information
+                btManifoldPoint& pt = contactManifold->getContactPoint(j);
+                //btVector3 ptA = pt.getPositionWorldOnA();
+                //btVector3 ptB = pt.getPositionWorldOnB();
+                //double ptdist = pt.getDistance();
+                //cout << "ptdist: " << ptdist << endl;
+                //cout << "impulse: " << pt.getAppliedImpulse() << endl;
+                //cout << "normal: " << pt.m_normalWorldOnB.x() << ", " << pt.m_normalWorldOnB.y() << ", " << pt.m_normalWorldOnB.z() << endl;
 
-    //For each contact manifold
-    for (int i = 0; i < numManifolds; i++) {
-        btPersistentManifold* contactManifold = bt_collision_world->getDispatcher()->getManifoldByIndexInternal(i);
-        const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
-        const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
-        contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
-        int numContacts = contactManifold->getNumContacts();
+                //sc::MotionModelPtr &motionA = int_to_ent_map[obA->getUserIndex()]->motion();
+                //sc::MotionModelPtr &motionB = int_to_ent_map[obB->getUserIndex()]->motion();
+                //
+                //double momentumA = motionA->mass() * motionA->state()->vel().norm();
+                //double momentumB = motionB->mass() * motionB->state()->vel().norm();
+                //double force = (momentumA + momentumB) / dt;
+                //
+                Eigen::Vector3d normal_B(pt.m_normalWorldOnB.x(),
+                                         pt.m_normalWorldOnB.y(),
+                                         pt.m_normalWorldOnB.z());
 
-        //For each contact point in that manifold
-        for (int j = 0; j < numContacts; j++) {
+                //cout << "----" << endl;
+                //cout << "Normal: " << obA->getUserIndex() << ", " << normal_B << endl;
+                //cout << "Normal: " << obB->getUserIndex() << ", " << -normal_B << endl;
 
-            //cout << "Collision: " << obA->getUserIndex() << " - " << obB->getUserIndex() << endl;
+                //Eigen::Vector3d force_B_dir = -normal_B * force;
+                //
+                //cout << "Force on " << obA->getUserIndex() << ", " << -force_B_dir << endl;
+                //cout << "Force on " << obB->getUserIndex() << ", " << force_B_dir << endl;
 
-            //Get the contact information
-            btManifoldPoint& pt = contactManifold->getContactPoint(j);
-            //btVector3 ptA = pt.getPositionWorldOnA();
-            //btVector3 ptB = pt.getPositionWorldOnB();
-            //double ptdist = pt.getDistance();
-            //cout << "ptdist: " << ptdist << endl;
-            //cout << "impulse: " << pt.getAppliedImpulse() << endl;
-            //cout << "normal: " << pt.m_normalWorldOnB.x() << ", " << pt.m_normalWorldOnB.y() << ", " << pt.m_normalWorldOnB.z() << endl;
-
-            //sc::MotionModelPtr &motionA = int_to_ent_map[obA->getUserIndex()]->motion();
-            //sc::MotionModelPtr &motionB = int_to_ent_map[obB->getUserIndex()]->motion();
-            //
-            //double momentumA = motionA->mass() * motionA->state()->vel().norm();
-            //double momentumB = motionB->mass() * motionB->state()->vel().norm();
-            //double force = (momentumA + momentumB) / dt;
-            //
-            Eigen::Vector3d normal_B(pt.m_normalWorldOnB.x(),
-                                     pt.m_normalWorldOnB.y(),
-                                     pt.m_normalWorldOnB.z());
-
-            //cout << "----" << endl;
-            //cout << "Normal: " << obA->getUserIndex() << ", " << normal_B << endl;
-            //cout << "Normal: " << obB->getUserIndex() << ", " << -normal_B << endl;
-
-            //Eigen::Vector3d force_B_dir = -normal_B * force;
-            //
-            //cout << "Force on " << obA->getUserIndex() << ", " << -force_B_dir << endl;
-            //cout << "Force on " << obB->getUserIndex() << ", " << force_B_dir << endl;
-
-            if (int_to_ent_map.count(obB->getUserIndex()) > 0) {
-                int_to_ent_map[obB->getUserIndex()]->motion()->set_external_force(-normal_B);
-            }
-            if (int_to_ent_map.count(obA->getUserIndex()) > 0) {
-                int_to_ent_map[obA->getUserIndex()]->motion()->set_external_force(normal_B);
+                if (int_to_ent_map.count(obB->getUserIndex()) > 0) {
+                    int_to_ent_map[obB->getUserIndex()]->motion()->set_external_force(-normal_B);
+                }
+                if (int_to_ent_map.count(obA->getUserIndex()) > 0) {
+                    int_to_ent_map[obA->getUserIndex()]->motion()->set_external_force(normal_B);
+                }
             }
         }
     }

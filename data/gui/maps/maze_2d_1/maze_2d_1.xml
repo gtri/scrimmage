@@ -7,7 +7,7 @@
   <!--<filename>line-vertical.pgm</filename>-->
   <!--<filename>rectangle.png</filename>-->
 
-  <resolution>0.10</resolution> <!-- 10 cm -->
+  <resolution>0.30</resolution> <!-- 10 cm -->
 
   <enable_map_boundary>false</enable_map_boundary>
   

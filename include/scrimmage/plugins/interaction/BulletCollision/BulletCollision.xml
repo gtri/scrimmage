@@ -3,4 +3,6 @@
 <params>
   <library>BulletCollision_plugin</library>
   <show_rays>true</show_rays>
+  <enable_collision_detection>true</enable_collision_detection>
+  <enable_ray_tracing>true</enable_ray_tracing>
 </params>

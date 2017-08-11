@@ -82,6 +82,8 @@ protected:
     std::map<int, std::map<int, sc::PublisherPtr>> pcl_pubs_;
 
     bool show_rays_;
+    bool enable_collision_detection_;
+    bool enable_ray_tracing_;
 
 private:
 };

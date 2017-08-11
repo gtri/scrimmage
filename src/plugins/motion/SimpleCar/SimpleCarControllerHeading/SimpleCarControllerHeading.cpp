@@ -39,7 +39,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
                 SimpleCarControllerHeading,
                 SimpleCarControllerHeading_plugin)
 
-namespace sc = scrimmage; 
+namespace sc = scrimmage;
 
 void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params) {
     double p_gain = sc::get<double>("p_gain", params, 1);
@@ -48,11 +48,15 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params
     double i_lim = sc::get<double>("i_lim", params, 1);
     pid_.set_parameters(p_gain, i_gain, d_gain);
     pid_.set_integral_band(i_lim);
+    pid_.set_is_angle(true);
 }
 
+using std::cout;
+using std::endl;
 bool SimpleCarControllerHeading::step(double t, double dt) {
     u_(0) = desired_state_->vel()(0);
     pid_.set_setpoint(desired_state_->quat().yaw());
     u_(1) = pid_.step(dt, state_->quat().yaw());
+
     return true;
 }
