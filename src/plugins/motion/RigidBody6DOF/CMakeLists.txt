@@ -34,7 +34,7 @@ install(TARGETS ${LIBRARY_NAME}
 )
 
 add_subdirectory(RigidBody6DOFControllerPID)
-if (BUILD_ROS_PLUGINS)
+if (catkin_FOUND)
   add_subdirectory(RigidBody6DOFControllerROS)
 endif()
 
