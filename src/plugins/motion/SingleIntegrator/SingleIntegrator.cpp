@@ -30,7 +30,6 @@
  *
  */
 
-#include <iostream>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -77,10 +76,6 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
 
     return true;
 }
-
-#include <iostream>
-using std::cout;
-using std::endl;
 
 bool SingleIntegrator::step(double t, double dt)
 {

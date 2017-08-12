@@ -38,9 +38,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <memory>
 
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 
 #include <scrimmage/proto/ProtoConversions.h>

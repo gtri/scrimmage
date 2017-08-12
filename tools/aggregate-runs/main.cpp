@@ -38,7 +38,6 @@
 #include <ctime>
 #include <fstream>
 
-#include <string>
 #include <sstream>
 #include <cstdlib>
 #include <scrimmage/parse/MissionParse.h>

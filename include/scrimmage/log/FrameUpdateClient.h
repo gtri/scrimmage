@@ -43,7 +43,6 @@
 #include <scrimmage/proto/Frame.pb.h>
 
 #include <scrimmage/fwd_decl.h>
-#include <memory>
 
 #include <scrimmage/math/Angles.h>
 

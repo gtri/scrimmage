@@ -46,7 +46,6 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
-#include <scrimmage/math/Angles.h>
 
 REGISTER_PLUGIN(scrimmage::Sensor, NoisyContacts, NoisyContacts_plugin)
 

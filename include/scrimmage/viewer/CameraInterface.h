@@ -36,7 +36,6 @@
 #include <vtkSmartPointer.h>
 #include <vtkProperty.h>
 #include <vtkVersion.h>
-#include <vtkSmartPointer.h>
 #include <vtkPoints.h>
 #include <vtkCellArray.h>
 #include <vtkPolyData.h>
@@ -47,7 +46,6 @@
 #include <vtkObjectFactory.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderer.h>
-#include <vtkRenderWindowInteractor.h>
 
 #include <scrimmage/viewer/Updater.h>
 

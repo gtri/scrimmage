@@ -35,7 +35,6 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/entity/Entity.h>
 #include <boost/algorithm/clamp.hpp>
 
 #include <scrimmage/plugins/motion/Unicycle/Unicycle.h>

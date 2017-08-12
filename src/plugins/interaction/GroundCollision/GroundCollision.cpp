@@ -38,7 +38,6 @@
 #include <scrimmage/parse/MissionParse.h>
 #include <memory>
 
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 
 #include <scrimmage/pubsub/Message.h>

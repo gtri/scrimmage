@@ -36,7 +36,6 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
-#include <scrimmage/entity/Entity.h>
 #include <boost/algorithm/clamp.hpp>
 
 REGISTER_PLUGIN(scrimmage::MotionModel, DoubleIntegrator, DoubleIntegrator_plugin)

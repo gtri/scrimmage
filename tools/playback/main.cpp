@@ -39,7 +39,6 @@
 #include <cstdlib>
 #include <string>
 #include <sstream>
-#include <cstdlib>
 #include <memory>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/Utilities.h>
