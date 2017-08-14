@@ -50,9 +50,9 @@ class ROSAutonomy : public scrimmage::Autonomy {
     ROSAutonomy();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
-
-protected:
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
+    
+protected:    
     std::shared_ptr<ros::NodeHandle> nh_;
 
     ros::Subscriber cmd_vel_sub_;
