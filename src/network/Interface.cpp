@@ -53,18 +53,15 @@ using std::endl;
 
 namespace scrimmage {
 
-Interface::Interface() :
-  mode_(shared), max_queue_size_(100), client_timeout_(1), caching_enabled_(true) {}
-
 bool Interface::init_network(Interface::Mode_t mode, std::string ip, int port) {
     mode_ = mode;
     ip_ = ip;
     port_ = port;
 
-    std::string result = ip_ + ":" + std::to_string(port_);
 
     if (mode_ == server) {
 #if ENABLE_GRPC
+        std::string result = ip_ + ":" + std::to_string(port_);
         ScrimmageServiceImpl frame_service(this);
         grpc::ServerBuilder builder;
         builder.AddListeningPort(result, grpc::InsecureServerCredentials());
@@ -77,6 +74,7 @@ bool Interface::init_network(Interface::Mode_t mode, std::string ip, int port) {
 #endif
     } else if (mode_ == client) {
 #if ENABLE_GRPC
+        std::string result = ip_ + ":" + std::to_string(port_);
         std::shared_ptr<Channel> channel(
             grpc::CreateChannel(result, grpc::InsecureChannelCredentials())
         );

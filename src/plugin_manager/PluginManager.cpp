@@ -79,7 +79,7 @@ int PluginManager::check_library(std::string lib_path) {
     // Ensure the maker function exists, but we don't need to call it
     dlsym(lib_handle, "maker");
     if ((error = dlerror()) != NULL)  {
-        // fputs(error, stderr);
+        fputs(error, stderr);
         std::cout << lib_path << " doesn't contain 'maker'" << std::endl;
         dlclose(lib_handle);
         return 4;

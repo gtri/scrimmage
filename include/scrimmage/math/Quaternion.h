@@ -49,7 +49,8 @@ class Quaternion : public Eigen::Quaterniond {
 
     Quaternion(const Quaternion &other);
 
-    Quaternion(const Eigen::Quaterniond &other); // NOLINT
+    explicit Quaternion(const Eigen::Quaterniond &other);
+    Quaternion &operator=(const Eigen::Quaterniond &other);
 
     Quaternion(const double &w, const double &x,
                const double &y, const double &z);

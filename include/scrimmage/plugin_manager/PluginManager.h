@@ -47,12 +47,11 @@ namespace scrimmage {
 
 class PluginInfo {
  public:
-    PluginInfo() { }
     std::string name;
     std::string type;
     std::string path;
     bool returned = false;
-    void * handle;
+    void * handle = nullptr;
 };
 
 class PluginManager {

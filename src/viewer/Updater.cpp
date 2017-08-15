@@ -97,7 +97,8 @@ Updater *Updater::New() {
 }
 
 Updater::Updater() :
-        update_count(0), follow_offset_(50) {
+        update_count(0), frame_time_(0), inc_follow_(true),
+        dec_follow_(false), follow_offset_(50) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
     max_update_rate_ = 1.0;
@@ -766,7 +767,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
 
             // Remove the trail points
             for (std::list<vtkSmartPointer<vtkActor> >::iterator it_trail = it->second->trail.begin();
-                 it_trail != it->second->trail.end(); it_trail++) {
+                 it_trail != it->second->trail.end(); ++it_trail) {
                 renderer_->RemoveActor(*it_trail);
             }
             actor_contacts_.erase(it++); // remove map entry

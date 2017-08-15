@@ -155,23 +155,23 @@ class SimControl {
     std::map<int, ContactVisualPtr> contact_visuals_;
 
     std::thread thread_;
-    bool display_progress_;
+    bool display_progress_ = false;
 
     std::string jsbsim_root_;
 
-    double t0_;
-    double tend_;
-    double dt_;
-    double t_;
+    double t0_ = 0;
+    double tend_ = 0;
+    double dt_ = 0;
+    double t_ = 0;
     bool paused_;
     bool single_step_;
 
-    bool take_step_;
+    bool take_step_ = false;
 
     Timer timer_;
 
-    bool finished_;
-    bool exit_;
+    bool finished_ = false;
+    bool exit_ = false;
 
     std::mutex finished_mutex_;
     std::mutex contacts_mutex_;
@@ -184,9 +184,9 @@ class SimControl {
     std::mutex time_warp_mutex_;
     std::mutex entity_pool_mutex_;
 
-    bool use_entity_threads_;
-    int num_entity_threads_;
-    bool entity_pool_stop_;
+    bool use_entity_threads_ = false;
+    int num_entity_threads_ = 0;
+    bool entity_pool_stop_ = false;
     std::deque<std::shared_ptr<Task>> entity_pool_queue_;
     std::condition_variable_any entity_pool_condition_var_;
     std::vector<std::thread> entity_worker_threads_;
@@ -195,7 +195,7 @@ class SimControl {
 
     std::shared_ptr<Log> log_;
 
-    EndConditionFlags end_conditions_;
+    EndConditionFlags end_conditions_ = EndConditionFlags::NONE;
 
     RandomPtr random_;
 
@@ -210,7 +210,7 @@ class SimControl {
 
     NetworkPtr network_;
 
-    int next_id_;
+    int next_id_ = 1;
     FileSearch file_search_;
     RTreePtr rtree_;
 
@@ -225,7 +225,7 @@ class SimControl {
     void run_send_shapes();
     void run_send_contact_visuals();
 
-    bool send_shutdown_msg_;
+    bool send_shutdown_msg_ = true;
 
     PluginPtr pubsub_;
     PublisherPtr pub_end_time_;

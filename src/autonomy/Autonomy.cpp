@@ -40,7 +40,7 @@
 namespace scrimmage {
 
 Autonomy::Autonomy() : state_(std::make_shared<State>()),
-    desired_state_(std::make_shared<State>()), need_reset_(false) {}
+    desired_state_(std::make_shared<State>()), need_reset_(false), is_controlling_(false) {}
 
 void Autonomy::set_contacts(ContactMapPtr &contacts) {
     contacts_ = contacts;

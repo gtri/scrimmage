@@ -62,7 +62,7 @@ class Timer {
     double time_warp();
 
  protected:
-    double time_warp_;
+    double time_warp_ = NAN;
     boost::posix_time::ptime start_time_;
 
     boost::posix_time::ptime actual_time_;

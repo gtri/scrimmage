@@ -58,7 +58,6 @@ typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 class Entity : public std::enable_shared_from_this<Entity> {
 
  public:
-    Entity();
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
               ContactMapPtr &contacts,
@@ -123,18 +122,19 @@ class Entity : public std::enable_shared_from_this<Entity> {
  protected:
     ID id_;
 
-    scrimmage_proto::ContactVisualPtr visual_;
+    scrimmage_proto::ContactVisualPtr visual_ =
+        std::make_shared<scrimmage_proto::ContactVisual>();
 
     std::vector<ControllerPtr> controllers_;
     MotionModelPtr motion_model_;
     std::vector<AutonomyPtr> autonomies_;
     MissionParsePtr mp_;
 
-    int health_points_;
+    int health_points_ = 1;
 
-    int max_hits_;
+    int max_hits_ = -1;
 
-    Contact::Type type_;
+    Contact::Type type_ = Contact::Type::AIRCRAFT;
 
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
@@ -144,14 +144,14 @@ class Entity : public std::enable_shared_from_this<Entity> {
     std::unordered_map<std::string, std::list<SensablePtr>> sensables_;
     std::unordered_map<std::string, SensorPtr> sensors_;
 
-    bool active_;
-    bool visual_changed_;
+    bool active_ = true;
+    bool visual_changed_ = false;
     std::unordered_map<std::string, Service> services_;
 
     ContactMapPtr contacts_;
     RTreePtr rtree_;
 
-    double radius_;
+    double radius_ = 1;
 };
 
 using EntityPtr = std::shared_ptr<Entity>;

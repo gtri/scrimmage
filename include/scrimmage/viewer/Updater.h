@@ -61,15 +61,14 @@ namespace scrimmage {
 
 class ActorContact {
  public:
-    ActorContact() : model_name("") {}
     vtkSmartPointer<vtkActor> actor;
     vtkSmartPointer<vtkFollower> label;
     std::list<vtkSmartPointer<vtkActor> > trail;
     scrimmage_proto::Color color;
     scrimmage_proto::Contact contact;
-    std::string model_name;
-    bool exists;
-    bool remove;
+    std::string model_name = "";
+    bool exists = true;
+    bool remove = false;
 };
 
 class Updater : public vtkCommand {

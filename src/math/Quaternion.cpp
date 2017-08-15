@@ -54,6 +54,13 @@ Quaternion::Quaternion(double roll, double pitch, double yaw) {
     set(roll, pitch, yaw);
 }
 
+Quaternion &Quaternion::operator=(const Eigen::Quaterniond &other) {
+    if (this != &other) {
+        set(other.w(), other.x(), other.y(), other.z());
+    }
+    return *this;
+}
+
 void Quaternion::set(double w_coeff, double x_coeff, double y_coeff, double z_coeff) {
     w() = w_coeff;
     x() = x_coeff;

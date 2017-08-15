@@ -76,11 +76,11 @@ class Contact {
  protected:
     ID id_;
     StatePtr state_;
-    Type type_;
+    Type type_ = Type::AIRCRAFT;
     ContactVisualPtr contact_visual_;
     std::unordered_map<std::string, std::list<SensablePtr>> sensables_;
-    bool active_;
-    double radius_;
+    bool active_ = true;
+    double radius_ = 0;
 };
 
 using ContactMap = std::unordered_map<int, Contact>;

@@ -68,22 +68,6 @@ bool compare_order(const std::pair<int, std::string> & first,
     return false;
 }
 
-MissionParse::MissionParse() {
-    t0_ = 0;
-    tend_ = 50;
-    dt_ = 0.00833333;
-    time_warp_ = 0;
-    enable_gui_ = true;
-    network_gui_ = false;
-    start_paused_ = false;
-    latitude_origin_ = -95.0;
-    longitude_origin_ = 29.0;
-    altitude_origin_ = 0;
-
-    task_number_ = -1;
-    job_number_ = -1;
-}
-
 bool MissionParse::parse(std::string filename) {
     mission_filename_ = filename;
 
@@ -353,6 +337,9 @@ bool MissionParse::parse(std::string filename) {
             // Team ID doesn't exist yet, create it.
             TeamInfo info;
             info.team_id = team_id;
+            info.color.set_r(0);
+            info.color.set_g(0);
+            info.color.set_b(0);
             team_info_[team_id] = info;
         }
 

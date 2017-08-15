@@ -40,10 +40,10 @@ namespace scrimmage {
 
 #if ENABLE_PYTHON_BINDINGS == 0
 MessageBase::MessageBase(int _sender, std::string _serialized_data) :
-    sender(_sender), serialized_data(_serialized_data) {}
+    sender(_sender), time(NAN), serialized_data(_serialized_data) {}
 #else
 MessageBase::MessageBase(int _sender, std::string _serialized_data, pybind11::object _py_data) :
-    sender(_sender), serialized_data(_serialized_data), py_data(_py_data) {}
+    sender(_sender), time(NAN), serialized_data(_serialized_data), py_data(_py_data) {}
 
 void MessageBase::serialize_to_python(std::string module_name, std::string object_name) {
     if (serialized_data == "") {

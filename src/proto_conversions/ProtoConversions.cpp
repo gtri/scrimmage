@@ -80,7 +80,7 @@ void set(scrimmage_proto::Color &dst, int r, int g, int b) {
 }
 
 void set(scrimmage_proto::Color *dst, scrimmage_proto::Color *src) {
-    dst = src;
+    *dst = *src;
 }
 
 void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src) {

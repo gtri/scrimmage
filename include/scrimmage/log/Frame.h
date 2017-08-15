@@ -41,8 +41,7 @@
 namespace scrimmage {
 class Frame {
  public:
-    Frame() {}
-    double time_;
+    double time_ = NAN;
     ContactMapPtr contacts_;
 };
 } // namespace scrimmage

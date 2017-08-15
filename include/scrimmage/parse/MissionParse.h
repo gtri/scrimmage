@@ -62,7 +62,7 @@ typedef std::map<int, std::map<std::string, std::string>> EntityDesc_t;
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
 struct TeamInfo {
-    int team_id;
+    int team_id = 0;
     scrimmage_proto::Color color;
     std::list<Eigen::Vector3d> bases;
     std::vector<double> radii;
@@ -80,7 +80,6 @@ struct GenerateInfo {
 
 class MissionParse {
  public:
-    MissionParse();
     bool create_log_dir();
     bool parse(std::string filename);
     bool write(std::string filename);
@@ -132,15 +131,15 @@ class MissionParse {
  protected:
     std::string mission_filename_;
 
-    double t0_;
-    double tend_;
-    double dt_;
-    int motion_multiplier_;
-    double time_warp_;
+    double t0_ = 0;
+    double tend_ = 50;
+    double dt_ = 0.00833333;
+    int motion_multiplier_ = 1;
+    double time_warp_ = 0;
 
-    bool enable_gui_;
-    bool network_gui_;
-    bool start_paused_;
+    bool enable_gui_ = true;
+    bool network_gui_ = false;
+    bool start_paused_ = false;
 
     AttributeMap attributes_;
     std::map<std::string, std::string> params_;
@@ -152,14 +151,14 @@ class MissionParse {
 
     std::string log_dir_;
 
-    double longitude_origin_;
-    double latitude_origin_;
-    double altitude_origin_;
+    double longitude_origin_ = 29.0;
+    double latitude_origin_ = -95.0;
+    double altitude_origin_ = 0;
 
     scrimmage_proto::Color background_color_;
 
-    int task_number_;
-    int job_number_;
+    int task_number_ = -1;
+    int job_number_ = -1;
 
     std::list<std::string> entity_interactions_;
     std::list<std::string> metrics_;

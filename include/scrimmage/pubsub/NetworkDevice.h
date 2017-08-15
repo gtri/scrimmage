@@ -83,7 +83,7 @@ class NetworkDevice {
     std::string topic_;
     std::list<MessageBasePtr> msg_list_;
     PluginPtr plugin_;
-    unsigned int max_queue_size_;
+    unsigned int max_queue_size_ = 1;
 };
 
 } // namespace scrimmage

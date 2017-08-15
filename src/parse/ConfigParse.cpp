@@ -166,9 +166,8 @@ std::string ConfigParse::stem() {
 }
 
 void ConfigParse::print_params() {
-    for (std::map<std::string, std::string>::iterator it = params_.begin();
-         it != params_.end(); it++) {
-        cout << it->first << "=" << it->second << endl;
+    for (auto &kv : params_) {
+        cout << kv.first << "=" << kv.second << endl;
     }
 }
 } // namespace scrimmage

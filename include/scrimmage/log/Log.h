@@ -141,16 +141,16 @@ class Log {
  protected:
     using MessageLitePtr = std::shared_ptr<google::protobuf::MessageLite>;
 
-    bool enable_log_;
-    Mode mode_;
+    bool enable_log_ = true;
+    Mode mode_ = Mode::READ;
 
     bool open_file(std::string name, int &fd);
 
-    std::string frames_name_;
-    std::string shapes_name_;
-    std::string utm_terrain_name_;
-    std::string contact_visual_name_;
-    std::string msgs_name_;
+    std::string frames_name_ = "frames.bin";
+    std::string shapes_name_ = "shapes.bin";
+    std::string utm_terrain_name_ = "utm_terrain.bin";
+    std::string contact_visual_name_ = "contact_visual.bin";
+    std::string msgs_name_ = "msgs.bin";
 
     int frames_fd_;
     int shapes_fd_;
@@ -160,7 +160,7 @@ class Log {
 
     std::string log_dir_;
 
-    std::string ascii_filename_;
+    std::string ascii_filename_ = "log.txt";
     std::ofstream ascii_output_;
 
     ZeroCopyOutputStreamPtr frames_output_;

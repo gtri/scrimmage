@@ -66,16 +66,6 @@ Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(), contact_
     utm_terrain_fd_ = -1;
     contact_visual_fd_ = -1;
     msgs_fd_ = -1;
-
-    ascii_filename_ = "log.txt";
-
-    frames_name_ = "frames.bin";
-    shapes_name_ = "shapes.bin";
-    utm_terrain_name_ = "utm_terrain.bin";
-    contact_visual_name_ = "contact_visual.bin";
-    msgs_name_ = "msgs.bin";
-
-    enable_log_ = true;
 }
 
 bool Log::open_file(std::string filename, int &fd) {

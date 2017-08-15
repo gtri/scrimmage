@@ -56,8 +56,6 @@ class Interface {
         server = 2
     } Mode_t;
 
-    Interface();
-
     void set_mode(Mode_t mode) { mode_ = mode; }
     void set_ip(std::string &ip) { ip_ = ip; }
     void set_port(int port) { port_ = port; }
@@ -157,7 +155,7 @@ class Interface {
     void send_cached();
 
  protected:
-    Mode_t mode_;
+    Mode_t mode_ = shared;
     int port_;
     std::string ip_;
 
@@ -169,19 +167,19 @@ class Interface {
     std::list<scrimmage_proto::SimInfo> sim_info_list_;
     std::list<scrimmage_proto::Shapes> shapes_list_;
 
-    unsigned int max_queue_size_;
+    unsigned int max_queue_size_ = 100;
 
 #if ENABLE_GRPC
     std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> scrimmage_stub_;
 #endif
 
     // Connection timeout in seconds
-    unsigned int client_timeout_;
+    unsigned int client_timeout_ = 1;
 
     std::shared_ptr<scrimmage::Log> log_;
 
     // Cached variables that the gui can request:
-    bool caching_enabled_;
+    bool caching_enabled_ = true;
     std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_cache_;
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_cache_;
 };

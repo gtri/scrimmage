@@ -35,8 +35,10 @@
 
 namespace scrimmage {
 
-Random::Random() : gener_(std::make_shared<std::default_random_engine>()),
-                   rng_normal_(0, 1), rng_uniform_(-1, 1) {}
+Random::Random() :
+    seed_(std::chrono::system_clock::now().time_since_epoch().count()),
+    gener_(std::make_shared<std::default_random_engine>()),
+    rng_normal_(0, 1), rng_uniform_(-1, 1) {}
 
 uint32_t Random::get_seed() {return seed_;}
 

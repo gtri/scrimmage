@@ -36,8 +36,6 @@
 namespace scrimmage {
 class Angles {
  public:
-    Angles();
-
     enum class Rotate {
         CCW = 0,
         CW
@@ -101,13 +99,13 @@ class Angles {
     double angle();
 
  protected:
-    double angle_;
+    double angle_ = 0;
 
-    Rotate in_direction_;
-    HeadingZero in_zero_;
+    Rotate in_direction_ = Rotate::CCW;
+    HeadingZero in_zero_ = HeadingZero::Pos_X;
 
-    Rotate out_direction_;
-    HeadingZero out_zero_;
+    Rotate out_direction_ = Rotate::CCW;
+    HeadingZero out_zero_ = HeadingZero::Pos_X ;
 
  private:
 };

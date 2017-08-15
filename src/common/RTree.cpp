@@ -39,8 +39,6 @@ namespace bgi = boost::geometry::index;
 
 namespace scrimmage {
 
-RTree::RTree() {}
-
 void RTree::init(int size) {
     if (size > 0) {
         rtree_ = std::make_shared<rtree_t>(bgi::dynamic_rstar(size));

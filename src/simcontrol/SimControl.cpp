@@ -77,23 +77,17 @@ using std::endl;
 namespace scrimmage {
 
 SimControl::SimControl() :
-        mp_(NULL), display_progress_(false), finished_(false), exit_(false) {
+        team_lookup_(new std::unordered_map<int, int>()),
+        timer_(Timer()),
+        random_(new Random()),
+        plugin_manager_(new PluginManager()) {
 
     pause(false);
     single_step(false);
-    random_ = std::make_shared<Random>();
-
-    plugin_manager_ = std::make_shared<scrimmage::PluginManager>();
-
-    team_lookup_ = std::make_shared<std::unordered_map<int, int>>();
 
     contacts_mutex_.lock();
     contacts_ = std::make_shared<ContactMap>();
     contacts_mutex_.unlock();
-
-    next_id_ = 1;
-
-    send_shutdown_msg_ = true;
 }
 
 bool SimControl::init() {
@@ -332,7 +326,7 @@ bool SimControl::init() {
 bool SimControl::generate_entities(double t) {
     // Initialize each entity
     for (EntityDesc_t::iterator it = mp_->entity_descriptions().begin();
-         it != mp_->entity_descriptions().end(); it++) {
+         it != mp_->entity_descriptions().end(); ++it) {
 
         // Determine if we have to generate entities for this entity
         // description
@@ -343,7 +337,7 @@ bool SimControl::generate_entities(double t) {
         // Generate entities if time has been reached
         int gen_count = 0;
         for (std::vector<double>::iterator time_it = mp_->next_gen_times()[it->first].begin();
-             time_it != mp_->next_gen_times()[it->first].end(); time_it++) {
+             time_it != mp_->next_gen_times()[it->first].end(); ++time_it) {
             if (t >= *time_it && mp_->gen_info()[it->first].total_count > 0) {
                 double x_var = scrimmage::get("variance_x", it->second, 100.0);
                 double y_var = scrimmage::get("variance_y", it->second, 100.0);
@@ -538,7 +532,7 @@ bool SimControl::run_interaction_detection() {
             cout << "Entity interaction requested simulation termination: "
                  << ent_inter->name() << endl;
         }
-        any_false |= !result;
+        any_false = any_false || !result;
         shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(),
                           ent_inter->shapes().end());
     }

@@ -70,7 +70,6 @@ typedef std::shared_ptr<rtree_t> rtreePtr;
 
 class RTree {
  public:
-    RTree();
     void init(int size);
     void clear();
 
@@ -84,9 +83,7 @@ class RTree {
  protected:
     rtreePtr rtree_;
     std::map<int, rtreePtr> rtree_team_;
-    int size_;
-
- private:
+    int size_ = 0;
 };
 
 typedef std::shared_ptr<RTree> RTreePtr;

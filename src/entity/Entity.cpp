@@ -58,11 +58,6 @@ namespace sp = scrimmage_proto;
 
 namespace scrimmage {
 
-Entity::Entity() : health_points_(1), state_(std::make_shared<State>()),
-                   active_(true), visual_changed_(false), radius_(1) {
-    visual_ = std::make_shared<scrimmage_proto::ContactVisual>();
-}
-
 bool Entity::init(AttributeMap &overrides,
                   std::map<std::string, std::string> &info,
                   ContactMapPtr &contacts,
