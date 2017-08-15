@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/pubsub/MessageBase.h>
+#include <cmath>
 
 #if ENABLE_PYTHON_BINDINGS == 1
 namespace py = pybind11;

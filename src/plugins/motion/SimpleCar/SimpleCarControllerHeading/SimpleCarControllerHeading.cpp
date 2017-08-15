@@ -35,6 +35,8 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 
+#include <iostream>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 SimpleCarControllerHeading,
                 SimpleCarControllerHeading_plugin)

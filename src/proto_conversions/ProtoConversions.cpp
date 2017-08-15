@@ -32,6 +32,7 @@
 
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/math/State.h>
+#include <cmath>
 
 namespace scrimmage {
 
