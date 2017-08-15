@@ -30,33 +30,35 @@
  *
  */
 
-#ifndef SIMPLEAIRCRAFT_3D_H_
-#define SIMPLEAIRCRAFT_3D_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 
+#include <map>
+#include <string>
+#include <tuple>
+
 class RigidBody6DOF : public scrimmage::MotionModel{
  public:
-    RigidBody6DOF();     
+    virtual std::tuple<int, int, int> version();
 
-    virtual std::tuple<int,int,int> version();
-     
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
-    virtual bool step(double time, double dt);     
+                      std::map<std::string, std::string> &params);
+    virtual bool step(double time, double dt);
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
-    virtual void teleport(scrimmage::StatePtr &state);     
-     
+    virtual void teleport(scrimmage::StatePtr &state);
+
     class Controller : public scrimmage::Controller {
      public:
-        virtual std::shared_ptr<Eigen::Vector4d> u() = 0; 
+        virtual std::shared_ptr<Eigen::Vector4d> u() = 0;
     };
 
-    void set_u(std::shared_ptr<Eigen::Vector4d> u) {u_ = u;}
+    void set_u(std::shared_ptr<Eigen::Vector4d> u) {ctrl_u_ = u;}
 
  protected:
     scrimmage::PID heading_pid_;
@@ -64,7 +66,7 @@ class RigidBody6DOF : public scrimmage::MotionModel{
     scrimmage::PID vel_pid_;
 
     double length_;
-    std::shared_ptr<Eigen::Vector4d> u_;
+    std::shared_ptr<Eigen::Vector4d> ctrl_u_;
 
     double min_velocity_;
     double max_velocity_;
@@ -73,8 +75,6 @@ class RigidBody6DOF : public scrimmage::MotionModel{
 
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;
-    
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_

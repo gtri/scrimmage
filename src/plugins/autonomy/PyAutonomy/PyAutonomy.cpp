@@ -32,7 +32,6 @@
 
 #include <scrimmage/plugins/autonomy/PyAutonomy/PyAutonomy.h>
 
-#include <iostream>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -53,12 +52,11 @@ namespace py = pybind11;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-PyAutonomy::PyAutonomy()
-{
+PyAutonomy::PyAutonomy() {
     need_reset_ = true;
 }
 
-void PyAutonomy::init(std::map<std::string, std::string> &params) {        
+void PyAutonomy::init(std::map<std::string, std::string> &params) {
     py_obj_ = get_py_obj(params);
     py_obj_.attr("id") = py::cast(parent_->id());
     init_py_obj(params);
@@ -233,7 +231,7 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
 
     sc::State state = py_obj_.attr("desired_state").cast<sc::State>();
     *desired_state_ = state;
-    
+
     py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
     std::list< std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
     std::transform(py_shapes.begin(), py_shapes.end(), std::back_inserter(cpp_shapes), py2shape);

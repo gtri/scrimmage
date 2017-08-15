@@ -30,42 +30,42 @@
  *
  */
 
-#ifndef _MOOS_NODE_H_ 
-#define _MOOS_NODE_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSNODE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSNODE_H_
 
 #include <MOOS/libMOOS/App/MOOSApp.h>
-#include <mutex>
-#include <string.h>
 #include <scrimmage/math/State.h>
+#include <string.h>
 
-namespace sc = scrimmage;
+#include <string>
+#include <mutex> // NOLINT
 
-class MOOSNode : public CMOOSApp { 
-public:
-     //standard construction and destruction
+class MOOSNode : public CMOOSApp {
+ public:
+     // standard construction and destruction
 	MOOSNode();
-	virtual ~MOOSNode();	
+	virtual ~MOOSNode();
 
     bool ready();
-    
+
     sc::State desired_state();
 
-    typedef enum NodeReportType{
+    typedef enum NodeReportType {
         OWNSHIP = 0,
         TRUTH_CONTACT,
         SENSOR_CONTACT
-    }NodeReportType_t;
+    } NodeReportType_t;
 
     void set_time_warp(double warp);
 
     bool PublishNodeReport(NodeReportType_t report_type, std::string id,
                            std::string sensor_id,
-                           double nav_x, double nav_y, double speed, 
-                           double heading, double depth, std::string type, 
+                           double nav_x, double nav_y, double speed,
+                           double heading, double depth, std::string type,
                            std::string mode, double time,
                            std::string frame_number);
-    
-protected:
+
+ protected:
 	double appTick_;
 	double commsTick_;
     double time_warp_;
@@ -73,24 +73,21 @@ protected:
     bool deployed_;
     std::mutex deployed_mutex_;
 
-	//where we handle new mail
+	// where we handle new mail
 	bool OnNewMail(MOOSMSG_LIST &NewMail);
 
-	//where we do the work
+	// where we do the work
 	bool Iterate();
 
-	//called when we connect to the server
+	// called when we connect to the server
 	bool OnConnectToServer();
 
-	//called when we are starting up..
+	// called when we are starting up..
 	bool OnStartUp();
 
     void DoRegistrations();
-    
-    std::mutex desired_mutex_;
-    sc::State desired_;    
 
-private:
-    
+    std::mutex desired_mutex_;
+    sc::State desired_;
 };
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSNODE_H_

@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef BULLET_COLLISION_H_
-#define BULLET_COLLISION_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
@@ -40,21 +40,26 @@
 
 #include <btBulletDynamicsCommon.h>
 
+#include <list>
+#include <map>
+#include <string>
+
 namespace sc = scrimmage;
 
 class BulletCollision : public scrimmage::EntityInteraction {
-public:
+ public:
     BulletCollision();
     ~BulletCollision();
-    virtual bool init(std::map<std::string,std::string> &mission_params,
-                      std::map<std::string,std::string> &plugin_params);
+    virtual bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params);
 
     virtual bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                          double t, double dt);
 
     virtual bool collision_exists(std::list<sc::EntityPtr> &ents,
                                   Eigen::Vector3d &p);
-protected:
+
+ protected:
     btCollisionConfiguration* bt_collision_configuration;
     btCollisionDispatcher* bt_dispatcher;
     btBroadphaseInterface* bt_broadphase;
@@ -62,8 +67,8 @@ protected:
 
 
     sc::PublisherPtr team_collision_pub_;
-    sc::PublisherPtr non_team_collision_pub_;        
-    
+    sc::PublisherPtr non_team_collision_pub_;
+
     double scene_size_;
     unsigned int max_objects_;
 
@@ -81,11 +86,9 @@ protected:
     std::map<int, std::map<int, std::list<Eigen::Vector3d>>> rays_;
     std::map<int, std::map<int, sc::PublisherPtr>> pcl_pubs_;
 
-    bool show_rays_;
-    bool enable_collision_detection_;
-    bool enable_ray_tracing_;
-
-private:
+    bool show_rays_ = false;
+    bool enable_collision_detection_ = true;
+    bool enable_ray_tracing_ = true;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_

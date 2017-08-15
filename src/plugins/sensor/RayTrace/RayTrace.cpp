@@ -30,9 +30,6 @@
  *
  */
 
-#include <iostream>
-#include <limits>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -45,19 +42,11 @@
 
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
-using std::cout;
-using std::endl;
-
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Sensor, RayTrace, RayTrace_plugin)
 
-RayTrace::RayTrace()
-{
-}
-
-void RayTrace::init(std::map<std::string,std::string> &params)
-{
+void RayTrace::init(std::map<std::string, std::string> &params) {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
     gener_ = parent_->random()->gener();
@@ -82,12 +71,11 @@ void RayTrace::init(std::map<std::string,std::string> &params)
     max_range_ = sc::get<double>("max_range", params, 1);
     min_range_ = sc::get<double>("min_range", params, 1);
     max_sample_rate_ = sc::get<double>("max_sample_rate", params, 1);
-        
+
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> RayTrace::sensor_msg(double t)
-{
+boost::optional<scrimmage::MessageBasePtr> RayTrace::sensor_msg(double t) {
     // Return the sensor message.
     return boost::optional<sc::MessageBasePtr> {};
 }

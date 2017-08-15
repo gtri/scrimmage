@@ -30,20 +30,23 @@
  *
  */
 
-#ifndef AvoidWalls_H_
-#define AvoidWalls_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
+#include <map>
+#include <string>
+
 class AvoidWalls : public scrimmage::Autonomy {
-public:
-    AvoidWalls();
-    virtual void init(std::map<std::string,std::string> &params);
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
-protected:
+
+ protected:
     scrimmage::SubscriberPtr pcl_sub_;
-    double avoid_distance_;    
-private:     
+    double avoid_distance_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_

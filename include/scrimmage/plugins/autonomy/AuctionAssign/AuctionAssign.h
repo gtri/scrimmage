@@ -30,30 +30,33 @@
  *
  */
 
-#ifndef AuctionAssign_H_
-#define AuctionAssign_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
-class AuctionAssign : public scrimmage::Autonomy {
-public:
-    AuctionAssign();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
-protected:
+#include <map>
+#include <string>
+#include <limits>
 
+class AuctionAssign : public scrimmage::Autonomy {
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
+
+ protected:
     scrimmage::PublisherPtr pub_start_auction_;
     scrimmage::PublisherPtr pub_bid_auction_;
     scrimmage::SubscriberPtr sub_start_auction_;
     scrimmage::SubscriberPtr sub_bid_auction_;
 
-    bool auction_started_;    
-    bool auction_in_prog_;
-    double auction_start_time_;
-    double auction_max_time_;
-    double max_bid_;
-    int max_bid_champ_;
-    int id_;
-private:     
+    bool auction_started_ = false;
+    bool auction_in_prog_ = false;
+    double auction_start_time_ = -std::numeric_limits<double>::infinity();
+    double auction_max_time_ = 0;
+    double max_bid_ = -std::numeric_limits<double>::infinity();
+    int max_bid_champ_ = -1;
+    int id_ = -1;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_

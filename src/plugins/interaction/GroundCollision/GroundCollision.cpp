@@ -30,22 +30,20 @@
  *
  */
 
-#include <limits>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
-#include <memory>
-
 #include <scrimmage/math/State.h>
-
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/msgs/Collision.pb.h>
 
-#include <GeographicLib/LocalCartesian.hpp>
-
 #include <scrimmage/plugins/interaction/GroundCollision/GroundCollision.h>
+
+#include <memory>
+
+#include <GeographicLib/LocalCartesian.hpp>
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -53,18 +51,13 @@ namespace sm = scrimmage_msgs;
 REGISTER_PLUGIN(scrimmage::EntityInteraction, GroundCollision,
                 GroundCollision_plugin)
 
-GroundCollision::GroundCollision()
-{
-}
-
-bool GroundCollision::init(std::map<std::string,std::string> &mission_params,
-                           std::map<std::string,std::string> &plugin_params)
-{
+bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
+                           std::map<std::string, std::string> &plugin_params) {
     // Determine ground collision z-value. If ground_collision_altitude is
     // defined, it has priority.
     ground_collision_z_ = sc::get("ground_collision_z", plugin_params, 0.0);
     if (plugin_params.count("ground_collision_altitude") > 0 && mp_) {
-        double x,y,z,alt;
+        double x, y, z, alt;
         alt = sc::get("ground_collision_altitude", plugin_params, 0.0);
         proj_->Forward(mp_->latitude_origin(), mp_->longitude_origin(), alt, x, y, z);
         ground_collision_z_ = z;
@@ -77,8 +70,7 @@ bool GroundCollision::init(std::map<std::string,std::string> &mission_params,
 
 
 bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt)
-{
+                                              double t, double dt) {
     // Account for entities colliding with
     for (sc::EntityPtr ent : ents) {
         if (ent->state()->pos()(2) < ground_collision_z_) {
@@ -93,8 +85,7 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 }
 
 bool GroundCollision::collision_exists(std::list<sc::EntityPtr> &ents,
-                                       Eigen::Vector3d &p)
-{
+                                       Eigen::Vector3d &p) {
     if (p(2) < ground_collision_z_) {
         return true;
     }

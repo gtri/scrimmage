@@ -35,8 +35,9 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
-#include <boost/algorithm/clamp.hpp>
 #include <scrimmage/entity/Entity.h>
+
+#include <boost/algorithm/clamp.hpp>
 
 using boost::algorithm::clamp;
 
@@ -45,8 +46,7 @@ REGISTER_PLUGIN(scrimmage::MotionModel, FixedWing6DOF, FixedWing6DOF_plugin)
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
 
-enum ModelParams
-{
+enum ModelParams {
     U = 0,
     V,
     W,
@@ -66,8 +66,7 @@ enum ModelParams
     MODEL_NUM_ITEMS
 };
 
-enum ControlParams
-{
+enum ControlParams {
     THRUST = 0,
     ELEVATOR,
     AILERON,
@@ -75,19 +74,13 @@ enum ControlParams
     CONTROL_NUM_ITEMS
 };
 
-FixedWing6DOF::FixedWing6DOF()
-{
-    x_.resize(MODEL_NUM_ITEMS);
-}
-
-std::tuple<int,int,int> FixedWing6DOF::version()
-{
-    return std::tuple<int,int,int>(0,0,1);
+std::tuple<int, int, int> FixedWing6DOF::version() {
+    return std::tuple<int, int, int>(0, 0, 1);
 }
 
 bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
-                          std::map<std::string, std::string> &params)
-{
+                          std::map<std::string, std::string> &params) {
+    x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
 
@@ -121,17 +114,16 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool FixedWing6DOF::step(double time, double dt)
-{
-    if (u_ == nullptr) {
+bool FixedWing6DOF::step(double time, double dt) {
+    if (ctrl_u_ == nullptr) {
         std::shared_ptr<Controller> ctrl =
             std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
         if (ctrl) {
-            u_ = ctrl->u();
+            ctrl_u_ = ctrl->u();
         }
     }
 
-    if (u_ == nullptr) {
+    if (ctrl_u_ == nullptr) {
         return false;
     }
 
@@ -159,27 +151,23 @@ bool FixedWing6DOF::step(double time, double dt)
     // Convert local coordinates to world coordinates
     state_->quat() = quat_world_ * quat_local_;
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
-    
+
     return true;
 }
 
-void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t)
-{
-    double thrust = (*u_)(THRUST);
-    double elevator = (*u_)(ELEVATOR);
-    double aileron = (*u_)(AILERON);
-    double rudder = (*u_)(RUDDER);
+void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
+    double thrust = (*ctrl_u_)(THRUST);
+    double elevator = (*ctrl_u_)(ELEVATOR);
+    double aileron = (*ctrl_u_)(AILERON);
+    double rudder = (*ctrl_u_)(RUDDER);
 
     double F_thrust = thrust;
 
     double F_x = F_thrust;
-    //double F_y = 0;
-    //double F_z = 0;
 
     double m = 1.0;
-    double g = 0;//-9.8; no gravity
+    double g = 0; // -9.8; no gravity
     double theta = 0;
-    //double phi = 0;
 
     double Ixx = 1;
     double Iyy = 1;
@@ -196,21 +184,21 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t)
     double R_dot = dxdt[R];
 
     dxdt[U] = x[V]*x[R] - x[W]*x[Q] - g*sin(theta) + F_x / m;
-    dxdt[V] = 0;//x[W]*x[P] - x[U]*x[R] + g*sin(phi)*cos(theta) + F_y / m;
-    dxdt[W] = 0;//x[U]*x[Q] - x[V]*x[P] + g*cos(phi)*cos(theta) + F_z / m;
+    dxdt[V] = 0; // x[W]*x[P] - x[U]*x[R] + g*sin(phi)*cos(theta) + F_y / m;
+    dxdt[W] = 0; // x[U]*x[Q] - x[V]*x[P] + g*cos(phi)*cos(theta) + F_z / m;
 
     double L = aileron + Ixx*P_dot - Ixz*R_dot - Ixz*x[P]*x[Q] + (Izz - Iyy)*x[R]*x[Q];
-    double M = elevator + Iyy*Q_dot + (Ixx-Izz)*x[P]*x[R] + (Ixz*(pow(x[P],2)-pow(x[R],2)));
+    double M = elevator + Iyy*Q_dot + (Ixx-Izz)*x[P]*x[R] + (Ixz*(pow(x[P], 2)-pow(x[R], 2)));
     double N = rudder + Izz*R_dot - Ixz*P_dot + (Iyy-Ixx)*x[P]*x[Q] + Ixz*x[Q]*x[R];
 
     double L_tic = L + Ixz*x[P]*x[Q] - (Izz-Iyy)*x[R]*x[Q];
     double N_tic = N - (Iyy-Ixx)*x[P]*x[Q] - Ixz*x[R]*x[Q];
 
-    dxdt[P] = (L_tic*Izz-N_tic*Ixz) / (Ixx*Izz - pow(Ixz,2));
-    dxdt[Q] = (M - (Ixx - Izz)*x[P]*x[R]) - Ixz*(pow(x[P],2)-pow(x[R],2))/Iyy;
-    dxdt[R] = (N_tic*Ixx+L_tic*Ixz) / (Ixx*Izz - pow(Ixz,2));
+    dxdt[P] = (L_tic*Izz-N_tic*Ixz) / (Ixx*Izz - pow(Ixz, 2));
+    dxdt[Q] = (M - (Ixx - Izz)*x[P]*x[R]) - Ixz*(pow(x[P], 2)-pow(x[R], 2)) / Iyy;
+    dxdt[R] = (N_tic*Ixx+L_tic*Ixz) / (Ixx*Izz - pow(Ixz, 2));
 
-    double lambda = 1 - (pow(x[q0],2) + pow(x[q1],2) + pow(x[q2],2) + pow(x[q3],2));
+    double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
     dxdt[q0] = -0.5 * (x[q1]*x[P] + x[q2]*x[Q] + x[q3]*x[R]) + lambda * x[q0];
     dxdt[q1] = +0.5 * (x[q0]*x[P] + x[q2]*x[R] - x[q3]*x[Q]) + lambda * x[q1];
     dxdt[q2] = +0.5 * (x[q0]*x[Q] + x[q3]*x[P] - x[q1]*x[R]) + lambda * x[q2];
@@ -228,54 +216,27 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t)
     quat.normalize();
 
     // Convert local positions and velocities into global coordinates
-    Eigen::Matrix3d R = quat.toRotationMatrix();
+    Eigen::Matrix3d rot = quat.toRotationMatrix();
 
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
-    Eigen::Vector3d vel_world = R * vel_local;
+    Eigen::Vector3d vel_world = rot * vel_local;
     dxdt[Xw] = vel_world(0);
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
 
     Eigen::Vector3d acc_local(U_dot, V_dot, W_dot);
-    Eigen::Vector3d acc_world = R * acc_local;
+    Eigen::Vector3d acc_world = rot * acc_local;
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);
 }
 
-void FixedWing6DOF::teleport(sc::StatePtr &state)
-{
-    //x_[X] = state->pos()[0];
-    //x_[Y] = state->pos()[1];
-    //x_[Z] = state->pos()[2];
-    //x_[ROLL] = state->quat().roll();
-    //x_[PITCH] = state->quat().pitch();
-    //x_[YAW] = state->quat().yaw();
-    //x_[SPEED] = state->vel()[0];
+void FixedWing6DOF::teleport(sc::StatePtr &state) {
+    // x_[X] = state->pos()[0];
+    // x_[Y] = state->pos()[1];
+    // x_[Z] = state->pos()[2];
+    // x_[ROLL] = state->quat().roll();
+    // x_[PITCH] = state->quat().pitch();
+    // x_[YAW] = state->quat().yaw();
+    // x_[SPEED] = state->vel()[0];
 }
-
-
-/*
-double q_0 = quat_local_.w();
-double q_1 = quat_local_.x();
-double q_2 = quat_local_.y();
-double q_3 = quat_local_.z();
-
-double R_00 = pow(q_0,2) + pow(q_1,2) - pow(q_2,2) - pow(q_3,2);
-double R_01 = 2*(q_1*q_2 - q_0*q_3);
-double R_02 = 2*(q_0*q_2 + q_1*q_3);
-
-double R_10 = 2*(q_1*q_2 + q_0*q_3);
-double R_11 = pow(q_0,2) - pow(q_1,2) + pow(q_2,2) - pow(q_3,2);
-double R_12 = 2*(q_2*q_3 - q_0*q_1);
-
-double R_20 = 2*(q_1*q_3 - q_0*q_2);
-double R_21 = 2*(q_2*q_3 + q_0*q_1);
-double R_22 = pow(q_0,2) - pow(q_1,2) - pow(q_2,2) + pow(q_3,2);
-
-Eigen::Matrix3d R;
-R << R_00, R_01, R_02,                      \
-    R_10, R_11, R_12,                       \
-    R_20, R_21, R_22;
-cout << "R= " << endl << R << endl;
-*/

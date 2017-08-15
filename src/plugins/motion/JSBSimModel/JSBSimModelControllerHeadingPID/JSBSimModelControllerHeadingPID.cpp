@@ -37,7 +37,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
                 JSBSimModelControllerHeadingPID,
                 JSBSimModelControllerHeadingPID_plugin)
 
-namespace sc = scrimmage; 
+namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
 void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &params) {
@@ -51,7 +51,7 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
-    heading_pid_.set_parameters(1,0.50,0.0); // P, I, D
+    heading_pid_.set_parameters(1, 0.50, 0.0); // P, I, D
     heading_pid_.set_integral_band(M_PI/40.0);
     heading_pid_.set_is_angle(true);
 
@@ -65,17 +65,16 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     angles_to_jsbsim_.set_angle(ang::rad2deg(desired_yaw));
     desired_yaw = ang::deg2rad(angles_to_jsbsim_.angle());
     desired_yaw = ang::angle_pi(desired_yaw);
-    
+
     double yaw = state_->quat().yaw();
     angles_to_jsbsim_.set_angle(ang::rad2deg(yaw));
     yaw = ang::deg2rad(angles_to_jsbsim_.angle());
     yaw = ang::angle_pi(yaw);
-    
+
     // TODO: Chatter occurs when a command heading changes by 180 degrees
     // Might have to use the lag
     double desired_yaw_lag;
     if (heading_lag_initialized_) {
-        //double k = 1.00; // disable lag
         double k = 1.00; // disable lag
         if (ang::angle_pi(std::abs(desired_yaw - yaw)) > 2.35619) {
             k = dt * 0.75;
@@ -86,14 +85,14 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
         heading_lag_initialized_ = true;
     }
     prev_desired_yaw_ = desired_yaw_lag;
-    
+
     // Convert desired heading to bank angle:
-    
+
     heading_pid_.set_setpoint(desired_yaw_lag);
     double bank_cmd = heading_pid_.step(dt, yaw);
     bank_cmd = ang::angle_pi(bank_cmd);
     bank_cmd = boost::algorithm::clamp(bank_cmd, -max_bank_, max_bank_);
-    
+
     // save what was used as the input
     u_(0) = desired_state_->vel()(0);
     u_(1) = bank_cmd;

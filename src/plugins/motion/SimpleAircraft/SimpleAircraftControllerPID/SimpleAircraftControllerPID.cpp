@@ -32,14 +32,16 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SimpleAircraft/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h>
-#include <boost/algorithm/string.hpp>
+
 #include <iostream>
+
+#include <boost/algorithm/string.hpp>
 
 REGISTER_PLUGIN(scrimmage::Controller,
                 SimpleAircraftControllerPID,
                 SimpleAircraftControllerPID_plugin)
 
-namespace sc = scrimmage; 
+namespace sc = scrimmage;
 
 void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     std::vector<std::string> str_vals;
@@ -72,19 +74,19 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
-    double desired_yaw = desired_state_->quat().yaw();                    
-     
+    double desired_yaw = desired_state_->quat().yaw();
+
     heading_pid_.set_setpoint(desired_yaw);
-    double u_heading = heading_pid_.step(dt, state_->quat().yaw());     
-    double roll_error = u_heading + state_->quat().roll();               
-     
+    double u_heading = heading_pid_.step(dt, state_->quat().yaw());
+    double roll_error = u_heading + state_->quat().roll();
+
     alt_pid_.set_setpoint(desired_state_->pos()(2));
     double u_alt = alt_pid_.step(dt, state_->pos()(2));
-    double pitch_error = (-u_alt - state_->quat().pitch());     
-        
+    double pitch_error = (-u_alt - state_->quat().pitch());
+
     vel_pid_.set_setpoint(desired_state_->vel()(0));
-    double u_thrust = vel_pid_.step(dt, state_->vel().norm());     
-    
+    double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+
     (*u_) << u_thrust, roll_error, pitch_error;
     return true;
 }

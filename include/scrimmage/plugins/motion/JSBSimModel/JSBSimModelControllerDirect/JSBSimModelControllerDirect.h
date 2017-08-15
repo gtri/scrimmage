@@ -30,17 +30,22 @@
  *
  */
 
-#ifndef JSBSimModelControllerDirect_H_
-#define JSBSimModelControllerDirect_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_
+
+#include <map>
+#include <string>
+
 #include "../JSBSimModel.h"
 
 class JSBSimModelControllerDirect : public JSBSimModel::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector3d &u() {return u_;};
+    virtual Eigen::Vector3d &u() {return u_;}
+
  protected:
     Eigen::Vector3d u_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_

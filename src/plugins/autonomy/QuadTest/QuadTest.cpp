@@ -41,14 +41,9 @@
 
 REGISTER_PLUGIN(scrimmage::Autonomy, QuadTest, QuadTest_plugin)
 
-QuadTest::QuadTest()
-{     
-}
-
-void QuadTest::init(std::map<std::string,std::string> &params)
-{
+void QuadTest::init(std::map<std::string, std::string> &params) {
      desired_state_->vel() = Eigen::Vector3d::Zero();
-     desired_state_->quat().set(0,0,state_->quat().yaw());
+     desired_state_->quat().set(0, 0, state_->quat().yaw());
      desired_state_->pos() = state_->pos()(2)*Eigen::Vector3d::UnitZ();
 
      if (params.count("take_off_time") > 0) {
@@ -58,15 +53,14 @@ void QuadTest::init(std::map<std::string,std::string> &params)
      }
 }
 
-bool QuadTest::step_autonomy(double t, double dt)
-{
-          
+bool QuadTest::step_autonomy(double t, double dt) {
+
 
      if (t >= take_off_time_) {
           desired_state_->vel() = 15*Eigen::Vector3d::UnitX();
-          desired_state_->quat().set(0,0,scrimmage::Angles::deg2rad(90));
+          desired_state_->quat().set(0, 0, scrimmage::Angles::deg2rad(90));
           desired_state_->pos() = 10*Eigen::Vector3d::UnitZ();
      }
-     
+
      return true;
 }

@@ -30,20 +30,24 @@
  *
  */
 
-#ifndef DoubleIntegrator_H_
-#define DoubleIntegrator_H_
-#include <iostream>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_
+
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+
+#include <map>
+#include <string>
+#include <limits>
 
 class DoubleIntegrator : public scrimmage::MotionModel {
  public:
     DoubleIntegrator();
 
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
+                      std::map<std::string, std::string> &params);
 
     virtual bool step(double t, double dt);
 
@@ -51,14 +55,14 @@ class DoubleIntegrator : public scrimmage::MotionModel {
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector3d &u() = 0; 
+        virtual Eigen::Vector3d &u() = 0;
     };
 
  protected:
     double update_dvdt(double vel, double acc);
-    Eigen::Vector3d u_;
-    double max_vel_;
-    double max_acc_;
+    Eigen::Vector3d ctrl_u_;
+    double max_vel_ = std::numeric_limits<double>::infinity();
+    double max_acc_ = std::numeric_limits<double>::infinity();
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_

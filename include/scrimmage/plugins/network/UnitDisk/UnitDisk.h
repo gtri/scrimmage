@@ -30,15 +30,16 @@
  *
  */
 
-#ifndef UNIT_DISK_H_
-#define UNIT_DISK_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_
 
 #include <scrimmage/pubsub/Network.h>
 
+#include <map>
+#include <string>
+
 class UnitDisk : public scrimmage::Network {
  public:
-    UnitDisk() {}
-
     virtual void init(std::map<std::string, std::string> &params);
     virtual void distribute(double t, double dt);
     virtual std::unordered_set<int> ping(const scrimmage::PluginPtr &plugin);
@@ -51,4 +52,4 @@ class UnitDisk : public scrimmage::Network {
     std::unordered_map<int, std::unordered_set<int>> ping_map_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_

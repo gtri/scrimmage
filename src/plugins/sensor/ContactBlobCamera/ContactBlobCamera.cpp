@@ -33,9 +33,6 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h>
 #include <scrimmage/common/ID.h>
-#include <vector>
-#include <list>
-#include <utility>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
@@ -50,22 +47,23 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
 
+#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
+
+#include <vector>
+#include <list>
+#include <utility>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 
 REGISTER_PLUGIN(scrimmage::Sensor, ContactBlobCamera, ContactBlobCamera_plugin)
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-using std::cout;
-using std::endl;
-
-void ContactBlobCamera::init(std::map<std::string,std::string> &params)
-{
+void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
 
     img_width_ = sc::get<int>("img_width", params, 800);
@@ -105,8 +103,7 @@ void ContactBlobCamera::init(std::map<std::string,std::string> &params)
     return;
 }
 
-boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
-{
+boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t) {
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
     if ((t - last_frame_t_) < 1.0 / fps_) {
@@ -154,13 +151,13 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
         v_r_2 = rot2.toRotationMatrix() * v_r_2;
 
         // Get 3D relative position of rotated vectors
-        Eigen::Vector3d p1 (rel_pos(0) + v_r_1(0),
-                            rel_pos(1) + v_r_1(1),
-                            rel_pos(2));
+        Eigen::Vector3d p1(rel_pos(0) + v_r_1(0),
+                           rel_pos(1) + v_r_1(1),
+                           rel_pos(2));
 
-        Eigen::Vector3d p2 (rel_pos(0) + v_r_2(0),
-                            rel_pos(1) + v_r_2(1),
-                            rel_pos(2));
+        Eigen::Vector3d p2(rel_pos(0) + v_r_2(0),
+                           rel_pos(1) + v_r_2(1),
+                           rel_pos(2));
 
         // Get 2D position of object boundaries
         Eigen::Vector2d r1 = project_rel_3d_to_2d(p1);
@@ -178,7 +175,7 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
                       std::floor(raster_center(1))-std::floor(object_img_radius),
                       std::floor(object_img_radius*2)+1,
                       std::floor(object_img_radius*2)+1);
-        
+
         msg->data.bounding_boxes[kv.second.id().id()] = rect;
 
         // Draw object (without bounding box first)
@@ -188,8 +185,8 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
                                    std::floor(raster_center(1)));
 
             cv::circle(msg->data.frame, cv::Point(center(0), center(1)),
-                       std::floor(object_img_radius), cv::Scalar(255,255,255),
-                       -1, 8, 0);                        
+                       std::floor(object_img_radius), cv::Scalar(255, 255, 255),
+                       -1, 8, 0);
         }
     }
 
@@ -197,7 +194,7 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
     for (auto &kv : msg->data.bounding_boxes) {
         // Draw object as circle
         cv::Rect rect = kv.second;
-        cv::rectangle(msg->data.frame, rect, cv::Scalar(0,0,255), 1, 8, 0);
+        cv::rectangle(msg->data.frame, rect, cv::Scalar(0, 0, 255), 1, 8, 0);
     }
 
     frame_ = msg->data.frame;
@@ -206,13 +203,12 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t)
     return boost::optional<sc::MessageBasePtr>(msg);
 }
 
-Eigen::Vector2d ContactBlobCamera::project_rel_3d_to_2d(Eigen::Vector3d rel_pos)
-{
+Eigen::Vector2d ContactBlobCamera::project_rel_3d_to_2d(Eigen::Vector3d rel_pos) {
     // 3D to 2D transforms are described here:
-    //http://www.scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/mathematics-computing-2d-coordinates-of-3d-points
+    // http://www.scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/mathematics-computing-2d-coordinates-of-3d-points
 
-    //Convert relative position of contact into computer vision coordinates
-    //for relative coordinates:
+    // Convert relative position of contact into computer vision coordinates
+    // for relative coordinates:
     Eigen::Vector3d pos(rel_pos(1), rel_pos(2), rel_pos(0));
 
     // Transform to screen / canvas space
@@ -229,8 +225,7 @@ Eigen::Vector2d ContactBlobCamera::project_rel_3d_to_2d(Eigen::Vector3d rel_pos)
     return r;
 }
 
-bool ContactBlobCamera::in_field_of_view(Eigen::Vector3d rel_pos)
-{
+bool ContactBlobCamera::in_field_of_view(Eigen::Vector3d rel_pos) {
     double az = atan2(rel_pos(1), rel_pos(0));
     double norm_xy = sqrt(pow(rel_pos(0), 2) + pow(rel_pos(1), 2));
     double el = atan2(rel_pos(2), norm_xy);

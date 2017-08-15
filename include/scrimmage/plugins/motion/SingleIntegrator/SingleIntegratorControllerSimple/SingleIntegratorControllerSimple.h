@@ -30,20 +30,26 @@
  *
  */
 
-#ifndef SingleIntegratorControllerSimple_H_
-#define SingleIntegratorControllerSimple_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
+
+#include <map>
+#include <string>
+
 #include "../SingleIntegrator.h"
 
 class SingleIntegratorControllerSimple : public SingleIntegrator::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt) {
         u_ = desired_state_->vel();
         return true;
     }
-    virtual Eigen::Vector3d &u() {return u_;};
+
+    virtual Eigen::Vector3d &u() {return u_;}
+
  protected:
     Eigen::Vector3d u_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_

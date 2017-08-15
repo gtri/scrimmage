@@ -30,43 +30,33 @@
  *
  */
 
-#include <iostream>
-#include <limits>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/ProtoConversions.h>
-
 #include <scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
-using std::cout;
-using std::endl;
+#include <limits>
 
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, AvoidWalls, AvoidWalls_plugin)
 
-AvoidWalls::AvoidWalls()
-{
-}
-
-void AvoidWalls::init(std::map<std::string,std::string> &params)
-{
+void AvoidWalls::init(std::map<std::string, std::string> &params) {
     double initial_speed = sc::get<double>("initial_speed", params, 21);
     avoid_distance_ = sc::get<double>("avoid_distance", params, 20);
 
     desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-    desired_state_->quat().set(0,0,state_->quat().yaw());
+    desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
     pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/0/pointcloud");
 }
 
-bool AvoidWalls::step_autonomy(double t, double dt)
-{
+bool AvoidWalls::step_autonomy(double t, double dt) {
     bool all_close_points = true;
     std::list<Eigen::Vector3d> points;
     for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
@@ -97,7 +87,7 @@ bool AvoidWalls::step_autonomy(double t, double dt)
         }
 
         // Normalize each repulsion vector and sum
-        Eigen::Vector3d O_vec(0,0,0);
+        Eigen::Vector3d O_vec(0, 0, 0);
         for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
             if (it->hasNaN()) {
                 continue; // ignore misbehaved vectors
@@ -108,27 +98,19 @@ bool AvoidWalls::step_autonomy(double t, double dt)
         Eigen::Vector3d dir;
         // Just turn left if all points are too close (reduces chattering)
         if (all_close_points) {
-            dir = state_->quat().rotate(Eigen::Vector3d(0,-1,0));
+            dir = state_->quat().rotate(Eigen::Vector3d(0, -1, 0));
         } else {
             dir = O_vec.normalized();
         }
         dir *= 10;
 
-        //std::shared_ptr<sp::Shape> vec(new sp::Shape);
-        //vec->set_type(sp::Shape::Line);
-        //sc::set(vec->mutable_color(), 255, 255, 255);
-        //vec->set_opacity(1.0);
-        //sc::add_point(vec, state_->pos());
-        //sc::add_point(vec, state_->pos() + dir);
-        //shapes_.push_back(vec);
-
         double heading = atan2(dir(1), dir(0));
 
-        desired_state_->quat().set(0,0,heading);
+        desired_state_->quat().set(0, 0, heading);
         desired_state_->vel() = Eigen::Vector3d::UnitX() * 10;
 
     } else {
-        desired_state_->quat().set(0,0,state_->quat().yaw());
+        desired_state_->quat().set(0, 0, state_->quat().yaw());
     }
 
     return true;

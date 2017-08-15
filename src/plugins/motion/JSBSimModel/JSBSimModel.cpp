@@ -35,9 +35,10 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/Angles.h>
 #include <initialization/FGTrim.h>
-#include <GeographicLib/LocalCartesian.hpp>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+
+#include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084
 #define feet2meters (1.0 / meters2feet)
@@ -50,16 +51,12 @@ REGISTER_PLUGIN(scrimmage::MotionModel, JSBSimModel, JSBSimModel_plugin)
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-JSBSimModel::JSBSimModel() {}
-
-std::tuple<int,int,int> JSBSimModel::version()
-{
-    return std::tuple<int,int,int>(0,0,1);
+std::tuple<int, int, int> JSBSimModel::version() {
+    return std::tuple<int, int, int>(0, 0, 1);
 }
 
 bool JSBSimModel::init(std::map<std::string, std::string> &info,
-                       std::map<std::string, std::string> &params)
-{
+                       std::map<std::string, std::string> &params) {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
     angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
     angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
@@ -83,7 +80,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     exec_->SetRootDir(info["log_dir"]);
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
 
-    JSBSim::FGInitialCondition *ic=exec_->GetIC();
+    JSBSim::FGInitialCondition *ic = exec_->GetIC();
     if (info.count("latitude") > 0) {
         ic->SetLatitudeDegIC(std::stod(info["latitude"]));
     }
@@ -94,8 +91,8 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
         angles_to_jsbsim_.set_angle(std::stod(info["heading"]));
         ic->SetPsiDegIC(angles_to_jsbsim_.angle());
     }
-    if (info.count("altitude") > 0) {        
-        double alt_asl_meters = std::stod(info["altitude"]);        
+    if (info.count("altitude") > 0) {
+        double alt_asl_meters = std::stod(info["altitude"]);
         ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
     }
 
@@ -108,13 +105,13 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     } else {
         dt_ = 0.0083333;
     }
-    
+
     exec_->RunIC();
     exec_->Setdt(dt_);
     exec_->Run();
 
     // If we need to trim programmatically later
-    //if (exec_->GetIC()->NeedTrim()) {
+    // if (exec_->GetIC()->NeedTrim()) {
     //     cout << "Trimming..." << endl;
     //     JSBSim::FGTrim* trimmer = new JSBSim::FGTrim( &*exec_ );
     //     try {
@@ -137,7 +134,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     pitch_node_ = mgr->GetNode("attitude/pitch-rad");
     yaw_node_ = mgr->GetNode("attitude/heading-true-rad");
 
-    //desired_heading_node_ = mgr->GetNode("guidance/specified-heading-rad");
+    // desired_heading_node_ = mgr->GetNode("guidance/specified-heading-rad");
     desired_altitude_node_ = mgr->GetNode("ap/altitude_setpoint");
     desired_velocity_node_ = mgr->GetNode("ap/airspeed_setpoint");
     bank_setpoint_node_ = mgr->GetNode("ap/bank_setpoint");
@@ -165,8 +162,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool JSBSimModel::step(double time, double dt)
-{
+bool JSBSimModel::step(double time, double dt) {
     Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
 
     double desired_velocity = u[0];
@@ -175,13 +171,13 @@ bool JSBSimModel::step(double time, double dt)
 
     // + : bank right, - : bank left
     bank_setpoint_node_->setDoubleValue(bank_cmd);
-    
+
     // Set desired altitude (we just need the desired altitude, use the current
     // x,y as placeholders).
     double lat_curr, lon_curr, alt_result;
     parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), desired_alt,
-                                   lat_curr, lon_curr, alt_result);        
-    
+                                   lat_curr, lon_curr, alt_result);
+
     desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
 
     // set desired velocity
@@ -195,9 +191,9 @@ bool JSBSimModel::step(double time, double dt)
                                    longitude_node_->getDoubleValue(),
                                    altitude_node_->getDoubleValue() * feet2meters,
                                    state_->pos()(0), state_->pos()(1), state_->pos()(2));
-    
+
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
-    
+
     state_->quat().set(roll_node_->getDoubleValue(),
                       -pitch_node_->getDoubleValue(),
                       ang::deg2rad(angles_from_jsbsim_.angle()));
@@ -209,22 +205,22 @@ bool JSBSimModel::step(double time, double dt)
     // save what was used as the input
     return true;
 }
-void JSBSimModel::teleport(sc::StatePtr &state)
-{
+
+void JSBSimModel::teleport(sc::StatePtr &state) {
     double lat, lon, alt;
-    parent_->projection()->Reverse(state->pos()(0), 
-                                   state->pos()(1), 
+    parent_->projection()->Reverse(state->pos()(0),
+                                   state->pos()(1),
                                    state->pos()(2),
-                                   lat, lon, alt);               
-    
-    JSBSim::FGInitialCondition *ic=exec_->GetIC();
+                                   lat, lon, alt);
+
+    JSBSim::FGInitialCondition *ic = exec_->GetIC();
     ic->SetLatitudeDegIC(lat);
     ic->SetLongitudeDegIC(lon);
     ic->SetAltitudeASLFtIC(alt * meters2feet);
 
     angles_to_jsbsim_.set_angle(ang::rad2deg(state->quat().yaw()));
-    ic->SetPsiDegIC(angles_to_jsbsim_.angle());    
-    
+    ic->SetPsiDegIC(angles_to_jsbsim_.angle());
+
     exec_->RunIC();
     exec_->Setdt(dt_);
     exec_->Run();

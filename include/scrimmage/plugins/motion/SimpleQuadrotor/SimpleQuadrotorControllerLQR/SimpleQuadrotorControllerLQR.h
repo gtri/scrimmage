@@ -30,15 +30,20 @@
  *
  */
 
-#ifndef SimpleQuadrotorControllerLQR_H_
-#define SimpleQuadrotorControllerLQR_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_
+
+#include <map>
+#include <string>
+
 #include "../SimpleQuadrotor.h"
 
 class SimpleQuadrotorControllerLQR : public SimpleQuadrotor::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d &u() {return u_;};
+    virtual Eigen::Vector4d &u() {return u_;}
+
  protected:
     Eigen::Vector4d u_;
     scrimmage::PID vel_pid_;
@@ -46,4 +51,4 @@ class SimpleQuadrotorControllerLQR : public SimpleQuadrotor::Controller {
     double max_vel_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_

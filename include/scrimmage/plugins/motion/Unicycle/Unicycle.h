@@ -30,19 +30,21 @@
  *
  */
 
-#ifndef Unicycle_H_
-#define Unicycle_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_
+
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 
+#include <map>
+#include <string>
+
 class Unicycle : public scrimmage::MotionModel {
  public:
-    Unicycle();
-
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
+                      std::map<std::string, std::string> &params);
 
     virtual bool step(double t, double dt);
 
@@ -50,13 +52,13 @@ class Unicycle : public scrimmage::MotionModel {
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector2d &u() = 0; 
+        virtual Eigen::Vector2d &u() = 0;
     };
 
  protected:
-    Eigen::Vector2d u_;
+    Eigen::Vector2d ctrl_u_;
     double turn_rate_max_;
     double vel_max_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_

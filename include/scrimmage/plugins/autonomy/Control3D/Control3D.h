@@ -30,17 +30,19 @@
  *
  */
 
-#ifndef Control3D_H_
-#define Control3D_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <map>
+#include <string>
+
 class Control3D : public scrimmage::Autonomy {
-public:
+ public:
     Control3D();
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
-protected:
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_

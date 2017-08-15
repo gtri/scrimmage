@@ -30,17 +30,19 @@
  *
  */
 
-#ifndef ROSAutonomy_H_
-#define ROSAutonomy_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <map>
+#include <string>
+
 class ROSAutonomy : public scrimmage::Autonomy {
-public:
+ public:
     ROSAutonomy();
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
-protected:
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_

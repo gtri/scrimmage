@@ -32,7 +32,6 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/common/ID.h>
-#include <vector>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -40,13 +39,15 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/autonomy/Autonomy.h>
-#include <boost/range/adaptor/map.hpp>
-namespace ba = boost::adaptors;
 #include <scrimmage/plugins/network/UnitDisk/UnitDisk.h>
+
+#include <vector>
+#include <boost/range/adaptor/map.hpp>
 
 REGISTER_PLUGIN(scrimmage::Network, UnitDisk, UnitDisk_plugin)
 
 namespace sc = scrimmage;
+namespace ba = boost::adaptors;
 
 void UnitDisk::init(std::map<std::string, std::string> &params) {
     range_ = std::stod(params.at("range"));

@@ -30,21 +30,24 @@
  *
  */
 
-#ifndef NOISY_CONTACTS_H_
-#define NOISY_CONTACTS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
+
 #include <random>
+#include <map>
+#include <string>
+#include <vector>
 
 class NoisyContacts : public scrimmage::Sensor {
-public:
-    NoisyContacts() {}
-    virtual void init(std::map<std::string,std::string> &params);
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
     virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
 
-protected:        
+ protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
@@ -53,7 +56,6 @@ protected:
     double max_detect_range_;
     double az_thresh_;
     double el_thresh_;
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_

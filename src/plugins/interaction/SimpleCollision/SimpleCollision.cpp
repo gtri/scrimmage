@@ -30,15 +30,11 @@
  *
  */
 
-#include <limits>
-#include <memory>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
-
 #include <scrimmage/math/State.h>
-
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/msgs/Collision.pb.h>
 #include <scrimmage/autonomy/Autonomy.h>
@@ -46,19 +42,17 @@
 
 #include <scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h>
 
+#include <limits>
+#include <memory>
+
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCollision,
                 SimpleCollision_plugin)
 
-SimpleCollision::SimpleCollision()
-{
-}
-
-bool SimpleCollision::init(std::map<std::string,std::string> &mission_params,
-                           std::map<std::string,std::string> &plugin_params)
-{
+bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
+                           std::map<std::string, std::string> &plugin_params) {
     collision_range_ = sc::get("collision_range", plugin_params, 0.0);
     startup_collisions_only_ = sc::get("startup_collisions_only", plugin_params, false);
 
@@ -66,7 +60,7 @@ bool SimpleCollision::init(std::map<std::string,std::string> &mission_params,
     enable_non_team_collisions_ = sc::get<bool>("enable_enemy_collisions", plugin_params, true);
 
     init_alt_deconflict_ = sc::get<bool>("init_alt_deconflict", plugin_params, false);
-    
+
     // Setup publishers
     team_collision_pub_ = create_publisher("TeamCollision");
     non_team_collision_pub_ = create_publisher("NonTeamCollision");
@@ -76,8 +70,7 @@ bool SimpleCollision::init(std::map<std::string,std::string> &mission_params,
 
 
 bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt)
-{
+                                              double t, double dt) {
     if (startup_collisions_only_) {
         return true;
     }
@@ -123,13 +116,12 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 }
 
 bool SimpleCollision::collision_exists(std::list<sc::EntityPtr> &ents,
-                                       Eigen::Vector3d &p)
-{
+                                       Eigen::Vector3d &p) {
     if (ents.empty()) {
         return false;
     } else {
         if (init_alt_deconflict_) {
-            for (sc::EntityPtr ent : ents) {                
+            for (sc::EntityPtr ent : ents) {
                 if (std::abs(p(2) - ent->state()->pos()(2)) <= collision_range_) {
                     return true;
                 }
@@ -140,10 +132,10 @@ bool SimpleCollision::collision_exists(std::list<sc::EntityPtr> &ents,
                 return false;
             } else {
                 sc::RTreePtr rtree = ents.front()->autonomies().front()->rtree();
-                rtree->neighbors_in_range(p, neighbors, collision_range_); 
+                rtree->neighbors_in_range(p, neighbors, collision_range_);
                 return !neighbors.empty();
             }
         }
-    }    
+    }
     return false;
 }

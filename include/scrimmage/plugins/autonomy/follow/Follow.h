@@ -30,19 +30,22 @@
  *
  */
 
-#ifndef FOLLOW_H_
-#define FOLLOW_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FOLLOW_FOLLOW_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FOLLOW_FOLLOW_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
+
+#include <string>
+#include <map>
+
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Constants.hpp>
 
 class Follow : public scrimmage::Autonomy{
-public:
-     Follow();     
-     virtual void init(std::map<std::string,std::string> &params);
-     virtual bool step_autonomy(double t, double dt);     
-protected:     
-private:     
+ public:
+     Follow();
+     virtual void init(std::map<std::string, std::string> &params);
+     virtual bool step_autonomy(double t, double dt);
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FOLLOW_FOLLOW_H_

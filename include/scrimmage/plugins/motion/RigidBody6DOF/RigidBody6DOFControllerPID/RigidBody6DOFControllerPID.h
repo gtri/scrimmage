@@ -30,15 +30,20 @@
  *
  */
 
-#ifndef RigidBody6DOFControllerPID_H_
-#define RigidBody6DOFControllerPID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_
+
+#include <map>
+#include <string>
+
 #include "../RigidBody6DOF.h"
 
 class RigidBody6DOFControllerPID : public RigidBody6DOF::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector4d> u() {return u_;};
+    virtual std::shared_ptr<Eigen::Vector4d> u() {return u_;}
+
  protected:
     std::shared_ptr<Eigen::Vector4d> u_;
     scrimmage::PID heading_pid_;
@@ -46,4 +51,4 @@ class RigidBody6DOFControllerPID : public RigidBody6DOF::Controller {
     scrimmage::PID vel_pid_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_

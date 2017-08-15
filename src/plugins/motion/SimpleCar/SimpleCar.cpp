@@ -42,37 +42,30 @@ namespace pl = std::placeholders;
 
 REGISTER_PLUGIN(scrimmage::MotionModel, SimpleCar, SimpleCar_plugin)
 
-enum ModelParams
-{
+enum ModelParams {
     X = 0,
     Y,
     Z,
     Z_dot,
-    THETA,    
+    THETA,
     MODEL_NUM_ITEMS
 };
 
-enum ControlParams
-{
+enum ControlParams {
     FORWARD_VELOCITY = 0,
     TURN_RATE,
     CONTROL_NUM_ITEMS
 };
 
-SimpleCar::SimpleCar()
-{   
-    x_.resize(MODEL_NUM_ITEMS);
-}
-
 bool SimpleCar::init(std::map<std::string, std::string> &info,
-                     std::map<std::string, std::string> &params)
-{       
-    x_[X] = std::stod(info["x"]); //x
-    x_[Y] = std::stod(info["y"]); //y
-    x_[Z] = std::stod(info["z"]); //y
+                     std::map<std::string, std::string> &params) {
+    x_.resize(MODEL_NUM_ITEMS);
+    x_[X] = std::stod(info["x"]);
+    x_[Y] = std::stod(info["y"]);
+    x_[Z] = std::stod(info["z"]);
     x_[Z_dot] = 0;
-    x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));    
-        
+    x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));
+
     length_ = sc::get<double>("length", params, 100.0);
     mass_ = sc::get<double>("mass", params, 1.0);
     enable_gravity_ = sc::get<bool>("enable_gravity", params, false);
@@ -81,50 +74,46 @@ bool SimpleCar::init(std::map<std::string, std::string> &info,
     state_->vel() << 0, 0, 0;
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
-    
+
     return true;
 }
 
-bool SimpleCar::step(double time, double dt)
-{       
+bool SimpleCar::step(double time, double dt) {
     double prev_x = x_[X];
     double prev_y = x_[Y];
     double prev_z = x_[Z];
-    
+
     ode_step(dt);
 
     ext_force_ = Eigen::Vector3d::Zero();
-    
+
     /////////////////////
     // Save state
     // Simple velocity
     state_->vel() << (x_[X] - prev_x) / dt, (x_[Y] - prev_y) / dt,
         (x_[Z] - prev_z) / dt;
-    
+
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
     return true;
 }
 
-#include <iostream>
-
-void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t)
-{
+void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 0 : x-position
     /// 1 : y-position
     /// 2 : theta
-	  
+
     Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
     double u_vel = u(FORWARD_VELOCITY);
     double u_theta = u(TURN_RATE);
-    
+
     // Saturate wheel angle:
     if (u_theta >= M_PI/4) {
         u_theta = M_PI/4 - 0.0001;
     } else if (u_theta <= -M_PI/4) {
         u_theta = -M_PI/4 + 0.0001;
     }
-     
+
     dxdt[X] = u_vel*cos(x[THETA]);
     dxdt[Y] = u_vel*sin(x[THETA]);
     dxdt[THETA] = u_vel/length_*tan(u_theta);
@@ -136,9 +125,9 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t)
         dxdt[Z] = 0;
         dxdt[Z_dot] = 0;
     }
-    
+
     // Saturate based on external force:
-    if (std::abs(ext_force_(0)) > 0.1) {        
+    if (std::abs(ext_force_(0)) > 0.1) {
         dxdt[X] = 0;
     }
 

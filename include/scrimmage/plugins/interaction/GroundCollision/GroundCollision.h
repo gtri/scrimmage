@@ -30,33 +30,33 @@
  *
  */
 
-#ifndef GROUND_COLLISION_H_
-#define GROUND_COLLISION_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 
-namespace sc = scrimmage;
+#include <list>
+#include <map>
+#include <string>
 
 class GroundCollision : public scrimmage::EntityInteraction {
-public:
-    GroundCollision();
-
+ public:
     virtual std::string name()
     { return std::string("GroundCollision"); }
-    
-    virtual bool init(std::map<std::string,std::string> &mission_params,
-                      std::map<std::string,std::string> &plugin_params);
 
-    virtual bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                         double t, double dt);
+    virtual bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params);
 
-    virtual bool collision_exists(std::list<sc::EntityPtr> &ents,
-                                  Eigen::Vector3d &p);
-protected:
+    virtual bool step_entity_interaction(
+        std::list<scrimmage::EntityPtr> &ents, double t, double dt);
+
+    virtual bool collision_exists(
+        std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p);
+
+ protected:
     double ground_collision_z_;
-    sc::PublisherPtr collision_pub_;
-private:
+    scrimmage::PublisherPtr collision_pub_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_

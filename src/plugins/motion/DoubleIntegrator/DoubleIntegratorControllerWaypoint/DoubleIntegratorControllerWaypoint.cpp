@@ -30,11 +30,13 @@
  *
  */
 
-#include <iostream>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h>
+
+#include <iostream>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 DoubleIntegratorControllerWaypoint,
                 DoubleIntegratorControllerWaypoint_plugin)

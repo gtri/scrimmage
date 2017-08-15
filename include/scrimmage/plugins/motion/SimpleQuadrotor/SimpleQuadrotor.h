@@ -30,26 +30,27 @@
  *
  */
 
-#ifndef SIMPLEQUADROTOR_H_
-#define SIMPLEQUADROTOR_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTOR_H_
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 
+#include <map>
+#include <string>
+
 class SimpleQuadrotor : public scrimmage::MotionModel{
  public:
-    SimpleQuadrotor();     
-
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
-    virtual bool step(double time, double dt);     
+                      std::map<std::string, std::string> &params);
+    virtual bool step(double time, double dt);
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector4d &u() = 0; 
+        virtual Eigen::Vector4d &u() = 0;
     };
 
  protected:
@@ -57,4 +58,4 @@ class SimpleQuadrotor : public scrimmage::MotionModel{
     double max_pitch_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTOR_H_

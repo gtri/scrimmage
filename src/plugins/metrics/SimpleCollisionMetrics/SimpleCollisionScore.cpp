@@ -36,15 +36,6 @@
 
 namespace sc = scrimmage;
 
-SimpleCollisionScore::SimpleCollisionScore() {
-    flight_time_start_ = 0;
-    flight_time_end_ = 0;
-    non_team_collisions_ = 0;
-    team_collisions_ = 0;
-    ground_collisions_ = 0;
-    entity_count_ = 0;
-}
-
 bool SimpleCollisionScore::set_weights(std::map<std::string, std::string> &params) {
     flight_time_w_ = sc::get<double>("flight_time_w", params, 0.0);
     team_collisions_w_ = sc::get<double>("team_collisions_w", params, 0.0);

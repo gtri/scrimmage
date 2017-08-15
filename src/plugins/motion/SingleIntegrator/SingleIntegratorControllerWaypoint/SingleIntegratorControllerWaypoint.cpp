@@ -39,7 +39,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
                 SingleIntegratorControllerWaypoint,
                 SingleIntegratorControllerWaypoint_plugins)
 
-namespace sc = scrimmage; 
+namespace sc = scrimmage;
 
 void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
     gain_ = sc::get("gain", params, 1.0);

@@ -30,18 +30,21 @@
  *
  */
 
-#ifndef QuadTest_H_
-#define QuadTest_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_QUADTEST_QUADTEST_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_QUADTEST_QUADTEST_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
-class QuadTest : public scrimmage::Autonomy{
-public:
-     QuadTest();
-     virtual void init(std::map<std::string,std::string> &params);
+#include <map>
+#include <string>
+
+class QuadTest : public scrimmage::Autonomy {
+ public:
+     virtual void init(std::map<std::string, std::string> &params);
      virtual bool step_autonomy(double t, double dt);
-protected:
-     double take_off_time_;
-private:     
+
+ protected:
+     double take_off_time_ = 0;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_QUADTEST_QUADTEST_H_

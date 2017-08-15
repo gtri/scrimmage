@@ -30,15 +30,16 @@
  *
  */
 
-#ifndef CONTACT_BLOB_CAMERA_TYPE_H_
-#define CONTACT_BLOB_CAMERA_TYPE_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_
 
+#include <map>
 #include <opencv2/core/core.hpp>
 
 class ContactBlobCameraType {
-public:
+ public:
     cv::Mat frame;
     std::map<int, cv::Rect> bounding_boxes;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_

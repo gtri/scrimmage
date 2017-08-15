@@ -30,8 +30,9 @@
  *
  */
 
-#ifndef JSBSIMMODEL_H_
-#define JSBSIMMODEL_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
+
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -39,7 +40,7 @@
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/entity/Entity.h>
 
-#if ENABLE_JSBSIM==1
+#if ENABLE_JSBSIM == 1
 #include <FGFDMExec.h>
 #include <models/FGAircraft.h>
 #include <input_output/FGPropertyManager.h>
@@ -48,44 +49,45 @@
 typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #endif
 
+#include <map>
+#include <string>
+#include <tuple>
+
 class JSBSimModel : public scrimmage::MotionModel{
-public:
-    JSBSimModel();     
+ public:
+    virtual std::tuple<int, int, int> version();
 
-    virtual std::tuple<int,int,int> version();
-     
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
-    virtual bool step(double time, double dt);          
+                      std::map<std::string, std::string> &params);
+    virtual bool step(double time, double dt);
 
-    virtual void teleport(scrimmage::StatePtr &state);     
+    virtual void teleport(scrimmage::StatePtr &state);
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector3d &u() = 0; 
+        virtual Eigen::Vector3d &u() = 0;
     };
 
-protected:
-
-#if ENABLE_JSBSIM==1 
+ protected:
+#if ENABLE_JSBSIM == 1
     FGFDMExecPtr exec_;
-    
+
     JSBSim::FGPropertyNode *longitude_node_;
     JSBSim::FGPropertyNode *latitude_node_;
     JSBSim::FGPropertyNode *altitude_node_;
-    
+
     JSBSim::FGPropertyNode *roll_node_;
     JSBSim::FGPropertyNode *pitch_node_;
     JSBSim::FGPropertyNode *yaw_node_;
-    
+
     JSBSim::FGPropertyNode *desired_heading_node_;
     JSBSim::FGPropertyNode *desired_altitude_node_;
     JSBSim::FGPropertyNode *desired_velocity_node_;
     JSBSim::FGPropertyNode *bank_setpoint_node_;
 
-    JSBSim::FGPropertyNode *vel_north_node_;     
-    JSBSim::FGPropertyNode *vel_east_node_;     
-    JSBSim::FGPropertyNode *vel_down_node_;          
+    JSBSim::FGPropertyNode *vel_north_node_;
+    JSBSim::FGPropertyNode *vel_east_node_;
+    JSBSim::FGPropertyNode *vel_down_node_;
 
     scrimmage::Angles angles_to_jsbsim_;
     scrimmage::Angles angles_from_jsbsim_;
@@ -95,9 +97,7 @@ protected:
     bool heading_lag_initialized_;
 
     double dt_;
-#endif 
-     
-private:     
+#endif
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_

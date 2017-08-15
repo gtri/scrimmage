@@ -30,13 +30,17 @@
  *
  */
 
-#ifndef AircraftToSingleIntegratorController_H_
-#define AircraftToSingleIntegratorController_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
+
+#include <map>
+#include <string>
+
 #include "../SingleIntegrator.h"
 
 class AircraftToSingleIntegratorController : public SingleIntegrator::Controller {
- public: 
-    virtual void init(std::map<std::string, std::string> &params) {}
+ public:
+    virtual void init(std::map<std::string,  std::string> &params) {}
     virtual bool step(double t, double dt) {
         double desired_heading = desired_state_->quat().yaw();
         double desired_alt = desired_state_->pos()(2);
@@ -46,12 +50,14 @@ class AircraftToSingleIntegratorController : public SingleIntegrator::Controller
         u_[0] = desired_speed * cos(desired_heading);
         u_[1] = desired_speed * sin(desired_heading);
         u_[2] = desired_alt - state_->pos()(2);
-    
+
         return true;
     }
-    virtual Eigen::Vector3d &u() {return u_;};
+
+    virtual Eigen::Vector3d &u() {return u_;}
+
  protected:
     Eigen::Vector3d u_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_

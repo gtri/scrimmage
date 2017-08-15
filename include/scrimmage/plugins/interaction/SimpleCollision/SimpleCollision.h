@@ -30,39 +30,38 @@
  *
  */
 
-#ifndef SIMPLE_COLLISION_H_
-#define SIMPLE_COLLISION_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 
-namespace sc = scrimmage;
+#include <list>
+#include <map>
+#include <string>
 
 class SimpleCollision : public scrimmage::EntityInteraction {
-public:
-    SimpleCollision();
-    
-    virtual std::string name()
-    { return std::string("SimpleCollision"); }
-    
-    virtual bool init(std::map<std::string,std::string> &mission_params,
-                      std::map<std::string,std::string> &plugin_params);
-    
-    virtual bool step_entity_interaction(std::list<sc::EntityPtr> &ents, 
-                                         double t, double dt);
-    
-    virtual bool collision_exists(std::list<sc::EntityPtr> &ents,
-                                  Eigen::Vector3d &p);
-protected:
+ public:
+    virtual std::string name() { return std::string("SimpleCollision"); }
+
+    virtual bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params);
+
+    virtual bool step_entity_interaction(
+        std::list<scrimmage::EntityPtr> &ents, double t, double dt);
+
+    virtual bool collision_exists(
+        std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p);
+
+ protected:
     double collision_range_;
     bool startup_collisions_only_;
     bool enable_team_collisions_;
     bool enable_non_team_collisions_;
     bool init_alt_deconflict_;
-    
-    sc::PublisherPtr team_collision_pub_;
-    sc::PublisherPtr non_team_collision_pub_;
-private:     
+
+    scrimmage::PublisherPtr team_collision_pub_;
+    scrimmage::PublisherPtr non_team_collision_pub_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_

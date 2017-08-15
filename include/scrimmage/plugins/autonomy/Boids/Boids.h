@@ -30,20 +30,23 @@
  *
  */
 
-#ifndef Boids_H_
-#define Boids_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <map>
+#include <string>
+
 class Boids : public scrimmage::Autonomy{
-public:
-     Boids();
-     virtual void init(std::map<std::string,std::string> &params);
+ public:
+     virtual void init(std::map<std::string, std::string> &params);
      virtual bool step_autonomy(double t, double dt);
-protected:
+
+ protected:
      double w_align_;
      double w_avoid_;
      double w_centroid_;
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_

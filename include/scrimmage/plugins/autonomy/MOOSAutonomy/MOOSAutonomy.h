@@ -30,23 +30,28 @@
  *
  */
 
-#ifndef MOOSAutonomy_H_
-#define MOOSAutonomy_H_
-#include <thread>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/math/Angles.h>
+
+#include <thread> // NOLINT
+#include <string>
+#include <map>
 
 #include "MOOSNode.h"
 
 class MOOSAutonomy : public scrimmage::Autonomy {
-public:
+ public:
     MOOSAutonomy();
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool ready();
     virtual bool step_autonomy(double t, double dt);
-protected:
+
+ protected:
     void run_moos_node();
-    
+
     std::thread moos_node_thread_;
     std::thread ivp_thread_;
     MOOSNode moos_node_;
@@ -57,7 +62,6 @@ protected:
 
     scrimmage::Angles angles_to_moos_;
     scrimmage::Angles angles_from_moos_;
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_

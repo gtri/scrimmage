@@ -30,10 +30,6 @@
  *
  */
 
-#include <iostream>
-#include <limits>
-#include <memory>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
@@ -54,19 +50,16 @@
 #include <scrimmage/plugins/interaction/BulletCollision/BulletCollision.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
+#include <memory>
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 namespace sp = scrimmage_proto;
 
-using std::cout;
-using std::endl;
-
 REGISTER_PLUGIN(scrimmage::EntityInteraction, BulletCollision,
                 BulletCollision_plugin)
 
-BulletCollision::BulletCollision()
-{        
+BulletCollision::BulletCollision() {
     scene_size_ = 500;
     max_objects_ = 16000;
 
@@ -77,8 +70,8 @@ BulletCollision::BulletCollision()
     btVector3 worldAabbMin(-sscene_size, -sscene_size, -sscene_size);
     btVector3 worldAabbMax(sscene_size, sscene_size, sscene_size);
 
-    //This is one type of broadphase, bullet has others that might be faster
-    //depending on the application. true for disabling raycast accelerator.
+    // This is one type of broadphase, bullet has others that might be faster
+    // depending on the application. true for disabling raycast accelerator.
     bt_broadphase = new bt32BitAxisSweep3(worldAabbMin, worldAabbMax,
                                           max_objects_, 0, true);
 
@@ -89,21 +82,19 @@ BulletCollision::BulletCollision()
     sphere_shape_ = new btSphereShape(1);
 }
 
-BulletCollision::~BulletCollision()
-{
+BulletCollision::~BulletCollision() {
     delete bt_collision_world;
     delete bt_broadphase;
     delete bt_dispatcher;
     delete bt_collision_configuration;
 }
 
-bool BulletCollision::init(std::map<std::string,std::string> &mission_params,
-                           std::map<std::string,std::string> &plugin_params)
-{
+bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
+                           std::map<std::string, std::string> &plugin_params) {
     show_rays_ = sc::get<bool>("show_rays", plugin_params, false);
     enable_collision_detection_ = sc::get<bool>("enable_collision_detection", plugin_params, true);
     enable_ray_tracing_ = sc::get<bool>("enable_ray_tracing", plugin_params, true);
-    
+
     sub_ent_gen_ = create_subscriber("EntityGenerated");
     sub_shape_gen_ = create_subscriber("ShapeGenerated");
 
@@ -123,8 +114,7 @@ bool BulletCollision::init(std::map<std::string,std::string> &mission_params,
 
 
 bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt)
-{
+                                              double t, double dt) {
     shapes_.clear();
 
     // Maybe we should use a map by default
@@ -155,7 +145,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
     // Get newly created objects
     for (auto msg : sub_ent_gen_->msgs<sc::Message<sm::EntityGenerated>>()) {
-        int id = msg->data.entity_id();        
+        int id = msg->data.entity_id();
 
         btCollisionObject* coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
@@ -178,7 +168,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                         create_publisher(std::to_string(id) + "/" +         \
                                          std::to_string(num_ray_sensors)  + \
                                          "/pointcloud");
-                
+
                     std::shared_ptr<RayTrace> rs =                      \
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
                     if (rs) {
@@ -191,11 +181,11 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                         for (int v = 0; v < rs->num_rays_vert(); v++) {
                             double angle_horiz = start_angle_horiz;
                             for (int h = 0; h < rs->num_rays_horiz(); h++) {
-                                Eigen::Vector3d r(rs->max_range(),0,0);
-                                sc::Quaternion rot_vert(Eigen::Vector3d(0,1,0), angle_vert);
+                                Eigen::Vector3d r(rs->max_range(), 0, 0);
+                                sc::Quaternion rot_vert(Eigen::Vector3d(0, 1, 0), angle_vert);
                                 r = rot_vert.rotate(r);
 
-                                sc::Quaternion rot_horiz(Eigen::Vector3d(0,0,1), angle_horiz);
+                                sc::Quaternion rot_horiz(Eigen::Vector3d(0, 0, 1), angle_horiz);
                                 r = rot_horiz.rotate(r);
 
                                 rays_[id][num_ray_sensors].push_back(r);
@@ -219,7 +209,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     // For all ray-based sensors, compute point clouds
     for (auto &kv : rays_) {
         Eigen::Vector3d own_pos = int_to_ent_map[kv.first]->state()->pos();
-        
+
         for (auto &kv2 : kv.second) {
             auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
             msg->data.max_range = kv2.second.front().norm();
@@ -235,15 +225,15 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
                 bt_collision_world->rayTest(btFrom, btTo, res);
 
-                if(res.hasHit()){
+                if (res.hasHit()) {
                     // Use original ray's direction, but shorten to length of
                     // detection ray, this way we don't have to use a rotation
                     // matrix.
                     Eigen::Vector3d hit_point(res.m_hitPointWorld.x(), res.m_hitPointWorld.y(), res.m_hitPointWorld.z());
-                    
-                    msg->data.points.push_back(                        
+
+                    msg->data.points.push_back(
                         RayTrace::PCPoint(original_ray.normalized() * (hit_point-own_pos).norm(), 255));
-                    
+
                     if (show_rays_) {
                         std::shared_ptr<sp::Shape> arrow(new sp::Shape);
                         arrow->set_type(sp::Shape::Line);
@@ -253,10 +243,8 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                         sc::add_point(arrow, hit_point);
                         shapes_.push_back(arrow);
                     }
-                    //cout << "hit shape " << res.m_collisionObject->getCollisionShape()->getName() << endl;
                 } else {
                     msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255));
-                    //pointcloud.points.push_back(original_ray);
                     if (show_rays_) {
                         std::shared_ptr<sp::Shape> arrow(new sp::Shape);
                         arrow->set_type(sp::Shape::Line);
@@ -274,10 +262,10 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
     if (enable_collision_detection_) {
         bt_collision_world->performDiscreteCollisionDetection();
-        
+
         int numManifolds = bt_collision_world->getDispatcher()->getNumManifolds();
-        
-        //For each contact manifold
+
+        // For each contact manifold
         for (int i = 0; i < numManifolds; i++) {
             btPersistentManifold* contactManifold = bt_collision_world->getDispatcher()->getManifoldByIndexInternal(i);
             const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
@@ -285,39 +273,15 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
             int numContacts = contactManifold->getNumContacts();
 
-            //For each contact point in that manifold
+            // For each contact point in that manifold
             for (int j = 0; j < numContacts; j++) {
 
-                //cout << "Collision: " << obA->getUserIndex() << " - " << obB->getUserIndex() << endl;
-
-                //Get the contact information
+                // Get the contact information
                 btManifoldPoint& pt = contactManifold->getContactPoint(j);
-                //btVector3 ptA = pt.getPositionWorldOnA();
-                //btVector3 ptB = pt.getPositionWorldOnB();
-                //double ptdist = pt.getDistance();
-                //cout << "ptdist: " << ptdist << endl;
-                //cout << "impulse: " << pt.getAppliedImpulse() << endl;
-                //cout << "normal: " << pt.m_normalWorldOnB.x() << ", " << pt.m_normalWorldOnB.y() << ", " << pt.m_normalWorldOnB.z() << endl;
 
-                //sc::MotionModelPtr &motionA = int_to_ent_map[obA->getUserIndex()]->motion();
-                //sc::MotionModelPtr &motionB = int_to_ent_map[obB->getUserIndex()]->motion();
-                //
-                //double momentumA = motionA->mass() * motionA->state()->vel().norm();
-                //double momentumB = motionB->mass() * motionB->state()->vel().norm();
-                //double force = (momentumA + momentumB) / dt;
-                //
                 Eigen::Vector3d normal_B(pt.m_normalWorldOnB.x(),
                                          pt.m_normalWorldOnB.y(),
                                          pt.m_normalWorldOnB.z());
-
-                //cout << "----" << endl;
-                //cout << "Normal: " << obA->getUserIndex() << ", " << normal_B << endl;
-                //cout << "Normal: " << obB->getUserIndex() << ", " << -normal_B << endl;
-
-                //Eigen::Vector3d force_B_dir = -normal_B * force;
-                //
-                //cout << "Force on " << obA->getUserIndex() << ", " << -force_B_dir << endl;
-                //cout << "Force on " << obB->getUserIndex() << ", " << force_B_dir << endl;
 
                 if (int_to_ent_map.count(obB->getUserIndex()) > 0) {
                     int_to_ent_map[obB->getUserIndex()]->motion()->set_external_force(-normal_B);
@@ -333,7 +297,6 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 }
 
 bool BulletCollision::collision_exists(std::list<sc::EntityPtr> &ents,
-                                       Eigen::Vector3d &p)
-{
+                                       Eigen::Vector3d &p) {
     return false;
 }

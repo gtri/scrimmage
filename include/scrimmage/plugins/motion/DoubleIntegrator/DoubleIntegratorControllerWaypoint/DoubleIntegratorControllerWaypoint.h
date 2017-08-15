@@ -30,18 +30,23 @@
  *
  */
 
-#ifndef DoubleIntegratorControllerWaypoint_H_
-#define DoubleIntegratorControllerWaypoint_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_
+
+#include <map>
+#include <string>
+
 #include "../DoubleIntegrator.h"
 
 class DoubleIntegratorControllerWaypoint : public DoubleIntegrator::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector3d &u() {return u_;};
+    virtual Eigen::Vector3d &u() {return u_;}
+
  protected:
     Eigen::Vector3d u_;
     Eigen::Vector2d gain_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_

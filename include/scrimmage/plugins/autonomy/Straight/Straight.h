@@ -30,18 +30,21 @@
  *
  */
 
-#ifndef Straight_H_
-#define Straight_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
 #include <Eigen/Dense>
 
+#include <map>
+#include <string>
+
 class Straight : public scrimmage::Autonomy{
-public:
-     Straight();
-     virtual void init(std::map<std::string,std::string> &params);
-     virtual bool step_autonomy(double t, double dt);     
-protected:
+ public:
+     virtual void init(std::map<std::string, std::string> &params);
+     virtual bool step_autonomy(double t, double dt);
+
+ protected:
      double speed_;
      Eigen::Vector3d goal_;
 
@@ -49,7 +52,6 @@ protected:
      bool show_camera_images_;
      bool save_camera_images_;
      bool show_text_label_;
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_

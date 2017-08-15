@@ -32,7 +32,6 @@
 
 #include <scrimmage/plugins/motion/JSBSimControl/JSBSimControl.h>
 
-#include <GeographicLib/LocalCartesian.hpp>
 #include <initialization/FGTrim.h>
 
 #include <scrimmage/common/Utilities.h>
@@ -42,6 +41,8 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
+#include <GeographicLib/LocalCartesian.hpp>
+
 #define meters2feet 3.28084
 #define feet2meters (1.0 / meters2feet)
 
@@ -50,8 +51,7 @@ REGISTER_PLUGIN(scrimmage::MotionModel, JSBSimControl, JSBSimControl_plugin)
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-JSBSimControl::JSBSimControl()
-{
+JSBSimControl::JSBSimControl() {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
     angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
     angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
@@ -60,21 +60,19 @@ JSBSimControl::JSBSimControl()
     angles_to_jsbsim_.set_input_clock_direction(ang::Rotate::CCW);
     angles_to_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_X);
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
-    angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);        
+    angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 }
 
-std::tuple<int,int,int> JSBSimControl::version()
-{
-    return std::tuple<int,int,int>(0,0,1);
+std::tuple<int, int, int> JSBSimControl::version() {
+    return std::tuple<int, int, int>(0, 0, 1);
 }
 
 bool JSBSimControl::init(std::map<std::string, std::string> &info,
-                         std::map<std::string, std::string> &params)
-{
+                         std::map<std::string, std::string> &params) {
     roll_pid_.set_parameters(std::stod(params["roll_kp"]),
                              std::stod(params["roll_ki"]),
                              std::stod(params["roll_kd"]));
-    
+
     roll_pid_.set_integral_band(M_PI/40.0);
     roll_pid_.set_is_angle(true);
 
@@ -83,7 +81,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     pitch_pid_.set_parameters(std::stod(params["pitch_kp"]),
                              std::stod(params["pitch_ki"]),
                              std::stod(params["pitch_kd"]));
-    
+
     pitch_pid_.set_integral_band(M_PI/40.0);
     pitch_pid_.set_is_angle(true);
 
@@ -92,12 +90,12 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     yaw_pid_.set_parameters(std::stod(params["yaw_kp"]),
                              std::stod(params["yaw_ki"]),
                              std::stod(params["yaw_kd"]));
-    
+
     yaw_pid_.set_integral_band(M_PI/40.0);
     yaw_pid_.set_is_angle(true);
-    
+
     //////////
-    
+
     exec = std::make_shared<JSBSim::FGFDMExec>();
 
     exec->SetDebugLevel(0);
@@ -111,7 +109,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     exec->SetRootDir(info["log_dir"]);
     exec->SetRootDir(info["JSBSIM_ROOT"]);
 
-    JSBSim::FGInitialCondition *ic=exec->GetIC();
+    JSBSim::FGInitialCondition *ic = exec->GetIC();
     if (info.count("latitude") > 0) {
         ic->SetLatitudeDegIC(std::stod(info["latitude"]));
     }
@@ -152,7 +150,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     vel_down_node_ = mgr->GetNode("velocities/v-down-fps");
 
     u_vel_node_ = mgr->GetNode("velocities/u-fps");
-    
+
     // Save state
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
                                   longitude_node_->getDoubleValue(),
@@ -172,12 +170,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool JSBSimControl::step(double time, double dt)
-{
-    //ap_aileron_cmd_node_->setDoubleValue(0.9); // Right: +, Left: -
-    //ap_elevator_cmd_node_->setDoubleValue(-0.5); // Down: +, Up: -
-    //double u_vel = u_vel_node_->getDoubleValue();
-    
+bool JSBSimControl::step(double time, double dt) {
     ap_throttle_cmd_node_->setDoubleValue(0.9);
 
     Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
@@ -186,19 +179,19 @@ bool JSBSimControl::step(double time, double dt)
     double u_yaw = u(2);
 
     // Roll stabilizer
-    ap_aileron_cmd_node_->setDoubleValue(u_roll);    
-    
+    ap_aileron_cmd_node_->setDoubleValue(u_roll);
+
     // Pitch stabilizer
     if (time < 5) {
-        ap_elevator_cmd_node_->setDoubleValue(u_pitch);    
+        ap_elevator_cmd_node_->setDoubleValue(u_pitch);
     } else if (time < 7) {
-        ap_elevator_cmd_node_->setDoubleValue(0.5);    
+        ap_elevator_cmd_node_->setDoubleValue(0.5);
     } else {
-        ap_elevator_cmd_node_->setDoubleValue(-0.5);    
+        ap_elevator_cmd_node_->setDoubleValue(-0.5);
     }
 
     // Yaw stabilizer
-    ap_rudder_cmd_node_->setDoubleValue(u_yaw);    
+    ap_rudder_cmd_node_->setDoubleValue(u_yaw);
 
     exec->Setdt(dt);
     exec->Run();

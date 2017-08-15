@@ -30,28 +30,28 @@
  *
  */
 
-#ifndef NOISY_STATE_H_
-#define NOISY_STATE_H_
-
-#include <random>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
 
-class NoisyState : public scrimmage::Sensor {
-public:
-    NoisyState() {}
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
+#include <random>
+#include <map>
+#include <string>
+#include <vector>
 
+class NoisyState : public scrimmage::Sensor {
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+
+ protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
-        
-private:
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_

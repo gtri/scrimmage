@@ -29,15 +29,19 @@
  * A Long description goes here.
  *
  */
-
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_
 #include <pybind11/pybind11.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/entity/Contact.h>
 
+#include <string>
+#include <map>
+
 class PyAutonomy : public scrimmage::Autonomy {
  public:
     PyAutonomy();
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
 
     std::string type() {return std::string("PyAutonomy");}
@@ -64,7 +68,6 @@ class PyAutonomy : public scrimmage::Autonomy {
     }
 
  protected:
-
     void cache_python_vars();
     pybind11::object get_py_obj(std::map<std::string, std::string> &params);
     void init_py_obj(std::map<std::string, std::string> &params);
@@ -96,3 +99,5 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     std::map<scrimmage::Contact::Type, pybind11::object> py_contact_types_;
 };
+
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_

@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/plugins/motion/Unicycle/Unicycle.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -37,31 +38,23 @@
 #include <scrimmage/math/State.h>
 #include <boost/algorithm/clamp.hpp>
 
-#include <scrimmage/plugins/motion/Unicycle/Unicycle.h>
-
-REGISTER_PLUGIN(scrimmage::MotionModel, Unicycle, 
+REGISTER_PLUGIN(scrimmage::MotionModel, Unicycle,
                 Unicycle_plugin)
 
 namespace sc = scrimmage;
 
 namespace pl = std::placeholders;
 
-enum ModelParams
-{
+enum ModelParams {
     X = 0,
     Y,
     THETA,
     MODEL_NUM_ITEMS
 };
 
-Unicycle::Unicycle()
-{
-    x_.resize(MODEL_NUM_ITEMS);
-}
-
 bool Unicycle::init(std::map<std::string, std::string> &info,
-                            std::map<std::string, std::string> &params)
-{
+                            std::map<std::string, std::string> &params) {
+    x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
     x_[THETA] = state_->quat().yaw();
@@ -71,15 +64,14 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool Unicycle::step(double t, double dt)
-{   
-    u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();    
-    
+bool Unicycle::step(double t, double dt) {
+    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+
     double prev_x = x_[X];
     double prev_y = x_[Y];
-    
+
     ode_step(dt);
-    
+
     double dx = (x_[X] - prev_x) / dt;
     double dy = (x_[Y] - prev_y) / dt;
 
@@ -94,10 +86,9 @@ bool Unicycle::step(double t, double dt)
     return true;
 }
 
-void Unicycle::model(const vector_t &x , vector_t &dxdt , double t)
-{    
-    double vel = boost::algorithm::clamp(u_(0), -vel_max_, vel_max_);
-    double yaw_rate = boost::algorithm::clamp(u_(1), -turn_rate_max_, turn_rate_max_);
+void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
+    double vel = boost::algorithm::clamp(ctrl_u_(0), -vel_max_, vel_max_);
+    double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
     dxdt[X] = vel * cos(x[THETA]);
     dxdt[Y] = vel * sin(x[THETA]);
     dxdt[THETA] = yaw_rate;

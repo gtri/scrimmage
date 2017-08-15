@@ -30,30 +30,30 @@
  *
  */
 
-#ifndef MapGen2D_H_
-#define MapGen2D_H_
-
-#include <opencv2/core/core.hpp>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_
 
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/proto/Shape.pb.h>
 
-namespace sc = scrimmage;
-namespace sp = scrimmage_proto;
+#include <list>
+#include <map>
+#include <string>
 
-class MapGen2D : public scrimmage::EntityInteraction
-{
-public:
-    MapGen2D();
-    bool init(std::map<std::string,std::string> &mission_params,
-              std::map<std::string,std::string> &plugin_params);
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt);
-protected:
-    std::shared_ptr<sp::Shape> connect_points(Eigen::Vector3d &p,
-                                              Eigen::Vector3d &prev_p);
+#include <opencv2/core/core.hpp>
+
+class MapGen2D : public scrimmage::EntityInteraction {
+ public:
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params);
+    bool step_entity_interaction(
+        std::list<scrimmage::EntityPtr> &ents, double t, double dt);
+
+ protected:
+    std::shared_ptr<scrimmage_proto::Shape> connect_points(
+        Eigen::Vector3d &p, Eigen::Vector3d &prev_p);
 
     std::list<cv::Rect> find_rectangles(cv::Mat &img, int threshold);
 
@@ -61,14 +61,12 @@ protected:
 
     bool show_map_debug_;
     bool enable_map_boundary_;
-    
+
     double wall_bottom_z_;
-    double wall_height_;    
+    double wall_height_;
     double resolution_;
 
-    sc::PublisherPtr pub_shape_gen_;
-    
-private:     
+    scrimmage::PublisherPtr pub_shape_gen_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_

@@ -30,37 +30,24 @@
  *
  */
 
-#include <iostream>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 
 #include "ROSAutonomy.h"
 
-using std::cout;
-using std::endl;
-
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, ROSAutonomy, ROSAutonomy_plugin)
 
-ROSAutonomy::ROSAutonomy()
-{     
-}
+ROSAutonomy::ROSAutonomy() {}
 
-void ROSAutonomy::init(std::map<std::string,std::string> &params)
-{
+void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
-    desired_state_->quat().set(0,0,state_->quat().yaw());    
+    desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
-
-    //t_cpa_ = scrimmage::get_double("t_cpa", params, 0);
 }
 
-bool ROSAutonomy::step_autonomy(double t, double dt)
-{
-    
-
+bool ROSAutonomy::step_autonomy(double t, double dt) {
     return true;
 }

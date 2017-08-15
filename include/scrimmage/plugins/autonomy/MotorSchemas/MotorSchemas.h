@@ -30,30 +30,31 @@
  *
  */
 
-#ifndef MotorSchemas_H_
-#define MotorSchemas_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
-class MotorSchemas : public scrimmage::Autonomy {
-public:
-    MotorSchemas();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
-protected:
+#include <map>
+#include <string>
 
+class MotorSchemas : public scrimmage::Autonomy {
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
+
+ protected:
     bool show_shapes_;
-    
+
     double max_speed_;
-    
+
     Eigen::Vector3d goal_;
-    double move_to_goal_gain_;    
-    
+    double move_to_goal_gain_;
+
     double avoid_robot_gain_;
     double sphere_of_influence_;
     double minimum_range_;
     double sqrt_axis_ratio_;
-    
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_

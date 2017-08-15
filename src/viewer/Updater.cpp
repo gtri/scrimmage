@@ -97,7 +97,7 @@ Updater *Updater::New() {
 }
 
 Updater::Updater() :
-        update_count(0), frame_time_(0), inc_follow_(true),
+        frame_time_(0), update_count(0), inc_follow_(true),
         dec_follow_(false), follow_offset_(50) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;

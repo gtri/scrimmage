@@ -42,9 +42,9 @@
 #include <scrimmage/proto/ProtoConversions.h>
 
 #if ENABLE_OPENCV == 1
+#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 #endif
 
 namespace sc = scrimmage;
@@ -57,18 +57,9 @@ namespace sp = scrimmage_proto;
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 namespace fs = boost::filesystem;
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 REGISTER_PLUGIN(scrimmage::Autonomy, Straight, Straight_plugin)
 
-Straight::Straight()
-{
-}
-
-void Straight::init(std::map<std::string,std::string> &params)
-{
+void Straight::init(std::map<std::string, std::string> &params) {
 
     speed_ = scrimmage::get("speed", params, 0.0);
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
@@ -85,8 +76,6 @@ void Straight::init(std::map<std::string,std::string> &params)
             while (it != endit) {
                 fs::path path = it->path();
                 if (fs::is_regular_file(*it) && path.extension() == ".png") {
-                    //std::string fname = path.filename().string();
-                    //std::string full_path = fs::absolute(path).string();
                     paths_to_rm.push_back(path);
                 }
                 ++it;
@@ -101,7 +90,7 @@ void Straight::init(std::map<std::string,std::string> &params)
     }
 
     desired_state_->vel() = speed_*Eigen::Vector3d::UnitX();
-    desired_state_->quat().set(0,0,state_->quat().yaw());
+    desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = state_->pos()(2)*Eigen::Vector3d::UnitZ();
 
     // Project goal in front...
@@ -118,7 +107,7 @@ void Straight::init(std::map<std::string,std::string> &params)
 
         sc::ShapePtr shape(new sp::Shape());
         shape->set_type(sp::Shape::Text);
-        sc::set(shape->mutable_color(),255,255,255);
+        sc::set(shape->mutable_color(), 255, 255, 255);
         sc::set(shape->mutable_center(), in_front);
         shape->set_persistent(true);
         shape->set_text("Hello SCRIMMAGE!");
@@ -127,8 +116,7 @@ void Straight::init(std::map<std::string,std::string> &params)
     }
 }
 
-bool Straight::step_autonomy(double t, double dt)
-{
+bool Straight::step_autonomy(double t, double dt) {
     // Read data from sensors...
     sc::State own_state;
     for (auto kv : parent_->sensors()) {

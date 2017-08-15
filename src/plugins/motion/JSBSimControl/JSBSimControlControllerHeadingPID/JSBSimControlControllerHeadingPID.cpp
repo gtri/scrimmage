@@ -41,7 +41,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
                 JSBSimControlControllerHeadingPID,
                 JSBSimControlControllerHeadingPID_plugin)
 
-namespace sc = scrimmage; 
+namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
 void set_pid(sc::PID &pid, std::string str, bool is_angle) {
@@ -92,13 +92,13 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
 
     // Pitch stabilizer
     pitch_pid_.set_setpoint(0);
-    u_(1) = -pitch_pid_.step(dt, state_->quat().pitch());        
-    
+    u_(1) = -pitch_pid_.step(dt, state_->quat().pitch());
+
     // Yaw stabilizer
     double desired_yaw = desired_state_->quat().yaw();
-    angles_to_jsbsim_.set_angle(ang::rad2deg(desired_yaw));    
+    angles_to_jsbsim_.set_angle(ang::rad2deg(desired_yaw));
     yaw_pid_.set_setpoint(ang::deg2rad(angles_to_jsbsim_.angle()));
-    u_(2) = -yaw_pid_.step(dt, state_->quat().yaw());    
+    u_(2) = -yaw_pid_.step(dt, state_->quat().yaw());
 
     return true;
 }

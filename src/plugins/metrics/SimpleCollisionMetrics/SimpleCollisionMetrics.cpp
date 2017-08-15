@@ -30,9 +30,6 @@
  *
  */
 
-#include <iostream>
-#include <fstream>
-
 #include <scrimmage/metrics/Metrics.h>
 
 #include <scrimmage/entity/Entity.h>
@@ -49,6 +46,9 @@
 
 #include <scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionMetrics.h>
 
+#include <iostream>
+#include <fstream>
+
 REGISTER_PLUGIN(scrimmage::Metrics, SimpleCollisionMetrics, SimpleCollisionMetrics_plugin)
 
 namespace sc = scrimmage;
@@ -56,24 +56,20 @@ namespace sm = scrimmage_msgs;
 using std::cout;
 using std::endl;
 
-SimpleCollisionMetrics::SimpleCollisionMetrics()
-{
-}
+SimpleCollisionMetrics::SimpleCollisionMetrics() {}
 
-void SimpleCollisionMetrics::init(std::map<std::string,std::string> &params)
-{
+void SimpleCollisionMetrics::init(std::map<std::string, std::string> &params) {
     params_ = params;
-    
+
     sub_team_collision_ = create_subscriber("TeamCollision");
     sub_non_team_collision_ = create_subscriber("NonTeamCollision");
     sub_ground_collision_ = create_subscriber("GroundCollision");
     sub_ent_gen_ = create_subscriber("EntityGenerated");
     sub_ent_rm_ = create_subscriber("EntityRemoved");
-    sub_ent_pres_end_ = create_subscriber("EntityPresentAtEnd");        
+    sub_ent_pres_end_ = create_subscriber("EntityPresentAtEnd");
 }
 
-bool SimpleCollisionMetrics::step_metrics(double t, double dt)
-{
+bool SimpleCollisionMetrics::step_metrics(double t, double dt) {
     for (auto msg : sub_team_collision_->msgs<sc::Message<sm::TeamCollision>>()) {
         scores_[msg->data.entity_id_1()].increment_team_collisions();
         scores_[msg->data.entity_id_2()].increment_team_collisions();
@@ -104,8 +100,7 @@ bool SimpleCollisionMetrics::step_metrics(double t, double dt)
     return true;
 }
 
-void SimpleCollisionMetrics::calc_team_scores()
-{
+void SimpleCollisionMetrics::calc_team_scores() {
     double end_time = -std::numeric_limits<double>::infinity();
     double beg_time = std::numeric_limits<double>::infinity();
     for (auto &kv : scores_) {
@@ -143,7 +138,7 @@ void SimpleCollisionMetrics::calc_team_scores()
         team_coll_scores_[team_id].add_flight_time(score.flight_time());
         team_coll_scores_[team_id].increment_entity_count();
     }
-    
+
     for (auto &kv : team_coll_scores_) {
         int team_id = kv.first;
         SimpleCollisionScore &score = kv.second;
@@ -166,28 +161,27 @@ void SimpleCollisionMetrics::calc_team_scores()
     headers_.push_back("ground_coll");
 }
 
-void SimpleCollisionMetrics::print_team_summaries()
-{
+void SimpleCollisionMetrics::print_team_summaries() {
     for (std::map<int, SimpleCollisionScore>::iterator it = team_coll_scores_.begin();
-         it != team_coll_scores_.end(); it++) {
+         it != team_coll_scores_.end(); ++it) {
 
         bool survived = false;
         auto it_survive = surviving_teams_.find(it->first);
         if (it_survive != surviving_teams_.end()) survived = true;
-        
+
         cout << "Team ID: " << it->first;
         if (survived) {
             cout << "\t(Survived round)" << endl;
         } else {
-            cout << "\t(Didn't survive round)" << endl;            
+            cout << "\t(Didn't survive round)" << endl;
         }
-        cout << "Score: " << it->second.score() << endl;        
+        cout << "Score: " << it->second.score() << endl;
         cout << "Entity Count: " << it->second.entity_count() << endl;
         cout << "Total Flight Time: " << it->second.flight_time() << endl;
         cout << "Total Normalized Flight Time: " << it->second.flight_time_norm() << endl;
         cout << "Non-Team Collisions: " << it->second.non_team_collisions() << endl;
         cout << "Team Collisions: " << it->second.team_collisions() << endl;
         cout << "Ground Collisions: " << it->second.ground_collisions() << endl;
-        cout << sc::generate_chars("-",70) << endl;
+        cout << sc::generate_chars("-", 70) << endl;
     }
 }

@@ -30,17 +30,19 @@
  *
  */
 
-#ifndef WAYPOINT_H_
-#define WAYPOINT_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINT_WAYPOINT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINT_WAYPOINT_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <map>
+#include <string>
+
 class WayPoint : public scrimmage::Autonomy{
-public:
+ public:
      WayPoint();
-     void init(std::map<std::string,std::string> &params);
+     void init(std::map<std::string, std::string> &params);
      virtual bool step_autonomy(double t, double dt);
-protected:
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINT_WAYPOINT_H_

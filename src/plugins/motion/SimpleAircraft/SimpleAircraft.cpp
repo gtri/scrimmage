@@ -35,8 +35,9 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
-#include <boost/algorithm/clamp.hpp>
 #include <scrimmage/entity/Entity.h>
+
+#include <boost/algorithm/clamp.hpp>
 
 using boost::algorithm::clamp;
 
@@ -45,8 +46,7 @@ REGISTER_PLUGIN(scrimmage::MotionModel, SimpleAircraft, SimpleAircraft_plugin)
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
 
-enum ModelParams
-{
+enum ModelParams {
     X = 0,
     Y,
     Z,
@@ -57,27 +57,20 @@ enum ModelParams
     MODEL_NUM_ITEMS
 };
 
-enum ControlParams
-{
+enum ControlParams {
     THRUST = 0,
     TURN_RATE,
     PITCH_RATE,
     CONTROL_NUM_ITEMS
 };
 
-SimpleAircraft::SimpleAircraft()
-{
-    x_.resize(MODEL_NUM_ITEMS);
-}
-
-std::tuple<int,int,int> SimpleAircraft::version()
-{
-    return std::tuple<int,int,int>(0,0,1);
+std::tuple<int, int, int> SimpleAircraft::version() {
+    return std::tuple<int, int, int>(0, 0, 1);
 }
 
 bool SimpleAircraft::init(std::map<std::string, std::string> &info,
-                          std::map<std::string, std::string> &params)
-{
+                          std::map<std::string, std::string> &params) {
+    x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     sc::Quaternion &quat = state_->quat();
 
@@ -103,22 +96,21 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool SimpleAircraft::step(double time, double dt)
-{
-    // Need to saturate state variables before model runs    
+bool SimpleAircraft::step(double time, double dt) {
+    // Need to saturate state variables before model runs
     x_[ROLL] = clamp(x_[ROLL], -max_roll_, max_roll_);
     x_[PITCH] = clamp(x_[PITCH], -max_pitch_, max_pitch_);
     x_[SPEED] = clamp(x_[SPEED], min_velocity_, max_velocity_);
 
-    if (u_ == nullptr) {
+    if (ctrl_u_ == nullptr) {
         std::shared_ptr<Controller> ctrl =
             std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
         if (ctrl) {
-            u_ = ctrl->u();
+            ctrl_u_ = ctrl->u();
         }
     }
 
-    if (u_ == nullptr) {
+    if (ctrl_u_ == nullptr) {
         return false;
     }
 
@@ -131,8 +123,7 @@ bool SimpleAircraft::step(double time, double dt)
     return true;
 }
 
-void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t)
-{
+void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 0 : x-position
     /// 1 : y-position
     /// 2 : z-position
@@ -140,9 +131,9 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t)
     /// 4 : pitch
     /// 5 : yaw
     /// 6 : speed
-    double thrust = (*u_)(THRUST);
-    double roll_rate = (*u_)(TURN_RATE);
-    double pitch_rate = (*u_)(PITCH_RATE);
+    double thrust = (*ctrl_u_)(THRUST);
+    double roll_rate = (*ctrl_u_)(TURN_RATE);
+    double pitch_rate = (*ctrl_u_)(PITCH_RATE);
 
     // Saturate control inputs
     thrust = clamp(thrust, -100.0, 100.0);
@@ -160,8 +151,7 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t)
     dxdt[SPEED] = thrust/5;
 }
 
-void SimpleAircraft::teleport(sc::StatePtr &state)
-{
+void SimpleAircraft::teleport(sc::StatePtr &state) {
     x_[X] = state->pos()[0];
     x_[Y] = state->pos()[1];
     x_[Z] = state->pos()[2];

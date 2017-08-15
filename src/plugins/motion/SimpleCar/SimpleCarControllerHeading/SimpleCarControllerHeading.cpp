@@ -53,8 +53,6 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params
     pid_.set_is_angle(true);
 }
 
-using std::cout;
-using std::endl;
 bool SimpleCarControllerHeading::step(double t, double dt) {
     u_(0) = desired_state_->vel()(0);
     pid_.set_setpoint(desired_state_->quat().yaw());

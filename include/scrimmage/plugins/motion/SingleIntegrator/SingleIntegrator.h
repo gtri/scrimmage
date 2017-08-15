@@ -30,19 +30,22 @@
  *
  */
 
-#ifndef SingleIntegrator_H_
-#define SingleIntegrator_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+
+#include <map>
+#include <string>
 
 class SingleIntegrator : public scrimmage::MotionModel {
  public:
     SingleIntegrator();
 
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
+                      std::map<std::string, std::string> &params);
 
     virtual bool step(double t, double dt);
 
@@ -50,11 +53,11 @@ class SingleIntegrator : public scrimmage::MotionModel {
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector3d &u() = 0; 
+        virtual Eigen::Vector3d &u() = 0;
     };
 
  protected:
-    Eigen::Vector3d u_;
+    Eigen::Vector3d ctrl_u_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_

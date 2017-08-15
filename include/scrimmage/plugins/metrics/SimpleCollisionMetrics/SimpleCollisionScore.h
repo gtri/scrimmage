@@ -30,17 +30,16 @@
  *
  */
 
-#ifndef SCORE_H_
-#define SCORE_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONSCORE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONSCORE_H_
 
+#include <map>
 #include <string>
 
 class SimpleCollisionScore {
  public:
-    SimpleCollisionScore();
+    bool set_weights(std::map<std::string, std::string> &params);
 
-    bool set_weights(std::map<std::string,std::string> &params);
-    
     void set_flight_time_start(double t) { flight_time_start_ = t; }
     void set_flight_time_end(double t) { flight_time_end_ = t; }
     void increment_non_team_collisions() { non_team_collisions_++; }
@@ -64,7 +63,7 @@ class SimpleCollisionScore {
     void set_non_team_collisions(int non_team_collisions) {non_team_collisions_ = non_team_collisions;}
     void set_team_collisions(int team_collisions) {team_collisions_ = team_collisions;}
     void set_ground_collisions(int ground_collisions) {ground_collisions_ = ground_collisions;}
-    
+
     double flight_time() {return (flight_time_end_ - flight_time_start_);}
     double flight_time_end() {return flight_time_end_;}
     double flight_time_start() {return flight_time_start_;}
@@ -72,20 +71,20 @@ class SimpleCollisionScore {
 
     double score();
 
-protected:
+ protected:
     // 1.) Flight Time (FT)
-    double flight_time_start_;
-    double flight_time_end_;
-    int non_team_collisions_;
-    int team_collisions_;
-    int ground_collisions_;
+    double flight_time_start_ = 0;
+    double flight_time_end_ = 0;
+    int non_team_collisions_ = 0;
+    int team_collisions_ = 0;
+    int ground_collisions_ = 0;
 
-    double flight_time_w_;
-    double non_team_collisions_w_;
-    double team_collisions_w_;
-    
-    double max_flight_time_;
-    int entity_count_;
+    double flight_time_w_ = 0;
+    double non_team_collisions_w_ = 0;
+    double team_collisions_w_ = 0;
+
+    double max_flight_time_ = 0;
+    int entity_count_ = 0;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONSCORE_H_

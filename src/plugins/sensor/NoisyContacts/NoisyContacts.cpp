@@ -33,7 +33,6 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/NoisyContacts/NoisyContacts.h>
 #include <scrimmage/common/ID.h>
-#include <vector>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
@@ -47,13 +46,14 @@
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 
+#include <vector>
+
 REGISTER_PLUGIN(scrimmage::Sensor, NoisyContacts, NoisyContacts_plugin)
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-void NoisyContacts::init(std::map<std::string,std::string> &params)
-{
+void NoisyContacts::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
 
     max_detect_range_ = sc::get<double>("max_detect_range", params, 1000);
@@ -92,12 +92,11 @@ void NoisyContacts::init(std::map<std::string,std::string> &params)
             orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
-    
+
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t)
-{
+boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t) {
     auto msg = std::make_shared<sc::Message<std::list<sc::Contact>>>();
 
     for (auto &kv : *(parent_->contacts())) {
@@ -120,10 +119,10 @@ boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t)
         // Create noisy copy of contact
         sc::Contact c;
         c.set_id(kv.second.id());
-        
+
         for (int i = 0; i < 3; i++) {
             c.state()->pos()(i) = kv.second.state()->pos()(i) + (*pos_noise_[i])(*gener_);
-            c.state()->vel()(i) = kv.second.state()->vel()(i) + (*vel_noise_[i])(*gener_);            
+            c.state()->vel()(i) = kv.second.state()->vel()(i) + (*vel_noise_[i])(*gener_);
         }
 
         // TODO: Test this math.
@@ -132,7 +131,7 @@ boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t)
             * sc::Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener_))
             * sc::Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener_))
             * sc::Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener_));
-        
+
         msg->data.push_back(c);
     }
 

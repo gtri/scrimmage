@@ -30,15 +30,20 @@
  *
  */
 
-#ifndef SimpleAircraftControllerPID_H_
-#define SimpleAircraftControllerPID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
+
+#include <map>
+#include <string>
+
 #include "../SimpleAircraft.h"
 
 class SimpleAircraftControllerPID : public SimpleAircraft::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector3d> u() {return u_;};
+    virtual std::shared_ptr<Eigen::Vector3d> u() {return u_;}
+
  protected:
     std::shared_ptr<Eigen::Vector3d> u_;
     scrimmage::PID heading_pid_;
@@ -46,4 +51,4 @@ class SimpleAircraftControllerPID : public SimpleAircraft::Controller {
     scrimmage::PID vel_pid_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_

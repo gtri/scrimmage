@@ -30,25 +30,30 @@
  *
  */
 
-#ifndef FixedWing6DOFControllerROS_H_
-#define FixedWing6DOFControllerROS_H_
-#include "../FixedWing6DOF.h"
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_
 
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 
+#include <map>
+#include <string>
+
+#include "../FixedWing6DOF.h"
+
 class FixedWing6DOFControllerROS : public FixedWing6DOF::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector4d> u() {return u_;};    
+    virtual std::shared_ptr<Eigen::Vector4d> u() {return u_;}
+
  protected:
     std::shared_ptr<Eigen::Vector4d> u_;
-    
+
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Subscriber cmd_vel_sub_;
     geometry_msgs::Twist cmd_vel_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_

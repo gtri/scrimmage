@@ -30,39 +30,38 @@
  *
  */
 
-#ifndef SimpleCollisionMetrics_H_
-#define SimpleCollisionMetrics_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
 #include <scrimmage/metrics/Metrics.h>
 
 #include "SimpleCollisionScore.h"
 
-namespace sc = scrimmage;
+#include <map>
+#include <string>
 
 class SimpleCollisionMetrics : public scrimmage::Metrics {
-public:
+ public:
     SimpleCollisionMetrics();
 
     virtual std::string name() { return std::string("SimpleCollisionMetrics"); }
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_metrics(double t, double dt);
     virtual void calc_team_scores();
-    virtual void print_team_summaries();    
-    
-protected:
-    sc::SubscriberPtr sub_team_collision_;
-    sc::SubscriberPtr sub_non_team_collision_;
-    sc::SubscriberPtr sub_ground_collision_;
-    sc::SubscriberPtr sub_ent_gen_;
-    sc::SubscriberPtr sub_ent_rm_;
-    sc::SubscriberPtr sub_ent_pres_end_;
+    virtual void print_team_summaries();
+
+ protected:
+    scrimmage::SubscriberPtr sub_team_collision_;
+    scrimmage::SubscriberPtr sub_non_team_collision_;
+    scrimmage::SubscriberPtr sub_ground_collision_;
+    scrimmage::SubscriberPtr sub_ent_gen_;
+    scrimmage::SubscriberPtr sub_ent_rm_;
+    scrimmage::SubscriberPtr sub_ent_pres_end_;
 
     std::map<int, SimpleCollisionScore> scores_;
     std::map<int, SimpleCollisionScore> team_coll_scores_;
     std::map<int, bool> surviving_teams_;
 
-    std::map<std::string,std::string> params_;
-
-private:
+    std::map<std::string, std::string> params_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_

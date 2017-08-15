@@ -30,15 +30,20 @@
  *
  */
 
-#ifndef JSBSimModelControllerHeadingPID_H_
-#define JSBSimModelControllerHeadingPID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_
+
+#include <map>
+#include <string>
+
 #include "../JSBSimModel.h"
 
 class JSBSimModelControllerHeadingPID : public JSBSimModel::Controller {
- public: 
+ public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector3d &u() {return u_;};
+    virtual Eigen::Vector3d &u() {return u_;}
+
  protected:
     Eigen::Vector3d u_;
     scrimmage::Angles angles_to_jsbsim_;
@@ -50,4 +55,4 @@ class JSBSimModelControllerHeadingPID : public JSBSimModel::Controller {
     double max_bank_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_

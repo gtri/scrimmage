@@ -30,37 +30,38 @@
  *
  */
 
-#ifndef RayTrace_H_
-#define RayTrace_H_
-
-#include <random>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
 
-class RayTrace : public scrimmage::Sensor {
-public:    
+#include <random>
+#include <map>
+#include <string>
+#include <vector>
 
+class RayTrace : public scrimmage::Sensor {
+ public:
     class PCPoint {
-    public:
-        PCPoint() : point(Eigen::Vector3d(0,0,0)), intensity(0) {}
+     public:
+        PCPoint() : point(Eigen::Vector3d(0, 0, 0)), intensity(0) {}
         explicit PCPoint(Eigen::Vector3d p) : point(p), intensity(0) {}
         PCPoint(Eigen::Vector3d p, double i) : point(p), intensity(i) {}
         Eigen::Vector3d point;
-        double intensity;        
+        double intensity;
     };
 
     class PointCloud {
-    public:
+     public:
         std::vector<PCPoint> points;
         double max_range;
     };
-    
-    RayTrace();
+
     virtual std::string name() { return "RayTrace"; }
     virtual std::string type() { return "Ray"; }
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
 
     double angle_res_vert() { return angle_res_vert_; }
@@ -70,8 +71,8 @@ public:
     double max_range() { return max_range_; }
     double min_range() { return min_range_; }
     double max_sample_rate() { return max_sample_rate_; }
-    
-protected:
+
+ protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
 
@@ -82,8 +83,6 @@ protected:
     double max_range_;
     double min_range_;
     double max_sample_rate_;
-    
-private:
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_

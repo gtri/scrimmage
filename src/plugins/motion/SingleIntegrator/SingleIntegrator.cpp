@@ -45,8 +45,7 @@ namespace sc = scrimmage;
 
 namespace pl = std::placeholders;
 
-enum ModelParams
-{
+enum ModelParams {
     X = 0,
     Y,
     Z,
@@ -55,17 +54,15 @@ enum ModelParams
     MODEL_NUM_ITEMS
 };
 
-SingleIntegrator::SingleIntegrator()
-{
+SingleIntegrator::SingleIntegrator() {
     x_.resize(MODEL_NUM_ITEMS);
 }
 
 bool SingleIntegrator::init(std::map<std::string, std::string> &info,
-                            std::map<std::string, std::string> &params)
-{
-    x_[X] = std::stod(info["x"]); //x
-    x_[Y] = std::stod(info["y"]); //y
-    x_[Z] = std::stod(info["z"]); //z
+                            std::map<std::string, std::string> &params) {
+    x_[X] = std::stod(info["x"]);
+    x_[Y] = std::stod(info["y"]);
+    x_[Z] = std::stod(info["z"]);
 
     x_[HEADING] = sc::Angles::deg2rad(std::stod(info["heading"]));
     x_[PITCH] = 0;
@@ -77,9 +74,8 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool SingleIntegrator::step(double t, double dt)
-{
-    u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+bool SingleIntegrator::step(double t, double dt) {
+    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
 
     double prev_x = x_[X];
     double prev_y = x_[Y];
@@ -104,9 +100,8 @@ bool SingleIntegrator::step(double t, double dt)
     return true;
 }
 
-void SingleIntegrator::model(const vector_t &x , vector_t &dxdt , double t)
-{
-    dxdt[X] = u_(X);
-    dxdt[Y] = u_(Y);
-    dxdt[Z] = u_(Z);
+void SingleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
+    dxdt[X] = ctrl_u_(X);
+    dxdt[Y] = ctrl_u_(Y);
+    dxdt[Z] = ctrl_u_(Z);
 }

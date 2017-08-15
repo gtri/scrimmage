@@ -30,33 +30,35 @@
  *
  */
 
-#ifndef SIMPLEAIRCRAFT_H_
-#define SIMPLEAIRCRAFT_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 
+#include <map>
+#include <string>
+#include <tuple>
+
 class SimpleAircraft : public scrimmage::MotionModel{
  public:
-    SimpleAircraft();     
+    virtual std::tuple<int, int, int> version();
 
-    virtual std::tuple<int,int,int> version();
-     
     virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);          
-    virtual bool step(double time, double dt);     
+                      std::map<std::string, std::string> &params);
+    virtual bool step(double time, double dt);
 
     void model(const vector_t &x , vector_t &dxdt , double t);
 
-    virtual void teleport(scrimmage::StatePtr &state);     
-     
+    virtual void teleport(scrimmage::StatePtr &state);
+
     class Controller : public scrimmage::Controller {
      public:
-        virtual std::shared_ptr<Eigen::Vector3d> u() = 0; 
+        virtual std::shared_ptr<Eigen::Vector3d> u() = 0;
     };
 
-    void set_u(std::shared_ptr<Eigen::Vector3d> u) {u_ = u;}
+    void set_u(std::shared_ptr<Eigen::Vector3d> u) {ctrl_u_ = u;}
 
  protected:
     scrimmage::PID heading_pid_;
@@ -64,14 +66,12 @@ class SimpleAircraft : public scrimmage::MotionModel{
     scrimmage::PID vel_pid_;
 
     double length_;
-    std::shared_ptr<Eigen::Vector3d> u_;
+    std::shared_ptr<Eigen::Vector3d> ctrl_u_;
 
     double min_velocity_;
     double max_velocity_;
     double max_roll_;
     double max_pitch_;
-    
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_

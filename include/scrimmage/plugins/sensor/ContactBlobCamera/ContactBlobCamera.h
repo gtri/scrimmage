@@ -30,25 +30,28 @@
  *
  */
 
-#ifndef CONTACT_BLOB_CAMERA_H_
-#define CONTACT_BLOB_CAMERA_H_
-
-#include <random>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_
 
 #include <Eigen/Dense>
-#include <opencv2/core/core.hpp>
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
 
-class ContactBlobCamera : public scrimmage::Sensor {
-public:
-    ContactBlobCamera() {}
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
+#include <random>
+#include <map>
+#include <string>
+#include <vector>
 
+#include <opencv2/core/core.hpp>
+
+class ContactBlobCamera : public scrimmage::Sensor {
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+
+ protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
@@ -70,8 +73,6 @@ protected:
     cv::Mat frame_;
     double fps_;
     double last_frame_t_;
-    
-private:
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_

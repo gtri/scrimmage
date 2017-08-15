@@ -30,32 +30,28 @@
  *
  */
 
-#include <iostream>
-
-#include <limits>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/State.h>
-#include <memory>
-
-#include <scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h>
-
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
 
+#include <scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h>
 #include <scrimmage/msgs/AuctionMsgs.pb.h>
+
+#include <iostream>
+#include <limits>
+#include <memory>
 
 namespace sc = scrimmage;
 
 using BidMsg = sc::Message<auction::BidAuction>;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, AuctionAssign, AuctionAssign_plugin)
-
-AuctionAssign::AuctionAssign() {}
 
 void AuctionAssign::init(std::map<std::string, std::string> &params) {
     id_ = parent_->id().id();

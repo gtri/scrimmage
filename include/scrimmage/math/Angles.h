@@ -105,7 +105,7 @@ class Angles {
     HeadingZero in_zero_ = HeadingZero::Pos_X;
 
     Rotate out_direction_ = Rotate::CCW;
-    HeadingZero out_zero_ = HeadingZero::Pos_X ;
+    HeadingZero out_zero_ = HeadingZero::Pos_X;
 
  private:
 };

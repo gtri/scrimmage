@@ -33,7 +33,6 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/NoisyState/NoisyState.h>
 #include <scrimmage/common/ID.h>
-#include <vector>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
@@ -48,17 +47,14 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
 
-#include <iostream>
+#include <vector>
+
 REGISTER_PLUGIN(scrimmage::Sensor, NoisyState, NoisyState_plugin)
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-using std::cout;
-using std::endl;
-
-void NoisyState::init(std::map<std::string,std::string> &params)
-{
+void NoisyState::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
 
     for (int i = 0; i < 3; i++) {
@@ -93,12 +89,11 @@ void NoisyState::init(std::map<std::string,std::string> &params)
             orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
-    
+
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> NoisyState::sensor_msg(double t)
-{
+boost::optional<scrimmage::MessageBasePtr> NoisyState::sensor_msg(double t) {
     // Make a copy of the current state
     sc::State ns = *(parent_->state());
 

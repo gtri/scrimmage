@@ -30,8 +30,6 @@
  *
  */
 
-#include <iostream>
-#include <string>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -39,50 +37,38 @@
 
 #include <scrimmage/plugins/autonomy/MOOSAutonomy/MOOSNode.h>
 
+#include <string>
+
 namespace sc = scrimmage;
 
-using std::cout;
-using std::endl;
+MOOSNode::MOOSNode() : deployed_(false), appTick_(1), commsTick_(1), time_warp_(1) {}
 
-//default constructor
-MOOSNode::MOOSNode() : deployed_(false)
-{    
-}
+MOOSNode::~MOOSNode() {}
 
-//default (virtual) destructor
-MOOSNode::~MOOSNode()
-{
-}
-
-bool MOOSNode::ready()
-{
+bool MOOSNode::ready() {
     deployed_mutex_.lock();
     bool ready = deployed_;
     deployed_mutex_.unlock();
     return ready;
 }
 
-sc::State MOOSNode::desired_state()
-{
+sc::State MOOSNode::desired_state() {
     desired_mutex_.lock();
     sc::State s = desired_;
     desired_mutex_.unlock();
     return s;
 }
 
-void MOOSNode::set_time_warp(double warp)
-{
-    time_warp_ = warp;    
+void MOOSNode::set_time_warp(double warp) {
+    time_warp_ = warp;
 }
 
-bool MOOSNode::OnNewMail (MOOSMSG_LIST &Mail)
-{
+bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
     MOOSMSG_LIST::iterator q;
-    for(q=Mail.begin(); q!=Mail.end(); q++) {
+    for (q = Mail.begin(); q != Mail.end(); ++q) {
         CMOOSMsg &msg = *q;
         std::string key = msg.GetKey();
         double dval = msg.GetDouble();
-        std::string sval = msg.GetString();
 
         if (key == "DESIRED_HEADING") {
             desired_mutex_.lock();
@@ -96,7 +82,7 @@ bool MOOSNode::OnNewMail (MOOSMSG_LIST &Mail)
             desired_mutex_.lock();
             desired_.pos() = -Eigen::Vector3d::UnitZ()*dval;
             desired_mutex_.unlock();
-        }  else if (key == "IVPHELM_STATE") {            
+        }  else if (key == "IVPHELM_STATE") {
             if (!deployed_) {
                 Notify("DEPLOY", "true");
                 Notify("RETURN", "false");
@@ -115,8 +101,7 @@ bool MOOSNode::OnNewMail (MOOSMSG_LIST &Mail)
   the MOOSDB and a channel has been opened . Place code to specify what
   notifications you want to receive here .
 */
-bool MOOSNode::OnConnectToServer()
-{
+bool MOOSNode::OnConnectToServer() {
     DoRegistrations();
     SetMOOSTimeWarp(time_warp_);
     return true;
@@ -126,8 +111,7 @@ bool MOOSNode::OnConnectToServer()
   Called by the base class periodically. This is where you place code
   which does the work of the application
 */
-bool MOOSNode::Iterate()
-{       
+bool MOOSNode::Iterate() {
     return true;
 }
 
@@ -136,16 +120,15 @@ bool MOOSNode::Iterate()
   startup code here − especially code which reads configuration data from the
   mission file
 */
-bool MOOSNode::OnStartUp()
-{
+bool MOOSNode::OnStartUp() {
     appTick_ = 1;
     commsTick_ = 1;
 
-    if(!m_MissionReader.GetConfigurationParam("AppTick",appTick_)){
+    if (!m_MissionReader.GetConfigurationParam("AppTick", appTick_)) {
         MOOSTrace("Warning, AppTick not set.\n");
     }
 
-    if(!m_MissionReader.GetConfigurationParam("CommsTick",commsTick_)){
+    if (!m_MissionReader.GetConfigurationParam("CommsTick", commsTick_)) {
         MOOSTrace("Warning, CommsTick not set.\n");
     }
 
@@ -157,11 +140,11 @@ bool MOOSNode::OnStartUp()
     return true;
 }
 
-void MOOSNode::DoRegistrations(){
+void MOOSNode::DoRegistrations() {
     Register("DESIRED_HEADING", 0.0);
     Register("DESIRED_SPEED", 0.0);
     Register("DESIRED_DEPTH", 0.0);
-    Register("IVPHELM_STATE", 0.0);    
+    Register("IVPHELM_STATE", 0.0);
 }
 
 bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
@@ -169,8 +152,7 @@ bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
                                  double nav_x, double nav_y, double speed,
                                  double heading, double depth,
                                  std::string type, std::string mode,
-                                 double time, std::string frame_number)
-{
+                                 double time, std::string frame_number) {
     NodeRecord record;
     record.setName(id);
     record.setX(nav_x);
@@ -183,7 +165,7 @@ bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
     record.setProperty("FRAMENUM", frame_number);
 
     std::string moos_var;
-    switch(report_type) {
+    switch (report_type) {
     case OWNSHIP:
         moos_var = "NODE_REPORT_LOCAL";
         Notify("NAV_X", nav_x);

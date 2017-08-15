@@ -61,25 +61,25 @@ bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
     x_[VX] = clamp(state_->vel()(0), -max_vel_, max_vel_);
     x_[VY] = clamp(state_->vel()(1), -max_vel_, max_vel_);
     x_[VZ] = clamp(state_->vel()(2), -max_vel_, max_vel_);
-    
+
     state_->pos() << x_[X], x_[Y], x_[Z];
-    
+
     return true;
 }
 
-bool DoubleIntegrator::step(double t, double dt) {   
-    u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();    
-    u_(0) = clamp(u_(0), -max_acc_, max_acc_);
-    u_(1) = clamp(u_(1), -max_acc_, max_acc_);
-    u_(2) = clamp(u_(2), -max_acc_, max_acc_);
+bool DoubleIntegrator::step(double t, double dt) {
+    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    ctrl_u_(0) = clamp(ctrl_u_(0), -max_acc_, max_acc_);
+    ctrl_u_(1) = clamp(ctrl_u_(1), -max_acc_, max_acc_);
+    ctrl_u_(2) = clamp(ctrl_u_(2), -max_acc_, max_acc_);
 
     ode_step(dt);
-    
+
     x_[VX] = clamp(x_[VX], -max_vel_, max_vel_);
     x_[VY] = clamp(x_[VY], -max_vel_, max_vel_);
     x_[VZ] = clamp(x_[VZ], -max_vel_, max_vel_);
 
-    state_->pos() << x_[X], x_[Y], x_[Z];    
+    state_->pos() << x_[X], x_[Y], x_[Z];
     state_->vel() << x_[VX], x_[VY], x_[VZ];
     state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
     return true;
@@ -95,12 +95,12 @@ double DoubleIntegrator::update_dvdt(double vel, double acc) {
     }
 }
 
-void DoubleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {    
+void DoubleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[X] = clamp(x_[VX], -max_vel_, max_vel_);
     dxdt[Y] = clamp(x_[VY], -max_vel_, max_vel_);
     dxdt[Z] = clamp(x_[VZ], -max_vel_, max_vel_);
 
-    dxdt[VX] = update_dvdt(x[VX], u_(0));
-    dxdt[VY] = update_dvdt(x[VY], u_(1));
-    dxdt[VZ] = update_dvdt(x[VZ], u_(2));
+    dxdt[VX] = update_dvdt(x[VX], ctrl_u_(0));
+    dxdt[VY] = update_dvdt(x[VY], ctrl_u_(1));
+    dxdt[VZ] = update_dvdt(x[VZ], ctrl_u_(2));
 }
