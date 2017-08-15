@@ -30,19 +30,19 @@
  *
  */
 
-#include <iostream>
-#include <iomanip>
-#include <chrono>
-#include <ctime>
-#include <fstream>
-
-#include <string>
-#include <sstream>
-#include <cstdlib>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
+
+#include <iostream>
+#include <iomanip>
+#include <chrono> // NOLINT
+#include <ctime>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <cstdlib>
 
 #include <boost/filesystem.hpp>
 
@@ -52,8 +52,7 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     if (argc < 2) {
         cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
@@ -66,12 +65,12 @@ int main(int argc, char *argv[])
     std::vector<std::string> paths;
     fs::path root = dir;
     std::string ext = ".result";
-    if(fs::exists(root) && fs::is_directory(root)) {
+    if (fs::exists(root) && fs::is_directory(root)) {
         fs::recursive_directory_iterator it(root);
         fs::recursive_directory_iterator endit;
 
-        while(it != endit) {
-            if(fs::is_regular_file(*it) && it->path().extension() == ext) {
+        while (it != endit) {
+            if (fs::is_regular_file(*it) && it->path().extension() == ext) {
                 std::string full_path = fs::absolute(it->path()).string();
                 paths.push_back(full_path);
             }
@@ -89,7 +88,7 @@ int main(int argc, char *argv[])
     for (std::vector<std::string>::iterator it = paths.begin();
          it != paths.end(); it++) {
 
-        std::string filename = *it;        
+        std::string filename = *it;
 
         if (!fs::exists(fs::path(filename))) {
             cout << "Filter file doesn't exist: " << filename << endl;
@@ -106,7 +105,7 @@ int main(int argc, char *argv[])
         }
 
         std::string line;
-        while (getline(file,line)) {
+        while (getline(file, line)) {
             scenarios[stem].push_back(line);
         }
         file.close();
@@ -117,8 +116,8 @@ int main(int argc, char *argv[])
     headings.push_back("Number");
     headings.push_back("Name");
     headings.push_back("Count");
-        
-    std::map<int,std::string> name_2_index;
+
+    std::map<int, std::string> name_2_index;
     std::string choose_type;
     int choose_num = -1;
     do {
@@ -128,7 +127,7 @@ int main(int argc, char *argv[])
         for (auto &i : headings) {
             cout << std::left << std::setw(col_wid) << i;
         }
-        cout << endl;                    
+        cout << endl;
         cout << "----------------------------------------------------" << endl;
         int i = 0;
         for (std::map<std::string, std::list<std::string> >::iterator it = scenarios.begin();
@@ -138,20 +137,20 @@ int main(int argc, char *argv[])
             cout << std::left << std::setw(col_wid) << select_str;
             cout << std::left << std::setw(col_wid) << it->first;
             cout << std::left << std::setw(col_wid) << it->second.size() << endl;
-            i++;            
+            i++;
         }
         cout << ">> ";
         std::cin >> choose_type;
         choose_num = std::stoi(choose_type);
-    } while (name_2_index.count(choose_num) == 0);    
-    
-    cout << "Playing back: " << name_2_index[choose_num] << endl;    
+    } while (name_2_index.count(choose_num) == 0);
+
+    cout << "Playing back: " << name_2_index[choose_num] << endl;
 
     for (std::list<std::string>::iterator it = scenarios[name_2_index[choose_num]].begin();
          it != scenarios[name_2_index[choose_num]].end(); /* no inc */) {
 
         cout << "Mission: " << *it << endl;
-        
+
         // Show the run in the visualizer
         std::string cmd = "scrimmage-playback " + *it;
         int status = std::system(cmd.c_str());

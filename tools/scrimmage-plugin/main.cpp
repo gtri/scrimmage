@@ -30,10 +30,11 @@
  *
  */
 
+#include <scrimmage/parse/ConfigParse.h>
+
 #include <iostream>
 #include <string>
 #include <memory>
-#include <scrimmage/parse/ConfigParse.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>

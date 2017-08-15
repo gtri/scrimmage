@@ -29,23 +29,23 @@
  * A Long description goes here.
  *
  */
-
-#include <iostream>
-#include <iomanip>
-#include <chrono>
-#include <ctime>
 #include <signal.h>
-#include <thread>
-
-#include <boost/filesystem.hpp>
 
 #include <scrimmage/network/Interface.h>
-#if ENABLE_VIEWER==1
+#if ENABLE_VIEWER == 1
 #include <scrimmage/viewer/Viewer.h>
 #endif
 
 #include <scrimmage/common/Timer.h>
 #include <scrimmage/log/Log.h>
+
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <chrono> // NOLINT
+#include <thread> // NOLINT
+
+#include <boost/filesystem.hpp>
 
 using std::cout;
 using std::endl;
@@ -57,18 +57,16 @@ namespace sp = scrimmage_proto;
 // Handle kill signal
 std::mutex mutex_;
 bool quit = false;
-void HandleSignal(int s)
-{
+void HandleSignal(int s) {
     mutex_.lock();
     quit = true;
     mutex_.unlock();
     cout << endl << "Exiting gracefully" << endl;
 }
 
-void playback_loop(std::shared_ptr<sc::Log> log, 
-                   sc::InterfacePtr in_interface, 
-                   sc::InterfacePtr out_interface)
-{
+void playback_loop(std::shared_ptr<sc::Log> log,
+                   sc::InterfacePtr in_interface,
+                   sc::InterfacePtr out_interface) {
     // Get dt from first two frames
     double dt = 0.1;
     if (log->frames().size() >= 2) {
@@ -80,57 +78,57 @@ void playback_loop(std::shared_ptr<sc::Log> log,
     } else {
         cout << "Fewer than two frames parsed. Using dt: " << dt << endl;
     }
-    
+
     bool paused = true;
-    
-    double time_warp = 5;    
+
+    double time_warp = 5;
     double rate = 1.0 / dt;
-    
+
     sc::Timer timer;
     timer.set_iterate_rate(rate);
     timer.set_time_warp(time_warp);
     timer.update_time_config();
-    
+
     bool exit_loop = false;
-    
+
     auto it_shapes = log->shapes().begin();
     auto it_utm_terrain = log->utm_terrain().begin();
     auto it_contact_visual = log->contact_visual().begin();
-        
+
     timer.start_overall_timer();
     for (auto it = log->frames().begin(); it != log->frames().end(); it++) {
         timer.start_loop_timer();
         // Send all other messages up to current frame time before sending
         // current frame
-        while (it_shapes != log->shapes().end() && 
+        while (it_shapes != log->shapes().end() &&
                (*it_shapes)->time() <= (*it)->time()) {
-            out_interface->send_shapes(**it_shapes);            
+            out_interface->send_shapes(**it_shapes);
             ++it_shapes;
         }
 
-        while (it_utm_terrain != log->utm_terrain().end() && 
+        while (it_utm_terrain != log->utm_terrain().end() &&
                (*it_utm_terrain)->time() <= (*it)->time()) {
             out_interface->send_utm_terrain(*it_utm_terrain);
             ++it_utm_terrain;
         }
 
-        while (it_contact_visual != log->contact_visual().end() && 
+        while (it_contact_visual != log->contact_visual().end() &&
                (*it_contact_visual)->time() <= (*it)->time()) {
             out_interface->send_contact_visual(*it_contact_visual);
             ++it_contact_visual;
         }
-        
-        out_interface->send_frame(*it);        
-        
+
+        out_interface->send_frame(*it);
+
         // Wait loop timer.
         // Stay in loop if currently paused.
-        do {  
+        do {
             timer.loop_wait();
-            
+
             mutex_.lock();
             bool quit_test = quit;
             mutex_.unlock();
-        
+
             if (quit_test) {
                 exit_loop = true;
             }
@@ -165,21 +163,20 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             if (single_step) {
                 single_step = false;
                 break;
-            }            
+            }
         } while (paused && !exit_loop);
         if (exit_loop) break;
     }
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     // Handle kill signals
     struct sigaction sa;
     memset( &sa, 0, sizeof(sa) );
     sa.sa_handler = HandleSignal;
     sigfillset(&sa.sa_mask);
-    sigaction(SIGINT,&sa,NULL);
-    sigaction(SIGTERM,&sa,NULL);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
 
     if (optind >= argc || argc < 2) {
         cout << "usage: " << argv[0] << " /path/to/log-dir" << endl;
@@ -188,35 +185,35 @@ int main(int argc, char *argv[])
 
     // Setup Logger
     std::shared_ptr<sc::Log> log(new sc::Log);
-    log->init(std::string(argv[1]), sc::Log::READ);        
-    
+    log->init(std::string(argv[1]), sc::Log::READ);
+
     sc::InterfacePtr to_gui_interface(new sc::Interface);
     sc::InterfacePtr from_gui_interface(new sc::Interface);
     to_gui_interface->set_log(log);
-    from_gui_interface->set_log(log);    
-    
+    from_gui_interface->set_log(log);
+
     to_gui_interface->set_mode(sc::Interface::shared);
     from_gui_interface->set_mode(sc::Interface::shared);
     to_gui_interface->set_log(log);
     from_gui_interface->set_log(log);
 
     //// Kick off server thread
-    //std::thread server_thread(&Interface::init_network, &(*incoming_interface_), 
-    //                          Interface::server, "localhost", 50051);
-    
+    // std::thread server_thread(&Interface::init_network, &(*incoming_interface_),
+    //                           Interface::server, "localhost", 50051);
+
     cout << "Frames parsed: " << log->frames().size() << endl;
-    
-    std::thread playback(playback_loop, log, from_gui_interface, 
-                         to_gui_interface);    
+
+    std::thread playback(playback_loop, log, from_gui_interface,
+                         to_gui_interface);
     playback.detach(); // todo
-    
+
     sc::Viewer viewer;
     viewer.set_enable_network(false);
     viewer.set_incoming_interface(to_gui_interface);
     viewer.set_outgoing_interface(from_gui_interface);
     viewer.init();
     viewer.run();
-    
+
     cout << "Playback Complete" << endl;
     return 0;
 }

@@ -30,28 +30,28 @@
  *
  */
 
+#include <signal.h>
+
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/simcontrol/SimControl.h>
+#include <scrimmage/viewer/Viewer.h>
+#include <scrimmage/log/Log.h>
+#include <scrimmage/log/Frame.h>
+
 #include <iostream>
 #include <iomanip>
-#include <chrono>
+#include <chrono> // NOLINT
 #include <ctime>
-#include <signal.h>
 
 #include <cstdlib>
 #include <string>
 #include <sstream>
 #include <memory>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/common/Utilities.h>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
-
-#include <scrimmage/simcontrol/SimControl.h>
-#include <scrimmage/viewer/Viewer.h>
-
-#include <scrimmage/log/Log.h>
-#include <scrimmage/log/Frame.h>
 #include <boost/filesystem.hpp>
 
 using std::cout;
@@ -63,8 +63,7 @@ namespace sc = scrimmage;
 // Handle kill signal
 std::mutex mutex_;
 bool quit = false;
-void HandleSignal(int s)
-{
+void HandleSignal(int s) {
     cout << endl << "Exiting gracefully" << endl;
     mutex_.lock();
     quit = true;
@@ -74,8 +73,7 @@ void HandleSignal(int s)
 // Setup SimControl (interface between log file and Viewer)
 sc::SimControl simcontrol;
 
-void playback_loop(std::list<sc::Frame> frames, sc::MissionParsePtr mp)
-{
+void playback_loop(std::list<sc::Frame> frames, sc::MissionParsePtr mp) {
     double time_warp = 5;
 
     simcontrol.setup_timer(1.0 / mp->dt(), time_warp);
@@ -84,63 +82,62 @@ void playback_loop(std::list<sc::Frame> frames, sc::MissionParsePtr mp)
     simcontrol.pause(true);
 
     std::map<int, sc::ContactVisualPtr> contact_visuals;
-    
+
     bool exit_loop = false;
     sc::FileSearch file_search;
     for (sc::Frame &frame : frames) {
         simcontrol.start_loop_timer();
-        
+
         for (auto &kv : *frame.contacts_) {
             // Are there any new contacts?
             if (contact_visuals.count(kv.first) == 0) {
                 // Get the entity ID from the frame
-                sc::ID id = kv.second.id();                
-            
+                sc::ID id = kv.second.id();
+
                 sc::Entity ent;
                 ent.set_id(id);
                 ent.parse_visual(mp->entity_descriptions()[id.sub_swarm_id()], mp, file_search);
                 contact_visuals[kv.first] = ent.contact_visual();
-                simcontrol.set_contact_visuals(contact_visuals);               
-            }            
+                simcontrol.set_contact_visuals(contact_visuals);
+            }
         }
-        
+
         cout << frame.time_ << endl;
-        
+
         simcontrol.set_time(frame.time_);
         simcontrol.set_contacts(frame.contacts_);
-        
+
         // Wait loop timer.
         // Stay in loop if currently paused.
         do {
             simcontrol.loop_wait();
-        
+
             mutex_.lock();
             bool quit_test = quit;
             mutex_.unlock();
-        
+
             if (simcontrol.single_step()) {
                 simcontrol.single_step(false);
                 break;
             }
-        
+
             if (quit_test || simcontrol.external_exit()) {
                 exit_loop = true;
             }
-        } while(simcontrol.paused() && !exit_loop);
+        } while (simcontrol.paused() && !exit_loop);
         if (exit_loop) break;
     }
     simcontrol.set_finished(true);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     // Handle kill signals
     struct sigaction sa;
     memset( &sa, 0, sizeof(sa) );
     sa.sa_handler = HandleSignal;
     sigfillset(&sa.sa_mask);
-    sigaction(SIGINT,&sa,NULL);
-    sigaction(SIGTERM,&sa,NULL);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
 
     if (optind >= argc || argc < 2) {
         cout << "usage: " << argv[0] << " /path/to/log-dir" << endl;
@@ -176,22 +173,22 @@ int main(int argc, char *argv[])
     // Setup Logger
     scrimmage::Log log;
     log.init(log_dir, scrimmage::Log::READ);
-    //log.parse(bin_file, scrimmage::Log::FRAMES);
+    // log.parse(bin_file, scrimmage::Log::FRAMES);
     cout << "Frames parsed: " << log.scrimmage_frames().size() << endl;
 
     // Extract the entity visuals from the mission parser before kicking
     // off the simcontrol thread, look at the first frame only
     simcontrol.set_mission_parse(mp);
-    //simcontrol.generate_entities(true, mp->t0()-1);        
+    // simcontrol.generate_entities(true, mp->t0()-1);
 
     // Kick off playback thread
     std::thread thread(&playback_loop, log.scrimmage_frames(), mp);
 
     // Start up visualization (in main thread - VTK reasons)
     scrimmage::Viewer viewer;
-    //viewer.set_mission_parser(mp);
-    //viewer.set_simcontrol(&simcontrol);
-    //viewer.run();
+    // viewer.set_mission_parser(mp);
+    // viewer.set_simcontrol(&simcontrol);
+    // viewer.run();
     viewer.init();
     viewer.run();
 
