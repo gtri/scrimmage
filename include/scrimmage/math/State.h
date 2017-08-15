@@ -30,14 +30,16 @@
  *
  */
 
-#ifndef STATE_H_
-#define STATE_H_
+#ifndef INCLUDE_SCRIMMAGE_MATH_STATE_H_
+#define INCLUDE_SCRIMMAGE_MATH_STATE_H_
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
-#include <memory>
+
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
+
+#include <memory>
 
 namespace scrimmage {
 
@@ -85,6 +87,6 @@ class State {
 
 using StatePtr = std::shared_ptr<State>;
 
-};
+} // namespace scrimmage
 
-#endif  // STATE_H_
+#endif  // INCLUDE_SCRIMMAGE_MATH_STATE_H_

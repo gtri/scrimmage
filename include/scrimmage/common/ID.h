@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef ID_H_
-#define ID_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_ID_H_
+#define INCLUDE_SCRIMMAGE_COMMON_ID_H_
 
 namespace scrimmage {
 class ID {
@@ -57,4 +57,4 @@ class ID {
     int team_id_;
 };
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_COMMON_ID_H_

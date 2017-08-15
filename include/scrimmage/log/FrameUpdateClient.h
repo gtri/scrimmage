@@ -30,36 +30,34 @@
  *
  */
 
-#ifndef FRAMEUPDATECLIENT_H_
-#define FRAMEUPDATECLIENT_H_
+#ifndef INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_
+#define INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_
+
+#include <scrimmage/proto/Frame.pb.h>
+#include <scrimmage/fwd_decl.h>
+#include <scrimmage/math/Angles.h>
+
+#if ENABLE_GRPC == 1
+#include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#endif
+
 #include <iostream>
 #include <memory>
 #include <string>
 
-#if ENABLE_GRPC==1
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
-#endif
-
-#include <scrimmage/proto/Frame.pb.h>
-
-#include <scrimmage/fwd_decl.h>
-
-#include <scrimmage/math/Angles.h>
-
 namespace scrimmage {
 class FrameUpdateClient {
-public:
+ public:
     FrameUpdateClient(std::string ip, int port);
     bool send_frame(scrimmage_proto::Frame &frame);
 
     void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj);
-private:
-#if ENABLE_GRPC==1    
+ private:
+#if ENABLE_GRPC == 1
     std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub_;
-#endif    
+#endif
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
     Angles angles_to_gps_;
 };
-}
-
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_

@@ -30,13 +30,13 @@
  *
  */
 
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/common/Utilities.h>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
-
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/common/Utilities.h>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -47,6 +47,7 @@
 
 namespace fs = boost::filesystem;
 namespace rx = rapidxml;
+
 using std::cout;
 using std::endl;
 

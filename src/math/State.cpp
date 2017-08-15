@@ -34,7 +34,7 @@
 
 namespace scrimmage {
 
-State::State() : pos_(0,0,0), vel_(0,0,0) {}
+State::State() : pos_(0, 0, 0), vel_(0, 0, 0) {}
 
 State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Quaternion _quat) :
     pos_(_pos), vel_(_vel), quat_(_quat) {}
@@ -87,4 +87,4 @@ double State::rel_az(const Eigen::Vector3d &other) {
     return Angles::angle_diff_rad(az, quat_.yaw());
 }
 
-}
+} // namespace scrimmage

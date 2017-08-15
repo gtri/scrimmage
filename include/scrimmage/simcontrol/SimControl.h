@@ -30,24 +30,23 @@
  *
  */
 
-#ifndef SIMCONTROL_H_
-#define SIMCONTROL_H_
-#include <string>
-#include <thread>
-#include <map>
-#include <list>
-#include <mutex>
-
+#ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
+#define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/common/Timer.h>
-
-#include <future>
-#include <memory>
-#include <deque>
-
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
+
+#include <future> // NOLINT
+#include <memory>
+#include <deque>
+#include <vector>
+#include <string>
+#include <thread> // NOLINT
+#include <map>
+#include <list>
+#include <mutex> // NOLINT
 
 namespace scrimmage {
 
@@ -62,8 +61,7 @@ enum class EndConditionFlags {
     ALL_DEAD      = 1 << 3
 };
 
-inline EndConditionFlags operator|(EndConditionFlags a, EndConditionFlags b)
-{
+inline EndConditionFlags operator|(EndConditionFlags a, EndConditionFlags b) {
     return static_cast<EndConditionFlags>(static_cast<int>(a) |
                                             static_cast<int>(b));
 }
@@ -74,7 +72,7 @@ class SimControl {
     bool init();
     void start();
     void display_progress(bool enable);
-    void run();    
+    void run();
     void cleanup();
     bool wait_for_ready();
     void force_exit();
@@ -127,33 +125,33 @@ class SimControl {
         EntityPtr ent;
         std::promise<bool> prom;
     };
-    
+
     bool take_step();
 
     void step_taken();
 
     void set_incoming_interface(InterfacePtr &incoming_interface);
-    
+
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
-    
+
  protected:
     // Key: Entity ID
     // Value: Team ID
-    std::shared_ptr<std::unordered_map<int,int> > team_lookup_;
+    std::shared_ptr<std::unordered_map<int, int> > team_lookup_;
 
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
-    
+
     std::thread network_thread_;
-    
+
     MissionParsePtr mp_;
 
     std::list<EntityPtr> ents_;
 
     ContactMapPtr contacts_;
-    
-    std::map<int, std::list<ShapePtr> > shapes_;    
-    
+
+    std::map<int, std::list<ShapePtr> > shapes_;
+
     std::map<int, ContactVisualPtr> contact_visuals_;
 
     std::thread thread_;
@@ -197,8 +195,6 @@ class SimControl {
 
     std::shared_ptr<Log> log_;
 
-    //InteractionDetection inter_detect_;
-
     EndConditionFlags end_conditions_;
 
     RandomPtr random_;
@@ -241,8 +237,6 @@ class SimControl {
     PublisherPtr pub_one_team_;
 
     std::list<EntityPtr> not_ready_;
-    
-private:
 };
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

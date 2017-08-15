@@ -30,32 +30,32 @@
  *
  */
 
-#ifndef PID_H_
-#define PID_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_PID_H_
+#define INCLUDE_SCRIMMAGE_COMMON_PID_H_
 
 namespace scrimmage {
-    class PID {
-    public:
-        PID();
-        void set_parameters(double kp, double ki, double kd);
-        void set_setpoint(double setpoint);
-        double step(double dt, double measurement);
-        void set_integral_band(double integral_band);
-        void set_is_angle(bool is_angle);
-    protected:
-        double kp_;
-        double ki_;
-        double kd_;
+class PID {
+ public:
+    PID();
+    void set_parameters(double kp, double ki, double kd);
+    void set_setpoint(double setpoint);
+    double step(double dt, double measurement);
+    void set_integral_band(double integral_band);
+    void set_is_angle(bool is_angle);
 
-        double prev_error_;
-        double integral_;
+ protected:
+    double kp_;
+    double ki_;
+    double kd_;
 
-        double setpoint_;
+    double prev_error_;
+    double integral_;
 
-        double integral_band_;
-        bool is_angle_;
-    private:
-    };
-}
+    double setpoint_;
 
-#endif
+    double integral_band_;
+    bool is_angle_;
+};
+} // namespace scrimmage
+
+#endif // INCLUDE_SCRIMMAGE_COMMON_PID_H_

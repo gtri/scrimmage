@@ -30,16 +30,11 @@
  *
  */
 
-#include <iostream>
-
 #include <vtkCamera.h>
 
 #include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/viewer/Updater.h>
 #include <scrimmage/viewer/CameraInterface.h>
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -54,8 +49,7 @@ void Viewer::set_outgoing_interface(InterfacePtr &outgoing_interface)
 void Viewer::set_enable_network(bool enable)
 { enable_network_ = enable; }
 
-bool Viewer::init()
-{
+bool Viewer::init() {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 
@@ -64,12 +58,12 @@ bool Viewer::init()
     renderWindowInteractor_ = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     renderWindowInteractor_->SetRenderWindow(renderWindow_);
 
-    renderer_->SetBackground(0,0,0);
+    renderer_->SetBackground(0, 0, 0);
 
     // Setup camera
     vtkSmartPointer<vtkCamera> camera =
         vtkSmartPointer<vtkCamera>::New();
-    camera->SetViewUp(0,0,1);
+    camera->SetViewUp(0, 0, 1);
     camera->SetPosition(40, 40, 1000);
     camera->SetFocalPoint(0, 0, 0);
 
@@ -77,19 +71,17 @@ bool Viewer::init()
     cam_int_ = vtkSmartPointer<CameraInterface>::New();
     renderWindowInteractor_->SetInteractorStyle(cam_int_);
     cam_int_->SetCurrentRenderer(renderer_);
-    //actor_interface_->cam_int_ = style;
 
     renderer_->SetActiveCamera(camera);
 
     // Render and interact
     renderWindow_->SetWindowName("SCRIMMAGE");
-    renderWindow_->SetSize(800,600);
+    renderWindow_->SetSize(800, 600);
 
     return true;
 }
 
-bool Viewer::run()
-{
+bool Viewer::run() {
     double update_rate = 50; // Hz
 
     if (enable_network_) {
@@ -133,9 +125,8 @@ bool Viewer::run()
     return true;
 }
 
-bool Viewer::stop()
-{
+bool Viewer::stop() {
     renderWindowInteractor_->TerminateApp();
     return true;
 }
-}
+} // namespace scrimmage

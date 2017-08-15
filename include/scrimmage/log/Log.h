@@ -30,11 +30,8 @@
  *
  */
 
-#ifndef LOG_H_
-#define LOG_H_
-#include <list>
-#include <fstream>
-#include <map>
+#ifndef INCLUDE_SCRIMMAGE_LOG_LOG_H_
+#define INCLUDE_SCRIMMAGE_LOG_LOG_H_
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/log/Frame.h>
@@ -47,6 +44,11 @@
 
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
+
+#include <list>
+#include <fstream>
+#include <map>
+#include <string>
 
 #if ENABLE_GRPC
 #include <scrimmage/log/FrameUpdateClient.h>
@@ -80,24 +82,24 @@ class Log {
         WRITE = 1,
         NONE
     };
-    
+
     bool init(std::string dir, Mode mode);
 
     bool parse(std::string dir);
     bool parse(std::string filename, FileType type);
 
-    bool parse_frames(std::string filename, 
-                      ZeroCopyInputStreamPtr input);
-    
-    bool parse_shapes(std::string filename, 
+    bool parse_frames(std::string filename,
                       ZeroCopyInputStreamPtr input);
 
-    bool parse_utm_terrain(std::string filename, 
+    bool parse_shapes(std::string filename,
+                      ZeroCopyInputStreamPtr input);
+
+    bool parse_utm_terrain(std::string filename,
                            ZeroCopyInputStreamPtr input);
 
-    bool parse_contact_visual(std::string filename, 
+    bool parse_contact_visual(std::string filename,
                               ZeroCopyInputStreamPtr input);
-    
+
     /*
     bool create_frame(double time, ContactMapPtr &contacts,
                       std::list<sp::Event> &events,
@@ -117,15 +119,15 @@ class Log {
     bool write_ascii(std::string str);
 
     bool save_frame(std::shared_ptr<scrimmage_proto::Frame> &frame);
-    
+
     bool save_shapes(scrimmage_proto::Shapes &shapes);
 
     bool save_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
 
     bool save_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual);
 
-    //bool save_messages();
-    
+    // bool save_messages();
+
     std::string frames_filename();
     std::string shapes_filename();
     std::string utm_terrain_filename();
@@ -135,7 +137,7 @@ class Log {
     void set_enable_log(bool enable);
 
     void init_network(NetworkPtr network);
-    
+
  protected:
     using MessageLitePtr = std::shared_ptr<google::protobuf::MessageLite>;
 
@@ -155,11 +157,11 @@ class Log {
     int utm_terrain_fd_;
     int contact_visual_fd_;
     int msgs_fd_;
-    
+
     std::string log_dir_;
 
     std::string ascii_filename_;
-    std::ofstream ascii_output_;    
+    std::ofstream ascii_output_;
 
     ZeroCopyOutputStreamPtr frames_output_;
     ZeroCopyOutputStreamPtr shapes_output_;
@@ -184,8 +186,6 @@ class Log {
                            ZeroCopyInputStreamPtr rawInput,
                            MessageLitePtr message,
                            bool& clean_eof);
-
-private:
 };
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_LOG_LOG_H_

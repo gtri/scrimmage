@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef VIEWER_H_
-#define VIEWER_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
 
 #include <vtkSmartPointer.h>
 #include <vtkRenderWindow.h>
@@ -40,52 +40,38 @@
 
 #include <scrimmage/fwd_decl.h>
 
-#include <thread>
+#include <thread> // NOLINT
 
 namespace scrimmage {
 
+class Viewer {
+ public:
+    Viewer();
 
-    //class RenderWindowInteractor : public vtkRenderWindowInteractor {
-    //public:
-    //    static RenderWindowInteractor* New()
-    //    {
-    //        RenderWindowInteractor *cb = new RenderWindowInteractor;
-    //        return cb;
-    //    }
-    //    vtkTypeMacro(RenderWindowInteractor, vtkRenderWindowInteractor);
-    //};
-    //vtkStandardNewMacro(RenderWindowInteractor);
-    
-    class Viewer {
-    public:
+    void set_incoming_interface(InterfacePtr &incoming_interface);
 
-        Viewer();
-        
-        void set_incoming_interface(InterfacePtr &incoming_interface);
+    void set_outgoing_interface(InterfacePtr &outgoing_interface);
 
-        void set_outgoing_interface(InterfacePtr &outgoing_interface);
-        
-        void set_enable_network(bool enable);
+    void set_enable_network(bool enable);
 
-        bool init();
-        bool run();
-        bool stop();
+    bool init();
+    bool run();
+    bool stop();
 
-    protected:
-        //Create a renderer, render window, and interactor
-        vtkSmartPointer<vtkRenderer> renderer_;
-        vtkSmartPointer<vtkRenderWindow> renderWindow_;
-        vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor_;
+ protected:
+    // Create a renderer, render window, and interactor
+    vtkSmartPointer<vtkRenderer> renderer_;
+    vtkSmartPointer<vtkRenderWindow> renderWindow_;
+    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor_;
 
-        vtkSmartPointer<CameraInterface> cam_int_;
-        InterfacePtr incoming_interface_;
-        InterfacePtr outgoing_interface_;
+    vtkSmartPointer<CameraInterface> cam_int_;
+    InterfacePtr incoming_interface_;
+    InterfacePtr outgoing_interface_;
 
-        bool enable_network_;
-        
-        std::thread network_thread_;
-    private:
-    };
+    bool enable_network_;
 
-}
-#endif
+    std::thread network_thread_;
+};
+
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_

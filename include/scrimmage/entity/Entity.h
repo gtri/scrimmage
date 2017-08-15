@@ -30,22 +30,23 @@
  *
  */
 
-#ifndef ENTITY_H_
-#define ENTITY_H_
-#include <map>
-#include <unordered_map>
-#include <list>
-#include <vector>
-
+#ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
+#define INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Visual.pb.h>
+
+#include <map>
+#include <unordered_map>
+#include <list>
+#include <vector>
+#include <string>
 #include <functional>
 #include <memory>
 
 namespace scrimmage_proto {
-    using ContactVisualPtr = std::shared_ptr<ContactVisual>;
+using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 }
 
 namespace scrimmage {
@@ -118,7 +119,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     RTreePtr &rtree() { return rtree_; }
 
     double radius() { return radius_; }
-    
+
  protected:
     ID id_;
 
@@ -154,5 +155,5 @@ class Entity : public std::enable_shared_from_this<Entity> {
 };
 
 using EntityPtr = std::shared_ptr<Entity>;
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_

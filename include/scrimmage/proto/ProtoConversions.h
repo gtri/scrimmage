@@ -30,30 +30,27 @@
  *
  */
 
-#ifndef _PROTO_CONVERSIONS_H_
-#define _PROTO_CONVERSIONS_H_
+#ifndef INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
+#define INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 
 #include <scrimmage/common/ColorMaps.h>
-#include <scrimmage/proto/Vector3d.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
-
-#include <scrimmage/proto/ID.pb.h>
 #include <scrimmage/common/ID.h>
-
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/proto/Quaternion.pb.h>
-
-#include <scrimmage/proto/State.pb.h>
-
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Contact.pb.h>
-
-#include <scrimmage/log/Frame.h>
+#include <scrimmage/proto/Vector3d.pb.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/Quaternion.pb.h>
+#include <scrimmage/proto/ID.pb.h>
+#include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
-
+#include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/math/Quaternion.h>
 
 #include <Eigen/Dense>
+
+#include <list>
+#include <vector>
 
 namespace sp = scrimmage_proto;
 
@@ -90,8 +87,8 @@ Eigen::Vector3d proto_2_vector3d(scrimmage_proto::Vector3d proto_vector3d);
 StatePtr proto_2_state(scrimmage_proto::State proto_state);
 
 void path_to_lines(std::vector<Eigen::Vector3d> &path,
-                          scrimmage_proto::Shape &sample_line, 
-                          std::list<ShapePtr> &shapes);
+                   scrimmage_proto::Shape &sample_line,
+                   std::list<ShapePtr> &shapes);
 
 Contact proto_2_contact(scrimmage_proto::Contact proto_contact);
 
@@ -100,6 +97,5 @@ Frame proto_2_frame(scrimmage_proto::Frame &proto_frame);
 std::shared_ptr<scrimmage_proto::Frame>
 create_frame(double time, std::shared_ptr<ContactMap> &contacts);
 
-
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_

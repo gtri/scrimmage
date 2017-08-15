@@ -40,4 +40,4 @@ void Publisher::publish(MessageBasePtr msg, double t) {
     msg_list_.push_back(msg);
 }
 
-}
+} // namespace scrimmage

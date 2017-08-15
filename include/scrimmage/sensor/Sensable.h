@@ -30,23 +30,24 @@
  *
  */
 
-#ifndef Sensable_H_
-#define Sensable_H_
+#ifndef INCLUDE_SCRIMMAGE_SENSOR_SENSABLE_H_
+#define INCLUDE_SCRIMMAGE_SENSOR_SENSABLE_H_
+
+#include <scrimmage/plugin_manager/Plugin.h>
 
 #include <map>
 #include <memory>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <string>
 
 namespace scrimmage {
 
 class Sensable : public Plugin {
  public:
-    virtual inline void init(std::map<std::string,std::string> &params) {return;}
+    virtual inline void init(std::map<std::string, std::string> &params) {return;}
     virtual inline bool update(double t, double dt) {return true;}
- protected:     
 };
 
 using SensablePtr = std::shared_ptr<Sensable>;
 }  // namespace scrimmage
 
-#endif // Sensable
+#endif // INCLUDE_SCRIMMAGE_SENSOR_SENSABLE_H_

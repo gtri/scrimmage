@@ -30,12 +30,14 @@
  *
  */
 
-#include <memory>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/entity/Entity.h>
+
+#include <memory>
+
 #include <boost/range/adaptor/map.hpp>
 
 namespace ba = boost::adaptors;

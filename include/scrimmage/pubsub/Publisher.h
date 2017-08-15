@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef Publisher_H_
-#define Publisher_H_
+#ifndef INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_
+#define INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_
 
 #include <scrimmage/pubsub/NetworkDevice.h>
 #include <scrimmage/pubsub/MessageBase.h>
@@ -45,4 +45,4 @@ class Publisher : public NetworkDevice {
 };
 
 }
-#endif // Publisher_H_
+#endif // INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_

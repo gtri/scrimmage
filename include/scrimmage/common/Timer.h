@@ -30,15 +30,15 @@
  *
  */
 
-#ifndef TIMER_H_
-#define TIMER_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_TIMER_H_
+#define INCLUDE_SCRIMMAGE_COMMON_TIMER_H_
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace scrimmage {
 
 class Timer {
-public:
+ public:
     void start_overall_timer();
 
     boost::posix_time::time_duration elapsed_time();
@@ -53,7 +53,7 @@ public:
 
     void update_time_config();
 
-    static unsigned long getnanotime();
+    static uint64_t getnanotime();
 
     void inc_warp();
 
@@ -61,7 +61,7 @@ public:
 
     double time_warp();
 
-protected:
+ protected:
     double time_warp_;
     boost::posix_time::ptime start_time_;
 
@@ -74,8 +74,6 @@ protected:
     boost::posix_time::ptime loop_timer_;
     boost::posix_time::time_duration iterate_period_;
     double iterate_rate_;
-
-private:
 };
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_COMMON_TIMER_H_

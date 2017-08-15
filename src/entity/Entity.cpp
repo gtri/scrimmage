@@ -30,9 +30,7 @@
  *
  */
 
-#include <iostream>
-#include <memory>
-
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/entity/Entity.h>
@@ -41,27 +39,27 @@
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/sensor/Sensable.h>
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/common/Utilities.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+
+#include <iostream>
+#include <memory>
+
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-
-#include <scrimmage/proto/ProtoConversions.h>
 
 using std::cout;
 using std::endl;
 namespace fs = boost::filesystem;
 namespace sp = scrimmage_proto;
 
-
 namespace scrimmage {
 
 Entity::Entity() : health_points_(1), state_(std::make_shared<State>()),
-                   active_(true), visual_changed_(false), radius_(1)
-{
+                   active_(true), visual_changed_(false), radius_(1) {
     visual_ = std::make_shared<scrimmage_proto::ContactVisual>();
 }
 
@@ -74,11 +72,10 @@ bool Entity::init(AttributeMap &overrides,
                   PluginManagerPtr plugin_manager,
                   NetworkPtr network,
                   FileSearch &file_search,
-                  RTreePtr &rtree)
-{
+                  RTreePtr &rtree) {
     contacts_ = contacts;
     rtree_ = rtree;
-    
+
     id_.set_id(id);
     id_.set_sub_swarm_id(sub_swarm_id);
     id_.set_team_id(std::stoi(info["team_id"]));
@@ -137,7 +134,7 @@ bool Entity::init(AttributeMap &overrides,
             std::dynamic_pointer_cast<MotionModel>(
                 plugin_manager->make_plugin("scrimmage::MotionModel",
                     info["motion_model"], file_search, config_parse,
-                    overrides["motion_model"])); 
+                    overrides["motion_model"]));
 
         if (motion_model_ == nullptr) {
             cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
@@ -148,7 +145,7 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_parent(parent);
         motion_model_->set_network(network);
         motion_model_->init(info, config_parse.params());
-    } 
+    }
 
     ////////////////////////////////////////////////////////////
     // sensor
@@ -156,18 +153,18 @@ bool Entity::init(AttributeMap &overrides,
     // The MissionParser appends the order number to the sensor (e.g., sensor0,
     // sensor1, etc.)
     int sensor_ct = 0;
-    std::string sensor_order_name = std::string("sensor") + 
+    std::string sensor_order_name = std::string("sensor") +
         std::to_string(sensor_ct);
 
     while (info.count(sensor_order_name) > 0) {
         std::string sensor_name = info[sensor_order_name];
-        SensorPtr sensor = 
+        SensorPtr sensor =
             std::dynamic_pointer_cast<Sensor>(
                 plugin_manager->make_plugin("scrimmage::Sensor",
                                             sensor_name, file_search,
                                             config_parse,
                                             overrides[sensor_order_name]));
-        
+
         if (sensor == nullptr) {
             std::cout << "Failed to open sensor plugin: " << sensor_name
                       << std::endl;
@@ -188,7 +185,7 @@ bool Entity::init(AttributeMap &overrides,
     std::string sensable_name = std::string("sensable") + std::to_string(sensable_ct);
 
     while (info.count(sensable_name) > 0) {
-        SensablePtr sensable = 
+        SensablePtr sensable =
             std::dynamic_pointer_cast<Sensable>(
                 plugin_manager->make_plugin("scrimmage::Sensable",
                     info[sensable_name], file_search, config_parse,
@@ -214,7 +211,7 @@ bool Entity::init(AttributeMap &overrides,
     std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
 
     while (info.count(autonomy_name) > 0) {
-        AutonomyPtr autonomy = 
+        AutonomyPtr autonomy =
             std::dynamic_pointer_cast<Autonomy>(
                 plugin_manager->make_plugin("scrimmage::Autonomy",
                     info[autonomy_name], file_search, config_parse,
@@ -227,12 +224,12 @@ bool Entity::init(AttributeMap &overrides,
 
         autonomy->set_rtree(rtree);
         autonomy->set_parent(parent);
-        autonomy->set_projection(proj_);        
+        autonomy->set_projection(proj_);
         autonomy->set_network(network);
         autonomy->set_state(motion_model_->state());
         autonomy->set_contacts(contacts);
         autonomy->set_is_controlling(true);
-        autonomy->init(config_parse.params());        
+        autonomy->init(config_parse.params());
 
         autonomies_.push_back(autonomy);
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
@@ -271,7 +268,7 @@ bool Entity::init(AttributeMap &overrides,
         }
         controller->set_parent(parent);
         controller->set_network(network);
-        controller->init(config_parse.params());        
+        controller->init(config_parse.params());
 
         controllers_.push_back(controller);
 
@@ -288,19 +285,18 @@ bool Entity::init(AttributeMap &overrides,
 }
 
 bool Entity::parse_visual(std::map<std::string, std::string> &info,
-                          MissionParsePtr mp, FileSearch &file_search)
-{
+                          MissionParsePtr mp, FileSearch &file_search) {
     visual_->set_id(id_.id());
     visual_->set_opacity(1.0);
-    
+
     ConfigParse cv_parse;
-    bool mesh_found, texture_found;    
+    bool mesh_found, texture_found;
     find_model_properties(info["visual_model"], cv_parse,
-                          file_search, visual_, 
+                          file_search, visual_,
                           mesh_found, texture_found);
-    
+
     set(visual_->mutable_color(), mp->team_info()[id_.team_id()].color);
-    
+
     std::string visual_model = boost::to_upper_copy(info["visual_model"]);
 
     if (mesh_found) {
@@ -323,8 +319,7 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool Entity::ready()
-{
+bool Entity::ready() {
     // Are all autonomies ready?
     for (AutonomyPtr &a : autonomies_) {
         if (!a->ready()) return false;
@@ -337,7 +332,7 @@ bool Entity::ready()
 
     // Are all sensors ready?
     for (auto &kv : sensors_) {
-        //for (SensorPtr &s : kv.second) {
+        // for (SensorPtr &s : kv.second) {
         if (!kv.second->ready()) return false;
             //}
     }
@@ -348,7 +343,7 @@ bool Entity::ready()
             if (!s->ready()) return false;
         }
     }
-    
+
     // Is the motion model ready?
     if (!motion_model_->ready()) return false;
 
@@ -377,13 +372,11 @@ void Entity::set_health_points(int health_points)
 
 int Entity::health_points() { return health_points_; }
 
-bool Entity::is_alive()
-{
+bool Entity::is_alive() {
     return (health_points_ > 0);
 }
 
-bool Entity::posthumous(double t)
-{
+bool Entity::posthumous(double t) {
     bool any_autonomies =
         std::any_of(autonomies_.begin(), autonomies_.end(),
                     [t](AutonomyPtr &a) {return a->posthumous(t);});
@@ -436,4 +429,4 @@ void Entity::setup_desired_state() {
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
 
-}
+} // namespace scrimmage

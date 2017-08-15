@@ -54,8 +54,7 @@ Quaternion::Quaternion(double roll, double pitch, double yaw) {
     set(roll, pitch, yaw);
 }
 
-void Quaternion::set(double w_coeff, double x_coeff, double y_coeff, double z_coeff)
-{
+void Quaternion::set(double w_coeff, double x_coeff, double y_coeff, double z_coeff) {
     w() = w_coeff;
     x() = x_coeff;
     y() = y_coeff;
@@ -112,4 +111,4 @@ Eigen::Vector3d Quaternion::rotate_reverse(const Eigen::Vector3d &vec) const {
     return (inverse() * pure_quat * *this).vec();
 }
 
-}
+} // namespace scrimmage

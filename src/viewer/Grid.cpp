@@ -34,18 +34,17 @@
 
 namespace scrimmage {
 
-void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &renderer)
-{
+void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &renderer) {
     renderer_ = renderer;
 
     // Create a plane
     double plane_size = size;
     vtkSmartPointer<vtkPlaneSource> planeSource =
             vtkSmartPointer<vtkPlaneSource>::New();
-    planeSource->SetCenter(0,0,0);
+    planeSource->SetCenter(0, 0, 0);
     planeSource->SetNormal(plane_size/2.0, plane_size/2.0, 1.0);
-    planeSource->SetPoint1(plane_size,0,0);
-    planeSource->SetPoint2(0,plane_size,0);
+    planeSource->SetPoint1(plane_size, 0, 0);
+    planeSource->SetPoint2(0, plane_size, 0);
 
     // Create the grid:
     int x_low = -plane_size/2.0;
@@ -75,7 +74,7 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
         actor->GetProperty()->SetLineWidth(1);
 
         // Set the color
-        actor->GetProperty()->SetColor(1,1,1);
+        actor->GetProperty()->SetColor(1, 1, 1);
         actor->GetProperty()->SetOpacity(1);
 
         actors_.push_back(actor);
@@ -101,7 +100,7 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
         actor->GetProperty()->SetLineWidth(1);
 
         // Set the color
-        actor->GetProperty()->SetColor(1,1,1);
+        actor->GetProperty()->SetColor(1, 1, 1);
         actor->GetProperty()->SetOpacity(1);
 
         actors_.push_back(actor);
@@ -109,12 +108,11 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
     }
 }
 
-void Grid::remove()
-{
+void Grid::remove() {
     for (vtkSmartPointer<vtkActor> actor : actors_) {
         renderer_->RemoveActor(actor);
     }
     actors_.clear();
 }
 
-}
+} // namespace scrimmage

@@ -30,12 +30,15 @@
  *
  */
 
+#include <dlfcn.h>
+
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/common/Utilities.h>
-#include <iostream>
-#include <dlfcn.h>
 #include <scrimmage/parse/ConfigParse.h>
+
+#include <iostream>
+
 #include <boost/filesystem.hpp>
 
 namespace scrimmage {

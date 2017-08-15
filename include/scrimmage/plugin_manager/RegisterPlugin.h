@@ -30,20 +30,20 @@
  *
  */
 
-#ifndef REGISTER_PLUGIN_H_
-#define REGISTER_PLUGIN_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_REGISTERPLUGIN_H_
+#define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_REGISTERPLUGIN_H_
 
 #define REGISTER_PLUGIN(BaseClass, ChildClass, PluginName)  \
     extern "C" {                                            \
-        std::shared_ptr<BaseClass> maker(){                 \
+        std::shared_ptr<BaseClass> maker() {                \
             return std::make_shared<ChildClass>();          \
         }                                                   \
-        const char * plugin_name(){                         \
+        const char * plugin_name() {                        \
             return #PluginName;                             \
         }                                                   \
-        const char * plugin_type(){                         \
+        const char * plugin_type() {                        \
             return #BaseClass;                              \
         }                                                   \
     }
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_REGISTERPLUGIN_H_

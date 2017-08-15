@@ -69,7 +69,7 @@
 
     <sensor order="0">NoisyState</sensor>
     <sensor order="1">NoisyContacts</sensor>
-    <sensor order="2">ContactBlobCamera</sensor>
+    <!--<sensor order="2">ContactBlobCamera</sensor>-->
 
     <autonomy show_text_label="true">Straight</autonomy>
 

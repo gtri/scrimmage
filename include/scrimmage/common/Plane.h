@@ -30,34 +30,32 @@
  *
  */
 
-#ifndef SHAPE_PLANE_H_
-#define SHAPE_PLANE_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_PLANE_H_
+#define INCLUDE_SCRIMMAGE_COMMON_PLANE_H_
 #include <scrimmage/common/Shape.h>
 
 namespace scrimmage {
 
 class Plane : public Shape {
-public:
-    Plane() : Shape()
-    {
-        center_ << 0,0,0;
-        normal_ << 0,0,0;
-    }    
-    
+ public:
+    Plane() : Shape() {
+        center_ << 0, 0, 0;
+        normal_ << 0, 0, 0;
+    }
+
     void set_center(Eigen::Vector3d & center) { center_ = center; }
     void set_normal(Eigen::Vector3d & normal) { normal_ = normal; }
 
     Eigen::Vector3d & center() { return center_; }
     Eigen::Vector3d & normal() { return normal_; }
-    
-protected:
+
+ protected:
     Eigen::Vector3d center_;
     Eigen::Vector3d normal_;
-private:
 };
 
 typedef std::shared_ptr<Plane> PlanePtr;
 
 } // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_COMMON_PLANE_H_

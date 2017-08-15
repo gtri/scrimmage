@@ -30,28 +30,23 @@
  *
  */
 
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/math/State.h>
+
 #include <memory>
 
-#include <scrimmage/autonomy/Autonomy.h>
-//#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/math/State.h>
 #include <GeographicLib/LocalCartesian.hpp>
 
 namespace scrimmage {
 
 Autonomy::Autonomy() : state_(std::make_shared<State>()),
-    desired_state_(std::make_shared<State>()), need_reset_(false)
-{
-}
+    desired_state_(std::make_shared<State>()), need_reset_(false) {}
 
-
-void Autonomy::set_contacts(ContactMapPtr &contacts)
-{
+void Autonomy::set_contacts(ContactMapPtr &contacts) {
     contacts_ = contacts;
 }
 
-void Autonomy::set_contacts_from_plugin(AutonomyPtr &ptr)
-{
+void Autonomy::set_contacts_from_plugin(AutonomyPtr &ptr) {
     contacts_ = ptr->contacts_;
 }
 

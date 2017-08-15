@@ -35,15 +35,13 @@
 
 namespace scrimmage {
 
-void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src)
-{
+void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src) {
     dst->set_x(src(0));
     dst->set_y(src(1));
     dst->set_z(src(2));
 }
 
-void set(scrimmage_proto::Vector3d *dst, double x, double y, double z)
-{
+void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_x(x);
     dst->set_y(y);
     dst->set_z(z);
@@ -106,22 +104,19 @@ void set(scrimmage_proto::Color *color, int r, int g, int b) {
     set(color, c);
 }
 
-void set(scrimmage_proto::Color *color, int grayscale)
-{
+void set(scrimmage_proto::Color *color, int grayscale) {
     Color_t c = GetColor_matlab(grayscale, 0, 255);
     set(color, c);
 }
 
-void set(scrimmage_proto::Quaternion *dst, Quaternion &src)
-{
+void set(scrimmage_proto::Quaternion *dst, Quaternion &src) {
     dst->set_x(src.x());
     dst->set_y(src.y());
     dst->set_z(src.z());
     dst->set_w(src.w());
 }
 
-Eigen::Vector3d eigen(const scrimmage_proto::Vector3d src)
-{
+Eigen::Vector3d eigen(const scrimmage_proto::Vector3d src) {
     Eigen::Vector3d dst;
     dst(0) = src.x();
     dst(1) = src.y();
@@ -129,8 +124,7 @@ Eigen::Vector3d eigen(const scrimmage_proto::Vector3d src)
     return dst;
 }
 
-void add_point(std::shared_ptr<scrimmage_proto::Shape> s, Eigen::Vector3d src)
-{
+void add_point(std::shared_ptr<scrimmage_proto::Shape> s, Eigen::Vector3d src) {
     scrimmage_proto::Vector3d *point = s->add_point();
     set(point, src);
 }
@@ -159,7 +153,8 @@ ID proto_2_id(scrimmage_proto::ID proto_id) {
 }
 
 Quaternion proto_2_quat(scrimmage_proto::Quaternion proto_quat) {
-    return Quaternion(proto_quat.w(), proto_quat.x(), proto_quat.y(), proto_quat.z());
+    const Quaternion quat(proto_quat.w(), proto_quat.x(), proto_quat.y(), proto_quat.z());
+    return quat;
 }
 
 Eigen::Vector3d proto_2_vector3d(scrimmage_proto::Vector3d proto_vector3d) {
@@ -198,8 +193,7 @@ Frame proto_2_frame(scrimmage_proto::Frame &proto_frame) {
     return frame;
 }
 
-std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_ptr<ContactMap> &contacts)
-{
+std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_ptr<ContactMap> &contacts) {
     std::shared_ptr<scrimmage_proto::Frame> frame(new scrimmage_proto::Frame());
     frame->set_time(time);
 
@@ -249,8 +243,7 @@ std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_pt
     return frame;
 }
 
-Contact proto_2_contact(scrimmage_proto::Contact proto_contact)
-{
+Contact proto_2_contact(scrimmage_proto::Contact proto_contact) {
     Contact contact;
     contact.set_id(proto_2_id(proto_contact.id()));
 
@@ -273,4 +266,4 @@ Contact proto_2_contact(scrimmage_proto::Contact proto_contact)
     return contact;
 }
 
-}
+} // namespace scrimmage

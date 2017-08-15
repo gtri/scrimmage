@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef ANGLES_H_
-#define ANGLES_H_
+#ifndef INCLUDE_SCRIMMAGE_MATH_ANGLES_H_
+#define INCLUDE_SCRIMMAGE_MATH_ANGLES_H_
 
 namespace scrimmage {
 class Angles {
@@ -64,12 +64,12 @@ class Angles {
 
     // Seup the input coordinate system's clock direction and zero axis
     void set_input_clock_direction(Rotate direction);
-    
+
     void set_input_zero_axis(HeadingZero zero);
 
     // Setup the input coordinate system's clock direction and zero axis
     void set_output_clock_direction(Rotate direction);
-    
+
     void set_output_zero_axis(HeadingZero zero);
 
     // Is the provided angle between 0 and 359 degrees, inclusive?
@@ -77,9 +77,9 @@ class Angles {
 
     // Normalize angle to 0-359 degrees
     static double angle_360(double angle);
-    
+
     static double angle_2pi(double angle);
-    
+
     // Normalize angle to 0-179 degrees
     static double angle_180(double angle);
 
@@ -87,11 +87,11 @@ class Angles {
 
     // Calculate shortest distance between two angles
     static double angle_diff(double ang1, double ang2);
-    
+
     static double angle_diff_rad(double ang1, double ang2);
 
     static double angle_avg(double ang1, double ang2);
-    
+
     static double angle_avg_rad(double ang1, double ang2);
 
     // Set the input coordinate system's angle that the user wants to convert
@@ -112,4 +112,4 @@ class Angles {
  private:
 };
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_MATH_ANGLES_H_

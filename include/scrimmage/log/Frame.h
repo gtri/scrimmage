@@ -30,22 +30,20 @@
  *
  */
 
-#ifndef FRAME_H_
-#define FRAME_H_
+#ifndef INCLUDE_SCRIMMAGE_LOG_FRAME_H_
+#define INCLUDE_SCRIMMAGE_LOG_FRAME_H_
+
+#include <scrimmage/fwd_decl.h>
+
 #include <list>
 #include <map>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/simcontrol/Event.h>
 
 namespace scrimmage {
-    class Frame {
-    public:
-        Frame() {}
-        double time_;
-        ContactMapPtr contacts_;
-        std::list<Event> events_;
-    protected:
-    private:
-    };
-}
-#endif
+class Frame {
+ public:
+    Frame() {}
+    double time_;
+    ContactMapPtr contacts_;
+};
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_LOG_FRAME_H_

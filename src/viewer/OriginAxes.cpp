@@ -34,8 +34,7 @@
 
 namespace scrimmage {
 
-void OriginAxes::create(int length, vtkSmartPointer<vtkRenderer> &renderer)
-{
+void OriginAxes::create(int length, vtkSmartPointer<vtkRenderer> &renderer) {
     renderer_ = renderer;
 
     axes_ =
@@ -56,9 +55,8 @@ void OriginAxes::create(int length, vtkSmartPointer<vtkRenderer> &renderer)
     renderer_->AddActor(axes_);
 }
 
-void OriginAxes::remove()
-{
+void OriginAxes::remove() {
     renderer_->RemoveActor(axes_);
 }
 
-}
+} // namespace scrimmage

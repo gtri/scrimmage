@@ -30,7 +30,8 @@
  *
  */
 
-
+#ifndef INCLUDE_SCRIMMAGE_HASH_H_
+#define INCLUDE_SCRIMMAGE_HASH_H_
 #include <functional>
 
 // custom specialization of std::hash can be injected in namespace std
@@ -45,4 +46,6 @@ template<> struct hash<scrimmage::ID> {
             (id.id() << 12);
     }
 };
-}
+} // namespace std
+
+#endif // INCLUDE_SCRIMMAGE_HASH_H_

@@ -30,15 +30,17 @@
  *
  */
 
-#ifndef MOTIONMODEL_H_
-#define MOTIONMODEL_H_
-#include <map>
-#include <vector>
+#ifndef INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
+#define INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
 
 #include <Eigen/Dense>
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
+
+#include <map>
+#include <vector>
+#include <string>
 
 namespace scrimmage {
 
@@ -60,9 +62,8 @@ class MotionModel : public Plugin {
     virtual void set_external_force(Eigen::Vector3d force);
     virtual void set_mass(double mass) { mass_ = mass; }
     virtual double mass() { return mass_; }
-    
+
  protected:
-    
     void ode_step(double dt);
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
@@ -75,5 +76,5 @@ class MotionModel : public Plugin {
 };
 
 using MotionModelPtr = std::shared_ptr<MotionModel>;
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_

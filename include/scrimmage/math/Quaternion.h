@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef QUATERNION_H_
-#define QUATERNION_H_
+#ifndef INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_
+#define INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
@@ -49,7 +49,7 @@ class Quaternion : public Eigen::Quaterniond {
 
     Quaternion(const Quaternion &other);
 
-    Quaternion(const Eigen::Quaterniond &other);
+    Quaternion(const Eigen::Quaterniond &other); // NOLINT
 
     Quaternion(const double &w, const double &x,
                const double &y, const double &z);
@@ -63,7 +63,7 @@ class Quaternion : public Eigen::Quaterniond {
     Quaternion(double roll, double pitch, double yaw);
 
     void set(double w_coeff, double x_coeff, double y_coeff, double z_coeff);
-        
+
     ///@}
 
     /*! \name setters */
@@ -108,4 +108,4 @@ class Quaternion : public Eigen::Quaterniond {
 };
 
 } // namespace scrimmage
-#endif // QUATERNION_H_
+#endif // INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_

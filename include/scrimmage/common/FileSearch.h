@@ -30,12 +30,13 @@
  *
  */
 
-#ifndef FILE_SEARCH_H_
-#define FILE_SEARCH_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_FILESEARCH_H_
+#define INCLUDE_SCRIMMAGE_COMMON_FILESEARCH_H_
 
 #include <unordered_map>
 #include <list>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 
@@ -57,4 +58,4 @@ class FileSearch {
 
 } // namespace scrimmage
 
-#endif // FILE_SEARCH_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_FILESEARCH_H_

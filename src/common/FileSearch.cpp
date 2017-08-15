@@ -40,7 +40,6 @@
 #include <boost/tokenizer.hpp>
 
 namespace fs = ::boost::filesystem;
-using namespace std::literals::string_literals;
 
 namespace scrimmage {
 
@@ -63,11 +62,11 @@ bool FileSearch::find_file(const std::string &search,
     std::string search_filename = search + ext;
 
     auto dbg = [&](std::string msg) {if (verbose) std::cout << "find_file: " << msg << std::endl;};
-    dbg("looking for "s + search_filename);
+    dbg(std::string("looking for ") + search_filename);
 
     if (!fs::exists(search)) {
         // files[search_filename] = list of full paths
-        dbg("not an absolute path, checking recursively in "s + env_var);
+        dbg(std::string("not an absolute path, checking recursively in ") + env_var);
         std::unordered_map<std::string, std::list<std::string>> files;
         find_files(env_var, ext, files, verbose);
         filenames = files[search_filename];
@@ -76,7 +75,7 @@ bool FileSearch::find_file(const std::string &search,
     }
 
     if (filenames.empty()) {
-        dbg("Failed to find xml filename: "s + search);
+        dbg(std::string("Failed to find xml filename: ") + search);
         return false;
     }
 
@@ -134,14 +133,14 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     boost::tokenizer< boost::char_separator<char> > tokens(env_path, sep);
     std::unordered_set<std::string> dirs_checked;
 
-    dbg("not found in cache, looping recursively in "s + env_path);
+    dbg(std::string("not found in cache, looping recursively in ") + env_path);
     BOOST_FOREACH(const std::string& t, tokens) {
         // Search for all files in the current directory with
         // the extension
         fs::path root = t;
 
         if (dirs_checked.count(t) > 0) {
-            dbg("directory "s + t + " already checked, skipping");
+            dbg(std::string("directory ") + t + " already checked, skipping");
         } else if (fs::exists(root) && fs::is_directory(root)) {
             dbg(t);
             dirs_checked.insert(t);
@@ -154,7 +153,7 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
                 if (fs::is_regular_file(*it) && path.extension() == ext) {
                     std::string fname = path.filename().string();
                     std::string full_path = fs::absolute(path).string();
-                    dbg("   "s + fname);
+                    dbg(std::string("   ") + fname);
                     ext_it->second[fname].push_back(full_path);
                 }
                 ++it;

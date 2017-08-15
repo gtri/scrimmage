@@ -30,21 +30,22 @@
  *
  */
 
-#ifndef Network_H_
-#define Network_H_
+#ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
+#define INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
+
+#include <scrimmage/fwd_decl.h>
+#include <scrimmage/plugin_manager/Plugin.h>
 
 #include <map>
 #include <memory>
 #include <vector>
+#include <string>
 #include <unordered_set>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
 
 namespace scrimmage {
 
 class Network : public Plugin {
  public:
-
     Network();
 
     virtual void init(std::map<std::string, std::string> &params);
@@ -68,7 +69,6 @@ class Network : public Plugin {
     TopicMap &sub_map();
 
  protected:
-
     void rm_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map);
     void add_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map);
 
@@ -81,4 +81,4 @@ class Network : public Plugin {
 typedef std::shared_ptr<Network> NetworkPtr;
 } // namespace scrimmage
 
-#endif // Network_H_
+#endif // INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_

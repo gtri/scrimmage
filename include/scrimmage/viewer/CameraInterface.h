@@ -30,8 +30,9 @@
  *
  */
 
-#ifndef CAMERAINTERFACE_H_
-#define CAMERAINTERFACE_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+
 #include <vtkCommand.h>
 #include <vtkSmartPointer.h>
 #include <vtkProperty.h>
@@ -51,15 +52,13 @@
 
 namespace scrimmage {
 // Define interaction style
-class CameraInterface : public vtkInteractorStyleTrackballCamera
-{
-public:    
-    
+class CameraInterface : public vtkInteractorStyleTrackballCamera {
+ public:
     CameraInterface();
 
     static CameraInterface* New();
-    //vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
-    
+    // vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
+
     virtual void OnKeyPress();
     virtual void OnLeftButtonDown();
     virtual void OnLeftButtonUp();
@@ -67,16 +66,13 @@ public:
 
     virtual void Pan();
     virtual void Dolly();
-        
-    void set_updater(vtkSmartPointer<Updater> & updater)
-    { updater_ = updater; }
-            
-protected:
-    vtkSmartPointer<Updater> updater_;        
-private:    
 
+    void set_updater(vtkSmartPointer<Updater> & updater) { updater_ = updater; }
+
+ protected:
+    vtkSmartPointer<Updater> updater_;
 };
-//vtkStandardNewMacro(CameraInterface);
-}
+// vtkStandardNewMacro(CameraInterface);
+} // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_

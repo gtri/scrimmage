@@ -30,20 +30,20 @@
  *
  */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
-
-#include <list>
-#include <map>
-#include <unordered_set>
-#include <memory>
+#ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGINMANAGER_H_
+#define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGINMANAGER_H_
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/parse/ConfigParse.h>
 
-namespace scrimmage {
+#include <list>
+#include <map>
+#include <unordered_set>
+#include <memory>
+#include <string>
 
+namespace scrimmage {
 
 class PluginInfo {
  public:
@@ -57,7 +57,6 @@ class PluginInfo {
 
 class PluginManager {
  public:
-
     typedef const char * (*plugin_name_t)();
     typedef const char * (*plugin_type_t)();
 
@@ -85,6 +84,6 @@ class PluginManager {
 };
 
 using PluginManagerPtr = std::shared_ptr<PluginManager>;
-}
+} // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGINMANAGER_H_

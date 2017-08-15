@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef _SCRIMMAGE_MESSAGE_BASE_H_
-#define _SCRIMMAGE_MESSAGE_BASE_H_
+#ifndef INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_
+#define INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_
 
 #include <string>
 #include <memory>
@@ -65,4 +65,4 @@ class MessageBase {
 using MessageBasePtr = std::shared_ptr<MessageBase>;
 
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_

@@ -37,9 +37,8 @@ namespace scrimmage {
 
 // Matlab's versions of JET to GRAYSCALE
 // Matlab uses the same JET version as BlueView sonar JET
-Color_t GetColor_matlab(double v, double vmin, double vmax)
-{
-     Color_t c = {255.0,255.0,255.0}; // white
+Color_t GetColor_matlab(double v, double vmin, double vmax) {
+     Color_t c = {255.0, 255.0, 255.0}; // white
      double dv;
 
      if (v < vmin) {
@@ -76,39 +75,37 @@ Color_t GetColor_matlab(double v, double vmin, double vmax)
      return(c);
 }
 
-double GetGray_matlab(Color_t c, double vmin, double vmax)
-{
+double GetGray_matlab(Color_t c, double vmin, double vmax) {
      double v = 0;
-     //double slope = 0.5*vmax / (0.125*vmax - vmin);
-     //double slope = (vmax - 0.5*(vmax-vmin)) / (0.125*(vmax-vmin)-vmin);
-     //double slope = 0.5*(vmax-vmin) / (0.125*(vmax-vmin)-vmin);
-     //double slope = 0.5*(vmax-vmin) / (0.125*vmax - 1.125*vmin);
+     // double slope = 0.5*vmax / (0.125*vmax - vmin);
+     // double slope = (vmax - 0.5*(vmax-vmin)) / (0.125*(vmax-vmin)-vmin);
+     // double slope = 0.5*(vmax-vmin) / (0.125*(vmax-vmin)-vmin);
+     // double slope = 0.5*(vmax-vmin) / (0.125*vmax - 1.125*vmin);
      double slope = 4;
 
      if (c.g == vmin && c.r == vmin) {
-          //v = (c.b - 0.5*vmax) / slope;
+          // v = (c.b - 0.5*vmax) / slope;
           v = (c.b - 0.5*(vmax-vmin)) / slope;
      } else if (c.b == vmax && c.r == vmin) {
-          //v = (c.g + 0.5*vmax) / slope;
+          // v = (c.g + 0.5*vmax) / slope;
           v = (c.g + 0.5*(vmax-vmin) - vmin) / slope;
      } else if (c.g == vmax) {
           v = (c.r + 1.5*(vmax-vmin) - vmin) / slope;
-          //v = (c.r - vmax + 5.0/2.0*(vmax-vmin)) / slope;
+          // v = (c.r - vmax + 5.0/2.0*(vmax-vmin)) / slope;
      } else if (c.b == vmin && c.r == vmax) {
-          //v = (c.g - ((vmax - 2.5*(vmin-vmax)))) / (-slope);
+          // v = (c.g - ((vmax - 2.5*(vmin-vmax)))) / (-slope);
           v = (c.g - 3.5*(vmax-vmin) - vmin) / -slope;
      } else if (c.g == vmin && c.b == vmin) {
-          //v = (c.r - 4.5*vmax) / (-slope);
+          // v = (c.r - 4.5*vmax) / (-slope);
           v = (c.r - 4.5*(vmax) + 0.5*vmin) / -slope;
      }
      return v;
 }
 
 // "Traditional" JET conversions
-Color_t GetColor(double v, double vmin, double vmax)
-{
-     Color_t c = {255.0,255.0,255.0}; // white
-     //Color_t c = {1.0,1.0,1.0}; // white
+Color_t GetColor(double v, double vmin, double vmax) {
+     Color_t c = {255.0, 255.0, 255.0}; // white
+     // Color_t c = {1.0,1.0,1.0}; // white
      double dv;
 
      if (v < vmin) {
@@ -140,8 +137,7 @@ Color_t GetColor(double v, double vmin, double vmax)
      return(c);
 }
 
-int GetGray(Color_t c, double vmin, double vmax)
-{
+int GetGray(Color_t c, double vmin, double vmax) {
      int v = 0;
 
      if (c.r == vmin && c.b == vmax) {
@@ -156,4 +152,4 @@ int GetGray(Color_t c, double vmin, double vmax)
      return v;
 }
 
-}
+} // namespace scrimmage

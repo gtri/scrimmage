@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef FWD_DECL_H
-#define FWD_DECL_H
+#ifndef INCLUDE_SCRIMMAGE_FWD_DECL_H_
+#define INCLUDE_SCRIMMAGE_FWD_DECL_H_
 
 #include <memory>
 #include <unordered_map>
@@ -109,6 +109,6 @@ class Metrics;
 using MetricsPtr = std::shared_ptr<Metrics>;
 
 class CameraInterface;
-}
+} // namespace scrimmage
 
-#endif // FWD_DECL_H
+#endif // INCLUDE_SCRIMMAGE_FWD_DECL_H_

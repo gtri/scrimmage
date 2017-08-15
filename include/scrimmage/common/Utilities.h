@@ -30,13 +30,14 @@
  *
  */
 
-#ifndef SC_UTILITIES_H_
-#define SC_UTILITIES_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+#define INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+
+#include <Eigen/Dense>
 
 #include <map>
 #include <vector>
-#include <Eigen/Dense>
-
+#include <string>
 
 namespace scrimmage {
 
@@ -44,7 +45,7 @@ void display_progress(float progress);
 
 int next_available_id(std::string name,
                       std::map<std::string, std::string> &info,
-                      std::map<int,int> &id_map);
+                      std::map<int, int> &id_map);
 
 std::string get_sha(std::string &path);
 
@@ -57,6 +58,6 @@ void filter_line(int downsampling_factor,
 
 std::string generate_chars(std::string symbol, int num);
 
-}
+} // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_

@@ -30,47 +30,45 @@
  *
  */
 
-#ifndef _SCRIMMAGE_IMPL_H_
-#define _SCRIMMAGE_IMPL_H_
-#include <list>
-#include <mutex>
+#ifndef INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_
+#define INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_
 
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
 #include <scrimmage/network/Interface.h>
 
-using std::cout;
-using std::endl;
+#include <list>
+#include <mutex> // NOLINT
 
 namespace scrimmage {
 
-    class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Service {
-    public:
-        explicit ScrimmageServiceImpl(Interface *interface);
+class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Service {
+ public:
+    explicit ScrimmageServiceImpl(Interface *interface);
 
-        grpc::Status SendFrame(grpc::ServerContext* context, const scrimmage_proto::Frame* frame,
-                               scrimmage_proto::BlankReply* reply) override;
+    grpc::Status SendFrame(grpc::ServerContext* context, const scrimmage_proto::Frame* frame,
+                           scrimmage_proto::BlankReply* reply) override;
 
-        grpc::Status SendUTMTerrain(grpc::ServerContext* context, const scrimmage_proto::UTMTerrain* terrain,
-                                    scrimmage_proto::BlankReply* reply) override;
+    grpc::Status SendUTMTerrain(grpc::ServerContext* context, const scrimmage_proto::UTMTerrain* terrain,
+                                scrimmage_proto::BlankReply* reply) override;
 
-        grpc::Status SendSimInfo(grpc::ServerContext* context, const scrimmage_proto::SimInfo* sim_info,
-                                    scrimmage_proto::BlankReply* reply) override;
+    grpc::Status SendSimInfo(grpc::ServerContext* context, const scrimmage_proto::SimInfo* sim_info,
+                             scrimmage_proto::BlankReply* reply) override;
 
-        grpc::Status SendGUIMsg(grpc::ServerContext* context, const scrimmage_proto::GUIMsg* gui_msg,
-                                    scrimmage_proto::BlankReply* reply) override;
+    grpc::Status SendGUIMsg(grpc::ServerContext* context, const scrimmage_proto::GUIMsg* gui_msg,
+                            scrimmage_proto::BlankReply* reply) override;
 
-        grpc::Status SendContactVisual(grpc::ServerContext* context,
-                                       const scrimmage_proto::ContactVisual* contact_visual,
-                                       scrimmage_proto::BlankReply* reply) override;
+    grpc::Status SendContactVisual(grpc::ServerContext* context,
+                                   const scrimmage_proto::ContactVisual* contact_visual,
+                                   scrimmage_proto::BlankReply* reply) override;
 
-        grpc::Status SendShapes(grpc::ServerContext* context,
-                                       const scrimmage_proto::Shapes* shape,
-                                       scrimmage_proto::BlankReply* reply) override;
-    protected:
-        Interface * interface_;
-    private:
-    };
-}
-#endif
+    grpc::Status SendShapes(grpc::ServerContext* context,
+                            const scrimmage_proto::Shapes* shape,
+                            scrimmage_proto::BlankReply* reply) override;
+
+ protected:
+    Interface * interface_;
+};
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_

@@ -34,7 +34,7 @@
 
 #include <scrimmage/network/ScrimmageServiceImpl.h>
 
-scrimmage::ScrimmageServiceImpl::ScrimmageServiceImpl(scrimmage::Interface *interface) : interface_(interface){ }
+scrimmage::ScrimmageServiceImpl::ScrimmageServiceImpl(scrimmage::Interface *interface) : interface_(interface) {}
 
 grpc::Status scrimmage::ScrimmageServiceImpl::SendFrame(grpc::ServerContext *context, const scrimmage_proto::Frame *frame, scrimmage_proto::BlankReply *reply) {
     std::shared_ptr<scrimmage_proto::Frame> f = std::make_shared<scrimmage_proto::Frame>(*frame);

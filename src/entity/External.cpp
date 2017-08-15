@@ -30,11 +30,7 @@
  *
  */
 
-#include <memory>
-
 #include <scrimmage/entity/External.h>
-#include <GeographicLib/Geocentric.hpp>
-#include <GeographicLib/LocalCartesian.hpp>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
@@ -43,6 +39,10 @@
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/parse/MissionParse.h>
+
+#include <memory>
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
 
 namespace scrimmage {
 

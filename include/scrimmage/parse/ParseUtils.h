@@ -30,17 +30,18 @@
  *
  */
 
-#ifndef PARSE_UTILS_H_
-#define PARSE_UTILS_H_
+#ifndef INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
+#define INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
+#include <Eigen/Dense>
+
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/proto/Visual.pb.h>
+
 #include <map>
 #include <vector>
 #include <string>
 
-#include <Eigen/Dense>
 #include <boost/algorithm/string.hpp>
-
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/proto/Visual.pb.h>
 
 namespace scrimmage {
 
@@ -113,4 +114,4 @@ bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
 bool parse_autonomy_data(std::map<std::string, std::string> &params,
                          std::map<std::string, std::string> &data_params);
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_

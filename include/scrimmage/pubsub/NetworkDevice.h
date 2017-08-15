@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef Network_Device_H_
-#define Network_Device_H_
+#ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
+#define INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
@@ -87,4 +87,4 @@ class NetworkDevice {
 };
 
 } // namespace scrimmage
-#endif // Network_Device_H_
+#endif // INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_

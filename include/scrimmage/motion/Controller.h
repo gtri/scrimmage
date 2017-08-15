@@ -30,11 +30,14 @@
  *
  */
 
-#ifndef CONTROLLER_H_
-#define CONTROLLER_H_
-#include <memory>
+#ifndef INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
+#define INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
+
+#include <memory>
+#include <map>
+#include <string>
 
 namespace scrimmage {
 
@@ -44,7 +47,7 @@ class Controller : public Plugin {
     virtual bool step(double t, double dt) = 0;
     inline void set_state(StatePtr &state) {state_ = state;}
     inline void set_desired_state(StatePtr &desired_state) {desired_state_ = desired_state;}
-    
+
  protected:
     StatePtr state_;
     StatePtr desired_state_;
@@ -52,5 +55,5 @@ class Controller : public Plugin {
 
 using ControllerPtr = std::shared_ptr<Controller>;
 
-}
-#endif // CONTROLLER_H_
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_

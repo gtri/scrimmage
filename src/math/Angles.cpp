@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/math/Angles.h>
+
 #include <cmath>
 
 namespace scrimmage {
@@ -41,28 +42,23 @@ double Angles::deg2rad(double deg) {return deg * M_PI / 180.0;}
 
 double Angles::rad2deg(double rad) {return rad * 180.0 / M_PI;}
 
-void Angles::set_input_clock_direction(Angles::Rotate direction)
-{
+void Angles::set_input_clock_direction(Angles::Rotate direction) {
     in_direction_ = direction;
 }
 
-void Angles::set_input_zero_axis(Angles::HeadingZero zero)
-{
+void Angles::set_input_zero_axis(Angles::HeadingZero zero) {
     in_zero_ = zero;
 }
 
-void Angles::set_output_clock_direction(Angles::Rotate direction)
-{
+void Angles::set_output_clock_direction(Angles::Rotate direction) {
     out_direction_ = direction;
 }
 
-void Angles::set_output_zero_axis(Angles::HeadingZero zero)
-{
+void Angles::set_output_zero_axis(Angles::HeadingZero zero) {
     out_zero_ = zero;
 }
 
-bool Angles::is_angle_360(double angle)
-{
+bool Angles::is_angle_360(double angle) {
     if (angle >= 0 && angle < 360) {
         return true;
     } else {
@@ -70,8 +66,7 @@ bool Angles::is_angle_360(double angle)
     }
 }
 
-double Angles::angle_360(double angle)
-{
+double Angles::angle_360(double angle) {
     if (angle >= 360) {
         angle -= 360*floor(angle/360.0);
     }
@@ -82,8 +77,7 @@ double Angles::angle_360(double angle)
     return angle;
 }
 
-double Angles::angle_2pi(double angle)
-{
+double Angles::angle_2pi(double angle) {
     double pi2 = 2 * M_PI;
     if (angle >= pi2) {
         angle -= pi2 * floor(angle / pi2);
@@ -96,8 +90,7 @@ double Angles::angle_2pi(double angle)
     return angle;
 }
 
-double Angles::angle_180(double angle)
-{
+double Angles::angle_180(double angle) {
     angle = angle_360(angle);
     if (angle > 180) {
         angle -= 360.0;
@@ -105,8 +98,7 @@ double Angles::angle_180(double angle)
     return angle;
 }
 
-double Angles::angle_pi(double angle)
-{
+double Angles::angle_pi(double angle) {
     angle = angle_2pi(angle);
     if (angle > M_PI) {
         angle -= 2 * M_PI;
@@ -114,8 +106,7 @@ double Angles::angle_pi(double angle)
     return angle;
 }
 
-double Angles::angle_diff(double ang1, double ang2)
-{
+double Angles::angle_diff(double ang1, double ang2) {
     double diff = angle_360(angle_360(ang1) - angle_360(ang2));
     if (diff > 180) {
         diff -= 360;
@@ -123,23 +114,19 @@ double Angles::angle_diff(double ang1, double ang2)
     return diff;
 }
 
-double Angles::angle_diff_rad(double ang1, double ang2)
-{
+double Angles::angle_diff_rad(double ang1, double ang2) {
     return angle_pi(angle_pi(ang1) - angle_pi(ang2));
 }
 
-double Angles::angle_avg(double ang1, double ang2)
-{
+double Angles::angle_avg(double ang1, double ang2) {
     return angle_180(ang2 + angle_diff(ang1, ang2) / 2.0);
 }
 
-double Angles::angle_avg_rad(double ang1, double ang2)
-{
+double Angles::angle_avg_rad(double ang1, double ang2) {
     return angle_pi(ang2 + angle_diff_rad(ang1, ang2) / 2.0);
 }
 
-void Angles::set_angle(double angle)
-{
+void Angles::set_angle(double angle) {
     // Norm the angle
     angle = angle_360(angle);
 
@@ -170,9 +157,7 @@ void Angles::set_angle(double angle)
     }
 }
 
-double Angles::angle()
-{
+double Angles::angle() {
     return angle_;
 }
-
-}
+} // namespace scrimmage

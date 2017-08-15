@@ -30,16 +30,16 @@
  *
  */
 
-#ifndef _SCRIMMAGE_COLORMAPS_
-#define _SCRIMMAGE_COLORMAPS_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_COLORMAPS_H_
+#define INCLUDE_SCRIMMAGE_COMMON_COLORMAPS_H_
 
 // Plugins use the Colormap functions, but this compilation unit doesn't know
 // that. Disable the unused function warning.
 
 namespace scrimmage {
 
-typedef struct Color{
-    double r,g,b;
+typedef struct Color {
+    double r, g, b;
 } Color_t;
 
 // Matlab's versions of JET to GRAYSCALE
@@ -52,6 +52,6 @@ Color_t GetColor(double v, double vmin, double vmax);
 
 int GetGray(Color_t c, double vmin, double vmax);
 
-}
+} // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_COMMON_COLORMAPS_H_

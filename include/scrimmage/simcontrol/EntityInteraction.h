@@ -30,44 +30,45 @@
  *
  */
 
-#ifndef ENTITYINTERACTION_H_
-#define ENTITYINTERACTION_H_
-#include <list>
-#include <map>
-#include <memory>
+#ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_
+#define INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_
 
 #include <Eigen/Dense>
 
-#include <GeographicLib/LocalCartesian.hpp>
-
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/fwd_decl.h>
-
 #include <scrimmage/proto/Shape.pb.h>
 
-namespace scrimmage{
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+
+#include <GeographicLib/LocalCartesian.hpp>
+
+namespace scrimmage {
 
 class EntityInteraction : public Plugin {
 
  public:
-    inline virtual bool init(std::map<std::string,std::string> &mission_params,
-                      std::map<std::string,std::string> &plugin_params) 
+    inline virtual bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params)
     { return true;}
 
     inline virtual std::string name()
     { return std::string("EntityInteraction"); }
-    
+
     inline virtual bool step_entity_interaction(std::list<EntityPtr> &ents,
-                                                double t, double dt) 
+                                                double t, double dt)
     { return false; }
-    
+
     inline virtual std::list<std::shared_ptr<scrimmage_proto::Shape> > &shapes()
     { return shapes_; }
-    
+
     inline virtual bool collision_exists(std::list<EntityPtr> &ents,
-                                  Eigen::Vector3d &p) 
+                                  Eigen::Vector3d &p)
     { return false; }
-    
+
     inline virtual void set_random(RandomPtr random)
     { random_ = random; }
 
@@ -77,18 +78,18 @@ class EntityInteraction : public Plugin {
     inline virtual void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj)
     { proj_ = proj;}
 
-    inline void set_team_lookup(std::shared_ptr<std::unordered_map<int,int> > &lookup)
+    inline void set_team_lookup(std::shared_ptr<std::unordered_map<int, int> > &lookup)
     { team_lookup_ = lookup; }
-    
- protected:        
+
+ protected:
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
-    
+
     std::list<std::shared_ptr<scrimmage_proto::Shape> > shapes_;
     RandomPtr random_;
     MissionParsePtr mp_;
-    std::shared_ptr<std::unordered_map<int,int> > team_lookup_;
+    std::shared_ptr<std::unordered_map<int, int>> team_lookup_;
 };
 
 typedef std::shared_ptr<EntityInteraction> EntityInteractionPtr;
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_

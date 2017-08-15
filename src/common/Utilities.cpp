@@ -30,13 +30,15 @@
  *
  */
 
+#include <scrimmage/common/Utilities.h>
+
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <cassert>
 #include <vector>
 #include <memory>
-#include <scrimmage/common/Utilities.h>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/optional.hpp>
 
@@ -48,12 +50,11 @@ namespace fs = boost::filesystem;
 using std::cout;
 using std::endl;
 
-namespace scrimmage
-{
+namespace scrimmage {
+
 int next_available_id(std::string name,
                       std::map<std::string, std::string> &info,
-                      std::map<int,int> &id_map)
-{
+                      std::map<int, int> &id_map) {
     int id;
     if (info.count(name) > 0) {
         id = std::stoi(info[name]);
@@ -70,15 +71,18 @@ int next_available_id(std::string name,
     return id;
 }
 
-void display_progress(float progress)
-{
+void display_progress(float progress) {
     int bar_width = 70;
     std::cout << "[";
     int pos = bar_width * progress;
     for (int i = 0; i < bar_width; ++i) {
-        if (i < pos) std::cout << "=";
-        else if (i == pos) std::cout << ">";
-        else std::cout << " ";
+        if (i < pos) {
+            std::cout << "=";
+        } else if (i == pos) {
+            std::cout << ">";
+        } else {
+            std::cout << " ";
+        }
     }
     std::cout << "] " << int(progress * 100.0) << " %\r";
     std::cout.flush();
@@ -93,7 +97,7 @@ std::string get_sha(std::string &path) {
     FILE *status_file = popen(status_cmd.c_str(), "r");
 
     char sha[41], status[3];
-    bool success = 
+    bool success =
         fgets(sha, 40, sha_file) != NULL &&
         fgets(status, 2, status_file) != NULL;
 
@@ -145,7 +149,7 @@ void filter_line(int downsampling_factor,
     filtered_path.clear();
     filtered_path.reserve(curvature.size() + 2);
     filtered_path.push_back(path[0]);
-    
+
     for (Pair &p : curvature) {
         filtered_path.push_back(path[p.first]);
     }
@@ -153,8 +157,7 @@ void filter_line(int downsampling_factor,
     filtered_path.push_back(path.back());
 }
 
-std::string generate_chars(std::string symbol, int num)
-{
+std::string generate_chars(std::string symbol, int num) {
     std::string out = "";
     for (int i = 0; i < num; i++) {
         out += symbol;
@@ -162,4 +165,4 @@ std::string generate_chars(std::string symbol, int num)
     return out;
 }
 
-}
+} // namespace scrimmage

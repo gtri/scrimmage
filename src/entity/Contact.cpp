@@ -30,11 +30,11 @@
  *
  */
 
-#include <memory>
-
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/ID.h>
+
+#include <memory>
 
 namespace scrimmage {
 

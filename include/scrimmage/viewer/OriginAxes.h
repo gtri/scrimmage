@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef _ORIGIN_AXES_H_
-#define _ORIGIN_AXES_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_ORIGINAXES_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_ORIGINAXES_H_
 #include <list>
 
 #include <vtkSmartPointer.h>
@@ -43,19 +43,18 @@
 
 namespace scrimmage {
 
-    class OriginAxes {
-    public:
-        void create(int length,
-                    vtkSmartPointer<vtkRenderer> &renderer);
+class OriginAxes {
+ public:
+    void create(int length,
+                vtkSmartPointer<vtkRenderer> &renderer);
 
-        void remove();
-        
-    protected:
-        vtkSmartPointer<vtkRenderer> renderer_;        
-        vtkSmartPointer<vtkAxesActor> axes_;
-    private:
-    };
+    void remove();
 
-}
+ protected:
+    vtkSmartPointer<vtkRenderer> renderer_;
+    vtkSmartPointer<vtkAxesActor> axes_;
+};
 
-#endif
+} // namespace scrimmage
+
+#endif // INCLUDE_SCRIMMAGE_VIEWER_ORIGINAXES_H_

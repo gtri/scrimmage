@@ -30,18 +30,21 @@
  *
  */
 
-#ifndef MISSIONPARSE_H_
-#define MISSIONPARSE_H_
-#include <list>
-#include <vector>
-#include <map>
-#include <memory>
+#ifndef INCLUDE_SCRIMMAGE_PARSE_MISSIONPARSE_H_
+#define INCLUDE_SCRIMMAGE_PARSE_MISSIONPARSE_H_
+
+#include <Eigen/Dense>
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Visual.pb.h>
 
-#include <Eigen/Dense>
 #include <scrimmage/proto/Color.pb.h>
+
+#include <list>
+#include <vector>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace sp = scrimmage_proto;
 
@@ -68,15 +71,15 @@ struct TeamInfo {
 
 struct GenerateInfo {
     double start_time;
-    int total_count;        
+    int total_count;
     int gen_count;
-    double rate;  
-    bool first_in_group;        
+    double rate;
+    bool first_in_group;
     double time_variance;
 };
 
 class MissionParse {
-public:
+ public:
     MissionParse();
     bool create_log_dir();
     bool parse(std::string filename);
@@ -103,13 +106,13 @@ public:
     bool network_gui();
 
     AttributeMap &attributes();
-    std::map<std::string,std::string> & params();
+    std::map<std::string, std::string> & params();
 
     double longitude_origin();
     double latitude_origin();
     double altitude_origin();
 
-    std::map<int,TeamInfo> & team_info();
+    std::map<int, TeamInfo> & team_info();
 
     void set_task_number(int task_num);
     void set_job_number(int job_num);
@@ -123,10 +126,10 @@ public:
     std::map<int, std::vector<double> > & next_gen_times();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
-    
+
     std::shared_ptr<scrimmage_proto::UTMTerrain> & utm_terrain();
-    
-protected:
+
+ protected:
     std::string mission_filename_;
 
     double t0_;
@@ -140,7 +143,7 @@ protected:
     bool start_paused_;
 
     AttributeMap attributes_;
-    std::map<std::string,std::string> params_;
+    std::map<std::string, std::string> params_;
 
     std::map<int, TeamInfo > team_info_;
 
@@ -154,7 +157,7 @@ protected:
     double altitude_origin_;
 
     scrimmage_proto::Color background_color_;
-        
+
     int task_number_;
     int job_number_;
 
@@ -168,13 +171,11 @@ protected:
     // Key: entity_description ID in EntityDesc_t vector
     std::map<int, std::vector<double> > next_gen_times_;
 
-    std::shared_ptr<GeographicLib::LocalCartesian> proj_;            
+    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
     std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_;
-    
-private:
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
-}
+} // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PARSE_MISSIONPARSE_H_

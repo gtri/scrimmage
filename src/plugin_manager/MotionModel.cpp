@@ -63,9 +63,8 @@ void MotionModel::ode_step(double dt) {
 
 void MotionModel::model(const MotionModel::vector_t &x, MotionModel::vector_t &dxdt, double t) {}
 
-void MotionModel::set_external_force(Eigen::Vector3d force)
-{
+void MotionModel::set_external_force(Eigen::Vector3d force) {
     ext_force_ = force;
 }
-    
-}
+
+} // namespace scrimmage

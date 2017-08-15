@@ -30,13 +30,23 @@
  *
  */
 
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
 #include <string>
-
 #include <limits>
+
+#include <GeographicLib/UTMUPS.hpp>
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
+
 #include <boost/algorithm/string.hpp>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
@@ -45,36 +55,20 @@
 
 #include <rapidxml/rapidxml.hpp>
 
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-
-#include <GeographicLib/UTMUPS.hpp>
-#include <GeographicLib/Geocentric.hpp>
-#include <GeographicLib/LocalCartesian.hpp>
-
-#include <scrimmage/proto/ProtoConversions.h>
-
 using std::cout;
 using std::endl;
-
-using namespace rapidxml;
 
 namespace fs = boost::filesystem;
 
 namespace scrimmage {
 
-bool compare_order (const std::pair<int, std::string> & first,
-                    const std::pair<int, std::string> & second)
-{
+bool compare_order(const std::pair<int, std::string> & first,
+                   const std::pair<int, std::string> & second) {
     if (first.first < second.first) return true;
     return false;
 }
 
-MissionParse::MissionParse()
-{
+MissionParse::MissionParse() {
     t0_ = 0;
     tend_ = 50;
     dt_ = 0.00833333;
@@ -90,11 +84,10 @@ MissionParse::MissionParse()
     job_number_ = -1;
 }
 
-bool MissionParse::parse(std::string filename)
-{
+bool MissionParse::parse(std::string filename) {
     mission_filename_ = filename;
 
-    xml_document<> doc;
+    rapidxml::xml_document<> doc;
     std::ifstream file(mission_filename_.c_str());
 
     if (!file.is_open()) {
@@ -108,20 +101,20 @@ bool MissionParse::parse(std::string filename)
     std::string content(buffer.str());
     doc.parse<0>(&content[0]);
 
-    xml_node<> *runscript_node = doc.first_node("runscript");
+    rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
     if (runscript_node == 0) {
         cout << "Missing runscript tag." << endl;
         return false;
     }
 
-    xml_node<> *run_node = runscript_node->first_node("run");
+    rapidxml::xml_node<> *run_node = runscript_node->first_node("run");
     if (run_node == 0) {
         cout << "Missing run node" << endl;
         return false;
     }
 
     motion_multiplier_ = 1;
-    for (xml_attribute<> *attr = run_node->first_attribute();
+    for (rapidxml::xml_attribute<> *attr = run_node->first_attribute();
          attr; attr = attr->next_attribute()) {
 
         std::string attr_str(attr->name());
@@ -147,13 +140,13 @@ bool MissionParse::parse(std::string filename)
     // Loop through each "entity_interaction" node
     // Put in an ordered list based on the "order" attribute
     std::list<std::pair<int, std::string> > ent_inters;
-    for (xml_node<> *node = runscript_node->first_node("entity_interaction");
+    for (rapidxml::xml_node<> *node = runscript_node->first_node("entity_interaction");
          node != 0; node = node->next_sibling("entity_interaction")) {
 
         std::string name(node->value());
 
         int order = std::numeric_limits<int>::max();
-        xml_attribute<> *attr = node->first_attribute("order");
+        rapidxml::xml_attribute<> *attr = node->first_attribute("order");
         if (attr != NULL) {
             order = std::stoi(attr->value());
         } else {
@@ -172,13 +165,13 @@ bool MissionParse::parse(std::string filename)
     // Loop through each "metrics" node
     // Put in an ordered list based on the "order" attribute
     std::list<std::pair<int, std::string> > metrics;
-    for (xml_node<> *node = runscript_node->first_node("metrics");
+    for (rapidxml::xml_node<> *node = runscript_node->first_node("metrics");
          node != 0; node = node->next_sibling("metrics")) {
 
         std::string name(node->value());
 
         int order = std::numeric_limits<int>::max();
-        xml_attribute<> *attr = node->first_attribute("order");
+        rapidxml::xml_attribute<> *attr = node->first_attribute("order");
         if (attr != NULL) {
             order = std::stoi(attr->value());
         } else {
@@ -196,7 +189,7 @@ bool MissionParse::parse(std::string filename)
 
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
-    for (xml_node<> *node = runscript_node->first_node(); node != 0;
+    for (rapidxml::xml_node<> *node = runscript_node->first_node(); node != 0;
          node = node->next_sibling()) {
 
         std::string nm = node->name();
@@ -204,7 +197,7 @@ bool MissionParse::parse(std::string filename)
             params_[nm] = node->value();
 
             // Loop through each node's attributes:
-            for (xml_attribute<> *attr = node->first_attribute();
+            for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
 
                 std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
@@ -255,10 +248,10 @@ bool MissionParse::parse(std::string filename)
     // Use the current time for the directory's name
     time_t rawtime;
     struct tm * timeinfo;
-    char time_buffer [80];
-    time (&rawtime);
-    timeinfo = localtime (&rawtime);
-    strftime (time_buffer,80,"%Y-%m-%d_%H-%M-%S",timeinfo);
+    char time_buffer[80];
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    strftime(time_buffer, 80, "%Y-%m-%d_%H-%M-%S", timeinfo);
     log_dir_ += "/" + std::string(time_buffer);
 
     if (job_number_ != -1) {
@@ -274,13 +267,13 @@ bool MissionParse::parse(std::string filename)
     // common block name -> <node_name, value>
     std::map<std::string, AttributeMap> entity_common_attributes;
     std::map<std::string, std::map<std::string, std::string>> entity_common;
-    for (xml_node<> *script_node = runscript_node->first_node("entity_common");
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity_common");
          script_node != 0;
          script_node = script_node->next_sibling("entity_common")) {
 
         std::map<std::string, std::string> script_info;
 
-        xml_attribute<> *nm_attr = script_node->first_attribute("name");
+        rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("name");
 
         if (nm_attr == 0) {
             cout << "warning: found entity_common block without a name, skipping" << endl;
@@ -289,7 +282,7 @@ bool MissionParse::parse(std::string filename)
 
         std::string nm = nm_attr->value();
 
-        for (xml_node<> *node = script_node->first_node(); node != 0;
+        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
             std::string node_name = node->name();
 
@@ -297,7 +290,7 @@ bool MissionParse::parse(std::string filename)
                 continue;
             }
 
-            xml_attribute<> *order_attr = node->first_attribute("order");
+            rapidxml::xml_attribute<> *order_attr = node->first_attribute("order");
             if (order_attr) {
                 node_name += order_attr->value();
             } else if (node_name == "controller" || node_name == "sensor" ||
@@ -306,7 +299,7 @@ bool MissionParse::parse(std::string filename)
             }
 
             // Loop through each node's attributes:
-            for (xml_attribute<> *attr = node->first_attribute();
+            for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
 
                 entity_common_attributes[nm][node_name][attr->name()] = attr->value();
@@ -319,13 +312,13 @@ bool MissionParse::parse(std::string filename)
     }
 
     // Loop through each "entity" node
-    for (xml_node<> *script_node = runscript_node->first_node("entity");
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
          script_node != 0;
          script_node = script_node->next_sibling("entity")) {
 
         std::map<std::string, std::string> script_info;
 
-        xml_attribute<> *nm_attr = script_node->first_attribute("entity_common");
+        rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("entity_common");
 
         if (nm_attr != 0) {
             std::string nm = nm_attr->value();
@@ -343,7 +336,7 @@ bool MissionParse::parse(std::string filename)
 
         // Find the entity's team ID first, since it is required by later
         // nodes. Also, setup the TeamInfo structs / map.
-        xml_node<> *team_id_node = script_node->first_node("team_id");
+        rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
         if (team_id_node != 0) {
             script_info["team_id"] = team_id_node->value();
         } else if (script_info.count("team_id") == 0) {
@@ -364,18 +357,18 @@ bool MissionParse::parse(std::string filename)
         }
 
         // Loop through each "base" node
-        for (xml_node<> *base_node = script_node->first_node("base");
+        for (rapidxml::xml_node<> *base_node = script_node->first_node("base");
              base_node != 0;
              base_node = base_node->next_sibling("base")) {
 
             double radius = 25;
-            xml_node<> *radius_node = base_node->first_node("radius");
+            rapidxml::xml_node<> *radius_node = base_node->first_node("radius");
             if (radius_node != 0) {
                 radius = std::stod(radius_node->value());
             }
 
             double opacity = 1.0;
-            xml_node<> *opacity_node = base_node->first_node("opacity");
+            rapidxml::xml_node<> *opacity_node = base_node->first_node("opacity");
             if (opacity_node != 0) {
                 opacity = std::stod(opacity_node->value());
             }
@@ -384,15 +377,15 @@ bool MissionParse::parse(std::string filename)
             Eigen::Vector3d pos_xyz(-1, -1, -1);
 
             // Search for xyz
-            xml_node<> *x_node = base_node->first_node("x");
+            rapidxml::xml_node<> *x_node = base_node->first_node("x");
             if (x_node != 0) {
                 pos_xyz(0) = std::stod(x_node->value());
             }
-            xml_node<> *y_node = base_node->first_node("y");
+            rapidxml::xml_node<> *y_node = base_node->first_node("y");
             if (y_node != 0) {
                 pos_xyz(1) = std::stod(y_node->value());
             }
-            xml_node<> *z_node = base_node->first_node("z");
+            rapidxml::xml_node<> *z_node = base_node->first_node("z");
             if (z_node != 0) {
                 pos_xyz(2) = std::stod(z_node->value());
             }
@@ -400,17 +393,17 @@ bool MissionParse::parse(std::string filename)
             // Search for lon lat alt.
             Eigen::Vector3d pos_LLA(-1, -1, -1);
             bool lon_valid = false, lat_valid = false, alt_valid = false;
-            xml_node<> *lon_node = base_node->first_node("longitude");
+            rapidxml::xml_node<> *lon_node = base_node->first_node("longitude");
             if (lon_node != 0) {
                 pos_LLA(0) = std::stod(lon_node->value());
                 lon_valid = true;
             }
-            xml_node<> *lat_node = base_node->first_node("latitude");
+            rapidxml::xml_node<> *lat_node = base_node->first_node("latitude");
             if (lat_node != 0) {
                 pos_LLA(1) = std::stod(lat_node->value());
                 lat_valid = true;
             }
-            xml_node<> *alt_node = base_node->first_node("altitude");
+            rapidxml::xml_node<> *alt_node = base_node->first_node("altitude");
             if (alt_node != 0) {
                 pos_LLA(2) = std::stod(alt_node->value());
                 alt_valid = true;
@@ -427,11 +420,11 @@ bool MissionParse::parse(std::string filename)
         }
 
         // Loop through every other element under the "entity" node
-        for (xml_node<> *node = script_node->first_node(); node != 0;
+        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
 
             std::string nm = node->name();
-            xml_attribute<> *order_attr = node->first_attribute("order");
+            rapidxml::xml_attribute<> *order_attr = node->first_attribute("order");
             if (order_attr) {
                 nm += order_attr->value();
             } else if (nm == "controller" || nm == "sensor" || nm == "sensable"
@@ -442,12 +435,11 @@ bool MissionParse::parse(std::string filename)
             script_info[nm] = node->value();
 
             // Loop through each node's attributes:
-            for (xml_attribute<> *attr = node->first_attribute();
+            for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
 
                 entity_attributes_[ent_desc_id][nm][attr->name()] = attr->value();
             }
-
         }
 
         // For each entity, if the lat/lon are defined, use these values to
@@ -513,7 +505,7 @@ bool MissionParse::parse(std::string filename)
             team_info_[team_id].color.set_b(temp_color[2]);
         }
 
-        //Save the count
+        // Save the count
         GenerateInfo gen_info;
         gen_info.total_count = 1;
         gen_info.gen_count = 1;
@@ -558,7 +550,7 @@ bool MissionParse::parse(std::string filename)
                 gen_info.gen_count = gen_count;
                 gen_info.rate = rate;
 
-            } else if(rate > 0 && gen_count <= 0) {
+            } else if (rate > 0 && gen_count <= 0) {
                 cout << "WARNING: Not using entity generator."
                      << "generate_rate defined, but generate_count is "
                      << "less than or equal to zero" << endl;
@@ -580,11 +572,10 @@ bool MissionParse::parse(std::string filename)
     return true;
 }
 
-bool MissionParse::create_log_dir()
-{
+bool MissionParse::create_log_dir() {
     // Create the log directory
-    if ( !fs::exists( log_dir_ ) ) {
-        if(!fs::create_directories(fs::path(log_dir_))) {
+    if (!fs::exists(log_dir_)) {
+        if (!fs::create_directories(fs::path(log_dir_))) {
             cout << "ERROR: Unable to create output directory: "
                  << log_dir_ << endl;
             return false;
@@ -597,8 +588,7 @@ bool MissionParse::create_log_dir()
     return true;
 }
 
-bool MissionParse::write(std::string file)
-{
+bool MissionParse::write(std::string file) {
     return true;
 }
 
@@ -614,32 +604,31 @@ double MissionParse::time_warp() { return time_warp_; }
 
 bool MissionParse::start_paused() { return start_paused_; }
 
-bool MissionParse::parse_terrain()
-{
+bool MissionParse::parse_terrain() {
     ConfigParse terrain_parse;
     utm_terrain_ = std::make_shared<scrimmage_proto::UTMTerrain>();
 
     // Check for grid settings
-    if(params_.count("grid_spacing") > 0) {
+    if (params_.count("grid_spacing") > 0) {
         utm_terrain_->set_grid_spacing(std::stod(params_["grid_spacing"]));
     } else {
         utm_terrain_->set_grid_spacing(100);
     }
 
-    if(params_.count("grid_size") > 0) {
+    if (params_.count("grid_size") > 0) {
         utm_terrain_->set_grid_size(std::stod(params_["grid_size"]));
     } else {
         utm_terrain_->set_grid_size(10000);
     }
 
     // Check for origin settings
-    if(params_.count("origin_length") > 0) {
+    if (params_.count("origin_length") > 0) {
         utm_terrain_->set_origin_length(std::stod(params_["origin_length"]));
     } else {
         utm_terrain_->set_origin_length(1);
     }
 
-    if(params_.count("show_origin") > 0) {
+    if (params_.count("show_origin") > 0) {
         utm_terrain_->set_show_origin(str2bool(params_["show_origin"]));
     } else {
         utm_terrain_->set_show_origin(false);
@@ -650,8 +639,8 @@ bool MissionParse::parse_terrain()
     utm_terrain_->set_enable_grid(true);
     utm_terrain_->set_enable_terrain(false);
 
-    if(params_.count("terrain") > 0 &&
-       find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
+    if (params_.count("terrain") > 0 &&
+        find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
 
         double x_easting;
         double y_northing;
@@ -666,7 +655,7 @@ bool MissionParse::parse_terrain()
         // Make sure the projected zone and hemisphere match the input xml
         if (((northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "NORTH") ||
              (!northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "SOUTH")) &&
-            zone == get("zone",terrain_parse.params(),-2)) {
+            zone == get("zone", terrain_parse.params(), -2)) {
 
             utm_terrain_->set_x_translate(x_easting);
             utm_terrain_->set_y_translate(y_northing);
@@ -682,7 +671,7 @@ bool MissionParse::parse_terrain()
             cout << "============================================" << endl;
             cout << "Invalid XML Terrain settings: " << endl;
             cout << "Hemisphere: " << terrain_parse.params()["hemisphere"] << endl;
-            cout << "Zone: " << get("zone",terrain_parse.params(),-2) << endl;
+            cout << "Zone: " << get("zone", terrain_parse.params(), -2) << endl;
             cout << "--------------------------------------------" << endl;
             cout << "Geographic lib output: " << endl;
             cout << "x_easting: " << x_easting << endl;
@@ -743,5 +732,4 @@ std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection()
 std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain()
 { return utm_terrain_; }
 
-
-}
+} // namespace scrimmage

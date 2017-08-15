@@ -30,15 +30,17 @@
  *
  */
 
-#ifndef CONTACT_H_
-#define CONTACT_H_
+#ifndef INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
+#define INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
 #include <scrimmage/fwd_decl.h>
+
+#include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/common/ID.h>
+
 #include <memory>
 #include <unordered_map>
 #include <list>
-
-#include <scrimmage/proto/Visual.pb.h>
+#include <string>
 
 namespace scrimmage {
 
@@ -46,7 +48,6 @@ using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
 
 class Contact {
  public:
-
     enum class Type {AIRCRAFT = 0, QUADROTOR, SPHERE, MESH, UNKNOWN};
 
     Contact();
@@ -54,7 +55,7 @@ class Contact {
     Contact(ID &id, double radius, StatePtr &state, Type type,
             ContactVisualPtr cv,
             std::unordered_map<std::string, std::list<SensablePtr>> sp);
-    
+
     void set_id(const ID &id);
     ID &id();
 
@@ -84,5 +85,5 @@ class Contact {
 
 using ContactMap = std::unordered_map<int, Contact>;
 using ContactMapPtr = std::shared_ptr<ContactMap>;
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_

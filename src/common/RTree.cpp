@@ -41,8 +41,7 @@ namespace scrimmage {
 
 RTree::RTree() {}
 
-void RTree::init(int size)
-{
+void RTree::init(int size) {
     if (size > 0) {
         rtree_ = std::make_shared<rtree_t>(bgi::dynamic_rstar(size));
         size_ = size;
@@ -50,7 +49,7 @@ void RTree::init(int size)
 }
 
 void RTree::clear() {
-    rtree_->clear(); 
+    rtree_->clear();
     rtree_team_.clear();
 }
 
@@ -88,8 +87,7 @@ void results_to_neighbors(std::list<point_id_t> &results,
 
 void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos,
                                 std::vector<ID> &neighbors, unsigned int n,
-                                int self_id, int team_id)
-{
+                                int self_id, int team_id) {
     std::list<point_id_t> results;
     point sought(pos(0), pos(1), pos(2));
 

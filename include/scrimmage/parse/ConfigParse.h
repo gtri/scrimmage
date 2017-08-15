@@ -30,11 +30,14 @@
  *
  */
 
-#ifndef CONFIGPARSE_H_
-#define CONFIGPARSE_H_
+#ifndef INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+#define INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+
+#include <scrimmage/common/FileSearch.h>
+
 #include <map>
 #include <vector>
-#include <scrimmage/common/FileSearch.h>
+#include <string>
 
 namespace scrimmage {
 class ConfigParse {
@@ -57,4 +60,4 @@ class ConfigParse {
     std::string filename_;
 };
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_

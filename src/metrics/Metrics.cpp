@@ -33,11 +33,7 @@
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/proto/Frame.pb.h>
 
-#include <iostream>
 #include <limits>
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 

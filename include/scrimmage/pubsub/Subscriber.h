@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef Subscriber_H_
-#define Subscriber_H_
+#ifndef INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
+#define INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
 
 #include <scrimmage/pubsub/NetworkDevice.h>
 
@@ -39,4 +39,4 @@ namespace scrimmage {
 class Subscriber : public NetworkDevice {};
 using SubscriberPtr = std::shared_ptr<Subscriber>;
 }
-#endif // Subscriber_H_
+#endif // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_

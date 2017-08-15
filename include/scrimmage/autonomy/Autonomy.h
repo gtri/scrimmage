@@ -30,21 +30,22 @@
  *
  */
 
-#ifndef AUTONOMY_H_
-#define AUTONOMY_H_
-
-#include <list>
-#include <map>
-#include <memory>
-#include <unordered_map>
+#ifndef INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/entity/Contact.h>
 
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <string>
+
 namespace scrimmage_proto {
-    class Shape;
-    using ShapePtr = std::shared_ptr<Shape>;
+class Shape;
+using ShapePtr = std::shared_ptr<Shape>;
 }
 
 namespace scrimmage {
@@ -53,12 +54,12 @@ class Autonomy : public Plugin {
  public:
     Autonomy();
 
-    std::string type();    
+    std::string type();
     virtual bool step_autonomy(double t, double dt);
     virtual bool posthumous(double t);
     virtual void init();
     virtual bool ready() { return true; }
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     bool need_reset();
 
     // getters/setters
@@ -90,7 +91,7 @@ class Autonomy : public Plugin {
 
     StatePtr state_;
     StatePtr desired_state_;
-    ContactMapPtr contacts_;    
+    ContactMapPtr contacts_;
     scrimmage::RTreePtr rtree_;
 
     std::list<scrimmage_proto::ShapePtr> shapes_;
@@ -99,5 +100,5 @@ class Autonomy : public Plugin {
 
     bool is_controlling_;
 };
-}
-#endif
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_

@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef GRID_H_
-#define GRID_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
 #include <list>
 
 #include <vtkSmartPointer.h>
@@ -44,20 +44,18 @@
 
 namespace scrimmage {
 
-    class Grid {
-    public:
-        void create(int size, double spacing,
-                    vtkSmartPointer<vtkRenderer> &renderer);
+class Grid {
+ public:
+    void create(int size, double spacing,
+                vtkSmartPointer<vtkRenderer> &renderer);
 
-        void remove();
-        
-    protected:
-        vtkSmartPointer<vtkRenderer> renderer_;
-        std::list<vtkSmartPointer<vtkActor> > actors_;
-        
-    private:
-    };
+    void remove();
 
-}
+ protected:
+    vtkSmartPointer<vtkRenderer> renderer_;
+    std::list<vtkSmartPointer<vtkActor> > actors_;
+};
 
-#endif
+} // namespace scrimmage
+
+#endif // INCLUDE_SCRIMMAGE_VIEWER_GRID_H_

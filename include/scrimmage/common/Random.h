@@ -30,11 +30,12 @@
  *
  */
 
-#ifndef RANDOM_H_
-#define RANDOM_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_RANDOM_H_
+#define INCLUDE_SCRIMMAGE_COMMON_RANDOM_H_
+
 #include <memory>
 #include <random>
-
+#include <vector>
 
 namespace scrimmage {
 
@@ -54,9 +55,8 @@ class Random {
 
     std::shared_ptr<std::normal_distribution<double>>
         make_rng_normal(double mean, double sigma);
-    
-    
-    int rng_discrete_int(std::vector<double> & weights);
+
+    int rng_discrete_int(std::vector<double> &weights);
 
     std::shared_ptr<std::default_random_engine> gener()
     { return gener_; }
@@ -66,12 +66,9 @@ class Random {
     std::shared_ptr<std::default_random_engine> gener_;
     std::normal_distribution<double> rng_normal_;
     std::uniform_real_distribution<double> rng_uniform_;
-    //std::discrete_distribution<long> rng_discrete_;
-
-private:
 };
 
 typedef std::shared_ptr<Random> RandomPtr;
-}
+} // namespace scrimmage
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_COMMON_RANDOM_H_
