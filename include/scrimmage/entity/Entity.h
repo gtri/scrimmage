@@ -58,6 +58,9 @@ typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 class Entity : public std::enable_shared_from_this<Entity> {
 
  public:
+    /*! \name utilities */
+    ///@{
+
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
               ContactMapPtr &contacts,
@@ -72,6 +75,19 @@ class Entity : public std::enable_shared_from_this<Entity> {
     bool parse_visual(std::map<std::string, std::string> &info,
                       MissionParsePtr mp, FileSearch &file_search);
 
+    void collision();
+    void hit();
+    bool is_alive();
+
+    bool posthumous(double t);
+    void setup_desired_state();
+    bool ready();
+
+    bool call_service(MessageBasePtr req, MessageBasePtr &res, std::string service_name);
+    ///@}
+
+    /*! \name getters/setters */
+    ///@{
     StatePtr &state();
     std::vector<AutonomyPtr> &autonomies();
     MotionModelPtr &motion();
@@ -80,44 +96,34 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void set_id(ID &id);
     ID &id();
 
-    void collision();
-    void hit();
     void set_health_points(int health_points);
     int health_points();
 
-    bool is_alive();
-    bool posthumous(double t);
-
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
-
     MissionParsePtr mp();
+
     void set_random(RandomPtr random);
     RandomPtr random();
 
     Contact::Type type();
 
     void set_visual_changed(bool visual_changed);
-
     bool visual_changed();
 
-    scrimmage_proto::ContactVisualPtr & contact_visual();
+    scrimmage_proto::ContactVisualPtr &contact_visual();
 
     std::unordered_map<std::string, std::list<SensablePtr>> &sensables();
     std::unordered_map<std::string, SensorPtr> &sensors();
+    std::unordered_map<std::string, Service> &services();
 
     void set_active(bool active);
     bool active();
-
-    void setup_desired_state();
-
-    std::unordered_map<std::string, Service> &services();
-
-    bool ready();
 
     ContactMapPtr &contacts() { return contacts_; }
     RTreePtr &rtree() { return rtree_; }
 
     double radius() { return radius_; }
+    ///@}
 
  protected:
     ID id_;
