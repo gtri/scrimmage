@@ -38,8 +38,6 @@
 
 namespace scrimmage {
 
-class MessageBase;
-
 template <class T>
 class Message : public MessageBase {
  public:
