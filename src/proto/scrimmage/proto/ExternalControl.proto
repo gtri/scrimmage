@@ -1,0 +1,78 @@
+/*!
+ * @file
+ *
+ * @section LICENSE
+ *
+ * Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
+ *
+ * This file is part of SCRIMMAGE.
+ *
+ *   SCRIMMAGE is free software: you can redistribute it and/or modify it under
+ *   the terms of the GNU Lesser General Public License as published by the
+ *   Free Software Foundation, either version 3 of the License, or (at your
+ *   option) any later version.
+ *
+ *   SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT
+ *   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+ *   License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public License
+ *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
+ * @author Eric Squires <eric.squires@gtri.gatech.edu>
+ * @date 31 July 2017
+ * @version 0.1.0
+ * @brief Brief file description.
+ * @section DESCRIPTION
+ * A Long description goes here.
+ *
+ */
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+import "google/protobuf/empty.proto";
+
+package scrimmage_proto;
+
+service ExternalControl {
+  rpc SendEnvironment (Environment) returns (google.protobuf.Empty) {}
+  rpc SendActionResult (ActionResult) returns (Action) {}
+}
+
+message SingleSpaceParams {
+    int32 num_dims = 1;
+    repeated double minimum = 2;
+    repeated double maximum = 3;
+    bool discrete = 4;
+}
+
+message SpaceParams {
+    repeated SingleSpaceParams params = 1;
+}
+
+message Environment {
+    SpaceParams action_spaces = 1;
+    SpaceParams observation_spaces = 2;
+    double min_reward = 3;
+    double max_reward = 4;
+}
+
+message SpaceSample {
+    repeated double value = 1;
+}
+
+message ActionResult {
+    SpaceSample observations = 1;
+    double reward = 2;
+    bool done = 3;
+}
+
+message Action {
+    repeated int32 discrete = 1;
+    repeated double continuous = 2;
+    bool done = 3;
+}

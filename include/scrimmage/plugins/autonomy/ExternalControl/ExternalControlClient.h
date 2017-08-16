@@ -29,39 +29,34 @@
  * A Long description goes here.
  *
  */
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+#include <grpc++/grpc++.h>
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+#include <scrimmage/fwd_decl.h>
+#include <scrimmage/proto/ExternalControl.pb.h>
+#include <scrimmage/proto/ExternalControl.grpc.pb.h>
 
-#include <random>
 #include <map>
 #include <string>
-#include <vector>
 
 #include <boost/optional.hpp>
 
-class NoisyContacts : public scrimmage::Sensor {
+class ExternalControlClient {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
-    virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
-        sensor_msg_flat(double t);
+    ExternalControlClient() = default;
+    explicit ExternalControlClient(std::shared_ptr<grpc::Channel> channel) :
+        stub_(scrimmage_proto::ExternalControl::NewStub(channel)) {}
 
+    bool send_environment(scrimmage_proto::Environment &env,
+                          scrimmage::StatePtr state);
+
+    boost::optional<scrimmage_proto::Action>
+    send_action_result(scrimmage_proto::ActionResult &action_result);
 
  protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
-
-    double max_detect_range_;
-    double az_thresh_;
-    double el_thresh_;
+    std::unique_ptr<scrimmage_proto::ExternalControl::Stub> stub_;
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_

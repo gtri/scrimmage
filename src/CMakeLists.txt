@@ -27,6 +27,7 @@ set(SRCS
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
     pubsub/MessageBase.cpp pubsub/Network.cpp pubsub/NetworkDevice.cpp pubsub/Publisher.cpp
+    sensor/Sensor.cpp
     simcontrol/SimControl.cpp
 )
 

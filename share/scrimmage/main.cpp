@@ -198,18 +198,8 @@ int main(int argc, char *argv[]) {
         simcontrol.force_exit();
         simcontrol.join();
     } else {
-        // simcontrol.pause(false);
+        simcontrol.pause(false);
         simcontrol.run();
-        // if (mp->network_gui()) {
-        //    scrimmage::Viewer viewer;
-        //    viewer.set_incoming_interface(to_gui_interface);
-        //    viewer.set_outgoing_interface(from_gui_interface);
-        //    viewer.set_enable_network(true);
-        //    viewer.init();
-        //    viewer.run();
-        //    // If the viewer exits, tell the simcontrol to exit
-        //    simcontrol.force_exit();
-        //}
     }
 #endif
 

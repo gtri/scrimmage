@@ -29,6 +29,11 @@
 # A Long description goes here.
 #
 #
-
 from scrimmage.bindings import *
+try:
+    from scrimmage.external_control import ScrimmageEnv
+except ImportError:
+    print('unable to import ScrimmageEnv so the openAI environment will '
+          'be disabled (this occurs when either openAI gym or GRPC '
+          'are not installed)')
 from scrimmage.utils import read_frames

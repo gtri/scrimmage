@@ -137,3 +137,57 @@ boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t) {
 
     return boost::optional<sc::MessageBasePtr>(msg);
 }
+
+boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+NoisyContacts::sensor_msg_flat(double t) {
+    auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
+    auto add_vec = [&](auto &vec) {
+        msg->data.add_value(vec(0));
+        msg->data.add_value(vec(1));
+        msg->data.add_value(vec(2));
+    };
+
+    for (auto &kv : *parent_->contacts()) {
+        sc::State &s = *kv.second.state();
+        add_vec(s.pos());
+        add_vec(s.vel());
+        msg->data.add_value(s.quat().roll());
+        msg->data.add_value(s.quat().pitch());
+        msg->data.add_value(s.quat().yaw());
+    }
+
+    return msg;
+}
+
+boost::optional<scrimmage_proto::SpaceParams> NoisyContacts::observation_space_params() {
+    sp::SpaceParams space_params;
+
+    const double inf = std::numeric_limits<double>::infinity();
+    for (size_t contact_num = 0; contact_num < parent_->contacts()->size(); contact_num++) {
+        sp::SingleSpaceParams *single_space_params = space_params.add_params();
+        single_space_params->set_num_dims(9);
+
+        // position/velocity
+        for (int i = 0; i < 6; i++) {
+            single_space_params->add_minimum(-inf);
+            single_space_params->add_maximum(inf);
+        }
+
+        // euler angles (could possibly do quaternion)
+        // roll
+        single_space_params->add_minimum(-M_PI / 2);
+        single_space_params->add_maximum(M_PI / 2);
+
+        // pitch
+        single_space_params->add_minimum(-M_PI / 2);
+        single_space_params->add_maximum(M_PI / 2);
+
+        // yaw
+        single_space_params->add_minimum(-M_PI);
+        single_space_params->add_maximum(M_PI);
+
+        single_space_params->set_discrete(false);
+    }
+
+    return space_params;
+}

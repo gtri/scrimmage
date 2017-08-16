@@ -191,7 +191,7 @@ class SimControl {
     std::condition_variable_any entity_pool_condition_var_;
     std::vector<std::thread> entity_worker_threads_;
     void worker();
-    void run_entities();
+    bool run_entities();
 
     std::shared_ptr<Log> log_;
 

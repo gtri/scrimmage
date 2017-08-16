@@ -35,6 +35,7 @@
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/proto/ExternalControl.pb.h>
 
 #include <map>
 #include <memory>
@@ -46,21 +47,25 @@ namespace scrimmage {
 
 class Sensor : public Plugin {
  public:
-    virtual inline void init(std::map<std::string, std::string> &params) {return;}
+    virtual void init(std::map<std::string, std::string> &params);
 
-    virtual std::string name() { return std::string("Sensor"); }
-    virtual std::string type() { return std::string("Sensor"); }
+    virtual std::string name();
+    virtual std::string type();
 
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t) = 0;
+    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+        sensor_msg_flat(double t);
 
+    /*! \brief version when T = MessageBase (calls sensor_msg without casting) */
     template <class T = MessageBase,
-              class = typename std::enable_if<std::is_same<T, MessageBase>::value, void>::type>
+              class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     boost::optional<MessageBasePtr> sense(double t) {
         return sensor_msg(t);
     }
 
-    template <class T = MessageBase,
-              class = typename std::enable_if<!std::is_same<T, MessageBase>::value, void>::type>
+    /*! \brief default version */
+    template <class T>
     boost::optional<std::shared_ptr<scrimmage::Message<T>>> sense(double t) {
         auto msg = sensor_msg(t);
         if (msg) {

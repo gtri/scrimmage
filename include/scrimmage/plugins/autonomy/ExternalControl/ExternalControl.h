@@ -30,38 +30,41 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROL_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROL_H_
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/autonomy/ExternalControl/ExternalControlClient.h>
 
-#include <random>
+#include <Eigen/Dense>
+
 #include <map>
 #include <string>
-#include <vector>
+#include <limits>
 
 #include <boost/optional.hpp>
 
-class NoisyContacts : public scrimmage::Sensor {
+class ExternalControl : public scrimmage::Autonomy {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
-    virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
-        sensor_msg_flat(double t);
+    virtual void init(std::map<std::string, std::string> &params) {}
+    bool step_autonomy(double t, double dt) final;
 
+    virtual bool handle_action(
+        double t, double dt, scrimmage_proto::Action action);
+    virtual scrimmage_proto::SpaceParams action_space_params();
 
  protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
+    std::string server_address_ = "localhost:50051";
+    double min_reward_ = -std::numeric_limits<double>::infinity();
+    double max_reward_ = std::numeric_limits<double>::infinity();
 
-    double max_detect_range_;
-    double az_thresh_;
-    double el_thresh_;
+ private:
+    boost::optional<scrimmage_proto::Action>
+      send_action_result(double t, double reward, bool done);
+    bool send_env();
+
+    ExternalControlClient external_control_client_;
+    bool env_sent_ = false;
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROL_H_

@@ -609,7 +609,10 @@ void SimControl::run() {
 
         create_rtree();
         set_autonomy_contacts();
-        run_entities();
+        if (!run_entities()) {
+            std::cout << "exiting due to plugin exception" << std::endl;
+            break;
+        }
         network_->distribute(t_, dt_);
 
         end_condition_interaction = run_interaction_detection();
@@ -1029,8 +1032,9 @@ void SimControl::worker() {
     }
 }
 
-void SimControl::run_entities() {
+bool SimControl::run_entities() {
     contacts_mutex_.lock();
+    bool success = true;
     if (use_entity_threads_) {
 
         // put tasks on queue
@@ -1051,7 +1055,7 @@ void SimControl::run_entities() {
 
         // wait for results
         for (std::future<bool> &future : futures) {
-            future.get();
+            success &= future.get();
         }
     } else {
         for (EntityPtr ent : ents_) {
@@ -1063,7 +1067,7 @@ void SimControl::run_entities() {
             }
 
             for (AutonomyPtr &autonomy : ent->autonomies()) {
-                autonomy->step_autonomy(t_, dt_);
+                success &= autonomy->step_autonomy(t_, dt_);
             }
 
             ent->setup_desired_state();
@@ -1074,12 +1078,12 @@ void SimControl::run_entities() {
         for (int i = 0; i < mp_->motion_multiplier(); i++) {
             for (EntityPtr ent : ents_) {
                 for (ControllerPtr &ctrl : ent->controllers()) {
-                    ctrl->step(temp_t, motion_dt);
+                    success &= ctrl->step(temp_t, motion_dt);
                 }
             }
 
             for (EntityPtr ent : ents_) {
-                ent->motion()->step(temp_t, motion_dt);
+                success &= ent->motion()->step(temp_t, motion_dt);
             }
             temp_t += motion_dt;
         }
@@ -1101,6 +1105,7 @@ void SimControl::run_entities() {
             autonomy->shapes().clear();
         }
     }
+    return success;
 }
 
 void SimControl::run_send_shapes() {

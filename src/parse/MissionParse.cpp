@@ -236,7 +236,12 @@ bool MissionParse::parse(std::string filename) {
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     strftime(time_buffer, 80, "%Y-%m-%d_%H-%M-%S", timeinfo);
-    log_dir_ += "/" + std::string(time_buffer);
+    std::string name(time_buffer);
+    int ct = 1;
+    while (fs::exists(fs::path(log_dir_ + "/" + name))) {
+        name = std::string(time_buffer) + "_" + std::to_string(ct++);
+    }
+    log_dir_ += "/" + name;
 
     if (job_number_ != -1) {
         log_dir_ += "_job_" + std::to_string(job_number_);
