@@ -45,11 +45,27 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <iostream>
 #include <functional>
 #include <vector>
+
+#include <boost/type_index.hpp>
 #endif
 
 namespace scrimmage {
+
+#ifdef ROSCPP_ROS_H
+template <class RosType>
+scrimmage::MessagePtr<RosType> ros2sc_msg(const boost::shared_ptr<RosType const>& ros_msg) {
+    return std::make_shared<scrimmage::Message<RosType>>(*ros_msg);
+}
+
+template <class RosType>
+RosType sc2ros_msg(const scrimmage::MessagePtr<RosType> &sc_msg) {
+    return sc_msg->data;
+}
+
+#endif
 
 class External {
  public:
@@ -85,11 +101,11 @@ class External {
         }
     }
 
-    template <typename RosType, typename Ros2ScFunc>
+    template <typename RosType, typename ScrimmageType>
     void add_subscriber(
         ros::NodeHandle &nh,
         scrimmage::SubscriberPtr sc_sub,
-        Ros2ScFunc ros2sc_func,
+        std::function<scrimmage::MessagePtr<ScrimmageType>(const boost::shared_ptr<RosType const>&)> ros2sc_func,
         std::string ros_topic = "",
         std::function<void(const boost::shared_ptr<RosType const> &)> pre_func =
             [](const boost::shared_ptr<RosType const> &msg) {return;},
@@ -107,11 +123,26 @@ class External {
         ros_subs_.push_back(nh.subscribe(topic, 5, callback));
     }
 
-    template <class ScrimmageType, class Sc2RosFunc>
+    template <typename RosType>
+    void add_subscriber(
+        ros::NodeHandle &nh,
+        scrimmage::SubscriberPtr sc_sub,
+        std::string ros_topic = "",
+        std::function<scrimmage::MessagePtr<RosType>(const boost::shared_ptr<RosType const>&)>
+            ros2sc_func = ros2sc_msg<RosType>,
+        std::function<void(const boost::shared_ptr<RosType const> &)> pre_func =
+            [](const boost::shared_ptr<RosType const> &msg) {return;},
+        std::function<void(const boost::shared_ptr<RosType const> &)> post_func =
+            [](const boost::shared_ptr<RosType const> &msg) {return;}) {
+
+        add_subscriber<RosType, RosType>(nh, sc_sub, ros_topic, ros2sc_func, pre_func, post_func);
+    }
+
+    template <class RosType, class ScrimmageType>
     void add_publisher(
         const ros::Publisher &ros_pub,
         scrimmage::PublisherPtr sc_pub,
-        Sc2RosFunc sc2ros_func,
+        std::function<boost::shared_ptr<RosType>(const scrimmage::MessagePtr<ScrimmageType>&)> sc2ros_func,
         std::function<void()> pre_func = [](){return;},
         std::function<void()> post_func = [](){return;}) {
 
@@ -127,37 +158,70 @@ class External {
         ros_pub_funcs_.push_back(func);
     }
 
-    template <class RosType, class ScrimmageResponseType, class ScServiceFunc, class Ros2ScRequestFunc, class Sc2RosResponseFunc>
+    template <class RosType>
+    void add_publisher(
+        const ros::Publisher &ros_pub,
+        scrimmage::PublisherPtr sc_pub,
+        std::function<boost::shared_ptr<RosType>(const scrimmage::MessagePtr<RosType>&)>
+            sc2ros_func = ros2sc_msg<RosType>,
+        std::function<void()> pre_func = [](){return;},
+        std::function<void()> post_func = [](){return;}) {
+
+        add_publisher<RosType, RosType>(ros_pub, sc_pub, sc2ros_func, pre_func, post_func);
+    }
+
+    template <class RosType, class ScrimmageRequestType, class ScrimmageResponseType>
     void advertise_service(
         ros::NodeHandle &nh,
         const std::string &service_name,
-        Ros2ScRequestFunc ros2sc_request_func,
-        ScServiceFunc sc_service_func,
-        Sc2RosResponseFunc sc2ros_response_func,
+        std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)> sc_service_func,
+        std::function<scrimmage::MessagePtr<ScrimmageRequestType>(typename RosType::Request &)> ros2sc_request_func,
+        std::function<typename RosType::Response(scrimmage::MessagePtr<ScrimmageResponseType>&)> sc2ros_response_func,
         std::function<bool(typename RosType::Request&)> pre_func = [](typename RosType::Request&){return true;},
         std::function<bool(typename RosType::Response&)> post_func = [](typename RosType::Response&){return true;}) {
 
         boost::function<bool(typename RosType::Request &, typename RosType::Response &)> callback =
             [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
+
+                auto err_msg = [&](const std::string &preface) {
+                    std::cout << preface << " in advertised_service \""
+                        << service_name << "\"" << std::endl;
+                };
+
                 if (!pre_func(ros_req)) {
+                    err_msg("call to pre_func converting ros to scrimmage request failed");
                     return false;
                 }
 
                 auto sc_req = ros2sc_request_func(ros_req);
 
                 auto sc_req_base = std::dynamic_pointer_cast<scrimmage::MessageBase>(sc_req);
-                auto sc_res_base = std::make_shared<scrimmage::MessageBase>();
-                if (!sc_req_base || !sc_service_func(sc_req_base, sc_res_base)) {
+                if (sc_req_base == nullptr) {
+                    err_msg("could not cast scrimmage request to scrimmage::MessageBasePtr");
                     return false;
                 }
 
-                auto sc_res = std::dynamic_pointer_cast<ScrimmageResponseType>(sc_res_base);
+                auto sc_res_base = std::make_shared<scrimmage::MessageBase>();
+                if (!sc_service_func(sc_req_base, sc_res_base)) {
+                    err_msg("call to sc_service_func failed");
+                    return false;
+                }
+
+                auto sc_res =
+                    std::dynamic_pointer_cast<scrimmage::Message<ScrimmageResponseType>>(sc_res_base);
                 if (!sc_res) {
+                    std::stringstream ss;
+                    ss << "could not cast to scrimmage::MessagePtr<ScrimmageResponseType> "
+                        << "(aka, scrimmage::MessagePtr<"
+                        << boost::typeindex::type_id<ScrimmageResponseType>().pretty_name()
+                        << ">)";
+                    err_msg(ss.str());
                     return false;
                 }
 
                 ros_res = sc2ros_response_func(sc_res);
                 if (!post_func(ros_res)) {
+                    err_msg("call to post_func converting scrimmage to ros response failed");
                     return false;
                 }
                 return true;
@@ -167,12 +231,30 @@ class External {
         ros_service_servers_.push_back(srv);
     }
 
-    template <class RosServiceType, class ScrimmageReqType,
-            class Sc2RosRequestFunc, class Ros2ScResponseFunc>
-    add_service(ros::NodeHandle &nh,
-        Sc2RosRequestFunc sc2ros_request_func,
-        Ros2ScResponseFunc ros2sc_response_func,
+    template <class RosType>
+    void advertise_service(
+        ros::NodeHandle &nh,
+        const std::string &service_name,
+        std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)> sc_service_func,
+        std::function<scrimmage::MessagePtr<typename RosType::Request>(typename RosType::Request &)>
+            ros2sc_request_func = ros2sc_msg<RosType>,
+        std::function<typename RosType::Response(scrimmage::MessagePtr<typename RosType::Response>&)>
+            sc2ros_response_func = sc2ros_msg<RosType>,
+        std::function<bool(typename RosType::Request&)> pre_func = [](typename RosType::Request&){return true;},
+        std::function<bool(typename RosType::Response&)> post_func = [](typename RosType::Response&){return true;}) {
+
+        advertise_service<RosType, RosType>(
+            nh, service_name, sc_service_func, ros2sc_request_func,
+            sc2ros_response_func, pre_func, post_func);
+    }
+
+    template <class RosServiceType, class ScrimmageRequestType>
+    void add_service(ros::NodeHandle &nh,
         const std::string &sc_topic,
+        std::function<typename RosServiceType::Request(scrimmage::MessagePtr<ScrimmageRequestType>&)>
+            sc2ros_request_func,
+        std::function<scrimmage::MessageBasePtr(typename RosServiceType::Response&)>
+            ros2sc_response_func,
         const std::string &ros_topic = "") {
 
         std::string topic = ros_topic == "" ? sc_topic : ros_topic;
@@ -181,9 +263,21 @@ class External {
 
         auto call_service =
             [=](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
+                auto err_msg = [&](const std::string &preface) {
+                    std::cout << preface << " in call_service "
+                        << "(sc_topic = " << sc_topic << ", ros_topic = " << topic << ")"
+                        << std::endl;
+                };
+
                 auto sc_req_cast =
-                    std::dynamic_pointer_cast<ScrimmageReqType>(sc_req);
+                    std::dynamic_pointer_cast<scrimmage::Message<ScrimmageRequestType>>(sc_req);
                 if (!sc_req_cast) {
+                    std::stringstream ss;
+                    ss << "could not cast to scrimmage::MessagePtr<ScrimmageRequestType> "
+                        << "(aka, scrimmage::MessagePtr<"
+                        << boost::typeindex::type_id<ScrimmageRequestType>().pretty_name()
+                        << ">)";
+                    err_msg(ss.str());
                     return false;
                 }
 
@@ -198,7 +292,20 @@ class External {
                 return true;
             };
 
+        std::cout << "adding call_service" << std::endl;
         entity_->services()[sc_topic] = call_service;
+    }
+
+    template <class RosType>
+    void add_service(ros::NodeHandle &nh,
+        const std::string &sc_topic,
+        std::function<typename RosType::Request(scrimmage::MessagePtr<typename RosType::Request>&)>
+            sc2ros_request_func,
+        std::function<scrimmage::MessagePtr<typename RosType::Response>(typename RosType::Response&)>
+            ros2sc_response_func = ros2sc_msg<typename RosType::Response>,
+        const std::string &ros_topic = "") {
+
+        add_service<RosType, RosType>(nh, sc2ros_request_func, ros2sc_response_func, sc_topic, ros_topic);
     }
 
 #endif
