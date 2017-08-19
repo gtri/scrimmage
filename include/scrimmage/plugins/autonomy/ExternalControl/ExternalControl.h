@@ -36,13 +36,13 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/plugins/autonomy/ExternalControl/ExternalControlClient.h>
 
-#include <Eigen/Dense>
-
 #include <map>
 #include <string>
 #include <limits>
 
-#include <boost/optional.hpp>
+namespace boost {
+template <class T> class optional;
+}
 
 class ExternalControl : public scrimmage::Autonomy {
  public:

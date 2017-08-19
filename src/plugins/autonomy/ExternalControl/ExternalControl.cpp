@@ -40,6 +40,8 @@
 
 #include <limits>
 
+#include <boost/optional.hpp>
+
 namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, ExternalControl, ExternalControl_plugin)
@@ -130,10 +132,10 @@ scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
         space_params.add_params();
     single_space_params->set_num_dims(9);
 
-    // we have to use non-infinite bounds for openai's tuple_space to give
-    // non-nan values when the sample method on tuple_space is called
-    const double inf = 1e9;
     for (int i = 0; i < 6; i++) {
+        // we have to use non-infinite bounds for openai's tuple_space to give
+        // non-nan values when the sample method on tuple_space is called
+        const double inf = std::numeric_limits<float>::max();
         single_space_params->add_minimum(-inf);
         single_space_params->add_maximum(inf);
     }

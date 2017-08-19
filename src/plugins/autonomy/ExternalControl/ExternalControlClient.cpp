@@ -34,6 +34,8 @@
 #include <google/protobuf/empty.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
+#include <boost/optional.hpp>
+
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 

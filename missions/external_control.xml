@@ -30,10 +30,8 @@
 
   <entity_interaction order="0">SimpleCollision</entity_interaction>
 
-  
   <seed>3361078855</seed>
 
-  
   <entity>
     <team_id>1</team_id>
     <color>77 77 255</color>
@@ -53,4 +51,4 @@
     <sensor order="0">NoisyContacts</sensor>
 
   </entity>
-<foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /><foo /></runscript>
+</runscript>
