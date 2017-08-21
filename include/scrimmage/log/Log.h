@@ -56,8 +56,6 @@
 
 #include <memory>
 
-namespace GeographicLib { class LocalCartesian; }
-
 namespace scrimmage {
 
 class Log {
