@@ -129,7 +129,6 @@ int main(int argc, char *argv[]) {
         }
 
         std::ifstream csv_file(filename);
-        std::string run_num;
 
         std::string line;
         std::getline(csv_file, line); // skip header comment
