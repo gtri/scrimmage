@@ -192,7 +192,7 @@ This should produce the following output: ::
    2               100             0               100
 
 In this simplified example, it is clear that using collision avoidance is
-better for reducing mid-air collisions that not using collision avoidance.
+better for reducing mid-air collisions than not using collision avoidance.
 
 Playback Scenarios
 ------------------
