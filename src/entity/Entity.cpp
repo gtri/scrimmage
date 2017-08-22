@@ -315,35 +315,19 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
 }
 
 bool Entity::ready() {
-    // Are all autonomies ready?
-    for (AutonomyPtr &a : autonomies_) {
-        if (!a->ready()) return false;
-    }
+    auto all_ready = [&](auto &rng, auto &func) {
+        return std::all_of(rng.begin(), rng.end(), func);
+    };
 
-    // Are all controllers ready?
-    for (ControllerPtr &c : controllers_) {
-        if (!c->ready()) return false;
-    }
+    auto single_ready = [&](auto &plugin) {return plugin->ready();};
+    auto values_single_ready = [&](auto &kv) {return kv.second->ready();};
+    auto values_list_ready = [&](auto &kv) {return all_ready(kv.second, single_ready);};
 
-    // Are all sensors ready?
-    for (auto &kv : sensors_) {
-        // for (SensorPtr &s : kv.second) {
-        if (!kv.second->ready()) return false;
-            //}
-    }
-
-    // Are all sensables ready?
-    for (auto &kv : sensables_) {
-        for (SensablePtr &s : kv.second) {
-            if (!s->ready()) return false;
-        }
-    }
-
-    // Is the motion model ready?
-    if (!motion_model_->ready()) return false;
-
-    // Everything is ready if this point is reached
-    return true;
+    return all_ready(autonomies_, single_ready)
+        && all_ready(controllers_, single_ready)
+        && all_ready(sensors_, values_single_ready)
+        && all_ready(sensables_, values_list_ready)
+        && motion_model_->ready();
 }
 
 StatePtr &Entity::state() {return state_;}
