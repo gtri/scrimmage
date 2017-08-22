@@ -47,6 +47,7 @@
 
 #include <iostream>
 #include <memory>
+#include <algorithm>
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
@@ -398,11 +399,11 @@ void Entity::setup_desired_state() {
         return;
     }
 
-    for (AutonomyPtr &autonomy : autonomies_) {
-        if (autonomy->get_is_controlling()) {
-            controllers_.front()->set_desired_state(autonomy->desired_state());
-            break;
-        }
+    auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
+        [&](auto autonomy) {return autonomy->get_is_controlling();});
+
+    if (it != autonomies_.rend()) {
+        controllers_.front()->set_desired_state((*it)->desired_state());
     }
 }
 

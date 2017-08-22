@@ -1067,6 +1067,8 @@ bool SimControl::run_entity(EntityPtr &ent) {
         success &= autonomy->step_autonomy(t_, dt_);
     }
 
+    ent->setup_desired_state();
+
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
