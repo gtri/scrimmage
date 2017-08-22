@@ -199,7 +199,7 @@ and match between the two paradigms for a single entity.
     ``variance_z`` tags bound the possible starting locations to a cube around
     the ``x``, ``y``, and ``altitude`` tag position.
   - ``variance_y`` : The y-distance around the entity's initial position for
-     generating entities.
+    generating entities.
   - ``variance_z`` : The z-distance around the entity's initial position for
     generating entities.
   - ``x`` : The entity's initial x-position. The first entity in the entity
