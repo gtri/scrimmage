@@ -33,6 +33,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h>
 
 #include <iostream>
@@ -51,6 +52,8 @@ void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
 }
 
 bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
-    u_ = -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
+    Eigen::Vector3d u_eig =
+        -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
+    u_ = {u_eig(0), u_eig(1), u_eig(2)};
     return true;
 }

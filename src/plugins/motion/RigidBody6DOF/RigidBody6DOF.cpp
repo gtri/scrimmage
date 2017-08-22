@@ -115,18 +115,6 @@ bool RigidBody6DOF::init(std::map<std::string, std::string> &info,
 }
 
 bool RigidBody6DOF::step(double time, double dt) {
-    if (ctrl_u_ == nullptr) {
-        std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
-        if (ctrl) {
-            ctrl_u_ = ctrl->u();
-        }
-    }
-
-    if (ctrl_u_ == nullptr) {
-        return false;
-    }
-
     // Need to saturate state variables before model runs
     x_[U] = clamp(x_[U], min_velocity_, max_velocity_);
 
@@ -156,10 +144,10 @@ bool RigidBody6DOF::step(double time, double dt) {
 }
 
 void RigidBody6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
-    double thrust = (*ctrl_u_)(THRUST);
-    double elevator = (*ctrl_u_)(ELEVATOR);
-    double aileron = (*ctrl_u_)(AILERON);
-    double rudder = (*ctrl_u_)(RUDDER);
+    double thrust = u_[THRUST];
+    double elevator = u_[ELEVATOR];
+    double aileron = u_[AILERON];
+    double rudder = u_[RUDDER];
 
     double F_thrust = thrust;
 

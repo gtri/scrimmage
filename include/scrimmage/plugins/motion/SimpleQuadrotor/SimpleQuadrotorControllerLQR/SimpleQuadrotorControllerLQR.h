@@ -33,19 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_
 
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/common/PID.h>
+
 #include <map>
 #include <string>
+#include <cmath>
 
-#include "../SimpleQuadrotor.h"
-
-class SimpleQuadrotorControllerLQR : public SimpleQuadrotor::Controller {
+class SimpleQuadrotorControllerLQR : public scrimmage::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d &u() {return u_;}
 
  protected:
-    Eigen::Vector4d u_;
     scrimmage::PID vel_pid_;
     double prev_yaw_ = NAN;
     double max_vel_;

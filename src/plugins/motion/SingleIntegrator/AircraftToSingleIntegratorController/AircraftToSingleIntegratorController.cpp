@@ -32,6 +32,21 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SingleIntegrator/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.h>
+#include <scrimmage/math/State.h>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 AircraftToSingleIntegratorController,
                 AircraftToSingleIntegratorController_plugin)
+
+bool AircraftToSingleIntegratorController::step(double t, double dt) {
+    double desired_heading = desired_state_->quat().yaw();
+    double desired_alt = desired_state_->pos()(2);
+    double desired_speed = desired_state_->vel()(0);
+
+    // Convert desired speed, pitch, and heading into velocity
+    u_[0] = desired_speed * cos(desired_heading);
+    u_[1] = desired_speed * sin(desired_heading);
+    u_[2] = desired_alt - state_->pos()(2);
+
+    return true;
+}

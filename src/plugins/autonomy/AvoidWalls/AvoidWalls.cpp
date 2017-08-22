@@ -53,7 +53,7 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
-    pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/0/pointcloud");
+    pcl_sub_ = create_subscriber(std::to_string(id_.id()) + "/0/pointcloud");
 }
 
 bool AvoidWalls::step_autonomy(double t, double dt) {

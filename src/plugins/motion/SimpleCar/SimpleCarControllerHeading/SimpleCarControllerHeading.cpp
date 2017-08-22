@@ -34,6 +34,7 @@
 #include <scrimmage/plugins/motion/SimpleCar/SimpleCarControllerHeading/SimpleCarControllerHeading.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/math/State.h>
 
 #include <iostream>
 
@@ -54,9 +55,9 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params
 }
 
 bool SimpleCarControllerHeading::step(double t, double dt) {
-    u_(0) = desired_state_->vel()(0);
+    u_[0] = desired_state_->vel()(0);
     pid_.set_setpoint(desired_state_->quat().yaw());
-    u_(1) = pid_.step(dt, state_->quat().yaw());
+    u_[1] = pid_.step(dt, state_->quat().yaw());
 
     return true;
 }

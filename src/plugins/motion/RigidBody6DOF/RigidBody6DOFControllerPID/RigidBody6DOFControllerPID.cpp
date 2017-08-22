@@ -32,6 +32,8 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 
 #include <iostream>
 
@@ -70,7 +72,6 @@ void RigidBody6DOFControllerPID::init(std::map<std::string, std::string> &params
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
-    u_ = std::make_shared<Eigen::Vector4d>();
 }
 
 bool RigidBody6DOFControllerPID::step(double t, double dt) {
@@ -87,6 +88,6 @@ bool RigidBody6DOFControllerPID::step(double t, double dt) {
     vel_pid_.set_setpoint(desired_state_->vel()(0));
     double u_thrust = vel_pid_.step(dt, state_->vel().norm());
 
-    (*u_) << u_thrust, roll_error, pitch_error, 0;
+    u_ = {u_thrust, roll_error, pitch_error, 0};
     return true;
 }

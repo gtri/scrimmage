@@ -65,8 +65,6 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
 }
 
 bool Unicycle::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-
     double prev_x = x_[X];
     double prev_y = x_[Y];
 
@@ -87,8 +85,8 @@ bool Unicycle::step(double t, double dt) {
 }
 
 void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
-    double vel = boost::algorithm::clamp(ctrl_u_(0), -vel_max_, vel_max_);
-    double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
+    double vel = boost::algorithm::clamp(u_[0], -vel_max_, vel_max_);
+    double yaw_rate = boost::algorithm::clamp(u_[1], -turn_rate_max_, turn_rate_max_);
     dxdt[X] = vel * cos(x[THETA]);
     dxdt[Y] = vel * sin(x[THETA]);
     dxdt[THETA] = yaw_rate;

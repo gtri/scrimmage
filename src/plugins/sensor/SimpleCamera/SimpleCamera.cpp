@@ -62,14 +62,14 @@ void SimpleCamera::init(std::map<std::string, std::string> &params) {
 
 boost::optional<scrimmage::MessageBasePtr> SimpleCamera::sensor_msg(double t) {
 
-    int my_id = parent_->id().id();
+    int my_id = id_.id();
     auto msg = std::make_shared<sc::Message<std::unordered_set<sc::ID>>>();
 
     std::vector<sc::ID> neigh;
     sc::ContactMapPtr c = parent_->contacts();
     sc::StatePtr s = (*c)[my_id].state();
 
-    parent_->rtree()->neighbors_in_range(s->pos(), neigh, range_, my_id);
+    rtree_->neighbors_in_range(s->pos(), neigh, range_, my_id);
 
     std::copy_if(neigh.begin(), neigh.end(), std::inserter(msg->data, msg->data.end()),
         [&](sc::ID &id) {return s->InFieldOfView(*c->at(id.id()).state(), fov_az_, fov_el_);});

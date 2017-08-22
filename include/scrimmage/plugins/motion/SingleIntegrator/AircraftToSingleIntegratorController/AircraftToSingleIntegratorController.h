@@ -33,31 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
 
+#include <scrimmage/motion/Controller.h>
+
 #include <map>
 #include <string>
 
-#include "../SingleIntegrator.h"
-
-class AircraftToSingleIntegratorController : public SingleIntegrator::Controller {
+class AircraftToSingleIntegratorController : public scrimmage::Controller {
  public:
     virtual void init(std::map<std::string,  std::string> &params) {}
-    virtual bool step(double t, double dt) {
-        double desired_heading = desired_state_->quat().yaw();
-        double desired_alt = desired_state_->pos()(2);
-        double desired_speed = desired_state_->vel()(0);
-
-        // Convert desired speed, pitch, and heading into velocity
-        u_[0] = desired_speed * cos(desired_heading);
-        u_[1] = desired_speed * sin(desired_heading);
-        u_[2] = desired_alt - state_->pos()(2);
-
-        return true;
-    }
-
-    virtual Eigen::Vector3d &u() {return u_;}
-
- protected:
-    Eigen::Vector3d u_;
+    virtual bool step(double t, double dt);
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_

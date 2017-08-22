@@ -408,31 +408,4 @@ void Entity::setup_desired_state() {
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
 
-bool Entity::call_service(scrimmage::MessageBasePtr req,
-        scrimmage::MessageBasePtr &res, std::string service_name) {
-
-    auto it = services_.find(service_name);
-    if (it == services_.end()) {
-        std::cout << "request for service ("
-            << service_name
-            << ") that does not exist" << std::endl;
-        std::cout << "services are: ";
-        for (auto &kv : services_) {
-            std::cout << kv.first << ", ";
-        }
-        std::cout << std::endl;
-        return false;
-    }
-
-    Service &service = it->second;
-    bool success = service(req, res);
-
-    if (!success) {
-        std::cout << "call to " << service_name << " failed" << std::endl;
-        return false;
-    } else {
-        return true;
-    }
-}
-
 } // namespace scrimmage

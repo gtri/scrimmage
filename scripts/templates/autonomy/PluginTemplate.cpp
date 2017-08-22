@@ -68,7 +68,7 @@ bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt)
     for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
 
         // Skip if this contact is on the same team
-        if (it->second.id().team_id() == parent_->id().team_id()) {
+        if (it->second.id().team_id() == id_.team_id()) {
             continue;
         }
 

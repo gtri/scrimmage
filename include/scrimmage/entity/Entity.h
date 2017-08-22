@@ -60,7 +60,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
  public:
     /*! \name utilities */
     ///@{
-
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
               ContactMapPtr &contacts,
@@ -81,9 +80,9 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     bool posthumous(double t);
     void setup_desired_state();
-    bool ready();
 
-    bool call_service(MessageBasePtr req, MessageBasePtr &res, std::string service_name);
+    /*! \brief 
+    bool ready();
     ///@}
 
     /*! \name getters/setters */

@@ -68,10 +68,9 @@ bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
 }
 
 bool DoubleIntegrator::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-    ctrl_u_(0) = clamp(ctrl_u_(0), -max_acc_, max_acc_);
-    ctrl_u_(1) = clamp(ctrl_u_(1), -max_acc_, max_acc_);
-    ctrl_u_(2) = clamp(ctrl_u_(2), -max_acc_, max_acc_);
+    for (int i = 0; i < 3; i++) {
+        u_[i] = clamp(u_[i], -max_acc_, max_acc_);
+    }
 
     ode_step(dt);
 
@@ -100,7 +99,7 @@ void DoubleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Y] = clamp(x_[VY], -max_vel_, max_vel_);
     dxdt[Z] = clamp(x_[VZ], -max_vel_, max_vel_);
 
-    dxdt[VX] = update_dvdt(x[VX], ctrl_u_(0));
-    dxdt[VY] = update_dvdt(x[VY], ctrl_u_(1));
-    dxdt[VZ] = update_dvdt(x[VZ], ctrl_u_(2));
+    dxdt[VX] = update_dvdt(x[VX], u_[0]);
+    dxdt[VY] = update_dvdt(x[VY], u_[1]);
+    dxdt[VZ] = update_dvdt(x[VZ], u_[2]);
 }

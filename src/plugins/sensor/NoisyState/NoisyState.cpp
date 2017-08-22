@@ -55,16 +55,16 @@ namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
 void NoisyState::init(std::map<std::string, std::string> &params) {
-    gener_ = parent_->random()->gener();
+    gener_ = random_->gener();
 
     for (int i = 0; i < 3; i++) {
         std::string tag_name = "pos_noise_" + std::to_string(i);
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+            pos_noise_.push_back(random_->make_rng_normal(vec[0], vec[1]));
         } else {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+            pos_noise_.push_back(random_->make_rng_normal(0, 1));
         }
     }
 
@@ -73,9 +73,9 @@ void NoisyState::init(std::map<std::string, std::string> &params) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            vel_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+            vel_noise_.push_back(random_->make_rng_normal(vec[0], vec[1]));
         } else {
-            vel_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+            vel_noise_.push_back(random_->make_rng_normal(0, 1));
         }
     }
 
@@ -84,9 +84,9 @@ void NoisyState::init(std::map<std::string, std::string> &params) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+            orient_noise_.push_back(random_->make_rng_normal(vec[0], vec[1]));
         } else {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+            orient_noise_.push_back(random_->make_rng_normal(0, 1));
         }
     }
 
@@ -95,7 +95,7 @@ void NoisyState::init(std::map<std::string, std::string> &params) {
 
 boost::optional<scrimmage::MessageBasePtr> NoisyState::sensor_msg(double t) {
     // Make a copy of the current state
-    sc::State ns = *(parent_->state());
+    sc::State ns = *state_;
 
     auto msg = std::make_shared<sc::Message<sc::State>>();
 

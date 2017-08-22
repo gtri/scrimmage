@@ -91,7 +91,7 @@ std::unordered_set<int> &UnitDisk::ping_ref(const scrimmage::PluginPtr &plugin) 
 
         std::unordered_set<int> pingable_ids;
 
-        Eigen::Vector3d &pos = plugin->parent()->state()->pos();
+        Eigen::Vector3d &pos = plugin->state()->pos();
         std::vector<sc::ID> neigh;
         rtree_->neighbors_in_range(pos, neigh, range_);
 

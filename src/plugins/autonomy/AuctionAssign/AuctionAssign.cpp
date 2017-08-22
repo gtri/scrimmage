@@ -54,8 +54,6 @@ using BidMsg = sc::Message<auction::BidAuction>;
 REGISTER_PLUGIN(scrimmage::Autonomy, AuctionAssign, AuctionAssign_plugin)
 
 void AuctionAssign::init(std::map<std::string, std::string> &params) {
-    id_ = parent_->id().id();
-
     desired_state_->vel() << 0, 0, 0;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
@@ -75,12 +73,12 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
 bool AuctionAssign::step_autonomy(double t, double dt) {
     // Read the Start Auction inbox
     for (auto &msg : subs_["StartAuction"]->msg_list()) {
-        std::cout << "StartAuction: " << id_
+        std::cout << "StartAuction: " << id_.id()
           << " received message from " << msg->sender << std::endl;
 
         auto msg_bid = std::make_shared<BidMsg>();
-        msg_bid->sender = id_;
-        msg_bid->data.set_bid(parent_->random()->rng_uniform() * 10.0);
+        msg_bid->sender = id_.id();
+        msg_bid->data.set_bid(random_->rng_uniform() * 10.0);
         msg_bid->data.SerializeToString(&msg_bid->serialized_data);
 #if ENABLE_PYTHON_BINDINGS == 1
         msg_bid->serialize_to_python("AuctionMsgs_pb2", "BidAuction");
@@ -93,7 +91,7 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
         // Read the Bid Auction inbox
         for (auto msg : subs_["BidAuction"]->msgs<BidMsg>()) {
 
-            std::cout << "BidAuction: " << id_ << " received message from "
+            std::cout << "BidAuction: " << id_.id() << " received message from "
                 << msg->sender << " bid: " << msg->data.bid() << std::endl;
 
             if (msg->data.bid() > max_bid_) {
@@ -103,9 +101,9 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
         }
     }
 
-    if (!auction_started_ && id_ == 1) {
+    if (!auction_started_ && id_.id() == 1) {
         sc::MessageBasePtr msg(new sc::MessageBase());
-        msg->sender = id_;
+        msg->sender = id_.id();
 
         std::cout << "origin: " << msg->sender << std::endl;
         pubs_["StartAuction"]->publish(msg, t);
@@ -117,7 +115,7 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
     }
 
     if (auction_in_prog_ && t > auction_start_time_ + auction_max_time_
-        && id_ == 1) {
+        && id_.id() == 1) {
         std::cout << "======================================" << std::endl;
         std::cout << "Auction Complete" << std::endl;
         std::cout << "Max Bidder: " << max_bid_champ_ << " - Bid=" << max_bid_ << std::endl;

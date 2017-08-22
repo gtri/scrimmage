@@ -152,10 +152,10 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     u_vel_node_ = mgr->GetNode("velocities/u-fps");
 
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
-                                  longitude_node_->getDoubleValue(),
-                                  altitude_node_->getDoubleValue() * feet2meters,
-                                  state_->pos()(0), state_->pos()(1), state_->pos()(2));
+    proj_->Forward(latitude_node_->getDoubleValue(),
+        longitude_node_->getDoubleValue(),
+        altitude_node_->getDoubleValue() * feet2meters,
+        state_->pos()(0), state_->pos()(1), state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
@@ -173,10 +173,9 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 bool JSBSimControl::step(double time, double dt) {
     ap_throttle_cmd_node_->setDoubleValue(0.9);
 
-    Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-    double u_roll = u(0);
-    double u_pitch = u(1);
-    double u_yaw = u(2);
+    double u_roll = u_[0];
+    double u_pitch = u_[1];
+    double u_yaw = u_[2];
 
     // Roll stabilizer
     ap_aileron_cmd_node_->setDoubleValue(u_roll);
@@ -198,10 +197,10 @@ bool JSBSimControl::step(double time, double dt) {
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
-                                  longitude_node_->getDoubleValue(),
-                                  altitude_node_->getDoubleValue() * feet2meters,
-                                  state_->pos()(0), state_->pos()(1), state_->pos()(2));
+    proj_->Forward(latitude_node_->getDoubleValue(),
+        longitude_node_->getDoubleValue(),
+        altitude_node_->getDoubleValue() * feet2meters,
+        state_->pos()(0), state_->pos()(1), state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 

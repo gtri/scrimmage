@@ -38,7 +38,9 @@ namespace pl = std::placeholders;
 
 namespace scrimmage {
 
-MotionModel::MotionModel() : mass_(1.0) {}
+MotionModel::MotionModel() : mass_(1.0) {
+    u_.resize(size_u_);
+}
 
 std::string MotionModel::type() { return std::string("MotionModel"); }
 
@@ -65,6 +67,15 @@ void MotionModel::model(const MotionModel::vector_t &x, MotionModel::vector_t &d
 
 void MotionModel::set_external_force(Eigen::Vector3d force) {
     ext_force_ = force;
+}
+
+bool MotionModel::set_u(std::vector<double> &u) {
+    if (u.size() != size_u_) {
+        return false;
+    } else {
+        u_ = u;
+        return true;
+    }
 }
 
 } // namespace scrimmage

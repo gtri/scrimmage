@@ -38,6 +38,7 @@
 #include <memory>
 #include <map>
 #include <string>
+#include <vector>
 
 namespace scrimmage {
 
@@ -47,10 +48,12 @@ class Controller : public Plugin {
     virtual bool step(double t, double dt) = 0;
     inline void set_state(StatePtr &state) {state_ = state;}
     inline void set_desired_state(StatePtr &desired_state) {desired_state_ = desired_state;}
+    std::vector<double> &u() {return u_;}
 
  protected:
     StatePtr state_;
     StatePtr desired_state_;
+    std::vector<double> u_;
 };
 
 using ControllerPtr = std::shared_ptr<Controller>;

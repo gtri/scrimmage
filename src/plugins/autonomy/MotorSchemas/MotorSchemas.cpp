@@ -100,7 +100,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
 
         // Ignore own position / id
-        if (it->second.id().id() == parent_->id().id()) continue;
+        if (it->second.id().id() == id_.id()) continue;
 
         Eigen::Vector3d diff = it->second.state()->pos() - state_->pos();
         Eigen::Vector3d diff_rot = transform_inv*diff;

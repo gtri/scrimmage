@@ -56,7 +56,6 @@ class AuctionAssign : public scrimmage::Autonomy {
     double auction_max_time_ = 0;
     double max_bid_ = -std::numeric_limits<double>::infinity();
     int max_bid_champ_ = -1;
-    int id_ = -1;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_

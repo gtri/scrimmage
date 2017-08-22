@@ -33,23 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
 
+#include <scrimmage/motion/Controller.h>
+
 #include <map>
 #include <string>
 
-#include "../SingleIntegrator.h"
-
-class SingleIntegratorControllerSimple : public SingleIntegrator::Controller {
+class SingleIntegratorControllerSimple : public scrimmage::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params) {}
-    virtual bool step(double t, double dt) {
-        u_ = desired_state_->vel();
-        return true;
-    }
-
-    virtual Eigen::Vector3d &u() {return u_;}
-
- protected:
-    Eigen::Vector3d u_;
+    virtual bool step(double t, double dt);
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_

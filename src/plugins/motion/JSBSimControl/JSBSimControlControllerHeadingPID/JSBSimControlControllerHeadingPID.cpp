@@ -88,17 +88,17 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
     // Roll stabilizer
     roll_pid_.set_setpoint(0);
     double u_roll = roll_pid_.step(dt, state_->quat().roll());
-    u_(0) = ang::angle_pi(u_roll);
+    u_[0] = ang::angle_pi(u_roll);
 
     // Pitch stabilizer
     pitch_pid_.set_setpoint(0);
-    u_(1) = -pitch_pid_.step(dt, state_->quat().pitch());
+    u_[1] = -pitch_pid_.step(dt, state_->quat().pitch());
 
     // Yaw stabilizer
     double desired_yaw = desired_state_->quat().yaw();
     angles_to_jsbsim_.set_angle(ang::rad2deg(desired_yaw));
     yaw_pid_.set_setpoint(ang::deg2rad(angles_to_jsbsim_.angle()));
-    u_(2) = -yaw_pid_.step(dt, state_->quat().yaw());
+    u_[2] = -yaw_pid_.step(dt, state_->quat().yaw());
 
     return true;
 }

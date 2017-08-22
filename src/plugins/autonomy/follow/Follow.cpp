@@ -58,7 +58,7 @@ bool Follow::step_autonomy(double t, double dt) {
      // for (std::list<scrimmage::Contact>::iterator it = contacts_.begin();
      //      it != contacts_.end(); it++) {
      //
-     //      if (it->id().id() != parent_->id().id()) {
+     //      if (it->id().id() != id_.id()) {
      //           //cout << "Own Lat: " << state_.pose().latitude() << endl;
      //           //cout << "Own Long: " << state_.pose().longitude() << endl;
      //           //cout << "Cnt Lat: " << it->state().pose().latitude()<< endl;

@@ -32,13 +32,14 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/Unicycle/UnicycleControllerDirect/UnicycleControllerDirect.h>
+#include <scrimmage/math/State.h>
 
 REGISTER_PLUGIN(scrimmage::Controller,
                 UnicycleControllerDirect,
                 UnicycleControllerDirect_plugin)
 
 bool UnicycleControllerDirect::step(double t, double dt) {
-    u_(0) = desired_state_->vel()(0);
-    u_(1) = desired_state_->vel()(1);
+    Eigen::Vector3d &v = desired_state_->vel();
+    u_ = {v(0), v(1)};
     return true;
 }

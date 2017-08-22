@@ -33,19 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_
 
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/common/PID.h>
+
 #include <map>
 #include <string>
 
-#include "../JSBSimModel.h"
-
-class JSBSimModelControllerHeadingPID : public JSBSimModel::Controller {
+class JSBSimModelControllerHeadingPID : public scrimmage::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector3d &u() {return u_;}
 
  protected:
-    Eigen::Vector3d u_;
     scrimmage::Angles angles_to_jsbsim_;
     scrimmage::Angles angles_from_jsbsim_;
 

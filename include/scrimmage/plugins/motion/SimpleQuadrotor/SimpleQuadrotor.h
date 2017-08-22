@@ -45,13 +45,7 @@ class SimpleQuadrotor : public scrimmage::MotionModel{
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
     virtual bool step(double time, double dt);
-
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector4d &u() = 0;
-    };
 
  protected:
     double max_vel_;

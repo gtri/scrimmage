@@ -30,9 +30,14 @@
  *
  */
 
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/JSBSimModel/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.h>
+
+#include <cmath>
+
 #include <boost/algorithm/clamp.hpp>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 JSBSimModelControllerHeadingPID,
                 JSBSimModelControllerHeadingPID_plugin)
@@ -52,7 +57,7 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
     heading_pid_.set_parameters(1, 0.50, 0.0); // P, I, D
-    heading_pid_.set_integral_band(M_PI/40.0);
+    heading_pid_.set_integral_band(M_PI / 40.0);
     heading_pid_.set_is_angle(true);
 
     heading_lag_initialized_ = false;
@@ -94,9 +99,9 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     bank_cmd = boost::algorithm::clamp(bank_cmd, -max_bank_, max_bank_);
 
     // save what was used as the input
-    u_(0) = desired_state_->vel()(0);
-    u_(1) = bank_cmd;
-    u_(2) = desired_state_->pos()(2);
+    u_[0] = desired_state_->vel()(0);
+    u_[1] = bank_cmd;
+    u_[2] = desired_state_->pos()(2);
 
     return true;
 }

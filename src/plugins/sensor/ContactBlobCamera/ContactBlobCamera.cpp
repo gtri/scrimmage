@@ -64,7 +64,7 @@ namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
 void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
-    gener_ = parent_->random()->gener();
+    gener_ = random_->gener();
 
     img_width_ = sc::get<int>("img_width", params, 800);
     img_height_ = sc::get<int>("img_height", params, 600);
@@ -83,9 +83,9 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+            pos_noise_.push_back(random_->make_rng_normal(vec[0], vec[1]));
         } else {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+            pos_noise_.push_back(random_->make_rng_normal(0, 1));
         }
     }
 
@@ -94,9 +94,9 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+            orient_noise_.push_back(random_->make_rng_normal(vec[0], vec[1]));
         } else {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+            orient_noise_.push_back(random_->make_rng_normal(0, 1));
         }
     }
 
@@ -114,7 +114,7 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t) {
 
     for (auto &kv : *(parent_->contacts())) {
         // Filter out (skip) own contact
-        if (kv.second.id().id() == parent_->id().id()) continue;
+        if (kv.second.id().id() == id_.id()) continue;
 
         // Filter out contacts out of range, should use RTree, but rtree still
         // requires querying of ID from contact lists. (TODO)

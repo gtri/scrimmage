@@ -32,6 +32,7 @@
 
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
@@ -43,8 +44,9 @@ namespace scrimmage {
 
 int Plugin::plugin_count_ = 0;
 
-Plugin::Plugin() : network_id_(plugin_count_++),
-                   parent_(std::make_shared<Entity>()) {}
+Plugin::Plugin() :
+    state_(new State()),
+    network_id_(plugin_count_++) {}
 
 Plugin::~Plugin() {}
 
@@ -52,9 +54,9 @@ std::string Plugin::name() { return std::string("Plugin"); }
 
 std::string Plugin::type() { return std::string("Plugin"); }
 
-void Plugin::set_parent(EntityPtr parent) {parent_ = parent;}
+void Plugin::set_parent(std::weak_ptr<Entity> parent) {parent_ = parent;}
 
-EntityPtr Plugin::parent() { return parent_; }
+std::weak_ptr<Entity> &Plugin::parent() {return parent_;}
 
 NetworkPtr &Plugin::network() {return network_;}
 
@@ -134,4 +136,47 @@ bool Plugin::ping(int network_id) {
     return network_->ping(shared_from_this(), network_id);
 }
 
+void Plugin::set_contacts(ContactMapPtr &contacts) {
+    contacts_ = contacts;
+}
+
+void Plugin::set_contacts_from_plugin(const PluginPtr &ptr) {
+    contacts_ = ptr->contacts_;
+}
+
+ContactMapPtr &Plugin::get_contacts() {return contacts_;}
+
+ContactMap &Plugin::get_contacts_raw() {return *contacts_;}
+
+call_service_helper(MessageBasePtr req, const std::string &service_name) {
+    EntityPtr parent_shared = parent_.lock();
+    if (parent_shared == nullptr) {
+        return boost::none;
+    }
+
+    auto it = services_.find(service_name);
+    if (it == services_.end()) {
+        std::cout << "request for service ("
+            << service_name
+            << ") that does not exist" << std::endl;
+        std::cout << "services are: ";
+        for (auto &kv : parent_shared->services()) {
+            std::cout << kv.first << ", ";
+        }
+        std::cout << std::endl;
+        return boost::none;
+    }
+
+    Service &service = it->second;
+    bool success = service(req, res);
+
+    if (!success) {
+        std::cout << "call to " << service_name << " failed" << std::endl;
+        return false;
+    } else {
+        return true;
+    }
+}
+
+}
 } // namespace scrimmage

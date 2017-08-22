@@ -102,18 +102,6 @@ bool SimpleAircraft::step(double time, double dt) {
     x_[PITCH] = clamp(x_[PITCH], -max_pitch_, max_pitch_);
     x_[SPEED] = clamp(x_[SPEED], min_velocity_, max_velocity_);
 
-    if (ctrl_u_ == nullptr) {
-        std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
-        if (ctrl) {
-            ctrl_u_ = ctrl->u();
-        }
-    }
-
-    if (ctrl_u_ == nullptr) {
-        return false;
-    }
-
     ode_step(dt);
 
     state_->pos() << x_[X], x_[Y], x_[Z];
@@ -131,9 +119,9 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 4 : pitch
     /// 5 : yaw
     /// 6 : speed
-    double thrust = (*ctrl_u_)(THRUST);
-    double roll_rate = (*ctrl_u_)(TURN_RATE);
-    double pitch_rate = (*ctrl_u_)(PITCH_RATE);
+    double thrust = u_[THRUST];
+    double roll_rate = u_[TURN_RATE];
+    double pitch_rate = u_[PITCH_RATE];
 
     // Saturate control inputs
     thrust = clamp(thrust, -100.0, 100.0);

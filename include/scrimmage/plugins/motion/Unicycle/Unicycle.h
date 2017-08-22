@@ -45,18 +45,10 @@ class Unicycle : public scrimmage::MotionModel {
  public:
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
-
     virtual bool step(double t, double dt);
-
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector2d &u() = 0;
-    };
-
  protected:
-    Eigen::Vector2d ctrl_u_;
     double turn_rate_max_;
     double vel_max_;
 };

@@ -34,6 +34,7 @@
 #include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/math/State.h>
 
 REGISTER_PLUGIN(scrimmage::Controller,
                 SingleIntegratorControllerWaypoint,
@@ -46,7 +47,8 @@ void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
 }
 
 bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
-    u_ = gain_ * (desired_state_->pos() - state_->pos());
+    Eigen::Vector3d u_eig = gain_ * (desired_state_->pos() - state_->pos());
+    u_ = {u_eig(0), u_eig(1), u_eig(2)};
     return true;
 }
 

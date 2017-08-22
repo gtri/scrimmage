@@ -42,6 +42,7 @@
 
 #include <boost/optional.hpp>
 
+namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, ExternalControl, ExternalControl_plugin)
@@ -88,7 +89,12 @@ ExternalControl::send_action_result(double t, double reward, bool done) {
     sp::ActionResult action_result;
     sp::SpaceSample *obs = action_result.mutable_observations();
 
-    for (auto &kv : parent_->sensors()) {
+    sc::EntityPtr parent_shared = parent_.lock();
+    if (parent_shared == nullptr) {
+        return boost::none;
+    }
+
+    for (auto &kv : parent_shared->sensors()) {
         auto msg = kv.second->sensor_msg_flat(t);
         if (msg) {
             sp::SpaceSample &sample = (*msg)->data;
@@ -111,7 +117,12 @@ bool ExternalControl::send_env() {
 
     sp::SpaceParams *obs_space = env.mutable_observation_spaces();
 
-    for (auto &kv : parent_->sensors()) {
+    sc::EntityPtr parent_shared = parent_.lock();
+    if (parent_shared == nullptr) {
+        return false;
+    }
+
+    for (auto &kv : parent_shared->sensors()) {
         auto obs_space_params = kv.second->observation_space_params();
         if (obs_space_params) {
             for (const sp::SingleSpaceParams params : obs_space_params->params()) {

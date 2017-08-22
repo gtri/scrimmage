@@ -102,10 +102,8 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 0 : x-position
     /// 1 : y-position
     /// 2 : theta
-
-    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-    double u_vel = u(FORWARD_VELOCITY);
-    double u_theta = u(TURN_RATE);
+    double u_vel = u_[FORWARD_VELOCITY];
+    double u_theta = u_[TURN_RATE];
 
     // Saturate wheel angle:
     if (u_theta >= M_PI/4) {

@@ -34,6 +34,8 @@
 #include <scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/math/State.h>
+
 #include <boost/algorithm/clamp.hpp>
 
 REGISTER_PLUGIN(scrimmage::Controller,
@@ -80,10 +82,10 @@ bool SimpleQuadrotorControllerLQR::step(double t, double dt) {
 
     double ctrl_vel = vel_pid_.step(dt, xy_speed);
 
-    u_(0) = boost::algorithm::clamp(ctrl_vel, -max_vel_, max_vel_);
-    u_(1) = 0;
-    u_(2) = z_thrust;
-    u_(3) = turn_force;
+    u_[0] = boost::algorithm::clamp(ctrl_vel, -max_vel_, max_vel_);
+    u_[1] = 0;
+    u_[2] = z_thrust;
+    u_[3] = turn_force;
 
     return true;
 }

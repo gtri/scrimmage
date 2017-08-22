@@ -84,7 +84,7 @@ bool Boids::step_autonomy(double t, double dt) {
     for (std::vector<scrimmage::ID>::iterator it = rtree_neighbors.begin();
          it != rtree_neighbors.end(); ++it) {
 
-        if (it->id() == parent_->id().id()) {
+        if (it->id() == id_.id()) {
             continue;
         }
 

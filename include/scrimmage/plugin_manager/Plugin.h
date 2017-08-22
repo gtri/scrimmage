@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
 #include <scrimmage/fwd_decl.h>
+#include <scrimmage/common/ID.h>
 
 #include <unordered_set>
 #include <memory>
@@ -51,8 +52,11 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual std::string type();
     virtual bool ready() { return true; }
 
-    virtual void set_parent(EntityPtr parent);
-    virtual EntityPtr parent();
+    virtual void set_parent(std::weak_ptr<Entity> parent);
+
+    /*! \name getters/setters */
+    ///@{
+    std::weak_ptr<Entity> &parent();
 
     NetworkPtr &network();
     void set_network(NetworkPtr network);
@@ -63,12 +67,19 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::map<std::string, SubscriberPtr> &subs();
     void set_subs(std::map<std::string, SubscriberPtr> subs);
 
-    // networking
+    ContactMapPtr &get_contacts();
+    ContactMap &get_contacts_raw();
+    virtual void set_contacts(ContactMapPtr &contacts);
+    virtual void set_contacts_from_plugin(const PluginPtr &ptr);
+    StatePtr &state() {return state_;}
+    ///@}
+
+    /*! \name utilities */
+    ///@{
     PublisherPtr create_publisher(std::string topic);
     void stop_publishing(PublisherPtr &pub);
     SubscriberPtr create_subscriber(std::string topic);
     void stop_subscribing(SubscriberPtr &sub);
-
     void publish_immediate(double t, PublisherPtr pub, MessageBasePtr msg);
 
     void clear_subscribers();
@@ -77,11 +88,24 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::unordered_set<int> ping();
     bool ping(int network_id);
 
+    template <class T>
+    boost::optional<T>
+    call_service(MessageBasePtr req, const std::string &service_name);
+    ///@}
+
  protected:
+    ID id_;
+    RTreePtr rtree_;
+    RandomPtr random_;
+    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
+    ContactMapPtr contacts_;
+    StatePtr state_;
+
     int network_id_;
     static int plugin_count_;
-    EntityPtr parent_;
     NetworkPtr network_;
+
+    std::weak_ptr<Entity> parent_;
 
     std::map<std::string, PublisherPtr> pubs_;
     std::map<std::string, SubscriberPtr> subs_;

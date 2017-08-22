@@ -63,13 +63,17 @@ class MotionModel : public Plugin {
     virtual void set_mass(double mass) { mass_ = mass; }
     virtual double mass() { return mass_; }
 
+    bool set_u(std::vector<double> &u);
+
  protected:
     void ode_step(double dt);
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
     StatePtr state_;
     vector_t x_;
-    vector_t u_;
+
+    std::vector<double> u_;
+    uint32_t size_u_; 
 
     Eigen::Vector3d ext_force_;
     double mass_;

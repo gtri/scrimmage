@@ -33,21 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_
 
+#include <scrimmage/motion/Controller.h>
+
 #include <map>
 #include <string>
 
-#include "../Unicycle.h"
-
-class UnicycleControllerPoint : public Unicycle::Controller {
+class UnicycleControllerPoint : public scrimmage::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector2d &u() {return u_;}
 
  protected:
     double l_;
     double gain_;
-    Eigen::Vector2d u_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_

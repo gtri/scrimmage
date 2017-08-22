@@ -144,10 +144,10 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     vel_down_node_ = mgr->GetNode("velocities/v-down-fps");
 
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
-                                  longitude_node_->getDoubleValue(),
-                                  altitude_node_->getDoubleValue() * feet2meters,
-                                  state_->pos()(0), state_->pos()(1), state_->pos()(2));
+    proj_->Forward(latitude_node_->getDoubleValue(),
+        longitude_node_->getDoubleValue(),
+        altitude_node_->getDoubleValue() * feet2meters,
+        state_->pos()(0), state_->pos()(1), state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
@@ -163,11 +163,9 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimModel::step(double time, double dt) {
-    Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-
-    double desired_velocity = u[0];
-    double bank_cmd = u[1];
-    double desired_alt = u[2];
+    double desired_velocity = u_[0];
+    double bank_cmd = u_[1];
+    double desired_alt = u_[2];
 
     // + : bank right, - : bank left
     bank_setpoint_node_->setDoubleValue(bank_cmd);
@@ -175,8 +173,8 @@ bool JSBSimModel::step(double time, double dt) {
     // Set desired altitude (we just need the desired altitude, use the current
     // x,y as placeholders).
     double lat_curr, lon_curr, alt_result;
-    parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), desired_alt,
-                                   lat_curr, lon_curr, alt_result);
+    proj_->Reverse(state_->pos()(0), state_->pos()(1), desired_alt,
+        lat_curr, lon_curr, alt_result);
 
     desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
 
@@ -187,10 +185,10 @@ bool JSBSimModel::step(double time, double dt) {
     exec_->Setdt(dt);
     exec_->Run();
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
-                                   longitude_node_->getDoubleValue(),
-                                   altitude_node_->getDoubleValue() * feet2meters,
-                                   state_->pos()(0), state_->pos()(1), state_->pos()(2));
+    proj_->Forward(latitude_node_->getDoubleValue(),
+        longitude_node_->getDoubleValue(),
+        altitude_node_->getDoubleValue() * feet2meters,
+        state_->pos()(0), state_->pos()(1), state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
@@ -208,10 +206,7 @@ bool JSBSimModel::step(double time, double dt) {
 
 void JSBSimModel::teleport(sc::StatePtr &state) {
     double lat, lon, alt;
-    parent_->projection()->Reverse(state->pos()(0),
-                                   state->pos()(1),
-                                   state->pos()(2),
-                                   lat, lon, alt);
+    proj_->Reverse(state->pos()(0), state->pos()(1), state->pos()(2), lat, lon, alt);
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();
     ic->SetLatitudeDegIC(lat);

@@ -31,20 +31,20 @@
  */
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugins/motion/JSBSimModel/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h>
-#include <boost/algorithm/clamp.hpp>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 JSBSimModelControllerDirect,
                 JSBSimModelControllerDirect_plugin)
 
 namespace sc = scrimmage;
-using ang = scrimmage::Angles;
 
 void init(std::map<std::string, std::string> &params) { }
 
 bool JSBSimModelControllerDirect::step(double t, double dt) {
-    u_(0) = desired_state_->vel()(0);        // velocity
-    u_(1) = desired_state_->quat().roll();   // bank
-    u_(2) = desired_state_->pos()(2);        // altitude
+    u_[0] = desired_state_->vel()(0);        // velocity
+    u_[1] = desired_state_->quat().roll();   // bank
+    u_[2] = desired_state_->pos()(2);        // altitude
     return true;
 }

@@ -39,16 +39,8 @@
 
 namespace scrimmage {
 
-Autonomy::Autonomy() : state_(std::make_shared<State>()),
+Autonomy::Autonomy() : 
     desired_state_(std::make_shared<State>()), need_reset_(false), is_controlling_(false) {}
-
-void Autonomy::set_contacts(ContactMapPtr &contacts) {
-    contacts_ = contacts;
-}
-
-void Autonomy::set_contacts_from_plugin(AutonomyPtr &ptr) {
-    contacts_ = ptr->contacts_;
-}
 
 RTreePtr &Autonomy::rtree() {return rtree_;}
 
@@ -81,9 +73,5 @@ bool Autonomy::need_reset() {return need_reset_;}
 StatePtr &Autonomy::desired_state() {return desired_state_;}
 
 void Autonomy::set_desired_state(StatePtr desired_state) {desired_state_ = desired_state;}
-
-ContactMapPtr &Autonomy::get_contacts() {return contacts_;}
-
-ContactMap &Autonomy::get_contacts_raw() {return *contacts_;}
 
 } // namespace scrimmage

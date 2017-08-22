@@ -75,8 +75,6 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
 }
 
 bool SingleIntegrator::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-
     double prev_x = x_[X];
     double prev_y = x_[Y];
     double prev_z = x_[Z];
@@ -101,7 +99,7 @@ bool SingleIntegrator::step(double t, double dt) {
 }
 
 void SingleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
-    dxdt[X] = ctrl_u_(X);
-    dxdt[Y] = ctrl_u_(Y);
-    dxdt[Z] = ctrl_u_(Z);
+    dxdt[X] = u_[X];
+    dxdt[Y] = u_[Y];
+    dxdt[Z] = u_[Z];
 }

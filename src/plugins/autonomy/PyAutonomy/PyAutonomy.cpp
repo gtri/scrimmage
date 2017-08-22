@@ -58,7 +58,7 @@ PyAutonomy::PyAutonomy() {
 
 void PyAutonomy::init(std::map<std::string, std::string> &params) {
     py_obj_ = get_py_obj(params);
-    py_obj_.attr("id") = py::cast(parent_->id());
+    py_obj_.attr("id") = py::cast(id_);
     init_py_obj(params);
 }
 

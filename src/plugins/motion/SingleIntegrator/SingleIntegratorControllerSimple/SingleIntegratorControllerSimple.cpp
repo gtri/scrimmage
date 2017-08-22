@@ -32,6 +32,14 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h>
+#include <scrimmage/math/State.h>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 SingleIntegratorControllerSimple,
                 SingleIntegratorControllerSimple_plugin)
+
+bool SingleIntegratorControllerSimple::step(double t, double dt) {
+    Eigen::Vector3d &v = desired_state_->vel();
+    u_ = {v(0), v(1), v(2)};
+    return true;
+}

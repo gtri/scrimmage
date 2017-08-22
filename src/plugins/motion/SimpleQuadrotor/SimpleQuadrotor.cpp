@@ -100,23 +100,13 @@ bool SimpleQuadrotor::step(double time, double dt) {
 }
 
 void SimpleQuadrotor::model(const vector_t &x , vector_t &dxdt , double t) {
-    /// 0 : x-position
-    /// 1 : y-position
-    /// 2 : z-position
-    /// 3 : x-velocity
-    /// 4 : y-velocity
-    /// 5 : z-velocity
-    /// 6 : yaw
-    /// 7 : yaw-velocity
-
-    Eigen::Vector4d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
     double max_x_velocity = 15;
     double max_z_velocity = 10;
 
-    double x_thrust = u[X_THRUST];
-    double y_thrust = u[Y_THRUST];
-    double z_thrust = u[Z_THRUST];
-    double turn_force = u[TURN_RATE];
+    double x_thrust = u_[X_THRUST];
+    double y_thrust = u_[Y_THRUST];
+    double z_thrust = u_[Z_THRUST];
+    double turn_force = u_[TURN_RATE];
 
     double x_velocity = x[XDOT];
     if (x_velocity > max_x_velocity) {

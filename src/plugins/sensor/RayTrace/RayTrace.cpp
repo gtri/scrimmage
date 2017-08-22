@@ -49,7 +49,7 @@ REGISTER_PLUGIN(scrimmage::Sensor, RayTrace, RayTrace_plugin)
 void RayTrace::init(std::map<std::string, std::string> &params) {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
-    gener_ = parent_->random()->gener();
+    gener_ = random_->gener();
 
     // Create three independent gaussian noise generators. They will use the
     // same generator seed.
@@ -58,9 +58,9 @@ void RayTrace::init(std::map<std::string, std::string> &params) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+            pos_noise_.push_back(random_->make_rng_normal(vec[0], vec[1]));
         } else {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+            pos_noise_.push_back(random_->make_rng_normal(0, 1));
         }
     }
 

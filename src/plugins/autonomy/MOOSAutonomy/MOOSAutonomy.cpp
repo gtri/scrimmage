@@ -58,7 +58,7 @@ MOOSAutonomy::MOOSAutonomy() {
 
 void MOOSAutonomy::init(std::map<std::string, std::string> &params) {
     moos_app_name_ = sc::get<std::string>("moos_app_name", params, "scrimmage");
-    moos_app_name_ += std::string("_") + std::to_string(parent_->id().id());
+    moos_app_name_ += std::string("_") + std::to_string(id_.id());
 
     moos_script_ = sc::expand_user(sc::get<std::string>("moos_script", params, "launch.sh"));
     moos_mission_file_ = sc::expand_user(sc::get<std::string>("moos_mission_file", params, "alpha.moos"));
@@ -81,7 +81,7 @@ bool MOOSAutonomy::step_autonomy(double t, double dt) {
     for (auto &kv : *contacts_) {
 
         MOOSNode::NodeReportType type;
-        if (parent_->id().id() == kv.first) {
+        if (id_.id() == kv.first) {
             type = MOOSNode::OWNSHIP;
         } else {
             type = MOOSNode::TRUTH_CONTACT;

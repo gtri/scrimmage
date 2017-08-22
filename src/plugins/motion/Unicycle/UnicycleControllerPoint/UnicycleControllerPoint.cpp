@@ -31,6 +31,8 @@
  */
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/math/State.h>
+
 #include <scrimmage/plugins/motion/Unicycle/UnicycleControllerPoint/UnicycleControllerPoint.h>
 REGISTER_PLUGIN(scrimmage::Controller,
                 UnicycleControllerPoint,
@@ -50,6 +52,7 @@ bool UnicycleControllerPoint::step(double t, double dt) {
 
     Eigen::Matrix2d M;
     M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
-    u_ = M * des_vel;
+    Eigen::Vector2d u_eig = M * des_vel;
+    u_ = {u_eig(0), u_eig(1)};
     return true;
 }

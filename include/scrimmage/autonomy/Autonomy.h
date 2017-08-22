@@ -66,11 +66,6 @@ class Autonomy : public Plugin {
     StatePtr &desired_state();
     void set_desired_state(StatePtr desired_state);
 
-    ContactMapPtr &get_contacts();
-    ContactMap &get_contacts_raw();
-    virtual void set_contacts(ContactMapPtr &contacts);
-    virtual void set_contacts_from_plugin(AutonomyPtr &ptr);
-
     scrimmage::RTreePtr &rtree();
     void set_rtree(scrimmage::RTreePtr &rtree);
 
@@ -89,9 +84,7 @@ class Autonomy : public Plugin {
  protected:
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
-    StatePtr state_;
     StatePtr desired_state_;
-    ContactMapPtr contacts_;
     scrimmage::RTreePtr rtree_;
 
     std::list<scrimmage_proto::ShapePtr> shapes_;
