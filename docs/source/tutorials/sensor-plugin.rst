@@ -61,7 +61,7 @@ plugins wants to simulate invalid readings or enforce a sampling rate.
 
    boost::optional<scrimmage::MessageBasePtr> MyNoisyState::sensor_msg(double t)
    {
-       // Make a pointer to the current state
+       // Make a copy of the current state
        sc::State ns = *(parent_->state());
    
        // Create a message to hold the modified state
