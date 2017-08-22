@@ -192,6 +192,7 @@ class SimControl {
     std::vector<std::thread> entity_worker_threads_;
     void worker();
     bool run_entities();
+    bool run_entity(EntityPtr &ent);
 
     std::shared_ptr<Log> log_;
 

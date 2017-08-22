@@ -1000,30 +1000,11 @@ void SimControl::worker() {
                 break;
             }
             std::shared_ptr<Task> task = entity_pool_queue_.front();
+            EntityPtr ent = task->ent;
             entity_pool_queue_.pop_front();
             entity_pool_mutex_.unlock();
 
-            bool success = true;
-
-            for (auto &kv : task->ent->sensables()) {
-                for (SensablePtr &sensable : kv.second) {
-                    success &= sensable->update(t_, dt_);
-                }
-            }
-
-            for (AutonomyPtr &autonomy : task->ent->autonomies()) {
-                success &= autonomy->step_autonomy(t_, dt_);
-            }
-
-            double motion_dt = dt_ / mp_->motion_multiplier();
-            double temp_t = t_;
-            for (int i = 0; i < mp_->motion_multiplier(); i++) {
-                for (ControllerPtr &ctrl : task->ent->controllers()) {
-                    success &= ctrl->step(temp_t, motion_dt);
-                }
-                success &= task->ent->motion()->step(temp_t, motion_dt);
-                temp_t += motion_dt;
-            }
+            bool success = run_entity(ent);
 
             entity_pool_mutex_.lock();
             task->prom.set_value(success);
@@ -1058,43 +1039,8 @@ bool SimControl::run_entities() {
             success &= future.get();
         }
     } else {
-        for (EntityPtr ent : ents_) {
-
-            for (auto &kv : ent->sensables()) {
-                for (SensablePtr &sensable : kv.second) {
-                    sensable->update(t_, dt_);
-                }
-            }
-
-            for (AutonomyPtr &autonomy : ent->autonomies()) {
-                success &= autonomy->step_autonomy(t_, dt_);
-            }
-
-            ent->setup_desired_state();
-        }
-
-        double motion_dt = dt_ / mp_->motion_multiplier();
-        double temp_t = t_;
-        for (int i = 0; i < mp_->motion_multiplier(); i++) {
-            for (EntityPtr ent : ents_) {
-                for (ControllerPtr &ctrl : ent->controllers()) {
-                    success &= ctrl->step(temp_t, motion_dt);
-                }
-            }
-
-            for (EntityPtr ent : ents_) {
-                success &= ent->motion()->step(temp_t, motion_dt);
-            }
-            temp_t += motion_dt;
-        }
-
-        for (EntityPtr ent : ents_) {
-            for (AutonomyPtr &autonomy : ent->autonomies()) {
-                if (autonomy->need_reset()) {
-                    autonomy->set_state(ent->motion()->state());
-                }
-            }
-        }
+        success = std::all_of(ents_.begin(), ents_.end(),
+            [&](auto ent) {return this->run_entity(ent);});
     }
     contacts_mutex_.unlock();
 
@@ -1105,6 +1051,38 @@ bool SimControl::run_entities() {
             autonomy->shapes().clear();
         }
     }
+    return success;
+}
+
+bool SimControl::run_entity(EntityPtr &ent) {
+    bool success = true;
+
+    for (auto &kv : ent->sensables()) {
+        for (SensablePtr &sensable : kv.second) {
+            success &= sensable->update(t_, dt_);
+        }
+    }
+
+    for (AutonomyPtr &autonomy : ent->autonomies()) {
+        success &= autonomy->step_autonomy(t_, dt_);
+    }
+
+    double motion_dt = dt_ / mp_->motion_multiplier();
+    double temp_t = t_;
+    for (int i = 0; i < mp_->motion_multiplier(); i++) {
+        for (ControllerPtr &ctrl : ent->controllers()) {
+            success &= ctrl->step(temp_t, motion_dt);
+        }
+        success &= ent->motion()->step(temp_t, motion_dt);
+        temp_t += motion_dt;
+    }
+
+    for (AutonomyPtr &autonomy : ent->autonomies()) {
+        if (autonomy->need_reset()) {
+            autonomy->set_state(ent->motion()->state());
+        }
+    }
+
     return success;
 }
 
