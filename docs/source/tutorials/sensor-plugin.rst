@@ -6,7 +6,7 @@ Create a Sensor Plugin
 The purpose of a Sensor plugin is to transform ground truth information in the
 simulation to altered or "noisy" sensor measurements. Engineers and developers
 can model their noise sources and simulate how noisy data will affect their
-autonomy, control, and tracking algorithms. To create an Autonomy plugin, enter
+autonomy, control, and tracking algorithms. To create a Sensor plugin, enter
 the following at the terminal: ::
 
   $ cd /path/to/scrimmage/scripts
@@ -61,7 +61,7 @@ plugins wants to simulate invalid readings or enforce a sampling rate.
 
    boost::optional<scrimmage::MessageBasePtr> MyNoisyState::sensor_msg(double t)
    {
-       // Make a copy of the current state
+       // Make a pointer to the current state
        sc::State ns = *(parent_->state());
    
        // Create a message to hold the modified state
