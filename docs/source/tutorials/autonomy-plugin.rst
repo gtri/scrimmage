@@ -205,14 +205,14 @@ closest non-team member, if it exists.
 Line 2 ensures that the ID of the contact that we want to follow exists. Next,
 we get a pointer to the contact's ``scrimmage::State`` in line 4. Using basic
 trigonometry, we calculate the required heading to follow the contact in lines
-7 and 8.  In line 11, we set the desired heading, similarl to how we set the
+7 and 8.  In line 11, we set the desired heading, similarly to how we set the
 heading in the initialization method. Finally, we set the desired altitude to
 the same altitude of the contact in line 14. If the closest contact search
 didn't succeed in the first part of ``step_autonomy``, then the
 ``desired_state_`` won't be updated due to the guard in line 2 and our Autonomy
 plugin will just drive our entity in the forward direction.
 
-By just using the state's of other contacts, Autonomy plugins that implement
+By just using the state's of other contacts, Autonomy plugins can implement
 formation controllers, spatial search algorithms, biologically-inspired
 algorithms, and many other algorithms associated with multi-robot problems. The
 contacts in this example are ground truth contacts without any noise. When you
