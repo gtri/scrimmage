@@ -9,7 +9,7 @@ between entities are implemented through the Entity Interaction plugin
 interface. Also, ground collisions for flying aircraft are implemented using
 this interface. Given a high-fidelity motion model, the Bullet entity
 interaction SCRIMMAGE plugin implements mesh-based collision detection between
-entities. To create an entity interaction plugin, enter the following at the
+entities. To create an Entity Interaction plugin, enter the following at the
 terminal: ::
 
   $ cd /path/to/scrimmage/scripts
