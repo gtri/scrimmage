@@ -1,4 +1,4 @@
-if (NOT BUILD_ROS_PLUGINS)
+if (NOT catkin_FOUND)
   return()
 endif()
 
@@ -19,6 +19,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+  ${catkin_LIBRARIES}
   )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

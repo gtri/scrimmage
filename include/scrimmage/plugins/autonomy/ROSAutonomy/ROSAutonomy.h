@@ -33,7 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
 
+#include <ros/ros.h>
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+#include <sensor_msgs/LaserScan.h>
+#include <tf/transform_broadcaster.h>
+
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <map>
 #include <string>
@@ -43,6 +50,34 @@ class ROSAutonomy : public scrimmage::Autonomy {
     ROSAutonomy();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
+    void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
+
+protected:
+    std::shared_ptr<ros::NodeHandle> nh_;
+
+    ros::Subscriber cmd_vel_sub_;
+    geometry_msgs::Twist cmd_vel_;
+
+    ros::Publisher odom_pub_;
+    ros::Publisher odom_laser_pub_;
+    ros::Publisher base_scan_pub_;
+    ros::Publisher base_pose_truth_pub;
+
+    ros::Publisher clock_pub_;
+
+    std::shared_ptr<tf::TransformBroadcaster> odom_broadcaster_;
+    geometry_msgs::TransformStamped odom_trans_;
+
+    std::shared_ptr<tf::TransformBroadcaster> laser_broadcaster_;
+    geometry_msgs::TransformStamped laser_trans_;
+
+    std::string ros_namespace_;
+
+    scrimmage::SubscriberPtr pcl_sub_;
+
+    void publish_clock_msg(double t);
+
+private:
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_

@@ -33,7 +33,7 @@ install(TARGETS ${LIBRARY_NAME}
 )
 add_subdirectory(FixedWing6DOFControllerPID)
 
-if (BUILD_ROS_PLUGINS)
+if (catkin_FOUND)
   add_subdirectory(FixedWing6DOFControllerROS)
 endif()
 

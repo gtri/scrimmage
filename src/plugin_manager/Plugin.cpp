@@ -32,6 +32,7 @@
 
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
@@ -44,7 +45,8 @@ namespace scrimmage {
 int Plugin::plugin_count_ = 0;
 
 Plugin::Plugin() : network_id_(plugin_count_++),
-                   parent_(std::make_shared<Entity>()) {}
+                   parent_(std::make_shared<Entity>()),
+                   transform_(std::make_shared<State>()) {}
 
 Plugin::~Plugin() {}
 

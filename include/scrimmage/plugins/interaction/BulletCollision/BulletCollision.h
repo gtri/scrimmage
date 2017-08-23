@@ -81,10 +81,10 @@ class BulletCollision : public scrimmage::EntityInteraction {
 
     // Key 1: Entity ID
     // Value 2: map
-    // Key 2: Ray Sensor ID
+    // Key 2: Sensor Name (sensor0)
     // Value 2: List of rays
-    std::map<int, std::map<int, std::list<Eigen::Vector3d>>> rays_;
-    std::map<int, std::map<int, sc::PublisherPtr>> pcl_pubs_;
+    std::map<int, std::map<std::string, std::list<Eigen::Vector3d>>> rays_;
+    std::map<int, std::map<std::string, sc::PublisherPtr>> pcl_pubs_;
 
     bool show_rays_ = false;
     bool enable_collision_detection_ = true;

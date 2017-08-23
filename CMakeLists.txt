@@ -84,8 +84,6 @@ include_directories(${SCRIMMAGE_INC_DIR})
 include_directories(${MSGS_INCLUDE_DIR})
 include_directories(${PROTO_INCLUDE_DIR})
 
-option(BUILD_ROS_PLUGINS "BUILD_ROS_PLUGINS" OFF)
-
 option(EXTERNAL "EXTERNAL" 0)
 
 option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
@@ -228,20 +226,19 @@ endif()
 ########################################################
 # Find ROS
 ########################################################
-find_package(catkin QUIET 
-  COMPONENTS geometry_msgs roscpp sensor_msgs std_msgs
-  )
-
-if (catkin_FOUND)
-    add_definitions(-DENABLE_ROS=1)
-else() 
-    add_definitions(-DENABLE_ROS=0)
-endif() 
+option(BUILD_ROS_PLUGINS "BUILD_ROS_PLUGINS" OFF)
+if (BUILD_ROS_PLUGINS)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/kinetic)  
+  find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs std_msgs
+    geometry_msgs nav_msgs tf)
+  if (catkin_FOUND)    
+    include_directories(${catkin_INCLUDE_DIRS})
+  endif()
+endif()
 
 ########################################################
 # Recurse into src, share, and plugins
 ########################################################
-#add_subdirectory(plugins)
 add_subdirectory(share)
 add_subdirectory(msgs)
 add_subdirectory(src)
@@ -268,7 +265,8 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   ############################################################
 
   # Download and unpack googletest at configure time
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in googletest-download/CMakeLists.txt)
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
+    googletest-download/CMakeLists.txt)
   execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
     RESULT_VARIABLE result
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )

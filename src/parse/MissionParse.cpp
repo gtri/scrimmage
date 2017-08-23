@@ -419,8 +419,8 @@ bool MissionParse::parse(std::string filename) {
             rapidxml::xml_attribute<> *order_attr = node->first_attribute("order");
             if (order_attr) {
                 nm += order_attr->value();
-            } else if (nm == "controller" || nm == "sensor" || nm == "sensable"
-                       || nm == "autonomy") {
+            } else if (nm == "controller" || nm == "sensor" ||
+                       nm == "sensable" || nm == "autonomy") {
                 nm += "0";
             }
 

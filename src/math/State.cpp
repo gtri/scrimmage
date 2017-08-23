@@ -87,4 +87,31 @@ double State::rel_az(const Eigen::Vector3d &other) const {
     return Angles::angle_diff_rad(az, quat_.yaw());
 }
 
+Eigen::Matrix4d State::tf_matrix(bool enable_translate)
+{
+    Eigen::Matrix4d m;
+
+    double d = pos_(2); // translate by di along zi-axis
+    double theta = quat_.yaw(); // rotate cw by theta about zi-axis
+    double a = pos_(0); // translate by a_i_1 along the x_i_1 axis
+    double alpha = quat_.roll(); // rotate cw by alpha_i_1 about x_i_1 axis
+
+    if (!enable_translate) {
+        d = 0;
+        a = 0;
+    }
+
+    double ct = cos(theta);
+    double st = sin(theta);
+    double ca = cos(alpha);
+    double sa = sin(alpha);
+
+    m << ct, -st, 0, a,
+        st*ca, ct*ca, -sa, -sa*d,
+        st*sa, ct*sa, ca, ca*d,
+        0, 0, 0, 1;
+
+    return m;
+}
+
 } // namespace scrimmage
