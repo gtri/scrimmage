@@ -153,6 +153,18 @@ To install scrimmage's python bindings:
     $ cd /path/to/scrimmage/python
     $ sudo pip install -e .
 
+## ROS Integration
+
+To build SCRIMMAGE's ROS plugins, you must have
+[ROS](http://wiki.ros.org/ROS/Installation) installed and the
+BUILD\_ROS\_PLUGINS cmake variable must be set:
+
+    $ cmake .. -DBUILD_ROS_PLUGINS=ON
+
+An example of using SCRIMMAGE to simulate robots running the ROS 2D Navigation
+stack can be found in the
+[scrimmage\_ros](https://github.com/SyllogismRXS/scrimmage_ros) package.
+
 ## MOOS Integration
 
 If you want to use MOOS with SCRIMMAGE, you will first need to download and
