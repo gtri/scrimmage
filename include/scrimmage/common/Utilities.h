@@ -57,7 +57,6 @@ void filter_line(int downsampling_factor,
     std::vector<Eigen::Vector3d> &filtered_path);
 
 std::string generate_chars(std::string symbol, int num);
-
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_

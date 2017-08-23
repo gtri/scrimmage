@@ -61,23 +61,22 @@ class State {
     void set_quat(const Quaternion &quat);
 
     /*! \brief Returns true if other state is in field-of-view */
-    bool InFieldOfView(State &other, double fov_width, double fov_height);
+    bool InFieldOfView(State &other, double fov_width, double fov_height) const;
 
     /*! \brief convert the relative position to the local frame (the output
      * vector will point to the other state)
      */
-    Eigen::Vector3d rel_pos_local_frame(Eigen::Vector3d &other);
+    Eigen::Vector3d rel_pos_local_frame(Eigen::Vector3d &other) const;
 
     /*! \brief return position offset by trailing_distance in the direction of
      * velocity or orientation
      */
-    Eigen::Vector3d
-        pos_offset(double distance, bool offset_with_velocity = true) const;
+    Eigen::Vector3d pos_offset(double distance, bool offset_with_velocity = true) const;
 
     /*! \brief returns the vector extending forward */
     Eigen::Vector3d orient_global_frame() const;
 
-    double rel_az(const Eigen::Vector3d &other);
+    double rel_az(const Eigen::Vector3d &other) const;
 
  protected:
     Eigen::Vector3d pos_;
