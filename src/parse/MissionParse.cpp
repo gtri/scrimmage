@@ -422,7 +422,7 @@ bool MissionParse::parse(std::string filename) {
             } else if (nm == "controller" || nm == "sensor" || nm == "sensable"
                        || nm == "autonomy") {
                 nm += "0";
-            }
+            }            
 
             script_info[nm] = node->value();
 

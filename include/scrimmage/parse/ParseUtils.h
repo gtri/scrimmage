@@ -70,19 +70,23 @@ template <class T1, class T2 = T1>
 template <typename T>
 bool str2vec(std::string &str, std::string delims,
              std::vector<T> &vec, unsigned int size) {
-    vec.clear();
-
+    std::vector<T> tmp_vec;    
     std::vector<std::string> tokens;
     boost::split(tokens, str, boost::is_any_of(delims));
 
     for (std::string &t : tokens) {
         if (t.length() > 0) {
-            vec.push_back(convert<T>(t));
+            tmp_vec.push_back(convert<T>(t));
         }
     }
 
-    if (size != vec.size()) return false;
-    return true;
+    if (size != tmp_vec.size()) {
+        return false;
+    } else {
+        // Only modify vec if it was a valid conversion
+        vec = tmp_vec;
+        return true;
+    }
 }
 
 template <typename T>

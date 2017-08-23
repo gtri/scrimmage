@@ -78,6 +78,8 @@ class State {
 
     double rel_az(const Eigen::Vector3d &other) const;
 
+    Eigen::Matrix4d tf_matrix(bool enable_translate=true);
+
  protected:
     Eigen::Vector3d pos_;
     Eigen::Vector3d vel_;

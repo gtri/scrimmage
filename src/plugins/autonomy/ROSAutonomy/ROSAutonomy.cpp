@@ -69,8 +69,13 @@ void ROSAutonomy::init(std::map<std::string,std::string> &params)
 
     laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
     laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
+    laser_trans_.transform.translation.x = parent_->sensors()["RayTrace0"]->tf()->pos()(0);
+    laser_trans_.transform.translation.y = parent_->sensors()["RayTrace0"]->tf()->pos()(1);
+    laser_trans_.transform.translation.z = parent_->sensors()["RayTrace0"]->tf()->pos()(2);
+    geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->tf()->quat().yaw());
+    laser_trans_.transform.rotation = laser_quat;
 
-    pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/0/pointcloud");
+    pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud");
 
     desired_state_->vel() = Eigen::Vector3d::UnitX() * 0;
     desired_state_->quat().set(0,0,state_->quat().yaw());
@@ -141,11 +146,6 @@ bool ROSAutonomy::step_autonomy(double t, double dt)
     ///////////////////////////////////////////////////////////////////////////
     // Publish odometry transform (base_link -> laser_scan)
     laser_trans_.header.stamp = time;
-    laser_trans_.transform.translation.x = 0;
-    laser_trans_.transform.translation.y = 0;
-    laser_trans_.transform.translation.z = 0;
-    geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(0);
-    laser_trans_.transform.rotation = laser_quat;
     laser_broadcaster_->sendTransform(laser_trans_);
 
     // // Publish odometry message

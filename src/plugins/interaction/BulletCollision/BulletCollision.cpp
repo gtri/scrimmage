@@ -112,7 +112,6 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-
 bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt) {
     shapes_.clear();
@@ -159,14 +158,13 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
         if (enable_ray_tracing_) {
             // What types of sensors need to be attached to this entity?
-            int num_ray_sensors = 0;
             for (auto &kv : int_to_ent_map[id]->sensors()) {
                 if (kv.second->type() == "Ray") {
                     // Create a publisher for this sensor
-                    // "entity_id/ray_sensor_id/pointcloud"
-                    pcl_pubs_[id][num_ray_sensors] =                        \
-                        create_publisher(std::to_string(id) + "/" +         \
-                                         std::to_string(num_ray_sensors)  + \
+                    // "entity_id/RayTrace0/pointcloud"
+                    pcl_pubs_[id][kv.first] =                           \
+                        create_publisher(std::to_string(id) + "/" +     \
+                                         kv.first  +                    \
                                          "/pointcloud");
 
                     std::shared_ptr<RayTrace> rs =                      \
@@ -188,7 +186,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                 sc::Quaternion rot_horiz(Eigen::Vector3d(0, 0, 1), angle_horiz);
                                 r = rot_horiz.rotate(r);
 
-                                rays_[id][num_ray_sensors].push_back(r);
+                                rays_[id][kv.first].push_back(r);
                                 angle_horiz += rs->angle_res_horiz();
                             }
                             angle_vert += rs->angle_res_vert();
@@ -213,33 +211,53 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         for (auto &kv2 : kv.second) {
             auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
             msg->data.max_range = kv2.second.front().norm();
+
+            // Compute transformation matrix from entity's frame to sensor's
+            // frame.
+            sc::SensorPtr &sensor = int_to_ent_map[kv.first]->sensors()[kv2.first];
+            Eigen::Matrix4d tf_m = int_to_ent_map[kv.first]->state()->tf_matrix(false) *
+                sensor->tf()->tf_matrix();
+
             for (Eigen::Vector3d &original_ray : kv2.second) {
-                btVector3 btFrom(own_pos(0), own_pos(1), own_pos(2));
+                // Transform sensor's origin to world coordinates
+                Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0,0,0,1);
+                Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
 
-                // Rotate ray into entity's forward frame
-                Eigen::Vector3d rotated_ray = int_to_ent_map[kv.first]->state()->quat().rotate(original_ray);
-                Eigen::Vector3d ray = rotated_ray + own_pos;
+                // Transform ray's end point to world coordinates
+                Eigen::Vector4d ray = tf_m * Eigen::Vector4d(original_ray(0),
+                                                             original_ray(1),
+                                                             original_ray(2),
+                                                             1);
+                Eigen::Vector3d ray_w = ray.head<3>() + own_pos;
 
-                btVector3 btTo(ray(0), ray(1), ray(2));
+                // Create bullet vectors
+                btVector3 btFrom(sensor_pos_w(0), sensor_pos_w(1), sensor_pos_w(2));
+                btVector3 btTo(ray_w(0), ray_w(1), ray_w(2));
 
+                // Perform ray casting
                 btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
                 bt_collision_world->rayTest(btFrom, btTo, res);
 
-                if (res.hasHit()) {
-                    // Use original ray's direction, but shorten to length of
-                    // detection ray, this way we don't have to use a rotation
-                    // matrix.
-                    Eigen::Vector3d hit_point(res.m_hitPointWorld.x(), res.m_hitPointWorld.y(), res.m_hitPointWorld.z());
+                // Points in the RayTrace message are defined with respect to
+                // the LIDAR sensor's coordinate frame. Use original ray's
+                // direction, shorten to length of detection ray, if a
+                // collision occurred.
+                if(res.hasHit()){
+                    Eigen::Vector3d hit_point(res.m_hitPointWorld.x(),
+                                              res.m_hitPointWorld.y(),
+                                              res.m_hitPointWorld.z());
 
                     msg->data.points.push_back(
-                        RayTrace::PCPoint(original_ray.normalized() * (hit_point-own_pos).norm(), 255));
+                        RayTrace::PCPoint(original_ray.normalized() *
+                                          (hit_point-sensor_pos_w).norm(), 255));
 
                     if (show_rays_) {
                         std::shared_ptr<sp::Shape> arrow(new sp::Shape);
                         arrow->set_type(sp::Shape::Line);
                         sc::set(arrow->mutable_color(), 255, 0, 0);
                         arrow->set_opacity(1.0);
-                        sc::add_point(arrow, own_pos);
+                        //sc::add_point(arrow, sensor_pos);
+                        sc::add_point(arrow, sensor_pos_w);
                         sc::add_point(arrow, hit_point);
                         shapes_.push_back(arrow);
                     }
@@ -250,8 +268,8 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                         arrow->set_type(sp::Shape::Line);
                         sc::set(arrow->mutable_color(), 0, 0, 255);
                         arrow->set_opacity(0.5);
-                        sc::add_point(arrow, own_pos);
-                        sc::add_point(arrow, ray);
+                        sc::add_point(arrow, sensor_pos_w);
+                        sc::add_point(arrow, ray_w);
                         shapes_.push_back(arrow);
                     }
                 }
