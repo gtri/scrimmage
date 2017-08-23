@@ -101,10 +101,15 @@ Eigen::Matrix4d State::tf_matrix(bool enable_translate)
         a = 0;
     }
 
-    m << cos(theta), -sin(theta), 0, a,
-         sin(theta)*cos(alpha), cos(theta)*cos(alpha), -sin(alpha), -sin(alpha)*d,
-         sin(theta)*sin(alpha), cos(theta)*sin(alpha), cos(alpha), cos(alpha)*d,
-         0, 0, 0, 1;
+    double ct = cos(theta);
+    double st = sin(theta);
+    double ca = cos(alpha);
+    double sa = sin(alpha);
+
+    m << ct, -st, 0, a,
+        st*ca, ct*ca, -sa, -sa*d,
+        st*sa, ct*sa, ca, ca*d,
+        0, 0, 0, 1;
 
     return m;
 }
