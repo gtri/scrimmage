@@ -77,6 +77,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::unordered_set<int> ping();
     bool ping(int network_id);
 
+    StatePtr tf() { return tf_; }
+
  protected:
     int network_id_;
     static int plugin_count_;
@@ -85,6 +87,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::map<std::string, PublisherPtr> pubs_;
     std::map<std::string, SubscriberPtr> subs_;
+
+    StatePtr tf_;
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;
