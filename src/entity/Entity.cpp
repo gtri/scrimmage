@@ -173,7 +173,7 @@ bool Entity::init(AttributeMap &overrides,
         if (it_xyz != overrides[sensor_order_name].end()) {
             str2vec(it_xyz->second, " ", tf_xyz, 3);
         }
-        sensor->tf()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
+        sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
 
         // Get sensor's orientation relative to entity's coordinate frame
         std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
@@ -181,7 +181,7 @@ bool Entity::init(AttributeMap &overrides,
         if (it_rpy != overrides[sensor_order_name].end()) {
             str2vec(it_rpy->second, " ", tf_rpy, 3);
         }
-        sensor->tf()->quat().set(Angles::deg2rad(tf_rpy[0]),
+        sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
                                  Angles::deg2rad(tf_rpy[1]),
                                  Angles::deg2rad(tf_rpy[2]));
 
