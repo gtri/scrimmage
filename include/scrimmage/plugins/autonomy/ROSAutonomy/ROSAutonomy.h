@@ -51,8 +51,8 @@ class ROSAutonomy : public scrimmage::Autonomy {
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
-    
-protected:    
+
+protected:
     std::shared_ptr<ros::NodeHandle> nh_;
 
     ros::Subscriber cmd_vel_sub_;
@@ -63,6 +63,8 @@ protected:
     ros::Publisher base_scan_pub_;
     ros::Publisher base_pose_truth_pub;
 
+    ros::Publisher clock_pub_;
+
     std::shared_ptr<tf::TransformBroadcaster> odom_broadcaster_;
     geometry_msgs::TransformStamped odom_trans_;
 
@@ -72,6 +74,8 @@ protected:
     std::string ros_namespace_;
 
     scrimmage::SubscriberPtr pcl_sub_;
+
+    void publish_clock_msg(double t);
 
 private:
 };
