@@ -80,6 +80,8 @@ class State {
 
     Eigen::Matrix4d tf_matrix(bool enable_translate=true);
 
+    Eigen::Matrix4d tf_matrix(bool enable_translate=true);
+
  protected:
     Eigen::Vector3d pos_;
     Eigen::Vector3d vel_;
