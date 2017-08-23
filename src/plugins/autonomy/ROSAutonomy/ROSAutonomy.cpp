@@ -87,10 +87,10 @@ void ROSAutonomy::init(std::map<std::string,std::string> &params)
 
     laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
     laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
-    laser_trans_.transform.translation.x = parent_->sensors()["RayTrace0"]->tf()->pos()(0);
-    laser_trans_.transform.translation.y = parent_->sensors()["RayTrace0"]->tf()->pos()(1);
-    laser_trans_.transform.translation.z = parent_->sensors()["RayTrace0"]->tf()->pos()(2);
-    geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->tf()->quat().yaw());
+    laser_trans_.transform.translation.x = parent_->sensors()["RayTrace0"]->transform()->pos()(0);
+    laser_trans_.transform.translation.y = parent_->sensors()["RayTrace0"]->transform()->pos()(1);
+    laser_trans_.transform.translation.z = parent_->sensors()["RayTrace0"]->transform()->pos()(2);
+    geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
     laser_trans_.transform.rotation = laser_quat;
 
     pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud");

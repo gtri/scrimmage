@@ -162,12 +162,12 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 if (kv.second->type() == "Ray") {
                     // Create a publisher for this sensor
                     // "entity_id/RayTrace0/pointcloud"
-                    pcl_pubs_[id][kv.first] =                           \
-                        create_publisher(std::to_string(id) + "/" +     \
-                                         kv.first  +                    \
+                    pcl_pubs_[id][kv.first] =
+                        create_publisher(std::to_string(id) + "/" +
+                                         kv.first  +
                                          "/pointcloud");
 
-                    std::shared_ptr<RayTrace> rs =                      \
+                    std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
                     if (rs) {
                         double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz()-1);
@@ -216,7 +216,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             // frame.
             sc::SensorPtr &sensor = int_to_ent_map[kv.first]->sensors()[kv2.first];
             Eigen::Matrix4d tf_m = int_to_ent_map[kv.first]->state()->tf_matrix(false) *
-                sensor->tf()->tf_matrix();
+                sensor->transform()->tf_matrix();
 
             for (Eigen::Vector3d &original_ray : kv2.second) {
                 // Transform sensor's origin to world coordinates

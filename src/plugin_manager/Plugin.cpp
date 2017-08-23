@@ -46,7 +46,7 @@ int Plugin::plugin_count_ = 0;
 
 Plugin::Plugin() : network_id_(plugin_count_++),
                    parent_(std::make_shared<Entity>()),
-                   tf_(std::make_shared<State>()) {}
+                   transform_(std::make_shared<State>()) {}
 
 Plugin::~Plugin() {}
 
