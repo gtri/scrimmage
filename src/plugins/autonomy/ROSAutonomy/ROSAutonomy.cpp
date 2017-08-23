@@ -30,6 +30,10 @@
  *
  */
 
+#include <iostream>
+
+#include <rosgraph_msgs/Clock.h>
+
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -45,14 +49,28 @@ REGISTER_PLUGIN(scrimmage::Autonomy, ROSAutonomy, ROSAutonomy_plugin)
 
 ROSAutonomy::ROSAutonomy() {}
 
+void ROSAutonomy::publish_clock_msg(double t)
+{
+    ros::Time time(t); // start at zero seconds
+    rosgraph_msgs::Clock clock_msg; // Message to hold time
+    clock_msg.clock = time;
+    clock_pub_.publish(clock_msg);    
+}
+
 void ROSAutonomy::init(std::map<std::string,std::string> &params)
 {
     if (!ros::isInitialized()) {
         int argc = 0;
-        ros::init(argc, NULL, "scrimmage");
+        // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
+        ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
     }
     nh_ = std::make_shared<ros::NodeHandle>();
 
+    // Setup clock server
+    clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
+    publish_clock_msg(0);
+
+    // Setup robot namespace
     ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
     ros_namespace_ += std::to_string(parent_->id().id());
 
@@ -83,11 +101,13 @@ void ROSAutonomy::init(std::map<std::string,std::string> &params)
 }
 
 bool ROSAutonomy::step_autonomy(double t, double dt)
-{
-    ros::Time time = ros::Time::now(); // todo
+{    
+    // Update ROS time
+    publish_clock_msg(t);
+    ros::Time ros_time(t);
 
     ros::spinOnce(); // check for new ROS messages
-
+        
     // Convert scrimmage point cloud into laser scan
     for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
         sensor_msgs::LaserScan laser_msg;
@@ -107,14 +127,14 @@ bool ROSAutonomy::step_autonomy(double t, double dt)
             laser_msg.intensities[i] = p.intensity;
             i++;
         }
-        laser_msg.header.stamp = time;
+        laser_msg.header.stamp = ros_time;
         laser_msg.header.frame_id = ros_namespace_ + "/base_laser";
         base_scan_pub_.publish(laser_msg);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Publish odometry transform (odom -> base_link)
-    odom_trans_.header.stamp = time;
+    odom_trans_.header.stamp = ros_time;
     odom_trans_.transform.translation.x = state_->pos()(0);
     odom_trans_.transform.translation.y = state_->pos()(1);
     odom_trans_.transform.translation.z = state_->pos()(2);
@@ -125,7 +145,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt)
 
     // Publish odometry message
     nav_msgs::Odometry odom;
-    odom.header.stamp = time;
+    odom.header.stamp = ros_time;
     odom.header.frame_id = ros_namespace_ + "/odom";
 
     //set the position
@@ -145,33 +165,10 @@ bool ROSAutonomy::step_autonomy(double t, double dt)
 
     ///////////////////////////////////////////////////////////////////////////
     // Publish odometry transform (base_link -> laser_scan)
-    laser_trans_.header.stamp = time;
-    laser_broadcaster_->sendTransform(laser_trans_);
-
-    // // Publish odometry message
-    // nav_msgs::Odometry odom_base_link;
-    // odom_base_link.header.stamp = time;
-    // odom_base_link.header.frame_id = "base_link";
-    //
-    // //set the position
-    // odom_base_link.pose.pose.position.x = 0;
-    // odom_base_link.pose.pose.position.y = 0;
-    // odom_base_link.pose.pose.position.z = 0;
-    // odom_base_link.pose.pose.orientation = laser_quat;
-    //
-    // //set the velocity (TODO: Might be wrong frame)
-    // odom_base_link.child_frame_id = "base_laser";
-    // odom_base_link.twist.twist.linear.x = 0;
-    // odom_base_link.twist.twist.linear.y = 0;
-    // odom_base_link.twist.twist.linear.z = 0;
-    // odom_base_link.twist.twist.angular.z = 0;
-    //
-    // odom_laser_pub_.publish(odom_base_link);
-
-    // Update desired state based on "cmd_vel" from ROS
-    //desired_state_->vel() = Eigen::Vector3d::UnitX()*1;//cmd_vel_.linear.x;
-    //double u_rot = -0.3;//cmd_vel_.angular.z;
-
+    laser_trans_.header.stamp = ros_time;
+    laser_broadcaster_->sendTransform(laser_trans_);       
+    
+    // Send commands to low-level controller
     desired_state_->vel()(0) = cmd_vel_.linear.x;
     desired_state_->vel()(1) = cmd_vel_.angular.z;
     desired_state_->vel()(2) = 0;
