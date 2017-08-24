@@ -65,6 +65,11 @@ class MapGen2D : public scrimmage::EntityInteraction {
     double wall_bottom_z_;
     double wall_height_;
     double resolution_;
+    double occupied_thresh_;
+
+    double x_origin_;
+    double y_origin_;
+    double z_origin_;
 
     scrimmage::PublisherPtr pub_shape_gen_;
 };

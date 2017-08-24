@@ -77,8 +77,6 @@ class BulletCollision : public scrimmage::EntityInteraction {
     sc::SubscriberPtr sub_ent_gen_;
     sc::SubscriberPtr sub_shape_gen_;
 
-    btSphereShape * sphere_shape_; // todo remove
-
     // Key 1: Entity ID
     // Value 2: map
     // Key 2: Sensor Name (sensor0)

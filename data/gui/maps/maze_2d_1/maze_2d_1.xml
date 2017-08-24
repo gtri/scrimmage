@@ -1,22 +1,18 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
-<params>  
+<params>
   <filename>simple-maze-1.png</filename>
-  <!--<filename>hospital_section.png</filename>-->
-  <!--<filename>maze_2d_1.pgm</filename>-->
-  <!--<filename>cave.png</filename>-->
-  <!--<filename>line-vertical.pgm</filename>-->
-  <!--<filename>rectangle.png</filename>-->
 
+  <occupied_thresh>0.65</occupied_thresh>
   <resolution>0.1</resolution> <!-- 10 cm -->
   <enable_map_boundary>true</enable_map_boundary>
-  
+
   <wall_bottom_z>0</wall_bottom_z>
   <wall_height>5</wall_height>
   <wall_color>0 0 255</wall_color> <!-- R G B -->
-  
+
   <x_origin>0</x_origin>
   <y_origin>0</y_origin>
   <z_origin>0</z_origin>
-  
+
 </params>

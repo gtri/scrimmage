@@ -77,9 +77,6 @@ BulletCollision::BulletCollision() {
 
     bt_collision_world = new btCollisionWorld(bt_dispatcher, bt_broadphase,
                                               bt_collision_configuration);
-
-    // TODO:
-    sphere_shape_ = new btSphereShape(1);
 }
 
 BulletCollision::~BulletCollision() {
@@ -151,7 +148,9 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         coll_object->getWorldTransform().setOrigin(btVector3((btScalar) int_to_ent_map[id]->state()->pos()(0),
                                                              (btScalar) int_to_ent_map[id]->state()->pos()(1),
                                                              (btScalar) int_to_ent_map[id]->state()->pos()(2)));
-        coll_object->setCollisionShape(sphere_shape_);
+
+        btSphereShape * sphere_shape = new btSphereShape(int_to_ent_map[id]->radius()); // TODO: memory management
+        coll_object->setCollisionShape(sphere_shape);
         bt_collision_world->addCollisionObject(coll_object);
 
         objects_[id] = coll_object;

@@ -81,6 +81,12 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     wall_height_ = sc::get<double>("wall_height", map_parse.params(), 5.0);
     enable_map_boundary_ = sc::get<bool>("enable_map_boundary",
                                          map_parse.params(), false);
+    occupied_thresh_ = sc::get<double>("occupied_thresh", map_parse.params(),
+                                       0.65);
+
+    x_origin_ = sc::get<double>("x_origin", map_parse.params(), 0);
+    y_origin_ = sc::get<double>("y_origin", map_parse.params(), 0);
+    z_origin_ = sc::get<double>("z_origin", map_parse.params(), 0);
 
     // Parse wall_color (default to blue)
     std::string color_str = sc::get<std::string>("wall_color",
@@ -105,7 +111,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     }
 
     auto msg = std::make_shared<sc::Message<sp::Shapes>>();
-    std::list<cv::Rect> rects = find_rectangles(img, 150);
+    std::list<cv::Rect> rects = find_rectangles(img, occupied_thresh_);
 
     for (cv::Rect rect : rects) {
         double x = rect.x * resolution_;
@@ -114,9 +120,9 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         double height = rect.height * resolution_;
 
         // Convert rectangle into cube shape
-        Eigen::Vector3d center(x + width/2.0,
-                               y - height/2.0,
-                               wall_bottom_z_ + wall_height_ / 2.0);
+        Eigen::Vector3d center(x + width/2.0 + x_origin_,
+                               y - height/2.0 + y_origin_,
+                               wall_bottom_z_ + wall_height_ / 2.0 + z_origin_);
 
         sc::Quaternion quat(0, 0, 0);
 
@@ -157,7 +163,8 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
     cv::cvtColor(img, gray, CV_BGR2GRAY);
 
     cv::Mat thresh;
-    cv::threshold(gray, thresh, threshold, 255, cv::THRESH_BINARY_INV);
+    cv::threshold(gray, thresh, std::floor(threshold*255), 255,
+                  cv::THRESH_BINARY_INV);
 
     cv::Mat img_rects = img.clone();
 
