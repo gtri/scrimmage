@@ -81,7 +81,9 @@ bool DoubleIntegrator::step(double t, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->vel() << x_[VX], x_[VY], x_[VZ];
-    state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
+    if (x_[VY] != 0 || x_[VX] != 0) {
+        state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
+    }
     return true;
 }
 
