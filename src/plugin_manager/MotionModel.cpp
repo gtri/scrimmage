@@ -45,7 +45,7 @@ std::string MotionModel::type() { return std::string("MotionModel"); }
 bool MotionModel::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params)
 { return false; }
 
-bool MotionModel::step(double time, double dt) { return false; }
+bool MotionModel::step(double time, double dt) { return true; }
 
 bool MotionModel::posthumous(double t) { return true; }
 
