@@ -1056,15 +1056,24 @@ bool SimControl::run_entities() {
 
 bool SimControl::run_entity(EntityPtr &ent) {
     bool success = true;
+    auto update_success = [&](auto res, auto plugin) {
+        if (!res) {
+            std::cout << "failed update entity " << plugin->parent()->id().id()
+                << ", plugin type \"" << plugin->type() << "\""
+                << ", plugin name \"" << plugin->name() << "\"" << std::endl;
+            success = false;
+        }
+    };
+
 
     for (auto &kv : ent->sensables()) {
         for (SensablePtr &sensable : kv.second) {
-            success &= sensable->update(t_, dt_);
+            update_success(sensable->update(t_, dt_), sensable);
         }
     }
 
     for (AutonomyPtr &autonomy : ent->autonomies()) {
-        success &= autonomy->step_autonomy(t_, dt_);
+        update_success(autonomy->step_autonomy(t_, dt_), autonomy);
     }
 
     ent->setup_desired_state();
@@ -1073,9 +1082,9 @@ bool SimControl::run_entity(EntityPtr &ent) {
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         for (ControllerPtr &ctrl : ent->controllers()) {
-            success &= ctrl->step(temp_t, motion_dt);
+            update_success(ctrl->step(temp_t, motion_dt), ctrl);
         }
-        success &= ent->motion()->step(temp_t, motion_dt);
+        update_success(ent->motion()->step(temp_t, motion_dt), ent->motion());
         temp_t += motion_dt;
     }
 
