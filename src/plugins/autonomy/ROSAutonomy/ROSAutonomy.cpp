@@ -30,7 +30,6 @@
  *
  */
 
-#include <iostream>
 
 #include <rosgraph_msgs/Clock.h>
 
@@ -43,22 +42,22 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/Angles.h>
 
+#include <iostream>
+
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, ROSAutonomy, ROSAutonomy_plugin)
 
 ROSAutonomy::ROSAutonomy() {}
 
-void ROSAutonomy::publish_clock_msg(double t)
-{
+void ROSAutonomy::publish_clock_msg(double t) {
     ros::Time time(t); // start at zero seconds
     rosgraph_msgs::Clock clock_msg; // Message to hold time
     clock_msg.clock = time;
-    clock_pub_.publish(clock_msg);    
+    clock_pub_.publish(clock_msg);
 }
 
-void ROSAutonomy::init(std::map<std::string,std::string> &params)
-{
+void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     if (!ros::isInitialized()) {
         int argc = 0;
         // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
@@ -96,18 +95,17 @@ void ROSAutonomy::init(std::map<std::string,std::string> &params)
     pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud");
 
     desired_state_->vel() = Eigen::Vector3d::UnitX() * 0;
-    desired_state_->quat().set(0,0,state_->quat().yaw());
+    desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 }
 
-bool ROSAutonomy::step_autonomy(double t, double dt)
-{    
+bool ROSAutonomy::step_autonomy(double t, double dt) {
     // Update ROS time
     publish_clock_msg(t);
     ros::Time ros_time(t);
 
     ros::spinOnce(); // check for new ROS messages
-        
+
     // Convert scrimmage point cloud into laser scan
     for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
         sensor_msgs::LaserScan laser_msg;
@@ -148,13 +146,13 @@ bool ROSAutonomy::step_autonomy(double t, double dt)
     odom.header.stamp = ros_time;
     odom.header.frame_id = ros_namespace_ + "/odom";
 
-    //set the position
+    // set the position
     odom.pose.pose.position.x = state_->pos()(0);
     odom.pose.pose.position.y = state_->pos()(1);
     odom.pose.pose.position.z = state_->pos()(2);
     odom.pose.pose.orientation = odom_quat;
 
-    //set the velocity (TODO: Might be wrong frame)
+    // set the velocity (TODO: Might be wrong frame)
     odom.child_frame_id = ros_namespace_ + "/base_link";
     odom.twist.twist.linear.x = state_->vel()(0);
     odom.twist.twist.linear.y = state_->vel()(1);
@@ -166,20 +164,19 @@ bool ROSAutonomy::step_autonomy(double t, double dt)
     ///////////////////////////////////////////////////////////////////////////
     // Publish odometry transform (base_link -> laser_scan)
     laser_trans_.header.stamp = ros_time;
-    laser_broadcaster_->sendTransform(laser_trans_);       
-    
+    laser_broadcaster_->sendTransform(laser_trans_);
+
     // Send commands to low-level controller
     desired_state_->vel()(0) = cmd_vel_.linear.x;
     desired_state_->vel()(1) = cmd_vel_.angular.z;
     desired_state_->vel()(2) = 0;
-    //double u_rot = cmd_vel_.angular.z;
-    //desired_state_->quat().set(0,0,state_->quat().yaw() + u_rot);
+    // double u_rot = cmd_vel_.angular.z;
+    // desired_state_->quat().set(0,0,state_->quat().yaw() + u_rot);
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
     return true;
 }
 
-void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg)
-{
+void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }

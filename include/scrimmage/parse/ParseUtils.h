@@ -70,7 +70,7 @@ template <class T1, class T2 = T1>
 template <typename T>
 bool str2vec(std::string &str, std::string delims,
              std::vector<T> &vec, unsigned int size) {
-    std::vector<T> tmp_vec;    
+    std::vector<T> tmp_vec;
     std::vector<std::string> tokens;
     boost::split(tokens, str, boost::is_any_of(delims));
 

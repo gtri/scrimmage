@@ -87,8 +87,7 @@ double State::rel_az(const Eigen::Vector3d &other) const {
     return Angles::angle_diff_rad(az, quat_.yaw());
 }
 
-Eigen::Matrix4d State::tf_matrix(bool enable_translate)
-{
+Eigen::Matrix4d State::tf_matrix(bool enable_translate) {
     Eigen::Matrix4d m;
 
     double d = pos_(2); // translate by di along zi-axis
