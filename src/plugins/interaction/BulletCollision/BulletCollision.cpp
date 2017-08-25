@@ -219,7 +219,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
             for (Eigen::Vector3d &original_ray : kv2.second) {
                 // Transform sensor's origin to world coordinates
-                Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0,0,0,1);
+                Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
                 Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
 
                 // Transform ray's end point to world coordinates
@@ -241,7 +241,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 // the LIDAR sensor's coordinate frame. Use original ray's
                 // direction, shorten to length of detection ray, if a
                 // collision occurred.
-                if(res.hasHit()){
+                if (res.hasHit()) {
                     Eigen::Vector3d hit_point(res.m_hitPointWorld.x(),
                                               res.m_hitPointWorld.y(),
                                               res.m_hitPointWorld.z());
@@ -255,7 +255,6 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                         arrow->set_type(sp::Shape::Line);
                         sc::set(arrow->mutable_color(), 255, 0, 0);
                         arrow->set_opacity(1.0);
-                        //sc::add_point(arrow, sensor_pos);
                         sc::add_point(arrow, sensor_pos_w);
                         sc::add_point(arrow, hit_point);
                         shapes_.push_back(arrow);

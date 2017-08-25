@@ -52,7 +52,7 @@ class ROSAutonomy : public scrimmage::Autonomy {
     virtual bool step_autonomy(double t, double dt);
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
 
-protected:
+ protected:
     std::shared_ptr<ros::NodeHandle> nh_;
 
     ros::Subscriber cmd_vel_sub_;
@@ -76,8 +76,6 @@ protected:
     scrimmage::SubscriberPtr pcl_sub_;
 
     void publish_clock_msg(double t);
-
-private:
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
