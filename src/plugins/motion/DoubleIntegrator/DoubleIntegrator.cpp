@@ -106,3 +106,13 @@ void DoubleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[VY] = update_dvdt(x[VY], ctrl_u_(1));
     dxdt[VZ] = update_dvdt(x[VZ], ctrl_u_(2));
 }
+
+void DoubleIntegrator::teleport(scrimmage::StatePtr &state) {
+    x_[X] = state->pos()[0];
+    x_[Y] = state->pos()[1];
+    x_[Z] = state->pos()[2];
+    x_[VX] = state->vel()[0];
+    x_[VY] = state->vel()[1];
+    x_[VZ] = state->vel()[2];
+}
+
