@@ -53,6 +53,8 @@ class DoubleIntegrator : public scrimmage::MotionModel {
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
+    void teleport(scrimmage::StatePtr &state);
+
     class Controller : public scrimmage::Controller {
      public:
         virtual Eigen::Vector3d &u() = 0;
