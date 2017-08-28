@@ -40,6 +40,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
                 DoubleIntegratorControllerDirect_plugin)
 
 bool DoubleIntegratorControllerDirect::step(double t, double dt) {
-    u_ = desired_state_->vel();
+    u_.head(3) = desired_state_->vel();
+    u_(3) = desired_state_->quat().yaw();
     return true;
 }
