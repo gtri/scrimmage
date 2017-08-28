@@ -53,6 +53,8 @@ class DoubleIntegrator : public scrimmage::MotionModel {
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
+    void teleport(scrimmage::StatePtr &state);
+
     class Controller : public scrimmage::Controller {
      public:
         virtual Eigen::Vector3d &u() = 0;
@@ -63,6 +65,7 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     Eigen::Vector3d ctrl_u_;
     double max_vel_ = std::numeric_limits<double>::infinity();
     double max_acc_ = std::numeric_limits<double>::infinity();
+    bool motion_model_sets_yaw_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_

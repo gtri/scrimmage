@@ -53,6 +53,7 @@ bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
                             std::map<std::string, std::string> &params) {
     max_vel_ = std::stod(params.at("max_vel"));
     max_acc_ = std::stod(params.at("max_acc"));
+    motion_model_sets_yaw_ = scrimmage::str2bool(params.at("motion_model_sets_yaw"));
 
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
@@ -81,8 +82,10 @@ bool DoubleIntegrator::step(double t, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->vel() << x_[VX], x_[VY], x_[VZ];
-    if (x_[VY] != 0 || x_[VX] != 0) {
-        state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
+    if (motion_model_sets_yaw_) {
+        if (x_[VY] != 0 || x_[VX] != 0) {
+            state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
+        }
     }
     return true;
 }
@@ -106,3 +109,13 @@ void DoubleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[VY] = update_dvdt(x[VY], ctrl_u_(1));
     dxdt[VZ] = update_dvdt(x[VZ], ctrl_u_(2));
 }
+
+void DoubleIntegrator::teleport(scrimmage::StatePtr &state) {
+    x_[X] = state->pos()[0];
+    x_[Y] = state->pos()[1];
+    x_[Z] = state->pos()[2];
+    x_[VX] = state->vel()[0];
+    x_[VY] = state->vel()[1];
+    x_[VZ] = state->vel()[2];
+}
+

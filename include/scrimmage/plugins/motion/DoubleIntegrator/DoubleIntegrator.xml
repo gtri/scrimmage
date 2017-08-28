@@ -4,4 +4,5 @@
   <library>DoubleIntegrator_plugin</library>  
   <max_vel>1</max_vel>
   <max_acc>1</max_acc>
+  <motion_model_sets_yaw>true</motion_model_sets_yaw>
 </params>
