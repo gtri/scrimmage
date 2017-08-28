@@ -45,7 +45,7 @@ using boost::algorithm::clamp;
 
 enum ModelParams {X, Y, Z, VX, VY, VZ, STATE_SIZE};
 
-DoubleIntegrator::DoubleIntegrator() {
+DoubleIntegrator::DoubleIntegrator() : motion_model_sets_yaw_(false) {
     x_.resize(STATE_SIZE);
 }
 
@@ -86,9 +86,7 @@ bool DoubleIntegrator::step(double t, double dt) {
         if (x_[VY] != 0 || x_[VX] != 0) {
             state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
         }
-    }
-    else
-    {
+    } else {
         state_->quat().set(0, 0, ctrl_u_(3));
     }
     return true;

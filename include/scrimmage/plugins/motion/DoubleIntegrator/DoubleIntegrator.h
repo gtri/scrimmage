@@ -65,7 +65,7 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     Eigen::Vector4d ctrl_u_;
     double max_vel_ = std::numeric_limits<double>::infinity();
     double max_acc_ = std::numeric_limits<double>::infinity();
-    bool motion_model_sets_yaw_;
+    bool motion_model_sets_yaw_ = true;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_
