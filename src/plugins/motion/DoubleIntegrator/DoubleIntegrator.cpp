@@ -53,6 +53,7 @@ bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
                             std::map<std::string, std::string> &params) {
     max_vel_ = std::stod(params.at("max_vel"));
     max_acc_ = std::stod(params.at("max_acc"));
+    motion_model_sets_yaw_ = scrimmage::str2bool(params.at("motion_model_sets_yaw"));
 
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
@@ -81,8 +82,10 @@ bool DoubleIntegrator::step(double t, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->vel() << x_[VX], x_[VY], x_[VZ];
-    if (x_[VY] != 0 || x_[VX] != 0) {
-        state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
+    if (motion_model_sets_yaw_) {
+        if (x_[VY] != 0 || x_[VX] != 0) {
+            state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
+        }
     }
     return true;
 }
