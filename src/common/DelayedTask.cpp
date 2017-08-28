@@ -30,36 +30,46 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-#define INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-
-#include <Eigen/Dense>
-
-#include <map>
-#include <vector>
-#include <string>
-#include <unordered_set>
+#include <scrimmage/common/DelayedTask.h>
 
 namespace scrimmage {
+DelayedTask::DelayedTask(double _delay, int repeats) : delay(_delay) {
+    set_repeats(repeats);
+}
 
-void display_progress(float progress);
+void DelayedTask::set_delay_from_freq(double freq) {
+    delay = freq > 0 ? 1 / freq : 0;
+}
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map);
+std::pair<bool, bool> DelayedTask::update(double t) {
+    bool updated = false, task_success = false;
+    bool condition_satisfied = condition ? condition(t) : true;
 
-std::string get_sha(std::string &path);
+    if (!done() && condition_satisfied && t >= last_updated_time + delay) {
+        last_updated_time = t;
+        if (task) {
+            task_success = task(t);
+        }
+        if (!repeat_infinitely_) {
+            repeats_left_--;
+        }
 
-std::string get_version();
+        updated = true;
+    }
+    return std::make_pair(updated, task_success);
+}
 
-void filter_line(int downsampling_factor,
-    int num_points,
-    std::vector<Eigen::Vector3d> &path,
-    std::vector<Eigen::Vector3d> &filtered_path);
+bool DelayedTask::done() const {
+    return !repeat_infinitely_ && repeats_left_ < 0;
+}
+void DelayedTask::set_repeats(int repeats_left) {
+    repeats_left_ = repeats_left;
+    repeat_infinitely_ = false;
+}
 
-std::string generate_chars(std::string symbol, int num);
+void DelayedTask::set_repeat_infinitely(bool repeat_infinitely) {
+    repeat_infinitely_ = repeat_infinitely;
+    repeats_left_ = -1;
+}
 
-std::string eigen_str(const Eigen::VectorXd &vec);
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_

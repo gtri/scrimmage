@@ -30,36 +30,38 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-#define INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_ALGORITHM_H_
+#define INCLUDE_SCRIMMAGE_COMMON_ALGORITHM_H_
 
-#include <Eigen/Dense>
-
-#include <map>
-#include <vector>
-#include <string>
+#include <iterator>
+#include <algorithm>
 #include <unordered_set>
 
 namespace scrimmage {
+/*! \brief std::remove_if does not work with associative containers.
+ *
+ * This implementaion assumes the first argument has an erase method.
+ */
+template <class ContainerType, class Predicate>
+void remove_if(ContainerType &container, Predicate pred) {
+    auto it = container.begin();
+    while (it != container.end()) {
+        it = pred(*it) ? container.erase(it) : std::next(it);
+    }
+}
 
-void display_progress(float progress);
+/*! \brief Returns container1 minus container2
+ *
+ * std::set_difference does not work on unordered_sets
+ */
+template <class T>
+std::unordered_set<T>
+set_difference(const std::unordered_set<T> &container1, const std::unordered_set<T> &container2) {
+    std::unordered_set<T> out;
+    std::copy_if(container1.begin(), container1.end(), std::inserter(out, out.end()),
+        [&](const T &val) {return container2.count(val) == 0;});
+    return out;
+}
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map);
-
-std::string get_sha(std::string &path);
-
-std::string get_version();
-
-void filter_line(int downsampling_factor,
-    int num_points,
-    std::vector<Eigen::Vector3d> &path,
-    std::vector<Eigen::Vector3d> &filtered_path);
-
-std::string generate_chars(std::string symbol, int num);
-
-std::string eigen_str(const Eigen::VectorXd &vec);
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_ALGORITHM_H_

@@ -29,6 +29,7 @@ set(SRCS
     pubsub/MessageBase.cpp pubsub/Network.cpp pubsub/NetworkDevice.cpp pubsub/Publisher.cpp
     sensor/Sensor.cpp
     simcontrol/SimControl.cpp
+    common/DelayedTask.cpp
 )
 
 

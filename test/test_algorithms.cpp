@@ -30,36 +30,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-#define INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+#include <gtest/gtest.h>
 
-#include <Eigen/Dense>
+#include <scrimmage/common/Algorithm.h>
 
 #include <map>
-#include <vector>
-#include <string>
-#include <unordered_set>
 
-namespace scrimmage {
+namespace sc = scrimmage;
 
-void display_progress(float progress);
+TEST(test_algorithm, remove_if) {
+    std::map<int, int> map;
+    for (int i = 0; i < 10; i++) {
+        map[i] = i - 5;
+    }
+    sc::remove_if(map, [&](auto &kv) {return kv.second < 0;});
+    EXPECT_EQ(static_cast<int>(map.size()), 5);
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map);
+    for (int i = 5; i < 10; i++) {
+        EXPECT_EQ(map[i], i - 5);
+    }
+}
 
-std::string get_sha(std::string &path);
+TEST(test_algorithm, set_difference) {
+    std::unordered_set<int> set1 {1, 2, 3, 4, 5};
+    std::unordered_set<int> set2 {1, 3, 5};
 
-std::string get_version();
-
-void filter_line(int downsampling_factor,
-    int num_points,
-    std::vector<Eigen::Vector3d> &path,
-    std::vector<Eigen::Vector3d> &filtered_path);
-
-std::string generate_chars(std::string symbol, int num);
-
-std::string eigen_str(const Eigen::VectorXd &vec);
-} // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+    std::unordered_set<int> set_diff = sc::set_difference(set1, set2);
+    EXPECT_EQ(set_diff.count(1), static_cast<uint8_t>(0));
+    EXPECT_EQ(set_diff.count(2), static_cast<uint8_t>(1));
+    EXPECT_EQ(set_diff.count(3), static_cast<uint8_t>(0));
+    EXPECT_EQ(set_diff.count(4), static_cast<uint8_t>(1));
+    EXPECT_EQ(set_diff.count(5), static_cast<uint8_t>(0));
+}

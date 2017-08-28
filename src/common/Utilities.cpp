@@ -46,9 +46,6 @@
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 namespace fs = boost::filesystem;
 
-using std::cout;
-using std::endl;
-
 namespace scrimmage {
 
 int next_available_id(std::string name,
@@ -161,6 +158,15 @@ std::string generate_chars(std::string symbol, int num) {
     for (int i = 0; i < num; i++) {
         out += symbol;
     }
+    return out;
+}
+
+std::string eigen_str(const Eigen::VectorXd &vec) {
+    std::string out;
+    for (int i = 0; i < vec.size() - 1; i++) {
+        out += std::to_string(vec(i)) + ", ";
+    }
+    out += std::to_string(vec(vec.size() - 1));
     return out;
 }
 

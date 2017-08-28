@@ -29,37 +29,34 @@
  * A Long description goes here.
  *
  */
+#ifndef INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
+#define INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-#define INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-
-#include <Eigen/Dense>
-
-#include <map>
-#include <vector>
-#include <string>
-#include <unordered_set>
+#include <limits>
+#include <utility>
+#include <functional>
 
 namespace scrimmage {
+class DelayedTask {
+ public:
+    DelayedTask() = default;
+    DelayedTask(double _delay, int repeats);
 
-void display_progress(float progress);
+    void set_delay_from_freq(double freq);
+    bool done() const;
+    void set_repeats(int repeats_left);
+    void set_repeat_infinitely(bool repeat_infinitely);
+    std::pair<bool, bool> update(double t);
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map);
+    double delay = 0;
+    double last_updated_time = -std::numeric_limits<double>::infinity();
+    std::function<bool(double)> condition;
+    std::function<bool(double)> task;
 
-std::string get_sha(std::string &path);
+ protected:
 
-std::string get_version();
-
-void filter_line(int downsampling_factor,
-    int num_points,
-    std::vector<Eigen::Vector3d> &path,
-    std::vector<Eigen::Vector3d> &filtered_path);
-
-std::string generate_chars(std::string symbol, int num);
-
-std::string eigen_str(const Eigen::VectorXd &vec);
+    bool repeat_infinitely_ = true;
+    int repeats_left_ = -1;
+};
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
