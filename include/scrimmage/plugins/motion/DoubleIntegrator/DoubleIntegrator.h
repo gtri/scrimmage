@@ -57,12 +57,12 @@ class DoubleIntegrator : public scrimmage::MotionModel {
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector3d &u() = 0;
+        virtual Eigen::Vector4d &u() = 0;
     };
 
  protected:
     double update_dvdt(double vel, double acc);
-    Eigen::Vector3d ctrl_u_;
+    Eigen::Vector4d ctrl_u_;
     double max_vel_ = std::numeric_limits<double>::infinity();
     double max_acc_ = std::numeric_limits<double>::infinity();
     bool motion_model_sets_yaw_;
