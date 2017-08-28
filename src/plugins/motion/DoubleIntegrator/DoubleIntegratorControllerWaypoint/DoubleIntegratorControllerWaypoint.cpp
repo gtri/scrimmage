@@ -51,6 +51,6 @@ void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
 }
 
 bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
-    u_ = -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
+    u_.head(3) = -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
     return true;
 }
