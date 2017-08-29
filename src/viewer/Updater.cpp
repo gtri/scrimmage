@@ -878,7 +878,11 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 vtkSmartPointer<vtkUnstructuredGrid>::New();
             ug->SetPoints(points);
             ug->InsertNextCell(pyramid->GetCellType(), pyramid->GetPointIds());
+#if VTK_MAJOR_VERSION <= 5
+            mapper->SetInput(ug);
+#else
             mapper->SetInputData(ug);
+#endif
 
         } else if (actor_contact->contact.type() == scrimmage_proto::SPHERE) {
             vtkSmartPointer<vtkSphereSource> sphereSource =
@@ -945,7 +949,11 @@ void Updater::update_trail(std::shared_ptr<ActorContact> &actor_contact,
         vtkSmartPointer<vtkPolyDataMapper> points_mapper =
             vtkSmartPointer<vtkPolyDataMapper>::New();
 
+#if VTK_MAJOR_VERSION < 6
+        points_mapper->SetInput(point);
+#else
         points_mapper->SetInputData(point);
+#endif
 
         vtkSmartPointer<vtkActor> points_actor =
             vtkSmartPointer<vtkActor>::New();
@@ -1126,7 +1134,11 @@ bool Updater::draw_triangle(const scrimmage_proto::Shape &s,
     // Add the geometry and topology to the polydata
     trianglePolyData->SetPoints(points);
     trianglePolyData->SetPolys(triangles);
+#if VTK_MAJOR_VERSION < 6
+    mapper->SetInput(trianglePolyData);
+#else
     mapper->SetInputData(trianglePolyData);
+#endif
     actor->SetMapper(mapper);
 
     return true;
@@ -1286,7 +1298,11 @@ bool Updater::draw_polygon(const scrimmage_proto::Shape &s,
         vtkSmartPointer<vtkPolyData>::New();
     polygonPolyData->SetPoints(points);
     polygonPolyData->SetPolys(polygons);
+#if VTK_MAJOR_VERSION < 6
+    mapper->SetInput(polygonPolyData);
+#else
     mapper->SetInputData(polygonPolyData);
+#endif
 
     actor->SetMapper(mapper);
     actor->GetProperty()->SetLineWidth(1);
@@ -1313,7 +1329,11 @@ bool Updater::draw_polydata(const scrimmage_proto::Shape &s,
     vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter =
         vtkSmartPointer<vtkVertexGlyphFilter>::New();
 
+#if VTK_MAJOR_VERSION < 6
+    glyphFilter->SetInput(polyData);
+#else
     glyphFilter->SetInputData(polyData);
+#endif
     glyphFilter->Update();
 
     mapper->SetInputConnection(glyphFilter->GetOutputPort());
@@ -1372,15 +1392,23 @@ bool Updater::draw_pointcloud(const scrimmage_proto::Shape &s,
 
     vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
         vtkSmartPointer<vtkVertexGlyphFilter>::New();
-
+#if VTK_MAJOR_VERSION < 6
+    vertexFilter->SetInput(pointsPolydata);
+#else
     vertexFilter->SetInputData(pointsPolydata);
+#endif
+
     vertexFilter->Update();
 
     vtkSmartPointer<vtkPolyData> poly_data =
         vtkSmartPointer<vtkPolyData>::New();
     poly_data->ShallowCopy(vertexFilter->GetOutput());
     poly_data->GetPointData()->SetScalars(color_array);
+#if VTK_MAJOR_VERSION < 6
+    mapper->SetInput(poly_data);
+#else
     mapper->SetInputData(poly_data);
+#endif
     actor->SetMapper(mapper);
     actor->GetProperty()->SetPointSize(s.size());
 
@@ -1398,7 +1426,11 @@ bool Updater::draw_plane(const scrimmage_proto::Shape &s,
     planeSource->Update();
 
     vtkPolyData* plane_polydata = planeSource->GetOutput();
+#if VTK_MAJOR_VERSION < 6
+    mapper->SetInput(plane_polydata);
+#else
     mapper->SetInputData(plane_polydata);
+#endif
     actor->SetMapper(mapper);
 
     return true;
