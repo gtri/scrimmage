@@ -14,12 +14,24 @@
 
 ## Build SCRIMMAGE
 
+### Directory Setup
+
+SCRIMMAGE developers and users may use multiple scrimmage-related projects and
+repositories. Thus, it is recommended to group your scrimmage-related projects
+under a single directory, but it is not necessary. To create a directory to
+hold your scrimmage projects and clone this scrimmage repo, run the following
+commands:
+
+    $ mkdir -p ~/scrimmage && cd ~/scrimmage
+    $ git clone https://github.com/gtri/scrimmage.git
+
 ### Install Binary Dependencies
 
 A list of the Ubuntu packages required is provided in
 ./setup/install-binaries.sh in the "DEPS_DPKG" array. Run our automated
 installer to install the required packages:
 
+    $ cd scrimmage
     $ sudo ./setup/install-binaries.sh
 
 ### Build Dependencies from Source
@@ -37,8 +49,7 @@ install them to ~/.local by default:
 
 ### Build SCRIMMAGE Core
 
-    $ mkdir build
-    $ cd build
+    $ mkdir build && cd build
     $ cmake ..
     $ source ~/.scrimmage/setup.bash
     $ make
@@ -193,23 +204,6 @@ headless mode:
     $ source ~/.scrimmage/setup.bash
     $ scrimmage ./missions/straight-no-gui.xml
 
-### Docker Troubleshooting Notes
-
-1. To allow non-https connections for your docker client. Add the following
-   information to your /etc/docker/daemon.json file:
-
-        {
-            "dns": ["10.104.30.150", "8.8.8.8"],
-            "insecure-registries" : ["10.108.21.229:5000"]
-        }
-
-    Reference:
-    https://docs.docker.com/registry/insecure/
-
-2. Restart docker service:
-
-        $ sudo service docker restart
-
 ## Installing and Configuring Open Grid Engine
 
 Instructions modified from:
@@ -225,54 +219,21 @@ Note that you can configure how qsub is called with a `.sge_request` in your
 home directory. Further, you can set the number of available slots (cores
 available) when running grid engine under the Queue Control tab.
 
-## Installing, Configuring, and Using Docker
-
-1. Setup an openssh server
-
-    sudo apt install openssh-server
-
-2. Generate keys somewhere (i.e., override the default path to the ssh key)
-
-    ssh-keygen
-
-3. Add the new key to the authorized keys
-
-    cat /path/to/new/id_rsa.pub >> ~/.ssh/authorized_keys
-    sudo service ssh restart
-
-4. Get your ip address
-
-    nmap -p 22 localhost
-
-5. Build docker images
-
-    cd /path/to/scrimmage/ci
-    ./build.sh ./ubuntu16.04
-    ./build.sh ./ubuntu14.04
-
-6. You can then step into the image with
-
-    docker run -i -t scrimmage:16.04 /bin/bash
-
-7. Docker troubleshooting:
-Docker can have DNS issues. If you can ping a public ip address within a docker
-image (such as 8.8.8.8), but you can't ping archive.ubuntu.com, create the file
-/etc/docker/daemon.json with the following contents:
-
-    {
-        "dns": ["<DNS-IP>", "8.8.8.8"]
-    }
-
-Where <DNS-IP> is the first DNS IP address from the command:
-
-    nmcli dev list | grep 'IP4.DNS'          # Ubuntu <= 14
-    nmcli device show <interfacename> | grep IP4.DNS   # Ubuntu >= 15
-
-Restart docker:
-
-    sudo service docker restart
-
 ## Troubleshooting
+
+### Problem: I can't run the SCRIMMAGE GUI in a Virtual Machine (VirtualBox)
+
+There are some OpenGL issues with VTK6 in Virtualbox. To run SCRIMMAGE in
+VirtualBox with VTK5, run the following commands:
+
+    $ sudo apt-get install libvtk5-dev
+    $ cd ~/scrimmage/scrimmage/build      # Note: Path may vary
+    $ cmake ..
+
+At this point, cmake should output a message about finding VTK Version 5. Now,
+you have to rebuild SCRIMMAGE:
+
+    $ make
 
 ### Problem: I cannot load python libraries through scrimmage
 
@@ -297,3 +258,23 @@ When running cmake, the user gets the cmake warning:
     but not all the files it references.
 
 This is a VTK6 Ubuntu package bug. It can be ignored.
+
+### Problem: Docker Container Can't Access Internet
+
+Docker can have DNS issues. If you can ping a public ip address within a docker
+image (such as 8.8.8.8), but you can't ping archive.ubuntu.com, create the file
+/etc/docker/daemon.json with the following contents:
+
+    {
+        "dns": ["<DNS-IP>", "8.8.8.8"]
+    }
+
+Where <DNS-IP> is the first DNS IP address and <interfacename> is a network
+interface with internet access from the commands:
+
+    $ nmcli dev list | grep 'IP4.DNS'                    # Ubuntu <= 14
+    $ nmcli device show <interfacename> | grep IP4.DNS   # Ubuntu >= 15
+
+Restart docker:
+
+    $ sudo service docker restart
