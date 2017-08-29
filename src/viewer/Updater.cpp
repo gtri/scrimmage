@@ -699,6 +699,8 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
         }
     }
 
+    update_scale();
+
     // Update contacts in contact map
     for (int i = 0; i < frame->contact_size(); i++) {
         const scrimmage_proto::Contact cnt = frame->contact(i);
