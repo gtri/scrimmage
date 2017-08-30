@@ -87,13 +87,14 @@ include_directories(${PROTO_INCLUDE_DIR})
 option(EXTERNAL "EXTERNAL" 0)
 
 option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
+set(PYTHON_MIN_VERSION "2.7" CACHE STRING "Minimum Python version for building")
 if (ENABLE_PYTHON_BINDINGS)
   add_definitions(-DENABLE_PYTHON_BINDINGS=1)
 
   # Find Python
   #The order of the followin find_package calls is important!
-  find_package(PythonInterp REQUIRED)
-  find_package(PythonLibs REQUIRED)
+  find_package(PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
+  find_package(PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
 
   message(STATUS "Python Versions Found: ${PYTHONLIBS_VERSION_STRING}")
   message(STATUS "PYTHON_LIBRARIES : ${PYTHON_LIBRARIES}")

@@ -129,12 +129,15 @@ However, if you want to clean everything, you can remove your build directory:
 SCRIMMAGE's Python bindings depend on protobuf, GRPC, and pandas. We recommend
 that you use the protobuf and grpc python packages built from our project.
 
-In the SCRIMMAGE Core CMake project, to specify a particular Python verision,
-you can use the Python\_ADDITIONAL\_VARIABLES cmake argument, e.g.
+You can specify a minimum Python version by setting the PYTHON\_MIN\_VERSION
+cmake variable. For example, to specify a minimum Python 3.0 version, first
+clear the cmake cache file and rerun cmake:
 
-    $ cmake .. -DPython_ADDITIONAL_VERSIONS=3.5
+    $ rm CMakeCache.txt
+    $ cmake .. -DPYTHON_MIN_VERSION=3.0
 
-Otherwise, cmake will choose on its own. It should be noted that
+Otherwise, cmake will choose Python on it's own. CMake seems to find the
+minimum version of Python specified. It should be noted that
 `interactive_plots.py` uses wxPython which is only compatible with python2.
 
 ### Install protobuf Python package
