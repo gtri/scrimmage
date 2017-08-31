@@ -560,14 +560,14 @@ bool SimControl::run_interaction_detection() {
     return any_false;
 }
 
-void SimControl::run_logging() {
+bool SimControl::run_logging() {
     contacts_mutex_.lock();
     outgoing_interface_->send_frame(t_, contacts_);
 
-    for (MetricsPtr metrics : metrics_) {
-        metrics->step_metrics(t(), dt_);
-    }
+    bool success = std::all_of(metrics_.begin(), metrics_.end(),
+        [&](MetricsPtr &metric) {return metric->step_metrics(t_, dt_);});
     contacts_mutex_.unlock();
+    return success;
 }
 
 void SimControl::run_remove_inactive() {
@@ -623,7 +623,10 @@ void SimControl::run() {
 
         // Interaction plugins use publish_immediate, so subs will have
         // newest messages
-        run_logging();
+        if (!run_logging()) {
+            std::cout << "exiting due to plugin exception" << std::endl;
+            break;
+        }
 
         run_remove_inactive();
         run_send_shapes();

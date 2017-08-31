@@ -220,7 +220,7 @@ class SimControl {
     void set_autonomy_contacts();
     void run_dynamics();
     bool run_interaction_detection();
-    void run_logging();
+    bool run_logging();
     void run_remove_inactive();
     void run_check_network_msgs();
     void run_send_shapes();
