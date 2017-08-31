@@ -144,8 +144,8 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 ########################################################
 if (SCRIMMAGE_ENABLE_PYTHON_BINDINGS)
   add_definitions(-DENABLE_PYTHON_BINDINGS=1)
-  find_package(PythonLibs ${PYTHON_VERSION} REQUIRED)
-  find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
+  find_package(PythonLibs ${SCRIMMAGE_PYTHONLIBS_VERSION_STRING} REQUIRED)
+  find_package(PythonInterp ${SCRIMMAGE_PYTHONLIBS_VERSION_STRING} REQUIRED)
 
   message(STATUS "Python Versions Found: ${PYTHONLIBS_VERSION_STRING}")
   message(STATUS "PYTHON_LIBRARIES : ${PYTHON_LIBRARIES}")
