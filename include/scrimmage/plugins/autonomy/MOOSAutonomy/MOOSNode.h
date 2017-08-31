@@ -48,7 +48,7 @@ class MOOSNode : public CMOOSApp {
 
     bool ready();
 
-    sc::State desired_state();
+    scrimmage::State desired_state();
 
     typedef enum NodeReportType {
         OWNSHIP = 0,
@@ -88,6 +88,6 @@ class MOOSNode : public CMOOSApp {
     void DoRegistrations();
 
     std::mutex desired_mutex_;
-    sc::State desired_;
+    scrimmage::State desired_;
 };
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSNODE_H_
