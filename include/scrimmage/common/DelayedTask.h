@@ -54,7 +54,6 @@ class DelayedTask {
     std::function<bool(double)> task;
 
  protected:
-
     bool repeat_infinitely_ = true;
     int repeats_left_ = -1;
 };

@@ -32,7 +32,13 @@ A list of the Ubuntu packages required is provided in
 installer to install the required packages:
 
     $ cd scrimmage
-    $ sudo ./setup/install-binaries.sh
+    $ sudo ./setup/install-binaries.sh -e 1 -p 3
+
+The first argument `-e 1` says to install all dependencies for all features in
+SCRIMMAGE (you would use `-e 0` if you wanted to run SCRIMMAGE as part of an
+embedded system). The second argument `-p 3` says to install python3
+dependencies (use `-p a` for both python2 and 3 or `-p 2` for just python2
+dependencies).
 
 ### Build Dependencies from Source
 

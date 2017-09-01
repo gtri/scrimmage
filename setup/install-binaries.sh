@@ -35,9 +35,20 @@
 usage()
 {
     cat << EOF
-usage: sudo $0
-This script installs all required dependencies.
+usage: sudo $0 -e
+This script installs all required dependencies. 
 
+OPTIONS
+
+    -e <number>
+        if <number> is 1, only install what is necessary for an external build
+        (see EXTERNAL flag to project CMakeLists.txt). Otherwise do full
+        installation.
+
+    -p <number>
+        install dependencies for python version <number>. This will install 
+        dependencies from apt for this version of python (e.g.,
+        apt install python<number>-numpy)
 EOF
 }
 
@@ -45,36 +56,14 @@ EOF
 # Dependencies array.
 # Add new dependencies here.
 ###################################################################
-echo "---------------------------------------------------"
-echo "Detecting Linux operating system variant."
-
-# Dependencies for all Linux variants...
-DEPS_COMMON=(
-)
-
-# Dependencies only for RedHat, CentOS, etc.
-DEPS_RPM=(
-)
-
 # Dependencies only for Ubuntu
 DEPS_DPKG=(
     sudo
     git
     cmake
     gcc
-    ccache
     build-essential
-    libdlib-dev
     librapidxml-dev
-    python
-    python-setuptools
-    python-numpy
-    python-matplotlib
-    python-wxmpl
-    python-pandas
-    python-wxtools
-    python-dev
-    python-pip
     libeigen3-dev
     libgeographic-dev
     libboost-thread-dev
@@ -84,26 +73,62 @@ DEPS_DPKG=(
     libboost-regex-dev
     libboost-filesystem-dev
     libboost-system-dev
-    libvtk6-dev
-    tcl-vtk
     autoconf
     automake
     libtool
     curl
     unzip
-    parallel
-    libbullet-dev
-    python-sphinx
-    sphinx-rtd-theme-common
-    graphviz
-    doxygen
-    libopencv-dev
-    #google-mock
-    #libgtest-dev
 )
 
-# Dependencies only for ArchLinux
-DEPS_PACMAN=()
+
+if ( [[ "$1" = "-e" ]] &&  [[ "$2" != "1" ]] ) || ( [[ "$3" = "-e" ]] &&  [[ "$4" != "1" ]] ); then
+    DEPS_DPKG+=(
+        ccache
+        parallel
+        libbullet-dev
+        sphinx-rtd-theme-common
+        graphviz
+        doxygen
+        libopencv-dev
+        libvtk6-dev
+        tcl-vtk
+    )
+fi
+
+PYTHON_VERSION=""
+if [[ "$1" = "-p" ]]; then
+    PYTHON_VERSION="$2"
+elif  [[ "$3" = "-p" ]]; then
+    PYTHON_VERSION="$4"
+fi 
+
+if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
+    DEPS_DPKG+=(
+        python
+        python-setuptools
+        python-numpy
+        python-dev
+        python-pip
+        python-sphinx
+        python-wxmpl
+        python-matplotlib
+        python-pandas
+        python-wxtools
+    )
+fi
+
+if [[ "$PYTHON_VERSION" -eq "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then 
+    DEPS_DPKG+=(
+        python3
+        python3-setuptools
+        python3-numpy
+        python3-dev
+        python3-pip
+        python3-sphinx
+        python3-matplotlib
+        python3-pandas
+    )
+fi
 
 #Require the script to be run as root
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
@@ -225,8 +250,13 @@ else
     echo "All dependencies are installed. No further action is required."
 fi
 
-
 ########################
 # Install Pip Packages
 ########################
-pip install sphinx-git
+if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
+    pip install sphinx-git pydoe
+fi 
+
+if [[ "$PYTHON_VERSION" = "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
+    pip3 install sphinx-git pydoe
+fi 

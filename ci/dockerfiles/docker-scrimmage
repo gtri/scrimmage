@@ -1,37 +1,35 @@
 ###############################################################################
 # Dockerfile to build SCRIMMAGE
 ###############################################################################
-FROM ubuntu:16.04
+FROM local/scrimmage-deps:latest
 
 MAINTAINER Kevin DeMarco
 
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage
 COPY ./ /root/scrimmage/
-
 WORKDIR /root/scrimmage
 
-# Install dependencies provided by package manager
-RUN ./setup/install-binaries.sh
-
-# Build 3rd-party dependencies
-RUN /bin/bash -c "cd 3rd-party && \
-    mkdir -p build && \
-    cd build && \
-    cmake .. && \
-    source ~/.scrimmage/setup.bash && \
-    make"
+# Run static analysis tests
+RUN py3clean -v .
+RUN py.test-3 test/test_cppcheck.py
+RUN echo "the following test is optional but will check for style"
+RUN python3 test/test_cpplint.py
 
 # Build scrimmage core, plugins, and documentation
 RUN /bin/bash -c "mkdir -p build && \
     cd build && \
-    cmake .. -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
+    cmake .. -G Ninja -DPYTHON_MIN_VERSION=3.0 -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
     source ~/.scrimmage/setup.bash && \
-    make && \
-    make docs"
+    ninja && \
+    ninja docs"
 
-# Run tests
 RUN /bin/bash -c "cd build && \
     source ~/.scrimmage/setup.bash && \
-    make test && \
+    ninja test && \
     scrimmage ../missions/straight-no-gui.xml"
+
+WORKDIR /root/scrimmage/python
+RUN pip3 install -e .
+WORKDIR /root/scrimmage
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"

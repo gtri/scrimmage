@@ -1,0 +1,52 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+###############################################################################
+FROM ubuntu:16.04
+
+MAINTAINER Kevin DeMarco
+
+# Copy repo code into image
+RUN mkdir -p /root/scrimmage
+COPY ./ /root/scrimmage/
+
+WORKDIR /root
+
+# this is for openai gym
+# not installed as part of 3rd-party building 
+# so as not to confuse python environments
+# see here for installation commands:
+# https://github.com/openai/gym#installing-everything
+RUN apt-get update && apt-get install -y python3-pip python3-numpy python3-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python3-opengl libboost-all-dev libsdl2-dev swig
+RUN apt-get update && apt-get install -y git ninja-build
+RUN git clone https://github.com/openai/gym
+WORKDIR /root/gym
+RUN pip3 install -e '.[all]'
+WORKDIR /root
+
+# these are only used for static analysis of the code
+RUN apt-get update && apt-get install -y cppcheck python3-pytest python3-pip
+RUN pip3 install cpplint
+
+# Install dependencies provided by package manager
+WORKDIR /root/scrimmage
+RUN ./setup/install-binaries.sh -e 0 -p 3
+
+# Build 3rd-party dependencies
+RUN mkdir -p 3rd-party/build
+WORKDIR /root/scrimmage/3rd-party/build
+RUN /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
+
+# build 3rd party python protobuf
+WORKDIR /root/scrimmage/3rd-party/build/src/protobuf/python
+RUN python3 setup.py build
+RUN python3 setup.py install
+
+# build 3rd party python grpc 
+WORKDIR /root/scrimmage/3rd-party/build/src/grpc
+RUN pip3 install -rrequirements.txt
+RUN GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
+
+RUN pip3 uninstall -y futures
+
+WORKDIR /root
+RUN rm -rf scrimmage
