@@ -37,7 +37,6 @@
 #include <Eigen/Geometry>
 
 #include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
 
 #include <memory>
 

@@ -30,10 +30,12 @@
  *
  */
 
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
+
 #include <boost/algorithm/clamp.hpp>
 
 REGISTER_PLUGIN(scrimmage::Controller,

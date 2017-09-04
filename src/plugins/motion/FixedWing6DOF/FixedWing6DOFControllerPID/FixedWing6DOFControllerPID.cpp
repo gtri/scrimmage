@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h>
 

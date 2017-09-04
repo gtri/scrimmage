@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/math/State.h>
+#include <scrimmage/math/Angles.h>
 
 namespace scrimmage {
 

@@ -32,14 +32,14 @@
 
 #include <Eigen/Geometry>
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
-
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h>
 

@@ -31,15 +31,15 @@
  */
 
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/entity/Entity.h>
-
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/sensor/Sensor.h>
 
 #if ENABLE_OPENCV == 1
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>

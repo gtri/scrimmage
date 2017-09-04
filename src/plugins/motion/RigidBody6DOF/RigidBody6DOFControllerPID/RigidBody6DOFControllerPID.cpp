@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h>
 
