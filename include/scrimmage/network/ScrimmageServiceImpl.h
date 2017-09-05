@@ -41,6 +41,8 @@
 #include <list>
 #include <mutex> // NOLINT
 
+#if ENABLE_GRPC
+
 namespace scrimmage {
 
 class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Service {
@@ -71,4 +73,7 @@ class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Ser
     Interface * interface_;
 };
 } // namespace scrimmage
+
+#endif // ENABLE_GRPC
+
 #endif // INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_
