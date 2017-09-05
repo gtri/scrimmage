@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>Predator_plugin</library>
+  <max_speed>30</max_speed>
+  <capture_range>5</capture_range>
+</params>

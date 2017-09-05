@@ -30,37 +30,22 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
-
+#ifndef Predator_H_
+#define Predator_H_
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/pubsub/Publisher.h>
 
-#include <map>
-#include <string>
-
-class Boids : public scrimmage::Autonomy{
- public:
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
-
- protected:
-     bool show_shapes_;
-     double max_speed_;
-     
-     double w_align_;
-     double w_avoid_team_;
-     double w_centroid_;
-     double w_avoid_nonteam_;     
-     double w_goal_;
-     
-     double fov_el_;
-     double fov_az_;
-     double comms_range_;
-     double minimum_team_range_;
-     double minimum_nonteam_range_;
-     double sphere_of_influence_;
-
-     Eigen::Vector3d goal_;
+class Predator : public scrimmage::Autonomy {
+public:
+    Predator();
+    virtual void init(std::map<std::string,std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
+protected:
+    int follow_id_;
+    double max_speed_;
+    double capture_range_;
+    scrimmage::PublisherPtr capture_ent_pub_;
+private:     
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
+#endif

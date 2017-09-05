@@ -30,37 +30,30 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
+#ifndef SimpleCapture_H_
+#define SimpleCapture_H_
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/entity/Entity.h>
 
-#include <scrimmage/autonomy/Autonomy.h>
+namespace sc = scrimmage;
 
-#include <map>
-#include <string>
-
-class Boids : public scrimmage::Autonomy{
- public:
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
-
- protected:
-     bool show_shapes_;
-     double max_speed_;
-     
-     double w_align_;
-     double w_avoid_team_;
-     double w_centroid_;
-     double w_avoid_nonteam_;     
-     double w_goal_;
-     
-     double fov_el_;
-     double fov_az_;
-     double comms_range_;
-     double minimum_team_range_;
-     double minimum_nonteam_range_;
-     double sphere_of_influence_;
-
-     Eigen::Vector3d goal_;
+class SimpleCapture : public scrimmage::EntityInteraction
+{
+    public:
+        SimpleCapture();
+        bool init(std::map<std::string,std::string> &mission_params,
+                std::map<std::string,std::string> &plugin_params);
+        bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                     double t, double dt);
+    protected:
+        double capture_range_;
+        bool enable_team_captures_;
+        bool enable_non_team_captures_;
+        
+        scrimmage::PublisherPtr team_capture_pub_;
+        scrimmage::PublisherPtr non_team_capture_pub_;
+        scrimmage::SubscriberPtr capture_ent_sub_;
+    private:     
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
+#endif

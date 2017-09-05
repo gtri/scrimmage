@@ -52,12 +52,13 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCollision,
                 SimpleCollision_plugin)
 
 bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
-                           std::map<std::string, std::string> &plugin_params) {
+                           std::map<std::string, std::string> &plugin_params)
+{
     collision_range_ = sc::get("collision_range", plugin_params, 0.0);
     startup_collisions_only_ = sc::get("startup_collisions_only", plugin_params, false);
 
-    enable_team_collisions_ = sc::get<bool>("enable_friendly_collisions", plugin_params, true);
-    enable_non_team_collisions_ = sc::get<bool>("enable_enemy_collisions", plugin_params, true);
+    enable_team_collisions_ = sc::get<bool>("enable_team_collisions", plugin_params, true);
+    enable_non_team_collisions_ = sc::get<bool>("enable_non_team_collisions", plugin_params, true);
 
     init_alt_deconflict_ = sc::get<bool>("init_alt_deconflict", plugin_params, false);
 
@@ -70,7 +71,8 @@ bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
 
 
 bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt) {
+                                              double t, double dt)
+{
     if (startup_collisions_only_) {
         return true;
     }
@@ -100,7 +102,8 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     msg->data.set_entity_id_2(ent2->id().id());
                     publish_immediate(t, team_collision_pub_, msg);
 
-                } else if (enable_non_team_collisions_) {
+                } else if (enable_non_team_collisions_ &&
+                           ent1->id().team_id() != ent2->id().team_id()) {
                     ent1->collision();
                     ent2->collision();
 

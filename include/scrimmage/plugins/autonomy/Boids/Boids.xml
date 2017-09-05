@@ -2,7 +2,25 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>Boids_plugin</library>
-  <align_weight>0.01</align_weight>
-  <avoid_weight>0.95</avoid_weight>
-  <centroid_weight>0.05</centroid_weight>
+
+  <max_speed>30</max_speed>
+  <show_shapes>false</show_shapes>
+  
+  <comms_range>200</comms_range>
+  <fov_el>180</fov_el>
+  <fov_az>180</fov_az>
+
+  <goal_weight>0.5</goal_weight>
+  <avoid_team_weight>1.0</avoid_team_weight>
+  <avoid_nonteam_weight>10.0</avoid_nonteam_weight>
+  <centroid_weight>1.0</centroid_weight>
+  <align_weight>0.00</align_weight>
+
+  <use_initial_heading>true</use_initial_heading>
+  <goal>100 0 0</goal> <!-- if use_initial_heading is false -->
+
+  <sphere_of_influence>100</sphere_of_influence>
+  <minimum_team_range>2</minimum_team_range>
+  <minimum_nonteam_range>10</minimum_nonteam_range>
+
 </params>

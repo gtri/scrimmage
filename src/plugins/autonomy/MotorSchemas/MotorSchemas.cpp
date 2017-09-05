@@ -137,7 +137,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Sum vectors across behaviors
     double sum_norms = v_goal_w_gain.norm() + O_vec_w_gain.norm();
     Eigen::Vector3d v_sum =  (v_goal_w_gain + O_vec_w_gain) / sum_norms;
-
+    
     // Scale velocity to max speed:
     Eigen::Vector3d vel_result = v_sum * max_speed_;
 
