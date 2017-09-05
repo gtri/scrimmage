@@ -35,12 +35,10 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/entity/Contact.h>
 
 #include <list>
 #include <map>
 #include <memory>
-#include <unordered_map>
 #include <string>
 
 namespace scrimmage_proto {

@@ -30,13 +30,15 @@
  *
  */
 
-
 #include <pybind11/pybind11.h>
+
 #include <py_utils.h>
+
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/Network.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
@@ -47,7 +49,7 @@ void add_autonomy(pybind11::module &m) {
     py::class_<sc::Plugin, std::shared_ptr<sc::Plugin>> plugin(m, "Plugin");
     plugin.def(py::init<>())
         .def("name", &sc::Plugin::name)
-        .def("type", &sc::Plugin::type)        
+        .def("type", &sc::Plugin::type)
         .def_property("network", &sc::Plugin::network, &sc::Plugin::set_network)
         .def_property("pubs", &sc::Plugin::pubs, &sc::Plugin::set_pubs)
         .def_property("subs", &sc::Plugin::subs, &sc::Plugin::set_subs)
@@ -58,9 +60,9 @@ void add_autonomy(pybind11::module &m) {
 
     py::class_<sc::Autonomy, std::shared_ptr<sc::Autonomy>>(m, "Autonomy", plugin)
         .def(py::init<>())
-        .def_property("desired_state", &sc::Autonomy::desired_state, &sc::Autonomy::set_desired_state)                
+        .def_property("desired_state", &sc::Autonomy::desired_state, &sc::Autonomy::set_desired_state)
         .def("name", &sc::Autonomy::name)
-        .def("type", &sc::Autonomy::type)        
+        .def("type", &sc::Autonomy::type)
         .def("step_autonomy", &sc::Autonomy::step_autonomy)
         .def("get_contacts", &sc::Autonomy::get_contacts_raw)
         .def("shapes", &sc::Autonomy::shapes); // TODO, anyone using shapes in Python yet?

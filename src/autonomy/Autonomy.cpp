@@ -31,9 +31,11 @@
  */
 
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/State.h>
 
 #include <memory>
+#include <unordered_map>
 
 #include <GeographicLib/LocalCartesian.hpp>
 
