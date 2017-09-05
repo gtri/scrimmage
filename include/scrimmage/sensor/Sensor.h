@@ -35,7 +35,10 @@
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/Message.h>
+
+#if ENABLE_GRPC == 1
 #include <scrimmage/proto/ExternalControl.pb.h>
+#endif
 
 #include <map>
 #include <memory>
@@ -52,10 +55,13 @@ class Sensor : public Plugin {
     virtual std::string name();
     virtual std::string type();
 
-    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
     virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+
+#if ENABLE_GRPC == 1
+    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
     virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
         sensor_msg_flat(double t);
+#endif
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting) */
     template <class T = MessageBase,

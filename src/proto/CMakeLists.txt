@@ -16,8 +16,9 @@ file(GLOB PROTO_FILE_LIST
 set(GEN_DIR ${CMAKE_CURRENT_BINARY_DIR})
 file(MAKE_DIRECTORY ${GEN_DIR}/scrimmage/proto)
 
-if (NOT GRPC_FOUND)
-  list(REMOVE_ITEM PROTO_FILE_LIST "Scrimmage.proto")
+if (NOT GRPC_FOUND OR NOT EXTERNAL)
+  list(REMOVE_ITEM PROTO_FILE_LIST "scrimmage/proto/Scrimmage.proto")
+  list(REMOVE_ITEM PROTO_FILE_LIST "scrimmage/proto/ExternalControl.proto")
 endif()
 
 foreach(PROTO_FILE ${PROTO_FILE_LIST})    

@@ -48,10 +48,12 @@ class NoisyContacts : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+
+#if ENABLE_GRPC == 1
     virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
     virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
         sensor_msg_flat(double t);
-
+#endif
 
  protected:
     std::shared_ptr<std::default_random_engine> gener_;

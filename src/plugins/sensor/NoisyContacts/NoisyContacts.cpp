@@ -138,6 +138,7 @@ boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t) {
     return boost::optional<sc::MessageBasePtr>(msg);
 }
 
+#if ENABLE_GRPC == 1
 boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
 NoisyContacts::sensor_msg_flat(double t) {
     auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
@@ -191,3 +192,4 @@ boost::optional<scrimmage_proto::SpaceParams> NoisyContacts::observation_space_p
 
     return space_params;
 }
+#endif

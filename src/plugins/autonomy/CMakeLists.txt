@@ -6,6 +6,10 @@ if (NOT ENABLE_PYTHON_BINDINGS)
     list(REMOVE_ITEM SUBDIRS PyAutonomy)
 endif() 
 
+if (NOT ENABLE_GRPC)
+    list(REMOVE_ITEM SUBDIRS ExternalControl)
+endif() 
+
 FOREACH(subdir ${SUBDIRS})
   ADD_SUBDIRECTORY(${subdir})
 ENDFOREACH()
