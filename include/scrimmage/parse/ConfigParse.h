@@ -33,13 +33,18 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
 #define INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
 
-#include <scrimmage/common/FileSearch.h>
-
 #include <map>
 #include <vector>
 #include <string>
 
+namespace rapidxml {
+template <class T> class xml_node;
+}
+
 namespace scrimmage {
+
+class FileSearch;
+
 class ConfigParse {
  public:
     ConfigParse();
@@ -58,6 +63,11 @@ class ConfigParse {
     std::map<std::string, std::string> params_;
     std::vector<std::string> required_;
     std::string filename_;
+
+    void recursive_params(rapidxml::xml_node<char> *root,
+        std::map<std::string, std::string> &overrides,
+        std::map<std::string, std::string> &params,
+        std::string prev);
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_

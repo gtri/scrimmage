@@ -63,13 +63,14 @@
 #include <vtkPlaneSource.h>
 #include <vtkRegularPolygonSource.h>
 
-#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/Updater.h>
 
 #include <iostream>
 

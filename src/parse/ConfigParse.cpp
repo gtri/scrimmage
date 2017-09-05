@@ -30,8 +30,9 @@
  *
  */
 
-#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/parse/ConfigParse.h>
 
 #include <iostream>
 #include <fstream>
@@ -42,6 +43,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
+#include <boost/algorithm/string.hpp>
 
 #include <rapidxml/rapidxml.hpp>
 
@@ -59,10 +61,10 @@ void ConfigParse::set_required(std::string node_name) {
     required_.push_back(node_name);
 }
 
-void recursive_params(rx::xml_node<> *root,
-                      std::map<std::string, std::string> &overrides,
-                      std::map<std::string, std::string> &params,
-                      std::string prev) {
+void ConfigParse::recursive_params(rx::xml_node<char> *root,
+        std::map<std::string, std::string> &overrides,
+        std::map<std::string, std::string> &params,
+        std::string prev) {
     // End condition
     if (root == 0 || root->name() == std::string("")
         || root->name() == std::string(" ")) {
@@ -102,10 +104,14 @@ void recursive_params(rx::xml_node<> *root,
 }
 
 bool ConfigParse::parse(std::map<std::string, std::string> &overrides,
-                        std::string filename, std::string env_var, FileSearch &file_search, bool verbose) {
+        std::string filename, std::string env_var,
+        FileSearch &file_search, bool verbose) {
+
     bool status = file_search.find_file(filename, "xml", env_var, filename, verbose);
     if (!status) {
-        cout << "Failed to find config: " << filename << endl;
+        if (boost::to_upper_copy(filename) != "SPHERE") {
+            cout << "Failed to find config: " << filename << endl;
+        }
         return false;
     } else if (verbose) {
         cout << "ConfigParse: found " << filename << std::endl;
