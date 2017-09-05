@@ -34,12 +34,10 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "com.syllo.scrimmage";
 
-import "google/protobuf/empty.proto";
-
 package scrimmage_proto;
 
 service ExternalControl {
-  rpc SendEnvironment (Environment) returns (google.protobuf.Empty) {}
+  rpc SendEnvironment (Environment) returns (Empty) {}
   rpc SendActionResult (ActionResult) returns (Action) {}
 }
 
@@ -76,3 +74,5 @@ message Action {
     repeated double continuous = 2;
     bool done = 3;
 }
+
+message Empty {}

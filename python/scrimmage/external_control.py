@@ -12,7 +12,6 @@ import numpy as np
 import queue
 import grpc
 from concurrent import futures
-import google.protobuf.empty_pb2
 
 import gym
 import gym.spaces
@@ -188,7 +187,7 @@ class ExternalControl(ExternalControl_pb2_grpc.ExternalControlServicer):
     def SendEnvironment(self, env, context):
         """Receive Environment proto and send back an action."""
         self.queues['env'].put(env)
-        return google.protobuf.empty_pb2.Empty()
+        return ExternalControl_pb2.Empty_pb2()
 
     def SendActionResult(self, action_result, context):
         """Receive ActionResult proto and send back an action."""

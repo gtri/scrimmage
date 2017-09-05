@@ -42,7 +42,7 @@ namespace sp = scrimmage_proto;
 bool ExternalControlClient::send_environment(
         scrimmage_proto::Environment &env, scrimmage::StatePtr state) {
 
-    google::protobuf::Empty reply;
+    sp::Empty reply;
     grpc::ClientContext context;
     grpc::Status status = stub_->SendEnvironment(&context, env, &reply);
     return status.ok();
