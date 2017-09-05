@@ -3,5 +3,7 @@
 <params>
   <library>Unicycle_plugin</library>  
   <turn_rate_max>1</turn_rate_max>
+  <pitch_rate_max>1</pitch_rate_max>
   <vel_max>1</vel_max>
+  <enable_roll>false</enable_roll>
 </params>

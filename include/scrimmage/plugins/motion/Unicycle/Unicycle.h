@@ -52,13 +52,15 @@ class Unicycle : public scrimmage::MotionModel {
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector2d &u() = 0;
+        virtual Eigen::Vector3d &u() = 0;
     };
 
  protected:
-    Eigen::Vector2d ctrl_u_;
+    Eigen::Vector3d ctrl_u_;
     double turn_rate_max_;
+    double pitch_rate_max_;
     double vel_max_;
+    bool enable_roll_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_

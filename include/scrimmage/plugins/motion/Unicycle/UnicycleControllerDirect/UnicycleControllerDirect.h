@@ -42,12 +42,12 @@ class UnicycleControllerDirect : public Unicycle::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector2d &u() {return u_;}
+    virtual Eigen::Vector3d &u() {return u_;}
 
  protected:
     double l_;
     double gain_;
-    Eigen::Vector2d u_;
+    Eigen::Vector3d u_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLECONTROLLERDIRECT_UNICYCLECONTROLLERDIRECT_H_

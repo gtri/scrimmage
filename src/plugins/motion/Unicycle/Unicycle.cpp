@@ -48,19 +48,26 @@ namespace pl = std::placeholders;
 enum ModelParams {
     X = 0,
     Y,
-    THETA,
+    Z,
+    YAW,
+    PITCH,
     MODEL_NUM_ITEMS
 };
 
 bool Unicycle::init(std::map<std::string, std::string> &info,
-                            std::map<std::string, std::string> &params) {
+                    std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
-    x_[THETA] = state_->quat().yaw();
+    x_[Z] = state_->pos()(2);
+    x_[YAW] = state_->quat().yaw();
+    x_[PITCH] = state_->quat().pitch();
 
     turn_rate_max_ = std::stod(params.at("turn_rate_max"));
+    pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
     vel_max_ = std::stod(params.at("vel_max"));
+    enable_roll_ = sc::get<bool>("enable_roll", params, false);
+    
     return true;
 }
 
@@ -69,27 +76,40 @@ bool Unicycle::step(double t, double dt) {
 
     double prev_x = x_[X];
     double prev_y = x_[Y];
+    double prev_z = x_[Z];
 
     ode_step(dt);
 
     double dx = (x_[X] - prev_x) / dt;
     double dy = (x_[Y] - prev_y) / dt;
+    double dz = (x_[Z] - prev_z) / dt;
 
     state_->vel()(0) = dx;
     state_->vel()(1) = dy;
+    state_->vel()(2) = dz;
 
     state_->pos()(0) = x_[X];
     state_->pos()(1) = x_[Y];
-
-    state_->quat().set(0, 0, x_[THETA]);
+    state_->pos()(2) = x_[Z];
+    
+    double roll = 0; // TODO: simulate roll if enabled
+    state_->quat().set(roll, -x_[PITCH], x_[YAW]);
 
     return true;
 }
 
+using std::cout;
+using std::endl;
+
 void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
     double vel = boost::algorithm::clamp(ctrl_u_(0), -vel_max_, vel_max_);
     double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
-    dxdt[X] = vel * cos(x[THETA]);
-    dxdt[Y] = vel * sin(x[THETA]);
-    dxdt[THETA] = yaw_rate;
+    double pitch_rate = boost::algorithm::clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
+
+    double xy_speed = vel * cos(x[PITCH]);    
+    dxdt[X] = xy_speed * cos(x[YAW]);
+    dxdt[Y] = xy_speed * sin(x[YAW]);
+    dxdt[Z] = vel * sin(x[PITCH]);
+    dxdt[YAW] = yaw_rate;
+    dxdt[PITCH] = pitch_rate;
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>SimpleCaptureMetrics_plugin</library>
+
+  <!-- weights for scoring function -->
+  <TeamCapture_weight>1.0</TeamCapture_weight>
+  <NonTeamCapture_weight>1.0</NonTeamCapture_weight>
+  
+</params>

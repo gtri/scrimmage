@@ -42,8 +42,10 @@ public:
     virtual bool step_autonomy(double t, double dt);
 protected:
     int follow_id_;
+    int prey_team_id_;
     double max_speed_;
     double capture_range_;
+    bool allow_prey_switching_;
     scrimmage::PublisherPtr capture_ent_pub_;
 private:     
 };

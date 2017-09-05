@@ -48,8 +48,13 @@ bool UnicycleControllerPoint::step(double t, double dt) {
 
     double th = state_->quat().yaw();
 
+    // TODO: Extend from 2D to 3D point controller
     Eigen::Matrix2d M;
     M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
-    u_ = M * des_vel;
+    Eigen::Vector2d u_2d = M * des_vel;    
+    u_(0) = u_2d(0);
+    u_(1) = u_2d(1);
+    u_(2) = 0;
+    
     return true;
 }

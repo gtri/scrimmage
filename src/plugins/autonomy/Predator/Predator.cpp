@@ -58,7 +58,10 @@ void Predator::init(std::map<std::string,std::string> &params)
 {
     max_speed_ = sc::get<double>("max_speed", params, 21);
     capture_range_ = sc::get<double>("capture_range", params, 5);
+    prey_team_id_ = sc::get<int>("prey_team_id", params, 1);
 
+    allow_prey_switching_ = sc::get<bool>("allow_prey_switching", params, false);
+    
     capture_ent_pub_ = create_publisher("CaptureEntity");
 
     follow_id_ = -1;
@@ -74,13 +77,14 @@ bool Predator::step_autonomy(double t, double dt)
         follow_id_ = -1;
     }
 
-    if (follow_id_ < 0) {
+    if (follow_id_ < 0 || allow_prey_switching_) {
         // Find nearest entity on other team. Loop through each contact, calculate
         // distance to entity, save the ID of the entity that is closest.
         double min_dist = std::numeric_limits<double>::infinity();
         for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-            // Skip if this contact is on the same team
-            if (it->second.id().team_id() == parent_->id().team_id()) continue;
+            // Skip if this contact isn't on team 1 (prey)
+            //if (it->second.id().team_id() == parent_->id().team_id()) continue;
+            if (it->second.id().team_id() != prey_team_id_) continue;
 
             // Calculate distance to entity
             double dist = (it->second.state()->pos() - state_->pos()).norm();
@@ -115,17 +119,15 @@ bool Predator::step_autonomy(double t, double dt)
         // Get a reference to the entity's state.
         sc::StatePtr ent_state = contacts_->at(follow_id_).state();
 
-        //desired_state_->vel() << Eigen::Vector3d::UnitX()*(ent_state->vel().norm()+1);
-
-        // Calculate the required heading to follow the other entity
-        double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
-                               ent_state->pos()(0) - state_->pos()(0));
-
-        // Set the heading
-        desired_state_->quat().set(0, 0, heading); // roll, pitch, heading
-
-        // Match entity's altitude
-        desired_state_->pos()(2) = ent_state->pos()(2);
+        // Calculate max velocity towards target entity:
+        Eigen::Vector3d v = (ent_state->pos() - state_->pos()).normalized() * max_speed_;
+        
+        // Convert to spherical coordinates:
+        double desired_heading = atan2(v(1), v(0));
+        double desired_pitch = atan2(v(2), v.head<2>().norm());
+        desired_state_->vel()(0) = max_speed_;
+        desired_state_->vel()(1) = sc::Angles::angle_pi(desired_heading - state_->quat().yaw());
+        desired_state_->vel()(2) = sc::Angles::angle_pi(desired_pitch + state_->quat().pitch());
     }
 
     return true;

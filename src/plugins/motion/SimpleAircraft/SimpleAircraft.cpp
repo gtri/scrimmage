@@ -144,8 +144,8 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[X] = xy_speed*cos(x[YAW]);
     dxdt[Y] = xy_speed*sin(x[YAW]);
     dxdt[Z] = -sin(x[PITCH])*x[SPEED];
-    dxdt[ROLL] = roll_rate/2;
-    dxdt[PITCH] = pitch_rate/2;
+    dxdt[ROLL] = roll_rate;
+    dxdt[PITCH] = pitch_rate;
     dxdt[YAW] = x[SPEED]/length_*tan(x[ROLL]);
 
     dxdt[SPEED] = thrust/5;

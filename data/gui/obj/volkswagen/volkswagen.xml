@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <model>volkswagen.obj</model>
-  <visual_scale>0.442267991</visual_scale>
+  <!--<visual_scale>0.442267991</visual_scale>-->
+  <visual_scale>0.1</visual_scale>
   <visual_rpy>90 270 0</visual_rpy>
 </params>

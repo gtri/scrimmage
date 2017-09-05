@@ -215,15 +215,8 @@ bool Boids::step_autonomy(double t, double dt)
     Eigen::Vector3d vel_result = v_sum * max_speed_;
     
     if (rtree_neighbors.size() > 0) {
-        // Forward speed is normed value of vector:
-        desired_state_->vel()(0) = vel_result.norm();
 
-        // Desired heading
-        double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
-        desired_state_->quat().set(0, 0, heading);
-
-        // Set Desired Altitude by projecting velocity
-        desired_state_->pos()(2) = state_->pos()(2) + vel_result(2);
+        velocity_controller(vel_result);        
 
         if (show_shapes_) {
             sc::ShapePtr shape(new scrimmage_proto::Shape);
@@ -243,7 +236,19 @@ bool Boids::step_autonomy(double t, double dt)
             sc::add_point(arrow, vel_result + state_->pos());
             shapes_.push_back(arrow);
         }        
-    }
-
+    } else {
+        velocity_controller(v_goal);
+    }   
     return true;
+}
+
+
+void Boids::velocity_controller(Eigen::Vector3d &v)
+{
+    // Convert to spherical coordinates:
+    double desired_heading = atan2(v(1), v(0));
+    double desired_pitch = atan2(v(2), v.head<2>().norm());
+    desired_state_->vel()(0) = max_speed_;
+    desired_state_->vel()(1) = sc::Angles::angle_pi(desired_heading - state_->quat().yaw());
+    desired_state_->vel()(2) = sc::Angles::angle_pi(desired_pitch + state_->quat().pitch());
 }

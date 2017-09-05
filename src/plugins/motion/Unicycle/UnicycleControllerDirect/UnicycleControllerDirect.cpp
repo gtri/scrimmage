@@ -40,5 +40,6 @@ REGISTER_PLUGIN(scrimmage::Controller,
 bool UnicycleControllerDirect::step(double t, double dt) {
     u_(0) = desired_state_->vel()(0);
     u_(1) = desired_state_->vel()(1);
+    u_(2) = desired_state_->vel()(2);
     return true;
 }

@@ -96,18 +96,30 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         int source_id = msg->data.source_id();
         int target_id = msg->data.target_id();
         sc::EntityPtr src = int_to_ent_map[source_id];
-        sc::EntityPtr dst = int_to_ent_map[target_id];
-
-        //cout << source_id << " try to capture " << target_id << endl;
+        sc::EntityPtr dst = int_to_ent_map[target_id];        
         
         if ((src->state()->pos() - dst->state()->pos()).norm() <=
             capture_range_) {
             if (enable_team_captures_ &&
                 src->id().team_id() == dst->id().team_id()) {
                 dst->collision();
+
+                auto msg = std::make_shared<sc::Message<sm::TeamCapture>>();
+                msg->data.set_source_id(src->id().id());
+                msg->data.set_target_id(dst->id().id());
+                team_capture_pub_->publish(msg, t);
+                
             } else if (enable_non_team_captures_ &&
                        src->id().team_id() != dst->id().team_id()) {
                 dst->collision();
+
+                //cout << "TEAM ID - " << src->id().team_id()  << ", "
+                //     << source_id << " try to capture " << target_id << endl;
+                
+                auto msg = std::make_shared<sc::Message<sm::NonTeamCapture>>();
+                msg->data.set_source_id(src->id().id());
+                msg->data.set_target_id(dst->id().id());
+                non_team_capture_pub_->publish(msg, t);
             }
         }
     }

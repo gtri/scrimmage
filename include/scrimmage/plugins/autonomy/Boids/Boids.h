@@ -44,6 +44,9 @@ class Boids : public scrimmage::Autonomy{
      virtual bool step_autonomy(double t, double dt);
 
  protected:
+
+     void velocity_controller(Eigen::Vector3d &v);
+     
      bool show_shapes_;
      double max_speed_;
      
