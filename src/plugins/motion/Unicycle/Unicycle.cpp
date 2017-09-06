@@ -98,9 +98,6 @@ bool Unicycle::step(double t, double dt) {
     return true;
 }
 
-using std::cout;
-using std::endl;
-
 void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
     double vel = boost::algorithm::clamp(ctrl_u_(0), -vel_max_, vel_max_);
     double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
