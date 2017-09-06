@@ -34,7 +34,7 @@ RUN ./setup/install-binaries.sh -e 0 -p 3
 # Build 3rd-party dependencies
 RUN mkdir -p 3rd-party/build
 WORKDIR /root/scrimmage/3rd-party/build
-RUN /bin/bash -c "cmake .. -G Ninja && source ~/.scrimmage/setup.bash && ninja"
+RUN /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
 
 # build 3rd party python protobuf
 WORKDIR /root/scrimmage/3rd-party/build/src/protobuf/python
