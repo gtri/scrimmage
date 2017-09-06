@@ -197,7 +197,7 @@ class External {
 
                 auto sc_req_base = std::dynamic_pointer_cast<scrimmage::MessageBase>(sc_req);
                 if (sc_req_base == nullptr) {
-                    err_msg("could not cast scrimmage request to scrimmage::MessageBasePtr");
+                    err_msg("could not cast scrimmage request scrimmage::MessageBasePtr");
                     return false;
                 }
 
@@ -273,8 +273,7 @@ class External {
                     std::dynamic_pointer_cast<scrimmage::Message<ScrimmageRequestType>>(sc_req);
                 if (!sc_req_cast) {
                     std::stringstream ss;
-                    ss << "could not cast to scrimmage::MessagePtr<ScrimmageRequestType> "
-                        << "(aka, scrimmage::MessagePtr<"
+                    ss << "could not cast scrimmage::MessageBase request to scrimmage::MessagePtr<"
                         << boost::typeindex::type_id<ScrimmageRequestType>().pretty_name()
                         << ">)";
                     err_msg(ss.str());
