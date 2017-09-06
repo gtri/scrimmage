@@ -9,29 +9,68 @@ MAINTAINER Kevin DeMarco
 RUN mkdir -p /root/scrimmage
 COPY ./ /root/scrimmage/
 
-WORKDIR /root/scrimmage
+WORKDIR /root
+
+# this is for openai gym
+# not installed as part of 3rd-party building 
+# so as not to confuse python environments
+# see here for installation commands:
+# https://github.com/openai/gym#installing-everything
+RUN apt-get update && apt-get install -y python3-pip python3-numpy python3-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python3-opengl libboost-all-dev libsdl2-dev swig
+RUN apt-get update && apt-get install -y git ninja-build
+RUN git clone https://github.com/openai/gym
+WORKDIR /root/gym
+RUN pip3 install -e '.[all]'
+WORKDIR /root
+
+# these are only used for static analysis of the code
+RUN apt-get update && apt-get install -y cppcheck python3-pytest python3-pip
+RUN pip3 install cpplint
 
 # Install dependencies provided by package manager
-RUN ./setup/install-binaries.sh
+WORKDIR /root/scrimmage
+RUN ./setup/install-binaries.sh -e 0 -p 3
 
 # Build 3rd-party dependencies
-RUN /bin/bash -c "cd 3rd-party && \
-    mkdir -p build && \
-    cd build && \
-    cmake .. && \
-    source ~/.scrimmage/setup.bash && \
-    make"
+RUN mkdir -p 3rd-party/build
+WORKDIR /root/scrimmage/3rd-party/build
+RUN /bin/bash -c "cmake .. -G Ninja && source ~/.scrimmage/setup.bash && ninja"
+
+# build 3rd party python protobuf
+WORKDIR /root/scrimmage/3rd-party/build/src/protobuf/python
+RUN python3 setup.py build
+RUN python3 setup.py install
+
+# build 3rd party python grpc 
+WORKDIR /root/scrimmage/3rd-party/build/src/grpc
+RUN pip3 install -rrequirements.txt
+RUN GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
+
+RUN pip3 uninstall -y futures
+
+# Run static analysis tests
+WORKDIR /root/scrimmage
+RUN py3clean -v .
+RUN py.test-3 test/test_cppcheck.py
+RUN echo "the following test is optional but will check for style"
+RUN python3 test/test_cpplint.py
 
 # Build scrimmage core, plugins, and documentation
 RUN /bin/bash -c "mkdir -p build && \
     cd build && \
-    cmake .. -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
+    cmake .. -G Ninja -DPYTHON_MIN_VERSION=3.0 -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
     source ~/.scrimmage/setup.bash && \
-    make && \
-    make docs"
+    ninja && \
+    ninja docs"
 
-# Run tests
+# run tests
 RUN /bin/bash -c "cd build && \
     source ~/.scrimmage/setup.bash && \
-    make test && \
+    ninja test && \
     scrimmage ../missions/straight-no-gui.xml"
+
+# install python package and run tests
+WORKDIR /root/scrimmage/python
+RUN pip3 install -e .
+WORKDIR /root/scrimmage
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"
