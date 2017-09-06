@@ -29,23 +29,19 @@
  * A Long description goes here.
  *
  */
-#include <iostream>
+
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/Boids/Boids.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
-#include <scrimmage/plugins/autonomy/Boids/Boids.h>
-
 namespace sc = scrimmage;
-
-using std::cout;
-using std::endl;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, Boids, Boids_plugin)
 
@@ -53,9 +49,9 @@ void Boids::init(std::map<std::string, std::string> &params) {
 
     show_shapes_ = sc::get("show_shapes", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
-    
+
     w_align_ = sc::get("align_weight", params, 0.01);
-    w_avoid_team_ = sc::get("avoid_team_weight", params, 0.95);    
+    w_avoid_team_ = sc::get("avoid_team_weight", params, 0.95);
     w_centroid_ = sc::get("centroid_weight", params, 0.05);
 
     w_avoid_nonteam_ = sc::get("avoid_nonteam_weight", params, 1.0);
@@ -66,7 +62,7 @@ void Boids::init(std::map<std::string, std::string> &params) {
     sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
     minimum_team_range_ = sc::get<double>("minimum_team_range", params, 5);
     minimum_nonteam_range_ = sc::get<double>("minimum_nonteam_range", params, 10);
-    
+
     w_goal_ = sc::get<double>("goal_weight", params, 1.0);
 
     if (sc::get("use_initial_heading", params, false)) {
@@ -86,10 +82,9 @@ void Boids::init(std::map<std::string, std::string> &params) {
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 }
 
-bool Boids::step_autonomy(double t, double dt)
-{
+bool Boids::step_autonomy(double t, double dt) {
     shapes_.clear();
-    
+
     // Find neighbors that are within field-of-view and within comms range
     std::vector<sc::ID> rtree_neighbors;
     rtree_->neighbors_in_range(state_->pos_const(), rtree_neighbors, comms_range_);
@@ -111,22 +106,22 @@ bool Boids::step_autonomy(double t, double dt)
 
     // move-to-goal behavior
     Eigen::Vector3d v_goal = (goal_ - state_->pos()).normalized();
-    
+
     // Steer to avoid local neighbors
     // Align with neighbors
     // Cohesion: move towards average position of neighbors
     // (i.e., Find centroid of neighbors)
     double heading = 0;
-    Eigen::Vector3d align(0,0,0);
-    Eigen::Vector3d centroid(0,0,0);
+    Eigen::Vector3d align(0, 0, 0);
+    Eigen::Vector3d centroid(0, 0, 0);
 
     // Compute repulsion vector from each robot (team/nonteam)
     std::vector<Eigen::Vector3d> O_team_vecs;
     std::vector<Eigen::Vector3d> O_nonteam_vecs;
 
-    for (sc::ID id : rtree_neighbors) {        
+    for (sc::ID id : rtree_neighbors) {
         bool is_team = (id.team_id() == parent_->id().team_id());
-                
+
         sc::StatePtr other_state = (*contacts_)[id.id()].state();
 
         // Calculate vector pointing from own position to other
@@ -149,23 +144,23 @@ bool Boids::step_autonomy(double t, double dt)
         Eigen::Vector3d O_dir = - O_mag * diff.normalized();
         if (is_team) {
             O_team_vecs.push_back(O_dir);
-        } else {            
+        } else {
             O_nonteam_vecs.push_back(O_dir);
-        }               
-        
+        }
+
         // Calculate centroid of team members and heading alignment
         if (is_team) {
             centroid = centroid + other_state->pos();
             align += other_state->vel().normalized();
             heading += other_state->quat().yaw();
-        }                        
+        }
     }
 
-    Eigen::Vector3d align_vec(0,0,0);
+    Eigen::Vector3d align_vec(0, 0, 0);
     if (rtree_neighbors.size() > 0) {
         centroid = centroid / static_cast<double>(rtree_neighbors.size());
         align = align / static_cast<double>(rtree_neighbors.size());
-        heading /= static_cast<double>(rtree_neighbors.size());        
+        heading /= static_cast<double>(rtree_neighbors.size());
         align_vec << cos(heading), sin(heading), 0;
     }
 
@@ -177,7 +172,7 @@ bool Boids::step_autonomy(double t, double dt)
         v_align_normed = Eigen::Vector3d::Zero();
         v_align_norm = 0;
     }
-    
+
     // Normalize each team repulsion vector and sum
     Eigen::Vector3d O_team_vec(0, 0, 0);
     for (Eigen::Vector3d v : O_team_vecs) {
@@ -200,7 +195,7 @@ bool Boids::step_autonomy(double t, double dt)
     Eigen::Vector3d v_goal_w_gain = v_goal * w_goal_;
     Eigen::Vector3d O_team_vec_w_gain = O_team_vec * w_avoid_team_;
     Eigen::Vector3d O_nonteam_vec_w_gain = O_nonteam_vec * w_avoid_nonteam_;
-    Eigen::Vector3d v_centroid_w_gain = (centroid - state_->pos()).normalized() * w_centroid_;    
+    Eigen::Vector3d v_centroid_w_gain = (centroid - state_->pos()).normalized() * w_centroid_;
     Eigen::Vector3d v_align_w_gain = v_align_normed * w_align_;
 
     double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() +
@@ -213,10 +208,10 @@ bool Boids::step_autonomy(double t, double dt)
 
     // Scale velocity to max speed:
     Eigen::Vector3d vel_result = v_sum * max_speed_;
-    
+
     if (rtree_neighbors.size() > 0) {
 
-        velocity_controller(vel_result);        
+        velocity_controller(vel_result);
 
         if (show_shapes_) {
             sc::ShapePtr shape(new scrimmage_proto::Shape);
@@ -235,16 +230,15 @@ bool Boids::step_autonomy(double t, double dt)
             sc::add_point(arrow, state_->pos());
             sc::add_point(arrow, vel_result + state_->pos());
             shapes_.push_back(arrow);
-        }        
+        }
     } else {
         velocity_controller(v_goal);
-    }   
+    }
     return true;
 }
 
 
-void Boids::velocity_controller(Eigen::Vector3d &v)
-{
+void Boids::velocity_controller(Eigen::Vector3d &v) {
     // Convert to spherical coordinates:
     double desired_heading = atan2(v(1), v(0));
     double desired_pitch = atan2(v(2), v.head<2>().norm());

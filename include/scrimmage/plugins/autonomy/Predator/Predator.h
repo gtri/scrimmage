@@ -30,24 +30,26 @@
  *
  */
 
-#ifndef Predator_H_
-#define Predator_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PREDATOR_PREDATOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PREDATOR_PREDATOR_H_
+
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Publisher.h>
+
+#include <map>
+#include <string>
 
 class Predator : public scrimmage::Autonomy {
-public:
-    Predator();
-    virtual void init(std::map<std::string,std::string> &params);
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
-protected:
+
+ protected:
     int follow_id_;
     int prey_team_id_;
     double max_speed_;
     double capture_range_;
     bool allow_prey_switching_;
     scrimmage::PublisherPtr capture_ent_pub_;
-private:     
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PREDATOR_PREDATOR_H_

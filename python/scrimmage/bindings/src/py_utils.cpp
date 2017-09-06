@@ -32,11 +32,15 @@
 
 
 #include <pybind11/pybind11.h>
+
 #include <Eigen/Dense>
+
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Log.h>
 #include <py_utils.h>
+
 #include <string>
 
 namespace py = pybind11;

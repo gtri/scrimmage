@@ -52,8 +52,7 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCollision,
                 SimpleCollision_plugin)
 
 bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
-                           std::map<std::string, std::string> &plugin_params)
-{
+                           std::map<std::string, std::string> &plugin_params) {
     collision_range_ = sc::get("collision_range", plugin_params, 0.0);
     startup_collisions_only_ = sc::get("startup_collisions_only", plugin_params, false);
 
@@ -71,8 +70,7 @@ bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
 
 
 bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt)
-{
+                                              double t, double dt) {
     if (startup_collisions_only_) {
         return true;
     }

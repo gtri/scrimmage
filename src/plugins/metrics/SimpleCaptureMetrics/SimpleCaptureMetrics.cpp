@@ -30,9 +30,6 @@
  *
  */
 
-#include <iostream>
-#include <limits>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -47,6 +44,9 @@
 
 #include <scrimmage/plugins/metrics/SimpleCaptureMetrics/SimpleCaptureMetrics.h>
 
+#include <iostream>
+#include <limits>
+
 using std::cout;
 using std::endl;
 
@@ -55,20 +55,14 @@ namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::Metrics, SimpleCaptureMetrics, SimpleCaptureMetrics_plugin)
 
-SimpleCaptureMetrics::SimpleCaptureMetrics()
-{
-}
-
-void SimpleCaptureMetrics::init(std::map<std::string,std::string> &params)
-{
+void SimpleCaptureMetrics::init(std::map<std::string, std::string> &params) {
     params_ = params;
-    
+
     team_capture_sub_ = create_subscriber("TeamCapture");
     nonteam_capture_sub_ = create_subscriber("NonTeamCapture");
 }
 
-bool SimpleCaptureMetrics::step_metrics(double t, double dt)
-{
+bool SimpleCaptureMetrics::step_metrics(double t, double dt) {
     for (auto msg : team_capture_sub_->msgs<sc::Message<sm::TeamCapture>>()) {
         scores_[msg->data.source_id()].increment_count("TeamCapture");
     }
@@ -78,13 +72,12 @@ bool SimpleCaptureMetrics::step_metrics(double t, double dt)
     return true;
 }
 
-void SimpleCaptureMetrics::calc_team_scores()
-{
+void SimpleCaptureMetrics::calc_team_scores() {
     for (auto &kv : scores_) {
         Score &score = kv.second;
-    
+
         int team_id = (*team_lookup_)[kv.first];
-    
+
         // Create the score, if necessary
         if (team_scores_map_.count(team_id) == 0) {
             Score score;
@@ -92,8 +85,8 @@ void SimpleCaptureMetrics::calc_team_scores()
             team_scores_map_[team_id] = score;
         }
 
-        team_scores_map_[team_id].add_count("TeamCapture", score.count("TeamCapture"));                
-        team_scores_map_[team_id].add_count("NonTeamCapture", score.count("NonTeamCapture"));        
+        team_scores_map_[team_id].add_count("TeamCapture", score.count("TeamCapture"));
+        team_scores_map_[team_id].add_count("NonTeamCapture", score.count("NonTeamCapture"));
     }
 
     for (auto &kv : team_scores_map_) {
@@ -111,16 +104,15 @@ void SimpleCaptureMetrics::calc_team_scores()
     headers_.push_back("NonTeamCapture");
 }
 
-void SimpleCaptureMetrics::print_team_summaries()
-{    
+void SimpleCaptureMetrics::print_team_summaries() {
     for (auto kv : team_scores_map_) {
         int team_id = kv.first;
         Score &score = kv.second;
 
         cout << "Team ID: " << team_id << endl;
-        cout << "Score: " << score.score() << endl;        
+        cout << "Score: " << score.score() << endl;
         cout << "Team Captures: " << score.count("TeamCapture") << endl;
         cout << "Non Team Captures: " << score.count("NonTeamCapture") << endl;
-        cout << sc::generate_chars("-",70) << endl;
+        cout << sc::generate_chars("-", 70) << endl;
     }
 }

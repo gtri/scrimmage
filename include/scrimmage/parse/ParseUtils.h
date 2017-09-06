@@ -44,7 +44,7 @@
 
 namespace scrimmage {
 
-class FileSearch; 
+class FileSearch;
 class ConfigParse;
 
 std::string expand_user(std::string path);

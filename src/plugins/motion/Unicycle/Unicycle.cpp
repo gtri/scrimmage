@@ -67,7 +67,7 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
     pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
     vel_max_ = std::stod(params.at("vel_max"));
     enable_roll_ = sc::get<bool>("enable_roll", params, false);
-    
+
     return true;
 }
 
@@ -91,7 +91,7 @@ bool Unicycle::step(double t, double dt) {
     state_->pos()(0) = x_[X];
     state_->pos()(1) = x_[Y];
     state_->pos()(2) = x_[Z];
-    
+
     double roll = 0; // TODO: simulate roll if enabled
     state_->quat().set(roll, -x_[PITCH], x_[YAW]);
 
@@ -106,7 +106,7 @@ void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
     double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
     double pitch_rate = boost::algorithm::clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
 
-    double xy_speed = vel * cos(x[PITCH]);    
+    double xy_speed = vel * cos(x[PITCH]);
     dxdt[X] = xy_speed * cos(x[YAW]);
     dxdt[Y] = xy_speed * sin(x[YAW]);
     dxdt[Z] = vel * sin(x[PITCH]);

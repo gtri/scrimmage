@@ -30,50 +30,40 @@
  *
  */
 
-#include <iostream>
-#include <limits>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/msgs/Capture.pb.h>
-
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugins/autonomy/Predator/Predator.h>
 
-using std::cout;
-using std::endl;
+#include <limits>
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, Predator, Predator_plugin)
 
-Predator::Predator()
-{
-}
-
-void Predator::init(std::map<std::string,std::string> &params)
-{
+void Predator::init(std::map<std::string, std::string> &params) {
     max_speed_ = sc::get<double>("max_speed", params, 21);
     capture_range_ = sc::get<double>("capture_range", params, 5);
     prey_team_id_ = sc::get<int>("prey_team_id", params, 1);
 
     allow_prey_switching_ = sc::get<bool>("allow_prey_switching", params, false);
-    
+
     capture_ent_pub_ = create_publisher("CaptureEntity");
 
     follow_id_ = -1;
 
     desired_state_->vel() = Eigen::Vector3d::UnitX()*max_speed_;
-    desired_state_->quat().set(0,0,state_->quat().yaw());
+    desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 }
 
-bool Predator::step_autonomy(double t, double dt)
-{
+bool Predator::step_autonomy(double t, double dt) {
     if (contacts_->count(follow_id_) == 0) {
         follow_id_ = -1;
     }
@@ -84,7 +74,7 @@ bool Predator::step_autonomy(double t, double dt)
         double min_dist = std::numeric_limits<double>::infinity();
         for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
             // Skip if this contact isn't on team 1 (prey)
-            //if (it->second.id().team_id() == parent_->id().team_id()) continue;
+            // if (it->second.id().team_id() == parent_->id().team_id()) continue;
             if (it->second.id().team_id() != prey_team_id_) continue;
 
             // Calculate distance to entity
@@ -122,7 +112,7 @@ bool Predator::step_autonomy(double t, double dt)
 
         // Calculate max velocity towards target entity:
         Eigen::Vector3d v = (ent_state->pos() - state_->pos()).normalized() * max_speed_;
-        
+
         // Convert to spherical coordinates:
         double desired_heading = atan2(v(1), v(0));
         double desired_pitch = atan2(v(2), v.head<2>().norm());

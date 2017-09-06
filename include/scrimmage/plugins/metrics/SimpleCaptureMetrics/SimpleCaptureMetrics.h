@@ -30,10 +30,14 @@
  *
  */
 
-#ifndef SimpleCaptureMetrics_H_
-#define SimpleCaptureMetrics_H_
-#include <iostream>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_
+
 #include <scrimmage/metrics/Metrics.h>
+
+#include <iostream>
+#include <map>
+#include <string>
 
 using std::cout;
 using std::endl;
@@ -44,19 +48,17 @@ class Score {
  public:
     Score() {}
 
-    bool set_weights(std::map<std::string,std::string> &params)
-    {
+    bool set_weights(std::map<std::string, std::string> &params) {
         // TODO: Automate this weight parsing
         double w = sc::get<double>("TeamCapture_weight", params, 0.0);
         weights_["TeamCapture"] = w;
-        
+
         w = sc::get<double>("NonTeamCapture_weight", params, 0.0);
         weights_["NonTeamCapture"] = w;
         return true;
     }
 
-    void increment_count(std::string type)
-    {
+    void increment_count(std::string type) {
         auto it = counts_.find(type);
         if (it == counts_.end()) {
             counts_[type] = 1;
@@ -65,8 +67,7 @@ class Score {
         }
     }
 
-    void add_count(std::string type, int c)
-    {
+    void add_count(std::string type, int c) {
         auto it = counts_.find(type);
         if (it == counts_.end()) {
             counts_[type] = c;
@@ -75,13 +76,11 @@ class Score {
         }
     }
 
-    void set_count(std::string type, int c)
-    {
+    void set_count(std::string type, int c) {
         counts_[type] = c;
     }
 
-    int count(std::string type)
-    {
+    int count(std::string type) {
         auto it = counts_.find(type);
         if (it == counts_.end()) {
             return 0;
@@ -89,8 +88,7 @@ class Score {
         return it->second;
     }
 
-    double score()
-    {        
+    double score() {
         // Apply weights to all scores
         double s = 0;
         for (auto &kv : counts_) {
@@ -105,29 +103,27 @@ class Score {
         return s;
     }
 
-protected:
-    std::map<std::string,int> counts_;
-    std::map<std::string,double> weights_;
+ protected:
+    std::map<std::string, int> counts_;
+    std::map<std::string, double> weights_;
 };
 
-
 class SimpleCaptureMetrics : public scrimmage::Metrics {
-public:
-    SimpleCaptureMetrics();
+ public:
     virtual std::string name() { return std::string("SimpleCaptureMetrics"); }
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_metrics(double t, double dt);
     virtual void calc_team_scores();
     virtual void print_team_summaries();
-protected:
+
+ protected:
     sc::SubscriberPtr team_capture_sub_;
     sc::SubscriberPtr nonteam_capture_sub_;
 
     std::map<int, Score> scores_;
     std::map<int, Score> team_scores_map_;
 
-    std::map<std::string,std::string> params_;
-private:
+    std::map<std::string, std::string> params_;
 };
 
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_

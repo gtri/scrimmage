@@ -30,40 +30,29 @@
  *
  */
 
-#include <memory>
-#include <limits>
-#include <iostream>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Capture.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugins/interaction/SimpleCapture/SimpleCapture.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <scrimmage/msgs/Capture.pb.h>
-
-#include <scrimmage/plugins/interaction/SimpleCapture/SimpleCapture.h>
-
-using std::cout;
-using std::endl;
+#include <memory>
+#include <limits>
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCapture, SimpleCapture_plugin)
 
-SimpleCapture::SimpleCapture()
-{     
-}
-
-bool SimpleCapture::init(std::map<std::string,std::string> &mission_params,
-                               std::map<std::string,std::string> &plugin_params)
-{
+bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
+                         std::map<std::string, std::string> &plugin_params) {
     capture_range_ = sc::get("capture_range", plugin_params, 0.0);
-    
+
     enable_team_captures_ = sc::get<bool>("enable_team_captures", plugin_params, true);
     enable_non_team_captures_ = sc::get<bool>("enable_non_team_captures", plugin_params, true);
 
@@ -73,14 +62,13 @@ bool SimpleCapture::init(std::map<std::string,std::string> &mission_params,
 
     // Setup subscriber
     capture_ent_sub_ = create_subscriber("CaptureEntity");
-    
+
     return true;
 }
 
 
-bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents, 
-                                                  double t, double dt)
-{
+bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                            double t, double dt) {
     shapes_.clear();
     if (ents.empty()) {
         return true;
@@ -96,8 +84,8 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         int source_id = msg->data.source_id();
         int target_id = msg->data.target_id();
         sc::EntityPtr src = int_to_ent_map[source_id];
-        sc::EntityPtr dst = int_to_ent_map[target_id];        
-        
+        sc::EntityPtr dst = int_to_ent_map[target_id];
+
         if ((src->state()->pos() - dst->state()->pos()).norm() <=
             capture_range_) {
             if (enable_team_captures_ &&
@@ -108,14 +96,14 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 msg->data.set_source_id(src->id().id());
                 msg->data.set_target_id(dst->id().id());
                 team_capture_pub_->publish(msg, t);
-                
+
             } else if (enable_non_team_captures_ &&
                        src->id().team_id() != dst->id().team_id()) {
                 dst->collision();
 
-                //cout << "TEAM ID - " << src->id().team_id()  << ", "
+                // cout << "TEAM ID - " << src->id().team_id()  << ", "
                 //     << source_id << " try to capture " << target_id << endl;
-                
+
                 auto msg = std::make_shared<sc::Message<sm::NonTeamCapture>>();
                 msg->data.set_source_id(src->id().id());
                 msg->data.set_target_id(dst->id().id());
@@ -123,6 +111,6 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             }
         }
     }
-    
+
     return true;
 }
