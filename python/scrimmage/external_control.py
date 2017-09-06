@@ -171,7 +171,7 @@ class ScrimmageEnv(gym.Env):
             except OSError:
                 pass
 
-            self.queues['action'].put(ExternalControl_pb2.Action(done=False))
+            self.queues['action'].put(ExternalControl_pb2.Action(done=True))
             self.scrimmage_process.terminate()
             self.scrimmage_process.wait()
 
@@ -187,12 +187,13 @@ class ExternalControl(ExternalControl_pb2_grpc.ExternalControlServicer):
     def SendEnvironment(self, env, context):
         """Receive Environment proto and send back an action."""
         self.queues['env'].put(env)
-        return ExternalControl_pb2.Empty_pb2()
+        return ExternalControl_pb2.Empty()
 
     def SendActionResult(self, action_result, context):
         """Receive ActionResult proto and send back an action."""
         self.queues['action_response'].put(action_result)
-        return self.queues['action'].get()
+        action = self.queues['action'].get()
+        return action
 
 
 def _create_tuple_space(space_params):

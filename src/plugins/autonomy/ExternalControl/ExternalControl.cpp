@@ -57,7 +57,7 @@ bool ExternalControl::step_autonomy(double t, double dt) {
 
     auto action = send_action_result(t, 0, false);
     if (!action) {
-        std::cout << "error receiving external action" << std::endl;
+        std::cout << "did not receive external action. exiting." << std::endl;
         return false;
     }
 
@@ -66,8 +66,10 @@ bool ExternalControl::step_autonomy(double t, double dt) {
 
 bool ExternalControl::handle_action(
         double t, double dt, scrimmage_proto::Action action) {
-    if (action.continuous_size() != 9) {
-        std::cout << "recieved external action "
+    if (action.done()) {
+        std::cout << "received done signal from external controller" << std::endl;
+    } else if (action.continuous_size() != 9) {
+        std::cout << "received external action "
             << " of length " << action.continuous_size()
             << "  (need length 9 to match state)" << std::endl;
         return false;

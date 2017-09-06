@@ -1,6 +1,12 @@
 <runscript name="Straight flying">
 
-  <run dt="0.1" enable_gui="True" end="100" network_gui="false" start="0.0" start_paused="true" time_warp="10" />
+  <run dt="0.1"
+    end="100"
+    enable_gui="false"
+    network_gui="false"
+    start="0.0"
+    start_paused="true"
+    time_warp="10" />
 
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
