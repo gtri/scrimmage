@@ -32,10 +32,11 @@
 
 #include <dlfcn.h>
 
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ConfigParse.h>
 
 #include <iostream>
 

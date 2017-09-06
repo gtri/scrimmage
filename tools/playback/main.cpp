@@ -34,6 +34,7 @@
 
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>

@@ -33,6 +33,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <google/protobuf/message_lite.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/io/coded_stream.h>
+
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>

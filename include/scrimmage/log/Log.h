@@ -32,29 +32,19 @@
 
 #ifndef INCLUDE_SCRIMMAGE_LOG_LOG_H_
 #define INCLUDE_SCRIMMAGE_LOG_LOG_H_
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/math/Quaternion.h>
+
 #include <scrimmage/log/Frame.h>
-#include <scrimmage/math/State.h>
-
-#include <google/protobuf/message_lite.h>
-#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
-#include <google/protobuf/io/coded_stream.h>
-
-#include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
 
 #include <list>
 #include <fstream>
 #include <map>
 #include <string>
-
-#if ENABLE_GRPC
-#include <scrimmage/log/FrameUpdateClient.h>
-#endif
-
 #include <memory>
+
+namespace scrimmage_proto {
+class Frame;
+class Shapes;
+}
 
 namespace scrimmage {
 
@@ -98,19 +88,14 @@ class Log {
     bool parse_contact_visual(std::string filename,
                               ZeroCopyInputStreamPtr input);
 
-    /*
-    bool create_frame(double time, ContactMapPtr &contacts,
-                      std::list<sp::Event> &events,
-                      std::shared_ptr<sp::Frame> &frame);
-    */
     bool close_log();
 
-    std::list<Frame > & scrimmage_frames();
+    std::list<Frame> & scrimmage_frames();
 
-    std::list<std::shared_ptr<scrimmage_proto::Frame> > & frames();
-    std::list<std::shared_ptr<scrimmage_proto::Shapes> > & shapes();
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > & utm_terrain();
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > & contact_visual();
+    std::list<std::shared_ptr<scrimmage_proto::Frame>> & frames();
+    std::list<std::shared_ptr<scrimmage_proto::Shapes>> & shapes();
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> & utm_terrain();
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> & contact_visual();
 
     std::string log_dir();
 

@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
 #include <Eigen/Dense>
 
-#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <map>
@@ -44,6 +43,9 @@
 #include <boost/algorithm/string.hpp>
 
 namespace scrimmage {
+
+class FileSearch; 
+class ConfigParse;
 
 std::string expand_user(std::string path);
 

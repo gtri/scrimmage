@@ -36,7 +36,6 @@
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
-#include <scrimmage/network/Interface.h>
 
 #include <list>
 #include <mutex> // NOLINT
@@ -44,6 +43,8 @@
 #if ENABLE_GRPC
 
 namespace scrimmage {
+
+class Interface;
 
 class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Service {
  public:

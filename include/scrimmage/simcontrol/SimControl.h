@@ -32,9 +32,10 @@
 
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
+
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/network/Interface.h>
 #include <scrimmage/common/Timer.h>
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 

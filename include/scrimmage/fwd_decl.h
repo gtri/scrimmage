@@ -42,6 +42,7 @@ using LocalCartesianPtr = std::shared_ptr<LocalCartesian>;
 }
 
 namespace scrimmage {
+
 class Autonomy;
 using AutonomyPtr = std::shared_ptr<Autonomy>;
 

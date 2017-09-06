@@ -38,6 +38,7 @@
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <limits>
 

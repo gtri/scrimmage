@@ -30,14 +30,16 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/interaction/MapGen2D/MapGen2D.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/pubsub/Message.h>
 
 #include <memory>
 #include <limits>

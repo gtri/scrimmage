@@ -32,7 +32,7 @@
 
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
-#include <scrimmage/common/FileSearch.h>
+
 #include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Visual.pb.h>
@@ -51,6 +51,7 @@ using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 
 namespace scrimmage {
 
+class FileSearch;
 using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
 
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;

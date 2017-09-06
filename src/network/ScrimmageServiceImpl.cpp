@@ -33,6 +33,7 @@
 #if ENABLE_GRPC
 
 #include <scrimmage/network/ScrimmageServiceImpl.h>
+#include <scrimmage/network/Interface.h>
 
 scrimmage::ScrimmageServiceImpl::ScrimmageServiceImpl(scrimmage::Interface *interface) : interface_(interface) {}
 

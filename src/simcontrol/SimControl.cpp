@@ -35,6 +35,7 @@
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/sensor/Sensable.h>
 #include <scrimmage/common/Utilities.h>

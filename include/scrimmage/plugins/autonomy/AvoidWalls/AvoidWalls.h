@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
 
 #include <map>
 #include <string>

@@ -34,8 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGINMANAGER_H_
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/parse/ConfigParse.h>
 
 #include <list>
 #include <map>
@@ -44,6 +42,9 @@
 #include <string>
 
 namespace scrimmage {
+
+class FileSearch;
+class ConfigParse;
 
 class PluginInfo {
  public:

@@ -32,6 +32,7 @@
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/ConfigParse.h>
 
 #include <iostream>
 #include <fstream>
