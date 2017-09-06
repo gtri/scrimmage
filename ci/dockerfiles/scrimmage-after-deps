@@ -1,0 +1,40 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+###############################################################################
+FROM syllogismrxs/scrimmage:latest
+
+MAINTAINER Kevin DeMarco
+
+# Copy repo code into image
+RUN rm -rf /root/scrimmage
+RUN mkdir -p /root/scrimmage
+COPY ./ /root/scrimmage/
+
+WORKDIR /root/scrimmage
+
+# Run static analysis tests
+RUN py3clean -v .
+RUN py.test-3 test/test_cppcheck.py
+RUN echo "the following test is optional but will check for style"
+RUN python3 test/test_cpplint.py
+
+# Build scrimmage core, plugins, and documentation
+RUN /bin/bash -c "mkdir -p build && \
+    cd build && \
+    cmake .. -G Ninja -DPYTHON_MIN_VERSION=3.0 -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
+    source ~/.scrimmage/setup.bash && \
+    ninja && \
+    ninja docs"
+
+# run tests
+RUN /bin/bash -c "cd build && \
+    source ~/.scrimmage/setup.bash && \
+    ninja test && \
+    scrimmage ../missions/straight-no-gui.xml"
+
+# install python package and run tests
+WORKDIR /root/scrimmage/python
+RUN pip3 install -e .
+WORKDIR /root/scrimmage
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"
+
