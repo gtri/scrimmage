@@ -1,0 +1,20 @@
+{
+	"MissionFilePath": "task_assignment.xml",
+	"LogPath": "/home/kbowers6/swarm-log/analysis/",
+	"StateSpaceSampler": "LHS",
+	"UtilityColumnName": "Utility",
+	"FunctionApproximator": "BO",
+	"NumExploreSamples": 0,
+	"NumIterationsPerSample": 1,
+	"NumExploitSamples": 1,
+	"Ranges": {
+		"w_pk": [0, 2],
+		"w_pr": [0, 2],
+		"w_dist": [0, 2],
+		"w_dist_decay": [700, 1300]
+	},
+	"FunctionApproximatorParameters": {
+		"acq": "ucb",
+		"kappa": 5
+	}
+}
