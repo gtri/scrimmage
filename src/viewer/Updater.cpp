@@ -453,7 +453,9 @@ bool Updater::update_camera() {
 
 bool Updater::update_text_display() {
     // Update FPS
-    std::string fps_str = "FPS: " + std::to_string(fps);
+    std::stringstream stream_fps;
+    stream_fps << std::fixed << std::setprecision(2) << fps;
+    std::string fps_str = "FPS: " + stream_fps.str();
     fps_actor_->SetInput(fps_str.c_str());
 
     // Update the time (text) display
@@ -461,7 +463,9 @@ bool Updater::update_text_display() {
     time_actor_->SetInput(time_str.c_str());
 
     // Update the time warp
-    std::string time_warp_str = std::to_string(sim_info_.desired_warp()) + " X";
+    std::stringstream stream_warp;
+    stream_warp << std::fixed << std::setprecision(2) << sim_info_.desired_warp();
+    std::string time_warp_str = stream_warp.str() + " X";
     warp_actor_->SetInput(time_warp_str.c_str());
 
     // Display information about the aircraft we are following:
@@ -1093,7 +1097,7 @@ void Updater::create_text_display() {
 
     // Add the fps (text) display
     fps_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    fps_actor_->SetInput("Fps: 60.0");
+    fps_actor_->SetInput("FPS: 60.0");
     fps_actor_->SetPosition(400, 10);
     fps_actor_->GetTextProperty()->SetFontSize(24);
     fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
