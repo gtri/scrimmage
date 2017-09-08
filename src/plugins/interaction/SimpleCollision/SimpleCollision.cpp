@@ -54,6 +54,11 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCollision,
 bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
     collision_range_ = sc::get("collision_range", plugin_params, 0.0);
+
+    // If startup_collision_range isn't defined, default to the collision_range
+    startup_collision_range_ = sc::get("startup_collision_range",
+                                       plugin_params, collision_range_);
+
     startup_collisions_only_ = sc::get("startup_collisions_only", plugin_params, false);
 
     enable_team_collisions_ = sc::get<bool>("enable_team_collisions", plugin_params, true);
@@ -123,7 +128,8 @@ bool SimpleCollision::collision_exists(std::list<sc::EntityPtr> &ents,
     } else {
         if (init_alt_deconflict_) {
             for (sc::EntityPtr ent : ents) {
-                if (std::abs(p(2) - ent->state()->pos()(2)) <= collision_range_) {
+                if (std::abs(p(2) - ent->state()->pos()(2)) <=
+                    startup_collision_range_) {
                     return true;
                 }
             }
@@ -133,7 +139,7 @@ bool SimpleCollision::collision_exists(std::list<sc::EntityPtr> &ents,
                 return false;
             } else {
                 sc::RTreePtr rtree = ents.front()->autonomies().front()->rtree();
-                rtree->neighbors_in_range(p, neighbors, collision_range_);
+                rtree->neighbors_in_range(p, neighbors, startup_collision_range_);
                 return !neighbors.empty();
             }
         }

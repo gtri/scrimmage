@@ -3,6 +3,7 @@
 <params>
   <library>SimpleCollision_plugin</library>  
   <collision_range>2</collision_range>
+  <startup_collision_range>2</startup_collision_range>
   
   <startup_collisions_only>false</startup_collisions_only>
   

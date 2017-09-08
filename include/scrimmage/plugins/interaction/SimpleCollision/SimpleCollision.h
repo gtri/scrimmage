@@ -55,6 +55,7 @@ class SimpleCollision : public scrimmage::EntityInteraction {
 
  protected:
     double collision_range_;
+    double startup_collision_range_;
     bool startup_collisions_only_;
     bool enable_team_collisions_;
     bool enable_non_team_collisions_;
