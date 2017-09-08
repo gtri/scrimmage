@@ -55,6 +55,7 @@
 from __future__ import division, print_function
 import argparse
 import os
+import sys
 import glob
 import time
 import shutil
@@ -226,7 +227,10 @@ def main():
         raise Exception('Could not show plot. Please verify that you are plotting a valid case.')
 
     # Press Enter to close the plot and end the program
-    raw_input('Press Enter to close plot and exit.')
+    if sys.version_info <= (3,0):
+        raw_input('Press Enter to close plot and exit.')
+    else:
+        input('Press Enter to close plot and exit.')
 
 if __name__ == '__main__':
     main()
