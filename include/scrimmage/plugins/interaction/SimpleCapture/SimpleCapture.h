@@ -40,20 +40,20 @@
 #include <list>
 
 class SimpleCapture : public scrimmage::EntityInteraction {
- public:
-        SimpleCapture();
-        bool init(std::map<std::string, std::string> &mission_params,
-                  std::map<std::string, std::string> &plugin_params);
-        bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                     double t, double dt);
- protected:
-        double capture_range_;
-        bool enable_team_captures_;
-        bool enable_non_team_captures_;
+public:
+    SimpleCapture() {}
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params);
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt);
+protected:
+    double capture_range_;
+    bool enable_team_captures_;
+    bool enable_non_team_captures_;
 
-        scrimmage::PublisherPtr team_capture_pub_;
-        scrimmage::PublisherPtr non_team_capture_pub_;
-        scrimmage::SubscriberPtr capture_ent_sub_;
+    scrimmage::PublisherPtr team_capture_pub_;
+    scrimmage::PublisherPtr non_team_capture_pub_;
+    scrimmage::SubscriberPtr capture_ent_sub_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECAPTURE_SIMPLECAPTURE_H_

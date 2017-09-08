@@ -145,10 +145,12 @@ do
     IDS_FILES=("${IDS_FILES[@]}" "$i" "${MISSION}")
 done
 
-parallel --bar -j $MAX_PARALLEL_TASKS -n 2 \
+STARTTIME=$(date +%s)
+parallel --no-notice --bar -j $MAX_PARALLEL_TASKS -n 2 \
     "scrimmage -j 0 -t {1} {2} > ${LOG_FILE_DIR}/{1}.log 2>&1" \
     ::: ${IDS_FILES[@]}
+ENDTIME=$(date +%s)
 
-echo "Completed ${TASKS} simulations."
+echo "Completed ${TASKS} simulations in $(($ENDTIME - $STARTTIME)) seconds"
 
 popd >& /dev/null
