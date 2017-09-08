@@ -46,9 +46,6 @@
 
 namespace scrimmage {
 
-External::External() :
-    plugin_manager_(std::make_shared<PluginManager>()), max_entities_(-1) {}
-
 NetworkPtr &External::network() {return network_;}
 
 EntityPtr &External::entity() {return entity_;}
