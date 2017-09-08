@@ -42,13 +42,15 @@
   <entity>
     <team_id>1</team_id> 
     <color>77 77 255</color>
-    <count>3</count>
+    <count>10</count>
     <health>1</health>
 
+    <!--
     <generate_rate> 1 / 2 </generate_rate>
     <generate_count>2</generate_count>
     <generate_start_time>0</generate_start_time>
     <generate_time_variance>0.10</generate_time_variance>
+    -->
 
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
@@ -75,6 +77,45 @@
     </base>    
   </entity>
 
+  <entity>
+    <team_id>1</team_id> 
+    <color>77 77 255</color>
+    <count>10</count>
+    <health>1</health>
+
+    <!--
+    <generate_rate> 1 / 2 </generate_rate>
+    <generate_count>2</generate_count>
+    <generate_start_time>0</generate_start_time>
+    <generate_time_variance>0.10</generate_time_variance>
+    -->
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>50</x>
+    <y>0</y>
+    <z>200</z>
+
+    <heading>180</heading>
+        
+    <motion_model>JSBSimModel</motion_model>
+    <controller>JSBSimModelControllerHeadingPID</controller>
+    <script_name>rascal_piedmont.xml</script_name>
+    
+    <visual_model>zephyr-red</visual_model>
+    
+    <autonomy>Straight</autonomy>    
+    <base>
+      <latitude>35.719961</latitude>
+      <longitude>-120.767304</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>      
+  </entity>
+
+  
 <!--
   <entity>
     <team_id>1</team_id> 
