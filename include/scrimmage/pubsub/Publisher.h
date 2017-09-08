@@ -34,15 +34,16 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_
 
 #include <scrimmage/pubsub/NetworkDevice.h>
-#include <scrimmage/pubsub/MessageBase.h>
-#include <scrimmage/plugin_manager/Plugin.h>
 
 namespace scrimmage {
+
+class MessageBase;
+using MessageBasePtr = std::shared_ptr<MessageBase>;
 
 class Publisher : public NetworkDevice {
  public:
     void publish(MessageBasePtr msg, double t);
 };
 
-}
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_

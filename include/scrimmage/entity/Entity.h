@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Visual.pb.h>

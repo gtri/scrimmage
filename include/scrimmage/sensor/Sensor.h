@@ -33,7 +33,6 @@
 #define INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
 
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/Message.h>
 
 #if ENABLE_GRPC == 1

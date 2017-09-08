@@ -33,7 +33,6 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/MessageBase.h>
 

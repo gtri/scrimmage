@@ -38,11 +38,14 @@
 #include <vtkRenderer.h>
 #include <vtkRenderWindowInteractor.h>
 
-#include <scrimmage/fwd_decl.h>
+#include <scrimmage/viewer/CameraInterface.h>
 
 #include <thread> // NOLINT
 
 namespace scrimmage {
+
+class Interface;
+using InterfacePtr = std::shared_ptr<Interface>;
 
 class Viewer {
  public:

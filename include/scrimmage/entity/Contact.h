@@ -32,8 +32,6 @@
 
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
-#include <scrimmage/fwd_decl.h>
-
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/common/ID.h>
 
@@ -43,6 +41,12 @@
 #include <string>
 
 namespace scrimmage {
+
+class Sensable;
+using SensablePtr = std::shared_ptr<Sensable>;
+
+class State;
+using StatePtr = std::shared_ptr<State>;
 
 using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
 
