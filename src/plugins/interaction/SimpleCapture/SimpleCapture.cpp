@@ -49,6 +49,9 @@ namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCapture, SimpleCapture_plugin)
 
+SimpleCapture::SimpleCapture(): capture_range_(0),
+    enable_team_captures_(true), enable_non_team_captures_(true) {
+}
 bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
                          std::map<std::string, std::string> &plugin_params) {
     capture_range_ = sc::get("capture_range", plugin_params, 0.0);

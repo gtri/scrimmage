@@ -40,13 +40,13 @@
 #include <list>
 
 class SimpleCapture : public scrimmage::EntityInteraction {
-public:
-    SimpleCapture() {}
+ public:
+    SimpleCapture();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params);
     bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
                                  double t, double dt);
-protected:
+ protected:
     double capture_range_;
     bool enable_team_captures_;
     bool enable_non_team_captures_;
