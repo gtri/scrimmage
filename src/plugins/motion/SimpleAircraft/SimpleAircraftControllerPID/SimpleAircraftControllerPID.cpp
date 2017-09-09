@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SimpleAircraft/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h>
 

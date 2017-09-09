@@ -32,7 +32,7 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_
-#include <scrimmage/math/State.h>
+
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
@@ -40,6 +40,11 @@
 #include <map>
 #include <string>
 #include <tuple>
+
+namespace scrimmage {
+class State;
+using StatePtr = std::shared_ptr<State>;
+}
 
 class SimpleAircraft : public scrimmage::MotionModel{
  public:
