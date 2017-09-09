@@ -62,12 +62,6 @@ namespace fs = boost::filesystem;
 
 namespace scrimmage {
 
-bool compare_order(const std::pair<int, std::string> & first,
-                   const std::pair<int, std::string> & second) {
-    if (first.first < second.first) return true;
-    return false;
-}
-
 bool MissionParse::parse(std::string filename) {
     mission_filename_ = filename;
 
@@ -121,55 +115,35 @@ bool MissionParse::parse(std::string filename) {
         }
     }
 
-    // Loop through each "entity_interaction" node
+    // Loop through each "entity_interaction" and "metrics" node
     // Put in an ordered list based on the "order" attribute
-    std::list<std::pair<int, std::string> > ent_inters;
-    for (rapidxml::xml_node<> *node = runscript_node->first_node("entity_interaction");
-         node != 0; node = node->next_sibling("entity_interaction")) {
+    auto sort_names = [&](const char *node_name) {
+        std::list<std::pair<int, std::string>> list_w_orders;
+        for (rapidxml::xml_node<> *node = runscript_node->first_node(node_name);
+             node != 0; node = node->next_sibling(node_name)) {
 
-        std::string name(node->value());
+            std::string name(node->value());
 
-        int order = std::numeric_limits<int>::max();
-        rapidxml::xml_attribute<> *attr = node->first_attribute("order");
-        if (attr != NULL) {
-            order = std::stoi(attr->value());
-        } else {
-            cout << "entity_interaction missing 'order' attribute: "
-                 << node->value() << endl;
+            int order = std::numeric_limits<int>::max();
+            rapidxml::xml_attribute<> *attr = node->first_attribute("order");
+            if (attr != NULL) {
+                order = std::stoi(attr->value());
+            } else {
+                cout << "entity_interaction missing 'order' attribute: "
+                     << node->value() << endl;
+            }
+            list_w_orders.push_back(std::make_pair(order, name));
         }
-        ent_inters.push_back(std::pair<int, std::string>(order, name));
-    }
-    ent_inters.sort(compare_order); // sort based on "order"
+        list_w_orders.sort([&](auto &a, auto &b) {return a.first < b.first;});
 
-    // Copy the sorted "entity_interaction" plugin names into a list
-    for (std::pair<int, std::string> p : ent_inters) {
-        entity_interactions_.push_back(p.second);
-    }
+        std::list<std::string> out;
+        std::transform(list_w_orders.begin(), list_w_orders.end(),
+            std::back_inserter(out), [&](auto &kv) {return kv.second;});
+        return out;
+    };
 
-    // Loop through each "metrics" node
-    // Put in an ordered list based on the "order" attribute
-    std::list<std::pair<int, std::string> > metrics;
-    for (rapidxml::xml_node<> *node = runscript_node->first_node("metrics");
-         node != 0; node = node->next_sibling("metrics")) {
-
-        std::string name(node->value());
-
-        int order = std::numeric_limits<int>::max();
-        rapidxml::xml_attribute<> *attr = node->first_attribute("order");
-        if (attr != NULL) {
-            order = std::stoi(attr->value());
-        } else {
-            cout << "metrics missing 'order' attribute: "
-                 << node->value() << endl;
-        }
-        metrics.push_back(std::pair<int, std::string>(order, name));
-    }
-    metrics.sort(compare_order); // sort based on "order"
-
-    // Copy the sorted "metrics" plugin names into a list
-    for (std::pair<int, std::string> p : metrics) {
-        metrics_.push_back(p.second);
-    }
+    entity_interactions_ = sort_names("entity_interaction");
+    metrics_ = sort_names("metrics");
 
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
