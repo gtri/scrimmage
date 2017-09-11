@@ -30,8 +30,12 @@
  *
  */
 
-#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/common/ID.h>
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/proto/ProtoConversions.h>
+
 #include <cmath>
 
 namespace scrimmage {

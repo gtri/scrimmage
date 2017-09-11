@@ -190,7 +190,7 @@ int main(int argc, char *argv[]) {
     // viewer.set_mission_parser(mp);
     // viewer.set_simcontrol(&simcontrol);
     // viewer.run();
-    viewer.init();
+    viewer.init(mp->attributes()["camera"]);
     viewer.run();
 
     simcontrol.force_exit();

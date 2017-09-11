@@ -67,10 +67,13 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/OriginAxes.h>
 #include <scrimmage/viewer/Updater.h>
+#include <scrimmage/viewer/Grid.h>
 
 #include <iostream>
 
@@ -123,7 +126,7 @@ Updater::Updater() :
 void Updater::init() {
     // Create a default grid:
     grid_ = std::make_shared<Grid>();
-    grid_->create(10000, 100, renderer_);
+    grid_->create(20, 1, renderer_);
 
     // Create a default origin:
     origin_axes_ = std::make_shared<OriginAxes>();
@@ -316,31 +319,31 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
         vtkSmartPointer<vtkActor> actor =
             vtkSmartPointer<vtkActor>::New();
 
-        const scrimmage_proto::Shape shape = shapes.shape(i);
+        const sp::Shape shape = shapes.shape(i);
         bool status = false;
-        if (shape.type() == scrimmage_proto::Shape::Triangle) {
+        if (shape.type() == sp::Shape::Triangle) {
             status = draw_triangle(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Arrow) {
+        } else if (shape.type() == sp::Shape::Arrow) {
             status = draw_arrow(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Cone) {
+        } else if (shape.type() == sp::Shape::Cone) {
             status = draw_cone(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Line) {
+        } else if (shape.type() == sp::Shape::Line) {
             status = draw_line(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Polygon) {
+        } else if (shape.type() == sp::Shape::Polygon) {
             status = draw_polygon(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Polydata) {
+        } else if (shape.type() == sp::Shape::Polydata) {
             status = draw_polydata(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Plane) {
+        } else if (shape.type() == sp::Shape::Plane) {
             status = draw_plane(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Cube) {
+        } else if (shape.type() == sp::Shape::Cube) {
             status = draw_cube(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Pointcloud) {
+        } else if (shape.type() == sp::Shape::Pointcloud) {
             status = draw_pointcloud(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Circle) {
+        } else if (shape.type() == sp::Shape::Circle) {
             status = draw_circle(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Sphere) {
+        } else if (shape.type() == sp::Shape::Sphere) {
             status = draw_sphere(shape, actor, mapper);
-        } else if (shape.type() == scrimmage_proto::Shape::Text) {
+        } else if (shape.type() == sp::Shape::Text) {
             status = draw_text(shape, actor, mapper);
         } else {
             status = draw_sphere(shape, actor, mapper);
@@ -373,9 +376,13 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
     return true;
 }
 
+void Updater::set_view_mode(ViewMode view_mode) {
+    view_mode_ = view_mode;
+}
+
 bool Updater::update_camera() {
     // Free mode if contacts don't exist
-    if (actor_contacts_.size() == 0) {
+    if (actor_contacts_.empty()) {
         view_mode_ = ViewMode::FREE;
         return true;
     }
@@ -388,16 +395,9 @@ bool Updater::update_camera() {
     }
 
     // Find min/max ids
-    int min = std::numeric_limits<int>::infinity();
-    int max = -std::numeric_limits<int>::infinity();
-    for (auto &kv : actor_contacts_) {
-        int id = kv.second->contact.id().id();
-        if (id < min) {
-            min = id;
-        } else if (id > max) {
-            max = id;
-        }
-    }
+    // this is a map so the front will be the min and the back is the max
+    int min = actor_contacts_.begin()->first;
+    int max = actor_contacts_.rbegin()->first;
 
     auto it = actor_contacts_.find(follow_id_);
     while (it == actor_contacts_.end()) {
@@ -422,41 +422,62 @@ bool Updater::update_camera() {
     double y_pos = it->second->contact.state().position().y();
     double z_pos = it->second->contact.state().position().z();
 
-    double camera_pos[3];
-    if (view_mode_ == ViewMode::OFFSET) {
-        camera_pos[0] = x_pos + 00;
-        camera_pos[1] = y_pos - 150;
-        camera_pos[2] = z_pos + 15;
-        renderer_->GetActiveCamera()->SetPosition(camera_pos);
-        renderer_->GetActiveCamera()->SetFocalPoint(x_pos, y_pos, z_pos);
-    } else if (view_mode_ == ViewMode::FOLLOW) {
-        Eigen::Vector3d base_offset(-50, 0, 15);
-        Eigen::Vector3d rel_cam_pos = base_offset.normalized() * follow_offset_;
-        Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
+    double camera_pos[3] {0, 0, 0};
+    if (view_mode_ == ViewMode::FREE) {
+        if (reset_camera_) {
+            x_pos = camera_reset_params_.focal_x;
+            y_pos = camera_reset_params_.focal_y;
+            z_pos = camera_reset_params_.focal_z;
 
-        scrimmage_proto::Quaternion sp_quat = it->second->contact.state().orientation();
-        sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+            // there appears to be some type of gimbal lock in VTK
+            // so the y-position is slightly off of 0
+            camera_pos[0] = camera_reset_params_.pos_x;
+            camera_pos[1] = camera_reset_params_.pos_y;
+            camera_pos[2] = camera_reset_params_.pos_z;
 
-        unit_vector = quat.rotate(unit_vector);
-        Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) +
-            unit_vector * rel_cam_pos.norm();
+            renderer_->GetActiveCamera()->SetViewUp(0, 1, 0);
 
-        camera_pos[0] = pos(0);
-        camera_pos[1] = pos(1);
-        camera_pos[2] = pos(2);
-        renderer_->GetActiveCamera()->SetPosition(camera_pos);
-        renderer_->GetActiveCamera()->SetFocalPoint(x_pos, y_pos, z_pos);
+        } else {
+            return true;
+        }
+    } else {
+        if (view_mode_ == ViewMode::OFFSET) {
+            camera_pos[0] = x_pos + 00;
+            camera_pos[1] = y_pos - 150;
+            camera_pos[2] = z_pos + 15;
+        } else if (view_mode_ == ViewMode::FOLLOW) {
+            Eigen::Vector3d base_offset(-50, 0, 15);
+            Eigen::Vector3d rel_cam_pos = base_offset.normalized() * follow_offset_;
+            Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
+
+            sp::Quaternion sp_quat = it->second->contact.state().orientation();
+            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+
+            unit_vector = quat.rotate(unit_vector);
+            Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) +
+                unit_vector * rel_cam_pos.norm();
+
+            camera_pos[0] = pos[0];
+            camera_pos[1] = pos[1];
+            camera_pos[2] = pos[2];
+        }
     }
-
+    reset_camera_ = false;
+    renderer_->GetActiveCamera()->SetPosition(camera_pos);
+    renderer_->GetActiveCamera()->SetFocalPoint(x_pos, y_pos, z_pos);
     return true;
 }
 
 bool Updater::update_text_display() {
     // Update FPS
-    std::stringstream stream_fps;
-    stream_fps << std::fixed << std::setprecision(2) << fps;
-    std::string fps_str = "FPS: " + stream_fps.str();
-    fps_actor_->SetInput(fps_str.c_str());
+    if (show_fps_) {
+        std::stringstream stream_fps;
+        stream_fps << std::fixed << std::setprecision(2) << fps;
+        std::string fps_str = "FPS: " + stream_fps.str();
+        fps_actor_->SetInput(fps_str.c_str());
+    } else {
+        fps_actor_->SetInput(" ");
+    }
 
     // Update the time (text) display
     std::string time_str = std::to_string(frame_time_) + " s";
@@ -469,15 +490,21 @@ bool Updater::update_text_display() {
     warp_actor_->SetInput(time_warp_str.c_str());
 
     // Display information about the aircraft we are following:
-    auto it = actor_contacts_.find(follow_id_);
-    if (it != actor_contacts_.end()) {
-        scrimmage_proto::Quaternion sp_quat = it->second->contact.state().orientation();
-        sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
-        std::string heading_str = "H: " + std::to_string(sc::Angles::rad2deg(quat.yaw()));
-        heading_actor_->SetInput(heading_str.c_str());
+    if (view_mode_ == ViewMode::FREE) {
+        heading_actor_->SetInput(" ");
+        alt_actor_->SetInput(" ");
 
-        std::string alt_str = "Alt: " + std::to_string(it->second->contact.state().position().z());
-        alt_actor_->SetInput(alt_str.c_str());
+    } else {
+        auto it = actor_contacts_.find(follow_id_);
+        if (it != actor_contacts_.end()) {
+            sp::Quaternion sp_quat = it->second->contact.state().orientation();
+            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+            std::string heading_str = "H: " + std::to_string(sc::Angles::rad2deg(quat.yaw()));
+            heading_actor_->SetInput(heading_str.c_str());
+
+            std::string alt_str = "Alt: " + std::to_string(it->second->contact.state().position().z());
+            alt_actor_->SetInput(alt_str.c_str());
+        }
     }
 
     return true;
@@ -515,9 +542,9 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
     }
 
     // Set the background color:
-    renderer_->SetBackground(utm->background().r()/255.0,
-                             utm->background().g()/255.0,
-                             utm->background().b()/255.0);
+    renderer_->SetBackground(utm->background().r() / 255.0,
+                             utm->background().g() / 255.0,
+                             utm->background().b() / 255.0);
 
     // Exit if the terrain is disabled in this messasge
     if (!utm->enable_terrain()) return true;
@@ -645,7 +672,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     // Add new contacts to contact map
     for (int i = 0; i < frame->contact_size(); i++) {
 
-        const scrimmage_proto::Contact cnt = frame->contact(i);
+        const sp::Contact cnt = frame->contact(i);
         int id = cnt.id().id();
 
         if (actor_contacts_.count(id) == 0 && cnt.active()) {
@@ -686,6 +713,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
                 vtkSmartPointer<vtkFollower>::New();
             label->SetMapper(label_mapper);
             label->GetProperty()->SetColor(1, 1, 1); // white
+            label->SetScale(0.6, 0.6, 0.6);
 
             // Add the actor to the scene
             // renderer_->AddActor(actor);
@@ -708,7 +736,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
 
     // Update contacts in contact map
     for (int i = 0; i < frame->contact_size(); i++) {
-        const scrimmage_proto::Contact cnt = frame->contact(i);
+        const sp::Contact cnt = frame->contact(i);
         int id = cnt.id().id();
 
         if (actor_contacts_.count(id) > 0) {
@@ -730,7 +758,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
 
             ac->actor->SetPosition(x_pos, y_pos, z_pos);
 
-            scrimmage_proto::Quaternion sp_quat = cnt.state().orientation();
+            sp::Quaternion sp_quat = cnt.state().orientation();
             sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
             Eigen::Matrix3d mat3 = quat.toRotationMatrix();
 
@@ -808,7 +836,7 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
         find_model_properties(cv->name(), cv_parse, file_search, cv,
                               mesh_found, texture_found);
 
-        if (actor_contact->contact.type() == scrimmage_proto::MESH) {
+        if (actor_contact->contact.type() == sp::MESH) {
             if (texture_found) {
                 vtkSmartPointer<vtkPNGReader> pngReader =
                     vtkSmartPointer<vtkPNGReader>::New();
@@ -851,16 +879,16 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
             }
             actor->SetScale(scale_data[0], scale_data[1],
                             scale_data[2]);
-        } else if (actor_contact->contact.type() == scrimmage_proto::AIRCRAFT) {
+        } else if (actor_contact->contact.type() == sp::AIRCRAFT) {
             vtkSmartPointer<vtkPoints> points =
                 vtkSmartPointer<vtkPoints>::New();
 
             float size = 2.0;
             float offset = -size/2;
-            float p0[3] = {offset, 0, size/2};
-            float p1[3] = {offset, 0, size/2};
-            float p2[3] = {offset, -size, 0.0};
-            float p3[3] = {offset, size, 0};
+            float p0[3] = {offset, 0, size /4};
+            float p1[3] = {offset, 0, size /4};
+            float p2[3] = {offset, -2 * size / 3, 0.0};
+            float p3[3] = {offset, 2 * size / 3, 0};
             float p4[3] = {size*2+offset, 0.0, 0.0};
 
             points->InsertNextPoint(p0);
@@ -891,7 +919,7 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
             mapper->SetInputData(ug);
 #endif
 
-        } else if (actor_contact->contact.type() == scrimmage_proto::SPHERE) {
+        } else if (actor_contact->contact.type() == sp::SPHERE) {
             vtkSmartPointer<vtkSphereSource> sphereSource =
                 vtkSmartPointer<vtkSphereSource>::New();
             sphereSource->SetCenter(0, 0, 0);
@@ -916,7 +944,7 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
     actor_contact->actor->GetProperty()->SetOpacity(cv->opacity());
     actor_contact->label->GetProperty()->SetOpacity(cv->opacity());
 
-    if (cv->visual_mode() == scrimmage_proto::ContactVisual::COLOR) {
+    if (cv->visual_mode() == sp::ContactVisual::COLOR) {
         actor_contact->actor->GetProperty()->SetColor(cv->color().r()/255.0,
                                                       cv->color().g()/255.0,
                                                       cv->color().b()/255.0);
@@ -1055,6 +1083,29 @@ void Updater::dec_follow_offset() {follow_offset_ /= 1.1;}
 void Updater::reset_scale() {
     scale_ = 1.0;
     scale_required_ = true;
+}
+
+void Updater::set_reset_camera() {
+    reset_camera_ = true;
+    view_mode_ = ViewMode::FREE;
+}
+
+void Updater::set_follow_id(int follow_id) {
+    follow_id_ = follow_id;
+}
+
+void Updater::set_show_fps(bool show_fps) {
+    show_fps_ = false;
+}
+
+void Updater::set_camera_reset_params(double pos_x, double pos_y, double pos_z,
+                                      double focal_x, double focal_y, double focal_z) {
+    camera_reset_params_.pos_x = pos_x;
+    camera_reset_params_.pos_y = pos_y;
+    camera_reset_params_.pos_z = pos_z;
+    camera_reset_params_.focal_x = focal_x;
+    camera_reset_params_.focal_y = focal_y;
+    camera_reset_params_.focal_z = focal_z;
 }
 
 void Updater::reset_view() {

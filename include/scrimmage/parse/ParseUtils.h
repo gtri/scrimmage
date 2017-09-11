@@ -40,7 +40,9 @@
 #include <vector>
 #include <string>
 
-#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 
 namespace scrimmage {
 
@@ -70,7 +72,7 @@ template <class T1, class T2 = T1>
 }
 
 template <typename T>
-std::vector<T> str2vec(std::string &str, std::string delims) {
+std::vector<T> str2vec(const std::string &str, std::string delims) {
     std::vector<T> out;
     std::vector<std::string> tokens;
     boost::split(tokens, str, boost::is_any_of(delims));
@@ -84,7 +86,7 @@ std::vector<T> str2vec(std::string &str, std::string delims) {
 }
 
 template <typename T>
-bool str2vec(std::string &str, std::string delims,
+bool str2vec(const std::string &str, std::string delims,
              std::vector<T> &vec, unsigned int size) {
     std::vector<T> tmp_vec;
     std::vector<std::string> tokens;

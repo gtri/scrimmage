@@ -39,11 +39,11 @@ using grpc::ClientContext;
 using grpc::Status;
 #endif
 
-#include <scrimmage/network/Interface.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Log.h>
-
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/network/Interface.h>
 
 #include <iostream>
 #include <thread> // NOLINT

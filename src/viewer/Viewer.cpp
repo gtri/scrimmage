@@ -32,9 +32,13 @@
 
 #include <vtkCamera.h>
 
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/viewer/Updater.h>
 #include <scrimmage/viewer/CameraInterface.h>
+
+#include <boost/algorithm/string.hpp>
 
 namespace scrimmage {
 
@@ -49,7 +53,7 @@ void Viewer::set_outgoing_interface(InterfacePtr &outgoing_interface)
 void Viewer::set_enable_network(bool enable)
 { enable_network_ = enable; }
 
-bool Viewer::init() {
+bool Viewer::init(const std::map<std::string, std::string> &camera_attributes) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 
@@ -72,6 +76,7 @@ bool Viewer::init() {
     renderWindowInteractor_->SetInteractorStyle(cam_int_);
     cam_int_->SetCurrentRenderer(renderer_);
 
+    camera_attributes_ = camera_attributes;
     renderer_->SetActiveCamera(camera);
 
     // Render and interact
@@ -85,9 +90,7 @@ bool Viewer::run() {
     double update_rate = 50; // Hz
 
     if (enable_network_) {
-        outgoing_interface_->init_network(Interface::client,
-                                          "localhost", 50052);
-
+        outgoing_interface_->init_network(Interface::client, "localhost", 50052);
         network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_),
                                       Interface::server, "localhost", 50051);
         network_thread_.detach();
@@ -111,6 +114,47 @@ bool Viewer::run() {
     updater->set_incoming_interface(incoming_interface_);
     updater->set_outgoing_interface(outgoing_interface_);
     updater->set_max_update_rate(update_rate);
+
+    std::string camera_pos_str =
+        get<std::string>("pos", camera_attributes_, "0, 1, 200");
+
+    std::vector<double> camera_pos;
+    if (!str2vec(camera_pos_str, ",", camera_pos, 3)) {
+        std::cout << "camera_position should have 3 comma separated entries" << std::endl;
+        return false;
+    }
+
+    std::string camera_focal_pos_str =
+        get<std::string>("focal_point", camera_attributes_, "0, 0, 0");
+
+    std::vector<double> camera_focal_pos;
+    if (!str2vec(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
+        std::cout << "camera_focal_point should have 3 comma separated entries" << std::endl;
+        return false;
+    }
+
+    updater->set_camera_reset_params(camera_pos[0], camera_pos[1], camera_pos[2],
+        camera_focal_pos[0], camera_focal_pos[1], camera_focal_pos[2]);
+    updater->set_show_fps(get("show_fps", camera_attributes_, false));
+
+    updater->set_follow_id(get("follow_id", camera_attributes_, 1) - 1);
+
+    std::string view_mode =
+        boost::to_upper_copy(get<std::string>("mode", camera_attributes_, "follow"));
+
+    if (view_mode == "FOLLOW") {
+        updater->set_view_mode(Updater::ViewMode::FOLLOW);
+    } else if (view_mode == "FREE") {
+        updater->set_view_mode(Updater::ViewMode::FREE);
+        updater->set_reset_camera();
+    } else if (view_mode == "OFFSET") {
+        updater->set_view_mode(Updater::ViewMode::OFFSET);
+    } else {
+        std::cout << "Unrecognized attribute \"" << view_mode
+            << "\" for camera_view_mode" << std::endl;
+        updater->set_view_mode(Updater::ViewMode::FOLLOW);
+    }
+
     updater->init();
 
     cam_int_->set_updater(updater);

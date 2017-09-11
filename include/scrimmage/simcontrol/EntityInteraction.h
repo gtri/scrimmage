@@ -35,16 +35,14 @@
 
 #include <Eigen/Dense>
 
-#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/fwd_decl.h>
+#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/proto/Shape.pb.h>
 
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
-
-#include <GeographicLib/LocalCartesian.hpp>
 
 namespace scrimmage {
 

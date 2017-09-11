@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/common/Algorithm.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/log/Log.h>
@@ -326,153 +327,145 @@ bool SimControl::init() {
 
 bool SimControl::generate_entities(double t) {
     // Initialize each entity
-    for (EntityDesc_t::iterator it = mp_->entity_descriptions().begin();
-         it != mp_->entity_descriptions().end(); ++it) {
+    using NormDist = std::normal_distribution<double>;
+    auto gener = random_->gener();
+
+    for (auto &kv : mp_->entity_descriptions()) {
+        int ent_desc_id = kv.first;
+        std::map<std::string, std::string> params = kv.second;
 
         // Determine if we have to generate entities for this entity
         // description
-        if (mp_->gen_info().count(it->first) == 0) {
+        if (mp_->gen_info().count(ent_desc_id) == 0) {
             continue;
         }
 
         // Generate entities if time has been reached
         int gen_count = 0;
-        for (std::vector<double>::iterator time_it = mp_->next_gen_times()[it->first].begin();
-             time_it != mp_->next_gen_times()[it->first].end(); ++time_it) {
-            if (t >= *time_it && mp_->gen_info()[it->first].total_count > 0) {
-                double x_var = scrimmage::get("variance_x", it->second, 100.0);
-                double y_var = scrimmage::get("variance_y", it->second, 100.0);
-                double z_var = scrimmage::get("variance_z", it->second, 0.0);
+        for (double gen_time : mp_->next_gen_times()[ent_desc_id]) {
+
+            GenerateInfo &gen_info = mp_->gen_info()[ent_desc_id];
+            if (t < gen_time || gen_info.total_count < 0) {
+                continue;
+            }
 
 #if ENABLE_JSBSIM == 1
-                it->second["JSBSIM_ROOT"] = jsbsim_root_;
+            params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
+            params["dt"] = std::to_string(dt_);
+            params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
 
-                it->second["dt"] = std::to_string(dt_);
-                double motion_multiplier = mp_->motion_multiplier();
-                it->second["motion_multiplier"] = std::to_string(motion_multiplier);
+            double x0 = scrimmage::get("x0", params, 0);
+            double y0 = scrimmage::get("y0", params, 0);
+            double z0 = scrimmage::get("z0", params, 0);
 
-                double x0 = scrimmage::get("x0", it->second, 0);
-                double y0 = scrimmage::get("y0", it->second, 0);
-                double z0 = scrimmage::get("z0", it->second, 0);
+            Eigen::Vector3d pos(x0, y0, z0);
 
-                Eigen::Vector3d pos(x0, y0, z0);
+            NormDist x_normal_dist(x0, get("variance_x", params, 100.0));
+            NormDist y_normal_dist(y0, get("variance_y", params, 100.0));
+            NormDist z_normal_dist(z0, get("variance_z", params, 0.0));
 
-                // Use variance if not the first entity in this group, or if a
-                // collision exists (This happens when you place <entity> tags"
-                // at the same location).
-                if (!mp_->gen_info()[it->first].first_in_group ||
-                    collision_exists(pos)) {
-                    // Use the uniform distribution to place aircraft
-                    // within the x/y variance
-                    bool exists = false;
-                    int collision_count = 0;
-                    do {
-                        pos(0) = x0 + (random_->rng_uniform())*x_var;
-                        pos(1) = y0 + (random_->rng_uniform())*y_var;
-                        pos(2) = z0 + (random_->rng_uniform())*z_var;
-                        exists = collision_exists(pos);
+            // Use variance if not the first entity in this group, or if a
+            // collision exists (This happens when you place <entity> tags"
+            // at the same location).
+            if (!gen_info.first_in_group || collision_exists(pos)) {
 
-                        // it is possible that the user has not added enough
-                        // noise and this process takes a while
-                        if (exit_) {
-                            return false;
-                        }
-
-                        if (collision_count > 1e6) {
-                            cout << "----------------------------------" << endl;
-                            cout << "ERROR: Having difficulty finding collision-free location for entity at: "
-                                 << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
-                                 << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
-                            return false;
-                        }
-                        collision_count++;
-                    } while (exists);
-
-                    it->second["x"] = std::to_string(pos(0));
-                    it->second["y"] = std::to_string(pos(1));
-                    it->second["z"] = std::to_string(pos(2));
-                } else {
-                    mp_->gen_info()[it->first].first_in_group = false;
+                // Use the uniform distribution to place aircraft
+                // within the x/y variance
+                int ct = 0;
+                const int max_ct = 1e6;
+                while (ct++ < max_ct && !exit_ && collision_exists(pos)) {
+                    pos(0) = x_normal_dist(*gener);
+                    pos(1) = y_normal_dist(*gener);
+                    pos(2) = z_normal_dist(*gener);
                 }
 
-                // Fill in the ent's lat/lon/alt value
-                double lat, lon, alt;
-                proj_->Reverse(pos(0), pos(1), pos(2), lat, lon, alt);
-                it->second["latitude"] = std::to_string(lat);
-                it->second["longitude"] = std::to_string(lon);
-                it->second["altitude"] = std::to_string(alt);
-
-                std::shared_ptr<Entity> ent = std::make_shared<Entity>();
-                ent->set_random(random_);
-
-                contacts_mutex_.lock();
-                AttributeMap &attr_map = mp_->entity_attributes()[it->first];
-                bool ent_status = ent->init(attr_map, it->second,
-                    contacts_, mp_, proj_, next_id_, it->first,
-                    plugin_manager_, network_, file_search_, rtree_);
-                contacts_mutex_.unlock();
-
-                if (!ent_status) {
-                    cout << "Failed to parse entity at start position: "
-                         << "x=" << x0 << ", y=" << y0 << endl;
+                if (ct >= max_ct) {
+                    cout << "----------------------------------" << endl;
+                    cout << "ERROR: Having difficulty finding collision-free location for entity at: "
+                         << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
+                         << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
+                    return false;
+                } else if (exit_) {
                     return false;
                 }
 
-                (*team_lookup_)[ent->id().id()] = ent->id().team_id();
+                params["x"] = std::to_string(pos(0));
+                params["y"] = std::to_string(pos(1));
+                params["z"] = std::to_string(pos(2));
+            } else {
+                mp_->gen_info()[ent_desc_id].first_in_group = false;
+            }
 
-                contact_visuals_[ent->id().id()] = ent->contact_visual();
+            // Fill in the ent's lat/lon/alt value
+            double lat, lon, alt;
+            proj_->Reverse(pos(0), pos(1), pos(2), lat, lon, alt);
+            params["latitude"] = std::to_string(lat);
+            params["longitude"] = std::to_string(lon);
+            params["altitude"] = std::to_string(alt);
 
-                // Send the visual information to the viewer
-                outgoing_interface_->send_contact_visual(ent->contact_visual());
+            std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+            ent->set_random(random_);
 
-                // Store pointer to entities that aren't ready yet
-                if (!ent->ready()) {
-                    not_ready_.push_back(ent);
+            contacts_mutex_.lock();
+            AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
+            bool ent_status = ent->init(attr_map, params,
+                contacts_, mp_, proj_, next_id_, ent_desc_id,
+                plugin_manager_, network_, file_search_, rtree_);
+            contacts_mutex_.unlock();
+
+            if (!ent_status) {
+                cout << "Failed to parse entity at start position: "
+                     << "x=" << x0 << ", y=" << y0 << endl;
+                return false;
+            }
+
+            (*team_lookup_)[ent->id().id()] = ent->id().team_id();
+
+            contact_visuals_[ent->id().id()] = ent->contact_visual();
+
+            // Send the visual information to the viewer
+            outgoing_interface_->send_contact_visual(ent->contact_visual());
+
+            // Store pointer to entities that aren't ready yet
+            if (!ent->ready()) {
+                not_ready_.push_back(ent);
+            }
+
+            ents_.push_back(ent);
+            rtree_->add(ent->state()->pos(), ent->id());
+            contacts_mutex_.lock();
+            (*contacts_)[ent->id().id()] =
+                Contact(ent->id(), ent->radius(), ent->state(),
+                    ent->type(), ent->contact_visual(), ent->sensables());
+            contacts_mutex_.unlock();
+
+            auto msg = std::make_shared<Message<sm::EntityGenerated>>();
+            msg->data.set_entity_id(ent->id().id());
+            pubsub_->pubs()["EntityGenerated"]->publish(msg, t);
+
+            next_id_++;
+            gen_info.total_count--;
+
+            // Is rate generation enabled?
+            if (gen_info.rate > 0) {
+                NormDist norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
+                gen_time = norm_dist(*random_->gener());
+                if (gen_time <= t) {
+                    cout << "Next generation time less than current time. "
+                         << "generate_time_variance is too large." << endl;
+                    gen_time = t + (1.0 / gen_info.rate);
                 }
+            }
 
-                ents_.push_back(ent);
-                rtree_->add(ent->state()->pos(), ent->id());
-                contacts_mutex_.lock();
-                (*contacts_)[ent->id().id()] =
-                    Contact(ent->id(), ent->radius(), ent->state(),
-                        ent->type(), ent->contact_visual(), ent->sensables());
-                contacts_mutex_.unlock();
-
-                auto msg = std::make_shared<Message<sm::EntityGenerated>>();
-                msg->data.set_entity_id(ent->id().id());
-                pubsub_->pubs()["EntityGenerated"]->publish(msg, t);
-
-                next_id_++;
-                mp_->gen_info()[it->first].total_count--;
-
-                // Is rate generation enabled?
-                if (mp_->gen_info()[it->first].rate > 0) {
-                    *time_it = t + (1.0 / mp_->gen_info()[it->first].rate) + random_->rng_normal()*mp_->gen_info()[it->first].time_variance;
-                    if (*time_it <= t) {
-                        cout << "Next generation time less than current time. "
-                             << "generate_time_variance is too large." << endl;
-                        *time_it = t + (1.0 / mp_->gen_info()[it->first].rate);
-                    }
-                }
-                gen_count++;
-
-                if (gen_count >= mp_->gen_info()[it->first].gen_count) {
-                    break;
-                }
+            if (++gen_count >= gen_info.gen_count) {
+                break;
             }
         }
     }
 
     // Delete gen_info's that don't have ents remaining (count==0:
-    for (std::map<int, GenerateInfo>::iterator it = mp_->gen_info().begin();
-         it != mp_->gen_info().end() ; /* No increment*/) {
-        if (it->second.total_count <= 0) {
-            mp_->gen_info().erase(it++);
-        } else {
-            ++it;
-        }
-    }
+    remove_if(mp_->gen_info(), [&](auto &kv) {return kv.second.total_count <= 0;});
     return true;
 }
 

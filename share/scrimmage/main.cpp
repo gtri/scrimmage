@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
         viewer.set_incoming_interface(to_gui_interface);
         viewer.set_outgoing_interface(from_gui_interface);
         viewer.set_enable_network(false);
-        viewer.init();
+        viewer.init(mp->attributes()["camera"]);
         viewer.run();
 
         // When the viewer finishes, tell simcontrol to exit

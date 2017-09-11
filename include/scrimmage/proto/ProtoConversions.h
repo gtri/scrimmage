@@ -33,9 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 #define INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/ColorMaps.h>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Contact.pb.h>
 #include <scrimmage/proto/Vector3d.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -43,9 +42,6 @@
 #include <scrimmage/proto/ID.pb.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/log/Frame.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/math/Quaternion.h>
 
 #include <Eigen/Dense>
 
@@ -55,6 +51,10 @@
 namespace sp = scrimmage_proto;
 
 namespace scrimmage {
+
+class ID;
+class Quaternion;
+class Frame;
 
 typedef std::shared_ptr<scrimmage_proto::Shape> ShapePtr;
 

@@ -33,13 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
 
-#include <scrimmage/viewer/Grid.h>
-#include <scrimmage/viewer/OriginAxes.h>
-#include <scrimmage/network/Interface.h>
+#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Contact.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Color.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
+#include <scrimmage/proto/GUIControl.pb.h>
 
 #include <time.h>
 
@@ -59,6 +58,11 @@
 
 namespace scrimmage {
 
+class Grid;
+class OriginAxes;
+class Interface;
+using InterfacePtr = std::shared_ptr<Interface>;
+
 class ActorContact {
  public:
     vtkSmartPointer<vtkActor> actor;
@@ -71,13 +75,19 @@ class ActorContact {
     bool remove = false;
 };
 
+struct CameraResetParams {
+ public:
+    double pos_x = 0;
+    double pos_y = 0;
+    double pos_z = 200;
+    double focal_x = 0;
+    double focal_y = 0;
+    double focal_z = 0;
+};
+
 class Updater : public vtkCommand {
  public:
-    enum class ViewMode {
-        FOLLOW = 0,
-        FREE,
-        OFFSET
-    };
+    enum class ViewMode {FOLLOW = 0, FREE, OFFSET};
 
     static Updater *New();
 
@@ -136,6 +146,14 @@ class Updater : public vtkCommand {
     void dec_follow_offset();
 
     void reset_scale();
+
+    void set_reset_camera();
+    void set_camera_reset_params(double pos_x, double pos_y, double pos_z,
+                                 double focal_x, double focal_y, double focal_z);
+
+    void set_view_mode(ViewMode view_mode);
+    void set_show_fps(bool show_fps);
+    void set_follow_id(int follow_id);
 
     void reset_view();
 
@@ -233,6 +251,10 @@ class Updater : public vtkCommand {
     vtkSmartPointer<vtkActor> terrain_actor_;
 
     double follow_offset_;
+
+    bool reset_camera_ = false;
+    CameraResetParams camera_reset_params_;
+    bool show_fps_ = false;
 };
 
 } // namespace scrimmage

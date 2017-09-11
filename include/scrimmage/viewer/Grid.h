@@ -32,7 +32,6 @@
 
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
-#include <list>
 
 #include <vtkSmartPointer.h>
 #include <vtkLineSource.h>
@@ -41,6 +40,8 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
 #include <vtkProperty.h>
+
+#include <list>
 
 namespace scrimmage {
 

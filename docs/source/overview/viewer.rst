@@ -9,6 +9,7 @@ The GUI responds to the following input keys:
    'b'                     : (Break) Pauses and unpauses the simulation.
    'space bar'             : When paused, take a single simulation step.
    'a'                     : Rotate through the camera views
+   'A'                     : Rotate to a free movement camera view with pre-defined orientation
    'right/left arrows'     : Change the aircraft to follow
    '['                     : Decrease simulation warp speed
    ']'                     : Increase simulation warp speed        

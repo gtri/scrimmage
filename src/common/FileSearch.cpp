@@ -134,7 +134,7 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     std::unordered_set<std::string> dirs_checked;
 
     dbg(std::string("not found in cache, looping recursively in ") + env_path);
-    BOOST_FOREACH(const std::string& t, tokens) {
+    for (const std::string &t : tokens) {
         // Search for all files in the current directory with
         // the extension
         fs::path root = t;

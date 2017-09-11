@@ -47,20 +47,22 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
     planeSource->SetPoint2(0, plane_size, 0);
 
     // Create the grid:
-    int x_low = -plane_size/2.0;
-    int x_high = plane_size/2.0;
-    int x_step = spacing;
-    int y_low = -plane_size/2.0;
-    int y_high = plane_size/2.0;
-    int y_step = spacing;
-    double z_pos = 0;
+    const int low = -plane_size / 2.0;
+    const int high = plane_size / 2.0;
+    const double z_pos = 0;
 
-    for (int y = y_low; y < y_high; y += y_step) {
+    auto create_line = [&](int val, bool along_y) {
         vtkSmartPointer<vtkLineSource> lineSource =
                 vtkSmartPointer<vtkLineSource>::New();
 
-        lineSource->SetPoint1(x_low, y, z_pos);
-        lineSource->SetPoint2(x_high, y, z_pos);
+        if (along_y) {
+            lineSource->SetPoint1(low, val, z_pos);
+            lineSource->SetPoint2(high, val, z_pos);
+        } else {
+            lineSource->SetPoint1(val, low, z_pos);
+            lineSource->SetPoint2(val, high, z_pos);
+        }
+
         lineSource->Update();
 
         // Visualize
@@ -75,36 +77,19 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
 
         // Set the color
         actor->GetProperty()->SetColor(1, 1, 1);
-        actor->GetProperty()->SetOpacity(1);
+        if (val == 0) {
+          actor->GetProperty()->SetOpacity(1);
+        } else {
+          actor->GetProperty()->SetOpacity(0.3);
+        }
 
         actors_.push_back(actor);
         renderer->AddActor(actor);
-    }
+    };
 
-    for (int x = x_low; x < x_high; x += x_step) {
-        vtkSmartPointer<vtkLineSource> lineSource =
-                vtkSmartPointer<vtkLineSource>::New();
-
-        lineSource->SetPoint1(x, y_low, z_pos);
-        lineSource->SetPoint2(x, y_high, z_pos);
-        lineSource->Update();
-
-        // Visualize
-        vtkSmartPointer<vtkPolyDataMapper> mapper =
-                vtkSmartPointer<vtkPolyDataMapper>::New();
-        mapper->SetInputConnection(lineSource->GetOutputPort());
-
-        vtkSmartPointer<vtkActor> actor =
-                vtkSmartPointer<vtkActor>::New();
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetLineWidth(1);
-
-        // Set the color
-        actor->GetProperty()->SetColor(1, 1, 1);
-        actor->GetProperty()->SetOpacity(1);
-
-        actors_.push_back(actor);
-        renderer->AddActor(actor);
+    for (int val = low; val <= high; val += spacing) {
+        create_line(val, true);
+        create_line(val, false);
     }
 }
 

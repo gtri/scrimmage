@@ -122,7 +122,7 @@ class MissionParse {
 
     std::map<int, GenerateInfo > & gen_info();
 
-    std::map<int, std::vector<double> > & next_gen_times();
+    std::map<int, std::vector<double>> &next_gen_times();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
 

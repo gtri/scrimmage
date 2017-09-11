@@ -40,6 +40,8 @@
 
 #include <scrimmage/viewer/CameraInterface.h>
 
+#include <map>
+#include <string>
 #include <thread> // NOLINT
 
 namespace scrimmage {
@@ -57,7 +59,7 @@ class Viewer {
 
     void set_enable_network(bool enable);
 
-    bool init();
+    bool init(const std::map<std::string, std::string> &camera_attributes);
     bool run();
     bool stop();
 
@@ -74,6 +76,8 @@ class Viewer {
     bool enable_network_;
 
     std::thread network_thread_;
+
+    std::map<std::string, std::string> camera_attributes_;
 };
 
 } // namespace scrimmage

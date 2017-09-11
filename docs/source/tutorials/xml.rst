@@ -256,3 +256,16 @@ and match between the two paradigms for a single entity.
     - ``longitude`` : The base's longitude
     - ``altitude`` : The base's altitude
     - ``radius`` : The base's radius
+
+- ``camera`` : defines camera parameters
+
+  attributes:
+
+  - ``mode``: ``follow``, ``free``, or ``offset``
+  - ``follow_id``: the entity id for the camera to follow 
+  - ``pos``: 3 entry comma separated list of where to put the camera
+    (applicable to ``free`` mode only)
+  - ``focal_point``: 3 entry comma separated list of where to point the camera
+    (applicable to ``free`` mode only)
+  - ``show_fps``: whether to show frames per second on the gui 
+
