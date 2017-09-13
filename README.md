@@ -32,7 +32,7 @@ A list of the Ubuntu packages required is provided in
 installer to install the required packages:
 
     $ cd scrimmage
-    $ sudo ./setup/install-binaries.sh -e 1 -p 3
+    $ sudo ./setup/install-binaries.sh -e 0 -p 3
 
 The first argument `-e 1` says to install all dependencies for all features in
 SCRIMMAGE (you would use `-e 0` if you wanted to run SCRIMMAGE as part of an
