@@ -77,7 +77,10 @@ def convert(value, type_):
     import importlib
     try:
         # Check if it's a builtin type
-        module = importlib.import_module('__builtin__')
+        if sys.version_info <= (3,0):  # python 2.x
+            module = importlib.import_module('__builtin__')
+        else:  # python 3
+            module = importlib.import_module('builtins')
         cls = getattr(module, type_)
     except AttributeError:
         # if not, separate module and class
@@ -110,7 +113,7 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, entity_list=None)
                 high, cls = convert(child.attrib['high'], child.attrib['type'])
                 low, cls = convert(child.attrib['low'], child.attrib['type'])        
             except (AttributeError, KeyError):
-                print 'missing type or low or high in element ', child.tag
+                print('missing type or low or high in element ', child.tag)
             
             column_name = child.tag+ "~" + str(entity_num) + "~"
 
@@ -200,7 +203,7 @@ def qsub(num_runs, nodes, out_dir):
             s = "node" + nodes
         cmd += ["-l", 'h=' + s]
     cmd += [scrimmage_script, '-d', mission_dir]
-    print cmd
+    print(cmd)
     sp.Popen(cmd)
 
 def main():
