@@ -170,4 +170,20 @@ std::string eigen_str(const Eigen::VectorXd &vec) {
     return out;
 }
 
+std::vector<double> linspace(double low, double high, uint32_t n) {
+    std::vector<double> out;
+    if (n > 0) {
+        out.reserve(n);
+        out.push_back(low);
+        if (n > 1) {
+            const double step = (high - low) / (n - 1);
+            for (uint32_t i = 1; i < n - 1; i++) {
+                out.push_back(low + step * i);
+            }
+            out.push_back(high);
+        }
+    }
+    return out;
+}
+
 } // namespace scrimmage

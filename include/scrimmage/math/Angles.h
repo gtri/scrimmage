@@ -83,10 +83,21 @@ class Angles {
 
     static double angle_pi(double angle);
 
-    // Calculate shortest distance between two angles
+    /*! \brief shortest angle from ang2 to ang1 */
     static double angle_diff(double ang1, double ang2);
 
+    /*! \brief shortest angle from ang2 to ang1 (radians) */
     static double angle_diff_rad(double ang1, double ang2);
+
+    /*! \brief returns whether ang is within the wedge between ang1 and ang2
+     * where the wedge is less than 180 degrees
+     */
+    static bool angle_within(double ang1, double ang2, double ang);
+
+    /*! \brief returns whether ang is within the wedge between ang1 and ang2
+     * where the wedge is less than PI radians
+     */
+    static bool angle_within_rad(double ang1, double ang2, double ang);
 
     static double angle_avg(double ang1, double ang2);
 

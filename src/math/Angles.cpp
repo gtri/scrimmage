@@ -34,6 +34,8 @@
 
 #include <cmath>
 
+#include <boost/math/special_functions/sign.hpp>
+
 namespace scrimmage {
 
 double Angles::deg2rad(double deg) {return deg * M_PI / 180.0;}
@@ -157,5 +159,19 @@ void Angles::set_angle(double angle) {
 
 double Angles::angle() {
     return angle_;
+}
+
+bool Angles::angle_within(double ang1, double ang2, double ang) {
+    double diff = angle_diff(ang1, ang2);
+    double diff1 = angle_diff(ang, ang2);
+    return boost::math::sign(diff) == boost::math::sign(diff1) &&
+        std::abs(diff) > std::abs(diff1);
+}
+
+bool Angles::angle_within_rad(double ang1, double ang2, double ang) {
+    double diff = angle_diff_rad(ang1, ang2);
+    double diff1 = angle_diff_rad(ang, ang2);
+    return boost::math::sign(diff) == boost::math::sign(diff1) &&
+        std::abs(diff) > std::abs(diff1);
 }
 } // namespace scrimmage

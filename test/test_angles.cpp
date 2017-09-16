@@ -30,24 +30,45 @@
  *
  */
 
-
 #include <gtest/gtest.h>
-#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
-#include <Eigen/Dense>
-#define _USE_MATH_DEFINES
-#include <cmath>
 
-using Eigen::Vector3d;
 namespace sc = scrimmage;
+using ang = sc::Angles;
 
-TEST(test_quaternion, rotation) {
+TEST(test_angles, rotation) {
     sc::Angles ang;
-    ang.set_input_clock_direction(sc::Angles::Rotate::CW);
-    ang.set_input_zero_axis(sc::Angles::HeadingZero::Pos_Y);
-    ang.set_output_clock_direction(sc::Angles::Rotate::CCW);
-    ang.set_output_zero_axis(sc::Angles::HeadingZero::Pos_X);
+    ang.set_input_clock_direction(ang::Rotate::CW);
+    ang.set_input_zero_axis(ang::HeadingZero::Pos_Y);
+    ang.set_output_clock_direction(ang::Rotate::CCW);
+    ang.set_output_zero_axis(ang::HeadingZero::Pos_X);
 
     ang.set_angle(134);
     EXPECT_NEAR(ang.angle(), 360-44, 1e-1);
+}
+
+TEST(test_angles, angle_within) {
+    for (int i = -360 * 2; i < 360 * 2; i++) {
+        for (int j = 1; j < 89; j++) {
+            int low = i;
+            int high = i+ 90;
+            int ang = i + j;
+
+            EXPECT_TRUE(ang::angle_within(low, high, ang));
+            EXPECT_TRUE(ang::angle_within(high, low, ang));
+
+            EXPECT_FALSE(ang::angle_within(high + 90, high + 180, ang));
+            EXPECT_FALSE(ang::angle_within(high + 180, high + 90, ang));
+
+            double low_rad = ang::deg2rad(low);
+            double high_rad = ang::deg2rad(high);
+            double ang_rad = ang::deg2rad(ang);
+
+            EXPECT_TRUE(ang::angle_within(low_rad, high_rad, ang_rad));
+            EXPECT_TRUE(ang::angle_within(high_rad, low_rad, ang_rad));
+
+            EXPECT_FALSE(ang::angle_within(high_rad + M_PI / 2, high_rad + M_PI, ang_rad));
+            EXPECT_FALSE(ang::angle_within(high_rad + M_PI, high_rad + M_PI / 2, ang_rad));
+        }
+    }
 }

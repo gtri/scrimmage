@@ -30,38 +30,26 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-#define INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
-
-#include <Eigen/Dense>
-
-#include <map>
+#include <gtest/gtest.h>
+#include <scrimmage/common/Utilities.h>
 #include <vector>
-#include <string>
-#include <unordered_set>
 
-namespace scrimmage {
+using Eigen::Vector3d;
+namespace sc = scrimmage;
 
-void display_progress(float progress);
+TEST(test_utilities, linspace) {
+    std::vector<double> vec = sc::linspace(0, 1, 3);
+    EXPECT_EQ(vec.size(), static_cast<size_t>(3));
+    EXPECT_NEAR(vec[0], 0, 1e-8);
+    EXPECT_NEAR(vec[1], 0.5, 1e-8);
+    EXPECT_NEAR(vec[2], 1, 1e-8);
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map);
+    vec = sc::linspace(M_PI, 0, 5);
+    EXPECT_EQ(vec.size(), static_cast<size_t>(5));
+    EXPECT_NEAR(vec[0], M_PI, 1e-8);
+    EXPECT_NEAR(vec[1], 3 * M_PI / 4, 1e-8);
+    EXPECT_NEAR(vec[2], M_PI / 2, 1e-8);
+    EXPECT_NEAR(vec[3], M_PI / 4, 1e-8);
+    EXPECT_NEAR(vec[4], 0, 1e-8);
+}
 
-std::string get_sha(std::string &path);
-
-std::string get_version();
-
-void filter_line(int downsampling_factor,
-    int num_points,
-    std::vector<Eigen::Vector3d> &path,
-    std::vector<Eigen::Vector3d> &filtered_path);
-
-std::string generate_chars(std::string symbol, int num);
-
-std::string eigen_str(const Eigen::VectorXd &vec);
-
-std::vector<double> linspace(double low, double high, uint32_t n);
-} // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
