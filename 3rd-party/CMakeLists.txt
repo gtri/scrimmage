@@ -26,7 +26,7 @@ ExternalProject_Add (
     GIT_TAG "36de9ac63c959cef5d7b2c56fb49c1a57fd46369"
     PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch
     UPDATE_COMMAND ${SETUP_DIR}/install-aircraft.sh "${CMAKE_CURRENT_BINARY_DIR}/src/jsbsim"
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+    CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
 )
 
 ########################################################
