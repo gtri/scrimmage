@@ -68,6 +68,7 @@ class Autonomy : public Plugin {
     ContactMap &get_contacts_raw();
     virtual void set_contacts(ContactMapPtr &contacts);
     virtual void set_contacts_from_plugin(AutonomyPtr &ptr);
+    virtual void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
     scrimmage::RTreePtr &rtree();
     void set_rtree(scrimmage::RTreePtr &rtree);
@@ -76,8 +77,6 @@ class Autonomy : public Plugin {
     virtual void set_state(StatePtr &state);
 
     std::list<scrimmage_proto::ShapePtr> &shapes();
-
-    virtual void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj);
 
     std::string &logging_msg();
 

@@ -29,7 +29,7 @@
  * A Long description goes here.
  *
  */
-
+#include <iostream>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/autonomy/Autonomy.h>
@@ -43,6 +43,9 @@
 #include <memory>
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
+
+using std::cout;
+using std::endl;
 
 namespace scrimmage {
 
@@ -68,9 +71,9 @@ bool External::create_entity(ID id,
     double lat = std::stod(info["latitude"]);
     double lon = std::stod(info["longitude"]);
 
-    auto proj = std::make_shared<GeographicLib::LocalCartesian>(
+    proj_ = std::make_shared<GeographicLib::LocalCartesian>(
         lat, lon, 0, GeographicLib::Geocentric::WGS84()
-    );
+        );
 
     info["team_id"] = std::to_string(id.team_id());
 
@@ -85,7 +88,7 @@ bool External::create_entity(ID id,
     AttributeMap overrides;
     bool success =
         entity_->init(
-            overrides, info, contacts, mp, proj, id.id(), id.sub_swarm_id(),
+            overrides, info, contacts, mp, proj_, id.id(), id.sub_swarm_id(),
             plugin_manager_, network_, file_search_, rtree);
 
     if (!success) {

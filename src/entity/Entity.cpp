@@ -71,6 +71,7 @@ bool Entity::init(AttributeMap &overrides,
                   RTreePtr &rtree) {
     contacts_ = contacts;
     rtree_ = rtree;
+    proj_ = proj;
 
     id_.set_id(id);
     id_.set_sub_swarm_id(sub_swarm_id);
@@ -83,8 +84,7 @@ bool Entity::init(AttributeMap &overrides,
         parse_visual(info, mp_, file_search);
     }
 
-    // Setup lat/long x/y converter
-    proj_ = proj;
+
 
     if (info.count("health") > 0) {
         health_points_ = std::stoi(info["health"]);

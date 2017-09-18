@@ -98,6 +98,7 @@ class External {
     FileSearch file_search_;
     PluginManagerPtr plugin_manager_;
     int max_entities_;
+    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
 #ifdef ROSCPP_ROS_H
 

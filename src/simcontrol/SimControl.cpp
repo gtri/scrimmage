@@ -306,8 +306,6 @@ bool SimControl::init() {
     contacts_->reserve(max_num_entities+1);
     contacts_mutex_.unlock();
 
-    generate_entities(0);
-
     if (get("show_plugins", mp_->params(), false)) {
         plugin_manager_->print_returned_plugins();
     }
@@ -345,10 +343,10 @@ bool SimControl::generate_entities(double t) {
 
         // Generate entities if time has been reached
         int gen_count = 0;
-        for (double gen_time : mp_->next_gen_times()[ent_desc_id]) {
+        for (double &gen_time : mp_->next_gen_times()[ent_desc_id]) {
 
             GenerateInfo &gen_info = mp_->gen_info()[ent_desc_id];
-            if (t < gen_time || gen_info.total_count < 0) {
+            if (t < gen_time || gen_info.total_count <= 0) {
                 continue;
             }
 
@@ -454,6 +452,8 @@ bool SimControl::generate_entities(double t) {
             // Is rate generation enabled?
             if (gen_info.rate > 0) {
                 NormDist norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
+
+                // save next gen time to pointer to next gen time
                 gen_time = norm_dist(*random_->gener());
                 if (gen_time <= t) {
                     cout << "Next generation time less than current time. "

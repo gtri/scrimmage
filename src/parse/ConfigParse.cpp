@@ -107,17 +107,15 @@ bool ConfigParse::parse(std::map<std::string, std::string> &overrides,
         std::string filename, std::string env_var,
         FileSearch &file_search, bool verbose) {
 
-    bool status = file_search.find_file(filename, "xml", env_var, filename, verbose);
+    std::string result = "";
+    bool status = file_search.find_file(filename, "xml", env_var, result, verbose);
     if (!status) {
-        if (boost::to_upper_copy(filename) != "SPHERE") {
-            cout << "Failed to find config: " << filename << endl;
-        }
+        cout << "Failed to find configuration: " << filename << endl;
         return false;
     } else if (verbose) {
-        cout << "ConfigParse: found " << filename << std::endl;
+        cout << "ConfigParse: found " << result << std::endl;
     }
-
-    filename_ = filename;
+    filename_ = result;
 
     rx::xml_document<> doc;
     std::ifstream file(filename_.c_str());

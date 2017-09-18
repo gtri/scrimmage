@@ -1,48 +1,48 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
-<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="SASC Capture the Flag">
-  
-  <run start="0.0" end="100" dt="0.1" 
-       time_warp="0" 
+
+  <run start="0.0" end="100" dt="0.1"
+       time_warp="0"
        enable_gui="false"
        network_gui="false"
        start_paused="false"/>
-  
+
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
-  
-  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->  
-  
+
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->
+
   <grid_spacing>10</grid_spacing>
   <grid_size>1000</grid_size>
-  
+
   <terrain>mcmillan</terrain>
   <background_color>191 191 191</background_color> <!-- Red Green Blue -->
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
-  
+
   <plot_tracks>false</plot_tracks>
   <output_type>all</output_type>
   <show_plugins>false</show_plugins>
 
   <metrics order="0">SimpleCollisionMetrics</metrics>
-  
-  <log_dir>~/.scrimmage/logs</log_dir>  
-      
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
   <latitude_origin>35.721025</latitude_origin>
-  <longitude_origin>-120.767925</longitude_origin>      
+  <longitude_origin>-120.767925</longitude_origin>
   <altitude_origin>300</altitude_origin>
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
-  
-  <entity_interaction order="0">SimpleCollision</entity_interaction>   
-  
+
+  <entity_interaction order="0">SimpleCollision</entity_interaction>
+
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
-  
+
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
-    <team_id>1</team_id> 
+    <team_id>1</team_id>
     <color>77 77 255</color>
     <count>1</count>
     <health>1</health>
@@ -50,59 +50,32 @@
     <generate_rate> 1 / 2 </generate_rate>
     <generate_count>2</generate_count>
     <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.01</generate_time_variance>
+    <generate_time_variance>0.00</generate_time_variance>
 
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
-    
+
     <x>-1000</x>
     <y>0</y>
     <z>200</z>
-    <heading>0</heading>            
+    <heading>0</heading>
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
 
     <visual_model>zephyr-blue</visual_model>
-    
-    <autonomy>Straight</autonomy>    
+
+    <autonomy>Straight</autonomy>
     <base>
       <latitude>35.721112</latitude>
-      <longitude>-120.770305</longitude>      
-      <altitude>300</altitude>  
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
       <radius>25</radius>
-    </base>    
+    </base>
   </entity>
 
-  <!--
   <entity>
-    <team_id>1</team_id> 
-    <color>77 77 255</color>
-    <count>3</count>
-    <health>1</health>
-
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.10</generate_time_variance>
-
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
-    <variance_z>10</variance_z>
-    
-    <x>-1000</x>
-    <y>500</y>
-    <z>200</z>
-    <heading>0</heading>            
-    <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-blue</visual_model>
-    <autonomy>Straight</autonomy>        
-    </entity>
-    -->
-
-  <entity>    
-    <team_id>2</team_id>      
+    <team_id>2</team_id>
     <color>255 0 0</color>
     <count>1</count>
     <health>1</health>
@@ -111,7 +84,7 @@
     <generate_count>2</generate_count>
     <generate_start_time>0</generate_start_time>
     <generate_time_variance>0.10</generate_time_variance>
-    
+
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
@@ -119,47 +92,19 @@
     <x>1000</x>
     <y>0</y>
     <z>200</z>
-    
-    <heading>180</heading>        
+
+    <heading>180</heading>
     <altitude>200</altitude>
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
-    <autonomy>Straight</autonomy>    
-    <base>      
+    <autonomy>Straight</autonomy>
+    <base>
       <latitude>35.719961</latitude>
       <longitude>-120.767304</longitude>
-      <altitude>300</altitude> 
+      <altitude>300</altitude>
       <radius>25</radius>
-    </base>    
+    </base>
   </entity>
-<!--
-  <entity>    
-    <team_id>3</team_id>      
-    <color>255 0 0</color>
-    <count>3</count>
-    <health>1</health>
-
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.10</generate_time_variance>
-    
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
-    <variance_z>10</variance_z>
-
-    <x>1000</x>
-    <y>500</y>
-    <z>200</z>
-    
-    <heading>180</heading>        
-    <altitude>200</altitude>
-    <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-red</visual_model>
-    <autonomy>Straight</autonomy>        
-    </entity>
-    -->
 
 </runscript>
