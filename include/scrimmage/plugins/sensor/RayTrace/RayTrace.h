@@ -57,6 +57,11 @@ class RayTrace : public scrimmage::Sensor {
      public:
         std::vector<PCPoint> points;
         double max_range;
+        double min_range;
+        double num_rays_vert;
+        double num_rays_horiz;
+        double angle_res_vert;
+        double angle_res_horiz;
     };
 
     virtual std::string name() { return "RayTrace"; }

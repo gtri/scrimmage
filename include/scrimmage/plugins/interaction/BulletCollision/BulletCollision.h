@@ -37,6 +37,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 #include <btBulletDynamicsCommon.h>
 
@@ -80,8 +81,8 @@ class BulletCollision : public scrimmage::EntityInteraction {
     // Key 1: Entity ID
     // Value 2: map
     // Key 2: Sensor Name (sensor0)
-    // Value 2: List of rays
-    std::map<int, std::map<std::string, std::list<Eigen::Vector3d>>> rays_;
+    // Value 2: Point Cloud
+    std::map<int, std::map<std::string, RayTrace::PointCloud>> pcls_;
     std::map<int, std::map<std::string, sc::PublisherPtr>> pcl_pubs_;
 
     bool show_rays_ = false;

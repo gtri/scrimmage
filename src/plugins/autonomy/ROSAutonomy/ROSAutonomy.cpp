@@ -108,14 +108,15 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
 
     // Convert scrimmage point cloud into laser scan
     for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
+        double fov_half = msg->data.num_rays_horiz * msg->data.angle_res_horiz / 2.0;
         sensor_msgs::LaserScan laser_msg;
-        laser_msg.angle_min = sc::Angles::deg2rad(-20);
-        laser_msg.angle_max = sc::Angles::deg2rad(20);
-        laser_msg.angle_increment = sc::Angles::deg2rad(2);
+        laser_msg.angle_min = -fov_half;
+        laser_msg.angle_max = fov_half;
+        laser_msg.angle_increment = msg->data.angle_res_horiz;
         laser_msg.time_increment = 0;
         laser_msg.scan_time = 0;
-        laser_msg.range_min = 0.0;
-        laser_msg.range_max = 30.0;
+        laser_msg.range_min = msg->data.min_range;
+        laser_msg.range_max = msg->data.max_range;
         laser_msg.ranges.resize(msg->data.points.size());
         laser_msg.intensities.resize(msg->data.points.size());
 

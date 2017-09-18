@@ -138,7 +138,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         int id = msg->data.entity_id();
 
         sc::EntityPtr &ent = (*id_to_ent_map_)[id];
-        
+
         btCollisionObject* coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
         coll_object->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
@@ -165,6 +165,14 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
                     if (rs) {
+                        RayTrace::PointCloud pcl;
+                        pcl.max_range = rs->max_range();
+                        pcl.min_range = rs->min_range();
+                        pcl.num_rays_vert = rs->num_rays_vert();
+                        pcl.num_rays_horiz = rs->num_rays_horiz();
+                        pcl.angle_res_vert = rs->angle_res_vert();
+                        pcl.angle_res_horiz = rs->angle_res_horiz();
+
                         double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz()-1);
                         double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert()-1);
                         double start_angle_horiz = -fov_horiz / 2.0;
@@ -181,11 +189,12 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                 sc::Quaternion rot_horiz(Eigen::Vector3d(0, 0, 1), angle_horiz);
                                 r = rot_horiz.rotate(r);
 
-                                rays_[id][kv.first].push_back(r);
+                                pcl.points.push_back(RayTrace::PCPoint(r));
                                 angle_horiz += rs->angle_res_horiz();
                             }
                             angle_vert += rs->angle_res_vert();
                         }
+                        pcls_[id][kv.first]= pcl;
                     }
                 }
             }
@@ -200,14 +209,20 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                            (btScalar) ent->state()->pos()(2)));
     }
 
-    // For all ray-based sensors, compute point clouds
-    for (auto &kv : rays_) {
+    // For each entity's ray-based sensors, compute point clouds
+    for (auto &kv : pcls_) {
         sc::EntityPtr &own_ent = (*id_to_ent_map_)[kv.first];
         Eigen::Vector3d own_pos = own_ent->state()->pos();
 
-        for (auto &kv2 : kv.second) {
+        // For each ray sensor on a single entity
+        for (auto kv2 : kv.second) {
             auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
-            msg->data.max_range = kv2.second.front().norm();
+            msg->data.max_range = kv2.second.max_range;
+            msg->data.min_range = kv2.second.min_range;
+            msg->data.num_rays_vert = kv2.second.num_rays_vert;
+            msg->data.num_rays_horiz = kv2.second.num_rays_horiz;
+            msg->data.angle_res_vert = kv2.second.angle_res_vert;
+            msg->data.angle_res_horiz = kv2.second.angle_res_horiz;
 
             // Compute transformation matrix from entity's frame to sensor's
             // frame.
@@ -215,7 +230,9 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             Eigen::Matrix4d tf_m = own_ent->state()->tf_matrix(false) *
                 sensor->transform()->tf_matrix();
 
-            for (Eigen::Vector3d &original_ray : kv2.second) {
+            // For each ray in the sensor
+            for (RayTrace::PCPoint &pcpoint : kv2.second.points) {
+                Eigen::Vector3d original_ray = pcpoint.point;
                 // Transform sensor's origin to world coordinates
                 Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
                 Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
