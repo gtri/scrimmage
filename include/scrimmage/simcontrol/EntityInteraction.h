@@ -75,17 +75,13 @@ class EntityInteraction : public Plugin {
 
     inline virtual void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj)
     { proj_ = proj;}
-
-    inline void set_team_lookup(std::shared_ptr<std::unordered_map<int, int> > &lookup)
-    { team_lookup_ = lookup; }
-
+    
  protected:
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
     std::list<std::shared_ptr<scrimmage_proto::Shape> > shapes_;
     RandomPtr random_;
-    MissionParsePtr mp_;
-    std::shared_ptr<std::unordered_map<int, int>> team_lookup_;
+    MissionParsePtr mp_;    
 };
 
 typedef std::shared_ptr<EntityInteraction> EntityInteractionPtr;

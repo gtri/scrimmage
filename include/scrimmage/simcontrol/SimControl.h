@@ -138,7 +138,8 @@ class SimControl {
  protected:
     // Key: Entity ID
     // Value: Team ID
-    std::shared_ptr<std::unordered_map<int, int> > team_lookup_;
+    std::shared_ptr<std::unordered_map<int, int> > id_to_team_map_;
+    std::shared_ptr<std::unordered_map<int, EntityPtr> > id_to_ent_map_;
 
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;

@@ -113,12 +113,6 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt) {
     shapes_.clear();
 
-    // Maybe we should use a map by default
-    std::map<int, sc::EntityPtr> int_to_ent_map;
-    for (sc::EntityPtr &ent : ents) {
-        int_to_ent_map[ent->id().id()] = ent;
-    }
-
     // Get new static shapes
     for (auto msg : sub_shape_gen_->msgs<sc::Message<sp::Shapes>>()) {
         for (int i = 0; i < msg->data.shape_size(); i++) {
@@ -143,13 +137,15 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     for (auto msg : sub_ent_gen_->msgs<sc::Message<sm::EntityGenerated>>()) {
         int id = msg->data.entity_id();
 
+        sc::EntityPtr &ent = (*id_to_ent_map_)[id];
+        
         btCollisionObject* coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
-        coll_object->getWorldTransform().setOrigin(btVector3((btScalar) int_to_ent_map[id]->state()->pos()(0),
-                                                             (btScalar) int_to_ent_map[id]->state()->pos()(1),
-                                                             (btScalar) int_to_ent_map[id]->state()->pos()(2)));
+        coll_object->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
+                                                             (btScalar) ent->state()->pos()(1),
+                                                             (btScalar) ent->state()->pos()(2)));
 
-        btSphereShape * sphere_shape = new btSphereShape(int_to_ent_map[id]->radius()); // TODO: memory management
+        btSphereShape * sphere_shape = new btSphereShape(ent->radius()); // TODO: memory management
         coll_object->setCollisionShape(sphere_shape);
         bt_collision_world->addCollisionObject(coll_object);
 
@@ -157,7 +153,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
         if (enable_ray_tracing_) {
             // What types of sensors need to be attached to this entity?
-            for (auto &kv : int_to_ent_map[id]->sensors()) {
+            for (auto &kv : ent->sensors()) {
                 if (kv.second->type() == "Ray") {
                     // Create a publisher for this sensor
                     // "entity_id/RayTrace0/pointcloud"
@@ -198,14 +194,16 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
     // Update positions of all objects
     for (auto &kv : objects_) {
-        kv.second->getWorldTransform().setOrigin(btVector3((btScalar) int_to_ent_map[kv.first]->state()->pos()(0),
-                                                           (btScalar) int_to_ent_map[kv.first]->state()->pos()(1),
-                                                           (btScalar) int_to_ent_map[kv.first]->state()->pos()(2)));
+        sc::EntityPtr &ent = (*id_to_ent_map_)[kv.first];
+        kv.second->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
+                                                           (btScalar) ent->state()->pos()(1),
+                                                           (btScalar) ent->state()->pos()(2)));
     }
 
     // For all ray-based sensors, compute point clouds
     for (auto &kv : rays_) {
-        Eigen::Vector3d own_pos = int_to_ent_map[kv.first]->state()->pos();
+        sc::EntityPtr &own_ent = (*id_to_ent_map_)[kv.first];
+        Eigen::Vector3d own_pos = own_ent->state()->pos();
 
         for (auto &kv2 : kv.second) {
             auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
@@ -213,8 +211,8 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
             // Compute transformation matrix from entity's frame to sensor's
             // frame.
-            sc::SensorPtr &sensor = int_to_ent_map[kv.first]->sensors()[kv2.first];
-            Eigen::Matrix4d tf_m = int_to_ent_map[kv.first]->state()->tf_matrix(false) *
+            sc::SensorPtr &sensor = own_ent->sensors()[kv2.first];
+            Eigen::Matrix4d tf_m = own_ent->state()->tf_matrix(false) *
                 sensor->transform()->tf_matrix();
 
             for (Eigen::Vector3d &original_ray : kv2.second) {
@@ -299,11 +297,11 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                          pt.m_normalWorldOnB.y(),
                                          pt.m_normalWorldOnB.z());
 
-                if (int_to_ent_map.count(obB->getUserIndex()) > 0) {
-                    int_to_ent_map[obB->getUserIndex()]->motion()->set_external_force(-normal_B);
+                if (id_to_ent_map_->count(obB->getUserIndex()) > 0) {
+                    (*id_to_ent_map_)[obB->getUserIndex()]->motion()->set_external_force(-normal_B);
                 }
-                if (int_to_ent_map.count(obA->getUserIndex()) > 0) {
-                    int_to_ent_map[obA->getUserIndex()]->motion()->set_external_force(normal_B);
+                if (id_to_ent_map_->count(obA->getUserIndex()) > 0) {
+                    (*id_to_ent_map_)[obA->getUserIndex()]->motion()->set_external_force(normal_B);
                 }
             }
         }

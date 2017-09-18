@@ -30,7 +30,10 @@
   <show_origin>true</show_origin>
   <origin_length>5</origin_length>
 
+  
   <entity_interaction order="0">SimpleCapture</entity_interaction>
+  <entity_interaction order="1" startup_collisions_only="true">SimpleCollision</entity_interaction>
+  
   <metrics order="0">SimpleCaptureMetrics</metrics>
 
   <!-- <seed>2147483648</seed> -->

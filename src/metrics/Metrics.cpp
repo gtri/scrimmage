@@ -49,9 +49,6 @@ void Metrics::init(std::map<std::string, std::string> &params) {}
 
 bool Metrics::step_metrics(double t, double dt) { return false; }
 
-void Metrics::set_team_lookup(std::shared_ptr<std::unordered_map<int, int> > &lookup)
-{ team_lookup_ = lookup; }
-
 void Metrics::calc_team_scores() {}
 
 void Metrics::print_team_summaries() {}

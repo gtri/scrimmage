@@ -49,9 +49,7 @@ class Metrics : public Plugin{
     virtual std::string name();
     virtual void init();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_metrics(double t, double dt);
-
-    void set_team_lookup(std::shared_ptr<std::unordered_map<int, int> > &lookup);
+    virtual bool step_metrics(double t, double dt);    
 
     virtual void calc_team_scores();
     virtual void print_team_summaries();
@@ -67,8 +65,7 @@ class Metrics : public Plugin{
     virtual std::map<int, double> & team_scores();
 
  protected:
-    std::string weights_file_;
-    std::shared_ptr<std::unordered_map<int, int> > team_lookup_;
+    std::string weights_file_;    
     std::map<int, std::map<std::string, double>> team_metrics_;
     std::map<int, double> team_scores_;
     std::list<std::string> headers_;

@@ -94,7 +94,7 @@ bool SimpleCollisionMetrics::step_metrics(double t, double dt) {
 
     for (auto msg : sub_ent_pres_end_->msgs<sc::Message<sm::EntityPresentAtEnd>>()) {
         scores_[msg->data.entity_id()].set_flight_time_end(t);
-        surviving_teams_[(*team_lookup_)[msg->data.entity_id()]] = true;
+        surviving_teams_[(*id_to_team_map_)[msg->data.entity_id()]] = true;
     }
 
     return true;
@@ -123,7 +123,7 @@ void SimpleCollisionMetrics::calc_team_scores() {
         // Set the max flight time for each score:
         score.set_max_flight_time(max_flight_time);
 
-        int team_id = (*team_lookup_)[kv.first];
+        int team_id = (*id_to_team_map_)[kv.first];
 
         // Create the score, if necessary
         if (team_coll_scores_.count(team_id) == 0) {

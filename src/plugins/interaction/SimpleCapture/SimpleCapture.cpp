@@ -77,17 +77,12 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         return true;
     }
 
-    std::map<int, sc::EntityPtr> int_to_ent_map;
-    for (sc::EntityPtr &ent : ents) {
-        int_to_ent_map[ent->id().id()] = ent;
-    }
-
     // Process capture messages
     for (auto msg : capture_ent_sub_->msgs<sc::Message<sm::CaptureEntity>>()) {
         int source_id = msg->data.source_id();
         int target_id = msg->data.target_id();
-        sc::EntityPtr src = int_to_ent_map[source_id];
-        sc::EntityPtr dst = int_to_ent_map[target_id];
+        sc::EntityPtr &src = (*id_to_ent_map_)[source_id];
+        sc::EntityPtr &dst = (*id_to_ent_map_)[target_id];
 
         if ((src->state()->pos() - dst->state()->pos()).norm() <=
             capture_range_) {

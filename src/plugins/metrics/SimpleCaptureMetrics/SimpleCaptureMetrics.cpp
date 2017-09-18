@@ -76,7 +76,7 @@ void SimpleCaptureMetrics::calc_team_scores() {
     for (auto &kv : scores_) {
         Score &score = kv.second;
 
-        int team_id = (*team_lookup_)[kv.first];
+        int team_id = (*id_to_team_map_)[kv.first];
 
         // Create the score, if necessary
         if (team_scores_map_.count(team_id) == 0) {

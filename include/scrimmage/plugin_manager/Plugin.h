@@ -80,6 +80,12 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     /* Homogeneous transform from parent link */
     StatePtr transform() { return transform_; }
 
+    virtual void set_id_to_team_map(std::shared_ptr<std::unordered_map<int, int> > &lookup)
+    { id_to_team_map_ = lookup; }
+
+    virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> &lookup)
+    { id_to_ent_map_ = lookup; }
+
  protected:
     int network_id_;
     static int plugin_count_;
@@ -90,6 +96,10 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::map<std::string, SubscriberPtr> subs_;
 
     StatePtr transform_;
+
+    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
+    
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;

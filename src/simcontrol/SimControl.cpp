@@ -79,7 +79,8 @@ using std::endl;
 namespace scrimmage {
 
 SimControl::SimControl() :
-        team_lookup_(new std::unordered_map<int, int>()),
+        id_to_team_map_(new std::unordered_map<int, int>()),
+        id_to_ent_map_(new std::unordered_map<int, EntityPtr>()),
         timer_(Timer()),
         random_(new Random()),
         plugin_manager_(new PluginManager()) {
@@ -259,7 +260,8 @@ bool SimControl::init() {
                     file_search_, config_parse, overrides));
 
         if (metrics != nullptr) {
-            metrics->set_team_lookup(team_lookup_);
+            metrics->set_id_to_team_map(id_to_team_map_);
+            metrics->set_id_to_ent_map(id_to_ent_map_);
             metrics->set_network(network_);
             metrics->init(config_parse.params());
             metrics_.push_back(metrics);
@@ -289,7 +291,8 @@ bool SimControl::init() {
         ent_inter->set_mission_parse(mp_);
         ent_inter->set_projection(proj_);
         ent_inter->set_network(network_);
-        ent_inter->set_team_lookup(team_lookup_);
+        ent_inter->set_id_to_team_map(id_to_team_map_);
+        ent_inter->set_id_to_ent_map(id_to_ent_map_);
         ent_inter->init(mp_->params(), config_parse.params());
 
         // Get shapes from plugin
@@ -420,7 +423,8 @@ bool SimControl::generate_entities(double t) {
                 return false;
             }
 
-            (*team_lookup_)[ent->id().id()] = ent->id().team_id();
+            (*id_to_team_map_)[ent->id().id()] = ent->id().team_id();
+            (*id_to_ent_map_)[ent->id().id()] = ent;
 
             contact_visuals_[ent->id().id()] = ent->contact_visual();
 

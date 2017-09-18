@@ -46,7 +46,9 @@ int Plugin::plugin_count_ = 0;
 
 Plugin::Plugin() : network_id_(plugin_count_++),
                    parent_(std::make_shared<Entity>()),
-                   transform_(std::make_shared<State>()) {}
+                   transform_(std::make_shared<State>()),
+                   id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
+                   id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()) {}
 
 Plugin::~Plugin() {}
 
