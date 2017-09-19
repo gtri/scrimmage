@@ -38,11 +38,11 @@ ExternalProject_Add (
   protobuf
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}
   GIT_REPOSITORY "https://github.com/google/protobuf.git"
-  GIT_TAG ${Protobuf_VERSION}
+  GIT_TAG ${PROTOBUF_VERSION}
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=${CMAKE_INSTALL_PREFIX}
   PATCH_COMMAND ""
-  UPDATE_COMMAND ""  
+  UPDATE_COMMAND ""
   INSTALL_COMMAND make install
 )
 
@@ -61,7 +61,7 @@ ExternalProject_Add (
   CONFIGURE_COMMAND ""
   BUILD_COMMAND make HAS_SYSTEM_PROTOBUF=true PROTOC=${CMAKE_INSTALL_PREFIX}/bin/protoc
   DEPENDS protobuf
-  GIT_REPOSITORY "https://github.com/grpc/grpc"  
+  GIT_REPOSITORY "https://github.com/grpc/grpc"
   GIT_TAG ${GRPC_VERSION}
   UPDATE_COMMAND ""
   PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/grpc.patch

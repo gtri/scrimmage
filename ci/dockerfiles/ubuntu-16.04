@@ -32,20 +32,20 @@ WORKDIR /root/scrimmage
 RUN ./setup/install-binaries.sh -e 0 -p 3
 
 # Build 3rd-party dependencies
-RUN mkdir -p 3rd-party/build
-WORKDIR /root/scrimmage/3rd-party/build
-RUN /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
+RUN mkdir -p ./3rd-party/build && \
+    cd ./3rd-party/build && \
+    /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
 
 # build 3rd party python protobuf
-WORKDIR /root/scrimmage/3rd-party/build/src/protobuf/python
-RUN python3 setup.py build
-RUN python3 setup.py install
+RUN cd /root/scrimmage/3rd-party/build/src/protobuf/python && \
+    python3 setup.py build && python3 setup.py install
 
 # build 3rd party python grpc 
-WORKDIR /root/scrimmage/3rd-party/build/src/grpc
-RUN pip3 install -rrequirements.txt
-RUN GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
+RUN cd /root/scrimmage/3rd-party/build/src/grpc && \
+    pip3 install -rrequirements.txt && \
+    GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
 
+# GRPC requirements installs futures, which doesn't make sense for python3
 RUN pip3 uninstall -y futures
 
 # Run static analysis tests
@@ -72,5 +72,6 @@ RUN /bin/bash -c "cd build && \
 # install python package and run tests
 WORKDIR /root/scrimmage/python
 RUN pip3 install -e .
+
 WORKDIR /root/scrimmage
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"

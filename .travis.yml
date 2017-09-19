@@ -27,3 +27,8 @@ after_success:
 - docker cp mycontainer:/root/scrimmage/build/docs ./doc_output
 - bash ./ci/scripts/deploy-docs.sh
 - docker push $DOCKER_USERNAME/scrimmage:latest
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
