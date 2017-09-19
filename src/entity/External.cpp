@@ -81,6 +81,7 @@ bool External::create_entity(ID id,
 
     ContactMapPtr contacts = std::make_shared<ContactMap>();
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
+    std::cout << "max_entities_ is " << max_entities_ << std::endl;
     rtree->init(max_entities_);
 
     MissionParsePtr mp(new MissionParse());

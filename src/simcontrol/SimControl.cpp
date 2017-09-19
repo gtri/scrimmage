@@ -823,12 +823,8 @@ void SimControl::run_check_network_msgs() {
 }
 
 bool SimControl::collision_exists(Eigen::Vector3d &p) {
-    for (EntityInteractionPtr ent_inter : ent_inters_) {
-        if (ent_inter->collision_exists(ents_, p)) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of(ent_inters_.begin(), ent_inters_.end(),
+        [&](auto ent_inter) {return ent_inter->collision_exists(ents_, p);});
 }
 
 void SimControl::force_exit() {
@@ -1065,7 +1061,6 @@ bool SimControl::run_entity(EntityPtr &ent) {
             success = false;
         }
     };
-
 
     for (auto &kv : ent->sensables()) {
         for (SensablePtr &sensable : kv.second) {

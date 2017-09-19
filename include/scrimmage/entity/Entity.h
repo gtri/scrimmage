@@ -37,6 +37,7 @@
 #include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Visual.pb.h>
+#include <scrimmage/pubsub/Message.h>
 
 #include <map>
 #include <unordered_map>
@@ -85,7 +86,34 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void setup_desired_state();
     bool ready();
 
-    bool call_service(MessageBasePtr req, MessageBasePtr &res, std::string service_name);
+    bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
+
+    bool call_service(MessageBasePtr &res, const std::string &service_name) {
+        return call_service(std::make_shared<MessageBase>(), res, service_name);
+    }
+
+    template <class T = MessageBasePtr,
+              class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
+    bool call_service(MessageBasePtr req, T &res, const std::string &service_name) {
+        MessageBasePtr res_base;
+        if (call_service(req, res_base, service_name)) {
+            res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
+            if (res == nullptr) {
+                print(std::string("could not cast for service ") + service_name);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    template <class T = MessageBasePtr,
+              class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
+    bool call_service(T &res, const std::string &service_name) {
+        return call_service(std::make_shared<MessageBase>(), res, service_name);
+    }
     ///@}
 
     /*! \name getters/setters */
@@ -160,6 +188,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
     RTreePtr rtree_;
 
     double radius_ = 1;
+
+    void print(const std::string &msg);
 };
 
 using EntityPtr = std::shared_ptr<Entity>;

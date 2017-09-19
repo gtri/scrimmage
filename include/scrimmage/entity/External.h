@@ -70,7 +70,6 @@ template <class RosType, class Ros2Sc>
 boost::function<void(const boost::shared_ptr<RosType const>&)>
 create_cb(Ros2Sc ros2sc, SubscriberPtr sc_sub) {
     return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-        std::cout << sc_sub->get_topic() << std::endl;
         sc_sub->msg_list().push_back(ros2sc(ros_msg));
     };
 }
@@ -131,6 +130,59 @@ class External {
         };
 
         ros_pub_funcs_.push_back(func);
+    }
+
+    template <class RosType, class ScrimmageResponseType, class Sc2RosResponseFunc>
+    void add_srv_server(
+        ros::NodeHandle &nh,
+        const std::string &service_name,
+        scrimmage::Service sc_service_func,
+        Sc2RosResponseFunc sc2ros_response_func,
+        std::function<bool(typename RosType::Request&)> pre_func = nullptr,
+        std::function<bool(typename RosType::Response&)> post_func = nullptr) {
+
+        boost::function<bool(typename RosType::Request &, typename RosType::Response &)> callback =
+            [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
+
+                std::string suffix =
+                    std::string(" in advertised_service \"") + service_name + "\"";
+
+                std::cout << "now " << suffix << std::endl;
+                if (pre_func && !pre_func(ros_req)) {
+                    std::cout << "call to pre_func converting ros to scrimmage request failed"
+                        << suffix << std::endl;
+                    return false;
+                }
+
+                auto sc_req = std::shared_ptr<MessageBase>();
+
+                auto sc_res_base = std::make_shared<scrimmage::MessageBase>();
+                if (!sc_service_func(sc_req, sc_res_base)) {
+                    std::cout << "call to sc_service_func failed" << suffix << std::endl;
+                    return false;
+                }
+
+                auto sc_res =
+                    std::dynamic_pointer_cast<scrimmage::Message<ScrimmageResponseType>>(sc_res_base);
+                if (!sc_res) {
+                    std::cout << "could not cast to "
+                        << "scrimmage::MessagePtr<ScrimmageResponseType> "
+                        << "(aka, scrimmage::MessagePtr<"
+                        << boost::typeindex::type_id<ScrimmageResponseType>().pretty_name()
+                        << ">)" << suffix << std::endl;
+                    return false;
+                }
+
+                ros_res = sc2ros_response_func(sc_res);
+                if (post_func && !post_func(ros_res)) {
+                    std::cout << "call to post_func converting scrimmage to "
+                        << "ros response failed" << suffix << std::endl;
+                    return false;
+                }
+                return true;
+            };
+
+        ros_service_servers_.push_back(nh.advertiseService(service_name.c_str(), callback));
     }
 
     template <class RosType, class ScrimmageResponseType,
@@ -194,6 +246,34 @@ class External {
         ros_service_servers_.push_back(nh.advertiseService(service_name.c_str(), callback));
     }
 
+    template <class RosType, class Ros2ScResponseFunc>
+    void add_srv_client(ros::NodeHandle &nh,
+        const std::string &sc_topic,
+        Ros2ScResponseFunc ros2sc_response_func,
+        const std::string &ros_topic = "") {
+
+        std::string topic = ros_topic == "" ? sc_topic : ros_topic;
+        auto service_client =
+            std::make_shared<ros::ServiceClient>(nh.serviceClient<RosType>(topic));
+
+        auto call_service =
+            [=](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
+
+                RosType srv;
+                if (!service_client->call(srv)) {
+                    std::cout << "service call failed "
+                        << "(sc_topic = " + sc_topic + ", ros_topic = " + topic + ")"
+                        << std::endl;
+                    return false;
+                }
+
+                sc_res = ros2sc_response_func(srv.response);
+                return true;
+            };
+
+        entity_->services()[sc_topic] = call_service;
+    }
+
     template <class RosType, class ScrimmageRequestType,
               class Sc2RosRequestFunc, class Ros2ScResponseFunc>
     void add_srv_client(ros::NodeHandle &nh,
@@ -208,20 +288,16 @@ class External {
 
         auto call_service =
             [=](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
-                auto err_msg = [&](const std::string &preface) {
-                    std::cout << preface << " in call_service "
-                        << "(sc_topic = " << sc_topic << ", ros_topic = " << topic << ")"
-                        << std::endl;
-                };
+                std::string suffix =
+                    std::string("(sc_topic = ") + sc_topic + ", ros_topic = " + topic + ")";
 
                 auto sc_req_cast =
                     std::dynamic_pointer_cast<scrimmage::Message<ScrimmageRequestType>>(sc_req);
                 if (!sc_req_cast) {
-                    std::stringstream ss;
-                    ss << "could not cast scrimmage::MessageBase request to scrimmage::MessagePtr<"
+                    std::cout << "could not cast scrimmage::MessageBase request "
+                        << " to scrimmage::MessagePtr<"
                         << boost::typeindex::type_id<ScrimmageRequestType>().pretty_name()
-                        << ">)";
-                    err_msg(ss.str());
+                        << "> " << suffix << std::endl;
                     return false;
                 }
 
@@ -229,6 +305,7 @@ class External {
                 srv.request = sc2ros_request_func(sc_req_cast);
 
                 if (!service_client->call(srv)) {
+                    std::cout << "service call failed " << suffix << std::endl;
                     return false;
                 }
 

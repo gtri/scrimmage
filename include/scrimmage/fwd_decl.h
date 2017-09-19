@@ -77,6 +77,11 @@ using SubscriberPtr = std::shared_ptr<Subscriber>;
 class MessageBase;
 using MessageBasePtr = std::shared_ptr<MessageBase>;
 
+template <class T>
+class Message;
+
+template <class T>
+using MessagePtr = std::shared_ptr<Message<T>>;
 class RTree;
 using RTreePtr = std::shared_ptr<RTree>;
 

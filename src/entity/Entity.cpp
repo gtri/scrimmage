@@ -428,7 +428,7 @@ void Entity::setup_desired_state() {
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
 
 bool Entity::call_service(scrimmage::MessageBasePtr req,
-        scrimmage::MessageBasePtr &res, std::string service_name) {
+        scrimmage::MessageBasePtr &res, const std::string &service_name) {
 
     auto it = services_.find(service_name);
     if (it == services_.end()) {
@@ -454,4 +454,7 @@ bool Entity::call_service(scrimmage::MessageBasePtr req,
     }
 }
 
+void Entity::print(const std::string &msg) {
+    std::cout << msg << std::endl;
+}
 } // namespace scrimmage
