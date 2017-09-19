@@ -29,7 +29,6 @@
  * A Long description goes here.
  *
  */
-#include <iostream>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/autonomy/Autonomy.h>
@@ -40,6 +39,7 @@
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/parse/MissionParse.h>
 
+#include <iostream>
 #include <memory>
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>

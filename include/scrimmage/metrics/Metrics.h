@@ -49,7 +49,7 @@ class Metrics : public Plugin{
     virtual std::string name();
     virtual void init();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_metrics(double t, double dt);    
+    virtual bool step_metrics(double t, double dt);
 
     virtual void calc_team_scores();
     virtual void print_team_summaries();
@@ -65,7 +65,7 @@ class Metrics : public Plugin{
     virtual std::map<int, double> & team_scores();
 
  protected:
-    std::string weights_file_;    
+    std::string weights_file_;
     std::map<int, std::map<std::string, double>> team_metrics_;
     std::map<int, double> team_scores_;
     std::list<std::string> headers_;
