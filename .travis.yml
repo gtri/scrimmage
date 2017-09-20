@@ -22,16 +22,14 @@ script:
 - docker build -t $DOCKER_USERNAME/scrimmage:$TRAVIS_BUILD_NUMBER -f ./ci/dockerfiles/ubuntu-16.04 .
 
 after_success:
-  if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) && 
-      [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    export REPO=$DOCKER_USERNAME/scrimmage
-    docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:latest
-    docker create --name mycontainer $REPO:latest
-    docker cp mycontainer:/root/scrimmage/build/docs ./doc_output
-    bash ./ci/scripts/deploy-docs.sh
-    docker push $REPO
-  fi
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - export REPO=$DOCKER_USERNAME/scrimmage
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG
+  - docker create --name mycontainer $REPO:$TAG
+  - docker cp mycontainer:/root/scrimmage/build/docs ./doc_output
+  - if [[ "$TAG" == "latest" ]]; then bash ./ci/scripts/deploy-docs.sh; fi
+  - docker push $REPO
 
 notifications:
   email:
