@@ -62,3 +62,29 @@ TEST(test_algorithm, set_difference) {
     EXPECT_EQ(set_diff.count(4), static_cast<uint8_t>(1));
     EXPECT_EQ(set_diff.count(5), static_cast<uint8_t>(0));
 }
+
+TEST(test_algorithm, set_union) {
+    std::unordered_set<int> set1 {1, 2, 3, 4, 5};
+    std::unordered_set<int> set2 {1, 3, 5, 6};
+
+    std::unordered_set<int> out = sc::set_union(set1, set2);
+    EXPECT_EQ(out.count(1), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(2), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(3), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(4), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(5), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(6), static_cast<uint8_t>(1));
+}
+
+TEST(test_algorithm, set_intersection) {
+    std::unordered_set<int> set1 {1, 2, 3, 4, 5};
+    std::unordered_set<int> set2 {1, 3, 5, 6};
+
+    std::unordered_set<int> out = sc::set_intersection(set1, set2);
+    EXPECT_EQ(out.count(1), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(2), static_cast<uint8_t>(0));
+    EXPECT_EQ(out.count(3), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(4), static_cast<uint8_t>(0));
+    EXPECT_EQ(out.count(5), static_cast<uint8_t>(1));
+    EXPECT_EQ(out.count(6), static_cast<uint8_t>(0));
+}
