@@ -8,9 +8,9 @@
 
 ## Welcome to SCRIMMAGE
 
-SCRIMMAGE is multi-agent simulator for robotics research. It has been used to
-conduct studies in multi-agent task assignment, differential game theory,
-novel controllers, and reinforcement learning.
+SCRIMMAGE is a multi-agent simulator for robotics research. It has been used to
+conduct studies in multi-agent task assignment, differential game theory, novel
+controllers, and reinforcement learning.
 
 ### SCRIMMAGE Demonstration Video
 
