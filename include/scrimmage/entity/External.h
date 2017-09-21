@@ -147,7 +147,6 @@ class External {
                 std::string suffix =
                     std::string(" in advertised_service \"") + service_name + "\"";
 
-                std::cout << "now " << suffix << std::endl;
                 if (pre_func && !pre_func(ros_req)) {
                     std::cout << "call to pre_func converting ros to scrimmage request failed"
                         << suffix << std::endl;
