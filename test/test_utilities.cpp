@@ -31,8 +31,15 @@
  */
 
 #include <gtest/gtest.h>
+
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Keys.h>
+#include <scrimmage/common/Values.h>
+
 #include <vector>
+#include <map>
+#include <unordered_set>
+#include <set>
 
 using Eigen::Vector3d;
 namespace sc = scrimmage;
@@ -53,3 +60,37 @@ TEST(test_utilities, linspace) {
     EXPECT_NEAR(vec[4], 0, 1e-8);
 }
 
+TEST(test_utilities, keys_class) {
+    std::map<int, int> map;
+    for (int i = 1; i < 10; i++) {
+        map[i] = -i;
+    }
+
+    // testing the create new memory version
+    auto keys_as_set = sc::keys(map).as<std::set<int>>();
+    auto values_as_set = sc::values(map).as<std::set<int>>();
+
+    EXPECT_EQ(keys_as_set.size(), static_cast<size_t>(9));
+    EXPECT_EQ(values_as_set.size(), static_cast<size_t>(9));
+
+    for (int i = 1; i < 10; i++) {
+        EXPECT_EQ(keys_as_set.count(i), static_cast<size_t>(1));
+        EXPECT_EQ(values_as_set.count(i), static_cast<size_t>(0));
+    }
+
+    for (int i = -9; i < 0; i++) {
+        EXPECT_EQ(keys_as_set.count(i), static_cast<size_t>(0));
+        EXPECT_EQ(values_as_set.count(i), static_cast<size_t>(1));
+    }
+
+    // testing the 0 memory cost version
+    for (int key : sc::keys(map)) {
+        EXPECT_EQ(keys_as_set.count(key), static_cast<size_t>(1));
+        EXPECT_EQ(values_as_set.count(key), static_cast<size_t>(0));
+    }
+
+    for (int value : sc::values(map)) {
+        EXPECT_EQ(keys_as_set.count(value), static_cast<size_t>(0));
+        EXPECT_EQ(values_as_set.count(value), static_cast<size_t>(1));
+    }
+}

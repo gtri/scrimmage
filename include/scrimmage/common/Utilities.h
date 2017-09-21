@@ -62,6 +62,7 @@ std::string generate_chars(std::string symbol, int num);
 std::string eigen_str(const Eigen::VectorXd &vec);
 
 std::vector<double> linspace(double low, double high, uint32_t n);
+
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_COMMON_UTILITIES_H_
