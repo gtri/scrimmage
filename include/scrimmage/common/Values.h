@@ -48,11 +48,11 @@ class ValuesIterator : public MapType::iterator {
     explicit ValuesIterator(typename MapType::iterator b, typename MapType::iterator e) :
         MapType::iterator(b), begin_(b), end_(e) {}
 
-    typename MapType::key_type *operator-> () {
-        return (typename MapType::key_type* const)&(MapType::iterator::operator->()->second);
+    typename MapType::mapped_type *operator-> () {
+        return (typename MapType::mapped_type* const)&(MapType::iterator::operator->()->second);
     }
 
-    typename MapType::key_type operator*( ) {
+    typename MapType::mapped_type operator*( ) {
         return MapType::iterator::operator*().second;
     }
 

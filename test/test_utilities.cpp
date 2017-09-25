@@ -58,6 +58,12 @@ TEST(test_utilities, linspace) {
     EXPECT_NEAR(vec[2], M_PI / 2, 1e-8);
     EXPECT_NEAR(vec[3], M_PI / 4, 1e-8);
     EXPECT_NEAR(vec[4], 0, 1e-8);
+
+    vec = sc::linspace(M_PI / 2, 3 * M_PI / 2, 4);
+    EXPECT_NEAR(vec[0], M_PI / 2, 1e-8);
+    EXPECT_NEAR(vec[1], 5 * M_PI / 6, 1e-8);
+    EXPECT_NEAR(vec[2], 7 * M_PI / 6, 1e-8);
+    EXPECT_NEAR(vec[3], 3 * M_PI / 2, 1e-8);
 }
 
 TEST(test_utilities, keys_class) {

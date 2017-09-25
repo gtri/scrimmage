@@ -30,6 +30,7 @@ set(SRCS
     sensor/Sensor.cpp
     simcontrol/SimControl.cpp
     common/DelayedTask.cpp
+    common/ExponentialFilter.cpp
 )
 
 
