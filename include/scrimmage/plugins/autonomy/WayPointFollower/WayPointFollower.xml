@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>WayPointFollower_plugin</library>
+
+  <initial_speed>15</initial_speed>
+  <max_alt_change>30</max_alt_change>
+
+  <waypoint_list>0.0, 0.0, 0.0</waypoint_list> <!-- in GPS coordinate frame -->
+  <waypoint_tolerance>10.0</waypoint_tolerance>
+  <waypoint_type>gps</waypoint_type> <!-- gps, cartesian -->
+  <mode>racetrack</mode> <!-- follow_once, back_forth, loiter, racetrack -->
+</params>
