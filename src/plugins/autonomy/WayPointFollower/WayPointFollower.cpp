@@ -57,24 +57,41 @@ WayPointFollower::WayPointFollower(): staging_achieved_(false), wp_idx_(0),
 
 void WayPointFollower::init(std::map<std::string, std::string> &params) {
 
-    // read parameters from WayPointFollower.xml file
     double initial_speed = sc::get<double>("initial_speed", params, 21.0);
     max_alt_change_ = sc::get<double>("max_alt_change", params, 5.0);
-
-    std::string wps_str = sc::get<std::string>("waypoint_list", params, "0.0 0.0 0.0");
     wp_tolerance_ = sc::get<double>("waypoint_tolerance", params, 10.0);
     waypoint_type_ = sc::get<std::string>("waypoint_type", params, "gps");
     std::string mode = sc::get<std::string>("mode", params, "racetrack");
 
-    // waypoint following mode
-    if (mode == "loiter") {
-        loiter_mode_ = true;
+    std::vector<std::string> wps_str;
+    bool exist = sc::get_vec("waypoint_list/point", params, wps_str);
+    if (!exist) {
+	cerr << "Need to specify a list of waypoints." << endl;
+	exit(EXIT_FAILURE);
+    }
+
+    // organize waypoints in vectors
+    for (std::string s : wps_str) {
+	std::vector<double> vec;
+	if (sc::str2vec(s, ",", vec, 3)) {
+	    wps_.push_back(WayPoint(Eigen::Vector3d(vec[0], vec[1], vec[2]),
+				    wp_tolerance_));
+	} else {
+	    cerr << "Each waypoint should be separated by a comma." << endl;
+	    exit(EXIT_FAILURE);
+	}
     }
 
     desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
+    // TODO: determine waypoint following mode with the enum class
+    if (mode == "loiter") {
+        loiter_mode_ = true;
+    }
+
+    // TODO: improve waypoint definition for loiter mode
     if (loiter_mode_) {
 	// Create loiter waypoints around position
         Eigen::Vector3d center;
@@ -110,26 +127,6 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
             i++;
         }
         wp_idx_ = champ_index;
-
-    } else {
-	int n = 3 * (1 + std::count(wps_str.begin(), wps_str.end(), ';'));
-	std::vector<double> temp;
-	if (!sc::str2vec(wps_str, ",;", temp, n)) {
-	    cerr << "waypoint list should have 3 comma-separated values for each waypoint" << endl;
-	    exit(EXIT_FAILURE);
-	}
-
-	if (temp.size() % 3 != 0) {
-	    cerr << "each waypoint should have 3 values" << endl;
-	    exit(EXIT_FAILURE);
-	}
-
-	unsigned int i;
-	for (i = 0; i < temp.size(); i+=3) {
-	    wps_.push_back(
-		WayPoint(Eigen::Vector3d(temp[i], temp[i+1], temp[i+2]),
-			 wp_tolerance_));
-	}
     }
 }
 
