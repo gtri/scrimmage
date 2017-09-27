@@ -50,6 +50,18 @@ class WayPointFollower : public scrimmage::Autonomy {
         double tolerance;
     };
 
+    enum class WayPointType {
+        gps = 0,
+        cartesian = 1
+    };
+
+    enum class WayPointMode {
+        follow_once = 0,
+        back_forth = 1,
+        loiter = 2,
+        racetrack = 3
+    };
+
     WayPointFollower();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
@@ -62,8 +74,8 @@ class WayPointFollower : public scrimmage::Autonomy {
     double max_alt_change_;
     double wp_tolerance_;
 
-    std::string waypoint_type_;
-    bool loiter_mode_;
+    WayPointType waypoint_type_;
+    WayPointMode waypoint_mode_;
 
  private:
 };

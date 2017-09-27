@@ -41,10 +41,10 @@
 #include <limits>
 #include <string>
 
+#include <boost/algorithm/string/predicate.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
 using std::cout;
-using std::cerr;
 using std::endl;
 
 namespace sc = scrimmage;
@@ -52,7 +52,9 @@ namespace sc = scrimmage;
 REGISTER_PLUGIN(scrimmage::Autonomy, WayPointFollower, WayPointFollower_plugin)
 
 WayPointFollower::WayPointFollower(): staging_achieved_(false), wp_idx_(0),
-    max_alt_change_(5.0), wp_tolerance_(10.0), loiter_mode_(false) {
+    max_alt_change_(5.0), wp_tolerance_(10.0) {
+    waypoint_type_ = WayPointType::gps;
+    waypoint_mode_ = WayPointMode::racetrack;
 }
 
 void WayPointFollower::init(std::map<std::string, std::string> &params) {
@@ -60,14 +62,41 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
     double initial_speed = sc::get<double>("initial_speed", params, 21.0);
     max_alt_change_ = sc::get<double>("max_alt_change", params, 5.0);
     wp_tolerance_ = sc::get<double>("waypoint_tolerance", params, 10.0);
-    waypoint_type_ = sc::get<std::string>("waypoint_type", params, "gps");
-    std::string mode = sc::get<std::string>("mode", params, "racetrack");
 
+    // coordinate frame of waypoints
+    std::string type = sc::get<std::string>("waypoint_type", params, "gps");
+    if (boost::iequals(type, "gps")) {
+	waypoint_type_ = WayPointType::gps;
+    } else if (boost::iequals(type, "cartesian")) {
+	waypoint_type_ = WayPointType::cartesian;
+    } else {
+	std::string msg =
+            "Need a waypoint type in WayPointFollower, got \"" + type + "\"";
+        throw std::runtime_error(msg);
+    }
+
+    // waypoint following mode
+    std::string mode = sc::get<std::string>("mode", params, "racetrack");
+    if (boost::iequals(mode, "follow_once")) {
+	waypoint_mode_ = WayPointMode::follow_once;
+    } else if (boost::iequals(mode, "back_forth")) {
+	waypoint_mode_ = WayPointMode::back_forth;
+    } else if (boost::iequals(mode, "loiter")) {
+	waypoint_mode_ = WayPointMode::loiter;
+    } else if (boost::iequals(mode, "racetrack")) {
+	waypoint_mode_ = WayPointMode::racetrack;
+    } else {
+	std::string msg =
+            "Need a waypoint type in WayPointFollower, got \"" + mode + "\"";
+        throw std::runtime_error(msg);
+    }
+
+    // read waypoints from xml file
     std::vector<std::string> wps_str;
     bool exist = sc::get_vec("waypoint_list/point", params, wps_str);
     if (!exist) {
-	cerr << "Need to specify a list of waypoints." << endl;
-	exit(EXIT_FAILURE);
+	std::string msg = "Need to specify a list of waypoints.";
+        throw std::runtime_error(msg);
     }
 
     // organize waypoints in vectors
@@ -77,8 +106,8 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
 	    wps_.push_back(WayPoint(Eigen::Vector3d(vec[0], vec[1], vec[2]),
 				    wp_tolerance_));
 	} else {
-	    cerr << "Each waypoint should be separated by a comma." << endl;
-	    exit(EXIT_FAILURE);
+	    std::string msg = "Each waypoint value should be separated by a comma.";
+	    throw std::runtime_error(msg);
 	}
     }
 
@@ -86,13 +115,8 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
-    // TODO: determine waypoint following mode with the enum class
-    if (mode == "loiter") {
-        loiter_mode_ = true;
-    }
-
     // TODO: improve waypoint definition for loiter mode
-    if (loiter_mode_) {
+    if (waypoint_mode_ == WayPointMode::loiter) {
 	// Create loiter waypoints around position
         Eigen::Vector3d center;
         parent_->projection()->Forward(34.3871, -103.3116, 1000,
@@ -108,8 +132,8 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
             xyz_points.push_back(p);
 
             Eigen::Vector3d lla;
-            parent_->projection()->Reverse(p(0), p(1), p(2), lla(0), lla(1),
-                                           lla(2));
+            parent_->projection()->Reverse(p(0), p(1), p(2),
+					   lla(0), lla(1), lla(2));
             wps_.push_back(WayPoint(lla, wp_tolerance_));
         }
 
@@ -136,15 +160,18 @@ bool WayPointFollower::step_autonomy(double t, double dt) {
 
     // get current waypoint in local cartesian coordinates
     Eigen::Vector3d p;
-    if (waypoint_type_.compare("gps") == 0) {
+    if (waypoint_type_ == WayPointType::gps) {
 	parent_->projection()->Forward(curr_wp.point(0),
 				       curr_wp.point(1),
 				       curr_wp.point(2),
 				       p(0), p(1), p(2));
-    } else if (waypoint_type_.compare("cartesian") == 0) {
+    } else if (waypoint_type_ == WayPointType::cartesian) {
 	p << curr_wp.point(0),
 	     curr_wp.point(1),
 	     curr_wp.point(2);
+    } else {
+	std::string msg = "This waypoint type is not yet defined.";
+        throw std::runtime_error(msg);
     }
 
     // set altitude
