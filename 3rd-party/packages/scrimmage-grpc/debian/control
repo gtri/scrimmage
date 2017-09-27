@@ -1,0 +1,12 @@
+Source: scrimmage-grpc
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends: build-essential, autoconf, libtool, scrimmage-protobuf3
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage-grpc
+Architecture: any
+Depends: python, scrimmage-protobuf3
+Description: grpc used by SCRIMMAGE
+ This is the version of grpc used by SCRIMMAGE

@@ -4,15 +4,15 @@
     name="SASC Capture the Flag">
   
   <run start="0.0" end="100" dt="0.0083333" 
-       time_warp="10" 
-       enable_gui="true"
+       time_warp="0" 
+       enable_gui="false"
        network_gui="false"
-       start_paused="true"/>
+       start_paused="false"/>
   
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
   
-  <end_condition>none</end_condition> <!-- time, one_team, none-->  
+  <end_condition>none, time</end_condition> <!-- time, one_team, none-->  
   
   <grid_spacing>10</grid_spacing>
   <grid_size>1000</grid_size>
@@ -22,7 +22,7 @@
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
   
   <plot_tracks>false</plot_tracks>
-  <output_type weights_file="unity">all</output_type>
+  <output_type>all</output_type>
   <show_plugins>false</show_plugins>
   
   <log_dir>~/.scrimmage/logs</log_dir>  
@@ -34,9 +34,10 @@
   <origin_length>10</origin_length>
   
   <entity_interaction order="0">SimpleCollision</entity_interaction>
+  <metrics order="0">SimpleCollisionMetrics</metrics>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
-  <!--<seed>1714060370</seed>-->
+  <seed>1714060370</seed>
   
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
@@ -44,13 +45,6 @@
     <color>77 77 255</color>
     <count>10</count>
     <health>1</health>
-
-    <!--
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.10</generate_time_variance>
-    -->
 
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
@@ -78,17 +72,10 @@
   </entity>
 
   <entity>
-    <team_id>1</team_id> 
+    <team_id>2</team_id> 
     <color>77 77 255</color>
     <count>10</count>
     <health>1</health>
-
-    <!--
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.10</generate_time_variance>
-    -->
 
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
@@ -116,37 +103,8 @@
   </entity>
 
   
-<!--
-  <entity>
-    <team_id>1</team_id> 
-    <color>77 77 255</color>
-    <count>3</count>
-    <health>1</health>
-
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.10</generate_time_variance>
-
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
-    <variance_z>10</variance_z>
-    
-    <x>-1000</x>
-    <y>500</y>
-    <z>200</z>
-    <heading>0</heading>     
-
-    <motion_model>JSBSimModel</motion_model>
-    <controller>JSBSimModelControllerHeadingPID</controller>
-    <script_name>rascal_piedmont.xml</script_name>
-    
-    <visual_model>zephyr-blue</visual_model>
-    <autonomy>Straight</autonomy>        
-  </entity>
-
   <entity>    
-    <team_id>2</team_id>      
+    <team_id>3</team_id>      
     <color>255 0 0</color>
     <count>3</count>
     <health>1</health>
@@ -182,7 +140,7 @@
   </entity>
 
   <entity>    
-    <team_id>3</team_id>      
+    <team_id>4</team_id>      
     <color>255 0 0</color>
     <count>3</count>
     <health>1</health>
@@ -210,5 +168,5 @@
     <visual_model>zephyr-red</visual_model>
     <autonomy>Straight</autonomy>        
   </entity>
--->
+
 </runscript>

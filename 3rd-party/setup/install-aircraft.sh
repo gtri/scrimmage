@@ -1,28 +1,28 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------
 # @section LICENSE
-#  
-# Copyright (c) 2016 Georgia Tech Research Institute (GTRI) 
+#
+# Copyright (c) 2016 Georgia Tech Research Institute (GTRI)
 #               All Rights Reserved
-#  
-# The above copyright notice and this permission notice shall be included in 
+#
+# The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-#  
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 # ---------------------------------------------------------------------------
 # @file filename.ext
-# @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu> 
+# @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
 # @author Eric Squires <eric.squires@gtri.gatech.edu>
 # @version 1.0
 # ---------------------------------------------------------------------------
 # @brief A brief description.
-# 
+#
 # @section DESCRIPTION
 # A long description.
 # ---------------------------------------------------------------------------
@@ -73,10 +73,29 @@ relpath() {
     printf '%s\n' "$result"
 }
 
-if [ "$#" -ne 1 ]; then
+COPY_FILES=false
+while getopts ":c" opt; do
+    case $opt in
+        c)
+            COPY_FILES=true
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND -1))
+
+if [ "$#" -lt 1 ]; then
     echo "usage: $0 <jsbsim-code root directory>"
     exit -1;
 fi
+
 ROOT_DIR=$(readlink -f "$1")
 
 # Jump to the directory that holds this script
@@ -88,13 +107,21 @@ SRC_DIR=$(readlink -f ../../data/scripts)
 DST_DIR=$(readlink -f ${ROOT_DIR}/scripts)
 REL_PATH="$(relpath "$DST_DIR" "$SRC_DIR")"
 #ln -f -s $REL_PATH/* $DST_DIR/ # The wildcard in ln doesn't work in VMs
-find $SRC_DIR -name '*.xml' -printf '%f\n' | xargs -i ln -f -s "$REL_PATH/{}" "$DST_DIR"
+if [ $COPY_FILES == true ]; then
+    find $SRC_DIR -name '*.xml' | xargs -i cp {} ${DST_DIR}/
+else
+    find $SRC_DIR -name '*.xml' -printf '%f\n' | xargs -i ln -f -s "$REL_PATH/{}" "$DST_DIR"
+fi
 
 # Make sym links from this repo's aircraft dir to jsbsim's
 SRC_DIR=$(readlink -f ../../data/aircraft/)
 DST_DIR=$(readlink -f ${ROOT_DIR}/aircraft)
 REL_PATH="$(relpath "$DST_DIR" "$SRC_DIR")"
 #ln -f -s $REL_PATH/* $DST_DIR/ # The wildcard in ln doesn't work in VMs
-find $SRC_DIR -maxdepth 1 -type d ! -name "aircraft" -printf '%f\n' | xargs -i ln -f -s $REL_PATH/{} "$DST_DIR"
+if [ $COPY_FILES == true ]; then
+    find $SRC_DIR -maxdepth 1 -type d ! -name "aircraft" | xargs -i cp -r {} ${DST_DIR}/
+else
+    find $SRC_DIR -maxdepth 1 -type d ! -name "aircraft" -printf '%f\n' | xargs -i ln -f -s $REL_PATH/{} "$DST_DIR"
+fi
 
 popd >& /dev/null

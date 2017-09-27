@@ -1,9 +1,24 @@
-commit aaa75f97b7e37b4749be75853a26651513663c75
+commit c8f7b028e070a896ba0bfa8171db65c63ebf8f99
 Author: Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
-Date:   Tue Oct 4 11:59:39 2016 -0400
+Date:   Tue Oct 3 00:06:10 2017 -0400
 
     GTRI patch for SCRIMMAGE
 
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2f967c8..d93cd7e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -98,3 +98,10 @@ add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+ 
+ add_subdirectory(utils)
+ 
++install(
++  DIRECTORY aircraft data_output data_plot engine scripts systems
++  DESTINATION etc/JSBSim
++  PATTERN *.cvsignore EXCLUDE
++  PATTERN INSTALL EXCLUDE
++  PATTERN Makefile.am EXCLUDE
++  )
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 7336db9..f747299 100644
 --- a/src/CMakeLists.txt

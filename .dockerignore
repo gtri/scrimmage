@@ -1,3 +1,4 @@
 build/*
 3rd-party/build/*
 ci/dockerfiles/*
+3rd-party/build-ppa/*

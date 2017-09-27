@@ -1,0 +1,5 @@
+scrimmage-protobuf3 (@ARG_SOURCE_VERSION@.@ARG_PPA_NUMBER@-0ppa@ARG_PPA_NUMBER@) xenial; urgency=low
+
+  * Initial upload!
+
+ -- Kevin DeMarco <kevin.demarco@gmail.com>  @DATE_STRING@

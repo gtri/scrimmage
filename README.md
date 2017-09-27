@@ -42,7 +42,7 @@ A list of the Ubuntu packages required is provided in
 installer to install the required packages:
 
     $ cd scrimmage
-    $ sudo ./setup/install-binaries.sh -e 0 -p 3
+    $ sudo ./setup/install-binaries.sh -e 1 -p 3
 
 The first argument `-e 1` says to install all dependencies for all features in
 SCRIMMAGE (you would use `-e 0` if you wanted to run SCRIMMAGE as part of an
@@ -50,24 +50,32 @@ embedded system). The second argument `-p 3` says to install python3
 dependencies (use `-p a` for both python2 and 3 or `-p 2` for just python2
 dependencies).
 
-### Build Dependencies from Source
+### Install Custom Built Binary Dependencies
 
-Some of the dependencies need to be built and installed from source. The
-following commands will build protobuf, grpc, and jsbsim from source and
-install them to ~/.local by default:
+Some of SCRIMMAGE's dependencies have to be custom built from source. We
+provide deb package binaries via the SCRIMMAGE PPA on Launchpad for these
+custom built packages. First, add the PPA to your apt-get sources:
 
-    $ cd 3rd-party
-    $ mkdir build && cd build
-    $ cmake ..
-    $ source ~/.scrimmage/setup.bash
-    $ make
-    $ cd ../../
+    $ sudo add-apt-repository ppa:kevin-demarco/scrimmage
+    $ sudo apt-get update
+
+Now, install the SCRIMMAGE custom built binary dependencies:
+
+    $ sudo apt-get install scrimmage-dependencies
+
+Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
+local system and sets up some environment variables:
+
+    $ source /opt/scrimmage/setup.sh
+
+Note: If you need to build the dependencies from source or generate binary
+packages, see [Build Dependencies from Source](./3rd-party/README.md)
 
 ### Build SCRIMMAGE Core
 
     $ mkdir build && cd build
-    $ cmake ..
     $ source ~/.scrimmage/setup.bash
+    $ cmake ..
     $ make
 
 ### Environment Setup
@@ -116,6 +124,31 @@ The GUI's camera can operate in three modes (cycle with 'a' key):
 Note: If all of the terrain data does not appear, click on the GUI window with
 your mouse.
 
+## Python Bindings
+
+SCRIMMAGE's Python bindings depend on protobuf, GRPC, and pandas. Install the
+appropriate versions of grpc and protobuf:
+
+    $ sudo pip install protobuf==3.3.0 grpcio==1.2.1
+
+You can specify a minimum Python version in SCRIMMAGE core by setting the
+PYTHON\_MIN\_VERSION cmake variable. For example, to specify a minimum Python
+3.0 version, first clear the cmake cache file and rerun cmake:
+
+    $ rm CMakeCache.txt
+    $ cmake .. -DPYTHON_MIN_VERSION=3.0
+
+Otherwise, cmake will choose Python on it's own. CMake seems to find the
+minimum version of Python specified. It should be noted that
+`interactive_plots.py` uses wxPython which is only compatible with python2.
+
+### Install SCRIMMAGE Python Bindings
+
+To install scrimmage's python bindings:
+
+    $ cd /path/to/scrimmage/python
+    $ sudo pip install -e .
+
 ## Build SCRIMMAGE Documentation
 
     $ cd build
@@ -139,49 +172,6 @@ The scrimmage source code can be cleaned with the standard clean command:
 However, if you want to clean everything, you can remove your build directory:
 
     $ cd /path/to/scrimmage && rm -rf build
-
-## Python Bindings
-
-SCRIMMAGE's Python bindings depend on protobuf, GRPC, and pandas. We recommend
-that you use the protobuf and grpc python packages built from our project.
-
-You can specify a minimum Python version by setting the PYTHON\_MIN\_VERSION
-cmake variable. For example, to specify a minimum Python 3.0 version, first
-clear the cmake cache file and rerun cmake:
-
-    $ rm CMakeCache.txt
-    $ cmake .. -DPYTHON_MIN_VERSION=3.0
-
-Otherwise, cmake will choose Python on it's own. CMake seems to find the
-minimum version of Python specified. It should be noted that
-`interactive_plots.py` uses wxPython which is only compatible with python2.
-
-### Install protobuf Python package
-
-Protobuf should be installed using the source files that are compiled during
-build.  Using protobuf from PyPI (i.e. what you get with `pip install protobuf`
-) is known to cause crashes.
-
-    $ cd /path/to/scrimmage/3rd-party/build/src/protobuf/python
-    $ python setup.py build
-    $ sudo python setup.py install
-
-### Build GRPC Python Bindings
-
-    $ cd /path/to/scrimmage/3rd-party/build/src/grpc
-    $ sudo pip install -rrequirements.txt
-    $ GRPC_PYTHON_BUILD_WITH_CYTHON=1 sudo python setup.py install
-
-If you are using python 3, make sure the futures package isn't installed.
-
-    $ sudo pip3 uninstall futures
-
-### Install SCRIMMAGE Python Bindings
-
-To install scrimmage's python bindings:
-
-    $ cd /path/to/scrimmage/python
-    $ sudo pip install -e .
 
 ## ROS Integration
 
