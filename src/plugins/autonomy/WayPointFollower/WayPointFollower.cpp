@@ -36,6 +36,8 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <iostream>
 #include <limits>
@@ -51,8 +53,8 @@ namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, WayPointFollower, WayPointFollower_plugin)
 
-WayPointFollower::WayPointFollower(): staging_achieved_(false), wp_idx_(0),
-    max_alt_change_(5.0), wp_tolerance_(10.0) {
+WayPointFollower::WayPointFollower(): wp_idx_(0), max_alt_change_(5.0),
+    wp_tolerance_(10.0) {
     waypoint_type_ = WayPointType::gps;
     waypoint_mode_ = WayPointMode::racetrack;
 }
@@ -62,6 +64,7 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
     double initial_speed = sc::get<double>("initial_speed", params, 21.0);
     max_alt_change_ = sc::get<double>("max_alt_change", params, 5.0);
     wp_tolerance_ = sc::get<double>("waypoint_tolerance", params, 10.0);
+    bool show_waypoints = sc::get<bool>("show_waypoints", params, true);
 
     // coordinate frame of waypoints
     std::string type = sc::get<std::string>("waypoint_type", params, "gps");
@@ -108,6 +111,18 @@ void WayPointFollower::init(std::map<std::string, std::string> &params) {
 	} else {
 	    std::string msg = "Each waypoint value should be separated by a comma.";
 	    throw std::runtime_error(msg);
+	}
+
+	// display waypoints in gui
+	if (show_waypoints) {
+	    sc::ShapePtr shape(new scrimmage_proto::Shape);
+	    shape->set_type(scrimmage_proto::Shape::Sphere);
+	    shape->set_opacity(0.5);
+	    shape->set_radius(2.0);
+	    shape->set_persistent(true);
+	    sc::set(shape->mutable_center(), vec[0], vec[1], vec[2]);
+	    sc::set(shape->mutable_color(), 0, 255, 0);
+	    shapes_.push_back(shape);
 	}
     }
 
@@ -192,15 +207,10 @@ bool WayPointFollower::step_autonomy(double t, double dt) {
     // set the heading
     desired_state_->quat().set(0, 0, heading);
 
-    // cout << "Dist: " << (state_->pos().head<2>() - p.head<2>()).norm() << endl;
-    // Check if within waypoint tolerance:
+    // check if within waypoint tolerance:
     if ((state_->pos().head<2>() - p.head<2>()).norm() <= curr_wp.tolerance) {
 
-        if (!staging_achieved_) {
-            staging_achieved_ = true;
-        } else {
-            wp_idx_++;
-        }
+	wp_idx_++;
 
         if (wp_idx_ >= wps_.size()) {
             wp_idx_ = 0;

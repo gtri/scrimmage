@@ -69,7 +69,6 @@ class WayPointFollower : public scrimmage::Autonomy {
  protected:
     std::vector<WayPoint> wps_;
 
-    bool staging_achieved_;
     unsigned int wp_idx_;
     double max_alt_change_;
     double wp_tolerance_;

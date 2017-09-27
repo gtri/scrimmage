@@ -10,6 +10,8 @@
   <waypoint_type>gps</waypoint_type> <!-- gps, cartesian -->
   <mode>racetrack</mode> <!-- follow_once, back_forth, loiter, racetrack -->
 
+  <show_waypoints>true</show_waypoints>
+
   <waypoint_list>
     <point>-900.0, 0.0, 200.0</point>
     <point>-800.0, 0.0, 200.0</point>
