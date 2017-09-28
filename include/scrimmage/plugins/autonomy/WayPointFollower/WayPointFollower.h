@@ -57,13 +57,14 @@ class WayPointFollower : public scrimmage::Autonomy {
 
     enum class WayPointMode {
         follow_once = 0,
-        back_forth = 1,
+        back_and_forth = 1,
         loiter = 2,
         racetrack = 3
     };
 
     WayPointFollower();
     virtual void init(std::map<std::string, std::string> &params);
+    virtual void draw_waypoints(Eigen::Vector3d v);
     virtual bool step_autonomy(double t, double dt);
 
  protected:
@@ -72,6 +73,7 @@ class WayPointFollower : public scrimmage::Autonomy {
     unsigned int wp_idx_;
     double max_alt_change_;
     double wp_tolerance_;
+    bool returning_stage_;
 
     WayPointType waypoint_type_;
     WayPointMode waypoint_mode_;
