@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_MATH_STATE_H_
 
 #include <Eigen/Dense>
-#include <Eigen/Geometry>
 
 #include <scrimmage/math/Quaternion.h>
 

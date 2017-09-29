@@ -30,23 +30,23 @@
  *
  */
 
+#include <scrimmage/common/ID.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/NoisyContacts/NoisyContacts.h>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Angles.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/ParseUtils.h>
-
-#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
+#include <scrimmage/pubsub/Message.h>
 
 #include <vector>
+
+#include <boost/optional.hpp>
 
 REGISTER_PLUGIN(scrimmage::Sensor, NoisyContacts, NoisyContacts_plugin)
 
