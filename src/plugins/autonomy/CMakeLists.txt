@@ -1,14 +1,13 @@
 SubDirList(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 list(REMOVE_ITEM SUBDIRS python)
-list(REMOVE_ITEM SUBDIRS waypoint)
 if (NOT ENABLE_PYTHON_BINDINGS)
     list(REMOVE_ITEM SUBDIRS PyAutonomy)
-endif() 
+endif()
 
 if (NOT GRPC_FOUND)
     list(REMOVE_ITEM SUBDIRS ExternalControl)
-endif() 
+endif()
 
 FOREACH(subdir ${SUBDIRS})
   ADD_SUBDIRECTORY(${subdir})
