@@ -32,30 +32,34 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 #define INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 
-#include <limits>
 #include <utility>
 #include <functional>
 
 namespace scrimmage {
+
+/*! \brief repeats a task after a delay and some condition (if set) are met.
+ * The task can be set to repeat a finite number of times.
+ */
 class DelayedTask {
  public:
-    DelayedTask() = default;
+    DelayedTask();
     DelayedTask(double _delay, int repeats);
 
     void set_delay_from_freq(double freq);
     bool done() const;
+
     void set_repeats(int repeats_left);
     void set_repeat_infinitely(bool repeat_infinitely);
     std::pair<bool, bool> update(double t);
 
-    double delay = 0;
-    double last_updated_time = -std::numeric_limits<double>::infinity();
+    double delay;
+    double last_updated_time;
     std::function<bool(double)> condition;
     std::function<bool(double)> task;
 
  protected:
-    bool repeat_infinitely_ = true;
-    int repeats_left_ = -1;
+    bool repeat_infinitely_;
+    int repeats_left_;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_

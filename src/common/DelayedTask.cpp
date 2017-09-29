@@ -32,8 +32,19 @@
 
 #include <scrimmage/common/DelayedTask.h>
 
+#include <limits>
+
 namespace scrimmage {
-DelayedTask::DelayedTask(double _delay, int repeats) : delay(_delay) {
+
+DelayedTask::DelayedTask() : DelayedTask(0, -1) {}
+
+DelayedTask::DelayedTask(double _delay, int repeats) :
+        delay(_delay),
+        last_updated_time(-std::numeric_limits<double>::infinity()),
+        condition(nullptr),
+        task(nullptr),
+        repeat_infinitely_(true),
+        repeats_left_(-1) {
     set_repeats(repeats);
 }
 
@@ -42,7 +53,7 @@ void DelayedTask::set_delay_from_freq(double freq) {
 }
 
 std::pair<bool, bool> DelayedTask::update(double t) {
-    bool updated = false, task_success = false;
+    bool updated = false, task_success = true;
     bool condition_satisfied = condition ? condition(t) : true;
 
     if (!done() && condition_satisfied && t >= last_updated_time + delay) {
@@ -60,8 +71,9 @@ std::pair<bool, bool> DelayedTask::update(double t) {
 }
 
 bool DelayedTask::done() const {
-    return !repeat_infinitely_ && repeats_left_ < 0;
+    return !task || (!repeat_infinitely_ && repeats_left_ < 0);
 }
+
 void DelayedTask::set_repeats(int repeats_left) {
     repeats_left_ = repeats_left;
     repeat_infinitely_ = false;
