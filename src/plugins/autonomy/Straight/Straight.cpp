@@ -37,6 +37,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/proto/State.pb.h>
+#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/sensor/Sensor.h>

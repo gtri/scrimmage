@@ -37,10 +37,9 @@
 // that. Disable the unused function warning.
 
 namespace scrimmage {
-
-typedef struct Color {
+struct Color_t {
     double r, g, b;
-} Color_t;
+};
 
 // Matlab's versions of JET to GRAYSCALE
 // Matlab uses the same JET version as BlueView sonar JET

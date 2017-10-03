@@ -31,10 +31,13 @@
  */
 
 #include <scrimmage/common/ID.h>
+#include <scrimmage/common/ColorMaps.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/Frame.pb.h>
 
 #include <cmath>
 
@@ -52,7 +55,7 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_z(z);
 }
 
-void set(scrimmage_proto::Color *dst, std::vector<int> &src) {
+void set(scrimmage_proto::Color *dst, const std::vector<int> &src) {
     dst->set_r(src[0]);
     dst->set_g(src[1]);
     dst->set_b(src[2]);
@@ -94,7 +97,7 @@ void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src) {
     dst->set_b(src.b());
 }
 
-void set(scrimmage_proto::Color *dst, scrimmage::Color_t src) {
+void set(scrimmage_proto::Color *dst, const scrimmage::Color_t &src) {
     dst->set_r(src.r);
     dst->set_g(src.g);
     dst->set_b(src.b);
@@ -121,7 +124,7 @@ void set(scrimmage_proto::Quaternion *dst, Quaternion &src) {
     dst->set_w(src.w());
 }
 
-Eigen::Vector3d eigen(const scrimmage_proto::Vector3d src) {
+Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src) {
     Eigen::Vector3d dst;
     dst(0) = src.x();
     dst(1) = src.y();
@@ -134,7 +137,7 @@ void add_point(std::shared_ptr<scrimmage_proto::Shape> s, Eigen::Vector3d src) {
     set(point, src);
 }
 
-void add_point_color(std::shared_ptr<scrimmage_proto::Shape> s, scrimmage::Color_t c) {
+void add_point_color(std::shared_ptr<scrimmage_proto::Shape> s, const scrimmage::Color_t &c) {
     scrimmage_proto::Color *color = s->add_point_color();
     set(color, c);
 }
@@ -149,7 +152,7 @@ void add_point_color(ShapePtr s, int grayscale) {
     set(color, grayscale);
 }
 
-ID proto_2_id(scrimmage_proto::ID proto_id) {
+ID proto_2_id(const scrimmage_proto::ID &proto_id) {
     ID id;
     id.set_id(proto_id.id());
     id.set_sub_swarm_id(proto_id.sub_swarm_id());
@@ -166,7 +169,7 @@ Eigen::Vector3d proto_2_vector3d(scrimmage_proto::Vector3d proto_vector3d) {
     return Eigen::Vector3d(proto_vector3d.x(), proto_vector3d.y(), proto_vector3d.z());
 }
 
-StatePtr proto_2_state(scrimmage_proto::State proto_state) {
+StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     State state;
     state.set_pos(proto_2_vector3d(proto_state.position()));
     state.set_vel(proto_2_vector3d(proto_state.velocity()));
@@ -184,7 +187,7 @@ void path_to_lines(std::vector<Eigen::Vector3d> &path, scrimmage_proto::Shape &s
     }
 }
 
-Frame proto_2_frame(scrimmage_proto::Frame &proto_frame) {
+Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     Frame frame;
 
     frame.contacts_ = std::make_shared<ContactMap>();
@@ -248,7 +251,7 @@ std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_pt
     return frame;
 }
 
-Contact proto_2_contact(scrimmage_proto::Contact proto_contact) {
+Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact) {
     Contact contact;
     contact.set_id(proto_2_id(proto_contact.id()));
 
