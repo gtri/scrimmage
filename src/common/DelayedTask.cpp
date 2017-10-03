@@ -76,7 +76,7 @@ bool DelayedTask::done() const {
 
 void DelayedTask::set_repeats(int repeats_left) {
     repeats_left_ = repeats_left;
-    repeat_infinitely_ = false;
+    repeat_infinitely_ = repeats_left_ < 0;
 }
 
 void DelayedTask::set_repeat_infinitely(bool repeat_infinitely) {
