@@ -358,18 +358,11 @@ IF(UNIX AND NOT APPLE)
     @ONLY
     )
 
-  # Install all plugin XML files under etc
+  # Install all mission XML files under etc
   install(
-    DIRECTORY plugins
-    DESTINATION etc/${PROJECT_NAME}
+    DIRECTORY missions
+    DESTINATION share/${PROJECT_NAME}
     FILES_MATCHING PATTERN "*.xml"
-    )
-
-  # Install all plugin header files under include/PROJECT_NAME
-  install(
-    DIRECTORY plugins
-    DESTINATION include/${PROJECT_NAME}
-    FILES_MATCHING PATTERN "*.h"
     )
 
   # Install all library headers

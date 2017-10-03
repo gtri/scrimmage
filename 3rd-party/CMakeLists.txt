@@ -189,7 +189,7 @@ if (BUILD_SOURCE_PACKAGES)
   SET(GPG_KEY_ID "3951DA01" CACHE STRING "GPG Key ID on local system.")
 
   BuildPPAFromRepo(
-    NAME "pybind11"
+    NAME "scrimmage-pybind11"
     GIT_REPOSITORY ${PYBIND11_GIT_REPOSITORY}
     GIT_TAG ${PYBIND11_GIT_TAG}
     SOURCE_VERSION 0.1
@@ -202,11 +202,11 @@ if (BUILD_SOURCE_PACKAGES)
     )
 
   BuildPPAFromRepo(
-    NAME "protobuf3"
+    NAME "scrimmage-protobuf3"
     GIT_REPOSITORY ${PROTOBUF_GIT_REPOSITORY}
     GIT_TAG ${PROTOBUF_VERSION}
     SOURCE_VERSION ${PROTOBUF_VERSION_NUM}
-    PPA_NUMBER 0
+    PPA_NUMBER 1
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -215,7 +215,7 @@ if (BUILD_SOURCE_PACKAGES)
     )
 
   BuildPPAFromRepo(
-    NAME "grpc"
+    NAME "scrimmage-grpc"
     GIT_REPOSITORY ${GRPC_GIT_REPOSITORY}
     GIT_TAG ${GRPC_VERSION}
     SOURCE_VERSION ${GRPC_VERSION_NUM}
@@ -228,7 +228,7 @@ if (BUILD_SOURCE_PACKAGES)
     )
 
   BuildPPAFromRepo(
-    NAME "jsbsim"
+    NAME "scrimmage-jsbsim"
     GIT_REPOSITORY ${JSBSIM_GIT_REPOSITORY}
     GIT_TAG ${JSBSIM_GIT_TAG}
     SOURCE_VERSION 0.1
@@ -240,8 +240,21 @@ if (BUILD_SOURCE_PACKAGES)
     CONFIGURE_COMMAND ""
     )
 
+  BuildPPAFromRepo(
+    NAME "scrimmage"
+    GIT_REPOSITORY https://github.com/gtri/scrimmage.git
+    GIT_TAG master
+    SOURCE_VERSION 0.1
+    PPA_NUMBER 0
+    PPA ${PPA}
+    GPG_KEY_ID ${GPG_KEY_ID}
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    CONFIGURE_COMMAND ""
+    )
+
   BuildPPA(
-    NAME "dependencies"
+    NAME "scrimmage-dependencies"
     SOURCE_VERSION 0.1
     PPA ${PPA}
     PPA_NUMBER 0
