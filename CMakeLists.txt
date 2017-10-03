@@ -70,12 +70,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SCRIMMAGE_BIN_DIR} CACHE PATH
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
   "Output directory for the static libraries (archives)" )
 
-set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
-set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
-file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
-configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/setenv.in
-  "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
-execute_process(COMMAND bash "-c" "${SCRIMMAGE_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
+option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
+if (SETUP_HOME_CONFIG)
+  set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
+  set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
+  file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/setenv.in
+    "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
+  execute_process(COMMAND bash "-c" "${SCRIMMAGE_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
+endif()
 
 set(MSGS_INCLUDE_DIR ${CMAKE_BINARY_DIR}/msgs)
 set(PROTO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/src/proto)
