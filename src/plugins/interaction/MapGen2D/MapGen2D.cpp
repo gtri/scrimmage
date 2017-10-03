@@ -53,6 +53,7 @@ using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
+namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction, MapGen2D, MapGen2D_plugin)
 
