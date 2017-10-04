@@ -61,7 +61,7 @@ template <class RosType, class Ros2Sc, class PostFunc>
 boost::function<void(const boost::shared_ptr<RosType const>&)>
 create_cb_post(Ros2Sc ros2sc, SubscriberPtr sc_sub, PostFunc post_func) {
     return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-        sc_sub->msg_list().push_back(ros2sc(ros_msg));
+        sc_sub->add_msg(ros2sc(ros_msg));
         post_func();
     };
 }
@@ -70,7 +70,7 @@ template <class RosType, class Ros2Sc>
 boost::function<void(const boost::shared_ptr<RosType const>&)>
 create_cb(Ros2Sc ros2sc, SubscriberPtr sc_sub) {
     return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-        sc_sub->msg_list().push_back(ros2sc(ros_msg));
+        sc_sub->add_msg(ros2sc(ros_msg));
     };
 }
 
