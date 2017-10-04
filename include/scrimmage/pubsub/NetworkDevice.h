@@ -37,6 +37,7 @@
 #include <scrimmage/pubsub/MessageBase.h>
 #include <scrimmage/pubsub/Message.h>
 
+#include <type_traits>
 #include <list>
 #include <memory>
 #include <string>
