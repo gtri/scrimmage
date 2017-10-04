@@ -30,14 +30,15 @@
  *
  */
 
-#include <scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
-#include <initialization/FGTrim.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/math/Angles.h>
 
+#include <initialization/FGTrim.h>
 #include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084

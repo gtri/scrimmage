@@ -30,14 +30,16 @@
  *
  */
 
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/Publisher.h>
 
 namespace scrimmage {
 
-void Publisher::publish(MessageBasePtr msg, double t) {
-    msg->sender = plugin_->get_network_id();
+void Publisher::publish(MessageBasePtr msg, double t, bool use_network_id) {
+    msg->sender =
+        use_network_id ? plugin_->get_network_id() : plugin_->parent()->id().id();
     msg->time = t;
-    msg_list_.push_back(msg);
+    add_msg(msg);
 }
 
 } // namespace scrimmage

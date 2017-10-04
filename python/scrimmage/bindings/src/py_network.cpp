@@ -53,8 +53,7 @@ void add_network(pybind11::module &m) {
 
     py::class_<sc::NetworkDevice, std::shared_ptr<sc::NetworkDevice>>(m, "NetworkDevice")
         .def(py::init<>())
-        .def_property("topic", &sc::NetworkDevice::get_topic, &sc::NetworkDevice::set_topic)
-        .def_property("msg_list", &sc::NetworkDevice::msg_list, &sc::NetworkDevice::set_msg_list);
+        .def_property("topic", &sc::NetworkDevice::get_topic, &sc::NetworkDevice::set_topic);
 
     py::class_<sc::Publisher, std::shared_ptr<sc::Publisher>, sc::NetworkDevice>(m, "Publisher")
         .def(py::init<>())

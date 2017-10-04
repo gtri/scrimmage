@@ -90,7 +90,7 @@ void Plugin::stop_publishing(PublisherPtr &pub) {
         pubs_.erase(it);
     }
 
-    pub->msg_list().clear();
+    pub->clear_msg_list();
     pub->set_topic("");
 }
 
@@ -112,7 +112,7 @@ void Plugin::stop_subscribing(SubscriberPtr &sub) {
         subs_.erase(it);
     }
 
-    sub->msg_list().clear();
+    sub->clear_msg_list();
     sub->set_topic("");
 }
 
@@ -120,13 +120,13 @@ void Plugin::publish_immediate(double t, PublisherPtr pub, MessageBasePtr msg) {
     msg->sender = network_id_;
     msg->time = t;
     for (Network::DeviceMap::value_type &kv : network_->sub_map()[pub->get_topic()]) {
-        kv.second->msg_list().push_back(msg);
+        kv.second->add_msg(msg);
     }
 }
 
 void Plugin::clear_subscribers() {
     for (auto &kv : subs_) {
-        kv.second->msg_list().clear();
+        kv.second->clear_msg_list();
     }
 }
 

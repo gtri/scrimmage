@@ -63,21 +63,19 @@ void UnitDisk::distribute(double t, double dt) {
 
         for (sc::NetworkDevicePtr &pub : ba::values(pub_map_kv.second)) {
 
-            if (pub->msg_list().empty()) {
+            auto msgs = pub->msgs<sc::MessageBase>();
+            if (msgs.empty()) {
                 continue;
             }
-
             std::unordered_set<int> &pingable_ids = ping_ref(pub->plugin());
-            auto beg = pub->msg_list().begin();
-            auto end = pub->msg_list().end();
 
             for (sc::NetworkDevicePtr &sub : ba::values(sub_map_[topic])) {
                 if (pingable_ids.count(sub->plugin()->get_network_id()) != 0) {
-                    sub->msg_list().insert(sub->msg_list().end(), beg, end);
+                    for (auto &msg : msgs) {
+                        sub->add_msg(msg);
+                    }
                 }
             }
-
-            pub->msg_list().clear();
         }
     }
 }

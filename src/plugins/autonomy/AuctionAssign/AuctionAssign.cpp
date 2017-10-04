@@ -74,7 +74,7 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
 
 bool AuctionAssign::step_autonomy(double t, double dt) {
     // Read the Start Auction inbox
-    for (auto &msg : subs_["StartAuction"]->msg_list()) {
+    for (auto &msg : subs_["StartAuction"]->msgs<sc::MessageBase>()) {
         std::cout << "StartAuction: " << id_
           << " received message from " << msg->sender << std::endl;
 
@@ -87,7 +87,6 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
 #endif
         pubs_["BidAuction"]->publish(msg_bid, t);
     }
-    subs_["StartAuction"]->msg_list().clear();
 
     if (auction_started_) {
         // Read the Bid Auction inbox

@@ -30,9 +30,12 @@
  *
  */
 
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/JSBSimModel/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h>
+
 #include <boost/algorithm/clamp.hpp>
+
 REGISTER_PLUGIN(scrimmage::Controller,
                 JSBSimModelControllerDirect,
                 JSBSimModelControllerDirect_plugin)

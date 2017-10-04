@@ -155,10 +155,9 @@ void PyAutonomy::sub_msgs_to_py_subs() {
         py::object py_sub = py_subs[topic];
 
         py::list py_msg_list;
-        for (auto msg : sub->msg_list()) {
+        for (auto msg : sub->msgs<sc::MessageBase>()) {
             py_msg_list.append(py::cast(*msg));
         }
-        sub->msg_list().clear();
         py_subs[topic].attr("msg_list") = py_msg_list;
     }
 
@@ -174,7 +173,10 @@ void PyAutonomy::py_pub_msgs_to_pubs() {
     for (auto kv : py_pubs) {
         std::string topic = kv.first.cast<std::string>();
         sc::Publisher py_pub = kv.second.cast<sc::Publisher>();
-        pubs_[topic]->msg_list() = py_pub.msg_list();
+        for (auto msg : py_pub.msgs<sc::MessageBase>()) {
+            pubs_[topic]->add_msg(msg);
+        }
+        py_pub.clear_msg_list();
     }
 }
 

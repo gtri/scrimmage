@@ -33,12 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 
-#include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
-#include <scrimmage/entity/Entity.h>
 
 #if ENABLE_JSBSIM == 1
 #include <FGFDMExec.h>
@@ -52,6 +50,11 @@ typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #include <map>
 #include <string>
 #include <tuple>
+
+namespace scrimmage {
+class State;
+using StatePtr = std::shared_ptr<State>;
+}
 
 class JSBSimModel : public scrimmage::MotionModel{
  public:

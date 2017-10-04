@@ -105,17 +105,16 @@ void Network::distribute(double t, double dt) {
         std::string topic = pub_map_kv.first;
 
         for (NetworkDevicePtr &pub : ba::values(pub_map_kv.second)) {
-            if (pub->msg_list().empty()) {
+            auto msgs = pub->msgs<MessageBase>();
+            if (msgs.empty()) {
                 continue;
             }
-            auto beg = pub->msg_list().begin();
-            auto end = pub->msg_list().end();
 
             for (NetworkDevicePtr &sub : ba::values(sub_map_[topic])) {
-                sub->msg_list().insert(sub->msg_list().end(), beg, end);
+                for (auto &msg : msgs) {
+                    sub->add_msg(msg);
+                }
             }
-
-            pub->msg_list().clear();
         }
     }
 }

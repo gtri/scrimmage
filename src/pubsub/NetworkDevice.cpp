@@ -36,17 +36,40 @@
 
 namespace scrimmage {
 
-NetworkDevice::NetworkDevice() : plugin_(new Plugin()) {}
+NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
+        topic_(rhs.topic_), msg_list_(rhs.msg_list_),
+        plugin_(rhs.plugin()), max_queue_size_(rhs.max_queue_size_) {
+}
+
+NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :
+        topic_(rhs.topic_), msg_list_(rhs.msg_list_),
+        plugin_(rhs.plugin()), max_queue_size_(rhs.max_queue_size_) {
+}
 
 std::string NetworkDevice::get_topic() const {return topic_;}
 void NetworkDevice::set_topic(std::string topic) {topic_ = topic;}
 
-std::list<MessageBasePtr> &NetworkDevice::msg_list() {return msg_list_;}
-void NetworkDevice::set_msg_list(std::list<MessageBasePtr> msg_list) {msg_list_ = msg_list;}
+void NetworkDevice::set_msg_list(std::list<MessageBasePtr> msg_list) {
+    mutex_.lock();
+    msg_list_ = msg_list;
+    mutex_.unlock();
+}
 
 void NetworkDevice::set_max_queue_size(unsigned int size) {max_queue_size_ = size;}
 unsigned int NetworkDevice::max_queue_size() {return max_queue_size_;}
 
 PluginPtr &NetworkDevice::plugin() {return plugin_;}
+
+void NetworkDevice::add_msg(MessageBasePtr msg) {
+    mutex_.lock();
+    msg_list_.push_back(msg);
+    mutex_.unlock();
+}
+
+void NetworkDevice::clear_msg_list() {
+    mutex_.lock();
+    msg_list_.clear();
+    mutex_.unlock();
+}
 
 } // namespace scrimmage
