@@ -93,7 +93,7 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 auto msg = std::make_shared<sc::Message<sm::TeamCapture>>();
                 msg->data.set_source_id(src->id().id());
                 msg->data.set_target_id(dst->id().id());
-                team_capture_pub_->publish(msg, t);
+                publish_immediate(t, team_capture_pub_, msg);
 
             } else if (enable_non_team_captures_ &&
                        src->id().team_id() != dst->id().team_id()) {
@@ -105,7 +105,7 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 auto msg = std::make_shared<sc::Message<sm::NonTeamCapture>>();
                 msg->data.set_source_id(src->id().id());
                 msg->data.set_target_id(dst->id().id());
-                non_team_capture_pub_->publish(msg, t);
+                publish_immediate(t, non_team_capture_pub_, msg);
             }
         }
     }

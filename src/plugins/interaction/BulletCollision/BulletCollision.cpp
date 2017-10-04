@@ -287,7 +287,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     }
                 }
             }
-            pcl_pubs_[kv.first][kv2.first]->publish(msg, t);
+            publish_immediate(t, pcl_pubs_[kv.first][kv2.first], msg);
         }
     }
 

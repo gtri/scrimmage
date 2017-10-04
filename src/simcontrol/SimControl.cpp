@@ -444,7 +444,7 @@ bool SimControl::generate_entities(double t) {
 
             auto msg = std::make_shared<Message<sm::EntityGenerated>>();
             msg->data.set_entity_id(ent->id().id());
-            pubsub_->pubs()["EntityGenerated"]->publish(msg, t);
+            pubsub_->publish_immediate(t_, pub_ent_gen_, msg);
 
             next_id_++;
             gen_info.total_count--;

@@ -146,7 +146,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     }
 
     cout << "Publishing shapes: " << msg->data.shape_size() << endl;
-    pub_shape_gen_->publish(msg, 0);
+    publish_immediate(0, pub_shape_gen_, msg);
 
     return true;
 }
