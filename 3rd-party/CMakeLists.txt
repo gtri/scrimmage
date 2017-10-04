@@ -232,7 +232,7 @@ if (BUILD_SOURCE_PACKAGES)
     GIT_REPOSITORY ${JSBSIM_GIT_REPOSITORY}
     GIT_TAG ${JSBSIM_GIT_TAG}
     SOURCE_VERSION 0.1
-    PPA_NUMBER 1
+    PPA_NUMBER 2
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -245,7 +245,7 @@ if (BUILD_SOURCE_PACKAGES)
     GIT_REPOSITORY https://github.com/gtri/scrimmage.git
     GIT_TAG master
     SOURCE_VERSION 0.1
-    PPA_NUMBER 3
+    PPA_NUMBER 4
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -257,7 +257,7 @@ if (BUILD_SOURCE_PACKAGES)
     NAME "scrimmage-dependencies"
     SOURCE_VERSION 0.1
     PPA ${PPA}
-    PPA_NUMBER 0
+    PPA_NUMBER 1
     GPG_KEY_ID ${GPG_KEY_ID}
     )
 

@@ -88,16 +88,11 @@ namespace sc = scrimmage;
 namespace scrimmage {
 
 double fps = 0;
-void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
+void fpsCallbackFunction(vtkObject* caller, unsigned long vtkNotUsed(eventId),
                          void* vtkNotUsed(clientData), void* vtkNotUsed(callData)) {
     vtkRenderer* renderer = static_cast<vtkRenderer*>(caller);
     double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
     fps = 1.0/timeInSeconds;
-}
-
-Updater *Updater::New() {
-    Updater *cb = new Updater;
-    return cb;
 }
 
 Updater::Updater() :
@@ -137,7 +132,7 @@ void Updater::init() {
     enable_fps();
 }
 
-void Updater::Execute(vtkObject *caller, uint64_t eventId,
+void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId),
                       void * vtkNotUsed(callData)) {
     update();
 
@@ -149,7 +144,7 @@ bool Updater::update() {
     // Make sure we don't update the contacts faster than the max rate
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
-    uint64_t diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
+    unsigned long diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
     if (diff < (1.0/max_update_rate_*BILLION)) {
         return true;
     }

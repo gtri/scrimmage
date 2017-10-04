@@ -87,13 +87,19 @@ struct CameraResetParams {
 
 class Updater : public vtkCommand {
  public:
+    vtkTypeMacro(Updater, vtkCommand);
+
     enum class ViewMode {FOLLOW = 0, FREE, OFFSET};
 
-    static Updater *New();
+    static Updater *New()
+    {
+        return new Updater;
+    }
 
     Updater();
 
-    virtual void Execute(vtkObject *caller, uint64_t eventId, void * vtkNotUsed(callData));
+    void Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId),
+                 void * vtkNotUsed(callData));
 
     void enable_fps();
 
