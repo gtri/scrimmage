@@ -5,4 +5,5 @@
   <length>2.62</length>
   <mass>1</mass>
   <enable_gravity>false</enable_gravity>
+  <max_velocity>20</max_velocity>
 </params>

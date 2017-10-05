@@ -56,6 +56,7 @@ class SimpleCar : public scrimmage::MotionModel{
  protected:
     double length_;
     bool enable_gravity_;
+    double max_velocity_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECAR_H_

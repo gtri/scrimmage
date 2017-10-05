@@ -57,7 +57,7 @@
     <heading>0</heading>
 
     <controller>SimpleCarControllerHeading</controller>
-    <motion_model length="4">SimpleCar</motion_model>
+    <motion_model length="4" max_velocity="2.5">SimpleCar</motion_model>
     <visual_model>sea-angler</visual_model>
     <autonomy moos_mission_file="~/scrimmage/scrimmage/data/moos/missions/m2_berta/targ_henry.moos">MOOSAutonomy</autonomy>
   </entity>
@@ -79,7 +79,7 @@
     <heading>0</heading>
 
     <controller>SimpleCarControllerHeading</controller>
-    <motion_model length="4">SimpleCar</motion_model>
+    <motion_model length="4" max_velocity="2.5">SimpleCar</motion_model>
     <visual_model>sea-angler</visual_model>
     <autonomy moos_mission_file="~/scrimmage/scrimmage/data/moos/missions/m2_berta/targ_gilda.moos">MOOSAutonomy</autonomy>
   </entity>
@@ -88,11 +88,11 @@
   <entity>
     <team_id>3</team_id>
     <color>0 0 255</color>
-    <count>10</count>
+    <count>60</count>
     <health>1</health>
 
-    <variance_x>20</variance_x>
-    <variance_y>100</variance_y>
+    <variance_x>80</variance_x>
+    <variance_y>80</variance_y>
     <variance_z>0</variance_z>
 
     <x>-200</x>
@@ -101,7 +101,7 @@
     <heading>0</heading>
 
     <controller>SimpleCarControllerHeading</controller>
-    <motion_model length="4">SimpleCar</motion_model>
+    <motion_model length="4" max_velocity="2">SimpleCar</motion_model>
     <visual_model>sea-angler</visual_model>
     <autonomy speed="2">Straight</autonomy>
   </entity>

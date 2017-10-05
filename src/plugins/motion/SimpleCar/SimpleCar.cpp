@@ -37,8 +37,12 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 
+#include <boost/algorithm/clamp.hpp>
+
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
+
+using boost::algorithm::clamp;
 
 REGISTER_PLUGIN(scrimmage::MotionModel, SimpleCar, SimpleCar_plugin)
 
@@ -69,6 +73,7 @@ bool SimpleCar::init(std::map<std::string, std::string> &info,
     length_ = sc::get<double>("length", params, 100.0);
     mass_ = sc::get<double>("mass", params, 1.0);
     enable_gravity_ = sc::get<bool>("enable_gravity", params, false);
+    max_velocity_ = sc::get<double>("max_velocity", params, 30.0);
 
     /////////
     state_->vel() << 0, 0, 0;
@@ -107,7 +112,9 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     double u_vel = u(FORWARD_VELOCITY);
     double u_theta = u(TURN_RATE);
 
-    // Saturate wheel angle:
+    u_vel = clamp(u_vel, 0, max_velocity_);
+
+    // Saturate wheel angle to keep tan stable
     if (u_theta >= M_PI/4) {
         u_theta = M_PI/4 - 0.0001;
     } else if (u_theta <= -M_PI/4) {
