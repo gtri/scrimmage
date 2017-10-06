@@ -372,8 +372,14 @@ IF(UNIX AND NOT APPLE)
   install(
     DIRECTORY include/${PROJECT_NAME}
     DESTINATION include
-    PATTERN "*.pyc" EXCLUDE
-    PATTERN "*__pycache__*" EXCLUDE
+    FILES_MATCHING PATTERN "*.h"
+    )
+
+  # Install all plugin configuration files
+  install(
+    DIRECTORY include/${PROJECT_NAME}
+    DESTINATION etc
+    FILES_MATCHING PATTERN "*.xml"
     )
 
   # Install all scrimmage proto headers
