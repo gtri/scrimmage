@@ -63,7 +63,7 @@ void UnitDisk::distribute(double t, double dt) {
 
         for (sc::NetworkDevicePtr &pub : ba::values(pub_map_kv.second)) {
 
-            auto msgs = pub->msgs<sc::MessageBase>();
+            auto msgs = pub->msgs<sc::MessageBase>(true, false);
             if (msgs.empty()) {
                 continue;
             }

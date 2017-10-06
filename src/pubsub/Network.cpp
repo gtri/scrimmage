@@ -105,7 +105,7 @@ void Network::distribute(double t, double dt) {
         std::string topic = pub_map_kv.first;
 
         for (NetworkDevicePtr &pub : ba::values(pub_map_kv.second)) {
-            auto msgs = pub->msgs<MessageBase>();
+            auto msgs = pub->msgs<MessageBase>(true, false);
             if (msgs.empty()) {
                 continue;
             }
