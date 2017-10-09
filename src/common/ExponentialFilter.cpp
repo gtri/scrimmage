@@ -33,11 +33,17 @@
 #include <scrimmage/common/ExponentialFilter.h>
 
 #include <cmath>
+#include <limits>
 
 namespace scrimmage {
 
 ExponentialFilter::ExponentialFilter() :
-    estimate_(0), time_last_estimate_(NAN), time_constant_(1) {}
+    ExponentialFilter(1.0) {}
+
+ExponentialFilter::ExponentialFilter(double time_constant) :
+    estimate_(0),
+    time_last_estimate_(-std::numeric_limits<double>::infinity()),
+    time_constant_(time_constant) {}
 
 double ExponentialFilter::get_estimate() const {
     return estimate_;
@@ -48,15 +54,11 @@ void ExponentialFilter::set_time_constant(double tau) {
 }
 
 double ExponentialFilter::add_estimate(double estimate, double t) {
-    if (std::isnan(time_last_estimate_)) {
-        estimate_ = estimate;
+    if (time_last_estimate_ < t) {
+        double dt = t - time_last_estimate_;
+        double alpha = 1 - exp(-dt / time_constant_);
+        estimate_ = alpha * estimate + (1 - alpha) * estimate_;
         time_last_estimate_ = t;
-    } else {
-        if (time_last_estimate_ < t) {
-            double dt = t - time_last_estimate_;
-            double alpha = 1 - exp(-dt / time_constant_);
-            estimate_ = alpha * estimate + (1 - alpha) * estimate_;
-        }
     }
     return estimate_;
 }

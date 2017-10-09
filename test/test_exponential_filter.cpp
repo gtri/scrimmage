@@ -30,24 +30,28 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_EXPONENTIALFILTER_H_
-#define INCLUDE_SCRIMMAGE_COMMON_EXPONENTIALFILTER_H_
+#include <gtest/gtest.h>
+#include <scrimmage/common/ExponentialFilter.h>
 
-namespace scrimmage {
+namespace sc = scrimmage;
 
-class ExponentialFilter {
- public:
-     ExponentialFilter();
-     explicit ExponentialFilter(double time_constant);
-     void set_time_constant(double time_constant);
-     double add_estimate(double estimate, double t);
-     double get_estimate() const;
+TEST(test_quaternion, rotation) {
+    const std::vector<double> tau_vec {0.1, 1, 10};
+    const double dt = 0.001;
 
- protected:
-     double estimate_;
-     double time_last_estimate_;
-     double time_constant_;
-};
+    for (double tau : tau_vec) {
+        const int num_steps = 5 * tau / dt;
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_EXPONENTIALFILTER_H_
+        sc::ExponentialFilter filt(tau);
+        filt.add_estimate(0, 0);
+
+        for (int i = 1; i < num_steps; i++) {
+            double t = i * dt;
+
+            // this should be ignored since it is in the past
+            filt.add_estimate(50, -1);
+            double est = filt.add_estimate(1, t);
+            EXPECT_NEAR(est, 1 - exp(-t / tau), 0.001);
+        }
+    }
+}
