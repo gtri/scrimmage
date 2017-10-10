@@ -51,7 +51,7 @@ void RTree::clear() {
     rtree_team_.clear();
 }
 
-void RTree::add(Eigen::Vector3d &pos, ID &id) {
+void RTree::add(Eigen::Vector3d &pos, const ID &id) {
     point p(pos(0), pos(1), pos(2));
     std::pair<point, ID> pair(p, id);
     rtree_->insert(pair);

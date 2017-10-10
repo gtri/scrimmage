@@ -32,6 +32,8 @@
 
 #include <scrimmage/common/ID.h>
 
+#include <iostream>
+
 namespace scrimmage {
 
 ID::ID() : id_(0), sub_swarm_id_(0), team_id_(0) {}
@@ -68,4 +70,11 @@ bool ID::operator<(const ID &other) const {
         return false;
     }
 }
+
+std::ostream &operator<<(std::ostream &os, const ID &id) {
+    os << id.id_ << ", " << id.sub_swarm_id_ << ", " << id.team_id_;
+    return os;
+}
+
 } // namespace scrimmage
+

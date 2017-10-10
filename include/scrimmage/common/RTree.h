@@ -73,7 +73,7 @@ class RTree {
     void init(int size);
     void clear();
 
-    void add(Eigen::Vector3d &pos, ID &id);
+    void add(Eigen::Vector3d &pos, const ID &id);
     void nearest_n_neighbors(const Eigen::Vector3d &pos,
                              std::vector<ID> &neighbors, unsigned int n,
                              int self_id = -1, int team_id = -1);

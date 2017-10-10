@@ -38,6 +38,7 @@
 #include <scrimmage/math/Quaternion.h>
 
 #include <memory>
+#include <iosfwd>
 
 namespace scrimmage {
 
@@ -77,6 +78,9 @@ class State {
     double rel_az(const Eigen::Vector3d &other) const;
 
     Eigen::Matrix4d tf_matrix(bool enable_translate = true);
+
+    uint8_t output_precision = 2;
+    friend std::ostream& operator<<(std::ostream& os, const State& s);
 
  protected:
     Eigen::Vector3d pos_;

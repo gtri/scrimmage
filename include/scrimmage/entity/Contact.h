@@ -39,6 +39,7 @@
 #include <unordered_map>
 #include <list>
 #include <string>
+#include <iosfwd>
 
 namespace scrimmage {
 
@@ -76,6 +77,8 @@ class Contact {
     void set_active(bool active);
     bool active();
     double radius() { return radius_; }
+
+    friend std::ostream& operator<<(std::ostream& os, const Contact& c);
 
  protected:
     ID id_;

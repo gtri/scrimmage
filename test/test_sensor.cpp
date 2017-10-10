@@ -44,12 +44,12 @@ class SensorTest : public ::testing::Test {
  protected:
     virtual void SetUp() {
         sc::ContactMapPtr contacts(new sc::ContactMap());
-        (*contacts)[1].id() = sc::ID(1, 1, 1);
+        (*contacts)[1].set_id(sc::ID(1, 1, 1));
         (*contacts)[1].state()->pos() = Eigen::Vector3d::Zero();
         (*contacts)[1].state()->pos() = Eigen::Vector3d::Zero();
         (*contacts)[1].state()->quat().set(0, 0, 0);
 
-        (*contacts)[2].id() = sc::ID(2, 1, 1);
+        (*contacts)[2].set_id(sc::ID(2, 1, 1));
         (*contacts)[2].state()->pos() = Eigen::Vector3d(10, 0, 0);
         (*contacts)[2].state()->vel() = Eigen::Vector3d::Zero();
         (*contacts)[2].state()->quat().set(0, 0, 0);

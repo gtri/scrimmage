@@ -30,36 +30,38 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_ID_H_
-#define INCLUDE_SCRIMMAGE_COMMON_ID_H_
+#include <gtest/gtest.h>
 
-#include <iosfwd>
+#include <scrimmage/common/ID.h>
 
-namespace scrimmage {
-class ID {
- public:
-    ID();
+#include <sstream>
 
-    ID(int id, int sub_swarm_id, int team_id);
+namespace sc = scrimmage;
 
-    void set_id(int id);
-    void set_sub_swarm_id(int sub_swarm_id);
-    void set_team_id(int team_id);
+TEST(test_id, cout) {
+    sc::ID id(1, 2, 3);
+    std::stringstream ss;
+    ss << id;
+    EXPECT_EQ(ss.str(), "1, 2, 3");
+}
 
-    int id() const;
-    int sub_swarm_id() const;
-    int team_id() const;
+TEST(test_id, operator_equals) {
+    sc::ID id1(1, 2, 3);
+    sc::ID id2(1, 2, 3);
+    EXPECT_EQ(id1, id2);
 
-    bool operator==(const ID &other) const;
-    bool operator<(const ID &other) const;
+    bool lt = id1 < id2;
+    EXPECT_FALSE(lt);
 
-    friend std::ostream& operator<<(std::ostream& os, const scrimmage::ID& id);
+    id2.set_id(2);
+    EXPECT_LT(id1, id2);
 
- protected:
-    int id_;
-    int sub_swarm_id_;
-    int team_id_;
-};
-} // namespace scrimmage
+    id2.set_id(1);
+    id2.set_sub_swarm_id(3);
+    EXPECT_LT(id1, id2);
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_ID_H_
+    id2.set_id(1);
+    id2.set_sub_swarm_id(2);
+    id2.set_team_id(4);
+    EXPECT_LT(id1, id2);
+}

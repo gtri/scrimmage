@@ -33,6 +33,7 @@
 #include <scrimmage/common/Utilities.h>
 
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <string>
 #include <cassert>
@@ -161,13 +162,17 @@ std::string generate_chars(std::string symbol, int num) {
     return out;
 }
 
-std::string eigen_str(const Eigen::VectorXd &vec) {
-    std::string out;
-    for (int i = 0; i < vec.size() - 1; i++) {
-        out += std::to_string(vec(i)) + ", ";
+std::string eigen_str(const Eigen::VectorXd &vec, uint8_t precision) {
+    if (vec.size() == 0) {
+        return "";
+    } else {
+        std::stringstream ss;
+        for (int i = 0; i < vec.size() - 1; i++) {
+            ss << std::setprecision(precision) << vec(i) << ", ";
+        }
+        ss << std::setprecision(precision) << vec(vec.size() - 1) << ", ";
+        return ss.str();
     }
-    out += std::to_string(vec(vec.size() - 1));
-    return out;
 }
 
 std::vector<double> linspace(double low, double high, uint32_t n) {

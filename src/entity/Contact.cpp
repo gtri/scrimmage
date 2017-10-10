@@ -35,6 +35,7 @@
 #include <scrimmage/common/ID.h>
 
 #include <memory>
+#include <iostream>
 
 namespace scrimmage {
 
@@ -69,4 +70,8 @@ void Contact::set_active(bool active) { active_ = active; }
 
 bool Contact::active() { return active_; }
 
+std::ostream& operator<<(std::ostream& os, const Contact& c) {
+    os << c.id_ << ": " << *c.state_;
+    return os;
+}
 } // namespace scrimmage

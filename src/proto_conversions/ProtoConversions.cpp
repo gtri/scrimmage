@@ -212,7 +212,7 @@ std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_pt
         Eigen::Vector3d &vel = state->vel();
         Quaternion &quat = state->quat();
         Contact::Type type = kv.second.type();
-        ID &id = kv.second.id();
+        const ID &id = kv.second.id();
 
         scrimmage_proto::Contact *contact = frame->add_contact();
         scrimmage_proto::State *sp_state = contact->mutable_state();
