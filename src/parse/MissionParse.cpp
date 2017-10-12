@@ -549,7 +549,9 @@ bool MissionParse::create_log_dir() {
     }
 
     // Copy the input scenario xml file to the output directory
-    fs::copy_file(fs::path(mission_filename_), fs::path(log_dir_+"/mission.xml"));
+    if (fs::exists(mission_filename_)) {
+        fs::copy_file(fs::path(mission_filename_), fs::path(log_dir_+"/mission.xml"));
+    }
 
     return true;
 }

@@ -32,126 +32,180 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/log/Log.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <map>
 #include <string>
-
-#ifdef ROSCPP_ROS_H
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <iostream>
 #include <functional>
-#include <vector>
+#include <mutex> // NOLINT
 
 #include <boost/type_index.hpp>
-#endif
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
 
 namespace scrimmage {
 
-#ifdef ROSCPP_ROS_H
-template <class RosType, class Ros2Sc, class PostFunc>
-boost::function<void(const boost::shared_ptr<RosType const>&)>
-create_cb_post(Ros2Sc ros2sc, SubscriberPtr sc_sub, PostFunc post_func) {
-    return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-        sc_sub->add_msg(ros2sc(ros_msg));
-        post_func();
-    };
-}
-
-template <class RosType, class Ros2Sc>
-boost::function<void(const boost::shared_ptr<RosType const>&)>
-create_cb(Ros2Sc ros2sc, SubscriberPtr sc_sub) {
-    return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-        sc_sub->add_msg(ros2sc(ros_msg));
-    };
-}
-
-#endif
+class ID;
 
 class External {
  public:
-    External() :
-        plugin_manager_(std::make_shared<PluginManager>()), max_entities_(-1) {}
 
-    NetworkPtr &network();
+    External();
     EntityPtr &entity();
-    FileSearch &file_search();
-    PluginManagerPtr &plugin_manager();
-    int get_max_entities();
-    void set_max_entities(int max_entities);
-    bool create_entity(ID id,
+    bool create_entity(int max_entities, const ID &id,
             std::map<std::string, std::string> &info,
             const std::string &log_dir);
 
+    std::function<void()> update_contacts;
+    double min_motion_dt = 1;
+
  protected:
-    NetworkPtr network_;
+
     EntityPtr entity_;
-    FileSearch file_search_;
     PluginManagerPtr plugin_manager_;
-    int max_entities_;
-    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
+    std::shared_ptr<Log> log_;
+    double last_t_;
+    std::mutex mutex_;
+
+ public:
+
+    bool step(double t) {
+        mutex_.lock();
+        if (update_contacts) {
+            update_contacts();
+            auto rtree = entity_->rtree();
+            rtree->init(100);
+            rtree->clear();
+            for (auto &kv : *entity_->contacts()) {
+                rtree->add(kv.second.state()->pos(), kv.second.id());
+            }
+        }
+        mutex_.unlock();
+
+        // do all the scrimmage updates (e.g., step_autonomy, step controller, etc)
+        // incorporating motion_dt_
+        mutex_.lock();
+        double dt = std::isnan(last_t_) ? 0 : t - last_t_;
+        last_t_ = t;
+        for (AutonomyPtr autonomy : entity_->autonomies()) {
+            autonomy->step_autonomy(t, dt);
+        }
+
+        entity_->setup_desired_state();
+
+        int num_steps = dt <= min_motion_dt ? 1 : ceil(dt / min_motion_dt);
+        double motion_dt = dt / num_steps;
+        double temp_t = t - dt;
+        for (int i = 0; i < num_steps; i++) {
+            for (ControllerPtr &ctrl : entity_->controllers()) {
+                ctrl->step(temp_t, motion_dt);
+            }
+            temp_t += motion_dt;
+        }
+
+        // do logging
+        log_->save_frame(create_frame(t, entity_->contacts()));
+
+        // shapes
+        scrimmage_proto::Shapes shapes;
+        shapes.set_time(t);
+        for (AutonomyPtr autonomy : entity_->autonomies()) {
+            for (auto autonomy_shape : autonomy->shapes()) {
+                // increase length of shapes by 1 (including mallocing a new object)
+                // return a pointer to the malloced object
+                scrimmage_proto::Shape *shape_at_end_of_shapes = shapes.add_shape();
+
+                // copy autonomy shape to list
+                *shape_at_end_of_shapes = *autonomy_shape;
+            }
+        }
+        log_->save_shapes(shapes);
+
+#ifdef ROSCPP_ROS_H
+        for (AutonomyPtr autonomy : entity_->autonomies()) {
+            for (auto &kv : autonomy->pubs()) {
+                if (kv.second->callback) {
+                    for (auto msg : kv.second->msgs(true, false)) {
+                        kv.second->callback(msg);
+                    }
+                }
+            }
+        }
+#endif
+        mutex_.unlock();
+        return true;
+    }
 
 #ifdef ROSCPP_ROS_H
 
- protected:
-    std::vector<ros::ServiceServer> ros_service_servers_;
-    std::vector<std::function<void()>> ros_pub_funcs_;
-
  public:
-    void publish_all() {
-        for (auto &func : ros_pub_funcs_) {
-            func();
-        }
+
+    template <class Sc2Ros>
+    void pub_cb(Sc2Ros sc2ros,
+                PublisherPtr sc_pub,
+                ros::Publisher ros_pub) {
+        auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
+        sc_pub->callback = [=](MessageBasePtr sc_msg) {
+            ros_pub_ptr->publish(sc2ros(sc_msg));
+        };
     }
 
-    template <class ScrimmageType, class Sc2RosFunc>
-    void add_pub(
-        const ros::Publisher &ros_pub,
-        scrimmage::PublisherPtr sc_pub,
-        Sc2RosFunc sc2ros_func,
-        std::function<void()> pre_func = nullptr,
-        std::function<void()> post_func = nullptr) {
+    template <class ScType, class Sc2Ros>
+    void pub_cb(Sc2Ros sc2ros,
+                PublisherPtr sc_pub,
+                ros::Publisher ros_pub) {
 
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
-        auto func = [=]() {
-            if (pre_func) pre_func();
-            for (auto msg : sc_pub->msgs<scrimmage::Message<ScrimmageType>>(true, false)) {
-                ros_pub_ptr->publish(sc2ros_func(msg));
+        sc_pub->callback = [=](MessageBasePtr sc_msg) {
+            auto sc_msg_cast = std::dynamic_pointer_cast<Message<ScType>>(sc_msg);
+            if (sc_msg_cast == nullptr) {
+                std::cout << "could not cast to "
+                    << boost::typeindex::type_id<Message<ScType>>().pretty_name()
+                    << " in pub_cb" << std::endl;
+            } else {
+                ros_pub_ptr->publish(sc2ros(sc_msg_cast));
             }
-            if (post_func) post_func();
         };
+    }
 
-        ros_pub_funcs_.push_back(func);
+    template <class RosType, class Ros2Sc>
+    boost::function<void(const boost::shared_ptr<RosType const>&)>
+    sub_cb(Ros2Sc ros2sc, SubscriberPtr sc_sub) {
+
+        return [=](const boost::shared_ptr<RosType const>&ros_msg) {
+            auto sc_msg = ros2sc(*ros_msg);
+            auto sc_msg_ptr = std::make_shared<decltype(sc_msg)>();
+            *sc_msg_ptr = sc_msg;
+            sc_sub->add_msg(sc_msg_ptr);
+            step(ros::Time::now().toSec());
+        };
     }
 
     template <class RosType, class ScrimmageResponseType, class Sc2RosResponseFunc>
-    void add_srv_server(
-        ros::NodeHandle &nh,
-        const std::string &service_name,
-        scrimmage::Service sc_service_func,
-        Sc2RosResponseFunc sc2ros_response_func,
-        std::function<bool(typename RosType::Request&)> pre_func = nullptr,
-        std::function<bool(typename RosType::Response&)> post_func = nullptr) {
+    boost::function<bool(typename RosType::Request &, typename RosType::Response &)>
+    srv_cb(const std::string &service_name,
+           scrimmage::Service sc_service_func,
+           Sc2RosResponseFunc sc2ros_response_func) {
 
-        boost::function<bool(typename RosType::Request &, typename RosType::Response &)> callback =
+        return
             [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
 
+                if (update_contacts) {
+                    mutex_.lock();
+                    update_contacts();
+                    mutex_.unlock();
+                }
                 std::string suffix =
                     std::string(" in advertised_service \"") + service_name + "\"";
-
-                if (pre_func && !pre_func(ros_req)) {
-                    std::cout << "call to pre_func converting ros to scrimmage request failed"
-                        << suffix << std::endl;
-                    return false;
-                }
 
                 auto sc_req = std::shared_ptr<MessageBase>();
 
@@ -173,40 +227,26 @@ class External {
                 }
 
                 ros_res = sc2ros_response_func(sc_res);
-                if (post_func && !post_func(ros_res)) {
-                    std::cout << "call to post_func converting scrimmage to "
-                        << "ros response failed" << suffix << std::endl;
-                    return false;
-                }
                 return true;
             };
-
-        ros_service_servers_.push_back(nh.advertiseService(service_name.c_str(), callback));
     }
 
     template <class RosType, class ScrimmageResponseType,
               class Ros2ScRequestFunc, class Sc2RosResponseFunc>
-    void add_srv_server(
-        ros::NodeHandle &nh,
-        const std::string &service_name,
-        scrimmage::Service sc_service_func,
-        Ros2ScRequestFunc ros2sc_request_func,
-        Sc2RosResponseFunc sc2ros_response_func,
-        std::function<bool(typename RosType::Request&)> pre_func = nullptr,
-        std::function<bool(typename RosType::Response&)> post_func = nullptr) {
+    boost::function<bool(typename RosType::Request &, typename RosType::Response &)>
+    srv_cb(const std::string &service_name,
+           scrimmage::Service sc_service_func,
+           Ros2ScRequestFunc ros2sc_request_func,
+           Sc2RosResponseFunc sc2ros_response_func) {
 
-        boost::function<bool(typename RosType::Request &, typename RosType::Response &)> callback =
+        return
             [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
 
+                update_contacts();
                 auto err_msg = [&](const std::string &preface) {
                     std::cout << preface << " in advertised_service \""
                         << service_name << "\"" << std::endl;
                 };
-
-                if (pre_func && !pre_func(ros_req)) {
-                    err_msg("call to pre_func converting ros to scrimmage request failed");
-                    return false;
-                }
 
                 auto sc_req = ros2sc_request_func(ros_req);
 
@@ -235,15 +275,10 @@ class External {
                 }
 
                 ros_res = sc2ros_response_func(sc_res);
-                if (post_func && !post_func(ros_res)) {
-                    err_msg("call to post_func converting scrimmage to ros response failed");
-                    return false;
-                }
                 return true;
             };
-
-        ros_service_servers_.push_back(nh.advertiseService(service_name.c_str(), callback));
     }
+
 
     template <class RosType, class Ros2ScResponseFunc>
     void add_srv_client(ros::NodeHandle &nh,
@@ -314,8 +349,15 @@ class External {
 
         entity_->services()[sc_topic] = call_service;
     }
+
 #endif
+
 };
+
+#ifdef ROSCPP_ROS_H
+
+
+#endif
 
 } // namespace scrimmage
 

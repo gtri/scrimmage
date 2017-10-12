@@ -29,77 +29,75 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/entity/External.h>
-#include <scrimmage/entity/Entity.h>
+
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/entity/External.h>
+#include <scrimmage/log/Log.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/pubsub/Network.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/parse/MissionParse.h>
 
 #include <iostream>
-#include <memory>
+
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
-using std::cout;
-using std::endl;
-
 namespace scrimmage {
 
-NetworkPtr &External::network() {return network_;}
+External::External() :
+    entity_(std::make_shared<Entity>()),
+    plugin_manager_(std::make_shared<PluginManager>()),
+    log_(std::make_shared<Log>()),
+    last_t_(NAN) {}
 
-EntityPtr &External::entity() {return entity_;}
-
-FileSearch &External::file_search() {return file_search_;}
-
-PluginManagerPtr &External::plugin_manager() {return plugin_manager_;}
-
-int External::get_max_entities() {return max_entities_;}
-
-void External::set_max_entities(int max_entities) {max_entities_ = max_entities;}
-
-bool External::create_entity(ID id,
+bool External::create_entity(int max_entities, const ID &id,
         std::map<std::string, std::string> &info,
         const std::string &log_dir) {
-    // info needs the following keys:
-    // latitude, longitude, x, y, z, heading, autonomy_name, controller
-    entity_ = std::make_shared<Entity>();
 
     double lat = std::stod(info["latitude"]);
     double lon = std::stod(info["longitude"]);
 
-    proj_ = std::make_shared<GeographicLib::LocalCartesian>(
-        lat, lon, 0, GeographicLib::Geocentric::WGS84()
-        );
+    auto proj = std::make_shared<GeographicLib::LocalCartesian>(
+        lat, lon, 0, GeographicLib::Geocentric::WGS84());
 
     info["team_id"] = std::to_string(id.team_id());
 
-    network_ = std::make_shared<Network>();
-
     ContactMapPtr contacts = std::make_shared<ContactMap>();
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
-    std::cout << "max_entities_ is " << max_entities_ << std::endl;
-    rtree->init(max_entities_);
+    rtree->init(max_entities);
 
-    MissionParsePtr mp(new MissionParse());
+    FileSearch file_search;
+    entity_ = std::make_shared<Entity>();
+    auto network = std::make_shared<Network>();
+
+    auto mp = std::make_shared<MissionParse>();
     mp->set_log_dir(log_dir);
+    mp->create_log_dir();
+
+    log_->set_enable_log(true);
+    log_->init(mp->log_dir(), Log::WRITE);
+
     AttributeMap overrides;
     bool success =
         entity_->init(
-            overrides, info, contacts, mp, proj_, id.id(), id.sub_swarm_id(),
-            plugin_manager_, network_, file_search_, rtree);
+            overrides, info, contacts, mp, proj, id.id(), id.sub_swarm_id(),
+            plugin_manager_, network, file_search, rtree);
 
     if (!success) {
         return false;
+    } else {
+        RandomPtr random = std::make_shared<Random>();
+        entity_->set_random(random);
+        return true;
     }
+}
 
-    RandomPtr random = std::make_shared<Random>();
-    entity_->set_random(random);
-
-    return true;
+EntityPtr &External::entity() {
+    return entity_;
 }
 
 } // namespace scrimmage

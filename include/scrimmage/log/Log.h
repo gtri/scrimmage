@@ -101,13 +101,13 @@ class Log {
 
     bool write_ascii(std::string str);
 
-    bool save_frame(std::shared_ptr<scrimmage_proto::Frame> &frame);
+    bool save_frame(const std::shared_ptr<scrimmage_proto::Frame> &frame);
 
-    bool save_shapes(scrimmage_proto::Shapes &shapes);
+    bool save_shapes(const scrimmage_proto::Shapes &shapes);
 
-    bool save_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
+    bool save_utm_terrain(const std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
 
-    bool save_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual);
+    bool save_contact_visual(const std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual);
 
     // bool save_messages();
 

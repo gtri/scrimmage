@@ -43,6 +43,7 @@ using MessageBasePtr = std::shared_ptr<MessageBase>;
 class Publisher : public NetworkDevice {
  public:
     void publish(MessageBasePtr msg, double t, bool use_network_id = true);
+    std::function<void(MessageBasePtr)> callback;
 };
 
 } // namespace scrimmage

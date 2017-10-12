@@ -138,19 +138,19 @@ bool Log::write_ascii(std::string str) {
     return true;
 }
 
-bool Log::save_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
+bool Log::save_frame(const std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return writeDelimitedTo(*frame, frames_output_);
 }
 
-bool Log::save_shapes(scrimmage_proto::Shapes &shapes) {
+bool Log::save_shapes(const scrimmage_proto::Shapes &shapes) {
     return writeDelimitedTo(shapes, shapes_output_);
 }
 
-bool Log::save_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Log::save_utm_terrain(const std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
     return writeDelimitedTo(*utm_terrain, utm_terrain_output_);
 }
 
-bool Log::save_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual) {
+bool Log::save_contact_visual(const std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual) {
     return writeDelimitedTo(*contact_visual, contact_visual_output_);
 }
 
