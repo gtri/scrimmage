@@ -127,6 +127,8 @@ void Updater::init() {
     origin_axes_ = std::make_shared<OriginAxes>();
     origin_axes_->create(1, renderer_);
 
+    renderer_->SetNearClippingPlaneTolerance(0.00001);
+
     create_text_display();
 
     enable_fps();
@@ -460,6 +462,7 @@ bool Updater::update_camera() {
     reset_camera_ = false;
     renderer_->GetActiveCamera()->SetPosition(camera_pos);
     renderer_->GetActiveCamera()->SetFocalPoint(x_pos, y_pos, z_pos);
+    renderer_->ResetCameraClippingRange(); // fixes missing terrain/entity issue
     return true;
 }
 
@@ -577,6 +580,28 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
 
         vtkSmartPointer<vtkPolyData> polydata;
         polydata = terrain_reader1->GetOutput();
+
+        double bad_z_thresh = -90000;
+        double testpoint[3];
+        double z_sum = 0;
+        int z_count = 0;
+        for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
+            polydata->GetPoint(n,testpoint);
+            if (testpoint[2] > bad_z_thresh) {
+                z_sum += testpoint[2];
+                z_count++;
+            }
+        }
+
+        double z_avg = z_sum / z_count;
+        for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
+            polydata->GetPoint(n,testpoint);
+            if (testpoint[2] < bad_z_thresh) {
+                testpoint[2] = z_avg;
+                polydata->GetPoints()->SetPoint(n,testpoint);
+                z_sum += testpoint[2];
+            }
+        }
 
         // Setup colors
         vtkSmartPointer<vtkUnsignedCharArray> colors =
