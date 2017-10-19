@@ -10,6 +10,7 @@
   
   <end_condition>time, one_team</end_condition> <!-- time, one_team, none-->  
   
+  <display_progress>true</display_progress>
   <terrain>mcmillan</terrain>  
   <background_color>191 191 191</background_color> <!-- Red Green Blue -->
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
@@ -47,7 +48,7 @@
     <visual_model>Sphere</visual_model>
     <controller>SingleIntegratorControllerSimple</controller>
     <motion_model>SingleIntegrator</motion_model>
-    <autonomy>PyAutonomy</autonomy>            
+    <autonomy>AuctionAssign</autonomy>            
   </entity>
 
   <entity>

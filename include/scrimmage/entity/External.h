@@ -58,7 +58,6 @@ class ID;
 
 class External {
  public:
-
     External();
     EntityPtr &entity();
     bool create_entity(int max_entities, const ID &id,
@@ -69,7 +68,6 @@ class External {
     double min_motion_dt = 1;
 
  protected:
-
     EntityPtr entity_;
     PluginManagerPtr plugin_manager_;
     std::shared_ptr<Log> log_;
@@ -77,7 +75,6 @@ class External {
     std::mutex mutex_;
 
  public:
-
     bool step(double t) {
         mutex_.lock();
         if (update_contacts) {
@@ -148,7 +145,6 @@ class External {
 #ifdef ROSCPP_ROS_H
 
  public:
-
     template <class Sc2Ros>
     void pub_cb(Sc2Ros sc2ros,
                 PublisherPtr sc_pub,
@@ -351,7 +347,6 @@ class External {
     }
 
 #endif
-
 };
 
 #ifdef ROSCPP_ROS_H

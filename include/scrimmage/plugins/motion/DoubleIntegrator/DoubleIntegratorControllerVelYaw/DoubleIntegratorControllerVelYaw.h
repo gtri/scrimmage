@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_
 
+#include <scrimmage/common/PID.h>
+#include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
+
 #include <map>
 #include <vector>
 #include <string>
-
-#include <scrimmage/common/PID.h>
-#include "../DoubleIntegrator.h"
 
 class DoubleIntegratorControllerVelYaw : public DoubleIntegrator::Controller {
  public:

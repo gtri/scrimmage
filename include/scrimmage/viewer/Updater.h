@@ -91,14 +91,13 @@ class Updater : public vtkCommand {
 
     enum class ViewMode {FOLLOW = 0, FREE, OFFSET};
 
-    static Updater *New()
-    {
+    static Updater *New() {
         return new Updater;
     }
 
     Updater();
 
-    void Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId),
+    void Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
                  void * vtkNotUsed(callData));
 
     void enable_fps();

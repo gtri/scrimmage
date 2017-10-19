@@ -30,13 +30,13 @@
  *
  */
 
-#include <iostream>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h>
+
+#include <iostream>
 
 namespace sc = scrimmage;
 
@@ -44,8 +44,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
                 DoubleIntegratorControllerVelYaw,
                 DoubleIntegratorControllerVelYaw_plugin)
 
-void set_pid(sc::PID &pid, std::string str, bool is_angle)
-{
+void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     std::vector<std::string> str_vals;
     boost::split(str_vals, str, boost::is_any_of(","));
 
@@ -68,8 +67,7 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle)
     }
 }
 
-void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params)
-{
+void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
     set_pid(yaw_pid_, params["yaw_pid"], true);
 
     for (int i = 0; i < 3; i++) {
@@ -78,8 +76,7 @@ void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &
     }
 }
 
-bool DoubleIntegratorControllerVelYaw::step(double t, double dt)
-{
+bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
     for (int i = 0; i < 3; i++) {
         vel_pids_[i].set_setpoint(desired_state_->vel()(i));
         u_(i) = vel_pids_[i].step(dt, state_->vel()(i));

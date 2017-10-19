@@ -88,7 +88,7 @@ namespace sc = scrimmage;
 namespace scrimmage {
 
 double fps = 0;
-void fpsCallbackFunction(vtkObject* caller, unsigned long vtkNotUsed(eventId),
+void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
                          void* vtkNotUsed(clientData), void* vtkNotUsed(callData)) {
     vtkRenderer* renderer = static_cast<vtkRenderer*>(caller);
     double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
@@ -134,7 +134,7 @@ void Updater::init() {
     enable_fps();
 }
 
-void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId),
+void Updater::Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
                       void * vtkNotUsed(callData)) {
     update();
 
@@ -146,7 +146,7 @@ bool Updater::update() {
     // Make sure we don't update the contacts faster than the max rate
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
-    unsigned long diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
+    uint64_t diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
     if (diff < (1.0/max_update_rate_*BILLION)) {
         return true;
     }
@@ -586,7 +586,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
         double z_sum = 0;
         int z_count = 0;
         for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
-            polydata->GetPoint(n,testpoint);
+            polydata->GetPoint(n, testpoint);
             if (testpoint[2] > bad_z_thresh) {
                 z_sum += testpoint[2];
                 z_count++;
@@ -595,10 +595,10 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
 
         double z_avg = z_sum / z_count;
         for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
-            polydata->GetPoint(n,testpoint);
+            polydata->GetPoint(n, testpoint);
             if (testpoint[2] < bad_z_thresh) {
                 testpoint[2] = z_avg;
-                polydata->GetPoints()->SetPoint(n,testpoint);
+                polydata->GetPoints()->SetPoint(n, testpoint);
                 z_sum += testpoint[2];
             }
         }
