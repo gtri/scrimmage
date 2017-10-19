@@ -32,6 +32,7 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROL_H_
+
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -64,7 +65,7 @@ class JSBSimControl : public scrimmage::MotionModel{
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector3d &u() = 0;
+        virtual Eigen::Vector4d &u() = 0;
     };
 
  protected:

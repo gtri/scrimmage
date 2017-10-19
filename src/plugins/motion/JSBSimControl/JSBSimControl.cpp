@@ -41,6 +41,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
+#include <boost/algorithm/clamp.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084
@@ -50,6 +51,8 @@ REGISTER_PLUGIN(scrimmage::MotionModel, JSBSimControl, JSBSimControl_plugin)
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
+
+namespace ba = boost::algorithm;
 
 JSBSimControl::JSBSimControl() {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
@@ -171,27 +174,35 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimControl::step(double time, double dt) {
-    ap_throttle_cmd_node_->setDoubleValue(0.9);
+    Eigen::Vector4d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    double u_aileron = ba::clamp(u(0), -1.0, 1.0);
+    double u_elevator = ba::clamp(u(1), -1.0, 1.0);
+    double u_rudder = ba::clamp(u(2), -1.0, 1.0);
+    double u_throttle = ba::clamp(u(3), -1.0, 1.0);
 
-    Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-    double u_roll = u(0);
-    double u_pitch = u(1);
-    double u_yaw = u(2);
+    ap_aileron_cmd_node_->setDoubleValue(u_aileron);
+    ap_elevator_cmd_node_->setDoubleValue(u_elevator);
+    ap_rudder_cmd_node_->setDoubleValue(u_rudder);
+    ap_throttle_cmd_node_->setDoubleValue(u_throttle);
 
-    // Roll stabilizer
-    ap_aileron_cmd_node_->setDoubleValue(u_roll);
+    // double u_roll = u(0);
+    // double u_pitch = u(1);
+    // double u_yaw = u(2);
+    //
+    // // Roll stabilizer
+    // ap_aileron_cmd_node_->setDoubleValue(u_roll);
+    //
+    // // Pitch stabilizer
+    // if (time < 5) {
+    //     ap_elevator_cmd_node_->setDoubleValue(u_pitch);
+    // } else if (time < 7) {
+    //     ap_elevator_cmd_node_->setDoubleValue(0.5);
+    // } else {
+    //     ap_elevator_cmd_node_->setDoubleValue(-0.5);
+    // }
 
-    // Pitch stabilizer
-    if (time < 5) {
-        ap_elevator_cmd_node_->setDoubleValue(u_pitch);
-    } else if (time < 7) {
-        ap_elevator_cmd_node_->setDoubleValue(0.5);
-    } else {
-        ap_elevator_cmd_node_->setDoubleValue(-0.5);
-    }
-
-    // Yaw stabilizer
-    ap_rudder_cmd_node_->setDoubleValue(u_yaw);
+    // // Yaw stabilizer
+    // ap_rudder_cmd_node_->setDoubleValue(u_yaw);
 
     exec->Setdt(dt);
     exec->Run();

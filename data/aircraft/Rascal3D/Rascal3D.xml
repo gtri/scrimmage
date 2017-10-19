@@ -540,6 +540,6 @@
         <property> fcs/pitch-trim-cmd-norm</property>
     </output-->
     
-    <output name="localhost" type="FLIGHTGEAR" port="5600" rate="60" protocol="UDP"/>
+    <!--<output name="localhost" type="FLIGHTGEAR" port="5600" rate="60" protocol="UDP"/>-->
     
 </fdm_config>

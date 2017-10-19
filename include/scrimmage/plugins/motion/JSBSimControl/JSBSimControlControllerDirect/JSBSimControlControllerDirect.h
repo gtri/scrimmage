@@ -30,15 +30,15 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERDIRECT_JSBSIMCONTROLCONTROLLERDIRECT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERDIRECT_JSBSIMCONTROLCONTROLLERDIRECT_H_
 
 #include <map>
 #include <string>
 
 #include "../JSBSimControl.h"
 
-class JSBSimControlControllerHeadingPID : public JSBSimControl::Controller {
+class JSBSimControlControllerDirect : public JSBSimControl::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -46,16 +46,6 @@ class JSBSimControlControllerHeadingPID : public JSBSimControl::Controller {
 
  protected:
     Eigen::Vector4d u_;
-    scrimmage::Angles angles_to_jsbsim_;
-    scrimmage::Angles angles_from_jsbsim_;
-
-    scrimmage::PID heading_pid_;
-    double prev_desired_yaw_;
-    bool heading_lag_initialized_;
-
-    scrimmage::PID roll_pid_;
-    scrimmage::PID pitch_pid_;
-    scrimmage::PID yaw_pid_;
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERDIRECT_JSBSIMCONTROLCONTROLLERDIRECT_H_

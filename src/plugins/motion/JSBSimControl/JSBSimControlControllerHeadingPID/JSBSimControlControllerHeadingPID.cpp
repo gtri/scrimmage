@@ -49,7 +49,7 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     boost::split(str_vals, str, boost::is_any_of(","));
 
     if (str_vals.size() != 4) {
-        std::cout << "error parsing in SimpleAircraftControllerPID" << std::endl;
+        std::cout << "error parsing in JSBSimControlControllerPID" << std::endl;
     } else {
         double p = std::stod(str_vals[0]);
         double i = std::stod(str_vals[1]);
@@ -80,7 +80,7 @@ void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string> 
 
     set_pid(roll_pid_, params["roll_pid"], true);
     set_pid(pitch_pid_, params["pitch_pid"], true);
-    set_pid(yaw_pid_, params["yaw_id"], true);
+    set_pid(yaw_pid_, params["yaw_pid"], true);
 }
 
 bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
@@ -102,4 +102,3 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
 
     return true;
 }
-

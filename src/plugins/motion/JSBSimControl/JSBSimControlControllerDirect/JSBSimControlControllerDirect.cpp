@@ -30,32 +30,25 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/JSBSimControl/JSBSimControlControllerDirect/JSBSimControlControllerDirect.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/math/State.h>
+#include <boost/algorithm/string.hpp>
 
-#include <map>
-#include <string>
+REGISTER_PLUGIN(scrimmage::Controller,
+                JSBSimControlControllerDirect,
+                JSBSimControlControllerDirect_plugin)
 
-#include "../JSBSimControl.h"
+void JSBSimControlControllerDirect::init(std::map<std::string,
+                                         std::string> &params) {}
 
-class JSBSimControlControllerHeadingPID : public JSBSimControl::Controller {
- public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d &u() {return u_;}
+bool JSBSimControlControllerDirect::step(double t, double dt) {
+    u_(0) = desired_state_->pos()(0); // aileron  (x-axis rotation)
+    u_(1) = desired_state_->pos()(1); // elevator (y-axis rotation)
+    u_(2) = desired_state_->pos()(2); // rudder   (z-axis rotation)
+    u_(3) = desired_state_->vel()(0); // throttle
 
- protected:
-    Eigen::Vector4d u_;
-    scrimmage::Angles angles_to_jsbsim_;
-    scrimmage::Angles angles_from_jsbsim_;
-
-    scrimmage::PID heading_pid_;
-    double prev_desired_yaw_;
-    bool heading_lag_initialized_;
-
-    scrimmage::PID roll_pid_;
-    scrimmage::PID pitch_pid_;
-    scrimmage::PID yaw_pid_;
-};
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+    return true;
+}

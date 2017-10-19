@@ -30,32 +30,43 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_
+
+#include <ros/ros.h>
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+#include <sensor_msgs/LaserScan.h>
+#include <tf/transform_broadcaster.h>
+
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <map>
+#include <vector>
 #include <string>
+#include <fstream>
 
-#include "../JSBSimControl.h"
-
-class JSBSimControlControllerHeadingPID : public JSBSimControl::Controller {
+class ROSControl : public scrimmage::Autonomy {
  public:
+    ROSControl();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d &u() {return u_;}
+    virtual bool step_autonomy(double t, double dt);
+    void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
 
  protected:
-    Eigen::Vector4d u_;
-    scrimmage::Angles angles_to_jsbsim_;
-    scrimmage::Angles angles_from_jsbsim_;
+    void zero_ctrls();
+    void ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt,
+                     double t);
 
-    scrimmage::PID heading_pid_;
-    double prev_desired_yaw_;
-    bool heading_lag_initialized_;
+    std::shared_ptr<ros::NodeHandle> nh_;
 
-    scrimmage::PID roll_pid_;
-    scrimmage::PID pitch_pid_;
-    scrimmage::PID yaw_pid_;
+    ros::Subscriber cmd_vel_sub_;
+    geometry_msgs::Twist cmd_vel_;
+    std::string ros_namespace_;
+
+    std::vector<double> x_;
+    // std::ofstream ofs_;
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_
