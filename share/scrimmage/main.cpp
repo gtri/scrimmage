@@ -179,7 +179,8 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    simcontrol.display_progress(true);
+    bool display_progress = sc::get("display_progress", mp->params(), true);
+    simcontrol.display_progress(display_progress);
 
 #if ENABLE_VIEWER == 0
     simcontrol.pause(false);

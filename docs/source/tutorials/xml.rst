@@ -141,6 +141,8 @@ and match between the two paradigms for a single entity.
   drawn at the origin of the simulation. This is help for debugging the
   latitude, longitude, and altitude origin values.
 
+- ``display_progress`` : whether to show a progress bar on the command line
+
 - ``origin_length`` : Specifies the length of the origin axes in meters when
   ``show_origin`` is enabled.
 
