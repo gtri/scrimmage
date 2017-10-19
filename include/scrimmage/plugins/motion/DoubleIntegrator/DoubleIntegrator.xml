@@ -5,4 +5,9 @@
   <max_vel>1</max_vel>
   <max_acc>1</max_acc>
   <motion_model_sets_yaw>true</motion_model_sets_yaw>
+  <sim_copter_orientation>false</sim_copter_orientation>
+  <sim_copter_max_pitch>30</sim_copter_max_pitch> <!--degrees -->
+  <sim_copter_max_roll>30</sim_copter_max_roll>   <!--degrees -->
+  <max_yaw_vel>1</max_yaw_vel>
+  <max_yaw_acc>1</max_yaw_acc>
 </params>

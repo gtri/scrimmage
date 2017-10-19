@@ -61,11 +61,16 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     };
 
  protected:
-    double update_dvdt(double vel, double acc);
+    double update_dvdt(double vel, double max_vel, double acc);
     Eigen::Vector4d ctrl_u_;
     double max_vel_ = std::numeric_limits<double>::infinity();
     double max_acc_ = std::numeric_limits<double>::infinity();
+    double max_yaw_vel_ = std::numeric_limits<double>::infinity();
+    double max_yaw_acc_ = std::numeric_limits<double>::infinity();
     bool motion_model_sets_yaw_ = true;
+    bool sim_copter_orientation_ = false;
+    double sim_copter_max_roll_ = 1.0;
+    double sim_copter_max_pitch_ = 1.0;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_

@@ -1547,6 +1547,8 @@ bool Updater::draw_sphere(const scrimmage_proto::Shape &s,
 
     sphereSource->SetCenter(0, 0, 0); // actor is moved later
     sphereSource->SetRadius(s.radius());
+    sphereSource->SetThetaResolution(100);
+    sphereSource->SetPhiResolution(100);
 
     mapper->SetInputConnection(sphereSource->GetOutputPort());
 
