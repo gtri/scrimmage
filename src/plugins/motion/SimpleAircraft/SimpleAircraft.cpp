@@ -75,20 +75,20 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     Eigen::Vector3d &pos = state_->pos();
     sc::Quaternion &quat = state_->quat();
 
-    x_[X] = pos(0);
-    x_[Y] = pos(1);
-    x_[Z] = pos(2);
-    x_[ROLL] = quat.roll();
-    x_[PITCH] = quat.pitch();
-    x_[YAW] = quat.yaw();
-    x_[SPEED] = state_->vel().norm();
-
-    length_ = sc::get("turning_radius", params, 50.0);
-
     min_velocity_ = sc::get("min_velocity", params, 15.0);
     max_velocity_ = sc::get("max_velocity", params, 40.0);
     max_roll_ = sc::Angles::deg2rad(sc::get("max_roll", params, 30.0));
     max_pitch_ = sc::Angles::deg2rad(sc::get("max_pitch", params, 30.0));
+
+    x_[X] = pos(0);
+    x_[Y] = pos(1);
+    x_[Z] = pos(2);
+    x_[ROLL] = clamp(quat.roll(), -max_roll_, max_roll_);
+    x_[PITCH] = clamp(quat.pitch(), -max_pitch_, max_pitch_);
+    x_[YAW] = quat.yaw();
+    x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
+
+    length_ = sc::get("turning_radius", params, 50.0);
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
