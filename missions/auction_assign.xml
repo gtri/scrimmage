@@ -30,7 +30,7 @@
   <entity_interaction order="0">SimpleCollision</entity_interaction>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
-  <!--<seed>0</seed>--> 
+  <seed>0</seed>
   
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
@@ -59,10 +59,10 @@
     <variance_x>50</variance_x>
     <variance_y>50</variance_y>
     <variance_z>50</variance_z>
-    <x>200</x>
-    <y>200</y>
+    <x>100</x>
+    <y>100</y>
     <z>100</z>
-    <heading>0</heading>    
+    <heading>0</heading>          
     <visual_model>Sphere</visual_model>
     <controller>SingleIntegratorControllerSimple</controller>
     <motion_model>SingleIntegrator</motion_model>

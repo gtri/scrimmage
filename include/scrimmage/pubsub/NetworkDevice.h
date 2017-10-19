@@ -99,6 +99,9 @@ class NetworkDevice {
                 auto msg_cast = std::dynamic_pointer_cast<T>(*it);
                 if (msg_cast) {
                     msg_list_cast.push_back(msg_cast);
+                } else {
+                    print_str(std::string("WARNING: could not cast message on topic \"")
+                        + topic_);
                 }
             }
 
@@ -117,6 +120,7 @@ class NetworkDevice {
     }
 
  protected:
+    void print_str(std::string msg);
     std::string topic_;
     std::list<MessageBasePtr> msg_list_;
     PluginPtr plugin_ = std::make_shared<Plugin>();

@@ -33,6 +33,8 @@
 #include <gtest/gtest.h>
 #include <scrimmage/common/ExponentialFilter.h>
 
+#include <cmath>
+
 namespace sc = scrimmage;
 
 TEST(test_quaternion, rotation) {

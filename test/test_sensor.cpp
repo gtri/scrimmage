@@ -38,6 +38,8 @@
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/Hash.h>
 
+#include <boost/optional.hpp>
+
 namespace sc = scrimmage;
 
 class SensorTest : public ::testing::Test {
@@ -79,7 +81,6 @@ TEST_F(SensorTest, simple_camera) {
     simple_camera->set_parent(parent_);
     simple_camera->parent()->contacts() = parent_->contacts();
     auto msg = simple_camera->sense<std::unordered_set<sc::ID>>(0);
-    EXPECT_TRUE(msg);
     std::unordered_set<sc::ID> &msg_data = (*msg)->data;
 
     EXPECT_TRUE(msg_data.size() == 1);

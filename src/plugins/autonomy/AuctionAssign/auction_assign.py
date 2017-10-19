@@ -34,7 +34,7 @@ from __future__ import print_function
 import scrimmage as sc
 import numpy as np
 from AuctionMsgs_pb2 import BidAuction, StartAuction
-import lvdb
+
 
 class AuctionAssign(sc.Autonomy):
 
