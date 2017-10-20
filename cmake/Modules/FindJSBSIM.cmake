@@ -1,7 +1,7 @@
 # - Try to find  JSBSIM
 # Once done, this will define
 #
-#  JSBSIM_FOUND - system has scicoslab 
+#  JSBSIM_FOUND - system has scicoslab
 #  JSBSIM_INCLUDE_DIRS - the scicoslab include directories
 #  JSBSIM_LIBRARIES - libraries to link to
 
@@ -19,22 +19,22 @@ MacroCommonPaths(JSBSIM JSBSim)
 
 find_path(JSBSIM_INCLUDE_DIR
     NAMES FGFDMExec.h
-    PATHS ${COMMON_INCLUDE_PATHS_JSBSIM} 
+    PATHS ${COMMON_INCLUDE_PATHS_JSBSIM}
 )
 
 if (NOT JSBSIM_INCLUDE_DIR)
     find_path(JSBSIM_INCLUDE_DIR
         NAMES JSBSim/FGFDMExec.h
-        PATHS ${COMMON_INCLUDE_PATHS_JSBSIM} 
+        PATHS ${COMMON_INCLUDE_PATHS_JSBSIM}
     )
-endif() 
+endif()
 
 # data dir
 find_path(JSBSIM_DATA_DIR_SEARCH
-    NAMES jsbsim/aircraft/aircraft_template.xml
+    NAMES JSBSim/aircraft/aircraft_template.xml
     PATHS ${COMMON_DATA_PATHS_JSBSIM}
 )
-set(JSBSIM_DATA_DIR ${JSBSIM_DATA_DIR_SEARCH}/jsbsim)
+set(JSBSIM_DATA_DIR ${JSBSIM_DATA_DIR_SEARCH}/JSBSim)
 
 # Finally the library itself
 find_library(JSBSIM_LIBRARY
@@ -65,7 +65,7 @@ macro(find_or_build_jsbsim TAG EP_BASE_DIR EP_INSTALL_PREFIX EP_DATADIR)
     if(NOT JSBSIM_FOUND)
         ExternalProject_Add(jsbsim
             GIT_REPOSITORY "git://github.com/jgoppert/jsbsim.git"
-            GIT_TAG ${TAG} 
+            GIT_TAG ${TAG}
             UPDATE_COMMAND ""
             CONFIGURE_COMMAND ${EP_BASE_DIR}/Source/jsbsim/autogen.sh --enable-libraries --prefix=${EP_INSTALL_PREFIX}
             BUILD_COMMAND make -j4

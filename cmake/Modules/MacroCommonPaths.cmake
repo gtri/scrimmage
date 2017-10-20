@@ -1,18 +1,19 @@
 macro(MacroCommonPaths NAME DIR_NAME)
-  IF(DEFINED ENV{${NAME}_ROOT} OR DEFINED ENV{${NAME}_DIR})    
-    set(COMMON_INCLUDE_PATHS_${NAME}    
+  IF(DEFINED ENV{${NAME}_ROOT} OR DEFINED ENV{${NAME}_DIR})
+    set(COMMON_INCLUDE_PATHS_${NAME}
       $ENV{${NAME}_DIR}/src
       $ENV{${NAME}_DIR}/include
-      $ENV{${NAME}_DIR}      
+      $ENV{${NAME}_DIR}
       $ENV{${NAME}_ROOT}/src
       $ENV{${NAME}_ROOT}/include
-      $ENV{${NAME}_ROOT}      
+      $ENV{${NAME}_ROOT}
       )
-  ELSE()    
-    set(COMMON_INCLUDE_PATHS_${NAME}      
+  ELSE()
+    set(COMMON_INCLUDE_PATHS_${NAME}
+      /opt/scrimmage/include
       ~/Library/Frameworks
       /Library/Frameworks
-      /usr/local/include      
+      /usr/local/include
       /usr/local/include/${DIR_NAME}
       /usr/include
       /sw/include # Fink
@@ -23,9 +24,9 @@ macro(MacroCommonPaths NAME DIR_NAME)
       [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\\Manager\\Environment;${NAME}_ROOT]/include
       /usr/freeware/include
       )
-  ENDIF()  
+  ENDIF()
 
-  IF(DEFINED ENV{${NAME}_ROOT} OR DEFINED ENV{${NAME}_DIR})    
+  IF(DEFINED ENV{${NAME}_ROOT} OR DEFINED ENV{${NAME}_DIR})
     set(COMMON_LIBRARY_PATHS_${NAME}
       $ENV{${NAME}_DIR}/build/src
       $ENV{${NAME}_DIR}/lib
@@ -34,8 +35,9 @@ macro(MacroCommonPaths NAME DIR_NAME)
       $ENV{${NAME}_ROOT}/lib
       $ENV{${NAME}_ROOT}
       )
-  ELSE()    
+  ELSE()
     set(COMMON_LIBRARY_PATHS_${NAME}
+      /opt/scrimmage/lib
       ~/Library/Frameworks
       /Library/Frameworks
       /usr/local/lib
@@ -47,14 +49,15 @@ macro(MacroCommonPaths NAME DIR_NAME)
       [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\\Manager\\Environment;${NAME}_DIR]/lib
       [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\\Manager\\Environment;${NAME}_ROOT]/lib
       /usr/freeware/lib64
-      )    
+      )
   ENDIF()
-  
+
   set(COMMON_DATA_PATHS_${NAME}
     $ENV{${NAME}_DIR}/share
     $ENV{${NAME}_DIR}
     $ENV{${NAME}_ROOT}/share
     $ENV{${NAME}_ROOT}
+    /opt/scrimmage/etc
     ~/Library/Frameworks
     /Library/Frameworks
     /usr/local/share
