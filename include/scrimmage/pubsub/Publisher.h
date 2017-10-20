@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_
 
 #include <scrimmage/pubsub/NetworkDevice.h>
+#include <functional>
 
 namespace scrimmage {
 
