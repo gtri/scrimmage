@@ -1,3 +1,7 @@
+if (NOT OPENCV_FOUND)
+  return()
+endif()
+
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
@@ -8,20 +12,20 @@ SET (LIB_RELEASE 1)
 
 file(GLOB SRCS *.cpp)
 
-ADD_LIBRARY(${LIBRARY_NAME} SHARED 
+ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
 add_dependencies(${LIBRARY_NAME} scrimmage-proto-gen)
 
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME}  
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
   ${OpenCV_LIBRARIES}
   )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-set_target_properties(${LIBRARY_NAME} PROPERTIES 
-  SOVERSION ${LIB_MAJOR} 
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+  SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
   )
