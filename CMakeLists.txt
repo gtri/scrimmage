@@ -178,6 +178,7 @@ find_package(VTK QUIET NO_MODULE COMPONENTS
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
+  include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
   include(${VTK_USE_FILE})
   add_definitions(-DENABLE_VIEWER=1)
 else()
