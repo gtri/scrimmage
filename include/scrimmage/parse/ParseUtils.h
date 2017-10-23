@@ -130,6 +130,7 @@ bool find_terrain_files(std::string terrain_name,
 
 bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
                            FileSearch &file_search,
+                           std::map<std::string, std::string> &overrides,
                            std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
                            bool &mesh_found, bool &texture_found);
 

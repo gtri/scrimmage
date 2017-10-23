@@ -76,7 +76,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
               RTreePtr &rtree);
 
     bool parse_visual(std::map<std::string, std::string> &info,
-                      MissionParsePtr mp, FileSearch &file_search);
+                      MissionParsePtr mp, FileSearch &file_search,
+                      std::map<std::string, std::string> &overrides);
 
     void collision();
     void hit();

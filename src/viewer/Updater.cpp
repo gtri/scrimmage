@@ -853,8 +853,16 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
         ConfigParse cv_parse;
         FileSearch file_search;
         bool mesh_found, texture_found;
-        find_model_properties(cv->name(), cv_parse, file_search, cv,
-                              mesh_found, texture_found);
+
+        // Setup the overrides based on the data in the message
+        std::map<std::string, std::string> overrides;
+        overrides["visual_scale"] = std::to_string(cv->scale());
+        overrides["visual_rpy"] = std::to_string(cv->rotate(0)) + " " +
+            std::to_string(cv->rotate(1)) + " " +
+            std::to_string(cv->rotate(2));
+
+        find_model_properties(cv->name(), cv_parse, file_search, overrides,
+                              cv, mesh_found, texture_found);
 
         if (actor_contact->contact.type() == sp::MESH) {
             if (texture_found) {

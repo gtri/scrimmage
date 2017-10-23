@@ -97,7 +97,9 @@ void playback_loop(std::list<sc::Frame> frames, sc::MissionParsePtr mp) {
 
                 sc::Entity ent;
                 ent.set_id(id);
-                ent.parse_visual(mp->entity_descriptions()[id.sub_swarm_id()], mp, file_search);
+
+                std::map<std::string, std::string> overrides;
+                ent.parse_visual(mp->entity_descriptions()[id.sub_swarm_id()], mp, file_search, overrides);
                 contact_visuals[kv.first] = ent.contact_visual();
                 simcontrol.set_contact_visuals(contact_visuals);
             }

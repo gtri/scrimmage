@@ -81,7 +81,7 @@ bool Entity::init(AttributeMap &overrides,
         mp_ = std::make_shared<MissionParse>();
     } else {
         mp_ = mp;
-        parse_visual(info, mp_, file_search);
+        parse_visual(info, mp_, file_search, overrides["visual_model"]);
     }
 
 
@@ -299,14 +299,15 @@ bool Entity::init(AttributeMap &overrides,
 }
 
 bool Entity::parse_visual(std::map<std::string, std::string> &info,
-                          MissionParsePtr mp, FileSearch &file_search) {
+                          MissionParsePtr mp, FileSearch &file_search,
+                          std::map<std::string, std::string> &overrides) {
     visual_->set_id(id_.id());
     visual_->set_opacity(1.0);
 
     ConfigParse cv_parse;
     bool mesh_found, texture_found;
     find_model_properties(info["visual_model"], cv_parse,
-                          file_search, visual_,
+                          file_search, overrides, visual_,
                           mesh_found, texture_found);
 
     set(visual_->mutable_color(), mp->team_info()[id_.team_id()].color);

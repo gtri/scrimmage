@@ -86,6 +86,7 @@ bool find_terrain_files(std::string terrain_name,
 bool find_model_properties(std::string model_name,
                            ConfigParse &cv_parse,
                            FileSearch &file_search,
+                           std::map<std::string, std::string> &overrides,
                            std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
                            bool &mesh_found, bool &texture_found) {
     if (cv == nullptr) {
@@ -99,7 +100,6 @@ bool find_model_properties(std::string model_name,
 
     cv_parse.set_required("model");
 
-    std::map<std::string, std::string> overrides; // empty, no overrides
     if (cv_parse.parse(overrides, model_name, "SCRIMMAGE_DATA_PATH", file_search)) {
         std::string model_file = cv_parse.directory() + "/" + cv_parse.params()["model"];
         std::string texture_file = cv_parse.directory() + "/" + cv_parse.params()["texture"];
