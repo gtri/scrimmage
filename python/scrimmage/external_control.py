@@ -2,6 +2,7 @@
 from __future__ import print_function
 import threading
 import subprocess
+import collections
 import time
 import os
 import signal
@@ -17,6 +18,7 @@ import gym.spaces
 from gym.utils import seeding
 
 from .proto import ExternalControl_pb2, ExternalControl_pb2_grpc
+
 
 if sys.version[0] == '2':
     import Queue as queue
@@ -107,7 +109,7 @@ class ScrimmageEnv(gym.Env):
         self.scrimmage_process = \
             self._start_scrimmage(self.enable_gui, False)
 
-        return self._return_action_result()
+        return self._return_action_result()[0]
 
     def _step(self, action):
         """Send action to SCRIMMAGE and return result."""
@@ -118,12 +120,12 @@ class ScrimmageEnv(gym.Env):
             action_pb = ExternalControl_pb2.Action(
                 continuous=action, done=False)
         else:
-            if isinstance(action, int):
-                action_pb = ExternalControl_pb2.Action(
-                    discrete=[action], done=False)
-            else:
+            if isinstance(action, collections.Iterable):
                 action_pb = ExternalControl_pb2.Action(
                     discrete=action, done=False)
+            else:
+                action_pb = ExternalControl_pb2.Action(
+                    discrete=[action], done=False)
         self.queues['action'].put(action_pb)
         return self._return_action_result()
 
@@ -199,7 +201,7 @@ class ScrimmageEnv(gym.Env):
 
             self.queues['action'].put(ExternalControl_pb2.Action(done=True))
             try:
-                self.scrimmage_process.terminate()
+                self.scrimmage_process.kill()
             except OSError:
                 print('could not terminate existing scrimmage process. '
                       'It may have already shutdown.')
@@ -233,8 +235,10 @@ def _create_tuple_space(space_params):
 
     def _append(param, dst_lst):
         if param.num_dims != 1 and len(param.maximum) == 1:
+            # use same min/max for all dims
             dst_lst += param.num_dims * [param.minimum, param.maximum]
         else:
+            # each min/max is specified individually
             assert len(param.minimum) == len(param.maximum)
             dst_lst += zip(list(param.minimum), list(param.maximum))
 
@@ -243,6 +247,9 @@ def _create_tuple_space(space_params):
             _append(param, discrete_extrema)
         else:
             _append(param, continuous_extrema)
+
+    # make sure that discrete entries are ints
+    discrete_extrema = [(int(mn), int(mx)) for mn, mx in discrete_extrema]
 
     if len(discrete_extrema) == 1 and discrete_extrema[0][0] == 0:
         discrete_space = gym.spaces.Discrete(discrete_extrema[0][1])

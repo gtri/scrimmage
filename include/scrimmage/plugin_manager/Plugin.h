@@ -50,6 +50,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
+    virtual void close(double t) {}
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();

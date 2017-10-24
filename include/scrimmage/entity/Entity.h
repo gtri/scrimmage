@@ -79,6 +79,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
                       MissionParsePtr mp, FileSearch &file_search,
                       std::map<std::string, std::string> &overrides);
 
+    void close(double t);
     void collision();
     void hit();
     bool is_alive();

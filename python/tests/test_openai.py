@@ -24,18 +24,23 @@ def test_openai():
     YAW_IDX = 8
 
     # the observation is the state of the aircraft
-    obs = env.reset()[0]
-    for _ in range(100):
+    obs = env.reset()
+    done = False
+    tot_reward = 0
+    while not done:
         action = env.action_space.sample()
 
         # the action is the desired state of the aircraft
         # we tell it to turn hard left
         action = obs
         action[YAW_IDX] += np.pi / 2
-        obs = env.step(action)[0]
+
+        obs, reward, done = env.step(action)[:3]
+        tot_reward += reward
 
     env.env.close()
     ROLL_LIMIT = np.radians(30)
+    assert tot_reward == 0
     assert abs(obs[ROLL_IDX]) > 0.5 * ROLL_LIMIT
 
 if __name__ == '__main__':

@@ -30,20 +30,21 @@
  *
  */
 
+#include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Values.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/sensor/Sensable.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/sensor/Sensable.h>
 
 #include <iostream>
 #include <memory>
@@ -462,5 +463,27 @@ bool Entity::call_service(scrimmage::MessageBasePtr req,
 
 void Entity::print(const std::string &msg) {
     std::cout << msg << std::endl;
+}
+
+void Entity::close(double t) {
+    for (AutonomyPtr autonomy : autonomies_) {
+        autonomy->close(t);
+    }
+
+    for (auto sensable_list : values(sensables_)) {
+        for (SensablePtr sensable : sensable_list) {
+            sensable->close(t);
+        }
+    }
+
+    for (SensorPtr sensor : values(sensors_)) {
+        sensor->close(t);
+    }
+
+    for (ControllerPtr ctrl : controllers_) {
+        ctrl->close(t);
+    }
+
+    motion_model_->close(t);
 }
 } // namespace scrimmage

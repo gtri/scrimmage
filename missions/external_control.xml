@@ -1,7 +1,7 @@
 <runscript name="Straight flying">
 
   <run dt="0.1"
-    end="100"
+    end="10"
     enable_gui="false"
     network_gui="false"
     start="0.0"
@@ -11,7 +11,7 @@
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
 
-  <end_condition>time, all_dead</end_condition> 
+  <end_condition>time</end_condition> 
 
   <grid_spacing>10</grid_spacing>
   <grid_size>1000</grid_size>

@@ -169,3 +169,7 @@ scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
 
     return space_params;
 }
+
+void ExternalControl::close(double t) {
+    send_action_result(t, 0, true);
+}

@@ -48,6 +48,7 @@ class ExternalControl : public scrimmage::Autonomy {
  public:
     virtual void init(std::map<std::string, std::string> &params) {}
     bool step_autonomy(double t, double dt) final;
+    virtual void close(double t);
 
  protected:
     virtual bool handle_action(

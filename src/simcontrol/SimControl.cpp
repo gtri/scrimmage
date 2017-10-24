@@ -692,6 +692,7 @@ void SimControl::cleanup() {
         auto msg = std::make_shared<Message<sm::EntityPresentAtEnd>>();
         msg->data.set_entity_id(ent->id().id());
         pubsub_->publish_immediate(t_, pub_ent_pres_end_, msg);
+        ent->close(t());
     }
 
     run_logging();
