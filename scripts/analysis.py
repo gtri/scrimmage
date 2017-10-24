@@ -32,7 +32,6 @@
 import pandas as pd
 import patsy
 import numpy as np
-#import lvdb
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D

@@ -3,7 +3,6 @@ import numpy as np
 import gym
 import scrimmage
 
-import lvdb
 
 def test_openai():
     """Open single entity scenario and make sure it banks."""
