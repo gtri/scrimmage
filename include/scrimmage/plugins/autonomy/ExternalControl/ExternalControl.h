@@ -49,11 +49,16 @@ class ExternalControl : public scrimmage::Autonomy {
     virtual void init(std::map<std::string, std::string> &params) {}
     bool step_autonomy(double t, double dt) final;
 
+ protected:
     virtual bool handle_action(
-        double t, double dt, scrimmage_proto::Action action);
+        double t, double dt, const scrimmage_proto::Action &action);
     virtual scrimmage_proto::SpaceParams action_space_params();
 
- protected:
+    bool check_action(
+        const scrimmage_proto::Action &action,
+        uint64_t discrete_action_size,
+        uint64_t continuous_action_size);
+
     std::string server_address_ = "localhost:50051";
     double min_reward_ = -std::numeric_limits<double>::infinity();
     double max_reward_ = std::numeric_limits<double>::infinity();

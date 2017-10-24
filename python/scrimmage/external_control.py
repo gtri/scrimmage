@@ -57,10 +57,11 @@ class ServerThread(threading.Thread):
 class ScrimmageEnv(gym.Env):
     """OpenAI implementation for SCRIMMAGE."""
 
-    def __init__(self, enable_gui, mission_file):
+    def __init__(self, enable_gui, mission_file, gdb_args=""):
         """Create queues for multi-threading."""
         self.enable_gui = enable_gui
         self.mission_file = mission_file
+        self.gdb_args = gdb_args
 
         self.rng = None
         self.seed = self._seed(None)
@@ -110,8 +111,19 @@ class ScrimmageEnv(gym.Env):
 
     def _step(self, action):
         """Send action to SCRIMMAGE and return result."""
-        action_pb = ExternalControl_pb2.Action(
-            discrete=action[0], continuous=action[1], done=False)
+        if isinstance(self.action_space, gym.spaces.Tuple):
+            action_pb = ExternalControl_pb2.Action(
+                discrete=action[0], continuous=action[1], done=False)
+        elif isinstance(self.action_space, gym.spaces.Box):
+            action_pb = ExternalControl_pb2.Action(
+                continuous=action, done=False)
+        else:
+            if isinstance(action, int):
+                action_pb = ExternalControl_pb2.Action(
+                    discrete=[action], done=False)
+            else:
+                action_pb = ExternalControl_pb2.Action(
+                    discrete=action, done=False)
         self.queues['action'].put(action_pb)
         return self._return_action_result()
 
@@ -140,9 +152,12 @@ class ScrimmageEnv(gym.Env):
         temp_mission_file = "." + os.path.basename(self.mission_file)
         print('temp mission file is ' + temp_mission_file)
         tree.write(temp_mission_file)
-        print('executing the following cmd:')
-        print(' '.join(["scrimmage", temp_mission_file]))
-        return subprocess.Popen(["scrimmage", temp_mission_file])
+        if self.gdb_args:
+            cmd = self.gdb_args.split(" ") + ["scrimmage", temp_mission_file]
+        else:
+            cmd = ["scrimmage", temp_mission_file]
+        print(cmd)
+        return subprocess.Popen(cmd)
 
     def _close(self):
         """Cleanup spawned threads and subprocesses.
@@ -156,10 +171,15 @@ class ScrimmageEnv(gym.Env):
 
     def _return_action_result(self):
         res = self.queues['action_response'].get()
-        size_discrete = self.observation_space.spaces[0].num_discrete_space
-        discrete_obs = np.array(res.observations.value[:size_discrete])
-        continuous_obs = np.array(res.observations.value[size_discrete:])
-        obs = tuple((discrete_obs, continuous_obs))
+        if isinstance(self.observation_space, gym.spaces.Tuple):
+            size_discrete = self.observation_space.spaces[0].num_discrete_space
+            discrete_obs = np.array(res.observations.value[:size_discrete])
+            continuous_obs = np.array(res.observations.value[size_discrete:])
+            obs = tuple((discrete_obs, continuous_obs))
+
+        else:
+            obs = np.array(res.observations.value)
+
         info = {}
         return obs, res.reward, res.done, info
 
@@ -224,11 +244,24 @@ def _create_tuple_space(space_params):
         else:
             _append(param, continuous_extrema)
 
-    discrete_space = gym.spaces.MultiDiscrete(discrete_extrema)
+    if len(discrete_extrema) == 1 and discrete_extrema[0][0] == 0:
+        discrete_space = gym.spaces.Discrete(discrete_extrema[0][1])
+    else:
+        discrete_space = gym.spaces.MultiDiscrete(discrete_extrema)
 
-    low, high = zip(*continuous_extrema)
-    continuous_space = gym.spaces.Box(np.array(low), np.array(high))
-    return gym.spaces.Tuple((discrete_space, continuous_space))
+    if continuous_extrema:
+        low, high = zip(*continuous_extrema)
+        continuous_space = gym.spaces.Box(np.array(low), np.array(high))
+
+    if discrete_extrema and continuous_extrema:
+        return gym.spaces.Tuple((discrete_space, continuous_space))
+    elif discrete_extrema:
+        return discrete_space
+    elif continuous_extrema:
+        return continuous_space
+    else:
+        raise NotImplementedError(
+            "received a space with no discrete or continuous components")
 
 
 def _clear_queue(q):

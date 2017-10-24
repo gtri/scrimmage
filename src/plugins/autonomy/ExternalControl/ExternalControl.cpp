@@ -65,17 +65,10 @@ bool ExternalControl::step_autonomy(double t, double dt) {
 }
 
 bool ExternalControl::handle_action(
-        double t, double dt, scrimmage_proto::Action action) {
-    if (action.done()) {
-        std::cout << "received done signal from external controller" << std::endl;
-    } else if (action.continuous_size() != 9) {
-        std::cout << "received external action "
-            << " of length " << action.continuous_size()
-            << "  (need length 9 to match state)" << std::endl;
+        double t, double dt, const scrimmage_proto::Action &action) {
+    if (!check_action(action, 0, 9)) {
         return false;
     }
-
-    const auto c = action.continuous();
     desired_state_->pos() <<
         action.continuous(0), action.continuous(1), action.continuous(2);
     desired_state_->vel() <<
@@ -106,6 +99,26 @@ ExternalControl::send_action_result(double t, double reward, bool done) {
     return external_control_client_.send_action_result(action_result);
 }
 
+bool ExternalControl::check_action(
+        const scrimmage_proto::Action &action,
+        uint64_t discrete_action_size,
+        uint64_t continuous_action_size) {
+    if (action.done()) {
+        std::cout << "received done signal from external controller" << std::endl;
+        return false;
+    } else if (static_cast<uint64_t>(action.discrete_size()) != discrete_action_size) {
+        std::cout << "received discrete external action of length "
+            << action.discrete_size() << " (need length "
+            << discrete_action_size << ")" << std::endl;
+    } else if (static_cast<uint64_t>(action.continuous_size()) != continuous_action_size) {
+        std::cout << "received continuous external action of length "
+            << action.continuous_size() << " (need length "
+            << continuous_action_size << ")" << std::endl;
+        return false;
+    }
+    return true;
+}
+
 bool ExternalControl::send_env() {
     sp::Environment env;
 
@@ -129,10 +142,10 @@ bool ExternalControl::send_env() {
 }
 
 scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
-    scrimmage_proto::SpaceParams space_params;
-    scrimmage_proto::SingleSpaceParams *single_space_params =
-        space_params.add_params();
+    sp::SpaceParams space_params;
+    sp::SingleSpaceParams *single_space_params = space_params.add_params();
     single_space_params->set_num_dims(9);
+    single_space_params->set_discrete(false);
 
     for (int i = 0; i < 6; i++) {
         // we have to use non-infinite bounds for openai's tuple_space to give

@@ -1055,7 +1055,7 @@ bool SimControl::run_entity(EntityPtr &ent) {
     bool success = true;
     auto update_success = [&](auto res, auto plugin) {
         if (!res) {
-            std::cout << "failed update entity " << plugin->parent()->id().id()
+            std::cout << "failed to update entity " << plugin->parent()->id().id()
                 << ", plugin type \"" << plugin->type() << "\""
                 << ", plugin name \"" << plugin->name() << "\"" << std::endl;
             success = false;

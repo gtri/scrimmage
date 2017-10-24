@@ -1,25 +1,25 @@
-# 
+#
 # @file
-# 
+#
 # @section LICENSE
-# 
+#
 # Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
-# 
+#
 # This file is part of SCRIMMAGE.
-# 
+#
 #   SCRIMMAGE is free software: you can redistribute it and/or modify it under
 #   the terms of the GNU Lesser General Public License as published by the
 #   Free Software Foundation, either version 3 of the License, or (at your
 #   option) any later version.
-# 
+#
 #   SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT
 #   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 #   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 #   License for more details.
-# 
+#
 #   You should have received a copy of the GNU Lesser General Public License
 #   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
 # @author Eric Squires <eric.squires@gtri.gatech.edu>
 # @date 31 July 2017
@@ -27,14 +27,15 @@
 # @brief Brief file description.
 # @section DESCRIPTION
 # A Long description goes here.
-# 
-#
+
+import os
 
 from scrimmage.proto import Frame_pb2
 import google.protobuf.internal.decoder
 
+
 def read_frames(frames_file, to_dataframe=False):
-    ''' Returns a list of frames from a protobuf binary file
+    """Return a list of frames from a protobuf binary file.
 
     The protobuf frames file is a series of frames (see here:
     https://developers.google.com/protocol-buffers/docs/techniques#streaming)
@@ -49,17 +50,12 @@ def read_frames(frames_file, to_dataframe=False):
 
     The first link contains the code used below with the exception that decoder
     is _DecodeVarint32, found at the 2nd link
-    '''
-
+    """
     with open(frames_file, 'rb') as f:
         data = f.read()
 
     frames = []
     next_pos, pos = 0, 0
-    i = 0
-
-    if to_dataframe:
-        contact_data = []
 
     while True:
 
@@ -82,3 +78,13 @@ def read_frames(frames_file, to_dataframe=False):
         pos += next_pos
 
     return frames
+
+
+def find_mission(fname):
+    """Return the filename with path of a given mission file.
+
+    Raises a StopIteration exception when it cannot find the file.
+    """
+    files = (os.path.join(path, '..', 'missions', fname)
+             for path in os.environ["SCRIMMAGE_DATA_PATH"].split(':'))
+    return next((f for f in files if os.path.exists(f)))
