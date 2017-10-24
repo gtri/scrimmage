@@ -9,7 +9,6 @@ import sys
 import xml.etree.ElementTree as ET
 
 import numpy as np
-import queue
 import grpc
 from concurrent import futures
 
@@ -18,6 +17,11 @@ import gym.spaces
 from gym.utils import seeding
 
 from .proto import ExternalControl_pb2, ExternalControl_pb2_grpc
+
+if sys.version[0] == '2':
+    import Queue as queue
+else:
+    import queue as queue 
 
 
 class ServerThread(threading.Thread):
@@ -136,6 +140,8 @@ class ScrimmageEnv(gym.Env):
         temp_mission_file = "." + os.path.basename(self.mission_file)
         print('temp mission file is ' + temp_mission_file)
         tree.write(temp_mission_file)
+        print('executing the following cmd:')
+        print(' '.join(["scrimmage", temp_mission_file]))
         return subprocess.Popen(["scrimmage", temp_mission_file])
 
     def _close(self):
@@ -172,7 +178,12 @@ class ScrimmageEnv(gym.Env):
                 pass
 
             self.queues['action'].put(ExternalControl_pb2.Action(done=True))
-            self.scrimmage_process.terminate()
+            try:
+                self.scrimmage_process.terminate()
+            except OSError:
+                print('could not terminate existing scrimmage process. '
+                      'It may have already shutdown.')
+                pass
             self.scrimmage_process.wait()
 
 

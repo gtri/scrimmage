@@ -9,3 +9,4 @@ export PATH=${PATH}:@CMAKE_BINARY_DIR@/bin:@CMAKE_SOURCE_DIR@/scripts
 
 export PYTHONPATH=${PYTHONPATH}:@CMAKE_SOURCE_DIR@/src/plugins/autonomy/python
 export PYTHONPATH=${PYTHONPATH}:@CMAKE_SOURCE_DIR@/build/plugins/msg
+export PYTHONPATH=${PYTHONPATH}:@CMAKE_SOURCE_DIR@/build/msgs/scrimmage/msgs

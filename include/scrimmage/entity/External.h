@@ -349,11 +349,6 @@ class External {
 #endif
 };
 
-#ifdef ROSCPP_ROS_H
-
-
-#endif
-
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_

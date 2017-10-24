@@ -306,7 +306,12 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
 
     ConfigParse cv_parse;
     bool mesh_found, texture_found;
-    find_model_properties(info["visual_model"], cv_parse,
+    auto it = info.find("visual_model");
+    if (it == info.end()) {
+        return true;
+    }
+
+    find_model_properties(it->second, cv_parse,
                           file_search, overrides, visual_,
                           mesh_found, texture_found);
 

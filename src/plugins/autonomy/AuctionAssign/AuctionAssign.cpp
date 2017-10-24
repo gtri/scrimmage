@@ -74,23 +74,21 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
 
 bool AuctionAssign::step_autonomy(double t, double dt) {
     // Read the Start Auction inbox
-    for (auto &msg : subs_["StartAuction"]->msgs<sc::MessageBase>()) {
+    for (auto &msg : subs_["StartAuction"]->msgs<sc::MessageBase>(true, false)) {
         std::cout << "StartAuction: " << id_
           << " received message from " << msg->sender << std::endl;
 
-        auto msg_bid = std::make_shared<BidMsg>();
+        auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
         msg_bid->sender = id_;
-        msg_bid->data.set_bid(parent_->random()->rng_uniform() * 10.0);
-        msg_bid->data.SerializeToString(&msg_bid->serialized_data);
-#if ENABLE_PYTHON_BINDINGS == 1
-        msg_bid->serialize_to_python("AuctionMsgs_pb2", "BidAuction");
-#endif
-        pubs_["BidAuction"]->publish(msg_bid, t);
+        const double bid = parent_->random()->rng_uniform() * 10.0;
+        msg_bid->data.set_bid(bid);
+        std::cout << " sending back bid of " << bid << std::endl;
+        pubs_["BidAuction"]->publish(msg_bid, t, false);
     }
 
     if (auction_started_) {
         // Read the Bid Auction inbox
-        for (auto msg : subs_["BidAuction"]->msgs<BidMsg>()) {
+        for (auto msg : subs_["BidAuction"]->msgs<auction::BidAuction>(true, false)) {
 
             std::cout << "BidAuction: " << id_ << " received message from "
                 << msg->sender << " bid: " << msg->data.bid() << std::endl;
@@ -107,7 +105,7 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
         msg->sender = id_;
 
         std::cout << "origin: " << msg->sender << std::endl;
-        pubs_["StartAuction"]->publish(msg, t);
+        pubs_["StartAuction"]->publish(msg, t, false);
 
         auction_started_ = true;
         auction_in_prog_ = true;

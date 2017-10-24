@@ -38,6 +38,7 @@
 #include <scrimmage/log/Log.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/pubsub/Network.h>
 
@@ -58,8 +59,8 @@ bool External::create_entity(int max_entities, const ID &id,
         std::map<std::string, std::string> &info,
         const std::string &log_dir) {
 
-    double lat = std::stod(info["latitude"]);
-    double lon = std::stod(info["longitude"]);
+    double lat = get("latitude", info, 35.721025);
+    double lon = get("longitude", info, -120.767925);
 
     auto proj = std::make_shared<GeographicLib::LocalCartesian>(
         lat, lon, 0, GeographicLib::Geocentric::WGS84());
@@ -91,6 +92,7 @@ bool External::create_entity(int max_entities, const ID &id,
         return false;
     } else {
         RandomPtr random = std::make_shared<Random>();
+        random->seed();
         entity_->set_random(random);
         return true;
     }

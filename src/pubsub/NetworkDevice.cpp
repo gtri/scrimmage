@@ -34,6 +34,8 @@
 #include <scrimmage/pubsub/MessageBase.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 
+#include <iostream>
+
 namespace scrimmage {
 
 NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
@@ -70,6 +72,10 @@ void NetworkDevice::clear_msg_list() {
     mutex_.lock();
     msg_list_.clear();
     mutex_.unlock();
+}
+
+void NetworkDevice::print_str(std::string msg) {
+    std::cout << msg << std::endl;
 }
 
 } // namespace scrimmage

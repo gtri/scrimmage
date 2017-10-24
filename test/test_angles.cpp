@@ -33,6 +33,8 @@
 #include <gtest/gtest.h>
 #include <scrimmage/math/Angles.h>
 
+#include <cmath>
+
 namespace sc = scrimmage;
 using ang = sc::Angles;
 

@@ -5,11 +5,16 @@ FROM ubuntu:16.04
 
 MAINTAINER Kevin DeMarco
 
-# Copy repo code into image
-RUN mkdir -p /root/scrimmage
-COPY ./ /root/scrimmage/
-
 WORKDIR /root
+
+#install ros
+#see here: http://wiki.ros.org/kinetic/Installation/Ubuntu
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+RUN apt-get update
+RUN apt-get install -y ros-kinetic-desktop-full
+RUN rosdep init && rosdep update
+RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
 
 # Install / setup scrimmage dependencies
 RUN apt-get update && \
@@ -24,16 +29,24 @@ RUN apt-get update && \
 # so as not to confuse python environments
 # see here for installation commands:
 # https://github.com/openai/gym#installing-everything
-RUN apt-get update && apt-get install -y python3-pip python3-numpy python3-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python3-opengl libboost-all-dev libsdl2-dev swig
+RUN apt-get update && apt-get install -y python-pip python-numpy python-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python-opengl libboost-all-dev libsdl2-dev swig
 RUN apt-get update && apt-get install -y git ninja-build
 RUN git clone https://github.com/openai/gym
 WORKDIR /root/gym
-RUN pip3 install -e '.[all]'
+RUN pip install -e '.[all]'
 WORKDIR /root
 
 # these are only used for static analysis of the code
-RUN apt-get update && apt-get install -y cppcheck python3-pytest python3-pip
-RUN pip3 install cpplint
+RUN apt-get update && apt-get install -y cppcheck python-pytest python-pip
+RUN pip install cpplint
+
+RUN pip install protobuf==3.3.0 grpcio==1.2.1
+
+RUN apt install -y ros-kinetic-mrpt-navigation
+
+# Copy repo code into image
+RUN mkdir -p /root/scrimmage
+COPY ./ /root/scrimmage/
 
 # Install dependencies provided by package manager
 WORKDIR /root/scrimmage
@@ -44,7 +57,6 @@ RUN ./setup/install-binaries.sh -e 0 -p 3
 #    cd ./3rd-party/build && \
 #    /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
 
-RUN pip3 install protobuf==3.3.0 grpcio==1.2.1
 
 ## build 3rd party python protobuf
 #RUN cd /root/scrimmage/3rd-party/build/src/protobuf/python && \
@@ -52,24 +64,24 @@ RUN pip3 install protobuf==3.3.0 grpcio==1.2.1
 #
 ## build 3rd party python grpc
 #RUN cd /root/scrimmage/3rd-party/build/src/grpc && \
-#    pip3 install -rrequirements.txt && \
+#    pip install -rrequirements.txt && \
 #    GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
 #
 ## GRPC requirements installs futures, which doesn't make sense for python3
-#RUN pip3 uninstall -y futures
+#RUN pip uninstall -y futures
 
 # Run static analysis tests
 WORKDIR /root/scrimmage
-RUN py3clean -v .
-RUN py.test-3 test/test_cppcheck.py
+RUN pyclean -v .
+RUN py.test test/test_cppcheck.py
 RUN echo "the following test is optional but will check for style"
-RUN python3 test/test_cpplint.py
+RUN python test/test_cpplint.py
 
 # Build scrimmage core, plugins, and documentation
 RUN /bin/bash -c "mkdir -p build && \
     cd build && \
     source ~/.scrimmage/setup.bash && \
-    cmake .. -G Ninja -DPYTHON_MIN_VERSION=3.0 -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
+    cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
     ninja && \
     ninja docs"
 
@@ -80,9 +92,22 @@ RUN /bin/bash -c "cd build && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml"
 
+RUN mkdir -p catkin_ws/src
+WORKDIR /root/catkin_ws/src
+RUN git clone https://github.com/ros-planning/navigation_msgs
+RUN git clone https://github.com/SyllogismRXS/scrimmage_ros.git
+WORKDIR /root/catkin_ws
+RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
+    source /opt/scrimmage/setup.sh && \
+    catkin_make && \
+    source devel/setup.bash && \
+    source ~/.scrimmage/setup.bash && \
+    catkin_make run_tests && \
+    catkin_test_results"
+
 # install python package and run tests
 WORKDIR /root/scrimmage/python
-RUN pip3 install -e .
+RUN pip install -e .
 
 WORKDIR /root/scrimmage
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"

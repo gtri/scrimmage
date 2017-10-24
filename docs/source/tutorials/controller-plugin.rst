@@ -1,7 +1,7 @@
 .. _controller_plugin:
 
 Create a Controller Plugin
---------------------------
+==========================
 
 A Controller plugin converts the ``desired_state_`` variable and the current
 ``state_`` variable into actuator inputs that drive the motion model's
