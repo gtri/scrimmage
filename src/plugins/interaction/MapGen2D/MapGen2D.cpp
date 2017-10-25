@@ -38,6 +38,7 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/interaction/MapGen2D/MapGen2D.h>
+#include <scrimmage/plugins/interaction/MapGen2D/Map2DInfo.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/pubsub/Message.h>
 
@@ -61,6 +62,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
                     std::map<std::string, std::string> &plugin_params) {
 
     pub_shape_gen_ = create_publisher("ShapeGenerated");
+    pub_map_2d_info_ = create_publisher("Map2DInfo");
 
     show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params,
                                     false);
@@ -107,18 +109,18 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     std::string filename = map_parse.params()["XML_DIR"] + "/" +
         map_parse.params()["filename"];
 
-    cv::Mat img = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
-    if (!img.data) {
+    map_img_ = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
+    if (!map_img_.data) {
         cout << "Failed to open file: " << filename << endl;
         return false;
     }
 
     auto msg = std::make_shared<sc::Message<sp::Shapes>>();
-    std::list<cv::Rect> rects = find_rectangles(img, occupied_thresh_);
+    std::list<cv::Rect> rects = find_rectangles(map_img_, occupied_thresh_);
 
     for (cv::Rect rect : rects) {
         double x = rect.x * resolution_;
-        double y = (img.rows - rect.y) * resolution_;
+        double y = (map_img_.rows - rect.y) * resolution_;
         double width = rect.width * resolution_;
         double height = rect.height * resolution_;
 
@@ -145,6 +147,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         *shape = *wall;
     }
 
+    // Publish the shapes for visualization and physics
     cout << "Publishing shapes: " << msg->data.shape_size() << endl;
     publish_immediate(0, pub_shape_gen_, msg);
 
@@ -153,8 +156,17 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
 
 bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                   double t, double dt) {
-    if (ents.empty()) {
-        return true;
+
+    if (!map_info_published_) {
+        map_info_published_ = true;
+
+        // Populate and publish the map information
+        auto msg_map2d = std::make_shared<sc::Message<Map2DInfo>>();
+        msg_map2d->data.img = map_img_;
+        msg_map2d->data.occupied_thresh = occupied_thresh_;
+        msg_map2d->data.resolution = resolution_;
+        msg_map2d->data.origin = Eigen::Vector3d(x_origin_, y_origin_, z_origin_);
+        publish_immediate(0, pub_map_2d_info_, msg_map2d);
     }
 
     return true;

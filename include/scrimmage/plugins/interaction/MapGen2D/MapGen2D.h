@@ -72,6 +72,11 @@ class MapGen2D : public scrimmage::EntityInteraction {
     double z_origin_;
 
     scrimmage::PublisherPtr pub_shape_gen_;
+    scrimmage::PublisherPtr pub_map_2d_info_;
+
+    bool map_info_published_ = false;
+
+    cv::Mat map_img_;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_
