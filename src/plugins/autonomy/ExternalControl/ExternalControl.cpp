@@ -30,13 +30,14 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/ExternalControl/ExternalControl.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/plugins/autonomy/ExternalControl/ExternalControl.h>
+#include <scrimmage/plugins/autonomy/ExternalControl/ExternalControlClient.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/sensor/Sensor.h>
 
 #include <limits>
 
@@ -46,9 +47,17 @@ namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, ExternalControl, ExternalControl_plugin)
 
+ExternalControl::ExternalControl() :
+    external_control_client_(std::make_shared<ExternalControlClient>()) {}
+
+void ExternalControl::init(std::map<std::string, std::string> &params) {
+    server_address_ = params.at("server_address");
+}
+
 bool ExternalControl::step_autonomy(double t, double dt) {
     if (!env_sent_) {
-        external_control_client_ =
+        std::cout << "starting scrimmage on " << server_address_ << std::endl;
+        *external_control_client_ =
             ExternalControlClient(grpc::CreateChannel(
                 server_address_, grpc::InsecureChannelCredentials()));
         env_sent_ = true;
@@ -96,7 +105,7 @@ ExternalControl::send_action_result(double t, double reward, bool done) {
     action_result.set_reward(reward);
     action_result.set_done(done);
 
-    return external_control_client_.send_action_result(action_result);
+    return external_control_client_->send_action_result(action_result);
 }
 
 bool ExternalControl::check_action(
@@ -138,7 +147,7 @@ bool ExternalControl::send_env() {
     env.set_min_reward(min_reward_);
     env.set_max_reward(max_reward_);
 
-    return external_control_client_.send_environment(env, desired_state_);
+    return external_control_client_->send_environment(env, desired_state_);
 }
 
 scrimmage_proto::SpaceParams ExternalControl::action_space_params() {

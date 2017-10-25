@@ -34,19 +34,26 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROL_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/autonomy/ExternalControl/ExternalControlClient.h>
 
 #include <map>
 #include <string>
 #include <limits>
 
+class ExternalControlClient;
+
 namespace boost {
 template <class T> class optional;
 }
 
+namespace scrimmage_proto {
+class Action;
+class SpaceParams;
+}
+
 class ExternalControl : public scrimmage::Autonomy {
  public:
-    virtual void init(std::map<std::string, std::string> &params) {}
+    ExternalControl();
+    virtual void init(std::map<std::string, std::string> &params);
     bool step_autonomy(double t, double dt) final;
     virtual void close(double t);
 
@@ -69,7 +76,7 @@ class ExternalControl : public scrimmage::Autonomy {
       send_action_result(double t, double reward, bool done);
     bool send_env();
 
-    ExternalControlClient external_control_client_;
+    std::shared_ptr<ExternalControlClient> external_control_client_;
     bool env_sent_ = false;
 };
 

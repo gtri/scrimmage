@@ -8,10 +8,10 @@ import os
 import signal
 import sys
 import xml.etree.ElementTree as ET
+from concurrent import futures
 
 import numpy as np
 import grpc
-from concurrent import futures
 
 import gym
 import gym.spaces
@@ -23,13 +23,13 @@ from .proto import ExternalControl_pb2, ExternalControl_pb2_grpc
 if sys.version[0] == '2':
     import Queue as queue
 else:
-    import queue as queue 
+    import queue as queue
 
 
 class ServerThread(threading.Thread):
     """Start SCRIMMAGE ExternalControl GRPC Service."""
 
-    def __init__(self, queues, max_workers=10, address="localhost:50051"):
+    def __init__(self, queues, address, max_workers=10):
         """Initialize variables."""
         super(ServerThread, self).__init__()
         self.queues = queues
@@ -44,6 +44,7 @@ class ServerThread(threading.Thread):
 
         ExternalControl_pb2_grpc.add_ExternalControlServicer_to_server(
             ExternalControl(self.queues), server)
+        print('starting python on ', self.address)
         server.add_insecure_port(self.address)
         server.start()
 
@@ -59,10 +60,14 @@ class ServerThread(threading.Thread):
 class ScrimmageEnv(gym.Env):
     """OpenAI implementation for SCRIMMAGE."""
 
-    def __init__(self, enable_gui, mission_file, gdb_args=""):
+    metadata = {'render.modes': ['human']}
+
+    def __init__(self, enable_gui, mission_file,
+                 address="localhost:50051", gdb_args=""):
         """Create queues for multi-threading."""
         self.enable_gui = enable_gui
         self.mission_file = mission_file
+        self.address = address
         self.gdb_args = gdb_args
 
         self.rng = None
@@ -70,7 +75,7 @@ class ScrimmageEnv(gym.Env):
 
         self.queues = {s: queue.Queue()
                        for s in ['env', 'action', 'action_response', 'stop']}
-        self.server_thread = ServerThread(self.queues)
+        self.server_thread = ServerThread(self.queues, self.address)
         self.server_thread.start()
 
         # startup headless version of scrimmage to get the environment
@@ -129,6 +134,14 @@ class ScrimmageEnv(gym.Env):
         self.queues['action'].put(action_pb)
         return self._return_action_result()
 
+    def render(self, mode='human', close=False):
+        """Ignores a render call but avoids an exception.
+
+        If a user wants the environment rendered then the user should
+        pass enable_gui=True as a kwarg
+        """
+        pass
+
     def _seed(self, seed=None):
         self.rng, seed = seeding.np_random(seed)
         return [seed]
@@ -144,14 +157,22 @@ class ScrimmageEnv(gym.Env):
             seed_node = root.find('seed')
         seed_node.text = str(self.rng.randint(0, 2**32 - 1))
 
+        # enable gui
         run_node = root.find('run')
         run_node.attrib['enable_gui'] = str(enable_gui)
 
+        # disable output
         if disable_output:
             output_node = root.find("output_type")
             output_node.text = ""
 
-        temp_mission_file = "." + os.path.basename(self.mission_file)
+        # set port
+        for entity_node in root.findall('entity'):
+            for autonomy_node in entity_node.findall('autonomy'):
+                autonomy_node.attrib['server_address'] = self.address
+
+        port = self.address.split(":")[-1]
+        temp_mission_file = "." + port + os.path.basename(self.mission_file)
         print('temp mission file is ' + temp_mission_file)
         tree.write(temp_mission_file)
         if self.gdb_args:
