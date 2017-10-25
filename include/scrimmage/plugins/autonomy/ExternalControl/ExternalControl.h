@@ -57,12 +57,9 @@ class ExternalControl : public scrimmage::Autonomy {
     bool step_autonomy(double t, double dt) final;
     virtual void close(double t);
     
-    virtual double calc_reward(scrimmage::State &myself, scrimmage::State &them){
-        return 0.0;
-    }
+    virtual double calc_reward(double time);
 
  protected:
-    int follow_id_;
     virtual bool handle_action(
         double t, double dt, const scrimmage_proto::Action &action);
     virtual scrimmage_proto::SpaceParams action_space_params();

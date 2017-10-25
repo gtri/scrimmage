@@ -44,7 +44,6 @@
 #include <boost/optional.hpp>
 
 namespace sp = scrimmage_proto;
-namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, ExternalControl, ExternalControl_plugin)
 
@@ -64,41 +63,8 @@ bool ExternalControl::step_autonomy(double t, double dt) {
         env_sent_ = true;
         send_env();
     }
-    // Calculate reward of game using player locations
-    double min_dist = std::numeric_limits<double>::infinity();
-    for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-
-        // Skip if this contact is on the same team
-        if (it->second.id().team_id() == parent_->id().team_id()) {
-            continue;
-        }
-
-        // Calculate distance to entity
-        double dist = (it->second.state()->pos() - state_->pos()).norm();
-
-        if (dist < min_dist) {
-            // If this is the minimum distance, save distance and reference to
-            // entity
-            min_dist = dist;
-            follow_id_ = it->first;
-        }
-    }
-
-    double reward = 0;
-    // Calculate reward based on other person's position
-    if (contacts_->count(follow_id_) > 0) {
-        // Get a reference to the entity's state.
-        sc::StatePtr ent_state = contacts_->at(follow_id_).state();
-        // double phi = 0;
-        // Calculate the required heading to follow the other entity
-        /*double true_heading = atan2(ent_state->pos()(1) - state_->pos()(1),
-                               ent_state->pos()(0) - state_->pos()(0));*/
-        
-        // Eigen::Vector3d test_rel_pos = state_->rel_pos_local_frame(ent_state->pos());
-
-        reward = calc_reward(*state_,*ent_state);
-    }
-
+    
+    double reward = calc_reward(t);
     auto action = send_action_result(t, reward, false);
     if (!action) {
         std::cout << "did not receive external action. exiting." << std::endl;
@@ -106,6 +72,10 @@ bool ExternalControl::step_autonomy(double t, double dt) {
     }
 
     return handle_action(t, dt, *action);
+}
+
+double ExternalControl::calc_reward(double time){
+   return 0.0;
 }
 
 bool ExternalControl::handle_action(
