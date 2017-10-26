@@ -63,14 +63,19 @@ bool ExternalControl::step_autonomy(double t, double dt) {
         env_sent_ = true;
         send_env();
     }
-
-    auto action = send_action_result(t, 0, false);
+    
+    double reward = calc_reward(t);
+    auto action = send_action_result(t, reward, false);
     if (!action) {
         std::cout << "did not receive external action. exiting." << std::endl;
         return false;
     }
 
     return handle_action(t, dt, *action);
+}
+
+double ExternalControl::calc_reward(double time){
+   return 0.0;
 }
 
 bool ExternalControl::handle_action(
