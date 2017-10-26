@@ -160,6 +160,8 @@ class ScrimmageEnv(gym.Env):
         # enable gui
         run_node = root.find('run')
         run_node.attrib['enable_gui'] = str(enable_gui)
+        if not bool(enable_gui):
+            run_node.attrib['time_warp'] = "0"
 
         # disable output
         if disable_output:

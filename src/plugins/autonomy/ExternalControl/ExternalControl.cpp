@@ -74,7 +74,7 @@ bool ExternalControl::step_autonomy(double t, double dt) {
     return handle_action(t, dt, *action);
 }
 
-double ExternalControl::calc_reward(double time) {
+double ExternalControl::calc_reward(double t) {
     return 0.0;
 }
 

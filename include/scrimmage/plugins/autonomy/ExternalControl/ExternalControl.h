@@ -57,7 +57,7 @@ class ExternalControl : public scrimmage::Autonomy {
     bool step_autonomy(double t, double dt) final;
     virtual void close(double t);
 
-    virtual double calc_reward(double time);
+    virtual double calc_reward(double t);
 
  protected:
     virtual bool handle_action(

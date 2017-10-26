@@ -577,6 +577,7 @@ void SimControl::run_remove_inactive() {
     while (it != ents_.end()) {
         if (!(*it)->active()) {
             int id = (*it)->id().id();
+            (*it)->close(t());
             it = ents_.erase(it);
             contacts_mutex_.lock();
             contacts_->erase(id);
