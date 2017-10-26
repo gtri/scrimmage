@@ -356,15 +356,19 @@ bool SimControl::generate_entities(double t) {
             params["dt"] = std::to_string(dt_);
             params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
 
-            double x0 = scrimmage::get("x0", params, 0);
-            double y0 = scrimmage::get("y0", params, 0);
-            double z0 = scrimmage::get("z0", params, 0);
+            double x0 = scrimmage::get("x0", params, 0.0);
+            double y0 = scrimmage::get("y0", params, 0.0);
+            double z0 = scrimmage::get("z0", params, 0.0);
+            double heading = scrimmage::get("heading", params, 0.0);
 
             Eigen::Vector3d pos(x0, y0, z0);
 
             NormDist x_normal_dist(x0, get("variance_x", params, 100.0));
             NormDist y_normal_dist(y0, get("variance_y", params, 100.0));
             NormDist z_normal_dist(z0, get("variance_z", params, 0.0));
+            NormDist heading_normal_dist(heading, get("variance_heading", params, 0.0));
+            params["heading"] = std::to_string(heading_normal_dist(*gener));
+
 
             // Use variance if not the first entity in this group, or if a
             // collision exists (This happens when you place <entity> tags"
