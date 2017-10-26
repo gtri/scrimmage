@@ -63,7 +63,7 @@ bool ExternalControl::step_autonomy(double t, double dt) {
         env_sent_ = true;
         send_env();
     }
-    
+
     double reward = calc_reward(t);
     auto action = send_action_result(t, reward, false);
     if (!action) {
@@ -74,8 +74,8 @@ bool ExternalControl::step_autonomy(double t, double dt) {
     return handle_action(t, dt, *action);
 }
 
-double ExternalControl::calc_reward(double time){
-   return 0.0;
+double ExternalControl::calc_reward(double time) {
+    return 0.0;
 }
 
 bool ExternalControl::handle_action(

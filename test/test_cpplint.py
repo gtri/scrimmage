@@ -13,7 +13,7 @@ def test_cpplint():
     cmd = ['cpplint', '--verbose=3', '--quiet', '--recursive'] + dirs
     print('running the following command:')
     print(' '.join(cmd))
-    subprocess.call(cmd)
+    subprocess.check_call(cmd)
 
 if __name__ == '__main__':
     test_cpplint()
