@@ -20,4 +20,5 @@ swarm behaviors.
    entity-interaction-plugin.rst
    metrics-plugin.rst
    ros-plugin.rst
+   airsim-plugin.rst
    open-grid.rst

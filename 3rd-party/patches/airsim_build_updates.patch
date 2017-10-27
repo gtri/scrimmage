@@ -1,0 +1,109 @@
+From ca645048ece531318dbf60d9f60d38f9b126ea19 Mon Sep 17 00:00:00 2001
+From: Jeremy Feltracco <jeremy.feltracco@gtri.gatech.edu>
+Date: Fri, 27 Oct 2017 15:01:59 -0400
+Subject: [PATCH] Build updates.
+
+---
+ AirLib/include/common/VectorMath.hpp         | 6 +++---
+ AirLib/include/common/common_utils/Utils.hpp | 2 +-
+ cmake/AirLib/CMakeLists.txt                  | 2 +-
+ cmake/CMakeLists.txt                         | 6 +++---
+ cmake/cmake-modules/CommonSetup.cmake        | 4 ++--
+ 5 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/AirLib/include/common/VectorMath.hpp b/AirLib/include/common/VectorMath.hpp
+index a5bb238..fbf3c84 100644
+--- a/AirLib/include/common/VectorMath.hpp
++++ b/AirLib/include/common/VectorMath.hpp
+@@ -227,18 +227,18 @@ public:
+         // roll (x-axis rotation)
+         RealT t0 = +2.0f * (q.w() * q.x() + q.y() * q.z());
+         RealT t1 = +1.0f - 2.0f * (q.x() * q.x() + ysqr);
+-        roll = std::atan2f(t0, t1);
++        roll = atan2f(t0, t1);
+ 
+         // pitch (y-axis rotation)
+         RealT t2 = +2.0f * (q.w() * q.y() - q.z() * q.x());
+         t2 = ((t2 > 1.0f) ? 1.0f : t2);
+         t2 = ((t2 < -1.0f) ? -1.0f : t2);
+-        pitch = std::asinf(t2);
++        pitch = asinf(t2);
+ 
+         // yaw (z-axis rotation)
+         RealT t3 = +2.0f * (q.w() * q.z() + q.x() * q.y());
+         RealT t4 = +1.0f - 2.0f * (ysqr + q.z() * q.z());  
+-        yaw = std::atan2f(t3, t4);
++        yaw = atan2f(t3, t4);
+     }
+ 
+     static Vector3T toAngularVelocity(const QuaternionT& start, const QuaternionT& end, RealT delta_sec)
+diff --git a/AirLib/include/common/common_utils/Utils.hpp b/AirLib/include/common/common_utils/Utils.hpp
+index d3c3a44..dcf0e2f 100644
+--- a/AirLib/include/common/common_utils/Utils.hpp
++++ b/AirLib/include/common/common_utils/Utils.hpp
+@@ -19,7 +19,7 @@
+ #include <random>
+ #include <iomanip>
+ #include <iostream>
+-#include <limits>
++#include <climits>
+ #include <queue>
+ #include "type_utils.hpp"
+ 
+diff --git a/cmake/AirLib/CMakeLists.txt b/cmake/AirLib/CMakeLists.txt
+index e4f0864..dbb7e90 100644
+--- a/cmake/AirLib/CMakeLists.txt
++++ b/cmake/AirLib/CMakeLists.txt
+@@ -28,7 +28,7 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_sources})
+ 
+ CommonTargetLink()
+ target_link_libraries(${PROJECT_NAME} ${RPC_LIB})
+-target_link_libraries(${PROJECT_NAME} MavLinkCom)
++#target_link_libraries(${PROJECT_NAME} MavLinkCom)
+ 
+ #string(SUBSTRING ${CMAKE_STATIC_LINKER_FLAGS} 9 -1 "BUILD_PLATFORM")
+ #find_package(Threads REQUIRED)
+diff --git a/cmake/CMakeLists.txt b/cmake/CMakeLists.txt
+index 5e31535..1da6198 100644
+--- a/cmake/CMakeLists.txt
++++ b/cmake/CMakeLists.txt
+@@ -3,11 +3,11 @@ project(AirSim)
+ 
+ add_subdirectory("rpclib_wrapper")
+ add_subdirectory("AirLib")
+-add_subdirectory("MavLinkCom")
+-add_subdirectory("AirLibUnitTests")
++#add_subdirectory("MavLinkCom")
++#add_subdirectory("AirLibUnitTests")
+ add_subdirectory("HelloDrone")
+ add_subdirectory("HelloCar")
+ add_subdirectory("DroneShell")
+-add_subdirectory("DroneServer")
++#add_subdirectory("DroneServer")
+ 
+ 
+diff --git a/cmake/cmake-modules/CommonSetup.cmake b/cmake/cmake-modules/CommonSetup.cmake
+index db327a3..f300af0 100644
+--- a/cmake/cmake-modules/CommonSetup.cmake
++++ b/cmake/cmake-modules/CommonSetup.cmake
+@@ -63,7 +63,7 @@ macro(CommonSetup)
+                 -std=c++14 -ggdb -Wall -Wextra -Wstrict-aliasing -Wunreachable-code -Wcast-qual -Wctor-dtor-privacy \
+                 -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wswitch-default \
+                 -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wstrict-overflow=5 -Wswitch-default -Wundef \
+-                -Wno-variadic-macros -Wno-parentheses -Wno-unused-function -Wno-unused -Wno-documentation -fdiagnostics-show-option -ferror-limit=10 \
++                -Wno-variadic-macros -Wno-parentheses -Wno-unused-function -Wno-unused -Wno-documentation -fdiagnostics-show-option \
+                 -pthread \
+                 ${RPC_LIB_DEFINES} ${CMAKE_CXX_FLAGS}")
+ 
+@@ -74,7 +74,7 @@ macro(CommonSetup)
+                     -nostdinc++ -isystem ${LIBCXX_INC_PATH} \
+                     -D__CLANG__ ${CMAKE_CXX_FLAGS}")
+                 set(CMAKE_EXE_LINKER_FLAGS "\
+-                    ${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++ -lc++abi -lm -lc -lgcc_s -lgcc -lsupc++ \
++                    ${CMAKE_EXE_LINKER_FLAGS} -stdlib=libstdc++ -lm -lc -lgcc_s -lgcc -lsupc++ \
+                     -L ${LIBCXX_LIB_PATH}")
+                 
+                 #do not use experimental as it might potentially cause ABI issues
+-- 
+2.7.4
+

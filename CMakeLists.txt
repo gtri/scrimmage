@@ -244,6 +244,17 @@ if (BUILD_ROS_PLUGINS)
 endif()
 
 ########################################################
+# Find AirSim
+########################################################
+find_package(AirSim)
+if (AIRSIM_FOUND)
+  include_directories(${AIRSIM_INCLUDE_DIRS})
+  add_definitions(-DENABLE_AIRSIM=1)
+else()
+  add_definitions(-DENABLE_AIRSIM=0)
+endif()
+
+########################################################
 # Recurse into src, share, and plugins
 ########################################################
 add_subdirectory(share)
@@ -272,7 +283,7 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   ############################################################
 
   # Download and unpack googletest at configure time
-  if (NOT TARGET gtest_main) 
+  if (NOT TARGET gtest_main)
       configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
         googletest-download/CMakeLists.txt)
       execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

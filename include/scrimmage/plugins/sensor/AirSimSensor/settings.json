@@ -1,0 +1,15 @@
+{ "SettingsVersion": 1,
+  "SimMode": "",
+  "LocalHostIp": "127.0.0.1",
+  "RpcEnabled": true,
+  "DefaultVehicleConfig": "SimpleFlight",
+  "SimpleFlight": {
+      "RemoteControlID": 0,
+      "RC": {
+          "AllowAPIWhenDisconnected": true,
+          "AllowAPIAlways": true
+      },
+      "ApiServerPort": 41451
+  },
+  "SeeDocsAt": "https://github.com/Microsoft/AirSim/blob/master/docs/settings.md"
+}

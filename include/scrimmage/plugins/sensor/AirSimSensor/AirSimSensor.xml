@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>AirSimSensor_plugin</library>
+  
+  <airsim_ip>127.0.0.1</airsim_ip>
+  <airsim_port>41451</airsim_port>
+  <airsim_timeout_ms>60000</airsim_timeout_ms>
+
+  <!--
+      [CameraName ImageType CameraNumber Width Height]
+      
+      AirSim Image Types:
+      Scene, DepthPlanner, DepthPerspective, DepthVis, DisparityNormalized,
+      Segmentation, SurfaceNormals
+      Example: [Forward Scene 0 256 144] [Downward Scene 3 256 144]
+  -->
+  <camera_config>
+    [SceneForward Scene 0 256 144]
+    [SceneDownward Scene 3 256 144]
+    [DepthPlanner DepthPlanner 0 256 144]
+    [DepthPerspective DepthPerspective 0 256 144]
+    [DepthViz DepthVis 0 256 144]
+    [DisparityNormalized DisparityNormalized 0 256 144]
+    [Segmentation Segmentation 0 256 144]
+    [SurfaceNormals SurfaceNormals 0 256 144]
+  </camera_config>  
+  
+</params>

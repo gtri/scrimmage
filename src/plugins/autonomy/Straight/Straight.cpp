@@ -48,6 +48,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #endif
 
+#if ENABLE_AIRSIM == 1
+#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
+#endif
+
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
@@ -118,18 +122,31 @@ void Straight::init(std::map<std::string, std::string> &params) {
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+
     // Read data from sensors...
-    sc::State own_state;
+    sc::State own_state = *state_;
+
     for (auto kv : parent_->sensors()) {
-        if (kv.first == "NoisyState") {
+        if (kv.first == "NoisyState0") {
             auto msg = kv.second->sense<sc::State>(t);
             if (msg) {
                 own_state = (*msg)->data;
             }
-
-        } else if (kv.first == "NoisyContacts") {
+        } else if (kv.first == "NoisyContacts0") {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
-        } else if (kv.first == "ContactBlobCamera") {
+        } else if (kv.first == "AirSimSensor0") {
+#if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
+            auto msg = kv.second->sense<std::vector<AirSimSensorType>>(t);
+            if (msg) {
+                for (AirSimSensorType a : (*msg)->data) {
+                    if (show_camera_images_) {
+                        cv::imshow(a.camera_config.name.c_str(), a.img);
+                        cv::waitKey(1);
+                    }
+                }
+            }
+#endif
+        } else if (kv.first == "ContactBlobCamera0") {
 #if ENABLE_OPENCV == 1
             if (show_camera_images_ || save_camera_images_) {
                 auto msg = kv.second->sense<ContactBlobCameraType>(t);

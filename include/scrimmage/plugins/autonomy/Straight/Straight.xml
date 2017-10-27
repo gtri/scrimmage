@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>Straight_plugin</library>
-  <speed>21</speed>
+  <speed>1</speed>
   <show_camera_images>false</show_camera_images>
   <save_camera_images>false</save_camera_images>
   <show_text_label>false</show_text_label>

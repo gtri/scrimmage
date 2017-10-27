@@ -2,10 +2,14 @@ if (NOT OPENCV_FOUND)
   return()
 endif()
 
+if (NOT AIRSIM_FOUND)
+  return()
+endif()
+
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-SET (LIBRARY_NAME ContactBlobCamera_plugin)
+SET (LIBRARY_NAME AirSimSensor_plugin)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
@@ -16,12 +20,10 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-target_link_libraries(
-  ${LIBRARY_NAME}
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+  ${AIRSIM_LIBRARIES}
   ${OpenCV_LIBRARIES}
   )
-
-add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
