@@ -85,8 +85,6 @@ bool Entity::init(AttributeMap &overrides,
         parse_visual(info, mp_, file_search, overrides["visual_model"]);
     }
 
-
-
     if (info.count("health") > 0) {
         health_points_ = std::stoi(info["health"]);
     }

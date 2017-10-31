@@ -105,11 +105,11 @@ class ScrimmageEnv(gym.Env):
 
     def _reset(self):
         """Restart scrimmage and return result."""
-        self._terminate_scrimmage()
-
         _clear_queue(self.queues['action'])
         _clear_queue(self.queues['action_response'])
         _clear_queue(self.queues['env'])
+
+        self._terminate_scrimmage()
 
         self.scrimmage_process = \
             self._start_scrimmage(self.enable_gui, False)
@@ -147,6 +147,7 @@ class ScrimmageEnv(gym.Env):
         return [seed]
 
     def _start_scrimmage(self, enable_gui, disable_output):
+        port = self.address.split(":")[-1]
         tree = ET.parse(self.mission_file)
         root = tree.getroot()
 
@@ -163,6 +164,15 @@ class ScrimmageEnv(gym.Env):
         if not bool(enable_gui):
             run_node.attrib['time_warp'] = "0"
 
+        # logging
+        log_node = root.find('log_dir')
+        try:
+            log_node.text = os.path.join(log_node.text, 'external', port)
+        except AttributeError:
+            log_node = ET.Element("log_node")
+            log_node.text = os.path.join('~/.scrimmage/external/logs', port)
+            root.append(log_node)
+
         # disable output
         if disable_output:
             output_node = root.find("output_type")
@@ -173,7 +183,6 @@ class ScrimmageEnv(gym.Env):
             for autonomy_node in entity_node.findall('autonomy'):
                 autonomy_node.attrib['server_address'] = self.address
 
-        port = self.address.split(":")[-1]
         temp_mission_file = "." + port + os.path.basename(self.mission_file)
         print('temp mission file is ' + temp_mission_file)
         tree.write(temp_mission_file)
@@ -225,10 +234,10 @@ class ScrimmageEnv(gym.Env):
             self.queues['action'].put(ExternalControl_pb2.Action(done=True))
             try:
                 self.scrimmage_process.kill()
+                self.scrimmage_process.wait()
             except OSError:
                 print('could not terminate existing scrimmage process. '
                       'It may have already shutdown.')
-                pass
             self.scrimmage_process.wait()
 
 
@@ -275,7 +284,7 @@ def _create_tuple_space(space_params):
     discrete_extrema = [(int(mn), int(mx)) for mn, mx in discrete_extrema]
 
     if len(discrete_extrema) == 1 and discrete_extrema[0][0] == 0:
-        discrete_space = gym.spaces.Discrete(discrete_extrema[0][1])
+        discrete_space = gym.spaces.Discrete(discrete_extrema[0][1] + 1)
     else:
         discrete_space = gym.spaces.MultiDiscrete(discrete_extrema)
 

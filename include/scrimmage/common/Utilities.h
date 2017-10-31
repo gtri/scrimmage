@@ -38,7 +38,6 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <unordered_set>
 
 namespace scrimmage {
 
@@ -62,6 +61,11 @@ std::string generate_chars(std::string symbol, int num);
 std::string eigen_str(const Eigen::VectorXd &vec, uint8_t precision = 2);
 
 std::vector<double> linspace(double low, double high, uint32_t n);
+
+template <class T>
+T interp(const T &low, const T &high, double pct) {
+    return low + pct * (high - low);
+}
 
 } // namespace scrimmage
 
