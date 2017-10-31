@@ -21,4 +21,5 @@ swarm behaviors.
    metrics-plugin.rst
    ros-plugin.rst
    airsim-plugin.rst
+   openai-plugin.rst
    open-grid.rst
