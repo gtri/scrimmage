@@ -47,26 +47,25 @@ namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, TutorialOpenAIAutonomy, TutorialOpenAIAutonomy_plugin)
 
-void TutorialOpenAIAutonomy::init(std::map<std::string,std::string> &params)
-{
+void TutorialOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     desired_state_->pos()(2) = state_->pos()(2);
     ExternalControl::init(params);
 }
 
-double TutorialOpenAIAutonomy::calc_reward(double time){
+double TutorialOpenAIAutonomy::calc_reward(double time) {
     double reward = 0.0;
 
     for (auto &kv : parent_->mp()->team_info()) {
-        //same team
+        // same team
         if (kv.first == parent_->id().team_id()) {
             continue;
         }
-        //For each enemy base
+        // For each enemy base
         int i = 0;
         for (Eigen::Vector3d &base_pos : kv.second.bases) {
-            Eigen::Vector3d base_2d_pos(base_pos.x(),base_pos.y(),state_->pos().z());
+            Eigen::Vector3d base_2d_pos(base_pos.x(), base_pos.y(), state_->pos().z());
             double radius = kv.second.radii.at(i);
-            if((state_->pos()-base_2d_pos).norm() < radius){
+            if ((state_->pos()-base_2d_pos).norm() < radius) {
                 reward += 1;
             }
             i++;
@@ -75,8 +74,8 @@ double TutorialOpenAIAutonomy::calc_reward(double time){
     return reward;
 }
 
-//Here is where handle the action received from OpenAI
-//In this case, our action space is turn left, turn right, or straight ahead
+// Here is where handle the action received from OpenAI
+// In this case, our action space is turn left, turn right, or straight ahead
 bool TutorialOpenAIAutonomy::handle_action(double t, double dt, const scrimmage_proto::Action &action) {
     if (!check_action(action, 1, 0)) {
         return false;
@@ -84,13 +83,13 @@ bool TutorialOpenAIAutonomy::handle_action(double t, double dt, const scrimmage_
 
     double turn_rate = (action.discrete(0) - 1)*.2;
     Eigen::Vector3d velocity_cmd;
-    velocity_cmd << 1, turn_rate, 0; //Constanlty moving forward
+    velocity_cmd << 1, turn_rate, 0; // Constanlty moving forward
     desired_state_->set_vel(velocity_cmd);
     return true;
 }
 
-//Set up the action space for OpenAI
-//In this example, our action space will be a Discrete space of 0,1,2
+// Set up the action space for OpenAI
+// In this example, our action space will be a Discrete space of 0,1,2
 scrimmage_proto::SpaceParams TutorialOpenAIAutonomy::action_space_params() {
     sp::SpaceParams space_params;
     sp::SingleSpaceParams *single_space_params = space_params.add_params();

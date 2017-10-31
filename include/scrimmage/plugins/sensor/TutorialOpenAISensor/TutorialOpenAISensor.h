@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef TutorialOpenAISensor_H_
-#define TutorialOpenAISensor_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
 
 
 #include <scrimmage/sensor/Sensor.h>
@@ -50,10 +50,10 @@ class SpaceSample;
 }
 
 class TutorialOpenAISensor : public scrimmage::Sensor {
-public:
+ public:
     virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
     virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
         sensor_msg_flat(double t);
 };
 
-#endif
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_

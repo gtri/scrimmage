@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef TutorialOpenAIAutonomy_H_
-#define TutorialOpenAIAutonomy_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TUTORIALOPENAIAUTONOMY_TUTORIALOPENAIAUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TUTORIALOPENAIAUTONOMY_TUTORIALOPENAIAUTONOMY_H_
 
 #include <scrimmage/plugins/autonomy/ExternalControl/ExternalControl.h>
 
@@ -44,11 +44,10 @@ class TutorialOpenAIAutonomy : public ExternalControl {
     double calc_reward(double time);
 
  protected:
- 	double radius_;
+    double radius_;
     virtual bool handle_action(
         double t, double dt, const scrimmage_proto::Action &action);
     virtual scrimmage_proto::SpaceParams action_space_params();
-
 };
 
-#endif
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TUTORIALOPENAIAUTONOMY_TUTORIALOPENAIAUTONOMY_H_
