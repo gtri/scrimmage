@@ -34,6 +34,8 @@
 #include <google/protobuf/empty.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
+#include <iostream>
+
 #include <boost/optional.hpp>
 
 namespace sc = scrimmage;
@@ -54,6 +56,13 @@ ExternalControlClient::send_action_result(
     sp::Action action;
     grpc::ClientContext context;
     grpc::Status status = stub_->SendActionResult(&context, action_result, &action);
-    return status.ok() && !action.done() ?
-        boost::optional<sp::Action>(action) : boost::none;
+    if (!status.ok()) {
+        std::cout << "ExternalControlClient received bad grpc status" << std::endl;
+        return boost::none;
+    } else if (action.done()) {
+        std::cout << "ExternalControlClient received done status" << std::endl;
+        return boost::none;
+    } else {
+        return boost::optional<sp::Action>(action);
+    }
 }

@@ -111,6 +111,10 @@ class ScrimmageEnv(gym.Env):
 
         self._terminate_scrimmage()
 
+        _clear_queue(self.queues['action'])
+        _clear_queue(self.queues['action_response'])
+        _clear_queue(self.queues['env'])
+
         self.scrimmage_process = \
             self._start_scrimmage(self.enable_gui, False)
 
