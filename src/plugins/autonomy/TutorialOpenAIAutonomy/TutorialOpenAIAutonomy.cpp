@@ -60,6 +60,7 @@ double TutorialOpenAIAutonomy::calc_reward(double time) {
         if (kv.first == parent_->id().team_id()) {
             continue;
         }
+
         // For each base
         int i = 0;
         for (Eigen::Vector3d &base_pos : kv.second.bases) {
