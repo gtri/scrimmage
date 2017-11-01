@@ -5,7 +5,7 @@
     enable_gui="true"
     network_gui="false"
     start="0.0"
-    start_paused="true"
+    start_paused="false"
     time_warp="10" />
 
   <stream_port>50051</stream_port>
