@@ -174,7 +174,7 @@ Finally, we need to set up the reward for this environment in ``calc_reward``:
            if (kv.first == parent_->id().team_id()) {
                continue;
            }
-           //For each enemy base
+           //For each base
            int i = 0
            for (Eigen::Vector3d &base_pos : kv.second.bases) {
                //make 3d base position vector into equivalent 2D vector
@@ -281,7 +281,7 @@ Below that, we create the ``MyOpenAISensor`` class defined as:
 .. code-block:: c++
    :linenos:
                 
-   class RL1v1Sensor : public scrimmage::Sensor {
+   class MyOpenAISensor : public scrimmage::Sensor {
     public:
        virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
        virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>

@@ -60,7 +60,7 @@ double TutorialOpenAIAutonomy::calc_reward(double time) {
         if (kv.first == parent_->id().team_id()) {
             continue;
         }
-        // For each enemy base
+        // For each base
         int i = 0;
         for (Eigen::Vector3d &base_pos : kv.second.bases) {
             Eigen::Vector3d base_2d_pos(base_pos.x(), base_pos.y(), state_->pos().z());

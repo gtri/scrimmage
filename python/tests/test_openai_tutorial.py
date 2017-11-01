@@ -3,7 +3,7 @@ import gym
 import scrimmage
 
 
-def test_openai():
+def test_openai_tutorial():
    """Open single entity scenario and make sure it banks."""
    try:
        env = gym.make('scrimmage-v0')
@@ -34,6 +34,7 @@ def test_openai():
 
    env.env.close()
    print("Total Reward: %2.2f" % total_reward)
+   assert total_reward > 0
 
 if __name__ == '__main__':
-   test_openai()
+   test_openai_tutorial()
