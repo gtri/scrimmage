@@ -51,10 +51,10 @@ y = Y.ravel()
 X = np.vstack([x, y]).T[:, [1, 0]]
 z = target(x, y)
 
-print X, X.shape
+print(X, X.shape)
 
-print(max(z))
-print(min(z))
+print((max(z)))
+print((min(z)))
 
 
 

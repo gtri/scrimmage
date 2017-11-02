@@ -113,21 +113,21 @@ if __name__ == '__main__':
             'w_dist_decay': (700, 1300)})
         testIn = [[0.76114678841435457, 0.818033407918765, 1.7549922964055682, 979.05896407346995]]
         testOut = [1.1]
-        print BayesianOptimizeArgmax(testIn, testOut, ranges)
+        print(BayesianOptimizeArgmax(testIn, testOut, ranges))
 
     # 1D black box function example
     if False:
         ranges = OrderedDict({'x':(-2, 10)})
         testIn = [[-2, 2.6812, 1.6509, 10]]
         testOut = [0.20166, 1.08328, 1.30455, 0.21180]
-        print BayesianOptimizeArgmax(testIn, testOut, ranges)
+        print(BayesianOptimizeArgmax(testIn, testOut, ranges))
 
     # 2D black box function example
     if False:
         ranges = OrderedDict({'x':(0, 6), 'y': (0, 8)})
         testIn = [[1.2295,2.0411], [1.6756,2.1539], [.57302,.8216], [.22063,2.4784],[.37829,5.7002],[6.0,6.0],[6.0,3.1094],[0.0,6.0],[0.3793,5.4137],[1.5898, 3.6339]]
         testOut = [.05501, .16466, .57302, .22063, .37829, .73542, .14238, .00002, .16007, 1.41949]
-        print BayesianOptimizeArgmax(testIn, testOut, ranges)
+        print(BayesianOptimizeArgmax(testIn, testOut, ranges))
 
     # 3D black box function example
     if False:
@@ -151,7 +151,7 @@ if __name__ == '__main__':
                 .05501, .16466, .57302, .22063, .37829, .73542, .14238, .00002,
                 .16007, 1.41949
             ]
-        print BayesianOptimizeArgmax(testIn, testOut, ranges)
+        print(BayesianOptimizeArgmax(testIn, testOut, ranges))
 
     # 2D example
     if False:
@@ -177,10 +177,10 @@ if __name__ == '__main__':
         bo.maximize(init_points=5, n_iter=4, acq='ucb', kappa=5)
 
         # The output values can be accessed with self.res
-        print 'Best param/output so far:', bo.res['max']
+        print('Best param/output so far:', bo.res['max'])
 
         utility = bo.util.utility(X, bo.gp, bo.Y.max())
-        print 'Best param to test next:', X[np.argmax(utility)]
+        print('Best param to test next:', X[np.argmax(utility)])
 
     # 1D graphical example
     if False:
@@ -209,14 +209,14 @@ if __name__ == '__main__':
         bo.maximize(init_points=5, n_iter=5, acq='ucb', kappa=5)
 
         # The output values can be accessed with self.res
-        print 'Best param/output so far:', bo.res['max']
+        print('Best param/output so far:', bo.res['max'])
 
         utility = bo.util.utility(x, bo.gp, 0)
-        print 'Best param to test next:', x[np.argmax(utility)]
+        print('Best param to test next:', x[np.argmax(utility)])
 
         y_max = bo.Y.max()
         x_max = helpers.acq_max(ac=bo.util.utility, gp=bo.gp, y_max=y_max, bounds=bo.bounds)
-        print 'which should equal', x_max
+        print('which should equal', x_max)
 
         # # Making changes to the gaussian process can impact the algorithm
         # # dramatically.

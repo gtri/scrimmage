@@ -1,6 +1,9 @@
 from mako.template import Template
 from mako.runtime import Context
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    import io
 import os
 from settings_parser import *
 import subprocess
@@ -17,13 +20,17 @@ import signal
 import sys
 import xml.etree.ElementTree as ET
 
-import queue
+try:
+    import Queue
+except ImportError:
+    import queue
+
 from concurrent import futures
 
 
 
 def generateMissionFile(templateFullFilename, parameterLabels, parameterValues, logPath, missionIteration):
-    print parameterLabels, parameterValues
+    print(parameterLabels, parameterValues)
 
     if len(parameterLabels) != len(parameterValues):
         raise ValueError('Parameter Labels and Values are mismatched. (Labels=', len(parameterLabels), 'values=', len(parameterValues))
@@ -49,7 +56,7 @@ def generateMissionFile(templateFullFilename, parameterLabels, parameterValues, 
 
         return fullFilePath
     except NameError:
-        print 'Detected incorrect or missing parameters in mission xml.'
+        print('Detected incorrect or missing parameters in mission xml.')
         quit()
 
 # Return xx and yy parsed from file
@@ -62,7 +69,7 @@ def parseSamples(file):
 
             for iter, line in enumerate(f):
                 values = line.strip().split('=')
-                print values
+                print(values)
                 xx.append([float(i) for i in values[0].split(',')])
                 yy.append(float(values[1]))
     return xx, yy
@@ -105,7 +112,7 @@ def optimize(templateFilename, ranges, stateSpaceSampler,
         for params in new_xx:
             # Parse sample into template mission
             logging.info('Generating Mission File with params: ' + ','.join((str(x) for x in zip(ranges.keys(),params))))
-            missionFile = generateMissionFile(templateFilename, ranges.keys(), params, logPath, simulationIter)
+            missionFile = generateMissionFile(templateFilename, list(ranges.keys()), params, logPath, simulationIter)
 
             xx.append(params)
 
@@ -168,5 +175,5 @@ if __name__ == "__main__":
         numIterationsPerSample=numIterationsPerSample,
         numExploitSamples=numExploitSamples)
 
-    print 'Known Argmax:', knownArgmax
-    print 'Expected Value:', expectedValue
+    print('Known Argmax:', knownArgmax)
+    print('Expected Value:', expectedValue)
