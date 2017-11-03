@@ -15,7 +15,7 @@ def test_openai_tutorial():
            entry_point='scrimmage.external_control:ScrimmageEnv',
            max_episode_steps=1e9,
            reward_threshold=1e9,
-           kwargs={"enable_gui": True,
+           kwargs={"enable_gui": False,
                    "mission_file": mission_file}
        )
        env = gym.make('scrimmage-v0')
