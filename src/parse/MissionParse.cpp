@@ -160,6 +160,9 @@ bool MissionParse::parse(std::string filename) {
 
                 std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
                 attributes_[nm2][attr->name()] = attr->value();
+
+                std::string nm3 = nm == "metrics" ? node->value() : nm;
+                attributes_[nm3][attr->name()] = attr->value();
             }
         }
     }
