@@ -108,7 +108,7 @@
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
-    <autonomy>Straight</autonomy>
+    <autonomy speed="21">Straight</autonomy>
     <base>
       <latitude>35.719961</latitude>
       <longitude>-120.767304</longitude>
