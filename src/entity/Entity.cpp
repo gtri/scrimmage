@@ -189,32 +189,6 @@ bool Entity::init(AttributeMap &overrides,
     }
 
     ////////////////////////////////////////////////////////////
-    // sensable
-    ////////////////////////////////////////////////////////////
-    int sensable_ct = 0;
-    std::string sensable_name = std::string("sensable") + std::to_string(sensable_ct);
-
-    while (info.count(sensable_name) > 0) {
-        SensablePtr sensable =
-            std::dynamic_pointer_cast<Sensable>(
-                plugin_manager->make_plugin("scrimmage::Sensable",
-                    info[sensable_name], file_search, config_parse,
-                    overrides[sensable_name]));
-
-        if (sensable == nullptr) {
-            std::cout << "Failed to open sensable plugin: " << info[sensable_name] << std::endl;
-            return false;
-        }
-
-        sensable->set_parent(parent);
-        sensable->set_network(network);
-        sensable->init(config_parse.params());
-        sensables_[sensable->name()].push_back(sensable);
-
-        sensable_name = std::string("sensable") + std::to_string(++sensable_ct);
-    }
-
-    ////////////////////////////////////////////////////////////
     // autonomy
     ////////////////////////////////////////////////////////////
     int autonomy_ct = 0;
@@ -341,12 +315,10 @@ bool Entity::ready() {
 
     auto single_ready = [&](auto &plugin) {return plugin->ready();};
     auto values_single_ready = [&](auto &kv) {return kv.second->ready();};
-    auto values_list_ready = [&](auto &kv) {return all_ready(kv.second, single_ready);};
 
     return all_ready(autonomies_, single_ready)
         && all_ready(controllers_, single_ready)
         && all_ready(sensors_, values_single_ready)
-        && all_ready(sensables_, values_list_ready)
         && motion_model_->ready();
 }
 
@@ -401,12 +373,23 @@ bool Entity::visual_changed() { return visual_changed_; }
 scrimmage_proto::ContactVisualPtr &Entity::contact_visual()
 { return visual_; }
 
-std::unordered_map<std::string, std::list<SensablePtr> > &Entity::sensables() {
-    return sensables_;
+std::unordered_map<std::string, SensorPtr> &Entity::sensors() {
+    return sensors_;
 }
 
-std::unordered_map<std::string, SensorPtr > &Entity::sensors() {
-    return sensors_;
+std::unordered_map<std::string, SensorPtr> Entity::sensors(const std::string &sensor_name) {
+    std::unordered_map<std::string, SensorPtr> out;
+    for (auto &kv : sensors_) {
+        if (kv.first.find(sensor_name) != std::string::npos) {
+            out[kv.first] = kv.second;
+        }
+    }
+    return out;
+}
+
+SensorPtr Entity::sensor(const std::string &sensor_name) {
+    std::unordered_map<std::string, SensorPtr> out = sensors(sensor_name);
+    return out.empty() ? nullptr : out.begin()->second;
 }
 
 void Entity::set_active(bool active) { active_ = active; }
@@ -464,14 +447,9 @@ void Entity::close(double t) {
         autonomy->close(t);
     }
 
-    for (auto sensable_list : values(sensables_)) {
-        for (SensablePtr sensable : sensable_list) {
-            sensable->close(t);
-        }
-    }
-
-    for (SensorPtr sensor : values(sensors_)) {
-        sensor->close(t);
+    for (auto &kv : sensors_) {
+        std::cout << "sensor is " << kv.second  << "name is " << kv.first << std::endl;
+        kv.second->close(t);
     }
 
     for (ControllerPtr ctrl : controllers_) {
@@ -479,6 +457,10 @@ void Entity::close(double t) {
     }
 
     motion_model_->close(t);
+}
+
+std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
+    return properties_;
 }
 
 } // namespace scrimmage

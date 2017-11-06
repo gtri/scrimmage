@@ -43,9 +43,9 @@ Contact::Contact() : state_(std::make_shared<State>()) {}
 
 Contact::Contact(ID &id, double radius, StatePtr &state, Type type,
                  ContactVisualPtr cv,
-                 std::unordered_map<std::string, std::list<SensablePtr>> sp) :
+                 const std::unordered_map<std::string, MessageBasePtr> &properties) :
     id_(id), state_(state), type_(type), contact_visual_(cv),
-    sensables_(sp), active_(true), radius_(radius) {}
+    active_(true), radius_(radius), properties_(properties) {}
 
 void Contact::set_id(const ID &id) { id_ = id; }
 
@@ -61,10 +61,6 @@ Contact::Type Contact::type() { return type_; }
 
 ContactVisualPtr &Contact::contact_visual()
 { return contact_visual_; }
-
-std::unordered_map<std::string, std::list<SensablePtr> > &Contact::sensables() {
-    return sensables_;
-}
 
 void Contact::set_active(bool active) { active_ = active; }
 
