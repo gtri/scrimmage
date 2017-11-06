@@ -43,17 +43,17 @@ namespace scrimmage {
  * https://stackoverflow.com/a/35262398
  */
 template <class MapType>
-class KeysIterator : public MapType::iterator {
+class KeysIterator : public MapType::const_iterator {
  public:
-    explicit KeysIterator(typename MapType::iterator b, typename MapType::iterator e) :
-        MapType::iterator(b), begin_(b), end_(e) {}
+    explicit KeysIterator(const typename MapType::const_iterator b, const typename MapType::const_iterator e) :
+        MapType::const_iterator(b), begin_(b), end_(e) {}
 
     typename MapType::key_type *operator-> () {
         return (typename MapType::key_type* const)&(MapType::iterator::operator->()->first);
     }
 
     typename MapType::key_type operator*( ) {
-        return MapType::iterator::operator*().first;
+        return MapType::const_iterator::operator*().first;
     }
 
     KeysIterator<MapType> begin() {
@@ -74,13 +74,13 @@ class KeysIterator : public MapType::iterator {
     }
 
  protected:
-    typename MapType::iterator begin_;
-    typename MapType::iterator end_;
+    typename MapType::const_iterator begin_;
+    typename MapType::const_iterator end_;
 };
 
 template <class MapType>
-KeysIterator<MapType> keys(MapType &map) {
-    return KeysIterator<MapType>(map.begin(), map.end());
+KeysIterator<MapType> keys(const MapType &map) {
+    return KeysIterator<MapType>(map.cbegin(), map.cend());
 }
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_COMMON_KEYS_H_
