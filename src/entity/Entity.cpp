@@ -50,12 +50,9 @@
 #include <memory>
 #include <algorithm>
 
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-
 using std::cout;
 using std::endl;
-namespace fs = boost::filesystem;
+
 namespace sp = scrimmage_proto;
 
 namespace scrimmage {
@@ -484,4 +481,5 @@ void Entity::close(double t) {
 
     motion_model_->close(t);
 }
+
 } // namespace scrimmage
