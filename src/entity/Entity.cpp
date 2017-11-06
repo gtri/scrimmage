@@ -448,7 +448,6 @@ void Entity::close(double t) {
     }
 
     for (auto &kv : sensors_) {
-        std::cout << "sensor is " << kv.second  << "name is " << kv.first << std::endl;
         kv.second->close(t);
     }
 
