@@ -119,5 +119,5 @@ void SimpleCaptureMetrics::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
-} // namespace interaction
+} // namespace metrics
 } // namespace scrimmage
