@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_REGISTERPLUGIN_H_
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_REGISTERPLUGIN_H_
 
+#include <memory>
+
 #define REGISTER_PLUGIN(BaseClass, ChildClass, PluginName)  \
     extern "C" {                                            \
         std::shared_ptr<BaseClass> maker() {                \
