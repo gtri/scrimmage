@@ -245,11 +245,6 @@ bool Entity::init(AttributeMap &overrides,
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
     }
 
-    if (autonomies_.empty()) {
-        cout << "Failed to initialize autonomy" << std::endl;
-        return false;
-    }
-
     ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
@@ -274,7 +269,11 @@ bool Entity::init(AttributeMap &overrides,
 
         controller->set_state(state_);
         if (ctrl_ct == 0) {
-            controller->set_desired_state(autonomies_.front()->desired_state());
+            if (autonomies_.empty()) {
+                controller->set_desired_state(state_);
+            } else {
+                controller->set_desired_state(autonomies_.front()->desired_state());
+            }
         }
         controller->set_parent(parent);
         controller->set_network(network);
