@@ -58,6 +58,8 @@ STRICT_MODE_ON
 using std::cout;
 using std::endl;
 
+namespace scrimmage {
+namespace sensor {
 class CameraConfig {
  public:
         msr::airlib::VehicleCameraBase::ImageType img_type =
@@ -98,5 +100,6 @@ class AirSimSensor : public scrimmage::Sensor {
 
  private:
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_

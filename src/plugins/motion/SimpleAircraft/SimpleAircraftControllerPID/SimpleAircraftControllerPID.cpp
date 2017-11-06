@@ -39,9 +39,10 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                SimpleAircraftControllerPID,
-                SimpleAircraftControllerPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleAircraftControllerPID, SimpleAircraftControllerPID_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 
@@ -92,3 +93,5 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
     (*u_) << u_thrust, roll_error, pitch_error;
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

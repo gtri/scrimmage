@@ -39,6 +39,8 @@
 #include <string>
 #include <limits>
 
+namespace scrimmage {
+namespace autonomy {
 class AuctionAssign : public scrimmage::Autonomy {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -58,5 +60,6 @@ class AuctionAssign : public scrimmage::Autonomy {
     int max_bid_champ_ = -1;
     int id_ = -1;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_

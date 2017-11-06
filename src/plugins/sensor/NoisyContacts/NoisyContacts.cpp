@@ -48,10 +48,13 @@
 
 #include <boost/optional.hpp>
 
-REGISTER_PLUGIN(scrimmage::Sensor, NoisyContacts, NoisyContacts_plugin)
-
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::NoisyContacts, NoisyContacts_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 void NoisyContacts::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
@@ -193,3 +196,5 @@ boost::optional<scrimmage_proto::SpaceParams> NoisyContacts::observation_space_p
     return space_params;
 }
 #endif
+} // namespace sensor
+} // namespace scrimmage

@@ -55,9 +55,12 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 namespace sp = scrimmage_proto;
+using scrimmage::sensor::RayTrace;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, BulletCollision,
-                BulletCollision_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::BulletCollision, BulletCollision_plugin)
+
+namespace scrimmage {
+namespace interaction {
 
 BulletCollision::BulletCollision() {
     scene_size_ = 500;
@@ -331,3 +334,5 @@ bool BulletCollision::collision_exists(std::list<sc::EntityPtr> &ents,
                                        Eigen::Vector3d &p) {
     return false;
 }
+} // namespace interaction
+} // namespace scrimmage

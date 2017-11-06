@@ -38,7 +38,9 @@
 
 #include "../FixedWing6DOF.h"
 
-class FixedWing6DOFControllerPID : public FixedWing6DOF::Controller {
+namespace scrimmage {
+namespace controller {
+class FixedWing6DOFControllerPID : public motion::FixedWing6DOF::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -50,5 +52,6 @@ class FixedWing6DOFControllerPID : public FixedWing6DOF::Controller {
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_

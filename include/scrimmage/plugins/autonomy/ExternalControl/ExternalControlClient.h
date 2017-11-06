@@ -45,6 +45,8 @@ namespace boost {
 template <class T> class optional;
 }
 
+namespace scrimmage {
+namespace autonomy {
 class ExternalControlClient {
  public:
     ExternalControlClient() = default;
@@ -60,5 +62,6 @@ class ExternalControlClient {
  protected:
     std::unique_ptr<scrimmage_proto::ExternalControl::Stub> stub_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_

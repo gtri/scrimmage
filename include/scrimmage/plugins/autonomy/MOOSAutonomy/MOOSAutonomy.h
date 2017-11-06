@@ -42,6 +42,8 @@
 
 #include "MOOSNode.h"
 
+namespace scrimmage {
+namespace autonomy {
 class MOOSAutonomy : public scrimmage::Autonomy {
  public:
     MOOSAutonomy();
@@ -63,5 +65,6 @@ class MOOSAutonomy : public scrimmage::Autonomy {
     scrimmage::Angles angles_to_moos_;
     scrimmage::Angles angles_from_moos_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_

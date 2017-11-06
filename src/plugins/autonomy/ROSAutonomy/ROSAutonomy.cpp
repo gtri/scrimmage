@@ -46,7 +46,10 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, ROSAutonomy, ROSAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAutonomy, ROSAutonomy_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 ROSAutonomy::ROSAutonomy() {}
 
@@ -181,3 +184,6 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
 void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
+
+} // namespace autonomy
+} // namespace scrimmage

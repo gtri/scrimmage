@@ -38,9 +38,10 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                FixedWing6DOFControllerPID,
-                FixedWing6DOFControllerPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerPID, FixedWing6DOFControllerPID_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 
@@ -91,3 +92,5 @@ bool FixedWing6DOFControllerPID::step(double t, double dt) {
     (*u_) << u_thrust, roll_error, pitch_error, 0;
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

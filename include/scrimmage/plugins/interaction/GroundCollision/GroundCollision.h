@@ -40,6 +40,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace interaction {
 class GroundCollision : public scrimmage::EntityInteraction {
  public:
     virtual std::string name()
@@ -58,5 +60,6 @@ class GroundCollision : public scrimmage::EntityInteraction {
     double ground_collision_z_;
     scrimmage::PublisherPtr collision_pub_;
 };
-
+} // namespace interaction
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_

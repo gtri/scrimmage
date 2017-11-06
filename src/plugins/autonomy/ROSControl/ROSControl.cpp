@@ -47,7 +47,10 @@
 namespace pl = std::placeholders;
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, ROSControl, ROSControl_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSControl, ROSControl_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 ROSControl::ROSControl() {}
 
@@ -119,3 +122,5 @@ bool ROSControl::step_autonomy(double t, double dt) {
 void ROSControl::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
+} // namespace autonomy
+} // namespace scrimmage

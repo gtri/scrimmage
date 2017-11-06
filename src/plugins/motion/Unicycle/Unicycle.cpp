@@ -38,8 +38,10 @@
 #include <scrimmage/math/State.h>
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, Unicycle,
-                Unicycle_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle, Unicycle_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace sc = scrimmage;
 
@@ -110,3 +112,5 @@ void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[YAW] = yaw_rate;
     dxdt[PITCH] = pitch_rate;
 }
+} // namespace motion
+} // namespace scrimmage

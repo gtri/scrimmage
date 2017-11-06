@@ -37,9 +37,10 @@
 #include <scrimmage/math/State.h>
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                JSBSimControlControllerDirect,
-                JSBSimControlControllerDirect_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerDirect, JSBSimControlControllerDirect_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 void JSBSimControlControllerDirect::init(std::map<std::string,
                                          std::string> &params) {}
@@ -52,3 +53,5 @@ bool JSBSimControlControllerDirect::step(double t, double dt) {
 
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

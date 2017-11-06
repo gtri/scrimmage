@@ -39,6 +39,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class Straight : public scrimmage::Autonomy{
  public:
      virtual void init(std::map<std::string, std::string> &params);
@@ -53,5 +55,6 @@ class Straight : public scrimmage::Autonomy{
      bool save_camera_images_;
      bool show_text_label_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_

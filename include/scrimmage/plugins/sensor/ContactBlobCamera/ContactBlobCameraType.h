@@ -36,10 +36,13 @@
 #include <map>
 #include <opencv2/core/core.hpp>
 
+namespace scrimmage {
+namespace sensor {
 class ContactBlobCameraType {
  public:
     cv::Mat frame;
     std::map<int, cv::Rect> bounding_boxes;
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_

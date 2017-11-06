@@ -43,7 +43,10 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, Boids, Boids_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Boids, Boids_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void Boids::init(std::map<std::string, std::string> &params) {
 
@@ -246,3 +249,5 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
     desired_state_->vel()(1) = sc::Angles::angle_pi(desired_heading - state_->quat().yaw());
     desired_state_->vel()(2) = sc::Angles::angle_pi(desired_pitch + state_->quat().pitch());
 }
+} // namespace autonomy
+} // namespace scrimmage

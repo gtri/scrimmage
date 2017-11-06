@@ -37,9 +37,10 @@
 #include <scrimmage/math/State.h>
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                JSBSimControlControllerHeadingPID,
-                JSBSimControlControllerHeadingPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerHeadingPID, JSBSimControlControllerHeadingPID_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
@@ -102,3 +103,5 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
 
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

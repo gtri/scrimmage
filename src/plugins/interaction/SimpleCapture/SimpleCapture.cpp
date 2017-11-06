@@ -47,7 +47,10 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCapture, SimpleCapture_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::SimpleCapture, SimpleCapture_plugin)
+
+namespace scrimmage {
+namespace interaction {
 
 SimpleCapture::SimpleCapture(): capture_range_(0),
     enable_team_captures_(true), enable_non_team_captures_(true) {
@@ -112,3 +115,5 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
     return true;
 }
+} // namespace interaction
+} // namespace scrimmage

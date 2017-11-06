@@ -40,6 +40,8 @@
 #include <vector>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class WayPointFollower : public scrimmage::Autonomy {
  public:
     class WayPoint {
@@ -80,5 +82,6 @@ class WayPointFollower : public scrimmage::Autonomy {
 
  private:
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTFOLLOWER_WAYPOINTFOLLOWER_H_

@@ -57,11 +57,13 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-
-REGISTER_PLUGIN(scrimmage::Sensor, ContactBlobCamera, ContactBlobCamera_plugin)
-
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ContactBlobCamera, ContactBlobCamera_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
@@ -235,3 +237,5 @@ bool ContactBlobCamera::in_field_of_view(Eigen::Vector3d rel_pos) {
     }
     return true;
 }
+} // namespace sensor
+} // namespace scrimmage

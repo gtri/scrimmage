@@ -46,6 +46,8 @@
 
 #include <opencv2/core/core.hpp>
 
+namespace scrimmage {
+namespace sensor {
 class ContactBlobCamera : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -74,5 +76,6 @@ class ContactBlobCamera : public scrimmage::Sensor {
     double fps_;
     double last_frame_t_;
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_

@@ -39,7 +39,10 @@
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, Follow, Follow_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Follow, Follow_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 Follow::Follow() {}
 
@@ -94,3 +97,5 @@ bool Follow::step_autonomy(double t, double dt) {
 
      return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

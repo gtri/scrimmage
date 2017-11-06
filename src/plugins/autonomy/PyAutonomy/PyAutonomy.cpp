@@ -46,7 +46,10 @@
 #include <cstddef>
 #include <stdexcept>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, PyAutonomy, PyAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::PyAutonomy, PyAutonomy_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 namespace py = pybind11;
 namespace sc = scrimmage;
@@ -243,3 +246,5 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
 
     return out;
 }
+} // namespace autonomy
+} // namespace scrimmage

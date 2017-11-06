@@ -39,6 +39,8 @@
 #include <string>
 #include <list>
 
+namespace scrimmage {
+namespace interaction {
 class SimpleCapture : public scrimmage::EntityInteraction {
  public:
     SimpleCapture();
@@ -55,5 +57,6 @@ class SimpleCapture : public scrimmage::EntityInteraction {
     scrimmage::PublisherPtr non_team_capture_pub_;
     scrimmage::SubscriberPtr capture_ent_sub_;
 };
-
+} // namespace interaction
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECAPTURE_SIMPLECAPTURE_H_

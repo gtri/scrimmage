@@ -49,7 +49,10 @@
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, MotorSchemas, MotorSchemas_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MotorSchemas, MotorSchemas_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
@@ -179,3 +182,5 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     }
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

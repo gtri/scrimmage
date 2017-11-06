@@ -62,7 +62,10 @@ namespace sp = scrimmage_proto;
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 namespace fs = boost::filesystem;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, Straight, Straight_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Straight, Straight_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void Straight::init(std::map<std::string, std::string> &params) {
 
@@ -190,3 +193,5 @@ bool Straight::step_autonomy(double t, double dt) {
 
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

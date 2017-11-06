@@ -38,6 +38,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class Predator : public scrimmage::Autonomy {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -51,5 +53,6 @@ class Predator : public scrimmage::Autonomy {
     bool allow_prey_switching_;
     scrimmage::PublisherPtr capture_ent_pub_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PREDATOR_PREDATOR_H_

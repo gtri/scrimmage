@@ -47,7 +47,10 @@
 #include <vector>
 #include <unordered_set>
 
-REGISTER_PLUGIN(scrimmage::Sensor, SimpleCamera, SimpleCamera_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::SimpleCamera, SimpleCamera_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -96,3 +99,5 @@ boost::optional<scrimmage::MessageBasePtr> SimpleCamera::sensor_msg(double t) {
 
     return boost::optional<sc::MessageBasePtr>(msg);
 }
+} // namespace sensor
+} // namespace scrimmage

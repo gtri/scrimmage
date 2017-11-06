@@ -44,7 +44,10 @@
 #include <vector>
 #include <boost/range/adaptor/map.hpp>
 
-REGISTER_PLUGIN(scrimmage::Network, UnitDisk, UnitDisk_plugin)
+REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::UnitDisk, UnitDisk_plugin)
+
+namespace scrimmage {
+namespace network {
 
 namespace sc = scrimmage;
 namespace ba = boost::adaptors;
@@ -129,3 +132,5 @@ std::unordered_set<int> UnitDisk::ping(const scrimmage::PluginPtr &plugin) {
 bool UnitDisk::ping(const scrimmage::PluginPtr &plugin, int network_id) {
     return ping_ref(plugin).count(network_id) != 0;
 }
+} // namespace network
+} // namespace scrimmage

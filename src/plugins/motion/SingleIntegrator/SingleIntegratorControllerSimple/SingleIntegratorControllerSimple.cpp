@@ -32,6 +32,4 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h>
-REGISTER_PLUGIN(scrimmage::Controller,
-                SingleIntegratorControllerSimple,
-                SingleIntegratorControllerSimple_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerSimple, SingleIntegratorControllerSimple_plugin)

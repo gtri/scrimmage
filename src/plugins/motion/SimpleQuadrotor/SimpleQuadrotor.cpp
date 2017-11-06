@@ -37,8 +37,10 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, SimpleQuadrotor,
-                SimpleQuadrotor_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleQuadrotor, SimpleQuadrotor_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace pl = std::placeholders;
 namespace sc = scrimmage;
@@ -137,3 +139,5 @@ void SimpleQuadrotor::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[YAW]    = x[YAWDOT];
     dxdt[YAWDOT] = turn_force;
 }
+} // namespace motion
+} // namespace scrimmage

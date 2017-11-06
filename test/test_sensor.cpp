@@ -72,7 +72,7 @@ class SensorTest : public ::testing::Test {
 
 TEST_F(SensorTest, simple_camera) {
 
-    std::shared_ptr<SimpleCamera> simple_camera(new SimpleCamera());
+    std::shared_ptr<sc::sensor::SimpleCamera> simple_camera(new sc::sensor::SimpleCamera());
     std::map<std::string, std::string> params
         {{"range", "100"}, {"fov_az", "90"},
         {"fov_el", "90"}, {"draw_cone", "false"}};

@@ -41,6 +41,8 @@
 #include <string>
 #include <tuple>
 
+namespace scrimmage {
+namespace motion {
 class FixedWing6DOF : public scrimmage::MotionModel{
  public:
     virtual std::tuple<int, int, int> version();
@@ -76,5 +78,6 @@ class FixedWing6DOF : public scrimmage::MotionModel{
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOF_H_

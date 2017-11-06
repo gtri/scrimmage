@@ -41,6 +41,8 @@
 #include <string>
 #include <tuple>
 
+namespace scrimmage {
+namespace motion {
 class RigidBody6DOF : public scrimmage::MotionModel{
  public:
     virtual std::tuple<int, int, int> version();
@@ -76,5 +78,6 @@ class RigidBody6DOF : public scrimmage::MotionModel{
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_

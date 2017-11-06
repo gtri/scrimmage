@@ -41,11 +41,14 @@
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Constants.hpp>
 
+namespace scrimmage {
+namespace autonomy {
 class Follow : public scrimmage::Autonomy{
  public:
      Follow();
      virtual void init(std::map<std::string, std::string> &params);
      virtual bool step_autonomy(double t, double dt);
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FOLLOW_FOLLOW_H_

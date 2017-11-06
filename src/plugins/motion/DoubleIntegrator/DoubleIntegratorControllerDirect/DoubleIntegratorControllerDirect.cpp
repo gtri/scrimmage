@@ -35,12 +35,15 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegratorControllerDirect/DoubleIntegratorControllerDirect.h>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                DoubleIntegratorControllerDirect,
-                DoubleIntegratorControllerDirect_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerDirect, DoubleIntegratorControllerDirect_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 bool DoubleIntegratorControllerDirect::step(double t, double dt) {
     u_.head(3) = desired_state_->vel();
     u_(3) = desired_state_->quat().yaw();
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

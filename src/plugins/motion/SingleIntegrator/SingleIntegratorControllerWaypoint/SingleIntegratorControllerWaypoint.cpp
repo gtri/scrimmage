@@ -35,9 +35,10 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                SingleIntegratorControllerWaypoint,
-                SingleIntegratorControllerWaypoint_plugins)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerWaypoint, SingleIntegratorControllerWaypoint_plugins)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 
@@ -50,3 +51,5 @@ bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
     return true;
 }
 
+} // namespace controller
+} // namespace scrimmage

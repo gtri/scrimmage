@@ -44,7 +44,10 @@ namespace pl = std::placeholders;
 
 using boost::algorithm::clamp;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, SimpleCar, SimpleCar_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleCar, SimpleCar_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 enum ModelParams {
     X = 0,
@@ -146,3 +149,5 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
         dxdt[Z] = 0;
     }
 }
+} // namespace motion
+} // namespace scrimmage

@@ -49,12 +49,15 @@
 #include <iostream>
 #include <fstream>
 
-REGISTER_PLUGIN(scrimmage::Metrics, SimpleCollisionMetrics, SimpleCollisionMetrics_plugin)
-
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 using std::cout;
 using std::endl;
+
+REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::SimpleCollisionMetrics, SimpleCollisionMetrics_plugin)
+
+namespace scrimmage {
+namespace metrics {
 
 SimpleCollisionMetrics::SimpleCollisionMetrics() {}
 
@@ -185,3 +188,5 @@ void SimpleCollisionMetrics::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
+} // namespace interaction
+} // namespace scrimmage

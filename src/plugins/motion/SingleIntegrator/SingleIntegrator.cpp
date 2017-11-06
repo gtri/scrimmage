@@ -39,8 +39,10 @@
 
 #include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, SingleIntegrator,
-                SingleIntegrator_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SingleIntegrator, SingleIntegrator_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace sc = scrimmage;
 
@@ -106,3 +108,5 @@ void SingleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Y] = ctrl_u_(Y);
     dxdt[Z] = ctrl_u_(Z);
 }
+} // namespace motion
+} // namespace scrimmage

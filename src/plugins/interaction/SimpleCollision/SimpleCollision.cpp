@@ -48,8 +48,10 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, SimpleCollision,
-                SimpleCollision_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::SimpleCollision, SimpleCollision_plugin)
+
+namespace scrimmage {
+namespace interaction {
 
 bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
@@ -146,3 +148,5 @@ bool SimpleCollision::collision_exists(std::list<sc::EntityPtr> &ents,
     }
     return false;
 }
+} // namespace interaction
+} // namespace scrimmage

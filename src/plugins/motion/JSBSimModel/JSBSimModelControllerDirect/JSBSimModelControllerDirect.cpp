@@ -36,9 +36,10 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                JSBSimModelControllerDirect,
-                JSBSimModelControllerDirect_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControllerDirect, JSBSimModelControllerDirect_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
@@ -51,3 +52,5 @@ bool JSBSimModelControllerDirect::step(double t, double dt) {
     u_(2) = desired_state_->pos()(2);        // altitude
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

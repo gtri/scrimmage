@@ -38,11 +38,14 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class Control3D : public scrimmage::Autonomy {
  public:
     Control3D();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_

@@ -53,7 +53,10 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, SimpleCaptureMetrics, SimpleCaptureMetrics_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::SimpleCaptureMetrics, SimpleCaptureMetrics_plugin)
+
+namespace scrimmage {
+namespace metrics {
 
 void SimpleCaptureMetrics::init(std::map<std::string, std::string> &params) {
     params_ = params;
@@ -116,3 +119,5 @@ void SimpleCaptureMetrics::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
+} // namespace interaction
+} // namespace scrimmage

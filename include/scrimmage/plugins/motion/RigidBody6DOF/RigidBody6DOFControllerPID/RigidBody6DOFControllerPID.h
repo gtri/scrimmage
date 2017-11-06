@@ -38,7 +38,9 @@
 
 #include "../RigidBody6DOF.h"
 
-class RigidBody6DOFControllerPID : public RigidBody6DOF::Controller {
+namespace scrimmage {
+namespace controller {
+class RigidBody6DOFControllerPID : public motion::RigidBody6DOF::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -50,5 +52,6 @@ class RigidBody6DOFControllerPID : public RigidBody6DOF::Controller {
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_

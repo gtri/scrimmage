@@ -44,6 +44,8 @@
 
 #include <opencv2/core/core.hpp>
 
+namespace scrimmage {
+namespace interaction {
 class MapGen2D : public scrimmage::EntityInteraction {
  public:
     bool init(std::map<std::string, std::string> &mission_params,
@@ -78,5 +80,6 @@ class MapGen2D : public scrimmage::EntityInteraction {
 
     cv::Mat map_img_;
 };
-
+} // namespace interaction
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_

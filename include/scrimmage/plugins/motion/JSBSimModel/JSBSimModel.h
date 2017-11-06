@@ -56,6 +56,8 @@ class State;
 using StatePtr = std::shared_ptr<State>;
 }
 
+namespace scrimmage {
+namespace motion {
 class JSBSimModel : public scrimmage::MotionModel{
  public:
     virtual std::tuple<int, int, int> version();
@@ -102,5 +104,6 @@ class JSBSimModel : public scrimmage::MotionModel{
     double dt_;
 #endif
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_

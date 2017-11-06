@@ -34,9 +34,10 @@
 #include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.h>
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                FixedWing6DOFControllerROS,
-                FixedWing6DOFControllerROS_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerROS, FixedWing6DOFControllerROS_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 
@@ -71,3 +72,5 @@ bool FixedWing6DOFControllerROS::step(double t, double dt) {
 void FixedWing6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
+} // namespace controller
+} // namespace scrimmage

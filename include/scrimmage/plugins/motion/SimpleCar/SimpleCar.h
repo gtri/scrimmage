@@ -40,6 +40,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace motion {
 class SimpleCar : public scrimmage::MotionModel{
  public:
     virtual bool init(std::map<std::string, std::string> &info,
@@ -58,5 +60,6 @@ class SimpleCar : public scrimmage::MotionModel{
     bool enable_gravity_;
     double max_velocity_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECAR_H_
