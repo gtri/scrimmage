@@ -139,9 +139,9 @@ bool Straight::step_autonomy(double t, double dt) {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
         } else if (kv.first == "AirSimSensor0") {
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
-            auto msg = kv.second->sense<std::vector<AirSimSensorType>>(t);
+            auto msg = kv.second->sense<std::vector<sc::sensor::AirSimSensorType>>(t);
             if (msg) {
-                for (AirSimSensorType a : (*msg)->data) {
+                for (sc::sensor::AirSimSensorType a : (*msg)->data) {
                     if (show_camera_images_) {
                         cv::imshow(a.camera_config.name.c_str(), a.img);
                         cv::waitKey(1);
@@ -152,7 +152,7 @@ bool Straight::step_autonomy(double t, double dt) {
         } else if (kv.first == "ContactBlobCamera0") {
 #if ENABLE_OPENCV == 1
             if (show_camera_images_ || save_camera_images_) {
-                auto msg = kv.second->sense<ContactBlobCameraType>(t);
+                auto msg = kv.second->sense<sc::sensor::ContactBlobCameraType>(t);
                 if (msg) {
                     if (save_camera_images_) {
                         std::string img_name = "./imgs/camera_" +
