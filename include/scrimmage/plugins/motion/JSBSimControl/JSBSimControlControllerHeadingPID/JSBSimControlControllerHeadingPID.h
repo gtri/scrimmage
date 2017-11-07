@@ -38,7 +38,9 @@
 
 #include "../JSBSimControl.h"
 
-class JSBSimControlControllerHeadingPID : public JSBSimControl::Controller {
+namespace scrimmage {
+namespace controller {
+class JSBSimControlControllerHeadingPID : public motion::JSBSimControl::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -57,5 +59,6 @@ class JSBSimControlControllerHeadingPID : public JSBSimControl::Controller {
     scrimmage::PID pitch_pid_;
     scrimmage::PID yaw_pid_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_

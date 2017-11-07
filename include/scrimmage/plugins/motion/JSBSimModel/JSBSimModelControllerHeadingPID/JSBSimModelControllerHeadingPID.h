@@ -38,7 +38,9 @@
 
 #include "../JSBSimModel.h"
 
-class JSBSimModelControllerHeadingPID : public JSBSimModel::Controller {
+namespace scrimmage {
+namespace controller {
+class JSBSimModelControllerHeadingPID : public motion::JSBSimModel::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -54,5 +56,6 @@ class JSBSimModelControllerHeadingPID : public JSBSimModel::Controller {
     bool heading_lag_initialized_;
     double max_bank_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_

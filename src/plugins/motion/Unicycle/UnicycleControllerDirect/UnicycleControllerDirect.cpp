@@ -33,9 +33,10 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/Unicycle/UnicycleControllerDirect/UnicycleControllerDirect.h>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                UnicycleControllerDirect,
-                UnicycleControllerDirect_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicycleControllerDirect, UnicycleControllerDirect_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 bool UnicycleControllerDirect::step(double t, double dt) {
     u_(0) = desired_state_->vel()(0);
@@ -43,3 +44,5 @@ bool UnicycleControllerDirect::step(double t, double dt) {
     u_(2) = desired_state_->vel()(2);
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

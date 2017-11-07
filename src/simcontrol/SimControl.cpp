@@ -443,7 +443,7 @@ bool SimControl::generate_entities(double t) {
             contacts_mutex_.lock();
             (*contacts_)[ent->id().id()] =
                 Contact(ent->id(), ent->radius(), ent->state(),
-                    ent->type(), ent->contact_visual(), ent->sensables());
+                    ent->type(), ent->contact_visual(), ent->properties());
             contacts_mutex_.unlock();
 
             auto msg = std::make_shared<Message<sm::EntityGenerated>>();
@@ -1067,12 +1067,6 @@ bool SimControl::run_entity(EntityPtr &ent) {
             success = false;
         }
     };
-
-    for (auto &kv : ent->sensables()) {
-        for (SensablePtr &sensable : kv.second) {
-            update_success(sensable->update(t_, dt_), sensable);
-        }
-    }
 
     for (AutonomyPtr &autonomy : ent->autonomies()) {
         update_success(autonomy->step_autonomy(t_, dt_), autonomy);

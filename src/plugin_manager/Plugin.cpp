@@ -138,4 +138,12 @@ bool Plugin::ping(int network_id) {
     return network_->ping(shared_from_this(), network_id);
 }
 
+void Plugin::set_scoped_property(const std::string &property_name, const MessageBasePtr &property) {
+    parent_->properties()[name() + "/" + property_name] = property;
+}
+
+MessageBasePtr Plugin::get_scoped_property_helper(const std::string &property_name) {
+    auto it = parent_->properties().find(name() + "/" + property_name);
+    return it == parent_->properties().end() ? nullptr : it->second;
+}
 } // namespace scrimmage

@@ -38,7 +38,9 @@
 
 #include "../JSBSimModel.h"
 
-class JSBSimModelControllerDirect : public JSBSimModel::Controller {
+namespace scrimmage {
+namespace controller {
+class JSBSimModelControllerDirect : public motion::JSBSimModel::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt);
@@ -47,5 +49,6 @@ class JSBSimModelControllerDirect : public JSBSimModel::Controller {
  protected:
     Eigen::Vector3d u_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_

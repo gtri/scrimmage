@@ -46,6 +46,8 @@ class State;
 using StatePtr = std::shared_ptr<State>;
 }
 
+namespace scrimmage {
+namespace motion {
 class SimpleAircraft : public scrimmage::MotionModel{
  public:
     virtual std::tuple<int, int, int> version();
@@ -78,5 +80,6 @@ class SimpleAircraft : public scrimmage::MotionModel{
     double max_roll_;
     double max_pitch_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_

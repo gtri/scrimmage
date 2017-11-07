@@ -57,7 +57,10 @@ using std::endl;
 namespace sc = scrimmage;
 namespace ma = msr::airlib;
 
-REGISTER_PLUGIN(scrimmage::Sensor, AirSimSensor, AirSimSensor_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::AirSimSensor, AirSimSensor_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 AirSimSensor::AirSimSensor() : client_connected_(false),
     airsim_ip_("localhost"), airsim_port_(41451), airsim_timeout_ms_(60000) {
@@ -197,3 +200,5 @@ boost::optional<scrimmage::MessageBasePtr> AirSimSensor::sensor_msg(double t) {
     // Return the sensor message.
     return boost::optional<sc::MessageBasePtr>(msg);
 }
+} // namespace sensor
+} // namespace scrimmage

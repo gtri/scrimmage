@@ -38,7 +38,9 @@
 
 #include "../SimpleAircraft.h"
 
-class SimpleAircraftControllerPID : public SimpleAircraft::Controller {
+namespace scrimmage {
+namespace controller {
+class SimpleAircraftControllerPID : public motion::SimpleAircraft::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -50,5 +52,6 @@ class SimpleAircraftControllerPID : public SimpleAircraft::Controller {
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_

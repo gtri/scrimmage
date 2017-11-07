@@ -53,6 +53,8 @@ typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #include <string>
 #include <tuple>
 
+namespace scrimmage {
+namespace motion {
 class JSBSimControl : public scrimmage::MotionModel{
  public:
      JSBSimControl();
@@ -98,5 +100,6 @@ class JSBSimControl : public scrimmage::MotionModel{
      scrimmage::PID yaw_pid_;
 #endif
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROL_H_

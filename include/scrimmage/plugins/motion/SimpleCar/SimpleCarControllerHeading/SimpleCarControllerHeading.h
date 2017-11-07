@@ -38,7 +38,9 @@
 
 #include "../SimpleCar.h"
 
-class SimpleCarControllerHeading : public SimpleCar::Controller {
+namespace scrimmage {
+namespace controller {
+class SimpleCarControllerHeading : public motion::SimpleCar::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -48,5 +50,6 @@ class SimpleCarControllerHeading : public SimpleCar::Controller {
     Eigen::Vector2d u_;
     scrimmage::PID pid_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECARCONTROLLERHEADING_SIMPLECARCONTROLLERHEADING_H_

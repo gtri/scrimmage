@@ -56,7 +56,10 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, MapGen2D, MapGen2D_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::MapGen2D, MapGen2D_plugin)
+
+namespace scrimmage {
+namespace interaction {
 
 bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
                     std::map<std::string, std::string> &plugin_params) {
@@ -250,3 +253,5 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
     }
     return rects;
 }
+} // namespace interaction
+} // namespace scrimmage

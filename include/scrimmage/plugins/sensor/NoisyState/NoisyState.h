@@ -42,6 +42,8 @@
 #include <string>
 #include <vector>
 
+namespace scrimmage {
+namespace sensor {
 class NoisyState : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -53,5 +55,6 @@ class NoisyState : public scrimmage::Sensor {
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_

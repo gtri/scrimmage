@@ -74,7 +74,7 @@ Eigen::Vector3d State::rel_pos_local_frame(Eigen::Vector3d &other) const {
     return quat_.rotate_reverse(other - pos_);
 }
 
-    Eigen::Vector3d State::pos_offset(double distance, bool offset_with_velocity) const {
+Eigen::Vector3d State::pos_offset(double distance, bool offset_with_velocity) const {
     if (offset_with_velocity) {
         return pos_ + vel_.normalized() * distance;
     } else {

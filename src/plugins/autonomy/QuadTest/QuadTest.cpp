@@ -39,7 +39,10 @@
 
 #include <scrimmage/plugins/autonomy/QuadTest/QuadTest.h>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, QuadTest, QuadTest_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::QuadTest, QuadTest_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void QuadTest::init(std::map<std::string, std::string> &params) {
      desired_state_->vel() = Eigen::Vector3d::Zero();
@@ -64,3 +67,5 @@ bool QuadTest::step_autonomy(double t, double dt) {
 
      return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

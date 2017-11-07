@@ -38,6 +38,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class Boids : public scrimmage::Autonomy{
  public:
      virtual void init(std::map<std::string, std::string> &params);
@@ -64,5 +66,6 @@ class Boids : public scrimmage::Autonomy{
 
      Eigen::Vector3d goal_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_

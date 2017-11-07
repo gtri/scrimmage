@@ -37,9 +37,10 @@
 
 #include <iostream>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                DoubleIntegratorControllerWaypoint,
-                DoubleIntegratorControllerWaypoint_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerWaypoint, DoubleIntegratorControllerWaypoint_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
     std::vector<double> gain;
@@ -54,3 +55,5 @@ bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
     u_.head(3) = -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

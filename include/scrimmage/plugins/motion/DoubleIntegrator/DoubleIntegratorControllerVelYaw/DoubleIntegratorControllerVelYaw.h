@@ -40,7 +40,9 @@
 #include <vector>
 #include <string>
 
-class DoubleIntegratorControllerVelYaw : public DoubleIntegrator::Controller {
+namespace scrimmage {
+namespace controller {
+class DoubleIntegratorControllerVelYaw : public motion::DoubleIntegrator::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -51,5 +53,6 @@ class DoubleIntegratorControllerVelYaw : public DoubleIntegrator::Controller {
     std::vector<scrimmage::PID> vel_pids_;
     scrimmage::PID yaw_pid_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_

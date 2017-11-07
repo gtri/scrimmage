@@ -41,6 +41,9 @@
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
+namespace scrimmage {
+namespace autonomy {
+
 bool ExternalControlClient::send_environment(
         scrimmage_proto::Environment &env, scrimmage::StatePtr state) {
 
@@ -66,3 +69,5 @@ ExternalControlClient::send_action_result(
         return boost::optional<sp::Action>(action);
     }
 }
+} // namespace autonomy
+} // namespace scrimmage

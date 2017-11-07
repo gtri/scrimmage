@@ -51,7 +51,10 @@ namespace sc = scrimmage;
 
 using BidMsg = sc::Message<auction::BidAuction>;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, AuctionAssign, AuctionAssign_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AuctionAssign, AuctionAssign_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void AuctionAssign::init(std::map<std::string, std::string> &params) {
     id_ = parent_->id().id();
@@ -124,3 +127,5 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
 
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

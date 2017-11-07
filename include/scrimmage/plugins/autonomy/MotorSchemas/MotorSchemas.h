@@ -38,6 +38,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class MotorSchemas : public scrimmage::Autonomy {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -56,5 +58,6 @@ class MotorSchemas : public scrimmage::Autonomy {
     double minimum_range_;
     double sqrt_axis_ratio_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_

@@ -41,6 +41,8 @@
 
 #include "../FixedWing6DOF.h"
 
+namespace scrimmage {
+namespace controller {
 class FixedWing6DOFControllerROS : public FixedWing6DOF::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -55,5 +57,6 @@ class FixedWing6DOFControllerROS : public FixedWing6DOF::Controller {
     ros::Subscriber cmd_vel_sub_;
     geometry_msgs::Twist cmd_vel_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_

@@ -144,9 +144,13 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     scrimmage_proto::ContactVisualPtr &contact_visual();
 
-    std::unordered_map<std::string, std::list<SensablePtr>> &sensables();
     std::unordered_map<std::string, SensorPtr> &sensors();
+    std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
+    SensorPtr sensor(const std::string &sensor_name);
+
     std::unordered_map<std::string, Service> &services();
+
+    std::unordered_map<std::string, MessageBasePtr> &properties();
 
     void set_active(bool active);
     bool active();
@@ -179,7 +183,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     RandomPtr random_;
 
     StatePtr state_;
-    std::unordered_map<std::string, std::list<SensablePtr>> sensables_;
+    std::unordered_map<std::string, MessageBasePtr> properties_;
     std::unordered_map<std::string, SensorPtr> sensors_;
 
     bool active_ = true;

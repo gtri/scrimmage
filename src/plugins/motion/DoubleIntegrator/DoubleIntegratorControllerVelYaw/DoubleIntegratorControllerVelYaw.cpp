@@ -40,9 +40,10 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                DoubleIntegratorControllerVelYaw,
-                DoubleIntegratorControllerVelYaw_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerVelYaw, DoubleIntegratorControllerVelYaw_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     std::vector<std::string> str_vals;
@@ -87,3 +88,5 @@ bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
 
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

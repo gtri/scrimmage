@@ -38,7 +38,9 @@
 
 #include "../SimpleQuadrotor.h"
 
-class SimpleQuadrotorControllerLQR : public SimpleQuadrotor::Controller {
+namespace scrimmage {
+namespace controller {
+class SimpleQuadrotorControllerLQR : public motion::SimpleQuadrotor::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -50,5 +52,6 @@ class SimpleQuadrotorControllerLQR : public SimpleQuadrotor::Controller {
     double prev_yaw_ = NAN;
     double max_vel_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_

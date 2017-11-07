@@ -38,7 +38,10 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, Control3D, Control3D_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Control3D, Control3D_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 Control3D::Control3D() {}
 
@@ -51,3 +54,5 @@ void Control3D::init(std::map<std::string, std::string> &params) {
 bool Control3D::step_autonomy(double t, double dt) {
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

@@ -45,7 +45,10 @@
 
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, ExternalControl, ExternalControl_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ExternalControl, ExternalControl_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 ExternalControl::ExternalControl() :
     external_control_client_(std::make_shared<ExternalControlClient>()) {}
@@ -187,3 +190,5 @@ scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
 void ExternalControl::close(double t) {
     send_action_result(t, 0, true);
 }
+} // namespace autonomy
+} // namespace scrimmage

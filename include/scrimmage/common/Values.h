@@ -43,17 +43,17 @@ namespace scrimmage {
  * https://stackoverflow.com/a/35262398
  */
 template <class MapType>
-class ValuesIterator : public MapType::iterator {
+class ValuesIterator : public MapType::const_iterator {
  public:
-    explicit ValuesIterator(typename MapType::iterator b, typename MapType::iterator e) :
-        MapType::iterator(b), begin_(b), end_(e) {}
+    explicit ValuesIterator(typename MapType::const_iterator b, typename MapType::const_iterator e) :
+        MapType::const_iterator(b), begin_(b), end_(e) {}
 
     typename MapType::mapped_type *operator-> () {
-        return (typename MapType::mapped_type* const)&(MapType::iterator::operator->()->second);
+        return (typename MapType::mapped_type* const)&(MapType::const_iterator::operator->()->second);
     }
 
     typename MapType::mapped_type operator*( ) {
-        return MapType::iterator::operator*().second;
+        return MapType::const_iterator::operator*().second;
     }
 
     ValuesIterator<MapType> begin() {
@@ -74,12 +74,12 @@ class ValuesIterator : public MapType::iterator {
     }
 
  protected:
-    typename MapType::iterator begin_;
-    typename MapType::iterator end_;
+    typename MapType::const_iterator begin_;
+    typename MapType::const_iterator end_;
 };
 
 template <class MapType>
-ValuesIterator<MapType> values(MapType &map) {
+ValuesIterator<MapType> values(const MapType &map) {
     return ValuesIterator<MapType>(map.begin(), map.end());
 }
 } // namespace scrimmage

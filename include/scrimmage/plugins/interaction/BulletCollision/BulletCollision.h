@@ -47,6 +47,8 @@
 
 namespace sc = scrimmage;
 
+namespace scrimmage {
+namespace interaction {
 class BulletCollision : public scrimmage::EntityInteraction {
  public:
     BulletCollision();
@@ -82,12 +84,13 @@ class BulletCollision : public scrimmage::EntityInteraction {
     // Value 2: map
     // Key 2: Sensor Name (sensor0)
     // Value 2: Point Cloud
-    std::map<int, std::map<std::string, RayTrace::PointCloud>> pcls_;
+    std::map<int, std::map<std::string, sensor::RayTrace::PointCloud>> pcls_;
     std::map<int, std::map<std::string, sc::PublisherPtr>> pcl_pubs_;
 
     bool show_rays_ = false;
     bool enable_collision_detection_ = true;
     bool enable_ray_tracing_ = true;
 };
-
+} // namespace interaction
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_

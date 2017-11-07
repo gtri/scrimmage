@@ -42,6 +42,8 @@
 #include <string>
 #include <vector>
 
+namespace scrimmage {
+namespace sensor {
 class RayTrace : public scrimmage::Sensor {
  public:
     class PCPoint {
@@ -94,5 +96,6 @@ class RayTrace : public scrimmage::Sensor {
     double min_range_;
     double max_sample_rate_;
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_

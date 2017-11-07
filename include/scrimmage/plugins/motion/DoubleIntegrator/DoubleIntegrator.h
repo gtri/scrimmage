@@ -42,6 +42,8 @@
 #include <string>
 #include <limits>
 
+namespace scrimmage {
+namespace motion {
 class DoubleIntegrator : public scrimmage::MotionModel {
  public:
     DoubleIntegrator();
@@ -72,5 +74,6 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     double sim_copter_max_roll_ = 1.0;
     double sim_copter_max_pitch_ = 1.0;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_

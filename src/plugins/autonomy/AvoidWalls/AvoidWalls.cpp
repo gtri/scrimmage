@@ -44,7 +44,10 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, AvoidWalls, AvoidWalls_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AvoidWalls, AvoidWalls_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void AvoidWalls::init(std::map<std::string, std::string> &params) {
     double initial_speed = sc::get<double>("initial_speed", params, 21);
@@ -60,9 +63,9 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
 bool AvoidWalls::step_autonomy(double t, double dt) {
     bool all_close_points = true;
     std::list<Eigen::Vector3d> points;
-    for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
+    for (auto msg : pcl_sub_->msgs<sc::Message<sensor::RayTrace::PointCloud>>()) {
         // Find closest point and move away from it
-        for (RayTrace::PCPoint &p : msg->data.points) {
+        for (sensor::RayTrace::PCPoint &p : msg->data.points) {
             if (p.point.norm() < avoid_distance_) {
                 points.push_back(p.point);
             } else {
@@ -116,3 +119,5 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
 
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

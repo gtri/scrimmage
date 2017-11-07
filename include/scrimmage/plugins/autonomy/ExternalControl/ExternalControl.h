@@ -39,8 +39,6 @@
 #include <string>
 #include <limits>
 
-class ExternalControlClient;
-
 namespace boost {
 template <class T> class optional;
 }
@@ -49,6 +47,11 @@ namespace scrimmage_proto {
 class Action;
 class SpaceParams;
 }
+
+namespace scrimmage {
+namespace autonomy {
+
+class ExternalControlClient;
 
 class ExternalControl : public scrimmage::Autonomy {
  public:
@@ -81,5 +84,6 @@ class ExternalControl : public scrimmage::Autonomy {
     std::shared_ptr<ExternalControlClient> external_control_client_;
     bool env_sent_ = false;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROL_H_

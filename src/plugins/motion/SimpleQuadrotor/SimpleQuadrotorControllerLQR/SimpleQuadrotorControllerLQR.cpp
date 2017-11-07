@@ -38,9 +38,10 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                SimpleQuadrotorControllerLQR,
-                SimpleQuadrotorControllerLQR_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleQuadrotorControllerLQR, SimpleQuadrotorControllerLQR_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 
@@ -89,3 +90,5 @@ bool SimpleQuadrotorControllerLQR::step(double t, double dt) {
 
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

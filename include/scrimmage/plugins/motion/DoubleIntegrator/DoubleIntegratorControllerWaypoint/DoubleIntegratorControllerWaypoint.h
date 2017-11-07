@@ -38,7 +38,9 @@
 
 #include "../DoubleIntegrator.h"
 
-class DoubleIntegratorControllerWaypoint : public DoubleIntegrator::Controller {
+namespace scrimmage {
+namespace controller {
+class DoubleIntegratorControllerWaypoint : public motion::DoubleIntegrator::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
@@ -48,5 +50,6 @@ class DoubleIntegratorControllerWaypoint : public DoubleIntegrator::Controller {
     Eigen::Vector4d u_;
     Eigen::Vector2d gain_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_

@@ -36,6 +36,8 @@
 #include <Eigen/Dense>
 #include <opencv2/core/core.hpp>
 
+namespace scrimmage {
+namespace interaction {
 class Map2DInfo {
  public:
     cv::Mat img;
@@ -43,5 +45,6 @@ class Map2DInfo {
     double resolution;
     Eigen::Vector3d origin;
 };
-
+} // namespace interaction
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAP2DINFO_H_

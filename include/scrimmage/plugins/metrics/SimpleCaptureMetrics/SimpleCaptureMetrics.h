@@ -44,6 +44,8 @@ using std::endl;
 
 namespace sc = scrimmage;
 
+namespace scrimmage {
+namespace metrics {
 class Score {
  public:
     Score() {}
@@ -125,5 +127,6 @@ class SimpleCaptureMetrics : public scrimmage::Metrics {
 
     std::map<std::string, std::string> params_;
 };
-
+} // namespace metrics
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_

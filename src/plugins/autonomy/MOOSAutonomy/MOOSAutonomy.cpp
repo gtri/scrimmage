@@ -42,7 +42,10 @@
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, MOOSAutonomy, MOOSAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MOOSAutonomy, MOOSAutonomy_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 MOOSAutonomy::MOOSAutonomy() {
     angles_from_moos_.set_input_clock_direction(ang::Rotate::CW);
@@ -118,3 +121,5 @@ bool MOOSAutonomy::step_autonomy(double t, double dt) {
 void MOOSAutonomy::run_moos_node() {
     moos_node_.Run(moos_app_name_.c_str(), moos_mission_file_.c_str());
 }
+} // namespace autonomy
+} // namespace scrimmage

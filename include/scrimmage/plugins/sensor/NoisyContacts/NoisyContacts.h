@@ -44,6 +44,8 @@ namespace boost {
 template <class T> class optional;
 }
 
+namespace scrimmage {
+namespace sensor {
 class NoisyContacts : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -65,5 +67,6 @@ class NoisyContacts : public scrimmage::Sensor {
     double az_thresh_;
     double el_thresh_;
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_

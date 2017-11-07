@@ -38,6 +38,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class AvoidWalls : public scrimmage::Autonomy {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -47,5 +49,6 @@ class AvoidWalls : public scrimmage::Autonomy {
     scrimmage::SubscriberPtr pcl_sub_;
     double avoid_distance_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_

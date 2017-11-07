@@ -44,7 +44,10 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Sensor, RayTrace, RayTrace_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RayTrace, RayTrace_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 RayTrace::RayTrace() : angle_res_vert_(0), angle_res_horiz_(0),
     num_rays_vert_(0), num_rays_horiz_(0), max_range_(0), min_range_(0),
@@ -83,3 +86,5 @@ boost::optional<scrimmage::MessageBasePtr> RayTrace::sensor_msg(double t) {
     // Return the sensor message.
     return boost::optional<sc::MessageBasePtr> {};
 }
+} // namespace sensor
+} // namespace scrimmage

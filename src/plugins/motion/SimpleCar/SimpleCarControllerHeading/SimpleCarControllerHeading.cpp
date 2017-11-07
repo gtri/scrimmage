@@ -37,9 +37,10 @@
 
 #include <iostream>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                SimpleCarControllerHeading,
-                SimpleCarControllerHeading_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleCarControllerHeading, SimpleCarControllerHeading_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 namespace sc = scrimmage;
 
@@ -60,3 +61,5 @@ bool SimpleCarControllerHeading::step(double t, double dt) {
 
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

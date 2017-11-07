@@ -40,6 +40,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace motion {
 class SimpleQuadrotor : public scrimmage::MotionModel{
  public:
     virtual bool init(std::map<std::string, std::string> &info,
@@ -57,5 +59,6 @@ class SimpleQuadrotor : public scrimmage::MotionModel{
     double max_vel_;
     double max_pitch_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEQUADROTOR_SIMPLEQUADROTOR_H_

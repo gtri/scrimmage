@@ -38,7 +38,9 @@
 
 #include "../SingleIntegrator.h"
 
-class SingleIntegratorControllerSimple : public SingleIntegrator::Controller {
+namespace scrimmage {
+namespace controller {
+class SingleIntegratorControllerSimple : public motion::SingleIntegrator::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt) {
@@ -51,5 +53,6 @@ class SingleIntegratorControllerSimple : public SingleIntegrator::Controller {
  protected:
     Eigen::Vector3d u_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_

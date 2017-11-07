@@ -38,6 +38,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace sensor {
 class SimpleCamera : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
@@ -49,5 +51,6 @@ class SimpleCamera : public scrimmage::Sensor {
     double fov_el_ = 0;
     bool draw_cone_ = false;
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLECAMERA_SIMPLECAMERA_H_

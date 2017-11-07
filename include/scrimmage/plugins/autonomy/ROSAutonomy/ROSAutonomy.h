@@ -45,6 +45,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class ROSAutonomy : public scrimmage::Autonomy {
  public:
     ROSAutonomy();
@@ -77,5 +79,6 @@ class ROSAutonomy : public scrimmage::Autonomy {
 
     void publish_clock_msg(double t);
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_

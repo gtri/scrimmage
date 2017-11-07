@@ -34,10 +34,10 @@
 #define INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/common/ID.h>
+#include <scrimmage/pubsub/Message.h>
 
 #include <memory>
 #include <unordered_map>
-#include <list>
 #include <string>
 #include <iosfwd>
 
@@ -58,8 +58,23 @@ class Contact {
     Contact();
 
     Contact(ID &id, double radius, StatePtr &state, Type type,
-            ContactVisualPtr cv,
-            std::unordered_map<std::string, std::list<SensablePtr>> sp);
+        ContactVisualPtr cv,
+        const std::unordered_map<std::string, MessageBasePtr> &properties);
+
+    template <class T>
+    std::unordered_map<std::string, MessagePtr<T>> get_properties(std::string name = "") {
+        std::unordered_map<std::string, MessagePtr<T>> out;
+        for (auto &kv : properties_) {
+            if (name == "" || kv.first.find(name) != std::string::npos) {
+                auto property_cast =
+                    std::dynamic_pointer_cast<Message<T>>(kv.second);
+                if (property_cast) {
+                    out[kv.first] = property_cast;
+                }
+            }
+        }
+        return out;
+    }
 
     void set_id(const ID &id);
     ID &id();
@@ -72,8 +87,6 @@ class Contact {
 
     ContactVisualPtr & contact_visual();
 
-    std::unordered_map<std::string, std::list<SensablePtr>> &sensables();
-
     void set_active(bool active);
     bool active();
     double radius() { return radius_; }
@@ -85,9 +98,9 @@ class Contact {
     StatePtr state_;
     Type type_ = Type::AIRCRAFT;
     ContactVisualPtr contact_visual_;
-    std::unordered_map<std::string, std::list<SensablePtr>> sensables_;
     bool active_ = true;
     double radius_ = 0;
+    std::unordered_map<std::string, MessageBasePtr> properties_;
 };
 
 using ContactMap = std::unordered_map<int, Contact>;

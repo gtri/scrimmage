@@ -40,6 +40,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace motion {
 class SingleIntegrator : public scrimmage::MotionModel {
  public:
     SingleIntegrator();
@@ -59,5 +61,6 @@ class SingleIntegrator : public scrimmage::MotionModel {
  protected:
     Eigen::Vector3d ctrl_u_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_

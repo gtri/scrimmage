@@ -49,10 +49,13 @@
 
 #include <vector>
 
-REGISTER_PLUGIN(scrimmage::Sensor, NoisyState, NoisyState_plugin)
-
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::NoisyState, NoisyState_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 void NoisyState::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
@@ -113,3 +116,5 @@ boost::optional<scrimmage::MessageBasePtr> NoisyState::sensor_msg(double t) {
 
     return boost::optional<scrimmage::MessageBasePtr>(msg);
 }
+} // namespace sensor
+} // namespace scrimmage

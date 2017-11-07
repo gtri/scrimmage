@@ -38,6 +38,8 @@
 #include <string>
 #include <map>
 
+namespace scrimmage {
+namespace autonomy {
 class PyAutonomy : public scrimmage::Autonomy {
  public:
     PyAutonomy();
@@ -99,5 +101,6 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     std::map<scrimmage::Contact::Type, pybind11::object> py_contact_types_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_

@@ -51,7 +51,10 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, WayPointFollower, WayPointFollower_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::WayPointFollower, WayPointFollower_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 WayPointFollower::WayPointFollower(): wp_idx_(0), max_alt_change_(5.0),
     wp_tolerance_(10.0), returning_stage_(false) {
@@ -250,3 +253,5 @@ bool WayPointFollower::step_autonomy(double t, double dt) {
 
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

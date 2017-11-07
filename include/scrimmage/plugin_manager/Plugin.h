@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
 #include <scrimmage/fwd_decl.h>
+#include <scrimmage/pubsub/MessageBase.h>
 
 #include <unordered_set>
 #include <memory>
@@ -63,6 +64,9 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::map<std::string, SubscriberPtr> &subs();
     void set_subs(std::map<std::string, SubscriberPtr> subs);
+
+    void set_scoped_property(const std::string &property_name, const MessageBasePtr &property);
+    MessageBasePtr get_scoped_property_helper(const std::string &property_name);
 
     // networking
     PublisherPtr create_publisher(std::string topic);

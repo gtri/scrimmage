@@ -39,6 +39,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace metrics {
 class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
     SimpleCollisionMetrics();
@@ -63,5 +65,6 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
 
     std::map<std::string, std::string> params_;
 };
-
+} // namespace metrics
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_

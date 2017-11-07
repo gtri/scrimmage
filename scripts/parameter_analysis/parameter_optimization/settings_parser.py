@@ -25,7 +25,7 @@ class SettingsParser:
         elif self.settings['StateSpaceSampler'] == 'GridSearch':
             return gridSearch
         else:
-            print 'Please select a valid state space sampler'
+            print('Please select a valid state space sampler')
             quit()
 
     def getPostMissionAnalyzer(self):
@@ -42,7 +42,7 @@ class SettingsParser:
 
             return partial(BayesianOptimizeArgmax, **params)
         else:
-            print 'Please select a valid function approximator (and verify optional parameters).'
+            print('Please select a valid function approximator (and verify optional parameters).')
             quit()
 
 

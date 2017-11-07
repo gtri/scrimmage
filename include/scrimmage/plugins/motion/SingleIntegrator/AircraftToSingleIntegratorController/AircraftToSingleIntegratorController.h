@@ -38,7 +38,9 @@
 
 #include "../SingleIntegrator.h"
 
-class AircraftToSingleIntegratorController : public SingleIntegrator::Controller {
+namespace scrimmage {
+namespace controller {
+class AircraftToSingleIntegratorController : public motion::SingleIntegrator::Controller {
  public:
     virtual void init(std::map<std::string,  std::string> &params) {}
     virtual bool step(double t, double dt) {
@@ -59,5 +61,6 @@ class AircraftToSingleIntegratorController : public SingleIntegrator::Controller
  protected:
     Eigen::Vector3d u_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_

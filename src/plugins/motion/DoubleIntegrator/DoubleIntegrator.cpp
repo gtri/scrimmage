@@ -39,7 +39,10 @@
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, DoubleIntegrator, DoubleIntegrator_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DoubleIntegrator, DoubleIntegrator_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace pl = std::placeholders;
 using boost::algorithm::clamp;
@@ -144,3 +147,5 @@ void DoubleIntegrator::teleport(sc::StatePtr &state) {
     x_[YAW] = state->quat().yaw();
     x_[YAW_DOT] = 0;
 }
+} // namespace motion
+} // namespace scrimmage

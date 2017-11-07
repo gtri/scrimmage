@@ -38,6 +38,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace autonomy {
 class QuadTest : public scrimmage::Autonomy {
  public:
      virtual void init(std::map<std::string, std::string> &params);
@@ -46,5 +48,6 @@ class QuadTest : public scrimmage::Autonomy {
  protected:
      double take_off_time_ = 0;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_QUADTEST_QUADTEST_H_

@@ -41,7 +41,10 @@
 
 using boost::algorithm::clamp;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, FixedWing6DOF, FixedWing6DOF_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::FixedWing6DOF, FixedWing6DOF_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
@@ -240,3 +243,5 @@ void FixedWing6DOF::teleport(sc::StatePtr &state) {
     // x_[YAW] = state->quat().yaw();
     // x_[SPEED] = state->vel()[0];
 }
+} // namespace motion
+} // namespace scrimmage

@@ -160,6 +160,9 @@ bool MissionParse::parse(std::string filename) {
 
                 std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
                 attributes_[nm2][attr->name()] = attr->value();
+
+                std::string nm3 = nm == "metrics" ? node->value() : nm;
+                attributes_[nm3][attr->name()] = attr->value();
             }
         }
     }
@@ -257,7 +260,7 @@ bool MissionParse::parse(std::string filename) {
             if (order_attr) {
                 node_name += order_attr->value();
             } else if (node_name == "controller" || node_name == "sensor" ||
-                       node_name == "sensable" || node_name == "autonomy") {
+                       node_name == "autonomy") {
                 node_name += "0";
             }
 
@@ -394,7 +397,7 @@ bool MissionParse::parse(std::string filename) {
             if (order_attr) {
                 nm += order_attr->value();
             } else if (nm == "controller" || nm == "sensor" ||
-                       nm == "sensable" || nm == "autonomy") {
+                       nm == "autonomy") {
                 nm += "0";
             }
 

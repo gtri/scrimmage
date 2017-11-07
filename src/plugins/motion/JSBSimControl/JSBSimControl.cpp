@@ -47,7 +47,10 @@
 #define meters2feet 3.28084
 #define feet2meters (1.0 / meters2feet)
 
-REGISTER_PLUGIN(scrimmage::MotionModel, JSBSimControl, JSBSimControl_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::JSBSimControl, JSBSimControl_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
@@ -222,3 +225,5 @@ bool JSBSimControl::step(double time, double dt) {
 
     return true;
 }
+} // namespace motion
+} // namespace scrimmage

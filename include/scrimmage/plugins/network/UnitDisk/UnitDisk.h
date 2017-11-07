@@ -37,6 +37,8 @@
 
 #include <map>
 #include <string>
+namespace scrimmage {
+namespace network {
 
 class UnitDisk : public scrimmage::Network {
  public:
@@ -51,5 +53,6 @@ class UnitDisk : public scrimmage::Network {
     double range_;
     std::unordered_map<int, std::unordered_set<int>> ping_map_;
 };
-
+} // namespace network
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_

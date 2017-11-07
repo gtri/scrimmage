@@ -47,6 +47,8 @@
 #include <string>
 #include <fstream>
 
+namespace scrimmage {
+namespace autonomy {
 class ROSControl : public scrimmage::Autonomy {
  public:
     ROSControl();
@@ -68,5 +70,6 @@ class ROSControl : public scrimmage::Autonomy {
     std::vector<double> x_;
     // std::ofstream ofs_;
 };
-
+} // namespace autonomy
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_

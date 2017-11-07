@@ -41,6 +41,8 @@
 #include <map>
 #include <string>
 
+namespace scrimmage {
+namespace motion {
 class Unicycle : public scrimmage::MotionModel {
  public:
     virtual bool init(std::map<std::string, std::string> &info,
@@ -62,5 +64,6 @@ class Unicycle : public scrimmage::MotionModel {
     double vel_max_;
     bool enable_roll_;
 };
-
+} // namespace motion
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_

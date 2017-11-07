@@ -47,7 +47,10 @@
 #define knts2mps 0.5144444
 #define mps2knts (1.0 / knts2mps)
 
-REGISTER_PLUGIN(scrimmage::MotionModel, JSBSimModel, JSBSimModel_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::JSBSimModel, JSBSimModel_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
@@ -226,3 +229,5 @@ void JSBSimModel::teleport(sc::StatePtr &state) {
     exec_->Setdt(dt_);
     exec_->Run();
 }
+} // namespace motion
+} // namespace scrimmage

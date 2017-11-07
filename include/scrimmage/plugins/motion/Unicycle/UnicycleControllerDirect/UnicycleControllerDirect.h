@@ -38,7 +38,9 @@
 
 #include "../Unicycle.h"
 
-class UnicycleControllerDirect : public Unicycle::Controller {
+namespace scrimmage {
+namespace controller {
+class UnicycleControllerDirect : public motion::Unicycle::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt);
@@ -49,5 +51,6 @@ class UnicycleControllerDirect : public Unicycle::Controller {
     double gain_;
     Eigen::Vector3d u_;
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLECONTROLLERDIRECT_UNICYCLECONTROLLERDIRECT_H_

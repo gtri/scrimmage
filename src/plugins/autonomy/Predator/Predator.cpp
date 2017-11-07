@@ -45,7 +45,10 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, Predator, Predator_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Predator, Predator_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void Predator::init(std::map<std::string, std::string> &params) {
     max_speed_ = sc::get<double>("max_speed", params, 21);
@@ -123,3 +126,5 @@ bool Predator::step_autonomy(double t, double dt) {
 
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage

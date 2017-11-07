@@ -62,7 +62,10 @@ namespace sp = scrimmage_proto;
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 namespace fs = boost::filesystem;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, Straight, Straight_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Straight, Straight_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void Straight::init(std::map<std::string, std::string> &params) {
 
@@ -136,9 +139,9 @@ bool Straight::step_autonomy(double t, double dt) {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
         } else if (kv.first == "AirSimSensor0") {
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
-            auto msg = kv.second->sense<std::vector<AirSimSensorType>>(t);
+            auto msg = kv.second->sense<std::vector<sc::sensor::AirSimSensorType>>(t);
             if (msg) {
-                for (AirSimSensorType a : (*msg)->data) {
+                for (sc::sensor::AirSimSensorType a : (*msg)->data) {
                     if (show_camera_images_) {
                         cv::imshow(a.camera_config.name.c_str(), a.img);
                         cv::waitKey(1);
@@ -149,7 +152,7 @@ bool Straight::step_autonomy(double t, double dt) {
         } else if (kv.first == "ContactBlobCamera0") {
 #if ENABLE_OPENCV == 1
             if (show_camera_images_ || save_camera_images_) {
-                auto msg = kv.second->sense<ContactBlobCameraType>(t);
+                auto msg = kv.second->sense<sc::sensor::ContactBlobCameraType>(t);
                 if (msg) {
                     if (save_camera_images_) {
                         std::string img_name = "./imgs/camera_" +
@@ -190,3 +193,5 @@ bool Straight::step_autonomy(double t, double dt) {
 
     return true;
 }
+} // namespace autonomy
+} // namespace scrimmage
