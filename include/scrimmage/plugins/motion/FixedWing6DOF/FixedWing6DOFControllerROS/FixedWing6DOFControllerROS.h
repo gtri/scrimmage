@@ -43,7 +43,7 @@
 
 namespace scrimmage {
 namespace controller {
-class FixedWing6DOFControllerROS : public FixedWing6DOF::Controller {
+class FixedWing6DOFControllerROS : public scrimmage::motion::FixedWing6DOF::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);

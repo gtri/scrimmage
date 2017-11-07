@@ -3,4 +3,18 @@
 <params>
   <library>ROSControl_plugin</library>
   <ros_namespace_prefix>robot</ros_namespace_prefix>
+
+  <!--
+  <desired_pos_x_scale>-1.0</desired_pos_x_scale>
+  <desired_pos_x_map>angular_z</desired_pos_x_map>
+
+  <desired_pos_y_scale>1.0</desired_pos_y_scale>
+  <desired_pos_y_map>linear_x</desired_pos_y_map>
+  
+  <desired_pos_z_scale>1.0</desired_pos_z_scale>
+  <desired_pos_z_map>linear_z</desired_pos_z_map>
+
+  <desired_vel_x_scale>1.0</desired_vel_x_scale>
+  -->
+  
 </params>

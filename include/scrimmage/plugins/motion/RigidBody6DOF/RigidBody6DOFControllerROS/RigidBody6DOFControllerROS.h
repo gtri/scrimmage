@@ -43,7 +43,7 @@
 
 namespace scrimmage {
 namespace controller {
-class RigidBody6DOFControllerROS : public RigidBody6DOF::Controller {
+class RigidBody6DOFControllerROS : public scrimmage::motion::RigidBody6DOF::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);

@@ -110,7 +110,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     ros::spinOnce(); // check for new ROS messages
 
     // Convert scrimmage point cloud into laser scan
-    for (auto msg : pcl_sub_->msgs<sc::Message<RayTrace::PointCloud>>()) {
+    for (auto msg : pcl_sub_->msgs<sc::Message<sc::sensor::RayTrace::PointCloud>>()) {
         double fov_half = msg->data.num_rays_horiz * msg->data.angle_res_horiz / 2.0;
         sensor_msgs::LaserScan laser_msg;
         laser_msg.angle_min = -fov_half;
@@ -124,7 +124,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
         laser_msg.intensities.resize(msg->data.points.size());
 
         int i = 0;
-        for (RayTrace::PCPoint &p : msg->data.points) {
+        for (sc::sensor::RayTrace::PCPoint &p : msg->data.points) {
             laser_msg.ranges[i] = p.point.norm();
             laser_msg.intensities[i] = p.intensity;
             i++;

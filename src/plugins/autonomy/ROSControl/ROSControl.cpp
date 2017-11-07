@@ -44,6 +44,10 @@
 
 #include <boost/numeric/odeint.hpp>
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 namespace pl = std::placeholders;
 namespace sc = scrimmage;
 
@@ -100,19 +104,22 @@ void ROSControl::ctrl_filter(const std::vector<double> &x ,
 bool ROSControl::step_autonomy(double t, double dt) {
     ros::spinOnce(); // check for new ROS messages
 
-    auto sys = std::bind(&ROSControl::ctrl_filter, this, pl::_1, pl::_2, pl::_3);
-    boost::numeric::odeint::runge_kutta4<std::vector<double>> stepper;
+    // auto sys = std::bind(&ROSControl::ctrl_filter, this, pl::_1, pl::_2, pl::_3);
+    // boost::numeric::odeint::runge_kutta4<std::vector<double>> stepper;
+    //
+    // x_[2] = cmd_vel_.angular.z;
+    // stepper.do_step(sys, x_, 0, dt);
+    // //  ofs_ << x_[0] << ", " << x_[1] << ", " << x_[2] << endl;
+    //
+    // double scale = 0.95;
+    // desired_state_->pos()(0) = -scale*cmd_vel_.angular.z; // aileron
+    // desired_state_->pos()(1) = scale*cmd_vel_.linear.x;  // elevator
+    // desired_state_->pos()(2) = scale*cmd_vel_.linear.z;  // rudder
+    // desired_state_->vel()(0) = 1.0;       // constant full thrust
 
-    x_[2] = cmd_vel_.angular.z;
-    stepper.do_step(sys, x_, 0, dt);
-
-    //  ofs_ << x_[0] << ", " << x_[1] << ", " << x_[2] << endl;
-
-    double scale = 0.95;
-    desired_state_->pos()(0) = -scale*cmd_vel_.angular.z; // aileron
-    desired_state_->pos()(1) = scale*cmd_vel_.linear.x;  // elevator
-    desired_state_->pos()(2) = scale*cmd_vel_.linear.z;  // rudder
-    desired_state_->vel()(0) = 1.0;       // constant full thrust
+    desired_state_->vel()(0) = 30;//cmd_vel_.linear.x;
+    desired_state_->vel()(1) = 10*cmd_vel_.angular.z;
+    desired_state_->vel()(2) = -10*cmd_vel_.linear.x;
 
     zero_ctrls();
 
