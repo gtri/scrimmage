@@ -34,6 +34,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <scrimmage/math/State.h>
 
