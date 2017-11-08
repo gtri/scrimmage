@@ -46,10 +46,15 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, (>>>PLUGIN_NAME<<<), (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::(>>>PLUGIN_NAME<<<),
+                (>>>PLUGIN_NAME<<<)_plugin)
+
+namespace scrimmage {
+namespace interaction {
 
 (>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{     
+{
 }
 
 bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &mission_params,
@@ -59,7 +64,7 @@ bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &mission_params
 }
 
 
-bool (>>>PLUGIN_NAME<<<)::step_entity_interaction(std::list<sc::EntityPtr> &ents, 
+bool (>>>PLUGIN_NAME<<<)::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                   double t, double dt)
 {
     if (ents.empty())
@@ -69,3 +74,5 @@ bool (>>>PLUGIN_NAME<<<)::step_entity_interaction(std::list<sc::EntityPtr> &ents
 
     return true;
 }
+} // namespace interaction
+} // namespace scrimmage

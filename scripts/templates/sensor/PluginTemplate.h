@@ -39,6 +39,8 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
 
+namespace scrimmage {
+namespace sensor {
 class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
 public:
     (>>>PLUGIN_NAME<<<)();
@@ -49,5 +51,6 @@ protected:
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
 private:
 };
-
+} // namespace sensor
+} // namespace scrimmage
 #endif

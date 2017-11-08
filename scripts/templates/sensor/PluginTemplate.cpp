@@ -50,7 +50,12 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Sensor, (>>>PLUGIN_NAME<<<), (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor,
+                scrimmage::sensor::(>>>PLUGIN_NAME<<<),
+                (>>>PLUGIN_NAME<<<)_plugin)
+
+namespace scrimmage {
+namespace sensor {
 
 (>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
 {
@@ -74,7 +79,7 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
             pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
-        
+
     return;
 }
 
@@ -88,9 +93,11 @@ boost::optional<scrimmage::MessageBasePtr> (>>>PLUGIN_NAME<<<)::sensor_msg(doubl
 
     // Add noise to the three scalars in the 3D position vector.
     for (int i = 0; i < 3; i++) {
-        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);    
-    }    
+        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);
+    }
 
     // Return the sensor message.
     return boost::optional<sc::MessageBasePtr>(msg);
 }
+} // namespace sensor
+} // namespace scrimmage

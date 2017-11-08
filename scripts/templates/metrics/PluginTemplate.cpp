@@ -53,7 +53,12 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, (>>>PLUGIN_NAME<<<), (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics,
+                scrimmage::metrics::(>>>PLUGIN_NAME<<<),
+                (>>>PLUGIN_NAME<<<)_plugin)
+
+namespace scrimmage {
+namespace metrics {
 
 (>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
 {
@@ -87,7 +92,7 @@ void (>>>PLUGIN_NAME<<<)::calc_team_scores()
         }
         team_coll_scores_[team_id].add_ground_collisions(score.ground_collisions());
     }
-    
+
     for (auto &kv : team_coll_scores_) {
         int team_id = kv.first;
         Score &score = kv.second;
@@ -104,8 +109,10 @@ void (>>>PLUGIN_NAME<<<)::print_team_summaries()
     for (std::map<int, Score>::iterator it = team_coll_scores_.begin();
          it != team_coll_scores_.end(); it++) {
 
-        cout << "Score: " << it->second.score() << endl;        
+        cout << "Score: " << it->second.score() << endl;
         cout << "Ground Collisions: " << it->second.ground_collisions() << endl;
         cout << sc::generate_chars("-",70) << endl;
     }
 }
+} // namespace metrics
+} // namespace scrimmage

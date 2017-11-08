@@ -45,14 +45,19 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, (>>>PLUGIN_NAME<<<), (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel,
+                scrimmage::motion::(>>>PLUGIN_NAME<<<),
+                (>>>PLUGIN_NAME<<<)_plugin)
+
+namespace scrimmage {
+namespace motion {
 
 enum ModelParams
 {
     X = 0,
     Y,
     Z,
-    THETA,    
+    THETA,
     MODEL_NUM_ITEMS
 };
 
@@ -64,7 +69,7 @@ enum ControlParams
 };
 
 (>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{   
+{
     x_.resize(MODEL_NUM_ITEMS);
 }
 
@@ -75,8 +80,8 @@ bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
     x_[X] = std::stod(info["x"]); //x
     x_[Y] = std::stod(info["y"]); //y
     x_[Z] = std::stod(info["z"]); //y
-    x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));    
-        
+    x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));
+
     length_ = sc::get<double>("length", params, 100.0);
 
     // Set the state_ variable that is used by the entity and the main
@@ -84,7 +89,7 @@ bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
     state_->vel() << 0, 0, 0;
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
-    
+
     return true;
 }
 
@@ -94,7 +99,7 @@ bool (>>>PLUGIN_NAME<<<)::step(double time, double dt)
     double prev_x = x_[X];
     double prev_y = x_[Y];
     double prev_z = x_[Z];
-    
+
     ode_step(dt); // step the motion model ODE solver
 
     // Save state (position, velocity, orientation) used by simulation
@@ -102,7 +107,7 @@ bool (>>>PLUGIN_NAME<<<)::step(double time, double dt)
     state_->vel() << (x_[X] - prev_x) / dt,
         (x_[Y] - prev_y) / dt,
         (x_[Z] - prev_z) / dt;
-    
+
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
     return true;
@@ -118,7 +123,7 @@ void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt , double t)
     Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
     double u_vel = u(FORWARD_VELOCITY);
     double u_theta = u(TURN_RATE);
-    
+
     // Saturate wheel angle:
     if (u_theta >= M_PI/4) {
         u_theta = M_PI/4 - 0.0001;
@@ -131,5 +136,7 @@ void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt , double t)
     dxdt[Y] = u_vel*sin(x[THETA]);
     dxdt[THETA] = u_vel/length_*tan(u_theta);
 
-    dxdt[Z] = 0; // Remain at initial z-position    
+    dxdt[Z] = 0; // Remain at initial z-position
 }
+} // namespace motion
+} // namespace scrimmage
