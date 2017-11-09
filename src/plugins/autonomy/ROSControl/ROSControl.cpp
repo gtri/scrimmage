@@ -44,10 +44,6 @@
 
 #include <boost/numeric/odeint.hpp>
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 namespace pl = std::placeholders;
 namespace sc = scrimmage;
 
@@ -116,8 +112,9 @@ bool ROSControl::step_autonomy(double t, double dt) {
     // desired_state_->pos()(1) = scale*cmd_vel_.linear.x;  // elevator
     // desired_state_->pos()(2) = scale*cmd_vel_.linear.z;  // rudder
     // desired_state_->vel()(0) = 1.0;       // constant full thrust
-// Need to saturate state variables before model runs
-    desired_state_->vel()(0) = 30;//cmd_vel_.linear.x;
+    // Need to saturate state variables before model runs
+
+    desired_state_->vel()(0) = 30;
     desired_state_->vel()(1) = 10*cmd_vel_.angular.z;
     desired_state_->vel()(2) = 10*cmd_vel_.linear.x;
 

@@ -30,43 +30,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
 
+#include <fstream>
+#include <list>
 #include <map>
 #include <string>
 
 namespace scrimmage {
-namespace motion {
-class Unicycle3D : public scrimmage::MotionModel {
+namespace autonomy {
+class TrajectoryRecordPlayback : public scrimmage::Autonomy {
  public:
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
-
-    virtual bool step(double t, double dt);
-
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector3d &u() = 0;
-    };
-
+    TrajectoryRecordPlayback();
+    ~TrajectoryRecordPlayback();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
  protected:
-    Eigen::Vector3d ctrl_u_;
-    double turn_rate_max_;
-    double pitch_rate_max_;
-    double vel_max_;
-    bool enable_roll_;
+    std::list<TrajectoryPoint> trajs_;
+    std::list<TrajectoryPoint>::iterator it_traj_;
+    bool enable_playback_;
 
-    scrimmage::Quaternion quat_world_;
-    scrimmage::Quaternion quat_local_;
+    std::ofstream file_out_;
+    std::ifstream file_in_;
+
+ private:
 };
-} // namespace motion
+} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_

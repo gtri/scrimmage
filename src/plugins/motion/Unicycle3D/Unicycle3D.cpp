@@ -30,10 +30,6 @@
  *
  */
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 #include <scrimmage/plugins/motion/Unicycle3D/Unicycle3D.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>

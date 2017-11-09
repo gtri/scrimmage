@@ -30,43 +30,34 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
 
+#include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
-
-#include <map>
-#include <string>
 
 namespace scrimmage {
-namespace motion {
-class Unicycle3D : public scrimmage::MotionModel {
+namespace autonomy {
+class TrajectoryPoint {
  public:
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
+    TrajectoryPoint() : t_(0) {}
+    TrajectoryPoint(double t, scrimmage::State &state, scrimmage::State &desired)
+        : t_(t), state_(state), desired_state_(desired) { }
 
-    virtual bool step(double t, double dt);
+    double t() { return t_; }
+    scrimmage::State &state() { return state_; }
+    scrimmage::State &desired_state() { return desired_state_; }
 
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector3d &u() = 0;
-    };
+    void set_t(double t) { t_ = t; }
+    void set_state(scrimmage::State &state) { state_ = state; }
+    void set_desired_state(scrimmage::State &state) { desired_state_ = state; }
 
  protected:
-    Eigen::Vector3d ctrl_u_;
-    double turn_rate_max_;
-    double pitch_rate_max_;
-    double vel_max_;
-    bool enable_roll_;
-
-    scrimmage::Quaternion quat_world_;
-    scrimmage::Quaternion quat_local_;
+    double t_;
+    scrimmage::State state_;
+    scrimmage::State desired_state_;
+ private:
 };
-} // namespace motion
+} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
