@@ -199,10 +199,10 @@ bool MissionParse::parse(std::string filename) {
         longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
 
     // Handle log directory
-    log_dir_ = expand_user("~/.scrimmage/logs");
+    root_log_dir_ = expand_user("~/.scrimmage/logs");
     if (params_.count("log_dir") > 0) {
         // Get the dir attribute of the log node
-        log_dir_ = expand_user(params_["log_dir"]);
+        root_log_dir_ = expand_user(params_["log_dir"]);
     }
 
     // Create a directory to hold the log data
@@ -215,10 +215,10 @@ bool MissionParse::parse(std::string filename) {
     strftime(time_buffer, 80, "%Y-%m-%d_%H-%M-%S", timeinfo);
     std::string name(time_buffer);
     int ct = 1;
-    while (fs::exists(fs::path(log_dir_ + "/" + name))) {
+    while (fs::exists(fs::path(root_log_dir_ + "/" + name))) {
         name = std::string(time_buffer) + "_" + std::to_string(ct++);
     }
-    log_dir_ += "/" + name;
+    log_dir_ = root_log_dir_ + "/" + name;
 
     if (job_number_ != -1) {
         log_dir_ += "_job_" + std::to_string(job_number_);
@@ -298,7 +298,6 @@ bool MissionParse::parse(std::string filename) {
         }
 
         script_info["log_dir"] = log_dir_;
-
 
         // Find the entity's team ID first, since it is required by later
         // nodes. Also, setup the TeamInfo structs / map.
@@ -554,6 +553,27 @@ bool MissionParse::create_log_dir() {
     // Copy the input scenario xml file to the output directory
     if (fs::exists(mission_filename_)) {
         fs::copy_file(fs::path(mission_filename_), fs::path(log_dir_+"/mission.xml"));
+    }
+
+
+    ///////////////////////////////////////////////
+    // Create a "latest" symlink to the directory
+    ///////////////////////////////////////////////
+    // First, remove the latest symlink if it exists
+    fs::path latest_sym(root_log_dir_ + std::string("/latest"));
+    if (fs::is_symlink(latest_sym)) {
+        fs::remove(latest_sym);
+    }
+
+    // Create the symlink
+    boost::system::error_code ec;
+    fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
+    if (ec.value() != boost::system::errc::success) {
+        cout << "WARNING: Unable to create latest log file symlink" << endl;
+        cout << "Couldn't create symlink log directory" << endl;
+        cout << "Error code value: " << ec.value() << endl;
+        cout << "Error code name: " << ec.category().name() << endl;
+        cout << "Error message: " << ec.message() << endl;
     }
 
     return true;

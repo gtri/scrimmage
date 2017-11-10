@@ -149,6 +149,7 @@ class MissionParse {
     std::map<int, AttributeMap> entity_attributes_;
     EntityDesc_t entity_descs_;
 
+    std::string root_log_dir_;
     std::string log_dir_;
 
     double longitude_origin_ = 29.0;
