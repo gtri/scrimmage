@@ -38,7 +38,7 @@
 #include <map>
 #include <string>
 
-class TutorialOpenAIAutonomy : public ExternalControl {
+class TutorialOpenAIAutonomy : public scrimmage::autonomy::ExternalControl {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     double calc_reward(double time);

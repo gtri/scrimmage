@@ -32,15 +32,9 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/proto/ExternalControl.pb.h>
-#include <scrimmage/common/RTree.h>
-
-
 #include <scrimmage/parse/MissionParse.h>
-
 #include <scrimmage/plugins/autonomy/TutorialOpenAIAutonomy/TutorialOpenAIAutonomy.h>
+#include <scrimmage/proto/ExternalControl.pb.h>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
