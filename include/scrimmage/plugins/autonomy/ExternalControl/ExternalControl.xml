@@ -3,4 +3,5 @@
 <params>
   <library>ExternalControl_plugin</library>
   <server_address>localhost:50052</server_address>
+  <timestep>0</timestep>
 </params>

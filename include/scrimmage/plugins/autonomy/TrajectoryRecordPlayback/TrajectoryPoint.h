@@ -30,27 +30,34 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
 
-#include <random>
-
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/math/State.h>
 
 namespace scrimmage {
-namespace sensor {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
-public:
-    (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
+namespace autonomy {
+class TrajectoryPoint {
+ public:
+    TrajectoryPoint() : t_(0) {}
+    TrajectoryPoint(double t, scrimmage::State &state, scrimmage::State &desired)
+        : t_(t), state_(state), desired_state_(desired) { }
+
+    double t() { return t_; }
+    scrimmage::State &state() { return state_; }
+    scrimmage::State &desired_state() { return desired_state_; }
+
+    void set_t(double t) { t_ = t; }
+    void set_state(scrimmage::State &state) { state_ = state; }
+    void set_desired_state(scrimmage::State &state) { desired_state_ = state; }
+
+ protected:
+    double t_;
+    scrimmage::State state_;
+    scrimmage::State desired_state_;
+ private:
 };
-} // namespace sensor
+} // namespace autonomy
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_

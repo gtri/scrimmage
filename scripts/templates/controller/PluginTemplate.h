@@ -34,6 +34,9 @@
 #define (>>>PLUGIN_NAME<<<)_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
+namespace scrimmage {
+namespace controller {
+
 class (>>>PLUGIN_NAME<<<) : public scrimmage::Autonomy {
 public:
     (>>>PLUGIN_NAME<<<)();
@@ -41,7 +44,8 @@ public:
     virtual bool step_autonomy(double t, double dt);
 protected:
     int follow_id_;
-private:     
+private:
 };
-
+} // namespace controller
+} // namespace scrimmage
 #endif

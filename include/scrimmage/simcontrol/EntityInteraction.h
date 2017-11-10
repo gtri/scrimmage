@@ -37,34 +37,37 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/proto/Shape.pb.h>
 
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 
+namespace scrimmage_proto {
+class Shape;
+}
+
 namespace scrimmage {
 
 class EntityInteraction : public Plugin {
 
  public:
-    inline virtual bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params)
+    inline virtual bool init(std::map<std::string, std::string> &/*mission_params*/,
+                      std::map<std::string, std::string> &/*plugin_params*/)
     { return true;}
 
     inline virtual std::string name()
     { return std::string("EntityInteraction"); }
 
-    inline virtual bool step_entity_interaction(std::list<EntityPtr> &ents,
-                                                double t, double dt)
+    inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
+                                                double /*t*/, double /*dt*/)
     { return false; }
 
-    inline virtual std::list<std::shared_ptr<scrimmage_proto::Shape> > &shapes()
+    inline virtual std::list<std::shared_ptr<scrimmage_proto::Shape>> &shapes()
     { return shapes_; }
 
-    inline virtual bool collision_exists(std::list<EntityPtr> &ents,
-                                  Eigen::Vector3d &p)
+    inline virtual bool collision_exists(std::list<EntityPtr> &/*ents*/,
+                                  Eigen::Vector3d &/*p*/)
     { return false; }
 
     inline virtual void set_random(RandomPtr random)
@@ -79,7 +82,7 @@ class EntityInteraction : public Plugin {
  protected:
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
-    std::list<std::shared_ptr<scrimmage_proto::Shape> > shapes_;
+    std::list<std::shared_ptr<scrimmage_proto::Shape>> shapes_;
     RandomPtr random_;
     MissionParsePtr mp_;
 };

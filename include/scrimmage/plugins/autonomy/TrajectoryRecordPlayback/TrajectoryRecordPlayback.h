@@ -30,27 +30,35 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
 
-#include <random>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+#include <fstream>
+#include <list>
+#include <map>
+#include <string>
 
 namespace scrimmage {
-namespace sensor {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
-public:
-    (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
+namespace autonomy {
+class TrajectoryRecordPlayback : public scrimmage::Autonomy {
+ public:
+    TrajectoryRecordPlayback();
+    ~TrajectoryRecordPlayback();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
+ protected:
+    std::list<TrajectoryPoint> trajs_;
+    std::list<TrajectoryPoint>::iterator it_traj_;
+    bool enable_playback_;
+
+    std::ofstream file_out_;
+    std::ifstream file_in_;
+
+ private:
 };
-} // namespace sensor
+} // namespace autonomy
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_

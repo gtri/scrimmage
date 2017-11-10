@@ -45,7 +45,12 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, (>>>PLUGIN_NAME<<<), (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::(>>>PLUGIN_NAME<<<),
+                (>>>PLUGIN_NAME<<<)_plugin)
+
+namespace scrimmage {
+namespace controller {
 
 (>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
 {
@@ -101,3 +106,5 @@ bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt)
 
     return true;
 }
+} // namespace controller
+} // namespace scrimmage

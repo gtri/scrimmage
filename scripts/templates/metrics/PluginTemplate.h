@@ -37,19 +37,22 @@
 
 namespace sc = scrimmage;
 
+namespace scrimmage {
+namespace metrics {
+
 class Score {
  public:
     Score()
     {
         ground_collisions_ = 0;
     }
-    
+
     bool set_weights(std::map<std::string,std::string> &params)
     {
         ground_collisions_w_ = sc::get<double>("ground_collisions_w", params, 0.0);
         return true;
     }
-    
+
     void increment_ground_collisions() { ground_collisions_++; }
     void add_ground_collisions(int c) { ground_collisions_ += c; }
     int ground_collisions() { return ground_collisions_; }
@@ -74,14 +77,17 @@ public:
     virtual void init(std::map<std::string,std::string> &params);
     virtual bool step_metrics(double t, double dt);
     virtual void calc_team_scores();
-    virtual void print_team_summaries();            
+    virtual void print_team_summaries();
 protected:
     sc::SubscriberPtr sub_ground_collision_;
     std::map<int, Score> scores_;
     std::map<int, Score> team_coll_scores_;
 
     std::map<std::string,std::string> params_;
-private:     
+private:
 };
+
+} // namespace metrics
+} // namespace scrimmage
 
 #endif

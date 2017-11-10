@@ -30,27 +30,19 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/Unicycle3D/Unicycle3DControllerDirect/Unicycle3DControllerDirect.h>
 
-#include <random>
-
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::Unicycle3DControllerDirect, Unicycle3DControllerDirect_plugin)
 
 namespace scrimmage {
-namespace sensor {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
-public:
-    (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
-};
-} // namespace sensor
+namespace controller {
+
+bool Unicycle3DControllerDirect::step(double t, double dt) {
+    u_(0) = desired_state_->vel()(0);
+    u_(1) = desired_state_->vel()(1);
+    u_(2) = desired_state_->vel()(2);
+    return true;
+}
+} // namespace controller
 } // namespace scrimmage
-#endif

@@ -41,8 +41,6 @@ TEST(test_delayed_task, delayed_task) {
     int value = 0;
     sc::DelayedTask delayed_task(delay, num_repeats);
 
-    EXPECT_TRUE(delayed_task.done());
-
     delayed_task.task = [&](double t) {
         value++;
         return value < 3;

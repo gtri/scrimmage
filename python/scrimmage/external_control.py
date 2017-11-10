@@ -52,7 +52,6 @@ class ServerThread(threading.Thread):
             while not self.stop:
                 time.sleep(1)
             server.stop(0)
-            self.queues['stop'].put(True)
         except KeyboardInterrupt:
             server.stop(0)
 
@@ -73,8 +72,8 @@ class ScrimmageEnv(gym.Env):
         self.rng = None
         self.seed = self._seed(None)
 
-        self.queues = {s: queue.Queue()
-                       for s in ['env', 'action', 'action_response', 'stop']}
+        queue_names = ['env', 'action', 'action_response']
+        self.queues = {s: queue.Queue() for s in queue_names}
         self.server_thread = ServerThread(self.queues, self.address)
         self.server_thread.start()
 
@@ -151,6 +150,10 @@ class ScrimmageEnv(gym.Env):
         return [seed]
 
     def _start_scrimmage(self, enable_gui, disable_output):
+        _clear_queue(self.queues['action'])
+        _clear_queue(self.queues['action_response'])
+        _clear_queue(self.queues['env'])
+
         port = self.address.split(":")[-1]
         tree = ET.parse(self.mission_file)
         root = tree.getroot()
@@ -187,13 +190,13 @@ class ScrimmageEnv(gym.Env):
             for autonomy_node in entity_node.findall('autonomy'):
                 autonomy_node.attrib['server_address'] = self.address
 
-        temp_mission_file = "." + port + os.path.basename(self.mission_file)
-        print('temp mission file is ' + temp_mission_file)
-        tree.write(temp_mission_file)
+        self.temp_mission_file = "." + port + os.path.basename(self.mission_file)
+        print('temp mission file is ' + self.temp_mission_file)
+        tree.write(self.temp_mission_file)
         if self.gdb_args:
-            cmd = self.gdb_args.split(" ") + ["scrimmage", temp_mission_file]
+            cmd = self.gdb_args.split(" ") + ["scrimmage", self.temp_mission_file]
         else:
-            cmd = ["scrimmage", temp_mission_file]
+            cmd = ["scrimmage", self.temp_mission_file]
         print(cmd)
         return subprocess.Popen(cmd)
 
@@ -228,21 +231,22 @@ class ScrimmageEnv(gym.Env):
         shutdown the network to the autonomy in addition to sending a
         sigint.
         """
-        if self.scrimmage_process:
-            temp_mission_file = "." + os.path.basename(self.mission_file)
+        if self.scrimmage_process.returncode is None:
             try:
-                os.remove(temp_mission_file)
+                os.remove(self.temp_mission_file)
             except OSError:
                 pass
 
             self.queues['action'].put(ExternalControl_pb2.Action(done=True))
             try:
                 self.scrimmage_process.kill()
-                self.scrimmage_process.wait()
+                self.scrimmage_process.poll()
+                while self.scrimmage_process.returncode is None:
+                    self.scrimmage_process.poll()
+                    time.sleep(0.1)
             except OSError:
                 print('could not terminate existing scrimmage process. '
                       'It may have already shutdown.')
-            self.scrimmage_process.wait()
 
 
 class ExternalControl(ExternalControl_pb2_grpc.ExternalControlServicer):
@@ -261,7 +265,11 @@ class ExternalControl(ExternalControl_pb2_grpc.ExternalControlServicer):
     def SendActionResult(self, action_result, context):
         """Receive ActionResult proto and send back an action."""
         self.queues['action_response'].put(action_result)
-        action = self.queues['action'].get()
+        try:
+            action = self.queues['action'].get(timeout=3.0)
+        except queue.Empty:
+            res = ExternalControl_pb2.ActionResponse(done=True)
+            self.queues['action_response'].put(res)
         return action
 
 

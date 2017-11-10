@@ -49,6 +49,8 @@ class SpaceParams;
 }
 
 namespace scrimmage {
+class DelayedTask;
+
 namespace autonomy {
 
 class ExternalControlClient;
@@ -82,6 +84,8 @@ class ExternalControl : public scrimmage::Autonomy {
     bool send_env();
 
     std::shared_ptr<ExternalControlClient> external_control_client_;
+    std::shared_ptr<DelayedTask> delayed_task_;
+    double curr_reward = 0;
     bool env_sent_ = false;
 };
 } // namespace autonomy

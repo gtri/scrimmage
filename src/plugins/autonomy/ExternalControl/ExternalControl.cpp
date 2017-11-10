@@ -30,7 +30,9 @@
  *
  */
 
+#include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/autonomy/ExternalControl/ExternalControl.h>
 #include <scrimmage/plugins/autonomy/ExternalControl/ExternalControlClient.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -51,10 +53,12 @@ namespace scrimmage {
 namespace autonomy {
 
 ExternalControl::ExternalControl() :
-    external_control_client_(std::make_shared<ExternalControlClient>()) {}
+    external_control_client_(std::make_shared<ExternalControlClient>()),
+    delayed_task_(std::make_shared<DelayedTask>()) {}
 
 void ExternalControl::init(std::map<std::string, std::string> &params) {
-    server_address_ = params.at("server_address");
+    server_address_ = get("server_address", params, std::string("localhost:50051"));
+    delayed_task_->delay = get("timestep", params, 0.0);
 }
 
 bool ExternalControl::step_autonomy(double t, double dt) {
@@ -67,14 +71,20 @@ bool ExternalControl::step_autonomy(double t, double dt) {
         send_env();
     }
 
-    double reward = calc_reward(t);
-    auto action = send_action_result(t, reward, false);
-    if (!action) {
-        std::cout << "did not receive external action. exiting." << std::endl;
-        return false;
+    curr_reward += calc_reward(t);
+    bool update_action = delayed_task_->update(t).first;
+    if (update_action) {
+        auto action = send_action_result(t, curr_reward, false);
+        curr_reward = 0;
+        if (!action) {
+            std::cout << "did not receive external action. exiting." << std::endl;
+            return false;
+        } else {
+            return handle_action(t, dt, *action);
+        }
+    } else {
+        return true;
     }
-
-    return handle_action(t, dt, *action);
 }
 
 double ExternalControl::calc_reward(double t) {

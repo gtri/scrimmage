@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/pubsub/MessageBase.h>
 
 #include <unordered_set>
 #include <memory>
@@ -51,7 +50,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
-    virtual void close(double t) {}
+    virtual void close(double /*t*/) {}
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();

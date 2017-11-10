@@ -30,27 +30,27 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3DCONTROLLERDIRECT_UNICYCLE3DCONTROLLERDIRECT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3DCONTROLLERDIRECT_UNICYCLE3DCONTROLLERDIRECT_H_
 
-#include <random>
+#include <map>
+#include <string>
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+#include "../Unicycle3D.h"
 
 namespace scrimmage {
-namespace sensor {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
-public:
-    (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
+namespace controller {
+class Unicycle3DControllerDirect : public motion::Unicycle3D::Controller {
+ public:
+    virtual void init(std::map<std::string, std::string> &params) {}
+    virtual bool step(double t, double dt);
+    virtual Eigen::Vector3d &u() {return u_;}
+
+ protected:
+    double l_;
+    double gain_;
+    Eigen::Vector3d u_;
 };
-} // namespace sensor
+} // namespace controller
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3DCONTROLLERDIRECT_UNICYCLE3DCONTROLLERDIRECT_H_

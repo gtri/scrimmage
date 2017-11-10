@@ -30,27 +30,43 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
 
-#include <random>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/MotionModel.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/common/PID.h>
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
+#include <map>
+#include <string>
 
 namespace scrimmage {
-namespace sensor {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
-public:
-    (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
+namespace motion {
+class Unicycle3D : public scrimmage::MotionModel {
+ public:
+    virtual bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params);
+
+    virtual bool step(double t, double dt);
+
+    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+
+    class Controller : public scrimmage::Controller {
+     public:
+        virtual Eigen::Vector3d &u() = 0;
+    };
+
+ protected:
+    Eigen::Vector3d ctrl_u_;
+    double turn_rate_max_;
+    double pitch_rate_max_;
+    double vel_max_;
+    bool enable_roll_;
+
+    scrimmage::Quaternion quat_world_;
+    scrimmage::Quaternion quat_local_;
 };
-} // namespace sensor
+} // namespace motion
 } // namespace scrimmage
-#endif
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_

@@ -71,7 +71,7 @@ std::pair<bool, bool> DelayedTask::update(double t) {
 }
 
 bool DelayedTask::done() const {
-    return !task || (!repeat_infinitely_ && repeats_left_ < 0);
+    return !repeat_infinitely_ && repeats_left_ < 0;
 }
 
 void DelayedTask::set_repeats(int repeats_left) {
