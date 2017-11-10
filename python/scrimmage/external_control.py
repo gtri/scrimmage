@@ -171,6 +171,11 @@ class ScrimmageEnv(gym.Env):
         if not bool(enable_gui):
             run_node.attrib['time_warp'] = "0"
 
+        # get number of time steps
+        dt = float(run_node.attrib['dt'])
+        total_time = float(run_node.attrib['end'])
+        self.num_steps = int(total_time/dt + 1);
+        
         # logging
         log_node = root.find('log_dir')
         try:
