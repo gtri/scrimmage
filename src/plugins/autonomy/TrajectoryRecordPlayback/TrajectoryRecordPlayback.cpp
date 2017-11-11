@@ -33,6 +33,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryRecordPlayback.h>
 #include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
 
@@ -51,7 +52,8 @@ namespace scrimmage {
 namespace autonomy {
 
 TrajectoryRecordPlayback::TrajectoryRecordPlayback()
-    : enable_playback_(false) { }
+    : enable_playback_(false), remove_at_end_(true),
+      trajectory_filename_("trajectory.txt") { }
 
 TrajectoryRecordPlayback::~TrajectoryRecordPlayback() {
     if (file_out_.is_open()) {
@@ -65,11 +67,19 @@ TrajectoryRecordPlayback::~TrajectoryRecordPlayback() {
 
 void TrajectoryRecordPlayback::init(std::map<std::string,
                                     std::string> &params) {
+
+    trajectory_filename_ = sc::get<std::string>("trajectory_filename", params,
+                                                "trajectory.txt");
+    trajectory_filename_ = parent_->mp()->root_log_dir() + "/" +
+        trajectory_filename_;
+
+    remove_at_end_ = sc::get<bool>("remove_at_end", params, true);
+
     enable_playback_ = sc::get<bool>("enable_playback", params, false);
     if (!enable_playback_) {
         this->set_is_controlling(false);
 
-        file_out_.open("/home/syllogismrxs/traj.txt", std::ios::out | std::ios::trunc);
+        file_out_.open(trajectory_filename_, std::ios::out | std::ios::trunc);
         if (!file_out_.is_open()) {
             cout << "Unable to open log file" << endl;
             return;
@@ -81,7 +91,7 @@ void TrajectoryRecordPlayback::init(std::map<std::string,
         this->set_is_controlling(true);
 
         // Load the trajectory from a file
-        file_in_.open("/home/syllogismrxs/traj.txt", std::ios::in);
+        file_in_.open(trajectory_filename_, std::ios::in);
 
         if (!file_in_.is_open()) {
             cout << "Unable to open log file" << endl;
@@ -156,9 +166,14 @@ bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
     // Increment trajectory reference
     ++it_traj_;
 
-    // Remain at last trajectory command if end is reached
     if (it_traj_ == trajs_.end()) {
-        --it_traj_;
+        if (remove_at_end_) {
+            // Remove entity from simulation
+            parent_->set_health_points(0);
+        } else {
+            // Remain at last trajectory command if end is reached
+            --it_traj_;
+        }
     }
 
     return true;

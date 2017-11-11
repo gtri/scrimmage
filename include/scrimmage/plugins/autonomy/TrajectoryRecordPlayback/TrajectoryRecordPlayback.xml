@@ -4,4 +4,6 @@
   <library>TrajectoryRecordPlayback_plugin</library>
   <initial_speed>24.3</initial_speed>
   <enable_playback>false</enable_playback> <!-- if false, record -->
+  <trajectory_filename>trajectory.txt</trajectory_filename>
+  <remove_at_end>true</remove_at_end>
 </params>

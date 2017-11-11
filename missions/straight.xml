@@ -67,8 +67,8 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
-    <sensor order="0">NoisyState</sensor>
-    <sensor order="1">NoisyContacts</sensor>
+    <sensor>NoisyState</sensor>
+    <sensor>NoisyContacts</sensor>
     <!--<sensor order="2">ContactBlobCamera</sensor>-->
 
     <autonomy show_text_label="true">Straight</autonomy>

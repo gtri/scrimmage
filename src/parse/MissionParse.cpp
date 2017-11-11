@@ -248,6 +248,7 @@ bool MissionParse::parse(std::string filename) {
 
         std::string nm = nm_attr->value();
 
+        int autonomy_order = 0, sensor_order = 0, controller_order = 0;
         for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
             std::string node_name = node->name();
@@ -256,12 +257,12 @@ bool MissionParse::parse(std::string filename) {
                 continue;
             }
 
-            rapidxml::xml_attribute<> *order_attr = node->first_attribute("order");
-            if (order_attr) {
-                node_name += order_attr->value();
-            } else if (node_name == "controller" || node_name == "sensor" ||
-                       node_name == "autonomy") {
-                node_name += "0";
+            if (node_name == "autonomy") {
+                node_name += std::to_string(autonomy_order++);
+            } else if (node_name == "sensor") {
+                node_name += std::to_string(sensor_order++);
+            } else if (node_name == "controller") {
+                node_name += std::to_string(controller_order++);
             }
 
             // Loop through each node's attributes:
@@ -388,16 +389,17 @@ bool MissionParse::parse(std::string filename) {
         }
 
         // Loop through every other element under the "entity" node
+        int autonomy_order = 0, sensor_order = 0, controller_order = 0;
         for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
 
             std::string nm = node->name();
-            rapidxml::xml_attribute<> *order_attr = node->first_attribute("order");
-            if (order_attr) {
-                nm += order_attr->value();
-            } else if (nm == "controller" || nm == "sensor" ||
-                       nm == "autonomy") {
-                nm += "0";
+            if (nm == "autonomy") {
+                nm += std::to_string(autonomy_order++);
+            } else if (nm == "sensor") {
+                nm += std::to_string(sensor_order++);
+            } else if (nm == "controller") {
+                nm += std::to_string(controller_order++);
             }
 
             script_info[nm] = node->value();
@@ -678,6 +680,7 @@ scrimmage_proto::Color &MissionParse::background_color()
 { return background_color_; }
 
 std::string MissionParse::log_dir() { return log_dir_; }
+std::string MissionParse::root_log_dir() { return root_log_dir_; }
 
 void MissionParse::set_log_dir(const std::string &log_dir) {log_dir_ = log_dir;}
 

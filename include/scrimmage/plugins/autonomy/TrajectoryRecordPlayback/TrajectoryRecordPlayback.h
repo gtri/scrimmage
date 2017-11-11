@@ -53,6 +53,8 @@ class TrajectoryRecordPlayback : public scrimmage::Autonomy {
     std::list<TrajectoryPoint> trajs_;
     std::list<TrajectoryPoint>::iterator it_traj_;
     bool enable_playback_;
+    bool remove_at_end_;
+    std::string trajectory_filename_;
 
     std::ofstream file_out_;
     std::ifstream file_in_;

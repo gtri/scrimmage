@@ -97,6 +97,7 @@ class MissionParse {
 
     void set_log_dir(const std::string &log_dir);
     std::string log_dir();
+    std::string root_log_dir();
 
     std::map<int, AttributeMap> &entity_attributes();
     EntityDesc_t & entity_descriptions();
