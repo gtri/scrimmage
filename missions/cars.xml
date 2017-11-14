@@ -32,7 +32,7 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
   
-  <entity_interaction order="0">SimpleCollision</entity_interaction>
+  <entity_interaction>SimpleCollision</entity_interaction>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>1714060370</seed>-->

@@ -24,7 +24,7 @@
   <output_type>all</output_type>
   <show_plugins>false</show_plugins>
 
-  <metrics order="0">SimpleCollisionMetrics</metrics>
+  <metrics>SimpleCollisionMetrics</metrics>
 
   <log_dir>~/.scrimmage/logs</log_dir>
 
@@ -34,7 +34,7 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
 
-  <entity_interaction order="0">SimpleCollision</entity_interaction>
+  <entity_interaction>SimpleCollision</entity_interaction>
 
   <seed>3361078855</seed>
 
@@ -54,7 +54,7 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
-    <sensor order="0">NoisyContacts</sensor>
+    <sensor>NoisyContacts</sensor>
 
   </entity>
 </runscript>

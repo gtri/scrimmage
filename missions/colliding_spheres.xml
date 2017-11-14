@@ -25,7 +25,7 @@
   <output_type>all</output_type>
   <show_plugins>false</show_plugins>
 
-  <!--<metrics order="0">SimpleCollisionMetrics</metrics>-->
+  <!--<metrics>SimpleCollisionMetrics</metrics>-->
   
   <log_dir>~/.scrimmage/logs</log_dir>  
   
@@ -35,7 +35,7 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
   
-  <entity_interaction order="0">BulletCollision</entity_interaction>   
+  <entity_interaction>BulletCollision</entity_interaction>   
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>2147483648</seed>-->

@@ -248,7 +248,7 @@ bool SimControl::init() {
 
     log_->init_network(network_);
 
-    // Get the list of "metrics" plugins, sorted by "order"
+    // Get the list of "metrics" plugins
     for (std::string metrics_name : mp_->metrics()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =
@@ -271,7 +271,7 @@ bool SimControl::init() {
         }
     }
 
-    // Get the list of "entity_interaction" plugins, sorted by "order"
+    // Get the list of "entity_interaction" plugins
     for (std::string ent_inter_name : mp_->entity_interactions()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =

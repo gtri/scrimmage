@@ -33,8 +33,8 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
   
-  <entity_interaction order="0">SimpleCollision</entity_interaction>
-  <metrics order="0">SimpleCollisionMetrics</metrics>
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <metrics>SimpleCollisionMetrics</metrics>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>1714060370</seed>
