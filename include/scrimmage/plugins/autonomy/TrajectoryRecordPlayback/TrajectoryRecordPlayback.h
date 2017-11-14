@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/CSV.h>
 #include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
 
 #include <fstream>
@@ -56,8 +57,7 @@ class TrajectoryRecordPlayback : public scrimmage::Autonomy {
     bool remove_at_end_;
     std::string trajectory_filename_;
 
-    std::ofstream file_out_;
-    std::ifstream file_in_;
+    CSV csv_;
 
  private:
 };

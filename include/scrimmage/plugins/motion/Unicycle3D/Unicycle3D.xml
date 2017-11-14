@@ -6,4 +6,5 @@
   <pitch_rate_max>1</pitch_rate_max>
   <vel_max>1</vel_max>
   <enable_roll>false</enable_roll>
+  <write_csv>false</write_csv>
 </params>

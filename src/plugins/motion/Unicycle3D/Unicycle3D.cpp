@@ -33,6 +33,7 @@
 #include <scrimmage/plugins/motion/Unicycle3D/Unicycle3D.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -74,6 +75,13 @@ enum ControlParams {
     CONTROL_NUM_ITEMS
 };
 
+Unicycle3D::Unicycle3D() : turn_rate_max_(1), pitch_rate_max_(1), vel_max_(1),
+                           enable_roll_(false), write_csv_(false) {
+}
+
+Unicycle3D::~Unicycle3D() {
+}
+
 bool Unicycle3D::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
 
@@ -85,6 +93,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
     vel_max_ = std::stod(params.at("vel_max"));
     enable_roll_ = sc::get<bool>("enable_roll", params, false);
+    write_csv_ = sc::get<bool>("write_csv", params, false);
 
     x_[U] = 0;
     x_[V] = 0;
@@ -107,6 +116,18 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     x_[q1] = 0;
     x_[q2] = 0;
     x_[q3] = 0;
+
+    if (write_csv_) {
+        csv_.open_output(parent_->mp()->log_dir() + "/"
+                         + std::to_string(parent_->id().id())
+                         + "-unicycle-states.csv");
+
+        csv_.set_column_headers(sc::CSV::Headers{"t",
+                    "U", "V", "W",
+                    "P", "Q", "R",
+                    "roll", "pitch", "yaw",
+                    "vel", "yaw_rate", "pitch_rate"});
+    }
 
     return true;
 }
@@ -141,6 +162,24 @@ bool Unicycle3D::step(double t, double dt) {
     state_->quat() = quat_world_ * quat_local_;
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
+
+    if (write_csv_) {
+        // Log state to CSV
+        csv_.append(sc::CSV::Pairs{
+                {"t", t},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"vel", vel},
+                {"yaw_rate", yaw_rate},
+                {"pitch_rate", pitch_rate}});
+    }
 
     return true;
 }

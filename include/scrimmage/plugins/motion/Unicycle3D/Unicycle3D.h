@@ -37,6 +37,7 @@
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/common/CSV.h>
 
 #include <map>
 #include <string>
@@ -45,6 +46,9 @@ namespace scrimmage {
 namespace motion {
 class Unicycle3D : public scrimmage::MotionModel {
  public:
+    Unicycle3D();
+    ~Unicycle3D();
+
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
 
@@ -66,6 +70,9 @@ class Unicycle3D : public scrimmage::MotionModel {
 
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;
+
+    bool write_csv_;
+    CSV csv_;
 };
 } // namespace motion
 } // namespace scrimmage

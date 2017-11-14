@@ -56,13 +56,7 @@ TrajectoryRecordPlayback::TrajectoryRecordPlayback()
       trajectory_filename_("trajectory.txt") { }
 
 TrajectoryRecordPlayback::~TrajectoryRecordPlayback() {
-    if (file_out_.is_open()) {
-        file_out_.close();
-    }
-
-    if (file_in_.is_open()) {
-        file_in_.close();
-    }
+    csv_.close_output();
 }
 
 void TrajectoryRecordPlayback::init(std::map<std::string,
@@ -79,50 +73,43 @@ void TrajectoryRecordPlayback::init(std::map<std::string,
     if (!enable_playback_) {
         this->set_is_controlling(false);
 
-        file_out_.open(trajectory_filename_, std::ios::out | std::ios::trunc);
-        if (!file_out_.is_open()) {
+        if (!csv_.open_output(trajectory_filename_)) {
             cout << "Unable to open log file" << endl;
             return;
         }
-
-        file_out_ << "t, x, y, z, vx, vy, vz, r, p, y, x_d, y_d, z_d, vx_d, vy_d, vz_d, r_d, p_d, y_d" << endl;
+        csv_.set_column_headers("t, x, y, z, vx, vy, vz,"
+                                "roll, pitch, yaw,"
+                                "x_d, y_d, z_d, vx_d, vy_d, vz_d,"
+                                "roll_d, pitch_d, yaw_d");
 
     } else {
         this->set_is_controlling(true);
 
-        // Load the trajectory from a file
-        file_in_.open(trajectory_filename_, std::ios::in);
-
-        if (!file_in_.is_open()) {
-            cout << "Unable to open log file" << endl;
-            return;
+        if (!csv_.read_csv(trajectory_filename_)) {
+            cout << "Failed to read CSV file: " << trajectory_filename_
+                 << endl;
         }
 
-        std::string line;
+        for (int r = 0; r < csv_.rows(); r++) {
+            scrimmage::State desired_state;
+            desired_state.pos() << csv_.at(r, "x_d"),
+                csv_.at(r, "y_d"),
+                csv_.at(r, "z_d");
 
-        // Ignore the first line, it is a header
-        std::getline(file_in_, line);
+            desired_state.vel() << csv_.at(r, "vx_d"),
+                csv_.at(r, "vy_d"),
+                csv_.at(r, "vz_d");
 
-        while (std::getline(file_in_, line)) {
-            std::vector<std::string> tokens;
-            boost::split(tokens, line, boost::is_any_of(","));
+            scrimmage::Quaternion quat(csv_.at(r, "roll_d"),
+                                       csv_.at(r, "pitch_d"),
+                                       csv_.at(r, "yaw_d"));
 
-            if (tokens.size() == 19) {
-                scrimmage::State desired_state;
-                desired_state.pos() << std::stod(tokens[10]),
-                    std::stod(tokens[11]), std::stod(tokens[12]);
+            desired_state.set_quat(quat);
 
-                desired_state.vel() << std::stod(tokens[13]),
-                    std::stod(tokens[14]), std::stod(tokens[15]);
-
-                scrimmage::Quaternion quat(std::stod(tokens[16]),
-                                           std::stod(tokens[17]),
-                                           std::stod(tokens[18]));
-
-                TrajectoryPoint traj;
-                traj.set_desired_state(desired_state);
-                trajs_.push_back(traj);
-            }
+            TrajectoryPoint traj;
+            traj.set_t(csv_.at(r, "t"));
+            traj.set_desired_state(desired_state);
+            trajs_.push_back(traj);
         }
         it_traj_ = trajs_.begin();
     }
@@ -135,27 +122,27 @@ bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
                                parent_->autonomies().rend(),
             [&](auto autonomy) {return autonomy->get_is_controlling();});
 
-        // Record the trajectory
-        file_out_ << std::to_string(t) << ", "
-                  << std::to_string(state_->pos()(0)) << ", "
-                  << std::to_string(state_->pos()(1)) << ", "
-                  << std::to_string(state_->pos()(2)) << ", "
-                  << std::to_string(state_->vel()(0)) << ", "
-                  << std::to_string(state_->vel()(1)) << ", "
-                  << std::to_string(state_->vel()(2)) << ", "
-                  << std::to_string(state_->quat().roll()) << ", "
-                  << std::to_string(state_->quat().pitch()) << ", "
-                  << std::to_string(state_->quat().yaw()) << ", "
-                  << std::to_string((*(*it)->desired_state()).pos()(0)) << ", "       // 10
-                  << std::to_string((*(*it)->desired_state()).pos()(1)) << ", "       // 11
-                  << std::to_string((*(*it)->desired_state()).pos()(2)) << ", "       // 12
-                  << std::to_string((*(*it)->desired_state()).vel()(0)) << ", "       // 13
-                  << std::to_string((*(*it)->desired_state()).vel()(1)) << ", "       // 14
-                  << std::to_string((*(*it)->desired_state()).vel()(2)) << ", "       // 15
-                  << std::to_string((*(*it)->desired_state()).quat().roll()) << ", "  // 16
-                  << std::to_string((*(*it)->desired_state()).quat().pitch()) << ", " // 17
-                  << std::to_string((*(*it)->desired_state()).quat().yaw())           // 18
-                  << endl;
+        csv_.append(sc::CSV::Pairs{
+                {"t", t},
+                {"x", state_->pos()(0)},
+                {"y", state_->pos()(1)},
+                {"z", state_->pos()(2)},
+                {"vx", state_->vel()(0)},
+                {"vy", state_->vel()(1)},
+                {"vz", state_->vel()(2)},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"x_d", (*(*it)->desired_state()).pos()(0)},
+                {"y_d", (*(*it)->desired_state()).pos()(1)},
+                {"z_d", (*(*it)->desired_state()).pos()(2)},
+                {"vx_d", (*(*it)->desired_state()).vel()(0)},
+                {"vy_d", (*(*it)->desired_state()).vel()(1)},
+                {"vz_d", (*(*it)->desired_state()).vel()(2)},
+                {"roll_d", (*(*it)->desired_state()).quat().roll()},
+                {"pitch_d", (*(*it)->desired_state()).quat().pitch()},
+                {"yaw_d", (*(*it)->desired_state()).quat().yaw()},
+            });
 
         return true;
     }
