@@ -123,6 +123,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
                          + "-unicycle-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
+                    "x", "y", "z",
                     "U", "V", "W",
                     "P", "Q", "R",
                     "roll", "pitch", "yaw",
@@ -167,6 +168,9 @@ bool Unicycle3D::step(double t, double dt) {
         // Log state to CSV
         csv_.append(sc::CSV::Pairs{
                 {"t", t},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
                 {"U", x_[U]},
                 {"V", x_[V]},
                 {"W", x_[W]},

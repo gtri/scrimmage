@@ -234,7 +234,7 @@ class CSV {
             file_out_ << header;
 
             if (i+1 < headers.size()) {
-                file_out_ << ", ";
+                file_out_ << ",";
             }
 
             i++;
@@ -256,7 +256,7 @@ class CSV {
             file_out_ << str;
 
             if (i+1 < values.size()) {
-                file_out_ << ", ";
+                file_out_ << ",";
             }
             i++;
         }

@@ -11,4 +11,6 @@ Overview
    workflow
    environment-vars
    core-plugins
+   logging
+   xml-tags
    changelog

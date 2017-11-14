@@ -10,7 +10,7 @@ swarm behaviors.
 .. toctree::
    :maxdepth: 2
 
-   xml.rst
+   xml-discovery.rst
    multiple-local-runs.rst
    create-project.rst      
    autonomy-plugin.rst
