@@ -173,3 +173,19 @@ start plotting data from the newest CSV file. Thus, during development, the
 plugin developer can leave the ``csv-plot.py`` script constantly running, while
 restarting SCRIMMAGE.
 
+Tips for Naming CSV Files
+=========================
+
+Since your simulation may consist of multiple entities running the same
+plugins, which in turn, could be writing CSV files, it's important to ensure
+that each entity writes to a uniquely named CSV file. It is advised the plugin
+developer includes the entity's ID in the filename. For example, to create a
+CSV file that contains the entity's ID and is written to the current
+simulation's log directory, use the following code:
+
+.. code-block:: c++
+   :linenos:
+
+   std::string csv_filename = parent_->mp()->log_dir() + "/"
+                              + std::to_string(parent_->id().id())
+                              + "-my.csv"
