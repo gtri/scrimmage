@@ -78,7 +78,8 @@ and match between the two paradigms for a single entity.
   run. If set to ``frames`` only the frames.bin file will be created. If set to
   ``summary``, a CSV file of the mission metrics will be created. If set to
   ``git_commits``, a hash of the current git project will be created. If set to
-  ``all``, all the possible artifacts will be created.
+  ``all``, all the possible artifacts will be created. If set to nothing no
+  output will be created.
 
 - ``show_plugins`` : If ``true``, SCRIMMAGE will print the plugins that were
   discovered on the SCRIMMAGE_PLUGIN_PATH at simulation start-up. The plugins

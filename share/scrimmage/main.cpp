@@ -136,18 +136,21 @@ int main(int argc, char *argv[]) {
         cout << "Failed to parse file: " << argv[optind] << endl;
         return -1;
     }
-    mp->create_log_dir();
-
-    // Overwrite the seed if it's set
-    if (seed_set) {
-        mp->params()["seed"] = seed;
-    }
 
     std::string output_type = sc::get("output_type", mp->params(), std::string("frames"));
     bool output_all = output_type.find("all") != std::string::npos;
-    bool output_frames = output_all || output_type.find("frames") != std::string::npos;
-    bool output_summary = output_all || output_type.find("summary") != std::string::npos;
-    bool output_git = output_all || output_type.find("git_commits");
+    auto should_log = [&](std::string s) {
+        return output_all || output_type.find("frames") != std::string::npos;
+    };
+
+    bool output_frames = should_log("frames");
+    bool output_summary = should_log("summary");
+    bool output_git = should_log("git_commits");
+    bool output_mission = should_log("mission");
+    bool output_seed = should_log("seed");
+    bool output_nothing =
+        !output_all && !output_frames && !output_summary &&
+        !output_git && !output_mission && !output_seed;
 
     // Setup Logger
     std::shared_ptr<sc::Log> log(new sc::Log());
@@ -159,6 +162,14 @@ int main(int argc, char *argv[]) {
         log->init(mp->log_dir(), sc::Log::NONE);
     }
 
+    if (!output_nothing) {
+        mp->create_log_dir();
+    }
+
+    // Overwrite the seed if it's set
+    if (seed_set) {
+        mp->params()["seed"] = seed;
+    }
     simcontrol.set_log(log);
 
     sc::InterfacePtr to_gui_interface = std::make_shared<sc::Interface>();
