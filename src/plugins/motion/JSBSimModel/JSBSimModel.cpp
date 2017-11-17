@@ -71,6 +71,8 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
+    JSBSim::FGJSBBase base;
+    base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
 
     exec_->SetDebugLevel(0);

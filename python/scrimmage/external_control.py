@@ -191,13 +191,13 @@ class ScrimmageEnv(gym.Env):
                 autonomy_node.attrib['server_address'] = self.address
 
         self.temp_mission_file = "." + port + os.path.basename(self.mission_file)
-        print('temp mission file is ' + self.temp_mission_file)
+        # print('temp mission file is ' + self.temp_mission_file)
         tree.write(self.temp_mission_file)
         if self.gdb_args:
             cmd = self.gdb_args.split(" ") + ["scrimmage", self.temp_mission_file]
         else:
             cmd = ["scrimmage", self.temp_mission_file]
-        print(cmd)
+        # print(cmd)
         return subprocess.Popen(cmd)
 
     def _close(self):

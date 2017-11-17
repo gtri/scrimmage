@@ -63,7 +63,7 @@ void ExternalControl::init(std::map<std::string, std::string> &params) {
 
 bool ExternalControl::step_autonomy(double t, double dt) {
     if (!env_sent_) {
-        std::cout << "starting scrimmage on " << server_address_ << std::endl;
+        // std::cout << "starting scrimmage on " << server_address_ << std::endl;
         *external_control_client_ =
             ExternalControlClient(grpc::CreateChannel(
                 server_address_, grpc::InsecureChannelCredentials()));
