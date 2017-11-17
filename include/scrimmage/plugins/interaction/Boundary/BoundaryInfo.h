@@ -30,37 +30,30 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
 
 #include <Eigen/Dense>
 
-#include <map>
-#include <string>
+#include <vector>
+
+namespace sc = scrimmage;
 
 namespace scrimmage {
-namespace autonomy {
-class Straight : public scrimmage::Autonomy{
+namespace interaction {
+
+class BoundaryInfo {
  public:
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
+    enum class Type { Cuboid, Sphere };
 
- protected:
-     double speed_;
-     Eigen::Vector3d goal_;
+    BoundaryInfo() : type(Type::Cuboid), radius(100), center(0, 0, 0) {
+    }
 
-     int frame_number_;
-     bool show_camera_images_;
-     bool save_camera_images_;
-     bool show_text_label_;
-
-     sc::SubscriberPtr sub_boundary_info_;
-     bool enable_boundary_control_ = false;
-     std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
+    Type type;
+    double radius;
+    Eigen::Vector3d center;
+    std::vector<Eigen::Vector3d> points;
 };
-} // namespace autonomy
+} // namespace interaction
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_

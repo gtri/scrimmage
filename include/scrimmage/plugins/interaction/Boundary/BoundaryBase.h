@@ -30,37 +30,34 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYBASE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYBASE_H_
+
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
 
-#include <map>
-#include <string>
+#include <memory>
+#include <list>
+
+namespace sc = scrimmage;
+namespace sp = scrimmage_proto;
 
 namespace scrimmage {
-namespace autonomy {
-class Straight : public scrimmage::Autonomy{
+namespace interaction {
+
+class BoundaryBase {
  public:
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
-
+    BoundaryBase() : center_(0, 0, 0) {}
+    virtual bool contains(Eigen::Vector3d p) = 0;
+    virtual std::list<sc::ShapePtr> &shapes() { return shapes_; }
+    virtual void set_visual(int R, int G, int B, double opacity) = 0;
+    virtual Eigen::Vector3d center() { return center_; }
  protected:
-     double speed_;
-     Eigen::Vector3d goal_;
-
-     int frame_number_;
-     bool show_camera_images_;
-     bool save_camera_images_;
-     bool show_text_label_;
-
-     sc::SubscriberPtr sub_boundary_info_;
-     bool enable_boundary_control_ = false;
-     std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
+    std::list<sc::ShapePtr> shapes_;
+    Eigen::Vector3d center_;
 };
-} // namespace autonomy
+} // namespace interaction
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYBASE_H_

@@ -230,4 +230,43 @@ Eigen::Vector3d vec2eigen(std::vector<double> &vec) {
     return v;
 }
 
+bool get_vec_of_vecs(std::string &str,
+                     std::vector<std::vector<std::string>> &out) {
+    // Of the form...
+    // [a b c d]
+    // [e f g h]
+    // [h i j k]
+    out.clear();
+
+    std::vector<std::string> tokens_1;
+    boost::split(tokens_1, str, boost::is_any_of("[]"));
+    for (std::string &t_1 : tokens_1) {
+        if (t_1.length() > 0) {
+            // Split based on space or comma
+            std::vector<std::string> tokens_2;
+            boost::algorithm::split(tokens_2, t_1, boost::is_any_of(" ,"),
+                                    boost::token_compress_on);
+
+            std::vector<std::string> temp;
+            for (std::string token : tokens_2) {
+                // Remove whitespace
+                token.erase(
+                    std::remove_if(token.begin(),
+                                   token.end(),
+                                   [](unsigned char x){return std::isspace(x);}),
+                    token.end());
+
+                if (token.size() > 0) {
+                    temp.push_back(token);
+                }
+            }
+            if (temp.size() > 0) {
+                out.push_back(temp);
+            }
+        }
+    }
+    return true;
+}
+
+
 } // namespace scrimmage

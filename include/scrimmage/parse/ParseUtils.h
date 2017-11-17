@@ -39,6 +39,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
@@ -136,5 +137,8 @@ bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
 
 bool parse_autonomy_data(std::map<std::string, std::string> &params,
                          std::map<std::string, std::string> &data_params);
+
+bool get_vec_of_vecs(std::string &str,
+                           std::vector<std::vector<std::string>> &out);
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>Boundary_plugin</library>
+
+  <boundary_type>cuboid</boundary_type> <!-- cuboid or sphere -->
+
+  <!-- first four rows are one side of the cube (low altitude rectangle) -->
+  <!-- second four rows are other side of the cube (high altitude rectangle) -->
+  <!-- Centered at origin, cube of 2000x2000x1000 meters -->
+  <cuboid_boundary>
+    [ 1000  1000 0   ]
+    [-1000  1000 0   ]
+    [-1000 -1000 0   ]
+    [ 1000 -1000 0   ]
+    [ 1000  1000 1000]
+    [-1000  1000 1000]
+    [-1000 -1000 1000]
+    [ 1000 -1000 1000]
+  </cuboid_boundary>
+  
+  <!-- Starting at origin -->
+  <!--
+  <cuboid_boundary>
+    [0    0    0   ]
+    [1000 0    0   ]
+    [1000 1000 0   ]
+    [0    1000 0   ]
+    [0    0    1000]
+    [1000 0    1000]
+    [1000 1000 1000]
+    [0    1000 1000]
+    </cuboid_boundary>
+    -->
+
+  <sphere_radius>500</sphere_radius>
+  <sphere_center>0 0 0</sphere_center> <!-- x y z position -->
+
+  <show_boundary>true</show_boundary>
+  <boundary_color>0 0 255</boundary_color> <!-- R G B -->
+  <boundary_opacity>0.1</boundary_opacity>
+  
+</params>

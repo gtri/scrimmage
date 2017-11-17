@@ -52,8 +52,12 @@
 #include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
 #endif
 
+#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
+#include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
+
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+namespace sci = scrimmage::interaction;
 
 #include <scrimmage/plugins/autonomy/Straight/Straight.h>
 
@@ -102,7 +106,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
     desired_state_->pos() = state_->pos()(2)*Eigen::Vector3d::UnitZ();
 
     // Project goal in front...
-    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*2000;
+    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
     Eigen::Vector3d unit_vector = rel_pos.normalized();
     unit_vector = state_->quat().rotate(unit_vector);
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
@@ -122,6 +126,11 @@ void Straight::init(std::map<std::string, std::string> &params) {
         shape->set_opacity(1.0);
         shapes_.push_back(shape);
     }
+
+    enable_boundary_control_ = scrimmage::get<bool>("enable_boundary_control",
+                                                    params, false);
+
+    sub_boundary_info_ = create_subscriber("Boundary");
 }
 
 bool Straight::step_autonomy(double t, double dt) {
@@ -167,6 +176,24 @@ bool Straight::step_autonomy(double t, double dt) {
                 }
             }
 #endif
+        }
+    }
+
+    for (auto &msg : sub_boundary_info_->msgs<sc::Message<sci::BoundaryInfo>>()) {
+        if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
+            std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
+            cuboid->set_points(msg->data.points);
+            boundary_ = cuboid;
+        }
+    }
+
+    if (boundary_ != nullptr && enable_boundary_control_) {
+        if (!boundary_->contains(own_state.pos())) {
+            // Project goal through center of boundary
+            Eigen::Vector3d center = boundary_->center();
+            center(2) = own_state.pos()(2); // maintain altitude
+            Eigen::Vector3d diff = center - own_state.pos();
+            goal_ = own_state.pos() + diff.normalized() * 1e6;
         }
     }
 

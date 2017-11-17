@@ -169,7 +169,7 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         msg_map2d->data.occupied_thresh = occupied_thresh_;
         msg_map2d->data.resolution = resolution_;
         msg_map2d->data.origin = Eigen::Vector3d(x_origin_, y_origin_, z_origin_);
-        publish_immediate(0, pub_map_2d_info_, msg_map2d);
+        publish_immediate(t, pub_map_2d_info_, msg_map2d);
     }
 
     return true;

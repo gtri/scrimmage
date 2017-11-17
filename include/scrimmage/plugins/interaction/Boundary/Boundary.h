@@ -30,37 +30,36 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_
 
-#include <Eigen/Dense>
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 
 #include <map>
 #include <string>
+#include <list>
+
+namespace sc = scrimmage;
 
 namespace scrimmage {
-namespace autonomy {
-class Straight : public scrimmage::Autonomy{
+namespace interaction {
+
+class Boundary : public scrimmage::EntityInteraction {
  public:
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
-
+    Boundary();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params);
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                 double t, double dt);
  protected:
-     double speed_;
-     Eigen::Vector3d goal_;
-
-     int frame_number_;
-     bool show_camera_images_;
-     bool save_camera_images_;
-     bool show_text_label_;
-
-     sc::SubscriberPtr sub_boundary_info_;
-     bool enable_boundary_control_ = false;
-     std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
+    std::shared_ptr<sc::interaction::BoundaryBase> boundary_;
+    sc::PublisherPtr pub_boundary_;
+    bool boundary_published_ = false;
+    BoundaryInfo boundary_info_;
 };
-} // namespace autonomy
+} // namespace interaction
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_

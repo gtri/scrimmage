@@ -6,4 +6,5 @@
   <show_camera_images>false</show_camera_images>
   <save_camera_images>false</save_camera_images>
   <show_text_label>false</show_text_label>
+  <enable_boundary_control>false</enable_boundary_control>
 </params>
