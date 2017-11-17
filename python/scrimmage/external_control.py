@@ -170,7 +170,7 @@ class ScrimmageEnv(gym.Env):
         run_node.attrib['enable_gui'] = str(enable_gui)
         if not bool(enable_gui):
             run_node.attrib['time_warp'] = "0"
-
+        
         # logging
         log_node = root.find('log_dir')
         try:
