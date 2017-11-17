@@ -49,9 +49,10 @@ class Random {
     void seed(uint32_t _seed);
 
     double rng_uniform();
+    double rng_uniform(double low, double high);
     double rng_normal();
     double rng_normal(double mean, double sigma);
-    int rng_uniform_int(int low, int high);
+    int rng_uniform_int(int low, int high); // inclusive of low and high
 
     std::shared_ptr<std::normal_distribution<double>>
         make_rng_normal(double mean, double sigma);

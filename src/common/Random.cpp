@@ -55,6 +55,11 @@ double Random::rng_uniform() {
     return rng_uniform_(*gener_);
 }
 
+double Random::rng_uniform(double low, double high) {
+    double pct = (rng_uniform_(*gener_) + 1) / 2;
+    return low + (high - low) * pct;
+}
+
 double Random::rng_normal() {
     return rng_normal_(*gener_);
 }
