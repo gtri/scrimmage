@@ -49,6 +49,8 @@ using AutonomyPtr = std::shared_ptr<Autonomy>;
 class State;
 using StatePtr = std::shared_ptr<State>;
 
+class ID;
+
 class Random;
 using RandomPtr = std::shared_ptr<Random>;
 
