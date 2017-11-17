@@ -152,6 +152,10 @@ int main(int argc, char *argv[]) {
         !output_all && !output_frames && !output_summary &&
         !output_git && !output_mission && !output_seed;
 
+    if (!output_nothing) {
+        mp->create_log_dir();
+    }
+
     // Setup Logger
     std::shared_ptr<sc::Log> log(new sc::Log());
     if (output_frames) {
@@ -160,10 +164,6 @@ int main(int argc, char *argv[]) {
     } else {
         log->set_enable_log(false);
         log->init(mp->log_dir(), sc::Log::NONE);
-    }
-
-    if (!output_nothing) {
-        mp->create_log_dir();
     }
 
     // Overwrite the seed if it's set
