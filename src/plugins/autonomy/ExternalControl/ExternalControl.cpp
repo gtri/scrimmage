@@ -69,12 +69,19 @@ bool ExternalControl::step_autonomy(double t, double dt) {
                 server_address_, grpc::InsecureChannelCredentials()));
         env_sent_ = true;
         send_env();
+
+        // openai does not send a reward when reset so just send the state
+        send_action_result(t, 0, false);
     }
 
-    curr_reward += calc_reward(t);
+    bool done;
+    double reward;
+    std::tie(done, reward) = calc_reward(t);
+    curr_reward += reward;
+
     bool update_action = delayed_task_->update(t).first;
-    if (update_action) {
-        auto action = send_action_result(t, curr_reward, false);
+    if (done || update_action) {
+        auto action = send_action_result(t, curr_reward, done);
         curr_reward = 0;
         if (!action) {
             std::cout << "did not receive external action. exiting." << std::endl;
@@ -87,8 +94,8 @@ bool ExternalControl::step_autonomy(double t, double dt) {
     }
 }
 
-double ExternalControl::calc_reward(double t) {
-    return 0.0;
+std::pair<bool, double> ExternalControl::calc_reward(double t) {
+    return {false, 0.0};
 }
 
 bool ExternalControl::handle_action(
@@ -200,5 +207,6 @@ scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
 void ExternalControl::close(double t) {
     send_action_result(t, 0, true);
 }
+
 } // namespace autonomy
 } // namespace scrimmage

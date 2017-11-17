@@ -37,14 +37,16 @@
 
 #include <map>
 #include <string>
+#include <utility>
 
 class TutorialOpenAIAutonomy : public scrimmage::autonomy::ExternalControl {
  public:
     virtual void init(std::map<std::string, std::string> &params);
-    double calc_reward(double time);
 
  protected:
     double radius_;
+
+    virtual std::pair<bool, double> calc_reward(double t);
     virtual bool handle_action(
         double t, double dt, const scrimmage_proto::Action &action);
     virtual scrimmage_proto::SpaceParams action_space_params();

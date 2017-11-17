@@ -46,7 +46,8 @@ void TutorialOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     ExternalControl::init(params);
 }
 
-double TutorialOpenAIAutonomy::calc_reward(double time) {
+std::pair<bool, double> TutorialOpenAIAutonomy::calc_reward(double time) {
+    const bool done = false;
     double reward = 0.0;
 
     for (auto &kv : parent_->mp()->team_info()) {
@@ -66,7 +67,7 @@ double TutorialOpenAIAutonomy::calc_reward(double time) {
             i++;
         }
     }
-    return reward;
+    return std::make_pair(done, reward);
 }
 
 // Here is where handle the action received from OpenAI

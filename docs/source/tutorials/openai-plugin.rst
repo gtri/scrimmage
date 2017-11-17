@@ -61,22 +61,27 @@ change our include statements to the following:
 
    #include <map>
    #include <string>
+   #include <utility>
+
 
 Below the include statements, we have the following class definition:
 
 .. code-block:: c++
    :linenos:
                 
-   class SimpleLearner : public ExternalControl {
+   class TutorialOpenAIAutonomy : public scrimmage::autonomy::ExternalControl {
     public:
        virtual void init(std::map<std::string, std::string> &params);
-       double calc_reward(double time);
+
     protected:
+       double radius_;
+
+       virtual std::pair<bool, double> calc_reward(double t);
        virtual bool handle_action(
            double t, double dt, const scrimmage_proto::Action &action);
        virtual scrimmage_proto::SpaceParams action_space_params();
-
    };
+
 
 As can be seen, there only four methods we need to create in our source file. 
 They handle the initialization of our autonomy plugin, how the reward is 
@@ -161,33 +166,35 @@ tell the player to constantly fly forward at a speed of 1 m/s. Notice that we
 are not using the ``t`` or ``dt`` parameters in our specific example. However, 
 those are available for other environment setups if needed.
 
-Finally, we need to set up the reward for this environment in ``calc_reward``:
+Finally, we need to set up the reward for this environment in ``calc_reward``. This 
+function returns a `std::pair<bool, double>` which corresponds to whether the 
+environment is done and the reward:
 
 .. code-block:: c++
    :linenos:
                 
-   double SimpleLearner::calc_reward(double time){
+   std::pair<bool, double> TutorialOpenAIAutonomy::calc_reward(double time) {
+       const bool done = false;
        double reward = 0.0;
-       printf("Starting calculate reward\n");
+   
        for (auto &kv : parent_->mp()->team_info()) {
-           //same team
+           // same team
            if (kv.first == parent_->id().team_id()) {
                continue;
            }
-
-           //For each base
-           int i = 0
+   
+           // For each base
+           int i = 0;
            for (Eigen::Vector3d &base_pos : kv.second.bases) {
-               //make 3d base position vector into equivalent 2D vector
-               Eigen::Vector3d base_2d_pos(base_pos.x(),base_pos.y(),state_->pos().z());
+               Eigen::Vector3d base_2d_pos(base_pos.x(), base_pos.y(), state_->pos().z());
                double radius = kv.second.radii.at(i);
-               if((state_->pos()-base_2d_pos).norm() < radius){
+               if ((state_->pos()-base_2d_pos).norm() < radius) {
                    reward += 1;
                }
                i++;
            }
        }
-       return reward;
+       return std::make_pair(done, reward);
    }
 
 For this example, we do not use the time parameter but it is there for cases

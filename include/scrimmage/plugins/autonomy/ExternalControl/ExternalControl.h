@@ -38,6 +38,7 @@
 #include <map>
 #include <string>
 #include <limits>
+#include <utility>
 
 namespace boost {
 template <class T> class optional;
@@ -60,14 +61,13 @@ class ExternalControl : public scrimmage::Autonomy {
     ExternalControl();
     virtual void init(std::map<std::string, std::string> &params);
     bool step_autonomy(double t, double dt) final;
-    virtual void close(double t);
-
-    virtual double calc_reward(double t);
 
  protected:
     virtual bool handle_action(
         double t, double dt, const scrimmage_proto::Action &action);
     virtual scrimmage_proto::SpaceParams action_space_params();
+    virtual std::pair<bool, double> calc_reward(double t);
+    virtual void close(double t);
 
     bool check_action(
         const scrimmage_proto::Action &action,
