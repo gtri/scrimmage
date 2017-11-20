@@ -8,17 +8,19 @@ SET (LIB_RELEASE 1)
 
 file(GLOB SRCS *.cpp)
 
-ADD_LIBRARY(${LIBRARY_NAME} SHARED 
+ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
   )
 
+add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-msgs scrimmage-proto-gen)
+
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-set_target_properties(${LIBRARY_NAME} PROPERTIES 
-  SOVERSION ${LIB_MAJOR} 
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+  SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
   )

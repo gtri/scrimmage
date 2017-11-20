@@ -1,10 +1,3 @@
-add_subdirectory(proto)
-add_subdirectory(plugins)
-
-if (NOT EXTERNAL AND ${VTK_FOUND})
-  add_subdirectory(viewer)
-endif()
-
 ##############################################
 #          Library Creation                  #
 ##############################################
@@ -32,7 +25,6 @@ set(SRCS
     common/DelayedTask.cpp
     common/ExponentialFilter.cpp
 )
-
 
 ADD_LIBRARY( ${LIBRARY_NAME} SHARED
   ${SRCS}
@@ -65,6 +57,22 @@ install(TARGETS ${LIBRARY_NAME}
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
 )
+
+##################################################
+# Recurse into protos and plugins
+##################################################
+add_subdirectory(proto)
+add_subdirectory(plugins)
+
+# Ensure every plugin depends on scrimmage, scrimmage-msgs, and scrimmage-proto
+foreach (plugin ${PROJECT_PLUGINS})
+  add_dependencies(${plugin} scrimmage scrimmage-msgs scrimmage-proto-gen)
+endforeach()
+
+# Build visualizer is VTK is found
+if (NOT EXTERNAL AND ${VTK_FOUND})
+  add_subdirectory(viewer)
+endif()
 
 # Push up the SCRIMMAGE_LIBS variable
 set(PROJECT_LIBS ${PROJECT_LIBS} ${LIBRARY_NAME} PARENT_SCOPE)
