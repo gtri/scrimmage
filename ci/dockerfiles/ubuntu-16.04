@@ -82,7 +82,7 @@ RUN /bin/bash -c "mkdir -p build && \
     cd build && \
     source ~/.scrimmage/setup.bash && \
     cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
-    ninja && \
+    ninja -j && \
     ninja docs"
 
 # run tests

@@ -7,6 +7,7 @@ endif()
 
 if (NOT GRPC_FOUND)
     list(REMOVE_ITEM SUBDIRS ExternalControl)
+    list(REMOVE_ITEM SUBDIRS TutorialOpenAIAutonomy)
 endif()
 
 FOREACH(subdir ${SUBDIRS})
