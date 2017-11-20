@@ -5,7 +5,7 @@ if (NOT ENABLE_PYTHON_BINDINGS)
     list(REMOVE_ITEM SUBDIRS PyAutonomy)
 endif()
 
-if (NOT GRPC_FOUND)
+if (NOT GRPC_FOUND OR EXTERNAL)
     list(REMOVE_ITEM SUBDIRS ExternalControl)
     list(REMOVE_ITEM SUBDIRS TutorialOpenAIAutonomy)
 endif()
