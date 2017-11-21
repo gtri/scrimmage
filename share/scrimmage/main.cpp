@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
     std::string output_type = sc::get("output_type", mp->params(), std::string("frames"));
     bool output_all = output_type.find("all") != std::string::npos;
     auto should_log = [&](std::string s) {
-        return output_all || output_type.find("frames") != std::string::npos;
+        return output_all || output_type.find(s) != std::string::npos;
     };
 
     bool output_frames = should_log("frames");
