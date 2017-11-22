@@ -100,6 +100,11 @@ class MissionParse {
     std::string root_log_dir();
 
     std::map<int, AttributeMap> &entity_attributes();
+
+    std::map<int, std::map<std::string, std::string>> &entity_params();
+
+    std::map<int, int> &ent_id_to_block_id();
+
     EntityDesc_t & entity_descriptions();
 
     bool enable_gui();
@@ -148,6 +153,14 @@ class MissionParse {
     std::map<int, TeamInfo > team_info_;
 
     std::map<int, AttributeMap> entity_attributes_;
+    std::map<int, std::map<std::string, std::string>> entity_params_;
+
+    // Key: Entity ID
+    // Value: XML "entity" block used to create entity
+    // This can be used to find the key for which entity_attributes_ maps to
+    // the entity XML block.
+    std::map<int, int> ent_id_to_block_id_;
+
     EntityDesc_t entity_descs_;
 
     std::string root_log_dir_;

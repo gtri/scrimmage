@@ -62,7 +62,7 @@ bool Entity::init(AttributeMap &overrides,
                   ContactMapPtr &contacts,
                   MissionParsePtr mp,
                   std::shared_ptr<GeographicLib::LocalCartesian> proj,
-                  int id, int sub_swarm_id,
+                  int id, int ent_desc_id,
                   PluginManagerPtr plugin_manager,
                   NetworkPtr network,
                   FileSearch &file_search,
@@ -72,7 +72,7 @@ bool Entity::init(AttributeMap &overrides,
     proj_ = proj;
 
     id_.set_id(id);
-    id_.set_sub_swarm_id(sub_swarm_id);
+    id_.set_sub_swarm_id(ent_desc_id);
     id_.set_team_id(std::stoi(info["team_id"]));
 
     if (mp == nullptr) {
@@ -81,6 +81,8 @@ bool Entity::init(AttributeMap &overrides,
         mp_ = mp;
         parse_visual(info, mp_, file_search, overrides["visual_model"]);
     }
+
+    network_ = network;
 
     if (info.count("health") > 0) {
         health_points_ = std::stoi(info["health"]);
@@ -111,6 +113,10 @@ bool Entity::init(AttributeMap &overrides,
     EntityPtr parent = shared_from_this();
 
     ConfigParse config_parse;
+
+    // Save entity specific params in mp reference for later use
+    mp_->entity_params()[id] = info;
+    mp_->ent_id_to_block_id()[id] = ent_desc_id;
 
     ////////////////////////////////////////////////////////////
     // motion model
@@ -358,6 +364,8 @@ std::shared_ptr<GeographicLib::LocalCartesian> Entity::projection()
 { return proj_; }
 
 MissionParsePtr Entity::mp() { return mp_; }
+
+NetworkPtr Entity::network() { return network_; }
 
 void Entity::set_random(RandomPtr random) { random_ = random; }
 

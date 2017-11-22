@@ -69,7 +69,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
               ContactMapPtr &contacts,
               MissionParsePtr mp,
               std::shared_ptr<GeographicLib::LocalCartesian> proj,
-              int id, int sub_swarm_id,
+              int id, int ent_desc_id,
               PluginManagerPtr plugin_manager,
               NetworkPtr network,
               FileSearch &file_search,
@@ -133,6 +133,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
     MissionParsePtr mp();
+    NetworkPtr network();
 
     void set_random(RandomPtr random);
     RandomPtr random();
@@ -171,6 +172,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
     MotionModelPtr motion_model_;
     std::vector<AutonomyPtr> autonomies_;
     MissionParsePtr mp_;
+
+    NetworkPtr network_;
 
     int health_points_ = 1;
 

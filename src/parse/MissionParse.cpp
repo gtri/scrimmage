@@ -666,7 +666,17 @@ std::string MissionParse::root_log_dir() { return root_log_dir_; }
 
 void MissionParse::set_log_dir(const std::string &log_dir) {log_dir_ = log_dir;}
 
-std::map<int, AttributeMap> &MissionParse::entity_attributes() { return entity_attributes_; }
+std::map<int, AttributeMap> &MissionParse::entity_attributes() {
+    return entity_attributes_;
+}
+
+std::map<int, std::map<std::string, std::string>> &MissionParse::entity_params() {
+    return entity_params_;
+}
+
+std::map<int, int> &MissionParse::ent_id_to_block_id() {
+    return ent_id_to_block_id_;
+}
 
 EntityDesc_t &MissionParse::entity_descriptions() { return entity_descs_; }
 
