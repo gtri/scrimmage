@@ -121,6 +121,9 @@ class ScrimmageEnv(gym.Env):
 
     def _step(self, action):
         """Send action to SCRIMMAGE and return result."""
+        if not isinstance(action, collections.Iterable):
+            action = [action]
+
         if isinstance(self.action_space, gym.spaces.Tuple):
             action_pb = ExternalControl_pb2.Action(
                 discrete=action[0], continuous=action[1], done=False)
@@ -128,12 +131,8 @@ class ScrimmageEnv(gym.Env):
             action_pb = ExternalControl_pb2.Action(
                 continuous=action, done=False)
         else:
-            if isinstance(action, collections.Iterable):
-                action_pb = ExternalControl_pb2.Action(
-                    discrete=action, done=False)
-            else:
-                action_pb = ExternalControl_pb2.Action(
-                    discrete=[action], done=False)
+            action_pb = ExternalControl_pb2.Action(discrete=action, done=False)
+
         self.queues['action'].put(action_pb)
         return self._return_action_result()
 
@@ -280,7 +279,7 @@ def _create_tuple_space(space_params):
     def _append(param, dst_lst):
         if param.num_dims != 1 and len(param.maximum) == 1:
             # use same min/max for all dims
-            dst_lst += param.num_dims * [param.minimum, param.maximum]
+            dst_lst += param.num_dims * [[param.minimum[0], param.maximum[0]]]
         else:
             # each min/max is specified individually
             assert len(param.minimum) == len(param.maximum)
