@@ -80,6 +80,12 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
 bool SingleIntegrator::step(double t, double dt) {
     ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
 
+    x_[X] = state_->pos()(0);
+    x_[Y] = state_->pos()(1);
+    x_[Z] = state_->pos()(2);
+    x_[HEADING] = state_->quat().yaw();
+    x_[PITCH] = state_->quat().pitch();
+
     double prev_x = x_[X];
     double prev_y = x_[Y];
     double prev_z = x_[Z];
