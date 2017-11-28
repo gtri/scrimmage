@@ -145,6 +145,14 @@ bool Unicycle3D::step(double t, double dt) {
     x_[Q] = pitch_rate;
     x_[R] = yaw_rate;
 
+    x_[Uw] = state_->vel()(0);
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
+
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
+
     ode_step(dt);
 
     // Normalize quaternion
