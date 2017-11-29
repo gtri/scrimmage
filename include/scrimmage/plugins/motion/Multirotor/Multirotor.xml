@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>Multirotor_plugin</library>
+  <write_csv>false</write_csv>
+
+  <gravity_magnitude>9.81</gravity_magnitude>
+
+  <!-- Platform mass -->
+  <mass>1.2</mass>
+
+  <inertia_matrix>
+    [ 0.0122 0.0000 0.0000 ]
+    [ 0.0000 0.0122 0.0000 ]
+    [ 0.0000 0.0000 0.0244 ]
+  </inertia_matrix>
+
+  <!-- Vehicle Drag Coefficient -->
+  <c_D>0.058</c_D> <!-- (D = 0.5 * cd(i) * Vmag * V(i))-->
+
+  <!-- Rotor Thrust coefficient -->
+  <c_T>5.45e-6</c_T> <!-- thrust = C_T*w^2 (N) -->
+
+  <!-- Rotor Torque coefficient -->
+  <c_Q>2.284e-7</c_Q> <!-- torque = c_Q*w^2 (Nm) -->
+
+  <!-- Rotor min and max radians/sec -->
+  <omega_max>1200.0</omega_max>
+  <omega_min>346.41</omega_min>
+
+  <!-- Rotor Geometry Configuration -->
+  <!-- use the rotor_config XML tag to specify the placement of each rotor
+       around the center of the multirotor. By convention, order the list of
+       rotors by moving counter clockwise around the multirotor's center. -->
+  <!-- [ rotor_direction x_offset y_offset z_offset roll pitch yaw ] -->
+  <rotor_config>
+    [ CW +0.1237 +0.1237 0 0 0 0 ]
+    [CCW -0.1237 +0.1237 0 0 0 0 ]
+    [ CW -0.1237 -0.1237 0 0 0 0 ]
+    [CCW +0.1237 -0.1237 0 0 0 0 ]
+  </rotor_config>
+  <!-- WARNING: Currently, z_offset, roll, and pitch are not used in
+       model. These are placed here for future use -->
+  <!-- The x-axis is the vehicle's "forward" direction -->
+  <!-- x_offset=0 is along the vehicle's x-axis -->
+  <!-- y_offset=0 is along the vehicle's y-axis -->
+  <!-- roll axis is parallel to vehicle's x-axis, centered at rotor (degrees) -->
+  <!-- pitch axis is parallel to vehicle's y-axis, centered at rotor (degrees)-->
+  <!-- yaw axis is parallel to vehicle's z-axis, centered at rotor
+       (degrees). This doesn't affect the current model.-->
+
+</params>
