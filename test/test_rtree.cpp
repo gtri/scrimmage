@@ -47,13 +47,13 @@ using std::cout;
 using std::endl;
 namespace sc = scrimmage;
 
-bool is_less_than_dist(std::pair<int,double> i, std::pair<int,double> j) 
-{ 
+bool is_less_than_dist(std::pair<int,double> i, std::pair<int,double> j)
+{
      return (i.second < j.second);
 }
 
-bool is_less_than_id(sc::ID i, sc::ID j) 
-{ 
+bool is_less_than_id(sc::ID i, sc::ID j)
+{
      return (i.id() < j.id());
 }
 
@@ -74,16 +74,18 @@ void populate_tree_randomly(int num_contacts, double range, bool two_dims,
      contacts.clear();
 
      Eigen::Vector3d vel(0, 0, 0);
+     Eigen::Vector3d ang_vel(0, 0, 0);
      sc::Quaternion quat(0, 0, 0);
 
      for (int i = 0; i < num_contacts; i++) {
-          sc::Contact c;          
+          sc::Contact c;
           c.set_id({i, 0, 0});
           double x = rnd();
           double y = rnd();
           double z = two_dims ? 0 : rnd();
           sc::StatePtr state =
-              std::make_shared<sc::State>(Eigen::Vector3d(x, y, z), vel, quat);
+              std::make_shared<sc::State>(Eigen::Vector3d(x, y, z), vel,
+                                          ang_vel, quat);
           c.set_state(state);
           c.set_type(sc::Contact::Type::AIRCRAFT);
           contacts.push_back(c);
@@ -92,11 +94,11 @@ void populate_tree_randomly(int num_contacts, double range, bool two_dims,
      // Populate the rtree
      rtree.init(contacts.size());
      for(std::list<sc::Contact>::iterator it = contacts.begin();
-         it != contacts.end(); it++) {          
+         it != contacts.end(); it++) {
           rtree.add(it->state()->pos(), it->id());
      }
 }
- 
+
 TEST(rtree_test, nearest_dist) {
     int num_contacts = 10000;
     double range = 10000;
@@ -109,7 +111,7 @@ TEST(rtree_test, nearest_dist) {
 
     populate_tree_randomly(num_contacts, range, true, contacts, rtree, own);
     rtree.neighbors_in_range(own.state()->pos_const(), rtree_neighbors, circ_range);
-         
+
     auto beg_it = rtree_neighbors.begin();
     auto end_it = rtree_neighbors.end();
 
@@ -139,31 +141,31 @@ TEST(rtree_test, nearest_n_neighbors)
 
     populate_tree_randomly(num_contacts, range, false, contacts, rtree, own);
     rtree.nearest_n_neighbors(own.state()->pos_const(), rtree_neighbors, num_neighbors);
-         
+
     ASSERT_EQ(rtree_neighbors.size(), (unsigned int)num_neighbors);
 
     // Find the nearest neighbors the slow, but sure way:
     // 1. Sort the distance vector
-    std::vector<std::pair<int,double> > id_dists; 
+    std::vector<std::pair<int,double> > id_dists;
     for (sc::Contact &c : contacts) {
          double dist = (own.state()->pos()-c.state()->pos()).norm();
          id_dists.push_back(std::make_pair(c.id().id(),dist));
     }
     std::sort(id_dists.begin(), id_dists.end(), is_less_than_dist);
-    
+
     // 2. Get the first n distances only
     unsigned int n = 0;
     std::vector<sc::ID> slow_neighbors;
     for (std::vector<std::pair<int,double> >::iterator it = id_dists.begin();
          it != id_dists.end() && n < num_neighbors; it++, n++) {
-         sc::ID id;          
+         sc::ID id;
          id.set_id(it->first);
-         slow_neighbors.push_back(id);          
+         slow_neighbors.push_back(id);
     }
 
     // Make sure the two ID lists are the same size
     ASSERT_EQ(rtree_neighbors.size(), slow_neighbors.size());
-    
+
     // Make sure the two ID lists match:
     // Sort the two ID lists based on their ID
     std::sort(rtree_neighbors.begin(), rtree_neighbors.end(), is_less_than_id);
@@ -172,7 +174,7 @@ TEST(rtree_test, nearest_n_neighbors)
     std::vector<sc::ID>::iterator it1 = rtree_neighbors.begin();
     std::vector<sc::ID>::iterator it2 = slow_neighbors.begin();
     for (; it1 != rtree_neighbors.end() && it2 != slow_neighbors.end();
-         it1++, it2++) {    
+         it1++, it2++) {
          //cout << it1->id() << " , " << it2->id() << endl;
          ASSERT_EQ(it1->id(), it2->id());
     }
@@ -200,4 +202,3 @@ TEST(rtree_test, nearest_n_neighbors_minus_self)
     rtree.nearest_n_neighbors(c.state()->pos_const(), rtree_neighbors, num_neighbors);
     ASSERT_EQ(rtree_neighbors.size(), num_neighbors);
 }
-         
