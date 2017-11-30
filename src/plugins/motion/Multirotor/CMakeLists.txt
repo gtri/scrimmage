@@ -30,8 +30,7 @@ install(TARGETS ${LIBRARY_NAME}
   LIBRARY DESTINATION lib/${PROJECT_NAME}/plugin_libs
 )
 
+add_subdirectory(MultirotorControllerOmega)
+
 # Push up the PROJECT_PLUGINS variable
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} ${LIBRARY_NAME} PARENT_SCOPE)
-
-
-add_subdirectory(MultirotorControllerOmega)
