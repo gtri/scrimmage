@@ -39,11 +39,14 @@
 
 namespace scrimmage {
 
-State::State() : pos_(0, 0, 0), vel_(0, 0, 0) {}
+State::State() : pos_(0, 0, 0), vel_(0, 0, 0), ang_vel_(0, 0, 0),
+                 type_("State") {}
 
 State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
              Eigen::Vector3d _ang_vel, Quaternion _quat) :
     pos_(_pos), vel_(_vel), ang_vel_(_ang_vel), quat_(_quat) {}
+
+State::~State() {}
 
 Eigen::Vector3d &State::pos() {return pos_;}
 

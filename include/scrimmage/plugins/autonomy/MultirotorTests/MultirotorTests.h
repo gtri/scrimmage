@@ -30,31 +30,28 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
+#include <scrimmage/autonomy/Autonomy.h>
 
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 #include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
+#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
-namespace controller {
-
-class MultirotorControllerOmega : public motion::Multirotor::Controller {
+namespace autonomy {
+class MultirotorTests : public scrimmage::Autonomy {
  public:
-    MultirotorControllerOmega();
+    MultirotorTests();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual Eigen::VectorXd &u() {return u_;}
+    virtual bool step_autonomy(double t, double dt);
 
  protected:
-    Eigen::VectorXd u_;
-    std::shared_ptr<sc::motion::Multirotor> multirotor_;
-    double pwm_max_;
-    double pwm_min_;
+    std::shared_ptr<scrimmage::motion::Multirotor> multirotor_;
+    std::shared_ptr<scrimmage::motion::MultirotorState> desired_rotor_state_;
 };
-} // namespace controller
+} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_

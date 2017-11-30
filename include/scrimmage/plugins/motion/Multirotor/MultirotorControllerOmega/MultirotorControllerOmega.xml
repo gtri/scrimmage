@@ -2,4 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>MultirotorControllerOmega_plugin</library>
+
+  <!-- PWM to omega [rad/sec] mapping -->
+  <pwm_min>1000</pwm_min>
+  <pwm_max>2000</pwm_max>
+  
 </params>

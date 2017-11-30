@@ -54,8 +54,8 @@
     <z>50</z>
     <heading>0</heading>
 
-    <autonomy speed="0">Straight</autonomy>
-    <motion_model write_csv="false">Multirotor</motion_model>
+    <autonomy>MultirotorTests</autonomy>
+    <motion_model write_csv="true">Multirotor</motion_model>
     <controller>MultirotorControllerOmega</controller>
     <visual_model>iris</visual_model>
 

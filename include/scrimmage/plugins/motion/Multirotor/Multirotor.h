@@ -62,6 +62,11 @@ class Multirotor : public scrimmage::MotionModel{
         virtual Eigen::VectorXd &u() = 0;
     };
 
+    std::vector<Rotor> & rotors() { return rotors_; }
+
+    double omega_max() { return wmax_; }
+    double omega_min() { return wmin_; }
+
  protected:
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;

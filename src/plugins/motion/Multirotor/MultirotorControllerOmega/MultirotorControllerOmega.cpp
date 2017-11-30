@@ -33,9 +33,10 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
-
 #include <scrimmage/plugins/motion/Multirotor/MultirotorControllerOmega/MultirotorControllerOmega.h>
+#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
 
 #include <iostream>
 #include <limits>
@@ -44,6 +45,7 @@ using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
+namespace sm = scrimmage::motion;
 
 REGISTER_PLUGIN(scrimmage::Controller,
                 scrimmage::controller::MultirotorControllerOmega,
@@ -52,18 +54,48 @@ REGISTER_PLUGIN(scrimmage::Controller,
 namespace scrimmage {
 namespace controller {
 
-MultirotorControllerOmega::MultirotorControllerOmega() {
+MultirotorControllerOmega::MultirotorControllerOmega() : pwm_max_(2000),
+                                                         pwm_min_(1000) {
 }
 
 void MultirotorControllerOmega::init(std::map<std::string, std::string> &params) {
-    u_.resize(4);
-    double w = 734.85;
-    // double delta = -10;
-    // u_ << w+delta, w-delta, w+delta, w-delta;
-    u_ << w, w, w, w;
+
+    pwm_max_ = sc::get<int>("pwm_max", params, 2000);
+    pwm_min_ = sc::get<int>("pwm_min", params, 1000);
+
+    multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
+
+    if (multirotor_ == nullptr) {
+        cout << "WARNING: MultirotorControllerOmega can't control the motion "
+             << "model for this entity." << endl;
+        u_.resize(10);
+        return;
+    }
+
+    u_.resize(multirotor_->rotors().size());
 }
 
 bool MultirotorControllerOmega::step(double t, double dt) {
+    if (desired_state_->type() == "MultirotorState") {
+        std::shared_ptr<sc::motion::MultirotorState> d_state =
+            std::dynamic_pointer_cast<sc::motion::MultirotorState>(desired_state_);
+
+        if (multirotor_) {
+            if (d_state->input_type() == sm::MultirotorState::InputType::OMEGA) {
+                u_ = d_state->prop_input();
+            } else if (d_state->input_type() == sm::MultirotorState::InputType::PWM) {
+                u_ = sc::scale(d_state->prop_input(), pwm_min_, pwm_max_,
+                               multirotor_->omega_min(),
+                               multirotor_->omega_max());
+            } else {
+                cout << "WARNING: Invalid MultirotorState input type" << endl;
+            }
+        } else {
+            cout << "Unable to cast to MultirotorState" << endl;
+        }
+    } else {
+        u_ = Eigen::VectorXd::Zero(multirotor_->rotors().size());
+    }
     return true;
 }
 } // namespace controller

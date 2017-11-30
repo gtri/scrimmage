@@ -18,7 +18,7 @@
  *   License for more details.
  *
  *   You should have received a copy of the GNU Lesser General Public License
- *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with SCRIMMAGE.  If nogt, see <http://www.gnu.org/licenses/>.
  *
  * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
  * @author Eric Squires <eric.squires@gtri.gatech.edu>
@@ -65,6 +65,37 @@ std::vector<double> linspace(double low, double high, uint32_t n);
 template <class T>
 T interp(const T &low, const T &high, double pct) {
     return low + pct * (high - low);
+}
+
+template <class T>
+T scale(const T &input, const T &in_min, const T &in_max,
+        const T &out_min, const T &out_max) {
+    T result = input;
+    // Check for input/output min/max bounds
+    if (in_min > in_max || out_min > out_max) {
+        // cout << "Error: in_min > in_max || out_min > out_max" << endl;
+        return 0;
+    }
+
+    // Saturate input
+    if (result < in_min) {
+        result = in_min;
+    } else if (result > in_max) {
+        result = in_max;
+    }
+
+    double scale_factor = (out_max - out_min) / (in_max - in_min);
+    return (result - in_min) * scale_factor + out_min;
+}
+
+template <class T>
+Eigen::VectorXd scale(const Eigen::VectorXd &input, const T &in_min,
+                      const T &in_max, const T &out_min, const T &out_max) {
+    Eigen::VectorXd result = input;
+    for (int i = 0; i < input.size(); i++) {
+        result(i) = scale(input(i), in_min, in_max, out_min, out_max);
+    }
+    return result;
 }
 
 } // namespace scrimmage

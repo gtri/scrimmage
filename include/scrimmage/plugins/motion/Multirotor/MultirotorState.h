@@ -30,31 +30,46 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_
 
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
+#include <scrimmage/math/State.h>
 
-#include <map>
-#include <string>
+#include <Eigen/Dense>
 
 namespace scrimmage {
-namespace controller {
+namespace motion {
 
-class MultirotorControllerOmega : public motion::Multirotor::Controller {
+class MultirotorState : public scrimmage::State {
  public:
-    MultirotorControllerOmega();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual Eigen::VectorXd &u() {return u_;}
+    enum InputType {
+        OMEGA = 0,
+        PWM
+    };
+
+    void set_input_type(InputType input_type) {
+        input_type_ = input_type;
+    }
+
+    void set_prop_input(Eigen::VectorXd prop_input) {
+        prop_input_ = prop_input;
+    }
+
+    InputType &input_type() {
+        return input_type_;
+    }
+
+    Eigen::VectorXd &prop_input() {
+        return prop_input_;
+    }
 
  protected:
-    Eigen::VectorXd u_;
-    std::shared_ptr<sc::motion::Multirotor> multirotor_;
-    double pwm_max_;
-    double pwm_min_;
+    Eigen::VectorXd prop_input_;
+    InputType input_type_;
 };
-} // namespace controller
+
+using MultirotorStatePtr = std::shared_ptr<MultirotorState>;
+
+} // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_

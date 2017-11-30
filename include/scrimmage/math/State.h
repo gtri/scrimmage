@@ -39,6 +39,7 @@
 
 #include <memory>
 #include <iosfwd>
+#include <string>
 
 namespace scrimmage {
 
@@ -47,6 +48,8 @@ class State {
     State();
     State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
           Eigen::Vector3d _ang_vel, Quaternion _quat);
+
+    virtual ~State();
 
     Eigen::Vector3d &pos();
     Eigen::Vector3d &vel();
@@ -86,11 +89,15 @@ class State {
     uint8_t output_precision = 2;
     friend std::ostream& operator<<(std::ostream& os, const State& s);
 
+    void set_type(std::string type) { type_ = type; }
+    std::string &type() { return type_; }
+
  protected:
     Eigen::Vector3d pos_;
     Eigen::Vector3d vel_;
     Eigen::Vector3d ang_vel_;
     Quaternion quat_;
+    std::string type_;
 };
 
 using StatePtr = std::shared_ptr<State>;

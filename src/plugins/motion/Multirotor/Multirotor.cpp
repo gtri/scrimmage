@@ -30,6 +30,8 @@
  *
  */
 
+#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
+
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/Angles.h>
@@ -37,9 +39,9 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/MissionParse.h>
 
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-
 #include <iostream>
+
+#include <boost/algorithm/clamp.hpp>
 
 namespace sc = scrimmage;
 
@@ -60,6 +62,12 @@ enum ModelParams {
     P,
     Q,
     R,
+    U_dot,
+    V_dot,
+    W_dot,
+    P_dot,
+    Q_dot,
+    R_dot,
     Uw,
     Vw,
     Ww,
@@ -189,6 +197,8 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
                     "x", "y", "z",
                     "U", "V", "W",
                     "P", "Q", "R",
+                    "U_dot", "V_dot", "W_dot",
+                    "P_dot", "Q_dot", "R_dot",
                     "roll", "pitch", "yaw",
                     "w_1", "w_2", "w_3", "w_4"});
     }
@@ -198,6 +208,11 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
 
 bool Multirotor::step(double time, double dt) {
     ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+
+    // Saturate inputs:
+    for (int i = 0; i < ctrl_u_.size(); i++) {
+        ctrl_u_(i) = boost::algorithm::clamp(ctrl_u_(i), wmin_, wmax_);
+    }
 
     // TODO: convert global linear velocity and angular velocity into local
     // velocities
@@ -210,7 +225,23 @@ bool Multirotor::step(double time, double dt) {
     x_[Yw] = state_->pos()(1);
     x_[Zw] = state_->pos()(2);
 
+    // Cache values to calculate changes:
+    Eigen::Vector3d prev_linear_vel(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
+
     ode_step(dt); // step the motion model ODE solver
+
+    // Calculate change in velocity to populate acceleration elements
+    Eigen::Vector3d linear_vel(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d linear_acc = linear_vel - prev_linear_vel;
+    Eigen::Vector3d angular_acc = angular_vel - prev_angular_vel;
+    x_[U_dot] = linear_acc(0);
+    x_[V_dot] = linear_acc(1);
+    x_[W_dot] = linear_acc(2);
+    x_[P_dot] = angular_acc(0);
+    x_[Q_dot] = angular_acc(1);
+    x_[R_dot] = angular_acc(2);
 
     // Normalize quaternion
     quat_local_.w() = x_[q0];
@@ -241,6 +272,12 @@ bool Multirotor::step(double time, double dt) {
                 {"P", x_[P]},
                 {"Q", x_[Q]},
                 {"R", x_[R]},
+                {"U_dot", x_[U_dot]},
+                {"V_dot", x_[V_dot]},
+                {"W_dot", x_[W_dot]},
+                {"P_dot", x_[P_dot]},
+                {"Q_dot", x_[Q_dot]},
+                {"R_dot", x_[R_dot]},
                 {"roll", state_->quat().roll()},
                 {"pitch", state_->quat().pitch()},
                 {"yaw", state_->quat().yaw()},
@@ -331,17 +368,20 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
 
-    // TODO: Should these be cached from previous run or should the current dxdt
-    // versions be used?
-    double U_dot = dxdt[U];
-    double V_dot = dxdt[V];
-    double W_dot = dxdt[W];
-
-    Eigen::Vector3d acc_local(U_dot, V_dot, W_dot);
+    //// TODO: Should these be cached from previous run or should the current dxdt
+    Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
     Eigen::Vector3d acc_world = rot * acc_local;
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);
+
+    // Accelerations get updated based on change in velocities
+    dxdt[U_dot] = 0;
+    dxdt[V_dot] = 0;
+    dxdt[W_dot] = 0;
+    dxdt[P_dot] = 0;
+    dxdt[Q_dot] = 0;
+    dxdt[R_dot] = 0;
 }
 } // namespace motion
 } // namespace scrimmage
