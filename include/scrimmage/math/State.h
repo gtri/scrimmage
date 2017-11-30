@@ -45,18 +45,22 @@ namespace scrimmage {
 class State {
  public:
     State();
-    State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Quaternion _quat);
+    State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
+          Eigen::Vector3d _ang_vel, Quaternion _quat);
 
     Eigen::Vector3d &pos();
     Eigen::Vector3d &vel();
+    Eigen::Vector3d &ang_vel();
     Quaternion &quat();
 
     const Eigen::Vector3d &pos_const() const;
     const Eigen::Vector3d &vel_const() const;
+    const Eigen::Vector3d &ang_vel_const() const;
     const Quaternion &quat_const() const;
 
     void set_pos(const Eigen::Vector3d &pos);
     void set_vel(const Eigen::Vector3d &vel);
+    void set_ang_vel(const Eigen::Vector3d &ang_vel);
     void set_quat(const Quaternion &quat);
 
     /*! \brief Returns true if other state is in field-of-view */
@@ -85,6 +89,7 @@ class State {
  protected:
     Eigen::Vector3d pos_;
     Eigen::Vector3d vel_;
+    Eigen::Vector3d ang_vel_;
     Quaternion quat_;
 };
 

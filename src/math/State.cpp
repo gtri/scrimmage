@@ -41,12 +41,14 @@ namespace scrimmage {
 
 State::State() : pos_(0, 0, 0), vel_(0, 0, 0) {}
 
-State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Quaternion _quat) :
-    pos_(_pos), vel_(_vel), quat_(_quat) {}
+State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
+             Eigen::Vector3d _ang_vel, Quaternion _quat) :
+    pos_(_pos), vel_(_vel), ang_vel_(_ang_vel), quat_(_quat) {}
 
 Eigen::Vector3d &State::pos() {return pos_;}
 
 Eigen::Vector3d &State::vel() {return vel_;}
+Eigen::Vector3d &State::ang_vel() {return ang_vel_;}
 
 Quaternion &State::quat() {return quat_;}
 
@@ -54,11 +56,15 @@ const Eigen::Vector3d &State::pos_const() const {return pos_;}
 
 const Eigen::Vector3d &State::vel_const() const {return vel_;}
 
+const Eigen::Vector3d &State::ang_vel_const() const {return ang_vel_;}
+
 const Quaternion &State::quat_const() const {return quat_;}
 
 void State::set_pos(const Eigen::Vector3d &pos) {pos_ = pos;}
 
 void State::set_vel(const Eigen::Vector3d &vel) {vel_ = vel;}
+
+void State::set_ang_vel(const Eigen::Vector3d &ang_vel) {ang_vel_ = ang_vel;}
 
 void State::set_quat(const Quaternion &quat) {quat_ = quat;}
 
@@ -123,6 +129,7 @@ std::ostream& operator<<(std::ostream& os, const State& s) {
 
     os << "(" << eigen_str(s.pos_, s.output_precision)
         << "), (" << eigen_str(s.vel_, s.output_precision)
+        << "), (" << eigen_str(s.ang_vel_, s.output_precision)
         << "), ("
         << std::setprecision(s.output_precision) << q.roll() << ", "
         << std::setprecision(s.output_precision) << q.pitch() << ", "
