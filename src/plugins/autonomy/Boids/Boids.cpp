@@ -41,6 +41,8 @@
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
+#include <vector>
+
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Boids, Boids_plugin)
@@ -93,8 +95,9 @@ bool Boids::step_autonomy(double t, double dt) {
     rtree_->neighbors_in_range(state_->pos_const(), rtree_neighbors, comms_range_);
 
     // Remove neighbors that are not within field of view
-    std::vector<sc::ID>::iterator it = rtree_neighbors.begin();
-    while (it != rtree_neighbors.end()) {
+    for (auto it = rtree_neighbors.begin(); it != rtree_neighbors.end();
+         /* no inc */) {
+
         // Ignore own position / id
         if (it->id() == parent_->id().id()) {
             it = rtree_neighbors.erase(it);

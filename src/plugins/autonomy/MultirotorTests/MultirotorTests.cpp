@@ -63,7 +63,6 @@ void MultirotorTests::init(std::map<std::string, std::string> &params) {
     }
 
     desired_rotor_state_ = std::make_shared<sc::motion::MultirotorState>();
-    desired_rotor_state_->set_type("MultirotorState");
     desired_rotor_state_->set_input_type(sc::motion::MultirotorState::InputType::PWM);
     desired_rotor_state_->prop_input().resize(multirotor_->rotors().size());
 
@@ -71,7 +70,7 @@ void MultirotorTests::init(std::map<std::string, std::string> &params) {
     for (int i = 0; i < desired_rotor_state_->prop_input().size(); i++) {
         desired_rotor_state_->prop_input()(i) = w;
     }
-
+    // desired_rotor_state_->prop_input()(0) += 1;
     desired_state_ = desired_rotor_state_;
 }
 

@@ -40,6 +40,7 @@
 
 #include <iostream>
 #include <limits>
+#include <typeinfo>
 
 using std::cout;
 using std::endl;
@@ -76,24 +77,19 @@ void MultirotorControllerOmega::init(std::map<std::string, std::string> &params)
 }
 
 bool MultirotorControllerOmega::step(double t, double dt) {
-    if (desired_state_->type() == "MultirotorState") {
-        std::shared_ptr<sc::motion::MultirotorState> d_state =
-            std::dynamic_pointer_cast<sc::motion::MultirotorState>(desired_state_);
-
-        if (multirotor_) {
-            if (d_state->input_type() == sm::MultirotorState::InputType::OMEGA) {
-                u_ = d_state->prop_input();
-            } else if (d_state->input_type() == sm::MultirotorState::InputType::PWM) {
-                u_ = sc::scale(d_state->prop_input(), pwm_min_, pwm_max_,
-                               multirotor_->omega_min(),
-                               multirotor_->omega_max());
-            } else {
-                cout << "WARNING: Invalid MultirotorState input type" << endl;
-            }
+    auto d_state = sc::State::cast<sc::motion::MultirotorState>(desired_state_);
+    if (d_state) {
+        if ((*d_state)->input_type() == sm::MultirotorState::InputType::OMEGA) {
+            u_ = (*d_state)->prop_input();
+        } else if ((*d_state)->input_type() == sm::MultirotorState::InputType::PWM) {
+            u_ = sc::scale((*d_state)->prop_input(), pwm_min_, pwm_max_,
+                           multirotor_->omega_min(),
+                           multirotor_->omega_max());
         } else {
-            cout << "Unable to cast to MultirotorState" << endl;
+            cout << "WARNING: Invalid MultirotorState input type" << endl;
         }
     } else {
+        cout << "Unable to cast desired_state to MultirotorState" << endl;
         u_ = Eigen::VectorXd::Zero(multirotor_->rotors().size());
     }
     return true;

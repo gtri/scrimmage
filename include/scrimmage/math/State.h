@@ -40,6 +40,9 @@
 #include <memory>
 #include <iosfwd>
 #include <string>
+#include <typeinfo>
+
+#include <boost/optional.hpp>
 
 namespace scrimmage {
 
@@ -89,15 +92,36 @@ class State {
     uint8_t output_precision = 2;
     friend std::ostream& operator<<(std::ostream& os, const State& s);
 
-    void set_type(std::string type) { type_ = type; }
-    std::string &type() { return type_; }
+    /*! \brief Downcast a scrimmage::State to a subclassed type. If the
+     *  underlying object is of the desired type, returns a shared_ptr to the
+     *  underlying object wrapped inside of a boost::optional. If the
+     *  underlying object is not the subclassed type, returns boost::none.
+     */
+    template <class T,
+              class = std::enable_if_t<
+        !std::is_same<T, scrimmage::State>::value &&
+        std::is_base_of<scrimmage::State, T>::value, void>>
+
+        static boost::optional<std::shared_ptr<T>> cast(
+            std::shared_ptr<scrimmage::State> state) {
+        std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(state);
+        try {
+            if (typeid(*result).name()) {
+                // Do nothing. The if-statement is to remove the unused variable
+                // warning. typeid will throw an exception if the underlying object
+                // is only of the base-type and not the subclassed type.
+            }
+        } catch (const std::bad_typeid &e) {
+            return boost::none;
+        }
+        return boost::optional<std::shared_ptr<T>>(result);
+    }
 
  protected:
     Eigen::Vector3d pos_;
     Eigen::Vector3d vel_;
     Eigen::Vector3d ang_vel_;
     Quaternion quat_;
-    std::string type_;
 };
 
 using StatePtr = std::shared_ptr<State>;
