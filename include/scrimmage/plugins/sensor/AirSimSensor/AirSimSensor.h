@@ -36,6 +36,7 @@
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/math/Angles.h>
 
 #include <iostream>
 #include <random>
@@ -57,6 +58,7 @@ STRICT_MODE_ON
 
 using std::cout;
 using std::endl;
+using ang = scrimmage::Angles;
 
 namespace scrimmage {
 namespace sensor {
@@ -97,6 +99,7 @@ class AirSimSensor : public scrimmage::Sensor {
     int airsim_port_;
     int airsim_timeout_ms_;
     std::list<CameraConfig> cam_configs_;
+    scrimmage::Angles enu_to_ned_yaw_;
 
  private:
 };

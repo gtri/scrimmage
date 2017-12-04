@@ -223,7 +223,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 # Find OpenCV
 ########################################################
 find_package(OpenCV QUIET)
-if (OPENCV_FOUND)
+if (OpenCV_FOUND)
   add_definitions(-DENABLE_OPENCV=1)
   include_directories(${OpenCV_INCLUDE_DIRS})
 else()

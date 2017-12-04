@@ -40,6 +40,7 @@
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/Angles.h>
 
 #include <iostream>
 #include <memory>
@@ -53,6 +54,8 @@
 
 using std::cout;
 using std::endl;
+
+using ang = scrimmage::Angles;
 
 namespace sc = scrimmage;
 namespace ma = msr::airlib;
@@ -70,6 +73,11 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
     airsim_port_ = sc::get<int>("airsim_port", params, 41451);
     airsim_timeout_ms_ = sc::get<int>("airsim_timeout_ms", params, 60000);
+
+    enu_to_ned_yaw_.set_input_clock_direction(ang::Rotate::CCW);
+    enu_to_ned_yaw_.set_input_zero_axis(ang::HeadingZero::Pos_X);
+    enu_to_ned_yaw_.set_output_clock_direction(ang::Rotate::CW);
+    enu_to_ned_yaw_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
     // Parse the camera config string.
     // The string is a list of camera configs of the form:
@@ -127,9 +135,11 @@ boost::optional<scrimmage::MessageBasePtr> AirSimSensor::sensor_msg(double t) {
 
     // If we aren't connected to AirSim, try to connect.
     if (!client_connected_) {
+        cout << "Connecting to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << endl;
         sim_client_ = std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                                    airsim_port_,
                                                                    airsim_timeout_ms_);
+        sim_client_->confirmConnection();
     }
 
     // If we haven't been able to connect to AirSim, warn the user and return.
@@ -152,12 +162,17 @@ boost::optional<scrimmage::MessageBasePtr> AirSimSensor::sensor_msg(double t) {
 
     // Setup state information for AirSim
     sc::StatePtr &state = parent_->state();
-    ma::Vector3r pos(state->pos()(0), state->pos()(1), -state->pos()(2));
+    // convert from ENU to NED frame
+    ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
+
+    enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
+    double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
 
     // pitch, roll, yaw
-    ma::Quaternionr qd = ma::VectorMath::toQuaternion(state->quat().pitch(),
+    // note, the negative pitch and yaw are required because of the wsu coordinate frame
+    ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
                                                       state->quat().roll(),
-                                                      state->quat().yaw());
+                                                      airsim_yaw_rad);
 
     // Send state information to AirSim
     sim_client_->simSetPose(ma::Pose(pos, qd), true);
