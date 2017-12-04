@@ -15,6 +15,9 @@ directories are accessed through the following statements:
 .. code-block:: c++
    :linenos:
 
+   //Need this include
+   #include <scrimmage/parse/MissionParse.h>
+
    // Get the current simulation's log directory (time-stamped directory)
    std::string mission_log_dir = parent_->mp()->log_dir();
 
