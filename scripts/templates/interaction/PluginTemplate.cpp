@@ -30,16 +30,16 @@
  *
  */
 
-#include <memory>
-#include <limits>
-#include <iostream>
+#include <(>>>PROJECT_NAME<<<)/plugins/interaction/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/State.h>
 
-#include <(>>>PROJECT_NAME<<<)/plugins/interaction/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <memory>
+#include <limits>
+#include <iostream>
 
 using std::cout;
 using std::endl;
@@ -53,22 +53,18 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
 namespace scrimmage {
 namespace interaction {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{
+(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
 }
 
-bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &mission_params,
-                               std::map<std::string,std::string> &plugin_params)
-{
+bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &mission_params,
+                               std::map<std::string, std::string> &plugin_params) {
     return true;
 }
 
 
 bool (>>>PLUGIN_NAME<<<)::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt)
-{
-    if (ents.empty())
-    {
+                                                  double t, double dt) {
+    if (ents.empty()) {
         return true;
     }
 

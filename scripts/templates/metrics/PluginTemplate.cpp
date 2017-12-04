@@ -30,8 +30,7 @@
  *
  */
 
-#include <iostream>
-#include <limits>
+#include <(>>>PROJECT_NAME<<<)/plugins/metrics/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
@@ -45,7 +44,8 @@
 #include <scrimmage/msgs/Collision.pb.h>
 #include <scrimmage/msgs/Event.pb.h>
 
-#include <(>>>PROJECT_NAME<<<)/plugins/metrics/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <iostream>
+#include <limits>
 
 using std::cout;
 using std::endl;
@@ -60,29 +60,25 @@ REGISTER_PLUGIN(scrimmage::Metrics,
 namespace scrimmage {
 namespace metrics {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{
+(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
 }
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
-{
+void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
     sub_ground_collision_ = create_subscriber("GroundCollision");
 }
 
-bool (>>>PLUGIN_NAME<<<)::step_metrics(double t, double dt)
-{
+bool (>>>PLUGIN_NAME<<<)::step_metrics(double t, double dt) {
     for (auto msg : sub_ground_collision_->msgs<sc::Message<sm::GroundCollision>>()) {
         scores_[msg->data.entity_id()].increment_ground_collisions();
     }
     return true;
 }
 
-void (>>>PLUGIN_NAME<<<)::calc_team_scores()
-{
+void (>>>PLUGIN_NAME<<<)::calc_team_scores() {
     for (auto &kv : scores_) {
         Score &score = kv.second;
 
-        int team_id = (*team_lookup_)[kv.first];
+        int team_id = (*id_to_team_map_)[kv.first];
 
         // Create the score, if necessary
         if (team_coll_scores_.count(team_id) == 0) {
@@ -104,14 +100,13 @@ void (>>>PLUGIN_NAME<<<)::calc_team_scores()
     headers_.push_back("ground_coll");
 }
 
-void (>>>PLUGIN_NAME<<<)::print_team_summaries()
-{
+void (>>>PLUGIN_NAME<<<)::print_team_summaries() {
     for (std::map<int, Score>::iterator it = team_coll_scores_.begin();
-         it != team_coll_scores_.end(); it++) {
+         it != team_coll_scores_.end(); ++it) {
 
         cout << "Score: " << it->second.score() << endl;
         cout << "Ground Collisions: " << it->second.ground_collisions() << endl;
-        cout << sc::generate_chars("-",70) << endl;
+        cout << sc::generate_chars("-", 70) << endl;
     }
 }
 } // namespace metrics

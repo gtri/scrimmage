@@ -1,12 +1,11 @@
-add_subdirectory(SimpleCamera)
-add_subdirectory(NoisyState)
-add_subdirectory(NoisyContacts)
-add_subdirectory(RayTrace)
-add_subdirectory(AirSimSensor)
-add_subdirectory(ContactBlobCamera)
+SubDirList(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
-if (GRPC_FOUND AND NOT EXTERNAL)
-  add_subdirectory(TutorialOpenAISensor)
+if (NOT GRPC_FOUND OR EXTERNAL)
+  list(REMOVE_ITEM SUBDIRS TutorialOpenAISensor)
 endif()
+
+FOREACH(subdir ${SUBDIRS})
+  ADD_SUBDIRECTORY(${subdir})
+ENDFOREACH()
 
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)

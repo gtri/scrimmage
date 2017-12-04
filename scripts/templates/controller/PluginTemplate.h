@@ -30,22 +30,25 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef (>>>HEADER_GUARD<<<)
+#define (>>>HEADER_GUARD<<<)
+
 #include <scrimmage/autonomy/Autonomy.h>
+
+#include <map>
+#include <string>
 
 namespace scrimmage {
 namespace controller {
 
 class (>>>PLUGIN_NAME<<<) : public scrimmage::Autonomy {
-public:
+ public:
     (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
-protected:
+ protected:
     int follow_id_;
-private:
 };
 } // namespace controller
 } // namespace scrimmage
-#endif
+#endif // (>>>HEADER_GUARD<<<)

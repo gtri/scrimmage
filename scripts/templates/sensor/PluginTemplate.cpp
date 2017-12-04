@@ -30,8 +30,7 @@
  *
  */
 
-#include <iostream>
-#include <limits>
+#include <(>>>PROJECT_NAME<<<)/plugins/sensor/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
@@ -43,7 +42,8 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
 
-#include <(>>>PROJECT_NAME<<<)/plugins/sensor/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <iostream>
+#include <limits>
 
 using std::cout;
 using std::endl;
@@ -57,12 +57,10 @@ REGISTER_PLUGIN(scrimmage::Sensor,
 namespace scrimmage {
 namespace sensor {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{
+(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
 }
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
-{
+void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
     gener_ = parent_->random()->gener();
@@ -79,12 +77,10 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
             pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
-
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> (>>>PLUGIN_NAME<<<)::sensor_msg(double t)
-{
+boost::optional<scrimmage::MessageBasePtr> (>>>PLUGIN_NAME<<<)::sensor_msg(double t) {
     // Make a copy of the current state
     sc::State ns = *(parent_->state());
 

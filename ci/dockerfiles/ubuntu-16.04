@@ -45,11 +45,11 @@ RUN pip install protobuf==3.3.0 grpcio==1.2.1
 RUN apt install -y ros-kinetic-mrpt-navigation
 
 # Copy repo code into image
-RUN mkdir -p /root/scrimmage
-COPY ./ /root/scrimmage/
+RUN mkdir -p /root/scrimmage/scrimmage
+COPY ./ /root/scrimmage/scrimmage
 
 # Install dependencies provided by package manager
-WORKDIR /root/scrimmage
+WORKDIR /root/scrimmage/scrimmage
 RUN ./setup/install-binaries.sh -e 0 -p 3
 
 ## Build 3rd-party dependencies
@@ -70,8 +70,18 @@ RUN ./setup/install-binaries.sh -e 0 -p 3
 ## GRPC requirements installs futures, which doesn't make sense for python3
 #RUN pip uninstall -y futures
 
+# Test Plugin Generation
+#RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage # TODO
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/scrimmage
+RUN ./generate-plugin.sh interaction InteractionTest ~/scrimmage/scrimmage
+RUN ./generate-plugin.sh metrics MetricsTest ~/scrimmage/scrimmage
+RUN ./generate-plugin.sh motion MotionTest ~/scrimmage/scrimmage
+RUN ./generate-plugin.sh sensor SensorTest ~/scrimmage/scrimmage
+# TODO: Controller plugin generation
+
 # Run static analysis tests
-WORKDIR /root/scrimmage
+WORKDIR /root/scrimmage/scrimmage
 RUN pyclean -v .
 RUN py.test test/test_cppcheck.py
 RUN echo "the following test is optional but will check for style"
@@ -92,7 +102,8 @@ RUN /bin/bash -c "cd build && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml"
 
-RUN mkdir -p catkin_ws/src
+# Test scrimmage_ros package integration
+RUN mkdir -p /root/catkin_ws/src
 WORKDIR /root/catkin_ws/src
 RUN git clone https://github.com/ros-planning/navigation_msgs
 RUN git clone https://github.com/SyllogismRXS/scrimmage_ros.git
@@ -106,8 +117,8 @@ RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
     catkin_test_results"
 
 # install python package and run tests
-WORKDIR /root/scrimmage/python
+WORKDIR /root/scrimmage/scrimmage/python
 RUN pip install -e .
 
-WORKDIR /root/scrimmage
+WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"

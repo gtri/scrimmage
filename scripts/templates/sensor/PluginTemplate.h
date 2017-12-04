@@ -30,27 +30,32 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
-
-#include <random>
+#ifndef (>>>HEADER_GUARD<<<)
+#define (>>>HEADER_GUARD<<<)
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
 
+#include <random>
+#include <vector>
+#include <map>
+#include <string>
+
 namespace scrimmage {
 namespace sensor {
 class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
-public:
+ public:
     (>>>PLUGIN_NAME<<<)();
-    virtual void init(std::map<std::string,std::string> &params);
+    virtual void init(std::map<std::string, std::string> &params);
     virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
-protected:
+
+ protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-private:
+
+ private:
 };
 } // namespace sensor
 } // namespace scrimmage
-#endif
+#endif // (>>>HEADER_GUARD<<<)

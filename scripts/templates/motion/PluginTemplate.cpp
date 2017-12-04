@@ -30,8 +30,6 @@
  *
  */
 
-#include <iostream>
-
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/Angles.h>
@@ -42,9 +40,6 @@
 
 namespace sc = scrimmage;
 
-using std::cout;
-using std::endl;
-
 REGISTER_PLUGIN(scrimmage::MotionModel,
                 scrimmage::motion::(>>>PLUGIN_NAME<<<),
                 (>>>PLUGIN_NAME<<<)_plugin)
@@ -52,8 +47,7 @@ REGISTER_PLUGIN(scrimmage::MotionModel,
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams
-{
+enum ModelParams {
     X = 0,
     Y,
     Z,
@@ -61,25 +55,23 @@ enum ModelParams
     MODEL_NUM_ITEMS
 };
 
-enum ControlParams
-{
+enum ControlParams {
     FORWARD_VELOCITY = 0,
     TURN_RATE,
     CONTROL_NUM_ITEMS
 };
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{
+(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() : length_(1.0),
+                    enable_gravity_(false) {
     x_.resize(MODEL_NUM_ITEMS);
 }
 
 bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
-                     std::map<std::string, std::string> &params)
-{
+                     std::map<std::string, std::string> &params) {
     // Get the initial internal state values
-    x_[X] = std::stod(info["x"]); //x
-    x_[Y] = std::stod(info["y"]); //y
-    x_[Z] = std::stod(info["z"]); //y
+    x_[X] = std::stod(info["x"]);
+    x_[Y] = std::stod(info["y"]);
+    x_[Z] = std::stod(info["z"]);
     x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));
 
     length_ = sc::get<double>("length", params, 100.0);
@@ -93,8 +85,7 @@ bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool (>>>PLUGIN_NAME<<<)::step(double time, double dt)
-{
+bool (>>>PLUGIN_NAME<<<)::step(double time, double dt) {
     // Save the previous x, y, z to calculate velocities
     double prev_x = x_[X];
     double prev_y = x_[Y];
@@ -113,11 +104,11 @@ bool (>>>PLUGIN_NAME<<<)::step(double time, double dt)
     return true;
 }
 
-void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt , double t)
-{
-    /// 0 : x-position
-    /// 1 : y-position
-    /// 2 : theta
+void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt ,
+                                double t) {
+    // 0 : x-position
+    // 1 : y-position
+    // 2 : theta
 
     // Get the controller's actuator inputs
     Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();

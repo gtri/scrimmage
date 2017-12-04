@@ -29,23 +29,26 @@
  * A Long description goes here.
  *
  */
-
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef (>>>HEADER_GUARD<<<)
+#define (>>>HEADER_GUARD<<<)
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 
+#include <map>
+#include <string>
+
 namespace scrimmage {
 namespace motion {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel{
+class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel {
  public:
     (>>>PLUGIN_NAME<<<)();
 
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
+
     virtual bool step(double time, double dt);
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
@@ -54,12 +57,12 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel{
      public:
         virtual Eigen::Vector2d &u() = 0;
     };
-protected:
+ protected:
     double length_;
     bool enable_gravity_;
 
-private:
+ private:
 };
 } // namespace motion
 } // namespace scrimmage
-#endif
+#endif // (>>>HEADER_GUARD<<<)

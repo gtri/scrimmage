@@ -30,27 +30,31 @@
  *
  */
 
-#ifndef (>>>PLUGIN_NAME<<<)_H_
-#define (>>>PLUGIN_NAME<<<)_H_
+#ifndef (>>>HEADER_GUARD<<<)
+#define (>>>HEADER_GUARD<<<)
+
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
+
+#include <map>
+#include <list>
+#include <string>
 
 namespace sc = scrimmage;
 
 namespace scrimmage {
 namespace interaction {
 
-class (>>>PLUGIN_NAME<<<) : public scrimmage::EntityInteraction
-{
-    public:
-        (>>>PLUGIN_NAME<<<)();
-        bool init(std::map<std::string,std::string> &mission_params,
-                std::map<std::string,std::string> &plugin_params);
-        bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                     double t, double dt);
-    protected:
-    private:
+class (>>>PLUGIN_NAME<<<) : public scrimmage::EntityInteraction {
+ public:
+    (>>>PLUGIN_NAME<<<)();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params);
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                 double t, double dt);
+ protected:
+ private:
 };
 } // namespace interaction
 } // namespace scrimmage
-#endif
+#endif // (>>>HEADER_GUARD<<<)

@@ -30,15 +30,15 @@
  *
  */
 
-#include <iostream>
-#include <limits>
+#include <(>>>PROJECT_NAME<<<)/plugins/autonomy/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 
-#include <(>>>PROJECT_NAME<<<)/plugins/autonomy/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <iostream>
+#include <limits>
 
 using std::cout;
 using std::endl;
@@ -52,21 +52,18 @@ REGISTER_PLUGIN(scrimmage::Controller,
 namespace scrimmage {
 namespace controller {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)()
-{
+(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() : follow_id_(-1) {
 }
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string,std::string> &params)
-{
+void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
     double initial_speed = sc::get<double>("initial_speed", params, 21);
 
     desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-    desired_state_->quat().set(0,0,state_->quat().yaw());
+    desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 }
 
-bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt)
-{
+bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt) {
     // Find nearest entity on other team. Loop through each contact, calculate
     // distance to entity, save the ID of the entity that is closest.
     double min_dist = std::numeric_limits<double>::infinity();

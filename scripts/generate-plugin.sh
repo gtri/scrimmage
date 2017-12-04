@@ -57,6 +57,10 @@ fi
 PROJECT_DIR=$(readlink -f "${PROJECT_DIR}")
 PROJECT_NAME=$(basename "${PROJECT_DIR}")
 
+HEADER_GUARD="INCLUDE_${PROJECT_NAME}_PLUGINS_${PLUGIN_TYPE}_${PLUGIN_NAME}_${PLUGIN_NAME}_H_"
+HEADER_GUARD=$(echo $HEADER_GUARD | awk '{print toupper($0)}') # to uppercase
+HEADER_GUARD=$(echo $HEADER_GUARD | tr - _) # replace - with _
+
 # Jump to the directory that holds this script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 pushd ${DIR} >& /dev/null
@@ -86,6 +90,7 @@ cp $XML_FILE_IN $XML_FILE_OUT
 cp $CMAKE_FILE_IN $CMAKE_FILE_OUT
 
 sed -i -- "s/(>>>PLUGIN_NAME<<<)/$PLUGIN_NAME/g" $H_FILE_OUT
+sed -i -- "s/(>>>HEADER_GUARD<<<)/$HEADER_GUARD/g" $H_FILE_OUT
 sed -i -- "s/(>>>PLUGIN_NAME<<<)/$PLUGIN_NAME/g" $XML_FILE_OUT
 sed -i -- "s/(>>>PLUGIN_NAME<<<)/$PLUGIN_NAME/g" $CMAKE_FILE_OUT
 
@@ -98,7 +103,7 @@ pushd >& /dev/null
 ## Modify the CMakeList.txt file in the plugin directory
 ################################################################################
 # This is no longer needed. There is a CMake script that GLOBS the
-#subdirectories of the plugins directory.  
+#subdirectories of the plugins directory.
 
 #CMAKELISTS_FILE=$(readlink -f "$PROJECT_DIR/CMakeLists.txt")
 #
