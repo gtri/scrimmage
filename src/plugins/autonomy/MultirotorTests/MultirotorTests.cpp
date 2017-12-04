@@ -31,14 +31,18 @@
  */
 
 #include <scrimmage/plugins/autonomy/MultirotorTests/MultirotorTests.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/sensor/Sensor.h>
 
 #include <iostream>
 #include <limits>
+
+#include <GeographicLib/LocalCartesian.hpp>
 
 using std::cout;
 using std::endl;
@@ -53,6 +57,10 @@ namespace scrimmage {
 namespace autonomy {
 
 MultirotorTests::MultirotorTests() {
+    angles_to_gps_.set_input_clock_direction(sc::Angles::Rotate::CCW);
+    angles_to_gps_.set_input_zero_axis(sc::Angles::HeadingZero::Pos_X);
+    angles_to_gps_.set_output_clock_direction(sc::Angles::Rotate::CW);
+    angles_to_gps_.set_output_zero_axis(sc::Angles::HeadingZero::Pos_Y);
 }
 
 void MultirotorTests::init(std::map<std::string, std::string> &params) {
@@ -70,11 +78,77 @@ void MultirotorTests::init(std::map<std::string, std::string> &params) {
     for (int i = 0; i < desired_rotor_state_->prop_input().size(); i++) {
         desired_rotor_state_->prop_input()(i) = w;
     }
-    // desired_rotor_state_->prop_input()(0) += 1;
+    desired_rotor_state_->prop_input()(0) += 10;
+
     desired_state_ = desired_rotor_state_;
 }
 
 bool MultirotorTests::step_autonomy(double t, double dt) {
+    sc::motion::RigidBody6DOFState state;
+    for (auto kv : parent_->sensors()) {
+        if (kv.first == "RigidBody6DOFStateSensor0") {
+            auto msg = kv.second->sense<sc::motion::RigidBody6DOFState>(t);
+            if (msg) {
+                state = (*msg)->data;
+            }
+        }
+    }
+
+    // simulation time in microseconds
+    uint64_t timestamp_us = t * 1e6;
+
+    // x/y/z to lat/lon/alt conversion
+    double latitude, longitude, altitude;
+    parent_->projection()->Reverse(state.pos()(0), state.pos()(1),
+                                   state.pos()(2), latitude, longitude,
+                                   altitude);
+
+    // Heading conversion
+    angles_to_gps_.set_angle(sc::Angles::rad2deg(state.quat().yaw()));
+    double heading = angles_to_gps_.angle();
+
+    double speedN = state.vel()(1);
+    double speedE = state.vel()(0);
+    double speedD = -state.vel()(2);
+
+    // Body frame linear acceleration
+    double xAccel = state.linear_accel()(0);
+    double yAccel = state.linear_accel()(1);
+    double zAccel = state.linear_accel()(2);
+
+    // Body frame rotational accelerations
+    double rollRate = state.ang_accel()(0);
+    double pitchRate = state.ang_accel()(1);
+    double yawRate = state.ang_accel()(2);
+
+    // Global frame, roll, pitch, yaw
+    double roll = state.quat().roll();
+    double pitch = state.quat().pitch();
+    double yaw = state.quat().yaw(); // Is this the same as heading?
+
+    // Airspeed is magnitude of velocity vector for now
+    double airspeed = state.vel().norm();
+
+    cout << "---------------" << endl;
+    cout << "timestamp_us: " << timestamp_us << endl;
+    cout << "Latitude: " << latitude << endl;
+    cout << "Longitude: " << longitude << endl;
+    cout << "Altitude: " << altitude << endl;
+    cout << "Airspeed: " << airspeed << endl;
+    cout << "Roll: " << roll << endl;
+    cout << "Pitch: " << pitch << endl;
+    cout << "Yaw: " << yaw << endl;
+    cout << "xAccel: " << xAccel << endl;
+    cout << "yAccel: " << yAccel << endl;
+    cout << "zAccel: " << zAccel << endl;
+    cout << "speedN: " << speedN << endl;
+    cout << "speedE: " << speedE << endl;
+    cout << "speedD: " << speedD << endl;
+    cout << "heading: " << heading << endl;
+    cout << "rollRate: " << rollRate << endl;
+    cout << "pitchRate: " << pitchRate << endl;
+    cout << "yawRate: " << yawRate << endl;
+
     return true;
 }
 } // namespace autonomy

@@ -30,30 +30,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
-#include <scrimmage/autonomy/Autonomy.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_
 
-#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
+#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/entity/Contact.h>
+
 #include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/math/Angles.h>
 
+#include <random>
+#include <vector>
 #include <map>
 #include <string>
 
 namespace scrimmage {
-namespace autonomy {
-class MultirotorTests : public scrimmage::Autonomy {
+namespace sensor {
+class RigidBody6DOFStateSensor : public scrimmage::Sensor {
  public:
-    MultirotorTests();
+    RigidBody6DOFStateSensor();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
 
  protected:
-    std::shared_ptr<scrimmage::motion::Multirotor> multirotor_;
-    std::shared_ptr<scrimmage::motion::MultirotorState> desired_rotor_state_;
-    scrimmage::Angles angles_to_gps_;
+    std::shared_ptr<std::default_random_engine> gener_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
+    std::shared_ptr<scrimmage::motion::Multirotor> motion_;
+
+ private:
 };
-} // namespace autonomy
+} // namespace sensor
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_

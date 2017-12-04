@@ -30,30 +30,52 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
-#include <scrimmage/autonomy/Autonomy.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFSTATE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFSTATE_H_
 
-#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 
-#include <map>
-#include <string>
+#include <Eigen/Dense>
 
 namespace scrimmage {
-namespace autonomy {
-class MultirotorTests : public scrimmage::Autonomy {
+namespace motion {
+
+class RigidBody6DOFState : public scrimmage::State {
  public:
-    MultirotorTests();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    RigidBody6DOFState() : linear_accel_(0, 0, 0), ang_accel_(0, 0, 0) {
+    }
+
+    Eigen::Vector3d &linear_accel() {
+        return linear_accel_;
+    }
+
+    Eigen::Vector3d &ang_accel() {
+        return ang_accel_;
+    }
+
+    const Eigen::Vector3d &linear_accel_const() const {
+        return linear_accel_;
+    }
+
+    const Eigen::Vector3d &ang_accel_const() const {
+        return ang_accel_;
+    }
+
+    void set_linear_accel(const Eigen::Vector3d &linear_accel) {
+        linear_accel_ = linear_accel;
+    }
+
+    void set_ang_accel(const Eigen::Vector3d &ang_accel) {
+        ang_accel_ = ang_accel;
+    }
 
  protected:
-    std::shared_ptr<scrimmage::motion::Multirotor> multirotor_;
-    std::shared_ptr<scrimmage::motion::MultirotorState> desired_rotor_state_;
-    scrimmage::Angles angles_to_gps_;
+    Eigen::Vector3d linear_accel_;
+    Eigen::Vector3d ang_accel_;
 };
-} // namespace autonomy
+
+using RigidBody6DOFStatePtr = std::shared_ptr<RigidBody6DOFState>;
+
+} // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MULTIROTORTESTS_MULTIROTORTESTS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFSTATE_H_

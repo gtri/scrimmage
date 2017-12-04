@@ -49,6 +49,33 @@ namespace scrimmage {
 namespace motion {
 class Multirotor : public scrimmage::MotionModel{
  public:
+    enum ModelParams {
+        U = 0,
+        V,
+        W,
+        P,
+        Q,
+        R,
+        U_dot,
+        V_dot,
+        W_dot,
+        P_dot,
+        Q_dot,
+        R_dot,
+        Uw,
+        Vw,
+        Ww,
+        Xw,
+        Yw,
+        Zw,
+        q0,
+        q1,
+        q2,
+        q3,
+        MODEL_NUM_ITEMS
+    };
+
+
     Multirotor();
 
     virtual bool init(std::map<std::string, std::string> &info,

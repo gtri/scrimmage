@@ -55,32 +55,6 @@ REGISTER_PLUGIN(scrimmage::MotionModel,
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    U = 0,
-    V,
-    W,
-    P,
-    Q,
-    R,
-    U_dot,
-    V_dot,
-    W_dot,
-    P_dot,
-    Q_dot,
-    R_dot,
-    Uw,
-    Vw,
-    Ww,
-    Xw,
-    Yw,
-    Zw,
-    q0,
-    q1,
-    q2,
-    q3,
-    MODEL_NUM_ITEMS
-};
-
 Multirotor::Multirotor() : write_csv_(false) {
     x_.resize(MODEL_NUM_ITEMS);
 }
@@ -258,6 +232,7 @@ bool Multirotor::step(double time, double dt) {
     // Convert local coordinates to world coordinates
     state_->quat() = quat_world_ * quat_local_;
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
+    state_->vel() << x_[Uw], x_[Vw], x_[Ww];
 
     if (write_csv_) {
         // Log state to CSV
