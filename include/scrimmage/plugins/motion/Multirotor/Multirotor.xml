@@ -7,7 +7,8 @@
   <gravity_magnitude>9.81</gravity_magnitude>
 
   <!-- Platform mass -->
-  <mass>1.2</mass>
+  <!--<mass>1.2</mass>-->
+  <mass>1.5</mass>
 
   <inertia_matrix>
     [ 0.0122 0.0000 0.0000 ]
@@ -33,12 +34,27 @@
        around the center of the multirotor. By convention, order the list of
        rotors by moving counter clockwise around the multirotor's center. -->
   <!-- [ rotor_direction x_offset y_offset z_offset roll pitch yaw ] -->
-  <rotor_config>
-    [ CW +0.1237 +0.1237 0 0 0 0 ]
-    [CCW -0.1237 +0.1237 0 0 0 0 ]
-    [ CW -0.1237 -0.1237 0 0 0 0 ]
-    [CCW +0.1237 -0.1237 0 0 0 0 ]
+  <rotor_config>    
+    [CCW +0.0000 -0.1750 0 0 0 0 ]
+    [CCW +0.0000 +0.1750 0 0 0 0 ]
+    [CW  +0.1750 +0.0000 0 0 0 0 ]
+    [CW  -0.1750 +0.0000 0 0 0 0 ]
   </rotor_config>
+
+  <!-- Quad X configuration-->
+  <!--
+      [CCW +0.1237 -0.1237 0 0 0 0 ]
+      [CCW -0.1237 +0.1237 0 0 0 0 ]
+      [CW  +0.1237 +0.1237 0 0 0 0 ]
+      [CW  -0.1237 -0.1237 0 0 0 0 ]
+  -->
+  
+  <!--
+      [ CW +0.1237 +0.1237 0 0 0 0 ]
+      [CCW -0.1237 +0.1237 0 0 0 0 ]
+      [ CW -0.1237 -0.1237 0 0 0 0 ]
+      [CCW +0.1237 -0.1237 0 0 0 0 ]
+  -->
   <!-- WARNING: Currently, z_offset, roll, and pitch are not used in
        model. These are placed here for future use -->
   <!-- The x-axis is the vehicle's "forward" direction -->

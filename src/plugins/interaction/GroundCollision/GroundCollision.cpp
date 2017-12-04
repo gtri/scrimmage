@@ -38,6 +38,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/msgs/Collision.pb.h>
+#include <scrimmage/motion/MotionModel.h>
 
 #include <scrimmage/plugins/interaction/GroundCollision/GroundCollision.h>
 
@@ -53,8 +54,17 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GroundColl
 namespace scrimmage {
 namespace interaction {
 
+GroundCollision::GroundCollision() : ground_collision_z_(0.0),
+                                     remove_on_collision_(true),
+                                     enable_startup_collisions_(true) {
+}
+
 bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
+
+    remove_on_collision_ = sc::get<bool>("remove_on_collision", plugin_params, true);
+    enable_startup_collisions_ = sc::get<bool>("enable_startup_collisions", plugin_params, true);
+
     // Determine ground collision z-value. If ground_collision_altitude is
     // defined, it has priority.
     ground_collision_z_ = sc::get("ground_collision_z", plugin_params, 0.0);
@@ -70,13 +80,23 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-
 bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt) {
     // Account for entities colliding with
     for (sc::EntityPtr ent : ents) {
-        if (ent->state()->pos()(2) < ground_collision_z_) {
-            ent->collision();
+        if (ent->state()->pos()(2) <= ground_collision_z_) {
+            if (remove_on_collision_) {
+                ent->collision();
+            } else {
+                // Apply a normal force to motion model in opposite direction
+                // of gravity.
+                double force = ent->motion()->mass() * ent->motion()->gravity_magnitude();
+                ent->motion()->set_external_force(Eigen::Vector3d(0, 0, force));
+                // StatePtr &s = ent->state();
+                // s->pos()(2) = ground_collision_z_;
+                // s->vel() << 0, 0, 0;
+                // ent->motion()->teleport(s);
+            }
 
             auto msg = std::make_shared<sc::Message<sm::GroundCollision>>();
             msg->data.set_entity_id(ent->id().id());
@@ -88,7 +108,12 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
 bool GroundCollision::collision_exists(std::list<sc::EntityPtr> &ents,
                                        Eigen::Vector3d &p) {
-    if (p(2) < ground_collision_z_) {
+
+    if (!enable_startup_collisions_) {
+        return false;
+    }
+
+    if (p(2) <= ground_collision_z_) {
         return true;
     }
     return false;

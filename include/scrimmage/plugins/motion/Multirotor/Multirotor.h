@@ -118,6 +118,8 @@ class Multirotor : public scrimmage::MotionModel{
     bool write_csv_;
     CSV csv_;
 
+    Eigen::Vector3d force_ext_body_;
+
  private:
 };
 } // namespace motion

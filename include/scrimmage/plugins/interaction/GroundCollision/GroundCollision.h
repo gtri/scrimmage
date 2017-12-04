@@ -44,6 +44,8 @@ namespace scrimmage {
 namespace interaction {
 class GroundCollision : public scrimmage::EntityInteraction {
  public:
+    GroundCollision();
+
     virtual std::string name()
     { return std::string("GroundCollision"); }
 
@@ -59,6 +61,8 @@ class GroundCollision : public scrimmage::EntityInteraction {
  protected:
     double ground_collision_z_;
     scrimmage::PublisherPtr collision_pub_;
+    bool remove_on_collision_;
+    bool enable_startup_collisions_;
 };
 } // namespace interaction
 } // namespace scrimmage

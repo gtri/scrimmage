@@ -17,6 +17,7 @@ macro(MacroCommonPaths NAME DIR_NAME)
       /usr/local/include
       /usr/local/include/${DIR_NAME}
       /usr/include
+      /usr/include/${DIR_NAME}
       /sw/include # Fink
       /opt/local/include # DarwinPorts
       /opt/csw/include # Blastwave

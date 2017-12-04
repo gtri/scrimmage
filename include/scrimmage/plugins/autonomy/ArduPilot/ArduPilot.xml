@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>ArduPilot_plugin</library>
+
+  <!-- Transmit Socket: State information from SCRIMMAGE to ArduPilot -->
+  <to_ardupilot_ip>127.0.0.1</to_ardupilot_ip>
+  <to_ardupilot_port>5003</to_ardupilot_port>
+
+  <!-- Receive Socket: PWM commands from ArduPilot -->
+  <from_ardupilot_port>5002</from_ardupilot_port>
+  
+</params>

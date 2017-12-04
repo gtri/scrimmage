@@ -105,7 +105,7 @@ bool MultirotorControllerPID::step(double t, double dt) {
     // cout << "Desired Velocity (Body): " << des_vel_body << endl;
 
     for (unsigned int i = 0; i < multirotor_->rotors().size(); i++) {
-        u_(i) = sqrt(multirotor_->mass() * multirotor_->g() /
+        u_(i) = sqrt(multirotor_->mass() * multirotor_->gravity_magnitude() /
                      (multirotor_->rotors().size() * multirotor_->c_T()));
     }
 

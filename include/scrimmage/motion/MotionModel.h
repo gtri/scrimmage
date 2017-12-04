@@ -62,7 +62,7 @@ class MotionModel : public Plugin {
     virtual void set_external_force(Eigen::Vector3d force);
     virtual void set_mass(double mass) { mass_ = mass; }
     virtual double mass() { return mass_; }
-    virtual double g() { return g_; }
+    virtual double gravity_magnitude() { return g_; }
     virtual std::vector<double> &full_state_vector() {
         return x_;
     }
