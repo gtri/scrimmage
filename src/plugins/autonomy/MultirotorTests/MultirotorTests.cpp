@@ -112,14 +112,14 @@ bool MultirotorTests::step_autonomy(double t, double dt) {
     double speedD = -state.vel()(2);
 
     // Body frame linear acceleration
-    double xAccel = state.linear_accel()(0);
-    double yAccel = state.linear_accel()(1);
-    double zAccel = state.linear_accel()(2);
+    double xAccel = state.linear_accel_body()(0);
+    double yAccel = -state.linear_accel_body()(1);
+    double zAccel = -state.linear_accel_body()(2);
 
     // Body frame rotational accelerations
-    double rollRate = state.ang_accel()(0);
-    double pitchRate = state.ang_accel()(1);
-    double yawRate = state.ang_accel()(2);
+    double rollRate = state.ang_accel_body()(0);
+    double pitchRate = state.ang_accel_body()(1);
+    double yawRate = state.ang_accel_body()(2);
 
     // Global frame, roll, pitch, yaw
     double roll = state.quat().roll();

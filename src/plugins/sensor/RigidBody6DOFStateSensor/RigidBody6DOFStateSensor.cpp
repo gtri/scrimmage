@@ -98,11 +98,23 @@ boost::optional<scrimmage::MessageBasePtr> RigidBody6DOFStateSensor::sensor_msg(
     msg->data.ang_vel() = parent_->state()->ang_vel();
     msg->data.quat() = parent_->state()->quat();
 
-    msg->data.linear_accel() << motion_->full_state_vector()[sc::motion::Multirotor::U_dot],
+    msg->data.linear_vel_body() <<
+        motion_->full_state_vector()[sc::motion::Multirotor::U],
+        motion_->full_state_vector()[sc::motion::Multirotor::V],
+        motion_->full_state_vector()[sc::motion::Multirotor::W];
+
+    msg->data.ang_vel_body() <<
+        motion_->full_state_vector()[sc::motion::Multirotor::P],
+        motion_->full_state_vector()[sc::motion::Multirotor::Q],
+        motion_->full_state_vector()[sc::motion::Multirotor::R];
+
+    msg->data.linear_accel_body() <<
+        motion_->full_state_vector()[sc::motion::Multirotor::U_dot],
         motion_->full_state_vector()[sc::motion::Multirotor::V_dot],
         motion_->full_state_vector()[sc::motion::Multirotor::W_dot];
 
-    msg->data.ang_accel() << motion_->full_state_vector()[sc::motion::Multirotor::P_dot],
+    msg->data.ang_accel_body() <<
+        motion_->full_state_vector()[sc::motion::Multirotor::P_dot],
         motion_->full_state_vector()[sc::motion::Multirotor::Q_dot],
         motion_->full_state_vector()[sc::motion::Multirotor::R_dot];
 

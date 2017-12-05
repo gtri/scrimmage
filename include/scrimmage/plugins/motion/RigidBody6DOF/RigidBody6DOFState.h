@@ -42,36 +42,48 @@ namespace motion {
 
 class RigidBody6DOFState : public scrimmage::State {
  public:
-    RigidBody6DOFState() : linear_accel_(0, 0, 0), ang_accel_(0, 0, 0) {
+RigidBody6DOFState() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
+        linear_accel_body_(0, 0, 0), ang_accel_body_(0, 0, 0) {
     }
 
-    Eigen::Vector3d &linear_accel() {
-        return linear_accel_;
+    Eigen::Vector3d &linear_vel_body() {
+        return linear_vel_body_;
     }
 
-    Eigen::Vector3d &ang_accel() {
-        return ang_accel_;
+    Eigen::Vector3d &ang_vel_body() {
+        return ang_vel_body_;
     }
 
-    const Eigen::Vector3d &linear_accel_const() const {
-        return linear_accel_;
+    Eigen::Vector3d &linear_accel_body() {
+        return linear_accel_body_;
     }
 
-    const Eigen::Vector3d &ang_accel_const() const {
-        return ang_accel_;
+    Eigen::Vector3d &ang_accel_body() {
+        return ang_accel_body_;
     }
 
-    void set_linear_accel(const Eigen::Vector3d &linear_accel) {
-        linear_accel_ = linear_accel;
+    const Eigen::Vector3d &linear_vel_body_const() const {
+        return linear_vel_body_;
     }
 
-    void set_ang_accel(const Eigen::Vector3d &ang_accel) {
-        ang_accel_ = ang_accel;
+    const Eigen::Vector3d &ang_vel_body_const() const {
+        return ang_vel_body_;
     }
+
+    const Eigen::Vector3d &linear_accel_body_const() const {
+        return linear_accel_body_;
+    }
+
+    const Eigen::Vector3d &ang_accel_body_const() const {
+        return ang_accel_body_;
+    }
+
 
  protected:
-    Eigen::Vector3d linear_accel_;
-    Eigen::Vector3d ang_accel_;
+    Eigen::Vector3d linear_vel_body_;
+    Eigen::Vector3d ang_vel_body_;
+    Eigen::Vector3d linear_accel_body_;
+    Eigen::Vector3d ang_accel_body_;
 };
 
 using RigidBody6DOFStatePtr = std::shared_ptr<RigidBody6DOFState>;
