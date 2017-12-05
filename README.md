@@ -163,6 +163,12 @@ To install scrimmage's python bindings:
 
     $ firefox ./docs/sphinx/html/index.html
 
+## Build and Run Tests
+
+    $ cmake .. -DBUILD_TESTS=ON
+    $ make
+    $ make test
+
 ## Cleaning SCRIMMAGE
 
 The scrimmage source code can be cleaned with the standard clean command:
