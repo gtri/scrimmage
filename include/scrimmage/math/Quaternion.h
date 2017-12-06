@@ -106,6 +106,9 @@ class Quaternion : public Eigen::Quaterniond {
      */
     Eigen::Vector3d rotate_reverse(const Eigen::Vector3d &vec) const;
     ///@}
+
+    uint8_t output_precision = 2;
+    friend std::ostream& operator<<(std::ostream& os, const Quaternion& q);
 };
 
 } // namespace scrimmage

@@ -88,6 +88,10 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
+    quat_world_.normalize();
+
+    quat_world_inverse_ = quat_world_.inverse();
+    quat_world_inverse_.normalize();
 
     turn_rate_max_ = std::stod(params.at("turn_rate_max"));
     pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
@@ -112,10 +116,15 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     x_[Zw] = pos(2);
 
     // Initial Local orientation (no rotation)
-    x_[q0] = 1;
-    x_[q1] = 0;
-    x_[q2] = 0;
-    x_[q3] = 0;
+    quat_local_.w() = 1;
+    quat_local_.x() = 0;
+    quat_local_.y() = 0;
+    quat_local_.z() = 0;
+    quat_local_.normalize();
+    x_[q0] = quat_local_.w();
+    x_[q1] = quat_local_.x();
+    x_[q2] = quat_local_.y();
+    x_[q3] = quat_local_.z();
 
     if (write_csv_) {
         csv_.open_output(parent_->mp()->log_dir() + "/"
@@ -127,7 +136,9 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
                     "U", "V", "W",
                     "P", "Q", "R",
                     "roll", "pitch", "yaw",
-                    "vel", "yaw_rate", "pitch_rate"});
+                    "vel", "yaw_rate", "pitch_rate",
+                    "Uw", "Vw", "Ww",
+                    "Xw", "Yw", "Zw"});
     }
 
     return true;
@@ -153,6 +164,14 @@ bool Unicycle3D::step(double t, double dt) {
     x_[Yw] = state_->pos()(1);
     x_[Zw] = state_->pos()(2);
 
+    state_->quat().normalize();
+    quat_local_ = state_->quat() * quat_world_inverse_;
+    quat_local_.normalize();
+    x_[q0] = quat_local_.w();
+    x_[q1] = quat_local_.x();
+    x_[q2] = quat_local_.y();
+    x_[q3] = quat_local_.z();
+
     ode_step(dt);
 
     // Normalize quaternion
@@ -167,10 +186,13 @@ bool Unicycle3D::step(double t, double dt) {
     x_[q2] = quat_local_.y();
     x_[q3] = quat_local_.z();
 
+    Eigen::Vector3d vel_local(x_[U], x_[Q], x_[R]);
+
     // Convert local coordinates to world coordinates
-    state_->quat() = quat_world_ * quat_local_;
+    state_->quat() = quat_local_ * quat_world_;
+    state_->quat().normalize();
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
-    state_->vel() << x_[Uw], x_[Vw], x_[Ww];
+    state_->vel() << state_->quat().toRotationMatrix() * vel_local;
 
     if (write_csv_) {
         // Log state to CSV
@@ -190,7 +212,13 @@ bool Unicycle3D::step(double t, double dt) {
                 {"yaw", state_->quat().yaw()},
                 {"vel", vel},
                 {"yaw_rate", yaw_rate},
-                {"pitch_rate", pitch_rate}});
+                {"pitch_rate", pitch_rate},
+                {"Uw", state_->vel()(0)},
+                {"Vw", state_->vel()(1)},
+                {"Ww", state_->vel()(2)},
+                {"Xw", x_[Xw]},
+                {"Yw", x_[Yw]},
+                {"Zw", x_[Zw]}});
     }
 
     return true;
@@ -214,12 +242,9 @@ void Unicycle3D::model(const vector_t &x , vector_t &dxdt , double t) {
     // Local position / velocity to global
     // Normalize quaternion
     sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
-    quat.w() = x[q0];
-    quat.x() = x[q1];
-    quat.y() = x[q2];
-    quat.z() = x[q3];
+    quat.normalize();
 
-    quat = quat_world_ * quat;
+    quat = quat * quat_world_;
     quat.normalize();
 
     // Convert local positions and velocities into global coordinates
@@ -230,12 +255,6 @@ void Unicycle3D::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Xw] = vel_world(0);
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
-
-    Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
-    Eigen::Vector3d acc_world = rot * acc_local;
-    dxdt[Uw] = acc_world(0);
-    dxdt[Vw] = acc_world(1);
-    dxdt[Ww] = acc_world(2);
 }
 } // namespace motion
 } // namespace scrimmage

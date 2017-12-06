@@ -32,6 +32,9 @@
 
 #include <scrimmage/math/Quaternion.h>
 
+#include <iostream>
+#include <iomanip>
+
 namespace scrimmage {
 
 Quaternion::Quaternion() : Eigen::Quaterniond() {}
@@ -116,6 +119,14 @@ Eigen::Vector3d Quaternion::rotate(const Eigen::Vector3d &vec) const {
 Eigen::Vector3d Quaternion::rotate_reverse(const Eigen::Vector3d &vec) const {
     Eigen::Quaterniond pure_quat(0, vec.x(), vec.y(), vec.z());
     return (inverse() * pure_quat * *this).vec();
+}
+
+std::ostream& operator<<(std::ostream& os, const Quaternion& q) {
+    os << "w: " << std::setprecision(q.output_precision) << q.w()
+       << ", x: " << std::setprecision(q.output_precision) << q.x()
+       << ", y: " << std::setprecision(q.output_precision) << q.y()
+       << ", z: " << std::setprecision(q.output_precision) << q.z();
+    return os;
 }
 
 } // namespace scrimmage

@@ -69,6 +69,7 @@ class Unicycle3D : public scrimmage::MotionModel {
     bool enable_roll_;
 
     scrimmage::Quaternion quat_world_;
+    scrimmage::Quaternion quat_world_inverse_;
     scrimmage::Quaternion quat_local_;
 
     bool write_csv_;
