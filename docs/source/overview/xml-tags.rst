@@ -155,9 +155,9 @@ and match between the two paradigms for a single entity.
     interaction plugin can affect the health points of each entity depending on
     entity messages and the world state. When the health points decrement to
     zero, the entity is usually removed by the entity interaction plugin.
-  - ``variance_x`` : The first entity in an entity group is always initialized
-    at the position determined by the the ``x``, ``y``, and ``altitude``
-    tags. However, since it can be tedious to specifically initialize large
+  - ``variance_x`` : The first entity in an entity group is, by default,
+    initialized at the position determined by the the ``x``, ``y``, and
+    ``altitude`` tags. Since it can be tedious to specifically initialize large
     numbers of entities, scrimmage has the ability to randomly initialize an
     entity group's starting positions. The ``variance_x``, ``variance_y``, and
     ``variance_z`` tags bound the possible starting locations to a cube around
@@ -166,6 +166,10 @@ and match between the two paradigms for a single entity.
     generating entities.
   - ``variance_z`` : The z-distance around the entity's initial position for
     generating entities.
+  - ``use_variance_all_ents`` : Defaults to ``false``. This tag, if set to
+    ``true``, causes the first entity in an entity group to be placed randomly
+    according to the same variances and about the same ``x``, ``y``,
+    ``altitude`` point as the rest of the entity group.
   - ``x`` : The entity's initial x-position. The first entity in the entity
     group is initialized at this x-position, but other entities in the same
     group are randomly placed around this starting position.
