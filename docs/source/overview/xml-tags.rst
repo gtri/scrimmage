@@ -47,7 +47,7 @@ and match between the two paradigms for a single entity.
 - ``seed`` : Used to seed SCRIMMAGE's random number generator. If not specified
   or commented out, the current computer time will be used to seed the
   simulation.
-  
+
 - ``end_condition`` : Specifies the conditions for ending the simulation. The
   possible end conditions are ``time``, ``one_team``, and ``none``. If ``time``
   is set, the simulation will automatically end when the time reaches the
@@ -111,7 +111,7 @@ and match between the two paradigms for a single entity.
 - ``metrics`` : This tag loads metrics plugins and executes them during the
   mission based on the ``order`` attribute. A metrics plugin counts "events" in
   the simulation and outputs the counts to the summary CSV file.
-  
+
 - ``entity_interaction`` : This tag loads a plugin that computes interactions
   between entities during the simulation. For example, the ``SimpleCollision``
   entity interaction plugin computes the distance between all entities and if
@@ -155,9 +155,9 @@ and match between the two paradigms for a single entity.
     interaction plugin can affect the health points of each entity depending on
     entity messages and the world state. When the health points decrement to
     zero, the entity is usually removed by the entity interaction plugin.
-  - ``variance_x`` : The first entity in an entity group is always initialized
-    at the position determined by the the ``x``, ``y``, and ``altitude``
-    tags. However, since it can be tedious to specifically initialize large
+  - ``variance_x`` : The first entity in an entity group is, by default,
+    initialized at the position determined by the the ``x``, ``y``, and
+    ``altitude`` tags. Since it can be tedious to specifically initialize large
     numbers of entities, scrimmage has the ability to randomly initialize an
     entity group's starting positions. The ``variance_x``, ``variance_y``, and
     ``variance_z`` tags bound the possible starting locations to a cube around
@@ -166,6 +166,10 @@ and match between the two paradigms for a single entity.
     generating entities.
   - ``variance_z`` : The z-distance around the entity's initial position for
     generating entities.
+  - ``use_variance_all_ents`` : Defaults to ``false``. This tag, if set to
+    ``true``, causes the first entity in an entity group to be placed randomly
+    according to the same variances and about the same ``x``, ``y``,
+    ``altitude`` point as the rest of the entity group.
   - ``x`` : The entity's initial x-position. The first entity in the entity
     group is initialized at this x-position, but other entities in the same
     group are randomly placed around this starting position.
@@ -207,7 +211,7 @@ and match between the two paradigms for a single entity.
   - ``sensor`` : Loads a sensor plugin. Multiple sensor plugins can run in
     serial on a single entity. The order of execution is specifed by the
     ``order`` attribute.
-    
+
   - ``base`` : Used to define a "home base" for the entity. Only one home base
     per team should be specified. Entity groups that share a team ID will share
     a home base defined in only one entity group. The ``base`` tag has the
@@ -226,10 +230,10 @@ and match between the two paradigms for a single entity.
   attributes:
 
   - ``mode``: ``follow``, ``free``, or ``offset``
-  - ``follow_id``: the entity id for the camera to follow 
+  - ``follow_id``: the entity id for the camera to follow
   - ``pos``: 3 entry comma separated list of where to put the camera
     (applicable to ``free`` mode only)
   - ``focal_point``: 3 entry comma separated list of where to point the camera
     (applicable to ``free`` mode only)
-  - ``show_fps``: whether to show frames per second on the gui 
+  - ``show_fps``: whether to show frames per second on the gui
 
