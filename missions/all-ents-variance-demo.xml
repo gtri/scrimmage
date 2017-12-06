@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Randomized Starting Positions For All">
+
+  <run start="0.0" end="1000" dt="0.1"
+       time_warp="10"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>GroundCollision</entity_interaction>
+  <entity_interaction>Boundary</entity_interaction>
+
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>5</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- If this variable is true within a specific entity block,
+         all entities, including the first entity in the block, 
+         will select random positions according to the variances
+         defined for that block (not just all entities after the 
+         first) -->
+    <use_variance_all_ents>true</use_variance_all_ents>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>-100</x>
+    <y>0</y>
+    <z>200</z>
+    <heading>0</heading>
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyState</sensor>
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy show_text_label="true"
+              enable_boundary_control="true">Straight</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <entity>
+    <team_id>2</team_id>
+    <color>255 0 0</color>
+    <count>5</count>
+    <health>1</health>
+    <radius>2</radius>
+
+    <use_variance_all_ents>true</use_variance_all_ents>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>20</variance_z>
+
+    <x>100</x>
+    <y>0</y>
+    <z>200</z>
+
+    <heading>180</heading>
+    <altitude>200</altitude>
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-red</visual_model>
+    <autonomy speed="21"
+              enable_boundary_control="true">Straight</autonomy>
+    <base>
+      <latitude>35.719961</latitude>
+      <longitude>-120.767304</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+</runscript>

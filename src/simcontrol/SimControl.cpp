@@ -369,20 +369,24 @@ bool SimControl::generate_entities(double t) {
             NormDist heading_normal_dist(heading, get("variance_heading", params, 0.0));
             params["heading"] = std::to_string(heading_normal_dist(*gener));
 
+            bool use_variance_all_ents = scrimmage::get<bool>("use_variance_all_ents", params, false);
 
             // Use variance if not the first entity in this group, or if a
             // collision exists (This happens when you place <entity> tags"
-            // at the same location).
-            if (!gen_info.first_in_group || collision_exists(pos)) {
+            // at the same location). Or, if use_variance_all_ents is 
+            // specified as true in the entity block.
+            if (!gen_info.first_in_group || collision_exists(pos) || use_variance_all_ents) {
 
                 // Use the uniform distribution to place aircraft
                 // within the x/y variance
                 int ct = 0;
                 const int max_ct = 1e6;
-                while (ct++ < max_ct && !exit_ && collision_exists(pos)) {
+                bool reselect_pos = collision_exists(pos) || use_variance_all_ents;
+                while (ct++ < max_ct && !exit_ && reselect_pos) {
                     pos(0) = x_normal_dist(*gener);
                     pos(1) = y_normal_dist(*gener);
                     pos(2) = z_normal_dist(*gener);
+                    reselect_pos = collision_exists(pos);
                 }
 
                 if (ct >= max_ct) {
