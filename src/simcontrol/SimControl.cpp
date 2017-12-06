@@ -373,7 +373,7 @@ bool SimControl::generate_entities(double t) {
 
             // Use variance if not the first entity in this group, or if a
             // collision exists (This happens when you place <entity> tags"
-            // at the same location). Or, if use_variance_all_ents is 
+            // at the same location). Or, if use_variance_all_ents is
             // specified as true in the entity block.
             if (!gen_info.first_in_group || collision_exists(pos) || use_variance_all_ents) {
 
