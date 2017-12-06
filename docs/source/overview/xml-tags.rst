@@ -47,7 +47,7 @@ and match between the two paradigms for a single entity.
 - ``seed`` : Used to seed SCRIMMAGE's random number generator. If not specified
   or commented out, the current computer time will be used to seed the
   simulation.
-  
+
 - ``end_condition`` : Specifies the conditions for ending the simulation. The
   possible end conditions are ``time``, ``one_team``, and ``none``. If ``time``
   is set, the simulation will automatically end when the time reaches the
@@ -111,7 +111,7 @@ and match between the two paradigms for a single entity.
 - ``metrics`` : This tag loads metrics plugins and executes them during the
   mission based on the ``order`` attribute. A metrics plugin counts "events" in
   the simulation and outputs the counts to the summary CSV file.
-  
+
 - ``entity_interaction`` : This tag loads a plugin that computes interactions
   between entities during the simulation. For example, the ``SimpleCollision``
   entity interaction plugin computes the distance between all entities and if
@@ -211,7 +211,7 @@ and match between the two paradigms for a single entity.
   - ``sensor`` : Loads a sensor plugin. Multiple sensor plugins can run in
     serial on a single entity. The order of execution is specifed by the
     ``order`` attribute.
-    
+
   - ``base`` : Used to define a "home base" for the entity. Only one home base
     per team should be specified. Entity groups that share a team ID will share
     a home base defined in only one entity group. The ``base`` tag has the
@@ -230,10 +230,10 @@ and match between the two paradigms for a single entity.
   attributes:
 
   - ``mode``: ``follow``, ``free``, or ``offset``
-  - ``follow_id``: the entity id for the camera to follow 
+  - ``follow_id``: the entity id for the camera to follow
   - ``pos``: 3 entry comma separated list of where to put the camera
     (applicable to ``free`` mode only)
   - ``focal_point``: 3 entry comma separated list of where to point the camera
     (applicable to ``free`` mode only)
-  - ``show_fps``: whether to show frames per second on the gui 
+  - ``show_fps``: whether to show frames per second on the gui
 
