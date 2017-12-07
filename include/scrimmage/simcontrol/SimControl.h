@@ -125,6 +125,7 @@ class SimControl {
     struct Task {
         EntityPtr ent;
         std::promise<bool> prom;
+        bool run_autonomy;
     };
 
     bool take_step();

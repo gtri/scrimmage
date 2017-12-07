@@ -1011,7 +1011,14 @@ void SimControl::worker() {
             entity_pool_queue_.pop_front();
             entity_pool_mutex_.unlock();
 
-            bool success = run_entity(ent);
+            bool success = true;
+            if (task->run_autonomy) {
+                for (AutonomyPtr &autonomy : ent->autonomies()) {
+                    success &= autonomy->step_autonomy(t_, dt_);
+                }
+            } else {
+                success = run_entity(ent);
+            }
 
             entity_pool_mutex_.lock();
             task->prom.set_value(success);
@@ -1020,32 +1027,52 @@ void SimControl::worker() {
     }
 }
 
+void print_err(PluginPtr p) {
+    std::cout << "failed to update entity " << p->parent()->id().id()
+        << ", plugin type \"" << p->type() << "\""
+        << ", plugin name \"" << p->name() << "\"" << std::endl;
+}
+
 bool SimControl::run_entities() {
     contacts_mutex_.lock();
     bool success = true;
     if (use_entity_threads_) {
 
-        // put tasks on queue
-        std::vector<std::future<bool>> futures;
-        futures.reserve(ents_.size());
+        for (bool run_autonomy : {true, false}) {
+            // put tasks on queue
+            std::vector<std::future<bool>> futures;
+            futures.reserve(ents_.size());
 
-        entity_pool_mutex_.lock();
-        for (EntityPtr &ent : ents_) {
-            std::shared_ptr<Task> task = std::make_shared<Task>();
-            task->ent = ent;
-            entity_pool_queue_.push_back(task);
-            futures.push_back(task->prom.get_future());
-        }
-        entity_pool_mutex_.unlock();
+            entity_pool_mutex_.lock();
+            for (EntityPtr &ent : ents_) {
+                std::shared_ptr<Task> task = std::make_shared<Task>();
+                task->ent = ent;
+                task->run_autonomy = run_autonomy;
+                entity_pool_queue_.push_back(task);
+                futures.push_back(task->prom.get_future());
+            }
+            entity_pool_mutex_.unlock();
 
-        // tell the threads to run
-        entity_pool_condition_var_.notify_all();
+            // tell the threads to run
+            entity_pool_condition_var_.notify_all();
 
-        // wait for results
-        for (std::future<bool> &future : futures) {
-            success &= future.get();
+            // wait for results
+            for (std::future<bool> &future : futures) {
+                success &= future.get();
+            }
         }
     } else {
+
+        success = true;
+        for (EntityPtr &ent : ents_) {
+            for (AutonomyPtr &a : ent->autonomies()) {
+                if (!a->step_autonomy(t_, dt_)) {
+                    print_err(a);
+                    success = false;
+                }
+            }
+        }
+
         success = std::all_of(ents_.begin(), ents_.end(),
             [&](auto ent) {return this->run_entity(ent);});
     }
@@ -1063,28 +1090,23 @@ bool SimControl::run_entities() {
 
 bool SimControl::run_entity(EntityPtr &ent) {
     bool success = true;
-    auto update_success = [&](auto res, auto plugin) {
-        if (!res) {
-            std::cout << "failed to update entity " << plugin->parent()->id().id()
-                << ", plugin type \"" << plugin->type() << "\""
-                << ", plugin name \"" << plugin->name() << "\"" << std::endl;
-            success = false;
-        }
-    };
-
-    for (AutonomyPtr &autonomy : ent->autonomies()) {
-        update_success(autonomy->step_autonomy(t_, dt_), autonomy);
-    }
-
     ent->setup_desired_state();
+
 
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         for (ControllerPtr &ctrl : ent->controllers()) {
-            update_success(ctrl->step(temp_t, motion_dt), ctrl);
+            if (!ctrl->step(temp_t, motion_dt)) {
+                print_err(ctrl);
+                success = false;
+            }
         }
-        update_success(ent->motion()->step(temp_t, motion_dt), ent->motion());
+
+        if (!ent->motion()->step(temp_t, motion_dt)) {
+            print_err(ent->motion());
+            success = false;
+        }
         temp_t += motion_dt;
     }
 
