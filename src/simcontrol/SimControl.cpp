@@ -1073,7 +1073,7 @@ bool SimControl::run_entities() {
             }
         }
 
-        success = std::all_of(ents_.begin(), ents_.end(),
+        success &= std::all_of(ents_.begin(), ents_.end(),
             [&](auto ent) {return this->run_entity(ent);});
     }
     contacts_mutex_.unlock();
