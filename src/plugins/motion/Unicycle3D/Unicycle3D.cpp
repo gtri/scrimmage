@@ -152,10 +152,6 @@ bool Unicycle3D::step(double t, double dt) {
     double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
     double pitch_rate = boost::algorithm::clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
 
-    x_[U] = vel;
-    x_[Q] = pitch_rate;
-    x_[R] = yaw_rate;
-
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
     x_[Ww] = state_->vel()(2);
@@ -172,6 +168,16 @@ bool Unicycle3D::step(double t, double dt) {
     x_[q2] = quat_local_.y();
     x_[q3] = quat_local_.z();
 
+    Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
+
+    x_[U] = vel + force_body(0) / mass_;
+    x_[V] = force_body(1) / mass_;
+    x_[W] = force_body(2) / mass_;
+
+    x_[P] = 0;
+    x_[Q] = pitch_rate;
+    x_[R] = yaw_rate;
+
     ode_step(dt);
 
     // Normalize quaternion
@@ -186,7 +192,7 @@ bool Unicycle3D::step(double t, double dt) {
     x_[q2] = quat_local_.y();
     x_[q3] = quat_local_.z();
 
-    Eigen::Vector3d vel_local(x_[U], x_[Q], x_[R]);
+    Eigen::Vector3d vel_local(x_[U], x_[V], x_[W]);
 
     // Convert local coordinates to world coordinates
     state_->quat() = quat_local_ * quat_world_;
