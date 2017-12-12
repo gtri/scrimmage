@@ -30,9 +30,8 @@
  *
  */
 #include <scrimmage/plugins/autonomy/ExternalControl/ExternalControlClient.h>
-#include <scrimmage/math/State.h>
-#include <google/protobuf/empty.pb.h>
-#include <scrimmage/proto/ProtoConversions.h>
+
+#include <grpc++/grpc++.h>
 
 #include <iostream>
 
@@ -44,8 +43,10 @@ namespace sp = scrimmage_proto;
 namespace scrimmage {
 namespace autonomy {
 
-bool ExternalControlClient::send_environment(
-        scrimmage_proto::Environment &env, scrimmage::StatePtr state) {
+ExternalControlClient::ExternalControlClient(std::shared_ptr<grpc::Channel> channel) :
+    stub_(scrimmage_proto::ExternalControl::NewStub(channel)) {}
+
+bool ExternalControlClient::send_environment(scrimmage_proto::Environment &env) {
 
     sp::Empty reply;
     grpc::ClientContext context;

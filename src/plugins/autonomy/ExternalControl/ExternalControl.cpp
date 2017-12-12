@@ -41,6 +41,8 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/sensor/Sensor.h>
 
+#include <grpc++/grpc++.h>
+
 #include <limits>
 
 #include <boost/optional.hpp>
@@ -172,7 +174,7 @@ bool ExternalControl::send_env() {
     env.set_min_reward(min_reward_);
     env.set_max_reward(max_reward_);
 
-    return external_control_client_->send_environment(env, desired_state_);
+    return external_control_client_->send_environment(env);
 }
 
 scrimmage_proto::SpaceParams ExternalControl::action_space_params() {

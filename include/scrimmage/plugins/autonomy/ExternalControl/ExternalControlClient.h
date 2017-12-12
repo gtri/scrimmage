@@ -32,14 +32,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
 
-#include <grpc++/grpc++.h>
-
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/ExternalControl.pb.h>
 #include <scrimmage/proto/ExternalControl.grpc.pb.h>
 
 #include <map>
 #include <string>
+
+namespace grpc {
+class Channel;
+}
 
 namespace boost {
 template <class T> class optional;
@@ -50,11 +52,9 @@ namespace autonomy {
 class ExternalControlClient {
  public:
     ExternalControlClient() = default;
-    explicit ExternalControlClient(std::shared_ptr<grpc::Channel> channel) :
-        stub_(scrimmage_proto::ExternalControl::NewStub(channel)) {}
+    explicit ExternalControlClient(std::shared_ptr<grpc::Channel> channel);
 
-    bool send_environment(scrimmage_proto::Environment &env,
-                          scrimmage::StatePtr state);
+    bool send_environment(scrimmage_proto::Environment &env);
 
     boost::optional<scrimmage_proto::Action>
     send_action_result(scrimmage_proto::ActionResult &action_result);
