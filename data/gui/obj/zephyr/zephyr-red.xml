@@ -3,6 +3,7 @@
 <params>
   <model>wing.obj</model>
   <texture>wing-red.png</texture>
-  <visual_scale>0.004598789</visual_scale>
+  <!-- <visual_scale>0.004598789</visual_scale> -->
+  <visual_scale>0.000658892</visual_scale> <!-- 1 m width -->
   <visual_rpy>0 0 90</visual_rpy>
 </params>
