@@ -64,16 +64,16 @@ void ExternalControl::init(std::map<std::string, std::string> &params) {
 }
 
 bool ExternalControl::step_autonomy(double t, double dt) {
+    boost::optional<scrimmage_proto::Action> action = boost::none;
     if (!env_sent_) {
-        // std::cout << "starting scrimmage on " << server_address_ << std::endl;
         *external_control_client_ =
             ExternalControlClient(grpc::CreateChannel(
                 server_address_, grpc::InsecureChannelCredentials()));
         env_sent_ = true;
-        send_env();
+        const bool done = !send_env();
 
         // openai does not send a reward when reset so just send the state
-        send_action_result(t, 0, false);
+        action = send_action_result(t, 0, done);
     }
 
     bool done;
@@ -82,8 +82,10 @@ bool ExternalControl::step_autonomy(double t, double dt) {
     curr_reward += reward;
 
     bool update_action = delayed_task_->update(t).first;
-    if (done || update_action) {
-        auto action = send_action_result(t, curr_reward, done);
+    if (done || update_action || action) {
+        if (!action) {
+            action = send_action_result(t, curr_reward, done);
+        }
         curr_reward = 0;
         if (!action) {
             std::cout << "did not receive external action. exiting." << std::endl;
