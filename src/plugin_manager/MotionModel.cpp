@@ -38,7 +38,7 @@ namespace pl = std::placeholders;
 
 namespace scrimmage {
 
-MotionModel::MotionModel() : mass_(1.0), ext_force_(0, 0, 0) {}
+MotionModel::MotionModel() : ext_force_(0, 0, 0), mass_(1.0) {}
 
 std::string MotionModel::type() { return std::string("MotionModel"); }
 
