@@ -81,6 +81,10 @@ void MultirotorTests::init(std::map<std::string, std::string> &params) {
     desired_rotor_state_->prop_input()(0) += 10;
 
     desired_state_ = desired_rotor_state_;
+
+    double heading = M_PI/2;
+    desired_state_->quat().set(0, 0, heading);
+    desired_state_->vel() << 1, 0, 0;
 }
 
 bool MultirotorTests::step_autonomy(double t, double dt) {

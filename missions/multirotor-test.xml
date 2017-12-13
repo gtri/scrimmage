@@ -58,7 +58,8 @@
     
     <autonomy>MultirotorTests</autonomy>
     <motion_model write_csv="true">Multirotor</motion_model>
-    <controller>MultirotorControllerOmega</controller>
+    <!--<controller>MultirotorControllerOmega</controller>-->
+    <controller>MultirotorControllerPID</controller>
     <visual_model>iris</visual_model>
 
   </entity>
