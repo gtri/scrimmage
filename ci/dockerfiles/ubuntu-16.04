@@ -91,7 +91,7 @@ RUN python test/test_cpplint.py
 RUN /bin/bash -c "mkdir -p build && \
     cd build && \
     source ~/.scrimmage/setup.bash && \
-    cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON && \
+    cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" && \
     ninja -j 3 && \
     ninja docs"
 
