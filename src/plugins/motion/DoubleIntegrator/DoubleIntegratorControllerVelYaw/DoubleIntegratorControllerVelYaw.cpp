@@ -37,6 +37,8 @@
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h>
 
 #include <iostream>
+using std::cout;
+using std::endl;
 
 namespace sc = scrimmage;
 
@@ -69,11 +71,17 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
 }
 
 void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
-    set_pid(yaw_pid_, params["yaw_pid"], true);
+    if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
+        cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains"
+             << endl;
+    }
 
     for (int i = 0; i < 3; i++) {
         vel_pids_.push_back(sc::PID());
-        set_pid(vel_pids_[i], params["vel_pid"], false);
+        if (!sc::set_pid_gains(vel_pids_[i], params["vel_pid"])) {
+            cout << "Failed to set DoubleIntegratorControllerVewYaw vel gain"
+                 << endl;
+        }
     }
 }
 

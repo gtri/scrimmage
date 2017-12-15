@@ -2,5 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>MultirotorControllerPID_plugin</library>
-  <initial_speed>24.3</initial_speed>
+  <yaw_pid>0.2, 0.01, 0.001, 9</yaw_pid>
+  <vel_pid>1, 0.1, 0, 1</vel_pid>
+  <angle_pid>1, 0.1, 0, 1.0</angle_pid>
 </params>

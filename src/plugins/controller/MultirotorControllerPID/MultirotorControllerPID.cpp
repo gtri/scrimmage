@@ -58,9 +58,6 @@ MultirotorControllerPID::MultirotorControllerPID() {
 }
 
 void MultirotorControllerPID::init(std::map<std::string, std::string> &params) {
-    pwm_max_ = sc::get<int>("pwm_max", params, 2000);
-    pwm_min_ = sc::get<int>("pwm_min", params, 1000);
-
     multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
 
     if (multirotor_ == nullptr) {
@@ -72,13 +69,68 @@ void MultirotorControllerPID::init(std::map<std::string, std::string> &params) {
 
     u_.resize(multirotor_->rotors().size());
     u_ = Eigen::VectorXd::Zero(multirotor_->rotors().size());
+
+    if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
+        cout << "Failed to set MultirotorControllerPID yaw gains" << endl;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        vel_pids_.push_back(sc::PID());
+        if (!sc::set_pid_gains(vel_pids_[i], params["vel_pid"])) {
+            cout << "Failed to set DoubleIntegratorControllerVewYaw vel gain"
+                 << endl;
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        angle_pids_.push_back(sc::PID());
+        if (!sc::set_pid_gains(angle_pids_[i], params["angle_pid"])) {
+            cout << "Failed to set DoubleIntegratorControllerVewYaw angle PID gains."
+                 << endl;
+        }
+    }
 }
 
 bool MultirotorControllerPID::step(double t, double dt) {
-    double desired_heading = desired_state_->quat().yaw();
-    Eigen::Vector3d desired_vel = desired_state_->vel();
-    cout << "Desired heading: " << desired_heading << endl;
-    cout << "Desired vel vec: " << desired_vel << endl;
+
+    Eigen::Vector3d des_vel_body = state_->quat().rotate_reverse(desired_state_->vel());
+    Eigen::Vector3d vel_body = state_->quat().rotate_reverse(state_->vel());
+    Eigen::Vector3d vel_ctrl(0, 0, 0);
+    for (int i = 0; i < 3; i++) {
+        vel_pids_[i].set_setpoint(des_vel_body(i));
+        vel_ctrl(i) = vel_pids_[i].step(dt, vel_body(i));
+    }
+
+    // cout << "Desired Velocity (Global): " << desired_state_->vel() << endl;
+    // cout << "Desired Velocity (Body): " << des_vel_body << endl;
+
+    for (unsigned int i = 0; i < multirotor_->rotors().size(); i++) {
+        u_(i) = sqrt(multirotor_->mass() * multirotor_->g() /
+                     (multirotor_->rotors().size() * multirotor_->c_T()));
+    }
+
+    // double desired_roll = 0;
+    // angle_pids_[0].set_setpoint(desired_roll);
+    // double roll_ctrl = angle_pids_[0].step(dt, state_->quat().roll());
+    //
+    // double desired_pitch = 0.1;
+    // angle_pids_[1].set_setpoint(desired_pitch);
+    // double pitch_ctrl = angle_pids_[1].step(dt, state_->quat().pitch());
+    //
+    // double desired_yaw = 0;
+    // angle_pids_[2].set_setpoint(desired_yaw);
+    // double yaw_ctrl = angle_pids_[2].step(dt, state_->quat().yaw());
+    //
+    // u_(1) += pitch_ctrl * 1;
+    // u_(2) += pitch_ctrl * 1;
+    //
+    // u_(0) -= pitch_ctrl * 1;
+    // u_(3) -= pitch_ctrl * 1;
+
+
+    // yaw_pid_.set_setpoint(desired_state_->quat().yaw());
+    // double yaw_ctrl = yaw_pid_.step(dt, state_->quat().yaw());
+
     return true;
 }
 } // namespace controller

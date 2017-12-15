@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/proto/Visual.pb.h>
@@ -51,6 +52,8 @@
 namespace fs = boost::filesystem;
 using std::cout;
 using std::endl;
+
+namespace sc = scrimmage;
 
 namespace scrimmage {
 
@@ -272,8 +275,33 @@ bool get_vec_of_vecs(std::string &str,
     return true;
 }
 
-void split(std::vector<std::string> &tokens, const std::string &str, const std::string &delims) {
+void split(std::vector<std::string> &tokens, const std::string &str,
+           const std::string &delims) {
     boost::split(tokens, str, boost::is_any_of(delims));
+}
+
+bool set_pid_gains(sc::PID &pid, std::string str, bool is_angle) {
+    std::vector<std::string> str_vals;
+    boost::split(str_vals, str, boost::is_any_of(","));
+
+    if (str_vals.size() != 4) {
+        return false;
+    } else {
+        double p = std::stod(str_vals[0]);
+        double i = std::stod(str_vals[1]);
+        double d = std::stod(str_vals[2]);
+        pid.set_parameters(p, i, d);
+
+        if (is_angle) {
+            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
+            pid.set_integral_band(i_lim);
+            pid.set_is_angle(true);
+        } else {
+            double i_lim = std::stod(str_vals[3]);
+            pid.set_integral_band(i_lim);
+        }
+    }
+    return true;
 }
 
 } // namespace scrimmage

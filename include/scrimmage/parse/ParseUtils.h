@@ -34,6 +34,9 @@
 #define INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
 #include <Eigen/Dense>
 
+#include <scrimmage/common/PID.h>
+#include <scrimmage/proto/Visual.pb.h>
+
 #include <map>
 #include <vector>
 #include <string>
@@ -43,6 +46,9 @@ namespace scrimmage_proto {
 class UTMTerrain;
 class ContactVisual;
 }
+
+namespace sc = scrimmage;
+namespace sp = scrimmage_proto;
 
 namespace scrimmage {
 
@@ -72,7 +78,8 @@ template <class T1, class T2 = T1>
 }
 
 // a wrapper around boost so that boost does not have to be included
-void split(std::vector<std::string> &tokens, const std::string &str, const std::string &delims);
+void split(std::vector<std::string> &tokens, const std::string &str,
+           const std::string &delims);
 
 template <typename T>
 std::vector<T> str2vec(const std::string &str, std::string delims) {
@@ -129,7 +136,7 @@ Eigen::Vector3d vec2eigen(std::vector<double> &vec);
 
 bool find_terrain_files(std::string terrain_name,
                         ConfigParse &terrain_parse,
-                        std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
+                        std::shared_ptr<sp::UTMTerrain> &utm_terrain);
 
 bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
                            FileSearch &file_search,
@@ -142,5 +149,9 @@ bool parse_autonomy_data(std::map<std::string, std::string> &params,
 
 bool get_vec_of_vecs(std::string &str,
                      std::vector<std::vector<std::string>> &out);
+
+bool set_pid_gains(sc::PID &pid, std::string str,
+                   bool is_angle = false);
+
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_

@@ -94,13 +94,12 @@ class Multirotor : public scrimmage::MotionModel{
     double omega_max() { return wmax_; }
     double omega_min() { return wmin_; }
 
+    double c_T() { return c_T_; }
+
  protected:
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;
     Eigen::VectorXd ctrl_u_;
-
-    // World parameters
-    double g_ = 9.81;
 
     // multirotor parameters
     Eigen::Matrix3d I_;

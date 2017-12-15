@@ -34,11 +34,13 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLERPID_MULTIROTORCONTROLLERPID_H_
 
 #include <scrimmage/motion/Controller.h>
+#include <scrimmage/common/PID.h>
 
 #include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 
 #include <map>
 #include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace controller {
@@ -53,8 +55,11 @@ class MultirotorControllerPID : public scrimmage::Controller {
  protected:
     Eigen::VectorXd u_;
     std::shared_ptr<sc::motion::Multirotor> multirotor_;
-    double pwm_max_;
-    double pwm_min_;
+
+    std::vector<scrimmage::PID> vel_pids_;
+    scrimmage::PID yaw_pid_;
+
+    std::vector<scrimmage::PID> angle_pids_;
 };
 } // namespace controller
 } // namespace scrimmage
