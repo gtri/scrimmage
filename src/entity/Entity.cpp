@@ -50,6 +50,8 @@
 #include <memory>
 #include <algorithm>
 
+#include <boost/algorithm/string/case_conv.hpp>
+
 using std::cout;
 using std::endl;
 

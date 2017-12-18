@@ -39,7 +39,6 @@
 
 #include <memory>
 #include <iosfwd>
-#include <string>
 #include <typeinfo>
 
 #include <boost/optional.hpp>
