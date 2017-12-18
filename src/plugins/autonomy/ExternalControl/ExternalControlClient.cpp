@@ -64,7 +64,7 @@ ExternalControlClient::send_action_result(
         std::cout << "ExternalControlClient received bad grpc status" << std::endl;
         return boost::none;
     } else if (action.done()) {
-        std::cout << "ExternalControlClient received done status" << std::endl;
+        // std::cout << "ExternalControlClient received done status" << std::endl;
         return boost::none;
     } else {
         return boost::optional<sp::Action>(action);

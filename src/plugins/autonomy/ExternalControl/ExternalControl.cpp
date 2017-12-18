@@ -88,7 +88,7 @@ bool ExternalControl::step_autonomy(double t, double dt) {
         }
         curr_reward = 0;
         if (!action) {
-            std::cout << "did not receive external action. exiting." << std::endl;
+            // std::cout << "did not receive external action. exiting." << std::endl;
             return false;
         } else {
             return handle_action(t, dt, *action);

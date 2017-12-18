@@ -284,7 +284,14 @@ class ScrimmageEnv(gym.Env):
             server_thread.stop = True
 
     def _return_action_result(self, index):
-        res = self.queues[index]['action_response'].get()
+        info = {}
+        try:
+            res = self.queues[index]['action_response'].get(timeout=3)
+        except queue.Empty:
+            print('Scrimmage Environment: error getting action result')
+            res = ExternalControl_pb2.ActionResult(done=True)
+            info['scrimmage_err'] = ""
+
         obs = np.array(res.observations.value)
         return obs, res.reward, res.done, {}
 
