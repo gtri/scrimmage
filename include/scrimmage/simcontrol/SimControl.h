@@ -125,7 +125,6 @@ class SimControl {
     struct Task {
         EntityPtr ent;
         std::promise<bool> prom;
-        bool run_autonomy;
     };
 
     bool take_step();
@@ -195,7 +194,8 @@ class SimControl {
     std::vector<std::thread> entity_worker_threads_;
     void worker();
     bool run_entities();
-    bool run_entity(EntityPtr &ent);
+    bool run_motion(EntityPtr &ent, double t, double dt);
+    bool reset_autonomies();
 
     std::shared_ptr<Log> log_;
 

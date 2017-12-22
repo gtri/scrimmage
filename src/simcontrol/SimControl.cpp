@@ -1012,12 +1012,8 @@ void SimControl::worker() {
             entity_pool_mutex_.unlock();
 
             bool success = true;
-            if (task->run_autonomy) {
-                for (AutonomyPtr &autonomy : ent->autonomies()) {
-                    success &= autonomy->step_autonomy(t_, dt_);
-                }
-            } else {
-                success = run_entity(ent);
+            for (AutonomyPtr &autonomy : ent->autonomies()) {
+                success &= autonomy->step_autonomy(t_, dt_);
             }
 
             entity_pool_mutex_.lock();
@@ -1036,34 +1032,32 @@ void print_err(PluginPtr p) {
 bool SimControl::run_entities() {
     contacts_mutex_.lock();
     bool success = true;
+
+    // run autonomies threaded or in a single thread
     if (use_entity_threads_) {
 
-        for (bool run_autonomy : {true, false}) {
-            // put tasks on queue
-            std::vector<std::future<bool>> futures;
-            futures.reserve(ents_.size());
+        // put tasks on queue
+        std::vector<std::future<bool>> futures;
+        futures.reserve(ents_.size());
 
-            entity_pool_mutex_.lock();
-            for (EntityPtr &ent : ents_) {
-                std::shared_ptr<Task> task = std::make_shared<Task>();
-                task->ent = ent;
-                task->run_autonomy = run_autonomy;
-                entity_pool_queue_.push_back(task);
-                futures.push_back(task->prom.get_future());
-            }
-            entity_pool_mutex_.unlock();
+        entity_pool_mutex_.lock();
+        for (EntityPtr &ent : ents_) {
+            std::shared_ptr<Task> task = std::make_shared<Task>();
+            task->ent = ent;
+            entity_pool_queue_.push_back(task);
+            futures.push_back(task->prom.get_future());
+        }
+        entity_pool_mutex_.unlock();
 
-            // tell the threads to run
-            entity_pool_condition_var_.notify_all();
+        // tell the threads to run
+        entity_pool_condition_var_.notify_all();
 
-            // wait for results
-            for (std::future<bool> &future : futures) {
-                success &= future.get();
-            }
+        // wait for results
+        for (std::future<bool> &future : futures) {
+            success &= future.get();
         }
     } else {
 
-        success = true;
         for (EntityPtr &ent : ents_) {
             for (AutonomyPtr &a : ent->autonomies()) {
                 if (!a->step_autonomy(t_, dt_)) {
@@ -1072,10 +1066,37 @@ bool SimControl::run_entities() {
                 }
             }
         }
-
-        success &= std::all_of(ents_.begin(), ents_.end(),
-            [&](auto ent) {return this->run_entity(ent);});
     }
+
+    double motion_dt = dt_ / mp_->motion_multiplier();
+    double temp_t = t_;
+    for (int i = 0; i < mp_->motion_multiplier(); i++) {
+        for (EntityPtr &ent : ents_) {
+            for (ControllerPtr &ctrl : ent->controllers()) {
+                if (!ctrl->step(temp_t, motion_dt)) {
+                    print_err(ctrl);
+                    success = false;
+                }
+            }
+        }
+
+        for (EntityPtr &ent : ents_) {
+            if (!ent->motion()->step(temp_t, motion_dt)) {
+                print_err(ent->motion());
+                success = false;
+            }
+        }
+        temp_t += motion_dt;
+    }
+
+    for (EntityPtr &ent : ents_) {
+        for (AutonomyPtr &autonomy : ent->autonomies()) {
+            if (autonomy->need_reset()) {
+                autonomy->set_state(ent->motion()->state());
+            }
+        }
+    }
+
     contacts_mutex_.unlock();
 
     for (EntityPtr &ent : ents_) {
@@ -1085,37 +1106,6 @@ bool SimControl::run_entities() {
             autonomy->shapes().clear();
         }
     }
-    return success;
-}
-
-bool SimControl::run_entity(EntityPtr &ent) {
-    bool success = true;
-    ent->setup_desired_state();
-
-
-    double motion_dt = dt_ / mp_->motion_multiplier();
-    double temp_t = t_;
-    for (int i = 0; i < mp_->motion_multiplier(); i++) {
-        for (ControllerPtr &ctrl : ent->controllers()) {
-            if (!ctrl->step(temp_t, motion_dt)) {
-                print_err(ctrl);
-                success = false;
-            }
-        }
-
-        if (!ent->motion()->step(temp_t, motion_dt)) {
-            print_err(ent->motion());
-            success = false;
-        }
-        temp_t += motion_dt;
-    }
-
-    for (AutonomyPtr &autonomy : ent->autonomies()) {
-        if (autonomy->need_reset()) {
-            autonomy->set_state(ent->motion()->state());
-        }
-    }
-
     return success;
 }
 
