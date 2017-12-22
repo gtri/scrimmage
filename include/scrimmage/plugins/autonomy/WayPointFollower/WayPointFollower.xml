@@ -21,6 +21,10 @@
     <point>-100.0, 100.0, 200.0</point>
   </waypoint_list>
 
+  <waypoint_color>0, 0, 255</waypoint_color>
+  <waypoint_radius>1</waypoint_radius>
+  <exit_on_reaching_wpt>false</exit_on_reaching_wpt>
+
   <!-- example of GPS coordinates (same as above) -->
   <!-- <waypoint_list> -->
   <!--   <point>35.721, -120.778, 500.063</point> -->

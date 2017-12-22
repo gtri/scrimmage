@@ -64,21 +64,21 @@ class WayPointFollower : public scrimmage::Autonomy {
         racetrack = 3
     };
 
-    WayPointFollower();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual void draw_waypoints(Eigen::Vector3d v);
+    virtual void draw_waypoints(Eigen::Vector3d v, const std::vector<int> &clr, double radius);
     virtual bool step_autonomy(double t, double dt);
 
  protected:
     std::vector<WayPoint> wps_;
 
-    unsigned int wp_idx_;
-    double max_alt_change_;
-    double wp_tolerance_;
-    bool returning_stage_;
+    unsigned int wp_idx_ = 0;
+    double max_alt_change_ = 5;
+    double wp_tolerance_ = 10;
+    bool returning_stage_ = false;
+    bool exit_on_reaching_wpt_ = false;
 
-    WayPointType waypoint_type_;
-    WayPointMode waypoint_mode_;
+    WayPointType waypoint_type_ = WayPointType::gps;
+    WayPointMode waypoint_mode_ = WayPointMode::racetrack;
 
  private:
 };
