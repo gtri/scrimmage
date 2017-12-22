@@ -1,21 +1,26 @@
+if (NOT catkin_FOUND)
+  return()
+endif()
+
+include_directories(${catkin_INCLUDE_DIRS})
+
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-SET (LIBRARY_NAME SimpleAircraft_plugin)
+SET (LIBRARY_NAME FixedWing6DOFControllerROS_plugin)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
 
 file(GLOB SRCS *.cpp)
 
-ADD_LIBRARY(${LIBRARY_NAME} SHARED
-  ${SRCS}
-  )
+ADD_LIBRARY(${LIBRARY_NAME} SHARED ${SRCS})
 
-# This is necessary when doing parallel builds (e.g. make -j8)
 add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SCRIMMAGE_LIBS})
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+  ${catkin_LIBRARIES}
+  )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
@@ -30,7 +35,7 @@ install(TARGETS ${LIBRARY_NAME}
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib/${PROJECT_NAME}/plugin_libs
-)
+  )
 
 # Push up the PROJECT_PLUGINS variable
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} ${LIBRARY_NAME} PARENT_SCOPE)

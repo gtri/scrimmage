@@ -9,7 +9,7 @@ SET (LIB_RELEASE 1)
 
 file(GLOB SRCS *.cpp)
 
-ADD_LIBRARY(${LIBRARY_NAME} SHARED 
+ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
@@ -20,8 +20,8 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SCRIMMAGE_LIBS})
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-set_target_properties(${LIBRARY_NAME} PROPERTIES 
-  SOVERSION ${LIB_MAJOR} 
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+  SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
   )
@@ -31,14 +31,6 @@ install(TARGETS ${LIBRARY_NAME}
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib/${PROJECT_NAME}/plugin_libs
 )
-add_subdirectory(FixedWing6DOFControllerPID)
-
-if (catkin_FOUND)
-  add_subdirectory(FixedWing6DOFControllerROS)
-endif()
 
 # Push up the PROJECT_PLUGINS variable
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} ${LIBRARY_NAME} PARENT_SCOPE)
-
-
-

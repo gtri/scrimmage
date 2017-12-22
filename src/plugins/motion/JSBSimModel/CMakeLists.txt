@@ -9,7 +9,7 @@ if (NOT EXTERNAL AND JSBSIM_FOUND)
 
     file(GLOB SRCS *.cpp)
 
-    ADD_LIBRARY(${LIBRARY_NAME} SHARED 
+    ADD_LIBRARY(${LIBRARY_NAME} SHARED
       ${SRCS}
       )
 
@@ -21,8 +21,8 @@ if (NOT EXTERNAL AND JSBSIM_FOUND)
 
     SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-    set_target_properties(${LIBRARY_NAME} PROPERTIES 
-      SOVERSION ${LIB_MAJOR} 
+    set_target_properties(${LIBRARY_NAME} PROPERTIES
+      SOVERSION ${LIB_MAJOR}
       VERSION ${_soversion}
       LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
       )
@@ -37,7 +37,4 @@ if (NOT EXTERNAL AND JSBSIM_FOUND)
     # Push up the PROJECT_PLUGINS variable
     set(PROJECT_PLUGINS ${PROJECT_PLUGINS} ${LIBRARY_NAME} PARENT_SCOPE)
 
-endif() 
-
-add_subdirectory(JSBSimModelControllerHeadingPID)
-add_subdirectory(JSBSimModelControllerDirect)
+endif()

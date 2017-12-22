@@ -31,7 +31,7 @@
  */
 
 #include <scrimmage/plugins/controller/MultirotorControllerPID/MultirotorControllerPID.h>
-#include <scrimmage/plugins/motion/Multirotor/MultirotorControllerOmega/MultirotorControllerOmega.h>
+#include <scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h>
 #include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>

@@ -97,7 +97,7 @@ void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
 
 Updater::Updater() :
         frame_time_(0), update_count(0), inc_follow_(true),
-        dec_follow_(false), follow_offset_(50) {
+        dec_follow_(false), follow_offset_(6) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
     max_update_rate_ = 1.0;
@@ -439,9 +439,9 @@ bool Updater::update_camera() {
         }
     } else {
         if (view_mode_ == ViewMode::OFFSET) {
-            camera_pos[0] = x_pos + 00;
-            camera_pos[1] = y_pos - 150;
-            camera_pos[2] = z_pos + 15;
+            camera_pos[0] = x_pos + 0.0;
+            camera_pos[1] = y_pos - 6.0;
+            camera_pos[2] = z_pos + 2.0;
         } else if (view_mode_ == ViewMode::FOLLOW) {
             Eigen::Vector3d base_offset(-50, 0, 15);
             Eigen::Vector3d rel_cam_pos = base_offset.normalized() * follow_offset_;
@@ -733,7 +733,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
                 vtkSmartPointer<vtkFollower>::New();
             label->SetMapper(label_mapper);
             label->GetProperty()->SetColor(1, 1, 1); // white
-            label->SetScale(0.6, 0.6, 0.6);
+            label->SetScale(0.3, 0.3, 0.3);
 
             // Add the actor to the scene
             // renderer_->AddActor(actor);
@@ -797,7 +797,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
 
             // Tells each label to "face" the camera
             ac->label->SetCamera(renderer_->GetActiveCamera());
-            ac->label->SetPosition(x_pos, y_pos, z_pos + 1.5);
+            ac->label->SetPosition(x_pos, y_pos, z_pos + 0.1);
 
             update_trail(ac, x_pos, y_pos, z_pos);
         }

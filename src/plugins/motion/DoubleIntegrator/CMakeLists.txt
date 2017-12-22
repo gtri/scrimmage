@@ -32,9 +32,5 @@ install(TARGETS ${LIBRARY_NAME}
   LIBRARY DESTINATION lib/${PROJECT_NAME}/plugin_libs
 )
 
-add_subdirectory(DoubleIntegratorControllerWaypoint)
-add_subdirectory(DoubleIntegratorControllerDirect)
-add_subdirectory(DoubleIntegratorControllerVelYaw)
-
 # Push up the PROJECT_PLUGINS variable
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} ${LIBRARY_NAME} PARENT_SCOPE)
