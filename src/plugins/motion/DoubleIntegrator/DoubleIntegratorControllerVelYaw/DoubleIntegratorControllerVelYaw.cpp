@@ -47,7 +47,7 @@ namespace controller {
 
 void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     std::vector<std::string> str_vals;
-    boost::split(str_vals, str, boost::is_any_of(","));
+    split(str_vals, str, ",");
 
     if (str_vals.size() != 4) {
         std::cout << "error parsing in SimpleAircraftControllerPID" << std::endl;

@@ -33,6 +33,7 @@
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/proto/Visual.pb.h>
 
 #include <iostream>
 #include <fstream>
@@ -44,6 +45,8 @@
 #include <boost/filesystem/path.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
 
 namespace fs = boost::filesystem;
 using std::cout;
@@ -269,5 +272,8 @@ bool get_vec_of_vecs(std::string &str,
     return true;
 }
 
+void split(std::vector<std::string> &tokens, const std::string &str, const std::string &delims) {
+    boost::split(tokens, str, boost::is_any_of(delims));
+}
 
 } // namespace scrimmage

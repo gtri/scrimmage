@@ -10,6 +10,7 @@ set(SRCS
     autonomy/Autonomy.cpp
     common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
     common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
+    common/CSV.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     log/FrameUpdateClient.cpp log/Log.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp

@@ -34,15 +34,15 @@
 #define INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
 #include <Eigen/Dense>
 
-#include <scrimmage/proto/Visual.pb.h>
-
 #include <map>
 #include <vector>
 #include <string>
-#include <algorithm>
+#include <memory>
 
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
+namespace scrimmage_proto {
+class UTMTerrain;
+class ContactVisual;
+}
 
 namespace scrimmage {
 
@@ -71,11 +71,14 @@ template <class T1, class T2 = T1>
     return it == map.end() ? default_val : convert<T2>(it->second);
 }
 
+// a wrapper around boost so that boost does not have to be included
+void split(std::vector<std::string> &tokens, const std::string &str, const std::string &delims);
+
 template <typename T>
 std::vector<T> str2vec(const std::string &str, std::string delims) {
     std::vector<T> out;
     std::vector<std::string> tokens;
-    boost::split(tokens, str, boost::is_any_of(delims));
+    split(tokens, str, delims);
 
     for (std::string &t : tokens) {
         if (t.length() > 0) {
@@ -90,7 +93,7 @@ bool str2vec(const std::string &str, std::string delims,
              std::vector<T> &vec, unsigned int size) {
     std::vector<T> tmp_vec;
     std::vector<std::string> tokens;
-    boost::split(tokens, str, boost::is_any_of(delims));
+    split(tokens, str, delims);
 
     for (std::string &t : tokens) {
         if (t.length() > 0) {
@@ -138,6 +141,6 @@ bool parse_autonomy_data(std::map<std::string, std::string> &params,
                          std::map<std::string, std::string> &data_params);
 
 bool get_vec_of_vecs(std::string &str,
-                           std::vector<std::vector<std::string>> &out);
+                     std::vector<std::vector<std::string>> &out);
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
