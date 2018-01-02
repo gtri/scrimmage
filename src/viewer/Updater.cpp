@@ -97,7 +97,7 @@ void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
 
 Updater::Updater() :
         frame_time_(0), update_count(0), inc_follow_(true),
-        dec_follow_(false), follow_offset_(6) {
+        dec_follow_(false), follow_offset_(50) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
     max_update_rate_ = 1.0;
@@ -185,7 +185,7 @@ bool Updater::update() {
     }
 
     // Do we have any updates to the frames?
-    if (incoming_interface_->frames_update()) {
+    if (incoming_interface_->frames_update(frame_time_)) {
         incoming_interface_->frames_mutex.lock();
         auto &frames = incoming_interface_->frames();
 
@@ -206,7 +206,7 @@ bool Updater::update() {
         // We only care about the last frame for display purposes
         auto &frame = frames.back();
         update_contacts(frame);
-        frames.clear();
+        frames.erase(frames.begin(), std::next(frames.end(), -1));
 
         // We want the shapes' ttl counter to be linked to newly received
         // frames. Update the shapes on a newly received frame.
@@ -256,7 +256,10 @@ bool Updater::update() {
 
     // Update scale
     if (scale_required_) {
-        update_scale();
+        incoming_interface_->sim_info_mutex.lock();
+        auto &frames = incoming_interface_->frames();
+        frames.empty() ? update_scale() : update_contacts(frames.back());
+        incoming_interface_->sim_info_mutex.unlock();
         scale_required_ = false;
     }
 

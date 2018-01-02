@@ -61,9 +61,9 @@ class Interface {
     void set_port(int port) { port_ = port; }
     bool init_network(Mode_t mode, std::string ip, int port);
 
-    bool frames_update() {
+    bool frames_update(double t) {
         frames_mutex.lock();
-        bool status = frames_list_.size() > 0;
+        bool status = !frames_list_.empty() && frames_list_.back()->time() != t;
         frames_mutex.unlock();
         return status;
     }
