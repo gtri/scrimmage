@@ -379,4 +379,47 @@ bool Interface::push_shapes(scrimmage_proto::Shapes &shapes) {
     shapes_mutex.unlock();
     return true;
 }
+
+bool Interface::frames_update(double t) {
+    frames_mutex.lock();
+    bool status = !frames_list_.empty() && frames_list_.back()->time() != t;
+    frames_mutex.unlock();
+    return status;
+}
+
+bool Interface::utm_terrain_update() {
+    utm_terrain_mutex.lock();
+    bool status = utm_terrain_list_.size() > 0;
+    utm_terrain_mutex.unlock();
+    return status;
+}
+
+bool Interface::contact_visual_update() {
+    contact_visual_mutex.lock();
+    bool status = contact_visual_list_.size() > 0;
+    contact_visual_mutex.unlock();
+    return status;
+}
+
+bool Interface::gui_msg_update() {
+    gui_msg_mutex.lock();
+    bool status = gui_msg_list_.size() > 0;
+    gui_msg_mutex.unlock();
+    return status;
+}
+
+bool Interface::sim_info_update() {
+    sim_info_mutex.lock();
+    bool status = sim_info_list_.size() > 0;
+    sim_info_mutex.unlock();
+    return status;
+}
+
+bool Interface::shapes_update() {
+    shapes_mutex.lock();
+    bool status = shapes_list_.size() > 0;
+    shapes_mutex.unlock();
+    return status;
+}
+
 } // namespace scrimmage

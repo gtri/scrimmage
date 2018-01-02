@@ -35,7 +35,6 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
 
@@ -61,47 +60,12 @@ class Interface {
     void set_port(int port) { port_ = port; }
     bool init_network(Mode_t mode, std::string ip, int port);
 
-    bool frames_update(double t) {
-        frames_mutex.lock();
-        bool status = !frames_list_.empty() && frames_list_.back()->time() != t;
-        frames_mutex.unlock();
-        return status;
-    }
-
-    bool utm_terrain_update() {
-        utm_terrain_mutex.lock();
-        bool status = utm_terrain_list_.size() > 0;
-        utm_terrain_mutex.unlock();
-        return status;
-    }
-
-    bool contact_visual_update() {
-        contact_visual_mutex.lock();
-        bool status = contact_visual_list_.size() > 0;
-        contact_visual_mutex.unlock();
-        return status;
-    }
-
-    bool gui_msg_update() {
-        gui_msg_mutex.lock();
-        bool status = gui_msg_list_.size() > 0;
-        gui_msg_mutex.unlock();
-        return status;
-    }
-
-    bool sim_info_update() {
-        sim_info_mutex.lock();
-        bool status = sim_info_list_.size() > 0;
-        sim_info_mutex.unlock();
-        return status;
-    }
-
-    bool shapes_update() {
-        shapes_mutex.lock();
-        bool status = shapes_list_.size() > 0;
-        shapes_mutex.unlock();
-        return status;
-    }
+    bool frames_update(double t);
+    bool utm_terrain_update();
+    bool contact_visual_update();
+    bool gui_msg_update();
+    bool sim_info_update();
+    bool shapes_update();
 
     // SimControl to GUI
     bool send_frame(double time, ContactMapPtr &contacts);
