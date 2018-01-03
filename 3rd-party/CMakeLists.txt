@@ -136,6 +136,10 @@ ExternalProject_Add(
   INSTALL_COMMAND make install DESTDIR=${PYBIND11_DESTDIR}
   )
 
+set(OPENCV3_VERSION 3.4.0)
+set(OPENCV3_GIT_REPOSITORY https://github.com/opencv/opencv.git)
+set(OPENCV3_CONTRIB_GIT_REPOSITORY https://github.com/opencv/opencv_contrib.git)
+
 if (BUILD_BINARY_PACKAGES)
   add_custom_command(
     TARGET protobuf
@@ -237,6 +241,19 @@ if (BUILD_SOURCE_PACKAGES)
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
     PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch && ${SETUP_DIR}/install-aircraft.sh -c "${CMAKE_CURRENT_BINARY_DIR}/src/scrimmage-jsbsim-ppa"
+    CONFIGURE_COMMAND ""
+    )
+
+  BuildPPAFromRepo(
+    NAME "scrimmage-opencv3"
+    GIT_REPOSITORY ${OPENCV3_GIT_REPOSITORY}
+    GIT_TAG ${OPENCV3_VERSION}
+    SOURCE_VERSION ${OPENCV3_VERSION}
+    PPA_NUMBER 0
+    PPA ${PPA}
+    GPG_KEY_ID ${GPG_KEY_ID}
+    UPDATE_COMMAND ""
+    PATCH_COMMAND git clone ${OPENCV3_CONTRIB_GIT_REPOSITORY} && cd opencv_contrib && git checkout ${OPENCV3_VERSION}
     CONFIGURE_COMMAND ""
     )
 
