@@ -8,7 +8,7 @@ Build-Depends:
 # specifically include dbus-x11 to temporary work around #878878
 # and allow apt on !linux to satisfy the build-deps
  dbus-x11 [!linux-any],
- debhelper (>= 10),
+ debhelper,
  default-jdk,
  dh-python,
  doxygen,
@@ -50,8 +50,8 @@ Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-opencv3
 Architecture: any
-Pre-Depends:
- ${misc:Pre-Depends},
+#Pre-Depends:
+# ${misc:Pre-Depends},
 Depends:
  libtbb-dev,
  zlib1g-dev,
