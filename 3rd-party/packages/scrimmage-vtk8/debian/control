@@ -1,0 +1,23 @@
+Source: scrimmage-vtk8
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends: debhelper (>= 9), libgl1-mesa-dev | libgl-dev, libglu1-mesa-dev | libglu-dev, libosmesa6-dev,
+ libx11-dev, libxt-dev, xvfb, x11proto-core-dev, tcl8.5-dev, tk8.5-dev, python-dev (>= 2.5.3), cmake (>= 2.6.3),
+ libexpat-dev, libjpeg-dev, libpng-dev, libtiff-dev, zlib1g-dev, default-jdk,
+ libboost-all-dev, mpi-default-dev, libnetcdf-dev, libmysqlclient-dev, libpq-dev, libxpm-dev,
+ libavformat-dev, libavutil-dev, libavcodec-dev, libswscale-dev, libgl2ps-dev, libsqlite3-dev,
+ libfreetype6-dev, ftgl-dev, libqt4-dev, libxml2-dev, pkg-config,
+ libhdf5-dev, dpkg-dev (>= 1.16.1~)
+Build-Depends-Indep: libdigest-md5-perl, doxygen-latex, graphviz, gnuplot-nox, ghostscript
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage-vtk8
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgl1-mesa-dev | libgl-dev, libglu1-mesa-dev | libglu-dev,
+ libx11-dev, libxt-dev, x11proto-core-dev, libc6-dev, libxss-dev, libxft-dev,
+ libexpat-dev, libjpeg-dev, libpng-dev, libtiff-dev, zlib1g-dev, tcl8.5-dev, tk8.5-dev,
+ libavformat-dev, libavutil-dev, libavcodec-dev, libswscale-dev, libgl2ps-dev,
+ libfreetype6-dev, libxml2-dev, libpq-dev, libnetcdf-dev, libmysqlclient-dev, mpi-default-dev, libqt4-dev
+Description: vtk8 used by SCRIMMAGE
+ This is the version of vtk8 used by SCRIMMAGE

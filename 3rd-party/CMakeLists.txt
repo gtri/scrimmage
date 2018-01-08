@@ -140,6 +140,13 @@ set(OPENCV3_VERSION 3.4.0)
 set(OPENCV3_GIT_REPOSITORY https://github.com/opencv/opencv.git)
 set(OPENCV3_CONTRIB_GIT_REPOSITORY https://github.com/opencv/opencv_contrib.git)
 
+set(PROTOBUF_VERSION_NUM 3.3.0)
+set(PROTOBUF_VERSION v${PROTOBUF_VERSION_NUM})
+
+set(VTK8_VERSION_NUM 8.1.0)
+set(VTK8_GIT_TAG v${VTK8_VERSION_NUM})
+set(VTK8_GIT_REPOSITORY https://gitlab.kitware.com/vtk/vtk.git)
+
 if (BUILD_BINARY_PACKAGES)
   add_custom_command(
     TARGET protobuf
@@ -254,6 +261,19 @@ if (BUILD_SOURCE_PACKAGES)
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
     PATCH_COMMAND git clone ${OPENCV3_CONTRIB_GIT_REPOSITORY} && cd opencv_contrib && git checkout ${OPENCV3_VERSION}
+    CONFIGURE_COMMAND ""
+    )
+
+  BuildPPAFromRepo(
+    NAME "scrimmage-vtk8"
+    GIT_REPOSITORY ${VTK8_GIT_REPOSITORY}
+    GIT_TAG ${VTK8_GIT_TAG}
+    SOURCE_VERSION ${VTK8_VERSION_NUM}
+    PPA_NUMBER 0
+    PPA ${PPA}
+    GPG_KEY_ID ${GPG_KEY_ID}
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
     CONFIGURE_COMMAND ""
     )
 

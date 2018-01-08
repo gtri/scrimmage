@@ -57,12 +57,10 @@ keyserver. You can change the PPA and GPG key ID with the "PPA" and
     $ cd /path/to/3rd-party
     $ mkdir -p build-ppa && cd build-ppa
     $ cmake -DBUILD_SOURCE_PACKAGES=ON ..
-    $ make pybind11-ppa
-    $ make jsbsim-ppa
-    $ make protobuf3-ppa         # wait for successful build on server
-    $ make grpc-ppa              # wait for successful build on server
-    $ make dependencies-ppa
-    
+    $ make scrimmage-pybind11-debuild     # build the deb source package
+    $ make scrimmage-pybind11-local-test  # build a deb binary package locally
+    $ make scrimmage-pybind11-upload-ppa  # upload deb src to PPA
+        
 As changes are made to the dependencies source code and the debian packaging
 configuration files, the package maintainer needs to bump the versions for the
 SOURCE\_VERSION and PPA\_NUMBER in the root CMakeLists.txt file. Note: Allow
@@ -91,3 +89,30 @@ build.  Using protobuf from PyPI (i.e. what you get with `pip install protobuf`
 If you are using python 3, make sure the futures package isn't installed.
 
     $ sudo pip3 uninstall futures
+
+# Test Local Build of Source Package
+
+Reference: https://wiki.ubuntu.com/akshmakov/sandbox/Packaging
+
+## Setup pbuilder system
+
+    $ pbuilder create
+    $ pbuilder-dist xenial create
+
+Allow pbuilder to have access to the network during build-time:
+
+    $ echo 'USENETWORK=yes' | sudo tee -a /etc/pbuilderrc
+
+## Test the Debian Source Package Build
+
+## Using CMake
+
+    $ make scrimmage-pybind11-local-test
+
+## Manual
+Change directories to the location of the *.dsc file that was created and run
+pbuilder:
+
+    $ cd /path/to/*.dsc
+    $ pbuilder-dist xenial build scrimmage-vtk8_8.1.0.0-0ppa0.dsc
+    
