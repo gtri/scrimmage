@@ -36,16 +36,14 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+
+#include <iostream>
+
 #include <boost/algorithm/clamp.hpp>
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle, Unicycle_plugin)
 
-namespace scrimmage {
-namespace motion {
-
-namespace sc = scrimmage;
-
-namespace pl = std::placeholders;
+using boost::algorithm::clamp;
 
 enum ModelParams {
     X = 0,
@@ -55,6 +53,9 @@ enum ModelParams {
     PITCH,
     MODEL_NUM_ITEMS
 };
+
+namespace scrimmage {
+namespace motion {
 
 bool Unicycle::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
@@ -68,13 +69,24 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
     turn_rate_max_ = std::stod(params.at("turn_rate_max"));
     pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
     vel_max_ = std::stod(params.at("vel_max"));
-    enable_roll_ = sc::get<bool>("enable_roll", params, false);
+    enable_roll_ = get<bool>("enable_roll", params, false);
 
     return true;
 }
 
 bool Unicycle::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    std::shared_ptr<Controller> ctrl =
+        std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
+    if (ctrl == nullptr) {
+        std::cout << "could not cast unicycle controller" << std::endl;
+        return false;
+    }
+
+    // save control value and make sure it satisfies constraints
+    ctrl_u_ = ctrl->u();
+    ctrl_u_(0) = clamp(ctrl_u_(0), -vel_max_, vel_max_);
+    ctrl_u_(1) = clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
+    ctrl_u_(2) = clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
 
     double prev_x = x_[X];
     double prev_y = x_[Y];
@@ -95,15 +107,23 @@ bool Unicycle::step(double t, double dt) {
     state_->pos()(2) = x_[Z];
 
     double roll = 0; // TODO: simulate roll if enabled
+    if (enable_roll_ && ctrl_u_(1) != 0) {
+        // see https://en.wikipedia.org/wiki/Standard_rate_turn
+        const double vel = ctrl_u_(0);
+        const double turn_rate = ctrl_u_(1);
+        const double radius = vel / turn_rate;
+        const double gravity = 9.81;
+        roll = atan2(pow(vel, 2) / radius, gravity);
+    }
     state_->quat().set(roll, -x_[PITCH], x_[YAW]);
 
     return true;
 }
 
 void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
-    double vel = boost::algorithm::clamp(ctrl_u_(0), -vel_max_, vel_max_);
-    double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
-    double pitch_rate = boost::algorithm::clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
+    const double vel = ctrl_u_(0);
+    const double yaw_rate = ctrl_u_(1);
+    const double pitch_rate = ctrl_u_(2);
 
     double xy_speed = vel * cos(x[PITCH]);
     dxdt[X] = xy_speed * cos(x[YAW]);
