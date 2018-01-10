@@ -237,3 +237,12 @@ and match between the two paradigms for a single entity.
     (applicable to ``free`` mode only)
   - ``show_fps``: whether to show frames per second on the gui
 
+- ``enable_screenshots``: if the tag is set to true, scrimmage will save
+  screenshots at regular intervals.  This will slow down performance as the
+  simulation loop will wait for the gui to save the screenshot before
+  proceeding. Note that ``enable_gui`` must be true for this setting to be
+  effective.
+
+  - ``min_period`` : how often to save screenshots
+  - ``start``: when to start taking screenshots
+  - ``end``: when to stop taking screenshots.

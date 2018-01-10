@@ -122,7 +122,7 @@ class Updater : public vtkCommand {
 
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
 
-    void init();
+    void init(std::string log_dir);
 
     void next_mode();
 
@@ -260,6 +260,7 @@ class Updater : public vtkCommand {
     bool reset_camera_ = false;
     CameraResetParams camera_reset_params_;
     bool show_fps_ = false;
+    std::string log_dir_;
 };
 
 } // namespace scrimmage

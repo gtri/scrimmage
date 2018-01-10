@@ -211,7 +211,7 @@ int main(int argc, char *argv[]) {
     viewer.set_enable_network(false);
     viewer.set_incoming_interface(to_gui_interface);
     viewer.set_outgoing_interface(from_gui_interface);
-    viewer.init({});
+    viewer.init({}, "");
     viewer.run();
 
     cout << "Playback Complete" << endl;

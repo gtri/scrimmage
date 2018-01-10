@@ -35,6 +35,7 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/Timer.h>
+#include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
@@ -218,6 +219,7 @@ class SimControl {
     FileSearch file_search_;
     RTreePtr rtree_;
 
+    void request_screenshot();
     void create_rtree();
     void run_autonomy();
     void set_autonomy_contacts();
@@ -241,6 +243,8 @@ class SimControl {
     PublisherPtr pub_one_team_;
 
     std::list<EntityPtr> not_ready_;
+    DelayedTask screenshot_task_;
+    bool prev_paused_;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

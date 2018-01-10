@@ -52,8 +52,11 @@ class DelayedTask {
     void set_repeat_infinitely(bool repeat_infinitely);
     std::pair<bool, bool> update(double t);
 
+    bool disable;
     double delay;
     double last_updated_time;
+    double end_time;
+    double eps;
     std::function<bool(double)> condition;
     std::function<bool(double)> task;
 

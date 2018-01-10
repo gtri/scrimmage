@@ -86,6 +86,7 @@ SimControl::SimControl() :
         plugin_manager_(new PluginManager()) {
 
     pause(false);
+    prev_paused_ = false;
     single_step(false);
 
     contacts_mutex_.lock();
@@ -323,7 +324,41 @@ bool SimControl::init() {
 
     run_send_shapes(); // draw any intial shapes
 
+    // screenshots
+    if (enable_gui() && get<bool>("enable_screenshots", mp_->params(), false) && mp_) {
+        auto it = mp_->attributes().find("enable_screenshots");
+        std::map<std::string, std::string> attr;
+        if (it != mp_->attributes().end()) {
+            attr = it->second;
+        }
+
+        screenshot_task_.disable = false;
+
+        screenshot_task_.delay = get<double>("min_period", attr, 0.0);
+        screenshot_task_.set_repeat_infinitely(true);
+        screenshot_task_.last_updated_time =
+            get<double>("start", attr, 0.0) - screenshot_task_.delay;
+        screenshot_task_.end_time =
+            get<double>("end", attr, std::numeric_limits<double>::infinity());
+        screenshot_task_.eps = dt_ / 4;
+
+        if (screenshot_task_.update(t_).first) {
+            request_screenshot();
+        }
+    } else {
+        screenshot_task_.disable = true;
+    }
+    prev_paused_ = paused();
     return true;
+}
+
+void SimControl::request_screenshot() {
+    prev_paused_ = paused();
+    pause(true);
+    scrimmage_proto::GUIMsg gui_msg;
+    gui_msg.set_time(t_);
+    gui_msg.set_single_step(true);
+    outgoing_interface_->push_gui_msg(gui_msg);
 }
 
 bool SimControl::generate_entities(double t) {
@@ -645,6 +680,10 @@ void SimControl::run() {
             }
         }
 
+        if (screenshot_task_.update(t_).first) {
+            request_screenshot();
+        }
+
         // Wait loop timer.
         // Stay in loop if currently paused.
         do {
@@ -662,6 +701,7 @@ void SimControl::run() {
                 take_step_mutex_.lock();
                 take_step_ = true;
                 take_step_mutex_.unlock();
+                pause(prev_paused_);
                 break;
             }
 
@@ -678,6 +718,7 @@ void SimControl::run() {
         // Increment time and loop counter
         set_time(t + dt_);
         loop_number++;
+        prev_paused_ = paused_;
     } while (!end_condition_interaction && !end_condition_reached(t(), dt_) && !exit_loop);
 
     cleanup();
@@ -818,6 +859,7 @@ void SimControl::run_check_network_msgs() {
                 this->dec_warp();
             } else if (it->toggle_pause()) {
                 this->pause(!this->paused());
+                prev_paused_ = paused();
             } else if (it->single_step()) {
                 this->single_step(true);
             } else if (it->shutting_down()) {

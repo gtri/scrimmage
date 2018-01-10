@@ -41,9 +41,18 @@
 #include <string>
 #include <memory>
 
+namespace google { namespace protobuf {
+class MessageLite;
+namespace io {
+class ZeroCopyInputStream;
+class ZeroCopyOutputStream;
+}}}
+
 namespace scrimmage_proto {
 class Frame;
 class Shapes;
+class UTMTerrain;
+class ContactVisual;
 }
 
 namespace scrimmage {

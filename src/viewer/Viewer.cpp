@@ -53,7 +53,8 @@ void Viewer::set_outgoing_interface(InterfacePtr &outgoing_interface)
 void Viewer::set_enable_network(bool enable)
 { enable_network_ = enable; }
 
-bool Viewer::init(const std::map<std::string, std::string> &camera_attributes) {
+bool Viewer::init(const std::map<std::string, std::string> &camera_attributes,
+                  const std::string &log_dir) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 
@@ -83,6 +84,7 @@ bool Viewer::init(const std::map<std::string, std::string> &camera_attributes) {
     renderWindow_->SetWindowName("SCRIMMAGE");
     renderWindow_->SetSize(800, 600);
 
+    log_dir_ = log_dir;
     return true;
 }
 
@@ -155,7 +157,7 @@ bool Viewer::run() {
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
     }
 
-    updater->init();
+    updater->init(log_dir_);
 
     cam_int_->set_updater(updater);
 

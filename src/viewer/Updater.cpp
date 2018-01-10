@@ -62,6 +62,8 @@
 #include <vtkVertexGlyphFilter.h>
 #include <vtkPlaneSource.h>
 #include <vtkRegularPolygonSource.h>
+#include <vtkWindowToImageFilter.h>
+#include <vtkPNGWriter.h>
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
@@ -77,8 +79,11 @@
 
 #include <iostream>
 
+#include <boost/filesystem.hpp>
+
 using std::cout;
 using std::endl;
+namespace fs = boost::filesystem;
 
 #define BILLION 1000000000L
 
@@ -118,7 +123,7 @@ Updater::Updater() :
     send_shutdown_msg_ = true;
 }
 
-void Updater::init() {
+void Updater::init(std::string log_dir) {
     // Create a default grid:
     grid_ = std::make_shared<Grid>();
     grid_->create(20, 1, renderer_);
@@ -132,6 +137,7 @@ void Updater::init() {
     create_text_display();
 
     enable_fps();
+    log_dir_ = log_dir;
 }
 
 void Updater::Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
@@ -140,6 +146,32 @@ void Updater::Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
 
     vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::SafeDownCast(caller);
     iren->GetRenderWindow()->Render();
+
+    incoming_interface_->gui_msg_mutex.lock();
+    auto &gui_msg_list = incoming_interface_->gui_msg();
+    if (!gui_msg_list.empty()) {
+        auto &msg = gui_msg_list.front();
+        if (std::abs(msg.time() - frame_time_) < 1e-7 && fs::exists(log_dir_)) {
+
+            vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+                vtkSmartPointer<vtkWindowToImageFilter>::New();
+            windowToImageFilter->SetInput(rwi_->GetRenderWindow());
+            windowToImageFilter->Update();
+
+            vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
+
+            const std::string fname =
+                log_dir_ + "/screenshot_" + std::to_string(frame_time_) + ".png";
+            if (!fs::exists(fname)) {
+                writer->SetFileName(fname.c_str());
+                writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+                writer->Write();
+            }
+            single_step();
+            gui_msg_list.pop_front();
+        }
+    }
+    incoming_interface_->gui_msg_mutex.unlock();
 }
 
 bool Updater::update() {
@@ -147,7 +179,7 @@ bool Updater::update() {
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     uint64_t diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
-    if (diff < (1.0/max_update_rate_*BILLION)) {
+    if (diff < (1.0 / max_update_rate_*BILLION)) {
         return true;
     }
     prev_time = now;

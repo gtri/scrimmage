@@ -43,7 +43,7 @@ int main(int, char* []) {
     viewer.set_enable_network(true);
     viewer.set_incoming_interface(incoming_interface);
     viewer.set_outgoing_interface(outgoing_interface);
-    viewer.init({});
+    viewer.init({}, "");
     viewer.run();
 
     return 0;
