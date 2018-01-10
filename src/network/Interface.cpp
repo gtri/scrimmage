@@ -43,6 +43,7 @@ using grpc::Status;
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/network/Interface.h>
 
 #include <iostream>
