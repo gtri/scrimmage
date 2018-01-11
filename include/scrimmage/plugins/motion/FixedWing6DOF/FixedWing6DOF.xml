@@ -5,4 +5,16 @@
   <min_velocity>0</min_velocity>
   <max_velocity>40</max_velocity>
   <max_roll>30</max_roll> <!-- degrees -->
+
+  <gravity_magnitude>9.81</gravity_magnitude>
+
+  <!-- Platform mass -->
+  <mass>1.2</mass>
+
+  <inertia_matrix>
+    [ 0.0122 0.0000 0.0000 ]
+    [ 0.0000 0.0122 0.0000 ]
+    [ 0.0000 0.0000 0.0244 ]
+  </inertia_matrix>
+  
 </params>

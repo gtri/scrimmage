@@ -1,6 +1,7 @@
 macro(MacroCommonPaths NAME DIR_NAME)
   IF(DEFINED ENV{${NAME}_ROOT} OR DEFINED ENV{${NAME}_DIR})
     set(COMMON_INCLUDE_PATHS_${NAME}
+      /opt/scrimmage/include/JSBSim
       $ENV{${NAME}_DIR}/src
       $ENV{${NAME}_DIR}/include
       $ENV{${NAME}_DIR}

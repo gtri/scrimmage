@@ -36,6 +36,7 @@
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/common/CSV.h>
 
 #include <map>
 #include <string>
@@ -45,6 +46,28 @@ namespace scrimmage {
 namespace motion {
 class FixedWing6DOF : public scrimmage::MotionModel{
  public:
+    enum ModelParams {
+        U = 0,
+        V,
+        W,
+        P,
+        Q,
+        R,
+        Uw,
+        Vw,
+        Ww,
+        Xw,
+        Yw,
+        Zw,
+        q0,
+        q1,
+        q2,
+        q3,
+        MODEL_NUM_ITEMS
+    };
+
+    FixedWing6DOF();
+
     virtual std::tuple<int, int, int> version();
 
     virtual bool init(std::map<std::string, std::string> &info,
@@ -67,7 +90,6 @@ class FixedWing6DOF : public scrimmage::MotionModel{
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 
-    double length_;
     std::shared_ptr<Eigen::Vector4d> ctrl_u_;
 
     double min_velocity_;
@@ -77,6 +99,13 @@ class FixedWing6DOF : public scrimmage::MotionModel{
 
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_local_;
+
+    Eigen::Matrix3d I_;
+    Eigen::Matrix3d I_inv_;
+
+    // Logging utility
+    bool write_csv_;
+    CSV csv_;
 };
 } // namespace motion
 } // namespace scrimmage

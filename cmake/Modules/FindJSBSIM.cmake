@@ -20,7 +20,8 @@ MacroCommonPaths(JSBSIM JSBSim)
 find_path(JSBSIM_INCLUDE_DIR
     NAMES FGFDMExec.h
     PATHS ${COMMON_INCLUDE_PATHS_JSBSIM}
-)
+    NO_DEFAULT_PATH
+    )
 
 if (NOT JSBSIM_INCLUDE_DIR)
     find_path(JSBSIM_INCLUDE_DIR
@@ -42,15 +43,15 @@ find_library(JSBSIM_LIBRARY
     PATHS ${COMMON_LIBRARY_PATHS_JSBSIM}
 )
 
-#message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-#message("${COMMON_INCLUDE_PATHS_JSBSIM}")
-#message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-#message("${JSBSIM_INCLUDE_DIR}")
-#message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-#message("${COMMON_LIBRARY_PATHS_JSBSIM}")
-#message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-#message("${JSBSIM_LIBRARY}")
-#message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+# message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+# message("${COMMON_INCLUDE_PATHS_JSBSIM}")
+# message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+# message("${JSBSIM_INCLUDE_DIR}")
+# message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+# message("${COMMON_LIBRARY_PATHS_JSBSIM}")
+# message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+# message("${JSBSIM_LIBRARY}")
+# message("+++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
 # Set the include dir variables and the libraries and let libfind_process do the rest.
 # NOTE: Singular variables for this library, plural for libraries this this lib depends on.

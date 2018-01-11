@@ -36,8 +36,14 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/parse/MissionParse.h>
+
+#include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
+
+using std::cout;
+using std::endl;
 
 using boost::algorithm::clamp;
 
@@ -49,26 +55,6 @@ namespace motion {
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
 
-enum ModelParams {
-    U = 0,
-    V,
-    W,
-    P,
-    Q,
-    R,
-    Uw,
-    Vw,
-    Ww,
-    Xw,
-    Yw,
-    Zw,
-    q0,
-    q1,
-    q2,
-    q3,
-    MODEL_NUM_ITEMS
-};
-
 enum ControlParams {
     THRUST = 0,
     ELEVATOR,
@@ -76,6 +62,11 @@ enum ControlParams {
     RUDDER,
     CONTROL_NUM_ITEMS
 };
+
+FixedWing6DOF::FixedWing6DOF() : min_velocity_(15.0), max_velocity_(40.0),
+                                 max_roll_(30.0), max_pitch_(30.0),
+                                 write_csv_(false) {
+}
 
 std::tuple<int, int, int> FixedWing6DOF::version() {
     return std::tuple<int, int, int>(0, 0, 1);
@@ -113,6 +104,55 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     x_[q1] = 0;
     x_[q2] = 0;
     x_[q3] = 0;
+
+    // Parse XML parameters
+    g_ = sc::get<double>("gravity_magnitude", params, 9.81);
+    mass_ = sc::get<double>("mass", params, 1.2);
+
+    // Parse inertia matrix
+    std::vector<std::vector<std::string>> vecs;
+    std::string inertia_matrix = sc::get<std::string>("inertia_matrix",
+                                                      params, "");
+    bool valid_inertia = false;
+    if (!sc::get_vec_of_vecs(inertia_matrix, vecs)) {
+        cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
+    } else {
+        int row = 0;
+        for (std::vector<std::string> vec : vecs) {
+            if (vec.size() != 3) {
+                cout << "Invalid vector size in: " << inertia_matrix << endl;
+                break;
+            }
+            I_(row, 0) = std::stod(vec[0]);
+            I_(row, 1) = std::stod(vec[1]);
+            I_(row, 2) = std::stod(vec[2]);
+            row++;
+        }
+        if (row == 3) {
+            valid_inertia = true;
+        }
+    }
+    if (!valid_inertia) {
+        cout << "Using identity matrix for inertia." << endl;
+        I_ = Eigen::Matrix3d::Identity();
+    }
+    I_inv_ = I_.inverse();
+
+    write_csv_ = sc::get<bool>("write_csv", params, false);
+    if (write_csv_) {
+        csv_.open_output(parent_->mp()->log_dir() + "/"
+                         + std::to_string(parent_->id().id())
+                         + "-states.csv");
+
+        csv_.set_column_headers(sc::CSV::Headers{"t",
+                    "x", "y", "z",
+                    "U", "V", "W",
+                    "P", "Q", "R",
+                    "U_dot", "V_dot", "W_dot",
+                    "P_dot", "Q_dot", "R_dot",
+                    "roll", "pitch", "yaw",
+                    "w_1", "w_2", "w_3", "w_4"});
+    }
 
     return true;
 }
