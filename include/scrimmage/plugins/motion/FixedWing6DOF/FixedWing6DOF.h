@@ -53,6 +53,12 @@ class FixedWing6DOF : public scrimmage::MotionModel{
         P,
         Q,
         R,
+        U_dot,
+        V_dot,
+        W_dot,
+        P_dot,
+        Q_dot,
+        R_dot,
         Uw,
         Vw,
         Ww,
@@ -80,17 +86,17 @@ class FixedWing6DOF : public scrimmage::MotionModel{
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual std::shared_ptr<Eigen::Vector4d> u() = 0;
+        virtual Eigen::Vector4d u() = 0;
     };
 
-    void set_u(std::shared_ptr<Eigen::Vector4d> u) {ctrl_u_ = u;}
+    void set_u(Eigen::Vector4d u) {ctrl_u_ = u;}
 
  protected:
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 
-    std::shared_ptr<Eigen::Vector4d> ctrl_u_;
+    Eigen::Vector4d ctrl_u_;
 
     double min_velocity_;
     double max_velocity_;

@@ -54,7 +54,8 @@
     <z>10</z>
     <heading>45</heading>
     
-    <controller>FixedWing6DOFControllerROS</controller>
+    <!--<controller>FixedWing6DOFControllerROS</controller>-->
+    <controller>FixedWing6DOFControllerPID</controller>
     <motion_model>FixedWing6DOF</motion_model>
     <visual_model>zephyr-blue</visual_model>    
     <autonomy>Control3D</autonomy>    

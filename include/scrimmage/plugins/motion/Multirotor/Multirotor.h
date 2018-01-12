@@ -75,7 +75,6 @@ class Multirotor : public scrimmage::MotionModel{
         MODEL_NUM_ITEMS
     };
 
-
     Multirotor();
 
     virtual bool init(std::map<std::string, std::string> &info,

@@ -42,7 +42,6 @@ namespace controller {
 namespace sc = scrimmage;
 
 void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params) {
-    u_ = std::make_shared<Eigen::Vector4d>();
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -64,7 +63,7 @@ bool FixedWing6DOFControllerROS::step(double t, double dt) {
     aileron = cmd_vel_.angular.x;
     rudder = cmd_vel_.angular.z;
 
-    (*u_) << thrust, elevator, aileron, rudder;
+    u_ << thrust, elevator, aileron, rudder;
 
     return true;
 }

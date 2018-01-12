@@ -158,26 +158,38 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 }
 
 bool FixedWing6DOF::step(double time, double dt) {
-    if (ctrl_u_ == nullptr) {
-        std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
-        if (ctrl) {
-            ctrl_u_ = ctrl->u();
-        }
-    }
+    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
 
-    if (ctrl_u_ == nullptr) {
-        return false;
-    }
+    // TODO: Saturate inputs
 
-    // Need to saturate state variables before model runs
-    x_[U] = clamp(x_[U], min_velocity_, max_velocity_);
+    x_[Uw] = state_->vel()(0);
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
 
-    x_[P] = clamp(x_[U], -0.001, 0.001);
-    x_[Q] = clamp(x_[U], -0.001, 0.001);
-    x_[R] = clamp(x_[U], -0.001, 0.001);
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
+
+    // TODO: convert global linear velocity and angular velocity into local
+    // velocities
+
+    // Cache values to calculate changes:
+    Eigen::Vector3d prev_linear_vel(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
     ode_step(dt);
+
+    // Calculate change in velocity to populate acceleration elements
+    Eigen::Vector3d linear_vel(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d linear_acc = linear_vel - prev_linear_vel;
+    Eigen::Vector3d angular_acc = angular_vel - prev_angular_vel;
+    x_[U_dot] = linear_acc(0);
+    x_[V_dot] = linear_acc(1);
+    x_[W_dot] = linear_acc(2);
+    x_[P_dot] = angular_acc(0);
+    x_[Q_dot] = angular_acc(1);
+    x_[R_dot] = angular_acc(2);
 
     // Normalize quaternion
     quat_local_.w() = x_[q0];
@@ -194,52 +206,81 @@ bool FixedWing6DOF::step(double time, double dt) {
     // Convert local coordinates to world coordinates
     state_->quat() = quat_world_ * quat_local_;
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
+    state_->vel() << x_[Uw], x_[Vw], x_[Ww];
+
+    if (write_csv_) {
+        // Log state to CSV
+        csv_.append(sc::CSV::Pairs{
+                {"t", time},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"U_dot", x_[U_dot]},
+                {"V_dot", x_[V_dot]},
+                {"W_dot", x_[W_dot]},
+                {"P_dot", x_[P_dot]},
+                {"Q_dot", x_[Q_dot]},
+                {"R_dot", x_[R_dot]},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"w_1", ctrl_u_(0)},
+                {"w_2", ctrl_u_(1)},
+                {"w_3", ctrl_u_(2)},
+                {"w_4", ctrl_u_(3)}});
+    }
 
     return true;
 }
 
 void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
-    double thrust = (*ctrl_u_)(THRUST);
-    double elevator = (*ctrl_u_)(ELEVATOR);
-    double aileron = (*ctrl_u_)(AILERON);
-    double rudder = (*ctrl_u_)(RUDDER);
+    double thrust = ctrl_u_(THRUST);
+    double elevator = ctrl_u_(ELEVATOR);
+    double aileron = ctrl_u_(AILERON);
+    double rudder = ctrl_u_(RUDDER);
 
-    double F_thrust = thrust;
+    // Calculate force from weight in body frame:
+    Eigen::Vector3d F_weight(-mass_*g_*sin(x_[R]),
+                             +mass_*g_*sin(x_[P])*cos(x_[R]),
+                             +mass_*g_*cos(x_[P])*cos(x_[R]));
 
-    double F_x = F_thrust;
+    Eigen::Vector3d F_thrust(thrust, 0, 0);
+    Eigen::Vector3d F_total = F_weight + F_thrust;
 
-    double m = 1.0;
-    double g = 0; // -9.8; no gravity
-    double theta = 0;
+    //double Ixx = 1;
+    //double Iyy = 1;
+    //double Izz = 1;
+    //double Ixz = 0;
 
-    double Ixx = 1;
-    double Iyy = 1;
-    double Izz = 1;
-    double Ixz = 0;
+    dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
+    dxdt[V] = x[W]*x[P] - x[U]*x[R] + F_total(1) / mass_;
+    dxdt[W] = x[U]*x[Q] - x[V]*x[P] + F_total(2) / mass_;
 
-    // TODO: Should these be cached from previous run or should the current dxdt
-    // versions be used?
-    double U_dot = dxdt[U];
-    double V_dot = dxdt[V];
-    double W_dot = dxdt[W];
-    double P_dot = dxdt[P];
-    double Q_dot = dxdt[Q];
-    double R_dot = dxdt[R];
+    // double L = aileron + Ixx*P_dot - Ixz*R_dot - Ixz*x[P]*x[Q] + (Izz - Iyy)*x[R]*x[Q];
+    // double M = elevator + Iyy*Q_dot + (Ixx-Izz)*x[P]*x[R] + (Ixz*(pow(x[P], 2)-pow(x[R], 2)));
+    // double N = rudder + Izz*R_dot - Ixz*P_dot + (Iyy-Ixx)*x[P]*x[Q] + Ixz*x[Q]*x[R];
+    //
+    // double L_tic = L + Ixz*x[P]*x[Q] - (Izz-Iyy)*x[R]*x[Q];
+    // double N_tic = N - (Iyy-Ixx)*x[P]*x[Q] - Ixz*x[R]*x[Q];
+    //
+    // dxdt[P] = (L_tic*Izz-N_tic*Ixz) / (Ixx*Izz - pow(Ixz, 2));
+    // dxdt[Q] = (M - (Ixx - Izz)*x[P]*x[R]) - Ixz*(pow(x[P], 2)-pow(x[R], 2)) / Iyy;
+    // dxdt[R] = (N_tic*Ixx+L_tic*Ixz) / (Ixx*Izz - pow(Ixz, 2));
 
-    dxdt[U] = x[V]*x[R] - x[W]*x[Q] - g*sin(theta) + F_x / m;
-    dxdt[V] = 0; // x[W]*x[P] - x[U]*x[R] + g*sin(phi)*cos(theta) + F_y / m;
-    dxdt[W] = 0; // x[U]*x[Q] - x[V]*x[P] + g*cos(phi)*cos(theta) + F_z / m;
+    // Calculate moments from thrust
+    Eigen::Vector3d M_thrust(0, 0, 0); // L, M, N
 
-    double L = aileron + Ixx*P_dot - Ixz*R_dot - Ixz*x[P]*x[Q] + (Izz - Iyy)*x[R]*x[Q];
-    double M = elevator + Iyy*Q_dot + (Ixx-Izz)*x[P]*x[R] + (Ixz*(pow(x[P], 2)-pow(x[R], 2)));
-    double N = rudder + Izz*R_dot - Ixz*P_dot + (Iyy-Ixx)*x[P]*x[Q] + Ixz*x[Q]*x[R];
-
-    double L_tic = L + Ixz*x[P]*x[Q] - (Izz-Iyy)*x[R]*x[Q];
-    double N_tic = N - (Iyy-Ixx)*x[P]*x[Q] - Ixz*x[R]*x[Q];
-
-    dxdt[P] = (L_tic*Izz-N_tic*Ixz) / (Ixx*Izz - pow(Ixz, 2));
-    dxdt[Q] = (M - (Ixx - Izz)*x[P]*x[R]) - Ixz*(pow(x[P], 2)-pow(x[R], 2)) / Iyy;
-    dxdt[R] = (N_tic*Ixx+L_tic*Ixz) / (Ixx*Izz - pow(Ixz, 2));
+    Eigen::Vector3d pqr(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d pqr_dot = I_inv_ * (M_thrust - pqr.cross(I_*pqr));
+    dxdt[P] = pqr_dot(0);
+    dxdt[Q] = pqr_dot(1);
+    dxdt[R] = pqr_dot(2);
 
     double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
     dxdt[q0] = -0.5 * (x[q1]*x[P] + x[q2]*x[Q] + x[q3]*x[R]) + lambda * x[q0];
@@ -267,11 +308,20 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
 
-    Eigen::Vector3d acc_local(U_dot, V_dot, W_dot);
+    //// TODO: Should these be cached from previous run or should the current dxdt
+    Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
     Eigen::Vector3d acc_world = rot * acc_local;
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);
+
+    // Accelerations get updated based on change in velocities
+    dxdt[U_dot] = 0;
+    dxdt[V_dot] = 0;
+    dxdt[W_dot] = 0;
+    dxdt[P_dot] = 0;
+    dxdt[Q_dot] = 0;
+    dxdt[R_dot] = 0;
 }
 
 void FixedWing6DOF::teleport(sc::StatePtr &state) {

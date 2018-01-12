@@ -47,10 +47,10 @@ class FixedWing6DOFControllerROS : public scrimmage::motion::FixedWing6DOF::Cont
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector4d> u() {return u_;}
+    virtual Eigen::Vector4d u() {return u_;}
 
  protected:
-    std::shared_ptr<Eigen::Vector4d> u_;
+    Eigen::Vector4d u_;
 
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
     std::shared_ptr<ros::NodeHandle> nh_;
