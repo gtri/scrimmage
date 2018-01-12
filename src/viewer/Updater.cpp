@@ -96,7 +96,7 @@ void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
 }
 
 Updater::Updater() :
-        frame_time_(0), update_count(0), inc_follow_(true),
+        frame_time_(-1.0), update_count(0), inc_follow_(true),
         dec_follow_(false), follow_offset_(50) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
@@ -212,6 +212,8 @@ bool Updater::update() {
         // frames. Update the shapes on a newly received frame.
         update_shapes();
 
+        incoming_interface_->frames().clear();
+
         incoming_interface_->frames_mutex.unlock();
     }
 
@@ -256,10 +258,7 @@ bool Updater::update() {
 
     // Update scale
     if (scale_required_) {
-        incoming_interface_->sim_info_mutex.lock();
-        auto &frames = incoming_interface_->frames();
-        frames.empty() ? update_scale() : update_contacts(frames.back());
-        incoming_interface_->sim_info_mutex.unlock();
+        update_scale();
         scale_required_ = false;
     }
 
@@ -274,20 +273,38 @@ bool Updater::update() {
 
 bool Updater::update_scale() {
     for (auto &kv : actor_contacts_) {
-        // Update actor scale:
-        // Scale the actor based on the GUI control input:
-        double scale_amount = 1.0;
+        // Get the desired scale amount, which is a factor of the current
+        // visualization scale (scale_) and the scale amount associated with
+        // the contact visual information
+        double desired_scale_amount = 1.0;
         auto it = contact_visuals_.find(kv.first);
         if (it != contact_visuals_.end()) {
-            scale_amount = it->second->scale() * scale_;
+            desired_scale_amount = it->second->scale() * scale_;
         }
 
-        double scale_data[3];
-        for (int i = 0; i < 3; i++) {
-            scale_data[i] = scale_amount;
+        // Get the 4x4 matrix that defines the scale, rotation, and translation
+        vtkMatrix4x4 *m;
+        m = kv.second->actor->GetMatrix();
+
+        // Compute the current scale factor for the object. The top-left 3x3
+        // part of the matrix contains the rotation and scale. The length of
+        // each row of the 3x3 matrix is the current scaling factor.
+        double sq_sum = 0;
+        for (int c = 0; c < 3; c++) {
+            sq_sum += pow(m->GetElement(0, c), 2);
         }
-        kv.second->actor->SetScale(scale_data[0], scale_data[1],
-                                   scale_data[2]);
+        double curr_scale_factor = sqrt(sq_sum);
+
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                // For each element in the top-left 3x3 matrix, normalize the
+                // scaling factor to 1 and then apply the desired scaling
+                // amount.
+                double elem = m->GetElement(r, c);
+                elem = elem / curr_scale_factor * desired_scale_amount;
+                m->SetElement(r, c, elem);
+            }
+        }
     }
     return true;
 }
@@ -755,8 +772,6 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
         }
     }
 
-    update_scale();
-
     // Update contacts in contact map
     for (int i = 0; i < frame->contact_size(); i++) {
         const sp::Contact cnt = frame->contact(i);
@@ -785,16 +800,18 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
             sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
             Eigen::Matrix3d mat3 = quat.toRotationMatrix();
 
-            // Set rotation matrix for actor
-            double scale_data[3];
-            ac->actor->GetScale(scale_data);
+            double desired_scale_amount = 1.0;
+            auto it_cv = contact_visuals_.find(id);
+            if (it_cv != contact_visuals_.end()) {
+                desired_scale_amount = it_cv->second->scale() * scale_;
+            }
 
             vtkMatrix4x4 *m;
             m = ac->actor->GetMatrix();
 
             for (int r = 0; r < 3; r++) {
                 for (int c = 0; c < 3; c++) {
-                    m->SetElement(r, c, scale_data[0]*mat3(r, c)); // TODO: scale data should
+                    m->SetElement(r, c, desired_scale_amount*mat3(r, c));
                 }
             }
 

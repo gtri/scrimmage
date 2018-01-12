@@ -375,7 +375,6 @@ bool Interface::push_shapes(scrimmage_proto::Shapes &shapes) {
 
     if (shapes_list_.size() > max_queue_size_) {
         shapes_list_.pop_front();
-        // cout << "pop shapes" << endl;
     }
     shapes_mutex.unlock();
     return true;
@@ -383,7 +382,7 @@ bool Interface::push_shapes(scrimmage_proto::Shapes &shapes) {
 
 bool Interface::frames_update(double t) {
     frames_mutex.lock();
-    bool status = !frames_list_.empty() && frames_list_.back()->time() != t;
+    bool status = !frames_list_.empty();
     frames_mutex.unlock();
     return status;
 }
