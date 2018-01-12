@@ -50,32 +50,37 @@ Install SCRIMMAGE Core and Standard Plugins
       $ cd ~/scrimmage
 
 2. Use git to download SCRIMMAGE:
-   
+
    ::
 
       $ git clone <scrimmage-git-url>
       $ cd scrimmage
 
-3. Use the install-binaries.sh script to install packages that are provided by 
+3. Use the install-binaries.sh script to install packages that are provided by
    your system's package manager:
 
    ::
-      
-      $ sudo ./setup/install-binaries.sh
-        
-4. Some of the dependencies need to be built and installed from source. The
-   following commands will build protobuf, grpc, and jsbsim from source and
-   install them to ~/.local by default:
+
+      $ sudo ./setup/install-binaries.sh -e 1 -p 3
+
+4. Install dependencies provided by SCRIMMAGE's PPA:
 
    ::
-   
-      $ cd 3rd-party
-      $ mkdir build && cd build
-      $ cmake ..
-      $ source ~/.scrimmage/setup.bash
-      $ make   
-      $ cd ../../
-   
+
+      $ sudo add-apt-repository ppa:kevin-demarco/scrimmage
+      $ sudo apt-get update
+
+   ::
+
+      $ sudo apt-get install scrimmage-dependencies
+
+   Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to
+   your local system and sets up some environment variables:
+
+      ::
+
+         $ source /opt/scrimmage/setup.sh
+
 5. Build SCRIMMAGE core and its standard plugins
 
    ::
@@ -83,23 +88,22 @@ Install SCRIMMAGE Core and Standard Plugins
       $ mkdir build
       $ cd build
       $ cmake ..
-      $ source ~/.scrimmage/setup.bash
       $ make
-        
+
    Whenever, you want to use scrimmage, you need to source the
    ~/.scrimmage/setup.bash file or you can place a line in your ~/.bashrc file
    to source it automatically:
 
    ::
-         
-      $ echo "source ~/.scrimmage/setup.bash" >> ~/.bashrc       
-        
+
+      $ echo "source ~/.scrimmage/setup.bash" >> ~/.bashrc
+
 6. Test that SCRIMMAGE has been installed correctly:
 
    ::
-   
+
       $ source ~/.scrimmage/setup.bash
       $ scrimmage ../missions/straight.xml
-            
+
    You should see the visualization GUI open up and display the simulation. The
    user interface controls are described in :doc:`viewer`.
