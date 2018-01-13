@@ -123,7 +123,7 @@ Updater::Updater() :
     send_shutdown_msg_ = true;
 }
 
-void Updater::init(std::string log_dir) {
+void Updater::init(std::string log_dir, double dt) {
     // Create a default grid:
     grid_ = std::make_shared<Grid>();
     grid_->create(20, 1, renderer_);
@@ -138,6 +138,7 @@ void Updater::init(std::string log_dir) {
 
     enable_fps();
     log_dir_ = log_dir;
+    dt_ = dt;
 }
 
 void Updater::Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
@@ -530,8 +531,10 @@ bool Updater::update_text_display() {
     }
 
     // Update the time (text) display
-    std::string time_str = std::to_string(frame_time_) + " s";
-    time_actor_->SetInput(time_str.c_str());
+    const int num_digits = std::abs(log10(dt_));
+    std::stringstream ss;
+    ss << std::setprecision(num_digits) << std::fixed << frame_time_ << " s";
+    time_actor_->SetInput(ss.str().c_str());
 
     // Update the time warp
     std::stringstream stream_warp;

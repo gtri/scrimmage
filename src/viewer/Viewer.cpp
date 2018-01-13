@@ -54,7 +54,8 @@ void Viewer::set_enable_network(bool enable)
 { enable_network_ = enable; }
 
 bool Viewer::init(const std::map<std::string, std::string> &camera_attributes,
-                  const std::string &log_dir) {
+                  const std::string &log_dir,
+                  double dt) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 
@@ -85,6 +86,7 @@ bool Viewer::init(const std::map<std::string, std::string> &camera_attributes,
     renderWindow_->SetSize(800, 600);
 
     log_dir_ = log_dir;
+    dt_ = dt;
     return true;
 }
 
@@ -157,7 +159,7 @@ bool Viewer::run() {
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
     }
 
-    updater->init(log_dir_);
+    updater->init(log_dir_, dt_);
 
     cam_int_->set_updater(updater);
 

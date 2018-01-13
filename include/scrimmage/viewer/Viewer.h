@@ -60,7 +60,8 @@ class Viewer {
     void set_enable_network(bool enable);
 
     bool init(const std::map<std::string, std::string> &camera_attributes,
-              const std::string &log_dir);
+              const std::string &log_dir,
+              double dt);
     bool run();
     bool stop();
 
@@ -80,6 +81,7 @@ class Viewer {
 
     std::map<std::string, std::string> camera_attributes_;
     std::string log_dir_;
+    double dt_ = 0.1;
 };
 
 } // namespace scrimmage
