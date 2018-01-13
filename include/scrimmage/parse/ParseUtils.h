@@ -34,9 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
 #include <Eigen/Dense>
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/proto/Visual.pb.h>
-
 #include <map>
 #include <vector>
 #include <string>
@@ -47,11 +44,9 @@ class UTMTerrain;
 class ContactVisual;
 }
 
-namespace sc = scrimmage;
-namespace sp = scrimmage_proto;
-
 namespace scrimmage {
 
+class PID;
 class FileSearch;
 class ConfigParse;
 
@@ -136,7 +131,7 @@ Eigen::Vector3d vec2eigen(std::vector<double> &vec);
 
 bool find_terrain_files(std::string terrain_name,
                         ConfigParse &terrain_parse,
-                        std::shared_ptr<sp::UTMTerrain> &utm_terrain);
+                        std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
 
 bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
                            FileSearch &file_search,
@@ -150,7 +145,7 @@ bool parse_autonomy_data(std::map<std::string, std::string> &params,
 bool get_vec_of_vecs(std::string &str,
                      std::vector<std::vector<std::string>> &out);
 
-bool set_pid_gains(sc::PID &pid, std::string str,
+bool set_pid_gains(PID &pid, std::string str,
                    bool is_angle = false);
 
 } // namespace scrimmage

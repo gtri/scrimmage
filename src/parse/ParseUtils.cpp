@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/ConfigParse.h>
