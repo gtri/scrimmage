@@ -41,11 +41,6 @@
 #include <memory>
 #include <string>
 
-namespace scrimmage_proto {
-class Shape;
-using ShapePtr = std::shared_ptr<Shape>;
-}
-
 namespace scrimmage {
 
 class Autonomy : public Plugin {
@@ -76,8 +71,6 @@ class Autonomy : public Plugin {
     StatePtr &state();
     virtual void set_state(StatePtr &state);
 
-    std::list<scrimmage_proto::ShapePtr> &shapes();
-
     std::string &logging_msg();
 
     bool get_is_controlling();
@@ -91,7 +84,6 @@ class Autonomy : public Plugin {
     ContactMapPtr contacts_;
     scrimmage::RTreePtr rtree_;
 
-    std::list<scrimmage_proto::ShapePtr> shapes_;
     bool need_reset_;
     std::string logging_msg_;
 

@@ -38,7 +38,13 @@
 #include <unordered_set>
 #include <memory>
 #include <map>
+#include <list>
 #include <string>
+
+namespace scrimmage_proto {
+class Shape;
+using ShapePtr = std::shared_ptr<Shape>;
+}
 
 namespace scrimmage {
 
@@ -90,6 +96,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> &lookup)
     { id_to_ent_map_ = lookup; }
 
+    std::list<scrimmage_proto::ShapePtr> &shapes();
+
  protected:
     int network_id_;
     static int plugin_count_;
@@ -103,6 +111,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
+
+    std::list<scrimmage_proto::ShapePtr> shapes_;
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;

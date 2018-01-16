@@ -576,6 +576,7 @@ bool SimControl::run_interaction_detection() {
         any_false = any_false || !result;
         shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(),
                           ent_inter->shapes().end());
+        ent_inter->shapes().clear();
     }
 
     // Determine if entities need to be removed

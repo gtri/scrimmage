@@ -43,10 +43,6 @@
 #include <memory>
 #include <string>
 
-namespace scrimmage_proto {
-class Shape;
-}
-
 namespace scrimmage {
 
 class EntityInteraction : public Plugin {
@@ -62,9 +58,6 @@ class EntityInteraction : public Plugin {
     inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
                                                 double /*t*/, double /*dt*/)
     { return false; }
-
-    inline virtual std::list<std::shared_ptr<scrimmage_proto::Shape>> &shapes()
-    { return shapes_; }
 
     inline virtual bool collision_exists(std::list<EntityPtr> &/*ents*/,
                                   Eigen::Vector3d &/*p*/)
@@ -82,7 +75,6 @@ class EntityInteraction : public Plugin {
  protected:
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
-    std::list<std::shared_ptr<scrimmage_proto::Shape>> shapes_;
     RandomPtr random_;
     MissionParsePtr mp_;
 };

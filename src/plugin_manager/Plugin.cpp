@@ -146,4 +146,9 @@ MessageBasePtr Plugin::get_scoped_property_helper(const std::string &property_na
     auto it = parent_->properties().find(name() + "/" + property_name);
     return it == parent_->properties().end() ? nullptr : it->second;
 }
+
+std::list<scrimmage_proto::ShapePtr> &Plugin::shapes() {
+    return shapes_;
+}
+
 } // namespace scrimmage

@@ -60,8 +60,6 @@ StatePtr &Autonomy::state() {return state_;}
 
 void Autonomy::set_state(StatePtr &state) {state_ = state;}
 
-std::list<scrimmage_proto::ShapePtr> &Autonomy::shapes() {return shapes_;}
-
 void Autonomy::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj_ = proj;
 }

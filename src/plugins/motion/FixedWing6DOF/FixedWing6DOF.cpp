@@ -241,9 +241,9 @@ bool FixedWing6DOF::step(double time, double dt) {
 
 void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     double thrust = ctrl_u_(THRUST);
-    double elevator = ctrl_u_(ELEVATOR);
-    double aileron = ctrl_u_(AILERON);
-    double rudder = ctrl_u_(RUDDER);
+    // double elevator = ctrl_u_(ELEVATOR);
+    // double aileron = ctrl_u_(AILERON);
+    // double rudder = ctrl_u_(RUDDER);
 
     // Calculate force from weight in body frame:
     Eigen::Vector3d F_weight(-mass_*g_*sin(x_[R]),
@@ -252,11 +252,6 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
     Eigen::Vector3d F_thrust(thrust, 0, 0);
     Eigen::Vector3d F_total = F_weight + F_thrust;
-
-    //double Ixx = 1;
-    //double Iyy = 1;
-    //double Izz = 1;
-    //double Ixz = 0;
 
     dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
     dxdt[V] = x[W]*x[P] - x[U]*x[R] + F_total(1) / mass_;
