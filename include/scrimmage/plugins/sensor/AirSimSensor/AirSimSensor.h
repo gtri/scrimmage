@@ -91,7 +91,7 @@ class AirSimSensor : public scrimmage::Sensor {
  public:
     AirSimSensor();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual scrimmage::MessageBasePtr sensor_msg(double t);
  protected:
     std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
     bool client_connected_;

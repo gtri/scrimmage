@@ -43,7 +43,7 @@ namespace sensor {
 class SimpleCamera : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
  protected:
     double range_ = 0;

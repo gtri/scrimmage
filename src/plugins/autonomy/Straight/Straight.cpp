@@ -142,7 +142,7 @@ bool Straight::step_autonomy(double t, double dt) {
         if (kv.first == "NoisyState0") {
             auto msg = kv.second->sense<sc::State>(t);
             if (msg) {
-                own_state = (*msg)->data;
+                own_state = msg->data;
             }
         } else if (kv.first == "NoisyContacts0") {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
@@ -166,11 +166,11 @@ bool Straight::step_autonomy(double t, double dt) {
                     if (save_camera_images_) {
                         std::string img_name = "./imgs/camera_" +
                             std::to_string(frame_number_++) + ".png";
-                        cv::imwrite(img_name, (*msg)->data.frame);
+                        cv::imwrite(img_name, msg->data.frame);
                     }
 
                     if (show_camera_images_) {
-                        cv::imshow("Camera Sensor", (*msg)->data.frame);
+                        cv::imshow("Camera Sensor", msg->data.frame);
                         cv::waitKey(1);
                     }
                 }

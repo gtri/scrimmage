@@ -32,14 +32,13 @@
 
 #include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
-
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-
-#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/proto/State.pb.h>
+#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
+#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
 
@@ -89,7 +88,7 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> RigidBody6DOFStateSensor::sensor_msg(double t) {
+scrimmage::MessageBasePtr RigidBody6DOFStateSensor::sensor_msg(double t) {
     auto msg = std::make_shared<sc::Message<sc::motion::RigidBody6DOFState>>();
 
     // Copy elements from scrimmage::State
@@ -120,7 +119,7 @@ boost::optional<scrimmage::MessageBasePtr> RigidBody6DOFStateSensor::sensor_msg(
 
 
     // Return the sensor message.
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return msg;
 }
 } // namespace sensor
 } // namespace scrimmage

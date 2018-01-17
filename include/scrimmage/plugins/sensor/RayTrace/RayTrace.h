@@ -34,8 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_
 
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
 
 #include <random>
 #include <map>
@@ -74,7 +72,7 @@ class RayTrace : public scrimmage::Sensor {
     virtual std::string name() { return "RayTrace"; }
     virtual std::string type() { return "Ray"; }
     virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
     double angle_res_vert() { return angle_res_vert_; }
     double angle_res_horiz() { return angle_res_horiz_; }

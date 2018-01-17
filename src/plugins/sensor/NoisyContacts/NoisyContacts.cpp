@@ -46,8 +46,6 @@
 
 #include <vector>
 
-#include <boost/optional.hpp>
-
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
@@ -99,7 +97,7 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t) {
+scrimmage::MessageBasePtr NoisyContacts::sensor_msg(double t) {
     auto msg = std::make_shared<sc::Message<std::list<sc::Contact>>>();
 
     for (auto &kv : *(parent_->contacts())) {
@@ -138,11 +136,11 @@ boost::optional<scrimmage::MessageBasePtr> NoisyContacts::sensor_msg(double t) {
         msg->data.push_back(c);
     }
 
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return msg;
 }
 
 #if ENABLE_GRPC == 1
-boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
 NoisyContacts::sensor_msg_flat(double t) {
     auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
     auto add_vec = [&](auto &vec) {
@@ -163,7 +161,7 @@ NoisyContacts::sensor_msg_flat(double t) {
     return msg;
 }
 
-boost::optional<scrimmage_proto::SpaceParams> NoisyContacts::observation_space_params() {
+scrimmage_proto::SpaceParams NoisyContacts::observation_space_params() {
     sp::SpaceParams space_params;
 
     const double inf = std::numeric_limits<double>::infinity();

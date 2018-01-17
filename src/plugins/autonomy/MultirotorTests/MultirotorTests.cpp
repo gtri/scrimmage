@@ -93,7 +93,7 @@ bool MultirotorTests::step_autonomy(double t, double dt) {
         if (kv.first == "RigidBody6DOFStateSensor0") {
             auto msg = kv.second->sense<sc::motion::RigidBody6DOFState>(t);
             if (msg) {
-                state = (*msg)->data;
+                state = msg->data;
             }
         }
     }

@@ -32,8 +32,6 @@
 
 #include <scrimmage/sensor/Sensor.h>
 
-#include <boost/optional.hpp>
-
 namespace scrimmage {
 
 void Sensor::init(std::map<std::string, std::string> &params) {return;}
@@ -42,18 +40,18 @@ std::string Sensor::name() {return std::string("Sensor");}
 std::string Sensor::type() {return std::string("Sensor");}
 
 #if ENABLE_GRPC == 1
-boost::optional<scrimmage_proto::SpaceParams> Sensor::observation_space_params() {
-    return boost::none;
+scrimmage_proto::SpaceParams Sensor::observation_space_params() {
+    return scrimmage_proto::SpaceParams();
 }
 
-boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
 Sensor::sensor_msg_flat(double t) {
-    return boost::none;
+    return nullptr;
 }
 #endif
 
-boost::optional<scrimmage::MessageBasePtr> Sensor::sensor_msg(double t) {
-    return boost::none;
+scrimmage::MessageBasePtr Sensor::sensor_msg(double t) {
+    return nullptr;
 }
 
 } // namespace scrimmage

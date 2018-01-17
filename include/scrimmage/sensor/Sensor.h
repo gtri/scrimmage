@@ -43,8 +43,6 @@
 #include <memory>
 #include <string>
 
-#include <boost/optional.hpp>
-
 namespace scrimmage {
 
 class Sensor : public Plugin {
@@ -54,31 +52,30 @@ class Sensor : public Plugin {
     virtual std::string name();
     virtual std::string type();
 
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
 #if ENABLE_GRPC == 1
-    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
-    virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
-        sensor_msg_flat(double t);
+    virtual scrimmage_proto::SpaceParams observation_space_params();
+    virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t);
 #endif
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting) */
     template <class T = MessageBase,
               class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
-    boost::optional<MessageBasePtr> sense(double t) {
+    MessageBasePtr sense(double t) {
         return sensor_msg(t);
     }
 
     /*! \brief default version */
     template <class T>
-    boost::optional<std::shared_ptr<scrimmage::Message<T>>> sense(double t) {
+    std::shared_ptr<scrimmage::Message<T>> sense(double t) {
         auto msg = sensor_msg(t);
         if (msg) {
-            auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(*msg);
+            auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
             return msg_cast ?
-                boost::optional<std::shared_ptr<scrimmage::Message<T>>>(msg_cast) : boost::none;
+                std::shared_ptr<scrimmage::Message<T>>(msg_cast) : nullptr;
         } else {
-            return boost::none;
+            return nullptr;
         }
     }
 };

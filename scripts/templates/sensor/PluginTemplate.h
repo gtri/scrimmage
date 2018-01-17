@@ -48,7 +48,7 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
  public:
     (>>>PLUGIN_NAME<<<)();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
  protected:
     std::shared_ptr<std::default_random_engine> gener_;

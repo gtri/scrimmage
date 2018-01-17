@@ -40,13 +40,13 @@
 #include <limits>
 #include <utility>
 
-namespace boost {
-template <class T> class optional;
-}
-
 namespace scrimmage_proto {
 class Action;
 class SpaceParams;
+}
+
+namespace boost {
+template <class T> class optional;
 }
 
 namespace scrimmage {
@@ -80,7 +80,7 @@ class ExternalControl : public scrimmage::Autonomy {
 
  private:
     boost::optional<scrimmage_proto::Action>
-      send_action_result(double t, double reward, bool done);
+        send_action_result(double t, double reward, bool done);
     bool send_env();
 
     std::shared_ptr<ExternalControlClient> external_control_client_;

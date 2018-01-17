@@ -36,8 +36,6 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
 
 #include <random>
 #include <map>
@@ -51,7 +49,7 @@ namespace sensor {
 class ContactBlobCamera : public scrimmage::Sensor {
  public:
     virtual void init(std::map<std::string, std::string> &params);
-    virtual boost::optional<scrimmage::MessageBasePtr> sensor_msg(double t);
+    virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
  protected:
     std::shared_ptr<std::default_random_engine> gener_;

@@ -82,9 +82,9 @@ void RayTrace::init(std::map<std::string, std::string> &params) {
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> RayTrace::sensor_msg(double t) {
+scrimmage::MessageBasePtr RayTrace::sensor_msg(double t) {
     // Return the sensor message.
-    return boost::optional<sc::MessageBasePtr> {};
+    return std::make_shared<sc::MessageBase>();
 }
 } // namespace sensor
 } // namespace scrimmage

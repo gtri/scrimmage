@@ -37,14 +37,13 @@
 #include <scrimmage/proto/ExternalControl.pb.h>
 
 #include <scrimmage/plugins/sensor/TutorialOpenAISensor/TutorialOpenAISensor.h>
-#include <boost/optional.hpp>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::Sensor, TutorialOpenAISensor, TutorialOpenAISensor_plugin)
 
-boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
 TutorialOpenAISensor::sensor_msg_flat(double t) {
     auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
 
@@ -64,7 +63,7 @@ TutorialOpenAISensor::sensor_msg_flat(double t) {
     return msg;
 }
 
-boost::optional<scrimmage_proto::SpaceParams> TutorialOpenAISensor::observation_space_params() {
+scrimmage_proto::SpaceParams TutorialOpenAISensor::observation_space_params() {
     sp::SpaceParams space_params;
 
     const double inf = std::numeric_limits<double>::infinity();

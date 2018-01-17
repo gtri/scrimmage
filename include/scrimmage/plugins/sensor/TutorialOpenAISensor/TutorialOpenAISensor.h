@@ -33,16 +33,11 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
 
-
 #include <scrimmage/sensor/Sensor.h>
 
 #include <map>
 #include <string>
 #include <vector>
-
-namespace boost {
-template <class T> class optional;
-}
 
 namespace scrimmage_proto {
 class SpaceParams;
@@ -51,9 +46,8 @@ class SpaceSample;
 
 class TutorialOpenAISensor : public scrimmage::Sensor {
  public:
-    virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
-    virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
-        sensor_msg_flat(double t);
+    virtual scrimmage_proto::SpaceParams observation_space_params();
+    virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t);
 };
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_

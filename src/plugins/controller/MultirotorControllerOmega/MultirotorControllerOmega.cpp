@@ -79,10 +79,10 @@ void MultirotorControllerOmega::init(std::map<std::string, std::string> &params)
 bool MultirotorControllerOmega::step(double t, double dt) {
     auto d_state = sc::State::cast<sc::motion::MultirotorState>(desired_state_);
     if (d_state) {
-        if ((*d_state)->input_type() == sm::MultirotorState::InputType::OMEGA) {
-            u_ = (*d_state)->prop_input();
-        } else if ((*d_state)->input_type() == sm::MultirotorState::InputType::PWM) {
-            u_ = sc::scale((*d_state)->prop_input(), pwm_min_, pwm_max_,
+        if (d_state->input_type() == sm::MultirotorState::InputType::OMEGA) {
+            u_ = d_state->prop_input();
+        } else if (d_state->input_type() == sm::MultirotorState::InputType::PWM) {
+            u_ = sc::scale(d_state->prop_input(), pwm_min_, pwm_max_,
                            multirotor_->omega_min(),
                            multirotor_->omega_max());
         } else {

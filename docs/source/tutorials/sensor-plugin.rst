@@ -51,15 +51,13 @@ noise sources that will be used to add noise to our own state's position.
    }
  
 A Sensor plugin must implement the ``sensor_msg`` method, which returns message
-containing the sampled sensor data. The sensor message is wrapped by a
-boost::optional instance, which allows sensor_msg to return an "invalid" sensor
-message by returning ``boost::optional<sc::MessageBasePtr>{}`` if the sensor
-plugins wants to simulate invalid readings or enforce a sampling rate.
+containing the sampled sensor data. It should return ``nullptr`` if the data is
+invalid.
 
 .. code-block:: c++
    :linenos:
 
-   boost::optional<scrimmage::MessageBasePtr> MyNoisyState::sensor_msg(double t)
+   scrimmage::MessageBasePtr MyNoisyState::sensor_msg(double t)
    {
        // Make a copy of the current state
        sc::State ns = *(parent_->state());
@@ -73,7 +71,7 @@ plugins wants to simulate invalid readings or enforce a sampling rate.
        }    
    
        // Return the sensor message.
-       return boost::optional<sc::MessageBasePtr>(msg);
+       return msg;
    }
      
 An Autonomy or Controller plugin can use this sensor by adding the sensor to

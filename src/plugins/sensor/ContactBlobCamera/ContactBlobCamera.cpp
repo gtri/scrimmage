@@ -34,6 +34,7 @@
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h>
 #include <scrimmage/common/ID.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Angles.h>
@@ -105,11 +106,11 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     return;
 }
 
-boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t) {
+sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t) {
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
     if ((t - last_frame_t_) < 1.0 / fps_) {
-        return boost::optional<sc::MessageBasePtr>{};
+        return std::make_shared<sc::MessageBase>();
     }
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
@@ -202,7 +203,7 @@ boost::optional<sc::MessageBasePtr> ContactBlobCamera::sensor_msg(double t) {
     frame_ = msg->data.frame;
     last_frame_t_ = t;
 
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return msg;
 }
 
 Eigen::Vector2d ContactBlobCamera::project_rel_3d_to_2d(Eigen::Vector3d rel_pos) {

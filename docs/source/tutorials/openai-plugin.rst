@@ -275,10 +275,6 @@ following:
    #include <string>
    #include <vector>
 
-   namespace boost {
-   template <class T> class optional;
-   }
-
    namespace scrimmage_proto {
    class SpaceParams;
    class SpaceSample;
@@ -291,8 +287,8 @@ Below that, we create the ``MyOpenAISensor`` class defined as:
 
    class MyOpenAISensor : public scrimmage::Sensor {
     public:
-       virtual boost::optional<scrimmage_proto::SpaceParams> observation_space_params();
-       virtual boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+       virtual scrimmage_proto::SpaceParams observation_space_params();
+       virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
            sensor_msg_flat(double t);
    };
 
@@ -318,10 +314,7 @@ In this source file, we need to add the following includes:
    #include <scrimmage/common/Keys.h>
    #include <scrimmage/proto/ExternalControl.pb.h>
 
-   #include <boost/optional.hpp>
-
    #include <Tutorial-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
-   #include <boost/optional.hpp>
 
    namespace sc = scrimmage;
    namespace sp = scrimmage_proto;
@@ -335,7 +328,7 @@ well.
 .. code-block:: c++
    :linenos:
 
-   boost::optional<scrimmage_proto::SpaceParams>
+   scrimmage_proto::SpaceParams
    MyOpenAISensor::observation_space_params() {
        sp::SpaceParams space_params;
 
@@ -366,7 +359,7 @@ message as well.
 .. code-block:: c++
    :linenos:
 
-   boost::optional<scrimmage::MessagePtr<scrimmage_proto::SpaceSample>>
+   scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
    MyOpenAISensor::sensor_msg_flat(double t) {
        auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
 

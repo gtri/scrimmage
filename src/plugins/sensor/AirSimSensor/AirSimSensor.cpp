@@ -128,7 +128,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> AirSimSensor::sensor_msg(double t) {
+scrimmage::MessageBasePtr AirSimSensor::sensor_msg(double t) {
     ///////////////////////////////////////////////////////////////////////////
     /// Client Connection / Disconnection Handling
     ///////////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ boost::optional<scrimmage::MessageBasePtr> AirSimSensor::sensor_msg(double t) {
         ma::RpcLibClientBase::ConnectionState::Connected) {
         client_connected_ = false;
         cout << "Warning: not connected to AirSim." << endl;
-        return boost::optional<sc::MessageBasePtr>{};
+        return std::make_shared<sc::MessageBase>();
     } else if (!client_connected_) {
         // If we are connected to AirSim, but the client_connected_ variable is
         // still false, we just connected to AirSim, so call API setup
@@ -213,7 +213,7 @@ boost::optional<scrimmage::MessageBasePtr> AirSimSensor::sensor_msg(double t) {
     }
 
     // Return the sensor message.
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return msg;
 }
 } // namespace sensor
 } // namespace scrimmage

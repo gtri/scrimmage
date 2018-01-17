@@ -124,7 +124,7 @@ ExternalControl::send_action_result(double t, double reward, bool done) {
     for (auto &kv : parent_->sensors()) {
         auto msg = kv.second->sensor_msg_flat(t);
         if (msg) {
-            sp::SpaceSample &sample = (*msg)->data;
+            sp::SpaceSample &sample = msg->data;
             for (int i = 0; i < sample.value_size(); i++) {
                 obs->add_value(sample.value(i));
             }
@@ -166,10 +166,8 @@ bool ExternalControl::send_env() {
 
     for (auto &kv : parent_->sensors()) {
         auto obs_space_params = kv.second->observation_space_params();
-        if (obs_space_params) {
-            for (const sp::SingleSpaceParams params : obs_space_params->params()) {
-                *obs_space->add_params() = params;
-            }
+        for (const sp::SingleSpaceParams params : obs_space_params.params()) {
+            *obs_space->add_params() = params;
         }
     }
 

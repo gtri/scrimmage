@@ -63,7 +63,7 @@ void SimpleCamera::init(std::map<std::string, std::string> &params) {
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> SimpleCamera::sensor_msg(double t) {
+scrimmage::MessageBasePtr SimpleCamera::sensor_msg(double t) {
 
     int my_id = parent_->id().id();
     auto msg = std::make_shared<sc::Message<std::unordered_set<sc::ID>>>();
@@ -97,7 +97,7 @@ boost::optional<scrimmage::MessageBasePtr> SimpleCamera::sensor_msg(double t) {
         parent_->autonomies().front()->shapes().push_back(cone);
     }
 
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return msg;
 }
 } // namespace sensor
 } // namespace scrimmage

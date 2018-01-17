@@ -80,7 +80,7 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
     return;
 }
 
-boost::optional<scrimmage::MessageBasePtr> (>>>PLUGIN_NAME<<<)::sensor_msg(double t) {
+scrimmage::MessageBasePtr (>>>PLUGIN_NAME<<<)::sensor_msg(double t) {
     // Make a copy of the current state
     sc::State ns = *(parent_->state());
 
@@ -93,7 +93,7 @@ boost::optional<scrimmage::MessageBasePtr> (>>>PLUGIN_NAME<<<)::sensor_msg(doubl
     }
 
     // Return the sensor message.
-    return boost::optional<sc::MessageBasePtr>(msg);
+    return msg;
 }
 } // namespace sensor
 } // namespace scrimmage
