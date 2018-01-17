@@ -11,7 +11,7 @@ addons:
 before_install:
 - sudo apt-get install tar
 
-dist: xenial
+dist: trusty
 
 language: cpp
 
