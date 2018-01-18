@@ -73,6 +73,8 @@ class JSBSimModel : public scrimmage::MotionModel{
         virtual Eigen::Vector3d &u() = 0;
     };
 
+    bool use_pitch() { return use_pitch_; };
+
  protected:
 #if ENABLE_JSBSIM == 1
     FGFDMExecPtr exec_;
@@ -84,6 +86,8 @@ class JSBSimModel : public scrimmage::MotionModel{
     JSBSim::FGPropertyNode *roll_node_;
     JSBSim::FGPropertyNode *pitch_node_;
     JSBSim::FGPropertyNode *yaw_node_;
+
+    JSBSim::FGPropertyNode *fcs_elevator_cmd_node_;
 
     JSBSim::FGPropertyNode *desired_heading_node_;
     JSBSim::FGPropertyNode *desired_altitude_node_;

@@ -45,12 +45,18 @@ namespace controller {
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-void init(std::map<std::string, std::string> &params) { }
+void init(std::map<std::string, std::string> &params) {
+    aircraft_ = std::dynamic_pointer_cast<sc::motion::JSBSimPitch>(parent_->motion());
+}
 
 bool JSBSimModelControllerDirect::step(double t, double dt) {
     u_(0) = desired_state_->vel()(0);        // velocity
     u_(1) = desired_state_->quat().roll();   // bank
-    u_(2) = desired_state_->pos()(2);        // altitude
+    if(aircraft_->use_pitch()){
+        u_(2) = desired_state_->pos()(0);    // pitch
+    }else{
+        u_(2) = desired_state_->pos()(2);    // altitude
+    }
     return true;
 }
 } // namespace controller

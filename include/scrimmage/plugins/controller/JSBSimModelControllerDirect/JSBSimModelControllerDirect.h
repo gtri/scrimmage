@@ -48,6 +48,7 @@ class JSBSimModelControllerDirect : public motion::JSBSimModel::Controller {
 
  protected:
     Eigen::Vector3d u_;
+    std::shared_ptr<sc::motion::JSBSimPitch> aircraft_;
 };
 } // namespace controller
 } // namespace scrimmage
