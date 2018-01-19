@@ -150,7 +150,7 @@ bool Straight::step_autonomy(double t, double dt) {
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
             auto msg = kv.second->sense<std::vector<sc::sensor::AirSimSensorType>>(t);
             if (msg) {
-                for (sc::sensor::AirSimSensorType a : (*msg)->data) {
+                for (sc::sensor::AirSimSensorType a : msg->data) {
                     if (show_camera_images_) {
                         cv::imshow(a.camera_config.name.c_str(), a.img);
                         cv::waitKey(1);

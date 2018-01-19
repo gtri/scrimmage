@@ -51,6 +51,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp> // for boost::split
 
 using std::cout;
 using std::endl;

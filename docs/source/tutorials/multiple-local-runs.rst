@@ -163,7 +163,7 @@ Multiple Runs in Parallel
 Before running multiple scenarios in parallel, you will need to install some
 Python packages: ::
 
-     $ sudo apt-get install python-pip python-scipy python-pandas
+     $ sudo apt-get install python-pip python-scipy python-pandas parallel
      $ sudo pip install pyDOE
 
 We will now use one of SCRIMMAGE's tools, ``scrimmage_runner.sh``, to execute
