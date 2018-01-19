@@ -176,7 +176,6 @@ bool JSBSimModel::step(double time, double dt) {
 
     double desired_velocity = u[0];
     double bank_cmd = u[1];
-    double desired_alt = u[2];
 
     // + : bank right, - : bank left
     bank_setpoint_node_->setDoubleValue(bank_cmd);

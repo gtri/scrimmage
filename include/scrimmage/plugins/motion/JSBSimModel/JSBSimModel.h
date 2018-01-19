@@ -104,6 +104,7 @@ class JSBSimModel : public scrimmage::MotionModel{
     scrimmage::PID heading_pid_;
     double prev_desired_yaw_;
     bool heading_lag_initialized_;
+    bool use_pitch_;
 
     double dt_;
 #endif

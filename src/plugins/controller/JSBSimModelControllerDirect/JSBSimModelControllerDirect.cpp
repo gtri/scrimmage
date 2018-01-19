@@ -32,6 +32,7 @@
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/entity/Entity.h>
 
 #include <scrimmage/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h>
 
@@ -45,8 +46,8 @@ namespace controller {
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-void init(std::map<std::string, std::string> &params) {
-    aircraft_ = std::dynamic_pointer_cast<sc::motion::JSBSimPitch>(parent_->motion());
+void JSBSimModelControllerDirect::init(std::map<std::string, std::string> &params) {
+    aircraft_ = std::dynamic_pointer_cast<sc::motion::JSBSimModel>(parent_->motion());
 }
 
 bool JSBSimModelControllerDirect::step(double t, double dt) {

@@ -2,5 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>JSBSimModel_plugin</library>  
-  <use_pitch>true</use_pitch>
+  <use_pitch>false</use_pitch>
 </params>

@@ -42,13 +42,13 @@ namespace scrimmage {
 namespace controller {
 class JSBSimModelControllerDirect : public motion::JSBSimModel::Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params) {}
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
     virtual Eigen::Vector3d &u() {return u_;}
 
  protected:
     Eigen::Vector3d u_;
-    std::shared_ptr<sc::motion::JSBSimPitch> aircraft_;
+    std::shared_ptr<scrimmage::motion::JSBSimModel> aircraft_;
 };
 } // namespace controller
 } // namespace scrimmage
