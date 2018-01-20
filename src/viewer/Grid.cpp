@@ -42,16 +42,16 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
     vtkSmartPointer<vtkPlaneSource> planeSource =
             vtkSmartPointer<vtkPlaneSource>::New();
     planeSource->SetCenter(0, 0, 0);
-    planeSource->SetNormal(plane_size/2.0, plane_size/2.0, 1.0);
+    planeSource->SetNormal(plane_size / 2.0, plane_size / 2.0, 1.0);
     planeSource->SetPoint1(plane_size, 0, 0);
     planeSource->SetPoint2(0, plane_size, 0);
 
     // Create the grid:
-    const int low = -plane_size / 2.0;
-    const int high = plane_size / 2.0;
+    const double low = -plane_size / 2.0;
+    const double high = plane_size / 2.0;
     const double z_pos = 0;
 
-    auto create_line = [&](int val, bool along_y) {
+    auto create_line = [&](double val, bool along_y) {
         vtkSmartPointer<vtkLineSource> lineSource =
                 vtkSmartPointer<vtkLineSource>::New();
 
@@ -77,17 +77,13 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
 
         // Set the color
         actor->GetProperty()->SetColor(1, 1, 1);
-        if (val == 0) {
-          actor->GetProperty()->SetOpacity(1);
-        } else {
-          actor->GetProperty()->SetOpacity(0.3);
-        }
+        actor->GetProperty()->SetOpacity(val == 0 ? 1 : 0.3);
 
         actors_.push_back(actor);
         renderer->AddActor(actor);
     };
 
-    for (int val = low; val <= high; val += spacing) {
+    for (double val = low; val <= high; val += spacing) {
         create_line(val, true);
         create_line(val, false);
     }
