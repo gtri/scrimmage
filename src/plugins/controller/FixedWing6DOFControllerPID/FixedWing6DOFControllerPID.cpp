@@ -38,6 +38,9 @@
 
 #include <boost/algorithm/string.hpp>
 
+using std::cout;
+using std::endl;
+
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerPID, FixedWing6DOFControllerPID_plugin)
 
 namespace scrimmage {
@@ -75,20 +78,49 @@ void FixedWing6DOFControllerPID::init(std::map<std::string, std::string> &params
 }
 
 bool FixedWing6DOFControllerPID::step(double t, double dt) {
-    double desired_yaw = desired_state_->quat().yaw();
+    // double desired_yaw = desired_state_->quat().yaw();
+    //
+    // heading_pid_.set_setpoint(desired_yaw);
+    // double u_heading = heading_pid_.step(dt, state_->quat().yaw());
+    // double roll_error = u_heading + state_->quat().roll();
+    //
+    // alt_pid_.set_setpoint(desired_state_->pos()(2));
+    // double u_alt = alt_pid_.step(dt, state_->pos()(2));
+    // double pitch_error = (-u_alt - state_->quat().pitch());
+    //
+    // vel_pid_.set_setpoint(desired_state_->vel()(0));
+    // double u_thrust = vel_pid_.step(dt, state_->vel().norm());
 
-    heading_pid_.set_setpoint(desired_yaw);
-    double u_heading = heading_pid_.step(dt, state_->quat().yaw());
-    double roll_error = u_heading + state_->quat().roll();
+    // u_ << u_thrust, roll_error, pitch_error, 0;
+    // thrust, elevator, aileron, rudder
 
-    alt_pid_.set_setpoint(desired_state_->pos()(2));
-    double u_alt = alt_pid_.step(dt, state_->pos()(2));
-    double pitch_error = (-u_alt - state_->quat().pitch());
+#if 1
+    // Rudder dublet (TODO)
+    if (t >= 2 && t <= 2.4) {
+        cout << "----> 1" << endl;
+        u_ << 0, 0, 0, -0.26;
+    } else if (t >= 2.4 && t <= 2.8) {
+        cout << "----> 2" << endl;
+        u_ << 0, 0, 0, 0.26;
+    } else {
+        u_ << 0, 0, 0, 0;
+    }
+#endif
 
-    vel_pid_.set_setpoint(desired_state_->vel()(0));
-    double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+#if 0
+    // Aileron dublet (TODO)
+    if (t >= 2 && t <= 2.4) {
+        cout << "----> 1" << endl;
+        u_ << 0, 0, -0.5, 0;
+    } else if (t >= 2.4 && t <= 2.8) {
+        cout << "----> 2" << endl;
+        u_ << 0, 0, 0.5, 0;
+    } else {
+        u_ << 0, 0, 0, 0;
+    }
+#endif
 
-    u_ << u_thrust, roll_error, pitch_error, 0;
+
     return true;
 }
 } // namespace controller

@@ -5,6 +5,12 @@
   <write_csv>false</write_csv>
 
   <!--
+      Model parameters from Robert Nelson's "Flight Stability and Automatic
+      Control" second edition. Page 405,  and from ...
+
+      Pratt, Qavid R., and Robert B. McGhee. "NPSNET: Flight Simulation Dynamic
+      Modeling Using Quaternions."
+  
       Unit Notes:
       Everything is in SI units, unless specified
       _slug_ft_sq : slugs*ft^2

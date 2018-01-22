@@ -98,20 +98,75 @@ class FixedWing6DOF : public scrimmage::MotionModel{
 
     Eigen::Vector4d ctrl_u_;
 
-    double min_velocity_;
-    double max_velocity_;
-    double max_roll_;
-    double max_pitch_;
-
-    scrimmage::Quaternion quat_world_;
-    scrimmage::Quaternion quat_local_;
-
     Eigen::Matrix3d I_;
     Eigen::Matrix3d I_inv_;
 
     // Logging utility
-    bool write_csv_;
+    bool write_csv_ = false;
     CSV csv_;
+
+    scrimmage::Quaternion quat_body_;
+    Eigen::Vector3d force_ext_body_;
+
+    double thrust_ = 0;
+    double delta_elevator_ = 0;
+    double delta_aileron_ = 0;
+    double delta_rudder_ = 0;
+
+    double alpha_ = 0; // angle of attack
+    double alpha_prev_ = 0;
+    double alpha_dot_ = 0;
+
+    double beta_ = 0;
+
+    double rho_ = 1.2250; // air density
+
+    // Control input limits
+    double thrust_min_ = -100.0e3;
+    double thrust_max_ = 100.0e3;
+    double delta_elevator_min_ = -0.5236;
+    double delta_elevator_max_ = 0.5236;
+    double delta_aileron_min_ = -0.5236;
+    double delta_aileron_max_ = 0.5236;
+    double delta_rudder_min_ = -0.2618;
+    double delta_rudder_max_ = 0.2618;
+
+    double b_ = 8.382; // wing span
+    double S_ = 24.1548; // surface area of wing
+    double c_ = 3.29184; // chord length
+
+    double C_D0_ = 0.03;
+    double C_D_alpha_ = 0.3;
+    double C_D_delta_elevator_ = 0.01;
+
+    double C_L0_ = 0.28;
+    double C_L_alpha_ = 3.45;
+    double C_LQ_ = 0.0;
+    double C_L_alpha_dot_ = 0.72;
+    double C_L_delta_elevator_ = 0.36;
+
+    double C_M0_ = 0.0;
+    double C_MQ_ = -3.6;
+    double C_M_alpha_ = -0.38;
+    double C_M_alpha_dot_ = -1.1;
+    double C_M_delta_elevator_ = -0.5;
+
+    double C_Y_beta_ = -0.98;
+    double C_Y_delta_rudder_ = 0.17;
+
+    double C_L_beta_ = -0.12;
+    double C_LP_ = -0.26;
+    double C_LR_ = 0.14;
+    double C_L_delta_aileron_ = 0.08;
+    double C_L_delta_rudder_ = -0.105;
+
+    double C_N_beta_ = 0.25;
+    double C_NP_ = 0.022;
+    double C_NR_ = -0.35;
+    double C_N_delta_aileron_ = 0.06;
+    double C_N_delta_rudder_ = 0.032;
+
+    Eigen::Quaterniond rot_180_x_axis_;
 };
 } // namespace motion
 } // namespace scrimmage

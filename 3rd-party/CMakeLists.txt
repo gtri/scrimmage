@@ -281,8 +281,8 @@ if (BUILD_SOURCE_PACKAGES)
     NAME "scrimmage"
     GIT_REPOSITORY https://github.com/gtri/scrimmage.git
     GIT_TAG master
-    SOURCE_VERSION 0.1.1
-    PPA_NUMBER 0
+    SOURCE_VERSION 0.1
+    PPA_NUMBER 5
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
