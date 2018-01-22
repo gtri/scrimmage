@@ -135,7 +135,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         if (kv.first == "RigidBody6DOFStateSensor0") {
             auto msg = kv.second->sense<sc::motion::RigidBody6DOFState>(t);
             if (msg) {
-                state_6dof = (*msg)->data;
+                state_6dof = msg->data;
             }
         }
     }
@@ -158,11 +158,6 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     for (int i = 0; i < desired_rotor_state_->prop_input().size(); i++) {
         desired_rotor_state_->prop_input()(i) = servo_pkt_.servos[i];
     }
-    //desired_rotor_state_->prop_input()(0) = 1500;
-    //desired_rotor_state_->prop_input()(1) = 1500;
-    //desired_rotor_state_->prop_input()(2) = 1500;
-    //desired_rotor_state_->prop_input()(3) = 1501;
-
     servo_pkt_mutex_.unlock();
 
     desired_state_ = desired_rotor_state_;
@@ -172,21 +167,15 @@ bool ArduPilot::step_autonomy(double t, double dt) {
 
 void ArduPilot::handle_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
-    //cout << "SCRIMMAGE RECEIVED Data, num_bytes: " << num_bytes << endl;
     if (error) {
         cout << "error: handle_receive" << endl;
     } else if (num_bytes != sizeof(servo_packet)) {
         cout << "Received wrong number of bytes: " << num_bytes << endl;
         cout << "Expected number of bytes: " << sizeof(servo_packet) << endl;
     } else {
-        //cout << "Received valid data from ardupilot" << endl;
-        //for (unsigned int i = 0; i < num_bytes; i++) {
-        //    cout << i << " : " << static_cast<unsigned int>(recv_buffer_[i]) << endl;
-        //}
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
             servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
-            //cout << "servos[" << i << "]: " << servo_pkt_.servos[i] << endl;
         }
         servo_pkt_mutex_.unlock();
     }
