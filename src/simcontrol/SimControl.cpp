@@ -1133,6 +1133,10 @@ bool SimControl::run_entities() {
     }
 
     for (EntityPtr &ent : ents_) {
+        ent->setup_desired_state();
+    }
+
+    for (EntityPtr &ent : ents_) {
         for (AutonomyPtr &autonomy : ent->autonomies()) {
             if (autonomy->need_reset()) {
                 autonomy->set_state(ent->motion()->state());
