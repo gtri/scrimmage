@@ -33,7 +33,9 @@
 #ifndef (>>>HEADER_GUARD<<<)
 #define (>>>HEADER_GUARD<<<)
 
-#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/motion/Controller.h>
+
+#include <Eigen/Dense>
 
 #include <map>
 #include <string>
@@ -41,13 +43,15 @@
 namespace scrimmage {
 namespace controller {
 
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Autonomy {
+class (>>>PLUGIN_NAME<<<) : public scrimmage::Controller {
  public:
     (>>>PLUGIN_NAME<<<)();
     virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    virtual bool step(double t, double dt);
+    virtual Eigen::VectorXd &u() {return u_;}
+
  protected:
-    int follow_id_;
+    Eigen::VectorXd u_;
 };
 } // namespace controller
 } // namespace scrimmage
