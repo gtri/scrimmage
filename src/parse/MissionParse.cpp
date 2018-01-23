@@ -215,6 +215,7 @@ bool MissionParse::parse(std::string filename) {
     // common block name -> <node_name, value>
     std::map<std::string, AttributeMap> entity_common_attributes;
     std::map<std::string, std::map<std::string, std::string>> entity_common;
+    int autonomy_order = 0, sensor_order = 0, controller_order = 0;
     for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity_common");
          script_node != 0;
          script_node = script_node->next_sibling("entity_common")) {
@@ -230,7 +231,6 @@ bool MissionParse::parse(std::string filename) {
 
         std::string nm = nm_attr->value();
 
-        int autonomy_order = 0, sensor_order = 0, controller_order = 0;
         for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
             std::string node_name = node->name();
@@ -371,7 +371,6 @@ bool MissionParse::parse(std::string filename) {
         }
 
         // Loop through every other element under the "entity" node
-        int autonomy_order = 0, sensor_order = 0, controller_order = 0;
         for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
 
