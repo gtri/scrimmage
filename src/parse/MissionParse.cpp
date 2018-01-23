@@ -215,7 +215,7 @@ bool MissionParse::parse(std::string filename) {
     // common block name -> <node_name, value>
     std::map<std::string, AttributeMap> entity_common_attributes;
     std::map<std::string, std::map<std::string, std::string>> entity_common;
-    int autonomy_order = 0, sensor_order = 0, controller_order = 0;
+    std::map<std::string, std::map<std::string, int>> orders;
     for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity_common");
          script_node != 0;
          script_node = script_node->next_sibling("entity_common")) {
@@ -240,11 +240,11 @@ bool MissionParse::parse(std::string filename) {
             }
 
             if (node_name == "autonomy") {
-                node_name += std::to_string(autonomy_order++);
+                node_name += std::to_string(orders[nm]["autonomy"]++);
             } else if (node_name == "sensor") {
-                node_name += std::to_string(sensor_order++);
+                node_name += std::to_string(orders[nm]["sensor"]++);
             } else if (node_name == "controller") {
-                node_name += std::to_string(controller_order++);
+                node_name += std::to_string(orders[nm]["controller"]++);
             }
 
             // Loop through each node's attributes:
@@ -269,6 +269,7 @@ bool MissionParse::parse(std::string filename) {
 
         rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("entity_common");
 
+        int autonomy_order = 0, sensor_order = 0, controller_order = 0;
         if (nm_attr != 0) {
             std::string nm = nm_attr->value();
             auto it = entity_common.find(nm);
@@ -277,6 +278,9 @@ bool MissionParse::parse(std::string filename) {
             } else {
                 script_info = it->second;
                 entity_attributes_[ent_desc_id] = entity_common_attributes[nm];
+                autonomy_order = orders[nm]["autonomy"];
+                sensor_order = orders[nm]["sensor"];
+                controller_order = orders[nm]["controller"];
             }
         }
 
