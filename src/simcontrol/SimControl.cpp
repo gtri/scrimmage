@@ -398,10 +398,10 @@ bool SimControl::generate_entities(double t) {
 
             Eigen::Vector3d pos(x0, y0, z0);
 
-            NormDist x_normal_dist(x0, get("variance_x", params, 100.0));
-            NormDist y_normal_dist(y0, get("variance_y", params, 100.0));
-            NormDist z_normal_dist(z0, get("variance_z", params, 0.0));
-            NormDist heading_normal_dist(heading, get("variance_heading", params, 0.0));
+            NormDist x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
+            NormDist y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
+            NormDist z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
+            NormDist heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
             params["heading"] = std::to_string(heading_normal_dist(*gener));
 
             bool use_variance_all_ents = scrimmage::get<bool>("use_variance_all_ents", params, false);
