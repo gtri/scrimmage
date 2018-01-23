@@ -135,6 +135,8 @@ class Updater : public vtkCommand {
 
     void dec_warp();
 
+    void toggle_helpmenu();
+
     void toggle_pause();
 
     void single_step();
@@ -243,6 +245,8 @@ class Updater : public vtkCommand {
     vtkSmartPointer<vtkTextActor> heading_actor_;
     vtkSmartPointer<vtkTextActor> alt_actor_;
     vtkSmartPointer<vtkTextActor> fps_actor_;
+    vtkSmartPointer<vtkTextActor> helpkeys_actor_;
+    vtkSmartPointer<vtkTextActor> helpvalues_actor_;
 
     std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visuals_;
 
@@ -262,6 +266,8 @@ class Updater : public vtkCommand {
     bool show_fps_ = false;
     std::string log_dir_;
     double dt_ = 0.1;
+
+    bool show_helpmenu_;
 };
 
 } // namespace scrimmage

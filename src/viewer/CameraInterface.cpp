@@ -79,6 +79,8 @@ void CameraInterface::OnKeyPress() {
         updater_->dec_follow_offset();
     } else if (key == "A") {
         updater_->set_reset_camera();
+    } else if (key == "h") {
+        updater_->toggle_helpmenu();
     } else {
         // cout << "key: " << key << endl;
     }
