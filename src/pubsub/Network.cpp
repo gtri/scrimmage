@@ -43,7 +43,7 @@
 namespace ba = boost::adaptors;
 namespace scrimmage {
 
-Network::Network() : rtree_(std::make_shared<RTree>()) {}
+Network::Network() : Plugin(), rtree_(std::make_shared<RTree>()) {}
 
 void Network::init(std::map<std::string, std::string> &params) {return;}
 

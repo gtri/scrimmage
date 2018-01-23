@@ -232,6 +232,7 @@ bool SimControl::init() {
             return false;
         }
 
+        network_->parent()->set_random(random_);
         network_->rtree() = rtree_;
         network_->init(config_parse.params());
     }

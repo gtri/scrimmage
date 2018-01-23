@@ -3,4 +3,5 @@
 <params>
   <library>UnitDisk_plugin</library>  
   <range>100</range>
+  <prob_transmit>1.0</prob_transmit>
 </params>

@@ -30,16 +30,17 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/ID.h>
+#include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/network/UnitDisk/UnitDisk.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/network/UnitDisk/UnitDisk.h>
 
 #include <vector>
 #include <boost/range/adaptor/map.hpp>
@@ -54,11 +55,13 @@ namespace ba = boost::adaptors;
 
 void UnitDisk::init(std::map<std::string, std::string> &params) {
     range_ = std::stod(params.at("range"));
+    prob_transmit_ = std::stod(params.at("prob_transmit"));
 }
 
 void UnitDisk::distribute(double t, double dt) {
 
     ping_map_.clear();
+    auto rnd = parent_->random();
 
     for (auto &pub_map_kv : pub_map_) {
 
@@ -75,7 +78,11 @@ void UnitDisk::distribute(double t, double dt) {
             for (sc::NetworkDevicePtr &sub : ba::values(sub_map_[topic])) {
                 if (pingable_ids.count(sub->plugin()->get_network_id()) != 0) {
                     for (auto &msg : msgs) {
-                        sub->add_msg(msg);
+                        const bool same_platform = pub->plugin()->parent()->id().id()
+                            == sub->plugin()->parent()->id().id();
+                        if (same_platform || rnd->rng_uniform(0, 1) <= prob_transmit_) {
+                            sub->add_msg(msg);
+                        }
                     }
                 }
             }
