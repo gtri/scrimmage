@@ -102,7 +102,7 @@ void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
 
 Updater::Updater() :
         frame_time_(-1.0), update_count(0), inc_follow_(true),
-        dec_follow_(false), follow_offset_(50) {
+        dec_follow_(false), follow_offset_(50), show_helpmenu_(false) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
     max_update_rate_ = 1.0;
@@ -1142,6 +1142,58 @@ void Updater::request_cached() {
     gui_msg_.set_request_cached(false);
 }
 
+void Updater::toggle_helpmenu() {
+    std::stringstream stream_helpkeys, stream_helpvalues;
+        show_helpmenu_ = !show_helpmenu_;
+    if (show_helpmenu_) {
+        stream_helpkeys
+            << "q\n"
+            << "b\n"
+            << "space\n"
+            << "a\n"
+            << "A\n"
+            << "right/left arrows\n"
+            << "[\n"
+            << "]\n"
+            << "+\n"
+            << "-\n"
+            << "r\n"
+            << "scroll\n"
+            << "z\n"
+            << "SHIFT + z\n"
+            << "w\n"
+            << "s\n"
+            << "CTRL + left click\n"
+            << "SHIFT + left click\n";
+        helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
+        stream_helpvalues
+            << ": quit\n"
+            << ": pause/unpause\n"
+            << ": step sim (paused only)\n"
+            << ": cycle camera views\n"
+            << ": free camera view\n"
+            << ": change aircraft\n"
+            << ": decrease warp speed\n"
+            << ": increase warp speed\n"
+            << ": increase visual scale\n"
+            << ": decrease visual scale\n"
+            << ": reset scale/camera\n"
+            << ": zoom\n"
+            << ": zoom out\n"
+            << ": zoom in\n"
+            << ": wireframe\n"
+            << ": solid\n"
+            << ": rotate world\n"
+            << ": pan camera\n";
+        helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
+    } else {
+        stream_helpkeys << " ";
+        stream_helpvalues << " ";
+        helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
+        helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
+    }
+}
+
 void Updater::shutting_down() {
     gui_msg_.set_shutting_down(true);
     if (send_shutdown_msg_) {
@@ -1236,6 +1288,23 @@ void Updater::create_text_display() {
     fps_actor_->GetTextProperty()->SetFontSize(24);
     fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(fps_actor_);
+
+    // Add the help menu
+    // NOTE: this requires two vtkTextActor's because you can't
+    // get the text to align by ':' otherwise
+    helpkeys_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    helpkeys_actor_->SetInput(" ");
+    helpkeys_actor_->SetPosition(10, 200);
+    helpkeys_actor_->GetTextProperty()->SetFontSize(14);
+    helpkeys_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(helpkeys_actor_);
+    // Add helpmenu values (descriptions)
+    helpvalues_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    helpvalues_actor_->SetInput(" ");
+    helpvalues_actor_->SetPosition(120, 200);
+    helpvalues_actor_->GetTextProperty()->SetFontSize(14);
+    helpvalues_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(helpvalues_actor_);
 }
 
 void Updater::enable_fps() {
