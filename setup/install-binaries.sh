@@ -40,15 +40,17 @@ This script installs all required dependencies.
 
 OPTIONS
 
-    -e <number>
-        if <number> is 1, only install what is necessary for an external build
+    --external
+        if --external is passed, only install what is necessary for an external build
         (see EXTERNAL flag to project CMakeLists.txt). Otherwise do full
         installation.
 
-    -p <number>
+    --python <number>
         install dependencies for python version <number>. This will install 
         dependencies from apt for this version of python (e.g.,
-        apt install python<number>-numpy)
+        apt install python<number>-numpy). Options are "2, 3, a"
+        with "a" installing dependencies for both python 2 and 3.
+        The default is "a".
 EOF
 }
 
@@ -80,8 +82,7 @@ DEPS_DPKG=(
     unzip
 )
 
-
-if ( [[ "$1" = "-e" ]] &&  [[ "$2" != "1" ]] ) || ( [[ "$3" = "-e" ]] &&  [[ "$4" != "1" ]] ); then
+if ( [ "$1" != "--external" ] ) && ( [ "$3" != "--external" ] ); then
     DEPS_DPKG+=(
         ccache
         parallel
@@ -95,11 +96,11 @@ if ( [[ "$1" = "-e" ]] &&  [[ "$2" != "1" ]] ) || ( [[ "$3" = "-e" ]] &&  [[ "$4
     )
 fi
 
-PYTHON_VERSION=""
-if [[ "$1" = "-p" ]]; then
+PYTHON_VERSION="a"
+if [[ "$1" = "--python" ]]; then
     PYTHON_VERSION="$2"
-elif  [[ "$3" = "-p" ]]; then
-    PYTHON_VERSION="$4"
+elif  [[ "$2" = "-python" ]]; then
+    PYTHON_VERSION="$3"
 fi 
 
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then

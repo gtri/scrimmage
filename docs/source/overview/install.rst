@@ -61,7 +61,7 @@ Install SCRIMMAGE Core and Standard Plugins
 
    ::
 
-      $ sudo ./setup/install-binaries.sh -e 1 -p 3
+      $ sudo ./setup/install-binaries.sh
 
 4. Install dependencies provided by SCRIMMAGE's PPA:
 
