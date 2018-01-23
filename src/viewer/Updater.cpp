@@ -1144,47 +1144,47 @@ void Updater::request_cached() {
 
 void Updater::toggle_helpmenu() {
     std::stringstream stream_helpkeys, stream_helpvalues;
-		show_helpmenu_ = !show_helpmenu_;
+        show_helpmenu_ = !show_helpmenu_;
     if (show_helpmenu_) {
         stream_helpkeys
-						<< "q\n"
+            << "q\n"
             << "b\n"
-					  << "space\n"
-					  << "a\n"
-					  << "A\n"
-					  << "right/left arrows\n"
-					  << "[\n"
-					  << "]\n"
-					  << "+\n"
-					  << "-\n"
-					  << "r\n"
-						<< "scroll\n"
-					  << "z\n"
-					  << "SHIFT + z\n"
-					  << "w\n"
-					  << "s\n"
-					  << "CTRL + left click\n"
-					  << "SHIFT + left click\n";
+            << "space\n"
+            << "a\n"
+            << "A\n"
+            << "right/left arrows\n"
+            << "[\n"
+            << "]\n"
+            << "+\n"
+            << "-\n"
+            << "r\n"
+            << "scroll\n"
+            << "z\n"
+            << "SHIFT + z\n"
+            << "w\n"
+            << "s\n"
+            << "CTRL + left click\n"
+            << "SHIFT + left click\n";
         helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
         stream_helpvalues
             << ": quit\n"
-     				<< ": pause/unpause\n"
-     				<< ": step sim (paused only)\n"
-     				<< ": cycle camera views\n"
-     				<< ": free camera view\n"
-     				<< ": change aircraft\n"
-     				<< ": decrease warp speed\n"
-     				<< ": increase warp speed\n"
-     				<< ": increase visual scale\n"
-     				<< ": decrease visual scale\n"
-     				<< ": reset scale/camera\n"
-     				<< ": zoom\n"
-     				<< ": zoom out\n"
-     				<< ": zoom in\n"
-     				<< ": wireframe\n"
-     				<< ": solid\n"
-     				<< ": rotate world\n"
-     				<< ": pan camera\n";
+            << ": pause/unpause\n"
+            << ": step sim (paused only)\n"
+            << ": cycle camera views\n"
+            << ": free camera view\n"
+            << ": change aircraft\n"
+            << ": decrease warp speed\n"
+            << ": increase warp speed\n"
+            << ": increase visual scale\n"
+            << ": decrease visual scale\n"
+            << ": reset scale/camera\n"
+            << ": zoom\n"
+            << ": zoom out\n"
+            << ": zoom in\n"
+            << ": wireframe\n"
+            << ": solid\n"
+            << ": rotate world\n"
+            << ": pan camera\n";
         helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
     } else {
         stream_helpkeys << " ";
@@ -1290,7 +1290,7 @@ void Updater::create_text_display() {
     renderer_->AddActor2D(fps_actor_);
 
     // Add the help menu
-		// NOTE: this requires two vtkTextActor's because you can't
+    // NOTE: this requires two vtkTextActor's because you can't
     // get the text to align by ':' otherwise
     helpkeys_actor_ = vtkSmartPointer<vtkTextActor>::New();
     helpkeys_actor_->SetInput(" ");
@@ -1298,7 +1298,7 @@ void Updater::create_text_display() {
     helpkeys_actor_->GetTextProperty()->SetFontSize(14);
     helpkeys_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(helpkeys_actor_);
-		// Add helpmenu values (descriptions)
+    // Add helpmenu values (descriptions)
     helpvalues_actor_ = vtkSmartPointer<vtkTextActor>::New();
     helpvalues_actor_->SetInput(" ");
     helpvalues_actor_->SetPosition(120, 200);

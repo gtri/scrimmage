@@ -5,6 +5,7 @@ The GUI responds to the following input keys:
 
 ::
 
+   'h'                     : Toggle help menu
    'q'                     : Quit the simulation
    'b'                     : (Break) Pauses and unpauses the simulation.
    'space bar'             : When paused, take a single simulation step.
