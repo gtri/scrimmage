@@ -42,7 +42,7 @@ namespace scrimmage {
 Contact::Contact() : state_(std::make_shared<State>()) {}
 
 Contact::Contact(ID &id, double radius, StatePtr &state, Type type,
-                 ContactVisualPtr cv,
+                 scrimmage_proto::ContactVisualPtr cv,
                  const std::unordered_map<std::string, MessageBasePtr> &properties) :
     id_(id), state_(state), type_(type), contact_visual_(cv),
     active_(true), radius_(radius), properties_(properties) {}
@@ -59,7 +59,7 @@ void Contact::set_type(Contact::Type type) { type_ = type; }
 
 Contact::Type Contact::type() { return type_; }
 
-ContactVisualPtr &Contact::contact_visual()
+scrimmage_proto::ContactVisualPtr &Contact::contact_visual()
 { return contact_visual_; }
 
 void Contact::set_active(bool active) { active_ = active; }

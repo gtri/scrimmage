@@ -32,7 +32,7 @@
 
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
-#include <scrimmage/proto/Visual.pb.h>
+
 #include <scrimmage/common/ID.h>
 #include <scrimmage/pubsub/Message.h>
 
@@ -40,6 +40,11 @@
 #include <unordered_map>
 #include <string>
 #include <iosfwd>
+
+namespace scrimmage_proto {
+class ContactVisual;
+using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
+}
 
 namespace scrimmage {
 
@@ -49,8 +54,6 @@ using SensablePtr = std::shared_ptr<Sensable>;
 class State;
 using StatePtr = std::shared_ptr<State>;
 
-using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
-
 class Contact {
  public:
     enum class Type {AIRCRAFT = 0, QUADROTOR, SPHERE, MESH, UNKNOWN};
@@ -58,7 +61,7 @@ class Contact {
     Contact();
 
     Contact(ID &id, double radius, StatePtr &state, Type type,
-        ContactVisualPtr cv,
+        scrimmage_proto::ContactVisualPtr cv,
         const std::unordered_map<std::string, MessageBasePtr> &properties);
 
     template <class T>
@@ -85,7 +88,7 @@ class Contact {
     void set_type(Type type);
     Type type();
 
-    ContactVisualPtr & contact_visual();
+    scrimmage_proto::ContactVisualPtr & contact_visual();
 
     void set_active(bool active);
     bool active();
@@ -97,7 +100,7 @@ class Contact {
     ID id_;
     StatePtr state_;
     Type type_ = Type::AIRCRAFT;
-    ContactVisualPtr contact_visual_;
+    scrimmage_proto::ContactVisualPtr contact_visual_;
     bool active_ = true;
     double radius_ = 0;
     std::unordered_map<std::string, MessageBasePtr> properties_;
