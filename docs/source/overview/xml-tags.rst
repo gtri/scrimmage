@@ -225,6 +225,25 @@ and match between the two paradigms for a single entity.
     - ``altitude`` : The base's altitude
     - ``radius`` : The base's radius
 
+- ``entity_common`` : this is a way to share parameters across entity blocks.
+  An ``entity_common`` block must have a ``name`` attribute
+  and can have any entries that an ``entity`` block can have.
+  For an ``entity`` block to use what is in the ``entity_common`` block,
+  the entity must have an attribute ``entity_common="name"`` where ``name``
+  matches what is in the attribute for the ``entity_common`` block.
+
+- ``param_common`` : plugins have their own xml files but it can be 
+  useful to override their attributes in the main mission file.
+  For instance, one can override the parameter ``foo`` in the main mission file with
+  ``<autonomy foo="bar">MyAutonomyPlugin</autonomy>``. Regardless of what
+  is in ``MyAutonomyPlugin.xml``, ``foo`` will have a value of ``bar`` when the 
+  plugin is initialized. To abstract this further, plugins can share overriden 
+  values with a ``param_common`` block. A ``param_common`` block needs to have 
+  a ``name`` attribute (similar to ``entity_common`` blocks). The common block 
+  can be referenced as 
+  ``<autonomy param_common="vehicle">MyAutonomyPlugin</autonomy>``
+  where ``vehicle`` is the value given to the attribute ``name`` in the ``param_common`` block.
+
 - ``camera`` : defines camera parameters
 
   attributes:

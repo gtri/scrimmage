@@ -39,9 +39,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
-#include <limits>
 
 #include <GeographicLib/UTMUPS.hpp>
 #include <GeographicLib/Geocentric.hpp>
@@ -59,6 +57,7 @@ using std::cout;
 using std::endl;
 
 namespace fs = boost::filesystem;
+namespace rx = rapidxml;
 
 namespace scrimmage {
 
@@ -127,13 +126,35 @@ bool MissionParse::parse(std::string filename) {
         metrics_.push_back(node->value());
     }
 
+    // param_common name: tag: value
+    std::map<std::string, std::map<std::string, std::string>> param_common;
+    for (rx::xml_node<> *script_node = runscript_node->first_node("param_common");
+         script_node != 0;
+         script_node = script_node->next_sibling("param_common")) {
+
+        rx::xml_attribute<> *nm_attr = script_node->first_attribute("name");
+        if (nm_attr == 0) {
+            std::cout << "warning: found param_common block without a name, skipping" << std::endl;
+            continue;
+        }
+
+        std::string nm = nm_attr->value();
+
+        for (rx::xml_node<> *node = script_node->first_node(); node != 0;
+             node = node->next_sibling()) {
+
+            param_common[nm][node->name()] = node->value();
+        }
+    }
+
+
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
     for (rapidxml::xml_node<> *node = runscript_node->first_node(); node != 0;
          node = node->next_sibling()) {
 
         std::string nm = node->name();
-        if (nm != "entity" && nm != "base"  && nm != "entity_common") {
+        if (nm != "entity" && nm != "base"  && nm != "entity_common" && nm != "param_common") {
             params_[nm] = node->value();
 
             // Loop through each node's attributes:
@@ -141,10 +162,18 @@ bool MissionParse::parse(std::string filename) {
                  attr; attr = attr->next_attribute()) {
 
                 std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
-                attributes_[nm2][attr->name()] = attr->value();
-
                 std::string nm3 = nm == "metrics" ? node->value() : nm;
-                attributes_[nm3][attr->name()] = attr->value();
+
+                std::string attr_name = attr->name();
+                if (attr_name == "param_common") {
+                    for (auto &kv : param_common[attr->value()]) {
+                        attributes_[nm2][kv.first] = kv.second;
+                        attributes_[nm3][kv.first] = kv.second;
+                    }
+                } else {
+                    attributes_[nm2][attr->name()] = attr->value();
+                    attributes_[nm3][attr->name()] = attr->value();
+                }
             }
         }
     }
@@ -251,7 +280,14 @@ bool MissionParse::parse(std::string filename) {
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
 
-                entity_common_attributes[nm][node_name][attr->name()] = attr->value();
+                const std::string attr_name = attr->name();
+                if (attr_name == "param_common") {
+                    for (auto &kv : param_common[attr->value()]) {
+                        entity_common_attributes[nm][node_name][kv.first] = kv.second;
+                    }
+                } else {
+                    entity_common_attributes[nm][node_name][attr_name] = attr->value();
+                }
             }
 
             script_info[node_name] = node->value();
@@ -393,7 +429,14 @@ bool MissionParse::parse(std::string filename) {
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
 
-                entity_attributes_[ent_desc_id][nm][attr->name()] = attr->value();
+                const std::string attr_name = attr->name();
+                if (attr_name == "param_common") {
+                    for (auto &kv : param_common[attr->value()]) {
+                        entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
+                    }
+                } else {
+                    entity_attributes_[ent_desc_id][nm][attr_name] = attr->value();
+                }
             }
         }
 
