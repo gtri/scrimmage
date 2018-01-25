@@ -35,7 +35,6 @@
 #include <scrimmage/plugin_manager/Plugin.h>
 
 #include <map>
-#include <unordered_map>
 #include <list>
 #include <string>
 

@@ -36,7 +36,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <vector>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
