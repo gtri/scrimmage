@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y python-pip python-numpy python-dev cmak
 RUN apt-get update && apt-get install -y git ninja-build
 RUN git clone https://github.com/openai/gym
 WORKDIR /root/gym
+RUN git checkout 0c91364cd4a7ea70f242a28b85c3aea2d74aa35a
 RUN pip install -e '.[all]'
 WORKDIR /root
 
