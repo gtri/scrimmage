@@ -32,7 +32,6 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/math/State.h>
@@ -77,6 +76,7 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
 
     collision_pub_ = create_publisher("GroundCollision");
 
+    team_ = plugin_params.at("team");
     return true;
 }
 
@@ -84,7 +84,11 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt) {
     // Account for entities colliding with
     for (sc::EntityPtr ent : ents) {
-        if (ent->state()->pos()(2) <= ground_collision_z_) {
+        if (team_ != "all" && std::stoi(team_) != ent->id().team_id()) {
+            continue;
+        }
+
+        if (ent->is_alive() && ent->state()->pos()(2) <= ground_collision_z_) {
             if (remove_on_collision_) {
                 ent->collision();
             } else {

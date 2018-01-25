@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/entity/Entity.h>
 
 #include <list>
 #include <map>
@@ -63,6 +62,7 @@ class GroundCollision : public scrimmage::EntityInteraction {
     scrimmage::PublisherPtr collision_pub_;
     bool remove_on_collision_;
     bool enable_startup_collisions_;
+    std::string team_;
 };
 } // namespace interaction
 } // namespace scrimmage

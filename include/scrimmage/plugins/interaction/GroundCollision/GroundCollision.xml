@@ -15,5 +15,6 @@
        external forces when remove_on_collision is set to false. Otherwise,
        nothing will happen. -->
   <remove_on_collision>true</remove_on_collision>  
+  <team>all</team>
   
 </params>
