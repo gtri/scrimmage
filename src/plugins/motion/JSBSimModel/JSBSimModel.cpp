@@ -71,6 +71,8 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
+    use_pitch_ = sc::str2bool(params.at("use_pitch"));
+
     JSBSim::FGJSBBase base;
     base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
@@ -144,6 +146,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     desired_altitude_node_ = mgr->GetNode("ap/altitude_setpoint");
     desired_velocity_node_ = mgr->GetNode("ap/airspeed_setpoint");
     bank_setpoint_node_ = mgr->GetNode("ap/bank_setpoint");
+    fcs_elevator_cmd_node_ = mgr->GetNode("fcs/elevator-cmd-norm");
 
     vel_north_node_ = mgr->GetNode("velocities/v-north-fps");
     vel_east_node_ = mgr->GetNode("velocities/v-east-fps");
@@ -161,9 +164,9 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
                       -pitch_node_->getDoubleValue(),
                       ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * knts2mps,
-                    vel_north_node_->getDoubleValue() * knts2mps,
-                    -vel_down_node_->getDoubleValue() * knts2mps;
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+                    vel_north_node_->getDoubleValue() * feet2meters,
+                    -vel_down_node_->getDoubleValue() * feet2meters;
 
     return true;
 }
@@ -173,19 +176,28 @@ bool JSBSimModel::step(double time, double dt) {
 
     double desired_velocity = u[0];
     double bank_cmd = u[1];
-    double desired_alt = u[2];
 
     // + : bank right, - : bank left
     bank_setpoint_node_->setDoubleValue(bank_cmd);
+    if (use_pitch_) {
+        double elevator_cmd = u[2];
 
-    // Set desired altitude (we just need the desired altitude, use the current
-    // x,y as placeholders).
-    double lat_curr, lon_curr, alt_result;
-    parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), desired_alt,
-                                   lat_curr, lon_curr, alt_result);
+        // Negate altitude PID from the elevator control
+        elevator_cmd -= exec_->GetPropertyValue("ap/elevator_cmd");
+        fcs_elevator_cmd_node_->setDoubleValue(elevator_cmd);
 
-    desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
+        // Try to remove altitude control by putting setpoint to current altitude
+        desired_altitude_node_->setDoubleValue(state_->pos()(2) * meters2feet);
+    } else {
+        double desired_alt = u[2];
+        // Set desired altitude (we just need the desired altitude, use the current
+        // x,y as placeholders).
+        double lat_curr, lon_curr, alt_result;
+        parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), desired_alt,
+                                       lat_curr, lon_curr, alt_result);
 
+        desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
+    }
     // set desired velocity
     desired_velocity_node_->setDoubleValue(desired_velocity * mps2knts);
 
@@ -204,9 +216,9 @@ bool JSBSimModel::step(double time, double dt) {
                       -pitch_node_->getDoubleValue(),
                       ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * knts2mps,
-                    vel_north_node_->getDoubleValue() * knts2mps,
-                    -vel_down_node_->getDoubleValue() * knts2mps;
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+                    vel_north_node_->getDoubleValue() * feet2meters,
+                    -vel_down_node_->getDoubleValue() * feet2meters;
 
     // save what was used as the input
     return true;

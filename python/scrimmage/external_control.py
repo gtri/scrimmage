@@ -14,6 +14,7 @@ from concurrent import futures
 import numpy as np
 import grpc
 
+import platform
 import gym
 import gym.spaces
 from gym.utils import seeding
@@ -261,7 +262,7 @@ class ScrimmageEnv(gym.Env):
                 'in ' + self.mission_file)
 
         self.temp_mission_file = \
-            "." + port + os.path.basename(self.mission_file)
+            "." + port + platform.node() + os.path.basename(self.mission_file)
         # print('temp mission file is ' + self.temp_mission_file)
         tree.write(self.temp_mission_file)
         if self.gdb_args:
@@ -286,7 +287,7 @@ class ScrimmageEnv(gym.Env):
     def _return_action_result(self, index):
         info = {}
         try:
-            res = self.queues[index]['action_response'].get(timeout=3)
+            res = self.queues[index]['action_response'].get(timeout=60)
         except queue.Empty:
             print('Scrimmage Environment: error getting action result')
             res = ExternalControl_pb2.ActionResult(done=True)

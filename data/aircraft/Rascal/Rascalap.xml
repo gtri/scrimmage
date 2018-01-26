@@ -374,7 +374,7 @@ PITCH CHANNEL
 
   <pid name="fcs/airspeed-ap-error-pid">
     <input>fcs/airspeed-error</input>
-    <kp> 1 </kp>
+    <kp> 1000 </kp>
     <ki> 0 </ki>
     <kd> 0 </kd>
     <trigger> fcs/airspeed-hold-ap-on-off </trigger>
