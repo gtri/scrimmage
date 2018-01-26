@@ -179,16 +179,16 @@ bool JSBSimModel::step(double time, double dt) {
 
     // + : bank right, - : bank left
     bank_setpoint_node_->setDoubleValue(bank_cmd);
-    if(use_pitch_){
+    if (use_pitch_) {
         double elevator_cmd = u[2];
 
-        //Negate altitude PID from the elevator control
+        // Negate altitude PID from the elevator control
         elevator_cmd -= exec_->GetPropertyValue("ap/elevator_cmd");
         fcs_elevator_cmd_node_->setDoubleValue(elevator_cmd);
 
         // Try to remove altitude control by putting setpoint to current altitude
         desired_altitude_node_->setDoubleValue(state_->pos()(2) * meters2feet);
-    }else{
+    } else {
         double desired_alt = u[2];
         // Set desired altitude (we just need the desired altitude, use the current
         // x,y as placeholders).

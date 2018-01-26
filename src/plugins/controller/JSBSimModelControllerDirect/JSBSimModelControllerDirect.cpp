@@ -53,9 +53,9 @@ void JSBSimModelControllerDirect::init(std::map<std::string, std::string> &param
 bool JSBSimModelControllerDirect::step(double t, double dt) {
     u_(0) = desired_state_->vel()(0);        // velocity
     u_(1) = desired_state_->quat().roll();   // bank
-    if(aircraft_->use_pitch()){
+    if (aircraft_->use_pitch()) {
         u_(2) = desired_state_->pos()(0);    // pitch
-    }else{
+    } else {
         u_(2) = desired_state_->pos()(2);    // altitude
     }
     return true;

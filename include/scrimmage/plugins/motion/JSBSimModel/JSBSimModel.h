@@ -73,7 +73,7 @@ class JSBSimModel : public scrimmage::MotionModel{
         virtual Eigen::Vector3d &u() = 0;
     };
 
-    bool use_pitch() { return use_pitch_; };
+    bool use_pitch() { return use_pitch_; }
 
  protected:
 #if ENABLE_JSBSIM == 1
