@@ -164,9 +164,9 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
                       -pitch_node_->getDoubleValue(),
                       ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * knts2mps,
-                    vel_north_node_->getDoubleValue() * knts2mps,
-                    -vel_down_node_->getDoubleValue() * knts2mps;
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+                    vel_north_node_->getDoubleValue() * feet2meters,
+                    -vel_down_node_->getDoubleValue() * feet2meters;
 
     return true;
 }
@@ -181,6 +181,7 @@ bool JSBSimModel::step(double time, double dt) {
     bank_setpoint_node_->setDoubleValue(bank_cmd);
     if(use_pitch_){
         double elevator_cmd = u[2];
+
         //Negate altitude PID from the elevator control
         elevator_cmd -= exec_->GetPropertyValue("ap/elevator_cmd");
         fcs_elevator_cmd_node_->setDoubleValue(elevator_cmd);
@@ -197,7 +198,6 @@ bool JSBSimModel::step(double time, double dt) {
 
         desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
     }
-
     // set desired velocity
     desired_velocity_node_->setDoubleValue(desired_velocity * mps2knts);
 
@@ -216,9 +216,9 @@ bool JSBSimModel::step(double time, double dt) {
                       -pitch_node_->getDoubleValue(),
                       ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * knts2mps,
-                    vel_north_node_->getDoubleValue() * knts2mps,
-                    -vel_down_node_->getDoubleValue() * knts2mps;
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+                    vel_north_node_->getDoubleValue() * feet2meters,
+                    -vel_down_node_->getDoubleValue() * feet2meters;
 
     // save what was used as the input
     return true;

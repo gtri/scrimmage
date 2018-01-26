@@ -287,7 +287,7 @@ class ScrimmageEnv(gym.Env):
     def _return_action_result(self, index):
         info = {}
         try:
-            res = self.queues[index]['action_response'].get(timeout=3)
+            res = self.queues[index]['action_response'].get(timeout=60)
         except queue.Empty:
             print('Scrimmage Environment: error getting action result')
             res = ExternalControl_pb2.ActionResult(done=True)
