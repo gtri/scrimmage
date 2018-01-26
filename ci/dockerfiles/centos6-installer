@@ -1,0 +1,55 @@
+FROM centos:6.8
+
+MAINTAINER Kevin DeMarco
+
+RUN yum -y update && yum clean all && yum -y install centos-release-scl-rh
+
+RUN yum -y install devtoolset-3-gcc devtoolset-3-gcc-c++ \
+                   rpmdevtools rpmlint yum-utils --enablerepo=extras
+
+RUN /bin/bash -c "scl enable devtoolset-3 bash"
+ENV PATH="/opt/rh/devtoolset-3/root/usr/bin/:${PATH}"
+RUN /bin/bash -c "scl enable devtoolset-3 bash && gcc --version"
+
+RUN mkdir -p /root/3rd-party
+WORKDIR /root/3rd-party
+
+RUN yum -y install git
+
+####################
+# Install FPM
+####################
+RUN yum install -y ruby-devel gcc curl libyaml-devel
+
+# get the ruby version manager and install
+RUN command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+RUN curl -L get.rvm.io | bash -s stable
+RUN source /etc/profile.d/rvm.sh
+
+# install ruby 1.9.3
+RUN /bin/bash -c "source /etc/profile.d/rvm.sh && rvm requirements"
+RUN /bin/bash -c "source /etc/profile.d/rvm.sh && rvm install 1.9.3"
+RUN /bin/bash -c "source /etc/profile.d/rvm.sh && rvm use 1.9.3 --default"
+
+# install rubygems
+RUN /bin/bash -c "source /etc/profile.d/rvm.sh && rvm rubygems current"
+
+# install effing package manager
+RUN /bin/bash -c "source /etc/profile.d/rvm.sh && gem install fpm"
+
+###############
+# Build CMake
+RUN git clone https://github.com/Kitware/CMake.git
+WORKDIR CMake
+RUN git checkout v3.5.1
+RUN ./bootstrap --prefix=~/.local
+RUN make && make install
+
+# Build Bzip2
+WORKDIR /root/3rd-party
+RUN wget http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+RUN tar xvf bzip2-1.0.6.tar.gz
+WORKDIR bzip2-1.0.6
+RUN make -f Makefile-libbz2_so && make && make PREFIX=/root/.local install
+RUN cp libbz2.so.1.0* /root/.local/lib/
+RUN ln -s /root/.local/lib/libbz2.so.1.0.6 /root/.local/lib/libbz2.so

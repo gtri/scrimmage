@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+
+  installer:
+    build:
+        context: ../
+        dockerfile: ./ci/dockerfiles/centos6-installer
+    image: scrimmage/centos6-installer:latest
+    stdin_open: true
+    tty: true
+  
