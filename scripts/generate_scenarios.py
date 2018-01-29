@@ -42,6 +42,7 @@ import pandas as pd
 import sys
 import errno
 import shutil
+import scrimmage
 
 # If you get warnings about fc-list, remove font cache:
 # rm -rf ~/.cache/matplotlib/
@@ -178,34 +179,6 @@ def write_scenarios(df, cls_dict, mission_dir, entity_list):
         tree.write(out_name)
                         
 
-def qsub(num_runs, nodes, out_dir):
-    out_dir = os.path.abspath(out_dir)
-    mission_dir = os.path.join(out_dir, 'missions')
-    stdout_dir = os.path.join(out_dir, 'std_out_dir')
-    scrimmage_root = os.getenv('SCRIMMAGE_ROOT')
-    scrimmage_script = os.path.join(scrimmage_root, 'scripts', 'scrimmage.sh')
-    
-    for d in [out_dir, stdout_dir, mission_dir]:
-        try:
-            os.mkdir(d)
-        except OSError:
-            pass
-
-    cmd = ['qsub',
-           '-t', '1-' + str(num_runs),
-           '-e', stdout_dir,
-           '-o', stdout_dir]
-    if nodes:
-        if '-' in nodes:
-            beg, end = nodes.split("-")
-            s = "|".join(["node" + str(n) for n in range(int(beg), int(end) + 1)])
-        else:
-            s = "node" + nodes
-        cmd += ["-l", 'h=' + s]
-    cmd += [scrimmage_script, '-d', mission_dir]
-    print(cmd)
-    sp.Popen(cmd)
-
 def main():
     parser = argparse.ArgumentParser(description='Monte Carlo simulation for SCRIMMAGE.')
 
@@ -251,7 +224,7 @@ def main():
             shutil.copyfile(TEMP_MISSION_FILE, mission_dir+"/"+str(i+1)+".xml")
         
     if not args.only_xml:
-        qsub(args.num_runs, args.nodes, args.out_dir)
+        scrimmage.qsub(args.num_runs, mission_dir, args.nodes)
         
     os.remove(TEMP_MISSION_FILE)
     return 0

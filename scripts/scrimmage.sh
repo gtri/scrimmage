@@ -32,7 +32,6 @@
 #
 #
 
-MISSION_FILE_DIR="UNDEFINED"
 while getopts ":d:" opt; do
     case $opt in        
         d)
@@ -49,15 +48,11 @@ while getopts ":d:" opt; do
     esac
 done
 
-if [ ! -e $MISSION_FILE_DIR ]; then
-    echo "Mission file directory doesn't exist: $MISSION_FILE"
-    echo "usage: $0 -m <mission-file>"
-    exit -1
+if [[ "$MISSION_FILE_DIR" == *xml ]]; then
+    MISSION_FILE=$MISSION_FILE_DIR
+else 
+    MISSION_FILE="$MISSION_FILE_DIR/$SGE_TASK_ID.xml"
 fi
 
-EXEC=$(readlink -f ${SCRIMMAGE_ROOT}/bin/scrimmage)
-
-MISSION_FILE="$MISSION_FILE_DIR/$SGE_TASK_ID.xml"
-
 # Run SCRIMMAGE
-$EXEC -j $JOB_ID -t $SGE_TASK_ID $MISSION_FILE
+source ~/.bashrc && scrimmage -j $JOB_ID -t $SGE_TASK_ID $MISSION_FILE

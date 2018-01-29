@@ -1,35 +1,44 @@
-#
-# @file
-#
-# @section LICENSE
-#
-# Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
-#
-# This file is part of SCRIMMAGE.
-#
-#   SCRIMMAGE is free software: you can redistribute it and/or modify it under
-#   the terms of the GNU Lesser General Public License as published by the
-#   Free Software Foundation, either version 3 of the License, or (at your
-#   option) any later version.
-#
-#   SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT
-#   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-#   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-#   License for more details.
-#
-#   You should have received a copy of the GNU Lesser General Public License
-#   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
-#
-# @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
-# @author Eric Squires <eric.squires@gtri.gatech.edu>
-# @date 31 July 2017
-# @version 0.1.0
-# @brief Brief file description.
-# @section DESCRIPTION
-# A Long description goes here.
+"""Utilities for interacting with data.
+
+@file
+
+@section LICENSE
+
+Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
+
+This file is part of SCRIMMAGE.
+
+  SCRIMMAGE is free software: you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the
+  Free Software Foundation, either version 3 of the License, or (at your
+  option) any later version.
+
+  SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+  License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
+
+@author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
+@author Eric Squires <eric.squires@gtri.gatech.edu>
+@date 31 July 2017
+@version 0.1.0
+@brief Brief file description.
+@section DESCRIPTION
+A Long description goes here.
+"""
+from __future__ import division, print_function
 
 import os
+import subprocess
 
+import numpy as np
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    pass
 from scrimmage.proto import Frame_pb2
 import google.protobuf.internal.decoder
 
@@ -88,3 +97,118 @@ def find_mission(fname):
     files = (os.path.join(path, '..', 'missions', fname)
              for path in os.environ["SCRIMMAGE_DATA_PATH"].split(':'))
     return next((f for f in files if os.path.exists(f)))
+
+
+def tornado(ax, data, labels, base=None, bar_width=0.8, whitespace_buffer=0.1):
+    """Create a tornado plot on the given axis.
+
+    data: (n x 2) iterable with each row containing the low and high value
+
+    """
+    # sort so that the largest difference is at the top
+    data = np.asarray(data)
+    sorted_indexes = np.abs(data[:, 1] - data[:, 0]).argsort()
+    labels = np.asarray(labels)[sorted_indexes]
+    sorted_indexes = sorted_indexes[::-1]
+    data = data[sorted_indexes, :]
+
+    if base is None:
+        base = np.mean(data)
+
+    for i, (low, high) in enumerate(data):
+
+        low_width = abs(base - low)
+        high_width = abs(high - base)
+
+        yrange = (len(labels) - 1 - i - bar_width / 2, bar_width)
+
+        if low < high < base:
+            ax.broken_barh(
+                xranges=[(low, low_width), (high, high_width)],
+                yrange=yrange)
+        elif low < base < high:
+            ax.broken_barh(
+                xranges=[(low, low_width), (base, high_width)],
+                yrange=yrange)
+        elif base < low < high:
+            ax.broken_barh(
+                xranges=[(base, high_width), (base, low_width)],
+                yrange=yrange)
+        elif high < low < base:
+            ax.broken_barh(
+                xranges=[(high, high_width), (low, low_width)],
+                yrange=yrange)
+        elif high < base < low:
+            ax.broken_barh(
+                xranges=[(high, high_width), (base, low_width)],
+                yrange=yrange)
+
+    # Draw a vertical line down the middle
+    ax.axvline(base, color='black')
+
+    # Position the x-axis on the top, hide all the other spines (=axis lines)
+    ax.spines['left'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.xaxis.set_ticks_position('top')
+    ax.xaxis.set_label_position('top')
+
+    # Make the y-axis display the variables
+    plt.yticks(range(len(labels)), labels)
+
+    # Set the portion of the x- and y-axes to show
+    span = np.max(np.abs(data - base)[:])
+    ax.set_xlim(base - (span * (1 + whitespace_buffer)),
+                base + (span * (1 + whitespace_buffer)))
+    ax.set_ylim(-1, len(labels))
+
+
+def qsub(num_runs, mission, nodes=None, stdout_dir=None, stderr_dir=None):
+    """Submit a grid engine job.
+
+    num_runs: how many runs this job should submit to grid engine.
+
+    nodes: either an integer or a range (beg-end). If None (default),
+        then the job will be submitted to all available nodes.
+
+    mission: either a mission file (which will be run repeatedly for num_runs)
+        or a directory which should contain mission files named "1.xml" to
+        "num_runs.xml".
+
+    stdout_dir: where to place stderr for the runs from gridendine. defaults
+        to '~/.scrimmage/logs/stdout'
+
+    stderr_dir: where to place stderr for the runs from gridendine. defaults
+        to '~/.scrimmage/logs/stdout'
+    """
+    log_dir = os.path.join(os.path.expanduser('~'), '.scrimmage', 'logs')
+    stdout_dir = stdout_dir or os.path.join(log_dir, 'qsub_stdout')
+    stderr_dir = stderr_dir or os.path.join(log_dir, 'qsub_stderr')
+
+    # look for scrimmage.sh in path
+    sc_script = next((os.path.join(p, 'scrimmage.sh')
+                      for p in os.environ['PATH'].split(':')
+                      if os.path.isfile(os.path.join(p, 'scrimmage.sh'))))
+    for d in [stdout_dir, stderr_dir]:
+        try:
+            os.makedirs(d)
+        except OSError:
+            pass
+
+    cmd = ['qsub',
+           '-t', '1-' + str(num_runs),
+           '-e', stderr_dir,
+           '-o', stdout_dir]
+
+    if nodes:
+        if '-' in nodes:
+            beg, end = nodes.split("-")
+            s = "|".join(["node" + str(n)
+                          for n in range(int(beg), int(end) + 1)])
+        else:
+            s = "node" + nodes
+        cmd += ["-l", 'h=' + s]
+
+    cmd += [sc_script, '-d', mission]
+    print(" ".join(cmd))
+    subprocess.Popen(cmd)
