@@ -60,7 +60,7 @@ keyserver. You can change the PPA and GPG key ID with the "PPA" and
     $ make scrimmage-pybind11-debuild     # build the deb source package
     $ make scrimmage-pybind11-local-test  # build a deb binary package locally
     $ make scrimmage-pybind11-upload-ppa  # upload deb src to PPA
-        
+
 As changes are made to the dependencies source code and the debian packaging
 configuration files, the package maintainer needs to bump the versions for the
 SOURCE\_VERSION and PPA\_NUMBER in the root CMakeLists.txt file. Note: Allow
@@ -96,6 +96,7 @@ Reference: https://wiki.ubuntu.com/akshmakov/sandbox/Packaging
 
 ## Setup pbuilder system
 
+    $ sudo apt-get install pbuilder ubuntu-dev-tools
     $ pbuilder create
     $ pbuilder-dist xenial create
 
@@ -115,4 +116,15 @@ pbuilder:
 
     $ cd /path/to/*.dsc
     $ pbuilder-dist xenial build scrimmage-vtk8_8.1.0.0-0ppa0.dsc
-    
+
+## Test Resulting Binary Debian Packages
+
+The result of the package-name-local-test target is a debian binary package,
+which is usually output to ~/pbuilder/xenial_result. To see the contents of the
+output binary package, run the following command:
+
+    $ dpkg -c ~/pbuilder/xenial_result/scrimmage-pybind11_0.1.1-0ppa1_amd64.deb
+
+or install it:
+
+    $ sudo dpkg -i ~/pbuilder/xenial_result/scrimmage-pybind11_0.1.1-0ppa1_amd64.deb

@@ -1,7 +1,6 @@
 build-centos6-installer:
-	#./scripts/create-env-file.sh
 	@docker-compose -f docker-compose.yml -p scrimmage build installer
-	#./scripts/extract-artifacts.sh
+	./scripts/extract-artifacts.sh
 
 stop:
 	@docker-compose -f docker-compose.yml -p scrimmage stop

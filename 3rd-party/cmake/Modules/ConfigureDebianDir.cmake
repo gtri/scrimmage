@@ -1,6 +1,6 @@
 function(ConfigureDebianDir)
   # Copy debian directory into source tree
-  file(COPY ${SRC_DIR} DESTINATION ${DEST_DIR})
+  file(COPY ${SRC_DIR}/ DESTINATION ${DEST_DIR})
 
   # Get the date string
   execute_process(COMMAND date -R OUTPUT_VARIABLE DATE_STRING)

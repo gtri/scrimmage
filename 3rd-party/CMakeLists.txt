@@ -281,8 +281,8 @@ if (BUILD_SOURCE_PACKAGES)
     NAME "scrimmage"
     GIT_REPOSITORY https://github.com/gtri/scrimmage.git
     GIT_TAG master
-    SOURCE_VERSION 0.1
-    PPA_NUMBER 4
+    SOURCE_VERSION 0.1.1
+    PPA_NUMBER 0
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -292,10 +292,23 @@ if (BUILD_SOURCE_PACKAGES)
 
   BuildPPA(
     NAME "scrimmage-dependencies"
-    SOURCE_VERSION 0.1
+    SOURCE_VERSION 0.2.1
     PPA ${PPA}
-    PPA_NUMBER 1
+    PPA_NUMBER 0
     GPG_KEY_ID ${GPG_KEY_ID}
+    )
+
+  BuildPPAFromRepo(
+    NAME "scrimmage-extra-data"
+    GIT_REPOSITORY https://github.com/SyllogismRXS/scrimmage-extra-data.git
+    GIT_TAG master
+    SOURCE_VERSION 0.1
+    PPA_NUMBER 0
+    PPA ${PPA}
+    GPG_KEY_ID ${GPG_KEY_ID}
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    CONFIGURE_COMMAND ""
     )
 
 endif()

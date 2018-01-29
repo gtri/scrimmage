@@ -7,6 +7,14 @@ export JSBSIM_ROOT=${SCRIMMAGE_ROOT}/etc/JSBSim
 export LD_LIBRARY_PATH=${SCRIMMAGE_ROOT}/lib:${LD_LIBRARY_PATH}
 export CMAKE_PREFIX_PATH=${SCRIMMAGE_ROOT}:${CMAKE_PREFIX_PATH}
 
+if [ -e ${SCRIMMAGE_ROOT}/share/scrimmage/data ]; then
+    export SCRIMMAGE_DATA_PATH=${SCRIMMAGE_ROOT}/share/scrimmage/data:${SCRIMMAGE_DATA_PATH}
+fi
+
+if [ -e ${SCRIMMAGE_ROOT}/share/scrimmage-extra-data/data ]; then
+    export SCRIMMAGE_DATA_PATH=${SCRIMMAGE_ROOT}/share/scrimmage-extra-data/data:${SCRIMMAGE_DATA_PATH}
+fi
+
 # Create user's ~/.scrimmage directory if it doesn't exist.
 if [ ! -e ${HOME}/.scrimmage ]; then
     mkdir -p ${HOME}/.scrimmage/env

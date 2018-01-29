@@ -31,7 +31,7 @@ function(BuildPPAFromRepo)
     COMMAND ${CMAKE_COMMAND}
     -DARG_SOURCE_VERSION=${ARG_SOURCE_VERSION}
     -DARG_PPA_NUMBER=${ARG_PPA_NUMBER}
-    -DSRC_DIR=${CMAKE_SOURCE_DIR}/packages/${ARG_NAME}/debian
+    -DSRC_DIR=${CMAKE_SOURCE_DIR}/packages/${ARG_NAME}
     -DDEST_DIR=${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR}
     -P ${CMAKE_SOURCE_DIR}/cmake/Modules/ConfigureDebianDir.cmake
     OUTPUT ${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR}/debian
@@ -69,16 +69,43 @@ function(BuildPPA)
   set(multiValueArgs)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
-  execute_process(COMMAND date -R OUTPUT_VARIABLE DATE_STRING)
-  configure_file(${CMAKE_SOURCE_DIR}/packages/${ARG_NAME}/debian/changelog.in
-    ${CMAKE_SOURCE_DIR}/packages/${ARG_NAME}/debian/changelog @ONLY)
+  set(DEB_SRC_DIR ${ARG_NAME}-deb-src)
 
-  add_custom_target(${DEB_SRC_DIR}
-    COMMAND cp -r ${CMAKE_SOURCE_DIR}/packages/${ARG_NAME} ${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR}
+  # Run a custom cmake script that copies the debian directory into the
+  # respective source tree and configure the changelog file.
+  add_custom_command(
+    DEPENDS ${CMAKE_SOURCE_DIR}/packages/${ARG_NAME}/debian
+    COMMAND ${CMAKE_COMMAND}
+    -DARG_SOURCE_VERSION=${ARG_SOURCE_VERSION}
+    -DARG_PPA_NUMBER=${ARG_PPA_NUMBER}
+    -DSRC_DIR=${CMAKE_SOURCE_DIR}/packages/${ARG_NAME}
+    -DDEST_DIR=${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR}
+    -P ${CMAKE_SOURCE_DIR}/cmake/Modules/ConfigureDebianDir.cmake
+    OUTPUT ${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR}/debian
+    )
+
+  # Generate the debian source package
+  add_custom_target(
+    ${ARG_NAME}-debuild
+    DEPENDS ${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR}/debian
     COMMAND cd ${CMAKE_BINARY_DIR}/src && ${TAR} -acf ${ARG_NAME}_${ARG_SOURCE_VERSION}.${ARG_PPA_NUMBER}.orig.tar.gz ${DEB_SRC_DIR} --exclude-vcs
     COMMAND cd ${CMAKE_BINARY_DIR}/src/${DEB_SRC_DIR} && ${DEBUILD} -i -S -sa -k${ARG_GPG_KEY_ID}
+    )
+
+  add_custom_target(
+    ${ARG_NAME}-local-test
+    DEPENDS ${ARG_NAME}-debuild
+    COMMAND cd ${CMAKE_BINARY_DIR}/src && pbuilder-dist xenial build ${ARG_NAME}_${ARG_SOURCE_VERSION}.${ARG_PPA_NUMBER}-0ppa${ARG_PPA_NUMBER}.dsc
+    )
+
+  # Upload the debian source package to the Launchpad PPA
+  add_custom_target(
+    ${ARG_NAME}-upload-ppa
+    DEPENDS ${ARG_NAME}-debuild
     COMMAND cd ${CMAKE_BINARY_DIR}/src && dput ${ARG_PPA} ${ARG_NAME}_${ARG_SOURCE_VERSION}.${ARG_PPA_NUMBER}-0ppa${ARG_PPA_NUMBER}_source.changes
     )
-  set_target_properties(${DEB_SRC_DIR} PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+
+  # Make all ppa projects not build by default
+  set_target_properties(${ARG_NAME}-upload-ppa PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 endfunction()

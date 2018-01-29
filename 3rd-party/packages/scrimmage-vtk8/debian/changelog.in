@@ -1,4 +1,4 @@
-scrimmage-vtk8 (@ARG_SOURCE_VERSION@.@ARG_PPA_NUMBER@-0ppa@ARG_PPA_NUMBER@) xenial; urgency=low
+scrimmage-vtk8 (@ARG_SOURCE_VERSION@.@ARG_PPA_NUMBER@-0ppa@ARG_PPA_NUMBER@) xenial; urgency=medium
 
   * Initial upload!
 

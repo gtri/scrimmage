@@ -432,6 +432,14 @@ IF(UNIX AND NOT APPLE)
     DESTINATION lib/pkgconfig
     )
 
+  if (NOT EXTERNAL)
+    # Install meshes, terrain, maps that come with scrimmage core
+    install(
+      DIRECTORY data/gui
+      DESTINATION share/${PROJECT_NAME}/data
+      )
+  endif()
+
 ENDIF()
 
 ###############################################################################

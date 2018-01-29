@@ -3,8 +3,8 @@
 # Get the artifacts
 mkdir -p artifacts
 pushd artifacts >& /dev/null
-   id=$(docker create gtri/avia:installer)
-   docker cp $id:/root/avia/avia/deploy/installer - > installer.tar.gz
+   id=$(docker create scrimmage/centos6-installer:latest)
+   docker cp $id:/root/rpms - > rpms.tar.gz
    docker rm -v $id
-   tar xvf installer.tar.gz
+   tar xvf rpms.tar.gz
 popd >& /dev/null
