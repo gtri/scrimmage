@@ -245,6 +245,8 @@ class SimControl {
     std::list<EntityPtr> not_ready_;
     DelayedTask screenshot_task_;
     bool prev_paused_;
+
+    DelayedTask reseed_task_;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

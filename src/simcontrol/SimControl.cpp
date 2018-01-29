@@ -350,6 +350,20 @@ bool SimControl::init() {
         screenshot_task_.disable = true;
     }
     prev_paused_ = paused();
+
+    // reseeding
+    auto it = mp_->attributes().find("seed");
+    if (it != mp_->attributes().end()) {
+        auto it2 = it->second.find("reseed_time");
+        if (it2 != it->second.end()) {
+            reseed_task_ = DelayedTask(std::stod(it2->second), 0);
+            reseed_task_.last_updated_time = 0;
+            reseed_task_.task = [&](double t) {
+                random_->seed();
+                return true;
+            };
+        }
+    }
     return true;
 }
 
@@ -640,6 +654,7 @@ void SimControl::run() {
 
     do {
         double t = this->t();
+        reseed_task_.update(t);
         start_loop_timer();
 
         if (!generate_entities(t)) {

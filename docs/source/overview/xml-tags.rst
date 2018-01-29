@@ -46,7 +46,10 @@ and match between the two paradigms for a single entity.
 
 - ``seed`` : Used to seed SCRIMMAGE's random number generator. If not specified
   or commented out, the current computer time will be used to seed the
-  simulation.
+  simulation. In some cases a user will want the scenario to begin deterministically
+  and then proceed randomly. This can be achieved by setting a seed but 
+  adding an attribute ``reseed_time`` for the time in the simulation
+  when the seed should be set to something random.
 
 - ``end_condition`` : Specifies the conditions for ending the simulation. The
   possible end conditions are ``time``, ``one_team``, and ``none``. If ``time``
