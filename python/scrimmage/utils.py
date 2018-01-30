@@ -33,6 +33,7 @@ from __future__ import division, print_function
 
 import os
 import subprocess
+import re
 
 import numpy as np
 try:
@@ -211,4 +212,17 @@ def qsub(num_runs, mission, nodes=None, stdout_dir=None, stderr_dir=None):
 
     cmd += [sc_script, '-d', mission]
     print(" ".join(cmd))
-    subprocess.Popen(cmd)
+    output = subprocess.check_output(cmd)
+    job_id = re.match(r"Your job-array (\d+)", output).group(1)
+    return int(job_id)
+
+
+def wait_for_job(job_id):
+    """Block until a grid engine job is complete."""
+    while True:
+        try:
+            subprocess.call(['qstat', '-j', job_id])
+            break
+        except subprocess.CalledProcessError:
+            pass
+
