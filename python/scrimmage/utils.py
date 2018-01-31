@@ -34,6 +34,7 @@ from __future__ import division, print_function
 import os
 import subprocess
 import re
+import time
 
 import numpy as np
 try:
@@ -219,10 +220,7 @@ def qsub(num_runs, mission, nodes=None, stdout_dir=None, stderr_dir=None):
 
 def wait_for_job(job_id):
     """Block until a grid engine job is complete."""
-    while True:
-        try:
-            subprocess.call(['qstat', '-j', job_id])
-            break
-        except subprocess.CalledProcessError:
-            pass
-
+    FNULL = open(os.devnull, 'w')
+    while subprocess.call(['qstat', '-j', str(job_id)],
+                          stdout=FNULL, stderr=FNULL) == 0:
+        time.sleep(1)
