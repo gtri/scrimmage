@@ -356,10 +356,21 @@ bool SimControl::init() {
     if (it != mp_->attributes().end()) {
         auto it2 = it->second.find("reseed_time");
         if (it2 != it->second.end()) {
+            auto it3 = it->second.find("reseed");
+            uint32_t reseed = 0;
+            bool has_reseed = it3 != it->second.end();
+            if (has_reseed) {
+                reseed = std::stoul(it3->second);
+            }
             reseed_task_ = DelayedTask(std::stod(it2->second), 0);
             reseed_task_.last_updated_time = 0;
-            reseed_task_.task = [&](double t) {
-                random_->seed();
+            reseed_task_.task = [&, has_reseed, reseed](double t) {
+                if (has_reseed) {
+                    random_->seed(reseed);
+                } else {
+                    random_->seed();
+                }
+                log_->write_ascii("ReSeed: " + std::to_string(random_->get_seed()));
                 return true;
             };
         }
