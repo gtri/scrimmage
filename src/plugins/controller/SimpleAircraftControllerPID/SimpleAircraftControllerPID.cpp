@@ -30,8 +30,10 @@
  *
  */
 
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h>
 
@@ -73,15 +75,22 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
+    use_roll_ = sc::str2bool(params.at("use_roll"));
     u_ = std::make_shared<Eigen::Vector3d>();
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
-    double desired_yaw = desired_state_->quat().yaw();
+    double roll_error;
+    if (use_roll_) {
+        heading_pid_.set_setpoint(desired_state_->quat().roll());
+        roll_error = -heading_pid_.step(dt, state_->quat().roll());
+    } else {
+        double desired_yaw = desired_state_->quat().yaw();
 
-    heading_pid_.set_setpoint(desired_yaw);
-    double u_heading = heading_pid_.step(dt, state_->quat().yaw());
-    double roll_error = u_heading + state_->quat().roll();
+        heading_pid_.set_setpoint(desired_yaw);
+        double u_heading = heading_pid_.step(dt, state_->quat().yaw());
+        roll_error = u_heading + state_->quat().roll();
+    }
 
     alt_pid_.set_setpoint(desired_state_->pos()(2));
     double u_alt = alt_pid_.step(dt, state_->pos()(2));

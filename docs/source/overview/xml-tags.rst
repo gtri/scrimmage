@@ -49,7 +49,9 @@ and match between the two paradigms for a single entity.
   simulation. In some cases a user will want the scenario to begin deterministically
   and then proceed randomly. This can be achieved by setting a seed but 
   adding an attribute ``reseed_time`` for the time in the simulation
-  when the seed should be set to something random.
+  when the seed should be set to something random. Additionally,
+  if you want the reseed to be deterministic you can set it with the ``reseed``
+  tag.
 
 - ``end_condition`` : Specifies the conditions for ending the simulation. The
   possible end conditions are ``time``, ``one_team``, and ``none``. If ``time``

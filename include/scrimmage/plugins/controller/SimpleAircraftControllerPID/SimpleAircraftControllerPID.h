@@ -51,6 +51,7 @@ class SimpleAircraftControllerPID : public motion::SimpleAircraft::Controller {
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
+    bool use_roll_ = false;
 };
 } // namespace controller
 } // namespace scrimmage
