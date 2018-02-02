@@ -63,7 +63,6 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
-    quat_world_ = state_->quat();
 
     x_[U] = 0;
     x_[V] = 0;
@@ -81,11 +80,11 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
     x_[Yw] = pos(1);
     x_[Zw] = pos(2);
 
-    // Initial Local orientation (no rotation)
-    x_[q0] = 1;
-    x_[q1] = 0;
-    x_[q2] = 0;
-    x_[q3] = 0;
+    // Initial Local orientation
+    x_[q0] = state_->quat().w();
+    x_[q1] = state_->quat().x();
+    x_[q2] = state_->quat().y();
+    x_[q3] = state_->quat().z();
 
     // Parse XML parameters
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
@@ -191,6 +190,11 @@ bool Multirotor::step(double time, double dt) {
     // TODO: convert global linear velocity and angular velocity into local
     // velocities
 
+    x_[q0] = state_->quat().w();
+    x_[q1] = state_->quat().x();
+    x_[q2] = state_->quat().y();
+    x_[q3] = state_->quat().z();
+
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
     x_[Ww] = state_->vel()(2);
@@ -204,7 +208,7 @@ bool Multirotor::step(double time, double dt) {
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
     // Apply any external forces
-    force_ext_body_ = quat_local_.rotate_reverse(ext_force_);
+    force_ext_body_ = state_->quat().rotate_reverse(ext_force_);
     ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
 
     ode_step(dt); // step the motion model ODE solver
@@ -221,20 +225,10 @@ bool Multirotor::step(double time, double dt) {
     x_[Q_dot] = angular_acc(1);
     x_[R_dot] = angular_acc(2);
 
-    // Normalize quaternion
-    quat_local_.w() = x_[q0];
-    quat_local_.x() = x_[q1];
-    quat_local_.y() = x_[q2];
-    quat_local_.z() = x_[q3];
-    quat_local_.normalize();
-
-    x_[q0] = quat_local_.w();
-    x_[q1] = quat_local_.x();
-    x_[q2] = quat_local_.y();
-    x_[q3] = quat_local_.z();
+    state_->quat().set(x_[q0], x_[q1], x_[q2], x_[q3]);
+    state_->quat().normalize();
 
     // Convert local coordinates to world coordinates
-    state_->quat() = quat_world_ * quat_local_;
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
 
@@ -286,9 +280,8 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     }
 
     // Calculate force from weight in body frame:
-    Eigen::Vector3d F_weight(+mass_*g_*sin(x_[Q]),
-                             -mass_*g_*sin(x_[P])*cos(x_[Q]),
-                             -mass_*g_*cos(x_[P])*cos(x_[Q]));
+    Eigen::Vector3d gravity_vector(0, 0, -mass_*g_);
+    Eigen::Vector3d F_weight = state_->quat().rotate_reverse(gravity_vector);
 
     // Calculate force from drag (TODO: Check source)
     Eigen::Vector3d vel_body(x_[U], x_[V], x_[W]);
@@ -298,24 +291,26 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     // Calculate total force
     Eigen::Vector3d F_total = F_thrust + F_weight + F_drag + force_ext_body_;
 
+    dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
+    dxdt[V] = x[W]*x[P] - x[U]*x[R] + F_total(1) / mass_;
+    dxdt[W] = x[U]*x[Q] - x[V]*x[P] + F_total(2) / mass_;
+
     // Calculate moments from thrust
-    Eigen::Vector3d M_thrust(0, 0, 0); // L, M, N
+    Eigen::Vector3d Moments_thrust(0, 0, 0); // L, M, N
 
     for (unsigned int i = 0; i < rotors_.size(); i++) {
         double length = rotors_[i].offset_length();
         double xy_angle = rotors_[i].xy_angle();
 
-        M_thrust(0) += rotor_thrust(i) * length * sin(xy_angle);
-        M_thrust(1) -= rotor_thrust(i) * length * cos(xy_angle);
-        M_thrust(2) += rotor_torque(i);
+        Moments_thrust(0) += rotor_thrust(i) * length * sin(xy_angle);
+        Moments_thrust(1) -= rotor_thrust(i) * length * cos(xy_angle);
+        Moments_thrust(2) += rotor_torque(i);
     }
 
-    dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
-    dxdt[V] = x[W]*x[P] - x[U]*x[R] + F_total(1) / mass_;
-    dxdt[W] = x[U]*x[Q] - x[V]*x[P] + F_total(2) / mass_;
+    Eigen::Vector3d Moments_total = Moments_thrust;
 
     Eigen::Vector3d pqr(x_[P], x_[Q], x_[R]);
-    Eigen::Vector3d pqr_dot = I_inv_ * (M_thrust - pqr.cross(I_*pqr));
+    Eigen::Vector3d pqr_dot = I_inv_ * (Moments_total - pqr.cross(I_*pqr));
     dxdt[P] = pqr_dot(0);
     dxdt[Q] = pqr_dot(1);
     dxdt[R] = pqr_dot(2);
@@ -334,22 +329,17 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     quat.x() = x[q1];
     quat.y() = x[q2];
     quat.z() = x[q3];
-
-    quat = quat_world_ * quat;
     quat.normalize();
 
-    // Convert local positions and velocities into global coordinates
-    Eigen::Matrix3d rot = quat.toRotationMatrix();
-
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
-    Eigen::Vector3d vel_world = rot * vel_local;
+    Eigen::Vector3d vel_world = quat.rotate(vel_local);
     dxdt[Xw] = vel_world(0);
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
 
     //// TODO: Should these be cached from previous run or should the current dxdt
     Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
-    Eigen::Vector3d acc_world = rot * acc_local;
+    Eigen::Vector3d acc_world = quat.rotate(acc_local);
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);

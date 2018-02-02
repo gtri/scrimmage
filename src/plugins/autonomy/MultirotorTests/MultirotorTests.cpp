@@ -133,6 +133,7 @@ bool MultirotorTests::step_autonomy(double t, double dt) {
     // Airspeed is magnitude of velocity vector for now
     double airspeed = state.vel().norm();
 
+#if 1
     cout << "---------------" << endl;
     cout << "timestamp_us: " << timestamp_us << endl;
     cout << "Latitude: " << latitude << endl;
@@ -152,6 +153,7 @@ bool MultirotorTests::step_autonomy(double t, double dt) {
     cout << "rollRate: " << rollRate << endl;
     cout << "pitchRate: " << pitchRate << endl;
     cout << "yawRate: " << yawRate << endl;
+#endif
 
     return true;
 }

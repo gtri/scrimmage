@@ -96,8 +96,6 @@ class Multirotor : public scrimmage::MotionModel{
     double c_T() { return c_T_; }
 
  protected:
-    scrimmage::Quaternion quat_world_;
-    scrimmage::Quaternion quat_local_;
     Eigen::VectorXd ctrl_u_;
 
     // multirotor parameters

@@ -3,7 +3,7 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="Simple Aircraft 3D Maneuvers">
 
-  <run start="0.0" end="1000" dt="0.01"
+  <run start="0.0" end="1000" dt="0.001"
        time_warp="1"
        enable_gui="true"
        network_gui="false"
@@ -53,6 +53,8 @@
     <y>0</y>
     <z>50</z>
     <heading>0</heading>
+    <roll>0</roll>
+    <pitch>0</pitch>
 
     <sensor>RigidBody6DOFStateSensor</sensor>
     
