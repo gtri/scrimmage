@@ -18,9 +18,12 @@ import platform
 import gym
 import gym.spaces
 from gym.utils import seeding
-
-from .proto import ExternalControl_pb2, ExternalControl_pb2_grpc
-
+import importlib
+import argparse
+if __name__ == "__main__":
+    from scrimmage.proto import ExternalControl_pb2, ExternalControl_pb2_grpc
+else:
+    from .proto import ExternalControl_pb2, ExternalControl_pb2_grpc
 
 if sys.version[0] == '2':
     import Queue as queue
@@ -400,3 +403,93 @@ def _clear_queue(q):
             q.get(False)
     except queue.Empty:
         pass
+
+
+def main():
+    # Get params file, model:class, and port num from args list
+    parser = argparse.ArgumentParser(description=None)
+    parser.add_argument('--xml', default="/tmp/p", help='Parameters file path')
+    parser.add_argument('--actor', type=str,
+                        help='what actor to use for acting. '
+                        'Input in the form module:Class (e.g., '
+                        'load_model:NNModel) and should have the same basic '
+                        'methods/properties as load_model:NNModel')
+    parser.add_argument("--port-num", type=int, default=50052,
+                        help="port to start scrimmage interface on")
+    args = parser.parse_args()
+    # Initizialized variables
+    num_actors = 1
+    port_offset = 1
+    queue_names = ['env', 'action', 'action_response']
+    ip = "localhost"
+    queues = []
+    server_threads = []
+
+    port = args.port_num
+    # Starting up GRPC link
+    for i in range(num_actors):
+        port = int(port) + i * port_offset
+        address = ip + ":" + str(port)
+        queues.append({s: queue.Queue() for s in queue_names})
+        server_threads.append(
+            ServerThread(queues[-1], address))
+        server_threads[-1].start()
+    environments = \
+        [queues[i]['env'].get() for i in range(num_actors)]
+    if len(environments) == 1:
+        action_space = _create_tuple_space(environments[0].action_spaces)
+        observation_space = _create_tuple_space(
+                                            environments[0].observation_spaces)
+    else:
+        action_space = [_create_tuple_space(e.action_spaces)for e in
+                        environments]
+        observation_space = [_create_tuple_space(e.observation_spaces) for e in
+                             environments]
+        action_space = gym.spaces.Tuple(action_space)
+        observation_space = gym.spaces.Tuple(observation_space)
+    # Set up actor model
+    actor_module_str, actor_class_str = args.actor.split(":")
+    actor_module = importlib.import_module(actor_module_str)
+    actor_class = getattr(actor_module, actor_class_str)
+
+    # Actor initialization
+    actor = actor_class(action_space, observation_space, args.xml)
+    while True:
+        # get state from GRPC link
+        try:
+            res = queues[0]['action_response'].get(timeout=60)
+        except queue.Empty:
+            print('Not receiving sensor info from scrimmage')
+            res = ExternalControl_pb2.ActionResult(done=True)
+        if res.done:
+            print("Received end of simulation")
+            for s in server_threads:
+                s.stop = True
+            break
+        obs = np.array(res.observations.value)
+        # get action from actor
+        action = actor.act(obs)
+        # return action to GRPC link
+
+        def _step_single(i, space, a):
+            if not isinstance(a, collections.Iterable):
+                a = [a]
+
+            if isinstance(action_space, gym.spaces.Box):
+                action_pb =\
+                    ExternalControl_pb2.Action(continuous=a, done=False)
+            else:
+                action_pb =\
+                    ExternalControl_pb2.Action(discrete=a, done=False)
+
+            queues[i]['action'].put(action_pb)
+
+        if num_actors == 1:
+            _step_single(0, action_space, action)
+        else:
+            for i, a in enumerate(action):
+                _step_single(i, action_space.spaces[i], a)
+
+
+if __name__ == "__main__":
+    main()

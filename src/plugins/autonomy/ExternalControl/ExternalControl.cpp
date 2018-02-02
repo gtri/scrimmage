@@ -46,6 +46,10 @@
 #include <limits>
 
 #include <boost/optional.hpp>
+#include <boost/algorithm/string.hpp>
+
+#include <chrono> // NOLINT
+#include <thread> // NOLINT
 
 namespace sp = scrimmage_proto;
 
@@ -61,6 +65,29 @@ ExternalControl::ExternalControl() :
 void ExternalControl::init(std::map<std::string, std::string> &params) {
     server_address_ = get("server_address", params, std::string("localhost:50051"));
     delayed_task_->delay = get("timestep", params, 0.0);
+    num_attempts_ = get("num_attempts", params, 5);
+    use_trained_model_ = get("use_trained_model", params, false);
+    if (use_trained_model_) {
+        std::string xml_file = params.at("XML_FILENAME");
+        std::string actor = params.at("actor_name");
+
+        std::vector<std::string> address_parts;
+        // boost::split(address_parts, params.at("server_address"), [](char c){return c == ':';});
+        boost::split(address_parts, params.at("server_address"), boost::algorithm::is_any_of(":"));
+        std::string port_num = address_parts[1];
+        python_cmd_ = std::string("external_control.py")
+        + " --port-num " + port_num
+        + " --actor " + actor
+        + " --xml " + xml_file
+        + " &";
+        int result = system(python_cmd_.c_str());
+        if (result) {
+            std::cout << "Error occurred in running python script." << std::endl;
+            std::cout <<"Make sure SCRIMMAGE python bindings are up to date" << std::endl;
+        }
+        // Give python time to startup GRPC Server before continuing
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
 }
 
 bool ExternalControl::step_autonomy(double t, double dt) {
@@ -70,10 +97,14 @@ bool ExternalControl::step_autonomy(double t, double dt) {
             ExternalControlClient(grpc::CreateChannel(
                 server_address_, grpc::InsecureChannelCredentials()));
         env_sent_ = true;
-        const bool done = !send_env();
-
+        int attempts = 0;
+        bool done = true;
+        while (attempts++ < num_attempts_ && done) {
+            done = !send_env();
+        }
         // openai does not send a reward when reset so just send the state
-        action = send_action_result(t, 0, done);
+        sp::ActionResult action_result = get_observation(t);
+        action = send_action_result(action_result, 0, done);
     }
 
     bool done;
@@ -84,7 +115,8 @@ bool ExternalControl::step_autonomy(double t, double dt) {
     bool update_action = delayed_task_->update(t).first;
     if (done || update_action || action) {
         if (!action) {
-            action = send_action_result(t, curr_reward, done);
+            sp::ActionResult action_result = get_observation(t);
+            action = send_action_result(action_result, curr_reward, done);
         }
         curr_reward = 0;
         if (!action) {
@@ -116,8 +148,7 @@ bool ExternalControl::handle_action(
     return true;
 }
 
-boost::optional<scrimmage_proto::Action>
-ExternalControl::send_action_result(double t, double reward, bool done) {
+scrimmage_proto::ActionResult ExternalControl::get_observation(double t) {
     sp::ActionResult action_result;
     sp::SpaceSample *obs = action_result.mutable_observations();
 
@@ -131,9 +162,15 @@ ExternalControl::send_action_result(double t, double reward, bool done) {
         }
     }
 
+    return action_result;
+}
+
+boost::optional<scrimmage_proto::Action>
+ExternalControl::send_action_result(
+        scrimmage_proto::ActionResult &action_result,
+        double reward, bool done) {
     action_result.set_reward(reward);
     action_result.set_done(done);
-
     return external_control_client_->send_action_result(action_result);
 }
 
@@ -207,7 +244,8 @@ scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
 }
 
 void ExternalControl::close(double t) {
-    send_action_result(t, 0, true);
+    sp::ActionResult action_result = get_observation(t);
+    send_action_result(action_result, 0, true);
 }
 
 } // namespace autonomy

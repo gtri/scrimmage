@@ -10,5 +10,10 @@ setup(
         "protobuf==${PROTOBUF_VERSION}",
         "grpcio==${GRPC_VERSION}",
     ],
+    entry_points={
+          'console_scripts': [
+              'external_control.py = scrimmage.external_control:main'
+          ]
+      },
     package_data={"scrimmage.bindings": ["*.so"]},
 )
