@@ -3,7 +3,7 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            name="Predator Prey Mission with Boids">
 
-  <run start="0.0" end="500" dt="0.1"
+  <run start="0.0" end="200" dt="0.1"
        time_warp="10"
        enable_gui="true"
        network_gui="false"
@@ -41,7 +41,7 @@
   <entity>
     <team_id>1</team_id>
     <color>0 0 255</color>
-    <count>100</count>
+    <count>50</count>
     <health>5</health>
     <variance_x>200</variance_x>
     <variance_y>200</variance_y>
@@ -59,47 +59,37 @@
   </entity>
 
   <!-- Predators (No Prey Switching) (Team 2) -->
-  <entity>
-    <team_id>2</team_id>
-    <color>255 0 0</color>
+  <entity_common name="predator">
     <count>5</count>
     <health>5</health>
-    <variance_x>500</variance_x>
-    <variance_y>500</variance_y>
+    <variance_x>100</variance_x>
+    <variance_y>100</variance_y>
     <variance_z>100</variance_z>
 
-    <x>2000</x>
-    <y>-1000</y>
+    <x>1000</x>
+    <y>0</y>
     <z>200</z>
 
     <heading>180</heading>
 
-    <autonomy max_speed="35" allow_prey_switching="false">Predator</autonomy>
     <motion_model vel_max="35" turn_rate_max="2" pitch_rate_max="1.5">Unicycle</motion_model>
     <controller>UnicycleControllerDirect</controller>
     <visual_model>zephyr-red</visual_model>
+  </entity_common>
+
+  <entity entity_common="predator">
+    <team_id>2</team_id>
+    <count>1</count>
+    <color>255 0 0</color>
+    <autonomy max_speed="35" allow_prey_switching="true">Predator</autonomy>
   </entity>
 
-  <!-- Predators (Allow Prey Switching) (Team 3) -->
-  <entity>
+  <!--
+  <entity entity_common="predator">
     <team_id>3</team_id>
     <color>0 255 0</color>
-    <count>5</count>
-    <health>5</health>
-    <variance_x>500</variance_x>
-    <variance_y>500</variance_y>
-    <variance_z>100</variance_z>
-
-    <x>2000</x>
-    <y>1000</y>
-    <z>200</z>
-
-    <heading>180</heading>
-
-    <autonomy max_speed="35" allow_prey_switching="true">Predator</autonomy>
-    <motion_model vel_max="35" turn_rate_max="2" pitch_rate_max="1.5">Unicycle</motion_model>
-    <controller>UnicycleControllerDirect</controller>
-    <visual_model>zephyr-red</visual_model>
+    <autonomy max_speed="35" allow_prey_switching="false">Predator</autonomy>
   </entity>
+  -->
 
 </runscript>

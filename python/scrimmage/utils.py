@@ -224,3 +224,55 @@ def wait_for_job(job_id):
     while subprocess.call(['qstat', '-j', str(job_id)],
                           stdout=FNULL, stderr=FNULL) == 0:
         time.sleep(1)
+
+
+def indent(elem, level=0):
+    """Make sure the written xml file has indents.
+
+    example
+    -------
+    import xml.etree.ElementTree as ET
+    tree = ET.parse(mission_file)
+    root = tree.getroot()
+    # alter tree as desired
+
+    indent(root)
+    tree.write(out)
+
+    source
+    ------
+    https://stackoverflow.com/a/33956544
+    """
+    i = "\n" + level*"  "
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "  "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for elem in elem:
+            indent(elem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
+
+
+def parallel(num_runs, mission, cores):
+    """Runs multiple parallel simulations using GNU Parallel.
+
+    num_runs: how many times to repeat a scrimmage run
+    mission: mission file
+    cores: how many parallel jobs to run
+
+    This function will block until all the jobs are complete.
+    """
+    cmd = ['parallel', '--no-notice', '-n', '2', '-j', str(cores),
+           'scrimmage', '-j', '{}', '{}', ':::']
+
+    for i in range(num_runs):
+        cmd.append(str(i))
+        cmd.append(mission)
+
+    FNULL = open(os.devnull, 'w')
+    subprocess.call(cmd, stdout=FNULL, stderr=FNULL)
