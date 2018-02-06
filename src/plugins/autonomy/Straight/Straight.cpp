@@ -134,6 +134,8 @@ void Straight::init(std::map<std::string, std::string> &params) {
                                                     params, false);
 
     sub_boundary_info_ = create_subscriber("Boundary");
+
+    alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
@@ -217,6 +219,8 @@ bool Straight::step_autonomy(double t, double dt) {
 
     // Set Desired Altitude to goal's z-position
     desired_state_->pos()(2) = goal_(2);
+
+    vars_.output(alt_idx_, goal_(2));
 
     // Set the desired pitch and heading
     desired_state_->quat().set(0, pitch, heading);

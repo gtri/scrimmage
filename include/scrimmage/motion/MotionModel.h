@@ -38,6 +38,7 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 
+#include <iostream>
 #include <map>
 #include <vector>
 #include <string>
@@ -73,7 +74,6 @@ class MotionModel : public Plugin {
 
     StatePtr state_;
     vector_t x_;
-    vector_t u_;
 
     Eigen::Vector3d ext_force_;
     double mass_;

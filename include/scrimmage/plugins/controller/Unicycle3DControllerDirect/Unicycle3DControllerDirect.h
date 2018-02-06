@@ -40,16 +40,18 @@
 
 namespace scrimmage {
 namespace controller {
-class Unicycle3DControllerDirect : public motion::Unicycle3D::Controller {
+class Unicycle3DControllerDirect : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params) {}
+    virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector3d &u() {return u_;}
 
  protected:
     double l_;
     double gain_;
-    Eigen::Vector3d u_;
+
+    int velocity_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

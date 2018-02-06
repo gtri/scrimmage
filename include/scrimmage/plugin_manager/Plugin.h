@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
 #include <scrimmage/fwd_decl.h>
+#include <scrimmage/common/VariableIO.h>
 
 #include <unordered_set>
 #include <memory>
@@ -98,6 +99,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::list<scrimmage_proto::ShapePtr> &shapes();
 
+    VariableIO &vars() { return vars_; }
+
  protected:
     int network_id_;
     static int plugin_count_;
@@ -113,6 +116,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
 
     std::list<scrimmage_proto::ShapePtr> shapes_;
+
+    VariableIO vars_;
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;

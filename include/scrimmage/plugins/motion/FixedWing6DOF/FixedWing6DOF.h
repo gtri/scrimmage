@@ -84,19 +84,17 @@ class FixedWing6DOF : public scrimmage::MotionModel{
 
     virtual void teleport(scrimmage::StatePtr &state);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector4d u() = 0;
-    };
-
-    void set_u(Eigen::Vector4d u) {ctrl_u_ = u;}
-
  protected:
+    int thrust_idx_ = 0;
+    int elevator_idx_ = 0;
+    int aileron_idx_ = 0;
+    int rudder_idx_ = 0;
+
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 
-    Eigen::Vector4d ctrl_u_;
+    Eigen::VectorXd ctrl_u_;
 
     Eigen::Matrix3d I_;
     Eigen::Matrix3d I_inv_;

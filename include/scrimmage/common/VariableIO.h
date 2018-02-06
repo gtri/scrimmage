@@ -30,30 +30,47 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_
+#define INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_
 
-#include <scrimmage/plugins/motion/SimpleAircraft/SimpleAircraft.h>
+#include <Eigen/Dense>
 
 #include <map>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
-namespace controller {
-class SimpleAircraftControllerPID : public motion::SimpleAircraft::Controller {
+class VariableIO {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector3d> u() {return u_;}
+    enum class Direction {
+        In = 0,
+        Out
+    };
+
+    VariableIO();
+
+    std::map<std::string, int> &output_variable_index();
+    std::map<std::string, int> &input_variable_index();
+
+    int add_input_variable(std::string &var);
+    int add_output_variable(std::string &var);
+    int declare(std::string var, Direction dir);
+
+    double input(int i);
+    void output(int i, double x);
+
+    /*! \brief Connect two VariableIO objects where writing to the output of
+     *  the first object will transfer the data to the input of the second
+     *  object. */
+    friend void connect(VariableIO &output, VariableIO &input);
 
  protected:
-    std::shared_ptr<Eigen::Vector3d> u_;
-    scrimmage::PID heading_pid_;
-    scrimmage::PID alt_pid_;
-    scrimmage::PID vel_pid_;
-    bool use_roll_ = false;
-    int alt_idx_ = 0;
+    int next_input_variable_index_ = 0;
+    std::map<std::string, int> input_variable_index_;
+    std::map<std::string, int> output_variable_index_;
+    std::shared_ptr<Eigen::VectorXd> input_;
+    std::shared_ptr<Eigen::VectorXd> output_;
 };
-} // namespace controller
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
+
+#endif // INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_

@@ -11,6 +11,7 @@ set(SRCS
     common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
     common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
     common/CSV.cpp
+    common/VariableIO.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     log/FrameUpdateClient.cpp log/Log.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp

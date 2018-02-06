@@ -52,17 +52,19 @@ class Unicycle : public scrimmage::MotionModel {
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector3d &u() = 0;
-    };
-
  protected:
-    Eigen::Vector3d ctrl_u_;
     double turn_rate_max_;
     double pitch_rate_max_;
     double vel_max_;
     bool enable_roll_;
+
+    int velocity_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
+
+    double velocity_ = 0;
+    double turn_rate_ = 0;
+    double pitch_rate_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

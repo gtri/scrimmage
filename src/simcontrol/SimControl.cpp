@@ -1137,6 +1137,7 @@ bool SimControl::run_entities() {
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
+        // Run each entity's controllers
         for (EntityPtr &ent : ents_) {
             for (ControllerPtr &ctrl : ent->controllers()) {
                 if (!ctrl->step(temp_t, motion_dt)) {
@@ -1146,6 +1147,7 @@ bool SimControl::run_entities() {
             }
         }
 
+        // Run each entity's motion model
         for (EntityPtr &ent : ents_) {
             if (!ent->motion()->step(temp_t, motion_dt)) {
                 print_err(ent->motion());

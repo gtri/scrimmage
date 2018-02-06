@@ -59,6 +59,12 @@ namespace motion {
 
 bool Unicycle::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
+
+    // Declare variables for controllers
+    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
+
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
@@ -75,18 +81,10 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
 }
 
 bool Unicycle::step(double t, double dt) {
-    std::shared_ptr<Controller> ctrl =
-        std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
-    if (ctrl == nullptr) {
-        std::cout << "could not cast unicycle controller" << std::endl;
-        return false;
-    }
-
-    // save control value and make sure it satisfies constraints
-    ctrl_u_ = ctrl->u();
-    ctrl_u_(0) = clamp(ctrl_u_(0), -vel_max_, vel_max_);
-    ctrl_u_(1) = clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
-    ctrl_u_(2) = clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
+    // Get inputs and saturate
+    velocity_ = clamp(vars_.input(velocity_idx_), -vel_max_, vel_max_);
+    turn_rate_ = clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
+    pitch_rate_ = clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
 
     double prev_x = x_[X];
     double prev_y = x_[Y];
@@ -107,13 +105,10 @@ bool Unicycle::step(double t, double dt) {
     state_->pos()(2) = x_[Z];
 
     double roll = 0; // TODO: simulate roll if enabled
-    if (enable_roll_ && ctrl_u_(1) != 0) {
+    if (enable_roll_ && turn_rate_ != 0) {
         // see https://en.wikipedia.org/wiki/Standard_rate_turn
-        const double vel = ctrl_u_(0);
-        const double turn_rate = ctrl_u_(1);
-        const double radius = vel / turn_rate;
-        const double gravity = 9.81;
-        roll = atan2(pow(vel, 2) / radius, gravity);
+        const double radius = velocity_ / turn_rate_;
+        roll = atan2(pow(velocity_, 2) / radius, g_);
     }
     state_->quat().set(roll, -x_[PITCH], x_[YAW]);
 
@@ -121,16 +116,12 @@ bool Unicycle::step(double t, double dt) {
 }
 
 void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
-    const double vel = ctrl_u_(0);
-    const double yaw_rate = ctrl_u_(1);
-    const double pitch_rate = ctrl_u_(2);
-
-    double xy_speed = vel * cos(x[PITCH]);
+    double xy_speed = velocity_ * cos(x[PITCH]);
     dxdt[X] = xy_speed * cos(x[YAW]);
     dxdt[Y] = xy_speed * sin(x[YAW]);
-    dxdt[Z] = vel * sin(x[PITCH]);
-    dxdt[YAW] = yaw_rate;
-    dxdt[PITCH] = pitch_rate;
+    dxdt[Z] = velocity_ * sin(x[PITCH]);
+    dxdt[YAW] = turn_rate_;
+    dxdt[PITCH] = pitch_rate_;
 }
 } // namespace motion
 } // namespace scrimmage

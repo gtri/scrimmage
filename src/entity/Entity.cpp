@@ -196,37 +196,6 @@ bool Entity::init(AttributeMap &overrides,
     }
 
     ////////////////////////////////////////////////////////////
-    // autonomy
-    ////////////////////////////////////////////////////////////
-    int autonomy_ct = 0;
-    std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
-
-    while (info.count(autonomy_name) > 0) {
-        AutonomyPtr autonomy =
-            std::dynamic_pointer_cast<Autonomy>(
-                plugin_manager->make_plugin("scrimmage::Autonomy",
-                    info[autonomy_name], file_search, config_parse,
-                    overrides[autonomy_name]));
-
-        if (autonomy == nullptr) {
-            cout << "Failed to open autonomy plugin: " << info[autonomy_name] << endl;
-            return false;
-        }
-
-        autonomy->set_rtree(rtree);
-        autonomy->set_parent(parent);
-        autonomy->set_projection(proj_);
-        autonomy->set_network(network);
-        autonomy->set_state(motion_model_->state());
-        autonomy->set_contacts(contacts);
-        autonomy->set_is_controlling(true);
-        autonomy->init(config_parse.params());
-
-        autonomies_.push_back(autonomy);
-        autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
-    }
-
-    ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
     int ctrl_ct = 0;
@@ -249,13 +218,13 @@ bool Entity::init(AttributeMap &overrides,
         }
 
         controller->set_state(state_);
-        if (ctrl_ct == 0) {
-            if (autonomies_.empty()) {
-                controller->set_desired_state(state_);
-            } else {
-                controller->set_desired_state(autonomies_.front()->desired_state());
-            }
-        }
+
+        // The controller's variable indices should be the same as the motion
+        // model's variable indices. This will speed up copying during the
+        // simulation.
+        controller->vars().output_variable_index() = motion_model_->vars().input_variable_index();
+        connect(controller->vars(), motion_model_->vars());
+
         controller->set_parent(parent);
         controller->set_network(network);
         controller->init(config_parse.params());
@@ -269,6 +238,50 @@ bool Entity::init(AttributeMap &overrides,
     if (controllers_.empty()) {
         std::cout << "Error: no controllers specified" << std::endl;
         return false;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // autonomy
+    ////////////////////////////////////////////////////////////
+    int autonomy_ct = 0;
+    std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
+
+    while (info.count(autonomy_name) > 0) {
+        AutonomyPtr autonomy =
+            std::dynamic_pointer_cast<Autonomy>(
+                plugin_manager->make_plugin("scrimmage::Autonomy",
+                                            info[autonomy_name], file_search, config_parse,
+                                            overrides[autonomy_name]));
+
+        if (autonomy == nullptr) {
+            cout << "Failed to open autonomy plugin: " << info[autonomy_name] << endl;
+            return false;
+        }
+
+        if (controllers_.size() > 0) {
+            autonomy->vars().output_variable_index() = controllers_.front()->vars().input_variable_index();
+            connect(autonomy->vars(), controllers_.front()->vars());
+        }
+
+        autonomy->set_rtree(rtree);
+        autonomy->set_parent(parent);
+        autonomy->set_projection(proj_);
+        autonomy->set_network(network);
+        autonomy->set_state(motion_model_->state());
+        autonomy->set_contacts(contacts);
+        autonomy->set_is_controlling(true);
+        autonomy->init(config_parse.params());
+
+        autonomies_.push_back(autonomy);
+        autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
+    }
+
+    if (controllers_.size() > 0) {
+        if (autonomies_.empty()) {
+            controllers_.front()->set_desired_state(state_);
+        } else {
+            controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
+        }
     }
 
     return true;

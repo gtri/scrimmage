@@ -57,14 +57,6 @@ namespace motion {
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
 
-enum ControlParams {
-    THRUST = 0,
-    ELEVATOR,
-    AILERON,
-    RUDDER,
-    CONTROL_NUM_ITEMS
-};
-
 FixedWing6DOF::FixedWing6DOF() {
     Eigen::AngleAxisd aa(M_PI, Eigen::Vector3d::UnitX());
     rot_180_x_axis_ = Eigen::Quaterniond(aa);
@@ -76,6 +68,13 @@ std::tuple<int, int, int> FixedWing6DOF::version() {
 
 bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
+
+    // Setup variable index for controllers
+    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::In);
+    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::In);
+
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
 
@@ -229,18 +228,11 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 }
 
 bool FixedWing6DOF::step(double time, double dt) {
-    // Get control inputs
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-    thrust_ = ctrl_u_(THRUST);
-    delta_elevator_ = ctrl_u_(ELEVATOR);
-    delta_aileron_ = ctrl_u_(AILERON);
-    delta_rudder_ = ctrl_u_(RUDDER);
-
-    // Saturate control inputs
-    thrust_ = clamp(thrust_, thrust_min_, thrust_max_);
-    delta_elevator_ = clamp(delta_elevator_, delta_elevator_min_, delta_elevator_max_);
-    delta_aileron_ = clamp(delta_aileron_, delta_aileron_min_, delta_aileron_max_);
-    delta_rudder_ = clamp(delta_rudder_, delta_rudder_min_, delta_rudder_max_);
+    // Get inputs and saturate
+    thrust_ = clamp(vars_.input(thrust_idx_), thrust_min_, thrust_max_);
+    delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
+    delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
+    delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
 
     // TODO: convert global linear velocity and angular velocity into local
     // velocities

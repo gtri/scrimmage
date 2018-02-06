@@ -85,6 +85,11 @@ Unicycle3D::~Unicycle3D() {
 bool Unicycle3D::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
 
+    // Declare variables for controllers
+    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
+
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
@@ -136,7 +141,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
                     "U", "V", "W",
                     "P", "Q", "R",
                     "roll", "pitch", "yaw",
-                    "vel", "yaw_rate", "pitch_rate",
+                    "vel", "turn_rate", "pitch_rate",
                     "Uw", "Vw", "Ww",
                     "Xw", "Yw", "Zw"});
     }
@@ -145,12 +150,10 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 }
 
 bool Unicycle3D::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-
-    // Saturate input parameters
-    double vel = boost::algorithm::clamp(ctrl_u_(0), -vel_max_, vel_max_);
-    double yaw_rate = boost::algorithm::clamp(ctrl_u_(1), -turn_rate_max_, turn_rate_max_);
-    double pitch_rate = boost::algorithm::clamp(ctrl_u_(2), -pitch_rate_max_, pitch_rate_max_);
+    // Get inputs and saturate
+    velocity_ = boost::algorithm::clamp(vars_.input(velocity_idx_), -vel_max_, vel_max_);
+    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
+    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -170,13 +173,13 @@ bool Unicycle3D::step(double t, double dt) {
 
     Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
 
-    x_[U] = vel + force_body(0) / mass_;
+    x_[U] = velocity_ + force_body(0) / mass_;
     x_[V] = force_body(1) / mass_;
     x_[W] = force_body(2) / mass_;
 
     x_[P] = 0;
-    x_[Q] = pitch_rate;
-    x_[R] = yaw_rate;
+    x_[Q] = pitch_rate_;
+    x_[R] = turn_rate_;
 
     ode_step(dt);
 
@@ -216,9 +219,9 @@ bool Unicycle3D::step(double t, double dt) {
                 {"roll", state_->quat().roll()},
                 {"pitch", state_->quat().pitch()},
                 {"yaw", state_->quat().yaw()},
-                {"vel", vel},
-                {"yaw_rate", yaw_rate},
-                {"pitch_rate", pitch_rate},
+                {"vel", velocity_},
+                {"turn_rate", turn_rate_},
+                {"pitch_rate", pitch_rate_},
                 {"Uw", state_->vel()(0)},
                 {"Vw", state_->vel()(1)},
                 {"Ww", state_->vel()(2)},

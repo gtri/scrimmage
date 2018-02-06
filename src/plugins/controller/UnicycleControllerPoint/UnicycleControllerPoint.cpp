@@ -40,6 +40,10 @@ namespace controller {
 void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
     l_ = std::stod(params.at("l"));
     gain_ = std::stod(params.at("gain"));
+
+    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
 bool UnicycleControllerPoint::step(double t, double dt) {
@@ -53,9 +57,10 @@ bool UnicycleControllerPoint::step(double t, double dt) {
     Eigen::Matrix2d M;
     M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
     Eigen::Vector2d u_2d = M * des_vel;
-    u_(0) = u_2d(0);
-    u_(1) = u_2d(1);
-    u_(2) = 0;
+
+    vars_.output(velocity_idx_, u_2d(0));
+    vars_.output(turn_rate_idx_, u_2d(1));
+    vars_.output(pitch_rate_idx_, 0);
 
     return true;
 }

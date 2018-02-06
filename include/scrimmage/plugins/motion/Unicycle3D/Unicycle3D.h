@@ -51,15 +51,8 @@ class Unicycle3D : public scrimmage::MotionModel {
 
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
-
     virtual bool step(double t, double dt);
-
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector3d &u() = 0;
-    };
 
  protected:
     Eigen::Vector3d ctrl_u_;
@@ -74,6 +67,14 @@ class Unicycle3D : public scrimmage::MotionModel {
 
     bool write_csv_;
     CSV csv_;
+
+    int velocity_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
+
+    double velocity_ = 0;
+    double turn_rate_ = 0;
+    double pitch_rate_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

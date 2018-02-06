@@ -33,24 +33,28 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_
 
-#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/common/PID.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
 namespace controller {
-class FixedWing6DOFControllerPID : public motion::FixedWing6DOF::Controller {
+class FixedWing6DOFControllerPID : public Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d u() {return u_;}
 
  protected:
-    Eigen::Vector4d u_;
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
+
+    int thrust_idx_ = 0;
+    int elevator_idx_ = 0;
+    int aileron_idx_ = 0;
+    int rudder_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage
