@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>WaypointFollower_plugin</library>
+
+  <initial_speed>15</initial_speed>
+  <max_alt_change>30</max_alt_change>    
+  <exit_on_reaching_wpt>false</exit_on_reaching_wpt>
+
+</params>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>WaypointGenerator_plugin</library>
+
+  <!-- Waypoint definition -->
+  <!--
+      The waypoint list can consist of GPS points (lat/lon/alt) or cartesian
+      points (x/y/z). The first element for each waypoint denotes whether it is
+      a GPS or XYZ waypoint. ROLL, PITCH, and YAW are defined in degrees. YAW
+      is GPS heading when using a GPS waypoint and local cartesian YAW (theta)
+      when using an XYZ point. POS_TOL is the position tolerance in meters and
+      QUAT_TOL is the orientation tolerance in radians. If an XYZ waypoint is
+      used, the latitude/longitude/altitude origin for the mission is used for
+      conversion to GPS waypoint. If the tolerance is negative, the tolerance
+      is set to the maximum double value. The TIME element is the simulation
+      time to publish this waypoint.
+
+      [ GPS TIME LATITUDE LONGITUDE ALTITUDE ROLL PITCH YAW POS_TOL QUAT_TOL ]
+      [ XYZ TIME X Y Z ROLL PITCH YAW POS_TOL QUAT_TOL ]
+  -->
+  <waypoints>
+    [ XYZ 0 100 0 100 0 0 0 5 -1 ]
+    [ XYZ 0 300 300 100 0 0 0 5 -1 ]
+    [ GPS 50 35.721025 -120.767925 400 0 0 0 5 -1 ]
+  </waypoints>
+
+  <show_waypoints>false</show_waypoints>
+  <waypoint_color>0, 0, 255</waypoint_color>
+
+  <!-- follow_once, back_and_forth, loiter, racetrack -->
+  <mode>follow_once</mode>
+
+</params>

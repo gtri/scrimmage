@@ -35,6 +35,8 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
+
 #include <Eigen/Dense>
 #include <map>
 #include <vector>
@@ -42,44 +44,20 @@
 
 namespace scrimmage {
 namespace autonomy {
-class WayPointFollower : public scrimmage::Autonomy {
+class WaypointFollower : public scrimmage::Autonomy {
  public:
-    class WayPoint {
-     public:
-        WayPoint() : point(0, 0, 0), tolerance(10.0) {}
-        WayPoint(Eigen::Vector3d p, double t) : point(p), tolerance(t) {}
-        Eigen::Vector3d point;
-        double tolerance;
-    };
-
-    enum class WayPointType {
-        gps = 0,
-        cartesian = 1
-    };
-
-    enum class WayPointMode {
-        follow_once = 0,
-        back_and_forth = 1,
-        loiter = 2,
-        racetrack = 3
-    };
-
     virtual void init(std::map<std::string, std::string> &params);
-    virtual void draw_waypoints(Eigen::Vector3d v, const std::vector<int> &clr, double radius);
     virtual bool step_autonomy(double t, double dt);
 
  protected:
-    std::vector<WayPoint> wps_;
+    scrimmage::SubscriberPtr waypoint_list_sub_;
+
+    WaypointList wp_list_;
 
     unsigned int wp_idx_ = 0;
     double max_alt_change_ = 5;
-    double wp_tolerance_ = 10;
     bool returning_stage_ = false;
     bool exit_on_reaching_wpt_ = false;
-
-    WayPointType waypoint_type_ = WayPointType::gps;
-    WayPointMode waypoint_mode_ = WayPointMode::racetrack;
-
  private:
 };
 } // namespace autonomy
