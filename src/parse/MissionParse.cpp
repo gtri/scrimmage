@@ -586,24 +586,29 @@ bool MissionParse::create_log_dir() {
     }
 
 
-    ///////////////////////////////////////////////
-    // Create a "latest" symlink to the directory
-    ///////////////////////////////////////////////
-    // First, remove the latest symlink if it exists
-    fs::path latest_sym(root_log_dir_ + std::string("/latest"));
-    if (fs::is_symlink(latest_sym)) {
-        fs::remove(latest_sym);
-    }
+    // Create the latest log directory by default. Don't create the latest
+    // directory if the tag is defined in the mission file and it is set to
+    // false.
+    bool create_latest_dir = not (params_.count("create_latest_dir") > 0 &&
+                                  str2bool(params_["create_latest_dir"]) == false);
+    if (create_latest_dir) {
+        // Create a "latest" symlink to the directory
+        // First, remove the latest symlink if it exists
+        fs::path latest_sym(root_log_dir_ + std::string("/latest"));
+        if (fs::is_symlink(latest_sym)) {
+            fs::remove(latest_sym);
+        }
 
-    // Create the symlink
-    boost::system::error_code ec;
-    fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
-    if (ec.value() != boost::system::errc::success) {
-        cout << "WARNING: Unable to create latest log file symlink" << endl;
-        cout << "Couldn't create symlink log directory" << endl;
-        cout << "Error code value: " << ec.value() << endl;
-        cout << "Error code name: " << ec.category().name() << endl;
-        cout << "Error message: " << ec.message() << endl;
+        // Create the symlink
+        boost::system::error_code ec;
+        fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
+        if (ec.value() != boost::system::errc::success) {
+            cout << "WARNING: Unable to create latest log file symlink" << endl;
+            cout << "Couldn't create symlink log directory" << endl;
+            cout << "Error code value: " << ec.value() << endl;
+            cout << "Error code name: " << ec.category().name() << endl;
+            cout << "Error message: " << ec.message() << endl;
+        }
     }
 
     return true;

@@ -47,7 +47,7 @@ and match between the two paradigms for a single entity.
 - ``seed`` : Used to seed SCRIMMAGE's random number generator. If not specified
   or commented out, the current computer time will be used to seed the
   simulation. In some cases a user will want the scenario to begin deterministically
-  and then proceed randomly. This can be achieved by setting a seed but 
+  and then proceed randomly. This can be achieved by setting a seed but
   adding an attribute ``reseed_time`` for the time in the simulation
   when the seed should be set to something random. Additionally,
   if you want the reseed to be deterministic you can set it with the ``reseed``
@@ -94,6 +94,12 @@ and match between the two paradigms for a single entity.
 - ``log_dir`` : The log directory is the folder where scrimmage will save all
   log information from the simulation. This includes entity trajectory data,
   event data, and the random seed that was used during the simulation.
+
+- ``create_latest_dir`` : If ``true``, a symbolically linked directory named
+  ``latest`` will be created that links to the most recent ``log_dir``. This
+  tag is ``true`` by default. When executing parallel runs, the user should set
+  this to ``false``, so that multiple instances of SCRIMMAGE do not try to
+  create the same ``latest`` directory.
 
 - ``latitude_origin`` : This is the latitude at which the simulation's
   cartesian coordinate system's origin is centered.
@@ -237,15 +243,15 @@ and match between the two paradigms for a single entity.
   the entity must have an attribute ``entity_common="name"`` where ``name``
   matches what is in the attribute for the ``entity_common`` block.
 
-- ``param_common`` : plugins have their own xml files but it can be 
+- ``param_common`` : plugins have their own xml files but it can be
   useful to override their attributes in the main mission file.
   For instance, one can override the parameter ``foo`` in the main mission file with
   ``<autonomy foo="bar">MyAutonomyPlugin</autonomy>``. Regardless of what
-  is in ``MyAutonomyPlugin.xml``, ``foo`` will have a value of ``bar`` when the 
-  plugin is initialized. To abstract this further, plugins can share overriden 
-  values with a ``param_common`` block. A ``param_common`` block needs to have 
-  a ``name`` attribute (similar to ``entity_common`` blocks). The common block 
-  can be referenced as 
+  is in ``MyAutonomyPlugin.xml``, ``foo`` will have a value of ``bar`` when the
+  plugin is initialized. To abstract this further, plugins can share overriden
+  values with a ``param_common`` block. A ``param_common`` block needs to have
+  a ``name`` attribute (similar to ``entity_common`` blocks). The common block
+  can be referenced as
   ``<autonomy param_common="vehicle">MyAutonomyPlugin</autonomy>``
   where ``vehicle`` is the value given to the attribute ``name`` in the ``param_common`` block.
 
