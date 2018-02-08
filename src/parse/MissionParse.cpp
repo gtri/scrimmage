@@ -589,8 +589,8 @@ bool MissionParse::create_log_dir() {
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
     // false.
-    bool create_latest_dir = not (params_.count("create_latest_dir") > 0 &&
-                                  str2bool(params_["create_latest_dir"]) == false);
+    bool create_latest_dir = not(params_.count("create_latest_dir") > 0 &&
+                                 str2bool(params_["create_latest_dir"]) == false);
     if (create_latest_dir) {
         // Create a "latest" symlink to the directory
         // First, remove the latest symlink if it exists
