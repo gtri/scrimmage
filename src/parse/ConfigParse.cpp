@@ -132,6 +132,7 @@ bool ConfigParse::parse(std::map<std::string, std::string> &overrides,
 
     params_.clear();
     params_["XML_DIR"] = this->directory() + "/";
+    params_["XML_FILENAME"] = filename_;
     recursive_params(config_node->first_node(), overrides, params_, "");
 
     for (std::string &node_name : required_) {

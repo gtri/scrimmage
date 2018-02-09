@@ -67,6 +67,9 @@ parameter ``params`` that contains a map of strings that point to strings. This
 configuration file. The XML configuration file is located in the ``include``
 path of your project. Thus, MyFollowBehavior's XML file exists at
 ``~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.xml``.
+In addition, ``params`` will have two values, ``XML_DIR`` and ``XML_FILENAME``.
+These variables may be useful if you have data that you want to load into the plugin
+that isn't easy to put into an XML format.
 
 Since the ``initial_speed`` tag exists in the ``MyFollowBehavior.xml`` file:
 
