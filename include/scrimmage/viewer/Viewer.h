@@ -79,9 +79,14 @@ class Viewer {
 
     std::thread network_thread_;
 
-    std::map<std::string, std::string> camera_attributes_;
+    std::map<std::string, std::string> params_;
     std::string log_dir_;
     double dt_ = 0.1;
+
+    std::string local_ip_ = "localhost";
+    int local_port_ = 50051;
+    std::string remote_ip_ = "localhost";
+    int remote_port_ = 50052;
 };
 
 } // namespace scrimmage

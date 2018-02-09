@@ -33,17 +33,55 @@
 #include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/network/Interface.h>
 
-namespace sc = scrimmage;
+#include <map>
 
-int main(int, char* []) {
+#include <boost/program_options.hpp>
+
+namespace sc = scrimmage;
+namespace po = boost::program_options;
+
+void set_param(po::variables_map &vm,
+               std::map<std::string, std::string> &params, std::string str) {
+    if (vm.count(str)) {
+        params[str] = vm[str].as<std::string>();
+    }
+}
+
+int main(int argc, char* argv[]) {
+
+    // Declare the supported options.
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help,h", "produce help message")
+        ("local_ip,i", po::value<std::string>(), "The local IP address where this viewer will run.")
+        ("local_port,p", po::value<std::string>(), "The local port where this viewer will listen.")
+        ("remote_ip,r", po::value<std::string>(), "The remote IP address where SCRIMMAGE is running.")
+        ("remote_port,o", po::value<std::string>(), "The remote port where SCRIMMAGE is running.");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        cout << desc << "\n";
+        return 1;
+    }
+
     sc::InterfacePtr incoming_interface = std::make_shared<sc::Interface>();
     sc::InterfacePtr outgoing_interface = std::make_shared<sc::Interface>();
+
+    // Get the network parameters from the command line parser
+    std::map<std::string, std::string> params;
+    set_param(vm, params, "local_ip");
+    set_param(vm, params, "local_port");
+    set_param(vm, params, "remote_ip");
+    set_param(vm, params, "remote_port");
 
     sc::Viewer viewer;
     viewer.set_enable_network(true);
     viewer.set_incoming_interface(incoming_interface);
     viewer.set_outgoing_interface(outgoing_interface);
-    viewer.init({}, "", 1.0e-6);
+    viewer.init(params, "", 1.0e-6);
     viewer.run();
 
     return 0;

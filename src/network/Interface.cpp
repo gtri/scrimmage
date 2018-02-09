@@ -68,7 +68,7 @@ bool Interface::init_network(Interface::Mode_t mode, std::string ip, int port) {
         builder.AddListeningPort(result, grpc::InsecureServerCredentials());
         builder.RegisterService(&frame_service);
         std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
-        std::cout << "Server listening on: " << result << std::endl;
+        std::cout << "Server listening on " << result << std::endl;
         server->Wait(); // this function blocks (should be in thread now)
 #else
         cout << "WARNING: GRPC DISABLED!" << endl;
@@ -81,7 +81,7 @@ bool Interface::init_network(Interface::Mode_t mode, std::string ip, int port) {
         );
         std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(scrimmage_proto::ScrimmageService::NewStub(channel));
         scrimmage_stub_ = std::move(frame_temp);
-        cout << "Client - Creating channel: " << result << endl;
+        cout << "Client connecting to " << result << endl;
 #else
         cout << "WARNING: GRPC DISABLED!" << endl;
 #endif

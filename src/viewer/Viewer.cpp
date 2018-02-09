@@ -44,16 +44,19 @@ namespace scrimmage {
 
 Viewer::Viewer() : enable_network_(false) { }
 
-void Viewer::set_incoming_interface(InterfacePtr &incoming_interface)
-{ incoming_interface_ = incoming_interface; }
+void Viewer::set_incoming_interface(InterfacePtr &incoming_interface) {
+    incoming_interface_ = incoming_interface;
+}
 
-void Viewer::set_outgoing_interface(InterfacePtr &outgoing_interface)
-{ outgoing_interface_ = outgoing_interface; }
+void Viewer::set_outgoing_interface(InterfacePtr &outgoing_interface) {
+    outgoing_interface_ = outgoing_interface;
+}
 
-void Viewer::set_enable_network(bool enable)
-{ enable_network_ = enable; }
+void Viewer::set_enable_network(bool enable) {
+    enable_network_ = enable;
+}
 
-bool Viewer::init(const std::map<std::string, std::string> &camera_attributes,
+bool Viewer::init(const std::map<std::string, std::string> &params,
                   const std::string &log_dir,
                   double dt) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
@@ -78,7 +81,7 @@ bool Viewer::init(const std::map<std::string, std::string> &camera_attributes,
     renderWindowInteractor_->SetInteractorStyle(cam_int_);
     cam_int_->SetCurrentRenderer(renderer_);
 
-    camera_attributes_ = camera_attributes;
+    params_ = params;
     renderer_->SetActiveCamera(camera);
 
     // Render and interact
@@ -87,6 +90,13 @@ bool Viewer::init(const std::map<std::string, std::string> &camera_attributes,
 
     log_dir_ = log_dir;
     dt_ = dt;
+
+    // Get network parameters
+    local_ip_ = get<std::string>("local_ip", params_, local_ip_);
+    local_port_ = get<int>("local_port", params_, local_port_);
+    remote_ip_ = get<std::string>("remote_ip", params_, remote_ip_);
+    remote_port_ = get<int>("remote_port", params_, remote_port_);
+
     return true;
 }
 
@@ -94,9 +104,9 @@ bool Viewer::run() {
     double update_rate = 50; // Hz
 
     if (enable_network_) {
-        outgoing_interface_->init_network(Interface::client, "localhost", 50052);
+        outgoing_interface_->init_network(Interface::client, remote_ip_, remote_port_);
         network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_),
-                                      Interface::server, "localhost", 50051);
+                                      Interface::server, local_ip_, local_port_);
         network_thread_.detach();
     } else {
         incoming_interface_->set_mode(Interface::shared);
@@ -120,7 +130,7 @@ bool Viewer::run() {
     updater->set_max_update_rate(update_rate);
 
     std::string camera_pos_str =
-        get<std::string>("pos", camera_attributes_, "0, 1, 200");
+        get<std::string>("pos", params_, "0, 1, 200");
 
     std::vector<double> camera_pos;
     if (!str2vec(camera_pos_str, ",", camera_pos, 3)) {
@@ -129,7 +139,7 @@ bool Viewer::run() {
     }
 
     std::string camera_focal_pos_str =
-        get<std::string>("focal_point", camera_attributes_, "0, 0, 0");
+        get<std::string>("focal_point", params_, "0, 0, 0");
 
     std::vector<double> camera_focal_pos;
     if (!str2vec(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
@@ -139,12 +149,12 @@ bool Viewer::run() {
 
     updater->set_camera_reset_params(camera_pos[0], camera_pos[1], camera_pos[2],
         camera_focal_pos[0], camera_focal_pos[1], camera_focal_pos[2]);
-    updater->set_show_fps(get("show_fps", camera_attributes_, false));
+    updater->set_show_fps(get("show_fps", params_, false));
 
-    updater->set_follow_id(get("follow_id", camera_attributes_, 1) - 1);
+    updater->set_follow_id(get("follow_id", params_, 1) - 1);
 
     std::string view_mode =
-        boost::to_upper_copy(get<std::string>("mode", camera_attributes_, "follow"));
+        boost::to_upper_copy(get<std::string>("mode", params_, "follow"));
 
     if (view_mode == "FOLLOW") {
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
