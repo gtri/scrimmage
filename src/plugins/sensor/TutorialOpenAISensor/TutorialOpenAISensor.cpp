@@ -33,13 +33,15 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Keys.h>
 #include <scrimmage/proto/ExternalControl.pb.h>
 
 #include <scrimmage/plugins/sensor/TutorialOpenAISensor/TutorialOpenAISensor.h>
 
+#include <boost/range/adaptor/map.hpp>
+
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+namespace ba = boost::adaptors;
 
 REGISTER_PLUGIN(scrimmage::Sensor, TutorialOpenAISensor, TutorialOpenAISensor_plugin)
 
@@ -48,7 +50,7 @@ TutorialOpenAISensor::sensor_msg_flat(double t) {
     auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
 
     // we need these sorted but contacts are an unordered map
-    auto keys = sc::keys(*parent_->contacts());
+    auto keys = *parent_->contacts() | ba::map_keys;
     std::set<int> contact_ids(keys.begin(), keys.end());
 
     for (int contact_id : contact_ids) {

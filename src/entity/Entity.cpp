@@ -32,7 +32,6 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/Values.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>

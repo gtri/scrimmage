@@ -311,13 +311,15 @@ In this source file, we need to add the following includes:
    #include <scrimmage/plugin_manager/RegisterPlugin.h>
    #include <scrimmage/entity/Entity.h>
    #include <scrimmage/math/State.h>
-   #include <scrimmage/common/Keys.h>
    #include <scrimmage/proto/ExternalControl.pb.h>
+   #include <boost/range/adaptor/map.hpp>
+
 
    #include <Tutorial-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
 
    namespace sc = scrimmage;
    namespace sp = scrimmage_proto;
+   namespace ba = boost::adaptors;
 
 From there, we then look at method implementation. ``observation_space_params``
 creates a 4 dimensional state space for x,y, cos(heading), and sin(heading). It
@@ -350,7 +352,8 @@ well.
 
 ``sensor_msg_flat`` sets up a message type, fills in the message with the new
 state information and then returns the message as its output. As the list of
-players is unordered, we call ``sc::keys`` to create an ordered list of them.
+players is unordered, we get the keys (entity ids) from the contacts map
+and copy them into an ordered set.
 This is to ensure that the state message has the same format every time. Again,
 our message consists of 4 states: x,y, cos(heading), and sin(heading). If there
 are more than one players on the field, it would also add their states to the
@@ -364,7 +367,7 @@ message as well.
        auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
 
        // we need these sorted but contacts are an unordered map
-       auto keys = sc::keys(*parent_->contacts());
+       auto keys = *parent_->contacts() | ba::map_keys;
        std::set<int> contact_ids(keys.begin(), keys.end());
 
        for (int contact_id : contact_ids) {

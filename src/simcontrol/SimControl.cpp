@@ -129,24 +129,19 @@ bool SimControl::init() {
     if (mp_->params().count("end_condition") > 0) {
         std::string cond = mp_->params()["end_condition"];
 
-        if (cond.find("time") != std::string::npos) {
-            end_conditions_ = end_conditions_ | EndConditionFlags::TIME;
-        }
+        auto add_cond = [&](auto nm, auto flag) {
+            if (cond.find(nm) != std::string::npos) {
+                end_conditions_.insert(flag);
+            }
+        };
 
-        if (cond.find("one_team") != std::string::npos) {
-            end_conditions_ = end_conditions_ | EndConditionFlags::ONE_TEAM;
-        }
-
-        if (cond.find("none") != std::string::npos) {
-            end_conditions_ = end_conditions_ | EndConditionFlags::NONE;
-        }
-
-        if (cond.find("all_dead") != std::string::npos) {
-            end_conditions_ = end_conditions_ | EndConditionFlags::ALL_DEAD;
-        }
+        add_cond("time", EndConditionFlags::TIME);
+        add_cond("one_team", EndConditionFlags::ONE_TEAM);
+        add_cond("none", EndConditionFlags::NONE);
+        add_cond("all_dead", EndConditionFlags::ALL_DEAD);
 
     } else {
-        end_conditions_ = EndConditionFlags::TIME;
+        end_conditions_.insert(EndConditionFlags::TIME);
     }
 
     // Start with the simulation paused?
@@ -818,7 +813,8 @@ bool SimControl::wait_for_ready() {
 }
 
 bool SimControl::end_condition_reached(double t, double dt) {
-    if ((static_cast<int>(end_conditions_) & static_cast<int>(EndConditionFlags::TIME)) && t > mp_->tend() + dt/2.0) {
+
+    if (end_conditions_.count(EndConditionFlags::TIME) &&t > mp_->tend() + dt / 2.0) {
         auto msg = std::make_shared<Message<sm::EndTime>>();
         pubsub_->publish_immediate(t, pub_end_time_, msg);
         return true;
@@ -827,17 +823,17 @@ bool SimControl::end_condition_reached(double t, double dt) {
     if (ents_.empty()) {
         auto msg = std::make_shared<Message<sm::NoTeamsPresent>>();
         pubsub_->publish_immediate(t, pub_no_teams_, msg);
-        if (static_cast<int>(end_conditions_) & static_cast<int>(EndConditionFlags::ALL_DEAD | EndConditionFlags::ONE_TEAM)) {
+        if (end_conditions_.count(EndConditionFlags::ALL_DEAD) ||
+            end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
+
             std::cout << std::endl << "End of Simulation: No Entities Remaining" << std::endl;
             return true;
         }
-    }
-
-    if (static_cast<int>(end_conditions_) & static_cast<int>(EndConditionFlags::ONE_TEAM)) {
-        // Count unique team IDs
-        // note that ents_ cannot be empty from the above if statement
-        int team1_id = ents_.front()->id().team_id();
-        if (!std::any_of(ents_.rbegin(), ents_.rend(), [=](EntityPtr &ent) {return team1_id != ent->id().team_id();})) {
+    } else if (end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
+        const int team1_id = ents_.front()->id().team_id();
+        const bool all_same_team = std::all_of(ents_.rbegin(), ents_.rend(),
+            [&](EntityPtr &ent) {return team1_id == ent->id().team_id();});
+        if (all_same_team) {
             auto msg = std::make_shared<Message<sm::OneTeamPresent>>();
             pubsub_->publish_immediate(t, pub_one_team_, msg);
             std::cout << std::endl << "End of Simulation: One Team (" << team1_id << ")" << std::endl;

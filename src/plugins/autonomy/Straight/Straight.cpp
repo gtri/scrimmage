@@ -73,6 +73,9 @@ namespace autonomy {
 
 void Straight::init(std::map<std::string, std::string> &params) {
 
+    std::cout << "straight:  " << std::endl;
+    std::cout << "filename:  " << params["XML_FILENAME"] << std::endl;
+    std::cout << "xml_dir:  " << params["XML_DIR"] << std::endl;
     speed_ = scrimmage::get("speed", params, 0.0);
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);

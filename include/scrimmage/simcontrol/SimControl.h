@@ -44,6 +44,7 @@
 #include <memory>
 #include <deque>
 #include <vector>
+#include <set>
 #include <string>
 #include <thread> // NOLINT
 #include <map>
@@ -56,17 +57,7 @@ typedef std::shared_ptr<scrimmage_proto::Shape> ShapePtr;
 
 typedef std::shared_ptr<scrimmage_proto::ContactVisual> ContactVisualPtr;
 
-enum class EndConditionFlags {
-    TIME          = 1 << 0,
-    ONE_TEAM      = 1 << 1,
-    NONE          = 1 << 2,
-    ALL_DEAD      = 1 << 3
-};
-
-inline EndConditionFlags operator|(EndConditionFlags a, EndConditionFlags b) {
-    return static_cast<EndConditionFlags>(static_cast<int>(a) |
-                                            static_cast<int>(b));
-}
+enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
 
 class SimControl {
  public:
@@ -200,7 +191,7 @@ class SimControl {
 
     std::shared_ptr<Log> log_;
 
-    EndConditionFlags end_conditions_ = EndConditionFlags::NONE;
+    std::set<EndConditionFlags> end_conditions_ = {EndConditionFlags::NONE};
 
     RandomPtr random_;
 
