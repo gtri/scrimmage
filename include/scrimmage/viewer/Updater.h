@@ -146,8 +146,9 @@ class Updater : public vtkCommand {
     void shutting_down();
 
     void inc_scale();
-
     void dec_scale();
+    void inc_label_scale();
+    void dec_label_scale();
 
     void inc_follow_offset();
     void dec_follow_offset();
@@ -268,6 +269,7 @@ class Updater : public vtkCommand {
     double dt_ = 0.1;
 
     bool show_helpmenu_;
+    double label_scale_ = 0.3;
 };
 
 } // namespace scrimmage

@@ -16,6 +16,8 @@ The GUI responds to the following input keys:
    ']'                     : Increase simulation warp speed        
    '+'                     : Increase visual scale of all entities
    '-'                     : Decrease visual scale of all entities
+   'N'                     : Increase visual scale of entity numeric labels
+   'n'                     : Decrease visual scale of entity numeric labels
    'r'                     : Reset visual scale and reset camera position
    'z'                     : Zoom out from entity
    'Z'                     : Zoom in to entity (z+shift)

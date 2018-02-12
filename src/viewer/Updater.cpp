@@ -338,6 +338,9 @@ bool Updater::update_scale() {
                 m->SetElement(r, c, elem);
             }
         }
+
+        // update the label scale
+        kv.second->label->SetScale(label_scale_, label_scale_, label_scale_);
     }
     return true;
 }
@@ -788,7 +791,7 @@ bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
                 vtkSmartPointer<vtkFollower>::New();
             label->SetMapper(label_mapper);
             label->GetProperty()->SetColor(1, 1, 1); // white
-            label->SetScale(0.3, 0.3, 0.3);
+            label->SetScale(label_scale_, label_scale_, label_scale_);
 
             // Add the actor to the scene
             // renderer_->AddActor(actor);
@@ -1157,6 +1160,8 @@ void Updater::toggle_helpmenu() {
             << "]\n"
             << "+\n"
             << "-\n"
+            << "N\n"
+            << "n\n"
             << "r\n"
             << "scroll\n"
             << "z\n"
@@ -1177,6 +1182,8 @@ void Updater::toggle_helpmenu() {
             << ": increase warp speed\n"
             << ": increase visual scale\n"
             << ": decrease visual scale\n"
+            << ": increase entity label scale\n"
+            << ": decrease entity label scale\n"
             << ": reset scale/camera\n"
             << ": zoom\n"
             << ": zoom out\n"
@@ -1208,6 +1215,16 @@ void Updater::inc_scale() {
 
 void Updater::dec_scale() {
     scale_ *= 0.5;
+    scale_required_ = true;
+}
+
+void Updater::inc_label_scale() {
+    label_scale_ *= 2.0;
+    scale_required_ = true;
+}
+
+void Updater::dec_label_scale() {
+    label_scale_ *= 0.5;
     scale_required_ = true;
 }
 
