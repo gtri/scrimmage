@@ -77,7 +77,7 @@
     <!--<sensor>ContactBlobCamera</sensor>-->
 
     <autonomy show_text_label="true"
-              enable_boundary_control="true">Straight2</autonomy>
+              enable_boundary_control="true">Straight</autonomy>
 
     <base>
       <latitude>35.721112</latitude>
