@@ -50,9 +50,9 @@
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
 
-    <x>0</x>
+    <x>-1000</x>
     <y>0</y>
-    <z>5000</z>
+    <z>100</z>
 
     <vx>222</vx>
     <vy>0</vy>
@@ -65,6 +65,7 @@
     <controller print_raw_joystick_values="false">JoystickController</controller>
     <!--<controller>FixedWing6DOFControllerPID</controller>-->
     <motion_model write_csv="true">FixedWing6DOF</motion_model>
+    <!--<motion_model vel_max="100">Unicycle3D</motion_model>-->
     <visual_model>cessna</visual_model>
     <autonomy>Control3D</autonomy>
 

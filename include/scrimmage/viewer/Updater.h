@@ -89,7 +89,7 @@ class Updater : public vtkCommand {
  public:
     vtkTypeMacro(Updater, vtkCommand);
 
-    enum class ViewMode {FOLLOW = 0, FREE, OFFSET};
+    enum class ViewMode {FOLLOW = 0, FREE, OFFSET, FPV};
 
     static Updater *New() {
         return new Updater;
@@ -244,6 +244,7 @@ class Updater : public vtkCommand {
     vtkSmartPointer<vtkTextActor> time_actor_;
     vtkSmartPointer<vtkTextActor> warp_actor_;
     vtkSmartPointer<vtkTextActor> heading_actor_;
+    vtkSmartPointer<vtkTextActor> view_mode_actor_;
     vtkSmartPointer<vtkTextActor> alt_actor_;
     vtkSmartPointer<vtkTextActor> fps_actor_;
     vtkSmartPointer<vtkTextActor> helpkeys_actor_;

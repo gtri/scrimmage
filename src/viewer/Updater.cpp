@@ -102,7 +102,8 @@ void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
 
 Updater::Updater() :
         frame_time_(-1.0), update_count(0), inc_follow_(true),
-        dec_follow_(false), follow_offset_(50), show_helpmenu_(false) {
+        dec_follow_(false), view_mode_(ViewMode::FOLLOW), follow_offset_(50),
+        show_helpmenu_(false) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
     max_update_rate_ = 1.0;
@@ -112,7 +113,6 @@ Updater::Updater() :
 
     follow_id_ = 0;
 
-    view_mode_ = ViewMode::FOLLOW;
     enable_trails_ = false;
 
     gui_msg_.set_inc_warp(false);
@@ -133,8 +133,6 @@ void Updater::init(std::string log_dir, double dt) {
     origin_axes_->create(1, renderer_);
 
     renderer_->SetNearClippingPlaneTolerance(0.00001);
-
-    create_text_display();
 
     enable_fps();
     log_dir_ = log_dir;
@@ -431,12 +429,28 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
 
 void Updater::set_view_mode(ViewMode view_mode) {
     view_mode_ = view_mode;
+    switch (view_mode_) {
+        case ViewMode::FOLLOW:
+            view_mode_actor_->SetInput("View: Follow");
+            break;
+        case ViewMode::FREE:
+            view_mode_actor_->SetInput("View: Free");
+            break;
+        case ViewMode::OFFSET:
+            view_mode_actor_->SetInput("View: Offset");
+            break;
+        case ViewMode::FPV:
+            view_mode_actor_->SetInput("View: FPV");
+            break;
+        default:
+            break;
+    }
 }
 
 bool Updater::update_camera() {
     // Free mode if contacts don't exist
     if (actor_contacts_.empty()) {
-        view_mode_ = ViewMode::FREE;
+        set_view_mode(ViewMode::FREE);
         return true;
     }
 
@@ -475,12 +489,16 @@ bool Updater::update_camera() {
     double y_pos = it->second->contact.state().position().y();
     double z_pos = it->second->contact.state().position().z();
 
+    double x_pos_fp = x_pos;
+    double y_pos_fp = y_pos;
+    double z_pos_fp = z_pos;
+
     double camera_pos[3] {0, 0, 0};
     if (view_mode_ == ViewMode::FREE) {
         if (reset_camera_) {
-            x_pos = camera_reset_params_.focal_x;
-            y_pos = camera_reset_params_.focal_y;
-            z_pos = camera_reset_params_.focal_z;
+            x_pos_fp = camera_reset_params_.focal_x;
+            y_pos_fp = camera_reset_params_.focal_y;
+            z_pos_fp = camera_reset_params_.focal_z;
 
             // there appears to be some type of gimbal lock in VTK
             // so the y-position is slightly off of 0
@@ -513,11 +531,42 @@ bool Updater::update_camera() {
             camera_pos[0] = pos[0];
             camera_pos[1] = pos[1];
             camera_pos[2] = pos[2];
+
+            // Compute the camera's "up" vector
+            Eigen::Vector3d z_axis(0, 0, 1);
+            Eigen::Vector3d up = quat * z_axis;
+            renderer_->GetActiveCamera()->SetViewUp(up(0), up(1), up(2));
+
+        } else if (view_mode_ == ViewMode::FPV) {
+            sp::Quaternion sp_quat = it->second->contact.state().orientation();
+            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+
+            // Compute camera position
+            Eigen::Vector3d base_offset(1, 0, 0);
+            Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) +
+                quat * base_offset * 5;
+
+            // Compute camera focal point
+            Eigen::Vector3d cam_dir = quat.rotate(base_offset.normalized());
+            Eigen::Vector3d fp = Eigen::Vector3d(x_pos, y_pos, z_pos) + cam_dir * 100;
+
+            x_pos_fp = fp(0);
+            y_pos_fp = fp(1);
+            z_pos_fp = fp(2);
+
+            camera_pos[0] = pos[0];
+            camera_pos[1] = pos[1];
+            camera_pos[2] = pos[2];
+
+            // Compute the camera's "up" vector
+            Eigen::Vector3d z_axis(0, 0, 1);
+            Eigen::Vector3d up = quat * z_axis;
+            renderer_->GetActiveCamera()->SetViewUp(up(0), up(1), up(2));
         }
     }
     reset_camera_ = false;
     renderer_->GetActiveCamera()->SetPosition(camera_pos);
-    renderer_->GetActiveCamera()->SetFocalPoint(x_pos, y_pos, z_pos);
+    renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
     renderer_->ResetCameraClippingRange(); // fixes missing terrain/entity issue
     return true;
 }
@@ -570,16 +619,19 @@ bool Updater::update_text_display() {
 void Updater::next_mode() {
     switch (view_mode_) {
         case ViewMode::FOLLOW:
-            view_mode_ = ViewMode::FREE;
+            set_view_mode(ViewMode::FREE);
             break;
         case ViewMode::FREE:
-            view_mode_ = ViewMode::OFFSET;
+            set_view_mode(ViewMode::OFFSET);
             break;
         case ViewMode::OFFSET:
-            view_mode_ = ViewMode::FOLLOW;
+            set_view_mode(ViewMode::FPV);
+            break;
+        case ViewMode::FPV:
+            set_view_mode(ViewMode::FOLLOW);
             break;
         default:
-            view_mode_ = ViewMode::FOLLOW;
+            set_view_mode(ViewMode::FOLLOW);
             break;
     }
 }
@@ -732,8 +784,13 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
 void Updater::set_max_update_rate(double max_update_rate)
 { max_update_rate_ = max_update_rate; }
 
-void Updater::set_renderer(vtkSmartPointer<vtkRenderer> &renderer)
-{ renderer_ = renderer; }
+void Updater::set_renderer(vtkSmartPointer<vtkRenderer> &renderer) {
+    renderer_ = renderer;
+
+    // After the renderer is set, we can setup the text display
+    create_text_display();
+    set_view_mode(ViewMode::FOLLOW);
+}
 
 void Updater::set_rwi(vtkSmartPointer<vtkRenderWindowInteractor> &rwi)
 { rwi_ = rwi; }
@@ -1239,7 +1296,7 @@ void Updater::reset_scale() {
 
 void Updater::set_reset_camera() {
     reset_camera_ = true;
-    view_mode_ = ViewMode::FREE;
+    set_view_mode(ViewMode::FREE);
 }
 
 void Updater::set_follow_id(int follow_id) {
@@ -1262,66 +1319,85 @@ void Updater::set_camera_reset_params(double pos_x, double pos_y, double pos_z,
 
 void Updater::reset_view() {
     reset_scale();
-    view_mode_ = ViewMode::FREE;
+    set_view_mode(ViewMode::FREE);
 }
 
 void Updater::create_text_display() {
+    int text_y_spacing = 30;
+    int text_y = 10;
+    int text_x = 10;
+
     // Add the time (text) display
     time_actor_ = vtkSmartPointer<vtkTextActor>::New();
     time_actor_->SetInput("000.000 s");
-    time_actor_->SetPosition(10, 10);
+    time_actor_->SetPosition(text_x, text_y);
     time_actor_->GetTextProperty()->SetFontSize(24);
     time_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(time_actor_);
+    text_y += text_y_spacing;
 
-    // Add the warp (text) display
-    warp_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    warp_actor_->SetInput("50.00 X");
-    warp_actor_->SetPosition(300, 10);
-    warp_actor_->GetTextProperty()->SetFontSize(24);
-    warp_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(warp_actor_);
+    // Add the view mode (text) display
+    view_mode_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    view_mode_actor_->SetInput("View: Follow");
+    view_mode_actor_->SetPosition(text_x, text_y);
+    view_mode_actor_->GetTextProperty()->SetFontSize(24);
+    view_mode_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(view_mode_actor_);
+    text_y += text_y_spacing;
 
     // Add the heading (text) display
     heading_actor_ = vtkSmartPointer<vtkTextActor>::New();
     heading_actor_->SetInput("H: 360.00");
-    heading_actor_->SetPosition(10, 100);
+    heading_actor_->SetPosition(text_x, text_y);
     heading_actor_->GetTextProperty()->SetFontSize(24);
     heading_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(heading_actor_);
+    text_y += text_y_spacing;
 
     // Add the alt (text) display
     alt_actor_ = vtkSmartPointer<vtkTextActor>::New();
     alt_actor_->SetInput("Alt: 360.00");
-    alt_actor_->SetPosition(10, 150);
+    alt_actor_->SetPosition(text_x, text_y);
     alt_actor_->GetTextProperty()->SetFontSize(24);
     alt_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(alt_actor_);
-
-    // Add the fps (text) display
-    fps_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    fps_actor_->SetInput("FPS: 60.0");
-    fps_actor_->SetPosition(400, 10);
-    fps_actor_->GetTextProperty()->SetFontSize(24);
-    fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(fps_actor_);
 
     // Add the help menu
     // NOTE: this requires two vtkTextActor's because you can't
     // get the text to align by ':' otherwise
     helpkeys_actor_ = vtkSmartPointer<vtkTextActor>::New();
     helpkeys_actor_->SetInput(" ");
-    helpkeys_actor_->SetPosition(10, 200);
+    helpkeys_actor_->SetPosition(text_x, 200);
     helpkeys_actor_->GetTextProperty()->SetFontSize(14);
     helpkeys_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(helpkeys_actor_);
     // Add helpmenu values (descriptions)
     helpvalues_actor_ = vtkSmartPointer<vtkTextActor>::New();
     helpvalues_actor_->SetInput(" ");
-    helpvalues_actor_->SetPosition(120, 200);
+    helpvalues_actor_->SetPosition(text_x + 120, 200);
     helpvalues_actor_->GetTextProperty()->SetFontSize(14);
     helpvalues_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(helpvalues_actor_);
+
+    text_x = 300;
+
+    // Add the warp (text) display
+    warp_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    warp_actor_->SetInput("50.00 X");
+    warp_actor_->SetPosition(text_x, 10);
+    warp_actor_->GetTextProperty()->SetFontSize(24);
+    warp_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(warp_actor_);
+
+    text_x += 100;
+
+    // Add the fps (text) display
+    fps_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    fps_actor_->SetInput("FPS: 60.0");
+    fps_actor_->SetPosition(text_x, 10);
+    fps_actor_->GetTextProperty()->SetFontSize(24);
+    fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(fps_actor_);
 }
 
 void Updater::enable_fps() {
