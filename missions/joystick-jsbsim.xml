@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
+    name="SASC Capture the Flag">
+  
+  <run start="0.0" end="100" dt="0.0083333" 
+       time_warp="1" 
+       enable_gui="true"
+       network_gui="false"
+       start_paused="false"/>
+  
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+  
+  <end_condition>none</end_condition> <!-- time, one_team, none-->  
+  
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+  
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+  
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+  
+  <log_dir>~/.scrimmage/logs</log_dir>  
+      
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>      
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+  
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <metrics>SimpleCollisionMetrics</metrics>
+  
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>1714060370</seed>
+  
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity>
+    <team_id>1</team_id> 
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+    
+    <x>-1000</x>
+    <y>0</y>
+    <z>200</z>
+    <heading>0</heading>            
+    
+    <motion_model>JSBSimControl</motion_model>
+    <controller>JoystickController</controller>
+    <script_name>rascal_no_autopilot.xml</script_name>
+    <visual_model>cessna</visual_model>
+    <autonomy>Straight</autonomy>    
+    
+  </entity>
+
+</runscript>

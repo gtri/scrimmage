@@ -75,6 +75,13 @@ std::tuple<int, int, int> JSBSimControl::version() {
 
 bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          std::map<std::string, std::string> &params) {
+
+    // Setup variable index for controllers
+    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::In);
+    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::In);
+
     roll_pid_.set_parameters(std::stod(params["roll_kp"]),
                              std::stod(params["roll_ki"]),
                              std::stod(params["roll_kd"]));
@@ -177,16 +184,15 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimControl::step(double time, double dt) {
-    Eigen::Vector4d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
-    double u_aileron = ba::clamp(u(0), -1.0, 1.0);
-    double u_elevator = ba::clamp(u(1), -1.0, 1.0);
-    double u_rudder = ba::clamp(u(2), -1.0, 1.0);
-    double u_throttle = ba::clamp(u(3), -1.0, 1.0);
+    thrust_ = ba::clamp(vars_.input(thrust_idx_), -1.0, 1.0);
+    delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
+    delta_aileron_ = ba::clamp(vars_.input(aileron_idx_), -1.0, 1.0);
+    delta_rudder_ = ba::clamp(vars_.input(rudder_idx_), -1.0, 1.0);
 
-    ap_aileron_cmd_node_->setDoubleValue(u_aileron);
-    ap_elevator_cmd_node_->setDoubleValue(u_elevator);
-    ap_rudder_cmd_node_->setDoubleValue(u_rudder);
-    ap_throttle_cmd_node_->setDoubleValue(u_throttle);
+    ap_aileron_cmd_node_->setDoubleValue(delta_aileron_);
+    ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
+    ap_rudder_cmd_node_->setDoubleValue(delta_rudder_);
+    ap_throttle_cmd_node_->setDoubleValue(thrust_);
 
     // double u_roll = u(0);
     // double u_pitch = u(1);
