@@ -33,7 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_FWD_DECL_H_
 #define INCLUDE_SCRIMMAGE_FWD_DECL_H_
 
+#include <string>
 #include <memory>
+#include <map>
 #include <unordered_map>
 
 namespace GeographicLib {
@@ -64,17 +66,28 @@ using ContactMapPtr = std::shared_ptr<ContactMap>;
 class Entity;
 using EntityPtr = std::shared_ptr<Entity>;
 
+class Time;
+using TimePtr = std::shared_ptr<Time>;
+
 class Network;
 using NetworkPtr = std::shared_ptr<Network>;
+using NetworkMap = std::map<std::string, NetworkPtr>;
+using NetworkMapPtr = std::shared_ptr<NetworkMap>;
 
 class NetworkDevice;
 using NetworkDevicePtr = std::shared_ptr<NetworkDevice>;
 
+class PubSub;
+using PubSubPtr = std::shared_ptr<PubSub>;
+
+class PublisherBase;
+using PublisherBasePtr = std::shared_ptr<PublisherBase>;
+
 class Publisher;
 using PublisherPtr = std::shared_ptr<Publisher>;
 
-class Subscriber;
-using SubscriberPtr = std::shared_ptr<Subscriber>;
+class SubscriberBase;
+using SubscriberBasePtr = std::shared_ptr<SubscriberBase>;
 
 class MessageBase;
 using MessageBasePtr = std::shared_ptr<MessageBase>;

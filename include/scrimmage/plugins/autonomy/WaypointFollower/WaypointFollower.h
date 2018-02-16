@@ -50,8 +50,6 @@ class WaypointFollower : public scrimmage::Autonomy {
     virtual bool step_autonomy(double t, double dt);
 
  protected:
-    scrimmage::SubscriberPtr waypoint_list_sub_;
-
     WaypointList wp_list_;
 
     unsigned int wp_idx_ = 0;

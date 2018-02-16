@@ -73,6 +73,8 @@ class External {
     std::shared_ptr<Log> log_;
     double last_t_;
     std::mutex mutex_;
+    PubSubPtr pubsub_;
+    TimePtr time_;
 
  public:
     bool step(double t) {
@@ -175,7 +177,7 @@ class External {
 
     template <class RosType, class Ros2Sc>
     boost::function<void(const boost::shared_ptr<RosType const>&)>
-    sub_cb(Ros2Sc ros2sc, SubscriberPtr sc_sub) {
+    sub_cb(Ros2Sc ros2sc, SubscriberBasePtr sc_sub) {
 
         return [=](const boost::shared_ptr<RosType const>&ros_msg) {
             auto sc_msg = ros2sc(*ros_msg);

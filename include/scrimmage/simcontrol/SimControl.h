@@ -153,6 +153,8 @@ class SimControl {
 
     std::string jsbsim_root_;
 
+    TimePtr time_;
+
     double t0_ = 0;
     double tend_ = 0;
     double dt_ = 0;
@@ -203,8 +205,8 @@ class SimControl {
 
     std::list<EntityInteractionPtr> ent_inters_;
     std::list<MetricsPtr> metrics_;
-
-    NetworkPtr network_;
+    NetworkMapPtr networks_;
+    PubSubPtr pubsub_;
 
     int next_id_ = 1;
     FileSearch file_search_;
@@ -217,14 +219,16 @@ class SimControl {
     void run_dynamics();
     bool run_interaction_detection();
     bool run_logging();
+    bool run_metrics();
     void run_remove_inactive();
     void run_check_network_msgs();
     void run_send_shapes();
     void run_send_contact_visuals();
+    bool run_networks();
 
     bool send_shutdown_msg_ = true;
 
-    PluginPtr pubsub_;
+    PluginPtr sim_plugin_;
     PublisherPtr pub_end_time_;
     PublisherPtr pub_ent_gen_;
     PublisherPtr pub_ent_rm_;

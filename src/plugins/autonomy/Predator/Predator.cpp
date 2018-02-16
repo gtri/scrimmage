@@ -57,7 +57,7 @@ void Predator::init(std::map<std::string, std::string> &params) {
 
     allow_prey_switching_ = sc::get<bool>("allow_prey_switching", params, false);
 
-    capture_ent_pub_ = create_publisher("CaptureEntity");
+    capture_ent_pub_ = advertise("GlobalNetwork", "CaptureEntity", 10);
 
     follow_id_ = -1;
 
@@ -104,7 +104,7 @@ bool Predator::step_autonomy(double t, double dt) {
             auto msg = std::make_shared<sc::Message<sm::CaptureEntity>>();
             msg->data.set_source_id(parent_->id().id());
             msg->data.set_target_id(it->second.id().id());
-            capture_ent_pub_->publish(msg, t);
+            capture_ent_pub_->publish(msg);
         }
     }
 

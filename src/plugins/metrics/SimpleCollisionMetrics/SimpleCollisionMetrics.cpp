@@ -35,6 +35,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
@@ -64,42 +65,41 @@ SimpleCollisionMetrics::SimpleCollisionMetrics() {}
 void SimpleCollisionMetrics::init(std::map<std::string, std::string> &params) {
     params_ = params;
 
-    sub_team_collision_ = create_subscriber("TeamCollision");
-    sub_non_team_collision_ = create_subscriber("NonTeamCollision");
-    sub_ground_collision_ = create_subscriber("GroundCollision");
-    sub_ent_gen_ = create_subscriber("EntityGenerated");
-    sub_ent_rm_ = create_subscriber("EntityRemoved");
-    sub_ent_pres_end_ = create_subscriber("EntityPresentAtEnd");
+    auto teamcoll_cb = [&] (scrimmage::MessagePtr<sm::TeamCollision> msg) {
+        scores_[msg->data.entity_id_1()].increment_team_collisions();
+        scores_[msg->data.entity_id_2()].increment_team_collisions();
+    };
+    subscribe<sm::TeamCollision>("GlobalNetwork", "TeamCollision", 10, teamcoll_cb);
+
+    auto nonteamcoll_cb = [&] (scrimmage::MessagePtr<sm::NonTeamCollision> msg) {
+        scores_[msg->data.entity_id_1()].increment_non_team_collisions();
+        scores_[msg->data.entity_id_2()].increment_non_team_collisions();
+    };
+    subscribe<sm::NonTeamCollision>("GlobalNetwork", "NonTeamCollision", 10, nonteamcoll_cb);
+
+    auto groundcoll_cb = [&] (scrimmage::MessagePtr<sm::GroundCollision> msg) {
+        scores_[msg->data.entity_id()].increment_ground_collisions();
+    };
+    subscribe<sm::GroundCollision>("GlobalNetwork", "GroundCollision", 10, groundcoll_cb);
+
+    auto entitygen_cb = [&] (scrimmage::MessagePtr<sm::EntityGenerated> msg) {
+        scores_[msg->data.entity_id()].set_flight_time_start(msg->time);
+    };
+    subscribe<sm::EntityGenerated>("GlobalNetwork", "EntityGenerated", 10, entitygen_cb);
+
+    auto entityrem_cb = [&] (scrimmage::MessagePtr<sm::EntityRemoved> msg) {
+        scores_[msg->data.entity_id()].set_flight_time_end(msg->time);
+    };
+    subscribe<sm::EntityRemoved>("GlobalNetwork", "EntityRemoved", 10, entityrem_cb);
+
+    auto entity_pre_end_cb = [&] (scrimmage::MessagePtr<sm::EntityPresentAtEnd> msg) {
+        scores_[msg->data.entity_id()].set_flight_time_end(time_->t());
+        surviving_teams_[(*id_to_team_map_)[msg->data.entity_id()]] = true;
+    };
+    subscribe<sm::EntityPresentAtEnd>("GlobalNetwork", "EntityPresentAtEnd", 10, entity_pre_end_cb);
 }
 
 bool SimpleCollisionMetrics::step_metrics(double t, double dt) {
-    for (auto msg : sub_team_collision_->msgs<sc::Message<sm::TeamCollision>>()) {
-        scores_[msg->data.entity_id_1()].increment_team_collisions();
-        scores_[msg->data.entity_id_2()].increment_team_collisions();
-    }
-
-    for (auto msg : sub_non_team_collision_->msgs<sc::Message<sm::NonTeamCollision>>()) {
-        scores_[msg->data.entity_id_1()].increment_non_team_collisions();
-        scores_[msg->data.entity_id_2()].increment_non_team_collisions();
-    }
-
-    for (auto msg : sub_ground_collision_->msgs<sc::Message<sm::GroundCollision>>()) {
-        scores_[msg->data.entity_id()].increment_ground_collisions();
-    }
-
-    for (auto msg : sub_ent_gen_->msgs<sc::Message<sm::EntityGenerated>>()) {
-        scores_[msg->data.entity_id()].set_flight_time_start(t);
-    }
-
-    for (auto msg : sub_ent_rm_->msgs<sc::Message<sm::EntityRemoved>>()) {
-        scores_[msg->data.entity_id()].set_flight_time_end(t);
-    }
-
-    for (auto msg : sub_ent_pres_end_->msgs<sc::Message<sm::EntityPresentAtEnd>>()) {
-        scores_[msg->data.entity_id()].set_flight_time_end(t);
-        surviving_teams_[(*id_to_team_map_)[msg->data.entity_id()]] = true;
-    }
-
     return true;
 }
 
@@ -117,11 +117,23 @@ void SimpleCollisionMetrics::calc_team_scores() {
         }
     }
 
+    // If the end_time is <= beginning time, all entities survived, need
+    // to use the ending simulation time.
+    if (end_time <= beg_time) {
+        end_time = time_->t();
+    }
+
     double max_flight_time = end_time - beg_time;
 
     for (auto &kv : scores_) {
 
         SimpleCollisionScore &score = kv.second;
+
+        // If the end time is less than start time, the flight time was never
+        // set. Use the ending simulation time.
+        if (score.flight_time_end() <= score.flight_time_start()) {
+            score.set_flight_time_end(end_time);
+        }
 
         // Set the max flight time for each score:
         score.set_max_flight_time(max_flight_time);

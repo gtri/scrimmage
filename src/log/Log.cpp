@@ -61,7 +61,8 @@ namespace sp = scrimmage_proto;
 
 namespace scrimmage {
 
-Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(), contact_visual_output_() {
+Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(),
+             contact_visual_output_() {
     // Verify that the version of the library that we linked against is
     // compatible with the version of the headers we compiled against.
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -113,12 +114,6 @@ bool Log::init(std::string dir, Log::Mode mode) {
     }
 
     return true;
-}
-
-void Log::init_network(NetworkPtr network) {
-    pubsub_ = std::make_shared<Plugin>();
-    pubsub_->set_network(network);
-    sub_ent_collisions_ = pubsub_->create_subscriber("EntityCollision");
 }
 
 bool Log::write_ascii(std::string str) {

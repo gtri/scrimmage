@@ -43,11 +43,10 @@
 
 namespace scrimmage {
 namespace controller {
-class FixedWing6DOFControllerROS : public scrimmage::motion::FixedWing6DOF::Controller {
+class FixedWing6DOFControllerROS : public Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d u() {return u_;}
 
  protected:
     Eigen::Vector4d u_;
@@ -56,6 +55,11 @@ class FixedWing6DOFControllerROS : public scrimmage::motion::FixedWing6DOF::Cont
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Subscriber cmd_vel_sub_;
     geometry_msgs::Twist cmd_vel_;
+
+    int thrust_idx_ = 0;
+    int elevator_idx_ = 0;
+    int aileron_idx_ = 0;
+    int rudder_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

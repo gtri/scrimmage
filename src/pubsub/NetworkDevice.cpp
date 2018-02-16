@@ -38,14 +38,18 @@
 
 namespace scrimmage {
 
+NetworkDevice::NetworkDevice() {
+}
+
 NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
-        topic_(rhs.topic_), msg_list_(rhs.msg_list_),
-        plugin_(rhs.plugin()), max_queue_size_(rhs.max_queue_size_) {
+    topic_(rhs.topic_),
+    msg_list_(rhs.msg_list_),
+    max_queue_size_(rhs.max_queue_size_) {
 }
 
 NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :
-        topic_(rhs.topic_), msg_list_(rhs.msg_list_),
-        plugin_(rhs.plugin()), max_queue_size_(rhs.max_queue_size_) {
+    topic_(rhs.topic_), msg_list_(rhs.msg_list_),
+    max_queue_size_(rhs.max_queue_size_) {
 }
 
 std::string NetworkDevice::get_topic() const {return topic_;}
@@ -59,8 +63,6 @@ void NetworkDevice::set_msg_list(std::list<MessageBasePtr> msg_list) {
 
 void NetworkDevice::set_max_queue_size(unsigned int size) {max_queue_size_ = size;}
 unsigned int NetworkDevice::max_queue_size() {return max_queue_size_;}
-
-PluginPtr &NetworkDevice::plugin() {return plugin_;}
 
 void NetworkDevice::add_msg(MessageBasePtr msg) {
     mutex_.lock();
@@ -78,4 +80,8 @@ void NetworkDevice::print_str(std::string msg) {
     std::cout << msg << std::endl;
 }
 
+PluginPtr & NetworkDevice::plugin() {
+    return plugin_;
+}
+//
 } // namespace scrimmage

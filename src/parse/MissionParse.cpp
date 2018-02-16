@@ -120,6 +120,12 @@ bool MissionParse::parse(std::string filename) {
         entity_interactions_.push_back(node->value());
     }
 
+    // Parse network name tags
+    for (rapidxml::xml_node<> *node = runscript_node->first_node("network");
+         node != 0; node = node->next_sibling("network")) {
+        network_names_.push_back(node->value());
+    }
+
     // Parse metrics tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("metrics");
          node != 0; node = node->next_sibling("metrics")) {
@@ -753,6 +759,10 @@ void MissionParse::set_job_number(int job_num) { job_number_ = job_num; }
 
 std::list<std::string> MissionParse::entity_interactions()
 { return entity_interactions_; }
+
+std::list<std::string> & MissionParse::network_names() {
+    return network_names_;
+}
 
 std::list<std::string> MissionParse::metrics()
 { return metrics_; }

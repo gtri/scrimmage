@@ -167,9 +167,6 @@ class Log {
     std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > utm_terrain_;
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_;
 
-    PluginPtr pubsub_;
-    SubscriberPtr sub_ent_collisions_;
-
     bool writeDelimitedTo(
         const google::protobuf::MessageLite& message,
         ZeroCopyOutputStreamPtr rawOutput);

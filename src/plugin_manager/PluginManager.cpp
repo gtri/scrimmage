@@ -92,7 +92,7 @@ int PluginManager::check_library(std::string lib_path) {
     info.path = lib_path;
     info.handle = lib_handle;
 
-    plugins_[plugin_type][plugin_name] = info;
+    plugins_info_[plugin_type][plugin_name] = info;
 
     // dlclose(lib_handle);
 
@@ -117,8 +117,8 @@ void PluginManager::print_plugins(std::string plugin_type, std::string title, Fi
     std::cout << "------------------------------" << std::endl;
     std::cout << title << ": " << std::endl;
     std::cout << "------------------------------" << std::endl;
-    if (plugins_.count(plugin_type) > 0) {
-        for (auto &kv : plugins_[plugin_type]) {
+    if (plugins_info_.count(plugin_type) > 0) {
+        for (auto &kv : plugins_info_[plugin_type]) {
             std::cout << kv.first << std::endl;
         }
     } else {
@@ -129,7 +129,7 @@ void PluginManager::print_plugins(std::string plugin_type, std::string title, Fi
 
 void PluginManager::print_returned_plugins() {
     std::cout << "using the following plugins:" << std::endl;
-    for (auto &kv : plugins_) {
+    for (auto &kv : plugins_info_) {
         for (auto &kv2 : kv.second) {
             if (kv2.second.returned) {
                 std::cout << kv.first << "::" << kv2.first << std::endl;
@@ -139,8 +139,8 @@ void PluginManager::print_returned_plugins() {
 }
 
 PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::string &plugin_name) {
-    auto it = plugins_.find(plugin_type);
-    if (it != plugins_.end()) {
+    auto it = plugins_info_.find(plugin_type);
+    if (it != plugins_info_.end()) {
         auto it2 = it->second.find(plugin_name);
         if (it2 != it->second.end()) {
             it2->second.returned = true;
@@ -181,6 +181,7 @@ PluginPtr PluginManager::make_plugin(std::string plugin_type,
     // first, if this has already been processed, return it
     PluginPtr plugin = make_plugin_helper(plugin_type, plugin_name_so);
     if (plugin != nullptr) {
+        // plugins_.push_back(plugin);
         return plugin;
     }
 
@@ -199,6 +200,7 @@ PluginPtr PluginManager::make_plugin(std::string plugin_type,
                 // will do this already
                 so_files_.erase(it);
                 PluginPtr ptr = make_plugin_helper(plugin_type, plugin_name_so);
+                // plugins_.push_back(ptr);
                 return ptr;
             }
         }
@@ -212,7 +214,9 @@ PluginPtr PluginManager::make_plugin(std::string plugin_type,
                 // don't need to check again that it is in the map since the helper
                 // will do this already
                 so_files_.erase(it);
-                return make_plugin_helper(plugin_type, plugin_name_so);
+                PluginPtr ptr = make_plugin_helper(plugin_type, plugin_name_so);
+                // plugins_.push_back(ptr);
+                return ptr;
             }
         }
         it++;
@@ -225,7 +229,7 @@ PluginPtr PluginManager::make_plugin(std::string plugin_type,
 std::map<std::string, std::unordered_set<std::string>> PluginManager::get_commits() {
     std::map<std::string, std::unordered_set<std::string>> commits;
     std::string sha;
-    for (auto &kv : plugins_) {
+    for (auto &kv : plugins_info_) {
         for (auto &kv2 : kv.second) {
             scrimmage::PluginInfo &plugin_info = kv2.second;
             if (!plugin_info.returned) continue;

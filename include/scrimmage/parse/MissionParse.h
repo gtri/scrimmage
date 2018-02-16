@@ -123,6 +123,7 @@ class MissionParse {
     void set_job_number(int job_num);
 
     std::list<std::string> entity_interactions();
+    std::list<std::string> & network_names();
 
     std::list<std::string> metrics();
 
@@ -177,6 +178,7 @@ class MissionParse {
 
     std::list<std::string> entity_interactions_;
     std::list<std::string> metrics_;
+    std::list<std::string> network_names_;
 
     // Key: entity_description ID in EntityDesc_t map
     // Value: generation

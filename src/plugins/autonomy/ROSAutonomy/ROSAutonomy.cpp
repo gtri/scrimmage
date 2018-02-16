@@ -95,7 +95,14 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
     laser_trans_.transform.rotation = laser_quat;
 
-    pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud");
+    auto pc_cb = [&] (scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) {
+        pcl_ = msg->data;
+    };
+    subscribe<sc::sensor::RayTrace::PointCloud>(
+        "GlobalNetwork",
+        std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud",
+        10, pc_cb);
+
 
     desired_state_->vel() = Eigen::Vector3d::UnitX() * 0;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
@@ -109,30 +116,28 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
 
     ros::spinOnce(); // check for new ROS messages
 
-    // Convert scrimmage point cloud into laser scan
-    for (auto msg : pcl_sub_->msgs<sc::Message<sc::sensor::RayTrace::PointCloud>>()) {
-        double fov_half = msg->data.num_rays_horiz * msg->data.angle_res_horiz / 2.0;
-        sensor_msgs::LaserScan laser_msg;
-        laser_msg.angle_min = -fov_half;
-        laser_msg.angle_max = fov_half;
-        laser_msg.angle_increment = msg->data.angle_res_horiz;
-        laser_msg.time_increment = 0;
-        laser_msg.scan_time = 0;
-        laser_msg.range_min = msg->data.min_range;
-        laser_msg.range_max = msg->data.max_range;
-        laser_msg.ranges.resize(msg->data.points.size());
-        laser_msg.intensities.resize(msg->data.points.size());
+    // Convert scrimmage point cloud into ROS laser scan message
+    double fov_half = pcl_.num_rays_horiz * pcl_.angle_res_horiz / 2.0;
+    sensor_msgs::LaserScan laser_msg;
+    laser_msg.angle_min = -fov_half;
+    laser_msg.angle_max = fov_half;
+    laser_msg.angle_increment = pcl_.angle_res_horiz;
+    laser_msg.time_increment = 0;
+    laser_msg.scan_time = 0;
+    laser_msg.range_min = pcl_.min_range;
+    laser_msg.range_max = pcl_.max_range;
+    laser_msg.ranges.resize(pcl_.points.size());
+    laser_msg.intensities.resize(pcl_.points.size());
 
-        int i = 0;
-        for (sc::sensor::RayTrace::PCPoint &p : msg->data.points) {
-            laser_msg.ranges[i] = p.point.norm();
-            laser_msg.intensities[i] = p.intensity;
-            i++;
-        }
-        laser_msg.header.stamp = ros_time;
-        laser_msg.header.frame_id = ros_namespace_ + "/base_laser";
-        base_scan_pub_.publish(laser_msg);
+    int i = 0;
+    for (sc::sensor::RayTrace::PCPoint &p : pcl_.points) {
+        laser_msg.ranges[i] = p.point.norm();
+        laser_msg.intensities[i] = p.intensity;
+        i++;
     }
+    laser_msg.header.stamp = ros_time;
+    laser_msg.header.frame_id = ros_namespace_ + "/base_laser";
+    base_scan_pub_.publish(laser_msg);
 
     ///////////////////////////////////////////////////////////////////////////
     // Publish odometry transform (odom -> base_link)
@@ -156,7 +161,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     odom.pose.pose.position.z = state_->pos()(2);
     odom.pose.pose.orientation = odom_quat;
 
-    // set the velocity (TODO: Might be wrong frame)
+    // set the velocity
     odom.child_frame_id = ros_namespace_ + "/base_link";
     odom.twist.twist.linear.x = state_->vel()(0);
     odom.twist.twist.linear.y = state_->vel()(1);

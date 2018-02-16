@@ -35,6 +35,8 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+
 #include <map>
 #include <string>
 
@@ -46,8 +48,8 @@ class AvoidWalls : public scrimmage::Autonomy {
     virtual bool step_autonomy(double t, double dt);
 
  protected:
-    scrimmage::SubscriberPtr pcl_sub_;
     double avoid_distance_;
+    sensor::RayTrace::PointCloud point_cloud_;
 };
 } // namespace autonomy
 } // namespace scrimmage

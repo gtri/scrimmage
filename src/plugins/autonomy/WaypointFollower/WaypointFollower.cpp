@@ -61,8 +61,6 @@ namespace autonomy {
 
 void WaypointFollower::init(std::map<std::string, std::string> &params) {
 
-    waypoint_list_sub_ = create_subscriber("WaypointList");
-
     double initial_speed = sc::get<double>("initial_speed", params, 21.0);
     max_alt_change_ = sc::get<double>("max_alt_change", params, 5.0);
     exit_on_reaching_wpt_ = sc::str2bool(params.at("exit_on_reaching_wpt"));
@@ -71,6 +69,13 @@ void WaypointFollower::init(std::map<std::string, std::string> &params) {
     desired_state_->vel() = Eigen::Vector3d::UnitX() * initial_speed;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+
+    auto wp_list_cb = [&] (scrimmage::MessagePtr<WaypointList> msg) {
+        // Received a new waypoint list, reset
+        wp_list_ = msg->data;
+        wp_idx_ = 0;
+    };
+    subscribe<WaypointList>("GlobalNetwork", "WaypointList", 10, wp_list_cb);
 
     // TODO: Probably should be move loiter behavior into own plugin
     // // create loiter waypoints around the last specified waypoint
@@ -111,12 +116,6 @@ void WaypointFollower::init(std::map<std::string, std::string> &params) {
 }
 
 bool WaypointFollower::step_autonomy(double t, double dt) {
-    for (auto msg : waypoint_list_sub_->msgs<sc::Message<WaypointList>>()) {
-        // Received a new waypoint list, reset
-        wp_list_ = msg->data;
-        wp_idx_ = 0;
-    }
-
     if (wp_list_.waypoints().size() == 0) {
         return true;
     }

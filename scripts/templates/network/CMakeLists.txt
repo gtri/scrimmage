@@ -1,7 +1,7 @@
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-SET (LIBRARY_NAME UnitDisk_plugin)
+SET (LIBRARY_NAME (>>>PLUGIN_NAME<<<)_plugin)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
@@ -12,7 +12,8 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+  )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

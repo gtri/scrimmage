@@ -21,7 +21,7 @@ set(SRCS
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
-    pubsub/MessageBase.cpp pubsub/Network.cpp pubsub/NetworkDevice.cpp pubsub/Publisher.cpp
+    pubsub/MessageBase.cpp pubsub/Network.cpp pubsub/NetworkDevice.cpp pubsub/Publisher.cpp pubsub/PubSub.cpp
     sensor/Sensor.cpp
     simcontrol/SimControl.cpp
     common/DelayedTask.cpp

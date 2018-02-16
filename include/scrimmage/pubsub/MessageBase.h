@@ -47,14 +47,13 @@ class MessageBase {
     virtual ~MessageBase() {}       // http://stackoverflow.com/a/5831797
 
     static const int undefined_id = -1;
-    int sender;
     double time;
     std::string serialized_data;
 
 #if ENABLE_PYTHON_BINDINGS == 0
-    explicit MessageBase(int _sender = undefined_id, std::string _serialized_data = "");
+    explicit MessageBase(std::string _serialized_data = "");
 #else
-    explicit MessageBase(int _sender = undefined_id, std::string _serialized_data = "", pybind11::object _py_data = pybind11::none());
+    explicit MessageBase(std::string _serialized_data = "", pybind11::object _py_data = pybind11::none());
 
     void serialize_to_python(std::string module_name, std::string object_name);
 

@@ -36,6 +36,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
@@ -113,7 +114,8 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
                        boundary_->shapes().end());
     }
 
-    pub_boundary_ = create_publisher("Boundary");
+    std::string network_name = sc::get("network_name", plugin_params, "GlobalNetwork");
+    pub_boundary_ = advertise(network_name, "Boundary", 10);
 
     return true;
 }
@@ -125,7 +127,7 @@ bool Boundary::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         boundary_published_ = true;
         auto msg = std::make_shared<sc::Message<BoundaryInfo>>();
         msg->data = boundary_info_;
-        publish_immediate(t, pub_boundary_, msg);
+        pub_boundary_->publish(msg);
     }
     return true;
 }

@@ -72,10 +72,6 @@ namespace scrimmage {
 namespace autonomy {
 
 void Straight::init(std::map<std::string, std::string> &params) {
-
-    // std::cout << "straight:  " << std::endl;
-    // std::cout << "filename:  " << params["XML_FILENAME"] << std::endl;
-    // std::cout << "xml_dir:  " << params["XML_DIR"] << std::endl;
     speed_ = scrimmage::get("speed", params, 0.0);
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);
@@ -133,7 +129,12 @@ void Straight::init(std::map<std::string, std::string> &params) {
     enable_boundary_control_ = scrimmage::get<bool>("enable_boundary_control",
                                                     params, false);
 
-    sub_boundary_info_ = create_subscriber("Boundary");
+    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
+        std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
+        cuboid->set_points(msg->data.points);
+        boundary_ = cuboid;
+    };
+    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", 10, callback);
 
     alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
 }
@@ -181,14 +182,6 @@ bool Straight::step_autonomy(double t, double dt) {
                 }
             }
 #endif
-        }
-    }
-
-    for (auto &msg : sub_boundary_info_->msgs<sc::Message<sci::BoundaryInfo>>()) {
-        if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
-            std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-            cuboid->set_points(msg->data.points);
-            boundary_ = cuboid;
         }
     }
 
