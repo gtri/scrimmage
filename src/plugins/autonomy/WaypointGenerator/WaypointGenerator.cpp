@@ -112,9 +112,7 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     }
     wp_list_.set_mode(WaypointList::WaypointMode::follow_once); // default for now
 
-    // cout << wp_list_;
-
-    waypoint_list_pub_ = create_publisher("WaypointList");
+    waypoint_list_pub_ = advertise("GlobalNetwork", "WaypointList", 10);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {
@@ -139,7 +137,7 @@ bool WaypointGenerator::step_autonomy(double t, double dt) {
         if (show_waypoints_) {
             draw_waypoints(msg->data);
         }
-        waypoint_list_pub_->publish(msg, t);
+        waypoint_list_pub_->publish(msg);
     }
     return true;
 }

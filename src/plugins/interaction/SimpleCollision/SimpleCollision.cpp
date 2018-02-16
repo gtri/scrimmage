@@ -69,8 +69,8 @@ bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
     init_alt_deconflict_ = sc::get<bool>("init_alt_deconflict", plugin_params, false);
 
     // Setup publishers
-    team_collision_pub_ = create_publisher("TeamCollision");
-    non_team_collision_pub_ = create_publisher("NonTeamCollision");
+    team_collision_pub_ = advertise("GlobalNetwork", "TeamCollision", 10);
+    non_team_collision_pub_ = advertise("GlobalNetwork", "NonTeamCollision", 10);
 
     return true;
 }
@@ -105,7 +105,7 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     auto msg = std::make_shared<sc::Message<sm::TeamCollision>>();
                     msg->data.set_entity_id_1(ent1->id().id());
                     msg->data.set_entity_id_2(ent2->id().id());
-                    publish_immediate(t, team_collision_pub_, msg);
+                    team_collision_pub_->publish(msg);
 
                 } else if (enable_non_team_collisions_ &&
                            ent1->id().team_id() != ent2->id().team_id()) {
@@ -115,7 +115,7 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     auto msg = std::make_shared<sc::Message<sm::NonTeamCollision>>();
                     msg->data.set_entity_id_1(ent1->id().id());
                     msg->data.set_entity_id_2(ent2->id().id());
-                    publish_immediate(t, non_team_collision_pub_, msg);
+                    non_team_collision_pub_->publish(msg);
                 }
             }
         }

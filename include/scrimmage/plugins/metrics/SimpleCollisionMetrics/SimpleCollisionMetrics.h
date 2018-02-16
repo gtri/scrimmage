@@ -52,13 +52,6 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
     virtual void print_team_summaries();
 
  protected:
-    scrimmage::SubscriberPtr sub_team_collision_;
-    scrimmage::SubscriberPtr sub_non_team_collision_;
-    scrimmage::SubscriberPtr sub_ground_collision_;
-    scrimmage::SubscriberPtr sub_ent_gen_;
-    scrimmage::SubscriberPtr sub_ent_rm_;
-    scrimmage::SubscriberPtr sub_ent_pres_end_;
-
     std::map<int, SimpleCollisionScore> scores_;
     std::map<int, SimpleCollisionScore> team_coll_scores_;
     std::map<int, bool> surviving_teams_;

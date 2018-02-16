@@ -96,49 +96,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
     enable_collision_detection_ = sc::get<bool>("enable_collision_detection", plugin_params, true);
     enable_ray_tracing_ = sc::get<bool>("enable_ray_tracing", plugin_params, true);
 
-    sub_ent_gen_ = create_subscriber("EntityGenerated");
-    sub_shape_gen_ = create_subscriber("ShapeGenerated");
-
-    btCollisionObject* coll_object = new btCollisionObject();
-    btCollisionShape* ground_shape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
-
-    coll_object->setUserIndex(0);
-    coll_object->setCollisionShape(ground_shape);
-    coll_object->getWorldTransform().setOrigin(btVector3((btScalar) 0,
-                                                         (btScalar) 0,
-                                                         (btScalar) 0));
-
-    bt_collision_world->addCollisionObject(coll_object);
-
-    return true;
-}
-
-bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt) {
-    shapes_.clear();
-
-    // Get new static shapes
-    for (auto msg : sub_shape_gen_->msgs<sc::Message<sp::Shapes>>()) {
-        for (int i = 0; i < msg->data.shape_size(); i++) {
-            if (msg->data.shape(i).type() == sp::Shape::Cube) {
-                btVector3 xyz(btScalar(msg->data.shape(i).xyz_lengths().x()/2.0),
-                              btScalar(msg->data.shape(i).xyz_lengths().y()/2.0),
-                              btScalar(msg->data.shape(i).xyz_lengths().z()/2.0));
-
-                btBoxShape *wall = new btBoxShape(xyz);
-
-                btCollisionObject* coll_object = new btCollisionObject();
-                coll_object->setCollisionShape(wall);
-                coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).center().x(),
-                                                                     (btScalar) msg->data.shape(i).center().y(),
-                                                                     (btScalar) msg->data.shape(i).center().z()));
-                bt_collision_world->addCollisionObject(coll_object);
-            }
-        }
-    }
-
-    // Get newly created objects
-    for (auto msg : sub_ent_gen_->msgs<sc::Message<sm::EntityGenerated>>()) {
+    auto ent_gen_cb = [&] (scrimmage::MessagePtr<sm::EntityGenerated> msg) {
         int id = msg->data.entity_id();
 
         sc::EntityPtr &ent = (*id_to_ent_map_)[id];
@@ -162,9 +120,9 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     // Create a publisher for this sensor
                     // "entity_id/RayTrace0/pointcloud"
                     pcl_pubs_[id][kv.first] =
-                        create_publisher(std::to_string(id) + "/" +
-                                         kv.first  +
-                                         "/pointcloud");
+                        advertise("GlobalNetwork", std::to_string(id) + "/" +
+                                  kv.first  +
+                                  "/pointcloud", 10);
 
                     std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
@@ -203,7 +161,46 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 }
             }
         }
-    }
+    };
+    subscribe<sm::EntityGenerated>("GlobalNetwork", "EntityGenerated", 10, ent_gen_cb);
+
+    auto shape_gen_cb = [&] (scrimmage::MessagePtr<sp::Shapes> msg) {
+        for (int i = 0; i < msg->data.shape_size(); i++) {
+            if (msg->data.shape(i).type() == sp::Shape::Cube) {
+                btVector3 xyz(btScalar(msg->data.shape(i).xyz_lengths().x()/2.0),
+                              btScalar(msg->data.shape(i).xyz_lengths().y()/2.0),
+                              btScalar(msg->data.shape(i).xyz_lengths().z()/2.0));
+
+                btBoxShape *wall = new btBoxShape(xyz);
+
+                btCollisionObject* coll_object = new btCollisionObject();
+                coll_object->setCollisionShape(wall);
+                coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).center().x(),
+                                                                     (btScalar) msg->data.shape(i).center().y(),
+                                                                     (btScalar) msg->data.shape(i).center().z()));
+                bt_collision_world->addCollisionObject(coll_object);
+            }
+        }
+    };
+    subscribe<sp::Shapes>("GlobalNetwork", "ShapeGenerated", 10, shape_gen_cb);
+
+    btCollisionObject* coll_object = new btCollisionObject();
+    btCollisionShape* ground_shape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
+
+    coll_object->setUserIndex(0);
+    coll_object->setCollisionShape(ground_shape);
+    coll_object->getWorldTransform().setOrigin(btVector3((btScalar) 0,
+                                                         (btScalar) 0,
+                                                         (btScalar) 0));
+
+    bt_collision_world->addCollisionObject(coll_object);
+
+    return true;
+}
+
+bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                              double t, double dt) {
+    shapes_.clear();
 
     // Update positions of all objects
     for (auto &kv : objects_) {
@@ -291,7 +288,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     }
                 }
             }
-            publish_immediate(t, pcl_pubs_[kv.first][kv2.first], msg);
+            pcl_pubs_[kv.first][kv2.first]->publish(msg);
         }
     }
 

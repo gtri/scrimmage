@@ -32,115 +32,122 @@
 
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/SubscriberBase.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 
 #include <memory>
 
-#include <boost/range/adaptor/map.hpp>
+namespace sc = scrimmage;
 
-namespace ba = boost::adaptors;
 namespace scrimmage {
-
-Network::Network() : Plugin(), rtree_(std::make_shared<RTree>()) {}
-
-void Network::init(std::map<std::string, std::string> &params) {return;}
-
-void Network::rm_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map) {
-    // check to see if this device exists
-    TopicMap::iterator topic_it = map.find(topic);
-    if (topic_it == map.end()) {
-        return;
-    }
-
-    DeviceMap::iterator id_it = topic_it->second.find(network_id);
-    if (id_it == topic_it->second.end()) {
-        return;
-    }
-
-    // remove the device now that it has been found
-    network_ids_.erase(network_id);
-
-    topic_it->second.erase(id_it);
-    if (topic_it->second.empty()) {
-        map.erase(topic_it);
-    }
+Network::Network() : Plugin(), rtree_(std::make_shared<RTree>()) {
 }
 
-void Network::add_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map) {
-    TopicMap::iterator topic_it = map.find(topic);
-    if (topic_it == map.end()) {
-        map[topic][network_id] = device;
-    } else {
-        DeviceMap::iterator id_it = topic_it->second.find(network_id);
-        if (id_it == topic_it->second.end()) {
-            topic_it->second[network_id] = device;
-        } else {
-            id_it->second = device;
-        }
-    }
-    network_ids_.insert(network_id);
+bool Network::init(std::map<std::string, std::string> &mission_params,
+                   std::map<std::string, std::string> &plugin_params) {
+    return true;
 }
 
-void Network::rm_publisher(int network_id, PublisherPtr pub, std::string &topic) {
-    rm_device(network_id, topic, pub, pub_map_);
-}
+// void Network::rm_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map) {
+//     // check to see if this device exists
+//     TopicMap::iterator topic_it = map.find(topic);
+//     if (topic_it == map.end()) {
+//         return;
+//     }
+//
+//     DeviceMap::iterator id_it = topic_it->second.find(network_id);
+//     if (id_it == topic_it->second.end()) {
+//         return;
+//     }
+//
+//     // remove the device now that it has been found
+//     network_ids_.erase(network_id);
+//
+//     topic_it->second.erase(id_it);
+//     if (topic_it->second.empty()) {
+//         map.erase(topic_it);
+//     }
+// }
+//
+// void Network::add_device(std::string topic, NetworkDevicePtr device, TopicMap &map) {
+//    // Find the topic
+//    TopicMap::iterator topic_it = map.find(topic);
+//    if (topic_it == map.end()) {
+//        map[topic][network_id] = device;
+//    } else {
+//        DeviceMap::iterator id_it = topic_it->second.find(network_id);
+//        if (id_it == topic_it->second.end()) {
+//            topic_it->second[network_id] = device;
+//        } else {
+//            id_it->second = device;
+//        }
+//    }
+//    network_ids_.insert(network_id);
+//}
+//
+// void Network::rm_publisher(int network_id, PublisherPtr pub, std::string &topic) {
+//     rm_device(network_id, topic, pub, pub_map_);
+// }
+//
+// void Network::rm_subscriber(int network_id, SubscriberBasePtr sub, std::string &topic) {
+//     rm_device(network_id, topic, sub, sub_map_);
+// }
+//
+// void Network::add_publisher(int network_id, PublisherPtr pub, std::string &topic) {
+//     add_device(network_id, topic, pub, pub_map_);
+// }
+//
 
-void Network::rm_subscriber(int network_id, SubscriberPtr sub, std::string &topic) {
-    rm_device(network_id, topic, sub, sub_map_);
-}
+bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
+                   std::map<std::string, std::list<NetworkDevicePtr>> &subs) {
+    reachable_map_.clear();
 
-void Network::add_publisher(int network_id, PublisherPtr pub, std::string &topic) {
-    add_device(network_id, topic, pub, pub_map_);
-}
+    // For all publisher topic names
+    for (auto &pub_kv : pubs) {
+        std::string topic = pub_kv.first;
 
-void Network::add_subscriber(int network_id, SubscriberPtr sub, std::string &topic) {
-    add_device(network_id, topic, sub, sub_map_);
-}
-
-void Network::distribute(double t, double dt) {
-    for (auto &pub_map_kv : pub_map_) {
-
-        std::string topic = pub_map_kv.first;
-
-        for (NetworkDevicePtr &pub : ba::values(pub_map_kv.second)) {
-            auto msgs = pub->msgs<MessageBase>(true, false);
+        // For all publisher devices with topic name
+        for (NetworkDevicePtr &pub : pub_kv.second) {
+            auto msgs = pub->msgs<sc::MessageBase>(true);
             if (msgs.empty()) {
                 continue;
             }
 
-            for (NetworkDevicePtr &sub : ba::values(sub_map_[topic])) {
-                for (auto &msg : msgs) {
-                    sub->add_msg(msg);
+            // For all subscribers on this topic
+            for (NetworkDevicePtr &sub : subs[topic]) {
+                if (is_reachable(pub->plugin(), sub->plugin())) {
+                    for (auto &msg : msgs) {
+                        if (is_successful_transmission(pub->plugin(),
+                                                       sub->plugin())) {
+                            msg->time = time_->t();
+                            sub->add_msg(msg);
+                        }
+                    }
                 }
             }
         }
     }
+    return true;
+}
+
+bool Network::is_reachable(const scrimmage::PluginPtr &pub_plugin,
+                           const scrimmage::PluginPtr &sub_plugin) {
+    return false;
+}
+
+bool Network::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
+                                         const scrimmage::PluginPtr &sub_plugin) {
+    return false;
 }
 
 std::string Network::name() {
-    return std::string("Network");
+    return name_;
 }
 
 std::string Network::type() {
     return std::string("Network");
-}
-
-RTreePtr &Network::rtree() {
-    return rtree_;
-}
-
-Network::TopicMap &Network::sub_map() {
-    return sub_map_;
-}
-
-std::unordered_set<int> Network::ping(const PluginPtr &plugin) {
-    return network_ids_;
-}
-
-bool Network::ping(const PluginPtr &plugin, int network_id) {
-    return network_ids_.count(network_id) != 0;
 }
 
 } // namespace scrimmage

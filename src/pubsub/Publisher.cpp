@@ -35,10 +35,7 @@
 
 namespace scrimmage {
 
-void Publisher::publish(MessageBasePtr msg, double t, bool use_network_id) {
-    msg->sender =
-        use_network_id ? plugin_->get_network_id() : plugin_->parent()->id().id();
-    msg->time = t;
+void Publisher::publish(MessageBasePtr msg) {
     add_msg(msg);
 }
 

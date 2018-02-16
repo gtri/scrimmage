@@ -42,10 +42,11 @@ PROJECT_DIR="$(readlink -f $3)"
 
 if [ $PLUGIN_TYPE != "autonomy" ] && [ $PLUGIN_TYPE != "motion" ]  && \
    [ $PLUGIN_TYPE != "interaction" ] && [ $PLUGIN_TYPE != "controller" ] && \
-   [ $PLUGIN_TYPE != "metrics" ] && [ $PLUGIN_TYPE != "sensor" ]; then
+   [ $PLUGIN_TYPE != "metrics" ] && [ $PLUGIN_TYPE != "sensor" ] && \
+   [ $PLUGIN_TYPE != "network" ]; then
     echo "Invalid plugin type."
     echo "PluginType must be \"autonomy\", \"motion\", \"controller\", "
-    echo "\"metrics\", \"sensor\", or \"interaction\""
+    echo "\"metrics\", \"sensor\", \"network\", or \"interaction\""
     exit 2
 fi
 
@@ -98,36 +99,3 @@ sed -i -- "s/(>>>PLUGIN_NAME<<<)/$PLUGIN_NAME/g" $CPP_FILE_OUT
 sed -i -- "s/(>>>PROJECT_NAME<<<)/$PROJECT_NAME/g" $CPP_FILE_OUT
 
 pushd >& /dev/null
-
-################################################################################
-## Modify the CMakeList.txt file in the plugin directory
-################################################################################
-# This is no longer needed. There is a CMake script that GLOBS the
-#subdirectories of the plugins directory.
-
-#CMAKELISTS_FILE=$(readlink -f "$PROJECT_DIR/CMakeLists.txt")
-#
-#if [ ! -e $CMAKE_FILE ];
-#then
-#    echo "Can't edit plugins CMakeLists.txt file, it doesn't exist."
-#    exit -1
-#fi
-#
-## We need to add the "add_subdirectory(MyPlugin)" line to the CMakeLists.txt
-## file. First, we need to see if the line already exists. If it does exist,
-## exit successfully, if not, we need to add the line.
-#LINE_VALUE="add_subdirectory(${PLUGIN_NAME})"
-#
-## See if the CMakeLists.txt file already contains the line:
-#grep -i -q $LINE_VALUE $CMAKELISTS_FILE
-#LINE_EXISTS=$?
-#
-## grep returns 0 if the line exists.
-#if [ $LINE_EXISTS -eq 0 ];
-#then
-#    # We don't have to edit file
-#    exit 0
-#fi
-#
-## The line doesn't exist yet, append it to the CMakeLists.txt file
-#echo $LINE_VALUE >> $CMAKELISTS_FILE

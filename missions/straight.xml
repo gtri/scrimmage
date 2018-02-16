@@ -4,7 +4,7 @@
     name="Straight flying">
 
   <run start="0.0" end="1000" dt="0.1"
-       time_warp="10"
+       time_warp="20"
        enable_gui="true"
        network_gui="false"
        start_paused="true"/>
@@ -37,11 +37,14 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
 
-  <entity_interaction>SimpleCollision</entity_interaction>
-  <entity_interaction>GroundCollision</entity_interaction>
   <entity_interaction>Boundary</entity_interaction>
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>GroundCollision</entity_interaction>  
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
-
+  
+  <network>LocalNetwork</network>
+  <network>GlobalNetwork</network>  
+  
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 
@@ -52,14 +55,7 @@
     <count>1</count>
     <health>1</health>
     <radius>1</radius>
-
-    <!--
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.01</generate_time_variance>
-    -->
-
+    
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
@@ -68,12 +64,14 @@
     <y>0</y>
     <z>195</z>
     <heading>0</heading>
+    
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-blue</visual_model>
+    <visual_model>cessna</visual_model>
 
-    <sensor>NoisyState</sensor>
-    <sensor>NoisyContacts</sensor>
+    <!--<sensor>NoisyState</sensor>
+        <sensor>NoisyContacts</sensor>
+        -->
     <!--<sensor>ContactBlobCamera</sensor>-->
 
     <autonomy show_text_label="true"
@@ -93,13 +91,6 @@
     <count>30</count>
     <health>1</health>
     <radius>2</radius>
-
-    <!--
-    <generate_rate> 1 / 2 </generate_rate>
-    <generate_count>2</generate_count>
-    <generate_start_time>0</generate_start_time>
-    <generate_time_variance>0.10</generate_time_variance>
-    -->
 
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>

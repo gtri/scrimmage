@@ -34,6 +34,7 @@
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/motion/Controller.h>
@@ -53,7 +54,10 @@ External::External() :
     entity_(std::make_shared<Entity>()),
     plugin_manager_(std::make_shared<PluginManager>()),
     log_(std::make_shared<Log>()),
-    last_t_(NAN) {}
+    last_t_(NAN),
+    pubsub_(std::make_shared<PubSub>()),
+    time_(std::make_shared<Time>()) {
+}
 
 bool External::create_entity(int max_entities, const ID &id,
         std::map<std::string, std::string> &info,
@@ -73,7 +77,6 @@ bool External::create_entity(int max_entities, const ID &id,
 
     FileSearchPtr file_search = std::make_shared<FileSearch>();
     entity_ = std::make_shared<Entity>();
-    auto network = std::make_shared<Network>();
 
     auto mp = std::make_shared<MissionParse>();
     mp->set_log_dir(log_dir);
@@ -86,7 +89,7 @@ bool External::create_entity(int max_entities, const ID &id,
     bool success =
         entity_->init(
             overrides, info, contacts, mp, proj, id.id(), id.sub_swarm_id(),
-            plugin_manager_, network, file_search, rtree);
+            plugin_manager_, file_search, rtree, pubsub_, time_);
 
     if (!success) {
         return false;

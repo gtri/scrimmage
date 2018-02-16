@@ -13,11 +13,11 @@ message StartAuction {
              TRAIL = 2;
         }
         
-        int32 originator_id = 1;
+        int32 sender_id = 1;
         TaskType task = 2;
 }
 
 message BidAuction {
-        int32 originator_id = 1;
+        int32 sender_id = 1;
         double bid = 2;
 }

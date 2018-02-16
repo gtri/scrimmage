@@ -74,11 +74,13 @@ class PluginManager {
     void set_reload(bool reload);
     bool get_reload();
 
+    // std::list<PluginPtr> &plugins() { return plugins_; }
+
  protected:
     // Key 1: Plugin Type
     // Key 2: Plugin Name
     // Value: PluginInfo
-    std::map<std::string, std::map<std::string, PluginInfo>> plugins_;
+    std::map<std::string, std::map<std::string, PluginInfo>> plugins_info_;
 
     std::unordered_map<std::string, std::list<std::string>> so_files_;
     bool files_checked_ = false;
@@ -86,6 +88,8 @@ class PluginManager {
     int check_library(std::string lib_path);
     PluginPtr make_plugin_helper(std::string &plugin_type, std::string &plugin_name);
     bool reload_;
+
+    // std::list<PluginPtr> plugins_;
 };
 
 using PluginManagerPtr = std::shared_ptr<PluginManager>;

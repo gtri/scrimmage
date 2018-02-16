@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_SPHERENETWORK_SPHERENETWORK_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_SPHERENETWORK_SPHERENETWORK_H_
 
 #include <scrimmage/pubsub/Network.h>
 
@@ -41,20 +41,19 @@
 namespace scrimmage {
 namespace network {
 
-class UnitDisk : public scrimmage::Network {
+class SphereNetwork : public scrimmage::Network {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual void distribute(double t, double dt);
-    virtual std::unordered_set<int> ping(const scrimmage::PluginPtr &plugin);
-    virtual bool ping(const scrimmage::PluginPtr &plugin, int network_id);
-
+    virtual bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params);
  protected:
-    std::unordered_set<int> &ping_ref(const scrimmage::PluginPtr &device);
+    virtual bool is_reachable(const scrimmage::PluginPtr &pub_plugin,
+                              const scrimmage::PluginPtr &sub_plugin);
 
+    virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
+                                            const scrimmage::PluginPtr &sub_plugin);
     double range_;
     double prob_transmit_;
-    std::unordered_map<int, std::unordered_set<int>> ping_map_;
 };
 } // namespace network
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_UNITDISK_UNITDISK_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_SPHERENETWORK_SPHERENETWORK_H_

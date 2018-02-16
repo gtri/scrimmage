@@ -70,9 +70,10 @@ class Entity : public std::enable_shared_from_this<Entity> {
               const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
               int id, int ent_desc_id,
               PluginManagerPtr plugin_manager,
-              NetworkPtr network,
-              const FileSearchPtr &file_search,
-              RTreePtr &rtree);
+              FileSearch &file_search,
+              RTreePtr &rtree,
+              PubSubPtr &pubsub,
+              TimePtr &time);
 
     bool parse_visual(std::map<std::string, std::string> &info,
                       MissionParsePtr mp,
@@ -132,7 +133,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
     MissionParsePtr mp();
-    NetworkPtr network();
 
     void set_random(RandomPtr random);
     RandomPtr random();
@@ -176,8 +176,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
     MotionModelPtr motion_model_;
     std::vector<AutonomyPtr> autonomies_;
     MissionParsePtr mp_;
-
-    NetworkPtr network_;
 
     int health_points_ = 1;
 
