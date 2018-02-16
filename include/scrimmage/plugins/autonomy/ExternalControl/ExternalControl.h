@@ -43,6 +43,7 @@
 namespace scrimmage_proto {
 class Action;
 class SpaceParams;
+class ActionResult;
 }
 
 namespace boost {
@@ -68,6 +69,7 @@ class ExternalControl : public scrimmage::Autonomy {
     virtual scrimmage_proto::SpaceParams action_space_params();
     virtual std::pair<bool, double> calc_reward(double t);
     virtual void close(double t);
+    virtual scrimmage_proto::ActionResult get_observation(double t);
 
     bool check_action(
         const scrimmage_proto::Action &action,
@@ -80,13 +82,18 @@ class ExternalControl : public scrimmage::Autonomy {
 
  private:
     boost::optional<scrimmage_proto::Action>
-        send_action_result(double t, double reward, bool done);
+        send_action_result(scrimmage_proto::ActionResult &action_result,
+            double reward, bool done);
     bool send_env();
 
     std::shared_ptr<ExternalControlClient> external_control_client_;
     std::shared_ptr<DelayedTask> delayed_task_;
     double curr_reward = 0;
     bool env_sent_ = false;
+
+    int num_attempts_ = 0;
+    bool use_trained_model_ = false;
+    std::string python_cmd_ = "external_control.py";
 };
 } // namespace autonomy
 } // namespace scrimmage
