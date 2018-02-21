@@ -38,6 +38,8 @@
 
   <entity_interaction>SimpleCollision</entity_interaction>
 
+  <network>GlobalNetwork</network>
+
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 

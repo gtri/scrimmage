@@ -31,8 +31,25 @@
 # A Long description goes here.
 #
 
+usage()
+{
+    cat << EOF
+
+USAGE:
+          $0 <PluginType> <PluginName> <ProjectDirectory>
+
+OPTIONS:
+          -h Display this usage information
+
+NOTES:
+          PluginType must be one of the following:
+          autonomy, motion, interaction, controller, metrics, sensor, network
+EOF
+}
+
+
 if [ "$#" -lt 3 ]; then
-    echo "usage: $0 <PluginType> <PluginName> <ProjectDirectory>"
+    usage
     exit 2
 fi
 
