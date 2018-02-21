@@ -170,8 +170,9 @@ def qsub(num_runs, mission, nodes=None, stdout_dir=None, stderr_dir=None):
 
     num_runs: how many runs this job should submit to grid engine.
 
-    nodes: either an integer or a range (beg-end). If None (default),
-        then the job will be submitted to all available nodes.
+    nodes: either an integer, range (beg-end), or a comma separated list (of
+        integers or ranges). If None (default), then the job will be submitted
+        to all available nodes.
 
     mission: either a mission file (which will be run repeatedly for num_runs)
         or a directory which should contain mission files named "1.xml" to
@@ -203,16 +204,20 @@ def qsub(num_runs, mission, nodes=None, stdout_dir=None, stderr_dir=None):
            '-o', stdout_dir]
 
     if nodes:
-        if '-' in nodes:
-            beg, end = nodes.split("-")
-            s = "|".join(["node" + str(n)
-                          for n in range(int(beg), int(end) + 1)])
-        else:
-            s = "node" + nodes
+        s = ""
+        for n in nodes.split(','):
+            if '-' in n:
+                beg, end = n.split("-")
+                tmp = \
+                    "|".join(["node" + str(num)
+                              for num in range(int(beg), int(end) + 1)])
+                s += tmp
+            else:
+                s += "node" + n
         cmd += ["-l", 'h=' + s]
 
     cmd += [sc_script, '-d', mission]
-    print(" ".join(cmd))
+    # print(" ".join(cmd))
     output = subprocess.check_output(cmd)
     job_id = re.match(r"Your job-array (\d+)", output).group(1)
     return int(job_id)
