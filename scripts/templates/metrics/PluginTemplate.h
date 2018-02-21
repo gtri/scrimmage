@@ -82,7 +82,6 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::Metrics {
     virtual void calc_team_scores();
     virtual void print_team_summaries();
  protected:
-    sc::SubscriberPtr sub_ground_collision_;
     std::map<int, Score> scores_;
     std::map<int, Score> team_coll_scores_;
     std::map<std::string, std::string> params_;
