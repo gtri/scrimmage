@@ -26,9 +26,10 @@
   <altitude_origin>300</altitude_origin>
   <show_origin>false</show_origin>
   
+  <network>GlobalNetwork</network>
   <network>SphereNetwork</network>
   
-  <!--<entity_interaction>SimpleCollision</entity_interaction>-->
+  <entity_interaction>SimpleCollision</entity_interaction>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>0</seed>
