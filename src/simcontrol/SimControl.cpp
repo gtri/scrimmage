@@ -207,6 +207,12 @@ bool SimControl::init() {
     mp_->utm_terrain()->set_time(this->t());
     outgoing_interface_->send_utm_terrain(mp_->utm_terrain());
 
+    // If there aren't any networks defined, define the GlobalNetwork by
+    // default.
+    if (mp_->network_names().size() == 0) {
+        mp_->network_names().push_back("GlobalNetwork");
+    }
+
     // Load the appropriate network plugins
     for (std::string network_name : mp_->network_names()) {
         ConfigParse config_parse;

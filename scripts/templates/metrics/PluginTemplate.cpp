@@ -67,7 +67,7 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
     auto groundcoll_cb = [&] (scrimmage::MessagePtr<sm::GroundCollision> msg) {
         scores_[msg->data.entity_id()].increment_ground_collisions();
     };
-    subscribe<sm::GroundCollision>("GlobalNetwork", "GroundCollision", 10, groundcoll_cb);
+    subscribe<sm::GroundCollision>("GlobalNetwork", "GroundCollision", groundcoll_cb);
 }
 
 bool (>>>PLUGIN_NAME<<<)::step_metrics(double t, double dt) {

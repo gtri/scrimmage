@@ -39,12 +39,14 @@
 
   <entity_interaction>Boundary</entity_interaction>
   <entity_interaction>SimpleCollision</entity_interaction>
-  <entity_interaction>GroundCollision</entity_interaction>  
+  <entity_interaction>GroundCollision</entity_interaction>
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
-  
+
+  <!--
   <network>LocalNetwork</network>
-  <network>GlobalNetwork</network>  
-  
+  <network>GlobalNetwork</network>
+  -->
+
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 
@@ -55,7 +57,7 @@
     <count>1</count>
     <health>1</health>
     <radius>1</radius>
-    
+
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
@@ -64,7 +66,7 @@
     <y>0</y>
     <z>195</z>
     <heading>0</heading>
-    
+
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>cessna</visual_model>

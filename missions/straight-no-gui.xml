@@ -38,6 +38,7 @@
 
   <entity_interaction>SimpleCollision</entity_interaction>
 
+  <network>LocalNetwork</network>
   <network>GlobalNetwork</network>
 
   <!-- uncomment "seed" and use integer for deterministic results -->
