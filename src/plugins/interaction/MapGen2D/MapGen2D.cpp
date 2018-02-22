@@ -64,8 +64,8 @@ namespace interaction {
 bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
                     std::map<std::string, std::string> &plugin_params) {
 
-    pub_shape_gen_ = advertise("GlobalNetwork", "ShapeGenerated", 10);
-    pub_map_2d_info_ = advertise("GlobalNetwork", "Map2DInfo", 10);
+    pub_shape_gen_ = advertise("GlobalNetwork", "ShapeGenerated");
+    pub_map_2d_info_ = advertise("GlobalNetwork", "Map2DInfo");
 
     show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params,
                                     false);

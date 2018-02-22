@@ -115,7 +115,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
     }
 
     std::string network_name = sc::get("network_name", plugin_params, "GlobalNetwork");
-    pub_boundary_ = advertise(network_name, "Boundary", 10);
+    pub_boundary_ = advertise(network_name, "Boundary");
 
     return true;
 }

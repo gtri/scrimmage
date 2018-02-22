@@ -110,6 +110,8 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
 
         // For all publisher devices with topic name
         for (NetworkDevicePtr &pub : pub_kv.second) {
+            pub->enforce_queue_size();
+
             auto msgs = pub->msgs<sc::MessageBase>(true);
             if (msgs.empty()) {
                 continue;
@@ -129,6 +131,15 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
             }
         }
     }
+
+    // Enforce queue sizes, if necessary
+    for (auto &sub_kv : subs) {
+        // For all publisher devices with topic name
+        for (NetworkDevicePtr &sub : sub_kv.second) {
+            sub->enforce_queue_size();
+        }
+    }
+
     return true;
 }
 

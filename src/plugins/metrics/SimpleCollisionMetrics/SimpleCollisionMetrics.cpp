@@ -69,34 +69,34 @@ void SimpleCollisionMetrics::init(std::map<std::string, std::string> &params) {
         scores_[msg->data.entity_id_1()].increment_team_collisions();
         scores_[msg->data.entity_id_2()].increment_team_collisions();
     };
-    subscribe<sm::TeamCollision>("GlobalNetwork", "TeamCollision", 10, teamcoll_cb);
+    subscribe<sm::TeamCollision>("GlobalNetwork", "TeamCollision", teamcoll_cb);
 
     auto nonteamcoll_cb = [&] (scrimmage::MessagePtr<sm::NonTeamCollision> msg) {
         scores_[msg->data.entity_id_1()].increment_non_team_collisions();
         scores_[msg->data.entity_id_2()].increment_non_team_collisions();
     };
-    subscribe<sm::NonTeamCollision>("GlobalNetwork", "NonTeamCollision", 10, nonteamcoll_cb);
+    subscribe<sm::NonTeamCollision>("GlobalNetwork", "NonTeamCollision", nonteamcoll_cb);
 
     auto groundcoll_cb = [&] (scrimmage::MessagePtr<sm::GroundCollision> msg) {
         scores_[msg->data.entity_id()].increment_ground_collisions();
     };
-    subscribe<sm::GroundCollision>("GlobalNetwork", "GroundCollision", 10, groundcoll_cb);
+    subscribe<sm::GroundCollision>("GlobalNetwork", "GroundCollision", groundcoll_cb);
 
     auto entitygen_cb = [&] (scrimmage::MessagePtr<sm::EntityGenerated> msg) {
         scores_[msg->data.entity_id()].set_flight_time_start(msg->time);
     };
-    subscribe<sm::EntityGenerated>("GlobalNetwork", "EntityGenerated", 10, entitygen_cb);
+    subscribe<sm::EntityGenerated>("GlobalNetwork", "EntityGenerated", entitygen_cb);
 
     auto entityrem_cb = [&] (scrimmage::MessagePtr<sm::EntityRemoved> msg) {
         scores_[msg->data.entity_id()].set_flight_time_end(msg->time);
     };
-    subscribe<sm::EntityRemoved>("GlobalNetwork", "EntityRemoved", 10, entityrem_cb);
+    subscribe<sm::EntityRemoved>("GlobalNetwork", "EntityRemoved", entityrem_cb);
 
     auto entity_pre_end_cb = [&] (scrimmage::MessagePtr<sm::EntityPresentAtEnd> msg) {
         scores_[msg->data.entity_id()].set_flight_time_end(time_->t());
         surviving_teams_[(*id_to_team_map_)[msg->data.entity_id()]] = true;
     };
-    subscribe<sm::EntityPresentAtEnd>("GlobalNetwork", "EntityPresentAtEnd", 10, entity_pre_end_cb);
+    subscribe<sm::EntityPresentAtEnd>("GlobalNetwork", "EntityPresentAtEnd", entity_pre_end_cb);
 }
 
 bool SimpleCollisionMetrics::step_metrics(double t, double dt) {

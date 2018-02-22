@@ -51,6 +51,9 @@ class NetworkDevice {
     NetworkDevice(NetworkDevice &rhs);
     NetworkDevice(NetworkDevice &&rhs);
 
+    NetworkDevice(std::string &topic, unsigned int &max_queue_size,
+                  bool enable_queue_size, PluginPtr plugin);
+
     std::string get_topic() const;
     void set_topic(std::string topic);
 
@@ -59,6 +62,10 @@ class NetworkDevice {
 
     void set_max_queue_size(unsigned int size);
     unsigned int max_queue_size();
+    void enable_queue_size(bool enforce);
+    bool enable_queue_size();
+
+    void enforce_queue_size();
 
     void add_msg(MessageBasePtr msg);
 
@@ -109,11 +116,12 @@ class NetworkDevice {
     PluginPtr & plugin();
 
  protected:
+    std::string topic_;
+    unsigned int max_queue_size_ = 1;
+    bool enable_queue_size_;
     PluginPtr plugin_;
     void print_str(std::string msg);
-    std::string topic_;
     std::list<MessageBasePtr> msg_list_;
-    unsigned int max_queue_size_ = 1;
     std::mutex mutex_;
 };
 using NetworkDevicePtr = std::shared_ptr<NetworkDevice>;

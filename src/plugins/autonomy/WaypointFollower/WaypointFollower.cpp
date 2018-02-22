@@ -75,7 +75,7 @@ void WaypointFollower::init(std::map<std::string, std::string> &params) {
         wp_list_ = msg->data;
         wp_idx_ = 0;
     };
-    subscribe<WaypointList>("GlobalNetwork", "WaypointList", 10, wp_list_cb);
+    subscribe<WaypointList>("GlobalNetwork", "WaypointList", wp_list_cb);
 
     // TODO: Probably should be move loiter behavior into own plugin
     // // create loiter waypoints around the last specified waypoint

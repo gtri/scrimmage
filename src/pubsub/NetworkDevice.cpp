@@ -41,15 +41,21 @@ namespace scrimmage {
 NetworkDevice::NetworkDevice() {
 }
 
+NetworkDevice::NetworkDevice(std::string &topic, unsigned int &max_queue_size,
+                             bool enable_queue_size, PluginPtr plugin) :
+    topic_(topic), max_queue_size_(max_queue_size),
+    enable_queue_size_(enable_queue_size), plugin_(plugin) {
+}
+
 NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
     topic_(rhs.topic_),
-    msg_list_(rhs.msg_list_),
-    max_queue_size_(rhs.max_queue_size_) {
+    max_queue_size_(rhs.max_queue_size_),
+    msg_list_(rhs.msg_list_){
 }
 
 NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :
-    topic_(rhs.topic_), msg_list_(rhs.msg_list_),
-    max_queue_size_(rhs.max_queue_size_) {
+    topic_(rhs.topic_), max_queue_size_(rhs.max_queue_size_),
+    msg_list_(rhs.msg_list_) {
 }
 
 std::string NetworkDevice::get_topic() const {return topic_;}
@@ -61,8 +67,33 @@ void NetworkDevice::set_msg_list(std::list<MessageBasePtr> msg_list) {
     mutex_.unlock();
 }
 
-void NetworkDevice::set_max_queue_size(unsigned int size) {max_queue_size_ = size;}
-unsigned int NetworkDevice::max_queue_size() {return max_queue_size_;}
+void NetworkDevice::set_max_queue_size(unsigned int size) {
+    max_queue_size_ = size;
+}
+
+unsigned int NetworkDevice::max_queue_size() {
+    return max_queue_size_;
+}
+
+void NetworkDevice::enable_queue_size(bool enforce) {
+    enable_queue_size_ = enforce;
+}
+
+bool NetworkDevice::enable_queue_size() {
+    return enable_queue_size_;
+}
+
+void NetworkDevice::enforce_queue_size() {
+    if (enable_queue_size_) {
+        if (msg_list_.size() > max_queue_size_) {
+            mutex_.lock();
+            auto erase_end = msg_list_.begin();
+            std::advance(erase_end, msg_list_.size() - max_queue_size_);
+            msg_list_.erase(msg_list_.begin(), erase_end);
+            mutex_.unlock();
+        }
+    }
+}
 
 void NetworkDevice::add_msg(MessageBasePtr msg) {
     mutex_.lock();

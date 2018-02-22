@@ -62,7 +62,7 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sensor::RayTrace::PointCloud>(
         "GlobalNetwork", std::to_string(parent_->id().id()) + "/0/pointcloud",
-        10, pc_cb);
+        pc_cb);
 }
 
 bool AvoidWalls::step_autonomy(double t, double dt) {

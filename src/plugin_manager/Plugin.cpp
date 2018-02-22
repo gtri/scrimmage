@@ -133,8 +133,13 @@ std::list<scrimmage_proto::ShapePtr> &Plugin::shapes() {
 }
 
 PublisherPtr Plugin::advertise(std::string network_name, std::string topic,
-                               int num_msgs) {
-    return pubsub_->advertise(network_name, topic, num_msgs,
+                               unsigned int max_queue_size) {
+    return pubsub_->advertise(network_name, topic, max_queue_size, true,
+                              shared_from_this());
+}
+
+PublisherPtr Plugin::advertise(std::string network_name, std::string topic) {
+    return pubsub_->advertise(network_name, topic, 0, false,
                               shared_from_this());
 }
 

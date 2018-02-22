@@ -162,7 +162,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
             }
         }
     };
-    subscribe<sm::EntityGenerated>("GlobalNetwork", "EntityGenerated", 10, ent_gen_cb);
+    subscribe<sm::EntityGenerated>("GlobalNetwork", "EntityGenerated", ent_gen_cb);
 
     auto shape_gen_cb = [&] (scrimmage::MessagePtr<sp::Shapes> msg) {
         for (int i = 0; i < msg->data.shape_size(); i++) {
@@ -182,7 +182,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
             }
         }
     };
-    subscribe<sp::Shapes>("GlobalNetwork", "ShapeGenerated", 10, shape_gen_cb);
+    subscribe<sp::Shapes>("GlobalNetwork", "ShapeGenerated", shape_gen_cb);
 
     btCollisionObject* coll_object = new btCollisionObject();
     btCollisionShape* ground_shape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);

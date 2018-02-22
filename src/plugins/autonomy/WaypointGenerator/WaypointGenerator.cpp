@@ -112,7 +112,7 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     }
     wp_list_.set_mode(WaypointList::WaypointMode::follow_once); // default for now
 
-    waypoint_list_pub_ = advertise("GlobalNetwork", "WaypointList", 10);
+    waypoint_list_pub_ = advertise("GlobalNetwork", "WaypointList");
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {
