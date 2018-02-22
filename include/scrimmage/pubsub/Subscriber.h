@@ -36,6 +36,7 @@
 #include <scrimmage/pubsub/SubscriberBase.h>
 #include <scrimmage/pubsub/Message.h>
 
+#include <string>
 #include <functional>
 #include <iostream>
 

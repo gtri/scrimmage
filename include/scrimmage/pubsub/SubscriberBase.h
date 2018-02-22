@@ -35,10 +35,13 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/NetworkDevice.h>
+#include <string>
 
 namespace scrimmage {
 class SubscriberBase : public NetworkDevice {
  public:
+    SubscriberBase() {
+    }
     SubscriberBase(std::string &topic, unsigned int &max_queue_size,
                    bool enable_queue_size, PluginPtr plugin) :
     NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {
@@ -47,5 +50,5 @@ class SubscriberBase : public NetworkDevice {
 };
 
 using SubscriberBasePtr = std::shared_ptr<SubscriberBase>;
-}
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_
