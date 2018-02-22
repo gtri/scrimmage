@@ -32,22 +32,23 @@
 
 
 #include <pybind11/pybind11.h>
+#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/SubscriberBase.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/MessageBase.h>
-#include <scrimmage/pubsub/Network.h>
+#include <scrimmage/pubsub/PubSub.h>
 #include <py_utils.h>
 
 namespace py = pybind11;
 namespace sc = scrimmage;
 
-void add_network(pybind11::module &m) {
+void add_pubsub(pybind11::module &m) {
     py::class_<sc::MessageBase, std::shared_ptr<sc::MessageBase>>(m, "Message")
         .def(py::init<>())
-        .def(py::init<int>())
-        .def(py::init<int, std::string>())
-        .def(py::init<int, std::string, py::object>())
-        .def_readwrite("sender", &sc::MessageBase::sender)
+        .def(py::init<std::string>())
+        .def(py::init<std::string, py::object>())
+        .def_readwrite("time", &sc::MessageBase::time)
         .def_readwrite("serialized_data", &sc::MessageBase::serialized_data)
         .def_readwrite("data", &sc::MessageBase::py_data);
 
@@ -56,16 +57,19 @@ void add_network(pybind11::module &m) {
         .def_property("topic", &sc::NetworkDevice::get_topic, &sc::NetworkDevice::set_topic);
 
     py::class_<sc::Publisher, std::shared_ptr<sc::Publisher>, sc::NetworkDevice>(m, "Publisher")
-        .def(py::init<>())
-        .def("publish", &sc::Publisher::publish);
+         .def(py::init<>())
+         .def("publish", &sc::Publisher::publish);
 
-    py::class_<sc::Subscriber, std::shared_ptr<sc::Subscriber>, sc::NetworkDevice>(m, "Subscriber")
-        .def(py::init<>());
+    // TODO : Need to update for new callback interface
+    // py::class_<sc::Subscriber<sc::MessagePtr>, std::shared_ptr<sc::Subscriber>, sc::SubscriberBase, sc::NetworkDevice>(m, "Subscriber")
+    //     .def(py::init<>());
 
-    py::class_<sc::Network, std::shared_ptr<sc::Network>>(m, "Network")
+    py::class_<sc::PubSub, std::shared_ptr<sc::PubSub>>(m, "PubSub")
         .def(py::init<>())
-        .def("add_publisher", &sc::Network::add_publisher)
-        .def("add_subscriber", &sc::Network::add_subscriber)
-        .def("rm_publisher", &sc::Network::rm_publisher)
-        .def("rm_publisher", &sc::Network::rm_publisher);
+        .def("add_network_name", &sc::PubSub::add_network_name)
+        .def("advertise", &sc::PubSub::advertise);
+    //     .def("add_publisher", &sc::Network::add_publisher)
+    //     .def("add_subscriber", &sc::Network::add_subscriber)
+    //     .def("rm_publisher", &sc::Network::rm_publisher)
+    //     .def("rm_publisher", &sc::Network::rm_publisher);
 }

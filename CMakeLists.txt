@@ -263,7 +263,7 @@ add_subdirectory(src)
 if (NOT EXTERNAL)
   add_subdirectory(tools)
 endif()
-# TODO add_subdirectory(${SCRIMMAGE_PYTHON_DIR})
+add_subdirectory(${SCRIMMAGE_PYTHON_DIR})
 
 option(BUILD_DOCS "Build documentation" OFF)
 if (BUILD_DOCS)

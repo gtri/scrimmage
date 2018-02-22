@@ -6,8 +6,8 @@ set(LIBRARY_NAME "py_bindings")
 include_directories(include)
 add_library(py_math SHARED src/py_math.cpp)
 
-add_library(py_network SHARED src/py_network.cpp)
-target_link_libraries(py_network scrimmage)
+add_library(py_pubsub SHARED src/py_pubsub.cpp)
+target_link_libraries(py_pubsub scrimmage)
 
 add_library(py_common SHARED src/py_common.cpp)
 target_link_libraries(py_common scrimmage)
@@ -20,7 +20,7 @@ target_link_libraries(py_utils scrimmage)
 
 pybind11_add_module(${LIBRARY_NAME} src/py_bindings.cpp)
 
-target_link_libraries(${LIBRARY_NAME} PRIVATE py_math py_network py_common
+target_link_libraries(${LIBRARY_NAME} PRIVATE py_math py_pubsub py_common
 py_autonomy py_utils)
 
 # Push up the SCRIMMAGE_LIBS variable

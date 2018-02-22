@@ -50,7 +50,7 @@ NetworkDevice::NetworkDevice(std::string &topic, unsigned int &max_queue_size,
 NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
     topic_(rhs.topic_),
     max_queue_size_(rhs.max_queue_size_),
-    msg_list_(rhs.msg_list_){
+    msg_list_(rhs.msg_list_) {
 }
 
 NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :

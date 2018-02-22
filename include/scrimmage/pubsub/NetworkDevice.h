@@ -116,9 +116,9 @@ class NetworkDevice {
     PluginPtr & plugin();
 
  protected:
-    std::string topic_;
+    std::string topic_ = "";
     unsigned int max_queue_size_ = 1;
-    bool enable_queue_size_;
+    bool enable_queue_size_ = false;
     PluginPtr plugin_;
     void print_str(std::string msg);
     std::list<MessageBasePtr> msg_list_;
