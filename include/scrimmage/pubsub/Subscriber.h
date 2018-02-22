@@ -46,8 +46,11 @@ namespace scrimmage {
 template <class T>
 class Subscriber : public SubscriberBase {
  public:
-    explicit Subscriber(std::function<void(scrimmage::MessagePtr<T>)> callback)
-        : callback_(callback) {
+    Subscriber(std::string &topic, unsigned int &max_queue_size,
+               bool enable_queue_size, PluginPtr plugin,
+               std::function<void(scrimmage::MessagePtr<T>)> callback)
+        : SubscriberBase(topic, max_queue_size, enable_queue_size, plugin),
+        callback_(callback) {
     }
 
     virtual void accept(scrimmage::MessageBasePtr msg) {

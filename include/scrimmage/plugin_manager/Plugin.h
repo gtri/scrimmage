@@ -87,16 +87,28 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     template <class T>
     SubscriberBasePtr subscribe(std::string network_name, std::string topic,
-                                int num_msgs,
                                 std::function<void(scrimmage::MessagePtr<T>)> callback) {
-        SubscriberBasePtr sub  = pubsub_->subscribe<T>(network_name, topic, num_msgs, callback,
-                                                       shared_from_this());
+        SubscriberBasePtr sub  =
+            pubsub_->subscribe<T>(network_name, topic, callback,
+                                  0, false, shared_from_this());
         subs_.push_back(sub);
         return sub;
     }
 
+    template <class T>
+    SubscriberBasePtr subscribe(std::string network_name, std::string topic,
+                                std::function<void(scrimmage::MessagePtr<T>)> callback,
+                                unsigned int max_queue_size) {
+        SubscriberBasePtr sub  =
+            pubsub_->subscribe<T>(network_name, topic, callback,
+                                  max_queue_size, true, shared_from_this());
+        subs_.push_back(sub);
+        return sub;
+    }
+
+    PublisherPtr advertise(std::string network_name, std::string topic);
     PublisherPtr advertise(std::string network_name, std::string topic,
-                           int num_msgs);
+                           unsigned int max_queue_size);
 
     void set_pubsub(PubSubPtr pubsub) { pubsub_ = pubsub; }
 

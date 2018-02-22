@@ -69,8 +69,8 @@ bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
     init_alt_deconflict_ = sc::get<bool>("init_alt_deconflict", plugin_params, false);
 
     // Setup publishers
-    team_collision_pub_ = advertise("GlobalNetwork", "TeamCollision", 10);
-    non_team_collision_pub_ = advertise("GlobalNetwork", "NonTeamCollision", 10);
+    team_collision_pub_ = advertise("GlobalNetwork", "TeamCollision");
+    non_team_collision_pub_ = advertise("GlobalNetwork", "NonTeamCollision");
 
     return true;
 }

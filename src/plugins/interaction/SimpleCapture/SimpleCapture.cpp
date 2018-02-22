@@ -63,8 +63,8 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
     enable_non_team_captures_ = sc::get<bool>("enable_non_team_captures", plugin_params, true);
 
     // Setup publishers
-    team_capture_pub_ = advertise("GlobalNetwork", "TeamCapture", 10);
-    non_team_capture_pub_ = advertise("GlobalNetwork", "NonTeamCapture", 10);
+    team_capture_pub_ = advertise("GlobalNetwork", "TeamCapture");
+    non_team_capture_pub_ = advertise("GlobalNetwork", "NonTeamCapture");
 
     // Setup capture callback
     auto capture_cb = [&] (scrimmage::MessagePtr<sm::CaptureEntity> msg) {
@@ -95,7 +95,7 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
             }
         }
     };
-    subscribe<sm::CaptureEntity>("GlobalNetwork", "CaptureEntity", 10, capture_cb);
+    subscribe<sm::CaptureEntity>("GlobalNetwork", "CaptureEntity", capture_cb);
     return true;
 }
 

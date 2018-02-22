@@ -64,12 +64,12 @@ void SimpleCaptureMetrics::init(std::map<std::string, std::string> &params) {
     auto teamcapture_cb = [&] (scrimmage::MessagePtr<sm::TeamCapture> msg) {
         scores_[msg->data.source_id()].increment_count("TeamCapture");
     };
-    subscribe<sm::TeamCapture>("GlobalNetwork", "TeamCapture", 10, teamcapture_cb);
+    subscribe<sm::TeamCapture>("GlobalNetwork", "TeamCapture", teamcapture_cb);
 
     auto nonteamcapture_cb = [&] (scrimmage::MessagePtr<sm::NonTeamCapture> msg) {
         scores_[msg->data.source_id()].increment_count("NonTeamCapture");
     };
-    subscribe<sm::NonTeamCapture>("GlobalNetwork", "NonTeamCapture", 10, nonteamcapture_cb);
+    subscribe<sm::NonTeamCapture>("GlobalNetwork", "NonTeamCapture", nonteamcapture_cb);
 }
 
 bool SimpleCaptureMetrics::step_metrics(double t, double dt) {

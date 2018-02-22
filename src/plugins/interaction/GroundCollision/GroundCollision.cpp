@@ -74,7 +74,7 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
         ground_collision_z_ = z;
     }
 
-    collision_pub_ = advertise("GlobalNetwork", "GroundCollision", 10);
+    collision_pub_ = advertise("GlobalNetwork", "GroundCollision");
 
     team_ = plugin_params.at("team");
     return true;

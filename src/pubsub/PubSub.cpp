@@ -48,15 +48,15 @@ void PubSub::add_network_name(std::string network_name) {
 }
 
 PublisherPtr PubSub::advertise(std::string &network_name, std::string &topic,
-                               int num_msgs, PluginPtr plugin) {
+                               unsigned int max_queue_size,
+                               bool enable_queue_size, PluginPtr plugin) {
     if (pub_map_.count(network_name) == 0) {
         cout << "WARNING: Publisher unable to connect to network ("
              << network_name << ") on topic (" << topic << ")" << endl;
     }
 
-    PublisherPtr pub = std::make_shared<Publisher>();
-    pub->set_topic(topic);
-    pub->plugin() = plugin;
+    PublisherPtr pub = std::make_shared<Publisher>(topic, max_queue_size,
+                                                   enable_queue_size, plugin);
     pub_map_[network_name][topic].push_back(pub);
     return pub;
 }

@@ -9,7 +9,7 @@
        network_gui="false"
        start_paused="true"/>
 
-  <multi_threaded num_threads="8">false</num_threads>
+  <multi_threaded num_threads="8">false</multi_threaded>
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
 
@@ -84,7 +84,7 @@
       <radius>25</radius>
     </base>
   </entity>
-
+<!--
   <entity>
     <team_id>2</team_id>
     <color>255 0 0</color>
@@ -114,5 +114,5 @@
       <radius>25</radius>
     </base>
   </entity>
-
+-->
 </runscript>

@@ -136,7 +136,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
         cuboid->set_points(msg->data.points);
         boundary_ = cuboid;
     };
-    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", 10, callback);
+    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
 
     alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
 }

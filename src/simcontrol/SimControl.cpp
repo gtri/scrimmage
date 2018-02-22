@@ -259,13 +259,13 @@ bool SimControl::init() {
 
     // Setup simcontrol's pubsub plugin
     sim_plugin_->set_pubsub(pubsub_);
-    pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime", 1);
-    pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated", 1);
-    pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved", 1);
-    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd", 1);
-    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit", 1);
-    pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent", 1);
-    pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent", 1);
+    pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
+    pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
+    pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
+    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
+    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
+    pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
+    pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
 
     // Get the list of "metrics" plugins
     for (std::string metrics_name : mp_->metrics()) {

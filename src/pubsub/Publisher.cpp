@@ -35,6 +35,11 @@
 
 namespace scrimmage {
 
+Publisher::Publisher(std::string &topic, unsigned int &max_queue_size,
+                     bool enable_queue_size, PluginPtr plugin) :
+    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {
+}
+
 void Publisher::publish(MessageBasePtr msg) {
     add_msg(msg);
 }

@@ -39,6 +39,10 @@
 namespace scrimmage {
 class SubscriberBase : public NetworkDevice {
  public:
+    SubscriberBase(std::string &topic, unsigned int &max_queue_size,
+                   bool enable_queue_size, PluginPtr plugin) :
+    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {
+    }
     virtual void accept(scrimmage::MessageBasePtr msg) = 0;
 };
 

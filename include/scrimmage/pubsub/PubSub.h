@@ -72,24 +72,25 @@ class PubSub {
 
     template <class T>
     SubscriberBasePtr subscribe(std::string &network_name, std::string &topic,
-                                int num_msgs,
                                 std::function<void(scrimmage::MessagePtr<T>)> callback,
-                                PluginPtr plugin) {
+                                unsigned int max_queue_size,
+                                bool enable_queue_size, PluginPtr plugin) {
         if (sub_map_.count(network_name) == 0) {
             cout << "WARNING: Subscriber unable to connect to network ("
                  << network_name << ") on topic (" << topic << ")" << endl;
         }
 
-        SubscriberBasePtr sub = std::make_shared<Subscriber<T>>(callback);
-        sub->set_topic(topic);
-        sub->plugin() = plugin;
-
+        SubscriberBasePtr sub =
+            std::make_shared<Subscriber<T>>(topic, max_queue_size,
+                                            enable_queue_size, plugin,
+                                            callback);
         sub_map_[network_name][topic].push_back(sub);
         return sub;
     }
 
     PublisherPtr advertise(std::string &network_name, std::string &topic,
-                           int num_msgs, PluginPtr plugin);
+                           unsigned int max_queue_size,
+                           bool enable_queue_size, PluginPtr plugin);
 
  protected:
     // NetworkMapPtr networks_;

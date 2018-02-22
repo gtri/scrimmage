@@ -43,6 +43,8 @@ using MessageBasePtr = std::shared_ptr<MessageBase>;
 
 class Publisher : public NetworkDevice {
  public:
+    Publisher(std::string &topic, unsigned int &max_queue_size,
+              bool enable_queue_size, PluginPtr plugin);
     void publish(MessageBasePtr msg);
     std::function<void(MessageBasePtr)> callback;
 };

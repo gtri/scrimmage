@@ -57,7 +57,7 @@ void Predator::init(std::map<std::string, std::string> &params) {
 
     allow_prey_switching_ = sc::get<bool>("allow_prey_switching", params, false);
 
-    capture_ent_pub_ = advertise("GlobalNetwork", "CaptureEntity", 10);
+    capture_ent_pub_ = advertise("GlobalNetwork", "CaptureEntity");
 
     follow_id_ = -1;
 
