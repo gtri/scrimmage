@@ -200,8 +200,9 @@ def main():
 
     
     if not os.path.isfile(args.mission_file):
+        themsg = 'Mission file ' + args.mission_file + ' not found!'
+        print(themsg)
         return errno.ENOENT        
-
     try:
         os.mkdir(args.out_dir)
     except OSError:
