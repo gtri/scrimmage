@@ -778,7 +778,7 @@ void SimControl::cleanup() {
 bool SimControl::wait_for_ready() {
     // Wait for all entities to be ready
     int not_ready_loop = 0;
-    while (not_ready_.size() > 0) {
+    while (!not_ready_.empty()) {
         for (std::list<EntityPtr>::iterator it = not_ready_.begin();
              it != not_ready_.end(); /* No increment */) {
             if ((*it)->ready()) {
@@ -800,7 +800,7 @@ bool SimControl::wait_for_ready() {
 
         // Give other possible threads (MOOS, ROS, etc) a chance to
         // run.
-        if (not_ready_.size() > 0) {
+        if (!not_ready_.empty()) {
             boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
         }
         if (not_ready_loop > 1e4) {

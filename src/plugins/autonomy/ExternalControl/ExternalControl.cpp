@@ -73,13 +73,15 @@ void ExternalControl::init(std::map<std::string, std::string> &params) {
 
         std::vector<std::string> address_parts;
         // boost::split(address_parts, params.at("server_address"), [](char c){return c == ':';});
-        boost::split(address_parts, params.at("server_address"), boost::algorithm::is_any_of(":"));
-        std::string port_num = address_parts[1];
+
+        split(address_parts, params.at("server_address"), ":");
+        std::string port_num = address_parts.at(1);
         python_cmd_ = std::string("external_control.py")
-        + " --port-num " + port_num
-        + " --actor " + actor
-        + " --xml " + xml_file
-        + " &";
+            + " --port-num " + port_num
+            + " --actor " + actor
+            + " --xml " + xml_file
+            + " &";
+
         int result = system(python_cmd_.c_str());
         if (result) {
             std::cout << "Error occurred in running python script." << std::endl;

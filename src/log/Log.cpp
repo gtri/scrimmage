@@ -83,7 +83,7 @@ bool Log::open_file(std::string filename, int &fd) {
     return true;
 }
 
-bool Log::init(std::string dir, Log::Mode mode) {
+bool Log::init(const std::string &dir, Log::Mode mode) {
     mode_ = mode;
     log_dir_ = dir;
 
@@ -121,7 +121,7 @@ void Log::init_network(NetworkPtr network) {
     sub_ent_collisions_ = pubsub_->create_subscriber("EntityCollision");
 }
 
-bool Log::write_ascii(std::string str) {
+bool Log::write_ascii(const std::string &str) {
     if (!enable_log_) return true;
 
     if (!ascii_output_.is_open()) {

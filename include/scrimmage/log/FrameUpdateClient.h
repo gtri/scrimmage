@@ -41,7 +41,6 @@
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
 #endif
 
-#include <iostream>
 #include <memory>
 #include <string>
 

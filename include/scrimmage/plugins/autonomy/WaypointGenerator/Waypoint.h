@@ -35,7 +35,6 @@
 
 #include <scrimmage/math/Quaternion.h>
 
-#include <iostream>
 #include <iomanip>
 #include <string>
 #include <map>

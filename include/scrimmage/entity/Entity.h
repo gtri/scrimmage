@@ -68,7 +68,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
               std::map<std::string, std::string> &info,
               ContactMapPtr &contacts,
               MissionParsePtr mp,
-              std::shared_ptr<GeographicLib::LocalCartesian> proj,
+              const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
               int id, int ent_desc_id,
               PluginManagerPtr plugin_manager,
               NetworkPtr network,

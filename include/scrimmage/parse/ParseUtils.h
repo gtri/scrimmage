@@ -54,7 +54,7 @@ std::string expand_user(std::string path);
 
 bool str2bool(std::string str);
 
-template <class T> T convert(std::string str) {
+template <class T> T convert(const std::string &str) {
     T num;
     if (!(std::istringstream(str) >> num)) {
         num = 0;
@@ -62,9 +62,9 @@ template <class T> T convert(std::string str) {
     return num;
 }
 
-template <> inline bool convert<bool>(std::string str) {return str2bool(str);}
-template <> inline const char* convert<const char *>(std::string str) {return str.c_str();}
-template <> inline std::string convert<std::string>(std::string str) {return str;}
+template <> inline bool convert<bool>(const std::string &str) {return str2bool(str);}
+template <> inline const char* convert<const char *>(const std::string &str) {return str.c_str();}
+template <> inline std::string convert<std::string>(const std::string &str) {return str;}
 
 template <class T1, class T2 = T1>
     T2 get(const std::string &key, std::map<std::string, std::string> &map, T1 default_val) {
@@ -77,7 +77,7 @@ void split(std::vector<std::string> &tokens, const std::string &str,
            const std::string &delims);
 
 template <typename T>
-std::vector<T> str2vec(const std::string &str, std::string delims) {
+std::vector<T> str2vec(const std::string &str, const std::string &delims) {
     std::vector<T> out;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
@@ -91,7 +91,7 @@ std::vector<T> str2vec(const std::string &str, std::string delims) {
 }
 
 template <typename T>
-bool str2vec(const std::string &str, std::string delims,
+bool str2vec(const std::string &str, const std::string &delims,
              std::vector<T> &vec, unsigned int size) {
     std::vector<T> tmp_vec;
     std::vector<std::string> tokens;
@@ -113,13 +113,13 @@ bool str2vec(const std::string &str, std::string delims,
 }
 
 template <typename T>
-bool get_vec(std::string str,
-             std::map<std::string, std::string> &params,
-             std::string delims,
+bool get_vec(const std::string &str,
+             const std::map<std::string, std::string> &params,
+             const std::string &delims,
              std::vector<T> &vec,
              unsigned int size) {
-    if (params.count(str) == 0)  return false;
-    return str2vec<T>(params[str], delims, vec, size);
+    auto it = params.find(str);
+    return it == params.end() ? false : str2vec<T>(it->second, delims, vec, size);
 }
 
 bool get_vec(std::string str,

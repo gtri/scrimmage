@@ -34,11 +34,8 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_
 
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/Angles.h>
 
-#include <iostream>
 #include <random>
 #include <list>
 #include <map>

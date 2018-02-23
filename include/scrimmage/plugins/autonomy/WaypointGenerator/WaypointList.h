@@ -35,7 +35,6 @@
 
 #include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 
-#include <iostream>
 #include <vector>
 
 namespace scrimmage {

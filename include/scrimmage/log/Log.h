@@ -80,7 +80,7 @@ class Log {
         NONE
     };
 
-    bool init(std::string dir, Mode mode);
+    bool init(const std::string &dir, Mode mode);
 
     bool parse(std::string dir);
     bool parse(std::string filename, FileType type);
@@ -108,7 +108,7 @@ class Log {
 
     std::string log_dir();
 
-    bool write_ascii(std::string str);
+    bool write_ascii(const std::string &str);
 
     bool save_frame(const std::shared_ptr<scrimmage_proto::Frame> &frame);
 
