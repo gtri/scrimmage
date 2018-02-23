@@ -27,7 +27,7 @@ after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG
   - docker create --name mycontainer $REPO:$TAG
-  - docker cp mycontainer:/root/scrimmage/build/docs ./doc_output
+  - docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output
   - if [[ "$TAG" == "latest" ]]; then bash ./ci/scripts/deploy-docs.sh; fi
   - docker push $REPO
 
