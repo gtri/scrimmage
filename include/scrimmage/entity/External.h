@@ -131,13 +131,14 @@ class External {
 
 #ifdef ROSCPP_ROS_H
         for (AutonomyPtr autonomy : entity_->autonomies()) {
-            for (auto &kv : autonomy->pubs()) {
-                if (kv.second->callback) {
-                    for (auto msg : kv.second->msgs(true, false)) {
-                        kv.second->callback(msg);
-                    }
-                }
-            }
+            // TODO : New scrimmage / ros integration needed
+            // for (auto &kv : autonomy->pubs()) {
+            //     if (kv.second->callback) {
+            //         for (auto msg : kv.second->msgs(true, false)) {
+            //             kv.second->callback(msg);
+            //         }
+            //     }
+            // }
         }
 #endif
         mutex_.unlock();
