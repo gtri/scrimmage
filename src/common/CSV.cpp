@@ -202,7 +202,9 @@ std::list<std::string> CSV::get_csv_line_elements(const std::string &str) {
                            [](unsigned char x){return std::isspace(x);}),
             tokens[i].end());
 
-        elems.push_back(tokens[i]);
+        if (tokens[i] != "") {
+            elems.push_back(tokens[i]);
+        }
     }
     return elems;
 }

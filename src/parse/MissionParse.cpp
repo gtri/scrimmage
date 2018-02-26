@@ -169,16 +169,19 @@ bool MissionParse::parse(std::string filename) {
 
                 std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
                 std::string nm3 = nm == "metrics" ? node->value() : nm;
+                std::string nm4 = nm == "network" ? node->value() : nm;
 
                 std::string attr_name = attr->name();
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
                         attributes_[nm2][kv.first] = kv.second;
                         attributes_[nm3][kv.first] = kv.second;
+                        attributes_[nm4][kv.first] = kv.second;
                     }
                 } else {
                     attributes_[nm2][attr->name()] = attr->value();
                     attributes_[nm3][attr->name()] = attr->value();
+                    attributes_[nm4][attr->name()] = attr->value();
                 }
             }
         }

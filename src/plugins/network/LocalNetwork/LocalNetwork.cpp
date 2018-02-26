@@ -65,6 +65,7 @@ LocalNetwork::LocalNetwork() {
 
 bool LocalNetwork::init(std::map<std::string, std::string> &mission_params,
                                std::map<std::string, std::string> &plugin_params) {
+    network_init(mission_params, plugin_params);
     return true;
 }
 
