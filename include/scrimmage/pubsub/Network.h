@@ -36,6 +36,7 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/NetworkDevice.h>
+#include <scrimmage/common/CSV.h>
 
 #include <map>
 #include <list>
@@ -60,9 +61,13 @@ class Network : public Plugin {
     void set_rtree(RTreePtr rtree) { rtree_ = rtree; }
     void set_random(RandomPtr random) { random_ = random; }
 
+    inline virtual void set_mission_parse(MissionParsePtr mp)
+    { mp_ = mp; }
+
  protected:
     RTreePtr rtree_;
     RandomPtr random_;
+    MissionParsePtr mp_;
 
     // Key 1: Publisher Entity ID
     // Key 2: Subscriber Entity ID
@@ -74,6 +79,20 @@ class Network : public Plugin {
 
     virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
                                             const scrimmage::PluginPtr &sub_plugin);
+
+    bool network_init(std::map<std::string, std::string> &/*mission_params*/,
+                      std::map<std::string, std::string> &/*plugin_params*/);
+
+ private:
+    // Key: Topic String
+    std::map<std::string, unsigned int> pub_counts_;
+    std::map<std::string, unsigned int> sub_counts_;
+    bool monitor_all_pubs_ = false;
+    bool monitor_all_subs_ = false;
+
+    // Logging utility
+    bool write_csv_ = false;
+    CSV csv_;
 };
 
 typedef std::shared_ptr<Network> NetworkPtr;

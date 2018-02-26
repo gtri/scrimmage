@@ -61,6 +61,8 @@ namespace network {
 
 bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
                          std::map<std::string, std::string> &plugin_params) {
+    network_init(mission_params, plugin_params);
+
     range_ = std::stod(plugin_params.at("range"));
     prob_transmit_ = std::stod(plugin_params.at("prob_transmit"));
     return true;

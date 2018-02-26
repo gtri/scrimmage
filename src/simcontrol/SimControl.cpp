@@ -218,6 +218,7 @@ bool SimControl::init() {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =
             mp_->attributes()[network_name];
+
         NetworkPtr network =
             std::dynamic_pointer_cast<Network>(
                 plugin_manager_->make_plugin("scrimmage::Network",
@@ -228,6 +229,7 @@ bool SimControl::init() {
         std::string name = get<std::string>("name", config_parse.params(),
                                             network_name);
         network->set_name(name);
+        network->set_mission_parse(mp_);
         network->set_time(time_);
         network->set_pubsub(pubsub_);
         network->set_random(random_);
@@ -238,13 +240,11 @@ bool SimControl::init() {
             continue;
         }
 
+        // Seed the pubsub with network names
+        pubsub_->add_network_name(name);
+
         network->init(mp_->params(), config_parse.params());
         (*networks_)[network_name] = network;
-    }
-
-    // Seed the PubSub object with the possible network names
-    for (auto &kv : *networks_) {
-        pubsub_->add_network_name(kv.second->name());
     }
 
     // Create base shape objects
