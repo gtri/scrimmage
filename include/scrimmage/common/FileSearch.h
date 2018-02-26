@@ -56,6 +56,7 @@ class FileSearch {
             std::unordered_map<std::string, std::list<std::string>>>> cache_;
 };
 
+using FileSearchPtr = std::shared_ptr<FileSearch>;
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_COMMON_FILESEARCH_H_

@@ -163,8 +163,11 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::strin
     return nullptr;
 }
 
-PluginPtr PluginManager::make_plugin(std::string plugin_type,
-        std::string &plugin_name_xml, FileSearch &file_search, ConfigParse &config_parse,
+PluginPtr PluginManager::make_plugin(
+        std::string plugin_type,
+        const std::string &plugin_name_xml,
+        FileSearch &file_search,
+        ConfigParse &config_parse,
         std::map<std::string, std::string> &overrides) {
 
     config_parse.set_required("library");

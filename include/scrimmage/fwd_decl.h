@@ -61,6 +61,12 @@ class Contact;
 using ContactMap = std::unordered_map<int, Contact>;
 using ContactMapPtr = std::shared_ptr<ContactMap>;
 
+class FileSearch;
+using FileSearchPtr = std::shared_ptr<FileSearch>;
+
+class VariableIO;
+using VariableIOPtr = std::shared_ptr<VariableIO>;
+
 class Entity;
 using EntityPtr = std::shared_ptr<Entity>;
 

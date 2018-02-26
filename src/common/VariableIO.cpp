@@ -83,8 +83,9 @@ int VariableIO::add_output_variable(std::string &var) {
 int VariableIO::declare(std::string var, Direction dir) {
     if (dir == VariableIO::Direction::In) {
         return add_input_variable(var);
+    } else {
+        return add_output_variable(var);
     }
-    return add_output_variable(var);
 }
 
 double VariableIO::input(int i) {
@@ -97,6 +98,10 @@ void VariableIO::output(int i, double x) {
     // called before output to assign the shared ptr output to point to the
     // shared pointer input of the next plugin.
     if (i < output_->size()) (*output_)(i) = x;
+}
+
+double VariableIO::output(int i) {
+    return i < output_->size() ? (*output_)(i) : NAN;
 }
 
 void connect(VariableIO &output, VariableIO &input) {

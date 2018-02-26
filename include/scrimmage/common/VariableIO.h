@@ -42,10 +42,7 @@
 namespace scrimmage {
 class VariableIO {
  public:
-    enum class Direction {
-        In = 0,
-        Out
-    };
+    enum class Direction {In = 0, Out};
 
     VariableIO();
 
@@ -58,6 +55,7 @@ class VariableIO {
 
     double input(int i);
     void output(int i, double x);
+    double output(int i);
 
     /*! \brief Connect two VariableIO objects where writing to the output of
      *  the first object will transfer the data to the input of the second

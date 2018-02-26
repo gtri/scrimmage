@@ -33,8 +33,6 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <Eigen/Dense>
 
@@ -42,6 +40,13 @@
 #include <string>
 
 namespace scrimmage {
+class Subscriber;
+using SubscriberPtr = std::shared_ptr<Subscriber>;
+
+namespace interaction {
+class BoundaryBase;
+}
+
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{
  public:

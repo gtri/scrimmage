@@ -64,7 +64,12 @@ class PluginManager {
 
     void print_plugins(std::string plugin_type, std::string title, FileSearch &file_search);
     void print_returned_plugins();
-    PluginPtr make_plugin(std::string plugin_type, std::string &plugin_name_xml, FileSearch &file_search, ConfigParse &config_parse, std::map<std::string, std::string> &overrides);
+    PluginPtr make_plugin(
+        std::string plugin_type,
+        const std::string &plugin_name_xml,
+        FileSearch &file_search,
+        ConfigParse &config_parse,
+        std::map<std::string, std::string> &overrides);
     std::map<std::string, std::unordered_set<std::string>> get_commits();
     void set_reload(bool reload);
     bool get_reload();

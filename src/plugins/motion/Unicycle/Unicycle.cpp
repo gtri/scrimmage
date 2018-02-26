@@ -37,8 +37,6 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 
-#include <iostream>
-
 #include <boost/algorithm/clamp.hpp>
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle, Unicycle_plugin)

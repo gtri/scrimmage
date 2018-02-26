@@ -83,7 +83,8 @@ SimControl::SimControl() :
         id_to_ent_map_(new std::unordered_map<int, EntityPtr>()),
         timer_(Timer()),
         random_(new Random()),
-        plugin_manager_(new PluginManager()) {
+        plugin_manager_(new PluginManager()),
+        file_search_(std::make_shared<FileSearch>()) {
 
     pause(false);
     prev_paused_ = false;
@@ -103,13 +104,13 @@ bool SimControl::init() {
     proj_ = mp_->projection(); // get projection (origin) from mission
 
     if (get("show_plugins", mp_->params(), false)) {
-        plugin_manager_->print_plugins("scrimmage::Autonomy", "Autonomy Plugins", file_search_);
-        plugin_manager_->print_plugins("scrimmage::MotionModel", "Motion Plugins", file_search_);
-        plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", file_search_);
-        plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", file_search_);
-        plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", file_search_);
-        plugin_manager_->print_plugins("scrimmage::Sensable", "Sensable Plugins", file_search_);
-        plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", file_search_);
+        plugin_manager_->print_plugins("scrimmage::Autonomy", "Autonomy Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::MotionModel", "Motion Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Sensable", "Sensable Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
     }
 
 #if ENABLE_JSBSIM == 1
@@ -221,7 +222,7 @@ bool SimControl::init() {
           std::dynamic_pointer_cast<Network>(
               plugin_manager_->make_plugin(
                   "scrimmage::Network", it_network->second,
-                  file_search_, config_parse, overrides));
+                  *file_search_, config_parse, overrides));
         if (network_ == nullptr) {
             std::cout << "Could not initialize network: " << it_network->second << std::endl;
             return false;
@@ -254,7 +255,7 @@ bool SimControl::init() {
             std::dynamic_pointer_cast<Metrics>(
                 plugin_manager_->make_plugin(
                     "scrimmage::Metrics", metrics_name,
-                    file_search_, config_parse, overrides));
+                    *file_search_, config_parse, overrides));
 
         if (metrics != nullptr) {
             metrics->set_id_to_team_map(id_to_team_map_);
@@ -276,7 +277,7 @@ bool SimControl::init() {
         EntityInteractionPtr ent_inter =
             std::dynamic_pointer_cast<EntityInteraction>(
                 plugin_manager_->make_plugin("scrimmage::EntityInteraction",
-                                             ent_inter_name, file_search_,
+                                             ent_inter_name, *file_search_,
                                              config_parse, overrides));
 
         if (ent_inter == nullptr) {
@@ -849,7 +850,7 @@ std::list<MetricsPtr> &SimControl::metrics() { return metrics_; }
 
 PluginManagerPtr &SimControl::plugin_manager() {return plugin_manager_;}
 
-FileSearch &SimControl::file_search() {return file_search_;}
+FileSearchPtr &SimControl::file_search() {return file_search_;}
 
 bool SimControl::take_step() {
     take_step_mutex_.lock();

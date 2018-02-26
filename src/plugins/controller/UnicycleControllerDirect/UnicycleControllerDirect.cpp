@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/UnicycleControllerDirect/UnicycleControllerDirect.h>
 

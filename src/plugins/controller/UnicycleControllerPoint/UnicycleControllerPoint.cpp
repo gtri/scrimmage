@@ -30,8 +30,10 @@
  *
  */
 
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h>
+
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicycleControllerPoint, UnicycleControllerPoint_plugin)
 
 namespace scrimmage {
@@ -61,7 +63,6 @@ bool UnicycleControllerPoint::step(double t, double dt) {
     vars_.output(velocity_idx_, u_2d(0));
     vars_.output(turn_rate_idx_, u_2d(1));
     vars_.output(pitch_rate_idx_, 0);
-
     return true;
 }
 } // namespace controller

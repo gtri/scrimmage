@@ -71,7 +71,7 @@ bool External::create_entity(int max_entities, const ID &id,
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
     rtree->init(max_entities);
 
-    FileSearch file_search;
+    FileSearchPtr file_search = std::make_shared<FileSearch>();
     entity_ = std::make_shared<Entity>();
     auto network = std::make_shared<Network>();
 

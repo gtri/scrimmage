@@ -53,7 +53,6 @@ using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 
 namespace scrimmage {
 
-class FileSearch;
 using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
 
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
@@ -72,11 +71,11 @@ class Entity : public std::enable_shared_from_this<Entity> {
               int id, int ent_desc_id,
               PluginManagerPtr plugin_manager,
               NetworkPtr network,
-              FileSearch &file_search,
+              const FileSearchPtr &file_search,
               RTreePtr &rtree);
 
     bool parse_visual(std::map<std::string, std::string> &info,
-                      MissionParsePtr mp, FileSearch &file_search,
+                      MissionParsePtr mp,
                       std::map<std::string, std::string> &overrides);
 
     void close(double t);
@@ -160,6 +159,11 @@ class Entity : public std::enable_shared_from_this<Entity> {
     RTreePtr &rtree() { return rtree_; }
 
     double radius() { return radius_; }
+
+    ControllerPtr init_controller(
+        const std::string &name,
+        std::map<std::string, std::string> &overrides,
+        VariableIO &next_io);
     ///@}
 
  protected:
@@ -199,6 +203,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
     double radius_ = 1;
 
     void print(const std::string &msg);
+    PluginManagerPtr plugin_manager_;
+    FileSearchPtr file_search_;
 };
 
 using EntityPtr = std::shared_ptr<Entity>;

@@ -33,10 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_
 
-#include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 
 #include <map>
 #include <string>

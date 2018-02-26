@@ -112,7 +112,7 @@ class SimControl {
 
     std::list<MetricsPtr> & metrics();
     PluginManagerPtr &plugin_manager();
-    FileSearch &file_search();
+    FileSearchPtr &file_search();
 
     struct Task {
         EntityPtr ent;
@@ -207,7 +207,7 @@ class SimControl {
     NetworkPtr network_;
 
     int next_id_ = 1;
-    FileSearch file_search_;
+    FileSearchPtr file_search_;
     RTreePtr rtree_;
 
     void request_screenshot();

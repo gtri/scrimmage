@@ -36,10 +36,12 @@
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/sensor/Sensor.h>
 
 #if ENABLE_OPENCV == 1

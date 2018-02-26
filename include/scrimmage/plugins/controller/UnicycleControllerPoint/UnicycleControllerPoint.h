@@ -33,7 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_
 
-#include <scrimmage/plugins/motion/Unicycle/Unicycle.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>

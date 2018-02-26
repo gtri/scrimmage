@@ -66,8 +66,11 @@ bool Entity::init(AttributeMap &overrides,
                   int id, int ent_desc_id,
                   PluginManagerPtr plugin_manager,
                   NetworkPtr network,
-                  FileSearch &file_search,
+                  const FileSearchPtr &file_search,
                   RTreePtr &rtree) {
+
+    file_search_ = file_search;
+    plugin_manager_ = plugin_manager;
     contacts_ = contacts;
     rtree_ = rtree;
     proj_ = proj;
@@ -80,7 +83,7 @@ bool Entity::init(AttributeMap &overrides,
         mp_ = std::make_shared<MissionParse>();
     } else {
         mp_ = mp;
-        parse_visual(info, mp_, file_search, overrides["visual_model"]);
+        parse_visual(info, mp_, overrides["visual_model"]);
     }
 
     network_ = network;
@@ -132,7 +135,7 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_ =
             std::dynamic_pointer_cast<MotionModel>(
                 plugin_manager->make_plugin("scrimmage::MotionModel",
-                    info["motion_model"], file_search, config_parse,
+                    info["motion_model"], *file_search, config_parse,
                     overrides["motion_model"]));
 
         if (motion_model_ == nullptr) {
@@ -160,7 +163,7 @@ bool Entity::init(AttributeMap &overrides,
         SensorPtr sensor =
             std::dynamic_pointer_cast<Sensor>(
                 plugin_manager->make_plugin("scrimmage::Sensor",
-                                            sensor_name, file_search,
+                                            sensor_name, *file_search,
                                             config_parse,
                                             overrides[sensor_order_name]));
 
@@ -207,30 +210,14 @@ bool Entity::init(AttributeMap &overrides,
     while (info.count(ctrl_name) > 0) {
 
         ControllerPtr controller =
-            std::static_pointer_cast<Controller>(
-                plugin_manager->make_plugin("scrimmage::Controller",
-                    info[ctrl_name], file_search, config_parse,
-                    overrides[ctrl_name]));
+            init_controller(info[ctrl_name], overrides[ctrl_name], motion_model_->vars());
 
         if (controller == nullptr) {
             std::cout << "Failed to open controller plugin: " << info[ctrl_name] << std::endl;
             return false;
         }
 
-        controller->set_state(state_);
-
-        // The controller's variable indices should be the same as the motion
-        // model's variable indices. This will speed up copying during the
-        // simulation.
-        controller->vars().output_variable_index() = motion_model_->vars().input_variable_index();
-        connect(controller->vars(), motion_model_->vars());
-
-        controller->set_parent(parent);
-        controller->set_network(network);
-        controller->init(config_parse.params());
-
         controllers_.push_back(controller);
-
         ctrl_ct++;
         ctrl_name = std::string("controller") + std::to_string(ctrl_ct);
     }
@@ -250,7 +237,7 @@ bool Entity::init(AttributeMap &overrides,
         AutonomyPtr autonomy =
             std::dynamic_pointer_cast<Autonomy>(
                 plugin_manager->make_plugin("scrimmage::Autonomy",
-                                            info[autonomy_name], file_search, config_parse,
+                                            info[autonomy_name], *file_search, config_parse,
                                             overrides[autonomy_name]));
 
         if (autonomy == nullptr) {
@@ -288,7 +275,7 @@ bool Entity::init(AttributeMap &overrides,
 }
 
 bool Entity::parse_visual(std::map<std::string, std::string> &info,
-                          MissionParsePtr mp, FileSearch &file_search,
+                          MissionParsePtr mp,
                           std::map<std::string, std::string> &overrides) {
     visual_->set_id(id_.id());
     visual_->set_opacity(1.0);
@@ -301,7 +288,7 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
     }
 
     find_model_properties(it->second, cv_parse,
-                          file_search, overrides, visual_,
+                          *file_search_, overrides, visual_,
                           mesh_found, texture_found);
 
     set(visual_->mutable_color(), mp->team_info()[id_.team_id()].color);
@@ -484,4 +471,33 @@ std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
     return properties_;
 }
 
+ControllerPtr Entity::init_controller(
+        const std::string &name,
+        std::map<std::string, std::string> &overrides,
+        VariableIO &next_io) {
+
+    ConfigParse config_parse;
+    ControllerPtr controller =
+        std::static_pointer_cast<Controller>(
+            plugin_manager_->make_plugin("scrimmage::Controller",
+                name, *file_search_, config_parse, overrides));
+
+    if (controller == nullptr) {
+        std::cout << "Failed to open controller plugin: " << name << std::endl;
+        return nullptr;
+    }
+
+    controller->set_state(state_);
+
+    // The controller's variable indices should be the same as the motion
+    // model's variable indices. This will speed up copying during the
+    // simulation.
+    controller->vars().output_variable_index() = next_io.input_variable_index();
+    connect(controller->vars(), next_io);
+
+    controller->set_parent(shared_from_this());
+    controller->set_network(network_);
+    controller->init(config_parse.params());
+    return controller;
+}
 } // namespace scrimmage
