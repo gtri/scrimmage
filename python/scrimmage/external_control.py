@@ -20,6 +20,7 @@ import gym.spaces
 from gym.utils import seeding
 import importlib
 import argparse
+import lvdb
 if __name__ == "__main__":
     from scrimmage.proto import ExternalControl_pb2, ExternalControl_pb2_grpc
 else:
@@ -290,7 +291,7 @@ class ScrimmageEnv(gym.Env):
     def _return_action_result(self, index):
         info = {}
         try:
-            res = self.queues[index]['action_response'].get(timeout=60)
+            res = self.queues[index]['action_response'].get(timeout=6000)
         except queue.Empty:
             print('Scrimmage Environment: error getting action result')
             res = ExternalControl_pb2.ActionResult(done=True)
@@ -457,7 +458,7 @@ def main():
     while True:
         # get state from GRPC link
         try:
-            res = queues[0]['action_response'].get(timeout=60)
+            res = queues[0]['action_response'].get(timeout=6000)
         except queue.Empty:
             print('Not receiving sensor info from scrimmage')
             res = ExternalControl_pb2.ActionResult(done=True)

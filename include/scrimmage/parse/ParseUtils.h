@@ -122,7 +122,7 @@ bool get_vec(const std::string &str,
     return it == params.end() ? false : str2vec<T>(it->second, delims, vec, size);
 }
 
-bool get_vec(std::string str,
+bool get_vec(const std::string &str,
              std::map<std::string, std::string> & params,
              std::vector<std::string> &vec);
 

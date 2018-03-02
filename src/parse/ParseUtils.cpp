@@ -205,7 +205,7 @@ bool str2bool(std::string str) {
     return (num == 1);
 }
 
-bool get_vec(std::string str,
+bool get_vec(const std::string &str,
              std::map<std::string, std::string> & params,
              std::vector<std::string> &vec) {
     vec.clear();

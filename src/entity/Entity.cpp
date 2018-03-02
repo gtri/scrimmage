@@ -109,9 +109,9 @@ bool Entity::init(AttributeMap &overrides,
     double vz = get("vz", info, 0.0);
     state_->vel() << vx, vy, vz;
 
-    double roll = Angles::deg2rad(get("roll", info, 0));
-    double pitch = Angles::deg2rad(get("pitch", info, 0));
-    double yaw = Angles::deg2rad(get("heading", info, 0));
+    double roll = Angles::deg2rad(get("roll", info, 0.0));
+    double pitch = Angles::deg2rad(get("pitch", info, 0.0));
+    double yaw = Angles::deg2rad(get("heading", info, 0.0));
     state_->quat().set(roll, pitch, yaw);
 
     EntityPtr parent = shared_from_this();
