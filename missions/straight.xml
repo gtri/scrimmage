@@ -52,6 +52,7 @@
 
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
+    <name>uav_entity</name>
     <team_id>1</team_id>
     <color>77 77 255</color>
     <count>1</count>
