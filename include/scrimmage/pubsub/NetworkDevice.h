@@ -51,6 +51,8 @@ class NetworkDevice {
     NetworkDevice(NetworkDevice &rhs);
     NetworkDevice(NetworkDevice &&rhs);
 
+    virtual ~NetworkDevice() = default; // Make NetworkDevice Polymorphic
+
     NetworkDevice(std::string &topic, unsigned int &max_queue_size,
                   bool enable_queue_size, PluginPtr plugin);
 

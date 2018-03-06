@@ -68,7 +68,7 @@ bool MissionParse::parse(std::string filename) {
     std::ifstream file(mission_filename_.c_str());
 
     if (!file.is_open()) {
-        cout << filename << " not found" << endl;
+        cout << "SCRIMMAGE mission file not found: " << filename << endl;
         return false;
     }
 
