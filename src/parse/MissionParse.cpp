@@ -571,6 +571,12 @@ bool MissionParse::parse(std::string filename) {
         next_gen_times_[ent_desc_id] = start_times;
         gen_info_[ent_desc_id] = gen_info;
 
+        // If the entity block has a "name", save the mapping from entity name
+        // to entity ID
+        if (script_info.count("name")) {
+            entity_name_to_id_[script_info["name"]] = ent_desc_id;
+        }
+
         entity_descs_[ent_desc_id++] = script_info;
     }
 
@@ -739,6 +745,10 @@ std::map<int, int> &MissionParse::ent_id_to_block_id() {
 }
 
 EntityDesc_t &MissionParse::entity_descriptions() { return entity_descs_; }
+
+std::map<std::string, int> & MissionParse::entity_name_to_id() {
+    return entity_name_to_id_;
+}
 
 bool MissionParse::enable_gui() { return enable_gui_; }
 
