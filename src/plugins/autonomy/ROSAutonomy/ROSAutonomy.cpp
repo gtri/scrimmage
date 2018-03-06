@@ -100,9 +100,7 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sc::sensor::RayTrace::PointCloud>(
         "GlobalNetwork",
-        std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud",
-        10, pc_cb);
-
+        std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud", pc_cb);
 
     desired_state_->vel() = Eigen::Vector3d::UnitX() * 0;
     desired_state_->quat().set(0, 0, state_->quat().yaw());

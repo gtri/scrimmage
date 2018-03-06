@@ -138,6 +138,11 @@ void Straight::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
 
+    auto temp_callback = [&] (scrimmage::MessagePtr<double> msg) {
+        cout << "Got number: " << msg->data << endl;
+    };
+    subscribe<double>("GlobalNetwork", "ANumber", temp_callback);
+
     alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
 }
 

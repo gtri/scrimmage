@@ -93,7 +93,6 @@ class PubSub {
                            bool enable_queue_size, PluginPtr plugin);
 
  protected:
-    // NetworkMapPtr networks_;
     // void rm_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map);
     // void add_device(std::string topic, NetworkDevicePtr device, TopicMap &map);
 

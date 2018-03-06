@@ -36,6 +36,7 @@
   
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
+    <name>agent</name>
     <team_id>1</team_id> 
     <color>0 0 255</color>
     <count>2</count>
