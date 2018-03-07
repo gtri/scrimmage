@@ -61,17 +61,18 @@ namespace metrics {
 void SimpleCaptureMetrics::init(std::map<std::string, std::string> &params) {
     params_ = params;
 
-    team_capture_sub_ = create_subscriber("TeamCapture");
-    nonteam_capture_sub_ = create_subscriber("NonTeamCapture");
+    auto teamcapture_cb = [&] (scrimmage::MessagePtr<sm::TeamCapture> msg) {
+        scores_[msg->data.source_id()].increment_count("TeamCapture");
+    };
+    subscribe<sm::TeamCapture>("GlobalNetwork", "TeamCapture", teamcapture_cb);
+
+    auto nonteamcapture_cb = [&] (scrimmage::MessagePtr<sm::NonTeamCapture> msg) {
+        scores_[msg->data.source_id()].increment_count("NonTeamCapture");
+    };
+    subscribe<sm::NonTeamCapture>("GlobalNetwork", "NonTeamCapture", nonteamcapture_cb);
 }
 
 bool SimpleCaptureMetrics::step_metrics(double t, double dt) {
-    for (auto msg : team_capture_sub_->msgs<sc::Message<sm::TeamCapture>>()) {
-        scores_[msg->data.source_id()].increment_count("TeamCapture");
-    }
-    for (auto msg : nonteam_capture_sub_->msgs<sc::Message<sm::NonTeamCapture>>()) {
-        scores_[msg->data.source_id()].increment_count("NonTeamCapture");
-    }
     return true;
 }
 

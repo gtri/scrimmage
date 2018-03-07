@@ -79,7 +79,8 @@ RUN ./generate-plugin.sh interaction InteractionTest ~/scrimmage/scrimmage
 RUN ./generate-plugin.sh metrics MetricsTest ~/scrimmage/scrimmage
 RUN ./generate-plugin.sh motion MotionTest ~/scrimmage/scrimmage
 RUN ./generate-plugin.sh sensor SensorTest ~/scrimmage/scrimmage
-# TODO: Controller plugin generation
+RUN ./generate-plugin.sh controller ControllerTest ~/scrimmage/scrimmage
+RUN ./generate-plugin.sh network NetworkTest ~/scrimmage/scrimmage
 
 # Run static analysis tests
 WORKDIR /root/scrimmage/scrimmage

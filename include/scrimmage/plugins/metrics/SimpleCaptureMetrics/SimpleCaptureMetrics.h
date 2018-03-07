@@ -51,7 +51,6 @@ class Score {
     Score() {}
 
     bool set_weights(std::map<std::string, std::string> &params) {
-        // TODO: Automate this weight parsing
         double w = sc::get<double>("TeamCapture_weight", params, 0.0);
         weights_["TeamCapture"] = w;
 
@@ -119,9 +118,6 @@ class SimpleCaptureMetrics : public scrimmage::Metrics {
     virtual void print_team_summaries();
 
  protected:
-    sc::SubscriberPtr team_capture_sub_;
-    sc::SubscriberPtr nonteam_capture_sub_;
-
     std::map<int, Score> scores_;
     std::map<int, Score> team_scores_map_;
 

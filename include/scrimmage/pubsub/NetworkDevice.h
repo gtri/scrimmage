@@ -33,7 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/MessageBase.h>
 #include <scrimmage/pubsub/Message.h>
 
@@ -47,9 +47,14 @@ namespace scrimmage {
 
 class NetworkDevice {
  public:
-    NetworkDevice() = default;
+    NetworkDevice();
     NetworkDevice(NetworkDevice &rhs);
     NetworkDevice(NetworkDevice &&rhs);
+
+    virtual ~NetworkDevice() = default; // Make NetworkDevice Polymorphic
+
+    NetworkDevice(std::string &topic, unsigned int &max_queue_size,
+                  bool enable_queue_size, PluginPtr plugin);
 
     std::string get_topic() const;
     void set_topic(std::string topic);
@@ -57,27 +62,28 @@ class NetworkDevice {
     void set_msg_list(std::list<MessageBasePtr> msg_list);
     void clear_msg_list();
 
+    unsigned int msg_list_size() {
+        return msg_list_.size();
+    }
+
     void set_max_queue_size(unsigned int size);
     unsigned int max_queue_size();
+    void enable_queue_size(bool enforce);
+    bool enable_queue_size();
 
-    PluginPtr &plugin();
+    void enforce_queue_size();
 
     void add_msg(MessageBasePtr msg);
 
     template <class T = MessageBase,
               class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
-    std::list<MessageBasePtr> msgs(bool pop_msgs = true, bool exclude_self = true) {
+    std::list<MessageBasePtr> msgs(bool pop_msgs = true) {
         mutex_.lock();
         std::list<MessageBasePtr> msg_list_cast;
 
-        int id = plugin_->get_network_id();
         auto it = msg_list_.begin();
         while (it != msg_list_.end()) {
-
-            if (!exclude_self || (*it)->sender != id) {
-                msg_list_cast.push_back(*it);
-            }
-
+            msg_list_cast.push_back(*it);
             it = pop_msgs ? msg_list_.erase(it) : std::next(it);
         }
         mutex_.unlock();
@@ -87,46 +93,43 @@ class NetworkDevice {
     template <class T,
               class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
                                        std::is_base_of<MessageBase, T>::value, void>>
-    std::list<std::shared_ptr<T>> msgs(bool pop_msgs = true, bool exclude_self = true) {
+    std::list<std::shared_ptr<T>> msgs(bool pop_msgs = true) {
         mutex_.lock();
         std::list<std::shared_ptr<T>> msg_list_cast;
 
-        int id = plugin_->get_network_id();
         auto it = msg_list_.begin();
         while (it != msg_list_.end()) {
-
-            if (!exclude_self || (*it)->sender != id) {
-                auto msg_cast = std::dynamic_pointer_cast<T>(*it);
-                if (msg_cast) {
-                    msg_list_cast.push_back(msg_cast);
+            auto msg_cast = std::dynamic_pointer_cast<T>(*it);
+            if (msg_cast) {
+                msg_list_cast.push_back(msg_cast);
                 } else {
-                    print_str(std::string("WARNING: could not cast message on topic \"")
-                        + topic_);
-                }
+                print_str(std::string("WARNING: could not cast message on topic \"")
+                          + topic_);
             }
-
             it = pop_msgs ? msg_list_.erase(it) : std::next(it);
         }
         mutex_.unlock();
-
         return msg_list_cast;
     }
 
     template <class T,
               class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
                                        !std::is_base_of<MessageBase, T>::value, void>>
-    std::list<std::shared_ptr<Message<T>>> msgs(bool pop_msgs = true, bool exclude_self = true) {
-        return msgs<Message<T>>(pop_msgs, exclude_self);
+    std::list<std::shared_ptr<Message<T>>> msgs(bool pop_msgs = true) {
+        return msgs<Message<T>>(pop_msgs);
     }
 
+    PluginPtr & plugin();
+
  protected:
-    void print_str(std::string msg);
-    std::string topic_;
-    std::list<MessageBasePtr> msg_list_;
-    PluginPtr plugin_ = std::make_shared<Plugin>();
+    std::string topic_ = "";
     unsigned int max_queue_size_ = 1;
+    bool enable_queue_size_ = false;
+    PluginPtr plugin_;
+    void print_str(std::string msg);
+    std::list<MessageBasePtr> msg_list_;
     std::mutex mutex_;
 };
-
+using NetworkDevicePtr = std::shared_ptr<NetworkDevice>;
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_

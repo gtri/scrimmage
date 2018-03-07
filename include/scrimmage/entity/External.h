@@ -43,6 +43,7 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Publisher.h>
 
+#include <list>
 #include <map>
 #include <string>
 #include <functional>
@@ -60,9 +61,9 @@ class External {
  public:
     External();
     EntityPtr &entity();
-    bool create_entity(int max_entities, const ID &id,
-            std::map<std::string, std::string> &info,
-            const std::string &log_dir);
+    bool create_entity(const std::string &mission_file,
+                       int max_entities, int entity_id,
+                       const std::string &entity_name);
 
     std::function<void()> update_contacts;
     double min_motion_dt = 1;
@@ -73,117 +74,91 @@ class External {
     std::shared_ptr<Log> log_;
     double last_t_;
     std::mutex mutex_;
+    PubSubPtr pubsub_;
+    TimePtr time_;
+    MissionParsePtr mp_;
 
  public:
-    bool step(double t) {
-        mutex_.lock();
-        if (update_contacts) {
-            update_contacts();
-            auto rtree = entity_->rtree();
-            rtree->init(100);
-            rtree->clear();
-            for (auto &kv : *entity_->contacts()) {
-                rtree->add(kv.second.state()->pos(), kv.second.id());
-            }
-        }
-        mutex_.unlock();
-
-        // do all the scrimmage updates (e.g., step_autonomy, step controller, etc)
-        // incorporating motion_dt_
-        mutex_.lock();
-        double dt = std::isnan(last_t_) ? 0 : t - last_t_;
-        last_t_ = t;
-        for (AutonomyPtr autonomy : entity_->autonomies()) {
-            autonomy->step_autonomy(t, dt);
-        }
-
-        entity_->setup_desired_state();
-
-        int num_steps = dt <= min_motion_dt ? 1 : ceil(dt / min_motion_dt);
-        double motion_dt = dt / num_steps;
-        double temp_t = t - dt;
-        for (int i = 0; i < num_steps; i++) {
-            for (ControllerPtr &ctrl : entity_->controllers()) {
-                ctrl->step(temp_t, motion_dt);
-            }
-            temp_t += motion_dt;
-        }
-
-        // do logging
-        log_->save_frame(create_frame(t, entity_->contacts()));
-
-        // shapes
-        scrimmage_proto::Shapes shapes;
-        shapes.set_time(t);
-        for (AutonomyPtr autonomy : entity_->autonomies()) {
-            for (auto autonomy_shape : autonomy->shapes()) {
-                // increase length of shapes by 1 (including mallocing a new object)
-                // return a pointer to the malloced object
-                scrimmage_proto::Shape *shape_at_end_of_shapes = shapes.add_shape();
-
-                // copy autonomy shape to list
-                *shape_at_end_of_shapes = *autonomy_shape;
-            }
-        }
-        log_->save_shapes(shapes);
-
-#ifdef ROSCPP_ROS_H
-        for (AutonomyPtr autonomy : entity_->autonomies()) {
-            for (auto &kv : autonomy->pubs()) {
-                if (kv.second->callback) {
-                    for (auto msg : kv.second->msgs(true, false)) {
-                        kv.second->callback(msg);
-                    }
-                }
-            }
-        }
-#endif
-        mutex_.unlock();
-        return true;
+    bool step(double t);
+    PubSubPtr pubsub() {
+        return pubsub_;
     }
 
 #ifdef ROSCPP_ROS_H
 
  public:
     template <class Sc2Ros>
-    void pub_cb(Sc2Ros sc2ros,
-                PublisherPtr sc_pub,
-                ros::Publisher ros_pub) {
+        void pub_cb(std::string network_name, std::string topic_name,
+                    Sc2Ros sc2ros, ros::Publisher ros_pub) {
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
-        sc_pub->callback = [=](MessageBasePtr sc_msg) {
-            ros_pub_ptr->publish(sc2ros(sc_msg));
-        };
+
+        boost::optional<std::list<NetworkDevicePtr>> pubs =
+            pubsub_->find_pubs(network_name, topic_name);
+
+        if (pubs) {
+            for (NetworkDevicePtr dev : *pubs) {
+                PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
+                pub->callback = [=](MessageBasePtr sc_msg) {
+                    ros_pub_ptr->publish(sc2ros(sc_msg));
+                };
+            }
+        } else {
+            cout << "Failed to setup scrimmage to ROS publisher." << endl;
+        }
     }
 
     template <class ScType, class Sc2Ros>
-    void pub_cb(Sc2Ros sc2ros,
-                PublisherPtr sc_pub,
-                ros::Publisher ros_pub) {
+    void pub_cb(std::string network_name, std::string topic_name,
+                Sc2Ros sc2ros, ros::Publisher ros_pub) {
 
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
-        sc_pub->callback = [=](MessageBasePtr sc_msg) {
-            auto sc_msg_cast = std::dynamic_pointer_cast<Message<ScType>>(sc_msg);
-            if (sc_msg_cast == nullptr) {
-                std::cout << "could not cast to "
-                    << boost::typeindex::type_id<Message<ScType>>().pretty_name()
-                    << " in pub_cb" << std::endl;
-            } else {
-                ros_pub_ptr->publish(sc2ros(sc_msg_cast));
+
+        boost::optional<std::list<NetworkDevicePtr>> pubs =
+            pubsub_->find_pubs(network_name, topic_name);
+
+        if (pubs) {
+            for (NetworkDevicePtr dev : *pubs) {
+                PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
+
+                pub->callback = [=](MessageBasePtr sc_msg) {
+                    auto sc_msg_cast = std::dynamic_pointer_cast<Message<ScType>>(sc_msg);
+                    if (sc_msg_cast == nullptr) {
+                        std::cout << "could not cast to "
+                                  << boost::typeindex::type_id<Message<ScType>>().pretty_name()
+                                  << " in pub_cb" << std::endl;
+                    } else {
+                        ros_pub_ptr->publish(sc2ros(sc_msg_cast));
+                    }
+                };
             }
-        };
+        } else {
+            cout << "Failed to setup scrimmage to ROS publisher." << endl;
+        }
     }
 
     template <class RosType, class Ros2Sc>
     boost::function<void(const boost::shared_ptr<RosType const>&)>
-    sub_cb(Ros2Sc ros2sc, SubscriberPtr sc_sub) {
+    sub_cb(std::string network_name, std::string topic_name, Ros2Sc ros2sc) {
 
-        return [=](const boost::shared_ptr<RosType const>&ros_msg) {
-            auto sc_msg = ros2sc(*ros_msg);
-            auto sc_msg_ptr = std::make_shared<decltype(sc_msg)>();
-            *sc_msg_ptr = sc_msg;
-            sc_sub->add_msg(sc_msg_ptr);
-            step(ros::Time::now().toSec());
-        };
+        boost::optional<std::list<NetworkDevicePtr>> subs =
+            pubsub_->find_subs(network_name, topic_name);
+
+        if (subs) {
+            for (NetworkDevicePtr dev : *subs) {
+                return [=](const boost::shared_ptr<RosType const>&ros_msg) {
+                    auto sc_msg = ros2sc(*ros_msg);
+                    auto sc_msg_ptr = std::make_shared<decltype(sc_msg)>();
+                    *sc_msg_ptr = sc_msg;
+                    dev->add_msg(sc_msg_ptr);
+                    // step(ros::Time::now().toSec());
+                };
+            }
+        }
+
+        cout << "Failed to create ROS to SCRIMMAGE subscriber (callback) " << endl;
+        cout << "Network name: " << network_name << endl;
+        cout << "Topic name: " << topic_name << endl;
+        return [=](const boost::shared_ptr<RosType const>&ros_msg) { };
     }
 
     template <class RosType, class ScrimmageResponseType, class Sc2RosResponseFunc>

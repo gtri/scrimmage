@@ -47,16 +47,14 @@ class AuctionAssign : public scrimmage::Autonomy {
     virtual bool step_autonomy(double t, double dt);
 
  protected:
-    scrimmage::PublisherPtr pub_start_auction_;
-    scrimmage::PublisherPtr pub_bid_auction_;
-    scrimmage::SubscriberPtr sub_start_auction_;
-    scrimmage::SubscriberPtr sub_bid_auction_;
+    scrimmage::PublisherPtr start_auction_pub_;
+    scrimmage::PublisherPtr bid_auction_pub_;
 
     bool auction_started_ = false;
     bool auction_in_prog_ = false;
     double auction_start_time_ = -std::numeric_limits<double>::infinity();
-    double auction_max_time_ = 0;
-    double max_bid_ = -std::numeric_limits<double>::infinity();
+    double auction_max_time_ = 5;
+    double max_bid_ = -std::numeric_limits<double>::max();
     int max_bid_champ_ = -1;
     int id_ = -1;
 };

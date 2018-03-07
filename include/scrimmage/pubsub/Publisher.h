@@ -35,6 +35,7 @@
 
 #include <scrimmage/pubsub/NetworkDevice.h>
 #include <functional>
+#include <string>
 
 namespace scrimmage {
 
@@ -43,7 +44,10 @@ using MessageBasePtr = std::shared_ptr<MessageBase>;
 
 class Publisher : public NetworkDevice {
  public:
-    void publish(MessageBasePtr msg, double t, bool use_network_id = true);
+    Publisher();
+    Publisher(std::string &topic, unsigned int &max_queue_size,
+              bool enable_queue_size, PluginPtr plugin);
+    void publish(MessageBasePtr msg);
     std::function<void(MessageBasePtr)> callback;
 };
 

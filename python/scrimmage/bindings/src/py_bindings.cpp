@@ -41,7 +41,7 @@ PYBIND11_MODULE(py_bindings, m) {
     m.doc() = "pybind11 example plugin";
 
     add_math(m);
-    add_network(m);
+    add_pubsub(m);
     add_common(m);
     add_autonomy(m);
 

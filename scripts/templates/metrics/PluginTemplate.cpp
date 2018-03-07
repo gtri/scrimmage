@@ -64,13 +64,13 @@ namespace metrics {
 }
 
 void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
-    sub_ground_collision_ = create_subscriber("GroundCollision");
+    auto groundcoll_cb = [&] (scrimmage::MessagePtr<sm::GroundCollision> msg) {
+        scores_[msg->data.entity_id()].increment_ground_collisions();
+    };
+    subscribe<sm::GroundCollision>("GlobalNetwork", "GroundCollision", groundcoll_cb);
 }
 
 bool (>>>PLUGIN_NAME<<<)::step_metrics(double t, double dt) {
-    for (auto msg : sub_ground_collision_->msgs<sc::Message<sm::GroundCollision>>()) {
-        scores_[msg->data.entity_id()].increment_ground_collisions();
-    }
     return true;
 }
 

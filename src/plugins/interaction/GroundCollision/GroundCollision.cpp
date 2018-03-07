@@ -74,7 +74,7 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
         ground_collision_z_ = z;
     }
 
-    collision_pub_ = create_publisher("GroundCollision");
+    collision_pub_ = advertise("GlobalNetwork", "GroundCollision");
 
     team_ = plugin_params.at("team");
     return true;
@@ -104,7 +104,7 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
             auto msg = std::make_shared<sc::Message<sm::GroundCollision>>();
             msg->data.set_entity_id(ent->id().id());
-            publish_immediate(t, collision_pub_, msg);
+            collision_pub_->publish(msg);
         }
     }
     return true;

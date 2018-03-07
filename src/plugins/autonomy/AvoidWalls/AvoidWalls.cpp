@@ -57,20 +57,23 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
-    pcl_sub_ = create_subscriber(std::to_string(parent_->id().id()) + "/0/pointcloud");
+    auto pc_cb = [&] (scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
+        point_cloud_ = msg->data;
+    };
+    subscribe<sensor::RayTrace::PointCloud>(
+        "GlobalNetwork", std::to_string(parent_->id().id()) + "/0/pointcloud",
+        pc_cb);
 }
 
 bool AvoidWalls::step_autonomy(double t, double dt) {
+    // Find closest point and move away from it
     bool all_close_points = true;
     std::list<Eigen::Vector3d> points;
-    for (auto msg : pcl_sub_->msgs<sc::Message<sensor::RayTrace::PointCloud>>()) {
-        // Find closest point and move away from it
-        for (sensor::RayTrace::PCPoint &p : msg->data.points) {
-            if (p.point.norm() < avoid_distance_) {
-                points.push_back(p.point);
-            } else {
-                all_close_points = false;
-            }
+    for (sensor::RayTrace::PCPoint &p : point_cloud_.points) {
+        if (p.point.norm() < avoid_distance_) {
+            points.push_back(p.point);
+        } else {
+            all_close_points = false;
         }
     }
 

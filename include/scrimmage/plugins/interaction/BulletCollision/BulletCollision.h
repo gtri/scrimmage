@@ -77,9 +77,6 @@ class BulletCollision : public scrimmage::EntityInteraction {
 
     std::map<int, btCollisionObject*> objects_;
 
-    sc::SubscriberPtr sub_ent_gen_;
-    sc::SubscriberPtr sub_shape_gen_;
-
     // Key 1: Entity ID
     // Value 2: map
     // Key 2: Sensor Name (sensor0)
