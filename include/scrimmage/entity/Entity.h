@@ -203,6 +203,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void print(const std::string &msg);
     PluginManagerPtr plugin_manager_;
     FileSearchPtr file_search_;
+    PubSubPtr pub_sub_;
+    TimePtr time_;
 };
 
 using EntityPtr = std::shared_ptr<Entity>;

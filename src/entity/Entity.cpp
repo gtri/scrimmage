@@ -70,6 +70,8 @@ bool Entity::init(AttributeMap &overrides,
                   PubSubPtr &pubsub,
                   TimePtr &time) {
 
+    pubsub_ = pubsub;
+    time_ = time;
     file_search_ = file_search;
     plugin_manager_ = plugin_manager;
     contacts_ = contacts;
@@ -498,6 +500,8 @@ ControllerPtr Entity::init_controller(
     connect(controller->vars(), next_io);
 
     controller->set_parent(shared_from_this());
+    controller->set_time(time_a);
+    controller->set_pubsub(pubsub_);
     controller->set_network(network_);
     controller->init(config_parse.params());
     return controller;
