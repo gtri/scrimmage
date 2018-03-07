@@ -141,6 +141,11 @@ bool External::step(double t) {
     mutex_.lock();
 
     for (AutonomyPtr autonomy : entity_->autonomies()) {
+        for (SubscriberBasePtr &sub : autonomy->subs()) {
+            for (auto msg : sub->msgs<MessageBase>(true)) {
+                sub->accept(msg);
+            }
+        }
         autonomy->step_autonomy(t, dt);
     }
 
@@ -151,6 +156,11 @@ bool External::step(double t) {
     double temp_t = t - dt;
     for (int i = 0; i < num_steps; i++) {
         for (ControllerPtr &ctrl : entity_->controllers()) {
+            for (SubscriberBasePtr &sub : ctrl->subs()) {
+                for (auto msg : sub->msgs<MessageBase>(true)) {
+                    sub->accept(msg);
+                }
+            }
             ctrl->step(temp_t, motion_dt);
         }
         temp_t += motion_dt;

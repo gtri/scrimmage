@@ -36,6 +36,8 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
+#include <boost/optional.hpp>
+
 #include <iostream>
 #include <map>
 #include <list>
@@ -59,6 +61,16 @@ class PubSub {
     TopicMap &subs() { return sub_map_; }
 
     void add_network_name(std::string str);
+
+    boost::optional<std::list<NetworkDevicePtr>> find_devices(std::string &network_name,
+                                                                std::string &topic_name,
+                                                                TopicMap &devs);
+
+    boost::optional<std::list<NetworkDevicePtr>> find_pubs(std::string &network_name,
+                                                             std::string &topic_name);
+
+    boost::optional<std::list<NetworkDevicePtr>> find_subs(std::string &network_name,
+                                                             std::string &topic_name);
 
     // void add_publisher(int network_id, PublisherPtr pub, std::string &topic);
     // void add_subscriber(SubscriberBasePtr sub, std::string &topic);
