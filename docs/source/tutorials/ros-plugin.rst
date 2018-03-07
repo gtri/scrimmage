@@ -10,15 +10,31 @@ on in a ROS system. In this tutorial we will look at how to do this for the
 
   $ scrimmage missions/auction_assign.xml
 
-  StartAuction: 1 received message from 1
-   sending back bid of -7.36924
-  StartAuction: 2 received message from 1
-   sending back bid of -0.826997
-  BidAuction: 1 received message from 1 bid: -7.36924
-  BidAuction: 1 received message from 2 bid: -0.826997
+  Agent (1) starting auction
+  -----------------------------
+  Time: 0.1
+  StartAuction: entity ID (1) received message from entity ID: 1
+  Sending bid of 4.02381
+  -----------------------------
+  Time: 0.1
+  StartAuction: entity ID (2) received message from entity ID: 1
+  Sending bid of 5.24396
+  -----------------------------
+  Time: 0.2
+  BidAuction: entity ID (1) received message from entity ID (1),  bid: 4.02381
+  -----------------------------
+  Time: 0.2
+  BidAuction: entity ID (1) received message from entity ID (2),  bid: 5.24396
+  -----------------------------
+  Time: 0.2
+  BidAuction: entity ID (2) received message from entity ID (1),  bid: 4.02381
+  -----------------------------
+  Time: 0.2
+  BidAuction: entity ID (2) received message from entity ID (2),  bid: 5.24396
   ======================================
   Auction Complete
-  Max Bidder: 2 - Bid=-0.826997
+  Max Bidder: 2
+  Bid: 5.24396
   ======================================
 
 In this scenario there are two entities. The entity with id 1 starts an
@@ -33,11 +49,10 @@ have done::
   $ sudo ./setup/install-binaries.sh -e 0
   $ cmake .. -DEXTERNAL=1
 
-Let's build and run the wrapped ROS node available from the `scrimmage_ros
-<https://github.com/SyllogismRXS/scrimmage_ros.git>`_ ROS package. Follow the instructions
-in that repo's README to setup your catkin workspace. Once it is installed
-we can run the ``auctioneer`` node as follows::
-  
+Let's build and run the wrapped ROS node available from the scrimmage_ros_ ROS
+package. Follow the instructions in that repo's README to setup your catkin
+workspace. Once it is installed we can run the ``auctioneer`` node as follows::
+
   $ cd catkin_ws
   $ catkin_make
   $ source devel/setup.bash # or source devel/setup.zsh
@@ -47,39 +62,61 @@ we can run the ``auctioneer`` node as follows::
   ========
 
   PARAMETERS
+   * /entity_1/entity_id: 1
+   * /entity_1/entity_name: agent
+   * /entity_1/max_contacts: 100
+   * /entity_1/mission_file: ~/scrimmage/scrim...
+   * /entity_2/entity_id: 2
+   * /entity_2/entity_name: agent
+   * /entity_2/max_contacts: 100
+   * /entity_2/mission_file: ~/scrimmage/scrim...
    * /rosdistro: kinetic
-   * /rosversion: 1.12.7
+   * /rosversion: 1.12.12
 
   NODES
     /
-      auctioneer1 (scrimmage_ros/auctioneer)
-      auctioneer2 (scrimmage_ros/auctioneer)
+      entity_1 (scrimmage_ros/auctioneer)
+      entity_2 (scrimmage_ros/auctioneer)
 
   auto-starting new master
-  process[master]: started with pid [10877]
+  process[master]: started with pid [31656]
   ROS_MASTER_URI=http://localhost:11311
 
-  setting /run_id to 21639512-b4d6-11e7-a519-247703637410
-  process[rosout-1]: started with pid [10910]
+  setting /run_id to d001a062-2233-11e8-9392-484d7ed51daf
+  process[rosout-1]: started with pid [31669]
   started core service [/rosout]
-  process[auctioneer1-2]: started with pid [10914]
-  process[auctioneer2-3]: started with pid [10920]
-  origin: 1
-  Starting!
-  StartAuction: 1 received message from 1
-   sending back bid of 0.736862
-  StartAuction: 2 received message from 1
-   sending back bid of 0.55305
-  BidAuction: 1 received message from 1 bid: 0.736862
-  BidAuction: 1 received message from 2 bid: 0.55305
+  process[entity_1-2]: started with pid [31677]
+  process[entity_2-3]: started with pid [31687]
+  Agent (1) starting auction
+  -----------------------------
+  Time: 1.52045e+09
+  StartAuction: entity ID (1) received message from entity ID: 1
+  Sending bid of -6.84253
+  -----------------------------
+  Time: 1.52045e+09
+  StartAuction: entity ID (2) received message from entity ID: 1
+  Sending bid of -3.40187
+  -----------------------------
+  Time: 1.52045e+09
+  BidAuction: entity ID (2) received message from entity ID (1),  bid: -6.84253
+  -----------------------------
+  Time: 1.52045e+09
+  BidAuction: entity ID (1) received message from entity ID (1),  bid: -6.84253
+  -----------------------------
+  Time: 1.52045e+09
+  BidAuction: entity ID (1) received message from entity ID (2),  bid: -3.40187
+  -----------------------------
+  Time: 1.52045e+09
+  BidAuction: entity ID (2) received message from entity ID (2),  bid: -3.40187
   ======================================
   Auction Complete
-  Max Bidder: 1 - Bid=0.736862
+  Max Bidder: 2
+  Bid: -3.40187
   ======================================
-  [auctioneer1-2] process has finished cleanly
-  log file: /home/.ros/log/21639512-b4d6-11e7-a519-247703637410/auctioneer1-2*.log
-  [auctioneer2-3] process has finished cleanly
-  log file: /home/.ros/log/21639512-b4d6-11e7-a519-247703637410/auctioneer2-3*.log
+  [entity_1-2] process has finished cleanly
+  log file: /home/syllogismrxs/.ros/log/d001a062-2233-11e8-9392-484d7ed51daf/entity_1-2*.log
+  [entity_2-3] process has finished cleanly
+  log file: /home/syllogismrxs/.ros/log/d001a062-2233-11e8-9392-484d7ed51daf/entity_2-3*.log
 
 Note that this output is very similar to when we ran it in the SCRIMMAGE
 simulation. This is because it is running the exactly same code [#f1]_.  The goal of
@@ -92,89 +129,135 @@ SCRIMMAGE plugin code can be found in the following locations::
   include/scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h
   src/plugins/autonomy/AuctionAssign/AuctionAssign.cpp
 
-and the ROS node that wraps this plugin can be found here::
-
-  catkin_ws/src/scrimmage_ros/src/auctioneer.cpp
+and the ROS node that wraps this plugin can be found online (`auctioneer.cpp
+<https://github.com/SyllogismRXS/scrimmage_ros/blob/master/src/auctioneer.cpp/>`_).
 
 The most important aspect of the SCRIMMAGE plugin files is that they have
 publishers and subscribers on topics ``StartAuction`` and ``BidAuction`` that
 we want to get into ROS. To do this the user must do is convert between ROS
 and SCRIMMAGE messaging formats [#f2]_ . The rest is handled by the
-``External`` class provided by SCRIMMAGE. We start by initializing an
-``Entity``::
+``External`` class provided by SCRIMMAGE. We start by initializing a ROS node as usual::
 
+    // Initialize the ROS node
+    ros::init(argc, argv, "auctioneer");
     ros::NodeHandle nh;
 
-    std::map<std::string, std::string> info
-        {{"x", "0"}, {"y", "0"}, {"autonomy0", "AuctionAssign"}};
+    // Get a private node handle to parse ros params
+    ros::NodeHandle private_nh("~");
 
-    sc::External external;
-    external.create_entity(100, id, info, "/tmp");
+Next, we need to get the mission file that contains our entity's
+description. We also need to specify the entity ID for the ROS environment, the
+entity name, and the maximum number of contacts. We use ROS' parameter server
+API to load the parameters from `auction.launch
+<https://github.com/SyllogismRXS/scrimmage_ros/blob/master/launch/auction.launch/>`_.::
 
-The ``info`` map holds basic initialization information that is often
-contained in a mission file. This initializes the ``x/y`` position and gives
-the name of the autonomy plugin [#f3]_ :: 
+  // Get the mission file, which holds overrides for plugin parameters
+  std::string mission_file;
+  private_nh.param("mission_file", mission_file, std::string(""));
 
-    auto pubs = external.entity()->autonomies().front()->pubs();
+  // Get the entity ID
+  int entity_id;
+  private_nh.param("entity_id", entity_id, 1);
 
-    // create a ros publisher  
-    ros::Publisher pub_start_auction =
-        nh.advertise<std_msgs::Int16>("StartAuction", 1000);
+  // Get the entity name. This name should match the <name> tag in the
+  // mission file for the entity block we want to use.
+  std::string entity_name;
+  private_nh.param("entity_name", entity_name, std::string("UNDEFINED"));
 
-    // link the ros publisher to scrimmage
-    external.pub_cb(sc2ros_start_auction,
-        pubs["StartAuction"], pub_start_auction);
+  // Specify the maximum number of contacts that we will encounter.
+  int max_contacts;
+  private_nh.param("max_contacts", max_contacts, 100);
 
-The last line provides the conversion between ROS and SCRIMMAGE with the
-function ``sc2ros_start_auction``. In this case the only information in 
-a ``StartAuction`` message is the sender information::
+The entity name is used to specify which entity block in the SCRIMMAGE mission
+file should be used to initialize the entity, since the mission file could
+define multiple entity blocks. In order to use an entity block from the mission
+file, the entity block needs to define the ``<name>`` tag. In our
+`auction_assign.xml
+<https://github.com/gtri/scrimmage/blob/master/missions/auction_assign.xml>`_
+mission file, we set the name to "agent" (e.g. ``<name>agent</name>``).
 
-    std_msgs::Int16 sc2ros_start_auction(const sc::MessageBasePtr &sc_msg) {
-        std_msgs::Int16 ros_msg;
-        ros_msg.data = sc_msg->sender;
-        return ros_msg;
+We can now create the entity::
+
+  sc::External external;
+  external.create_entity(mission_file, max_contacts, entity_id, entity_name);
+
+Now that our entity has been initalized, we have to setup the publishers and
+subscribers that shuttle data between the ROS and SCRIMMAGE environments. The
+SCRIMMAGE auction plugins publish and subscribe to the "StartAuction" topic and
+they publish and subscribe on the "BidAuction" topic. Thus, we need to setup
+ROS publishers and subscribers for both of these topics. Let's setup a ROS
+publisher for the "StartAuction" topic.::
+
+  using scrimmage_ros::RosBidAuction;
+  using scrimmage_ros::RosStartAuction;
+  
+  ros::Publisher pub_start_auction =
+      nh.advertise<RosStartAuction>("StartAuction", 1000);
+  
+Now, we need to link the SCRIMMAGE publisher on the "StartAuction" topic to
+this ROS publisher::
+
+  external.pub_cb<auction::StartAuction>("SphereNetwork", "StartAuction",
+                                         sc2ros_start_auction, pub_start_auction);
+
+The ``auction::StartAuction`` type is a SCRIMMAGE message type. We want to use
+the SCRIMMAGE publisher that is on the "SphereNetwork" and using topic
+"StartAuction". Note, that we passed the ROS publisher (``pub_start_auction``)
+to the ``pub_cb`` method. The ``sc2ros_start_auction`` variable is a function
+that converts a SCRIMMAGE message type to a ROS message type. We have to define
+this function before the ``pub_cb`` line:::
+
+  RosStartAuction sc2ros_start_auction(
+    const std::shared_ptr<sc::Message<auction::StartAuction>> &sc_msg) {
+      RosStartAuction ros_msg;
+      ros_msg.sender_id = sc_msg->data.sender_id();
+      return ros_msg;
     }
 
-The same is done for ``BidAuction``. Now we can setup the subscribers::
+A similar publisher is setup for the "BidAuction" topic. Let's setup a
+subscriber for the "StartAuction" topic. First, we need to define the function
+that will convert from a ROS message type to a SCRIMMAGE message type:::
 
-    auto subs = external.entity()->autonomies().front()->subs();
-
-    ros::Subscriber sub_start_auction = nh.subscribe("StartAuction", 1000,
-        external.sub_cb<std_msgs::Int16>(ros2sc_start_auction, subs["StartAuction"]));
+  sc::Message<auction::StartAuction> ros2sc_start_auction(
+    const RosStartAuction &ros_msg) {
+     sc::Message<auction::StartAuction> sc_msg;
+     sc_msg.data.set_sender_id(ros_msg.sender_id);
+     return sc_msg;
+  }
+  
+Now, let's setup a ROS subscriber:::
+    
+  ros::Subscriber sub_start_auction = nh.subscribe("StartAuction", 1000,
+        external.sub_cb<RosStartAuction>("SphereNetwork", "StartAuction",
+        ros2sc_start_auction));
 
 Here the ``External`` class is providing a ROS callback so we don't have to
 write one ourselves. In ``External::sub_cb`` the template is the ROS message
-type and the parameters are the ROS to SCRIMMAGE conversion function and the
-SCRIMMAGE subscriber to use. The conversion function looks like this::
-
-    sc::MessageBase ros2sc_start_auction(const std_msgs::Int16 &ros_msg) {
-        sc::MessageBase sc_msg;
-        sc_msg.sender = ros_msg.data;
-        return sc_msg;
-    }
+type and the parameters are the SCRIMMAGE network name ("SphereNetwork"), the
+topic name ("StartAuction"), and the ROS to SCRIMMAGE conversion function.
 
 We can then enter the main loop as with a normal ROS node::
 
-    int ct = 0;
-    while (ros::ok() && ct < runtime * loop_rate_hz) {
+    while (ros::ok()) {
         external.step(ros::Time::now().toSec());
         loop_rate.sleep();
-        ros::spinOnce();
-        ++ct;
+        ros::spinOnce();        
     }
 
 The only new line above is the ``External::step`` call. This method performs
 logging, updates any autonomies or controllers, and publishes messages on the
 ROS system. Callbacks are handled as messages are received.
 
+.. _scrimmage_ros: https://github.com/SyllogismRXS/scrimmage_ros 
+
 Advanced Usage
 --------------
 
 There are a few additional cases that the ``External`` class can handle that
-are not addressed in this tutorial. 
+are not addressed in this tutorial.
 
   1. ``update_contacts`` - Often entities need to know that state of their
-     neighbors. If this is the case, ``update_contacts`` is a callback 
+     neighbors. If this is the case, ``update_contacts`` is a callback
      called in the ``External::step`` that will set the
      ``External::entity()->contacts()`` variable.
 
@@ -184,18 +267,7 @@ are not addressed in this tutorial.
      similar to ``sub_cb`` and ``pub_cb`` for wrapping these service calls.
 
 .. [#f1]
-  the random seed is different in the ROS simulation which causes the bids to be different.
+   the random seed is different in the ROS simulation which causes the bids to be different.
 .. [#f2]
-  A user can use ROS messages within SCRIMMAGE. In this case the conversions are trivial.
-.. [#f3]
-  Additional common items that could be given are:
-
-    1. ``z``, ``vx``, ``vy``, ``vz``, ``roll``, ``pitch``, ``yaw`` for the initial
-       state.
-    2. ``autonomy#`` an arbitrary number of autonomies can be on an entity. In
-       this case we only need one autonomy.
-    3. ``controller0`` if an entity has a controller. In this case we are not
-       moving so it is not necessary.
-    4. ``latitude``, ``longitude`` if an entity needs to convert between
-       coordinate systems a ``GeographicLib`` projection class will be
-       initialized.
+   A user can use ROS messages within SCRIMMAGE. In this case the conversions are trivial.
+   
