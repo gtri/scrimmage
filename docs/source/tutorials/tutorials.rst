@@ -19,8 +19,10 @@ swarm behaviors.
    motion-model-plugin.rst   
    entity-interaction-plugin.rst
    metrics-plugin.rst
+   pub-sub.rst
    ros-plugin.rst
    airsim-plugin.rst
    openai-plugin.rst
    optimize.rst
    open-grid.rst
+              
