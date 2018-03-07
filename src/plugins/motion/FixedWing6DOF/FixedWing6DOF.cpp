@@ -229,7 +229,9 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 
 bool FixedWing6DOF::step(double time, double dt) {
     // Get inputs and saturate
-    thrust_ = clamp(vars_.input(thrust_idx_), thrust_min_, thrust_max_);
+    double thrust_norm = clamp(vars_.input(thrust_idx_), -1.0, 1.0);
+    thrust_ = scale<double>(thrust_norm, -1.0, 1.0, thrust_min_, thrust_max_);
+
     delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
