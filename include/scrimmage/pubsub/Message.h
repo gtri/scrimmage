@@ -43,11 +43,11 @@ class Message : public MessageBase {
  public:
     Message() : MessageBase() {}
 #if ENABLE_PYTHON_BINDINGS == 0
-    Message(T _data, std::string _serialized_data = "") :
+    explicit Message(T _data, std::string _serialized_data = "") :
     MessageBase(_serialized_data), data(_data) {}
 #else
-    Message(T _data,
-            std::string _serialized_data = "", pybind11::object _py_data = pybind11::none()) :
+    explicit Message(T _data,
+                     std::string _serialized_data = "", pybind11::object _py_data = pybind11::none()) :
     MessageBase(_serialized_data, _py_data), data(_data) {}
 #endif
     T data;

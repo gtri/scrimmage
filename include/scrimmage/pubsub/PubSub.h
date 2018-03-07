@@ -36,12 +36,12 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <boost/optional.hpp>
-
 #include <iostream>
 #include <map>
 #include <list>
 #include <string>
+
+#include <boost/optional.hpp>
 
 using std::cout;
 using std::endl;

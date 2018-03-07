@@ -43,6 +43,7 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Publisher.h>
 
+#include <list>
 #include <map>
 #include <string>
 #include <functional>

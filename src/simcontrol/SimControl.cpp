@@ -89,9 +89,9 @@ SimControl::SimControl() :
         timer_(Timer()),
         random_(new Random()),
         plugin_manager_(new PluginManager()),
-        file_search_(std::make_shared<FileSearch>()) {
         networks_(new std::map<std::string, NetworkPtr>()),
         pubsub_(std::make_shared<PubSub>()),
+        file_search_(std::make_shared<FileSearch>()),
         sim_plugin_(std::make_shared<Plugin>()) {
 
     pause(false);
@@ -222,7 +222,7 @@ bool SimControl::init() {
         NetworkPtr network =
             std::dynamic_pointer_cast<Network>(
                 plugin_manager_->make_plugin("scrimmage::Network",
-                                             network_name, file_search_,
+                                             network_name, *file_search_,
                                              config_parse, overrides));
 
         // If the name was overridden, use the override.

@@ -70,7 +70,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
               const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
               int id, int ent_desc_id,
               PluginManagerPtr plugin_manager,
-              FileSearch &file_search,
+              FileSearchPtr &file_search,
               RTreePtr &rtree,
               PubSubPtr &pubsub,
               TimePtr &time);
@@ -203,7 +203,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void print(const std::string &msg);
     PluginManagerPtr plugin_manager_;
     FileSearchPtr file_search_;
-    PubSubPtr pub_sub_;
+    PubSubPtr pubsub_;
     TimePtr time_;
 };
 

@@ -232,7 +232,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
 
     if (write_csv_) {
         CSV::Pairs pairs;
-        pairs.push_back(std::make_pair<std::string, double>("t", time_->t()));
+        pairs.push_back(std::make_pair("t", time_->t()));
 
         for (auto &kv : pub_counts_) {
             std::string header = kv.first + "_Pub_Count";

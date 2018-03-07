@@ -45,12 +45,6 @@
 #include <string>
 
 namespace scrimmage {
-class Subscriber;
-using SubscriberPtr = std::shared_ptr<Subscriber>;
-
-namespace interaction {
-class BoundaryBase;
-}
 
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{

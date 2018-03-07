@@ -65,7 +65,7 @@ bool Entity::init(AttributeMap &overrides,
                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
                   int id, int ent_desc_id,
                   PluginManagerPtr plugin_manager,
-                  FileSearch &file_search,
+                  FileSearchPtr &file_search,
                   RTreePtr &rtree,
                   PubSubPtr &pubsub,
                   TimePtr &time) {
@@ -500,9 +500,8 @@ ControllerPtr Entity::init_controller(
     connect(controller->vars(), next_io);
 
     controller->set_parent(shared_from_this());
-    controller->set_time(time_a);
+    controller->set_time(time_);
     controller->set_pubsub(pubsub_);
-    controller->set_network(network_);
     controller->init(config_parse.params());
     return controller;
 }
