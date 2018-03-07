@@ -36,6 +36,7 @@
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/entity/Entity.h>
@@ -119,7 +120,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
     exec->LoadScript("/scripts/"+info["script_name"]);
 
-    exec->SetRootDir(info["log_dir"]);
+    exec->SetRootDir(parent_->mp()->log_dir());
     exec->SetRootDir(info["JSBSIM_ROOT"]);
 
     JSBSim::FGInitialCondition *ic = exec->GetIC();

@@ -91,25 +91,18 @@ class External {
                     Sc2Ros sc2ros, ros::Publisher ros_pub) {
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
 
-        auto it_network = pubsub_->pubs().find(network_name);
-        if (it_network == pubsub_->pubs().end()) {
-            cout << "Failed to find network while setting up publisher." << endl;
-            cout << "Network name: " << network_name << endl;
-            cout << "Topic name: " << topic_name << endl;
-        } else {
-            auto it_topic_pub = it_network->second.find(topic_name);
-            if (it_topic_pub == it_network->second.end()) {
-                cout << "Failed to find topic while setting up publisher." << endl;
-                cout << "Network name: " << network_name << endl;
-                cout << "Topic name: " << topic_name << endl;
-            } else {
-                for (NetworkDevicePtr dev : it_topic_pub->second) {
-                    PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
-                    pub->callback = [=](MessageBasePtr sc_msg) {
-                        ros_pub_ptr->publish(sc2ros(sc_msg));
-                    };
-                }
+        boost::optional<std::list<NetworkDevicePtr>> pubs =
+            pubsub_->find_pubs(network_name, topic_name);
+
+        if (pubs) {
+            for (NetworkDevicePtr dev : *pubs) {
+                PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
+                pub->callback = [=](MessageBasePtr sc_msg) {
+                    ros_pub_ptr->publish(sc2ros(sc_msg));
+                };
             }
+        } else {
+            cout << "Failed to setup scrimmage to ROS publisher." << endl;
         }
     }
 
@@ -119,47 +112,52 @@ class External {
 
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
 
-        auto it_network = pubsub_->pubs().find(network_name);
-        if (it_network == pubsub_->pubs().end()) {
-            cout << "Failed to find network while setting up publisher." << endl;
-            cout << "Network name: " << network_name << endl;
-            cout << "Topic name: " << topic_name << endl;
-        } else {
-            auto it_topic_pub = it_network->second.find(topic_name);
-            if (it_topic_pub == it_network->second.end()) {
-                cout << "Failed to find topic while setting up publisher." << endl;
-                cout << "Network name: " << network_name << endl;
-                cout << "Topic name: " << topic_name << endl;
-            } else {
-                for (NetworkDevicePtr dev : it_topic_pub->second) {
-                    PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
+        boost::optional<std::list<NetworkDevicePtr>> pubs =
+            pubsub_->find_pubs(network_name, topic_name);
 
-                    pub->callback = [=](MessageBasePtr sc_msg) {
-                        auto sc_msg_cast = std::dynamic_pointer_cast<Message<ScType>>(sc_msg);
-                        if (sc_msg_cast == nullptr) {
-                            std::cout << "could not cast to "
-                                      << boost::typeindex::type_id<Message<ScType>>().pretty_name()
-                                      << " in pub_cb" << std::endl;
-                        } else {
-                            ros_pub_ptr->publish(sc2ros(sc_msg_cast));
-                        }
-                    };
-                }
+        if (pubs) {
+            for (NetworkDevicePtr dev : *pubs) {
+                PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
+
+                pub->callback = [=](MessageBasePtr sc_msg) {
+                    auto sc_msg_cast = std::dynamic_pointer_cast<Message<ScType>>(sc_msg);
+                    if (sc_msg_cast == nullptr) {
+                        std::cout << "could not cast to "
+                                  << boost::typeindex::type_id<Message<ScType>>().pretty_name()
+                                  << " in pub_cb" << std::endl;
+                    } else {
+                        ros_pub_ptr->publish(sc2ros(sc_msg_cast));
+                    }
+                };
             }
+        } else {
+            cout << "Failed to setup scrimmage to ROS publisher." << endl;
         }
     }
 
     template <class RosType, class Ros2Sc>
     boost::function<void(const boost::shared_ptr<RosType const>&)>
-    sub_cb(Ros2Sc ros2sc, SubscriberBasePtr sc_sub) {
+    sub_cb(std::string network_name, std::string topic_name, Ros2Sc ros2sc) {
 
-        return [=](const boost::shared_ptr<RosType const>&ros_msg) {
-            auto sc_msg = ros2sc(*ros_msg);
-            auto sc_msg_ptr = std::make_shared<decltype(sc_msg)>();
-            *sc_msg_ptr = sc_msg;
-            sc_sub->add_msg(sc_msg_ptr);
-            step(ros::Time::now().toSec());
-        };
+        boost::optional<std::list<NetworkDevicePtr>> subs =
+            pubsub_->find_subs(network_name, topic_name);
+
+        if (subs) {
+            for (NetworkDevicePtr dev : *subs) {
+                return [=](const boost::shared_ptr<RosType const>&ros_msg) {
+                    auto sc_msg = ros2sc(*ros_msg);
+                    auto sc_msg_ptr = std::make_shared<decltype(sc_msg)>();
+                    *sc_msg_ptr = sc_msg;
+                    dev->add_msg(sc_msg_ptr);
+                    // step(ros::Time::now().toSec());
+                };
+            }
+        }
+
+        cout << "Failed to create ROS to SCRIMMAGE subscriber (callback) " << endl;
+        cout << "Network name: " << network_name << endl;
+        cout << "Topic name: " << topic_name << endl;
+        return [=](const boost::shared_ptr<RosType const>&ros_msg) { };
     }
 
     template <class RosType, class ScrimmageResponseType, class Sc2RosResponseFunc>

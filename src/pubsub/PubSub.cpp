@@ -61,4 +61,36 @@ PublisherPtr PubSub::advertise(std::string &network_name, std::string &topic,
     return pub;
 }
 
+
+boost::optional<std::list<NetworkDevicePtr>> PubSub::find_devices(
+    std::string &network_name, std::string &topic_name, TopicMap &devs) {
+
+    auto it_network = devs.find(network_name);
+    if (it_network == devs.end()) {
+         cout << "Failed to find network while setting up device." << endl;
+         cout << "Network name: " << network_name << endl;
+         cout << "Topic name: " << topic_name << endl;
+    } else {
+        auto it_topic_pub = it_network->second.find(topic_name);
+        if (it_topic_pub == it_network->second.end()) {
+            cout << "Failed to find topic while setting up device." << endl;
+            cout << "Network name: " << network_name << endl;
+            cout << "Topic name: " << topic_name << endl;
+        } else {
+            return boost::optional<std::list<NetworkDevicePtr>>(it_topic_pub->second);
+        }
+    }
+    return boost::none;
+}
+
+boost::optional<std::list<NetworkDevicePtr>> PubSub::find_pubs(
+    std::string &network_name, std::string &topic_name) {
+    return find_devices(network_name, topic_name, pub_map_);
+}
+
+boost::optional<std::list<NetworkDevicePtr>> PubSub::find_subs(
+    std::string &network_name, std::string &topic_name) {
+    return find_devices(network_name, topic_name, sub_map_);
+}
+
 } // namespace scrimmage

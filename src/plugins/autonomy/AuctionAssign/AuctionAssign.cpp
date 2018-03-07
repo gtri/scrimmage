@@ -76,14 +76,15 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
         (scrimmage::MessagePtr<auction::StartAuction> msg) {
         cout << "-----------------------------" << endl;
         cout << "Time: " << time_->t() << endl;
-        cout << "StartAuction: " << id_
-        << " received message from " << msg->data.sender_id() << endl;
+        cout << "StartAuction: entity ID (" << id_ << ")"
+             << " received message from entity ID: " << msg->data.sender_id()
+             << endl;
 
         auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
         msg_bid->data.set_sender_id(id_);
         const double bid = parent_->random()->rng_uniform() * 10.0;
         msg_bid->data.set_bid(bid);
-        cout << " sending back bid of " << bid << endl;
+        cout << "Sending bid of " << bid << endl;
         bid_auction_pub_->publish(msg_bid);
     };
 
@@ -96,8 +97,9 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
         (scrimmage::MessagePtr<auction::BidAuction> msg) {
         cout << "-----------------------------" << endl;
         cout << "Time: " << time_->t() << endl;
-        cout << "BidAuction: " << id_ << " received message from "
-        << msg->data.sender_id() << " bid: " << msg->data.bid() << endl;
+        cout << "BidAuction: entity ID (" << id_ << ") received message from "
+             << "entity ID (" << msg->data.sender_id() << "),  bid: "
+             << msg->data.bid() << endl;
 
         if (msg->data.bid() > max_bid_) {
             max_bid_ = msg->data.bid();
@@ -127,7 +129,8 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
         && id_ == 1) {
         cout << "======================================" << endl;
         cout << "Auction Complete" << endl;
-        cout << "Max Bidder: " << max_bid_champ_ << " - Bid=" << max_bid_ << endl;
+        cout << "Max Bidder: " << max_bid_champ_ << endl;
+        cout << "Bid: " << max_bid_ << endl;
         cout << "======================================" << endl;
         auction_in_prog_ = false;
     }

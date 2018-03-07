@@ -62,6 +62,10 @@ class NetworkDevice {
     void set_msg_list(std::list<MessageBasePtr> msg_list);
     void clear_msg_list();
 
+    unsigned int msg_list_size() {
+        return msg_list_.size();
+    }
+
     void set_max_queue_size(unsigned int size);
     unsigned int max_queue_size();
     void enable_queue_size(bool enforce);
