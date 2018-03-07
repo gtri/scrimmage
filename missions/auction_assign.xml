@@ -8,7 +8,7 @@
        enable_gui="true" 
        start_paused="true"/>
   
-  <end_condition>time, one_team</end_condition> <!-- time, one_team, none-->  
+  <end_condition>time</end_condition> <!-- time, one_team, none-->  
   
   <display_progress>true</display_progress>
   <terrain>mcmillan</terrain>  
@@ -26,7 +26,9 @@
   <altitude_origin>300</altitude_origin>
   <show_origin>false</show_origin>
   
-  <network range="10000000">UnitDisk</network>
+  <network>GlobalNetwork</network>
+  <network>SphereNetwork</network>
+  
   <entity_interaction>SimpleCollision</entity_interaction>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
@@ -34,9 +36,10 @@
   
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
+    <name>agent</name>
     <team_id>1</team_id> 
     <color>0 0 255</color>
-    <count>1</count>
+    <count>2</count>
     <health>1</health>
     <variance_x>50</variance_x>
     <variance_y>50</variance_y>
@@ -45,25 +48,7 @@
     <y>0</y>
     <z>100</z>
     <heading>0</heading>          
-    <visual_model>Sphere</visual_model>
-    <controller>SingleIntegratorControllerSimple</controller>
-    <motion_model>SingleIntegrator</motion_model>
-    <autonomy>AuctionAssign</autonomy>            
-  </entity>
-
-  <entity>
-    <team_id>2</team_id> 
-    <color>255 0 0</color>
-    <count>1</count>
-    <health>1</health>
-    <variance_x>50</variance_x>
-    <variance_y>50</variance_y>
-    <variance_z>50</variance_z>
-    <x>100</x>
-    <y>100</y>
-    <z>100</z>
-    <heading>0</heading>          
-    <visual_model>Sphere</visual_model>
+    <visual_model>sea-angler</visual_model>
     <controller>SingleIntegratorControllerSimple</controller>
     <motion_model>SingleIntegrator</motion_model>
     <autonomy>AuctionAssign</autonomy>            

@@ -43,6 +43,11 @@ namespace sc = scrimmage;
 
 void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params) {
 
+    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::Out);
+
     if (!ros::isInitialized()) {
         int argc = 0;
         std::string name = "simple_aircraft_3d_controller";
@@ -50,20 +55,21 @@ void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params
     }
     nh_ = std::make_shared<ros::NodeHandle>();
     cmd_vel_sub_ = nh_->subscribe("cmd_vel", 1, &FixedWing6DOFControllerROS::cmd_vel_cb, this);
+
+    // Zero out controls
+    cmd_vel_.linear.x = 0;
+    cmd_vel_.angular.y = 0;
+    cmd_vel_.angular.x = 0;
+    cmd_vel_.angular.z = 0;
 }
 
 bool FixedWing6DOFControllerROS::step(double t, double dt) {
     ros::spinOnce();
 
-    // Convert twist to aircraft control surfaces
-    double thrust = 0, elevator = 0, aileron = 0, rudder = 0;
-
-    thrust = cmd_vel_.linear.x;
-    elevator = cmd_vel_.angular.y;
-    aileron = cmd_vel_.angular.x;
-    rudder = cmd_vel_.angular.z;
-
-    u_ << thrust, elevator, aileron, rudder;
+    vars_.output(thrust_idx_, cmd_vel_.linear.x);
+    vars_.output(elevator_idx_, cmd_vel_.angular.y);
+    vars_.output(aileron_idx_, cmd_vel_.angular.x);
+    vars_.output(rudder_idx_, cmd_vel_.angular.z);
 
     return true;
 }

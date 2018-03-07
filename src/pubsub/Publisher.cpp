@@ -35,10 +35,15 @@
 
 namespace scrimmage {
 
-void Publisher::publish(MessageBasePtr msg, double t, bool use_network_id) {
-    msg->sender =
-        use_network_id ? plugin_->get_network_id() : plugin_->parent()->id().id();
-    msg->time = t;
+Publisher::Publisher() {
+}
+
+Publisher::Publisher(std::string &topic, unsigned int &max_queue_size,
+                     bool enable_queue_size, PluginPtr plugin) :
+    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {
+}
+
+void Publisher::publish(MessageBasePtr msg) {
     add_msg(msg);
 }
 

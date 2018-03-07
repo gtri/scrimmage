@@ -64,8 +64,8 @@ namespace interaction {
 bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
                     std::map<std::string, std::string> &plugin_params) {
 
-    pub_shape_gen_ = create_publisher("ShapeGenerated");
-    pub_map_2d_info_ = create_publisher("Map2DInfo");
+    pub_shape_gen_ = advertise("GlobalNetwork", "ShapeGenerated");
+    pub_map_2d_info_ = advertise("GlobalNetwork", "Map2DInfo");
 
     show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params,
                                     false);
@@ -152,7 +152,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
 
     // Publish the shapes for visualization and physics
     cout << "Publishing shapes: " << msg->data.shape_size() << endl;
-    publish_immediate(0, pub_shape_gen_, msg);
+    pub_shape_gen_->publish(msg);
 
     return true;
 }
@@ -169,7 +169,7 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         msg_map2d->data.occupied_thresh = occupied_thresh_;
         msg_map2d->data.resolution = resolution_;
         msg_map2d->data.origin = Eigen::Vector3d(x_origin_, y_origin_, z_origin_);
-        publish_immediate(t, pub_map_2d_info_, msg_map2d);
+        pub_map_2d_info_->publish(msg_map2d);
     }
 
     return true;

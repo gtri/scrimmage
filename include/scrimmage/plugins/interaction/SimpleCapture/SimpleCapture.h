@@ -55,7 +55,6 @@ class SimpleCapture : public scrimmage::EntityInteraction {
 
     scrimmage::PublisherPtr team_capture_pub_;
     scrimmage::PublisherPtr non_team_capture_pub_;
-    scrimmage::SubscriberPtr capture_ent_sub_;
 };
 } // namespace interaction
 } // namespace scrimmage

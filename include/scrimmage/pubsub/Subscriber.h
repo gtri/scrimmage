@@ -33,10 +33,38 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
 
-#include <scrimmage/pubsub/NetworkDevice.h>
+#include <scrimmage/pubsub/SubscriberBase.h>
+#include <scrimmage/pubsub/Message.h>
+
+#include <string>
+#include <functional>
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 namespace scrimmage {
-class Subscriber : public NetworkDevice {};
-using SubscriberPtr = std::shared_ptr<Subscriber>;
-}
+template <class T>
+class Subscriber : public SubscriberBase {
+ public:
+    Subscriber(std::string &topic, unsigned int &max_queue_size,
+               bool enable_queue_size, PluginPtr plugin,
+               std::function<void(scrimmage::MessagePtr<T>)> callback)
+        : SubscriberBase(topic, max_queue_size, enable_queue_size, plugin),
+        callback_(callback) {
+    }
+
+    virtual void accept(scrimmage::MessageBasePtr msg) {
+        auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
+        if (msg_cast != nullptr) {
+            callback_(msg_cast);
+        } else {
+            cout << "WARNING: Failed to cast received message" << endl;
+        }
+    }
+
+ protected:
+    std::function <void(scrimmage::MessagePtr<T>)> callback_;
+};
+} // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_

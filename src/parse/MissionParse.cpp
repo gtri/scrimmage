@@ -68,7 +68,7 @@ bool MissionParse::parse(std::string filename) {
     std::ifstream file(mission_filename_.c_str());
 
     if (!file.is_open()) {
-        cout << filename << " not found" << endl;
+        cout << "SCRIMMAGE mission file not found: " << filename << endl;
         return false;
     }
 
@@ -120,6 +120,12 @@ bool MissionParse::parse(std::string filename) {
         entity_interactions_.push_back(node->value());
     }
 
+    // Parse network name tags
+    for (rapidxml::xml_node<> *node = runscript_node->first_node("network");
+         node != 0; node = node->next_sibling("network")) {
+        network_names_.push_back(node->value());
+    }
+
     // Parse metrics tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("metrics");
          node != 0; node = node->next_sibling("metrics")) {
@@ -163,16 +169,19 @@ bool MissionParse::parse(std::string filename) {
 
                 std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
                 std::string nm3 = nm == "metrics" ? node->value() : nm;
+                std::string nm4 = nm == "network" ? node->value() : nm;
 
                 std::string attr_name = attr->name();
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
                         attributes_[nm2][kv.first] = kv.second;
                         attributes_[nm3][kv.first] = kv.second;
+                        attributes_[nm4][kv.first] = kv.second;
                     }
                 } else {
                     attributes_[nm2][attr->name()] = attr->value();
                     attributes_[nm3][attr->name()] = attr->value();
+                    attributes_[nm4][attr->name()] = attr->value();
                 }
             }
         }
@@ -225,10 +234,7 @@ bool MissionParse::parse(std::string filename) {
     timeinfo = localtime(&rawtime);
     strftime(time_buffer, 80, "%Y-%m-%d_%H-%M-%S", timeinfo);
     std::string name(time_buffer);
-    int ct = 1;
-    while (fs::exists(fs::path(root_log_dir_ + "/" + name))) {
-        name = std::string(time_buffer) + "_" + std::to_string(ct++);
-    }
+
     log_dir_ = root_log_dir_ + "/" + name;
 
     if (job_number_ != -1) {
@@ -319,8 +325,6 @@ bool MissionParse::parse(std::string filename) {
                 controller_order = orders[nm]["controller"];
             }
         }
-
-        script_info["log_dir"] = log_dir_;
 
         // Find the entity's team ID first, since it is required by later
         // nodes. Also, setup the TeamInfo structs / map.
@@ -562,6 +566,12 @@ bool MissionParse::parse(std::string filename) {
         next_gen_times_[ent_desc_id] = start_times;
         gen_info_[ent_desc_id] = gen_info;
 
+        // If the entity block has a "name", save the mapping from entity name
+        // to entity ID
+        if (script_info.count("name")) {
+            entity_name_to_id_[script_info["name"]] = ent_desc_id;
+        }
+
         entity_descs_[ent_desc_id++] = script_info;
     }
 
@@ -571,20 +581,36 @@ bool MissionParse::parse(std::string filename) {
 }
 
 bool MissionParse::create_log_dir() {
-    // Create the log directory
-    if (!fs::exists(log_dir_)) {
-        if (!fs::create_directories(fs::path(log_dir_))) {
-            cout << "ERROR: Unable to create output directory: "
-                 << log_dir_ << endl;
-            return false;
+    bool log_dir_created = false;
+    std::string log_dir_original = log_dir_;
+    int attempts = 0;
+    while (!log_dir_created && attempts < 1e4) {
+        log_dir_ = log_dir_original;
+        // If the log directory already exists, append a number to it:
+        if (fs::exists(fs::path(log_dir_))) {
+            int ct = 1;
+            std::string log_dir_tmp;
+            do {
+                log_dir_tmp = log_dir_ + "_" + std::to_string(ct++);
+            } while (fs::exists(fs::path(log_dir_tmp)));
+            log_dir_ = log_dir_tmp;
         }
+
+        if (fs::create_directories(fs::path(log_dir_))) {
+            log_dir_created = true;
+        }
+        attempts++;
+    }
+
+    if (!log_dir_created) {
+        cout << "Unable to create log directory: " << log_dir_ << endl;
+        return false;
     }
 
     // Copy the input scenario xml file to the output directory
     if (fs::exists(mission_filename_)) {
         fs::copy_file(fs::path(mission_filename_), fs::path(log_dir_+"/mission.xml"));
     }
-
 
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
@@ -731,6 +757,10 @@ std::map<int, int> &MissionParse::ent_id_to_block_id() {
 
 EntityDesc_t &MissionParse::entity_descriptions() { return entity_descs_; }
 
+std::map<std::string, int> & MissionParse::entity_name_to_id() {
+    return entity_name_to_id_;
+}
+
 bool MissionParse::enable_gui() { return enable_gui_; }
 
 bool MissionParse::network_gui() { return network_gui_; }
@@ -753,6 +783,10 @@ void MissionParse::set_job_number(int job_num) { job_number_ = job_num; }
 
 std::list<std::string> MissionParse::entity_interactions()
 { return entity_interactions_; }
+
+std::list<std::string> & MissionParse::network_names() {
+    return network_names_;
+}
 
 std::list<std::string> MissionParse::metrics()
 { return metrics_; }

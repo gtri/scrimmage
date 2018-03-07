@@ -36,6 +36,9 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
 
+  <network>LocalNetwork</network>
+  <network>GlobalNetwork</network>  
+  
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction enable_startup_collisions="false"
                       remove_on_collision="false">GroundCollision</entity_interaction>

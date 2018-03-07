@@ -3,6 +3,8 @@
 <params>
   <library>Boundary_plugin</library>
 
+  <network_name>GlobalNetwork</network_name>
+  
   <boundary_type>cuboid</boundary_type> <!-- cuboid or sphere -->
 
   <!-- first four rows are one side of the cube (low altitude rectangle) -->

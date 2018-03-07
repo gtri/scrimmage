@@ -33,6 +33,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Network.h>
@@ -46,6 +47,9 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+
+using std::cout;
+using std::endl;
 
 namespace sc = scrimmage;
 
@@ -63,65 +67,71 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
-    create_publisher("StartAuction");
-    create_publisher("BidAuction");
+    // Setup Publishers
+    start_auction_pub_ = advertise("SphereNetwork", "StartAuction");
+    bid_auction_pub_ = advertise("SphereNetwork", "BidAuction");
 
-    create_subscriber("StartAuction");
-    create_subscriber("BidAuction");
+    // Setup the lambda function to process the StartAuction message
+    auto start_auction_callback = [&]
+        (scrimmage::MessagePtr<auction::StartAuction> msg) {
+        cout << "-----------------------------" << endl;
+        cout << "Time: " << time_->t() << endl;
+        cout << "StartAuction: entity ID (" << id_ << ")"
+             << " received message from entity ID: " << msg->data.sender_id()
+             << endl;
 
-    auction_started_ = false;
-    auction_in_prog_ = false;
-    auction_max_time_ = 5;
-    max_bid_ = -std::numeric_limits<double>::max();
+        auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
+        msg_bid->data.set_sender_id(id_);
+        const double bid = parent_->random()->rng_uniform() * 10.0;
+        msg_bid->data.set_bid(bid);
+        cout << "Sending bid of " << bid << endl;
+        bid_auction_pub_->publish(msg_bid);
+    };
+
+    // Subscribe to the StartAuction topic
+    subscribe<auction::StartAuction>("SphereNetwork", "StartAuction",
+                                       start_auction_callback);
+
+    // Setup the lambda function to process the BidAuction messages
+    auto bid_auction_callback = [&]
+        (scrimmage::MessagePtr<auction::BidAuction> msg) {
+        cout << "-----------------------------" << endl;
+        cout << "Time: " << time_->t() << endl;
+        cout << "BidAuction: entity ID (" << id_ << ") received message from "
+             << "entity ID (" << msg->data.sender_id() << "),  bid: "
+             << msg->data.bid() << endl;
+
+        if (msg->data.bid() > max_bid_) {
+            max_bid_ = msg->data.bid();
+            max_bid_champ_ = msg->data.sender_id();
+        }
+    };
+
+    // Subscribe to the BidAuction topic
+    subscribe<auction::BidAuction>("SphereNetwork", "BidAuction",
+                                   bid_auction_callback);
 }
 
 bool AuctionAssign::step_autonomy(double t, double dt) {
-    // Read the Start Auction inbox
-    for (auto &msg : subs_["StartAuction"]->msgs<sc::MessageBase>(true, false)) {
-        std::cout << "StartAuction: " << id_
-          << " received message from " << msg->sender << std::endl;
-
-        auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
-        msg_bid->sender = id_;
-        const double bid = parent_->random()->rng_uniform() * 10.0;
-        msg_bid->data.set_bid(bid);
-        std::cout << " sending back bid of " << bid << std::endl;
-        pubs_["BidAuction"]->publish(msg_bid, t, false);
-    }
-
-    if (auction_started_) {
-        // Read the Bid Auction inbox
-        for (auto msg : subs_["BidAuction"]->msgs<auction::BidAuction>(true, false)) {
-
-            std::cout << "BidAuction: " << id_ << " received message from "
-                << msg->sender << " bid: " << msg->data.bid() << std::endl;
-
-            if (msg->data.bid() > max_bid_) {
-                max_bid_ = msg->data.bid();
-                max_bid_champ_ = msg->sender;
-            }
-        }
-    }
-
     if (!auction_started_ && id_ == 1) {
-        sc::MessageBasePtr msg(new sc::MessageBase());
-        msg->sender = id_;
+        cout << "Agent (" << id_ << ") starting auction" << endl;
 
-        std::cout << "origin: " << msg->sender << std::endl;
-        pubs_["StartAuction"]->publish(msg, t, false);
+        auto msg = std::make_shared<sc::Message<auction::StartAuction>>();
+        msg->data.set_sender_id(id_);
+        start_auction_pub_->publish(msg);
 
         auction_started_ = true;
         auction_in_prog_ = true;
         auction_start_time_ = t;
-        std::cout << "Starting!" << std::endl;
     }
 
     if (auction_in_prog_ && t > auction_start_time_ + auction_max_time_
         && id_ == 1) {
-        std::cout << "======================================" << std::endl;
-        std::cout << "Auction Complete" << std::endl;
-        std::cout << "Max Bidder: " << max_bid_champ_ << " - Bid=" << max_bid_ << std::endl;
-        std::cout << "======================================" << std::endl;
+        cout << "======================================" << endl;
+        cout << "Auction Complete" << endl;
+        cout << "Max Bidder: " << max_bid_champ_ << endl;
+        cout << "Bid: " << max_bid_ << endl;
+        cout << "======================================" << endl;
         auction_in_prog_ = false;
     }
 

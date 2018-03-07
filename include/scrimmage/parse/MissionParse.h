@@ -107,6 +107,8 @@ class MissionParse {
 
     EntityDesc_t & entity_descriptions();
 
+    std::map<std::string, int> & entity_name_to_id();
+
     bool enable_gui();
     bool network_gui();
 
@@ -123,6 +125,7 @@ class MissionParse {
     void set_job_number(int job_num);
 
     std::list<std::string> entity_interactions();
+    std::list<std::string> & network_names();
 
     std::list<std::string> metrics();
 
@@ -177,6 +180,7 @@ class MissionParse {
 
     std::list<std::string> entity_interactions_;
     std::list<std::string> metrics_;
+    std::list<std::string> network_names_;
 
     // Key: entity_description ID in EntityDesc_t map
     // Value: generation
@@ -184,6 +188,8 @@ class MissionParse {
 
     // Key: entity_description ID in EntityDesc_t vector
     std::map<int, std::vector<double> > next_gen_times_;
+
+    std::map<std::string, int> entity_name_to_id_;
 
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 

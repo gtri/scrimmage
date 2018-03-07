@@ -34,6 +34,6 @@
 
 pybind11::object frames2pandas(std::string &fname);
 void add_math(pybind11::module &m);
-void add_network(pybind11::module &m);
+void add_pubsub(pybind11::module &m);
 void add_common(pybind11::module &m);
 void add_autonomy(pybind11::module &m);

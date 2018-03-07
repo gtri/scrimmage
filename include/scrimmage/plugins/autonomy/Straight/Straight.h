@@ -34,18 +34,17 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
+
 #include <Eigen/Dense>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
-class Subscriber;
-using SubscriberPtr = std::shared_ptr<Subscriber>;
-
-namespace interaction {
-class BoundaryBase;
-}
 
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{
@@ -62,7 +61,6 @@ class Straight : public scrimmage::Autonomy{
      bool save_camera_images_;
      bool show_text_label_;
 
-     sc::SubscriberPtr sub_boundary_info_;
      bool enable_boundary_control_ = false;
      std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
 

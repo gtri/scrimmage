@@ -133,10 +133,24 @@ and match between the two paradigms for a single entity.
   computation is determined by the ``entity_interaction``'s ``order``
   attribute. Lower order plugins are processed first.
 
+- ``network`` : This tag loads a plugin that simulates network
+  communications. This can be used to simulate dropped packets. By default,
+  every SCRIMMAGE simulation initializes a "GlobalNetwork," which is used to
+  transfer simulation data, such as "EntityGenerated" messages. The
+  "LocalNetwork" only allows transmission of messages between plugins that are
+  attached to the same entity. The "SphereNetwork" is a probabilistic
+  transmission model that is parameterized by communication range. (perfect
+  comms within range or probabilistic comms within a range). Multiple network
+  tags can be specified in a single mission file.
+
 - ``entity`` : The entity tag is used to initialize a single entity or a swarm
   of homogeneous entities. The following XML tags should be used within the
   ``entity`` tag:
 
+  - ``name`` : A human-readable name for this entity block. This name can be
+    used to reference this block later. When running SCRIMMAGE within another
+    system, such as ROS or MOOS, this name is used to reference this entity
+    block.
   - ``team_id`` : The team identification number for this entity group. If
     multiple entity tags are used to initialize a team of heterogeneous
     entities, as long as the ``team_id`` is the same, the entities will be on

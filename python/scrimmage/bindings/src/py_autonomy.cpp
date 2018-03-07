@@ -49,14 +49,14 @@ void add_autonomy(pybind11::module &m) {
     py::class_<sc::Plugin, std::shared_ptr<sc::Plugin>> plugin(m, "Plugin");
     plugin.def(py::init<>())
         .def("name", &sc::Plugin::name)
-        .def("type", &sc::Plugin::type)
-        .def_property("network", &sc::Plugin::network, &sc::Plugin::set_network)
-        .def_property("pubs", &sc::Plugin::pubs, &sc::Plugin::set_pubs)
-        .def_property("subs", &sc::Plugin::subs, &sc::Plugin::set_subs)
-        .def("create_publisher", &sc::Plugin::create_publisher)
-        .def("create_subscriber", &sc::Plugin::create_subscriber)
-        .def("stop_publishing", &sc::Plugin::stop_publishing)
-        .def("stop_subscribing", &sc::Plugin::stop_subscribing);
+        .def("type", &sc::Plugin::type);
+        // TODO .def_property("network", &sc::Plugin::network, &sc::Plugin::set_network)
+        // TODO .def_property("pubs", &sc::Plugin::pubs, &sc::Plugin::set_pubs)
+        // TODO .def_property("subs", &sc::Plugin::subs, &sc::Plugin::set_subs)
+        // TODO .def("create_publisher", &sc::Plugin::create_publisher)
+        // TODO .def("create_subscriber", &sc::Plugin::create_subscriber)
+        // TODO .def("stop_publishing", &sc::Plugin::stop_publishing)
+        // TODO .def("stop_subscribing", &sc::Plugin::stop_subscribing);
 
     py::class_<sc::Autonomy, std::shared_ptr<sc::Autonomy>>(m, "Autonomy", plugin)
         .def(py::init<>())

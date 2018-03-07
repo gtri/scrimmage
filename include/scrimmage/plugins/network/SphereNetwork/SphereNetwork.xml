@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
-  <library>UnitDisk_plugin</library>  
+  <library>SphereNetwork_plugin</library>
   <range>100</range>
   <prob_transmit>1.0</prob_transmit>
+
+  <monitor_publisher_topics/>
+  <monitor_subscriber_topics/>
+  <csv_filename/>
+
 </params>

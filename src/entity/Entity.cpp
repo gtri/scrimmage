@@ -65,10 +65,13 @@ bool Entity::init(AttributeMap &overrides,
                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
                   int id, int ent_desc_id,
                   PluginManagerPtr plugin_manager,
-                  NetworkPtr network,
-                  const FileSearchPtr &file_search,
-                  RTreePtr &rtree) {
+                  FileSearchPtr &file_search,
+                  RTreePtr &rtree,
+                  PubSubPtr &pubsub,
+                  TimePtr &time) {
 
+    pubsub_ = pubsub;
+    time_ = time;
     file_search_ = file_search;
     plugin_manager_ = plugin_manager;
     contacts_ = contacts;
@@ -85,8 +88,6 @@ bool Entity::init(AttributeMap &overrides,
         mp_ = mp;
         parse_visual(info, mp_, overrides["visual_model"]);
     }
-
-    network_ = network;
 
     if (info.count("health") > 0) {
         health_points_ = std::stoi(info["health"]);
@@ -129,7 +130,8 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_ = std::make_shared<MotionModel>();
         motion_model_->set_state(state_);
         motion_model_->set_parent(parent);
-        motion_model_->set_network(network);
+        motion_model_->set_pubsub(pubsub);
+        motion_model_->set_time(time);
         // cout << "Warning: Missing motion model tag, initializing with base class" << endl;
     } else {
         motion_model_ =
@@ -145,7 +147,8 @@ bool Entity::init(AttributeMap &overrides,
 
         motion_model_->set_state(state_);
         motion_model_->set_parent(parent);
-        motion_model_->set_network(network);
+        motion_model_->set_pubsub(pubsub);
+        motion_model_->set_time(time);
         motion_model_->init(info, config_parse.params());
     }
 
@@ -192,6 +195,8 @@ bool Entity::init(AttributeMap &overrides,
                                  Angles::deg2rad(tf_rpy[2]));
 
         sensor->set_parent(parent);
+        sensor->set_pubsub(pubsub);
+        sensor->set_time(time);
         sensor->init(config_parse.params());
         sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
 
@@ -253,7 +258,8 @@ bool Entity::init(AttributeMap &overrides,
         autonomy->set_rtree(rtree);
         autonomy->set_parent(parent);
         autonomy->set_projection(proj_);
-        autonomy->set_network(network);
+        autonomy->set_pubsub(pubsub);
+        autonomy->set_time(time);
         autonomy->set_state(motion_model_->state());
         autonomy->set_contacts(contacts);
         autonomy->set_is_controlling(true);
@@ -365,8 +371,6 @@ std::shared_ptr<GeographicLib::LocalCartesian> Entity::projection()
 { return proj_; }
 
 MissionParsePtr Entity::mp() { return mp_; }
-
-NetworkPtr Entity::network() { return network_; }
 
 void Entity::set_random(RandomPtr random) { random_ = random; }
 
@@ -496,7 +500,8 @@ ControllerPtr Entity::init_controller(
     connect(controller->vars(), next_io);
 
     controller->set_parent(shared_from_this());
-    controller->set_network(network_);
+    controller->set_time(time_);
+    controller->set_pubsub(pubsub_);
     controller->init(config_parse.params());
     return controller;
 }

@@ -35,8 +35,11 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/pubsub/NetworkDevice.h>
+#include <scrimmage/common/CSV.h>
 
 #include <map>
+#include <list>
 #include <memory>
 #include <vector>
 #include <string>
@@ -48,37 +51,54 @@ class Network : public Plugin {
  public:
     Network();
 
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual void distribute(double t, double dt);
-    virtual std::unordered_set<int> ping(const PluginPtr &plugin);
-    virtual bool ping(const PluginPtr &plugin, int network_id);
+    virtual bool init(std::map<std::string, std::string> &/*mission_params*/,
+                      std::map<std::string, std::string> &/*plugin_params*/);
+    virtual bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
+                      std::map<std::string, std::list<NetworkDevicePtr>> &subs);
     virtual std::string name();
     virtual std::string type();
 
-    void add_publisher(int network_id, PublisherPtr pub, std::string &topic);
-    void add_subscriber(int network_id, SubscriberPtr sub, std::string &topic);
-    void rm_publisher(int network_id, PublisherPtr pub, std::string &topic);
-    void rm_subscriber(int network_id, SubscriberPtr sub, std::string &topic);
+    void set_rtree(RTreePtr rtree) { rtree_ = rtree; }
+    void set_random(RandomPtr random) { random_ = random; }
 
-    RTreePtr &rtree();
-
-    using DeviceMap = std::map<int, NetworkDevicePtr>;
-    using TopicMap = std::map<std::string, DeviceMap>;
-
-    std::unordered_set<int> &network_ids();
-    TopicMap &sub_map();
+    inline virtual void set_mission_parse(MissionParsePtr mp)
+    { mp_ = mp; }
 
  protected:
-    void rm_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map);
-    void add_device(int network_id, std::string topic, NetworkDevicePtr device, TopicMap &map);
-
-    TopicMap pub_map_;
-    TopicMap sub_map_;
-    std::unordered_set<int> network_ids_;
     RTreePtr rtree_;
+    RandomPtr random_;
+    MissionParsePtr mp_;
+
+    // Key 1: Publisher Entity ID
+    // Key 2: Subscriber Entity ID
+    // Value : Whether the publisher can reach the subscriber with a message
+    std::unordered_map<int, std::unordered_map<int, bool>> reachable_map_;
+
+    virtual bool is_reachable(const scrimmage::PluginPtr &pub_plugin,
+                              const scrimmage::PluginPtr &sub_plugin);
+
+    virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
+                                            const scrimmage::PluginPtr &sub_plugin);
+
+    bool network_init(std::map<std::string, std::string> &/*mission_params*/,
+                      std::map<std::string, std::string> &/*plugin_params*/);
+
+ private:
+    // Key: Topic String
+    std::map<std::string, unsigned int> pub_counts_;
+    std::map<std::string, unsigned int> sub_counts_;
+    bool monitor_all_pubs_ = false;
+    bool monitor_all_subs_ = false;
+
+    // Logging utility
+    bool write_csv_ = false;
+    CSV csv_;
 };
 
 typedef std::shared_ptr<Network> NetworkPtr;
+using NetworkMap = std::map<std::string, NetworkPtr>;
+using NetworkMapPtr = std::shared_ptr<NetworkMap>;
+
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_

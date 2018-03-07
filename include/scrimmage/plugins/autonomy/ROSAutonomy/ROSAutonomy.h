@@ -41,6 +41,7 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 #include <map>
 #include <string>
@@ -75,9 +76,9 @@ class ROSAutonomy : public scrimmage::Autonomy {
 
     std::string ros_namespace_;
 
-    scrimmage::SubscriberPtr pcl_sub_;
-
     void publish_clock_msg(double t);
+
+    scrimmage::sensor::RayTrace::PointCloud pcl_;
 };
 } // namespace autonomy
 } // namespace scrimmage

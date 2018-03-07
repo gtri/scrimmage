@@ -34,6 +34,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
@@ -85,7 +86,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 
     exec_->LoadScript("/scripts/"+info["script_name"]);
 
-    exec_->SetRootDir(info["log_dir"]);
+    exec_->SetRootDir(parent_->mp()->log_dir());
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();

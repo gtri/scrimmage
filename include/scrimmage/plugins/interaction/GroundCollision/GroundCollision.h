@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <list>
 #include <map>

@@ -35,12 +35,18 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/PubSub.h>
 
+#include <iostream>
 #include <unordered_set>
 #include <memory>
 #include <map>
 #include <list>
 #include <string>
+
+using std::cout;
+using std::endl;
 
 namespace scrimmage_proto {
 class Shape;
@@ -54,6 +60,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     Plugin();
     virtual ~Plugin();
 
+    virtual void set_name(std::string name) { name_ = name; }
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
@@ -62,31 +69,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
 
-    NetworkPtr &network();
-    void set_network(NetworkPtr network);
-
-    std::map<std::string, PublisherPtr> &pubs();
-    void set_pubs(std::map<std::string, PublisherPtr> pubs);
-
-    std::map<std::string, SubscriberPtr> &subs();
-    void set_subs(std::map<std::string, SubscriberPtr> subs);
-
     void set_scoped_property(const std::string &property_name, const MessageBasePtr &property);
     MessageBasePtr get_scoped_property_helper(const std::string &property_name);
-
-    // networking
-    PublisherPtr create_publisher(std::string topic);
-    void stop_publishing(PublisherPtr &pub);
-    SubscriberPtr create_subscriber(std::string topic);
-    void stop_subscribing(SubscriberPtr &sub);
-
-    void publish_immediate(double t, PublisherPtr pub, MessageBasePtr msg);
-
-    void clear_subscribers();
-    int get_network_id() {return network_id_;}
-
-    std::unordered_set<int> ping();
-    bool ping(int network_id);
 
     /* Homogeneous transform from parent link */
     StatePtr transform() { return transform_; }
@@ -101,14 +85,41 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     VariableIO &vars() { return vars_; }
 
- protected:
-    int network_id_;
-    static int plugin_count_;
-    EntityPtr parent_;
-    NetworkPtr network_;
+    template <class T>
+    SubscriberBasePtr subscribe(std::string network_name, std::string topic,
+                                std::function<void(scrimmage::MessagePtr<T>)> callback) {
+        SubscriberBasePtr sub  =
+            pubsub_->subscribe<T>(network_name, topic, callback,
+                                  0, false, shared_from_this());
+        subs_.push_back(sub);
+        return sub;
+    }
 
-    std::map<std::string, PublisherPtr> pubs_;
-    std::map<std::string, SubscriberPtr> subs_;
+    template <class T>
+    SubscriberBasePtr subscribe(std::string network_name, std::string topic,
+                                std::function<void(scrimmage::MessagePtr<T>)> callback,
+                                unsigned int max_queue_size) {
+        SubscriberBasePtr sub  =
+            pubsub_->subscribe<T>(network_name, topic, callback,
+                                  max_queue_size, true, shared_from_this());
+        subs_.push_back(sub);
+        return sub;
+    }
+
+    PublisherPtr advertise(std::string network_name, std::string topic);
+    PublisherPtr advertise(std::string network_name, std::string topic,
+                           unsigned int max_queue_size);
+
+    void set_pubsub(PubSubPtr pubsub) { pubsub_ = pubsub; }
+
+    std::list<SubscriberBasePtr> subs() { return subs_; }
+
+    void set_time(std::shared_ptr<Time> time) { time_ = time; }
+
+ protected:
+    static int plugin_count_;
+    std::string name_;
+    EntityPtr parent_;
 
     StatePtr transform_;
 
@@ -118,6 +129,10 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::list<scrimmage_proto::ShapePtr> shapes_;
 
     VariableIO vars_;
+    PubSubPtr pubsub_;
+
+    std::list<SubscriberBasePtr> subs_;
+    std::shared_ptr<const Time> time_;
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;
