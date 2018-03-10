@@ -59,6 +59,8 @@ class MessageBase {
 
     pybind11::object py_data;
 #endif
+
+    std::string debug_info = "";
 };
 
 using MessageBasePtr = std::shared_ptr<MessageBase>;

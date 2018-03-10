@@ -32,21 +32,21 @@
 
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/SubscriberBase.h>
+
+#include <iostream>
+#include <iomanip>
 
 namespace scrimmage {
 
-Publisher::Publisher() {
-}
-
-Publisher::Publisher(const std::string &topic, unsigned int &max_queue_size,
-                     bool enable_queue_size, PluginPtr plugin) :
-    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
-
-void Publisher::set_debug_info(MessageBasePtr msg, const std::string &type) {
-      msg->debug_info = std::string("  publisher:  ")
-        + "type (" + type
-        + "), plugin (" + plugin_->name() + ")"
-        + "), id (" + std::to_string(plugin_->parent()->id().id()) + ")";
+void SubscriberBase::print_err(const std::string &type, MessageBasePtr msg) const {
+    std::cout << "WARNING: could not cast on topic " << std::quoted(topic_) << std::endl;
+    std::cout << "  subscriber: type (" << type
+        << "), plugin (" << plugin_->name()
+        << "), id (" << plugin_->parent()->id().id() << ")"
+        << std::endl;
+    if (msg->debug_info != "") {
+        std::cout << msg->debug_info << std::endl;
+    }
 }
 } // namespace scrimmage

@@ -33,20 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/VariableIO.h>
-#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/PubSub.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
-#include <iostream>
 #include <unordered_set>
 #include <memory>
 #include <map>
 #include <list>
 #include <string>
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage_proto {
 class Shape;
@@ -54,6 +49,18 @@ using ShapePtr = std::shared_ptr<Shape>;
 }
 
 namespace scrimmage {
+
+class Entity;
+using EntityPtr = std::shared_ptr<Entity>;
+
+class Publisher;
+using PublisherPtr = std::shared_ptr<Publisher>;
+
+class State;
+using StatePtr = std::shared_ptr<State>;
+
+class Time;
+using TimePtr = std::shared_ptr<Time>;
 
 class Plugin : public std::enable_shared_from_this<Plugin> {
  public:
@@ -85,19 +92,21 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     VariableIO &vars() { return vars_; }
 
-    template <class T>
-    SubscriberBasePtr subscribe(std::string network_name, std::string topic,
-                                std::function<void(scrimmage::MessagePtr<T>)> callback) {
-        SubscriberBasePtr sub  =
+    template <class T, class CallbackFunc>
+    SubscriberBasePtr subscribe(const std::string &network_name,
+                                const std::string &topic,
+                                CallbackFunc callback) {
+        SubscriberBasePtr sub =
             pubsub_->subscribe<T>(network_name, topic, callback,
                                   0, false, shared_from_this());
         subs_.push_back(sub);
         return sub;
     }
 
-    template <class T>
-    SubscriberBasePtr subscribe(std::string network_name, std::string topic,
-                                std::function<void(scrimmage::MessagePtr<T>)> callback,
+    template <class T, class CallbackFunc>
+    SubscriberBasePtr subscribe(const std::string &network_name,
+                                const std::string &topic,
+                                CallbackFunc callback,
                                 unsigned int max_queue_size) {
         SubscriberBasePtr sub  =
             pubsub_->subscribe<T>(network_name, topic, callback,
@@ -114,7 +123,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::list<SubscriberBasePtr> subs() { return subs_; }
 
-    void set_time(std::shared_ptr<Time> time) { time_ = time; }
+    void set_time(const std::shared_ptr<Time> &time) { time_ = time; }
 
  protected:
     static int plugin_count_;

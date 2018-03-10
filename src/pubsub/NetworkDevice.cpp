@@ -38,10 +38,9 @@
 
 namespace scrimmage {
 
-NetworkDevice::NetworkDevice() {
-}
+NetworkDevice::NetworkDevice() : plugin_(std::make_shared<Plugin>()) {}
 
-NetworkDevice::NetworkDevice(std::string &topic, unsigned int &max_queue_size,
+NetworkDevice::NetworkDevice(const std::string &topic, unsigned int &max_queue_size,
                              bool enable_queue_size, PluginPtr plugin) :
     topic_(topic), max_queue_size_(max_queue_size),
     enable_queue_size_(enable_queue_size), plugin_(plugin) {
@@ -50,8 +49,8 @@ NetworkDevice::NetworkDevice(std::string &topic, unsigned int &max_queue_size,
 NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
     topic_(rhs.topic_),
     max_queue_size_(rhs.max_queue_size_),
-    msg_list_(rhs.msg_list_) {
-}
+    plugin_(rhs.plugin_),
+    msg_list_(rhs.msg_list_) {}
 
 NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :
     topic_(rhs.topic_), max_queue_size_(rhs.max_queue_size_),
@@ -59,9 +58,10 @@ NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :
 }
 
 std::string NetworkDevice::get_topic() const {return topic_;}
-void NetworkDevice::set_topic(std::string topic) {topic_ = topic;}
 
-void NetworkDevice::set_msg_list(std::list<MessageBasePtr> msg_list) {
+void NetworkDevice::set_topic(const std::string &topic) {topic_ = topic;}
+
+void NetworkDevice::set_msg_list(const std::list<MessageBasePtr> &msg_list) {
     mutex_.lock();
     msg_list_ = msg_list;
     mutex_.unlock();
@@ -107,6 +107,7 @@ void NetworkDevice::clear_msg_list() {
     mutex_.unlock();
 }
 
+// cppcheck-suppress *
 void NetworkDevice::print_str(std::string msg) {
     std::cout << msg << std::endl;
 }

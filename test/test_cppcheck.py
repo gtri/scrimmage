@@ -13,6 +13,7 @@ def test_cppcheck():
         'warning,style,information,performance,portability,missingInclude'
     cmd = \
         ['cppcheck', '--quiet', '--language=c++',
+         '--inline-suppr',
          '--error-exitcode=1', '--enable=' + enabled_checks,
          '-I', os.path.join(root_dir, 'python/scrimmage/bindings/include'),
          '-I', os.path.join(root_dir, 'include')] + dirs

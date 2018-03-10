@@ -34,8 +34,11 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_
 
 #include <scrimmage/pubsub/NetworkDevice.h>
+
 #include <functional>
 #include <string>
+
+#include <boost/type_index.hpp>
 
 namespace scrimmage {
 
@@ -45,10 +48,19 @@ using MessageBasePtr = std::shared_ptr<MessageBase>;
 class Publisher : public NetworkDevice {
  public:
     Publisher();
-    Publisher(std::string &topic, unsigned int &max_queue_size,
+    Publisher(const std::string &topic, unsigned int &max_queue_size,
               bool enable_queue_size, PluginPtr plugin);
-    void publish(MessageBasePtr msg);
+
+    template <class T> void publish(const std::shared_ptr<T> &msg, bool add_debug_info = true) {
+        if (add_debug_info) {
+            set_debug_info(msg, boost::typeindex::type_id<T>().pretty_name());
+        }
+        add_msg(msg);
+    }
     std::function<void(MessageBasePtr)> callback;
+
+ protected:
+    void set_debug_info(MessageBasePtr msg, const std::string &type);
 };
 
 } // namespace scrimmage

@@ -289,6 +289,7 @@ bool SimControl::init() {
             metrics->set_id_to_ent_map(id_to_ent_map_);
             metrics->set_pubsub(pubsub_);
             metrics->set_time(time_);
+            metrics->set_name(metrics_name);
             metrics->init(config_parse.params());
             metrics_.push_back(metrics);
         } else {
@@ -321,6 +322,7 @@ bool SimControl::init() {
         ent_inter->set_time(time_);
         ent_inter->set_id_to_team_map(id_to_team_map_);
         ent_inter->set_id_to_ent_map(id_to_ent_map_);
+        ent_inter->set_name(ent_inter_name);
         ent_inter->init(mp_->params(), config_parse.params());
 
         // Get shapes from plugin

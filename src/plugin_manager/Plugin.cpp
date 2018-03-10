@@ -34,6 +34,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/common/Time.h>
 
 #include <string>
@@ -59,65 +60,6 @@ std::string Plugin::type() { return std::string("Plugin"); }
 void Plugin::set_parent(EntityPtr parent) {parent_ = parent;}
 
 EntityPtr Plugin::parent() { return parent_; }
-
-
-
-// PublisherPtr Plugin::create_publisher(std::string topic) {
-//     PublisherPtr pub = std::make_shared<Publisher>();
-//     pub->set_topic(topic);
-//     pub->plugin() = shared_from_this();
-//     network_->add_publisher(network_id_, pub, topic);
-//     pubs_[topic] = pub;
-//     return pub;
-// }
-//
-// void Plugin::stop_publishing(PublisherPtr &pub) {
-//     std::string topic = pub->get_topic();
-//     network_->rm_publisher(network_id_, pub, topic);
-//
-//     auto it = pubs_.find(topic);
-//     if (it != pubs_.end()) {
-//         pubs_.erase(it);
-//     }
-//
-//     pub->clear_msg_list();
-//     pub->set_topic("");
-// }
-//
-// void Plugin::stop_subscribing(SubscriberBasePtr &sub) {
-//     std::string topic = sub->get_topic();
-//     network_->rm_subscriber(network_id_, sub, topic);
-//
-//     auto it = subs_.find(topic);
-//     if (it != subs_.end()) {
-//         subs_.erase(it);
-//     }
-//
-//     sub->clear_msg_list();
-//     sub->set_topic("");
-// }
-//
-// void Plugin::publish_immediate(double t, PublisherPtr pub, MessageBasePtr msg) {
-//     msg->sender = network_id_;
-//     msg->time = t;
-//     for (Network::DeviceMap::value_type &kv : network_->sub_map()[pub->get_topic()]) {
-//         kv.second->add_msg(msg);
-//     }
-// }
-
-// void Plugin::clear_subscribers() {
-//     for (auto &kv : subs_) {
-//         kv.second->clear_msg_list();
-//     }
-// }
-
-// std::unordered_set<int> Plugin::ping() {
-//     return network_->ping(shared_from_this());
-// }
-//
-// bool Plugin::ping(int network_id) {
-//     return network_->ping(shared_from_this(), network_id);
-// }
 
 void Plugin::set_scoped_property(const std::string &property_name, const MessageBasePtr &property) {
     parent_->properties()[name() + "/" + property_name] = property;
