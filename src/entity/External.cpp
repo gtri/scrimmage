@@ -48,8 +48,14 @@
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/filtered.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+
 using std::endl;
 using std::cout;
+
+namespace ba = boost::adaptors;
 
 namespace scrimmage {
 
@@ -122,27 +128,18 @@ bool External::create_entity(const std::string &mission_file,
 }
 
 bool External::step(double t) {
+    mutex.lock();
     double dt = std::isnan(last_t_) ? 0 : t - last_t_;
     time_->set_t(t);
     time_->set_dt(dt);
     last_t_ = t;
+    mutex.unlock();
 
-    mutex_.lock();
-    if (update_contacts) {
-        update_contacts();
-        auto rtree = entity_->rtree();
-        rtree->init(100);
-        rtree->clear();
-        for (auto &kv : *entity_->contacts()) {
-            rtree->add(kv.second.state()->pos(), kv.second.id());
-        }
-    }
-    mutex_.unlock();
+    this->call_update_contacts(t);
 
+    mutex.lock();
     // do all the scrimmage updates (e.g., step_autonomy, step controller, etc)
     // incorporating motion_dt_
-    mutex_.lock();
-
     for (AutonomyPtr autonomy : entity_->autonomies()) {
         for (SubscriberBasePtr &sub : autonomy->subs()) {
             for (auto msg : sub->pop_msgs<MessageBase>()) {
@@ -172,6 +169,8 @@ bool External::step(double t) {
     // do logging
     log_->save_frame(create_frame(t, entity_->contacts()));
 
+    send_messages();
+
     // shapes
     scrimmage_proto::Shapes shapes;
     shapes.set_time(t);
@@ -187,21 +186,7 @@ bool External::step(double t) {
     }
     log_->save_shapes(shapes);
 
-    // Send messages that are published by a SCRIMMAGE plugin to the external
-    // network (e.g., ROS, MOOS)
-    for (auto &network : pubsub_->pubs()) {
-        for (auto &topic_pubs : network.second) {
-            for (NetworkDevicePtr &dev : topic_pubs.second) {
-                PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
-                if (pub && pub->callback) {
-                    for (auto msg : pub->pop_msgs()) {
-                        pub->callback(msg);
-                    }
-                }
-            }
-        }
-    }
-    mutex_.unlock();
+    mutex.unlock();
     return true;
 }
 
@@ -209,4 +194,35 @@ EntityPtr &External::entity() {
     return entity_;
 }
 
+void External::send_messages() {
+    // Send messages that are published by a SCRIMMAGE plugin to the external
+    // network (e.g., ROS, MOOS)
+    auto to_publisher = [&](auto &network_device) {return std::dynamic_pointer_cast<Publisher>(network_device);};
+    auto has_callback = [&](auto &pub) {return pub && pub->callback;};
+
+    for (auto &topic_device_kv : pubsub_->pubs() | ba::map_values) {
+        for (auto &dev_list : topic_device_kv | ba::map_values) {
+            for (auto pub : dev_list |
+                            ba::transformed(to_publisher) |
+                            ba::filtered(has_callback)) {
+                for (auto msg : pub->pop_msgs()) {
+                    pub->callback(msg);
+                }
+            }
+        }
+    }
+}
+
+void External::call_update_contacts(double t) {
+    mutex.lock();
+    if (update_contacts_task.update(t).first) {
+        auto rtree = entity_->rtree();
+        rtree->init(100);
+        rtree->clear();
+        for (auto &kv : *entity_->contacts()) {
+            rtree->add(kv.second.state()->pos(), kv.second.id());
+        }
+    }
+    mutex.unlock();
+}
 } // namespace scrimmage
