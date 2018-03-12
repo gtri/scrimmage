@@ -38,6 +38,7 @@
 #include <scrimmage/pubsub/Subscriber.h>
 
 #include <unordered_set>
+#include <unordered_map>
 #include <memory>
 #include <map>
 #include <list>
