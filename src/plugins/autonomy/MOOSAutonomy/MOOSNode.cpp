@@ -44,7 +44,9 @@ namespace sc = scrimmage;
 namespace scrimmage {
 namespace autonomy {
 
-MOOSNode::MOOSNode() : deployed_(false), appTick_(1), commsTick_(1), time_warp_(1) {}
+MOOSNode::MOOSNode() : appTick_(1), commsTick_(1), time_warp_(1),
+                       deployed_(false) {
+}
 
 MOOSNode::~MOOSNode() {}
 

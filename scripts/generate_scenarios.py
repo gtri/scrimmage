@@ -49,7 +49,7 @@ import scrimmage
 
 TEMP_MISSION_FILE = 'temp_mission.xml'
 
-def rewrite_mission_file(mission_file, enable_gui):    
+def rewrite_mission_file(mission_file, enable_gui):
     tree = ET.parse(mission_file)
 
     root = tree.getroot()
@@ -70,7 +70,7 @@ def rewrite_mission_file(mission_file, enable_gui):
 
 def scale_value(OldValue, OldMin, OldMax, NewMin, NewMax):
     OldRange = (OldMax - OldMin)
-    NewRange = (NewMax - NewMin)  
+    NewRange = (NewMax - NewMin)
     NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
     return NewValue
 
@@ -87,7 +87,7 @@ def convert(value, type_):
         # if not, separate module and class
         module, type_ = type_.rsplit(".", 1)
         module = importlib.import_module(module)
-        cls = getattr(module, type_)        
+        cls = getattr(module, type_)
     return (cls(value), cls)
 
 def expand_variable_ranges(ranges_file, num_runs, mission_dir, entity_list=None):
@@ -96,12 +96,12 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, entity_list=None)
             sum([1 for node in ET.parse(TEMP_MISSION_FILE).getroot()
                  if node.tag == 'entity'])
         entity_list = list(range(entity_count))
-    
+
     root = ET.parse(ranges_file).getroot()
-    
+
     num_of_vars = len(list(root))
     xx = pyDOE.lhs(num_of_vars*len(entity_list), samples=int(num_runs))
-    
+
     # Build a list of tuples ('tag name', low, high)
     ranges_list = []
     cls_dict = {}
@@ -109,13 +109,13 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, entity_list=None)
     for idx, entity_num in enumerate(entity_list):
         var_num = 0
         for child in root:
-                  
+
             try:
                 high, cls = convert(child.attrib['high'], child.attrib['type'])
-                low, cls = convert(child.attrib['low'], child.attrib['type'])        
+                low, cls = convert(child.attrib['low'], child.attrib['type'])
             except (AttributeError, KeyError):
                 print('missing type or low or high in element ', child.tag)
-            
+
             column_name = child.tag+ "~" + str(entity_num) + "~"
 
             try:
@@ -124,17 +124,17 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, entity_list=None)
                 pass
 
             cls_dict[column_name] = cls
-            ranges_list.append((column_name, high, low ))        
-            
+            ranges_list.append((column_name, high, low ))
+
             xx[:,var_num+idx*num_of_vars] = [cls(scale_value(x, 0.0, 1.0, low, high)) for x in xx[:,var_num+idx*num_of_vars]]
-            var_num += 1        
+            var_num += 1
 
     # Build a data frame where the columns are labelled with the XML element
     # tag. Rows represent values for the variables for each run
     df = pd.DataFrame(xx, columns=[ c[0] for c in ranges_list ])
     write_scenarios(df, cls_dict, mission_dir, entity_list)
 
-def write_scenarios(df, cls_dict, mission_dir, entity_list):     
+def write_scenarios(df, cls_dict, mission_dir, entity_list):
 
     def updater(element, variable, index):
         cls = cls_dict[variable] # get the conversion function
@@ -145,14 +145,14 @@ def write_scenarios(df, cls_dict, mission_dir, entity_list):
         else:
             element.text = val
 
-    #print df        
-    variables = list(df.columns.values)    
+    #print df
+    variables = list(df.columns.values)
     first_vars = [v.split('~')[0] for v in variables]
 
-    for index, row in df.iterrows():           
+    for index, row in df.iterrows():
         tree = ET.parse(TEMP_MISSION_FILE)
-        root = tree.getroot()        
-        
+        root = tree.getroot()
+
         # Find and loop over all "entity" tags in mission file.
         entity_num = 0
         for child in root:
@@ -160,10 +160,10 @@ def write_scenarios(df, cls_dict, mission_dir, entity_list):
             try:
                 idx = first_vars.index(child.tag)
                 updater(child, variables[idx], index)
-            except ValueError: 
+            except ValueError:
                 pass
 
-            if child.tag != "entity":                
+            if child.tag != "entity":
                 continue
 
             if entity_list and entity_num in entity_list or entity_list == [-1]:
@@ -174,10 +174,10 @@ def write_scenarios(df, cls_dict, mission_dir, entity_list):
                         element = child.find(node_name) # Find the column name tag under the "entity" tag
                         if element != None and element != "None" and (int(ent_num) == entity_num or int(ent_num) == -1):
                             updater(element, v, index)
-            entity_num += 1    
+            entity_num += 1
         out_name = os.path.join(mission_dir, str(index + 1)) + '.xml'
         tree.write(out_name)
-                        
+
 
 def main():
     parser = argparse.ArgumentParser(description='Monte Carlo simulation for SCRIMMAGE.')
@@ -196,13 +196,13 @@ def main():
     add('--only_xml', action="store_true", help='dont run grid engine')
     add('--nodes', help="which nodes to run on")
 
-    args = parser.parse_args()  
+    args = parser.parse_args()
 
-    
+
     if not os.path.isfile(args.mission_file):
         themsg = 'Mission file ' + args.mission_file + ' not found!'
         print(themsg)
-        return errno.ENOENT        
+        return errno.ENOENT
     try:
         os.mkdir(args.out_dir)
     except OSError:
@@ -215,18 +215,18 @@ def main():
         os.mkdir(mission_dir)
     except OSError:
         pass
-    
+
     if os.path.isfile(args.ranges):
-        expand_variable_ranges(args.ranges, args.num_runs, mission_dir, args.entity_list)        
-    else:                
+        expand_variable_ranges(args.ranges, args.num_runs, mission_dir, args.entity_list)
+    else:
         # If the user didn't supply a ranges file, just copy the temp mission
         # file and rename it for each run
         for i in range(0,args.num_runs):
             shutil.copyfile(TEMP_MISSION_FILE, mission_dir+"/"+str(i+1)+".xml")
-        
+
     if not args.only_xml:
         scrimmage.qsub(args.num_runs, mission_dir, args.nodes)
-        
+
     os.remove(TEMP_MISSION_FILE)
     return 0
 
