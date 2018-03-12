@@ -149,6 +149,7 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_parent(parent);
         motion_model_->set_pubsub(pubsub);
         motion_model_->set_time(time);
+        motion_model_->set_name(info["motion_model"]);
         motion_model_->init(info, config_parse.params());
     }
 
@@ -197,6 +198,7 @@ bool Entity::init(AttributeMap &overrides,
         sensor->set_parent(parent);
         sensor->set_pubsub(pubsub);
         sensor->set_time(time);
+        sensor->set_name(sensor_name);
         sensor->init(config_parse.params());
         sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
 
@@ -263,6 +265,7 @@ bool Entity::init(AttributeMap &overrides,
         autonomy->set_state(motion_model_->state());
         autonomy->set_contacts(contacts);
         autonomy->set_is_controlling(true);
+        autonomy->set_name(info[autonomy_name]);
         autonomy->init(config_parse.params());
 
         autonomies_.push_back(autonomy);
@@ -502,6 +505,7 @@ ControllerPtr Entity::init_controller(
     controller->set_parent(shared_from_this());
     controller->set_time(time_);
     controller->set_pubsub(pubsub_);
+    controller->set_name(name);
     controller->init(config_parse.params());
     return controller;
 }

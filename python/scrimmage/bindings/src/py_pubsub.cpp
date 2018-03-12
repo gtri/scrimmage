@@ -58,7 +58,7 @@ void add_pubsub(pybind11::module &m) {
 
     py::class_<sc::Publisher, std::shared_ptr<sc::Publisher>, sc::NetworkDevice>(m, "Publisher")
          .def(py::init<>())
-         .def("publish", &sc::Publisher::publish);
+         .def("publish", &sc::Publisher::publish<scrimmage::MessageBase>);
 
     // TODO : Need to update for new callback interface
     // py::class_<sc::Subscriber<sc::MessagePtr>, std::shared_ptr<sc::Subscriber>, sc::SubscriberBase, sc::NetworkDevice>(m, "Subscriber")

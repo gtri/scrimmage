@@ -33,20 +33,20 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/NetworkDevice.h>
 #include <string>
 
 namespace scrimmage {
 class SubscriberBase : public NetworkDevice {
  public:
-    SubscriberBase() {
-    }
-    SubscriberBase(std::string &topic, unsigned int &max_queue_size,
+    SubscriberBase() = default;
+    SubscriberBase(const std::string &topic, unsigned int &max_queue_size,
                    bool enable_queue_size, PluginPtr plugin) :
-    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {
-    }
+        NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
     virtual void accept(scrimmage::MessageBasePtr msg) = 0;
+
+ protected:
+    void print_err(const std::string &type, MessageBasePtr msg) const;
 };
 
 using SubscriberBasePtr = std::shared_ptr<SubscriberBase>;

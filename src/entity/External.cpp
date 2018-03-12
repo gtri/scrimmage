@@ -48,6 +48,9 @@
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
+using std::endl;
+using std::cout;
+
 namespace scrimmage {
 
 External::External() :

@@ -33,20 +33,23 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_PUBSUB_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_PUBSUB_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <iostream>
 #include <map>
 #include <list>
 #include <string>
 
-#include <boost/optional.hpp>
-
-using std::cout;
-using std::endl;
+namespace boost {
+template <class T> class optional;
+}
 
 namespace scrimmage {
+
+class Publisher;
+using PublisherPtr = std::shared_ptr<Publisher>;
+
+class Plugin;
+using PluginPtr = std::shared_ptr<Plugin>;
 
 class PubSub {
  public:
@@ -60,7 +63,7 @@ class PubSub {
     TopicMap &pubs() { return pub_map_; }
     TopicMap &subs() { return sub_map_; }
 
-    void add_network_name(std::string str);
+    void add_network_name(const std::string &str);
 
     boost::optional<std::list<NetworkDevicePtr>> find_devices(std::string &network_name,
                                                                 std::string &topic_name,
@@ -72,31 +75,32 @@ class PubSub {
     boost::optional<std::list<NetworkDevicePtr>> find_subs(std::string &network_name,
                                                              std::string &topic_name);
 
-    template <class T>
-    SubscriberBasePtr subscribe(std::string &network_name, std::string &topic,
-                                std::function<void(scrimmage::MessagePtr<T>)> callback,
+    template <class T, class CallbackFunc>
+    SubscriberBasePtr subscribe(const std::string &network_name,
+                                const std::string &topic,
+                                CallbackFunc callback,
                                 unsigned int max_queue_size,
                                 bool enable_queue_size, PluginPtr plugin) {
         if (sub_map_.count(network_name) == 0) {
-            cout << "WARNING: Subscriber unable to connect to network ("
-                 << network_name << ") on topic (" << topic << ")" << endl;
+            print_str(std::string("WARNING: Subscriber unable to connect to network (")
+                + network_name + ") on topic (" + topic + ")");
         }
 
         SubscriberBasePtr sub =
-            std::make_shared<Subscriber<T>>(topic, max_queue_size,
-                                            enable_queue_size, plugin,
-                                            callback);
+            std::make_shared<Subscriber<T, CallbackFunc>>(
+                topic, max_queue_size, enable_queue_size, plugin, callback);
         sub_map_[network_name][topic].push_back(sub);
         return sub;
     }
 
-    PublisherPtr advertise(std::string &network_name, std::string &topic,
+    PublisherPtr advertise(std::string &network_name, const std::string &topic,
                            unsigned int max_queue_size,
                            bool enable_queue_size, PluginPtr plugin);
 
  protected:
     TopicMap pub_map_;
     TopicMap sub_map_;
+    void print_str(const std::string &s);
 };
 using PubSubPtr = std::shared_ptr<PubSub>;
 } // namespace scrimmage

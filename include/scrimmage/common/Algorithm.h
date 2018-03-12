@@ -40,7 +40,7 @@
 namespace scrimmage {
 /*! \brief std::remove_if does not work with associative containers.
  *
- * This implementaion assumes the first argument has an erase method.
+ * This implementation assumes the first argument has an erase method.
  */
 template <class ContainerType, class Predicate>
 void remove_if(ContainerType &container, Predicate pred) {

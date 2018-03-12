@@ -33,7 +33,6 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/pubsub/MessageBase.h>
 #include <scrimmage/pubsub/Message.h>
 
@@ -45,6 +44,9 @@
 
 namespace scrimmage {
 
+class Plugin;
+using PluginPtr = std::shared_ptr<Plugin>;
+
 class NetworkDevice {
  public:
     NetworkDevice();
@@ -53,13 +55,13 @@ class NetworkDevice {
 
     virtual ~NetworkDevice() = default; // Make NetworkDevice Polymorphic
 
-    NetworkDevice(std::string &topic, unsigned int &max_queue_size,
+    NetworkDevice(const std::string &topic, unsigned int &max_queue_size,
                   bool enable_queue_size, PluginPtr plugin);
 
     std::string get_topic() const;
-    void set_topic(std::string topic);
+    void set_topic(const std::string &topic);
 
-    void set_msg_list(std::list<MessageBasePtr> msg_list);
+    void set_msg_list(const std::list<MessageBasePtr> &msg_list);
     void clear_msg_list();
 
     unsigned int msg_list_size() {

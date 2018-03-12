@@ -37,19 +37,16 @@
 #include <scrimmage/pubsub/Message.h>
 
 #include <string>
-#include <functional>
-#include <iostream>
 
-using std::cout;
-using std::endl;
+#include <boost/type_index.hpp>
 
 namespace scrimmage {
-template <class T>
+template <class T, class CallbackFunc>
 class Subscriber : public SubscriberBase {
  public:
-    Subscriber(std::string &topic, unsigned int &max_queue_size,
+    Subscriber(const std::string &topic, unsigned int &max_queue_size,
                bool enable_queue_size, PluginPtr plugin,
-               std::function<void(scrimmage::MessagePtr<T>)> callback)
+               CallbackFunc callback)
         : SubscriberBase(topic, max_queue_size, enable_queue_size, plugin),
         callback_(callback) {
     }
@@ -59,12 +56,12 @@ class Subscriber : public SubscriberBase {
         if (msg_cast != nullptr) {
             callback_(msg_cast);
         } else {
-            cout << "WARNING: Failed to cast received message" << endl;
+            this->print_err(boost::typeindex::type_id<scrimmage::Message<T>>().pretty_name(), msg);
         }
     }
 
  protected:
-    std::function <void(scrimmage::MessagePtr<T>)> callback_;
+    CallbackFunc callback_;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_

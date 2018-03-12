@@ -41,8 +41,7 @@
 #include <scrimmage/msgs/Simple.pb.h>
 
 #include <memory>
-
-namespace sc = scrimmage;
+#include <iostream>
 
 namespace scrimmage {
 Network::Network() : Plugin(), rtree_(std::make_shared<RTree>()) {
@@ -60,9 +59,9 @@ bool Network::network_init(std::map<std::string, std::string> &mission_params,
                             std::map<std::string, std::string> &plugin_params,
                             std::map<std::string, unsigned int> &counts,
                             bool &monitor_all) {
-        std::string topics_str = sc::get<std::string>(str, plugin_params, "");
+        std::string topics_str = get<std::string>(str, plugin_params, "");
 
-        std::vector<std::string> topics = sc::str2vec<std::string>(topics_str, ", ");
+        std::vector<std::string> topics = str2vec<std::string>(topics_str, ", ");
 
         if (std::end(topics) != std::find(std::begin(topics),
                                           std::end(topics), "*")) {
@@ -79,9 +78,9 @@ bool Network::network_init(std::map<std::string, std::string> &mission_params,
     setup_counts("monitor_subscriber_topics", plugin_params, sub_counts_, monitor_all_subs_);
 
     // Should we write a CSV file? What values should be written?
-    std::string filename = sc::get<std::string>("csv_filename", plugin_params, "");
+    std::string filename = get<std::string>("csv_filename", plugin_params, "");
     if (filename != "") {
-        cout << "Writing to cSV..." << endl;
+        std::cout << "Writing to CSV..." << std::endl;
         write_csv_ = true;
         csv_.open_output(mp_->log_dir() + "/" + filename);
 
@@ -132,7 +131,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
         for (NetworkDevicePtr &pub : pub_kv.second) {
             pub->enforce_queue_size();
 
-            auto msgs = pub->pop_msgs<sc::MessageBase>();
+            auto msgs = pub->pop_msgs<MessageBase>();
             if (msgs.empty()) {
                 continue;
             }

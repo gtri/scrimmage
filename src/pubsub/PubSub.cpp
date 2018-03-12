@@ -34,6 +34,9 @@
 #include <scrimmage/pubsub/Publisher.h>
 
 #include <iostream>
+
+#include <boost/optional.hpp>
+
 using std::cout;
 using std::endl;
 
@@ -42,12 +45,12 @@ namespace scrimmage {
 PubSub::PubSub() {
 }
 
-void PubSub::add_network_name(std::string network_name) {
+void PubSub::add_network_name(const std::string &network_name) {
     pub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
     sub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
 }
 
-PublisherPtr PubSub::advertise(std::string &network_name, std::string &topic,
+PublisherPtr PubSub::advertise(std::string &network_name, const std::string &topic,
                                unsigned int max_queue_size,
                                bool enable_queue_size, PluginPtr plugin) {
     if (pub_map_.count(network_name) == 0) {
@@ -60,7 +63,6 @@ PublisherPtr PubSub::advertise(std::string &network_name, std::string &topic,
     pub_map_[network_name][topic].push_back(pub);
     return pub;
 }
-
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_devices(
     std::string &network_name, std::string &topic_name, TopicMap &devs) {
@@ -93,4 +95,7 @@ boost::optional<std::list<NetworkDevicePtr>> PubSub::find_subs(
     return find_devices(network_name, topic_name, sub_map_);
 }
 
+void PubSub::print_str(const std::string &s) {
+    std::cout << s << std::endl;
+}
 } // namespace scrimmage

@@ -103,7 +103,7 @@ class External {
                 };
             }
         } else {
-            cout << "Failed to setup scrimmage to ROS publisher." << endl;
+            std::cout << "Failed to setup scrimmage to ROS publisher." << std::endl;
         }
     }
 
@@ -132,7 +132,7 @@ class External {
                 };
             }
         } else {
-            cout << "Failed to setup scrimmage to ROS publisher." << endl;
+            std::cout << "Failed to setup scrimmage to ROS publisher." << std::endl;
         }
     }
 
@@ -155,9 +155,9 @@ class External {
             }
         }
 
-        cout << "Failed to create ROS to SCRIMMAGE subscriber (callback) " << endl;
-        cout << "Network name: " << network_name << endl;
-        cout << "Topic name: " << topic_name << endl;
+        std::cout << "Failed to create ROS to SCRIMMAGE subscriber (callback) " << std::endl;
+        std::cout << "Network name: " << network_name << std::endl;
+        std::cout << "Topic name: " << topic_name << std::endl;
         return [=](const boost::shared_ptr<RosType const>&ros_msg) { };
     }
 
