@@ -244,7 +244,7 @@ bool SimControl::init() {
         pubsub_->add_network_name(name);
 
         network->init(mp_->params(), config_parse.params());
-        (*networks_)[network_name] = network;
+        (*networks_)[name] = network;
     }
 
     // Create base shape objects

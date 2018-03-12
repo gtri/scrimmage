@@ -133,7 +133,17 @@ bool ConfigParse::parse(std::map<std::string, std::string> &overrides,
     params_.clear();
     params_["XML_DIR"] = this->directory() + "/";
     params_["XML_FILENAME"] = filename_;
+
     recursive_params(config_node->first_node(), overrides, params_, "");
+
+    // Determine if there were any overrides (XML attributes) specified in the
+    // mission file that weren't declared in the Plugin's XML
+    // file. Automatically add these overrides to the params block.
+    for (auto &kv : overrides) {
+        if (params_.count(kv.first) == 0) {
+            params_[kv.first] = kv.second;
+        }
+    }
 
     for (std::string &node_name : required_) {
         if (params_.count(node_name) == 0) {

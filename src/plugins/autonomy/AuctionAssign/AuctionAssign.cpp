@@ -68,8 +68,8 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
     // Setup Publishers
-    start_auction_pub_ = advertise("SphereNetwork", "StartAuction");
-    bid_auction_pub_ = advertise("SphereNetwork", "BidAuction");
+    start_auction_pub_ = advertise("CommsNetwork", "StartAuction");
+    bid_auction_pub_ = advertise("CommsNetwork", "BidAuction");
 
     // Setup the lambda function to process the StartAuction message
     auto start_auction_callback = [&]
@@ -89,7 +89,7 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
     };
 
     // Subscribe to the StartAuction topic
-    subscribe<auction::StartAuction>("SphereNetwork", "StartAuction",
+    subscribe<auction::StartAuction>("CommsNetwork", "StartAuction",
                                        start_auction_callback);
 
     // Setup the lambda function to process the BidAuction messages
@@ -108,7 +108,7 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
     };
 
     // Subscribe to the BidAuction topic
-    subscribe<auction::BidAuction>("SphereNetwork", "BidAuction",
+    subscribe<auction::BidAuction>("CommsNetwork", "BidAuction",
                                    bid_auction_callback);
 }
 
