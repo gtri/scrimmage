@@ -42,18 +42,27 @@
 #include <scrimmage/proto/Shape.pb.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/embed.h>
 #include <pybind11/eigen.h>
 #include <cstddef>
 #include <stdexcept>
+#include <iostream>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::PyAutonomy, PyAutonomy_plugin)
+using std::cout;
+using std::endl;
 
-namespace scrimmage {
-namespace autonomy {
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::PyAutonomy,
+                PyAutonomy_plugin)
 
 namespace py = pybind11;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+
+namespace py = pybind11;
+
+namespace scrimmage {
+namespace autonomy {
 
 PyAutonomy::PyAutonomy() {
     need_reset_ = true;
@@ -79,8 +88,8 @@ void PyAutonomy::init_py_obj(std::map<std::string, std::string> &params) {
             py_params[kv.first.c_str()] = py::str(kv.second);
         }
     }
-    py_obj_.attr("subs") = py::dict();
-    py_obj_.attr("pubs") = py::dict();
+    // py_obj_.attr("subs") = py::dict();
+    // py_obj_.attr("pubs") = py::dict();
     py_obj_.attr("shapes") = py::list();
 
     py::object init = py_obj_.attr("init");
@@ -88,7 +97,6 @@ void PyAutonomy::init_py_obj(std::map<std::string, std::string> &params) {
 }
 
 void PyAutonomy::cache_python_vars() {
-
     if (py_state_class_.ptr() == nullptr) {
         py::module py_scrimmage = py::module::import("scrimmage.bindings");
         py_state_class_ = py_scrimmage.attr("State");
@@ -109,23 +117,23 @@ void PyAutonomy::cache_python_vars() {
 }
 
 py::object PyAutonomy::state2py(sc::StatePtr &state) {
-
     cache_python_vars();
 
     sc::Quaternion quat = state->quat();
     Eigen::Vector3d pos = state->pos();
     Eigen::Vector3d vel = state->vel();
+    Eigen::Vector3d ang_vel = state->ang_vel();
 
     py::object py_quat = py_quat_class_(quat.w(), quat.x(), quat.y(), quat.z());
     py::object py_pos = py::cast(pos);
     py::object py_vel = py::cast(vel);
+    py::object py_ang_vel = py::cast(ang_vel);
 
-    py::object py_state = py_state_class_(py_pos, py_vel, py_quat);
+    py::object py_state = py_state_class_(py_pos, py_vel, py_ang_vel, py_quat);
     return py_state;
 }
 
 py::object PyAutonomy::contact2py(scrimmage::Contact contact) {
-
     cache_python_vars();
 
     py::object py_contact = py_contact_class_();
@@ -147,92 +155,93 @@ std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(const pybind11::han
     return cpp_shape;
 }
 
-void PyAutonomy::sub_msgs_to_py_subs() {
-    // copy all sub msgs to py_subs
-    py::dict py_pubs = py_obj_.attr("pubs").cast<py::dict>();
-    py::dict py_subs = py_obj_.attr("subs").cast<py::dict>();
+// void PyAutonomy::sub_msgs_to_py_subs() {
+//     // copy all sub msgs to py_subs
+//     py::dict py_pubs = py_obj_.attr("pubs").cast<py::dict>();
+//     py::dict py_subs = py_obj_.attr("subs").cast<py::dict>();
+//
+//     for (auto &kv : subs_) {
+//         const char* topic = kv.first.c_str();
+//         sc::SubscriberPtr &sub  = kv.second;
+//         py::object py_sub = py_subs[topic];
+//
+//         py::list py_msg_list;
+//         for (auto msg : sub->msgs<sc::MessageBase>()) {
+//             py_msg_list.append(py::cast(*msg));
+//         }
+//         py_subs[topic].attr("msg_list") = py_msg_list;
+//     }
+//
+//     if (step_autonomy_called_) {
+//         for (auto kv : py_pubs) {
+//             kv.second.attr("msg_list") = py::list();
+//         }
+//     }
+// }
 
-    for (auto &kv : subs_) {
-        const char* topic = kv.first.c_str();
-        sc::SubscriberPtr &sub  = kv.second;
-        py::object py_sub = py_subs[topic];
+// void PyAutonomy::py_pub_msgs_to_pubs() {
+//     py::dict py_pubs = py_obj_.attr("pubs").cast<py::dict>();
+//     for (auto kv : py_pubs) {
+//         std::string topic = kv.first.cast<std::string>();
+//         sc::Publisher py_pub = kv.second.cast<sc::Publisher>();
+//         for (auto msg : py_pub.msgs<sc::MessageBase>()) {
+//             pubs_[topic]->add_msg(msg);
+//         }
+//         py_pub.clear_msg_list();
+//     }
+// }
 
-        py::list py_msg_list;
-        for (auto msg : sub->msgs<sc::MessageBase>()) {
-            py_msg_list.append(py::cast(*msg));
-        }
-        py_subs[topic].attr("msg_list") = py_msg_list;
-    }
-
-    if (step_autonomy_called_) {
-        for (auto kv : py_pubs) {
-            kv.second.attr("msg_list") = py::list();
-        }
-    }
-}
-
-void PyAutonomy::py_pub_msgs_to_pubs() {
-    py::dict py_pubs = py_obj_.attr("pubs").cast<py::dict>();
-    for (auto kv : py_pubs) {
-        std::string topic = kv.first.cast<std::string>();
-        sc::Publisher py_pub = kv.second.cast<sc::Publisher>();
-        for (auto msg : py_pub.msgs<sc::MessageBase>()) {
-            pubs_[topic]->add_msg(msg);
-        }
-        py_pub.clear_msg_list();
-    }
-}
-
-void PyAutonomy::sync_topics() {
-    py::dict py_pubs = py_obj_.attr("pubs").cast<py::dict>();
-    py::dict py_subs = py_obj_.attr("subs").cast<py::dict>();
-
-    // add any topics not in subs that are in py_subs
-    for (auto kv : py_subs) {
-        std::string topic = kv.first.cast<std::string>();
-        if (subs_.count(topic) == 0) {
-            create_subscriber(topic);
-        }
-        kv.second.attr("msg_list") = py::list();
-    }
-
-    // remove any topics in subs not in py_subs
-    for (auto &kv : subs_) {
-        std::string topic = kv.second->get_topic();
-        if (!py_subs.contains(topic.c_str())) {
-            subs_.erase(topic);
-        }
-    }
-
-    // add any topics not in pubs that are in py_pubs
-    for (auto kv : py_pubs) {
-        std::string topic = kv.first.cast<std::string>();
-        if (pubs_.count(topic) == 0) {
-            create_publisher(topic);
-        }
-    }
-
-    // remove any topics in pubs not in py_pubs
-    for (auto &kv : pubs_) {
-        std::string topic = kv.second->get_topic();
-        if (!py_pubs.contains(topic.c_str())) {
-            pubs_.erase(topic);
-        }
-    }
-}
+// void PyAutonomy::sync_topics() {
+//     py::dict py_pubs = py_obj_.attr("pubs").cast<py::dict>();
+//     py::dict py_subs = py_obj_.attr("subs").cast<py::dict>();
+//
+//     // add any topics not in subs that are in py_subs
+//     for (auto kv : py_subs) {
+//         std::string topic = kv.first.cast<std::string>();
+//         if (subs_.count(topic) == 0) {
+//             create_subscriber(topic);
+//         }
+//         kv.second.attr("msg_list") = py::list();
+//     }
+//
+//     // remove any topics in subs not in py_subs
+//     for (auto &kv : subs_) {
+//         std::string topic = kv.second->get_topic();
+//         if (!py_subs.contains(topic.c_str())) {
+//             subs_.erase(topic);
+//         }
+//     }
+//
+//     // add any topics not in pubs that are in py_pubs
+//     for (auto kv : py_pubs) {
+//         std::string topic = kv.first.cast<std::string>();
+//         if (pubs_.count(topic) == 0) {
+//             create_publisher(topic);
+//         }
+//     }
+//
+//     // remove any topics in pubs not in py_pubs
+//     for (auto &kv : pubs_) {
+//         std::string topic = kv.second->get_topic();
+//         if (!py_pubs.contains(topic.c_str())) {
+//             pubs_.erase(topic);
+//         }
+//     }
+// }
 
 bool PyAutonomy::step_autonomy(double t, double dt) {
-
     cache_python_vars();
+
+    py_state_ = state2py(state_);
 
     py_obj_.attr("contacts") = py_contacts_;
     py_obj_.attr("state") = py_state_;
 
-    sub_msgs_to_py_subs();
+    // sub_msgs_to_py_subs();
     py::object step_autonomy = py_obj_.attr("step_autonomy");
     bool out = step_autonomy(py::float_(t), py::float_(dt)).cast<bool>();
-    sync_topics();
-    py_pub_msgs_to_pubs();
+    // sync_topics();
+    // py_pub_msgs_to_pubs();
 
     sc::State state = py_obj_.attr("desired_state").cast<sc::State>();
     *desired_state_ = state;

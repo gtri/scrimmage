@@ -12,6 +12,7 @@ class Straight(object):
         # Move in the forward direction.
         desired = sc.State()
         desired.vel = np.array([self.speed, 0, 0])
+        desired.pos = self.state.pos
         self.desired_state = desired
-        
+
         return True
