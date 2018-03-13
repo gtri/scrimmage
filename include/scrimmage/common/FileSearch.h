@@ -44,7 +44,7 @@ class FileSearch {
  public:
     void clear();
     bool find_file(const std::string &filename, std::string ext,
-        std::string env_var, std::string &result, bool verbose = false);
+        const std::string &env_var, std::string &result, bool verbose = false);
     void find_files(std::string env_var, const std::string &ext,
         std::unordered_map<std::string, std::list<std::string>> &out,
         bool verbose = false);

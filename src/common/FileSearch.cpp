@@ -34,19 +34,24 @@
 #include <iostream>
 #include <unordered_set>
 
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/foreach.hpp>
+#include <boost/range/algorithm/sort.hpp>
+#include <boost/range/adaptor/uniqued.hpp>
 #include <boost/tokenizer.hpp>
 
 namespace fs = ::boost::filesystem;
+namespace ba = boost::adaptors;
+namespace br = boost::range;
 
 namespace scrimmage {
 
 void FileSearch::clear() {cache_.clear();}
 
 bool FileSearch::find_file(const std::string &search,
-        std::string ext, std::string env_var, std::string &result,
+        std::string ext, const std::string &env_var, std::string &result,
         bool verbose) {
     // Find the xml file.
     // Search order:
@@ -131,19 +136,26 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     // Tokenize the path and loop through each directory
     boost::char_separator<char> sep(":");
     boost::tokenizer< boost::char_separator<char> > tokens(env_path, sep);
-    std::unordered_set<std::string> dirs_checked;
+
+    // we are checking recursively anyway so remove
+    // more specific directories
+    std::vector<std::string> tok(tokens.begin(), tokens.end());
+    br::sort(tok);
+    auto it = tok.begin();
+    while (it != tok.end()) {
+        auto starts_with = [&](auto &s) {return boost::starts_with(s, *it);};
+        tok.erase(std::remove_if(std::next(it), tok.end(), starts_with), tok.end());
+        it++;
+    }
 
     dbg(std::string("not found in cache, looping recursively in ") + env_path);
-    for (const std::string &t : tokens) {
+    for (const std::string &t : tok) {
         // Search for all files in the current directory with
         // the extension
         fs::path root = t;
 
-        if (dirs_checked.count(t) > 0) {
-            dbg(std::string("directory ") + t + " already checked, skipping");
-        } else if (fs::exists(root) && fs::is_directory(root)) {
+        if (fs::exists(root) && fs::is_directory(root)) {
             dbg(t);
-            dirs_checked.insert(t);
 
             fs::recursive_directory_iterator it(root);
             fs::recursive_directory_iterator endit;
