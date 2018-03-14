@@ -50,7 +50,7 @@
     <color>77 77 255</color>
     <count>1</count>
     <health>1</health>
-    
+
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
@@ -65,7 +65,7 @@
     <visual_model>zephyr-blue</visual_model>
 
     <autonomy module="straight" class="Straight" speed="30">PyAutonomy</autonomy>
-    
+
   </entity>
 
 </runscript>
