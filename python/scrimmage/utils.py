@@ -41,9 +41,9 @@ try:
     import matplotlib.pyplot as plt
 except ImportError:
     pass
-from scrimmage.proto import Frame_pb2
 import google.protobuf.internal.decoder
 
+#from scrimmage.proto import Frame_pb2
 
 def read_frames(frames_file, to_dataframe=False):
     """Return a list of frames from a protobuf binary file.

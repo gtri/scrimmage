@@ -10,9 +10,6 @@ if (NOT GRPC_FOUND OR EXTERNAL)
     list(REMOVE_ITEM SUBDIRS TutorialOpenAIAutonomy)
 endif()
 
-# TODO
-list(REMOVE_ITEM SUBDIRS PyAutonomy)
-
 FOREACH(subdir ${SUBDIRS})
   ADD_SUBDIRECTORY(${subdir})
 ENDFOREACH()

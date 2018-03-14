@@ -43,7 +43,7 @@ namespace autonomy {
 class PyAutonomy : public scrimmage::Autonomy {
  public:
     PyAutonomy();
-    virtual void init(std::map<std::string, std::string> &params);
+    void init(std::map<std::string, std::string> &params) override;
     virtual bool step_autonomy(double t, double dt);
 
     std::string type() {return std::string("PyAutonomy");}
@@ -66,7 +66,6 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     virtual void set_state(scrimmage::StatePtr &state) {
         state_ = state;
-        py_state_ = state2py(state);
     }
 
  protected:
@@ -74,9 +73,9 @@ class PyAutonomy : public scrimmage::Autonomy {
     pybind11::object get_py_obj(std::map<std::string, std::string> &params);
     void init_py_obj(std::map<std::string, std::string> &params);
 
-    void sub_msgs_to_py_subs();
-    void py_pub_msgs_to_pubs();
-    void sync_topics();
+    // void sub_msgs_to_py_subs();
+    // void py_pub_msgs_to_pubs();
+    // void sync_topics();
 
     void print_py_traceback(pybind11::error_already_set &e);
 

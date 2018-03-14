@@ -61,6 +61,7 @@ void add_autonomy(pybind11::module &m) {
     py::class_<sc::Autonomy, std::shared_ptr<sc::Autonomy>>(m, "Autonomy", plugin)
         .def(py::init<>())
         .def_property("desired_state", &sc::Autonomy::desired_state, &sc::Autonomy::set_desired_state)
+        .def("init", (void (sc::Autonomy::*)(std::map<std::string, std::string>&)) &sc::Autonomy::init)
         .def("name", &sc::Autonomy::name)
         .def("type", &sc::Autonomy::type)
         .def("step_autonomy", &sc::Autonomy::step_autonomy)
