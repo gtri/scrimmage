@@ -71,11 +71,15 @@
 #include <future> // NOLINT
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include <boost/thread.hpp>
+#include <boost/range/adaptor/map.hpp>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace sm = scrimmage_msgs;
+namespace br = boost::range;
+namespace ba = boost::adaptors;
 
 using std::cout;
 using std::endl;
@@ -1264,6 +1268,16 @@ bool SimControl::run_entities() {
             }
         }
         temp_t += motion_dt;
+    }
+
+    for (EntityPtr &ent : ents_) {
+        for (auto &sensor : ent->sensors() | ba::map_values) {
+            for (auto &sub : sensor->subs()) {
+                for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
+                    sub->accept(msg);
+                }
+            }
+        }
     }
 
     for (EntityPtr &ent : ents_) {

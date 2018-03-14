@@ -64,19 +64,21 @@ LocalNetwork::LocalNetwork() {
 }
 
 bool LocalNetwork::init(std::map<std::string, std::string> &mission_params,
-                               std::map<std::string, std::string> &plugin_params) {
+                        std::map<std::string, std::string> &plugin_params) {
     network_init(mission_params, plugin_params);
     return true;
 }
 
 bool LocalNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                                       const scrimmage::PluginPtr &sub_plugin) {
+                                const scrimmage::PluginPtr &sub_plugin) {
     // If the publisher and subscriber have the same parent, it is reachable
+  std::cout << "pub_plugin->parent() = " << pub_plugin->parent() << ", sub_plugin->parent() = " << sub_plugin->parent() << std::endl;
+  std::cout << (pub_plugin->parent() == sub_plugin->parent()) << std::endl;
     return (pub_plugin->parent() == sub_plugin->parent());
 }
 
 bool LocalNetwork::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                                     const scrimmage::PluginPtr &sub_plugin) {
+                                              const scrimmage::PluginPtr &sub_plugin) {
     return true;
 }
 
