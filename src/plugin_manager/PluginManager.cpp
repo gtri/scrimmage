@@ -101,7 +101,7 @@ int PluginManager::check_library(std::string lib_path) {
 
 PluginManager::PluginManager() : reload_(false) {}
 
-void PluginManager::print_plugins(std::string plugin_type, std::string title, FileSearch &file_search) {
+void PluginManager::print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search) {
     // make sure all files are loaded
     if (!files_checked_) {
         file_search.find_files("SCRIMMAGE_PLUGIN_PATH", ".so", so_files_);
@@ -150,6 +150,7 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::strin
             }
 
             PluginPtr (*maker_func)(void);
+            // cppcheck-suppress cstyleCast
             maker_func = (PluginPtr (*)(void))dlsym(it2->second.handle, "maker");
             char * error;
             if ((error = dlerror()) != NULL)  {

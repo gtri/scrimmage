@@ -47,7 +47,7 @@ REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorCo
 namespace scrimmage {
 namespace controller {
 
-void set_pid(sc::PID &pid, std::string str, bool is_angle) {
+void set_pid(sc::PID &pid, const std::string &str, bool is_angle) {
     std::vector<std::string> str_vals;
     split(str_vals, str, ",");
 

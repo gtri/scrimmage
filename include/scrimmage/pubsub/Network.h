@@ -58,8 +58,9 @@ class Network : public Plugin {
     virtual std::string name();
     virtual std::string type();
 
-    void set_rtree(RTreePtr rtree) { rtree_ = rtree; }
-    void set_random(RandomPtr random) { random_ = random; }
+    void set_rtree(RTreePtr rtree);
+
+    void set_random(RandomPtr random);
 
     inline virtual void set_mission_parse(MissionParsePtr mp)
     { mp_ = mp; }

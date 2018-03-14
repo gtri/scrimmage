@@ -166,7 +166,7 @@ class NetworkDevice {
     unsigned int max_queue_size_ = 1;
     bool enable_queue_size_ = false;
     PluginPtr plugin_;
-    void print_str(std::string msg);
+    void print_str(const std::string &msg);
     std::list<MessageBasePtr> msg_list_;
     std::mutex mutex_;
 };

@@ -107,8 +107,7 @@ void NetworkDevice::clear_msg_list() {
     mutex_.unlock();
 }
 
-// cppcheck-suppress *
-void NetworkDevice::print_str(std::string msg) {
+void NetworkDevice::print_str(const std::string &msg) {
     std::cout << msg << std::endl;
 }
 

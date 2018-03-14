@@ -55,7 +55,7 @@ using std::cout;
 using std::endl;
 
 namespace scrimmage {
-FrameUpdateClient::FrameUpdateClient(std::string ip, int port) {
+FrameUpdateClient::FrameUpdateClient(const std::string &ip, int port) {
     angles_to_gps_.set_input_clock_direction(Angles::Rotate::CCW);
     angles_to_gps_.set_input_zero_axis(Angles::HeadingZero::Pos_X);
     angles_to_gps_.set_output_clock_direction(Angles::Rotate::CW);
@@ -121,6 +121,7 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
     return true;
 }
 
+// cppcheck-suppress passedByValue
 void FrameUpdateClient::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
     proj_ = proj;
 }

@@ -58,7 +58,7 @@ class Interface {
     void set_mode(Mode_t mode) { mode_ = mode; }
     void set_ip(std::string &ip) { ip_ = ip; }
     void set_port(int port) { port_ = port; }
-    bool init_network(Mode_t mode, std::string ip, int port);
+    bool init_network(Mode_t mode, const std::string &ip, int port);
 
     bool frames_update(double t);
     bool utm_terrain_update();
@@ -114,6 +114,7 @@ class Interface {
     std::list<scrimmage_proto::Shapes> & shapes()
     { return shapes_list_; }
 
+    // cppcheck-suppress passedByValue
     void set_log(std::shared_ptr<scrimmage::Log> log) { log_ = log; }
 
     void send_cached();

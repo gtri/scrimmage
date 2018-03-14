@@ -54,12 +54,20 @@ std::string expand_user(std::string path);
 
 bool str2bool(std::string str);
 
-template <class T> T convert(const std::string &str) {
+template <class T>
+std::enable_if_t<!std::is_pointer<T>::value, T>
+convert(const std::string &str) {
     T num;
     if (!(std::istringstream(str) >> num)) {
         num = 0;
     }
     return num;
+}
+
+template <class T>
+std::enable_if_t<std::is_pointer<T>::value, T>
+convert(const std::string &str) {
+    return nullptr;
 }
 
 template <> inline bool convert<bool>(const std::string &str) {return str2bool(str);}

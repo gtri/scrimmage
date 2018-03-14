@@ -62,7 +62,9 @@ class PluginManager {
 
     PluginManager();
 
-    void print_plugins(std::string plugin_type, std::string title, FileSearch &file_search);
+    void print_plugins(const std::string &plugin_type,
+                       const std::string &title,
+                       FileSearch &file_search);
     void print_returned_plugins();
     PluginPtr make_plugin(
         std::string plugin_type,

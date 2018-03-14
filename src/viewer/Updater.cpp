@@ -123,7 +123,7 @@ Updater::Updater() :
     send_shutdown_msg_ = true;
 }
 
-void Updater::init(std::string log_dir, double dt) {
+void Updater::init(const std::string &log_dir, double dt) {
     // Create a default grid:
     grid_ = std::make_shared<Grid>();
     grid_->create(20, 1, renderer_);

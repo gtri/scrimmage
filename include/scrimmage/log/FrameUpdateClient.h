@@ -47,7 +47,7 @@
 namespace scrimmage {
 class FrameUpdateClient {
  public:
-    FrameUpdateClient(std::string ip, int port);
+    FrameUpdateClient(const std::string &ip, int port);
     bool send_frame(scrimmage_proto::Frame &frame);
 
     void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj);

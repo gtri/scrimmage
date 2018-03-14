@@ -40,11 +40,11 @@ namespace py = pybind11;
 namespace scrimmage {
 
 #if ENABLE_PYTHON_BINDINGS == 0
-MessageBase::MessageBase(std::string _serialized_data) :
+MessageBase::MessageBase(const std::string &_serialized_data) :
     time(NAN), serialized_data(_serialized_data) {
 }
 #else
-MessageBase::MessageBase(std::string _serialized_data, pybind11::object _py_data) :
+MessageBase::MessageBase(const std::string &_serialized_data, pybind11::object _py_data) :
     time(NAN), serialized_data(_serialized_data), py_data(_py_data) {
 }
 

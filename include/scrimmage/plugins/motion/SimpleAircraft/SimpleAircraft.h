@@ -65,6 +65,7 @@ class SimpleAircraft : public scrimmage::MotionModel{
         virtual std::shared_ptr<Eigen::Vector3d> u() = 0;
     };
 
+    // cppcheck-suppress passedByValue
     void set_u(std::shared_ptr<Eigen::Vector3d> u) {ctrl_u_ = u;}
 
  protected:

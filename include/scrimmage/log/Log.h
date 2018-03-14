@@ -171,7 +171,7 @@ class Log {
         const google::protobuf::MessageLite& message,
         ZeroCopyOutputStreamPtr rawOutput);
 
-    bool readDelimitedFrom(std::string filename,
+    bool readDelimitedFrom(const std::string &filename,
                            ZeroCopyInputStreamPtr rawInput,
                            MessageLitePtr message,
                            bool& clean_eof);

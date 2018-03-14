@@ -81,8 +81,8 @@ struct GenerateInfo {
 class MissionParse {
  public:
     bool create_log_dir();
-    bool parse(std::string filename);
-    bool write(std::string filename);
+    bool parse(const std::string &filename);
+    bool write(const std::string &filename);
 
     double t0();
     double tend();

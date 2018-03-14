@@ -154,7 +154,7 @@ void filter_line(int downsampling_factor,
     filtered_path.push_back(path.back());
 }
 
-std::string generate_chars(std::string symbol, int num) {
+std::string generate_chars(const std::string &symbol, int num) {
     std::string out = "";
     for (int i = 0; i < num; i++) {
         out += symbol;

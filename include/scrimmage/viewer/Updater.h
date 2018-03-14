@@ -122,7 +122,7 @@ class Updater : public vtkCommand {
 
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
 
-    void init(std::string log_dir, double dt);
+    void init(const std::string &log_dir, double dt);
 
     void next_mode();
 

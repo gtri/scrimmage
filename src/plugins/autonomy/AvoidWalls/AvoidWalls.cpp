@@ -77,7 +77,7 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
         }
     }
 
-    if (points.size() > 0) {
+    if (!points.empty()) {
         std::vector<Eigen::Vector3d> O_vecs;
         for (Eigen::Vector3d &p : points) {
             // Transform the point to global coordinate space

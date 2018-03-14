@@ -56,7 +56,7 @@ void filter_line(int downsampling_factor,
     std::vector<Eigen::Vector3d> &path,
     std::vector<Eigen::Vector3d> &filtered_path);
 
-std::string generate_chars(std::string symbol, int num);
+std::string generate_chars(const std::string &symbol, int num);
 
 std::string eigen_str(const Eigen::VectorXd &vec, uint8_t precision = 2);
 

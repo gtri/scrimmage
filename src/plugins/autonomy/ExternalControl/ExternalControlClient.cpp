@@ -43,6 +43,7 @@ namespace sp = scrimmage_proto;
 namespace scrimmage {
 namespace autonomy {
 
+// cppcheck-suppress passedByValue
 ExternalControlClient::ExternalControlClient(std::shared_ptr<grpc::Channel> channel) :
     stub_(scrimmage_proto::ExternalControl::NewStub(channel)) {}
 

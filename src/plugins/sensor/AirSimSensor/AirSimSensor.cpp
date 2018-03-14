@@ -68,17 +68,17 @@ namespace sensor {
 
 AirSimSensor::AirSimSensor() : client_connected_(false),
     airsim_ip_("localhost"), airsim_port_(41451), airsim_timeout_ms_(60000) {
+
+    enu_to_ned_yaw_.set_input_clock_direction(ang::Rotate::CCW);
+    enu_to_ned_yaw_.set_input_zero_axis(ang::HeadingZero::Pos_X);
+    enu_to_ned_yaw_.set_output_clock_direction(ang::Rotate::CW);
+    enu_to_ned_yaw_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 }
 
 void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
     airsim_port_ = sc::get<int>("airsim_port", params, 41451);
     airsim_timeout_ms_ = sc::get<int>("airsim_timeout_ms", params, 60000);
-
-    enu_to_ned_yaw_.set_input_clock_direction(ang::Rotate::CCW);
-    enu_to_ned_yaw_.set_input_zero_axis(ang::HeadingZero::Pos_X);
-    enu_to_ned_yaw_.set_output_clock_direction(ang::Rotate::CW);
-    enu_to_ned_yaw_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
     // Parse the camera config string.
     // The string is a list of camera configs of the form:

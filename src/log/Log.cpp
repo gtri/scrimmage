@@ -328,7 +328,7 @@ bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
     return true;
 }
 
-bool Log::readDelimitedFrom(std::string filename,
+bool Log::readDelimitedFrom(const std::string &filename,
                             ZeroCopyInputStreamPtr rawInput,
                             MessageLitePtr message, bool& clean_eof) {
     // see here for the implementation: http://stackoverflow.com/a/22927149

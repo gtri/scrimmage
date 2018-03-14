@@ -61,7 +61,7 @@ namespace rx = rapidxml;
 
 namespace scrimmage {
 
-bool MissionParse::parse(std::string filename) {
+bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = filename;
 
     rapidxml::xml_document<> doc;
@@ -640,7 +640,7 @@ bool MissionParse::create_log_dir() {
     return true;
 }
 
-bool MissionParse::write(std::string file) {
+bool MissionParse::write(const std::string &file) {
     return true;
 }
 
