@@ -45,7 +45,6 @@
 #include <string>
 
 namespace scrimmage {
-
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{
  public:
@@ -64,7 +63,9 @@ class Straight : public scrimmage::Autonomy{
      bool enable_boundary_control_ = false;
      std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
 
-     int alt_idx_ = 0;
+     int desired_alt_idx_ = 0;
+     int desired_speed_idx_ = 0;
+     int desired_heading_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

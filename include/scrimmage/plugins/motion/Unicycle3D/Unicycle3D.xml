@@ -5,6 +5,7 @@
   <turn_rate_max>1</turn_rate_max>
   <pitch_rate_max>1</pitch_rate_max>
   <vel_max>1</vel_max>
+  <accel_max>-1</accel_max> <!-- negative - disables acceleration limits -->
   <enable_roll>false</enable_roll>
   <write_csv>false</write_csv>
 </params>

@@ -35,13 +35,15 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h>
+#include <scrimmage/plugins/controller/Unicycle3DControllerPID/Unicycle3DControllerPID.h>
 
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleAircraftControllerPID, SimpleAircraftControllerPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::Unicycle3DControllerPID,
+                Unicycle3DControllerPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -53,7 +55,7 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     boost::split(str_vals, str, boost::is_any_of(","));
 
     if (str_vals.size() != 4) {
-        std::cout << "error parsing in SimpleAircraftControllerPID" << std::endl;
+        std::cout << "error parsing in Unicycle3DControllerPID" << std::endl;
     } else {
         double p = std::stod(str_vals[0]);
         double i = std::stod(str_vals[1]);
@@ -71,39 +73,51 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     }
 }
 
-void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &params) {
+void Unicycle3DControllerPID::init(std::map<std::string, std::string> &params) {
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
     use_roll_ = sc::str2bool(params.at("use_roll"));
     u_ = std::make_shared<Eigen::Vector3d>();
 
-    alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::In);
+    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::In);
+
+    if (vars_.exists("acceleration", VariableIO::Direction::Out)) {
+        accel_idx_ = vars_.declare("acceleration", VariableIO::Direction::Out);
+        velocity_idx_ = -1;
+    } else {
+        velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+        accel_idx_ = -1;
+    }
+    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
-bool SimpleAircraftControllerPID::step(double t, double dt) {
-    double roll_error;
-    if (use_roll_) {
-        heading_pid_.set_setpoint(desired_state_->quat().roll());
-        roll_error = -heading_pid_.step(dt, state_->quat().roll());
-    } else {
-        double desired_yaw = desired_state_->quat().yaw();
+bool Unicycle3DControllerPID::step(double t, double dt) {
+    heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
+    double u_heading = heading_pid_.step(dt, state_->quat().yaw());
 
-        heading_pid_.set_setpoint(desired_yaw);
-        double u_heading = heading_pid_.step(dt, state_->quat().yaw());
-        roll_error = u_heading + state_->quat().roll();
-    }
-
-    // std::cout << "Altitude (from VariableIO): " << vars_.input(alt_idx_) << std::endl;
-
-    alt_pid_.set_setpoint(desired_state_->pos()(2));
+    alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
     double u_alt = alt_pid_.step(dt, state_->pos()(2));
     double pitch_error = (-u_alt - state_->quat().pitch());
 
-    vel_pid_.set_setpoint(desired_state_->vel()(0));
-    double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+    // If the motion model allows us to set speed directly, set it directly. If
+    // not, use a PID controller to set the acceleration.
+    double desired_speed = vars_.input(desired_speed_idx_);
+    if (accel_idx_ < 0) {
+        // Directly set velocity
+        vars_.output(velocity_idx_, desired_speed);
+    } else {
+        // Use a PID controller to control velocity
+        vel_pid_.set_setpoint(desired_speed);
+        double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+        vars_.output(accel_idx_, u_thrust);
+    }
+    vars_.output(turn_rate_idx_, u_heading);
+    vars_.output(pitch_rate_idx_, pitch_error);
 
-    (*u_) << u_thrust, roll_error, pitch_error;
     return true;
 }
 } // namespace controller

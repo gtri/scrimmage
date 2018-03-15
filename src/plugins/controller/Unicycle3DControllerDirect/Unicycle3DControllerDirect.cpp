@@ -39,13 +39,18 @@ namespace scrimmage {
 namespace controller {
 
 void Unicycle3DControllerDirect::init(std::map<std::string, std::string> &params) {
-    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    if (vars_.exists("velocity", VariableIO::Direction::Out)) {
+        vel_or_accel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    } else {
+        vel_or_accel_idx_ = vars_.declare("acceleration", VariableIO::Direction::Out);
+    }
+
     turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
     pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
 bool Unicycle3DControllerDirect::step(double t, double dt) {
-    vars_.output(velocity_idx_, desired_state_->vel()(0));
+    vars_.output(vel_or_accel_idx_, desired_state_->vel()(0));
     vars_.output(turn_rate_idx_, desired_state_->vel()(1));
     vars_.output(pitch_rate_idx_, desired_state_->vel()(2));
     return true;

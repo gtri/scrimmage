@@ -57,6 +57,8 @@ class VariableIO {
     void output(int i, double x);
     double output(int i);
 
+    bool exists(std::string var, Direction dir);
+
     /*! \brief Connect two VariableIO objects where writing to the output of
      *  the first object will transfer the data to the input of the second
      *  object. */

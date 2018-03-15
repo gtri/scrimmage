@@ -30,30 +30,38 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLE3DCONTROLLERDIRECT_UNICYCLE3DCONTROLLERDIRECT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLE3DCONTROLLERDIRECT_UNICYCLE3DCONTROLLERDIRECT_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLE3DCONTROLLERPID_UNICYCLE3DCONTROLLERPID_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLE3DCONTROLLERPID_UNICYCLE3DCONTROLLERPID_H_
 
-#include <scrimmage/plugins/motion/Unicycle3D/Unicycle3D.h>
+#include <scrimmage/plugins/motion/SimpleAircraft/SimpleAircraft.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
 namespace controller {
-class Unicycle3DControllerDirect : public Controller {
+class Unicycle3DControllerPID : public motion::SimpleAircraft::Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
+    virtual std::shared_ptr<Eigen::Vector3d> u() {return u_;}
 
  protected:
-    double l_;
-    double gain_;
+    std::shared_ptr<Eigen::Vector3d> u_;
+    scrimmage::PID heading_pid_;
+    scrimmage::PID alt_pid_;
+    scrimmage::PID vel_pid_;
+    bool use_roll_ = false;
 
-    int vel_or_accel_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
+
+    int velocity_idx_ = 0;
     int accel_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLE3DCONTROLLERDIRECT_UNICYCLE3DCONTROLLERDIRECT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLE3DCONTROLLERPID_UNICYCLE3DCONTROLLERPID_H_

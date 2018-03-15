@@ -76,7 +76,8 @@ enum ControlParams {
 };
 
 Unicycle3D::Unicycle3D() : turn_rate_max_(1), pitch_rate_max_(1), vel_max_(1),
-                           enable_roll_(false), write_csv_(false) {
+                           accel_max_(-1.0), enable_roll_(false),
+                           write_csv_(false), use_accel_input_(false) {
 }
 
 Unicycle3D::~Unicycle3D() {
@@ -85,8 +86,15 @@ Unicycle3D::~Unicycle3D() {
 bool Unicycle3D::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
 
+    accel_max_ = sc::get("accel_max", params, -1);
+
     // Declare variables for controllers
-    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    if (accel_max_ < 0) {
+        velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    } else {
+        accel_idx_ = vars_.declare("acceleration", VariableIO::Direction::In);
+        use_accel_input_ = true;
+    }
     turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
     pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
 
@@ -151,7 +159,6 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
 bool Unicycle3D::step(double t, double dt) {
     // Get inputs and saturate
-    velocity_ = boost::algorithm::clamp(vars_.input(velocity_idx_), -vel_max_, vel_max_);
     turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
     pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
 
@@ -173,13 +180,24 @@ bool Unicycle3D::step(double t, double dt) {
 
     Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
 
-    x_[U] = velocity_ + force_body(0) / mass_;
+    if (use_accel_input_) {
+        // Enforce acceleration limits, if being used
+        acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), -accel_max_, accel_max_);
+        x_[U] += force_body(0) / mass_;
+    } else {
+        velocity_ = vars_.input(velocity_idx_);
+        x_[U] = velocity_ + force_body(0) / mass_;
+    }
+
     x_[V] = force_body(1) / mass_;
     x_[W] = force_body(2) / mass_;
 
     x_[P] = 0;
     x_[Q] = pitch_rate_;
     x_[R] = turn_rate_;
+
+    // Enforce forward velocity limits
+    x_[U] = boost::algorithm::clamp(x_[U], -vel_max_, vel_max_);
 
     ode_step(dt);
 
@@ -202,6 +220,8 @@ bool Unicycle3D::step(double t, double dt) {
     state_->quat().normalize();
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << state_->quat().toRotationMatrix() * vel_local;
+
+    velocity_ = vel_local(0);
 
     if (write_csv_) {
         // Log state to CSV
@@ -234,7 +254,7 @@ bool Unicycle3D::step(double t, double dt) {
 }
 
 void Unicycle3D::model(const vector_t &x , vector_t &dxdt , double t) {
-    dxdt[U] = 0;
+    dxdt[U] = acceleration_;
     dxdt[V] = 0;
     dxdt[W] = 0;
 

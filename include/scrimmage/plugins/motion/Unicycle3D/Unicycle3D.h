@@ -59,6 +59,7 @@ class Unicycle3D : public scrimmage::MotionModel {
     double turn_rate_max_;
     double pitch_rate_max_;
     double vel_max_;
+    double accel_max_;
     bool enable_roll_;
 
     scrimmage::Quaternion quat_world_;
@@ -68,11 +69,15 @@ class Unicycle3D : public scrimmage::MotionModel {
     bool write_csv_;
     CSV csv_;
 
+    bool use_accel_input_;
+
     int velocity_idx_ = 0;
+    int accel_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
 
     double velocity_ = 0;
+    double acceleration_ = 0;
     double turn_rate_ = 0;
     double pitch_rate_ = 0;
 };

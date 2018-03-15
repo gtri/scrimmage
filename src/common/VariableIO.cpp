@@ -108,4 +108,12 @@ void connect(VariableIO &output, VariableIO &input) {
     output.output_ = input.input_;
 }
 
+bool VariableIO::exists(std::string var, Direction dir) {
+    if (dir == VariableIO::Direction::In) {
+        return (input_variable_index_.count(var) > 0);
+    } else {
+        return (output_variable_index_.count(var) > 0);
+    }
+}
+
 } // namespace scrimmage

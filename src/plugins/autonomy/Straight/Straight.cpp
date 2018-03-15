@@ -68,7 +68,9 @@ namespace sci = scrimmage::interaction;
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 namespace fs = boost::filesystem;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Straight, Straight_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::Straight,
+                Straight_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -138,7 +140,9 @@ void Straight::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
 
-    alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
@@ -215,7 +219,9 @@ bool Straight::step_autonomy(double t, double dt) {
     // Set Desired Altitude to goal's z-position
     desired_state_->pos()(2) = goal_(2);
 
-    vars_.output(alt_idx_, goal_(2));
+    vars_.output(desired_alt_idx_, goal_(2));
+    vars_.output(desired_speed_idx_, v.norm());
+    vars_.output(desired_heading_idx_, heading);
 
     // Set the desired pitch and heading
     desired_state_->quat().set(0, pitch, heading);
