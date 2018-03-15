@@ -25,12 +25,12 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
 
 #. **Make sure you are registered with** `Epic Games`_. **This is required to get
    source code access for Unreal engine.**
-   
+
 #. **Clone Unreal in your favorite folder and build it (this may take a
    while!). Note: We only support Unreal 4.16 and newer.**
 
    .. code-block:: bash
-                   
+
       # go to folder where you clone GitHub projects
       git clone -b 4.17 https://github.com/EpicGames/UnrealEngine.git
       cd UnrealEngine
@@ -47,12 +47,12 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
       # go to folder where you clone GitHub projects
       git clone https://github.com/Microsoft/AirSim.git
       cd AirSim
-      git checkout c02dcfd3175647c26dbc5388f5bd8e5be74f22f8
-      git patch /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch   
+      git checkout v1.1.8
+      git apply /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch
       ./setup.sh
       cd cmake
       chmod +x gcc_build.sh
-      ./gcc_build.sh   
+      ./gcc_build.sh
 
 #. **Build the libc++ version of AirSim (which will be loaded into Unreal)**
 
@@ -61,7 +61,7 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
       # go to folder where you clone GitHub projects
       git clone https://github.com/Microsoft/AirSim.git AirSim-plugin
       cd AirSim-plugin
-      git checkout c02dcfd3175647c26dbc5388f5bd8e5be74f22f8
+      git checkout v1.1.8
       ./setup.sh
       ./build.sh
 
@@ -70,21 +70,21 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
    Make sure you have OpenCV installed on your system and that you have
    successfully built the AirSim libraries (using libstdc++) in step 3. Go to
    your scrimmage build directory and provide the location of the AirSim
-   libraries (libstdc++ version) to cmake. 
+   libraries (libstdc++ version) to cmake.
 
    .. code-block:: bash
-                   
+
       cd /path/to/scrimmage/build
       cmake .. -DAIRSIM_ROOT_SEARCH=/path/to/AirSim
       make
 
    Ensure that the ``AirSimSensor_plugin`` target built successfully.
-      
+
 #. **Open the Blocks Environment in Unreal**
 
    Go to the UnrealEngine repository that you cloned and run the UE4Editor
    binary that was built.
-   
+
    .. code-block:: bash
 
       cd /path/to/UnrealEngine
@@ -129,7 +129,7 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
    of camera configurations, where each camera configuration is of the form:
    ``[CameraName ImageType CameraNumber Width Height]``. The following example
    configures multiple simulated camera sensors:
-                   
+
    .. code-block:: xml
 
       <camera_config>
@@ -156,12 +156,27 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
    press "Play" to start the AirSim instance. Now, you can start the SCRIMMAGE
    instance, which will move the AirSim actor, request images, and display the
    images.
-   
+
    .. code-block:: bash
 
       scrimmage /path/to/scrimmage/missions/quad-airsim-ex1.xml
 
    You should see camera images open in OpenCV windows when the SCRIMMAGE
    simulation begins (hit 'b' to unpause, if necessary).
-      
+
+Windows / Linux Setup
+---------------------
+
+You can run the Unreal Engine on a Windows computer and SCRIMMAGE on a Linux
+computer. You will need to build the libstdc++ version of AirSim on your Linux
+computer (see above: "Build the libstdc++ version of AirSim") and build the
+AirSim SCRIMMAGE plugin (see above "Build SCRIMMAGE's AirSimSensor Plugin") on
+your Linux computer.
+
+See AirSim's documentation for either downloading the binaries for Windows or
+building it on Windows. Make sure you that you use the same version of AirSim
+across your systems. For example, at the time that this tutorial was written,
+we used AirSim version v1.1.8.
+
+
 .. _Epic Games: https://docs.unrealengine.com/latest/INT/Platforms/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/1/index.html

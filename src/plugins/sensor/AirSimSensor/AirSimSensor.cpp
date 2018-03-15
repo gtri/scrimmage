@@ -45,6 +45,9 @@
 #include <iostream>
 #include <memory>
 #include <limits>
+#include <chrono> // NOLINT
+#include <thread> // NOLINT
+#include <mutex> // NOLINT
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -100,22 +103,22 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
                     c.height = std::stoi(tokens_2[4]);
 
                     if (tokens_2[1] == "Scene") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::Scene;
+                        c.img_type = ma::ImageCaptureBase::ImageType::Scene;
                     } else if (tokens_2[1] == "DepthPlanner") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::DepthPlanner;
+                        c.img_type = ma::ImageCaptureBase::ImageType::DepthPlanner;
                     } else if (tokens_2[1] == "DepthPerspective") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::DepthPerspective;
+                        c.img_type = ma::ImageCaptureBase::ImageType::DepthPerspective;
                     } else if (tokens_2[1] == "DepthVis") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::DepthVis;
+                        c.img_type = ma::ImageCaptureBase::ImageType::DepthVis;
                     } else if (tokens_2[1] == "DisparityNormalized") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::DisparityNormalized;
+                        c.img_type = ma::ImageCaptureBase::ImageType::DisparityNormalized;
                     } else if (tokens_2[1] == "Segmentation") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::Segmentation;
+                        c.img_type = ma::ImageCaptureBase::ImageType::Segmentation;
                     } else if (tokens_2[1] == "SurfaceNormals") {
-                        c.img_type = ma::VehicleCameraBase::ImageType::SurfaceNormals;
+                        c.img_type = ma::ImageCaptureBase::ImageType::SurfaceNormals;
                     } else {
                         cout << "Error: Unknown image type: " << tokens_2[1] << endl;
-                        c.img_type = ma::VehicleCameraBase::ImageType::Scene;
+                        c.img_type = ma::ImageCaptureBase::ImageType::Scene;
                     }
                     cout << "Adding Camera: " << c << endl;
                     cam_configs_.push_back(c);
@@ -126,7 +129,70 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
         }
     }
 
+    // Start the image request thread
+    request_images_thread_ = std::thread(&AirSimSensor::request_images, this);
+
     return;
+}
+
+void AirSimSensor::request_images() {
+    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> img_client =
+        std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
+                                                     airsim_port_,
+                                                     airsim_timeout_ms_);
+    bool connected = false;
+    while (!connected) {
+        img_client->confirmConnection();
+
+        // If we haven't been able to connect to AirSim, warn the user
+        if (img_client->getConnectionState() !=
+            ma::RpcLibClientBase::ConnectionState::Connected) {
+            cout << "Warning: Image client not connected to AirSim." << endl;
+        } else {
+            connected = true;
+        }
+    }
+
+    running_mutex_.lock();
+    bool running = running_;
+    running_mutex_.unlock();
+    while (running) {
+        auto msg = std::make_shared<sc::Message<std::vector<AirSimSensorType>>>();
+        for (CameraConfig c : cam_configs_) {
+            cv::Mat img(c.height, c.width, CV_8UC4);
+
+            // get uncompressed rgba array bytes
+            const int cam_forw = c.number;
+            std::vector<ma::ImageCaptureBase::ImageRequest> request = {
+                ma::ImageCaptureBase::ImageRequest(
+                    cam_forw, c.img_type, false, false
+                    )
+            };
+
+            const std::vector<ma::ImageCaptureBase::ImageResponse>& response
+                = img_client->simGetImages(request);
+
+            if (response.size() > 0) {
+                auto& im_vec = response[0].image_data_uint8;
+
+                // todo, no memcpy, just set image ptr to underlying data then do conversion
+                // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
+                memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
+
+                AirSimSensorType a;
+                a.camera_config = c;
+                cv::cvtColor(img, a.img, CV_RGBA2BGR, 3);
+                msg->data.push_back(a);
+            }
+        }
+        img_msg_mutex_.lock();
+        img_msg_ = msg;
+        img_msg_mutex_.unlock();
+
+        running_mutex_.lock();
+        running = running_;
+        running_mutex_.unlock();
+    }
 }
 
 scrimmage::MessageBasePtr AirSimSensor::sensor_msg(double t) {
@@ -141,18 +207,14 @@ scrimmage::MessageBasePtr AirSimSensor::sensor_msg(double t) {
                                                                    airsim_port_,
                                                                    airsim_timeout_ms_);
         sim_client_->confirmConnection();
-    }
 
-    // If we haven't been able to connect to AirSim, warn the user and return.
-    if (sim_client_->getConnectionState() !=
-        ma::RpcLibClientBase::ConnectionState::Connected) {
-        client_connected_ = false;
-        cout << "Warning: not connected to AirSim." << endl;
-        return std::make_shared<sc::MessageBase>();
-    } else if (!client_connected_) {
-        // If we are connected to AirSim, but the client_connected_ variable is
-        // still false, we just connected to AirSim, so call API setup
-        // commands.
+        // If we haven't been able to connect to AirSim, warn the user and return.
+        if (sim_client_->getConnectionState() !=
+            ma::RpcLibClientBase::ConnectionState::Connected) {
+            client_connected_ = false;
+            cout << "Warning: not connected to AirSim." << endl;
+            return std::make_shared<sc::MessageBase>();
+        }
         client_connected_ = true;
         sim_client_->enableApiControl(true);
     }
@@ -178,43 +240,23 @@ scrimmage::MessageBasePtr AirSimSensor::sensor_msg(double t) {
     // Send state information to AirSim
     sim_client_->simSetPose(ma::Pose(pos, qd), true);
 
+    // Get the camera images from the other thread
+    sc::MessagePtr<std::vector<AirSimSensorType>> msg;
+    img_msg_mutex_.lock();
+    msg = img_msg_;
+    img_msg_mutex_.unlock();
 
-    ///////////////////////////////////////////////////////////////////////////
-    /// Request Camera Images
-    ///////////////////////////////////////////////////////////////////////////
-    auto msg = std::make_shared<sc::Message<std::vector<AirSimSensorType>>>();
-
-    for (CameraConfig c : cam_configs_) {
-        cv::Mat img(c.height, c.width, CV_8UC4);
-
-        // get uncompressed rgba array bytes
-        const int cam_forw = c.number;
-        std::vector<ma::VehicleCameraBase::ImageRequest> request = {
-            ma::VehicleCameraBase::ImageRequest(
-                cam_forw, c.img_type, false, false
-                )
-        };
-
-        const std::vector<ma::VehicleCameraBase::ImageResponse>& response
-            = sim_client_->simGetImages(request);
-
-        if (response.size() > 0) {
-            auto& im_vec = response[0].image_data_uint8;
-
-            // todo, no memcpy, just set image ptr to underlying data then do conversion
-            // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
-            memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
-
-            AirSimSensorType a;
-            a.camera_config = c;
-            cv::cvtColor(img, a.img, CV_RGBA2BGR, 3);
-
-            msg->data.push_back(a);
-        }
-    }
-
-    // Return the sensor message.
     return msg;
 }
+
+void AirSimSensor::close(double t) {
+    // Safely join with the image client thread
+    running_mutex_.lock();
+    running_ = false;
+    running_mutex_.unlock();
+
+    request_images_thread_.join();
+}
+
 } // namespace sensor
 } // namespace scrimmage

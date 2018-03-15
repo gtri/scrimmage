@@ -3,11 +3,13 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="Straight flying">
 
-  <run start="0.0" end="100" dt="0.1"
+  <run start="0.0" end="100" dt="0.01"
        time_warp="1"
        enable_gui="true"
        network_gui="false"
        start_paused="true"/>
+
+  <display_progress>false</display_progress>
 
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
@@ -52,8 +54,8 @@
     <y>0</y>
     <z>10</z>
     <heading>0</heading>
-    
-    <sensor>AirSimSensor</sensor>    
+
+    <sensor airsim_ip="10.57.1.2">AirSimSensor</sensor>
     <autonomy show_camera_images="true">Straight</autonomy>
 
     <motion_model motion_model_sets_yaw="false"
@@ -62,8 +64,8 @@
                   max_acc="2"
                   max_yaw_vel="12"
                   max_yaw_acc="2">DoubleIntegrator</motion_model>
-    <controller>DoubleIntegratorControllerVelYaw</controller>    
+    <controller>DoubleIntegratorControllerVelYaw</controller>
     <visual_model>iris</visual_model>
   </entity>
-  
+
 </runscript>

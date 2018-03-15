@@ -40,6 +40,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <vector>
 
 #include <opencv2/core/core.hpp>
 
@@ -61,8 +62,9 @@ namespace scrimmage {
 namespace sensor {
 class CameraConfig {
  public:
-        msr::airlib::VehicleCameraBase::ImageType img_type =
-            msr::airlib::VehicleCameraBase::ImageType::Scene;;
+        msr::airlib::ImageCaptureBase::ImageType img_type =
+            msr::airlib::ImageCaptureBase::ImageType::Scene;
+
         std::string name = "none";
         int number = 0;
         int height = 144;
@@ -89,8 +91,17 @@ class AirSimSensor : public scrimmage::Sensor {
     AirSimSensor();
     virtual void init(std::map<std::string, std::string> &params);
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
+    void close(double t) override;
 
  protected:
+    std::thread request_images_thread_;
+    void request_images();
+    scrimmage::MessagePtr<std::vector<AirSimSensorType>> img_msg_ = nullptr;
+    std::mutex img_msg_mutex_;
+
+    bool running_ = true;
+    std::mutex running_mutex_;
+
     std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
     bool client_connected_;
     std::string airsim_ip_;
