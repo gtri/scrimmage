@@ -30,33 +30,27 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <map>
 #include <string>
-#include <list>
+#include <map>
 
 namespace scrimmage {
 namespace autonomy {
-class MotorSchemas : public scrimmage::Autonomy {
+namespace motor_schemas {
+class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
+    MoveToGoalMS();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_autonomy(double t, double dt);
 
  protected:
-    bool show_shapes_;
-    double max_speed_;
-    std::list<motor_schemas::BehaviorBasePtr> behaviors_;
-
-    int desired_heading_idx_ = 0;
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
+    Eigen::Vector3d goal_;
 };
+} // namespace motor_schemas
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_

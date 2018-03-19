@@ -158,6 +158,18 @@ class Entity : public std::enable_shared_from_this<Entity> {
     ContactMapPtr &contacts() { return contacts_; }
     RTreePtr &rtree() { return rtree_; }
 
+    PluginManagerPtr & plugin_manager() {
+        return plugin_manager_;
+    }
+
+    FileSearchPtr & file_search() {
+        return file_search_;
+    }
+
+    PubSubPtr & pubsub() {
+        return pubsub_;
+    }
+
     double radius() { return radius_; }
 
     ControllerPtr init_controller(

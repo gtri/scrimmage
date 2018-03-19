@@ -30,33 +30,36 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
-
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
 
 #include <map>
 #include <string>
-#include <list>
 
 namespace scrimmage {
 namespace autonomy {
-class MotorSchemas : public scrimmage::Autonomy {
+namespace motor_schemas {
+class BehaviorBase : public scrimmage::Autonomy {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    BehaviorBase() : desired_vector_(Eigen::Vector3d(0, 0, 0)), gain_(1.0) {
+    }
+
+    Eigen::Vector3d &desired_vector() {
+        return desired_vector_;
+    }
+
+    void set_gain(const double &gain) { gain_ = gain; }
+    const double &gain() { return gain_; }
 
  protected:
-    bool show_shapes_;
-    double max_speed_;
-    std::list<motor_schemas::BehaviorBasePtr> behaviors_;
-
-    int desired_heading_idx_ = 0;
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
+    Eigen::Vector3d desired_vector_;
+    double gain_;
 };
+using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
+} // namespace motor_schemas
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
+
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_

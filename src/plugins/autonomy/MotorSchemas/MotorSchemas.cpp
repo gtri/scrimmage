@@ -33,6 +33,9 @@
 #include <Eigen/Geometry>
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/plugin_manager/PluginManager.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -43,103 +46,145 @@
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h>
 
+#include <iostream>
+#include <string>
 #include <cmath>
 #include <cfloat>
+
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+
+using std::cout;
+using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MotorSchemas, MotorSchemas_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::MotorSchemas,
+                MotorSchemas_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
-    show_shapes_ = sc::get("show_shapes", params, false);
+    // Parse the behavior plugins
+    std::string behaviors_str = sc::get<std::string>("behaviors", params, "");
+    std::vector<std::vector<std::string>> vecs_of_vecs;
+    sc::get_vec_of_vecs(behaviors_str, vecs_of_vecs);
+    for (std::vector<std::string> vecs : vecs_of_vecs) {
+        if (vecs.size() < 1) {
+            std::cout << "Behavior name missing." << std::endl;
+            continue;
+        }
 
-    max_speed_ = sc::get<double>("max_speed", params, 21);
+        std::string behavior_name = "";
+        std::map<std::string, std::string> behavior_params;
+        int i = 0;
+        for (std::string str : vecs) {
+            if (i == 0) {
+                behavior_name = str;
+            } else {
+                // Parse the behavior parameters (e.g., param_name="value")
+                // Split the param_name and value, with equals sign in between
+                std::vector<std::string> tokens;
+                boost::split(tokens, str, boost::is_any_of("="));
+                if (tokens.size() == 2) {
+                    // Remove the quotes from the value
+                    tokens[1].erase(
+                        std::remove_if(tokens[1].begin(),
+                                       tokens[1].end(),
+                                       [](unsigned char x){
+                                           return (x == '\"') || (x == '\'');
+                                       }),
+                        tokens[1].end());
+                    behavior_params[tokens[0]] = tokens[1];
+                }
+            }
+            ++i;
+        }
 
-    move_to_goal_gain_ = sc::get<double>("move_to_goal_gain", params, 1.0);
+        sc::ConfigParse config_parse;
+        motor_schemas::BehaviorBasePtr behavior =
+            std::dynamic_pointer_cast<motor_schemas::BehaviorBase>(
+                parent_->plugin_manager()->make_plugin("scrimmage::Autonomy",
+                                                       behavior_name,
+                                                       *(parent_->file_search()),
+                                                       config_parse,
+                                                       behavior_params));
+        if (behavior == nullptr) {
+            cout << "Failed to load MotorSchemas behavior: " << behavior_name << endl;
+        } else {
+            // Initialize the autonomy/behavior
+            behavior->set_rtree(rtree_);
+            behavior->set_parent(parent_);
+            behavior->set_projection(proj_);
+            behavior->set_pubsub(parent_->pubsub());
+            behavior->set_time(time_);
+            behavior->set_state(state_);
+            behavior->set_contacts(contacts_);
+            behavior->set_is_controlling(true);
+            behavior->set_name(behavior_name);
+            behavior->init(config_parse.params());
 
-    sqrt_axis_ratio_ = std::sqrt(sc::get<double>("axis_ratio", params, 1.0));
-
-    if (sc::get("use_initial_heading", params, false)) {
-        Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*2000;
-        Eigen::Vector3d unit_vector = rel_pos.normalized();
-        unit_vector = state_->quat().rotate(unit_vector);
-        goal_ = state_->pos() + unit_vector * rel_pos.norm();
-    } else {
-        std::vector<double> goal_vec;
-        if (sc::get_vec<double>("goal", params, " ", goal_vec, 3)) {
-            goal_ = sc::vec2eigen(goal_vec);
+            // Extract the gain for this plugin and apply it
+            behavior->set_gain(sc::get<double>("gain", behavior_params, 1.0));
+            behaviors_.push_back(behavior);
         }
     }
 
-    avoid_robot_gain_ = sc::get<double>("avoid_robot_gain", params, 1.0);
-    sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
-    minimum_range_ = sc::get<double>("minimum_range", params, 5);
+    show_shapes_ = sc::get("show_shapes", params, false);
+    max_speed_ = sc::get<double>("max_speed", params, 21);
 
     desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+
+    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
     shapes_.clear();
 
-    // move-to-goal schema
-    Eigen::Vector3d v_goal = (goal_ - state_->pos()).normalized();
+    // Run all sub behaviors
+    std::list<Eigen::Vector3d> vecs_with_gains;
+    double sum_norms = 0;
+    Eigen::Vector3d vec_sums(0, 0, 0);
+    for (motor_schemas::BehaviorBasePtr &behavior : behaviors_) {
+        behavior->shapes().clear();
 
-    // Compute repulsion vector from each robot contact
-    std::vector<Eigen::Vector3d> O_vecs;
-
-    double yaw = state_->quat().yaw();
-
-    Eigen::AngleAxisd rot(yaw, Eigen::Vector3d(0.0, 0.0, 1.0));
-    Eigen::DiagonalMatrix<double, 3> d(sqrt_axis_ratio_, 1.0 / sqrt_axis_ratio_, 1.0);
-    auto transform = rot*d*rot.inverse();
-    auto transform_inv = transform.inverse();
-
-    for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-
-        // Ignore own position / id
-        if (it->second.id().id() == parent_->id().id()) continue;
-
-        Eigen::Vector3d diff = it->second.state()->pos() - state_->pos();
-        Eigen::Vector3d diff_rot = transform_inv*diff;
-
-        double O_mag = 0;
-        double dist = diff_rot.norm();
-
-        if (dist > sphere_of_influence_) {
-            O_mag = 0;
-        } else if (minimum_range_ < dist && dist <= sphere_of_influence_) {
-            O_mag = (sphere_of_influence_ - dist) /
-                (sphere_of_influence_ - minimum_range_);
-        } else if (dist <= minimum_range_) {
-            O_mag = 1e10;
+        // Execute callbacks for received messages before calling
+        // step_autonomy
+        for (SubscriberBasePtr &sub : behavior->subs()) {
+            for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
+                sub->accept(msg);
+            }
+        }
+        if (!behavior->step_autonomy(time_->t(), time_->dt())) {
+            cout << "MotorSchemas: behavior error" << endl;
         }
 
-        Eigen::Vector3d O_dir = - O_mag * diff.normalized();
-        O_vecs.push_back(O_dir);
-    }
+        // Grab the desired vector
+        Eigen::Vector3d vec_with_gain = behavior->desired_vector() * behavior->gain();
+        vecs_with_gains.push_back(vec_with_gain);
 
-    // Normalize each repulsion vector and sum
-    Eigen::Vector3d O_vec(0, 0, 0);
-    for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
-        if (it->hasNaN()) {
-            continue; // ignore misbehaved vectors
+        // Keep a running sum of the norms of all vectors with gains
+        sum_norms += vec_with_gain.norm();
+
+        // Keep a running sum of all vectors with gains
+        vec_sums += vec_with_gain;
+
+        if (show_shapes_) {
+            // Grab the behavior shapes:
+            shapes_.insert(shapes_.end(), behavior->shapes().begin(),
+                           behavior->shapes().end());
         }
-        O_vec += *it;
+        behavior->shapes().clear();
     }
 
-    // Apply gains to independent behaviors
-    Eigen::Vector3d v_goal_w_gain = v_goal * move_to_goal_gain_;
-    Eigen::Vector3d O_vec_w_gain = O_vec * avoid_robot_gain_;
-
-    // Sum vectors across behaviors
-    double sum_norms = v_goal_w_gain.norm() + O_vec_w_gain.norm();
-    Eigen::Vector3d v_sum =  (v_goal_w_gain + O_vec_w_gain) / sum_norms;
+    Eigen::Vector3d v_sum = vec_sums / sum_norms;
 
     // Scale velocity to max speed:
     Eigen::Vector3d vel_result = v_sum * max_speed_;
@@ -158,19 +203,16 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Set Desired Altitude by projecting velocity
     desired_state_->pos()(2) = state_->pos()(2) + vel_result(2);
 
+    // Set the VariableIO output for controller
+    vars_.output(desired_alt_idx_, desired_state_->pos()(2));
+    vars_.output(desired_speed_idx_, desired_state_->vel()(0));
+    vars_.output(desired_heading_idx_, heading);
+
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
     ///////////////////////////////////////////////////////////////////////////
     // Draw sphere of influence:
     if (show_shapes_) {
-        sc::ShapePtr shape(new scrimmage_proto::Shape);
-        shape->set_type(scrimmage_proto::Shape::Circle);
-        shape->set_opacity(0.2);
-        shape->set_radius(sphere_of_influence_);
-        sc::set(shape->mutable_center(), state_->pos());
-        sc::set(shape->mutable_color(), 0, 255, 0);
-        shapes_.push_back(shape);
-
         // Draw resultant vector:
         sc::ShapePtr arrow(new scrimmage_proto::Shape);
         arrow->set_type(scrimmage_proto::Shape::Line);
@@ -180,6 +222,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         sc::add_point(arrow, vel_result + state_->pos());
         shapes_.push_back(arrow);
     }
+
     return true;
 }
 } // namespace autonomy
