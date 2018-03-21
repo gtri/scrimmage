@@ -207,23 +207,22 @@ to the ``pub_cb`` method. The ``sc2ros_start_auction`` variable is a function
 that converts a SCRIMMAGE message type to a ROS message type. We have to define
 this function before the ``pub_cb`` line:::
 
-  RosStartAuction sc2ros_start_auction(
-    const std::shared_ptr<sc::Message<auction::StartAuction>> &sc_msg) {
+  RosStartAuction sc2ros_start_auction(const auction::StartAuction &sc_msg) {
       RosStartAuction ros_msg;
-      ros_msg.sender_id = sc_msg->data.sender_id();
+      ros_msg.sender_id = sc_msg.sender_id();
       return ros_msg;
-    }
+  }
 
 A similar publisher is setup for the "BidAuction" topic. Let's setup a
 subscriber for the "StartAuction" topic. First, we need to define the function
 that will convert from a ROS message type to a SCRIMMAGE message type:::
 
-  sc::Message<auction::StartAuction> ros2sc_start_auction(
-    const RosStartAuction &ros_msg) {
-     sc::Message<auction::StartAuction> sc_msg;
-     sc_msg.data.set_sender_id(ros_msg.sender_id);
-     return sc_msg;
+  auction::StartAuction ros2sc_start_auction(const RosStartAuction &ros_msg) {
+      auction::StartAuction sc_msg;
+      sc_msg.set_sender_id(ros_msg.sender_id);
+      return sc_msg;
   }
+
   
 Now, let's setup a ROS subscriber:::
     
