@@ -82,7 +82,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
                       std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t);
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
     int throttle_idx_ = 0;

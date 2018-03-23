@@ -55,7 +55,7 @@ class DoubleIntegrator : public scrimmage::MotionModel {
 
     void model(const vector_t &x , vector_t &dxdt , double t) override;
 
-    void teleport(scrimmage::StatePtr &state);
+    void teleport(scrimmage::StatePtr &state) override;
 
  protected:
     double update_dvdt(double vel, double max_vel, double acc);

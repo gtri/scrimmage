@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_
 
+#ifndef __APPLE__
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -83,4 +85,7 @@ class Joystick {
 
 } // namespace controller
 } // namespace scrimmage
+
+#endif  // __APPLE__
+
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_

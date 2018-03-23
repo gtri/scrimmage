@@ -42,11 +42,21 @@
 
 #include <boost/filesystem.hpp>
 
+#ifdef __APPLE__
+#define LIB_EXT ".dylib"
+#else
+#define LIB_EXT ".so"
+#endif
+
 namespace scrimmage {
 
 int PluginManager::check_library(std::string lib_path) {
     void *lib_handle;
+#ifdef __APPLE__
+    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
+#else
     lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+#endif
     if (!lib_handle) {
         fputs(dlerror(), stderr);
         std::cout << std::endl;
@@ -104,7 +114,7 @@ PluginManager::PluginManager() : reload_(false) {}
 void PluginManager::print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search) {
     // make sure all files are loaded
     if (!files_checked_) {
-        file_search.find_files("SCRIMMAGE_PLUGIN_PATH", ".so", so_files_);
+        file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files_);
         files_checked_ = true;
     }
 
@@ -196,13 +206,13 @@ PluginPtr PluginManager::make_plugin(
     }
 
     if (!files_checked_ && so_files_.empty()) {
-        file_search.find_files("SCRIMMAGE_PLUGIN_PATH", ".so", so_files_);
+        file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files_);
         files_checked_ = true;
     }
 
     // try the most obvious case, that the lib is named the same as the
     // plugin_name
-    auto it = so_files_.find(std::string("lib") + plugin_name_so + ".so");
+    auto it = so_files_.find(std::string("lib") + plugin_name_so + LIB_EXT);
     if (it != so_files_.end()) {
         for (std::string &full_fname : it->second) {
             if (check_library(full_fname) == 0) {

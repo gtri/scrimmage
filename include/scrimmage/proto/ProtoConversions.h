@@ -57,7 +57,7 @@ class Frame;
 
 namespace scrimmage {
 
-class Color_t;
+struct Color_t;
 class ID;
 class Quaternion;
 class Frame;

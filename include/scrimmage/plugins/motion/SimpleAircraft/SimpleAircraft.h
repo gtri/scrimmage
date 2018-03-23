@@ -56,7 +56,7 @@ class SimpleAircraft : public scrimmage::MotionModel{
                       std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t);
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
     void teleport(scrimmage::StatePtr &state) override;
 
