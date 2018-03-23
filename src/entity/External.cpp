@@ -141,11 +141,7 @@ bool External::step(double t) {
     // do all the scrimmage updates (e.g., step_autonomy, step controller, etc)
     // incorporating motion_dt_
     for (AutonomyPtr autonomy : entity_->autonomies()) {
-        for (SubscriberBasePtr &sub : autonomy->subs()) {
-            for (auto msg : sub->pop_msgs<MessageBase>()) {
-                sub->accept(msg);
-            }
-        }
+        autonomy->run_callbacks();
         autonomy->step_autonomy(t, dt);
     }
 
@@ -156,11 +152,7 @@ bool External::step(double t) {
     double temp_t = t - dt;
     for (int i = 0; i < num_steps; i++) {
         for (ControllerPtr &ctrl : entity_->controllers()) {
-            for (SubscriberBasePtr &sub : ctrl->subs()) {
-                for (auto msg : sub->pop_msgs<MessageBase>()) {
-                    sub->accept(msg);
-                }
-            }
+            ctrl->run_callbacks();
             ctrl->step(temp_t, motion_dt);
         }
         temp_t += motion_dt;

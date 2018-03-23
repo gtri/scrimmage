@@ -124,6 +124,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::list<SubscriberBasePtr> subs() { return subs_; }
 
+    void run_callbacks();
+
     void set_time(const std::shared_ptr<Time> &time) { time_ = time; }
     // cppcheck-suppress passedByValue
     void set_time(std::shared_ptr<const Time> time) { time_ = time; }

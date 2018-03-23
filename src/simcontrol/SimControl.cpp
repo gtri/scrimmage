@@ -646,11 +646,7 @@ bool SimControl::run_interaction_detection() {
     for (EntityInteractionPtr ent_inter : ent_inters_) {
         // Execute callbacks for received messages before calling
         // entity interaction plugins
-        for (SubscriberBasePtr &sub : ent_inter->subs()) {
-            for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                sub->accept(msg);
-            }
-        }
+        ent_inter->run_callbacks();
         bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
         if (!result) {
             cout << "Entity interaction requested simulation termination: "
@@ -690,11 +686,7 @@ bool SimControl::run_metrics() {
     for (MetricsPtr &metric : metrics_) {
         // Execute callbacks for received messages before calling
         // metrics
-        for (SubscriberBasePtr &sub : metric->subs()) {
-            for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                sub->accept(msg);
-            }
-        }
+        metric->run_callbacks();
         all_true &= metric->step_metrics(t_, dt_);
     }
     return all_true;
@@ -1166,11 +1158,7 @@ void SimControl::worker() {
             for (AutonomyPtr &autonomy : ent->autonomies()) {
                 // Execute callbacks for received messages before calling
                 // step_autonomy
-                for (SubscriberBasePtr &sub : autonomy->subs()) {
-                    for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                        sub->accept(msg);
-                    }
-                }
+                autonomy->run_callbacks();
                 success &= autonomy->step_autonomy(t_, dt_);
             }
 
@@ -1220,11 +1208,7 @@ bool SimControl::run_entities() {
             for (AutonomyPtr &a : ent->autonomies()) {
                 // Execute callbacks for received messages before calling
                 // step_autonomy
-                for (SubscriberBasePtr &sub : a->subs()) {
-                    for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                        sub->accept(msg);
-                    }
-                }
+                a->run_callbacks();
                 if (!a->step_autonomy(t_, dt_)) {
                     print_err(a);
                     success = false;
@@ -1241,11 +1225,7 @@ bool SimControl::run_entities() {
             for (ControllerPtr &ctrl : ent->controllers()) {
                 // Execute callbacks for received messages before calling
                 // controllers
-                for (SubscriberBasePtr &sub : ctrl->subs()) {
-                    for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                        sub->accept(msg);
-                    }
-                }
+                ctrl->run_callbacks();
                 if (!ctrl->step(temp_t, motion_dt)) {
                     print_err(ctrl);
                     success = false;
@@ -1257,11 +1237,7 @@ bool SimControl::run_entities() {
         for (EntityPtr &ent : ents_) {
             // Execute callbacks for received messages before calling
             // motion models
-            for (SubscriberBasePtr &sub : ent->motion()->subs()) {
-                for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                    sub->accept(msg);
-                }
-            }
+            ent->motion()->run_callbacks();
             if (!ent->motion()->step(temp_t, motion_dt)) {
                 print_err(ent->motion());
                 success = false;
@@ -1272,11 +1248,7 @@ bool SimControl::run_entities() {
 
     for (EntityPtr &ent : ents_) {
         for (auto &sensor : ent->sensors() | ba::map_values) {
-            for (auto &sub : sensor->subs()) {
-                for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-                    sub->accept(msg);
-                }
-            }
+            sensor->run_callbacks();
         }
     }
 
