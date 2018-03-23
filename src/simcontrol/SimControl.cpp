@@ -74,6 +74,7 @@
 
 #include <boost/thread.hpp>
 #include <boost/range/adaptor/map.hpp>
+#include <boost/range/algorithm/for_each.hpp>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -642,26 +643,32 @@ bool SimControl::run_networks() {
 }
 
 bool SimControl::run_interaction_detection() {
-    bool any_false = false;
-    for (EntityInteractionPtr ent_inter : ent_inters_) {
-        // Execute callbacks for received messages before calling
-        // entity interaction plugins
-        ent_inter->run_callbacks();
+
+    auto handle_callbacks = [&](auto ent_inter) {ent_inter->run_callbacks();};
+
+    auto run_interaction = [&](auto ent_inter) {
         bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
         if (!result) {
             cout << "Entity interaction requested simulation termination: "
                  << ent_inter->name() << endl;
         }
-        any_false = any_false || !result;
+        return result;
+    };
+
+    auto handle_shapes = [&](auto ent_inter) {
         shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(),
                           ent_inter->shapes().end());
         ent_inter->shapes().clear();
-    }
+    };
+
+    br::for_each(ent_inters_, handle_callbacks);
+    bool success = std::all_of(ent_inters_.begin(), ent_inters_.end(), run_interaction);
+    br::for_each(ent_inters_, handle_shapes);
 
     // Determine if entities need to be removed
-    for (auto it : ents_) {
-        if (!it->is_alive() && it->posthumous(this->t())) {
-            int id = it->id().id();
+    for (auto &ent : ents_) {
+        if (!ent->is_alive() && ent->posthumous(this->t())) {
+            int id = ent->id().id();
 
             auto msg = std::make_shared<Message<sm::EntityRemoved>>();
             msg->data.set_entity_id(id);
@@ -669,7 +676,7 @@ bool SimControl::run_interaction_detection() {
 
             // Set the entity and contact to inactive to remove from
             // simulation
-            it->set_active(false);
+            ent->set_active(false);
             auto it_cnt = contacts_->find(id);
             if (it_cnt != contacts_->end()) {
                 it_cnt->second.set_active(false);
@@ -678,7 +685,7 @@ bool SimControl::run_interaction_detection() {
             }
         }
     }
-    return any_false;
+    return success;
 }
 
 bool SimControl::run_metrics() {
@@ -746,7 +753,7 @@ void SimControl::run() {
         }
 
         end_condition_interaction = run_interaction_detection();
-        if (end_condition_interaction) {
+        if (!end_condition_interaction) {
             auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
             pub_ent_int_exit_->publish(msg);
         }
@@ -818,7 +825,7 @@ void SimControl::run() {
         set_time(t + dt_);
         loop_number++;
         prev_paused_ = paused_;
-    } while (!end_condition_interaction && !end_condition_reached(t(), dt_) && !exit_loop);
+    } while (end_condition_interaction && !end_condition_reached(t(), dt_) && !exit_loop);
 
     cleanup();
     return;
