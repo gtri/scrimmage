@@ -41,6 +41,7 @@
 #include <scrimmage/math/Angles.h>
 
 #include <initialization/FGTrim.h>
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
 #include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084
@@ -77,6 +78,19 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     JSBSim::FGJSBBase base;
     base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
+
+    Output = new JSBSim::FGOutputFGMod(&(*exec_));
+    std::string name = "localhost:UDP/5600";
+
+    cout << "NAME: " << name << endl;
+
+    Output->SetIdx(0);
+    Output->SetOutputName(name);
+    Output->SetRateHz(60);
+    Output->InitModel();
+
+    //Output->SetSubSystems(subSystems);
+    //Output->SetOutputProperties(outputProperties);
 
     exec_->SetDebugLevel(0);
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
@@ -218,6 +232,14 @@ bool JSBSimModel::step(double time, double dt) {
     exec_->Setdt(dt);
     exec_->Run();
     // Save state
+
+    Output->Print();
+
+    //cout << "-----" << endl;
+    //cout << "ID: " << parent_->id().id() << endl;
+    //cout << "LAT: " << latitude_node_->getDoubleValue() << endl;
+    //cout << "LONG: " << longitude_node_->getDoubleValue() << endl;
+
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
                                    longitude_node_->getDoubleValue(),
                                    altitude_node_->getDoubleValue() * feet2meters,

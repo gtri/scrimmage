@@ -42,6 +42,7 @@
 #include <models/FGAircraft.h>
 #include <input_output/FGPropertyManager.h>
 #include <initialization/FGInitialCondition.h>
+#include <models/FGOutput.h>
 
 typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #endif
@@ -100,6 +101,8 @@ class JSBSimModel : public MotionModel {
     JSBSim::FGPropertyNode *ax_pilot_node_ = nullptr;
     JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
     JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
+
+    JSBSim::FGOutputType* Output = 0;
 
     Angles angles_to_jsbsim_;
     Angles angles_from_jsbsim_;
