@@ -42,8 +42,6 @@
 
 namespace scrimmage {
 
-int Plugin::plugin_count_ = 0;
-
 Plugin::Plugin() : name_("Plugin"), parent_(std::make_shared<Entity>()),
                    transform_(std::make_shared<State>()),
                    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),

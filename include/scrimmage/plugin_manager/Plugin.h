@@ -129,7 +129,6 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     void set_time(std::shared_ptr<const Time> time) { time_ = time; }
 
  protected:
-    static int plugin_count_;
     std::string name_;
     EntityPtr parent_;
 
