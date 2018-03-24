@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
+#include <Eigen/Dense>
+
 #include <scrimmage/common/VariableIO.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Subscriber.h>
@@ -146,6 +148,9 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::list<SubscriberBasePtr> subs_;
     std::shared_ptr<const Time> time_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;

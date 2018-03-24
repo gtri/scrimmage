@@ -35,8 +35,6 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 
-#include <Eigen/Dense>
-
 #include <memory>
 #include <map>
 #include <string>

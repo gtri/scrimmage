@@ -115,6 +115,9 @@ class State {
     Eigen::Vector3d vel_;
     Eigen::Vector3d ang_vel_;
     Quaternion quat_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 using StatePtr = std::shared_ptr<State>;

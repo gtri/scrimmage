@@ -37,17 +37,17 @@
 
 namespace scrimmage {
 
-Quaternion::Quaternion() : Eigen::Quaterniond() {}
+Quaternion::Quaternion() : Eigen::Quaternion<double, Eigen::DontAlign>() {}
 
-Quaternion::Quaternion(const Quaternion &other) : Eigen::Quaterniond(other) {}
+Quaternion::Quaternion(const Quaternion &other) : Eigen::Quaternion<double, Eigen::DontAlign>(other) {}
 
-Quaternion::Quaternion(const Eigen::Quaterniond &other) : Eigen::Quaterniond(other) {}
+Quaternion::Quaternion(const Eigen::Quaternion<double, Eigen::DontAlign> &other) : Eigen::Quaternion<double, Eigen::DontAlign>(other) {}
 
 Quaternion::Quaternion(const double &w, const double &x, const double &y, const double &z)
-    : Eigen::Quaterniond(w, x, y, z) {}
+    : Eigen::Quaternion<double, Eigen::DontAlign>(w, x, y, z) {}
 
 Quaternion::Quaternion(double &w, double &x, double &y, double &z)
-    : Eigen::Quaterniond(w, x, y, z) {}
+    : Eigen::Quaternion<double, Eigen::DontAlign>(w, x, y, z) {}
 
 Quaternion::Quaternion(const Eigen::Vector3d &vector, double angle_radians) {
     set(vector, angle_radians);
@@ -57,7 +57,7 @@ Quaternion::Quaternion(double roll, double pitch, double yaw) {
     set(roll, pitch, yaw);
 }
 
-Quaternion &Quaternion::operator=(const Eigen::Quaterniond &other) {
+Quaternion &Quaternion::operator=(const Eigen::Quaternion<double, Eigen::DontAlign> &other) {
     if (this != &other) {
         set(other.w(), other.x(), other.y(), other.z());
     }
@@ -112,12 +112,12 @@ double Quaternion::rotation_angle() const {
 }
 
 Eigen::Vector3d Quaternion::rotate(const Eigen::Vector3d &vec) const {
-    Eigen::Quaterniond pure_quat(0, vec.x(), vec.y(), vec.z());
+    Eigen::Quaternion<double, Eigen::DontAlign> pure_quat(0, vec.x(), vec.y(), vec.z());
     return (*this * pure_quat * inverse()).vec();
 }
 
 Eigen::Vector3d Quaternion::rotate_reverse(const Eigen::Vector3d &vec) const {
-    Eigen::Quaterniond pure_quat(0, vec.x(), vec.y(), vec.z());
+    Eigen::Quaternion<double, Eigen::DontAlign> pure_quat(0, vec.x(), vec.y(), vec.z());
     return (inverse() * pure_quat * *this).vec();
 }
 

@@ -52,6 +52,9 @@ class Plane : public Shape {
  protected:
     Eigen::Vector3d center_;
     Eigen::Vector3d normal_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 typedef std::shared_ptr<Plane> PlanePtr;

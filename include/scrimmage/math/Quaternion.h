@@ -38,7 +38,7 @@
 
 namespace scrimmage {
 
-class Quaternion : public Eigen::Quaterniond {
+class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
  public:
     /*! \name constructors */
     ///@{
@@ -49,8 +49,8 @@ class Quaternion : public Eigen::Quaterniond {
 
     Quaternion(const Quaternion &other);
 
-    explicit Quaternion(const Eigen::Quaterniond &other);
-    Quaternion &operator=(const Eigen::Quaterniond &other);
+    explicit Quaternion(const Eigen::Quaternion<double, Eigen::DontAlign> &other);
+    Quaternion &operator=(const Eigen::Quaternion<double, Eigen::DontAlign> &other);
 
     Quaternion(const double &w, const double &x,
                const double &y, const double &z);
