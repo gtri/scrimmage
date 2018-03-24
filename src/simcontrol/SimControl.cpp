@@ -851,6 +851,10 @@ void SimControl::cleanup() {
         ent->close(t());
     }
 
+    for (EntityInteractionPtr ent_inter : ent_inters_) {
+        ent_inter->close(t());
+    }
+
     run_logging();
 
     if (display_progress_) cout << endl;
