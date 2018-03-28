@@ -1233,6 +1233,7 @@ bool SimControl::run_entities() {
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // Run each entity's controllers
         for (EntityPtr &ent : ents_) {
+            std::list<ShapePtr> &shapes = shapes_[ent->id().id()];
             for (ControllerPtr &ctrl : ent->controllers()) {
                 // Execute callbacks for received messages before calling
                 // controllers
@@ -1241,11 +1242,16 @@ bool SimControl::run_entities() {
                     print_err(ctrl);
                     success = false;
                 }
+                shapes.insert(shapes.end(), ctrl->shapes().begin(),
+                              ctrl->shapes().end());
+                ctrl->shapes().clear();
             }
         }
 
         // Run each entity's motion model
         for (EntityPtr &ent : ents_) {
+            std::list<ShapePtr> &shapes = shapes_[ent->id().id()];
+
             // Execute callbacks for received messages before calling
             // motion models
             ent->motion()->run_callbacks();
@@ -1253,6 +1259,9 @@ bool SimControl::run_entities() {
                 print_err(ent->motion());
                 success = false;
             }
+            shapes.insert(shapes.end(), ent->motion()->shapes().begin(),
+                          ent->motion()->shapes().end());
+            ent->motion()->shapes().clear();
         }
         temp_t += motion_dt;
     }
@@ -1280,7 +1289,8 @@ bool SimControl::run_entities() {
     for (EntityPtr &ent : ents_) {
         std::list<ShapePtr> &shapes = shapes_[ent->id().id()];
         for (AutonomyPtr &autonomy : ent->autonomies()) {
-            shapes.insert(shapes.end(), autonomy->shapes().begin(), autonomy->shapes().end());
+            shapes.insert(shapes.end(), autonomy->shapes().begin(),
+                          autonomy->shapes().end());
             autonomy->shapes().clear();
         }
     }
