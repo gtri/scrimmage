@@ -69,12 +69,11 @@ External::External() :
     mp_(std::make_shared<MissionParse>()) {
 }
 
-bool External::create_entity(const std::string &mission_file,
-                             int max_entities, int entity_id,
+bool External::create_entity(int max_entities, int entity_id,
                              const std::string &entity_name) {
 
-    if (!mp_->parse(expand_user(mission_file))) {
-        cout << "Failed to parse file: " << mission_file << endl;
+    if (mp_->get_mission_filename() == "") {
+        cout << "External::mp()->parse() has not been run yet, exiting External::create_entity()" << endl;
         return false;
     }
 
@@ -109,8 +108,14 @@ bool External::create_entity(const std::string &mission_file,
     FileSearchPtr file_search = std::make_shared<FileSearch>();
     entity_ = std::make_shared<Entity>();
 
+    std::string output_type = get("output_type", mp_->params(), std::string("all"));
+
     mp_->create_log_dir();
-    log_->set_enable_log(true);
+    bool enable_log =
+        output_type.find("all") != std::string::npos ||
+        output_type.find("frames") != std::string::npos;
+
+    log_->set_enable_log(enable_log);
     log_->init(mp_->log_dir(), Log::WRITE);
 
     RandomPtr random = std::make_shared<Random>();
@@ -216,5 +221,9 @@ void External::call_update_contacts(double t) {
         }
     }
     mutex.unlock();
+}
+
+MissionParsePtr External::mp() {
+    return mp_;
 }
 } // namespace scrimmage

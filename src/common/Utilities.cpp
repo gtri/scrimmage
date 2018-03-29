@@ -170,7 +170,7 @@ std::string eigen_str(const Eigen::VectorXd &vec, uint8_t precision) {
         for (int i = 0; i < vec.size() - 1; i++) {
             ss << std::setprecision(precision) << vec(i) << ", ";
         }
-        ss << std::setprecision(precision) << vec(vec.size() - 1) << ", ";
+        ss << std::setprecision(precision) << vec(vec.size() - 1);
         return ss.str();
     }
 }

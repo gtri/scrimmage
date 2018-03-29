@@ -803,4 +803,7 @@ std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection()
 std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain()
 { return utm_terrain_; }
 
+std::string MissionParse::get_mission_filename() {
+    return mission_filename_;
+}
 } // namespace scrimmage
