@@ -32,3 +32,4 @@ tags
 .eggs
 .cache
 devel
+tags*

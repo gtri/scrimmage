@@ -91,26 +91,20 @@ Autonomy's ``step_autonomy`` method:
 .. code-block:: c++
    :linenos:  
 
-   bool Straight::step_autonomy(double t, double dt)
-   {
+   bool Straight::step_autonomy(double t, double dt) {
        sc::State own_state; // Will hold noisy own state measurement
 
        // Loop through all possible sensors defined for entity
-       for (auto kv : parent_->sensors()) {
-           bool valid;
-           if (kv.first == "MyNoisyState") {
-               // Take a measurement from the MyNoisyState sensor
-               auto msg = kv.second->sense<sc::Message<sc::State>>(t, valid);
-               if (valid) {
-                   own_state = msg->data; // Save valid measurement
-               } else {
-                   // Should handle an invalid own_state here by keeping track
-                   // of the last valid own_state
-               }
-           }
-       }
+        for (auto kv : parent_->sensors()) {
+            if (kv.first == "NoisyState0") {
+                auto msg = kv.second->sense<sc::State>(t);
+                if (msg) {
+                    own_state = msg->data;
+                    // Use the noisy state own_state below for decision making...
+                }
+            }
+        }
 
-       // Use the noisy state own_state below for decision making...
 
        ...
 
