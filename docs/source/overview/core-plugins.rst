@@ -17,7 +17,7 @@ Autonomy Plugins
 - **MOOSAutonomy** : Allows an entity to be controlled by MOOS-IvP. See the
   ``moos_scrimmage.py`` script in the scripts directory for help on running
   MOOS with SCRIMMAGE.
-    
+
 - **MotorSchemas** : An implementation of the Motor Schemas autonomous control
   framework. The entity can move towards a waypoint while avoiding other
   entities.
@@ -25,11 +25,11 @@ Autonomy Plugins
 - **PyAutonomy** : Allows an entity to be controlled by a Python script.
 
 - **ROSAutonomy** : Allows an entity to be controlled by a ROS
-  node. (experimental). 
+  node. (experimental).
 
 - **Straight** : Moves the entity in the forward direction from its initial
   heading.
-  
+
 Motion Model Plugins
 --------------------
 
@@ -52,14 +52,14 @@ Motion Model Plugins
   model. (http://planning.cs.uiuc.edu/node658.html)
 
 - **SimpleQuadrotor** : Implements a simple 3D quadrotor model.
-  
+
 - **SingleIntegrator** : Implements a 3D single integrator motion model. The
   entity can instantaneously change velocity and heading.
 
 - **Unicycle** : Implements a simple unicycle
   model. (http://planning.cs.uiuc.edu/node660.html)
 
-  
+
 Controller Plugins
 ------------------
 
@@ -78,7 +78,7 @@ Controller Plugins
   heading. Uses an autopilot defined in JSBSim's XML syntax.
 
 - **RigidBody6DOFControllerPID** : Controls speed, altitude, and heading.
-    
+
 - **RigidBody6DOFControllerROS**: Controls speed, altitude, and heading from
   ROS node (experimental).
 
@@ -99,7 +99,7 @@ Controller Plugins
   velocity.
 
 - **UnicycleControllerPoint** : Drives the unicycle to a desired X/Y position.
-  
+
 Sensor Plugins
 --------------
 
@@ -114,19 +114,19 @@ Sensor Plugins
 - **NoisyState** : Converts the entity's own state into a noisy
   version. Simulates noisy localization.
 
-  
+
 Entity Interaction Plugins
 --------------------------
 
-- **BulletCollision** : Perform collision detection between entities and
-  terrain meshes with the open source Bullet physics engine.
+- **BulletCollision** : Perform collision detection between entities
+  with the open source Bullet physics engine.
 
 - **GroundCollision** : Determine if an entity falls below a z-position
-  threshold. If so, remove the entity from the simulation. 
+  threshold. If so, remove the entity from the simulation.
 
 - **SimpleCollision** : Determine if the distance between two entities is below
   a given threshold. If so, remove the two entities from the simulation.
-  
+
 Metrics Plugins
 ---------------
 
