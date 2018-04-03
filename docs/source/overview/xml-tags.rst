@@ -69,7 +69,7 @@ and match between the two paradigms for a single entity.
   and texture data. This is typically located at:
   ``$SCRIMMAGE_DATA_PATH/gui/terrain``.
 
-- ``background-color`` : The visualization background color defined in RED,
+- ``background_color`` : The visualization background color defined in RED,
   GREEN, BLUE order.
 
 - ``gui_update_period`` : The gui update period in milliseconds. Providing a

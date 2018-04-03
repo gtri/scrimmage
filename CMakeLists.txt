@@ -215,7 +215,7 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 ########################################################
 #set(Boost_DEBUG ON)
 find_package(Boost COMPONENTS thread date_time iostreams program_options regex
-  filesystem system REQUIRED)
+  filesystem system graph REQUIRED)
 
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 

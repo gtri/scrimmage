@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>GraphvizFSM_plugin</library>
+
+  <state_topic_name>State</state_topic_name>
+  <event_topic_name>Event</event_topic_name>
+  <network_name>LocalNetwork</network_name>
+  
+  <initial_node_name>qi</initial_node_name>
+  
+  <graphviz_fsm>
+    digraph {
+        rankdir=LR
+
+        node [ shape = point  ]; qi
+        node [ shape = circle ];        
+        
+        qi    -> a;
+        a     -> kevin [ label = "event1" ];
+        kevin -> c     [ label = "event2" ];
+        c     -> d     [ label = "event3" ];
+        d     -> a     [ label = "event4" ];
+        d     -> kevin [ label = "event5" ];
+    }
+  </graphviz_fsm>
+
+  <generate_fsm_pdf>false</generate_fsm_pdf>
+  
+</params>

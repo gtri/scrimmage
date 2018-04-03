@@ -1,4 +1,4 @@
-scrimmage-pybind11 (@ARG_SOURCE_VERSION@.@ARG_PPA_NUMBER@-0ppa@ARG_PPA_NUMBER@) xenial; urgency=medium
+scrimmage-pybind11 (@ARG_SOURCE_VERSION@~test1604+1) xenial-test-unstable; urgency=medium
 
   * Initial upload!
 

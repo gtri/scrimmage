@@ -50,6 +50,7 @@ class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  protected:
     double sphere_of_influence_;
     double minimum_range_;
+    bool avoid_non_team_;
 };
 } // namespace motor_schemas
 } // namespace autonomy

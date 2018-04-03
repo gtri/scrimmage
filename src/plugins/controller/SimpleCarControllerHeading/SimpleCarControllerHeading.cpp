@@ -52,11 +52,14 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params
     pid_.set_parameters(p_gain, i_gain, d_gain);
     pid_.set_integral_band(i_lim);
     pid_.set_is_angle(true);
+
+    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::In);
 }
 
 bool SimpleCarControllerHeading::step(double t, double dt) {
-    u_(0) = desired_state_->vel()(0);
-    pid_.set_setpoint(desired_state_->quat().yaw());
+    u_(0) = vars_.input(desired_speed_idx_);
+    pid_.set_setpoint(vars_.input(desired_heading_idx_));
     u_(1) = pid_.step(dt, state_->quat().yaw());
 
     return true;
