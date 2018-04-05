@@ -617,23 +617,33 @@ bool MissionParse::create_log_dir() {
     // false.
     bool create_latest_dir = not(params_.count("create_latest_dir") > 0 &&
                                  str2bool(params_["create_latest_dir"]) == false);
+
     if (create_latest_dir) {
+        boost::system::error_code ec;
+        auto print_error = [&]() {
+            cout << "Error code value: " << ec.value() << endl;
+            cout << "Error code name: " << ec.category().name() << endl;
+            cout << "Error message: " << ec.message() << endl;
+        };
+        auto fs_err = [&](){return ec != boost::system::errc::success;};
+
         // Create a "latest" symlink to the directory
         // First, remove the latest symlink if it exists
         fs::path latest_sym(root_log_dir_ + std::string("/latest"));
         if (fs::is_symlink(latest_sym)) {
-            fs::remove(latest_sym);
+            fs::remove(latest_sym, ec);
+            if (fs_err()) {
+                cout << "WARNING: could not remove symlink to latest directory" << endl;
+                print_error();
+            }
         }
 
         // Create the symlink
-        boost::system::error_code ec;
         fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
-        if (ec.value() != boost::system::errc::success) {
+        if (fs_err()) {
             cout << "WARNING: Unable to create latest log file symlink" << endl;
             cout << "Couldn't create symlink log directory" << endl;
-            cout << "Error code value: " << ec.value() << endl;
-            cout << "Error code name: " << ec.category().name() << endl;
-            cout << "Error message: " << ec.message() << endl;
+            print_error();
         }
     }
 
@@ -803,4 +813,7 @@ std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection()
 std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain()
 { return utm_terrain_; }
 
+std::string MissionParse::get_mission_filename() {
+    return mission_filename_;
+}
 } // namespace scrimmage

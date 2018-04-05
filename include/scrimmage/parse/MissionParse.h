@@ -137,8 +137,10 @@ class MissionParse {
 
     std::shared_ptr<scrimmage_proto::UTMTerrain> & utm_terrain();
 
+    std::string get_mission_filename();
+
  protected:
-    std::string mission_filename_;
+    std::string mission_filename_ = "";
 
     double t0_ = 0;
     double tend_ = 50;
