@@ -119,9 +119,6 @@ class External {
                 PublisherPtr pub = std::dynamic_pointer_cast<Publisher>(dev);
 
                 pub->callback = [=](MessageBasePtr sc_msg) {
-                    if (topic_name == "BidAuction") {
-                        std::cout << "in pub cb for BidAuction" << std::endl;
-                    }
                     auto sc_msg_cast = std::dynamic_pointer_cast<Message<ScType>>(sc_msg);
                     if (sc_msg_cast == nullptr) {
                         std::cout << "could not cast to "
@@ -148,9 +145,6 @@ class External {
             for (NetworkDevicePtr dev : *subs) {
                 auto sub = std::dynamic_pointer_cast<SubscriberBase>(dev);
                 return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-                    if (topic_name == "BidAuction") {
-                        std::cout << "in cb for BidAuction " << std::endl;
-                    }
                     using ScType = decltype(ros2sc(*ros_msg));
                     call_update_contacts(ros::Time::now().toSec());
                     mutex.lock();
