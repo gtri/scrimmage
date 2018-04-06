@@ -372,7 +372,6 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);
-
 }
 } // namespace motion
 } // namespace scrimmage
