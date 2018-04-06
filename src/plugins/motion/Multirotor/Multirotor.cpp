@@ -39,6 +39,9 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/MissionParse.h>
 
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
+
 #include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
@@ -170,8 +173,8 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
                     "x", "y", "z",
                     "U", "V", "W",
                     "P", "Q", "R",
-                    "U_dot", "V_dot", "W_dot",
-                    "P_dot", "Q_dot", "R_dot",
+                    "AXb", "AYb", "AZb",
+                    "WXDOTb", "WYDOTb", "WZDOTb",
                     "roll", "pitch", "yaw",
                     "w_1", "w_2", "w_3", "w_4"});
     }
@@ -204,7 +207,7 @@ bool Multirotor::step(double time, double dt) {
     x_[Zw] = state_->pos()(2);
 
     // Cache values to calculate changes:
-    Eigen::Vector3d prev_linear_vel(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d prev_linear_vel_w(x_[Uw], x_[Vw], x_[Ww]);
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
     // Apply any external forces
@@ -213,24 +216,55 @@ bool Multirotor::step(double time, double dt) {
 
     ode_step(dt); // step the motion model ODE solver
 
-    // Calculate change in velocity to populate acceleration elements
-    Eigen::Vector3d linear_vel(x_[U], x_[V], x_[W]);
-    Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
-    Eigen::Vector3d linear_acc = (linear_vel - prev_linear_vel) / dt;
-    Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
-    x_[U_dot] = linear_acc(0);
-    x_[V_dot] = linear_acc(1);
-    x_[W_dot] = linear_acc(2);
-    x_[P_dot] = angular_acc(0);
-    x_[Q_dot] = angular_acc(1);
-    x_[R_dot] = angular_acc(2);
 
     state_->quat().set(x_[q0], x_[q1], x_[q2], x_[q3]);
     state_->quat().normalize();
 
+    // Calculate change in velocity to populate acceleration elements
+    Eigen::Vector3d linear_vel_w(x_[Uw], x_[Vw], x_[Ww]);
+    Eigen::Vector3d linear_acc_w = (linear_vel_w - prev_linear_vel_w) / dt;
+    Eigen::Vector3d linear_acc = state_->quat().rotate_reverse( linear_acc_w );
+    Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
+    x_[AXb] = linear_acc(0);
+    x_[AYb] = linear_acc(1);
+    x_[AZb] = linear_acc(2);
+    x_[WXDOTb] = angular_acc(0);
+    x_[WYDOTb] = angular_acc(1);
+    x_[WZDOTb] = angular_acc(2);
+
+
     // Convert local coordinates to world coordinates
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
+    state_->set_ang_vel( state_->quat().rotate( angular_vel ) );
+
+        // draw velocity
+    if (1) 
+    {
+        sc::ShapePtr shape(new sp::Shape());
+        shape->set_type(sp::Shape::Line);
+        shape->set_opacity(1.0);
+        sc::add_point(shape, state_->pos() );
+        Eigen::Vector3d color(255,255,0);
+        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
+        sc::add_point(shape, state_->pos() + state_->vel() );
+        shapes_.push_back(shape);
+    }
+    
+        
+    // draw angular velocity
+    if (1) 
+    {
+        sc::ShapePtr shape(new sp::Shape());
+        shape->set_type(sp::Shape::Line);
+        shape->set_opacity(1.0);
+        sc::add_point(shape, state_->pos() );
+        Eigen::Vector3d color(0,255,255);
+        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
+        sc::add_point(shape, state_->pos() + state_->ang_vel()*10 );
+        shapes_.push_back(shape);
+    }
 
     if (write_csv_) {
         // Log state to CSV
@@ -245,12 +279,12 @@ bool Multirotor::step(double time, double dt) {
                 {"P", x_[P]},
                 {"Q", x_[Q]},
                 {"R", x_[R]},
-                {"U_dot", x_[U_dot]},
-                {"V_dot", x_[V_dot]},
-                {"W_dot", x_[W_dot]},
-                {"P_dot", x_[P_dot]},
-                {"Q_dot", x_[Q_dot]},
-                {"R_dot", x_[R_dot]},
+                {"AXb", x_[AXb]},
+                {"AYb", x_[AYb]},
+                {"AZb", x_[AZb]},
+                {"WXDOTb", x_[WXDOTb]},
+                {"WYDOTb", x_[WYDOTb]},
+                {"WZDOTb", x_[WZDOTb]},
                 {"roll", state_->quat().roll()},
                 {"pitch", state_->quat().pitch()},
                 {"yaw", state_->quat().yaw()},
@@ -338,19 +372,22 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Zw] = vel_world(2);
 
     //// TODO: Should these be cached from previous run or should the current dxdt
-    Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
+
+    //Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
+    Eigen::Vector3d acc_local = F_total / mass_; // this is in body frame
     Eigen::Vector3d acc_world = quat.rotate(acc_local);
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);
 
     // Accelerations get updated based on change in velocities
-    dxdt[U_dot] = 0;
-    dxdt[V_dot] = 0;
-    dxdt[W_dot] = 0;
-    dxdt[P_dot] = 0;
-    dxdt[Q_dot] = 0;
-    dxdt[R_dot] = 0;
+    dxdt[AXb] = 0;
+    dxdt[AYb] = 0;
+    dxdt[AZb] = 0;
+    dxdt[WXDOTb] = 0;
+    dxdt[WYDOTb] = 0;
+    dxdt[WZDOTb] = 0;
+
 }
 } // namespace motion
 } // namespace scrimmage

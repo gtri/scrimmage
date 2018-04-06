@@ -195,6 +195,8 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
                                    fdm_pkt.longitude,
                                    fdm_pkt.altitude);
 
+    // convert everything to NED-FRU world and body frames
+
     // Heading conversion
     angles_to_gps_.set_angle(sc::Angles::rad2deg(state.quat().yaw()));
     fdm_pkt.heading = sc::Angles::deg2rad(angles_to_gps_.angle());
@@ -203,17 +205,17 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
     fdm_pkt.speedE = state.vel()(0);
     fdm_pkt.speedD = -state.vel()(2);
 
-    // Body frame linear acceleration
+    // Body frame linear acceleration FRU
     fdm_pkt.xAccel = state.linear_accel_body()(0);
     fdm_pkt.yAccel = -state.linear_accel_body()(1);
     fdm_pkt.zAccel = -state.linear_accel_body()(2);
 
-    // Body frame rotational velocities
+    // Body frame rotational velocities FRU
     fdm_pkt.rollRate = state.ang_vel_body()(0);
     fdm_pkt.pitchRate = -state.ang_vel_body()(1);
     fdm_pkt.yawRate = -state.ang_vel_body()(2);
 
-    // Global frame, roll, pitch, yaw
+    // Global frame, roll, pitch, yaw from NED to FRU
     fdm_pkt.roll = state.quat().roll();
     fdm_pkt.pitch = -state.quat().pitch();
     fdm_pkt.yaw = fdm_pkt.heading;

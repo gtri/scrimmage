@@ -108,14 +108,14 @@ scrimmage::MessageBasePtr RigidBody6DOFStateSensor::sensor_msg(double t) {
         motion_->full_state_vector()[sc::motion::Multirotor::R];
 
     msg->data.linear_accel_body() <<
-        motion_->full_state_vector()[sc::motion::Multirotor::U_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::V_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::W_dot];
+        motion_->full_state_vector()[sc::motion::Multirotor::AXb],
+        motion_->full_state_vector()[sc::motion::Multirotor::AYb],
+        motion_->full_state_vector()[sc::motion::Multirotor::AZb];
 
     msg->data.ang_accel_body() <<
-        motion_->full_state_vector()[sc::motion::Multirotor::P_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::Q_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::R_dot];
+        motion_->full_state_vector()[sc::motion::Multirotor::WXDOTb],
+        motion_->full_state_vector()[sc::motion::Multirotor::WYDOTb],
+        motion_->full_state_vector()[sc::motion::Multirotor::WZDOTb];
 
 
     // Return the sensor message.
