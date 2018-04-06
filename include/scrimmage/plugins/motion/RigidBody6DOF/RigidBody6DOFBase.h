@@ -38,7 +38,6 @@ namespace scrimmage {
 namespace motion {
 class RigidBody6DOFBase : public scrimmage::MotionModel{
  public:
-
     Eigen::Vector3d &linear_accel_body() {
         return linear_accel_body_;
     }
@@ -48,13 +47,11 @@ class RigidBody6DOFBase : public scrimmage::MotionModel{
     }
 
  protected:
-
-    //TODO: this really ought to be a part of the state_ but 
+    // TODO: this really ought to be a part of the state_ but
     //      not sure how to make that happen
     Eigen::Vector3d linear_accel_body_;
     Eigen::Vector3d ang_accel_body_;
-
 };
 } // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_

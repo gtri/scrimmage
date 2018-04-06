@@ -99,8 +99,8 @@ scrimmage::MessageBasePtr RigidBody6DOFStateSensor::sensor_msg(double t) {
     msg->data.ang_vel() = parent_->state()->ang_vel();
     msg->data.quat() = parent_->state()->quat();
 
-    msg->data.linear_vel_body() = parent_->state()->quat().rotate_reverse( parent_->state()->vel() );
-    msg->data.ang_vel_body()    = parent_->state()->quat().rotate_reverse( parent_->state()->ang_vel() );
+    msg->data.linear_vel_body() = parent_->state()->quat().rotate_reverse(parent_->state()->vel());
+    msg->data.ang_vel_body()    = parent_->state()->quat().rotate_reverse(parent_->state()->ang_vel());
 
     msg->data.linear_accel_body() = motion_->linear_accel_body();
     msg->data.ang_accel_body() = motion_->ang_accel_body();
