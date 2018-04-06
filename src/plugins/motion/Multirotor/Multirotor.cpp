@@ -226,18 +226,14 @@ bool Multirotor::step(double time, double dt) {
     Eigen::Vector3d linear_acc = state_->quat().rotate_reverse( linear_acc_w );
     Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
     Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
-    x_[AXb] = linear_acc(0);
-    x_[AYb] = linear_acc(1);
-    x_[AZb] = linear_acc(2);
-    x_[WXDOTb] = angular_acc(0);
-    x_[WYDOTb] = angular_acc(1);
-    x_[WZDOTb] = angular_acc(2);
 
 
     // Convert local coordinates to world coordinates
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
     state_->set_ang_vel( state_->quat().rotate( angular_vel ) );
+    linear_accel_body_ = linear_acc;
+    ang_accel_body_ = angular_acc;
 
         // draw velocity
     if (1) 

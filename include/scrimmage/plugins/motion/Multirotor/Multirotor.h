@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTOR_H_
 
 #include <scrimmage/plugins/motion/Multirotor/Rotor.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
@@ -47,7 +48,7 @@
 
 namespace scrimmage {
 namespace motion {
-class Multirotor : public scrimmage::MotionModel{
+class Multirotor : public scrimmage::motion::RigidBody6DOFBase{
  public:
     enum ModelParams {
         U = 0,

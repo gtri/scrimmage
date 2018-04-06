@@ -30,35 +30,31 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_
-
-#include <scrimmage/sensor/Sensor.h>
-
-#include <random>
-#include <vector>
-#include <map>
-#include <string>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_
+#include <scrimmage/motion/MotionModel.h>
 
 namespace scrimmage {
 namespace motion {
-class RigidBody6DOFBase;
-}
-
-namespace sensor {
-class RigidBody6DOFStateSensor : public scrimmage::Sensor {
+class RigidBody6DOFBase : public scrimmage::MotionModel{
  public:
-    RigidBody6DOFStateSensor();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t);
+
+    Eigen::Vector3d &linear_accel_body() {
+        return linear_accel_body_;
+    }
+
+    Eigen::Vector3d &ang_accel_body() {
+        return ang_accel_body_;
+    }
 
  protected:
-    std::shared_ptr<std::default_random_engine> gener_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-    std::shared_ptr<scrimmage::motion::RigidBody6DOFBase> motion_;
 
- private:
+    //TODO: this really ought to be a part of the state_ but 
+    //      not sure how to make that happen
+    Eigen::Vector3d linear_accel_body_;
+    Eigen::Vector3d ang_accel_body_;
+
 };
-} // namespace sensor
+} // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
