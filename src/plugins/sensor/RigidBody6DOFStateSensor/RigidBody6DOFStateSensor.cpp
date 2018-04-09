@@ -32,12 +32,13 @@
 
 #include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+// #include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/State.pb.h>
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
@@ -78,11 +79,12 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
         }
     }
 
-    motion_ = std::dynamic_pointer_cast<scrimmage::motion::Multirotor>(parent_->motion());
+    motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
+    // motion_ = std::dynamic_pointer_cast<scrimmage::motion::Multirotor>(parent_->motion());
     if (motion_ == nullptr) {
         cout << "WARNING: Failed to get motion model. Currently only "
-             << "scrimmage::motion::Multirotor is supported by "
-             << "RigidBody6DOFStateSensor" << endl;
+             << "scrimmage::motion::RigidBody6DOFBase and subclasses "
+             << "are supported by RigidBody6DOFStateSensor" << endl;
     }
 
     return;
@@ -97,25 +99,11 @@ scrimmage::MessageBasePtr RigidBody6DOFStateSensor::sensor_msg(double t) {
     msg->data.ang_vel() = parent_->state()->ang_vel();
     msg->data.quat() = parent_->state()->quat();
 
-    msg->data.linear_vel_body() <<
-        motion_->full_state_vector()[sc::motion::Multirotor::U],
-        motion_->full_state_vector()[sc::motion::Multirotor::V],
-        motion_->full_state_vector()[sc::motion::Multirotor::W];
+    msg->data.linear_vel_body() = parent_->state()->quat().rotate_reverse(parent_->state()->vel());
+    msg->data.ang_vel_body()    = parent_->state()->quat().rotate_reverse(parent_->state()->ang_vel());
 
-    msg->data.ang_vel_body() <<
-        motion_->full_state_vector()[sc::motion::Multirotor::P],
-        motion_->full_state_vector()[sc::motion::Multirotor::Q],
-        motion_->full_state_vector()[sc::motion::Multirotor::R];
-
-    msg->data.linear_accel_body() <<
-        motion_->full_state_vector()[sc::motion::Multirotor::U_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::V_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::W_dot];
-
-    msg->data.ang_accel_body() <<
-        motion_->full_state_vector()[sc::motion::Multirotor::P_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::Q_dot],
-        motion_->full_state_vector()[sc::motion::Multirotor::R_dot];
+    msg->data.linear_accel_body() = motion_->linear_accel_body();
+    msg->data.ang_accel_body() = motion_->ang_accel_body();
 
 
     // Return the sensor message.
