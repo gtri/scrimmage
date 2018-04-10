@@ -30,35 +30,43 @@
  *
  */
 
-#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_AXISSCALE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_AXISSCALE_H_
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
 
-#include <iostream>
-#include <limits>
-
-using std::cout;
-using std::endl;
-
-namespace sc = scrimmage;
-
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
-                JoystickController_plugin)
+#include <string>
 
 namespace scrimmage {
 namespace controller {
 
-void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_);
-}
+class AxisScale {
+ public:
+    AxisScale(int axis_index, double input_min, double input_max,
+              double output_min, double output_max, double coeff,
+              int vector_index) : axis_index_(axis_index),
+        input_min_(input_min), input_max_(input_max),
+        output_min_(output_min), output_max_(output_max), coeff_(coeff),
+        vector_index_(vector_index) { }
 
-bool JoystickController::step(double t, double dt) {
-    return joystick_.step(t, dt, vars_);
-}
+    int axis_index() { return axis_index_; }
+    int vector_index() { return vector_index_; }
+
+    double scale(double input) {
+        return coeff_ * scrimmage::scale<double>(input, input_min_, input_max_,
+                                                 output_min_, output_max_);
+    }
+
+ protected:
+    int axis_index_ = 0;
+    double input_min_ = 0;
+    double input_max_ = 0;
+    double output_min_ = 0;
+    double output_max_ = 0;
+    double coeff_ = 1;
+    int vector_index_ = 0;
+};
+
 } // namespace controller
 } // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_AXISSCALE_H_

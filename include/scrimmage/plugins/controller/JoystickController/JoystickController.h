@@ -38,6 +38,8 @@
 #include <sys/ioctl.h>
 #include <linux/joystick.h>
 
+#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
+
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/Utilities.h>
 
@@ -51,56 +53,13 @@ namespace sc = scrimmage;
 
 namespace scrimmage {
 namespace controller {
-
 class JoystickController : public scrimmage::Controller {
  public:
-    class AxisScale {
-     public:
-        AxisScale(int axis_index, double input_min, double input_max,
-                      double output_min, double output_max, double coeff,
-                      int vector_index) : axis_index_(axis_index),
-            input_min_(input_min), input_max_(input_max),
-            output_min_(output_min), output_max_(output_max), coeff_(coeff),
-            vector_index_(vector_index) { }
-
-        int axis_index() { return axis_index_; }
-        int vector_index() { return vector_index_; }
-
-        double scale(double input) {
-            return coeff_ * sc::scale<double>(input, input_min_, input_max_,
-                                              output_min_, output_max_);
-        }
-
-     protected:
-        int axis_index_ = 0;
-        double input_min_ = 0;
-        double input_max_ = 0;
-        double output_min_ = 0;
-        double output_max_ = 0;
-        double coeff_ = 1;
-        int vector_index_ = 0;
-    };
-
-
-    JoystickController();
-    ~JoystickController();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
 
  protected:
-    int joy_fd_ = -1;
-    int *axis_ = NULL;
-    int num_of_axis_ = 0;
-    int num_of_buttons_ = 0;
-	char *button_ = NULL;
-	struct js_event js_;
-
-    int min_value = -32767;
-    int max_value = +32767;
-
-    bool print_js_values_ = false;
-
-    std::list<AxisScale> axis_tfs_;
+    Joystick joystick_;
 };
 } // namespace controller
 } // namespace scrimmage

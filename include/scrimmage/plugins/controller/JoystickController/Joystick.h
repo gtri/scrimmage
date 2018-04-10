@@ -30,35 +30,48 @@
  *
  */
 
-#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <linux/joystick.h>
 
-#include <iostream>
-#include <limits>
+#include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
+#include <scrimmage/common/VariableIO.h>
 
-using std::cout;
-using std::endl;
-
-namespace sc = scrimmage;
-
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
-                JoystickController_plugin)
+#include <string>
+#include <list>
+#include <map>
 
 namespace scrimmage {
 namespace controller {
 
-void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_);
-}
+class Joystick {
+ public:
+    Joystick();
+    ~Joystick();
 
-bool JoystickController::step(double t, double dt) {
-    return joystick_.step(t, dt, vars_);
-}
+    void init(std::map<std::string, std::string> &params, VariableIO &vars);
+    bool step(double t, double dt, VariableIO &vars);
+
+ protected:
+    int joy_fd_ = -1;
+    int *axis_ = NULL;
+    int num_of_axis_ = 0;
+    int num_of_buttons_ = 0;
+	char *button_ = NULL;
+	struct js_event js_;
+
+    int min_value = -32767;
+    int max_value = +32767;
+
+    bool print_js_values_ = false;
+
+    std::list<AxisScale> axis_tfs_;
+};
+
 } // namespace controller
 } // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_

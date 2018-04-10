@@ -30,35 +30,25 @@
  *
  */
 
-#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
 
-#include <iostream>
-#include <limits>
-
-using std::cout;
-using std::endl;
-
-namespace sc = scrimmage;
-
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
-                JoystickController_plugin)
+#include <string>
+#include <map>
 
 namespace scrimmage {
-namespace controller {
+namespace autonomy {
+class JoystickAutonomy : public scrimmage::Autonomy {
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
 
-void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_);
-}
-
-bool JoystickController::step(double t, double dt) {
-    return joystick_.step(t, dt, vars_);
-}
-} // namespace controller
+ protected:
+    scrimmage::controller::Joystick joystick_;
+};
+} // namespace autonomy
 } // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_

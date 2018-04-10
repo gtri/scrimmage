@@ -30,12 +30,13 @@
  *
  */
 
-#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
+#include <scrimmage/plugins/controller/DirectController/DirectController.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/parse/ParseUtils.h>
 
 #include <iostream>
@@ -47,18 +48,28 @@ using std::endl;
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
-                JoystickController_plugin)
+                scrimmage::controller::DirectController,
+                DirectController_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_);
+void DirectController::init(std::map<std::string, std::string> &params) {
+    // Discover the output variables that point to the input variables for the
+    // motion model. Setup input variables that mirror the output variables.
+    for (auto &kv : vars_.output_variable_index()) {
+        int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
+        int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
+        io_map_[out_idx] = in_idx;
+    }
 }
 
-bool JoystickController::step(double t, double dt) {
-    return joystick_.step(t, dt, vars_);
+bool DirectController::step(double t, double dt) {
+    // Copy over variableIO data
+    for (auto &kv : io_map_) {
+        vars_.output(kv.first, vars_.input(kv.second));
+    }
+    return true;
 }
 } // namespace controller
 } // namespace scrimmage

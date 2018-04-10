@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>JoystickAutonomy_plugin</library>
+
+  <device>/dev/input/js0</device>
+  <print_raw_joystick_values>false</print_raw_joystick_values>
+
+  <!-- [ variable_name js_axis input_min input_max output_min output_max multiplier ] -->
+  <!-- PS3 style controller aircraft mapping -->
+  <!--
+  <axis_map>
+    [ thrust   1 -32767 +32767 -1 +1 -1 ]
+    [ elevator 3 -32767 +32767 -1 +1 -1 ]
+    [ aileron  2 -32767 +32767 -1 +1 +1 ]
+    [ rudder   4 -32767 +32767 -1 +1 -1 ]
+    </axis_map>
+    -->
+
+  <!-- Flight joystick aircraft mapping -->
+  <axis_map>
+    [ thrust   2 -32767 +32767 -1 +1 -1 ]
+    [ elevator 1 -32767 +32767 -1 +1 -1 ]
+    [ aileron  0 -32767 +32767 -1 +1 +1 ]
+    [ rudder   3 -32767 +32767 -1 +1 -1 ]
+  </axis_map>
+
+
+  <!-- Mapping for controlling Unicycle model -->
+  <!--
+  <axis_map>
+    [ velocity   2 -32767 +32767 -100 +100 -1 ]
+    [ pitch_rate 1 -32767 +32767  -1  +1 -1 ]
+    [ turn_rate  0 -32767 +32767  -1  +1 -1 ]
+    </axis_map>
+  -->
+  
+</params>

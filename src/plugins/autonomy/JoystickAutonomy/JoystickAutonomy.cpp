@@ -30,12 +30,11 @@
  *
  */
 
-#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
+#include <scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 
 #include <iostream>
@@ -46,19 +45,19 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
-                JoystickController_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::JoystickAutonomy,
+                JoystickAutonomy_plugin)
 
 namespace scrimmage {
-namespace controller {
+namespace autonomy {
 
-void JoystickController::init(std::map<std::string, std::string> &params) {
+void JoystickAutonomy::init(std::map<std::string, std::string> &params) {
     joystick_.init(params, vars_);
 }
 
-bool JoystickController::step(double t, double dt) {
+bool JoystickAutonomy::step_autonomy(double t, double dt) {
     return joystick_.step(t, dt, vars_);
 }
-} // namespace controller
+} // namespace autonomy
 } // namespace scrimmage
