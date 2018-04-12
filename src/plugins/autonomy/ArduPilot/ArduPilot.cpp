@@ -81,16 +81,10 @@ ArduPilot::ArduPilot()
 }
 
 void ArduPilot::init(std::map<std::string, std::string> &params) {
-    multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
-    if (multirotor_ == nullptr) {
-        cout << "WARNING: MultirotorTests can't control the motion "
-             << "model for this entity." << endl;
-    }
 
-    desired_rotor_state_ = std::make_shared<sc::motion::MultirotorState>();
-    desired_rotor_state_->set_input_type(sc::motion::MultirotorState::InputType::PWM);
-    desired_rotor_state_->prop_input().resize(multirotor_->rotors().size());
-    desired_state_ = desired_rotor_state_;
+    desired_pwm_state_ = std::make_shared<sc::motion::PwmState>();
+    desired_pwm_state_->pwm_input().resize(MAX_NUM_SERVOS);
+    desired_state_ = desired_pwm_state_;
 
     // Get parameters for transmit socket (to ardupilot)
     to_ardupilot_ip_ = sc::get<std::string>("to_ardupilot_ip", params, "127.0.0.1");
@@ -155,18 +149,24 @@ bool ArduPilot::step_autonomy(double t, double dt) {
 
     // Copy the received servo commands into the desired state
     servo_pkt_mutex_.lock();
-    for (int i = 0; i < desired_rotor_state_->prop_input().size(); i++) {
-        desired_rotor_state_->prop_input()(i) = servo_pkt_.servos[i];
+    for (int i = 0; i < desired_pwm_state_->pwm_input().size(); i++) {
+        desired_pwm_state_->pwm_input()(i) = servo_pkt_.servos[i];
     }
     servo_pkt_mutex_.unlock();
 
-    desired_state_ = desired_rotor_state_;
+    desired_state_ = desired_pwm_state_;
 
     return true;
 }
 
 void ArduPilot::handle_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
+
+    cout << "--------------------------------------------------------" << endl;
+    cout << "  Servo packets received from ArduPilot" << endl;
+    cout << "--------------------------------------------------------" << endl;
+
+    int prec = 9;
     if (error) {
         cout << "error: handle_receive" << endl;
     } else if (num_bytes != sizeof(servo_packet)) {
@@ -176,6 +176,8 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
             servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
+
+            cout << std::setprecision(prec) << "servo"<< i << ": " << servo_pkt_.servos[i] << endl;
         }
         servo_pkt_mutex_.unlock();
     }

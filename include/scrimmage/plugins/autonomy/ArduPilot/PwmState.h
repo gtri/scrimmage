@@ -30,27 +30,47 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERDIRECT_JSBSIMCONTROLCONTROLLERDIRECT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERDIRECT_JSBSIMCONTROLCONTROLLERDIRECT_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_
 
-#include <scrimmage/motion/Controller.h>
+#include <scrimmage/math/State.h>
 
-#include <map>
-#include <string>
+#include <Eigen/Dense>
 
 namespace scrimmage {
-namespace controller {
-class JSBSimControlControllerDirect : public scrimmage::Controller {
+namespace motion {
+
+class PwmState : public scrimmage::State {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+    void set_pwm_input(Eigen::VectorXd pwm_input) {
+        pwm_input_ = pwm_input;
+    }
+
+    Eigen::VectorXd &pwm_input() {
+        return pwm_input_;
+    }
+
+    void set_pwm_min(double pwm_min) {
+        pwm_min_ = pwm_min;
+    }
+    void set_pwm_max(double pwm_max) {
+        pwm_max_ = pwm_max;
+    }
+    double &pwm_min() {
+        return pwm_min_;
+    }
+    double &pwm_max() {
+        return pwm_max_;
+    }
 
  protected:
-    int aileron_idx_;
-	int elevator_idx_;
-	int rudder_idx_;
-	int throttle_idx_;
+    Eigen::VectorXd pwm_input_;
+    double pwm_min_ = 1000;
+    double pwm_max_ = 2000;
 };
-} // namespace controller
+
+using PwmStatePtr = std::shared_ptr<PwmState>;
+
+} // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERDIRECT_JSBSIMCONTROLCONTROLLERDIRECT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_

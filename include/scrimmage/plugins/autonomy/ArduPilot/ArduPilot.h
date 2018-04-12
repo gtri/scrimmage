@@ -37,7 +37,7 @@
 #include <scrimmage/math/Angles.h>
 
 #include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
+#include <scrimmage/plugins/autonomy/ArduPilot/PwmState.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
 
 #include <thread> // NOLINT
@@ -88,7 +88,7 @@ class ArduPilot : public scrimmage::Autonomy {
     boost::asio::ip::udp::endpoint tx_endpoint_;
 
     std::shared_ptr<scrimmage::motion::Multirotor> multirotor_;
-    std::shared_ptr<scrimmage::motion::MultirotorState> desired_rotor_state_;
+    std::shared_ptr<scrimmage::motion::PwmState> desired_pwm_state_;
 
     servo_packet servo_pkt_;
     std::mutex servo_pkt_mutex_;

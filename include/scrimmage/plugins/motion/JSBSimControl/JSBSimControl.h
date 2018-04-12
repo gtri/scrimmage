@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROL_H_
 
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -55,7 +57,7 @@ typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 
 namespace scrimmage {
 namespace motion {
-class JSBSimControl : public scrimmage::MotionModel {
+class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
  public:
      JSBSimControl();
 
@@ -77,6 +79,7 @@ class JSBSimControl : public scrimmage::MotionModel {
      JSBSim::FGPropertyNode *longitude_node_ = nullptr;
      JSBSim::FGPropertyNode *latitude_node_ = nullptr;
      JSBSim::FGPropertyNode *altitude_node_ = nullptr;
+     JSBSim::FGPropertyNode *altitudeAGL_node_ = nullptr;
 
      JSBSim::FGPropertyNode *roll_node_ = nullptr;
      JSBSim::FGPropertyNode *pitch_node_ = nullptr;
@@ -91,6 +94,14 @@ class JSBSimControl : public scrimmage::MotionModel {
      JSBSim::FGPropertyNode *vel_east_node_ = nullptr;
      JSBSim::FGPropertyNode *vel_down_node_ = nullptr;
      JSBSim::FGPropertyNode *u_vel_node_ = nullptr;
+
+     JSBSim::FGPropertyNode *p_node_ = nullptr;
+     JSBSim::FGPropertyNode *q_node_ = nullptr;
+     JSBSim::FGPropertyNode *r_node_ = nullptr;
+
+     JSBSim::FGPropertyNode *ax_pilot_node_ = nullptr;
+     JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
+     JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
 
      scrimmage::Angles angles_to_jsbsim_;
      scrimmage::Angles angles_from_jsbsim_;
@@ -108,6 +119,10 @@ class JSBSimControl : public scrimmage::MotionModel {
      double delta_elevator_ = 0;
      double delta_aileron_ = 0;
      double delta_rudder_ = 0;
+
+     double drawVel_ = 0;
+     double drawAngVel_ = 0;
+     double drawAcc_ = 0;
 #endif
 };
 } // namespace motion

@@ -30,12 +30,18 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/JSBSimControlControllerDirect/JSBSimControlControllerDirect.h>
+
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/ArduPilot/PwmState.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/State.h>
+
+#include <iostream>
+
 #include <boost/algorithm/string.hpp>
+
 
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerDirect, JSBSimControlControllerDirect_plugin)
 
@@ -43,13 +49,26 @@ namespace scrimmage {
 namespace controller {
 
 void JSBSimControlControllerDirect::init(std::map<std::string,
-                                         std::string> &params) {}
+                                         std::string> &params) {
+	aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::Out);
+	elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::Out);
+	throttle_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
+	rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::Out);
+}
 
 bool JSBSimControlControllerDirect::step(double t, double dt) {
-    u_(0) = desired_state_->pos()(0); // aileron  (x-axis rotation)
-    u_(1) = desired_state_->pos()(1); // elevator (y-axis rotation)
-    u_(2) = desired_state_->pos()(2); // rudder   (z-axis rotation)
-    u_(3) = desired_state_->vel()(0); // throttle
+
+	// TODO: make the servo mapping configurable
+    auto d_state = scrimmage::State::cast<scrimmage::motion::PwmState>(desired_state_);
+	if ( d_state ) {
+		Eigen::VectorXd scaledInput(scrimmage::scale(d_state->pwm_input(), d_state->pwm_min(), d_state->pwm_max(), -1.0, 1.0));
+		vars_.output(aileron_idx_, scaledInput[0]);
+		vars_.output(elevator_idx_, -scaledInput[1]);
+		vars_.output(rudder_idx_, scaledInput[3]);
+		vars_.output(throttle_idx_, scrimmage::scale(scaledInput[2], -1.0, 1.0, 0.0, 1.0));
+    } else {
+        std::cout << "Unable to cast desired_state to PwmState" << std::endl;
+    }
 
     return true;
 }
