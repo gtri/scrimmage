@@ -153,6 +153,16 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     vel_east_node_ = mgr->GetNode("velocities/v-east-fps");
     vel_down_node_ = mgr->GetNode("velocities/v-down-fps");
 
+    // angular velocity in ECEF frame
+    p_node_ = mgr->GetNode("velocities/p-rad_sec");
+    q_node_ = mgr->GetNode("velocities/q-rad_sec");
+    r_node_ = mgr->GetNode("velocities/r-rad_sec");
+
+    // acceleration at pilot location in body frame
+    ax_pilot_node_ = mgr->GetNode("accelerations/a-pilot-x-ft_sec2");
+    ax_pilot_node_ = mgr->GetNode("accelerations/a-pilot-y-ft_sec2");
+    ax_pilot_node_ = mgr->GetNode("accelerations/a-pilot-z-ft_sec2");
+
     // Save state
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
                                   longitude_node_->getDoubleValue(),
@@ -168,6 +178,10 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
                     vel_north_node_->getDoubleValue() * feet2meters,
                     -vel_down_node_->getDoubleValue() * feet2meters;
+
+    state_->ang_vel() << p_node_->getDoubleValue(),
+                         q_node_->getDoubleValue(),
+                         p_node_->getDoubleValue();
 
     return true;
 }

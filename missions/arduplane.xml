@@ -64,10 +64,6 @@
     <sensor>RigidBody6DOFStateSensor</sensor>
 
     <autonomy>ArduPilot</autonomy>
-<!--    <motion_model write_csv="true">Multirotor</motion_model>
-    <controller>MultirotorControllerOmega</controller>
-    <visual_model>iris</visual_model> -->
-
     <controller>JSBSimControlControllerDirect</controller>
     <motion_model>JSBSimControl</motion_model>
     <script_name>rascal_no_autopilot.xml</script_name>

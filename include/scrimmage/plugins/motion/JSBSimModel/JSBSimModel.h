@@ -98,6 +98,14 @@ class JSBSimModel : public scrimmage::MotionModel{
     JSBSim::FGPropertyNode *vel_east_node_;
     JSBSim::FGPropertyNode *vel_down_node_;
 
+    JSBSim::FGPropertyNode *p_node_ = nullptr;
+    JSBSim::FGPropertyNode *q_node_ = nullptr;
+    JSBSim::FGPropertyNode *r_node_ = nullptr;
+
+    JSBSim::FGPropertyNode *ax_pilot_node_ = nullptr;
+    JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
+    JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
+
     scrimmage::Angles angles_to_jsbsim_;
     scrimmage::Angles angles_from_jsbsim_;
 
