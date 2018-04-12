@@ -111,6 +111,7 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     auto ext_it = cache_[env_var].find(ext);
     if (cache_it != cache_.end()) {
         if (ext_it != cache_it->second.end()) {
+            std::cout << "found in cache" << std::endl;
             out = ext_it->second;
             return;
         } else {
@@ -142,8 +143,15 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     std::vector<std::string> tok(tokens.begin(), tokens.end());
     br::sort(tok);
     auto it = tok.begin();
+
+    char native_path_sep = fs::path("/").make_preferred().native().at(0);
+
     while (it != tok.end()) {
-        auto starts_with = [&](auto &s) {return boost::starts_with(s, *it);};
+        auto starts_with = [&](std::string &s) {
+            return boost::starts_with(s, *it) &&
+                s.size() > it->size() &&
+                s.at(it->size()) == native_path_sep;
+        };
         tok.erase(std::remove_if(std::next(it), tok.end(), starts_with), tok.end());
         it++;
     }
