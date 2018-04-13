@@ -100,7 +100,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
 
     Eigen::Matrix3d I_;
     Eigen::Matrix3d I_inv_;
-    
+
     // drawing
     bool draw_vel_ = false;
     bool draw_ang_vel_ = false;

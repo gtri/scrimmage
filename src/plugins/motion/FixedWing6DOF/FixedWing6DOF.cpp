@@ -160,8 +160,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     // Drawing
     draw_vel_ = sc::get<bool>("draw_vel", params, false);
     draw_ang_vel_ = sc::get<bool>("draw_ang_vel", params, false);
-    
-    
+
     // Should we write a CSV file? What values should be written?
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
@@ -273,54 +272,49 @@ bool FixedWing6DOF::step(double time, double dt) {
     // Calculate change in velocity to populate acceleration elements
     Eigen::Vector3d linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
     Eigen::Vector3d linear_acc_ENU = (linear_vel_ENU - prev_linear_vel_ENU) / dt;
-    //Eigen::Vector3d linear_acc_ESD( linear_acc_ENU(0), -linear_acc_ENU(1), -linear_acc_ENU(2) );  // this wierd frame is what the model attitude is referenced to
-    //Eigen::Vector3d linear_acc_bodyFRD( quat_body_.rotate_reverse(linear_acc_ESD) );
     Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
     Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
-    Eigen::Vector3d angular_acc_FLU( angular_acc(0), -angular_acc(1), -angular_acc(2) );
+    Eigen::Vector3d angular_acc_FLU(angular_acc(0), -angular_acc(1), -angular_acc(2));
 
 
     // Rotate back to Z-axis pointing up
     state_->quat() = rot_180_x_axis_ * quat_body_;
     state_->quat().set(sc::Angles::angle_pi(state_->quat().roll()+M_PI),
                        state_->quat().pitch(), state_->quat().yaw());
-    
-    
-    Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate( angular_vel );
+
+
+    Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate(angular_vel);
     Eigen::Vector3d angvel_b_e_ENU;
     angvel_b_e_ENU << angvel_b_e_bodyRef[0], -angvel_b_e_bodyRef[1], -angvel_b_e_bodyRef[2];
     state_->set_ang_vel(angvel_b_e_ENU);
-    
+
 
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
 
-    linear_accel_body_ = state_->quat().rotate_reverse( linear_acc_ENU );
+    linear_accel_body_ = state_->quat().rotate_reverse(linear_acc_ENU);
     ang_accel_body_ = angular_acc_FLU;
-    
-    
+
+
     // draw velocity
-    if (draw_vel_) 
-    {
+    if (draw_vel_) {
         sc::ShapePtr shape(new sp::Shape());
         shape->set_type(sp::Shape::Line);
         shape->set_opacity(1.0);
         sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255,255,0);
+        Eigen::Vector3d color(255, 255, 0);
         sc::set(shape->mutable_color(), color[0], color[1], color[2]);
         sc::add_point(shape, state_->pos() + state_->vel()/10 );
         shapes_.push_back(shape);
     }
-    
-        
+
     // draw angular velocity
-    if (draw_ang_vel_) 
-    {
+    if (draw_ang_vel_) {
         sc::ShapePtr shape(new sp::Shape());
         shape->set_type(sp::Shape::Line);
         shape->set_opacity(1.0);
         sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255,255,0);
+        Eigen::Vector3d color(255, 255, 0);
         sc::set(shape->mutable_color(), color[0], color[1], color[2]);
         sc::add_point(shape, state_->pos() + state_->ang_vel()*10 );
         shapes_.push_back(shape);
