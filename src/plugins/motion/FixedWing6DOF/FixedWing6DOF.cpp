@@ -38,6 +38,10 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/MissionParse.h>
 
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
+
+
 #include <Eigen/Dense>
 
 #include <iostream>
@@ -153,12 +157,19 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     }
     I_inv_ = I_.inverse();
 
+    // Drawing
+    draw_vel_ = sc::get<bool>("draw_vel", params, false);
+    draw_ang_vel_ = sc::get<bool>("draw_ang_vel", params, false);
+
     // Should we write a CSV file? What values should be written?
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
         csv_.open_output(parent_->mp()->log_dir() + "/"
                          + std::to_string(parent_->id().id())
                          + "-states.csv");
+        cout << "Writing log to " + parent_->mp()->log_dir() + "/"
+                         + std::to_string(parent_->id().id())
+                         + "-states.csv" << endl;
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
                     "x", "y", "z",
@@ -240,7 +251,7 @@ bool FixedWing6DOF::step(double time, double dt) {
     // velocities
 
     // Cache values to calculate changes:
-    Eigen::Vector3d prev_linear_vel(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
     // Apply any external forces (todo)
@@ -255,28 +266,59 @@ bool FixedWing6DOF::step(double time, double dt) {
 
     beta_ = atan2(x_[V], x_[U]); // side slip
 
-    // Calculate change in velocity to populate acceleration elements
-    Eigen::Vector3d linear_vel(x_[U], x_[V], x_[W]);
-    Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
-    Eigen::Vector3d linear_acc = (linear_vel - prev_linear_vel) / dt;
-    Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
-    x_[U_dot] = linear_acc(0);
-    x_[V_dot] = linear_acc(1);
-    x_[W_dot] = linear_acc(2);
-    x_[P_dot] = angular_acc(0);
-    x_[Q_dot] = angular_acc(1);
-    x_[R_dot] = angular_acc(2);
-
     quat_body_.set(x_[q0], x_[q1], x_[q2], x_[q3]);
     quat_body_.normalize();
+
+    // Calculate change in velocity to populate acceleration elements
+    Eigen::Vector3d linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
+    Eigen::Vector3d linear_acc_ENU = (linear_vel_ENU - prev_linear_vel_ENU) / dt;
+    Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
+    Eigen::Vector3d angular_acc_FLU(angular_acc(0), -angular_acc(1), -angular_acc(2));
+
 
     // Rotate back to Z-axis pointing up
     state_->quat() = rot_180_x_axis_ * quat_body_;
     state_->quat().set(sc::Angles::angle_pi(state_->quat().roll()+M_PI),
                        state_->quat().pitch(), state_->quat().yaw());
 
+
+    Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate(angular_vel);
+    Eigen::Vector3d angvel_b_e_ENU;
+    angvel_b_e_ENU << angvel_b_e_bodyRef[0], -angvel_b_e_bodyRef[1], -angvel_b_e_bodyRef[2];
+    state_->set_ang_vel(angvel_b_e_ENU);
+
+
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
+
+    linear_accel_body_ = state_->quat().rotate_reverse(linear_acc_ENU);
+    ang_accel_body_ = angular_acc_FLU;
+
+
+    // draw velocity
+    if (draw_vel_) {
+        sc::ShapePtr shape(new sp::Shape());
+        shape->set_type(sp::Shape::Line);
+        shape->set_opacity(1.0);
+        sc::add_point(shape, state_->pos() );
+        Eigen::Vector3d color(255, 255, 0);
+        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
+        sc::add_point(shape, state_->pos() + state_->vel()/10 );
+        shapes_.push_back(shape);
+    }
+
+    // draw angular velocity
+    if (draw_ang_vel_) {
+        sc::ShapePtr shape(new sp::Shape());
+        shape->set_type(sp::Shape::Line);
+        shape->set_opacity(1.0);
+        sc::add_point(shape, state_->pos() );
+        Eigen::Vector3d color(255, 255, 0);
+        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
+        sc::add_point(shape, state_->pos() + state_->ang_vel()*10 );
+        shapes_.push_back(shape);
+    }
 
     if (write_csv_) {
         // Log state to CSV
@@ -395,7 +437,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Zw] = -vel_world(2); // Due to rotated frame
 
     // Integrate local accelerations to compute global velocities
-    Eigen::Vector3d acc_local(dxdt[U], dxdt[V], dxdt[W]);
+    Eigen::Vector3d acc_local = F_total / mass_;
     Eigen::Vector3d acc_world = quat.rotate(acc_local); // rot * acc_local;
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = -acc_world(1); // Due to rotated frame

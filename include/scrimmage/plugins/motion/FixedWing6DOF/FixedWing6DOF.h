@@ -32,6 +32,8 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOF_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOF_H_
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -44,7 +46,7 @@
 
 namespace scrimmage {
 namespace motion {
-class FixedWing6DOF : public scrimmage::MotionModel{
+class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
  public:
     enum ModelParams {
         U = 0,
@@ -98,6 +100,10 @@ class FixedWing6DOF : public scrimmage::MotionModel{
 
     Eigen::Matrix3d I_;
     Eigen::Matrix3d I_inv_;
+
+    // drawing
+    bool draw_vel_ = false;
+    bool draw_ang_vel_ = false;
 
     // Logging utility
     bool write_csv_ = false;
