@@ -111,7 +111,6 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     auto ext_it = cache_[env_var].find(ext);
     if (cache_it != cache_.end()) {
         if (ext_it != cache_it->second.end()) {
-            std::cout << "found in cache" << std::endl;
             out = ext_it->second;
             return;
         } else {
