@@ -43,8 +43,8 @@ namespace scrimmage {
 
 class Controller : public Plugin {
  public:
-    virtual void init(std::map<std::string, std::string> &params) = 0;
-    virtual bool step(double t, double dt) = 0;
+    virtual void init(std::map<std::string, std::string> &/*params*/) {}
+    virtual bool step(double /*t*/, double /*dt*/) {return true;}
     inline void set_state(StatePtr &state) {state_ = state;}
     inline void set_desired_state(StatePtr &desired_state) {desired_state_ = desired_state;}
 

@@ -74,6 +74,9 @@ class Boids : public scrimmage::Autonomy{
     int io_vel_idx_ = 0;
     int io_turn_rate_idx_ = 0;
     int io_pitch_rate_idx_ = 0;
+
+    int io_heading_idx_  = 0;
+    int io_altitude_idx_  = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

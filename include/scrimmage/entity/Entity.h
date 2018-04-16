@@ -184,6 +184,9 @@ class Entity : public std::enable_shared_from_this<Entity> {
     scrimmage_proto::ContactVisualPtr visual_ =
         std::make_shared<scrimmage_proto::ContactVisual>();
 
+    void print_io_error(
+        const std::string &in_name, const std::string &out_name, VariableIO &v);
+
     bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
 
     ControllerPtr controller_;

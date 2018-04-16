@@ -46,10 +46,6 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SingleIntegrator, Sin
 namespace scrimmage {
 namespace motion {
 
-namespace sc = scrimmage;
-
-namespace pl = std::placeholders;
-
 enum ModelParams {
     X = 0,
     Y,
@@ -76,7 +72,7 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
     x_[Y] = std::stod(info["y"]);
     x_[Z] = std::stod(info["z"]);
 
-    x_[HEADING] = sc::Angles::deg2rad(std::stod(info["heading"]));
+    x_[HEADING] = Angles::deg2rad(std::stod(info["heading"]));
     x_[PITCH] = 0;
 
     state_->vel() << 0, 0, 0;

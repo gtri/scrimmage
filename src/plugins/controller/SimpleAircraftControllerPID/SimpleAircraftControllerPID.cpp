@@ -76,30 +76,40 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
     use_roll_ = sc::str2bool(params.at("use_roll"));
-    u_ = std::make_shared<Eigen::Vector3d>();
+
+    std::string ctrl_name = use_roll_ ? "roll" : "heading";
+    input_roll_or_heading_idx_ = vars_.declare(ctrl_name, VariableIO::Direction::In);
+    input_altitude_idx_ = vars_.declare("altitude", VariableIO::Direction::In);
+    input_velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+
+    output_thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
+    output_roll_rate_idx_ = vars_.declare("roll_rate", VariableIO::Direction::Out);
+    output_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
     double roll_error;
     if (use_roll_) {
-        heading_pid_.set_setpoint(desired_state_->quat().roll());
+        heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
         roll_error = -heading_pid_.step(dt, state_->quat().roll());
     } else {
-        double desired_yaw = desired_state_->quat().yaw();
+        double desired_yaw = vars_.input(input_roll_or_heading_idx_);
 
         heading_pid_.set_setpoint(desired_yaw);
         double u_heading = heading_pid_.step(dt, state_->quat().yaw());
         roll_error = u_heading + state_->quat().roll();
     }
 
-    alt_pid_.set_setpoint(desired_state_->pos()(2));
+    alt_pid_.set_setpoint(vars_.input(input_altitude_idx_));
     double u_alt = alt_pid_.step(dt, state_->pos()(2));
     double pitch_error = (-u_alt - state_->quat().pitch());
 
-    vel_pid_.set_setpoint(desired_state_->vel()(0));
+    vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
     double u_thrust = vel_pid_.step(dt, state_->vel().norm());
 
-    (*u_) << u_thrust, roll_error, pitch_error;
+    vars_.output(output_thrust_idx_, u_thrust);
+    vars_.output(output_roll_rate_idx_, roll_error);
+    vars_.output(output_pitch_rate_idx_, pitch_error);
     return true;
 }
 } // namespace controller

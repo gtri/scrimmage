@@ -50,7 +50,7 @@
     <z>200</z>
     <heading>0</heading>
     <autonomy server_address="localhost:50051">ExternalControl</autonomy>
-    <controller>SimpleAircraftControllerPID</controller>
+    <controller use_roll="false">SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 

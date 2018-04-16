@@ -60,26 +60,21 @@ class SimpleAircraft : public scrimmage::MotionModel{
 
     virtual void teleport(scrimmage::StatePtr &state);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual std::shared_ptr<Eigen::Vector3d> u() = 0;
-    };
-
-    // cppcheck-suppress passedByValue
-    void set_u(std::shared_ptr<Eigen::Vector3d> u) {ctrl_u_ = u;}
-
  protected:
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 
     double length_;
-    std::shared_ptr<Eigen::Vector3d> ctrl_u_;
 
     double min_velocity_;
     double max_velocity_;
     double max_roll_;
     double max_pitch_;
+
+    uint8_t thrust_idx_ = 0;
+    uint8_t roll_rate_idx_ = 0;
+    uint8_t pitch_rate_idx_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

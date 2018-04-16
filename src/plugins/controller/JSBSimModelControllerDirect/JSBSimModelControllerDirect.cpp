@@ -30,11 +30,8 @@
  *
  */
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-
 #include <scrimmage/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h>
 
 #include <boost/algorithm/clamp.hpp>
@@ -44,17 +41,23 @@ REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControl
 namespace scrimmage {
 namespace controller {
 
-namespace sc = scrimmage;
-using ang = scrimmage::Angles;
-
 void JSBSimModelControllerDirect::init(std::map<std::string, std::string> &params) {
-    use_pitch_ = sc::str2bool(params.at("use_pitch"));
+    use_pitch_ = str2bool(params.at("use_pitch"));
+    std::string z_name =  use_pitch_ ?  "pitch" : "altitude";
+
+    input_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    input_bank_idx_ = vars_.declare("heading", VariableIO::Direction::In);
+    input_alt_or_pitch_idx_ = vars_.declare(z_name, VariableIO::Direction::In);
+
+    output_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    output_bank_idx_ = vars_.declare("bank", VariableIO::Direction::Out);
+    output_alt_or_pitch_idx_ = vars_.declare(z_name, VariableIO::Direction::Out);
 }
 
 bool JSBSimModelControllerDirect::step(double t, double dt) {
-    u_(0) = desired_state_->vel()(0);        // velocity
-    u_(1) = desired_state_->quat().roll();   // bank
-    u_(2) = desired_state_->pos()(use_pitch_ ? 0 : 2);
+    vars_.output(input_vel_idx_, vars_.input(input_vel_idx_));
+    vars_.output(input_bank_idx_, vars_.input(input_bank_idx_));
+    vars_.output(input_alt_or_pitch_idx_, vars_.input(input_alt_or_pitch_idx_));
     return true;
 }
 } // namespace controller

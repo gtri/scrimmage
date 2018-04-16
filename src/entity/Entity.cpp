@@ -217,11 +217,10 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     auto it = info.find("controller");
     if (it == info.end()) {
-        std::cout << "Error: no controller specified" << std::endl;
-        return false;
+        controller_ = std::make_shared<Controller>();
+    } else {
+        controller_ = init_controller(it->second, overrides["controller"], motion_model_->vars());
     }
-
-    controller_ = init_controller(it->second, overrides["controller"], motion_model_->vars());
 
     if (controller_ == nullptr) {
         std::cout << "Failed to open controller plugin: " << it->second << std::endl;
@@ -234,9 +233,7 @@ bool Entity::init(AttributeMap &overrides,
             << " does not provide inputs required by MotionModel "
             << std::quoted(motion_model_->name())
             << ": ";
-        br::copy(motion_model_->vars().input_variable_index() | ba::map_keys,
-            std::ostream_iterator<std::string>(std::cout, ", "));
-        std::cout << std::endl;
+        print_io_error(motion_model_->name(), controller_->name(), motion_model_->vars());
         return false;
     }
 
@@ -281,14 +278,12 @@ bool Entity::init(AttributeMap &overrides,
         std::cout << "VariableIO Error: "
             << "no autonomies provide inputs required by Controller "
             << std::quoted(controller_->name())
-            << ": ";
-        br::copy(controller_->vars().input_variable_index() | ba::map_keys, out_it);
-        std::cout << std::endl;
-
+            << ". Add VariableIO output declarations in ";
         auto get_name = [&](auto &p) {return p->name();};
-        std::cout << "Add VariableIO output declarations in ";
         br::copy(autonomies_ | ba::transformed(get_name), out_it);
-        std::cout << std::endl;
+        std::cout << "as follows " << std::endl;
+
+        print_io_error(controller_->name(), "An Autonomy", controller_->vars());
         return false;
     }
 
@@ -530,5 +525,27 @@ bool Entity::verify_io_connection(
         std::back_inserter(mismatched_keys));
 
     return mismatched_keys.empty();
+}
+
+void Entity::print_io_error(const std::string &in_name, const std::string &out_name, VariableIO &v) {
+    auto keys = v.input_variable_index() | ba::map_keys;
+    std::cout << "First, place the following in its initializer: " << std::endl;
+    for (const std::string &key : keys) {
+        std::cout << "    " << key << "_idx_ = vars_.declare("
+            << std::quoted(key) << ", VariableIO::Direction::Out);"
+            << std::endl;
+    }
+
+    std::cout << "Second, place the following in its step function: " << std::endl;
+    for (const std::string &key : keys) {
+        std::cout << "    vars_.output(" << key << "_idx_, value_to_output);" << std::endl;
+    }
+    std::cout << "where value_to_output is what you want " << in_name
+        << " to receive as its input." << std::endl;
+
+    std::cout << "Third, place following in the class declaration: " << std::endl;
+    for (const std::string &key : keys) {
+        std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
+    }
 }
 } // namespace scrimmage

@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 
 #include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
 
@@ -58,7 +57,8 @@ using StatePtr = std::shared_ptr<State>;
 
 namespace scrimmage {
 namespace motion {
-class JSBSimModel : public scrimmage::MotionModel{
+
+class JSBSimModel : public MotionModel {
  public:
     virtual std::tuple<int, int, int> version();
 
@@ -66,12 +66,7 @@ class JSBSimModel : public scrimmage::MotionModel{
                       std::map<std::string, std::string> &params);
     virtual bool step(double time, double dt);
 
-    virtual void teleport(scrimmage::StatePtr &state);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector3d &u() = 0;
-    };
+    virtual void teleport(StatePtr &state);
 
     bool use_pitch() { return use_pitch_; }
 
@@ -106,16 +101,20 @@ class JSBSimModel : public scrimmage::MotionModel{
     JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
     JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
 
-    scrimmage::Angles angles_to_jsbsim_;
-    scrimmage::Angles angles_from_jsbsim_;
+    Angles angles_to_jsbsim_;
+    Angles angles_from_jsbsim_;
 
-    scrimmage::PID heading_pid_;
+    PID heading_pid_;
     double prev_desired_yaw_;
     bool heading_lag_initialized_;
 
     double dt_;
 #endif
     bool use_pitch_ = false;
+
+    int vel_idx_ = 0;
+    int bank_idx_ = 0;
+    int alt_or_pitch_idx_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

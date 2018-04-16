@@ -104,10 +104,6 @@ void Straight::init(std::map<std::string, std::string> &params) {
         /////////////////////////////////////////////////////////
     }
 
-    desired_state_->vel() = speed_*Eigen::Vector3d::UnitX();
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = state_->pos()(2)*Eigen::Vector3d::UnitZ();
-
     // Project goal in front...
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
     Eigen::Vector3d unit_vector = rel_pos.normalized();
@@ -140,9 +136,9 @@ void Straight::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
 
-    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
@@ -209,24 +205,11 @@ bool Straight::step_autonomy(double t, double dt) {
     ///////////////////////////////////////////////////////////////////////////
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
-    desired_state_->vel()(0) = v.norm();
 
-    // Desired heading
-    double heading = scrimmage::Angles::angle_2pi(atan2(v(1), v(0)));
-
-    // Desired pitch
-    Eigen::Vector2d xy(v(0), v(1));
-    double pitch = scrimmage::Angles::angle_2pi(atan2(v(2), xy.norm()));
-
-    // Set Desired Altitude to goal's z-position
-    desired_state_->pos()(2) = goal_(2);
-
+    double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
-
-    // Set the desired pitch and heading
-    desired_state_->quat().set(0, pitch, heading);
 
     return true;
 }

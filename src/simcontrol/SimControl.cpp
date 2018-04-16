@@ -738,6 +738,7 @@ void SimControl::run() {
 
         if (!generate_entities(t)) {
             cout << "Failed to generate entity" << endl;
+            break;
         }
 
         if (!wait_for_ready()) {

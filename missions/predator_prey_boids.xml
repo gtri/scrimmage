@@ -1,6 +1,7 @@
 <runscript name="Predator Prey Mission with Boids">
 
-  <run dt="0.1" enable_gui="true" end="150" network_gui="false" start="0.0" start_paused="true" time_warp="10" />
+  <run dt="0.1" enable_gui="true" end="150" network_gui="false" start="0.0" start_paused="true" time_warp="10"
+    motion_multiplier="12"/>
 
   <end_condition>time, all_dead</end_condition> 
 
@@ -40,9 +41,9 @@
     <color>0 0 255</color>
     <count>100</count>
     <health>5</health>
-    <variance_x>100</variance_x>
-    <variance_y>100</variance_y>
-    <variance_z>100</variance_z>
+    <variance_x>400000</variance_x>
+    <variance_y>400000</variance_y>
+    <variance_z>100000</variance_z>
     <x>0</x>
     <y>0</y>
     <z>200</z>
@@ -50,19 +51,24 @@
     <heading>0</heading>
 
     <autonomy>Boids</autonomy>
-    <motion_model vel_max="30">Unicycle</motion_model>
-    <controller>UnicycleControllerDirect</controller>
+    <!-- <motion_model vel_max="30">Unicycle</motion_model> -->
+    <!-- <controller>UnicycleControllerDirect</controller> -->
     <!-- <motion_model vel_max="30">SingleIntegrator</motion_model> -->
     <!-- <controller>SingleIntegratorControllerSimple</controller> -->
+    <motion_model>JSBSimModel</motion_model>
+    <controller>JSBSimModelControllerHeadingPID</controller>
+    <script_name>rascal_piedmont.xml</script_name>
+    
+
     <visual_model>zephyr-blue</visual_model>
   </entity>
 
   
   <entity_common name="predator">
     <health>5</health>
-    <variance_x>100</variance_x>
-    <variance_y>100</variance_y>
-    <variance_z>100</variance_z>
+    <variance_x>40000</variance_x>
+    <variance_y>40000</variance_y>
+    <variance_z>10000</variance_z>
 
     <x>1000</x>
     <y>0</y>
