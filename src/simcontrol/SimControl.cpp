@@ -1234,18 +1234,18 @@ bool SimControl::run_entities() {
         // Run each entity's controllers
         for (EntityPtr &ent : ents_) {
             std::list<ShapePtr> &shapes = shapes_[ent->id().id()];
-            for (ControllerPtr &ctrl : ent->controllers()) {
-                // Execute callbacks for received messages before calling
-                // controllers
-                ctrl->run_callbacks();
-                if (!ctrl->step(temp_t, motion_dt)) {
-                    print_err(ctrl);
-                    success = false;
-                }
-                shapes.insert(shapes.end(), ctrl->shapes().begin(),
-                              ctrl->shapes().end());
-                ctrl->shapes().clear();
+            ControllerPtr ctrl = ent->controller();
+
+            // Execute callbacks for received messages before calling
+            // controllers
+            ctrl->run_callbacks();
+            if (!ctrl->step(temp_t, motion_dt)) {
+                print_err(ctrl);
+                success = false;
             }
+            shapes.insert(shapes.end(), ctrl->shapes().begin(),
+                          ctrl->shapes().end());
+            ctrl->shapes().clear();
         }
 
         // Run each entity's motion model

@@ -35,11 +35,14 @@
 
 #include <Eigen/Dense>
 
+#include <set>
 #include <map>
 #include <string>
 #include <memory>
 
 namespace scrimmage {
+/*! \brief abstracts the connection between motion models, controllers, and autonomies
+ */
 class VariableIO {
  public:
     enum class Direction {In = 0, Out};
@@ -59,6 +62,9 @@ class VariableIO {
 
     bool exists(std::string var, Direction dir);
 
+    std::set<std::string> declared_input_variables();
+    std::set<std::string> declared_output_variables();
+
     /*! \brief Connect two VariableIO objects where writing to the output of
      *  the first object will transfer the data to the input of the second
      *  object. */
@@ -70,6 +76,8 @@ class VariableIO {
     std::map<std::string, int> output_variable_index_;
     std::shared_ptr<Eigen::VectorXd> input_;
     std::shared_ptr<Eigen::VectorXd> output_;
+    std::set<std::string> declared_input_variables_;
+    std::set<std::string> declared_output_variables_;
 };
 } // namespace scrimmage
 

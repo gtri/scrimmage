@@ -82,7 +82,7 @@ bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
 }
 
 bool DoubleIntegrator::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controller())->u();
     ctrl_u_(0) = clamp(ctrl_u_(0), -max_acc_, max_acc_);
     ctrl_u_(1) = clamp(ctrl_u_(1), -max_acc_, max_acc_);
     ctrl_u_(2) = clamp(ctrl_u_(2), -max_acc_, max_acc_);

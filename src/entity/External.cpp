@@ -156,10 +156,8 @@ bool External::step(double t) {
     double motion_dt = dt / num_steps;
     double temp_t = t - dt;
     for (int i = 0; i < num_steps; i++) {
-        for (ControllerPtr &ctrl : entity_->controllers()) {
-            ctrl->run_callbacks();
-            ctrl->step(temp_t, motion_dt);
-        }
+        entity_->controller()->run_callbacks();
+        entity_->controller()->step(temp_t, motion_dt);
         temp_t += motion_dt;
     }
 

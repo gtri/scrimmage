@@ -111,7 +111,7 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 1 : y-position
     /// 2 : theta
 
-    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
     double u_vel = u(FORWARD_VELOCITY);
     double u_theta = u(TURN_RATE);
 

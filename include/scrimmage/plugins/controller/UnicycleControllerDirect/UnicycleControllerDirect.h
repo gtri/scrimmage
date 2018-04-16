@@ -48,9 +48,14 @@ class UnicycleControllerDirect : public Controller {
  protected:
     double l_;
     double gain_;
-    int velocity_idx_ = 0;
-    int turn_rate_idx_ = 0;
-    int pitch_rate_idx_ = 0;
+
+    int input_velocity_idx_ = 0;
+    int input_turn_rate_idx_ = 0;
+    int input_pitch_rate_idx_ = 0;
+
+    int output_velocity_idx_ = 0;
+    int output_turn_rate_idx_ = 0;
+    int output_pitch_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

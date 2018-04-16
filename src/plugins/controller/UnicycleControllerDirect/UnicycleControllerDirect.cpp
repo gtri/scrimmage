@@ -40,15 +40,19 @@ namespace scrimmage {
 namespace controller {
 
 void UnicycleControllerDirect::init(std::map<std::string, std::string> &params) {
-    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
-    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
-    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
+    input_velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    input_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
+    input_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
+
+    output_velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    output_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
+    output_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
 bool UnicycleControllerDirect::step(double t, double dt) {
-    vars_.output(velocity_idx_, desired_state_->vel()(0));
-    vars_.output(turn_rate_idx_, desired_state_->vel()(1));
-    vars_.output(pitch_rate_idx_, desired_state_->vel()(2));
+    vars_.output(output_velocity_idx_, vars_.input(input_velocity_idx_));
+    vars_.output(output_turn_rate_idx_, vars_.input(input_turn_rate_idx_));
+    vars_.output(output_pitch_rate_idx_, vars_.input(input_pitch_rate_idx_));
     return true;
 }
 } // namespace controller

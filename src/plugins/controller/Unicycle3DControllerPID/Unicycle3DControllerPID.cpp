@@ -48,9 +48,7 @@ REGISTER_PLUGIN(scrimmage::Controller,
 namespace scrimmage {
 namespace controller {
 
-namespace sc = scrimmage;
-
-void set_pid(sc::PID &pid, std::string str, bool is_angle) {
+void set_pid(PID &pid, std::string str, bool is_angle) {
     std::vector<std::string> str_vals;
     boost::split(str_vals, str, boost::is_any_of(","));
 
@@ -63,7 +61,7 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
         pid.set_parameters(p, i, d);
 
         if (is_angle) {
-            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
+            double i_lim = Angles::deg2rad(std::stod(str_vals[3]));
             pid.set_integral_band(i_lim);
             pid.set_is_angle(true);
         } else {
@@ -77,7 +75,7 @@ void Unicycle3DControllerPID::init(std::map<std::string, std::string> &params) {
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
-    use_roll_ = sc::str2bool(params.at("use_roll"));
+    use_roll_ = str2bool(params.at("use_roll"));
     u_ = std::make_shared<Eigen::Vector3d>();
 
     desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::In);

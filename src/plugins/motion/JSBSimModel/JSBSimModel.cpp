@@ -187,7 +187,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimModel::step(double time, double dt) {
-    Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
 
     double desired_velocity = u[0];
     double bank_cmd = u[1];

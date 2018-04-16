@@ -43,8 +43,6 @@
 
 #include <vector>
 
-namespace sc = scrimmage;
-
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Boids, Boids_plugin)
 
 namespace scrimmage {
@@ -52,46 +50,50 @@ namespace autonomy {
 
 void Boids::init(std::map<std::string, std::string> &params) {
 
-    show_shapes_ = sc::get("show_shapes", params, false);
-    max_speed_ = sc::get<double>("max_speed", params, 21);
+    show_shapes_ = get("show_shapes", params, false);
+    max_speed_ = get<double>("max_speed", params, 21);
 
-    w_align_ = sc::get("align_weight", params, 0.01);
-    w_avoid_team_ = sc::get("avoid_team_weight", params, 0.95);
-    w_centroid_ = sc::get("centroid_weight", params, 0.05);
+    w_align_ = get("align_weight", params, 0.01);
+    w_avoid_team_ = get("avoid_team_weight", params, 0.95);
+    w_centroid_ = get("centroid_weight", params, 0.05);
 
-    w_avoid_nonteam_ = sc::get("avoid_nonteam_weight", params, 1.0);
-    fov_el_ = sc::Angles::deg2rad(sc::get("fov_el", params, 90));
-    fov_az_ = sc::Angles::deg2rad(sc::get("fov_az", params, 90));
-    comms_range_ = sc::get("comms_range", params, 1000);
+    w_avoid_nonteam_ = get("avoid_nonteam_weight", params, 1.0);
+    fov_el_ = Angles::deg2rad(get("fov_el", params, 90));
+    fov_az_ = Angles::deg2rad(get("fov_az", params, 90));
+    comms_range_ = get("comms_range", params, 1000);
 
-    sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
-    minimum_team_range_ = sc::get<double>("minimum_team_range", params, 5);
-    minimum_nonteam_range_ = sc::get<double>("minimum_nonteam_range", params, 10);
+    sphere_of_influence_ = get<double>("sphere_of_influence", params, 10);
+    minimum_team_range_ = get<double>("minimum_team_range", params, 5);
+    minimum_nonteam_range_ = get<double>("minimum_nonteam_range", params, 10);
 
-    w_goal_ = sc::get<double>("goal_weight", params, 1.0);
+    w_goal_ = get<double>("goal_weight", params, 1.0);
 
-    if (sc::get("use_initial_heading", params, false)) {
-        Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*10000;
+    if (get("use_initial_heading", params, false)) {
+        Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX() * 1000000;
         Eigen::Vector3d unit_vector = rel_pos.normalized();
         unit_vector = state_->quat().rotate(unit_vector);
         goal_ = state_->pos() + unit_vector * rel_pos.norm();
     } else {
         std::vector<double> goal_vec;
-        if (sc::get_vec<double>("goal", params, " ", goal_vec, 3)) {
-            goal_ = sc::vec2eigen(goal_vec);
+        if (get_vec<double>("goal", params, " ", goal_vec, 3)) {
+            goal_ = vec2eigen(goal_vec);
         }
     }
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    io_vel_x_idx_ = vars_.declare("velocity_x", VariableIO::Direction::Out);
+    io_vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::Out);
+    io_vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::Out);
+
+    io_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
+    io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
 bool Boids::step_autonomy(double t, double dt) {
     shapes_.clear();
 
     // Find neighbors that are within field-of-view and within comms range
-    std::vector<sc::ID> rtree_neighbors;
+    std::vector<ID> rtree_neighbors;
     rtree_->neighbors_in_range(state_->pos_const(), rtree_neighbors, comms_range_);
 
     // Remove neighbors that are not within field of view
@@ -125,10 +127,10 @@ bool Boids::step_autonomy(double t, double dt) {
     std::vector<Eigen::Vector3d> O_team_vecs;
     std::vector<Eigen::Vector3d> O_nonteam_vecs;
 
-    for (sc::ID id : rtree_neighbors) {
+    for (ID id : rtree_neighbors) {
         bool is_team = (id.team_id() == parent_->id().team_id());
 
-        sc::StatePtr other_state = (*contacts_)[id.id()].state();
+        StatePtr other_state = (*contacts_)[id.id()].state();
 
         // Calculate vector pointing from own position to other
         Eigen::Vector3d diff = other_state->pos() - state_->pos();
@@ -220,21 +222,21 @@ bool Boids::step_autonomy(double t, double dt) {
         velocity_controller(vel_result);
 
         if (show_shapes_) {
-            sc::ShapePtr shape(new scrimmage_proto::Shape);
+            ShapePtr shape(new scrimmage_proto::Shape);
             shape->set_type(scrimmage_proto::Shape::Sphere);
             shape->set_opacity(0.1);
             shape->set_radius(sphere_of_influence_);
-            sc::set(shape->mutable_center(), state_->pos());
-            sc::set(shape->mutable_color(), 0, 255, 0);
+            set(shape->mutable_center(), state_->pos());
+            set(shape->mutable_color(), 0, 255, 0);
             shapes_.push_back(shape);
 
             // Draw resultant vector:
-            sc::ShapePtr arrow(new scrimmage_proto::Shape);
+            ShapePtr arrow(new scrimmage_proto::Shape);
             arrow->set_type(scrimmage_proto::Shape::Line);
-            sc::set(arrow->mutable_color(), 255, 255, 0);
+            set(arrow->mutable_color(), 255, 255, 0);
             arrow->set_opacity(0.75);
-            sc::add_point(arrow, state_->pos());
-            sc::add_point(arrow, vel_result + state_->pos());
+            add_point(arrow, state_->pos());
+            add_point(arrow, vel_result + state_->pos());
             shapes_.push_back(arrow);
         }
     } else {
@@ -248,9 +250,20 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
     // Convert to spherical coordinates:
     double desired_heading = atan2(v(1), v(0));
     double desired_pitch = atan2(v(2), v.head<2>().norm());
-    desired_state_->vel()(0) = max_speed_;
-    desired_state_->vel()(1) = sc::Angles::angle_pi(desired_heading - state_->quat().yaw());
-    desired_state_->vel()(2) = sc::Angles::angle_pi(desired_pitch + state_->quat().pitch());
+
+    vars_.output(io_vel_idx_, max_speed_);
+    vars_.output(io_turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
+    vars_.output(io_pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
+
+    double norm = v.norm();
+    double ratio = (max_speed_ / 2) / std::max(norm, 1.0);
+    if (norm != 0 && ratio < 1) {
+        v *= ratio;
+    }
+
+    vars_.output(io_vel_x_idx_, v(0));
+    vars_.output(io_vel_y_idx_, v(1));
+    vars_.output(io_vel_z_idx_, v(2));
 }
 } // namespace autonomy
 } // namespace scrimmage

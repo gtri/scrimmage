@@ -17,7 +17,7 @@
   <align_weight>0.5</align_weight>
 
   <use_initial_heading>true</use_initial_heading>
-  <goal>1000 1000 1000</goal> <!-- if use_initial_heading is false -->
+  <goal>1000000 1000000 1000</goal> <!-- if use_initial_heading is false -->
 
   <sphere_of_influence>100</sphere_of_influence>
   <minimum_team_range>2</minimum_team_range>

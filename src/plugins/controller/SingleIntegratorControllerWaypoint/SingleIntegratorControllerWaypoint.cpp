@@ -30,24 +30,39 @@
  *
  */
 
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/math/State.h>
 
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerWaypoint, SingleIntegratorControllerWaypoint_plugins)
 
 namespace scrimmage {
 namespace controller {
 
-namespace sc = scrimmage;
-
 void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
-    gain_ = sc::get("gain", params, 1.0);
+    input_pos_x_idx_ = vars_.declare("pos_x", VariableIO::Direction::In);
+    input_pos_y_idx_ = vars_.declare("pos_y", VariableIO::Direction::In);
+    input_pos_z_idx_ = vars_.declare("pos_z", VariableIO::Direction::In);
+
+    output_vel_x_idx_ = vars_.declare("velocity_x", VariableIO::Direction::In);
+    output_vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::In);
+    output_vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::In);
+
+    gain_ = std::stod(params.at("gain"));
 }
 
 bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
-    u_ = gain_ * (desired_state_->pos() - state_->pos());
+    const Eigen::Vector3d &p = state_->pos();
+
+    const double des_x = vars_.input(input_pos_x_idx_);
+    const double des_y = vars_.input(input_pos_y_idx_);
+    const double des_z = vars_.input(input_pos_z_idx_);
+
+    vars_.output(output_vel_x_idx_, gain_ * (des_x - p(0)));
+    vars_.output(output_vel_y_idx_, gain_ * (des_y - p(1)));
+    vars_.output(output_vel_z_idx_, gain_ * (des_z - p(2)));
+
     return true;
 }
 

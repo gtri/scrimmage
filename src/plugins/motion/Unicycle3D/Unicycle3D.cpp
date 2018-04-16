@@ -84,7 +84,7 @@ Unicycle3D::~Unicycle3D() {
 }
 
 bool Unicycle3D::init(std::map<std::string, std::string> &info,
-                    std::map<std::string, std::string> &params) {
+                      std::map<std::string, std::string> &params) {
 
     accel_max_ = sc::get("accel_max", params, -1);
 

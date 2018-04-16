@@ -111,7 +111,7 @@ void UUV6DOF::model(const vector_t &x , vector_t &dxdt ,
     // 2 : theta
 
     // Get the controller's actuator inputs
-    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
+    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
     double u_vel = u(FORWARD_VELOCITY);
     double u_theta = u(TURN_RATE);
 

@@ -42,7 +42,6 @@
 
 #include <limits>
 
-namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Predator, Predator_plugin)
@@ -51,19 +50,19 @@ namespace scrimmage {
 namespace autonomy {
 
 void Predator::init(std::map<std::string, std::string> &params) {
-    max_speed_ = sc::get<double>("max_speed", params, 21);
-    capture_range_ = sc::get<double>("capture_range", params, 5);
-    prey_team_id_ = sc::get<int>("prey_team_id", params, 1);
+    max_speed_ = get<double>("max_speed", params, 21);
+    capture_range_ = get<double>("capture_range", params, 5);
+    prey_team_id_ = get<int>("prey_team_id", params, 1);
 
-    allow_prey_switching_ = sc::get<bool>("allow_prey_switching", params, false);
+    allow_prey_switching_ = get<bool>("allow_prey_switching", params, false);
 
     capture_ent_pub_ = advertise("GlobalNetwork", "CaptureEntity");
 
     follow_id_ = -1;
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*max_speed_;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    io_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
+    io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }
 
 bool Predator::step_autonomy(double t, double dt) {
@@ -101,7 +100,7 @@ bool Predator::step_autonomy(double t, double dt) {
         double dist = (it->second.state()->pos() - state_->pos()).norm();
         // Publish capture message if within capture range
         if (dist < capture_range_) {
-            auto msg = std::make_shared<sc::Message<sm::CaptureEntity>>();
+            auto msg = std::make_shared<Message<sm::CaptureEntity>>();
             msg->data.set_source_id(parent_->id().id());
             msg->data.set_target_id(it->second.id().id());
             capture_ent_pub_->publish(msg);
@@ -111,7 +110,7 @@ bool Predator::step_autonomy(double t, double dt) {
     // Head toward entity on other team
     if (contacts_->count(follow_id_) > 0) {
         // Get a reference to the entity's state.
-        sc::StatePtr ent_state = contacts_->at(follow_id_).state();
+        StatePtr ent_state = contacts_->at(follow_id_).state();
 
         // Calculate max velocity towards target entity:
         Eigen::Vector3d v = (ent_state->pos() - state_->pos()).normalized() * max_speed_;
@@ -119,9 +118,10 @@ bool Predator::step_autonomy(double t, double dt) {
         // Convert to spherical coordinates:
         double desired_heading = atan2(v(1), v(0));
         double desired_pitch = atan2(v(2), v.head<2>().norm());
-        desired_state_->vel()(0) = max_speed_;
-        desired_state_->vel()(1) = sc::Angles::angle_pi(desired_heading - state_->quat().yaw());
-        desired_state_->vel()(2) = sc::Angles::angle_pi(desired_pitch + state_->quat().pitch());
+
+        vars_.output(io_vel_idx_, max_speed_);
+        vars_.output(io_turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
+        vars_.output(io_pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
     }
 
     return true;

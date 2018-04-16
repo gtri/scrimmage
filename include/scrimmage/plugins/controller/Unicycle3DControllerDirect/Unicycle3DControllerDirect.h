@@ -49,10 +49,13 @@ class Unicycle3DControllerDirect : public Controller {
     double l_;
     double gain_;
 
-    int vel_or_accel_idx_ = 0;
-    int accel_idx_ = 0;
-    int turn_rate_idx_ = 0;
-    int pitch_rate_idx_ = 0;
+    int input_vel_or_accel_idx_ = 0;
+    int input_turn_rate_idx_ = 0;
+    int input_pitch_rate_idx_ = 0;
+
+    int output_vel_or_accel_idx_ = 0;
+    int output_turn_rate_idx_ = 0;
+    int output_pitch_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

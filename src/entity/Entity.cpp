@@ -45,16 +45,23 @@
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/sensor/Sensable.h>
 
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <algorithm>
 
+#include <boost/algorithm/cxx11/none_of.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/algorithm/set_algorithm.hpp>
+#include <boost/range/adaptor/map.hpp>
 
 using std::cout;
 using std::endl;
 
 namespace sp = scrimmage_proto;
+namespace br = boost::range;
+namespace ba = boost::adaptors;
 
 namespace scrimmage {
 
@@ -208,29 +215,28 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
-    int ctrl_ct = 0;
-    std::string ctrl_name = std::string("controller") + std::to_string(ctrl_ct);
-    if (info.count(ctrl_name) == 0) {
-        info[ctrl_name] = "SimpleAircraftControllerPID";
+    auto it = info.find("controller");
+    if (it == info.end()) {
+        std::cout << "Error: no controller specified" << std::endl;
+        return false;
     }
 
-    while (info.count(ctrl_name) > 0) {
+    controller_ = init_controller(it->second, overrides["controller"], motion_model_->vars());
 
-        ControllerPtr controller =
-            init_controller(info[ctrl_name], overrides[ctrl_name], motion_model_->vars());
-
-        if (controller == nullptr) {
-            std::cout << "Failed to open controller plugin: " << info[ctrl_name] << std::endl;
-            return false;
-        }
-
-        controllers_.push_back(controller);
-        ctrl_ct++;
-        ctrl_name = std::string("controller") + std::to_string(ctrl_ct);
+    if (controller_ == nullptr) {
+        std::cout << "Failed to open controller plugin: " << it->second << std::endl;
+        return false;
     }
 
-    if (controllers_.empty()) {
-        std::cout << "Error: no controllers specified" << std::endl;
+    if (!verify_io_connection(controller_->vars(), motion_model_->vars())) {
+        std::cout << "VariableIO Error: "
+            << std::quoted(controller_->name())
+            << " does not provide inputs required by MotionModel "
+            << std::quoted(motion_model_->name())
+            << ": ";
+        br::copy(motion_model_->vars().input_variable_index() | ba::map_keys,
+            std::ostream_iterator<std::string>(std::cout, ", "));
+        std::cout << std::endl;
         return false;
     }
 
@@ -252,10 +258,9 @@ bool Entity::init(AttributeMap &overrides,
             return false;
         }
 
-        if (controllers_.size() > 0) {
-            autonomy->vars().output_variable_index() = controllers_.front()->vars().input_variable_index();
-            connect(autonomy->vars(), controllers_.front()->vars());
-        }
+        connect(autonomy->vars(), controller_->vars());
+        autonomy->vars().output_variable_index() = controller_->vars().input_variable_index();
+
 
         autonomy->set_rtree(rtree);
         autonomy->set_parent(parent);
@@ -272,12 +277,27 @@ bool Entity::init(AttributeMap &overrides,
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
     }
 
-    if (controllers_.size() > 0) {
-        if (autonomies_.empty()) {
-            controllers_.front()->set_desired_state(state_);
-        } else {
-            controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
-        }
+    auto verify_io = [&](auto &p) {return this->verify_io_connection(p->vars(), controller_->vars());};
+    if (boost::algorithm::none_of(autonomies_, verify_io)) {
+        auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
+        std::cout << "VariableIO Error: "
+            << "no autonomies provide inputs required by Controller "
+            << std::quoted(controller_->name())
+            << ": ";
+        br::copy(controller_->vars().input_variable_index() | ba::map_keys, out_it);
+        std::cout << std::endl;
+
+        auto get_name = [&](auto &p) {return p->name();};
+        std::cout << "Add VariableIO output declarations in ";
+        br::copy(autonomies_ | ba::transformed(get_name), out_it);
+        std::cout << std::endl;
+        return false;
+    }
+
+    if (autonomies_.empty()) {
+        controller_->set_desired_state(state_);
+    } else {
+        controller_->set_desired_state(autonomies_.front()->desired_state());
     }
 
     return true;
@@ -333,7 +353,7 @@ bool Entity::ready() {
     auto values_single_ready = [&](auto &kv) {return kv.second->ready();};
 
     return all_ready(autonomies_, single_ready)
-        && all_ready(controllers_, single_ready)
+        && controller_->ready()
         && all_ready(sensors_, values_single_ready)
         && motion_model_->ready();
 }
@@ -344,7 +364,9 @@ std::vector<AutonomyPtr> &Entity::autonomies() {return autonomies_;}
 
 MotionModelPtr &Entity::motion() {return motion_model_;}
 
-std::vector<ControllerPtr> &Entity::controllers() {return controllers_;}
+ControllerPtr Entity::controller() {
+    return controller_;
+}
 
 void Entity::set_id(ID &id) { id_ = id; }
 
@@ -413,16 +435,11 @@ void Entity::set_active(bool active) { active_ = active; }
 bool Entity::active() { return active_; }
 
 void Entity::setup_desired_state() {
-    if (controllers_.empty()) {
-        return;
-    }
+    if (!controller_) return;
 
     auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
         [&](auto autonomy) {return autonomy->get_is_controlling();});
-
-    if (it != autonomies_.rend()) {
-        controllers_.front()->set_desired_state((*it)->desired_state());
-    }
+    controller_->set_desired_state((*it)->desired_state());
 }
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
@@ -467,10 +484,7 @@ void Entity::close(double t) {
         kv.second->close(t);
     }
 
-    for (ControllerPtr ctrl : controllers_) {
-        ctrl->close(t);
-    }
-
+    controller_->close(t);
     motion_model_->close(t);
 }
 
@@ -508,5 +522,16 @@ ControllerPtr Entity::init_controller(
     controller->set_name(name);
     controller->init(config_parse.params());
     return controller;
+}
+
+bool Entity::verify_io_connection(
+        VariableIO &output, VariableIO &input) {
+    std::vector<std::string> mismatched_keys;
+    br::set_difference(
+        input.declared_input_variables(),
+        output.declared_output_variables(),
+        std::back_inserter(mismatched_keys));
+
+    return mismatched_keys.empty();
 }
 } // namespace scrimmage

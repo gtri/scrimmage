@@ -108,7 +108,7 @@ bool SimpleAircraft::step(double time, double dt) {
 
     if (ctrl_u_ == nullptr) {
         std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
+            std::dynamic_pointer_cast<Controller>(parent_->controller());
         if (ctrl) {
             ctrl_u_ = ctrl->u();
         }

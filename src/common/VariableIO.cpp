@@ -53,6 +53,7 @@ std::map<std::string, int> & VariableIO::input_variable_index() {
 
 int VariableIO::add_input_variable(std::string &var) {
     // If the variable already exists, return its existing index
+    declared_input_variables_.insert(var);
     auto it = input_variable_index_.find(var);
     if (it != input_variable_index_.end()) {
         return it->second;
@@ -68,6 +69,7 @@ int VariableIO::add_input_variable(std::string &var) {
 
 int VariableIO::add_output_variable(std::string &var) {
     // If the variable already exists, return its existing index
+    declared_output_variables_.insert(var);
     int idx;
     auto it = output_variable_index_.find(var);
     if (it != output_variable_index_.end()) {
@@ -116,4 +118,11 @@ bool VariableIO::exists(std::string var, Direction dir) {
     }
 }
 
+std::set<std::string> VariableIO::declared_input_variables() {
+    return declared_input_variables_;
+}
+
+std::set<std::string> VariableIO::declared_output_variables() {
+    return declared_output_variables_;
+}
 } // namespace scrimmage

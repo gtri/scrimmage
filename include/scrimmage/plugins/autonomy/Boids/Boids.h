@@ -65,6 +65,15 @@ class Boids : public scrimmage::Autonomy{
      double sphere_of_influence_;
 
      Eigen::Vector3d goal_;
+
+     // variable io
+     int io_vel_x_idx_ = 0;
+     int io_vel_y_idx_ = 0;
+     int io_vel_z_idx_ = 0;
+
+     int io_vel_idx_ = 0;
+     int io_turn_rate_idx_ = 0;
+     int io_pitch_rate_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

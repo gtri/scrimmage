@@ -52,6 +52,10 @@ class Predator : public scrimmage::Autonomy {
     double capture_range_;
     bool allow_prey_switching_;
     scrimmage::PublisherPtr capture_ent_pub_;
+
+    int io_vel_idx_ = 0;
+    int io_turn_rate_idx_ = 0;
+    int io_pitch_rate_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

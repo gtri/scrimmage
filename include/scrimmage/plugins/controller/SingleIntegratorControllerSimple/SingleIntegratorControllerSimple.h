@@ -33,25 +33,32 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
 
-#include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
+#include <cmath>
 
 namespace scrimmage {
 namespace controller {
-class SingleIntegratorControllerSimple : public motion::SingleIntegrator::Controller {
- public:
-    virtual void init(std::map<std::string, std::string> &params) {}
-    virtual bool step(double t, double dt) {
-        u_ = desired_state_->vel();
-        return true;
-    }
 
-    virtual Eigen::Vector3d &u() {return u_;}
+class SingleIntegratorControllerSimple : public Controller {
+ public:
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step(double t, double dt);
 
  protected:
-    Eigen::Vector3d u_;
+    int input_vel_x_idx_ = 0;
+    int input_vel_y_idx_ = 0;
+    int input_vel_z_idx_ = 0;
+
+    int output_vel_x_idx_ = 0;
+    int output_vel_y_idx_ = 0;
+    int output_vel_z_idx_ = 0;
+
+    double vel_x_ = NAN;
+    double vel_y_ = NAN;
+    double vel_z_ = NAN;
 };
 } // namespace controller
 } // namespace scrimmage

@@ -77,8 +77,6 @@ class External {
         auto &a = entity_->autonomies();
         a.erase(std::remove_if(a.begin(), a.end(), filter_func), a.end());
 
-        auto &c = entity_->controllers();
-        c.erase(std::remove_if(c.begin(), c.end(), filter_func), c.end());
         return true;
     }
 

@@ -1,5 +1,6 @@
 SubDirList(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
+list(REMOVE_ITEM SUBDIRS "AircraftToSingleIntegratorController")
  FOREACH(subdir ${SUBDIRS})
   ADD_SUBDIRECTORY(${subdir})
 ENDFOREACH()

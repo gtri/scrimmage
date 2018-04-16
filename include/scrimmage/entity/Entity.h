@@ -123,7 +123,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     StatePtr &state();
     std::vector<AutonomyPtr> &autonomies();
     MotionModelPtr &motion();
-    std::vector<ControllerPtr> &controllers();
+    ControllerPtr controller();
 
     void set_id(ID &id);
     ID &id();
@@ -184,7 +184,9 @@ class Entity : public std::enable_shared_from_this<Entity> {
     scrimmage_proto::ContactVisualPtr visual_ =
         std::make_shared<scrimmage_proto::ContactVisual>();
 
-    std::vector<ControllerPtr> controllers_;
+    bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
+
+    ControllerPtr controller_;
     MotionModelPtr motion_model_;
     std::vector<AutonomyPtr> autonomies_;
     MissionParsePtr mp_;

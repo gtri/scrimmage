@@ -33,14 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
 
-#include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
 namespace controller {
-class AircraftToSingleIntegratorController : public motion::SingleIntegrator::Controller {
+
+class AircraftToSingleIntegratorController : public Controller {
  public:
     virtual void init(std::map<std::string,  std::string> &params) {}
     virtual bool step(double t, double dt) {

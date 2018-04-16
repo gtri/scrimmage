@@ -32,10 +32,8 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_
-#include <scrimmage/math/State.h>
+
 #include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 
 #include <map>
 #include <string>
@@ -53,13 +51,14 @@ class SingleIntegrator : public scrimmage::MotionModel {
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector3d &u() = 0;
-    };
-
  protected:
-    Eigen::Vector3d ctrl_u_;
+    int vel_x_idx_;
+    int vel_y_idx_;
+    int vel_z_idx_;
+
+    double vel_x_;
+    double vel_y_;
+    double vel_z_;
 };
 } // namespace motion
 } // namespace scrimmage
