@@ -47,7 +47,8 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::SimpleCapture, SimpleCapture_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+        scrimmage::interaction::SimpleCapture, SimpleCapture_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -59,8 +60,10 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
                          std::map<std::string, std::string> &plugin_params) {
     capture_range_ = sc::get("capture_range", plugin_params, 0.0);
 
-    enable_team_captures_ = sc::get<bool>("enable_team_captures", plugin_params, true);
-    enable_non_team_captures_ = sc::get<bool>("enable_non_team_captures", plugin_params, true);
+    enable_team_captures_ =
+        sc::get<bool>("enable_team_captures", plugin_params, true);
+    enable_non_team_captures_ =
+        sc::get<bool>("enable_non_team_captures", plugin_params, true);
 
     // Setup publishers
     team_capture_pub_ = advertise("GlobalNetwork", "TeamCapture");
@@ -73,25 +76,33 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
         sc::EntityPtr &src = (*id_to_ent_map_)[source_id];
         sc::EntityPtr &dst = (*id_to_ent_map_)[target_id];
 
-        if ((src->state()->pos() - dst->state()->pos()).norm() <=
-            capture_range_) {
-            if (enable_team_captures_ &&
-                src->id().team_id() == dst->id().team_id()) {
-                dst->collision();
+        // if target_id is already present in already_captured_,
+        // capture_result.second will be false
+        auto capture_result = already_captured_.emplace(target_id);
 
-                auto msg = std::make_shared<sc::Message<sm::TeamCapture>>();
-                msg->data.set_source_id(src->id().id());
-                msg->data.set_target_id(dst->id().id());
-                team_capture_pub_->publish(msg);
+        if (capture_result.second) {
+            if ((src->state()->pos() - dst->state()->pos()).norm() <=
+                capture_range_) {
+                if (enable_team_captures_ &&
+                    src->id().team_id() == dst->id().team_id()) {
+                    dst->collision();
 
-            } else if (enable_non_team_captures_ &&
-                       src->id().team_id() != dst->id().team_id()) {
-                dst->collision();
+                    auto msg =
+                        std::make_shared<sc::Message<sm::TeamCapture>>();
+                    msg->data.set_source_id(src->id().id());
+                    msg->data.set_target_id(dst->id().id());
+                    team_capture_pub_->publish(msg);
 
-                auto msg = std::make_shared<sc::Message<sm::NonTeamCapture>>();
-                msg->data.set_source_id(src->id().id());
-                msg->data.set_target_id(dst->id().id());
-                non_team_capture_pub_->publish(msg);
+                } else if (enable_non_team_captures_ &&
+                           src->id().team_id() != dst->id().team_id()) {
+                    dst->collision();
+
+                    auto msg =
+                        std::make_shared<sc::Message<sm::NonTeamCapture>>();
+                    msg->data.set_source_id(src->id().id());
+                    msg->data.set_target_id(dst->id().id());
+                    non_team_capture_pub_->publish(msg);
+                }
             }
         }
     };
@@ -104,5 +115,5 @@ bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                             double t, double dt) {
     return true;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage
