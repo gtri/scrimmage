@@ -39,7 +39,7 @@
 namespace scrimmage {
 
 void Timer::start_overall_timer() {
-    start_time_ = boost::posix_time::second_clock::local_time();
+    start_time_ = boost::posix_time::microsec_clock::local_time();
     actual_time_ = start_time_;
     actual_elapsed_time_ = start_time_ - start_time_; // 0
     sim_time_ = start_time_;
@@ -47,7 +47,7 @@ void Timer::start_overall_timer() {
 }
 
 boost::posix_time::time_duration Timer::elapsed_time() {
-    return boost::posix_time::second_clock::local_time() - start_time_;
+    return boost::posix_time::microsec_clock::local_time() - start_time_;
 }
 
 void Timer::start_loop_timer() {
