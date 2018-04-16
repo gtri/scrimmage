@@ -47,9 +47,6 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft, Simpl
 namespace scrimmage {
 namespace motion {
 
-namespace sc = scrimmage;
-namespace pl = std::placeholders;
-
 enum ModelParams {
     X = 0,
     Y,
@@ -76,12 +73,12 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
-    sc::Quaternion &quat = state_->quat();
+    Quaternion &quat = state_->quat();
 
-    min_velocity_ = sc::get("min_velocity", params, 15.0);
-    max_velocity_ = sc::get("max_velocity", params, 40.0);
-    max_roll_ = sc::Angles::deg2rad(sc::get("max_roll", params, 30.0));
-    max_pitch_ = sc::Angles::deg2rad(sc::get("max_pitch", params, 30.0));
+    min_velocity_ = get("min_velocity", params, 15.0);
+    max_velocity_ = get("max_velocity", params, 40.0);
+    max_roll_ = Angles::deg2rad(get("max_roll", params, 30.0));
+    max_pitch_ = Angles::deg2rad(get("max_pitch", params, 30.0));
 
     x_[X] = pos(0);
     x_[Y] = pos(1);
@@ -91,7 +88,7 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     x_[YAW] = quat.yaw();
     x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
 
-    length_ = sc::get("turning_radius", params, 50.0);
+    length_ = get("turning_radius", params, 50.0);
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
@@ -155,7 +152,7 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[SPEED] = thrust/5;
 }
 
-void SimpleAircraft::teleport(sc::StatePtr &state) {
+void SimpleAircraft::teleport(StatePtr &state) {
     x_[X] = state->pos()[0];
     x_[Y] = state->pos()[1];
     x_[Z] = state->pos()[2];

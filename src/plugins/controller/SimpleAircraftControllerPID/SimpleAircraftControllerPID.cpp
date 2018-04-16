@@ -77,8 +77,6 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     set_pid(vel_pid_, params["vel_pid"], false);
     use_roll_ = sc::str2bool(params.at("use_roll"));
     u_ = std::make_shared<Eigen::Vector3d>();
-
-    alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::In);
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
@@ -93,8 +91,6 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
         double u_heading = heading_pid_.step(dt, state_->quat().yaw());
         roll_error = u_heading + state_->quat().roll();
     }
-
-    // std::cout << "Altitude (from VariableIO): " << vars_.input(alt_idx_) << std::endl;
 
     alt_pid_.set_setpoint(desired_state_->pos()(2));
     double u_alt = alt_pid_.step(dt, state_->pos()(2));
