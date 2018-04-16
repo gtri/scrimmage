@@ -23,7 +23,7 @@
 
   <plot_tracks>false</plot_tracks>
   <output_type>all</output_type>
-  <show_plugins>false</show_plugins>  
+  <show_plugins>false</show_plugins>
 
   <log_dir>~/.scrimmage/logs</log_dir>
 
@@ -36,7 +36,7 @@
   <entity_interaction>SimpleCollision</entity_interaction>
 
   <metrics>SimpleCollisionMetrics</metrics>
-  
+
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>2147483648</seed>-->
 
@@ -46,8 +46,8 @@
     <team_id>1</team_id>
     <count>20</count>
     <autonomy>Straight</autonomy>
-    
-    <color>255 0 0</color>    
+
+    <color>255 0 0</color>
     <health>1</health>
     <radius>1</radius>
 
@@ -61,15 +61,15 @@
     <heading>0</heading>
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-blue</visual_model>    
+    <visual_model>zephyr-blue</visual_model>
   </entity>
 
   <entity>
     <team_id>1</team_id>
     <count>20</count>
     <autonomy>Straight</autonomy>
-    
-    <color>255 0 0</color>    
+
+    <color>255 0 0</color>
     <health>1</health>
     <radius>2</radius>
 
@@ -85,7 +85,7 @@
     <altitude>200</altitude>
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-red</visual_model>    
+    <visual_model>zephyr-red</visual_model>
   </entity>
 
   <!-- ========================== TEAM 2 ========================= -->
@@ -93,9 +93,9 @@
   <entity>
     <team_id>1</team_id>
     <count>20</count>
-    <autonomy sphere_of_influence="50">MotorSchemas</autonomy>    
-    
-    <color>255 0 0</color>    
+    <autonomy>MotorSchemas</autonomy>
+
+    <color>255 0 0</color>
     <health>1</health>
     <radius>1</radius>
 
@@ -110,15 +110,15 @@
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
-    
+
   </entity>
 
   <entity>
     <team_id>2</team_id>
     <count>20</count>
-    <autonomy sphere_of_influence="50">MotorSchemas</autonomy>    
-    
-    <color>255 0 0</color>    
+    <autonomy>MotorSchemas</autonomy>
+
+    <color>255 0 0</color>
     <health>1</health>
     <radius>2</radius>
 
@@ -134,7 +134,7 @@
     <altitude>200</altitude>
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-red</visual_model>    
+    <visual_model>zephyr-red</visual_model>
   </entity>
-  
+
 </runscript>

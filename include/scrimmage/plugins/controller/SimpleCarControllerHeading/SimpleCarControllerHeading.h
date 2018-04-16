@@ -49,6 +49,11 @@ class SimpleCarControllerHeading : public motion::SimpleCar::Controller {
  protected:
     Eigen::Vector2d u_;
     scrimmage::PID pid_;
+
+    int desired_alt_idx_ = -1;
+    int desired_speed_idx_ = -1;
+    int desired_heading_idx_ = -1;
+    bool using_vars_ = false;
 };
 } // namespace controller
 } // namespace scrimmage

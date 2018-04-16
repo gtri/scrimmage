@@ -158,6 +158,8 @@ bool Straight::step_autonomy(double t, double dt) {
             }
         } else if (kv.first == "NoisyContacts0") {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
+            shapes_.insert(shapes_.end(), kv.second->shapes().begin(), kv.second->shapes().end());
+            kv.second->shapes().clear();
         } else if (kv.first == "AirSimSensor0") {
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
             auto msg = kv.second->sense<std::vector<sc::sensor::AirSimSensorType>>(t);

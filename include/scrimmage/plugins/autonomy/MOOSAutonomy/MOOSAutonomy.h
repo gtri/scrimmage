@@ -64,6 +64,10 @@ class MOOSAutonomy : public scrimmage::Autonomy {
 
     scrimmage::Angles angles_to_moos_;
     scrimmage::Angles angles_from_moos_;
+
+    int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

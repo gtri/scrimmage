@@ -36,6 +36,8 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <iostream>
 #include <limits>
@@ -68,6 +70,11 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
             goal_ = sc::vec2eigen(goal_vec);
         }
     }
+
+    auto goal_callback = [&] (scrimmage::MessagePtr<Eigen::Vector3d> msg) {
+        goal_ = msg->data;
+    };
+    subscribe<Eigen::Vector3d>("LocalNetwork", "WaypointGoal", goal_callback);
 }
 
 bool MoveToGoalMS::step_autonomy(double t, double dt) {
@@ -78,6 +85,7 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
     // stop at goals
     if (desired_vector_.norm() > 1.0) {
         desired_vector_ = desired_vector_.normalized();
+    } else {
     }
     return true;
 }
