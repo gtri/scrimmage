@@ -36,6 +36,7 @@
 #include <scrimmage/metrics/Metrics.h>
 
 #include <iostream>
+#include <set>
 #include <map>
 #include <string>
 
@@ -120,6 +121,8 @@ class SimpleCaptureMetrics : public scrimmage::Metrics {
  protected:
     std::map<int, Score> scores_;
     std::map<int, Score> team_scores_map_;
+    bool initialized_ = false;
+    std::set<int> teams_;
 
     std::map<std::string, std::string> params_;
 };
