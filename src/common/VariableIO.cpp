@@ -107,6 +107,7 @@ double VariableIO::output(int i) {
 }
 
 void connect(VariableIO &output, VariableIO &input) {
+    output.output_variable_index() = input.input_variable_index();
     output.output_ = input.input_;
 }
 

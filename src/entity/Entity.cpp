@@ -259,8 +259,6 @@ bool Entity::init(AttributeMap &overrides,
         }
 
         connect(autonomy->vars(), controller_->vars());
-        autonomy->vars().output_variable_index() = controller_->vars().input_variable_index();
-
 
         autonomy->set_rtree(rtree);
         autonomy->set_parent(parent);
@@ -513,7 +511,6 @@ ControllerPtr Entity::init_controller(
     // The controller's variable indices should be the same as the motion
     // model's variable indices. This will speed up copying during the
     // simulation.
-    controller->vars().output_variable_index() = next_io.input_variable_index();
     connect(controller->vars(), next_io);
 
     controller->set_parent(shared_from_this());
