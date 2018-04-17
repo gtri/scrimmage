@@ -124,3 +124,7 @@ RUN pip install -e .
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
