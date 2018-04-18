@@ -90,7 +90,7 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
 
     // Subscribe to the StartAuction topic
     subscribe<auction::StartAuction>("CommsNetwork", "StartAuction",
-                                       start_auction_callback);
+                                     start_auction_callback);
 
     // Setup the lambda function to process the BidAuction messages
     auto bid_auction_callback = [&]

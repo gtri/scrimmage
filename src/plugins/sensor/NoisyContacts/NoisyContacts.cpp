@@ -32,6 +32,7 @@
 
 #include <scrimmage/common/ID.h>
 #include <scrimmage/common/Random.h>
+#include <scrimmage/common/RTree.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -46,8 +47,15 @@
 
 #include <vector>
 
+#include <boost/range/adaptor/filtered.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/algorithm/transform.hpp>
+#include <boost/range/irange.hpp>
+
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+namespace ba = boost::adaptors;
+namespace br = boost::range;
 
 REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::NoisyContacts, NoisyContacts_plugin)
 
@@ -61,38 +69,23 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
     az_thresh_ = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
     el_thresh_ = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
 
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "pos_noise_" + std::to_string(i);
+    auto make_rng = [&](auto tag_name) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
-        }
-    }
+        return status ?
+            parent_->random()->make_rng_normal(vec[0], vec[1]) :
+            parent_->random()->make_rng_normal(0, 1);
+    };
 
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "vel_noise_" + std::to_string(i);
-        std::vector<double> vec;
-        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            vel_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            vel_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
-        }
-    }
+    auto make_vec = [&](auto prefix, auto &vec) {
+        auto create_tag = [&](int i) {return prefix + std::to_string(i);};
+        auto tag_names = boost::irange(0, 3) | ba::transformed(create_tag);
+        br::transform(tag_names, std::back_inserter(vec), make_rng);
+    };
 
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "orient_noise_" + std::to_string(i);
-        std::vector<double> vec;
-        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
-        }
-    }
+    make_vec("pos_noise_", pos_noise_);
+    make_vec("vel_noise_", vel_noise_);
+    make_vec("pos_noise_", orient_noise_);
 
     return;
 }
@@ -100,41 +93,40 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
 scrimmage::MessageBasePtr NoisyContacts::sensor_msg(double t) {
     auto msg = std::make_shared<sc::Message<std::list<sc::Contact>>>();
 
-    for (auto &kv : *(parent_->contacts())) {
-        // Filter out (skip) own contact
-        if (kv.second.id().id() == parent_->id().id()) continue;
+    auto state = parent_->state();
+    auto contacts = parent_->contacts();
 
-        // Filter out contacts out of range, should use RTree, but rtree still
-        // requires querying of ID from contact lists. (TODO)
-        if ((kv.second.state()->pos() - parent_->state()->pos()).norm() >
-            max_detect_range_) {
-            continue;
-        }
+    auto in_fov = [&](const auto &id) {
+        return state->InFieldOfView(*contacts->at(id.id()).state(), az_thresh_, el_thresh_);
+    };
 
-        // Filter out contacts out of FOV
-        if (!parent_->state()->InFieldOfView(*(kv.second.state()), az_thresh_,
-                                            el_thresh_)) {
-            continue;
-        }
-
-        // Create noisy copy of contact
-        sc::Contact c;
-        c.set_id(kv.second.id());
+    auto create_noisy_contact = [&](const auto &id) {
+        sc::Contact &c = contacts->at(id.id());
+        sc::Contact noisy_c;
+        noisy_c.set_id(id);
 
         for (int i = 0; i < 3; i++) {
-            c.state()->pos()(i) = kv.second.state()->pos()(i) + (*pos_noise_[i])(*gener_);
-            c.state()->vel()(i) = kv.second.state()->vel()(i) + (*vel_noise_[i])(*gener_);
+            noisy_c.state()->pos()(i) = c.state()->pos()(i) + (*pos_noise_[i])(*gener_);
+            noisy_c.state()->vel()(i) = c.state()->vel()(i) + (*vel_noise_[i])(*gener_);
         }
 
         // TODO: Test this math.
         // add noise in roll, pitch, yaw order
-        c.state()->quat() = kv.second.state()->quat()
+        noisy_c.state()->quat() = c.state()->quat()
             * sc::Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener_))
             * sc::Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener_))
             * sc::Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener_));
 
-        msg->data.push_back(c);
-    }
+        return noisy_c;
+    };
+
+    std::vector<ID> neigh_in_range;
+    parent_->rtree()->neighbors_in_range(
+        state->pos(), neigh_in_range, max_detect_range_, parent_->id().id());
+
+    br::transform(neigh_in_range | ba::filtered(in_fov),
+                  std::inserter(msg->data, msg->data.end()),
+                  create_noisy_contact);
 
     return msg;
 }

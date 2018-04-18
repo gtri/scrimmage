@@ -46,7 +46,7 @@ void JSBSimModelControllerDirect::init(std::map<std::string, std::string> &param
     std::string z_name =  use_pitch_ ?  "pitch" : "altitude";
 
     input_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
-    input_bank_idx_ = vars_.declare("heading", VariableIO::Direction::In);
+    input_bank_idx_ = vars_.declare("bank", VariableIO::Direction::In);
     input_alt_or_pitch_idx_ = vars_.declare(z_name, VariableIO::Direction::In);
 
     output_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);

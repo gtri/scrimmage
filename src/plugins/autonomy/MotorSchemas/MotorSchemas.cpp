@@ -214,7 +214,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Draw sphere of influence:
     if (show_shapes_) {
         // Draw resultant vector:
-        sc::ShapePtr arrow(new scrimmage_proto::Shape);
+        auto arrow = std::make_shared<scrimmage_proto::Shape>();
         arrow->set_type(scrimmage_proto::Shape::Line);
         sc::set(arrow->mutable_color(), 255, 255, 0);
         arrow->set_opacity(0.75);

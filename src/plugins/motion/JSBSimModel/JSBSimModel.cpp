@@ -54,7 +54,6 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::JSBSimModel, JSBSimMo
 namespace scrimmage {
 namespace motion {
 
-namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
 std::tuple<int, int, int> JSBSimModel::version() {
@@ -73,7 +72,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
-    use_pitch_ = sc::str2bool(params.at("use_pitch"));
+    use_pitch_ = str2bool(params.at("use_pitch"));
     std::string z_name =  use_pitch_ ?  "pitch" : "altitude";
     vel_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
     bank_idx_ = vars_.declare("bank", VariableIO::Direction::In);
@@ -242,7 +241,7 @@ bool JSBSimModel::step(double time, double dt) {
     return true;
 }
 
-void JSBSimModel::teleport(sc::StatePtr &state) {
+void JSBSimModel::teleport(StatePtr &state) {
     double lat, lon, alt;
     parent_->projection()->Reverse(state->pos()(0),
                                    state->pos()(1),

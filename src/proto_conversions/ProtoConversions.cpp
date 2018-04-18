@@ -142,12 +142,12 @@ void add_point_color(std::shared_ptr<scrimmage_proto::Shape> s, const scrimmage:
     set(color, c);
 }
 
-void add_point_color(ShapePtr s, int r, int g, int b) {
+void add_point_color(scrimmage_proto::ShapePtr s, int r, int g, int b) {
     scrimmage_proto::Color *color = s->add_point_color();
     set(color, r, g, b);
 }
 
-void add_point_color(ShapePtr s, int grayscale) {
+void add_point_color(scrimmage_proto::ShapePtr s, int grayscale) {
     scrimmage_proto::Color *color = s->add_point_color();
     set(color, grayscale);
 }
@@ -177,9 +177,9 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     return std::make_shared<State>(state);
 }
 
-void path_to_lines(std::vector<Eigen::Vector3d> &path, scrimmage_proto::Shape &sample_line, std::list<ShapePtr> &shapes) {
+void path_to_lines(std::vector<Eigen::Vector3d> &path, scrimmage_proto::Shape &sample_line, std::list<scrimmage_proto::ShapePtr> &shapes) {
     for (size_t i = 0; i < path.size() - 1; i++) {
-        ShapePtr ln(new scrimmage_proto::Shape());
+        scrimmage_proto::ShapePtr ln(new scrimmage_proto::Shape());
         ln->CopyFrom(sample_line);
         add_point(ln, path[i]);
         add_point(ln, path[i + 1]);

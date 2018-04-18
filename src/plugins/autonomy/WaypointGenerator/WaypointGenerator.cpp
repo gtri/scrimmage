@@ -157,7 +157,7 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(),
                                        x, y, z);
 
-        sc::ShapePtr shape(new scrimmage_proto::Shape);
+        auto shape = std::make_shared<scrimmage_proto::Shape>();
         shape->set_type(scrimmage_proto::Shape::Sphere);
         shape->set_opacity(0.25);
         shape->set_radius(wp.position_tolerance());

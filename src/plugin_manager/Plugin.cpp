@@ -83,11 +83,4 @@ PublisherPtr Plugin::advertise(std::string network_name, std::string topic) {
                               shared_from_this());
 }
 
-void Plugin::run_callbacks() {
-    for (auto &sub : subs_) {
-        for (auto msg : sub->pop_msgs<MessageBase>()) {
-            sub->accept(msg);
-        }
-    }
-}
 } // namespace scrimmage

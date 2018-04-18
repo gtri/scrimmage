@@ -107,7 +107,7 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
     }
 
     // Draw the sphere of influence
-    sc::ShapePtr shape(new scrimmage_proto::Shape);
+    auto shape = std::make_shared<scrimmage_proto::Shape>();
     shape->set_type(scrimmage_proto::Shape::Circle);
     shape->set_opacity(0.2);
     shape->set_radius(sphere_of_influence_);

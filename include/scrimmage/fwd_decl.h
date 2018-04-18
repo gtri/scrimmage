@@ -43,7 +43,13 @@ class LocalCartesian;
 using LocalCartesianPtr = std::shared_ptr<LocalCartesian>;
 }
 
+namespace scrimmage_proto {
+class Shape;
+}
+
 namespace scrimmage {
+
+using ShapePtr = std::shared_ptr<scrimmage_proto::Shape>;
 
 class Autonomy;
 using AutonomyPtr = std::shared_ptr<Autonomy>;

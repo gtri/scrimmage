@@ -35,7 +35,6 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/pubsub/NetworkDevice.h>
 #include <scrimmage/common/CSV.h>
 
 #include <map>

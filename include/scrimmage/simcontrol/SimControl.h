@@ -53,8 +53,6 @@
 
 namespace scrimmage {
 
-typedef std::shared_ptr<scrimmage_proto::Shape> ShapePtr;
-
 typedef std::shared_ptr<scrimmage_proto::ContactVisual> ContactVisualPtr;
 
 enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
@@ -130,8 +128,8 @@ class SimControl {
  protected:
     // Key: Entity ID
     // Value: Team ID
-    std::shared_ptr<std::unordered_map<int, int> > id_to_team_map_;
-    std::shared_ptr<std::unordered_map<int, EntityPtr> > id_to_ent_map_;
+    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
 
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
@@ -144,7 +142,7 @@ class SimControl {
 
     ContactMapPtr contacts_;
 
-    std::map<int, std::list<ShapePtr> > shapes_;
+    std::map<int, std::list<scrimmage_proto::ShapePtr>> shapes_;
 
     std::map<int, ContactVisualPtr> contact_visuals_;
 

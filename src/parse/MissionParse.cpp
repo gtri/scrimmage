@@ -62,13 +62,13 @@ namespace rx = rapidxml;
 namespace scrimmage {
 
 bool MissionParse::parse(const std::string &filename) {
-    mission_filename_ = filename;
+    mission_filename_ = expand_user(filename);
 
     rapidxml::xml_document<> doc;
     std::ifstream file(mission_filename_.c_str());
 
     if (!file.is_open()) {
-        cout << "SCRIMMAGE mission file not found: " << filename << endl;
+        cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
         return false;
     }
 

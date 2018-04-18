@@ -44,17 +44,17 @@
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/sensor/Sensable.h>
+#include <scrimmage/simcontrol/SimUtils.h>
 
-#include <iomanip>
 #include <iostream>
+#include <iomanip>
 #include <memory>
 #include <algorithm>
 
 #include <boost/algorithm/cxx11/none_of.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/range/algorithm/copy.hpp>
-#include <boost/range/algorithm/set_algorithm.hpp>
-#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 
 using std::cout;
 using std::endl;
@@ -272,7 +272,7 @@ bool Entity::init(AttributeMap &overrides,
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
     }
 
-    auto verify_io = [&](auto &p) {return this->verify_io_connection(p->vars(), controller_->vars());};
+    auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controller_->vars());};
     if (boost::algorithm::none_of(autonomies_, verify_io)) {
         auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
         std::cout << "VariableIO Error: "
@@ -432,7 +432,10 @@ void Entity::setup_desired_state() {
 
     auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
         [&](auto autonomy) {return autonomy->get_is_controlling();});
-    controller_->set_desired_state((*it)->desired_state());
+
+    if (it != autonomies_.rend()) {
+        controller_->set_desired_state((*it)->desired_state());
+    }
 }
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
@@ -516,36 +519,4 @@ ControllerPtr Entity::init_controller(
     return controller;
 }
 
-bool Entity::verify_io_connection(
-        VariableIO &output, VariableIO &input) {
-    std::vector<std::string> mismatched_keys;
-    br::set_difference(
-        input.declared_input_variables(),
-        output.declared_output_variables(),
-        std::back_inserter(mismatched_keys));
-
-    return mismatched_keys.empty();
-}
-
-void Entity::print_io_error(const std::string &in_name, const std::string &out_name, VariableIO &v) {
-    auto keys = v.input_variable_index() | ba::map_keys;
-    std::cout << "First, place the following in its initializer: " << std::endl;
-    for (const std::string &key : keys) {
-        std::cout << "    " << key << "_idx_ = vars_.declare("
-            << std::quoted(key) << ", VariableIO::Direction::Out);"
-            << std::endl;
-    }
-
-    std::cout << "Second, place the following in its step function: " << std::endl;
-    for (const std::string &key : keys) {
-        std::cout << "    vars_.output(" << key << "_idx_, value_to_output);" << std::endl;
-    }
-    std::cout << "where value_to_output is what you want " << in_name
-        << " to receive as its input." << std::endl;
-
-    std::cout << "Third, place following in the class declaration: " << std::endl;
-    for (const std::string &key : keys) {
-        std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
-    }
-}
 } // namespace scrimmage

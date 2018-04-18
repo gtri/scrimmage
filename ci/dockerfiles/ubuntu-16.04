@@ -109,14 +109,17 @@ RUN mkdir -p /root/catkin_ws/src
 WORKDIR /root/catkin_ws/src
 RUN git clone https://github.com/ros-planning/navigation_msgs
 RUN git clone https://github.com/SyllogismRXS/scrimmage_ros.git
+WORKDIR /root/catkin_ws/src/scrimmage_ros
+RUN git checkout ros_int origin/ros_int
 WORKDIR /root/catkin_ws
 RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
     source /opt/scrimmage/setup.sh && \
     catkin_make && \
     source devel/setup.bash && \
     source ~/.scrimmage/setup.bash && \
-    catkin_make run_tests && \
-    catkin_test_results"
+    cd build && \
+    make tests && \
+    make test"
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python

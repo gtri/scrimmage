@@ -63,6 +63,7 @@ class External {
  public:
     External();
     EntityPtr &entity();
+    void setup_logging();
     bool create_entity(int max_entities, int entity_id,
                        const std::string &entity_name);
 
@@ -80,13 +81,20 @@ class External {
         return true;
     }
 
+    bool create_interactions();
+
     double min_motion_dt = 1;
+    VariableIO vars;
     std::mutex mutex;
     DelayedTask update_contacts_task;
+    std::function<void(std::list<EntityPtr>&)> adjust_ents_func;
     MissionParsePtr mp();
 
  protected:
     EntityPtr entity_;
+    std::list<EntityInteractionPtr> ent_inters_;
+    std::list<MetricsPtr> metrics_;
+
     PluginManagerPtr plugin_manager_;
     std::shared_ptr<Log> log_;
     double last_t_;
@@ -147,7 +155,6 @@ class External {
                     call_update_contacts(ros::Time::now().toSec());
                     mutex.lock();
                     auto sc_msg = std::make_shared<Message<ScType>>(ros2sc(*ros_msg));
-                    sub->add_msg(sc_msg);
                     sub->accept(sc_msg);
                     send_messages();
                     mutex.unlock();
@@ -158,7 +165,7 @@ class External {
         std::cout << "Failed to create ROS to SCRIMMAGE subscriber (callback) " << std::endl;
         std::cout << "Network name: " << network_name << std::endl;
         std::cout << "Topic name: " << topic_name << std::endl;
-        return [=](const boost::shared_ptr<RosType const>&ros_msg) { };
+        return [=](const boost::shared_ptr<RosType const>&/*ros_msg*/) { };
     }
 
     template <class RosType, class ScrimmageResponseType,
@@ -295,6 +302,7 @@ class External {
     void update_time(double t);
 };
 
+std::list<EntityPtr> contacts_to_ents(ContactMapPtr contacts);
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_

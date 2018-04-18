@@ -65,15 +65,15 @@ class PubSub {
 
     void add_network_name(const std::string &str);
 
-    boost::optional<std::list<NetworkDevicePtr>> find_devices(std::string &network_name,
-                                                                std::string &topic_name,
-                                                                TopicMap &devs);
+    boost::optional<std::list<NetworkDevicePtr>> find_devices(const std::string &network_name,
+                                                              const std::string &topic_name,
+                                                              TopicMap &devs);
 
-    boost::optional<std::list<NetworkDevicePtr>> find_pubs(std::string &network_name,
-                                                             std::string &topic_name);
+    boost::optional<std::list<NetworkDevicePtr>> find_pubs(const std::string &network_name,
+                                                           const std::string &topic_name);
 
-    boost::optional<std::list<NetworkDevicePtr>> find_subs(std::string &network_name,
-                                                             std::string &topic_name);
+    boost::optional<std::list<NetworkDevicePtr>> find_subs(const std::string &network_name,
+                                                           const std::string &topic_name);
 
     template <class T, class CallbackFunc>
     SubscriberBasePtr subscribe(const std::string &network_name,

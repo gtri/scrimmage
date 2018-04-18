@@ -25,6 +25,7 @@ set(SRCS
     pubsub/NetworkDevice.cpp pubsub/Publisher.cpp pubsub/PubSub.cpp
     sensor/Sensor.cpp
     simcontrol/SimControl.cpp
+    simcontrol/SimUtils.cpp
     common/DelayedTask.cpp
     common/ExponentialFilter.cpp
 )
