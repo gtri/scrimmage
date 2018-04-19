@@ -41,6 +41,7 @@
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
+#include <scrimmage/plugins/interaction/Boundary/Sphere.h>
 
 #include <memory>
 #include <limits>
@@ -95,17 +96,40 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
         std::shared_ptr<Cuboid> c = std::make_shared<Cuboid>();
         c->set_points(points);
         boundary_ = c;
+    } else if (boundary_type == "sphere") {
+        boundary_info_.type = BoundaryInfo::Type::Sphere;
+        boundary_info_.radius = sc::get<double>("sphere_radius", plugin_params, 10);
+
+        std::vector<double> center;
+        if (!sc::get_vec<double>("sphere_center", plugin_params, " ,", center, 3)) {
+            std::cout << "Failed to parse 'sphere_center'" << endl;
+            return false;
+        }
+        boundary_info_.center = sc::vec2eigen(center);
+
+        std::shared_ptr<Sphere> s = std::make_shared<Sphere>();
+        s->set_radius(boundary_info_.radius);
+        s->set_center(boundary_info_.center);
+        boundary_ = s;
     } else {
         cout << "Invalid boundary_type: " << boundary_type << endl;
         return false;
     }
 
+    // Parse boundary name
+    boundary_info_.name = sc::get<std::string>("name", plugin_params, "no_name");
+
+    // Parse boundary ID
+    boundary_info_.id = sc::ID(sc::get<int>("id", plugin_params, 0),
+                               0,
+                               sc::get<int>("team_id", plugin_params, 0));
+
     if (sc::get<bool>("show_boundary", plugin_params, false)) {
-        double opacity = sc::get<double>("boundary_opacity", plugin_params,
+        double opacity = sc::get<double>("opacity", plugin_params,
                                          1.0);
         std::vector<int> color;
-        if (!sc::get_vec("boundary_color", plugin_params, " ", color, 3)) {
-            cout << "Failed to parse boundary_color" << endl;
+        if (!sc::get_vec("color", plugin_params, " ", color, 3)) {
+            cout << "Failed to parse color" << endl;
             color.clear();
             color = {255, 0, 0};
         }

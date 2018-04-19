@@ -30,34 +30,37 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_
 
-#include <Eigen/Dense>
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/entity/Entity.h>
 
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+
+#include <map>
+#include <list>
 #include <string>
-#include <vector>
+#include <set>
 
 namespace sc = scrimmage;
+namespace sci = scrimmage::interaction;
 
 namespace scrimmage {
 namespace interaction {
 
-class BoundaryInfo {
+class EnforceBoundaryInteraction : public scrimmage::EntityInteraction {
  public:
-    enum class Type { Cuboid, Sphere };
-
-    BoundaryInfo() : type(Type::Cuboid), radius(100), center(0, 0, 0),
-        name(std::string("none")) {
-    }
-
-    Type type;
-    double radius;
-    Eigen::Vector3d center;
-    std::vector<Eigen::Vector3d> points;
-    std::string name;
-    scrimmage::ID id;
+    EnforceBoundaryInteraction();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params);
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                 double t, double dt);
+ protected:
+    std::list<std::shared_ptr<sci::BoundaryBase>> boundaries_;
+    std::set<int> active_boundary_ids_;
+ private:
 };
 } // namespace interaction
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_

@@ -100,7 +100,7 @@ std::vector<T> str2vec(const std::string &str, const std::string &delims) {
 
 template <typename T>
 bool str2vec(const std::string &str, const std::string &delims,
-             std::vector<T> &vec, unsigned int size) {
+             std::vector<T> &vec, int size = -1) {
     std::vector<T> tmp_vec;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
@@ -111,7 +111,7 @@ bool str2vec(const std::string &str, const std::string &delims,
         }
     }
 
-    if (size != tmp_vec.size()) {
+    if (size >= 0 && (unsigned int)size != tmp_vec.size()) {
         return false;
     } else {
         // Only modify vec if it was a valid conversion
@@ -125,7 +125,7 @@ bool get_vec(const std::string &str,
              const std::map<std::string, std::string> &params,
              const std::string &delims,
              std::vector<T> &vec,
-             unsigned int size) {
+             int size = -1) {
     auto it = params.find(str);
     return it == params.end() ? false : str2vec<T>(it->second, delims, vec, size);
 }

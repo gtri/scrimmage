@@ -26,8 +26,6 @@
   <output_type>all</output_type>
   <show_plugins>false</show_plugins>
 
-  <metrics>SimpleCollisionMetrics</metrics>
-
   <log_dir>~/.scrimmage/logs</log_dir>
   <create_latest_dir>true</create_latest_dir>
 
@@ -37,6 +35,9 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
 
+  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
+
+  <!-- Blue Side (Team 1) is on the positive X side -->
   <entity_interaction name="blue_boundary"
                       cuboid_boundary="[   0 -500 0   ]
                                        [ 500 -500 0   ]
@@ -46,9 +47,22 @@
                                        [ 500 -500 500 ]
                                        [ 500  500 500 ]
                                        [   0  500 500 ]"
-                      boundary_color="0 0 255"
+                      color="0 0 255"
+                      id="1"
+                      team_id="1"
                       >Boundary</entity_interaction>
 
+  <entity_interaction name="blue_flag"
+                      id="2"
+                      team_id="1"
+                      boundary_type="sphere"
+                      sphere_radius="5"
+                      sphere_center="450, 0, 200"
+                      color="0 0 255"
+                      opacity="0.5"
+                      >Boundary</entity_interaction>
+
+  <!-- Red Side (Team 2) is on the negative X side -->
   <entity_interaction name="red_boundary"
                       cuboid_boundary="[   0  500 0   ]
                                        [-500  500 0   ]
@@ -58,20 +72,43 @@
                                        [-500  500 500 ]
                                        [-500 -500 500 ]
                                        [   0 -500 500 ]"
-                      boundary_color="255 0 0"
+                      color="255 0 0"
+                      id="3"
+                      team_id="2"
                       >Boundary</entity_interaction>
 
-  <entity_interaction>GroundCollision</entity_interaction>
-  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
+  <entity_interaction name="red_flag"
+                      id="4"
+                      team_id="2"
+                      boundary_type="sphere"
+                      sphere_radius="5"
+                      sphere_center="-450, 0, 200"
+                      color="255 0 0"
+                      opacity="0.5"
+                      >Boundary</entity_interaction>
 
+  <entity_interaction active_boundary_ids="1, 3">EnforceBoundaryInteraction</entity_interaction>
+  
+  <entity_interaction name="BlueCaptureBoundary" boundary_id="1" capture_range="5">CaptureInBoundaryInteraction</entity_interaction>
+  <entity_interaction name="RedCaptureBoundary"  boundary_id="3" capture_range="5">CaptureInBoundaryInteraction</entity_interaction>
+
+  <entity_interaction name="BlueFlagCapture" flag_boundary_id="2" capture_boundary_id="3">FlagCaptureInteraction</entity_interaction>
+  <entity_interaction name="RedFlagCapture" flag_boundary_id="4" capture_boundary_id="1">FlagCaptureInteraction</entity_interaction>  
+  
+  <entity_interaction collision_range="2">SimpleCollision</entity_interaction>
+
+  <metrics team_collisions_w="0" non_team_collisions_w="0" flight_time_w="0">SimpleCollisionMetrics</metrics>
+  <metrics TeamCapture_weight="0" NonTeamCapture_weight="0">SimpleCaptureMetrics</metrics>  
+  <metrics flags_taken_w="100" flags_captured_w="0">FlagCaptureMetrics</metrics>  
+  
   <network>GlobalNetwork</network>
   <network>LocalNetwork</network>
   <network name="comms">SphereNetwork</network>
 
   <!-- uncomment "seed" and use integer for deterministic results -->
-  <!-- <seed>2147483648</seed> -->
+  <seed>1107101826</seed>
 
-  <!-- ========================== TEAM 1 ========================= -->
+  <!-- ====================== Blue Team (Team 1) ========================= -->
   <entity>
     <name>uav_entity</name>
     <team_id>1</team_id>
@@ -84,10 +121,10 @@
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
 
-    <x>-900</x>
+    <x>200</x>
     <y>0</y>
-    <z>195</z>
-    <heading>0</heading>
+    <z>200</z>
+    <heading>180</heading>
 
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
@@ -97,6 +134,7 @@
 
   </entity>
 
+  <!-- ====================== Red Team (Team 2) ========================= -->
   <entity>
     <team_id>2</team_id>
     <color>255 0 0</color>
@@ -108,11 +146,11 @@
     <variance_y>20</variance_y>
     <variance_z>20</variance_z>
 
-    <x>50</x>
+    <x>-400</x>
     <y>0</y>
     <z>200</z>
 
-    <heading>180</heading>
+    <heading>0</heading>
     <altitude>200</altitude>
 
     <controller>SimpleAircraftControllerPID</controller>

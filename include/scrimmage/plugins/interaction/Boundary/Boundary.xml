@@ -39,7 +39,10 @@
   <sphere_center>0 0 0</sphere_center> <!-- x y z position -->
 
   <show_boundary>true</show_boundary>
-  <boundary_color>0 0 255</boundary_color> <!-- R G B -->
-  <boundary_opacity>0.1</boundary_opacity>
+  <color>0 0 255</color> <!-- R G B -->
+  <opacity>0.1</opacity>
+
+  <id>0</id>
+  <team_id>0</team_id>
   
 </params>

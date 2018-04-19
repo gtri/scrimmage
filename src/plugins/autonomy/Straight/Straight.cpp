@@ -130,9 +130,11 @@ void Straight::init(std::map<std::string, std::string> &params) {
                                                     params, false);
 
     auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
-        std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-        cuboid->set_points(msg->data.points);
-        boundary_ = cuboid;
+        if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
+            std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
+            cuboid->set_points(msg->data.points);
+            boundary_ = cuboid;
+        }
     };
     subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
 

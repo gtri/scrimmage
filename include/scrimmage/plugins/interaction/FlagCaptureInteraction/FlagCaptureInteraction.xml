@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>FlagCaptureInteraction_plugin</library>
+
+  <!-- The flag_boundary_id is the ID of the boundary that initially contains
+       the flag -->
+  <flag_boundary_id>2</flag_boundary_id>
+
+  <!-- The capture_boundary_id is the ID of the boundary that the flag should
+       be carried to after the flag has been "taken" -->
+  <capture_boundary_id>1</capture_boundary_id>
+  
+</params>

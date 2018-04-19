@@ -30,34 +30,51 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_SPHERE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_SPHERE_H_
+
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <Eigen/Dense>
 
-#include <string>
+#include <iostream>
 #include <vector>
 
-namespace sc = scrimmage;
+using std::cout;
+using std::endl;
 
 namespace scrimmage {
 namespace interaction {
 
-class BoundaryInfo {
+class Sphere : public BoundaryBase {
  public:
-    enum class Type { Cuboid, Sphere };
-
-    BoundaryInfo() : type(Type::Cuboid), radius(100), center(0, 0, 0),
-        name(std::string("none")) {
+    Sphere() : radius_(1.0) {
     }
 
-    Type type;
-    double radius;
-    Eigen::Vector3d center;
-    std::vector<Eigen::Vector3d> points;
-    std::string name;
-    scrimmage::ID id;
+    void set_radius(const double &radius) { radius_ = radius; }
+    void set_center(const Eigen::Vector3d &center) { center_ = center; }
+
+    double radius() { return radius_; }
+    Eigen::Vector3d center() const { return center_; }
+
+    virtual bool contains(Eigen::Vector3d p) {
+        return (p-center_).norm() < radius_;
+    }
+
+    void set_visual(int R, int G, int B, double opacity) {
+        sc::ShapePtr shape(new sp::Shape);
+        shape->set_type(sp::Shape::Sphere);
+        shape->set_opacity(opacity);
+        sc::set(shape->mutable_color(), R, G, B);
+        shape->set_persistent(true);
+        sc::set(shape->mutable_center(), center_);
+        shape->set_radius(radius_);
+        shapes_.push_back(shape);
+    }
+
+ protected:
+    double radius_;
 };
 } // namespace interaction
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_SPHERE_H_
