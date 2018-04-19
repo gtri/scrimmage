@@ -37,6 +37,7 @@
 #include "SimpleCollisionScore.h"
 
 #include <map>
+#include <set>
 #include <string>
 
 namespace scrimmage {
@@ -57,7 +58,9 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
     std::map<int, bool> surviving_teams_;
 
     std::map<std::string, std::string> params_;
+    bool initialized_ = false;
+    std::set<int> teams_;
 };
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
