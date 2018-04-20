@@ -171,12 +171,18 @@ PluginPtr PluginManager::make_plugin(
         ConfigParse &config_parse,
         std::map<std::string, std::string> &overrides) {
 
+    std::string plugin_name = plugin_name_xml;
+    auto it_orig_plugin_name = overrides.find("ORIGINAL_PLUGIN_NAME");
+    if (it_orig_plugin_name != overrides.end()) {
+        plugin_name = it_orig_plugin_name->second;
+    }
+
     config_parse.set_required("library");
-    if (!config_parse.parse(overrides, plugin_name_xml, "SCRIMMAGE_PLUGIN_PATH", file_search)) {
-        std::cout << "Failed to parse: " << plugin_name_xml << ".xml for type " << plugin_type << std::endl;
+    if (!config_parse.parse(overrides, plugin_name, "SCRIMMAGE_PLUGIN_PATH", file_search)) {
+        std::cout << "Failed to parse: " << plugin_name << ".xml for type " << plugin_type << std::endl;
         std::cout << "Check that you have sourced ~/.scrimmage/setup.bash "
             << "(this sets the environment variable SCRIMMAGE_PLUGIN_PATH to a directory including "
-            << plugin_name_xml << ".xml)" << std::endl;
+            << plugin_name << ".xml)" << std::endl;
         return nullptr;
     }
 

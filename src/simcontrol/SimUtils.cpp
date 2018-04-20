@@ -34,6 +34,7 @@
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/simcontrol/SimUtils.h>
@@ -58,6 +59,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =
             info.mp->attributes()[ent_inter_name];
+
         EntityInteractionPtr ent_inter =
             std::dynamic_pointer_cast<EntityInteraction>(
                 info.plugin_manager->make_plugin(
@@ -71,6 +73,11 @@ bool create_ent_inters(const SimUtilsInfo &info,
             return false;
         }
 
+        // If the name was overridden, use the override.
+        std::string name = get<std::string>("name", config_parse.params(),
+                                            ent_inter_name);
+
+        ent_inter->set_name(name);
         ent_inter->set_random(random);
         ent_inter->set_mission_parse(info.mp);
         ent_inter->set_projection(info.mp->projection());
@@ -78,7 +85,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
         ent_inter->set_time(info.time);
         ent_inter->set_id_to_team_map(info.id_to_team_map);
         ent_inter->set_id_to_ent_map(info.id_to_ent_map);
-        ent_inter->set_name(ent_inter_name);
+
         ent_inter->init(info.mp->params(), config_parse.params());
         ent_inter->parent()->rtree() = info.rtree;
 
