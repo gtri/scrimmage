@@ -40,6 +40,10 @@
 #include <list>
 #include <string>
 
+namespace boost {
+template <class T> class optional;
+}
+
 namespace scrimmage {
 
 struct SimUtilsInfo {
@@ -66,6 +70,11 @@ void print_io_error(const std::string &in_name, const std::string &out_name, Var
 
 bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
 
+boost::optional<std::string> run_test(std::string mission);
+
+bool check_output(std::string output_type, std::string desired_output);
+
+std::shared_ptr<Log> setup_logging(MissionParsePtr mp);
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_

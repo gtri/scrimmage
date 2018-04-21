@@ -38,6 +38,7 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/simcontrol/SimControl.h>
+#include <scrimmage/simcontrol/SimUtils.h>
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/metrics/Metrics.h>
 
@@ -156,15 +157,7 @@ int main(int argc, char *argv[]) {
         mp->create_log_dir();
     }
 
-    // Setup Logger
-    std::shared_ptr<sc::Log> log(new sc::Log());
-    if (output_frames) {
-        log->set_enable_log(true);
-        log->init(mp->log_dir(), sc::Log::WRITE);
-    } else {
-        log->set_enable_log(false);
-        log->init(mp->log_dir(), sc::Log::NONE);
-    }
+    auto log = sc::setup_logging(mp);
 
     // Overwrite the seed if it's set
     if (seed_set) {
@@ -218,99 +211,10 @@ int main(int argc, char *argv[]) {
 #if ENABLE_PYTHON_BINDINGS == 1
     Py_Finalize();
 #endif
-
-    // runtime
-    std::ofstream runtime_file(mp->log_dir() + "/runtime_seconds.txt");
-    double t = simcontrol.timer().elapsed_time().total_milliseconds() / 1000.0;
-    double sim_t = simcontrol.t();
-    runtime_file << "wall: " << t << std::endl;
-    runtime_file << "sim: " << sim_t << std::endl;
-    runtime_file.close();
+    simcontrol.output_runtime();
 
     // summary
-    if (output_summary) {
-        std::map<int, double> team_scores;
-        std::map<int, std::map<std::string, double>> team_metrics;
-        std::list<std::string> headers;
-
-        // Loop through each of the metrics plugins.
-        for (sc::MetricsPtr metrics : simcontrol.metrics()) {
-            cout << sc::generate_chars("=", 80) << endl;
-            cout << metrics->name() << endl;
-            cout << sc::generate_chars("=", 80) << endl;
-            metrics->calc_team_scores();
-            metrics->print_team_summaries();
-
-            // Add all elements from individual metrics plugin to overall
-            // metrics data structure
-            for (auto const &team_str_double : metrics->team_metrics()) {
-                team_metrics[team_str_double.first].insert(team_str_double.second.begin(),
-                                                           team_str_double.second.end());
-            }
-
-            // Calculate aggregated team scores:
-            for (auto const &team_score : metrics->team_scores()) {
-                if (team_scores.count(team_score.first) == 0) {
-                    team_scores[team_score.first] = 0;
-                }
-                team_scores[team_score.first] += team_score.second;
-            }
-
-            // Create list of all csv headers
-            headers.insert(headers.end(), metrics->headers().begin(),
-                           metrics->headers().end());
-        }
-
-        // Create headers string
-        std::string csv_str = "team_id,score";
-        for (std::string header : headers) {
-            csv_str += "," + header;
-        }
-        csv_str += "\n";
-
-        // Loop over each team and generate csv output
-        for (auto const &team_str_double : team_metrics) {
-
-            // Each line starts with team_id,score
-            csv_str += std::to_string(team_str_double.first);
-            csv_str += "," + std::to_string(team_scores[team_str_double.first]);
-
-            // Loop over all possible headers, if the header doesn't exist for
-            // a specific team, default the value for that header to zero.
-            for (std::string header : headers) {
-                csv_str += ",";
-
-                auto it = team_str_double.second.find(header);
-                if (it != team_str_double.second.end()) {
-                    csv_str += std::to_string(it->second);
-                } else {
-                    csv_str += std::to_string(0.0);
-                }
-            }
-            csv_str += "\n";
-        }
-
-        // Write CSV string to file
-        std::string out_file = mp->log_dir() + "/summary.csv";
-        std::ofstream summary_file(out_file);
-        if (!summary_file.is_open()) {
-            std::cout << "could not open " << out_file
-                      << " for writing metrics" << std::endl;
-            return -1;
-        }
-        summary_file << csv_str << std::flush;
-        summary_file.close();
-
-        // Print Overall Scores
-        cout << sc::generate_chars("=", 80) << endl;
-        cout << "Overall Scores" << endl;
-        cout << sc::generate_chars("=", 80) << endl;
-        for (auto const &team_score : team_scores) {
-            cout << "Team ID: " << team_score.first << endl;
-            cout << "Score: " << team_score.second << endl;
-            cout << sc::generate_chars("-", 80) << endl;
-        }
-    }
+    if (output_summary && !simcontrol.output_summary()) return -1;
 
     if (output_git) {
         std::map<std::string, std::unordered_set<std::string>> commits =
