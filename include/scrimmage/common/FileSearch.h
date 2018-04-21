@@ -38,11 +38,25 @@
 #include <memory>
 #include <string>
 
+namespace boost {
+template <class T> class optional;
+}
+
 namespace scrimmage {
 
 class FileSearch {
  public:
     void clear();
+
+    /*! \brief finds a mission file
+     *
+     * The search path is:
+     *  * SCRIMMAGE_MISSION_PATH environment variable
+     *  * /usr/share
+     *  * /usr/local/share
+     */
+    boost::optional<std::string> find_mission(std::string mission, bool verbose = false);
+
     bool find_file(const std::string &filename, std::string ext,
         const std::string &env_var, std::string &result, bool verbose = false);
     void find_files(std::string env_var, const std::string &ext,
