@@ -73,9 +73,9 @@ External::External() :
     last_t_(NAN),
     pubsub_(std::make_shared<PubSub>()),
     time_(std::make_shared<Time>()),
-    mp_(std::make_shared<MissionParse>()) {
-}
-
+    mp_(std::make_shared<MissionParse>()),
+    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
+    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()) {}
 
 bool External::create_entity(int max_entities, int entity_id,
                              const std::string &entity_name) {
@@ -102,6 +102,8 @@ bool External::create_entity(int max_entities, int entity_id,
     }
 
     // Load the network names (don't need to load the network plugins)
+    pubsub_->pubs().clear();
+    pubsub_->subs().clear();
     for (std::string network_name : mp_->network_names()) {
         // Seed the pubsub with network names
         std::string aliased_name = network_name;
@@ -155,8 +157,6 @@ bool External::create_entity(int max_entities, int entity_id,
         return false;
     }
 
-    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map {};
-    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map {};
     std::list<scrimmage_proto::ShapePtr> shapes;
 
     SimUtilsInfo sim_info;
@@ -166,8 +166,8 @@ bool External::create_entity(int max_entities, int entity_id,
     sim_info.rtree = rtree;
     sim_info.pubsub = pubsub_;
     sim_info.time = time_;
-    sim_info.id_to_team_map = id_to_team_map;
-    sim_info.id_to_ent_map = id_to_ent_map;
+    sim_info.id_to_team_map = id_to_team_map_;
+    sim_info.id_to_ent_map = id_to_ent_map_;
 
     metrics_.clear();
     if (!create_metrics(sim_info, metrics_)) {
@@ -226,12 +226,9 @@ bool External::step(double t) {
     }
 
     if (!ent_inters_.empty()) {
-        auto ents = contacts_to_ents(entity_->contacts());
-        if (adjust_ents_func) {
-            adjust_ents_func(ents);
-        }
+        update_ents();
         for (EntityInteractionPtr ent_inter : ent_inters_) {
-            ent_inter->step_entity_interaction(ents, t, dt);
+            ent_inter->step_entity_interaction(ents_, t, dt);
         }
     }
 
@@ -277,7 +274,6 @@ void External::send_messages() {
                             ba::transformed(to_publisher) |
                             ba::filtered(has_callback)) {
                 for (auto msg : pub->pop_msgs()) {
-                    std::cout << "sending message on topic " << pub->get_topic() << std::endl;
                     pub->callback(msg);
                 }
             }
@@ -294,6 +290,7 @@ void External::call_update_contacts(double t) {
         for (auto &kv : *entity_->contacts()) {
             rtree->add(kv.second.state()->pos(), kv.second.id());
         }
+        update_ents();
     }
     mutex.unlock();
 }
@@ -302,15 +299,25 @@ MissionParsePtr External::mp() {
     return mp_;
 }
 
-std::list<EntityPtr> contacts_to_ents(ContactMapPtr contacts) {
-    std::list<EntityPtr> ents;
+void External::update_ents() {
+    if (ent_inters_.empty() && !metrics_.empty()) return;
 
-    for (auto &kv : *contacts) {
+    auto &contacts = *entity_->contacts();
+
+    id_to_team_map_->clear();
+    id_to_ent_map_->clear();
+    ents_.clear();
+    for (auto &kv : contacts) {
+        ID &id = kv.second.id();
+        (*id_to_team_map_)[id.id()] = id.team_id();
+
         auto ent = std::make_shared<Entity>();
-        ent->id() = kv.second.id();
+        ent->id() = id;
         ent->state() = kv.second.state();
-        ents.push_back(ent);
+        ents_.push_back(ent);
+
+        (*id_to_ent_map_)[id.id()] = ent;
     }
-    return ents;
 }
+
 } // namespace scrimmage

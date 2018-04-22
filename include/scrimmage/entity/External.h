@@ -87,10 +87,11 @@ class External {
     VariableIO vars;
     std::mutex mutex;
     DelayedTask update_contacts_task;
-    std::function<void(std::list<EntityPtr>&)> adjust_ents_func;
     MissionParsePtr mp();
+    void send_messages();
 
  protected:
+    void update_ents();
     EntityPtr entity_;
     std::list<EntityInteractionPtr> ent_inters_;
     std::list<MetricsPtr> metrics_;
@@ -101,6 +102,10 @@ class External {
     PubSubPtr pubsub_;
     TimePtr time_;
     MissionParsePtr mp_;
+
+    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
+    std::list<EntityPtr> ents_;
 
  public:
     bool step(double t);
@@ -298,11 +303,9 @@ class External {
 
  protected:
     void call_update_contacts(double t);
-    void send_messages();
     void update_time(double t);
 };
 
-std::list<EntityPtr> contacts_to_ents(ContactMapPtr contacts);
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
