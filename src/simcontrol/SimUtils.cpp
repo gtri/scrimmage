@@ -30,13 +30,17 @@
  *
  */
 
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
 #include <iostream>
@@ -169,4 +173,72 @@ void print_io_error(const std::string &in_name, const std::string &out_name, Var
         std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
     }
 }
+
+boost::optional<std::string> run_test(std::string mission) {
+    auto found_mission = FileSearch().find_mission(mission);
+    if (!found_mission) {
+        std::cout << "scrimmage::run_test could not find " << mission << std::endl;
+        return boost::none;
+    }
+
+    auto mp = std::make_shared<MissionParse>();
+    if (!mp->parse(*found_mission)) {
+        std::cout << "scrimmage::run_test failed to parse " << mission << std::endl;
+        return boost::none;
+    }
+
+    mp->create_log_dir();
+    auto log = setup_logging(mp);
+    SimControl simcontrol;
+    simcontrol.set_log(log);
+
+    auto to_gui_interface = std::make_shared<Interface>();
+    auto from_gui_interface = std::make_shared<Interface>();
+    to_gui_interface->set_log(log);
+    from_gui_interface->set_log(log);
+    simcontrol.set_incoming_interface(from_gui_interface);
+    simcontrol.set_outgoing_interface(to_gui_interface);
+
+    mp->set_enable_gui(false);
+    mp->set_time_warp(0);
+    simcontrol.set_mission_parse(mp);
+    if (!simcontrol.init()) {
+        std::cout << "scrimmage::run_test call to SimControl::init() failed." << std::endl;
+        return boost::none;
+    }
+
+    simcontrol.pause(false);
+    simcontrol.run();
+
+    if (!simcontrol.output_runtime()) {
+        std::cout << "could not output runtime" << std::endl;
+        return boost::none;
+    }
+
+    if (!simcontrol.output_summary()) {
+        std::cout << "could not output summary" << std::endl;
+        return boost::none;
+    }
+
+    return mp->log_dir();
+}
+
+bool check_output(std::string output_type, std::string desired_output) {
+    return output_type.find("all") != std::string::npos ||
+           output_type.find(desired_output) != std::string::npos;
+}
+
+std::shared_ptr<Log> setup_logging(MissionParsePtr mp) {
+    std::string output_type = get("output_type", mp->params(), std::string("frames"));
+    auto log = std::make_shared<Log>();
+    if (check_output(output_type, "frames")) {
+        log->set_enable_log(true);
+        log->init(mp->log_dir(), Log::WRITE);
+    } else {
+        log->set_enable_log(false);
+        log->init(mp->log_dir(), Log::NONE);
+    }
+    return log;
+}
+
 } // namespace scrimmage

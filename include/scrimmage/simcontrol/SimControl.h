@@ -33,7 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 
+#include <Eigen/Dense>
+
 #include <scrimmage/fwd_decl.h>
+
 #include <scrimmage/common/Timer.h>
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/FileSearch.h>
@@ -90,6 +93,8 @@ class SimControl {
     void set_time(double t);
     double t();
 
+    bool output_summary();
+    bool output_runtime();
     void setup_timer(double rate, double time_warp);
     void start_overall_timer();
     void start_loop_timer();

@@ -821,4 +821,8 @@ std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain()
 std::string MissionParse::get_mission_filename() {
     return mission_filename_;
 }
+
+void MissionParse::set_enable_gui(bool enable) {enable_gui_ = enable;}
+
+void MissionParse::set_time_warp(double warp) {time_warp_ = warp;}
 } // namespace scrimmage
