@@ -30,35 +30,38 @@
  *
  */
 
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
 
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleCarControllerHeading, SimpleCarControllerHeading_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-namespace sc = scrimmage;
-
 void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params) {
-    double p_gain = sc::get<double>("p_gain", params, 1);
-    double i_gain = sc::get<double>("i_gain", params, 1);
-    double d_gain = sc::get<double>("d_gain", params, 1);
-    double i_lim = sc::get<double>("i_lim", params, 1);
+    double p_gain = get<double>("p_gain", params, 1);
+    double i_gain = get<double>("i_gain", params, 1);
+    double d_gain = get<double>("d_gain", params, 1);
+    double i_lim = get<double>("i_lim", params, 1);
     pid_.set_parameters(p_gain, i_gain, d_gain);
     pid_.set_integral_band(i_lim);
     pid_.set_is_angle(true);
 
     input_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
     input_heading_idx_ = vars_.declare("heading", VariableIO::Direction::In);
+
+    output_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    output_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
 }
 
 bool SimpleCarControllerHeading::step(double t, double dt) {
-    u_(0) = vars_.input(input_vel_idx_);
+    vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));
     pid_.set_setpoint(vars_.input(input_heading_idx_));
-    u_(1) = pid_.step(dt, state_->quat().yaw());
+    const double turn_rate = pid_.step(dt, state_->quat().yaw());
+    vars_.output(output_turn_rate_idx_, turn_rate);
 
     return true;
 }

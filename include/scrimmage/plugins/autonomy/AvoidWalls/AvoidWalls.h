@@ -50,6 +50,9 @@ class AvoidWalls : public scrimmage::Autonomy {
  protected:
     double avoid_distance_;
     sensor::RayTrace::PointCloud point_cloud_;
+
+    uint8_t heading_idx_ = 0;
+    uint8_t velocity_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

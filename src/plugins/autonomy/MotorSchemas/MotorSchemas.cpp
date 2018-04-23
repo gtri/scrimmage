@@ -34,15 +34,15 @@
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Time.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugin_manager/PluginManager.h>
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h>
 
@@ -136,13 +136,9 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
-
-    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
@@ -193,19 +189,9 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Convert resultant vector into heading / speed / altitude command:
     ///////////////////////////////////////////////////////////////////////////
 
-    // Forward speed is normed value of vector:
-    desired_state_->vel()(0) = vel_result.norm();
-
-    // Desired heading
     double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
-    desired_state_->quat().set(0, 0, heading);
-
-    // Set Desired Altitude by projecting velocity
-    desired_state_->pos()(2) = state_->pos()(2) + vel_result(2);
-
-    // Set the VariableIO output for controller
-    vars_.output(desired_alt_idx_, desired_state_->pos()(2));
-    vars_.output(desired_speed_idx_, desired_state_->vel()(0));
+    vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
+    vars_.output(desired_speed_idx_, vel_result.norm());
     vars_.output(desired_heading_idx_, heading);
 
     ///////////////////////////////////////////////////////////////////////////

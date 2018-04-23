@@ -32,17 +32,15 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECAR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECAR_H_
-#include <scrimmage/math/State.h>
+
 #include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
 namespace motion {
-class SimpleCar : public scrimmage::MotionModel{
+class SimpleCar : public scrimmage::MotionModel {
  public:
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
@@ -50,15 +48,13 @@ class SimpleCar : public scrimmage::MotionModel{
 
     virtual void model(const vector_t &x , vector_t &dxdt , double t);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector2d &u() = 0;
-    };
-
  protected:
     double length_;
     bool enable_gravity_;
     double max_velocity_;
+
+    uint8_t input_velocity_idx_;
+    uint8_t input_turn_rate_idx_;
 };
 } // namespace motion
 } // namespace scrimmage

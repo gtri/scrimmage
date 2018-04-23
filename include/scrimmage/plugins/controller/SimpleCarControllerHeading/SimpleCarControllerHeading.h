@@ -33,25 +33,27 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLECARCONTROLLERHEADING_SIMPLECARCONTROLLERHEADING_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLECARCONTROLLERHEADING_SIMPLECARCONTROLLERHEADING_H_
 
-#include <scrimmage/plugins/motion/SimpleCar/SimpleCar.h>
+#include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
 namespace controller {
-class SimpleCarControllerHeading : public motion::SimpleCar::Controller {
+class SimpleCarControllerHeading : public Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual Eigen::Vector2d &u() {return u_;}
 
  protected:
-    Eigen::Vector2d u_;
-    scrimmage::PID pid_;
+    PID pid_;
 
-    int input_vel_idx_ = 0;
-    int input_heading_idx_ = 0;
+    uint8_t input_vel_idx_ = 0;
+    uint8_t input_heading_idx_ = 0;
+
+    uint8_t output_vel_idx_ = 0;
+    uint8_t output_turn_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

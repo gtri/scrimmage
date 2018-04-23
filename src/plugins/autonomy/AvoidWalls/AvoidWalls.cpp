@@ -35,14 +35,9 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 #include <scrimmage/pubsub/Subscriber.h>
-
-#include <limits>
-
-namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AvoidWalls, AvoidWalls_plugin)
 
@@ -50,12 +45,8 @@ namespace scrimmage {
 namespace autonomy {
 
 void AvoidWalls::init(std::map<std::string, std::string> &params) {
-    double initial_speed = sc::get<double>("initial_speed", params, 21);
-    avoid_distance_ = sc::get<double>("avoid_distance", params, 20);
-
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    double initial_speed = get<double>("initial_speed", params, 21);
+    avoid_distance_ = get<double>("avoid_distance", params, 20);
 
     auto pc_cb = [&] (scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
         point_cloud_ = msg->data;
@@ -63,6 +54,12 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     subscribe<sensor::RayTrace::PointCloud>(
         "GlobalNetwork", std::to_string(parent_->id().id()) + "/0/pointcloud",
         pc_cb);
+
+    heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
+    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+
+    vars_.output(heading_idx_, state_->quat().yaw());
+    vars_.output(velocity_idx_, initial_speed);
 }
 
 bool AvoidWalls::step_autonomy(double t, double dt) {
@@ -111,13 +108,12 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
         }
         dir *= 10;
 
-        double heading = atan2(dir(1), dir(0));
+        const double heading = atan2(dir(1), dir(0));
 
-        desired_state_->quat().set(0, 0, heading);
-        desired_state_->vel() = Eigen::Vector3d::UnitX() * 10;
-
+        vars_.output(heading_idx_, heading);
+        vars_.output(velocity_idx_, 10);
     } else {
-        desired_state_->quat().set(0, 0, state_->quat().yaw());
+        vars_.output(heading_idx_, state_->quat().yaw());
     }
 
     return true;
