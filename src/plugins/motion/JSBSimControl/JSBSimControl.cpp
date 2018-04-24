@@ -92,10 +92,10 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     drawAcc_ = sc::get<double>("drawAcc", params, 1.0);
 
     // Setup variable index for controllers
-    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::In);
-    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::In);
-    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::In);
-    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::In);
+    thrust_idx_ = vars_.declare(VariableIO::Type::thrust, VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
     roll_pid_.set_parameters(std::stod(params["roll_kp"]),
                              std::stod(params["roll_ki"]),

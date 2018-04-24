@@ -116,7 +116,7 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
 
     pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
     turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
-    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {

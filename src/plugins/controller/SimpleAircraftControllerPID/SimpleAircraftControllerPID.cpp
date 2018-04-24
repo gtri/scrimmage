@@ -79,8 +79,8 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
 
     std::string ctrl_name = use_roll_ ? "roll" : "heading";
     input_roll_or_heading_idx_ = vars_.declare(ctrl_name, VariableIO::Direction::In);
-    input_altitude_idx_ = vars_.declare("altitude", VariableIO::Direction::In);
-    input_velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    input_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    input_velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
     output_thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
     output_roll_rate_idx_ = vars_.declare("roll_rate", VariableIO::Direction::Out);

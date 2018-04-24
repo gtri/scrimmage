@@ -90,7 +90,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
     // Declare variables for controllers
     if (accel_max_ < 0) {
-        velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+        velocity_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     } else {
         accel_idx_ = vars_.declare("acceleration", VariableIO::Direction::In);
         use_accel_input_ = true;

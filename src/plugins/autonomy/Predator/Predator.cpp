@@ -60,7 +60,7 @@ void Predator::init(std::map<std::string, std::string> &params) {
 
     follow_id_ = -1;
 
-    io_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    io_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
     io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 }

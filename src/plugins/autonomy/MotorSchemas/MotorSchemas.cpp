@@ -136,8 +136,8 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
-    desired_alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
 }
 

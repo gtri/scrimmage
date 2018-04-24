@@ -112,7 +112,7 @@ class JSBSimModel : public MotionModel {
 #endif
     bool use_pitch_ = false;
 
-    int vel_idx_ = 0;
+    int speed_idx_ = 0;
     int bank_idx_ = 0;
     int alt_or_pitch_idx_ = 0;
 };

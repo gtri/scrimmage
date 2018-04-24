@@ -40,7 +40,7 @@ namespace scrimmage {
 namespace controller {
 
 void UnicycleControllerDirect::init(std::map<std::string, std::string> &params) {
-    input_velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    input_velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
     input_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
     input_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
 

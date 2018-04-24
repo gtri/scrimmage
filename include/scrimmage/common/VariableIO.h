@@ -46,6 +46,18 @@ namespace scrimmage {
 class VariableIO {
  public:
     enum class Direction {In = 0, Out};
+    enum class Type {
+        desired_altitude,
+        desired_speed,
+        desired_heading,
+        desired_bank,
+        desired_pitch,
+        speed,
+        thrust,
+        elevator,
+        aileron,
+        rudder
+    };
 
     VariableIO();
 
@@ -55,6 +67,7 @@ class VariableIO {
     int add_input_variable(std::string &var);
     int add_output_variable(std::string &var);
     int declare(std::string var, Direction dir);
+    int declare(Type type, Direction dir);
 
     double input(int i);
     void output(int i, double x);
@@ -64,6 +77,8 @@ class VariableIO {
 
     std::set<std::string> declared_input_variables();
     std::set<std::string> declared_output_variables();
+
+    const std::map<Type, std::string> &type_map() const { return type_map_; }
 
     /*! \brief Connect two VariableIO objects where writing to the output of
      *  the first object will transfer the data to the input of the second
@@ -78,6 +93,7 @@ class VariableIO {
     std::shared_ptr<Eigen::VectorXd> output_;
     std::set<std::string> declared_input_variables_;
     std::set<std::string> declared_output_variables_;
+    std::map<Type, std::string> type_map_;
 };
 } // namespace scrimmage
 

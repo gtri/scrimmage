@@ -138,9 +138,9 @@ void Straight::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
 
-    desired_alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {

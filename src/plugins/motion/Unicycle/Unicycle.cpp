@@ -59,7 +59,7 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
 
     // Declare variables for controllers
-    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    velocity_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
     pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
 

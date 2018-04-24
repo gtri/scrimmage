@@ -34,13 +34,25 @@
 
 #include <Eigen/Dense>
 
+#include <iostream>
 #include <map>
 #include <string>
 
 namespace scrimmage {
 
 VariableIO::VariableIO() : input_(std::make_shared<Eigen::VectorXd>()),
-                           output_(std::make_shared<Eigen::VectorXd>()) {
+                           output_(std::make_shared<Eigen::VectorXd>()),
+                           type_map_{
+    {Type::desired_altitude, "desired_altitude"},
+    {Type::desired_speed, "desired_speed"},
+    {Type::desired_heading, "desired_heading"},
+    {Type::desired_bank, "desired_bank"},
+    {Type::desired_pitch, "desired_pitch"},
+    {Type::speed, "speed"},
+    {Type::thrust, "thrust"},
+    {Type::elevator, "elevator"},
+    {Type::aileron, "aileron"},
+    {Type::rudder, "rudder"}} {
 }
 
 std::map<std::string, int> & VariableIO::output_variable_index() {
@@ -88,6 +100,17 @@ int VariableIO::declare(std::string var, Direction dir) {
     } else {
         return add_output_variable(var);
     }
+}
+
+int VariableIO::declare(Type type, Direction dir) {
+    std::string var("");
+    auto it = type_map_.find(type);
+    if (it == type_map_.end()) {
+        std::cout << "Warning: Use of invalid VariableIO::Type" << std::endl;
+    } else {
+        var = it->second;
+    }
+    return declare(var, dir);
 }
 
 double VariableIO::input(int i) {

@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Publisher.h>
 
@@ -54,7 +55,8 @@ PublisherPtr PubSub::advertise(std::string &network_name, const std::string &top
                                unsigned int max_queue_size,
                                bool enable_queue_size, PluginPtr plugin) {
     if (pub_map_.count(network_name) == 0) {
-        cout << "WARNING: Publisher unable to connect to network ("
+        cout << "WARNING: " << plugin->name()
+             << " - Publisher unable to connect to network ("
              << network_name << ") on topic (" << topic << ")" << endl;
     }
 

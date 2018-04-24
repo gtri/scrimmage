@@ -126,13 +126,19 @@ bool MissionParse::parse(const std::string &filename) {
     // Parse network name tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("network");
          node != 0; node = node->next_sibling("network")) {
-        network_names_.push_back(node->value());
+        // If a "name" is specified, use this name
+        rapidxml::xml_attribute<> *attr = node->first_attribute("name");
+        std::string name = (attr == 0) ? node->value() : attr->value();
+        network_names_.push_back(name);
     }
 
     // Parse metrics tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("metrics");
          node != 0; node = node->next_sibling("metrics")) {
-        metrics_.push_back(node->value());
+        // If a "name" is specified, use this name
+        rapidxml::xml_attribute<> *attr = node->first_attribute("name");
+        std::string name = (attr == 0) ? node->value() : attr->value();
+        metrics_.push_back(name);
     }
 
     // param_common name: tag: value

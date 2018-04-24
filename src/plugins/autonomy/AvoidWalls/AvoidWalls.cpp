@@ -56,7 +56,7 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
         pc_cb);
 
     heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
-    velocity_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 
     vars_.output(heading_idx_, state_->quat().yaw());
     vars_.output(velocity_idx_, initial_speed);

@@ -62,9 +62,9 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
 
     max_bank_ = ang::deg2rad(std::stod(params.at("max_bank")));
 
-    input_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::In);
+    input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
     input_heading_idx_ = vars_.declare("heading", VariableIO::Direction::In);
-    input_alt_idx_ = vars_.declare("altitude", VariableIO::Direction::In);
+    input_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
 
     output_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
     output_bank_idx_ = vars_.declare("bank", VariableIO::Direction::Out);

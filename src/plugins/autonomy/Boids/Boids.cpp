@@ -84,12 +84,12 @@ void Boids::init(std::map<std::string, std::string> &params) {
     io_vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::Out);
     io_vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::Out);
 
-    io_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
+    io_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
     io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
 
     io_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
-    io_altitude_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
+    io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
 }
 
 bool Boids::step_autonomy(double t, double dt) {
