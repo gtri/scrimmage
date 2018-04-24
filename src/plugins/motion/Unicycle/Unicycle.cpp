@@ -59,9 +59,9 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
 
     // Declare variables for controllers
-    velocity_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
-    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
+    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
@@ -80,7 +80,7 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
 
 bool Unicycle::step(double t, double dt) {
     // Get inputs and saturate
-    velocity_ = clamp(vars_.input(velocity_idx_), -vel_max_, vel_max_);
+    velocity_ = clamp(vars_.input(speed_idx_), -vel_max_, vel_max_);
     turn_rate_ = clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
     pitch_rate_ = clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
 

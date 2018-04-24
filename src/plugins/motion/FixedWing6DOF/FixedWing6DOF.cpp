@@ -74,10 +74,10 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
 
     // Setup variable index for controllers
-    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::In);
-    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::In);
-    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::In);
-    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::In);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
@@ -178,7 +178,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                     "U_dot", "V_dot", "W_dot",
                     "P_dot", "Q_dot", "R_dot",
                     "roll", "pitch", "yaw",
-                    "thrust", "elevator", "aileron", "rudder"});
+                    "throttle", "thrust", "elevator", "aileron", "rudder"});
     }
 
     rho_ = sc::get<double>("air_density", params, rho_); // air density
@@ -240,8 +240,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 
 bool FixedWing6DOF::step(double time, double dt) {
     // Get inputs and saturate
-    double thrust_norm = clamp(vars_.input(thrust_idx_), -1.0, 1.0);
-    thrust_ = scale<double>(thrust_norm, -1.0, 1.0, thrust_min_, thrust_max_);
+    throttle_ = clamp(vars_.input(throttle_idx_), -1.0, 1.0);
+    thrust_ = scale<double>(throttle_, -1.0, 1.0, thrust_min_, thrust_max_);
 
     delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
@@ -344,6 +344,7 @@ bool FixedWing6DOF::step(double time, double dt) {
                 {"roll", quat_body_.roll()},
                 {"pitch", quat_body_.pitch()},
                 {"yaw", quat_body_.yaw()},
+                {"throttle", throttle_},
                 {"thrust", thrust_},
                 {"elevator", delta_elevator_},
                 {"aileron", delta_aileron_},

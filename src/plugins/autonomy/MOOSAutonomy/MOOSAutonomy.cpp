@@ -70,9 +70,9 @@ void MOOSAutonomy::init(std::map<std::string, std::string> &params) {
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
-    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
     // Kick off moos node thread
     moos_node_.set_time_warp(parent_->mp()->time_warp());

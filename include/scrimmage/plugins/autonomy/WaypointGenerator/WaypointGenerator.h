@@ -56,10 +56,6 @@ class WaypointGenerator : public scrimmage::Autonomy {
     std::vector<int> waypoint_color_ = {255, 0, 0};
 
     bool show_waypoints_ = false;
-
-    uint8_t pitch_rate_idx_ = 0;
-    uint8_t turn_rate_idx_ = 0;
-    uint8_t velocity_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

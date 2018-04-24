@@ -43,10 +43,10 @@ namespace sc = scrimmage;
 
 void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params) {
 
-    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
-    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::Out);
-    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::Out);
-    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+	elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+	throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+	rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -66,7 +66,7 @@ void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params
 bool FixedWing6DOFControllerROS::step(double t, double dt) {
     ros::spinOnce();
 
-    vars_.output(thrust_idx_, cmd_vel_.linear.x);
+    vars_.output(throttle_idx_, cmd_vel_.linear.x);
     vars_.output(elevator_idx_, cmd_vel_.angular.y);
     vars_.output(aileron_idx_, cmd_vel_.angular.x);
     vars_.output(rudder_idx_, cmd_vel_.angular.z);

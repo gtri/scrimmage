@@ -51,10 +51,10 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params
     pid_.set_is_angle(true);
 
     input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    input_heading_idx_ = vars_.declare("heading", VariableIO::Direction::In);
+    input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
-    output_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    output_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
+    output_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    output_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 }
 
 bool SimpleCarControllerHeading::step(double t, double dt) {

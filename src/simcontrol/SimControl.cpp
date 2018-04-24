@@ -213,9 +213,11 @@ bool SimControl::init() {
     mp_->utm_terrain()->set_time(this->t());
     outgoing_interface_->send_utm_terrain(mp_->utm_terrain());
 
-    // If there aren't any networks defined, define the GlobalNetwork by
-    // default.
-    if (mp_->network_names().size() == 0) {
+    // If the GlobalNetwork doesn't exist, add it.
+    auto it_global_network = std::find(mp_->network_names().begin(),
+                                       mp_->network_names().end(),
+                                       "GlobalNetwork");
+    if (it_global_network == mp_->network_names().end()) {
         mp_->network_names().push_back("GlobalNetwork");
     }
 

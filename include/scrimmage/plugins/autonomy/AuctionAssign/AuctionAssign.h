@@ -57,6 +57,10 @@ class AuctionAssign : public scrimmage::Autonomy {
     double max_bid_ = -std::numeric_limits<double>::max();
     int max_bid_champ_ = -1;
     int id_ = -1;
+
+    int output_vel_x_idx_ = 0;
+    int output_vel_y_idx_ = 0;
+    int output_vel_z_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

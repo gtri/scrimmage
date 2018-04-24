@@ -65,10 +65,11 @@ void WaypointFollower::init(std::map<std::string, std::string> &params) {
     max_alt_change_ = sc::get<double>("max_alt_change", params, 5.0);
     exit_on_reaching_wpt_ = sc::str2bool(params.at("exit_on_reaching_wpt"));
 
-    // define desired state
-    desired_state_->vel() = Eigen::Vector3d::UnitX() * initial_speed;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+    vars_.output(desired_speed_idx_, initial_speed);
 
     auto wp_list_cb = [&] (scrimmage::MessagePtr<WaypointList> msg) {
         // Received a new waypoint list, reset
@@ -131,19 +132,18 @@ bool WaypointFollower::step_autonomy(double t, double dt) {
     desired_state_->pos().head<2>() = wp.head<2>();
     if (std::abs(alt_diff) > max_alt_change_) {
         if (alt_diff > 0) {
-            desired_state_->pos()(2) = state_->pos()(2) + max_alt_change_;
+            vars_.output(desired_alt_idx_, state_->pos()(2) + max_alt_change_);
         } else {
-            desired_state_->pos()(2) = state_->pos()(2) - max_alt_change_;
+            vars_.output(desired_alt_idx_, state_->pos()(2) - max_alt_change_);
         }
     } else {
-        desired_state_->pos()(2) = wp(2);
+        vars_.output(desired_alt_idx_, wp(2));
     }
 
+    // set the heading
     double heading = atan2(wp(1)- state_->pos()(1),
                            wp(0)- state_->pos()(0));
-
-    // set the heading
-    desired_state_->quat().set(0, 0, heading);
+    vars_.output(desired_heading_idx_, heading);
 
     // check if within waypoint tolerance
     if ((state_->pos().head<2>() - wp.head<2>()).norm() <= curr_wp.position_tolerance()) {

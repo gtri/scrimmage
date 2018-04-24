@@ -75,8 +75,7 @@
     <y>0</y>
     <z>0</z>
     <heading>0</heading>
-    <controller>UnicycleControllerDirect</controller>
-    <motion_model>Unicycle</motion_model>
+    
     <visual_model>sea-angler</visual_model>
     <autonomy show_waypoints="true">WaypointGenerator</autonomy>    
   </entity>

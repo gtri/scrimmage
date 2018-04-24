@@ -138,7 +138,7 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {

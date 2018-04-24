@@ -73,12 +73,12 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
     use_pitch_ = str2bool(params.at("use_pitch"));
-    std::string desired_pitch_str = vars_.type_map().at(VariableIO::Type::desired_pitch);
-    std::string desired_alt_str = vars_.type_map().at(VariableIO::Type::desired_altitude);
-    std::string z_name =  use_pitch_ ? desired_pitch_str : desired_alt_str;
+    std::string z_name =  use_pitch_ ?
+        vars_.type_map().at(VariableIO::Type::desired_pitch) :
+        vars_.type_map().at(VariableIO::Type::desired_altitude);
 
-    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-    bank_idx_ = vars_.declare(VariableIO::Type::desired_bank, VariableIO::Direction::In);
+    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
     alt_or_pitch_idx_ = vars_.declare(z_name, VariableIO::Direction::In);
 
     JSBSim::FGJSBBase base;
@@ -195,10 +195,10 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 
 bool JSBSimModel::step(double time, double dt) {
     double desired_velocity = vars_.input(speed_idx_);
-    double bank_cmd = vars_.input(bank_idx_);
+    double roll_cmd = vars_.input(roll_idx_);
 
-    // + : bank right, - : bank left
-    bank_setpoint_node_->setDoubleValue(bank_cmd);
+    // + : roll right, - : roll left
+    bank_setpoint_node_->setDoubleValue(roll_cmd);
     if (use_pitch_) {
         double elevator_cmd = vars_.input(alt_or_pitch_idx_);
 

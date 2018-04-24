@@ -40,19 +40,34 @@
 
 namespace scrimmage {
 
+std::map<VariableIO::Type, std::string>VariableIO::type_map_ = {
+    {VariableIO::Type::desired_altitude, "desired_altitude"},
+    {VariableIO::Type::desired_speed, "desired_speed"},
+    {VariableIO::Type::desired_heading, "desired_heading"},
+    {VariableIO::Type::desired_roll, "desired_roll"},
+    {VariableIO::Type::desired_pitch, "desired_pitch"},
+    {VariableIO::Type::desired_turn_rate, "desired_turn_rate"},
+    {VariableIO::Type::desired_pitch_rate, "desired_pitch_rate"},
+    {VariableIO::Type::desired_roll_rate, "desired_roll_rate"},
+    {VariableIO::Type::speed, "speed"},
+    {VariableIO::Type::throttle, "throttle"},
+    {VariableIO::Type::elevator, "elevator"},
+    {VariableIO::Type::aileron, "aileron"},
+    {VariableIO::Type::rudder, "rudder"},
+    {VariableIO::Type::turn_rate, "turn_rate"},
+    {VariableIO::Type::pitch_rate, "pitch_rate"},
+    {VariableIO::Type::roll_rate, "roll_rate"},
+    {VariableIO::Type::velocity_x, "velocity_x"},
+    {VariableIO::Type::velocity_y, "velocity_y"},
+    {VariableIO::Type::velocity_z, "velocity_z"},
+    {VariableIO::Type::forward_acceleration, "forward_acceleration"},
+    {VariableIO::Type::position_x, "position_x"},
+    {VariableIO::Type::position_y, "position_y"},
+    {VariableIO::Type::position_z, "position_z"},
+};
+
 VariableIO::VariableIO() : input_(std::make_shared<Eigen::VectorXd>()),
-                           output_(std::make_shared<Eigen::VectorXd>()),
-                           type_map_{
-    {Type::desired_altitude, "desired_altitude"},
-    {Type::desired_speed, "desired_speed"},
-    {Type::desired_heading, "desired_heading"},
-    {Type::desired_bank, "desired_bank"},
-    {Type::desired_pitch, "desired_pitch"},
-    {Type::speed, "speed"},
-    {Type::thrust, "thrust"},
-    {Type::elevator, "elevator"},
-    {Type::aileron, "aileron"},
-    {Type::rudder, "rudder"}} {
+                           output_(std::make_shared<Eigen::VectorXd>()) {
 }
 
 std::map<std::string, int> & VariableIO::output_variable_index() {
@@ -140,6 +155,14 @@ bool VariableIO::exists(std::string var, Direction dir) {
     } else {
         return (output_variable_index_.count(var) > 0);
     }
+}
+
+bool VariableIO::exists(Type type, Direction dir) {
+    auto it = type_map_.find(type);
+    if (it == type_map_.end()) {
+        return false;
+    }
+    return exists(it->second, dir);
 }
 
 std::set<std::string> VariableIO::declared_input_variables() {

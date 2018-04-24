@@ -56,6 +56,11 @@ class WaypointFollower : public scrimmage::Autonomy {
     double max_alt_change_ = 5;
     bool returning_stage_ = false;
     bool exit_on_reaching_wpt_ = false;
+
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
+
  private:
 };
 } // namespace autonomy

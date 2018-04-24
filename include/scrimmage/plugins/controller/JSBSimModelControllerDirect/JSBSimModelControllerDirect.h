@@ -50,11 +50,11 @@ class JSBSimModelControllerDirect : public Controller {
     bool use_pitch_;
 
     int input_vel_idx_ = 0;
-    int input_bank_idx_ = 0;
+    int input_roll_idx_ = 0;
     int input_alt_or_pitch_idx_ = 0;
 
     int output_vel_idx_ = 0;
-    int output_bank_idx_ = 0;
+    int output_roll_idx_ = 0;
     int output_alt_or_pitch_idx_ = 0;
 };
 } // namespace controller

@@ -53,7 +53,7 @@ class SimpleCar : public scrimmage::MotionModel {
     bool enable_gravity_;
     double max_velocity_;
 
-    uint8_t input_velocity_idx_;
+    uint8_t input_speed_idx_;
     uint8_t input_turn_rate_idx_;
 };
 } // namespace motion

@@ -113,7 +113,7 @@ class JSBSimModel : public MotionModel {
     bool use_pitch_ = false;
 
     int speed_idx_ = 0;
-    int bank_idx_ = 0;
+    int roll_idx_ = 0;
     int alt_or_pitch_idx_ = 0;
 };
 } // namespace motion

@@ -80,15 +80,16 @@ void Boids::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    io_vel_x_idx_ = vars_.declare("velocity_x", VariableIO::Direction::Out);
-    io_vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::Out);
-    io_vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::Out);
+    io_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    io_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    io_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 
-    io_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
-    io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
+    io_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    io_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    io_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    io_heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
+    io_desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    io_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
     io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
 }
 
@@ -260,6 +261,7 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
 
     vars_.output(io_heading_idx_, desired_heading);
     vars_.output(io_altitude_idx_, v(2));
+    vars_.output(io_desired_speed_idx_, max_speed_);
 
     double norm = v.norm();
     double ratio = (max_speed_ / 2) / std::max(norm, 1.0);

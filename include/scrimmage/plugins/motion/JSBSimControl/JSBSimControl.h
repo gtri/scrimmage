@@ -110,12 +110,12 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      scrimmage::PID pitch_pid_;
      scrimmage::PID yaw_pid_;
 
-     int thrust_idx_ = 0;
+     int throttle_idx_ = 0;
      int elevator_idx_ = 0;
      int aileron_idx_ = 0;
      int rudder_idx_ = 0;
 
-     double thrust_ = 0;
+     double throttle_ = 0;
      double delta_elevator_ = 0;
      double delta_aileron_ = 0;
      double delta_rudder_ = 0;

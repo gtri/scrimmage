@@ -113,10 +113,6 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     wp_list_.set_mode(WaypointList::WaypointMode::follow_once); // default for now
 
     waypoint_list_pub_ = advertise("GlobalNetwork", "WaypointList");
-
-    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
-    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
-    velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {
@@ -143,10 +139,6 @@ bool WaypointGenerator::step_autonomy(double t, double dt) {
         }
         waypoint_list_pub_->publish(msg);
     }
-
-    vars_.output(pitch_rate_idx_, 0);
-    vars_.output(turn_rate_idx_, 0);
-    vars_.output(velocity_idx_, 0);
 
     return true;
 }

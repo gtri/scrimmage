@@ -50,13 +50,26 @@ class VariableIO {
         desired_altitude,
         desired_speed,
         desired_heading,
-        desired_bank,
+        desired_roll,
         desired_pitch,
+        desired_turn_rate,
+        desired_pitch_rate,
+        desired_roll_rate,
         speed,
-        thrust,
+        throttle,
         elevator,
         aileron,
-        rudder
+        rudder,
+        turn_rate,
+        pitch_rate,
+        roll_rate,
+        velocity_x,
+        velocity_y,
+        velocity_z,
+        forward_acceleration,
+        position_x,
+        position_y,
+        position_z
     };
 
     VariableIO();
@@ -74,6 +87,7 @@ class VariableIO {
     double output(int i);
 
     bool exists(std::string var, Direction dir);
+    bool exists(Type type, Direction dir);
 
     std::set<std::string> declared_input_variables();
     std::set<std::string> declared_output_variables();
@@ -93,7 +107,7 @@ class VariableIO {
     std::shared_ptr<Eigen::VectorXd> output_;
     std::set<std::string> declared_input_variables_;
     std::set<std::string> declared_output_variables_;
-    std::map<Type, std::string> type_map_;
+    static std::map<Type, std::string> type_map_;
 };
 } // namespace scrimmage
 

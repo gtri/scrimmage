@@ -43,7 +43,7 @@
       <health>1</health>
       <radius>1</radius>
       <motion_model>Unicycle</motion_model>
-      <controller>UnicycleControllerDirect</controller>
+      <controller>DirectController</controller>
   </entity_common>
 
   <entity entity_common="all">
@@ -57,7 +57,7 @@
     <visual_model>zephyr-blue</visual_model>
     <sensor order="0">TutorialOpenAISensor</sensor>
     <!-- <motion_model>Unicycle</motion_model>
-    <controller>UnicycleControllerDirect</controller> -->
+    <controller>DirectController</controller> -->
   </entity>
 
   <entity entity_common="all">

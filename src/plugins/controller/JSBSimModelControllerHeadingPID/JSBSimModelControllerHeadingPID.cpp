@@ -63,12 +63,18 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
     max_bank_ = ang::deg2rad(std::stod(params.at("max_bank")));
 
     input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    input_heading_idx_ = vars_.declare("heading", VariableIO::Direction::In);
+    input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
     input_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
 
-    output_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
-    output_bank_idx_ = vars_.declare("bank", VariableIO::Direction::Out);
-    output_alt_idx_ = vars_.declare("altitude", VariableIO::Direction::Out);
+    output_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    output_bank_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::Out);
+
+    // Is the motion model using pitch or altitude control
+    std::string z_name = vars_.exists(VariableIO::Type::desired_pitch, VariableIO::Direction::Out) ?
+        vars_.type_map().at(VariableIO::Type::desired_pitch) :
+        vars_.type_map().at(VariableIO::Type::desired_altitude);
+
+    output_alt_idx_ = vars_.declare(z_name, VariableIO::Direction::Out);
 }
 
 bool JSBSimModelControllerHeadingPID::step(double t, double dt) {

@@ -60,9 +60,9 @@ void Predator::init(std::map<std::string, std::string> &params) {
 
     follow_id_ = -1;
 
-    io_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
-    io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
+    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 }
 
 bool Predator::step_autonomy(double t, double dt) {
@@ -119,9 +119,9 @@ bool Predator::step_autonomy(double t, double dt) {
         double desired_heading = atan2(v(1), v(0));
         double desired_pitch = atan2(v(2), v.head<2>().norm());
 
-        vars_.output(io_vel_idx_, max_speed_);
-        vars_.output(io_turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
-        vars_.output(io_pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
+        vars_.output(speed_idx_, max_speed_);
+        vars_.output(turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
+        vars_.output(pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
     }
 
     return true;

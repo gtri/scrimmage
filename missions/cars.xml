@@ -33,6 +33,8 @@
   <origin_length>10</origin_length>
   
   <entity_interaction>SimpleCollision</entity_interaction>
+
+  <network>LocalNetwork</network>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>1714060370</seed>-->

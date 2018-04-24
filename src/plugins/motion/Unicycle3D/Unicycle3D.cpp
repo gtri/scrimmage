@@ -90,13 +90,13 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
     // Declare variables for controllers
     if (accel_max_ < 0) {
-        velocity_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+        speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     } else {
-        accel_idx_ = vars_.declare("acceleration", VariableIO::Direction::In);
+        accel_idx_ = vars_.declare(VariableIO::Type::forward_acceleration, VariableIO::Direction::In);
         use_accel_input_ = true;
     }
-    turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
-    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
@@ -185,7 +185,7 @@ bool Unicycle3D::step(double t, double dt) {
         acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), -accel_max_, accel_max_);
         x_[U] += force_body(0) / mass_;
     } else {
-        velocity_ = vars_.input(velocity_idx_);
+        velocity_ = vars_.input(speed_idx_);
         x_[U] = velocity_ + force_body(0) / mass_;
     }
 

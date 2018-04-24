@@ -48,7 +48,7 @@ class UnicycleControllerPoint : public Controller {
  protected:
     double l_;
     double gain_;
-    int velocity_idx_ = 0;
+    int speed_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
 };

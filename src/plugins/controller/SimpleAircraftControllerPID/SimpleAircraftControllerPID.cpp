@@ -77,14 +77,17 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     set_pid(vel_pid_, params["vel_pid"], false);
     use_roll_ = sc::str2bool(params.at("use_roll"));
 
-    std::string ctrl_name = use_roll_ ? "roll" : "heading";
+    std::string ctrl_name = use_roll_ ?
+        vars_.type_map().at(VariableIO::Type::desired_roll) :
+        vars_.type_map().at(VariableIO::Type::desired_heading);
+
     input_roll_or_heading_idx_ = vars_.declare(ctrl_name, VariableIO::Direction::In);
     input_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     input_velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
-    output_thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
-    output_roll_rate_idx_ = vars_.declare("roll_rate", VariableIO::Direction::Out);
-    output_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
+    output_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    output_roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
+    output_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
@@ -105,9 +108,9 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
     double pitch_error = (-u_alt - state_->quat().pitch());
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
-    double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+    double u_throttle = vel_pid_.step(dt, state_->vel().norm());
 
-    vars_.output(output_thrust_idx_, u_thrust);
+    vars_.output(output_throttle_idx_, u_throttle);
     vars_.output(output_roll_rate_idx_, roll_error);
     vars_.output(output_pitch_rate_idx_, pitch_error);
     return true;

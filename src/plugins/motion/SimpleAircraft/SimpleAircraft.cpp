@@ -94,9 +94,9 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
     state_->vel() << x_[SPEED] * cos(x_[5]), x_[SPEED] * sin(x_[5]), 0;
 
-    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::In);
-    roll_rate_idx_ = vars_.declare("roll_rate", VariableIO::Direction::In);
-    pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::In);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
 
     return true;
 }
@@ -124,12 +124,12 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 4 : pitch
     /// 5 : yaw
     /// 6 : speed
-    double thrust = vars_.input(thrust_idx_);
+    double throttle = vars_.input(throttle_idx_);
     double roll_rate = vars_.input(roll_rate_idx_);
     double pitch_rate = vars_.input(pitch_rate_idx_);
 
     // Saturate control inputs
-    thrust = clamp(thrust, -100.0, 100.0);
+    throttle = clamp(throttle, -100.0, 100.0);
     roll_rate = clamp(roll_rate, -1, 1.0);
     pitch_rate = clamp(pitch_rate, -1.0, 1.0);
 
@@ -141,7 +141,7 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[PITCH] = pitch_rate;
     dxdt[YAW] = x[SPEED]/length_*tan(x[ROLL]);
 
-    dxdt[SPEED] = thrust/5;
+    dxdt[SPEED] = throttle/5;
 }
 
 void SimpleAircraft::teleport(StatePtr &state) {

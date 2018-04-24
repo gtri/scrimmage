@@ -55,7 +55,7 @@ class Unicycle : public scrimmage::MotionModel {
     double vel_max_;
     bool enable_roll_;
 
-    int velocity_idx_ = 0;
+    int speed_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
 

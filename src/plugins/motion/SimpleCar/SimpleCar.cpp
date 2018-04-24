@@ -79,8 +79,8 @@ bool SimpleCar::init(std::map<std::string, std::string> &info,
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
 
-    input_velocity_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-    input_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::In);
+    input_speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+    input_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
 
     return true;
 }
@@ -110,7 +110,7 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 1 : y-position
     /// 2 : theta
 
-    const double u_vel = clamp(vars_.input(input_velocity_idx_), 0, max_velocity_);
+    const double u_vel = clamp(vars_.input(input_speed_idx_), 0, max_velocity_);
     const double theta_lim = M_PI / 4 - 0.0001;
     const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -theta_lim, theta_lim);
 

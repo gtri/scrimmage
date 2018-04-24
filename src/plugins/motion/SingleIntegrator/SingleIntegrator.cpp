@@ -64,9 +64,9 @@ SingleIntegrator::SingleIntegrator() :
 bool SingleIntegrator::init(std::map<std::string, std::string> &info,
                             std::map<std::string, std::string> &params) {
 
-    vel_x_idx_ = vars_.declare("velocity_x", VariableIO::Direction::In);
-    vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::In);
-    vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::In);
+    vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);
+    vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);
+    vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
 
     x_[X] = std::stod(info["x"]);
     x_[Y] = std::stod(info["y"]);

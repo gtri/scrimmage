@@ -87,7 +87,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     virtual void teleport(scrimmage::StatePtr &state);
 
  protected:
-    int thrust_idx_ = 0;
+    int throttle_idx_ = 0;
     int elevator_idx_ = 0;
     int aileron_idx_ = 0;
     int rudder_idx_ = 0;
@@ -113,6 +113,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     Eigen::Vector3d force_ext_body_;
 
     double thrust_ = 0;
+    double throttle_ = 0;
     double delta_elevator_ = 0;
     double delta_aileron_ = 0;
     double delta_rudder_ = 0;

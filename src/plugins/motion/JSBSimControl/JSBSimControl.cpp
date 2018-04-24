@@ -92,7 +92,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     drawAcc_ = sc::get<double>("drawAcc", params, 1.0);
 
     // Setup variable index for controllers
-    thrust_idx_ = vars_.declare(VariableIO::Type::thrust, VariableIO::Direction::In);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
     aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
@@ -126,7 +126,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
     exec = std::make_shared<JSBSim::FGFDMExec>();
 
-    exec->SetDebugLevel(1);
+    exec->SetDebugLevel(0);
     exec->SetRootDir(info["JSBSIM_ROOT"]);
     exec->SetAircraftPath("/aircraft");
     exec->SetEnginePath("/engine");
@@ -217,7 +217,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimControl::step(double time, double dt) {
-    thrust_ = ba::clamp(vars_.input(thrust_idx_), -1.0, 1.0);
+    throttle_ = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
     delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
     delta_aileron_ = ba::clamp(vars_.input(aileron_idx_), -1.0, 1.0);
     delta_rudder_ = ba::clamp(vars_.input(rudder_idx_), -1.0, 1.0);
@@ -225,7 +225,7 @@ bool JSBSimControl::step(double time, double dt) {
     ap_aileron_cmd_node_->setDoubleValue(delta_aileron_);
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
     ap_rudder_cmd_node_->setDoubleValue(delta_rudder_);
-    ap_throttle_cmd_node_->setDoubleValue(thrust_);
+    ap_throttle_cmd_node_->setDoubleValue(throttle_);
 
     // double u_roll = u(0);
     // double u_pitch = u(1);
@@ -324,7 +324,7 @@ bool JSBSimControl::step(double time, double dt) {
     }
 
 
-#if 1
+#if 0
     JSBSim::FGPropertyManager* mgr = exec->GetPropertyManager();
     cout << "--------------------------------------------------------" << endl;
     cout << "  State information in JSBSImControl" << endl;
@@ -341,7 +341,7 @@ bool JSBSimControl::step(double time, double dt) {
     cout << std::setprecision(prec) << "aileron cmd: " << delta_aileron_ << endl;
     cout << std::setprecision(prec) << "elevator cmd: " << delta_elevator_ << endl;
     cout << std::setprecision(prec) << "rudder cmd: " << delta_rudder_ << endl;
-    cout << std::setprecision(prec) << "thrust cmd: " << thrust_ << endl;
+    cout << std::setprecision(prec) << "throttle cmd: " << throttle_ << endl;
     cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-norm")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-norm")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-norm")->getDoubleValue() << endl;

@@ -56,7 +56,7 @@ class FixedWing6DOFControllerROS : public Controller {
     ros::Subscriber cmd_vel_sub_;
     geometry_msgs::Twist cmd_vel_;
 
-    int thrust_idx_ = 0;
+    int throttle_idx_ = 0;
     int elevator_idx_ = 0;
     int aileron_idx_ = 0;
     int rudder_idx_ = 0;

@@ -2,5 +2,4 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>DirectController_plugin</library>
-  <initial_speed>24.3</initial_speed>
 </params>

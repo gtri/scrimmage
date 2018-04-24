@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
-<params>
-  <library>UnicycleControllerDirect_plugin</library>
-  <output_variables>velocity turn_rate pitch_rate</output_variables>
-  <l>1</l>
-  <gain>0.1</gain>
-</params>

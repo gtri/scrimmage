@@ -52,7 +52,7 @@
 
     <autonomy>Boids</autonomy>
     <!-- <motion_model vel_max="30">Unicycle</motion_model> -->
-    <!-- <controller>UnicycleControllerDirect</controller> -->
+    <!-- <controller>DirectController</controller> -->
     <!-- <motion_model vel_max="30">SingleIntegrator</motion_model> -->
     <!-- <controller>SingleIntegratorControllerSimple</controller> -->
     <motion_model>JSBSimModel</motion_model>
@@ -79,7 +79,7 @@
     
     
     <motion_model pitch_rate_max="1.5" turn_rate_max="2" vel_max="35">Unicycle</motion_model>
-    <controller>UnicycleControllerDirect</controller>
+    <controller>DirectController</controller>
     <visual_model>zephyr-red</visual_model>
   </entity_common>
 

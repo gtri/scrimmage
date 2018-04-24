@@ -55,11 +55,11 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
         "GlobalNetwork", std::to_string(parent_->id().id()) + "/0/pointcloud",
         pc_cb);
 
-    heading_idx_ = vars_.declare("heading", VariableIO::Direction::Out);
-    velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 
     vars_.output(heading_idx_, state_->quat().yaw());
-    vars_.output(velocity_idx_, initial_speed);
+    vars_.output(speed_idx_, initial_speed);
 }
 
 bool AvoidWalls::step_autonomy(double t, double dt) {
@@ -111,7 +111,7 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
         const double heading = atan2(dir(1), dir(0));
 
         vars_.output(heading_idx_, heading);
-        vars_.output(velocity_idx_, 10);
+        vars_.output(speed_idx_, 10);
     } else {
         vars_.output(heading_idx_, state_->quat().yaw());
     }

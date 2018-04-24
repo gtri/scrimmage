@@ -58,7 +58,7 @@ class SimpleAircraftControllerPID : public Controller {
     uint8_t input_altitude_idx_ = 0;
     uint8_t input_velocity_idx_ = 0;
 
-    uint8_t output_thrust_idx_ = 0;
+    uint8_t output_throttle_idx_ = 0;
     uint8_t output_roll_rate_idx_ = 0;
     uint8_t output_pitch_rate_idx_ = 0;
 };

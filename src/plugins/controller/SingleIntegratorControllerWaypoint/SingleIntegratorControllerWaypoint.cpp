@@ -41,13 +41,13 @@ namespace scrimmage {
 namespace controller {
 
 void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
-    input_pos_x_idx_ = vars_.declare("pos_x", VariableIO::Direction::In);
-    input_pos_y_idx_ = vars_.declare("pos_y", VariableIO::Direction::In);
-    input_pos_z_idx_ = vars_.declare("pos_z", VariableIO::Direction::In);
+    input_pos_x_idx_ = vars_.declare(VariableIO::Type::position_x, VariableIO::Direction::In);
+    input_pos_y_idx_ = vars_.declare(VariableIO::Type::position_y, VariableIO::Direction::In);
+    input_pos_z_idx_ = vars_.declare(VariableIO::Type::position_z, VariableIO::Direction::In);
 
-    output_vel_x_idx_ = vars_.declare("velocity_x", VariableIO::Direction::In);
-    output_vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::In);
-    output_vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::In);
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
 
     gain_ = std::stod(params.at("gain"));
 }

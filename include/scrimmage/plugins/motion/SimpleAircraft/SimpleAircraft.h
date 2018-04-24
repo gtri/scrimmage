@@ -72,7 +72,7 @@ class SimpleAircraft : public scrimmage::MotionModel{
     double max_roll_;
     double max_pitch_;
 
-    uint8_t thrust_idx_ = 0;
+    uint8_t throttle_idx_ = 0;
     uint8_t roll_rate_idx_ = 0;
     uint8_t pitch_rate_idx_ = 0;
 };
