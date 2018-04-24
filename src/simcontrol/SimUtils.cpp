@@ -154,14 +154,18 @@ bool verify_io_connection(VariableIO &output, VariableIO &input) {
 
 void print_io_error(const std::string &in_name, const std::string &out_name, VariableIO &v) {
     auto keys = v.input_variable_index() | ba::map_keys;
-    std::cout << "First, place the following in its initializer: " << std::endl;
+
+    std::cout << "First, include the VariableIO class in the cpp file: "
+        << "#include <scrimmage/common/VariableIO.h>" << std::endl;
+
+    std::cout << "Second, place the following in its initializer: " << std::endl;
     for (const std::string &key : keys) {
         std::cout << "    " << key << "_idx_ = vars_.declare("
-            << std::quoted(key) << ", VariableIO::Direction::Out);"
+            << std::quoted(key) << ", scrimmage::VariableIO::Direction::Out);"
             << std::endl;
     }
 
-    std::cout << "Second, place the following in its step function: " << std::endl;
+    std::cout << "Third, place the following in its step function: " << std::endl;
     for (const std::string &key : keys) {
         std::cout << "    vars_.output(" << key << "_idx_, value_to_output);" << std::endl;
     }
