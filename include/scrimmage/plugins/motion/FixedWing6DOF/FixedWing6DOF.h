@@ -138,6 +138,8 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double b_ = 8.382; // wing span
     double S_ = 24.1548; // surface area of wing
     double c_ = 3.29184; // chord length
+    double e_ = .995; // induced drag effiency factor
+    double AR_ = 2.5; // aspect ratio (computed)
 
     double C_D0_ = 0.03;
     double C_D_alpha_ = 0.3;

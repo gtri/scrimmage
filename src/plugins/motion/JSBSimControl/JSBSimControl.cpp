@@ -342,10 +342,13 @@ bool JSBSimControl::step(double time, double dt) {
     cout << std::setprecision(prec) << "elevator cmd: " << delta_elevator_ << endl;
     cout << std::setprecision(prec) << "rudder cmd: " << delta_rudder_ << endl;
     cout << std::setprecision(prec) << "thrust cmd: " << thrust_ << endl;
-    cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-norm")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-norm")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-norm")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "thrust jsb: " << mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "thrust (N): " << mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue()*4.44 << endl;
+    cout << std::setprecision(prec) << "alpha: " << mgr->GetNode("aero/alpha-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "drag: " << mgr->GetNode("forces/fwx-aero-lbs")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "lift: " << -mgr->GetNode("forces/fwz-aero-lbs")->getDoubleValue() << endl;
 #endif
 
     return true;

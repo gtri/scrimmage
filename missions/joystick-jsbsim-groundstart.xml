@@ -72,7 +72,7 @@
     "[ thrust   1 -32767 +32767 -1 +1 -1 ]
     [ elevator 3 -32767 +32767 -1 +1 -1 ]
     [ aileron  2 -32767 +32767 -1 +1 +1 ]
-    [ rudder   4 -32767 +32767 -1 +1 -1 ]"  >JoystickController</controller>
+    [ rudder   0 -32767 +32767 -1 +1 -1 ]"  >JoystickController</controller>
 
 
     <script_name>rascal_no_autopilot.xml</script_name>

@@ -45,6 +45,7 @@
 #include <Eigen/Dense>
 
 #include <iostream>
+#include <iomanip>
 
 #include <boost/algorithm/clamp.hpp>
 
@@ -89,17 +90,19 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
                    quat_body_.pitch(), quat_body_.yaw());
 
-    x_[U] = state_->vel()(0);
-    x_[V] = 0;
-    x_[W] = 0;
+    Eigen::Vector3d vel_body = quat_body_.rotate(state_->vel());
+
+    x_[U] = vel_body(0);
+    x_[V] = vel_body(1);
+    x_[W] = vel_body(2);
 
     x_[P] = 0;
     x_[Q] = 0;
     x_[R] = 0;
 
     x_[Uw] = state_->vel()(0);
-    x_[Vw] = 0;
-    x_[Ww] = 0;
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
 
     x_[Xw] = pos(0);
     x_[Yw] = pos(1);
@@ -175,8 +178,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                     "x", "y", "z",
                     "U", "V", "W", "alpha", "beta",
                     "P", "Q", "R",
-                    "U_dot", "V_dot", "W_dot",
-                    "P_dot", "Q_dot", "R_dot",
+                    "Ax_b", "Ay_b", "Az_b",
+                    "AngAccelx_b", "AngAccely_b", "AngAccelz_b",
                     "roll", "pitch", "yaw",
                     "thrust", "elevator", "aileron", "rudder"});
     }
@@ -197,6 +200,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     b_ = sc::get<double>("wing_span", params, b_);
     S_ = sc::get<double>("surface_area_of_wing", params, S_);
     c_ = sc::get<double>("chord_length", params, c_);
+    e_ = sc::get<double>("efficiency_factor", params, e_);
+    AR_ = b_/c_;
 
     // Drag coefficients
     C_D0_ = sc::get<double>("C_D0", params, C_D0_);
@@ -246,6 +251,15 @@ bool FixedWing6DOF::step(double time, double dt) {
     delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
+
+#if 1
+    int prec = 5;
+    cout<< "*************************" << endl;
+    cout<< std::setprecision(prec) << "thrust_:         " << thrust_ << endl;
+    cout<< std::setprecision(prec) << "delta_elevator_: " << delta_elevator_ << endl;
+    cout<< std::setprecision(prec) << "delta_aileron_:  " << delta_aileron_ << endl;
+    cout<< std::setprecision(prec) << "delta_rudder_:   " << delta_rudder_ << endl;
+#endif
 
     // TODO: convert global linear velocity and angular velocity into local
     // velocities
@@ -335,12 +349,12 @@ bool FixedWing6DOF::step(double time, double dt) {
                 {"P", x_[P]},
                 {"Q", x_[Q]},
                 {"R", x_[R]},
-                {"U_dot", x_[U_dot]},
-                {"V_dot", x_[V_dot]},
-                {"W_dot", x_[W_dot]},
-                {"P_dot", x_[P_dot]},
-                {"Q_dot", x_[Q_dot]},
-                {"R_dot", x_[R_dot]},
+                {"Ax_b", linear_accel_body_(0)},
+                {"Ay_b", linear_accel_body_(1)},
+                {"Az_b", linear_accel_body_(2)},
+                {"AngAccelx_b", ang_accel_body_(0)},
+                {"AngAccely_b", ang_accel_body_(1)},
+                {"AngAccelz_b", ang_accel_body_(2)},
                 {"roll", quat_body_.roll()},
                 {"pitch", quat_body_.pitch()},
                 {"yaw", quat_body_.yaw()},
@@ -365,13 +379,16 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     double VtauVe = pow((V_tau + delta_Ve)/V_tau, 2);
     double pVtS = rho_ * pow(V_tau, 2) * S_ / 2.0;
 
-    // Calculate lift, drag, and side_force magnitudes
-    double lift = (C_L0_ + C_L_alpha_*alpha_ + C_LQ_*x_[Q] * c_ / (2*V_tau) +
-                   C_L_alpha_dot_ * alpha_dot_ * c_ / (2*V_tau) +
-                   C_L_delta_elevator_ * delta_elevator_ * VtauVe) * pVtS;
 
-    double drag = (C_D0_ + C_D_alpha_*alpha_ +
-                   C_D_delta_elevator_*delta_elevator_*VtauVe) * pVtS;
+    // Calculate lift, drag, and side_force magnitudes
+    double CL = (C_L0_ + C_L_alpha_*alpha_ + C_LQ_*x_[Q] * c_ / (2*V_tau) +
+                   C_L_alpha_dot_ * alpha_dot_ * c_ / (2*V_tau) +
+                   C_L_delta_elevator_ * delta_elevator_);
+    double lift = CL * pVtS;
+
+    double drag = (C_D0_ + C_D_alpha_*alpha_ + CL*CL/(M_PI*AR_*e_) +
+                   C_D_delta_elevator_*std::abs(delta_elevator_)) * pVtS;
+
 
     double side_force = (C_Y_beta_*beta + C_Y_delta_rudder_*delta_rudder_) * pVtS;
 
@@ -387,6 +404,17 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     Eigen::Vector3d F_thrust(thrust_, 0, 0);
     Eigen::Vector3d F_total = F_weight + F_thrust + F_aero;
 
+#if 0
+    int prec = 5;
+    cout<< "*************************" << endl;
+    cout<< std::setprecision(prec) << "alpha:    " << alpha_ << endl;
+    cout<< std::setprecision(prec) << "lift:     " << lift << endl;
+    cout<< std::setprecision(prec) << "drag:     " << drag << endl;
+    cout<< std::setprecision(prec) << "F_weight: " << F_weight[0] << " " << F_weight[1] << " " << F_weight[2] << " " << endl;
+    cout<< std::setprecision(prec) << "thrust_:  " << thrust_ << endl;
+    cout<< std::setprecision(prec) << "F_total:  " << F_total[0] << " " << F_total[1] << " " << F_total[2] << " " << endl;
+#endif
+
     // Calculate body frame linear velocities
     dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
     dxdt[V] = x[W]*x[P] - x[U]*x[R] + F_total(1) / mass_;
@@ -399,7 +427,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
     // Calculate moments from aerodynamic forces
     Eigen::Vector3d Moments_aero((C_L_beta_*beta + C_LP_*x_[P]*b_/(2*V_tau) + C_LR_*x_[R]*b_/(2*V_tau) + C_L_delta_aileron_*delta_aileron_ + C_L_delta_rudder_*delta_rudder_) * pVtS*b_,
-                                 (C_M0_ + C_M_alpha_*alpha_ + C_MQ_*x_[Q]*c_/(2*V_tau) + C_M_alpha_dot_*alpha_dot_*c_/(2*V_tau) + C_M_delta_elevator_*delta_elevator_*VtauVe) * pVtS*c_,
+                                 (C_M0_ + C_M_alpha_*alpha_ + C_MQ_*x_[Q]*c_/(2*V_tau) + C_M_alpha_dot_*alpha_dot_*c_/(2*V_tau) + C_M_delta_elevator_*delta_elevator_) * pVtS*c_,
                                  (C_N_beta_*beta + C_NP_*x_[P]*b_/(2*V_tau) + C_NR_*x_[R]*b_/(2*V_tau) + C_N_delta_aileron_*delta_aileron_ + C_N_delta_rudder_*delta_rudder_) * pVtS*b_);
 
 
