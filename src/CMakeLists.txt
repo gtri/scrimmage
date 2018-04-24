@@ -9,6 +9,7 @@ SET (LIB_RELEASE 1)
 set(SRCS
     autonomy/Autonomy.cpp
     common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
+    common/KalmanFilter.cpp common/PositionTracker.cpp
     common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
     common/CSV.cpp
     common/VariableIO.cpp
