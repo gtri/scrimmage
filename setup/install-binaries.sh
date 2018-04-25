@@ -70,6 +70,7 @@ DEPS_DPKG=(
     libgeographic-dev
     libboost-thread-dev
     libboost-date-time-dev
+    libboost-graph-dev
     libboost-iostreams-dev
     libboost-program-options-dev
     libboost-regex-dev
