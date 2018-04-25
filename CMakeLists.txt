@@ -325,58 +325,83 @@ endif()
 set(PROJECT_VERSION ${SCRIMMAGE_VERSION})
 set(PROJECT_DESCRIPTION "A multi-agent simulator")
 
-IF(UNIX AND NOT APPLE)
-  # - Add each library to LIBS_STRING
-  # SCRIMMAGE_GTRI_SIM_LIBS is a "global" variable that is passed
-  # down to each sub directory and every library that is
-  # generated in this project appends its name to this
-  # variable.
+if (UNIX AND NOT APPLE)
+  # - Add each library to LIBS_STRING PROJECT_LIBS is a "global" variable that
+  # is passed down to each sub directory and every library that is generated in
+  # this project appends its name to this variable.
   foreach(I ${PROJECT_LIBS})
     set (LIBS_STRING "${LIBS_STRING} -l${I}")
-    #message("=======> ${I}")
   endforeach()
+
+  #############################################################################
+  # Generate the cmake configuration files for the build tree
+  #############################################################################
+  include(CMakePackageConfigHelpers)
+
+  # Configure variables used in project-config.cmake.in for build tree
+  set(TMP_INCLUDE_INSTALL_DIR ${CMAKE_SOURCE_DIR}/include)
+  set(TMP_MSGS_INCLUDE_DIR ${MSGS_INCLUDE_DIR})
+  set(TMP_PROTO_INCLUDE_DIR ${PROTO_INCLUDE_DIR})
+
+  configure_package_config_file(
+    ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
+    ${CMAKE_BINARY_DIR}/scrimmage-config.cmake
+    INSTALL_DESTINATION ${CMAKE_SOURCE_DIR}/build
+    PATH_VARS TMP_INCLUDE_INSTALL_DIR
+    )
+
+  write_basic_package_version_file(
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+    )
 
   # Add all library targets to the build-tree export set
   export(TARGETS ${PROJECT_LIBS} ${PROJECT_PLUGINS}
-    FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake")
+    FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-targets.cmake")
 
   # Export the package for use from the build-tree
   # (this registers the build-tree with a global CMake-registry ~/.cmake)
   export(PACKAGE ${PROJECT_NAME})
 
-  # Generate the cmake config file for the source/build tree
-  set(PROJECT_INCLUDE_DIRS
-    ${CMAKE_SOURCE_DIR}/include
-    ${MSGS_INCLUDE_DIR}
-    ${PROTO_INCLUDE_DIR}
+  #############################################################################
+  # Generate the cmake configuration files for the install tree
+  #############################################################################
+  set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Include install dir")
+  set(LIB_INSTALL_DIR lib/ CACHE PATH "Library install dir")
+  set(CMAKE_CONFIG_DEST "${LIB_INSTALL_DIR}/${PROJECT_NAME}/cmake")
+
+  # Configure variables used in project-config.cmake.in for install tree
+  set(TMP_INCLUDE_INSTALL_DIR ${INCLUDE_INSTALL_DIR})
+  unset(TMP_MSGS_INCLUDE_DIR)
+  unset(TMP_PROTO_INCLUDE_DIR)
+
+  configure_package_config_file(
+    ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
+    ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/scrimmage-config.cmake
+    INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
+    PATH_VARS TMP_INCLUDE_INSTALL_DIR
     )
 
-  # Generate the config file that sets *_INCLUDE_DIRS and *_LIBRARIES
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" @ONLY)
-
-  # Generate the cmake config file for the install tree
-  set(PROJECT_INCLUDE_DIRS
-    ${CMAKE_INSTALL_PREFIX}/include
+  write_basic_package_version_file(
+    ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
     )
 
-  # Generate the config file that sets *_INCLUDE_DIRS and *_LIBRARIES
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake" @ONLY)
+  # Install cmake config files
+  install(FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
+    DESTINATION ${CMAKE_CONFIG_DEST})
 
-  # Generate the package config file for the install tree
-  configure_file (
-    "${PROJECT_MODULES_DIR}/project.pc.in"
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.pc"
-    @ONLY)
-
-  # Generate the cmake version file for both build/source and install trees
-  configure_file (
-    "${PROJECT_MODULES_DIR}/project-config-version.cmake.in"
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
-    @ONLY
+  install(
+    EXPORT ${PROJECT_NAME}-targets
+    DESTINATION ${CMAKE_CONFIG_DEST}
     )
 
+  #############################################################################
+  # Install Targets
+  #############################################################################
   # Install all mission XML files under etc
   install(
     DIRECTORY missions
@@ -412,26 +437,6 @@ IF(UNIX AND NOT APPLE)
     FILES_MATCHING PATTERN "*.pb.h"
     )
 
-  # Install the export set for use with the install-tree
-  # Each library needs to export to this same export target name
-  install(
-    EXPORT ${PROJECT_NAME}-targets
-    DESTINATION lib/cmake/${PROJECT_NAME}
-    )
-
-  # Install the cmake config
-  install (FILES
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake"
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
-    DESTINATION lib/cmake/${PROJECT_NAME}
-    )
-
-  # Install the ${PROJECT_NAME}.pc file to lib/pkgconfig
-  install (FILES
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.pc"
-    DESTINATION lib/pkgconfig
-    )
-
   if (NOT EXTERNAL)
     # Install meshes, terrain, maps that come with scrimmage core
     install(
@@ -440,7 +445,7 @@ IF(UNIX AND NOT APPLE)
       )
   endif()
 
-ENDIF()
+endif()
 
 ###############################################################################
 # Binary installation generation
