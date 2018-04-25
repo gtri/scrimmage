@@ -100,7 +100,7 @@ bool EnforceBoundaryInteraction::step_entity_interaction(std::list<sc::EntityPtr
                                                          double t, double dt) {
 
     // If the boundaries haven't been received yet, ignore, just return.
-    if (boundaries_.size() == 0) return true;
+    if (boundaries_.empty()) return true;
 
     // The entity must be within at least one of the active boundaries,
     // otherwise, it is removed from the simulation
