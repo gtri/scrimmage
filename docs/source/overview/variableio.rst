@@ -1,3 +1,5 @@
+.. _variableio:
+
 Variable IO
 -----------
 

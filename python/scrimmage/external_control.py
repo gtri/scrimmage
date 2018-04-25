@@ -134,7 +134,7 @@ class ScrimmageEnv(gym.Env):
         self.close()
         sys.exit(0)
 
-    def _reset(self):
+    def reset(self):
         """Restart scrimmage and return result."""
         self._clear_queues()
         self._terminate_scrimmage()
@@ -151,7 +151,7 @@ class ScrimmageEnv(gym.Env):
                 ret.append(self._return_action_result(i)[0])
             return ret
 
-    def _step(self, action):
+    def step(self, action):
         """Send action to SCRIMMAGE and return result."""
         def _step_single(i, space, a):
             if not isinstance(a, collections.Iterable):
@@ -276,6 +276,15 @@ class ScrimmageEnv(gym.Env):
         # print(cmd)
         return subprocess.Popen(cmd)
 
+    def close(self):
+        """Cleanup spawned threads and subprocesses.
+
+        The thread manages a GRPC server to communicate with scrimmage.  The
+        subprocess is the actual scrimmage instance.  This method needs to be
+        called in order to make sure a python instance exits cleanly.
+        """
+        self._close()
+
     def _close(self):
         """Cleanup spawned threads and subprocesses.
 
@@ -306,24 +315,14 @@ class ScrimmageEnv(gym.Env):
         shutdown the network to the autonomy in addition to sending a
         sigint.
         """
-        if self.scrimmage_process.returncode is None:
-            try:
-                os.remove(self.temp_mission_file)
-            except OSError:
-                pass
-
+        for queues in self.queues:
+            queues['action'].put(ExternalControl_pb2.Action(done=True))
+        self.scrimmage_process.poll()
+        while self.scrimmage_process.returncode is None:
             for queues in self.queues:
                 queues['action'].put(ExternalControl_pb2.Action(done=True))
-
-            try:
-                self.scrimmage_process.kill()
-                self.scrimmage_process.poll()
-                while self.scrimmage_process.returncode is None:
-                    self.scrimmage_process.poll()
-                    time.sleep(0.1)
-            except OSError:
-                print('could not terminate existing scrimmage process. '
-                      'It may have already shutdown.')
+            time.sleep(0.1)
+            self.scrimmage_process.poll()
 
 
 class ExternalControl(ExternalControl_pb2_grpc.ExternalControlServicer):

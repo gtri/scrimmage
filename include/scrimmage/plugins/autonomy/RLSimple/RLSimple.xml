@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>RLSimple_plugin</library>
+  <server_address>localhost:50051</server_address>
+  <radius>0.2</radius>
+</params>

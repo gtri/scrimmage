@@ -10,8 +10,17 @@ example of how to set up a scrimmage agent to interact with OpenAI by providing
 a state space, action space, and reward. We will use the plugins project we
 created in a previous tutorial ( :doc:`create-project` ) to build our new OpenAI
 plugins. To start with, we will need to create an Autonomy and a Sensor plugin.
+The files described below are located in the following places::
 
-We can use the script provided with SCRIMMAGE to create these plugins. To do so,
+    scrimmage/include/scrimmage/plugins/autonomy/RLSimple
+    scrimmage/src/plugins/autonomy/RLSimple
+    scrimmage/include/scrimmage/plugins/sensor/RLSimpleSensor
+    scrimmage/src/plugins/sensor/RLSimpleSensor
+    scrimmage/missions/rlsimple.xml
+    scrimmage/test/test_openai.py
+
+We can use the script provided with SCRIMMAGE to create these plugins (we will 
+call them something different in this tutorial). To do so,
 enter the following at the terminal: ::
 
   $ cd /path/to/scrimmage/scripts
@@ -50,7 +59,7 @@ with OpenAI. Let's start with the header file located at
 
 Normal autonomy plugins extend the Autonomy class. For the OpenAI autonomy
 plugin, we will instead extend the ExternalController autonomy plugin. This
-class covers the normal componenets of the autonomy plugin and allows to only
+class covers the normal components of the autonomy plugin and allows to only
 worry about creating a few methods specfic for OpenAI. We will thus have to
 change our include statements to the following:
 
@@ -63,23 +72,21 @@ change our include statements to the following:
    #include <string>
    #include <utility>
 
-
-Below the include statements, we have the following class definition:
-
-.. code-block:: c++
-   :linenos:
-
-   class TutorialOpenAIAutonomy : public scrimmage::autonomy::ExternalControl {
+   class SimpleLearner : public scrimmage::autonomy::ExternalControl {
     public:
        virtual void init(std::map<std::string, std::string> &params);
+       virtual std::pair<bool, double> calc_reward(double t);
 
     protected:
-       double radius_;
 
-       virtual std::pair<bool, double> calc_reward(double t);
+       double radius_;
        virtual bool handle_action(
            double t, double dt, const scrimmage_proto::Action &action);
        virtual scrimmage_proto::SpaceParams action_space_params();
+
+       uint8_t output_vel_x_idx_ = 0;
+       uint8_t output_vel_y_idx_ = 0;
+       uint8_t output_vel_z_idx_ = 0;
    };
 
 
@@ -87,7 +94,6 @@ As can be seen, there only four methods we need to create in our source file.
 They handle the initialization of our autonomy plugin, how the reward is
 calculated, the type of action space that will be seen by the OpenAI
 environment, and how those actions are interpreted in SCRIMMAGE.
-
 
 OpenAI Autonomy Plugin Source File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,34 +106,38 @@ We will first change the includes at the top of the file to be:
 .. code-block:: c++
    :linenos:
 
-   #include <scrimmage/plugin_manager/RegisterPlugin.h>
-   #include <scrimmage/entity/Entity.h>
    #include <scrimmage/math/State.h>
-   #include <scrimmage/parse/ParseUtils.h>
-   #include <scrimmage/sensor/Sensor.h>
+   #include <scrimmage/plugin_manager/RegisterPlugin.h>
    #include <scrimmage/proto/ExternalControl.pb.h>
-   #include <Tutorial-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h>
 
-   namespace sc = scrimmage;
+   #include <my-scrimmage-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h>
+
    namespace sp = scrimmage_proto;
+   namespace sc = scrimmage;
+
+   REGISTER_PLUGIN(scrimmage::Autonomy, SimpleLearner, SimpleLearner_plugin)
+
 
 Next, let us look at the ``init``:
 
 .. code-block:: c++
    :linenos:
 
-   void SimpleLearner::init(std::map<std::string,std::string> &params)
-   {
-       desired_state_->pos()(2) = state_->pos()(2);
+   void SimpleLearner::init(std::map<std::string, std::string> &params) {
+       output_vel_x_idx_ = vars_.declare(sc::VariableIO::Type::velocity_x, sc::VariableIO::Direction::Out);
+       output_vel_y_idx_ = vars_.declare(sc::VariableIO::Type::velocity_y, sc::VariableIO::Direction::Out);
+       output_vel_z_idx_ = vars_.declare(sc::VariableIO::Type::velocity_z, sc::VariableIO::Direction::Out);
+
+       radius_ = std::stod(params.at("radius"));
        ExternalControl::init(params);
    }
 
+
 In our case, the ``init`` just calls the inherited ``init`` from
-ExternalControl. This would also be where parameters from the
-``SimpleLearner.xml`` file would be initialized. We set the desired altitude
-to be the same as our current altitude in order to preserve the 2D plane
-environment. From here, we can then move on to look at the action space
-representation for OpenAI:
+ExternalControl and sets up the :ref:`variableio` class. This would also be
+where parameters from the ``SimpleLearner.xml`` file would be initialized. From
+here, we can then move on to look at
+the action space representation for OpenAI:
 
 .. code-block:: c++
    :linenos:
@@ -138,33 +148,27 @@ representation for OpenAI:
        single_space_params->set_discrete(true);
        single_space_params->set_num_dims(1);
        single_space_params->add_minimum(0);
-       single_space_params->add_maximum(2);
+       single_space_params->add_maximum(1);
        return space_params;
    }
 
-In this method, we set up a discrete action space of one dimension, with 3
-possible values: 0, 1, 2. Next, let's see what we do when we receive those
-actions from OpenAI in our ``handle_action`` method:
+In this method, we set up a discrete action space of one dimension.
+This action will be interpreted in the ``handle_action`` method:
 
 .. code-block:: c++
    :linenos:
 
    bool SimpleLearner::handle_action(double t, double dt, const scrimmage_proto::Action &action) {
-       if (!check_action(action, 1, 0)) {
-           return false;
-       }
-       Eigen::Vector3d velocity_cmd;
-       double turn_rate = (action.discrete(0) - 1)*.2;
-       Eigen::Vector3d velocity_cmd;
-       velocity_cmd << 1, turn_rate, 0;
+       if (!check_action(action, 1, 0)) return false;
+
+       double x_vel = action.discrete(0) == 1 ? 1 : -1;
+       vars_.output(output_vel_x_idx_, x_vel);
        return true;
    }
 
-Here, we can see that we take our ``action`` of 0, 1, or 2 and convert it
-into a corresponding turning rate. We limit the turning rate to .2 and also
-tell the player to constantly fly forward at a speed of 1 m/s. Notice that we
-are not using the ``t`` or ``dt`` parameters in our specific example. However,
-those are available for other environment setups if needed.
+
+Here, we can see that we take our ``action`` of 0 or 1, each being intepreted
+to mean a negative or positive velocity, respectively.
 
 Finally, we need to set up the reward for this environment in ``calc_reward``. This
 function returns a `std::pair<bool, double>` which corresponds to whether the
@@ -173,34 +177,14 @@ environment is done and the reward:
 .. code-block:: c++
    :linenos:
 
-   std::pair<bool, double> TutorialOpenAIAutonomy::calc_reward(double time) {
-       const bool done = false;
-       double reward = 0.0;
-
-       for (auto &kv : parent_->mp()->team_info()) {
-           // same team
-           if (kv.first == parent_->id().team_id()) {
-               continue;
-           }
-
-           // For each base
-           int i = 0;
-           for (Eigen::Vector3d &base_pos : kv.second.bases) {
-               Eigen::Vector3d base_2d_pos(base_pos.x(), base_pos.y(), state_->pos().z());
-               double radius = kv.second.radii.at(i);
-               if ((state_->pos()-base_2d_pos).norm() < radius) {
-                   reward += 1;
-               }
-               i++;
-           }
-       }
-       return std::make_pair(done, reward);
+   std::pair<bool, double> SimpleLearner::calc_reward(double t) {
+       return {false, state_->pos().head<2>().norm() < radius_};
    }
+
 
 For this example, we do not use the time parameter but it is there for cases
 where you want to include the time in your reward function. Our ``calc_reward``
-goes through every team and looks at every base. For every base radius the
-player is within from a top down view, the reward is incremented up by 1.
+gives 1 point if it is within some distance of the origin.
 
 With this, we have created the action space and reward function for the OpenAI
 enviornment. The only part left is creating the state space. Before working on
@@ -224,10 +208,11 @@ to
 
 .. code-block:: cmake
    :lineno-start: 15
-   :emphasize-lines: 2
+   :emphasize-lines: 2-3
 
    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-     ExternalControl_plugin
+        ${SCRIMMAGE_LIBRARIES}
+        ${SCRIMMAGE_PLUGINS}
      )
 
 in order for ``SimpleLearner`` to see the ``ExternalControl`` autonomy plugin.
@@ -237,7 +222,7 @@ From here, we can now build the project: ::
   $ cmake ..
   $ make
 
-Xml file for OpenAI Autonomy
+xml file for OpenAI Autonomy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The last part we need to edit is the ``SimpleLearner.xml`` located at:
@@ -247,7 +232,9 @@ simply add the following line to the ``<params>`` field.
 
 .. code-block:: xml
 
+  <library>SimpleLearner_plugin</library>
   <server_address>localhost:50051</server_address>
+  <radius>5</radius>
 
 With that, we are now done with ``SimpleLearner`` and can now focus on the
 sensor plugin.
@@ -269,6 +256,7 @@ following:
 .. code-block:: c++
    :linenos:
 
+
    #include <scrimmage/sensor/Sensor.h>
 
    #include <map>
@@ -280,16 +268,10 @@ following:
    class SpaceSample;
    }
 
-Below that, we create the ``MyOpenAISensor`` class defined as:
-
-.. code-block:: c++
-   :linenos:
-
    class MyOpenAISensor : public scrimmage::Sensor {
     public:
        virtual scrimmage_proto::SpaceParams observation_space_params();
-       virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
-           sensor_msg_flat(double t);
+       virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t);
    };
 
 ``observation_space_params`` sets up the state space model for the OpenAI
@@ -308,18 +290,18 @@ In this source file, we need to add the following includes:
 .. code-block:: c++
    :linenos:
 
-   #include <scrimmage/plugin_manager/RegisterPlugin.h>
+
+   #include <my-scrimmage-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
+
    #include <scrimmage/entity/Entity.h>
    #include <scrimmage/math/State.h>
+   #include <scrimmage/plugin_manager/RegisterPlugin.h>
    #include <scrimmage/proto/ExternalControl.pb.h>
-   #include <boost/range/adaptor/map.hpp>
-
-
-   #include <Tutorial-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
 
    namespace sc = scrimmage;
    namespace sp = scrimmage_proto;
-   namespace ba = boost::adaptors;
+
+   REGISTER_PLUGIN(scrimmage::Sensor, MyOpenAISensor, MyOpenAISensor_plugin)
 
 From there, we then look at method implementation. ``observation_space_params``
 creates a 4 dimensional state space for x,y, cos(heading), and sin(heading). It
@@ -330,34 +312,23 @@ well.
 .. code-block:: c++
    :linenos:
 
-   scrimmage_proto::SpaceParams
-   MyOpenAISensor::observation_space_params() {
+   scrimmage_proto::SpaceParams MyOpenAISensor::observation_space_params() {
        sp::SpaceParams space_params;
 
        const double inf = std::numeric_limits<double>::infinity();
-       for (size_t i = 0; i < parent_->contacts()->size(); i++) {
-           sp::SingleSpaceParams *single_space_params = space_params.add_params();
-           single_space_params->set_num_dims(4);
-
-           const std::vector<double> lims {inf, inf, 1, 1}; // x, y, cos(yaw), sin(yaw)
-           for (double lim : lims) {
-             single_space_params->add_minimum(-lim);
-             single_space_params->add_maximum(lim);
-           }
-           single_space_params->set_discrete(false);
-       }
+       sp::SingleSpaceParams *single_space_params = space_params.add_params();
+       single_space_params->set_num_dims(1);
+       single_space_params->add_minimum(-inf);
+       single_space_params->add_maximum(inf);
+       single_space_params->set_discrete(false);
 
        return space_params;
    }
 
+
 ``sensor_msg_flat`` sets up a message type, fills in the message with the new
-state information and then returns the message as its output. As the list of
-players is unordered, we get the keys (entity ids) from the contacts map
-and copy them into an ordered set.
-This is to ensure that the state message has the same format every time. Again,
-our message consists of 4 states: x,y, cos(heading), and sin(heading). If there
-are more than one players on the field, it would also add their states to the
-message as well.
+state information and then returns the message as its output. In
+this case we are just outputting the x position:
 
 .. code-block:: c++
    :linenos:
@@ -365,20 +336,7 @@ message as well.
    scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
    MyOpenAISensor::sensor_msg_flat(double t) {
        auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
-
-       // we need these sorted but contacts are an unordered map
-       auto keys = *parent_->contacts() | ba::map_keys;
-       std::set<int> contact_ids(keys.begin(), keys.end());
-
-       for (int contact_id : contact_ids) {
-           sc::State &s = *parent_->contacts()->at(contact_id).state();
-           const double yaw = s.quat().yaw();
-           msg->data.add_value(s.pos()(0));
-           msg->data.add_value(s.pos()(1));
-           msg->data.add_value(cos(yaw));
-           msg->data.add_value(sin(yaw));
-       }
-
+       msg->data.add_value(parent_->state()->pos()(0));
        return msg;
    }
 
@@ -396,46 +354,28 @@ following blocks (More detail on creating mission files is located at
 .. code-block:: xml
    :linenos:
 
-   <entity_common name="all">
-       <count>1</count>
-       <health>1</health>
-       <radius>1</radius>
-       <motion_model>SimpleAircraft</motion_model>
-       <controller>SimpleAircraftControllerPID</controller>
-   </entity_common>
 
-   <entity entity_common="all">
-     <x>0</x>
-     <y>0</y>
-     <z>200</z>
-     <heading>0</heading>
-     <team_id>1</team_id>
-     <color>77 77 255</color>
-     <autonomy>SimpleLearner</autonomy>
-     <visual_model>zephyr-blue</visual_model>
-     <sensor order="0">MyOpenAISensor</sensor>
-     <motion_model>Unicycle</motion_model>
-     <controller>UnicycleControllerDirect</controller>
-   </entity>
+      <entity_common name="all">
+          <count>1</count>
+          <health>1</health>
+          <radius>1</radius>
 
-   <entity entity_common="all">
-     <team_id>2</team_id>
-     <color>255 0 0</color>
-     <count>0</count>
 
-     <base>
-       <x>30</x>
-       <y>0</y>
-       <z>200</z>
-       <radius>25</radius>
-     </base>
-   </entity>
+          <motion_model>SingleIntegrator</motion_model>
+          <controller>SingleIntegratorControllerSimple</controller>
+      </entity_common>
 
-This example environment is intended to work with the ``Unicycle`` motion model
-through the ``UnicycleControllerDirect controller``. If we wanted to use a
-different motion model/controller, we would need to change our ``handle_action``
-in ``SimpleLearner.cpp`` to output the correct control for the new setup. If
-``openai.xml`` is opened without using OpenAI, SCRIMMAGE will
+      <entity entity_common="all">
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+        <heading>0</heading>
+        <team_id>1</team_id>
+        <color>77 77 255</color>
+        <autonomy server_address="localhost:50051">SimpleLearner</autonomy>
+        <visual_model>Sphere</visual_model>
+        <sensor order="0">MyOpenAISensor</sensor>
+      </entity>
 
 Now we have completed our work on the SCRIMMAGE side. Now all that is left is to
 write the python code to run our OpenAI environment.
@@ -464,7 +404,7 @@ reward. We will save this python file at
        try:
            env = gym.make('scrimmage-v0')
        except gym.error.Error:
-           mission_file = scrimmage.find_mission('openai.xml')
+           mission_file = scrimmage.find_mission('rlsimple.xml')
 
            gym.envs.register(
                id='scrimmage-v0',
@@ -481,18 +421,18 @@ reward. We will save this python file at
        total_reward = 0
        for i in range(200):
 
-           action = 1 if i < 100 else 2
+           action = 1 if i < 100 else 0
            obs, reward, done = env.step(action)[:3]
            total_reward += reward
 
            if done:
                break
 
-       env.env.close()
+       env.close()
        print("Total Reward: %2.2f" % total_reward)
 
    if __name__ == '__main__':
-       test_openai()
+      test_openai()
 
 Now that we have completed all of the code, we can simply type the following
 into the terminal to see it run! ::

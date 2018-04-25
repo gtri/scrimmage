@@ -2,11 +2,11 @@
 
   <run dt="0.1"
     end="100"
-    enable_gui="true"
+    enable_gui="false"
     network_gui="false"
     start="0.0"
-    start_paused="false"
-    time_warp="10" />
+    start_paused="true"
+    time_warp="30" />
 
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
@@ -16,12 +16,11 @@
   <grid_spacing>10</grid_spacing>
   <grid_size>1000</grid_size>
 
-  <terrain>mcmillan</terrain>
   <background_color>191 191 191</background_color> 
   <gui_update_period>10</gui_update_period> 
 
   <plot_tracks>false</plot_tracks>
-  <output_type>frames,summary</output_type>
+  <output_type>all</output_type>
   <show_plugins>false</show_plugins>
 
   <metrics order="0">SimpleCollisionMetrics</metrics>
@@ -42,40 +41,21 @@
       <count>1</count>
       <health>1</health>
       <radius>1</radius>
-      <motion_model>Unicycle</motion_model>
-      <controller>DirectController</controller>
+
+
+      <motion_model>SingleIntegrator</motion_model>
+      <controller>SingleIntegratorControllerSimple</controller>
   </entity_common>
 
   <entity entity_common="all">
     <x>0</x>
     <y>0</y>
-    <z>200</z>
+    <z>0</z>
     <heading>0</heading>
     <team_id>1</team_id>
     <color>77 77 255</color>
-    <autonomy>TutorialOpenAIAutonomy</autonomy>
-    <visual_model>zephyr-blue</visual_model>
-    <sensor order="0">TutorialOpenAISensor</sensor>
-    <!-- <motion_model>Unicycle</motion_model>
-    <controller>DirectController</controller> -->
-  </entity>
-
-  <entity entity_common="all">
-    <team_id>2</team_id>
-    <color>255 0 0</color>
-    <count>0</count>
-
-<!-- 
-    <x>20</x>
-    <y>0</y>
-    <z>200</z> -->
-    <autonomy>Straight</autonomy>
-    <visual_model>zephyr-red</visual_model>
-    <base>
-      <x>30</x>
-      <y>0</y>
-      <z>200</z>
-      <radius>20</radius>
-    </base>
+    <autonomy server_address="localhost:50051">RLSimple</autonomy>
+    <visual_model>Sphere</visual_model>
+    <sensor order="0">RLSimpleSensor</sensor>
   </entity>
 </runscript>
