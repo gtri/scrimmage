@@ -28,7 +28,7 @@ def main():
     parser=argparse.ArgumentParser(description='Run MOOS in parallel with SCRIMMAGE.')
     parser.add_argument('--init_script',
                         type=str,
-                        help='Initial script to execute before sim starts.')    
+                        help='Initial script to execute before sim starts.')
     parser.add_argument('--scrimmage_mission_file',
                         type=str, default='../missions/moos-ex1.xml',
                         help='SCRIMMAGE mission file')
@@ -49,7 +49,7 @@ def main():
                         type=str,
                         help='Use mission default settings (m2_berta, s1_alpha)')
     args = parser.parse_args()
-    
+
     if args.mission_default is not None:
         if args.mission_default == 'm2_berta':
             args.init_script = "./launch.sh --just_make " + args.time_warp
@@ -57,7 +57,7 @@ def main():
             args.moos_launch_script = './launch.sh'
             args.moos_mission_dir = '../data/moos/missions/m2_berta'
             args.time_warp = "8"
-            args.finalize_script = "./clean.sh"            
+            args.finalize_script = "./clean.sh"
         elif args.mission_default == 's1_alpha':
             args.scrimmage_mission_file = '../missions/moos-ex1.xml'
             args.moos_launch_script = './launch.sh'
@@ -86,7 +86,8 @@ def main():
 
     # Kill off any forked processes
     for p in procs:
-        p.kill()
+        p.terminate()  # Sends SIGTERM
+        p.wait()
 
     if args.finalize_script is not None:
         with cd(args.moos_mission_dir):

@@ -56,6 +56,9 @@ class Predator : public scrimmage::Autonomy {
     int speed_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
+
+    int desired_heading_idx_ = 0;
+    int desired_speed_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

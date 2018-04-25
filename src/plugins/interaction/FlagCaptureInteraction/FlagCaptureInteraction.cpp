@@ -116,7 +116,7 @@ bool FlagCaptureInteraction::init(std::map<std::string, std::string> &mission_pa
 bool FlagCaptureInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                      double t, double dt) {
 
-    if (flag_boundary_ == nullptr || capture_boundary_ == nullptr) {
+    if (flag_boundary_ == nullptr) { // || capture_boundary_ == nullptr) {
         return true;
     }
 
