@@ -97,7 +97,7 @@ class Updater : public vtkCommand {
 
     Updater();
 
-    void Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
+    void Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId),
                  void * vtkNotUsed(callData));
 
     void enable_fps();
