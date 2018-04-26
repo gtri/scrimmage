@@ -345,7 +345,7 @@ if (UNIX AND NOT APPLE)
 
   configure_package_config_file(
     ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    ${CMAKE_BINARY_DIR}/scrimmage-config.cmake
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_SOURCE_DIR}/build
     PATH_VARS TMP_INCLUDE_INSTALL_DIR
     )
@@ -378,7 +378,7 @@ if (UNIX AND NOT APPLE)
 
   configure_package_config_file(
     ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/scrimmage-config.cmake
+    ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
     PATH_VARS TMP_INCLUDE_INSTALL_DIR
     )
