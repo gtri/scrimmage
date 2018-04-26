@@ -93,7 +93,7 @@ namespace sc = scrimmage;
 namespace scrimmage {
 
 double fps = 0;
-void fpsCallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId),
+void fpsCallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId), // NOLINT
                          void* vtkNotUsed(clientData), void* vtkNotUsed(callData)) {
     vtkRenderer* renderer = static_cast<vtkRenderer*>(caller);
     double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
@@ -139,7 +139,7 @@ void Updater::init(const std::string &log_dir, double dt) {
     dt_ = dt;
 }
 
-void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId),
+void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
                       void * vtkNotUsed(callData)) {
     update();
 
