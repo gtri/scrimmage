@@ -21,7 +21,6 @@ Build-Depends:
  libboost-system-dev,
  libboost-graph-dev,
  libbullet-dev,
- libopencv-dev
 Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage
@@ -40,9 +39,6 @@ Depends:
  libboost-filesystem1.58.0,
  libboost-system1.58.0,
  libbulletcollision2.83.6,
- libopencv-highgui2.4v5,
- libopencv-imgproc2.4v5,
- libopencv-core2.4v5
 Description: SCRIMMAGE multi-agent robotics simulator
  SCRIMMAGE is a multi-agent simulator for robotics research. It has been used
  to conduct studies in multi-agent task assignment, differential game theory,
