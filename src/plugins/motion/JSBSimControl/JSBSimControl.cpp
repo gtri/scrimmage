@@ -141,12 +141,22 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     ic->SetVEastFpsIC(state_->vel()[1] * meters2feet);
     ic->SetVNorthFpsIC(state_->vel()[0] * meters2feet);
     ic->SetVDownFpsIC(-state_->vel()[2] * meters2feet);
-
-    // TODO: add heading
     ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() * meters2feet);
-    ic->SetLatitudeDegIC(parent_->projection()->LatitudeOrigin() );
-    ic->SetLongitudeDegIC(parent_->projection()->LongitudeOrigin() );
-    ic->SetAltitudeASLFtIC((parent_->projection()->HeightOrigin()+state_->pos()[2]) * meters2feet);
+
+    if (info.count("latitude") > 0) {
+        ic->SetLatitudeDegIC(std::stod(info["latitude"]));
+    }
+    if (info.count("longitude") > 0) {
+        ic->SetLongitudeDegIC(std::stod(info["longitude"]));
+    }
+    if (info.count("heading") > 0) {
+        angles_to_jsbsim_.set_angle(std::stod(info["heading"]));
+        ic->SetPsiDegIC(angles_to_jsbsim_.angle());
+    }
+    if (info.count("altitude") > 0) {
+        double alt_asl_meters = std::stod(info["altitude"]);
+        ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
+    }
 
     exec->RunIC();
     exec->Setdt(std::stod(info["dt"]));
