@@ -31,6 +31,8 @@
  */
 
 #include <gtest/gtest.h>
+
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Angles.h>
 
 #include <cmath>
@@ -73,4 +75,46 @@ TEST(test_angles, angle_within) {
             EXPECT_FALSE(ang::angle_within(high_rad + M_PI, high_rad + M_PI / 2, ang_rad));
         }
     }
+}
+
+TEST(test_angles, gps_to_euclidean) {
+    using sc::Angles;
+    using Type = Angles::Type;
+
+    Angles beg_angle(0, Type::GPS, Type::EUCLIDEAN);
+    Angles end_angle(240, Type::GPS, Angles::Type::EUCLIDEAN);
+
+    const double eps = 1e-6;
+    EXPECT_NEAR(beg_angle.angle(), 90, eps);
+    EXPECT_NEAR(end_angle.angle(), 210, eps);
+
+    // test interpolation (clockwise)
+    std::vector<double> angles = sc::linspace(beg_angle.angle(), end_angle.angle(), 3);
+    EXPECT_EQ(angles.size(), static_cast<size_t>(3));
+    if (angles.size() != 3) return;
+
+    EXPECT_NEAR(angles[0], 90, eps);
+    EXPECT_NEAR(angles[1], 150, eps);
+    EXPECT_NEAR(angles[2], 210, eps);
+
+    // now test interpolation (counter-clockwise)
+    angles = sc::linspace(beg_angle.angle(), end_angle.angle() - 360, 3);
+    EXPECT_EQ(angles.size(), static_cast<size_t>(3));
+    if (angles.size() != 3) return;
+
+    EXPECT_NEAR(angles[0], 90, eps);
+    EXPECT_NEAR(angles[1], -30, eps);
+    EXPECT_NEAR(angles[2], -150, eps);
+}
+
+TEST(test_angles, euclidean_to_gps) {
+    using sc::Angles;
+    using Type = Angles::Type;
+
+    Angles beg_angle(0, Type::EUCLIDEAN, Type::GPS);
+    Angles end_angle(240, Type::EUCLIDEAN, Angles::Type::GPS);
+
+    const double eps = 1e-6;
+    EXPECT_NEAR(beg_angle.angle(), 90, eps);
+    EXPECT_NEAR(end_angle.angle(), 210, eps);
 }

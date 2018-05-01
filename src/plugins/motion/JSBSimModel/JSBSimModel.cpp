@@ -62,15 +62,8 @@ std::tuple<int, int, int> JSBSimModel::version() {
 
 bool JSBSimModel::init(std::map<std::string, std::string> &info,
                        std::map<std::string, std::string> &params) {
-    angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
-    angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
-    angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
-    angles_from_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_X);
-
-    angles_to_jsbsim_.set_input_clock_direction(ang::Rotate::CCW);
-    angles_to_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_X);
-    angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
-    angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
+    angles_from_jsbsim_ = Angles(0, Angles::Type::GPS, Angles::Type::EUCLIDEAN);
+    angles_to_jsbsim_ = Angles(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS);
 
     use_pitch_ = str2bool(params.at("use_pitch"));
     std::string z_name =  use_pitch_ ?

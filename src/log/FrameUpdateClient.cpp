@@ -37,6 +37,7 @@
 
 #include <scrimmage/log/FrameUpdateClient.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/Quaternion.h>
 
 #include <iostream>
@@ -55,12 +56,9 @@ using std::cout;
 using std::endl;
 
 namespace scrimmage {
-FrameUpdateClient::FrameUpdateClient(const std::string &ip, int port) {
-    angles_to_gps_.set_input_clock_direction(Angles::Rotate::CCW);
-    angles_to_gps_.set_input_zero_axis(Angles::HeadingZero::Pos_X);
-    angles_to_gps_.set_output_clock_direction(Angles::Rotate::CW);
-    angles_to_gps_.set_output_zero_axis(Angles::HeadingZero::Pos_Y);
-}
+
+FrameUpdateClient::FrameUpdateClient(const std::string &ip, int port) :
+    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}
 
 bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
 

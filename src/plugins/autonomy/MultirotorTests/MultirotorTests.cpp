@@ -56,12 +56,8 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-MultirotorTests::MultirotorTests() {
-    angles_to_gps_.set_input_clock_direction(sc::Angles::Rotate::CCW);
-    angles_to_gps_.set_input_zero_axis(sc::Angles::HeadingZero::Pos_X);
-    angles_to_gps_.set_output_clock_direction(sc::Angles::Rotate::CW);
-    angles_to_gps_.set_output_zero_axis(sc::Angles::HeadingZero::Pos_Y);
-}
+MultirotorTests::MultirotorTests() :
+    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}
 
 void MultirotorTests::init(std::map<std::string, std::string> &params) {
     multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
