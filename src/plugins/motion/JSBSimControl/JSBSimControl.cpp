@@ -44,6 +44,8 @@
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
+
 #include <iomanip>
 #include <iostream>
 
@@ -124,20 +126,34 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
     //////////
 
-    exec = std::make_shared<JSBSim::FGFDMExec>();
+    exec_ = std::make_shared<JSBSim::FGFDMExec>();
 
-    exec->SetDebugLevel(0);
-    exec->SetRootDir(info["JSBSIM_ROOT"]);
-    exec->SetAircraftPath("/aircraft");
-    exec->SetEnginePath("/engine");
-    exec->SetSystemsPath("/systems");
+    fg_out_enable_ = get<bool>("flightgear_output_enable", params, false);
+    if (fg_out_enable_) {
+        output_fg_ = new JSBSim::FGOutputFGMod(&(*exec_));
+        std::string ip = get<std::string>("flightgear_ip", params, "localhost");
+        std::string port = get<std::string>("flightgear_port", params, "5600");
+        std::string protocol = get<std::string>("flightgear_protocol", params, "UDP");
+        std::string name = ip + ":" + protocol + "/" + port; // localhost:UDP/5600
 
-    exec->LoadScript("/scripts/"+info["script_name"]);
+        output_fg_->SetIdx(0);
+        output_fg_->SetOutputName(name);
+        output_fg_->SetRateHz(60);
+        output_fg_->InitModel();
+    }
 
-    exec->SetRootDir(parent_->mp()->log_dir());
-    exec->SetRootDir(info["JSBSIM_ROOT"]);
+    exec_->SetDebugLevel(0);
+    exec_->SetRootDir(info["JSBSIM_ROOT"]);
+    exec_->SetAircraftPath("/aircraft");
+    exec_->SetEnginePath("/engine");
+    exec_->SetSystemsPath("/systems");
 
-    JSBSim::FGInitialCondition *ic = exec->GetIC();
+    exec_->LoadScript("/scripts/"+info["script_name"]);
+
+    exec_->SetRootDir(parent_->mp()->log_dir());
+    exec_->SetRootDir(info["JSBSIM_ROOT"]);
+
+    JSBSim::FGInitialCondition *ic = exec_->GetIC();
     ic->SetVEastFpsIC(state_->vel()[1] * meters2feet);
     ic->SetVNorthFpsIC(state_->vel()[0] * meters2feet);
     ic->SetVDownFpsIC(-state_->vel()[2] * meters2feet);
@@ -158,13 +174,13 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
         ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
     }
 
-    exec->RunIC();
-    exec->Setdt(std::stod(info["dt"]));
-    exec->Run();
+    exec_->RunIC();
+    exec_->Setdt(std::stod(info["dt"]));
+    exec_->Run();
 
     // Get references to each of the nodes that hold properties that we
     // care about
-    JSBSim::FGPropertyManager* mgr = exec->GetPropertyManager();
+    JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();
     longitude_node_ = mgr->GetNode("position/long-gc-deg");
     latitude_node_ = mgr->GetNode("position/lat-gc-deg");
     altitude_node_ = mgr->GetNode("position/h-sl-ft");
@@ -256,8 +272,12 @@ bool JSBSimControl::step(double time, double dt) {
     // // Yaw stabilizer
     // ap_rudder_cmd_node_->setDoubleValue(u_yaw);
 
-    exec->Setdt(dt);
-    exec->Run();
+    exec_->Setdt(dt);
+    exec_->Run();
+
+    if (fg_out_enable_) {
+        output_fg_->Print();
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
@@ -335,7 +355,7 @@ bool JSBSimControl::step(double time, double dt) {
 
 
 #if 0
-    JSBSim::FGPropertyManager* mgr = exec->GetPropertyManager();
+    JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();
     cout << "--------------------------------------------------------" << endl;
     cout << "  State information in JSBSImControl" << endl;
     cout << "--------------------------------------------------------" << endl;

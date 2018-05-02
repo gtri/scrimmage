@@ -79,18 +79,19 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
 
-    Output = new JSBSim::FGOutputFGMod(&(*exec_));
-    std::string name = "localhost:UDP/5600";
+    fg_out_enable_ = get<bool>("flightgear_output_enable", params, false);
+    if (fg_out_enable_) {
+        output_fg_ = new JSBSim::FGOutputFGMod(&(*exec_));
+        std::string ip = get<std::string>("flightgear_ip", params, "localhost");
+        std::string port = get<std::string>("flightgear_port", params, "5600");
+        std::string protocol = get<std::string>("flightgear_protocol", params, "UDP");
+        std::string name = ip + ":" + protocol + "/" + port; // localhost:UDP/5600
 
-    cout << "NAME: " << name << endl;
-
-    Output->SetIdx(0);
-    Output->SetOutputName(name);
-    Output->SetRateHz(60);
-    Output->InitModel();
-
-    //Output->SetSubSystems(subSystems);
-    //Output->SetOutputProperties(outputProperties);
+        output_fg_->SetIdx(0);
+        output_fg_->SetOutputName(name);
+        output_fg_->SetRateHz(60);
+        output_fg_->InitModel();
+    }
 
     exec_->SetDebugLevel(0);
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
@@ -233,12 +234,9 @@ bool JSBSimModel::step(double time, double dt) {
     exec_->Run();
     // Save state
 
-    Output->Print();
-
-    //cout << "-----" << endl;
-    //cout << "ID: " << parent_->id().id() << endl;
-    //cout << "LAT: " << latitude_node_->getDoubleValue() << endl;
-    //cout << "LONG: " << longitude_node_->getDoubleValue() << endl;
+    if (fg_out_enable_) {
+        output_fg_->Print();
+    }
 
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
                                    longitude_node_->getDoubleValue(),

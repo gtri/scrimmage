@@ -38,8 +38,6 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/common/Time.h>
 
-#include <iostream>
-#include <limits>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -48,7 +46,8 @@
 #include <unistd.h>
 #include <netdb.h>
 
-#include <time.h>
+#include <iostream>
+#include <limits>
 
 #include <flightgear/MultiPlayer/mpmessages.hxx>
 #include <flightgear/MultiPlayer/tiny_xdr.hxx>
@@ -72,7 +71,8 @@ FlightGearMultiplayer::FlightGearMultiplayer() :
     data_socket_(std::make_shared<netSocket>()),
     earth_(std::make_shared<GeographicLib::Geocentric>(
                GeographicLib::Constants::WGS84_a(),
-               GeographicLib::Constants::WGS84_f())) {
+               GeographicLib::Constants::WGS84_f())),
+    angles_to_jsbsim_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
 }
 
 void FlightGearMultiplayer::init(std::map<std::string, std::string> &params) {
@@ -82,37 +82,33 @@ void FlightGearMultiplayer::init(std::map<std::string, std::string> &params) {
     callsign_ = sc::get<std::string>("callsign", params, "scrimmage");
 
     net_address_.set(server_ip.c_str(), server_port);
-    if(data_socket_->open(false)  == 0) { // Open UDP socket
+    if (data_socket_->open(false)  == 0) { // Open UDP socket
         std::cout << "Failed to open connection to: " << endl;
         cout << "Server IP: " << net_address_.getIP() << endl;
         cout << "Server Port: " << net_address_.getPort() << endl;
     }
 }
 
+scrimmage::Quaternion FlightGearMultiplayer::fromLonLatRad(float lon, float lat) {
+    // TODO : This transformation was taken from the Flight Gear Multiplayer
+    // server, we should convert this to using our own quaternion class, but
+    // for now, this works.
+
+    // Eigen::AngleAxisd R_a(sc::Angles::deg2rad(lon), Eigen::Vector3d::UnitZ());
+    // Eigen::AngleAxisd R_b(sc::Angles::deg2rad(lat),
+    // Eigen::Vector3d::UnitX()); Eigen::Quaterniond rot2 = R_a * R_b;
+
+    float zd2 = static_cast<float>(0.5) * lon;
+    float yd2 = static_cast<float>(-0.25) * static_cast<float>(M_PI) - static_cast<float>(0.5) * lat;
+    float Szd2 = sin(zd2);
+    float Syd2 = sin(yd2);
+    float Czd2 = cos(zd2);
+    float Cyd2 = cos(yd2);
+    scrimmage::Quaternion quat(Czd2 * Cyd2, -Szd2 * Syd2, Czd2 * Syd2, Szd2 * Cyd2);
+    return quat;
+}
+
 bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
-    double lat, lon, alt;
-    parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1),
-                                   state_->pos()(2),
-                                   lat, lon, alt);
-
-
-    double X, Y, Z;
-    earth_->Forward(lat, lon, alt, X, Y, Z);
-    // X = std::floor(X / 1000 + 0.5);
-    // Y = std::floor(Y / 1000 + 0.5);
-    // Z = std::floor(Z / 1000 + 0.5);
-
-    // float velx, vel2, vel3;
-    // parent_->projection()->Reverse(state_->vel()(0), state_->vel()(1),
-    //                                state_->vel()(2),
-    //                                vel1, vel2, vel3);
-    // float ang_vel1, ang_vel2, ang_vel3;
-    // parent_->projection()->Reverse(state_->ang_vel()(0), state_->ang_vel()(1),
-    //                                state_->ang_vel()(2),
-    //                                lat, lon, alt);
-    //float vel_x = 0, vel_y = 0, vel_z = 0;
-    //float ang_vel_x = 0, ang_vel_y = 0, ang_vel_z = 0;
-
     int msg_size = sizeof(T_MsgHdr) + sizeof(T_PositionMsg);
 
     // Create the flight gear header
@@ -123,35 +119,52 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
     header_msg.MsgLen = XDR_encode<uint32_t>(msg_size);
     header_msg.RadarRange = XDR_decode<float>(15);
     header_msg.ReplyPort = XDR_decode<uint32_t>(0);
-    sprintf(header_msg.Name, "%s", callsign_.c_str());
+    snprintf(header_msg.Name, MAX_CALLSIGN_LEN, "%s", callsign_.c_str());
 
     // Create the flight gear position msg
     struct T_PositionMsg pos_msg;
-    sprintf(pos_msg.Model, "%s", "Aircraft/c172p/Models/c172p.xml");
+    snprintf(pos_msg.Model, MAX_MODEL_NAME_LEN, "%s", "Aircraft/c172p/Models/c172p.xml");
     pos_msg.time = XDR_encode64<float>(time_->t());
     pos_msg.lag = XDR_encode64<float>(time_->t());
 
-    // time_t current_time = time(0);
-    // pos_msg.time = XDR_encode64<float>();
-    // pos_msg.lag = XDR_encode64<float>(time_->t());
+    // Compute ECEF coordinates from x/y/z lat/lon/alt
+    double lat, lon, alt;
+    parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1),
+                                   state_->pos()(2),
+                                   lat, lon, alt);
+    double ECEF_X, ECEF_Y, ECEF_Z;
+    earth_->Forward(lat, lon, alt, ECEF_X, ECEF_Y, ECEF_Z);
 
-    pos_msg.position[0] = XDR_encode64<double>(X);
-    pos_msg.position[1] = XDR_encode64<double>(Y);
-    pos_msg.position[2] = XDR_encode64<double>(Z);
+    pos_msg.position[0] = XDR_encode64<double>(ECEF_X);
+    pos_msg.position[1] = XDR_encode64<double>(ECEF_Y);
+    pos_msg.position[2] = XDR_encode64<double>(ECEF_Z);
+
+    // Convert local heading to GPS heading
+    angles_to_jsbsim_.set_angle(sc::Angles::rad2deg(state_->quat().yaw()));
+    sc::Quaternion local_quat(state_->quat().roll(), state_->quat().pitch(),
+                              sc::Angles::deg2rad(angles_to_jsbsim_.angle()));
+
+    // Convert local quaternion to ECEF coordinate
+    scrimmage::Quaternion rot = this->fromLonLatRad(sc::Angles::deg2rad(lon),
+                                                    sc::Angles::deg2rad(lat));
+
+    // The FlightGear Multiplayer packet expects the orientation to be in
+    // angle-axis form, where the axis magnitude is the rotation angle.
+    Eigen::AngleAxisd ang_axis(rot * local_quat);
+    Eigen::Vector3d ang_axis_mod = ang_axis.axis().normalized() * ang_axis.angle();
+
+    pos_msg.orientation[0] = XDR_encode<float>(ang_axis_mod(0));
+    pos_msg.orientation[1] = XDR_encode<float>(ang_axis_mod(1));
+    pos_msg.orientation[2] = XDR_encode<float>(ang_axis_mod(2));
 
     // TODO conversion
-    pos_msg.orientation[0] = XDR_encode<float>(-2.136887);
-    pos_msg.orientation[1] = XDR_encode<float>(0.587624);
-    pos_msg.orientation[2] = XDR_encode<float>(-0.304996);
+    pos_msg.linearVel[0] = XDR_encode<float>(0);
+    pos_msg.linearVel[1] = XDR_encode<float>(0);
+    pos_msg.linearVel[2] = XDR_encode<float>(0);
 
-    // TODO conversion
-    pos_msg.linearVel[0] = XDR_encode<float>(state_->vel()(0));
-    pos_msg.linearVel[1] = XDR_encode<float>(state_->vel()(0));
-    pos_msg.linearVel[2] = XDR_encode<float>(state_->vel()(0));
-
-    pos_msg.angularVel[0] = XDR_encode<float>(state_->ang_vel()(0));
-    pos_msg.angularVel[1] = XDR_encode<float>(state_->ang_vel()(0));
-    pos_msg.angularVel[2] = XDR_encode<float>(state_->ang_vel()(0));
+    pos_msg.angularVel[0] = XDR_encode<float>(0);
+    pos_msg.angularVel[1] = XDR_encode<float>(0);
+    pos_msg.angularVel[2] = XDR_encode<float>(0);
 
     pos_msg.linearAccel[0]= XDR_encode<float>(0);
     pos_msg.linearAccel[1]= XDR_encode<float>(0);

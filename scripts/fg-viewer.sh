@@ -13,6 +13,7 @@ OPTIONS:
           -i [IP_ADDRESS]  Multiplayer IP address
           -p [PORT]        Multiplayer port
           -c [CALLSIGN]    Callsign to use for multiplayer server
+          -a [AIRCRAFT]    FlightGear aircraft visual model
 
 EOF
 }
@@ -21,6 +22,7 @@ ENABLE_MULTIPLAYER=false
 SERVER_IP="127.0.0.1"
 SERVER_PORT=5000
 CALLSIGN="player1"
+AIRCRAFT="c172p-2dpanel"
 while getopts ":p:i:c:mh" opt; do
     case $opt in
         h)
@@ -40,6 +42,9 @@ while getopts ":p:i:c:mh" opt; do
         c)
             CALLSIGN=$OPTARG
             ;;
+        a)
+            AIRCRAFT=$OPTARG
+            ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
             exit 1
@@ -51,7 +56,7 @@ while getopts ":p:i:c:mh" opt; do
     esac
 done
 
-CMD_STR="fgfs --airport=ATL --aircraft=Rascal110-JSBSim --native-fdm=socket,out,60,,5500,udp --fdm=null --native-fdm=socket,in,60,,5600,udp --units-meters"
+CMD_STR="fgfs --airport=ATL --aircraft=${AIRCRAFT} --native-fdm=socket,out,60,,5500,udp --fdm=null --native-fdm=socket,in,60,,5600,udp --units-meters"
 
 if [ $ENABLE_MULTIPLAYER == true ]; then
     CMD_STR="${CMD_STR} --callsign=${CALLSIGN} --multiplay=out,10,${SERVER_IP},${SERVER_PORT} --multiplay=in,10,,${SERVER_PORT}"

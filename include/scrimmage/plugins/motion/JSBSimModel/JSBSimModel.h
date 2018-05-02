@@ -102,7 +102,7 @@ class JSBSimModel : public MotionModel {
     JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
     JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
 
-    JSBSim::FGOutputType* Output = 0;
+    JSBSim::FGOutputType* output_fg_ = 0;
 
     Angles angles_to_jsbsim_;
     Angles angles_from_jsbsim_;
@@ -118,6 +118,8 @@ class JSBSimModel : public MotionModel {
     int speed_idx_ = 0;
     int roll_idx_ = 0;
     int alt_or_pitch_idx_ = 0;
+
+    bool fg_out_enable_ = false;
 };
 } // namespace motion
 } // namespace scrimmage
