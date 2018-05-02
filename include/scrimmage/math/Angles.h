@@ -36,6 +36,11 @@
 namespace scrimmage {
 class Angles {
  public:
+    Angles();
+
+    enum class Type {GPS, EUCLIDEAN};
+    Angles(double angle, Type input_type, Type output_type);
+
     enum class Rotate {
         CCW = 0,
         CW
