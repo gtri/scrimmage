@@ -170,9 +170,10 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
 
     while (it != tok.end()) {
         auto starts_with = [&](std::string &s) {
-            return boost::starts_with(s, *it) &&
+            return (*it == s) ||
+                (boost::starts_with(s, *it) &&
                 s.size() > it->size() &&
-                s.at(it->size()) == native_path_sep;
+                s.at(it->size()) == native_path_sep);
         };
         tok.erase(std::remove_if(std::next(it), tok.end(), starts_with), tok.end());
         it++;
