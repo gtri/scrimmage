@@ -80,13 +80,6 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
 bool MoveToGoalMS::step_autonomy(double t, double dt) {
     // move-to-goal schema
     desired_vector_ = (goal_ - state_->pos());
-
-    // Normalize the vector if it greater than 1.0 in length. This allows us to
-    // stop at goals
-    if (desired_vector_.norm() > 1.0) {
-        desired_vector_ = desired_vector_.normalized();
-    } else {
-    }
     return true;
 }
 } // namespace motor_schemas

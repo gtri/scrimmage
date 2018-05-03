@@ -52,55 +52,18 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-AutonomyExecutor::AutonomyExecutor() : follow_id_(-1) {
+AutonomyExecutor::AutonomyExecutor() {
 }
 
 void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
-    double initial_speed = sc::get<double>("initial_speed", params, 21);
-
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+     // // Create outputs that match the inputs of the controller being used
+     // for (auto &kv : vars_.output_variable_index()) {
+     //     int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
+     //     io_map_[out_idx] = kv.first;
+     // }
 }
 
 bool AutonomyExecutor::step_autonomy(double t, double dt) {
-    // Find nearest entity on other team. Loop through each contact, calculate
-    // distance to entity, save the ID of the entity that is closest.
-    double min_dist = std::numeric_limits<double>::infinity();
-    for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-
-        // Skip if this contact is on the same team
-        if (it->second.id().team_id() == parent_->id().team_id()) {
-            continue;
-        }
-
-        // Calculate distance to entity
-        double dist = (it->second.state()->pos() - state_->pos()).norm();
-
-        if (dist < min_dist) {
-            // If this is the minimum distance, save distance and reference to
-            // entity
-            min_dist = dist;
-            follow_id_ = it->first;
-        }
-    }
-
-    // Head toward entity on other team
-    if (contacts_->count(follow_id_) > 0) {
-        // Get a reference to the entity's state.
-        sc::StatePtr ent_state = contacts_->at(follow_id_).state();
-
-        // Calculate the required heading to follow the other entity
-        double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
-                               ent_state->pos()(0) - state_->pos()(0));
-
-        // Set the heading
-        desired_state_->quat().set(0, 0, heading); // roll, pitch, heading
-
-        // Match entity's altitude
-        desired_state_->pos()(2) = ent_state->pos()(2);
-    }
-
     return true;
 }
 } // namespace autonomy

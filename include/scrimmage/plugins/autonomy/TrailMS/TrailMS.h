@@ -30,42 +30,26 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <map>
 #include <string>
+#include <map>
 
 namespace scrimmage {
 namespace autonomy {
-namespace motor_schemas {
-class BehaviorBase : public scrimmage::Autonomy {
+class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
-    BehaviorBase() : desired_vector_(Eigen::Vector3d(0, 0, 0)), gain_(1.0),
-        max_vector_length_(1.0) {
-    }
-
-    Eigen::Vector3d &desired_vector() {
-        return desired_vector_;
-    }
-
-    void set_gain(const double &gain) { gain_ = gain; }
-    const double &gain() { return gain_; }
-
-    void set_max_vector_length(const double &max_vector_length) {
-        max_vector_length_ = max_vector_length;
-    }
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
 
  protected:
-    Eigen::Vector3d desired_vector_;
-    double gain_;
-    double max_vector_length_;
+    int trail_id_ = -1;
+    double trail_range_ = 5.0;
+    double trail_angle_ = M_PI;
+    bool show_track_point_ = false;
 };
-using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
-} // namespace motor_schemas
 } // namespace autonomy
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_

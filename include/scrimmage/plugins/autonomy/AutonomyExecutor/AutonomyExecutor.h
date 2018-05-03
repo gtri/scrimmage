@@ -46,7 +46,7 @@ class AutonomyExecutor : public scrimmage::Autonomy {
     virtual bool step_autonomy(double t, double dt);
 
  protected:
-    int follow_id_;
+    // std::map<int, std::string> io_map_;
 };
 } // namespace autonomy
 } // namespace scrimmage

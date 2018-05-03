@@ -106,6 +106,8 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
         desired_vector_ += *it;
     }
 
+    desired_vector_ *= max_vector_length_;
+
     // Draw the sphere of influence
     auto shape = std::make_shared<scrimmage_proto::Shape>();
     shape->set_type(scrimmage_proto::Shape::Circle);

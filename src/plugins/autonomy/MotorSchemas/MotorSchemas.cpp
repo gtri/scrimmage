@@ -68,6 +68,9 @@ namespace scrimmage {
 namespace autonomy {
 
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
+    show_shapes_ = sc::get("show_shapes", params, false);
+    max_speed_ = sc::get<double>("max_speed", params, 21);
+
     // Parse the behavior plugins
     std::string behaviors_str = sc::get<std::string>("behaviors", params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
@@ -129,12 +132,10 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 
             // Extract the gain for this plugin and apply it
             behavior->set_gain(sc::get<double>("gain", behavior_params, 1.0));
+            behavior->set_max_vector_length(max_speed_);
             behaviors_.push_back(behavior);
         }
     }
-
-    show_shapes_ = sc::get("show_shapes", params, false);
-    max_speed_ = sc::get<double>("max_speed", params, 21);
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
@@ -145,9 +146,8 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     shapes_.clear();
 
     // Run all sub behaviors
-    std::list<Eigen::Vector3d> vecs_with_gains;
-    double sum_norms = 0;
-    Eigen::Vector3d vec_sums(0, 0, 0);
+    double vec_w_gain_sum = 0;
+    Eigen::Vector3d vec_w_gain(0, 0, 0);
     for (motor_schemas::BehaviorBasePtr &behavior : behaviors_) {
         behavior->shapes().clear();
 
@@ -162,15 +162,25 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
             cout << "MotorSchemas: behavior error" << endl;
         }
 
-        // Grab the desired vector
-        Eigen::Vector3d vec_with_gain = behavior->desired_vector() * behavior->gain();
-        vecs_with_gains.push_back(vec_with_gain);
+        // Grab the desired vector and normalize to max_speed if too large
+        Eigen::Vector3d desired_vector = behavior->desired_vector();
+        if (desired_vector.norm() > max_speed_) {
+            desired_vector = desired_vector.normalized() * max_speed_;
+        }
 
-        // Keep a running sum of the norms of all vectors with gains
-        sum_norms += vec_with_gain.norm();
+        cout << "Behavior: " << behavior->name() << endl;
+        cout << "desired_vector: " << desired_vector << endl;
+        cout << "gain: " << behavior->gain() << endl;
+        cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
 
         // Keep a running sum of all vectors with gains
-        vec_sums += vec_with_gain;
+        vec_w_gain += desired_vector * behavior->gain();
+
+        // Keep a running sum of all gains that have an effective vector
+        Eigen::Vector3d desired_vector_normalized = desired_vector.normalized();
+        if (!desired_vector_normalized.hasNaN()) {
+            vec_w_gain_sum += desired_vector.normalized().norm() * behavior->gain();
+        }
 
         if (show_shapes_) {
             // Grab the behavior shapes:
@@ -180,10 +190,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         behavior->shapes().clear();
     }
 
-    Eigen::Vector3d v_sum = vec_sums / sum_norms;
-
-    // Scale velocity to max speed:
-    Eigen::Vector3d vel_result = v_sum * max_speed_;
+    Eigen::Vector3d vel_result = vec_w_gain / vec_w_gain_sum;
 
     ///////////////////////////////////////////////////////////////////////////
     // Convert resultant vector into heading / speed / altitude command:

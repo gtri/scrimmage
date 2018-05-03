@@ -2,5 +2,10 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>AutonomyExecutor_plugin</library>
-  <initial_speed>24.3</initial_speed>
+
+  <behaviors>
+    [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
+    [ MoveToGoalMS gain='1.0' use_initial_heading='true' goal='100 0 0']
+  </behaviors>
+  
 </params>

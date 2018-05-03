@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>TrailMS_plugin</library>
+  <trail_id>-1</trail_id>
+  <trail_range>5</trail_range>
+  <trail_angle>180</trail_angle>
+
+  <show_track_point>false</show_track_point>
+</params>
