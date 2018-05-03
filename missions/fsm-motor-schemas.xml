@@ -55,10 +55,13 @@
     <z>0</z>
     <heading>90</heading>
 
+    <autonomy server_ip="10.108.21.229" callsign="leader">FlightGearMultiplayer</autonomy>
     <autonomy speed="15">Straight</autonomy>
 
     <visual_model>cessna</visual_model>
-    <motion_model>JSBSimModel</motion_model>
+    <motion_model flightgear_output_enable="true"
+                  flightgear_ip="localhost"
+                  flightgear_port="5600">JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
     <script_name>rascal_piedmont.xml</script_name>
     
@@ -81,6 +84,8 @@
     <z>0</z>
     <heading>0</heading>
 
+    <autonomy server_ip="10.108.21.229" callsign="wingman">FlightGearMultiplayer</autonomy>
+    
     <autonomy>GraphvizFSM</autonomy>
     <autonomy behaviors="
        [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]       
