@@ -41,6 +41,7 @@
 #include <scrimmage/math/Angles.h>
 
 #include <initialization/FGTrim.h>
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
 #include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084
@@ -77,6 +78,20 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     JSBSim::FGJSBBase base;
     base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
+
+    fg_out_enable_ = get<bool>("flightgear_output_enable", params, false);
+    if (fg_out_enable_) {
+        output_fg_ = new JSBSim::FGOutputFGMod(&(*exec_));
+        std::string ip = get<std::string>("flightgear_ip", params, "localhost");
+        std::string port = get<std::string>("flightgear_port", params, "5600");
+        std::string protocol = get<std::string>("flightgear_protocol", params, "UDP");
+        std::string name = ip + ":" + protocol + "/" + port; // localhost:UDP/5600
+
+        output_fg_->SetIdx(0);
+        output_fg_->SetOutputName(name);
+        output_fg_->SetRateHz(60);
+        output_fg_->InitModel();
+    }
 
     exec_->SetDebugLevel(0);
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
@@ -218,6 +233,11 @@ bool JSBSimModel::step(double time, double dt) {
     exec_->Setdt(dt);
     exec_->Run();
     // Save state
+
+    if (fg_out_enable_) {
+        output_fg_->Print();
+    }
+
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
                                    longitude_node_->getDoubleValue(),
                                    altitude_node_->getDoubleValue() * feet2meters,

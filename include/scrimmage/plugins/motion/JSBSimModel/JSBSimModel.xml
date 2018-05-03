@@ -3,4 +3,10 @@
 <params>
   <library>JSBSimModel_plugin</library>  
   <use_pitch>false</use_pitch>
+
+  <flightgear_output_enable>false</flightgear_output_enable>
+  <flightgear_ip>localhost</flightgear_ip>
+  <flightgear_port>5600</flightgear_port>
+  <flightgear_protocol>UDP</flightgear_protocol> <!-- UDP or TCP -->
+  
 </params>

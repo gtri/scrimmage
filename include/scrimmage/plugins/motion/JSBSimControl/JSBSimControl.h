@@ -47,6 +47,7 @@
 #include <models/FGAircraft.h>
 #include <input_output/FGPropertyManager.h>
 #include <initialization/FGInitialCondition.h>
+#include <models/FGOutput.h>
 
 typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #endif
@@ -74,7 +75,7 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
 
  protected:
 #if ENABLE_JSBSIM == 1
-     FGFDMExecPtr exec;
+     FGFDMExecPtr exec_;
 
      JSBSim::FGPropertyNode *longitude_node_ = nullptr;
      JSBSim::FGPropertyNode *latitude_node_ = nullptr;
@@ -105,6 +106,9 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
 
      scrimmage::Angles angles_to_jsbsim_;
      scrimmage::Angles angles_from_jsbsim_;
+
+     JSBSim::FGOutputType* output_fg_ = 0;
+     bool fg_out_enable_ = false;
 
      scrimmage::PID roll_pid_;
      scrimmage::PID pitch_pid_;

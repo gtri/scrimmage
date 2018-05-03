@@ -202,7 +202,29 @@ contact information, and receive desired state from the IvP Helm. To build
 MOOSAutonomy, you have to provide cmake with the path to the moos-ivp source
 tree:
 
-    cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
+    $ cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
+
+
+## FlightGear Multiplayer Server (FGMS) Integration
+
+If you want to use FGMS with SCRIMMAGE, you will first need to download and
+build FGMS according to the instructions at:
+https://github.com/FlightGear/fgms
+
+Clone the flight gear multiplayer server repository and build it:
+
+    $ git clone https://github.com/FlightGear/fgms.git
+    $ cd fgms
+    $ git checkout 6669ac222b9f6ca34b0d56ba1bc6cac9cc0324b2
+    $ mkdir build && cd build
+    $ cmake .. -DBUILD_SHARED_LIB=ON
+    $ make
+
+The FGMS plugin interacts with SCRIMMAGE to receive the state variables of each
+entity. To build FGMS, you have to provide SCRIMMAGE's CMake project the path
+to the FGMS root source:
+
+    $ cmake .. -DFGMS_SOURCE_TREE_BASE=/path/to/fgms
 
 ## Running SCRIMMAGE inside of Docker
 
