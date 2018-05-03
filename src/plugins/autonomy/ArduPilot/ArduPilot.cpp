@@ -161,10 +161,11 @@ bool ArduPilot::step_autonomy(double t, double dt) {
 
 void ArduPilot::handle_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
-
+#if 0
     cout << "--------------------------------------------------------" << endl;
     cout << "  Servo packets received from ArduPilot" << endl;
     cout << "--------------------------------------------------------" << endl;
+#endif
 
     int prec = 9;
     if (error) {
@@ -176,8 +177,9 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
             servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
-
+#if 0
             cout << std::setprecision(prec) << "servo"<< i << ": " << servo_pkt_.servos[i] << endl;
+#endif
         }
         servo_pkt_mutex_.unlock();
     }
@@ -225,7 +227,7 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
     // Airspeed is magnitude of velocity vector for now
     fdm_pkt.airspeed = state.vel().norm();
 
-#if 1
+#if 0
     cout << "--------------------------------------------------------" << endl;
     cout << "  State information being sent to ArduPilot" << endl;
     cout << "--------------------------------------------------------" << endl;

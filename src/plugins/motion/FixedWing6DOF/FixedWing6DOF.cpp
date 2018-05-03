@@ -252,7 +252,7 @@ bool FixedWing6DOF::step(double time, double dt) {
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
 
-#if 1
+#if 0
     int prec = 5;
     cout<< "*************************" << endl;
     cout<< std::setprecision(prec) << "thrust_:         " << thrust_ << endl;
