@@ -358,26 +358,27 @@ def _create_tuple_space(space_params):
     discrete_extrema = []
     continuous_extrema = []
 
-    def _append(param, dst_lst):
-        if param.num_dims != 1 and len(param.maximum) == 1:
-            # use same min/max for all dims
-            dst_lst += param.num_dims * [[param.minimum[0], param.maximum[0]]]
-        else:
-            # each min/max is specified individually
-            assert len(param.minimum) == len(param.maximum)
-            dst_lst += zip(list(param.minimum), list(param.maximum))
-
     for param in space_params.params:
         if param.discrete:
-            _append(param, discrete_extrema)
+            # openai discrete spaces take in the number of inputs, not the
+            # maximum
+            maximums = [int(m + 1) for m in list(param.maximum)]
+            if param.num_dims != 1 and len(maximums) == 1:
+                discrete_extrema += param.num_dims * [maximums[0]]
+            else:
+                discrete_extrema += maximums
         else:
-            _append(param, continuous_extrema)
+            if param.num_dims != 1 and len(param.maximum) == 1:
+                # use same min/max for all dims
+                continuous_extrema += \
+                    param.num_dims * [[param.minimum[0], param.maximum[0]]]
+            else:
+                # each min/max is specified individually
+                continuous_extrema += \
+                    zip(list(param.minimum), list(param.maximum))
 
-    # make sure that discrete entries are ints
-    discrete_extrema = [(int(mn), int(mx)) for mn, mx in discrete_extrema]
-
-    if len(discrete_extrema) == 1 and discrete_extrema[0][0] == 0:
-        discrete_space = gym.spaces.Discrete(discrete_extrema[0][1] + 1)
+    if len(discrete_extrema) == 1:
+        discrete_space = gym.spaces.Discrete(discrete_extrema[0])
     else:
         discrete_space = gym.spaces.MultiDiscrete(discrete_extrema)
 
