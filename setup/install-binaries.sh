@@ -100,8 +100,8 @@ fi
 PYTHON_VERSION="a"
 if [[ "$1" = "--python" ]]; then
     PYTHON_VERSION="$2"
-elif  [[ "$2" = "-python" ]]; then
-    PYTHON_VERSION="$3"
+elif  [[ "$3" = "--python" ]]; then
+    PYTHON_VERSION="$4"
 fi 
 
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
