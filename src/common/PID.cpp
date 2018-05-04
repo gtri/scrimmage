@@ -34,6 +34,7 @@
 #include <scrimmage/common/PID.h>
 
 #include <cmath>
+#include <algorithm>
 
 namespace scrimmage {
 
@@ -57,6 +58,7 @@ void PID::set_integral_band(double integral_band) {
 void PID::set_is_angle(bool is_angle) { is_angle_ = is_angle; }
 
 double PID::step(double dt, double measurement) {
+
     double error = setpoint_ - measurement;
     if (is_angle_) {
         error = Angles::angle_pi(error);
@@ -68,7 +70,7 @@ double PID::step(double dt, double measurement) {
         integral_ += error * dt;
     }
 
-    double derivative = (error - prev_error_) / dt;
+    double derivative = (error - prev_error_) / std::max(1.0e-9, dt);
     double u = kp_*error + ki_*integral_ + kd_*derivative;
     return u;
 }
