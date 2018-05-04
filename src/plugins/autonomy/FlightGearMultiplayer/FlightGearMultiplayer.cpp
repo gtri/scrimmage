@@ -69,6 +69,7 @@ namespace autonomy {
 FlightGearMultiplayer::FlightGearMultiplayer() :
     callsign_("scrimmage"),
     data_socket_(std::make_shared<netSocket>()),
+    aircraft_model_(std::string("Aircraft/c172p/Models/c172p.xml")),
     earth_(std::make_shared<GeographicLib::Geocentric>(
                GeographicLib::Constants::WGS84_a(),
                GeographicLib::Constants::WGS84_f())),
@@ -80,6 +81,7 @@ void FlightGearMultiplayer::init(std::map<std::string, std::string> &params) {
     std::string server_ip = sc::get<std::string>("server_ip", params, "127.0.0.1");
     int server_port = sc::get<int>("server_port", params, 5000);
     callsign_ = sc::get<std::string>("callsign", params, "scrimmage");
+    aircraft_model_ = sc::get<std::string>("aircraft_model", params, aircraft_model_);
 
     net_address_.set(server_ip.c_str(), server_port);
     if (data_socket_->open(false)  == 0) { // Open UDP socket
@@ -87,6 +89,34 @@ void FlightGearMultiplayer::init(std::map<std::string, std::string> &params) {
         cout << "Server IP: " << net_address_.getIP() << endl;
         cout << "Server Port: " << net_address_.getPort() << endl;
     }
+
+    // Create the flight gear header
+    msg_size_ = sizeof(T_MsgHdr) + sizeof(T_PositionMsg);
+    header_msg_.Magic = XDR_encode<uint32_t>(MSG_MAGIC);
+    header_msg_.Version = XDR_encode<uint32_t>(PROTO_VER);
+    header_msg_.MsgId = XDR_encode<uint32_t>(FGFS::POS_DATA);
+    header_msg_.MsgLen = XDR_encode<uint32_t>(msg_size_);
+    header_msg_.RadarRange = XDR_decode<float>(15);
+    header_msg_.ReplyPort = XDR_decode<uint32_t>(0);
+    snprintf(header_msg_.Name, MAX_CALLSIGN_LEN, "%s", callsign_.c_str());
+
+    // Initialize parts of position message that aren't updated
+    snprintf(pos_msg_.Model, MAX_MODEL_NAME_LEN, "%s", aircraft_model_.c_str());
+    pos_msg_.linearVel[0] = XDR_encode<float>(0);
+    pos_msg_.linearVel[1] = XDR_encode<float>(0);
+    pos_msg_.linearVel[2] = XDR_encode<float>(0);
+
+    pos_msg_.angularVel[0] = XDR_encode<float>(0);
+    pos_msg_.angularVel[1] = XDR_encode<float>(0);
+    pos_msg_.angularVel[2] = XDR_encode<float>(0);
+
+    pos_msg_.linearAccel[0]= XDR_encode<float>(0);
+    pos_msg_.linearAccel[1]= XDR_encode<float>(0);
+    pos_msg_.linearAccel[2]= XDR_encode<float>(0);
+
+    pos_msg_.angularAccel[0] = XDR_encode<float>(0);
+    pos_msg_.angularAccel[1] = XDR_encode<float>(0);
+    pos_msg_.angularAccel[2] = XDR_encode<float>(0);
 }
 
 scrimmage::Quaternion FlightGearMultiplayer::fromLonLatRad(float lon, float lat) {
@@ -109,23 +139,9 @@ scrimmage::Quaternion FlightGearMultiplayer::fromLonLatRad(float lon, float lat)
 }
 
 bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
-    int msg_size = sizeof(T_MsgHdr) + sizeof(T_PositionMsg);
-
-    // Create the flight gear header
-    struct T_MsgHdr header_msg;
-    header_msg.Magic = XDR_encode<uint32_t>(MSG_MAGIC);
-    header_msg.Version = XDR_encode<uint32_t>(PROTO_VER);
-    header_msg.MsgId = XDR_encode<uint32_t>(FGFS::POS_DATA);
-    header_msg.MsgLen = XDR_encode<uint32_t>(msg_size);
-    header_msg.RadarRange = XDR_decode<float>(15);
-    header_msg.ReplyPort = XDR_decode<uint32_t>(0);
-    snprintf(header_msg.Name, MAX_CALLSIGN_LEN, "%s", callsign_.c_str());
-
     // Create the flight gear position msg
-    struct T_PositionMsg pos_msg;
-    snprintf(pos_msg.Model, MAX_MODEL_NAME_LEN, "%s", "Aircraft/c172p/Models/c172p.xml");
-    pos_msg.time = XDR_encode64<float>(time_->t());
-    pos_msg.lag = XDR_encode64<float>(time_->t());
+    pos_msg_.time = XDR_encode64<float>(time_->t());
+    pos_msg_.lag = XDR_encode64<float>(time_->t());
 
     // Compute ECEF coordinates from x/y/z lat/lon/alt
     double lat, lon, alt;
@@ -135,9 +151,9 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
     double ECEF_X, ECEF_Y, ECEF_Z;
     earth_->Forward(lat, lon, alt, ECEF_X, ECEF_Y, ECEF_Z);
 
-    pos_msg.position[0] = XDR_encode64<double>(ECEF_X);
-    pos_msg.position[1] = XDR_encode64<double>(ECEF_Y);
-    pos_msg.position[2] = XDR_encode64<double>(ECEF_Z);
+    pos_msg_.position[0] = XDR_encode64<double>(ECEF_X);
+    pos_msg_.position[1] = XDR_encode64<double>(ECEF_Y);
+    pos_msg_.position[2] = XDR_encode64<double>(ECEF_Z);
 
     // Convert local heading to GPS heading
     angles_to_jsbsim_.set_angle(sc::Angles::rad2deg(state_->quat().yaw()));
@@ -153,33 +169,16 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
     Eigen::AngleAxisd ang_axis(rot * local_quat);
     Eigen::Vector3d ang_axis_mod = ang_axis.axis().normalized() * ang_axis.angle();
 
-    pos_msg.orientation[0] = XDR_encode<float>(ang_axis_mod(0));
-    pos_msg.orientation[1] = XDR_encode<float>(ang_axis_mod(1));
-    pos_msg.orientation[2] = XDR_encode<float>(ang_axis_mod(2));
-
-    // TODO conversion
-    pos_msg.linearVel[0] = XDR_encode<float>(0);
-    pos_msg.linearVel[1] = XDR_encode<float>(0);
-    pos_msg.linearVel[2] = XDR_encode<float>(0);
-
-    pos_msg.angularVel[0] = XDR_encode<float>(0);
-    pos_msg.angularVel[1] = XDR_encode<float>(0);
-    pos_msg.angularVel[2] = XDR_encode<float>(0);
-
-    pos_msg.linearAccel[0]= XDR_encode<float>(0);
-    pos_msg.linearAccel[1]= XDR_encode<float>(0);
-    pos_msg.linearAccel[2]= XDR_encode<float>(0);
-
-    pos_msg.angularAccel[0] = XDR_encode<float>(0);
-    pos_msg.angularAccel[1] = XDR_encode<float>(0);
-    pos_msg.angularAccel[2] = XDR_encode<float>(0);
+    pos_msg_.orientation[0] = XDR_encode<float>(ang_axis_mod(0));
+    pos_msg_.orientation[1] = XDR_encode<float>(ang_axis_mod(1));
+    pos_msg_.orientation[2] = XDR_encode<float>(ang_axis_mod(2));
 
     // Copy header and position data structs into memory buffer
-    char * msg = new char[msg_size];
-    std::memcpy(msg, &header_msg, sizeof(T_MsgHdr));
-    std::memcpy(msg+sizeof(T_MsgHdr), &pos_msg, sizeof(T_PositionMsg));
+    char * msg = new char[msg_size_];
+    std::memcpy(msg, &header_msg_, sizeof(T_MsgHdr));
+    std::memcpy(msg+sizeof(T_MsgHdr), &pos_msg_, sizeof(T_PositionMsg));
 
-    data_socket_->sendto(msg, msg_size, 0, &net_address_);
+    data_socket_->sendto(msg, msg_size_, 0, &net_address_);
     delete[] msg;
 
     return true;

@@ -5,4 +5,5 @@
   <server_ip>127.0.0.1</server_ip>
   <server_port>5000</server_port>
   <callsign>syllo</callsign>
+  <aircraft_model>Aircraft/c172p/Models/c172p.xml</aircraft_model>
 </params>

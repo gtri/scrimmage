@@ -23,7 +23,7 @@ SERVER_IP="127.0.0.1"
 SERVER_PORT=5000
 CALLSIGN="player1"
 AIRCRAFT="c172p-2dpanel"
-while getopts ":p:i:c:mh" opt; do
+while getopts ":p:i:c:a:mh" opt; do
     case $opt in
         h)
             usage
@@ -56,7 +56,7 @@ while getopts ":p:i:c:mh" opt; do
     esac
 done
 
-CMD_STR="fgfs --airport=ATL --aircraft=${AIRCRAFT} --native-fdm=socket,out,60,,5500,udp --fdm=null --native-fdm=socket,in,60,,5600,udp --units-meters"
+CMD_STR="fgfs --fg-root=/usr/share/games/flightgear --fg-scenery=/usr/share/games/flightgear/Scenery --airport=KSFO --aircraft=${AIRCRAFT} --native-fdm=socket,out,60,,5500,udp --fdm=null --native-fdm=socket,in,60,,5600,udp --units-meters"
 
 if [ $ENABLE_MULTIPLAYER == true ]; then
     CMD_STR="${CMD_STR} --callsign=${CALLSIGN} --multiplay=out,10,${SERVER_IP},${SERVER_PORT} --multiplay=in,10,,${SERVER_PORT}"
