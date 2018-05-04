@@ -69,10 +69,10 @@ class RayTrace : public scrimmage::Sensor {
 
     RayTrace();
 
-    virtual std::string name() { return "RayTrace"; }
-    virtual std::string type() { return "Ray"; }
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t);
+    std::string name() override { return "RayTrace"; }
+    std::string type() override { return "Ray"; }
+    void init(std::map<std::string, std::string> &params) override;
+    scrimmage::MessageBasePtr sensor_msg(double t) override;
 
     double angle_res_vert() { return angle_res_vert_; }
     double angle_res_horiz() { return angle_res_horiz_; }

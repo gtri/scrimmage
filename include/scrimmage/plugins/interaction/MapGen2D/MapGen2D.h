@@ -49,9 +49,9 @@ namespace interaction {
 class MapGen2D : public scrimmage::EntityInteraction {
  public:
     bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params);
+              std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(
-        std::list<scrimmage::EntityPtr> &ents, double t, double dt);
+        std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
 
  protected:
     std::shared_ptr<scrimmage_proto::Shape> connect_points(

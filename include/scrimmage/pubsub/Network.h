@@ -54,8 +54,8 @@ class Network : public Plugin {
                       std::map<std::string, std::string> &/*plugin_params*/);
     virtual bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
                       std::map<std::string, std::list<NetworkDevicePtr>> &subs);
-    virtual std::string name();
-    virtual std::string type();
+    std::string name() override;
+    std::string type() override;
 
     void set_rtree(RTreePtr rtree);
 

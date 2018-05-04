@@ -46,12 +46,12 @@ class UUV6DOF : public scrimmage::MotionModel {
  public:
     UUV6DOF();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
+    bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) override;
 
-    virtual bool step(double time, double dt);
+    bool step(double time, double dt) override;
 
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
     class Controller : public scrimmage::Controller {
      public:

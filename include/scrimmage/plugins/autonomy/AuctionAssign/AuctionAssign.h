@@ -43,8 +43,8 @@ namespace scrimmage {
 namespace autonomy {
 class AuctionAssign : public scrimmage::Autonomy {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     scrimmage::PublisherPtr start_auction_pub_;

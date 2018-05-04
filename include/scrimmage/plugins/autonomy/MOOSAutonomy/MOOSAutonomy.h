@@ -47,9 +47,9 @@ namespace autonomy {
 class MOOSAutonomy : public scrimmage::Autonomy {
  public:
     MOOSAutonomy();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool ready();
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool ready() override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     void run_moos_node();

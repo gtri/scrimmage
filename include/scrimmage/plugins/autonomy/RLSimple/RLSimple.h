@@ -41,14 +41,14 @@
 
 class RLSimple : public scrimmage::autonomy::ExternalControl {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual std::pair<bool, double> calc_reward(double t);
+    void init(std::map<std::string, std::string> &params) override;
+    std::pair<bool, double> calc_reward(double t) override;
 
  protected:
     double radius_;
-    virtual bool handle_action(
-        double t, double dt, const scrimmage_proto::Action &action);
-    virtual scrimmage_proto::SpaceParams action_space_params();
+    bool handle_action(
+        double t, double dt, const scrimmage_proto::Action &action) override;
+    scrimmage_proto::SpaceParams action_space_params() override;
 
     uint8_t output_vel_x_idx_ = 0;
     uint8_t output_vel_y_idx_ = 0;

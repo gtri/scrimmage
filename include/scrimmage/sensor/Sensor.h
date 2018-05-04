@@ -49,8 +49,8 @@ class Sensor : public Plugin {
  public:
     virtual void init(std::map<std::string, std::string> &params);
 
-    virtual std::string name();
-    virtual std::string type();
+    std::string name() override;
+    std::string type() override;
 
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
 

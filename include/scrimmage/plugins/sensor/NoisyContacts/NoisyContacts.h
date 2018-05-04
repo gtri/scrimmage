@@ -44,12 +44,12 @@ namespace scrimmage {
 namespace sensor {
 class NoisyContacts : public scrimmage::Sensor {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t);
+    void init(std::map<std::string, std::string> &params) override;
+    scrimmage::MessageBasePtr sensor_msg(double t) override;
 
 #if ENABLE_GRPC == 1
-    virtual scrimmage_proto::SpaceParams observation_space_params();
-    virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t);
+    scrimmage_proto::SpaceParams observation_space_params() override;
+    scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t) override;
 #endif
 
  protected:

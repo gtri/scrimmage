@@ -42,8 +42,8 @@ namespace autonomy {
 class AutonomyExecutor : public scrimmage::Autonomy {
  public:
     AutonomyExecutor();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     // std::map<int, std::string> io_map_;

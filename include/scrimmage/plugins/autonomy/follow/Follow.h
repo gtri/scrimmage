@@ -46,8 +46,8 @@ namespace autonomy {
 class Follow : public scrimmage::Autonomy{
  public:
      Follow();
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
+     void init(std::map<std::string, std::string> &params) override;
+     bool step_autonomy(double t, double dt) override;
 };
 } // namespace autonomy
 } // namespace scrimmage

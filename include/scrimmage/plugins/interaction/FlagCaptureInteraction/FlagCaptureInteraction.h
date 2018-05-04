@@ -53,9 +53,9 @@ class FlagCaptureInteraction : public scrimmage::EntityInteraction {
  public:
     FlagCaptureInteraction();
     bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params);
+              std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt);
+                                 double t, double dt) override;
  protected:
     int flag_boundary_id_;
     int capture_boundary_id_;

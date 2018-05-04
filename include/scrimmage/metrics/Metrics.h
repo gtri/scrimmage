@@ -45,7 +45,7 @@ class Metrics : public Plugin{
     Metrics();
     virtual ~Metrics();
 
-    virtual std::string name();
+    std::string name() override;
     virtual void init();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_metrics(double t, double dt);

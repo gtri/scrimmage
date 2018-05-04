@@ -60,15 +60,15 @@ class ExternalControlClient;
 class ExternalControl : public scrimmage::Autonomy {
  public:
     ExternalControl();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     virtual bool handle_action(
         double t, double dt, const scrimmage_proto::Action &action);
     virtual scrimmage_proto::SpaceParams action_space_params();
     virtual std::pair<bool, double> calc_reward(double t);
-    virtual void close(double t);
+    void close(double t) override;
     virtual scrimmage_proto::ActionResult get_observation(double t);
 
     bool check_action(

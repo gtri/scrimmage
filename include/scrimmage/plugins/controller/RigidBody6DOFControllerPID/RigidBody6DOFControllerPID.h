@@ -42,9 +42,9 @@ namespace scrimmage {
 namespace controller {
 class RigidBody6DOFControllerPID : public motion::RigidBody6DOF::Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector4d> u() {return u_;}
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
+    std::shared_ptr<Eigen::Vector4d> u() override {return u_;}
 
  protected:
     std::shared_ptr<Eigen::Vector4d> u_;

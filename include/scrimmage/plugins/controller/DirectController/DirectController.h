@@ -45,8 +45,8 @@ namespace controller {
 
 class DirectController : public scrimmage::Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
  protected:
     // Key : Output variable index determined by motion model
     // Value: Input variable index

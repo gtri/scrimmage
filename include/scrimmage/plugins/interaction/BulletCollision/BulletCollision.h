@@ -53,14 +53,14 @@ class BulletCollision : public scrimmage::EntityInteraction {
  public:
     BulletCollision();
     ~BulletCollision();
-    virtual bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params);
+    bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params) override;
 
-    virtual bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                         double t, double dt);
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                         double t, double dt) override;
 
-    virtual bool collision_exists(std::list<sc::EntityPtr> &ents,
-                                  Eigen::Vector3d &p);
+    bool collision_exists(std::list<sc::EntityPtr> &ents,
+                                  Eigen::Vector3d &p) override;
 
  protected:
     btCollisionConfiguration* bt_collision_configuration;

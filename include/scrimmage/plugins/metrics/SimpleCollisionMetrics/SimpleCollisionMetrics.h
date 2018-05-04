@@ -46,11 +46,11 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
     SimpleCollisionMetrics();
 
-    virtual std::string name() { return std::string("SimpleCollisionMetrics"); }
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_metrics(double t, double dt);
-    virtual void calc_team_scores();
-    virtual void print_team_summaries();
+    std::string name() override { return std::string("SimpleCollisionMetrics"); }
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_metrics(double t, double dt) override;
+    void calc_team_scores() override;
+    void print_team_summaries() override;
 
  protected:
     std::map<int, SimpleCollisionScore> scores_;

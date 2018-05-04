@@ -64,8 +64,8 @@ class GraphvizFSM : public scrimmage::Autonomy {
     typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, DotVertex, EdgeProperty, graph_p, boost::listS> graph_t;
 
     GraphvizFSM();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     graph_t fsm_graph_;

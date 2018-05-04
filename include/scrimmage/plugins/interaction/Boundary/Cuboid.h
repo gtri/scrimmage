@@ -65,7 +65,7 @@ class Cuboid : public BoundaryBase {
         w_dot_P4 = w.dot(points_[4]);
     }
 
-    virtual bool contains(Eigen::Vector3d p) {
+    bool contains(Eigen::Vector3d p) override {
         double u_dot_p = u.dot(p);
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
@@ -87,7 +87,7 @@ class Cuboid : public BoundaryBase {
         center_ << xy_center(0), xy_center(1), alt_center;
     }
 
-    void set_visual(int R, int G, int B, double opacity) {
+    void set_visual(int R, int G, int B, double opacity) override {
         // Generate the shape
         if (points_.size() != 8) {
             cout << "Invalid number of cube points: " << points_.size() << endl;

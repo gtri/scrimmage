@@ -52,14 +52,14 @@ class EntityInteraction : public Plugin {
                       std::map<std::string, std::string> &/*plugin_params*/)
     { return true;}
 
-    inline virtual std::string name()
+    inline std::string name() override
     { return std::string("EntityInteraction"); }
 
     inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
                                                 double /*t*/, double /*dt*/)
     { return false; }
 
-    virtual void close(double /*t*/) {}
+    void close(double /*t*/) override {}
 
     inline virtual bool collision_exists(std::list<EntityPtr> &/*ents*/,
                                   Eigen::Vector3d &/*p*/)

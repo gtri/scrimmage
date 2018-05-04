@@ -51,8 +51,8 @@ namespace autonomy {
 class ROSAutonomy : public scrimmage::Autonomy {
  public:
     ROSAutonomy();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
 
  protected:

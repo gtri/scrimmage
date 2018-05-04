@@ -55,13 +55,13 @@ class Sphere : public BoundaryBase {
     void set_center(const Eigen::Vector3d &center) { center_ = center; }
 
     double radius() { return radius_; }
-    Eigen::Vector3d center() const { return center_; }
+    Eigen::Vector3d center() override { return center_; }
 
-    virtual bool contains(Eigen::Vector3d p) {
+    bool contains(Eigen::Vector3d p) override {
         return (p-center_).norm() < radius_;
     }
 
-    void set_visual(int R, int G, int B, double opacity) {
+    void set_visual(int R, int G, int B, double opacity) override {
         sc::ShapePtr shape(new sp::Shape);
         shape->set_type(sp::Shape::Sphere);
         shape->set_opacity(opacity);

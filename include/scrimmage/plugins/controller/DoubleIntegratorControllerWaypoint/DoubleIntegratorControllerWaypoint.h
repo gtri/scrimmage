@@ -42,9 +42,9 @@ namespace scrimmage {
 namespace controller {
 class DoubleIntegratorControllerWaypoint : public motion::DoubleIntegrator::Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d &u() {return u_;}
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
+    Eigen::Vector4d &u() override {return u_;}
 
  protected:
     Eigen::Vector4d u_;

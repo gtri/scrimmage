@@ -53,9 +53,9 @@ class CaptureInBoundaryInteraction : public scrimmage::EntityInteraction {
  public:
     CaptureInBoundaryInteraction();
     bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params);
+              std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt);
+                                 double t, double dt) override;
  protected:
     std::shared_ptr<sci::BoundaryBase> boundary_;
     sci::BoundaryInfo boundary_info_;

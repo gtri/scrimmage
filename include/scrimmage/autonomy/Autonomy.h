@@ -47,11 +47,11 @@ class Autonomy : public Plugin {
  public:
     Autonomy();
 
-    std::string type();
+    std::string type() override;
     virtual bool step_autonomy(double t, double dt);
     virtual bool posthumous(double t);
     virtual void init();
-    virtual bool ready() { return true; }
+    bool ready() override { return true; }
     virtual void init(std::map<std::string, std::string> &params);
     bool need_reset();
 

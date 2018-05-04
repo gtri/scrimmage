@@ -89,8 +89,8 @@ class AirSimSensorType {
 class AirSimSensor : public scrimmage::Sensor {
  public:
     AirSimSensor();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t);
+    void init(std::map<std::string, std::string> &params) override;
+    scrimmage::MessageBasePtr sensor_msg(double t) override;
     void close(double t) override;
 
  protected:

@@ -49,8 +49,8 @@ namespace sensor {
 class RigidBody6DOFStateSensor : public scrimmage::Sensor {
  public:
     RigidBody6DOFStateSensor();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t);
+    void init(std::map<std::string, std::string> &params) override;
+    scrimmage::MessageBasePtr sensor_msg(double t) override;
 
  protected:
     std::shared_ptr<std::default_random_engine> gener_;

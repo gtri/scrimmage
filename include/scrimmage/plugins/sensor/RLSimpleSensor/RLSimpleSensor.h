@@ -46,8 +46,8 @@ class SpaceSample;
 
 class RLSimpleSensor : public scrimmage::Sensor {
  public:
-    virtual scrimmage_proto::SpaceParams observation_space_params();
-    virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t);
+    scrimmage_proto::SpaceParams observation_space_params() override;
+    scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t) override;
 };
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RLSIMPLESENSOR_RLSIMPLESENSOR_H_

@@ -48,8 +48,8 @@ namespace controller {
 class MultirotorControllerPID : public scrimmage::Controller {
  public:
     MultirotorControllerPID();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
     virtual Eigen::VectorXd &u() {return u_;}
 
  protected:
