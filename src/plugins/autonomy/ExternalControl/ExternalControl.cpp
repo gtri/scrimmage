@@ -247,7 +247,9 @@ scrimmage_proto::SpaceParams ExternalControl::action_space_params() {
 
 void ExternalControl::close(double t) {
     sp::ActionResult action_result = get_observation(t);
-    send_action_result(action_result, 0, true);
+    const double reward = 0.0;
+    const bool done = true;
+    send_action_result(action_result, reward, done);
 }
 
 } // namespace autonomy
