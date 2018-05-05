@@ -81,6 +81,7 @@ class External {
         return true;
     }
 
+    void close();
     bool create_interactions();
 
     double min_motion_dt = 1;

@@ -320,4 +320,15 @@ void External::update_ents() {
     }
 }
 
+void External::close() {
+    mutex.lock();
+    entity_->close(time_->t());
+    entity_ = std::make_shared<Entity>();
+
+    auto close = [&](auto p) {p->close(time_->t());};
+    br::for_each(ent_inters_, close);
+    br::for_each(metrics_, close);
+    mutex.unlock();
+}
+
 } // namespace scrimmage
