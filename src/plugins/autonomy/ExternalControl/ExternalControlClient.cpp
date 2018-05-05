@@ -49,6 +49,8 @@ ExternalControlClient::ExternalControlClient(std::shared_ptr<grpc::Channel> chan
 
 bool ExternalControlClient::send_environment(scrimmage_proto::Environment &env) {
 
+    if (!stub_) return false;
+
     sp::Empty reply;
     grpc::ClientContext context;
     grpc::Status status = stub_->SendEnvironment(&context, env, &reply);
@@ -58,6 +60,9 @@ bool ExternalControlClient::send_environment(scrimmage_proto::Environment &env) 
 boost::optional<scrimmage_proto::Action>
 ExternalControlClient::send_action_result(
         scrimmage_proto::ActionResult &action_result) {
+
+    if (!stub_) return boost::none;
+
     sp::Action action;
     grpc::ClientContext context;
     grpc::Status status = stub_->SendActionResult(&context, action_result, &action);
