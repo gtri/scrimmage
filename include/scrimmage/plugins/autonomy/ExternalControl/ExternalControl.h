@@ -79,6 +79,7 @@ class ExternalControl : public scrimmage::Autonomy {
     std::string server_address_ = "localhost:50051";
     double min_reward_ = -std::numeric_limits<double>::infinity();
     double max_reward_ = std::numeric_limits<double>::infinity();
+    bool use_trained_model_ = false;
 
  private:
     boost::optional<scrimmage_proto::Action>
@@ -92,7 +93,6 @@ class ExternalControl : public scrimmage::Autonomy {
     bool env_sent_ = false;
 
     int num_attempts_ = 0;
-    bool use_trained_model_ = false;
     std::string python_cmd_ = "external_control.py";
 };
 } // namespace autonomy
