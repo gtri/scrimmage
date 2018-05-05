@@ -480,8 +480,13 @@ void Entity::close(double t) {
         kv.second->close(t);
     }
 
-    controller_->close(t);
-    motion_model_->close(t);
+    if (controller_) {
+        controller_->close(t);
+    }
+
+    if (motion_model_) {
+        motion_model_->close(t);
+    }
 }
 
 std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
