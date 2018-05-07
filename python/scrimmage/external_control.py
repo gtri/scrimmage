@@ -434,8 +434,14 @@ def main():
         server_threads.append(
             ServerThread(queues[-1], address))
         server_threads[-1].start()
-    environments = \
-        [queues[i]['env'].get() for i in range(num_actors)]
+    try:
+        environments = \
+            [queues[i]['env'].get(timeout=10) for i in range(num_actors)]
+    except:
+        for s in server_threads:
+            s.stop = True
+        print('did not receive an environment so closing...')
+        return
     if len(environments) == 1:
         action_space = _create_tuple_space(environments[0].action_spaces)
         observation_space = _create_tuple_space(
