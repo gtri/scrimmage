@@ -43,26 +43,31 @@ void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
     l_ = std::stod(params.at("l"));
     gain_ = std::stod(params.at("gain"));
 
-    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
-    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    using Type = VariableIO::Type;
+    using Dir = VariableIO::Direction;
+
+    x_idx_in_ = vars_.declare(Type::position_x, Dir::In);
+    y_idx_in_ = vars_.declare(Type::position_y, Dir::In);
+
+    speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);
+    turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);
+    pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);
 }
 
 bool UnicycleControllerPoint::step(double t, double dt) {
-    Eigen::Vector2d des_pos = desired_state_->pos().head<2>();
+    Eigen::Vector2d des_pos(vars_.input(x_idx_in_), vars_.input(y_idx_in_));
     Eigen::Vector2d pos = state_->pos().head<2>();
     Eigen::Vector2d des_vel = gain_ * (des_pos - pos);
 
     double th = state_->quat().yaw();
 
-    // TODO: Extend from 2D to 3D point controller
     Eigen::Matrix2d M;
     M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
     Eigen::Vector2d u_2d = M * des_vel;
 
-    vars_.output(speed_idx_, u_2d(0));
-    vars_.output(turn_rate_idx_, u_2d(1));
-    vars_.output(pitch_rate_idx_, 0);
+    vars_.output(speed_idx_out_, u_2d(0));
+    vars_.output(turn_rate_idx_out_, u_2d(1));
+    vars_.output(pitch_rate_idx_out_, 0);
     return true;
 }
 } // namespace controller
