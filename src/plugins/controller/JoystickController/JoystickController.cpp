@@ -37,6 +37,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/pubsub/PubSub.h>
 
 #include <iostream>
 #include <limits>
@@ -54,7 +55,7 @@ namespace scrimmage {
 namespace controller {
 
 void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_);
+    joystick_.init(params, vars_, shared_from_this());
 }
 
 bool JoystickController::step(double t, double dt) {

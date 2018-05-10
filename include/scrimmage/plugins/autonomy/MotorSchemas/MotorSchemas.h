@@ -51,11 +51,16 @@ class MotorSchemas : public scrimmage::Autonomy {
  protected:
     bool show_shapes_;
     double max_speed_;
-    std::list<motor_schemas::BehaviorBasePtr> behaviors_;
 
     int desired_heading_idx_ = 0;
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
+
+    std::string current_state_ = "UNDEFINED_NO_STATE";
+
+    std::map<std::string, std::list<motor_schemas::BehaviorBasePtr>> behaviors_;
+    std::list<motor_schemas::BehaviorBasePtr> default_behaviors_;
+    std::list<motor_schemas::BehaviorBasePtr> current_behaviors_;
 };
 } // namespace autonomy
 } // namespace scrimmage

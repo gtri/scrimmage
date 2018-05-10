@@ -2,5 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>MoveToGoalMS_plugin</library>
-  <initial_speed>24.3</initial_speed>
+  <lead_distance>50</lead_distance>
 </params>

@@ -39,6 +39,8 @@
 
 #include <iostream>
 #include <vector>
+#include <limits>
+#include <tuple>
 
 using std::cout;
 using std::endl;
@@ -85,6 +87,24 @@ class Cuboid : public BoundaryBase {
         Eigen::Vector3d xy_center = (points[0] + points[2]) / 2;
         double alt_center = (points[0](2) + points[5](2)) / 2;
         center_ << xy_center(0), xy_center(1), alt_center;
+
+        // Compute min / max values for x, y, z
+        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
+                             std::numeric_limits<double>::infinity(),
+                             std::numeric_limits<double>::infinity());
+        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
+                             -std::numeric_limits<double>::infinity(),
+                             -std::numeric_limits<double>::infinity());
+        for (Eigen::Vector3d p : points) {
+            for (int i = 0; i < 3; i++) {
+                if (p(i) < mins(i)) mins(i) = p(i);
+                if (p(i) > maxs(i)) maxs(i) = p(i);
+            }
+        }
+        bounds_.clear();
+        bounds_.push_back(std::tuple<double, double>(mins(0), maxs(0))); // x bounds
+        bounds_.push_back(std::tuple<double, double>(mins(1), maxs(1))); // y bounds
+        bounds_.push_back(std::tuple<double, double>(mins(2), maxs(2))); // z bounds
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
@@ -119,6 +139,10 @@ class Cuboid : public BoundaryBase {
         }
     }
 
+    const std::vector<std::tuple<double, double>> & get_bounds() const {
+        return bounds_;
+    }
+
  protected:
     std::vector<Eigen::Vector3d> points_;
     Eigen::Vector3d u;
@@ -130,6 +154,7 @@ class Cuboid : public BoundaryBase {
     double v_dot_P3 = 0;
     double w_dot_P0 = 0;
     double w_dot_P4 = 0;
+    std::vector<std::tuple<double, double>> bounds_;
 };
 } // namespace interaction
 } // namespace scrimmage

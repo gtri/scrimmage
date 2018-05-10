@@ -71,10 +71,26 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
+    // Subscribe to state information
+    std::string state_topic_name = sc::get<std::string>("state_topic_name", params, "State");
+    std::string network_name = sc::get<std::string>("network_name", params, "LocalNetwork");
+    auto state_callback = [&] (scrimmage::MessagePtr<std::string> msg) {
+        current_state_ = msg->data;
+
+        // Get the currently running behaviors
+        auto behavior_list = behaviors_.find(current_state_);
+        if (behavior_list != behaviors_.end()) {
+            current_behaviors_ = behavior_list->second;
+        } else {
+            current_behaviors_ = default_behaviors_;
+        }
+    };
+    subscribe<std::string>(network_name, state_topic_name, state_callback);
+
     // Parse the behavior plugins
     std::string behaviors_str = sc::get<std::string>("behaviors", params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
-    sc::get_vec_of_vecs(behaviors_str, vecs_of_vecs);
+    sc::get_vec_of_vecs(behaviors_str, vecs_of_vecs, " ");
     for (std::vector<std::string> vecs : vecs_of_vecs) {
         if (vecs.size() < 1) {
             std::cout << "Behavior name missing." << std::endl;
@@ -133,9 +149,33 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
             // Extract the gain for this plugin and apply it
             behavior->set_gain(sc::get<double>("gain", behavior_params, 1.0));
             behavior->set_max_vector_length(max_speed_);
-            behaviors_.push_back(behavior);
+
+            // cout << "Behavior: " << behavior->name() << endl;
+
+            // Determine which states in which this behavior is active
+            std::vector<std::string> states;
+            if (sc::get_vec("states", config_parse.params(), " ,", states)) {
+                // cout << "adding to... " << endl;
+                // This is a behavior that only runs in these states
+                for (std::string state : states) {
+                    // cout << state << " ";
+                    behaviors_[state].push_back(behavior);
+                }
+                // cout << endl;
+            } else {
+                default_behaviors_.push_back(behavior);
+            }
         }
     }
+
+    // Add the default behaviors to each declared state
+    for (motor_schemas::BehaviorBasePtr behavior : default_behaviors_) {
+        for (auto &kv : behaviors_) {
+            kv.second.push_back(behavior);
+        }
+    }
+
+    current_behaviors_ = default_behaviors_;
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
@@ -148,8 +188,13 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Run all sub behaviors
     double vec_w_gain_sum = 0;
     Eigen::Vector3d vec_w_gain(0, 0, 0);
-    for (motor_schemas::BehaviorBasePtr &behavior : behaviors_) {
+
+    // cout << "============" << endl;
+
+    for (motor_schemas::BehaviorBasePtr &behavior : current_behaviors_) {
         behavior->shapes().clear();
+
+        // cout << "Behavior: " << behavior->name() << endl;
 
         // Execute callbacks for received messages before calling
         // step_autonomy
@@ -168,10 +213,16 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
             desired_vector = desired_vector.normalized() * max_speed_;
         }
 
-        cout << "Behavior: " << behavior->name() << endl;
-        cout << "desired_vector: " << desired_vector << endl;
-        cout << "gain: " << behavior->gain() << endl;
-        cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
+        if (desired_vector.hasNaN()) {
+            cout << "Behavior error: " << behavior->name() << endl;
+            cout << "desired vector has NaN" << endl;
+            continue;
+        }
+
+        // cout << "Behavior: " << behavior->name() << endl;
+        // cout << "desired_vector: " << desired_vector << endl;
+        // cout << "gain: " << behavior->gain() << endl;
+        // cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
 
         // Keep a running sum of all vectors with gains
         vec_w_gain += desired_vector * behavior->gain();

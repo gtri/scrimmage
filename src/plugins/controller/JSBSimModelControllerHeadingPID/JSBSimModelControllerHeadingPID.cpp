@@ -99,7 +99,9 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
         desired_yaw_lag = desired_yaw * k + (1.0 - k) * prev_desired_yaw_;
     } else {
         desired_yaw_lag = desired_yaw;
-        heading_lag_initialized_ = true;
+        if (!std::isnan(desired_yaw_lag)) {
+            heading_lag_initialized_ = true;
+        }
     }
     prev_desired_yaw_ = desired_yaw_lag;
 

@@ -140,7 +140,9 @@ void GraphvizFSM::update_state_info(
     boost::graph_traits<graph_t>::vertex_descriptor current_state,
     boost::graph_traits<graph_t>::vertex_descriptor next_state) {
 
-    current_state = next_state;
+    current_state_ = next_state;
+
+    cout << "Current State: " << fsm_graph_[current_state_].name << endl;
 
     // Publish the state message
     auto msg = std::make_shared<sc::Message<std::string>>();

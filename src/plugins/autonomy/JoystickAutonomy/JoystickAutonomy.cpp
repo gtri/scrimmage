@@ -36,6 +36,7 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/pubsub/PubSub.h>
 
 #include <iostream>
 #include <limits>
@@ -53,7 +54,7 @@ namespace scrimmage {
 namespace autonomy {
 
 void JoystickAutonomy::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_);
+    joystick_.init(params, vars_, shared_from_this());
 }
 
 bool JoystickAutonomy::step_autonomy(double t, double dt) {

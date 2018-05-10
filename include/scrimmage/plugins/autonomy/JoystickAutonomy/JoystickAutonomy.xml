@@ -25,7 +25,9 @@
     [ rudder   3 -32767 +32767 -1 +1 -1 ]
   </axis_map>
 
-
+  <button_topic>joystick_buttons</button_topic>
+  <button_network_name>LocalNetwork</button_network_name>
+  
   <!-- Mapping for controlling Unicycle model -->
   <!--
   <axis_map>

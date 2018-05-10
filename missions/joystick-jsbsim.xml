@@ -60,7 +60,7 @@
         control inputs directly from the autonomy plugin.
     -->
     
-    <autonomy>JoystickAutonomy</autonomy>
+    <autonomy print_raw_joystick_values="false">JoystickAutonomy</autonomy>
     <controller>DirectController</controller>    
 
     <!--

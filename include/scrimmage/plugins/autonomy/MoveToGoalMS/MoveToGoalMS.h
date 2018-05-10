@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <string>
 #include <map>
@@ -48,7 +49,13 @@ class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    Eigen::Vector3d goal_;
+    WaypointList wp_list_;
+    unsigned int wp_idx_ = 0;
+    unsigned int prev_wp_idx_ = 0;
+    unsigned int cycles_ = 0;
+    bool returning_stage_ = false;
+    bool exit_on_reaching_wpt_ = false;
+    double lead_distance_ = 50;
 };
 } // namespace motor_schemas
 } // namespace autonomy

@@ -63,9 +63,18 @@ class WaypointList {
         return os;
     }
 
+    void set_cycles(unsigned int cycles) {
+        cycles_ = cycles;
+    }
+
+    unsigned int cycles() {
+        return cycles_;
+    }
+
  protected:
     std::vector<Waypoint> waypoints_;
     WaypointMode mode_ = WaypointMode::follow_once;
+    unsigned int cycles_ = 1;
 };
 } // namespace autonomy
 } // namespace scrimmage
