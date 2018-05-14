@@ -50,7 +50,6 @@
 
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 
-#include <vector>
 #include <list>
 #include <utility>
 
@@ -78,8 +77,19 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     az_thresh_ = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
     el_thresh_ = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
 
+    fn_prob_ = sc::get<double>("false_negative_probability", params, 0.1);
+    fp_prob_ = sc::get<double>("false_positive_probability", params, 0.1);
+    max_false_positives_ = sc::get<int>("max_false_positives_per_frame", params, 10);
+    std_dev_w_ = sc::get<int>("std_dev_width", params, 10);
+    std_dev_h_ = sc::get<int>("std_dev_height", params, 10);
+
+    if (std_dev_w_ > img_width_) { std_dev_w_ = 10; } // TODO: use standard deviation values to inform the false positives
+    if (std_dev_h_ > img_height_) { std_dev_h_ = 10; }
+
     canvas_width_ = 2 * focal_length_ * tan(az_thresh_ / 2.0);
     canvas_height_ = 2 * focal_length_ * tan(el_thresh_ / 2.0);
+
+    srand(time(NULL));
 
     for (int i = 0; i < 3; i++) {
         std::string tag_name = "pos_noise_" + std::to_string(i);
@@ -126,6 +136,10 @@ sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t) {
             continue;
         }
 
+        // Don't "detect" current contact relative to false negative probability
+        double r = static_cast<double>(rand()) / RAND_MAX;
+        if (r <= fn_prob_) continue;
+
         // Transform contact into "camera" coordinate system
         Eigen::Vector3d rel_pos = parent_->state()->rel_pos_local_frame(kv.second.state()->pos());
 
@@ -138,7 +152,7 @@ sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t) {
 
         // Get angle between (vector between camera and object center) and
         // (vector between object center and line tangent to object circle)
-        double beta = acos(object_radius/ rel_pos.norm());
+        double beta = acos(object_radius / rel_pos.norm());
 
         // Get vector pointing from contact to camera
         Eigen::Vector2d v_r(-rel_pos(0), -rel_pos(1));
@@ -173,31 +187,42 @@ sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t) {
         raster_center(0) += (*pos_noise_[0])(*gener_);
         raster_center(1) += (*pos_noise_[1])(*gener_);
 
-        // Draw bounding box afloor object
+        // Add bounding box to frame around object
         cv::Rect rect(std::floor(raster_center(0))-std::floor(object_img_radius),
                       std::floor(raster_center(1))-std::floor(object_img_radius),
-                      std::floor(object_img_radius*2)+1,
-                      std::floor(object_img_radius*2)+1);
+                      std::floor(object_img_radius*2) + 1,
+                      std::floor(object_img_radius*2) + 1);
 
-        msg->data.bounding_boxes[kv.second.id().id()] = rect;
+        std::vector<cv::Rect> bounding_boxes;
+        bounding_boxes.push_back(rect);
 
-        // Draw object (without bounding box first)
         if (object_img_radius > 0) {
-            // Floor raster_center position:
-            Eigen::Vector2i center(std::floor(raster_center(0)),
-                                   std::floor(raster_center(1)));
-
-            cv::circle(msg->data.frame, cv::Point(center(0), center(1)),
-                       std::floor(object_img_radius), cv::Scalar(255, 255, 255),
-                       -1, 8, 0);
+            draw_object_with_bounding_box(msg->data.frame, rect, raster_center, object_img_radius);
         }
-    }
 
-    // Draw bounding boxes on top of objects
-    for (auto &kv : msg->data.bounding_boxes) {
-        // Draw object as circle
-        cv::Rect rect = kv.second;
-        cv::rectangle(msg->data.frame, rect, cv::Scalar(0, 0, 255), 1, 8, 0);
+        // Add false positives
+        for (int i = 0; i <= max_false_positives_; i++) {
+            double r = static_cast<double>(rand()) / RAND_MAX;
+            if (r > fp_prob_) continue;
+
+            // TODO: use the input standard deviation to add tracks in a smarter manner
+            // Generate random position in frame
+            int h = rand() % img_height_;
+            int w = rand() % img_width_;
+
+            rect = cv::Rect(h - object_img_radius, w - object_img_radius,
+                            std::floor(object_img_radius*2) + 1,
+                            std::floor(object_img_radius*2) + 1);
+
+            if (object_img_radius > 0) {
+                draw_object_with_bounding_box(msg->data.frame, rect, Eigen::Vector2d(h, w), object_img_radius);
+            }
+
+            bounding_boxes.push_back(rect);
+        }
+
+        // Collect all bounding boxes for current detected object
+        msg->data.bounding_boxes[kv.second.id().id()] = bounding_boxes;
     }
 
     frame_ = msg->data.frame;
@@ -237,6 +262,19 @@ bool ContactBlobCamera::in_field_of_view(Eigen::Vector3d rel_pos) {
         return false;
     }
     return true;
+}
+
+void ContactBlobCamera::draw_object_with_bounding_box(cv::Mat frame, cv::Rect rect,
+                                                      Eigen::Vector2d center,
+                                                      double radius) {
+    Eigen::Vector2i c(std::floor(center(0)),
+                      std::floor(center(1)));
+
+    cv::circle(frame, cv::Point(c(0), c(1)),
+               std::floor(radius), cv::Scalar(255, 255, 255),
+               -1, 8, 0);
+
+    cv::rectangle(frame, rect, cv::Scalar(0, 0, 255), 1, 8, 0);
 }
 } // namespace sensor
 } // namespace scrimmage
