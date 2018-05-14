@@ -4,7 +4,8 @@
   <library>TrailMS_plugin</library>
   <trail_id>-1</trail_id>
   <trail_range>5</trail_range>
-  <trail_angle>180</trail_angle>
+  <trail_angle_azimuth>180</trail_angle_azimuth>
+  <trail_angle_elevation>0</trail_angle_elevation>
 
   <show_track_point>false</show_track_point>
 </params>

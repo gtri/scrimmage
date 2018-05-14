@@ -110,9 +110,24 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
             wp_list_.waypoints().push_back(wp);
         }
     }
-    wp_list_.set_mode(WaypointList::WaypointMode::follow_once); // default for now
 
-    waypoint_list_pub_ = advertise("GlobalNetwork", "WaypointList");
+    std::string mode = sc::get<std::string>("mode", params, "follow_once");
+    if (mode == "follow_once") {
+        wp_list_.set_mode(WaypointList::WaypointMode::follow_once);
+    } else if (mode == "back_and_forth") {
+        wp_list_.set_mode(WaypointList::WaypointMode::back_and_forth);
+    } else if (mode == "loiter") {
+        wp_list_.set_mode(WaypointList::WaypointMode::loiter);
+    } else if (mode == "racetrack") {
+        wp_list_.set_mode(WaypointList::WaypointMode::racetrack);
+    } else {
+        cout << "WaypointGenerator: Invalid mode. Defaulting to follow_once" << endl;
+        wp_list_.set_mode(WaypointList::WaypointMode::follow_once);
+    }
+
+    std::string network_name = sc::get<std::string>("network_name", params, "GlobalNetwork");
+    std::string topic_name = sc::get<std::string>("topic_name", params, "WaypointList");
+    waypoint_list_pub_ = advertise(network_name, topic_name);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {

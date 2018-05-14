@@ -219,6 +219,8 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
       net->gear_pos[i]      = 0;  // gear up, using FCS convention
     net->gear_steer[i]       = static_cast<float>(GroundReactions->GetGearUnit(i)->GetSteerNorm());
     net->gear_compression[i] = static_cast<float>(GroundReactions->GetGearUnit(i)->GetCompLen());
+
+    net->gear_pos[i] = 0; // MOD: Force gear up
   }
 
   // Environment

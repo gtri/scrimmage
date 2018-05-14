@@ -47,8 +47,10 @@ class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  protected:
     int trail_id_ = -1;
     double trail_range_ = 5.0;
-    double trail_angle_ = M_PI;
     bool show_track_point_ = false;
+
+    Eigen::AngleAxisd aa_angle_az_;
+    Eigen::AngleAxisd aa_angle_elev_;
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -59,8 +59,12 @@ namespace autonomy {
 void TrailMS::init(std::map<std::string, std::string> &params) {
     trail_id_ = sc::get<int>("trail_id", params, trail_id_);
     trail_range_ = sc::get<double>("trail_range", params, trail_range_);
-    trail_angle_ = sc::Angles::deg2rad(sc::get<double>("trail_angle", params, trail_angle_));
     show_track_point_ = sc::get<bool>("show_track_point", params, show_track_point_);
+
+    double trail_angle_az = sc::Angles::deg2rad(sc::get<double>("trail_angle_azimuth", params, M_PI));
+    double trail_angle_elev = sc::Angles::deg2rad(sc::get<double>("trail_angle_elevation", params, 0));
+    aa_angle_az_ = Eigen::AngleAxisd(trail_angle_az, Eigen::Vector3d::UnitZ());
+    aa_angle_elev_ = Eigen::AngleAxisd(trail_angle_elev, Eigen::Vector3d::UnitY());
 }
 
 bool TrailMS::step_autonomy(double t, double dt) {
@@ -79,9 +83,8 @@ bool TrailMS::step_autonomy(double t, double dt) {
     // center. Rotate a unit vector pointing towards the x-axis around the
     // z-axis by the trail angle. Then rotate that vector by the other entity's
     // orientation.
-    Eigen::Vector3d direction = trail_state->quat() *
-        Eigen::AngleAxisd(trail_angle_, Eigen::Vector3d::UnitZ()) *
-        Eigen::Vector3d::UnitX();
+    Eigen::Vector3d direction = trail_state->quat() * aa_angle_elev_ *
+        aa_angle_az_ * Eigen::Vector3d::UnitX();
 
     // Compute the position of the desired trail point
     Eigen::Vector3d trail_point = trail_state->pos() + direction * trail_range_;

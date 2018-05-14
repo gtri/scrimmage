@@ -186,7 +186,13 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
             break;
 
         case WaypointList::WaypointMode::racetrack :
-            // TODO : Not implemented yet
+            // Continuous repeat of waypoints
+            prev_wp_idx_ = wp_idx_;
+            if (wp_idx_ == wp_list_.waypoints().size()-1) {
+                wp_idx_ = 0;
+            } else {
+                wp_idx_++;
+            }
             break;
 
         default :

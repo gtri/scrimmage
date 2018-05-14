@@ -31,4 +31,7 @@
   <!-- follow_once, back_and_forth, loiter, racetrack -->
   <mode>follow_once</mode>
 
+  <network_name>GlobalNetwork</network_name>
+  <topic_name>WaypointList</topic_name>
+
 </params>
