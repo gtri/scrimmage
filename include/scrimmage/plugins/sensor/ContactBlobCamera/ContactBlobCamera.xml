@@ -9,19 +9,26 @@
   <focal_length>0.035</focal_length>
 
   <frames_per_second>20</frames_per_second>
-  
+
   <max_detect_range>2000</max_detect_range> <!-- meters -->
   <azimuth_fov>45</azimuth_fov>             <!-- degrees -->
   <elevation_fov>45</elevation_fov>         <!-- degrees -->
-  
+
+  <!-- noise in object detection -->
+  <false_negative_probability>0.1</false_negative_probability> <!-- value between 0 and 1 -->
+  <false_positive_probability>0.1</false_positive_probability> <!-- value between 0 and 1 -->
+  <max_false_positives_per_frame>10</max_false_positives_per_frame>
+  <std_dev_width>10</std_dev_width> <!-- value less than img_width -->
+  <std_dev_height>10</std_dev_height> <!-- value less than img_height -->
+
   <!-- noise params are defined with (mean, standard deviation) -->
   <pos_noise_0>0.0 1.0</pos_noise_0> <!-- x position noise (2D image) -->
-  <pos_noise_1>0.0 1.0</pos_noise_1> <!-- y position noise (2D image)-->  
+  <pos_noise_1>0.0 1.0</pos_noise_1> <!-- y position noise (2D image)-->
 
   <!-- not used -->
   <!-- <pos_noise_2>0.0 1.0</pos_noise_2> --> <!-- z position noise -->
   <!-- <orient_noise_0>0.0 0.0</orient_noise_0> --> <!-- roll noise (rad) -->
   <!-- <orient_noise_1>0.0 0.0</orient_noise_1> --> <!-- pitch noise (rad) -->
-  <!-- <orient_noise_2>0.0 0.0</orient_noise_2> --> <!-- yaw noise (rad) -->  
-  
+  <!-- <orient_noise_2>0.0 0.0</orient_noise_2> --> <!-- yaw noise (rad) -->
+
 </params>
