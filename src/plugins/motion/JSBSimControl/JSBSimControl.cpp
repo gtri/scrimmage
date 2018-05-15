@@ -89,9 +89,9 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          std::map<std::string, std::string> &params) {
 
 
-    drawVel_ = sc::get<double>("drawVel", params, 1.0);
-    drawAngVel_ = sc::get<double>("drawAngVel", params, 10.0);
-    drawAcc_ = sc::get<double>("drawAcc", params, 1.0);
+    draw_vel_ = sc::get<double>("drawVel", params, 1.0);
+    draw_ang_vel_ = sc::get<double>("drawAngVel", params, 10.0);
+    draw_acc_ = sc::get<double>("drawAcc", params, 1.0);
 
     // Setup variable index for controllers
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
@@ -314,45 +314,35 @@ bool JSBSimControl::step(double time, double dt) {
 
     Eigen::Vector3d a_ENU = state_->quat().rotate(a_FLU);
 
-
-
     // draw velocity
-    if (drawVel_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255, 255, 0);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->vel()*drawVel_ );
-        shapes_.push_back(shape);
+    if (draw_vel_) {
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 255, 0, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->vel());
+        draw_shape(line);
     }
 
-
     // draw angular velocity
-    if (drawAngVel_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(0, 255, 255);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->ang_vel()*drawAngVel_ );
-        shapes_.push_back(shape);
+    if (draw_ang_vel_) {
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 0, 255, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->ang_vel());
+        draw_shape(line);
     }
 
     // draw acceleration
-    if (drawAcc_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(0, 0, 255);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + a_ENU*drawAcc_ );
-        shapes_.push_back(shape);
+    if (draw_acc_) {
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 0, 0, 255);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + a_ENU);
+        draw_shape(line);
     }
-
 
 #if 0
     JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();

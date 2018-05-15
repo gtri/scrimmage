@@ -14,6 +14,7 @@ swarm behaviors.
    multiple-local-runs.rst
    create-project.rst      
    autonomy-plugin.rst
+   draw-shapes.rst
    sensor-plugin.rst
    controller-plugin.rst
    motion-model-plugin.rst   

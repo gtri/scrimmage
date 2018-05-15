@@ -9,44 +9,93 @@ import "scrimmage/proto/Vector3d.proto";
 import "scrimmage/proto/Quaternion.proto";
 import "scrimmage/proto/Color.proto";
 
-message Shape {
-
-enum Type {
-Point = 0;
-Plane = 1;
-Line = 2;
-Triangle = 3;
-Rectangle = 4;
-Sphere = 5;
-Polygon = 6;
-Polydata = 7;
-Pointcloud = 8;
-Arrow = 9;
-Cone = 10;
-Circle = 11;
-Text = 12;
-Cube = 13;
+message Triangle {
+        Vector3d point0 = 1;
+        Vector3d point1 = 2;
+        Vector3d point2 = 3;
 }
 
-int32 id = 1;
-Type type = 2;
-Color color = 3;
-double opacity = 4;
-int32 ttl = 5;
-bool persistent = 6;
-double size = 7;
-double radius = 8;
-double height = 9;
-double base_radius = 10;
-Vector3d center = 11;
-Vector3d apex = 12;
-Vector3d direction = 13;
-repeated Vector3d point = 14;
-repeated Color point_color = 15;
-Vector3d normal = 16;
-string text = 17;
-Vector3d xyz_lengths = 18;
-Quaternion quat = 19;
+message Plane {
+        Vector3d center = 1;
+        Vector3d normal = 2;
+}
+
+message Arrow {
+        Vector3d tail = 1;
+        Vector3d head = 2;
+}
+
+message Cone {
+        Vector3d direction = 1;
+        Vector3d apex = 2;
+        double height = 3;
+        double base_radius = 4;
+}
+
+message Line {
+        Vector3d start = 1;
+        Vector3d end = 2;
+}
+
+message Polygon {
+        repeated Vector3d point = 1;
+}
+
+message Polydata {
+        repeated Vector3d point = 1;
+}
+
+message Cube {
+        double x_length = 1;
+        double y_length = 2;
+        double z_length = 3;
+        Vector3d center = 4;
+        Quaternion quat = 5;
+}
+
+message PointCloud {
+        repeated Vector3d point = 1;
+        repeated Color color = 2;
+        double size = 3;
+}
+
+message Circle {
+        Vector3d center = 1;
+        double radius = 2;
+}
+
+message Sphere {
+        Vector3d center = 1;
+        double radius = 2;
+}
+
+message Text {
+        string text = 1;
+        Vector3d center = 2;
+}
+
+message Shape {
+	uint64 id = 1;
+	bool id_set = 2;
+	Color color = 3;
+	double opacity = 4;
+	int32 ttl = 5;
+	bool persistent = 6;
+    
+    oneof oneof_type {
+          Triangle triangle = 7;
+          Plane plane = 8;
+          Arrow arrow = 9;
+          Cone cone = 10;
+          Line line = 11;
+          Polygon polygon = 12;
+          Polydata polydata = 13;
+          Cube cube = 14;
+          PointCloud pointcloud = 15;
+          Circle circle = 16;
+          Sphere sphere = 17;
+          Text text = 18;
+    }
 }
 
 message Shapes {

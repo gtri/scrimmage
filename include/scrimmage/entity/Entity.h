@@ -132,6 +132,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
     int health_points();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
+
+    void set_mp(MissionParsePtr mp);
     MissionParsePtr mp();
 
     void set_random(RandomPtr random);

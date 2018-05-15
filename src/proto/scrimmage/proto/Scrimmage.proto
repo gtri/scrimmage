@@ -20,6 +20,7 @@ rpc SendContactVisual (ContactVisual) returns (BlankReply) {}
 rpc SendShapes (Shapes) returns (BlankReply) {}
 
 rpc SendGUIMsg (GUIMsg) returns (BlankReply) {}
+rpc SendWorldPointClicked (WorldPointClicked) returns (BlankReply) {}
 }
 
 message BlankReply {

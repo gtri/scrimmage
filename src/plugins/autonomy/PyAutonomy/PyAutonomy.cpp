@@ -249,7 +249,7 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
     py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
     std::list< std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
     std::transform(py_shapes.begin(), py_shapes.end(), std::back_inserter(cpp_shapes), py2shape);
-    shapes_ = cpp_shapes;
+    // shapes_ = cpp_shapes; // SHAPES TODO
 
     step_autonomy_called_ = true;
 

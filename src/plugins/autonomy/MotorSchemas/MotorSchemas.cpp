@@ -183,13 +183,9 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
-    shapes_.clear();
-
     // Run all sub behaviors
     double vec_w_gain_sum = 0;
     Eigen::Vector3d vec_w_gain(0, 0, 0);
-
-    // cout << "============" << endl;
 
     for (motor_schemas::BehaviorBasePtr &behavior : current_behaviors_) {
         behavior->shapes().clear();
@@ -214,8 +210,8 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         }
 
         if (desired_vector.hasNaN()) {
-            cout << "Behavior error: " << behavior->name() << endl;
-            cout << "desired vector has NaN" << endl;
+            cout << "Behavior error: " << behavior->name()
+                 << ", desired vector has NaN" << endl;
             continue;
         }
 
@@ -234,9 +230,10 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         }
 
         if (show_shapes_) {
-            // Grab the behavior shapes:
-            shapes_.insert(shapes_.end(), behavior->shapes().begin(),
-                           behavior->shapes().end());
+             std::for_each(behavior->shapes().begin(),
+                           behavior->shapes().end(), [&](auto &s) {
+                               this->draw_shape(s);
+                           });
         }
         behavior->shapes().clear();
     }
@@ -258,13 +255,12 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Draw sphere of influence:
     if (show_shapes_) {
         // Draw resultant vector:
-        auto arrow = std::make_shared<scrimmage_proto::Shape>();
-        arrow->set_type(scrimmage_proto::Shape::Line);
-        sc::set(arrow->mutable_color(), 255, 255, 0);
-        arrow->set_opacity(0.75);
-        sc::add_point(arrow, state_->pos());
-        sc::add_point(arrow, vel_result + state_->pos());
-        shapes_.push_back(arrow);
+        auto line = std::make_shared<scrimmage_proto::Shape>();
+        sc::set(line->mutable_color(), 255, 255, 0);
+        line->set_opacity(0.75);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), vel_result + state_->pos());
+        draw_shape(line);
     }
 
     return true;

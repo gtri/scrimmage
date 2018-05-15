@@ -243,6 +243,40 @@ bool Interface::send_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
     return true;
 }
 
+bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &msg) {
+    if (mode_ == shared) {
+        push_world_point_clicked_msg(msg);
+    } else if (mode_ == client) {
+#if ENABLE_GRPC
+        scrimmage_proto::BlankReply reply;
+
+        // Context for the client. It could be used to convey extra information to
+        // the server and/or tweak certain RPC behaviors.
+        grpc::ClientContext context;
+
+        // Set timeout for API
+        std::chrono::system_clock::time_point deadline =
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
+        context.set_deadline(deadline);
+
+        grpc::Status status;
+        status = scrimmage_stub_->SendWorldPointClicked(&context, msg, &reply);
+
+        if (status.ok()) {
+            return true;
+        } else {
+            cout << "send_world_point_clicked_msg: Error code: " << status.error_code() << endl;
+            cout << status.error_message() << endl;
+            return false;
+        }
+#else
+        cout << "WARNING: GRPC DISABLED!" << endl;
+#endif
+    }
+    return true;
+}
+
+
 bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
     if (mode_ == shared) {
         push_sim_info(sim_info);
@@ -359,6 +393,13 @@ bool Interface::push_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
     return true;
 }
 
+bool Interface::push_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &msg) {
+    world_point_clicked_msg_mutex.lock();
+    world_point_clicked_msg_list_.push_back(msg);
+    world_point_clicked_msg_mutex.unlock();
+    return true;
+}
+
 bool Interface::push_sim_info(scrimmage_proto::SimInfo &sim_info) {
     sim_info_mutex.lock();
     sim_info_list_.push_back(sim_info);
@@ -405,6 +446,13 @@ bool Interface::gui_msg_update() {
     gui_msg_mutex.lock();
     bool status = !gui_msg_list_.empty();
     gui_msg_mutex.unlock();
+    return status;
+}
+
+bool Interface::world_point_clicked_msg_update() {
+    world_point_clicked_msg_mutex.lock();
+    bool status = !world_point_clicked_msg_list_.empty();
+    world_point_clicked_msg_mutex.unlock();
     return status;
 }
 

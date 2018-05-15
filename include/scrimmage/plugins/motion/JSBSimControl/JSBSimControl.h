@@ -124,9 +124,9 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      double delta_aileron_ = 0;
      double delta_rudder_ = 0;
 
-     double drawVel_ = 0;
-     double drawAngVel_ = 0;
-     double drawAcc_ = 0;
+     double draw_vel_ = 0;
+     double draw_ang_vel_ = 0;
+     double draw_acc_ = 0;
 #endif
 };
 } // namespace motion

@@ -86,14 +86,15 @@ scrimmage::MessageBasePtr SimpleCamera::sensor_msg(double t) {
                                -sin(pitch));
 
         parent_->autonomies().front()->shapes().clear();
+
         auto cone = std::make_shared<scrimmage_proto::Shape>();
-        sc::set(cone->mutable_apex(), s->pos());
         cone->set_opacity(0.2);
-        sc::set(cone->mutable_direction(), orient);
-        cone->set_height(range_);
-        cone->set_base_radius(range_ * sin(fov_az_ / 2.0));
-        cone->set_type(scrimmage_proto::Shape::Cone);
         cone->set_ttl(1);
+
+        sc::set(cone->mutable_cone()->mutable_apex(), s->pos());
+        sc::set(cone->mutable_cone()->mutable_direction(), orient);
+        cone->mutable_cone()->set_height(range_);
+        cone->mutable_cone()->set_base_radius(range_ * sin(fov_az_ / 2.0));
         parent_->autonomies().front()->shapes().push_back(cone);
     }
 

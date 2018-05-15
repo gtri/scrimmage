@@ -390,6 +390,7 @@ std::shared_ptr<GeographicLib::LocalCartesian> Entity::projection()
 
 MissionParsePtr Entity::mp() { return mp_; }
 
+void Entity::set_mp(MissionParsePtr mp) { mp_ = mp; }
 void Entity::set_random(RandomPtr random) { random_ = random; }
 
 RandomPtr Entity::random() { return random_; }

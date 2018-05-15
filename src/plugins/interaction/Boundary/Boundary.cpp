@@ -33,6 +33,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Random.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/pubsub/Message.h>
@@ -133,9 +134,10 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
             color.clear();
             color = {255, 0, 0};
         }
+
         boundary_->set_visual(color[0], color[1], color[2], opacity);
-        shapes_.insert(shapes_.end(), boundary_->shapes().begin(),
-                       boundary_->shapes().end());
+        std::for_each(boundary_->shapes().begin(), boundary_->shapes().end(),
+                      [&](auto s) { this->draw_shape(s); });
     }
 
     std::string network_name = sc::get("network_name", plugin_params, "GlobalNetwork");

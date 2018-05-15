@@ -133,14 +133,14 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
 bool WaypointGenerator::step_autonomy(double t, double dt) {
     auto msg = std::make_shared<sc::Message<WaypointList>>();
 
-    std::vector<Waypoint>::iterator it = wp_list_.waypoints().begin();
+    std::list<Waypoint>::iterator it = wp_list_.waypoints().begin();
     while (it != wp_list_.waypoints().end()) {
         if (t >= it->time()) {
             msg->data.set_mode(wp_list_.mode());
             msg->data.waypoints().push_back(*it);
 
             // Erase this waypoint from the main list
-            std::vector<Waypoint>::iterator it_del = it;
+            std::list<Waypoint>::iterator it_del = it;
             it = wp_list_.waypoints().erase(it_del);
         } else {
             ++it;
@@ -164,15 +164,15 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(),
                                        x, y, z);
 
-        auto shape = std::make_shared<scrimmage_proto::Shape>();
-        shape->set_type(scrimmage_proto::Shape::Sphere);
-        shape->set_opacity(0.25);
-        shape->set_radius(wp.position_tolerance());
-        shape->set_persistent(true);
-        sc::set(shape->mutable_center(), x, y, z);
-        sc::set(shape->mutable_color(), waypoint_color_[0], waypoint_color_[1],
+        auto sphere = std::make_shared<scrimmage_proto::Shape>();
+        sphere->set_opacity(0.25);
+        sphere->set_persistent(true);
+        sc::set(sphere->mutable_color(), waypoint_color_[0], waypoint_color_[1],
                 waypoint_color_[2]);
-        shapes_.push_back(shape);
+
+        sphere->mutable_sphere()->set_radius(wp.position_tolerance());
+        sc::set(sphere->mutable_sphere()->mutable_center(), x, y, z);
+        draw_shape(sphere);
     }
 }
 } // namespace autonomy

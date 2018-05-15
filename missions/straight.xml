@@ -40,6 +40,7 @@
   <entity_interaction>Boundary</entity_interaction>
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction>GroundCollision</entity_interaction>
+  
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 
   <network>GlobalNetwork</network>
@@ -114,5 +115,5 @@
       <radius>25</radius>
     </base>
   </entity>
-
+    
 </runscript>

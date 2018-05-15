@@ -113,6 +113,8 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase{
 
     Eigen::Vector3d force_ext_body_;
 
+    bool show_shapes_ = false;
+
  private:
 };
 } // namespace motion

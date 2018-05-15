@@ -109,13 +109,12 @@ bool TrailMS::step_autonomy(double t, double dt) {
     }
 
     if (show_track_point_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Sphere);
-        sc::set(shape->mutable_color(), 0, 0, 255);
-        sc::set(shape->mutable_center(), trail_point);
-        shape->set_opacity(1.0);
-        shape->set_radius(0.5);
-        shapes_.push_back(shape);
+        sc::ShapePtr sphere(new sp::Shape());
+        sphere->set_opacity(1.0);
+        sc::set(sphere->mutable_color(), 0, 0, 255);
+        sc::set(sphere->mutable_sphere()->mutable_center(), trail_point);
+        sphere->mutable_sphere()->set_radius(0.5);
+        draw_shape(sphere);
     }
 
     return true;

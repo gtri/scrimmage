@@ -116,14 +116,18 @@ void Straight::init(std::map<std::string, std::string> &params) {
         // Draw a text label 30 meters in front of vehicle:
         Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
 
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Text);
-        sc::set(shape->mutable_color(), 255, 255, 255);
-        sc::set(shape->mutable_center(), in_front);
-        shape->set_persistent(true);
-        shape->set_text("Hello SCRIMMAGE!");
-        shape->set_opacity(1.0);
-        shapes_.push_back(shape);
+        // Create the shape and set generic shape properties
+        text_shape_ = std::make_shared<sp::Shape>();
+        text_shape_->set_persistent(true);
+        text_shape_->set_opacity(1.0);
+        sc::set(text_shape_->mutable_color(), 255, 255, 255);
+
+        // Set the text shape's specific properties
+        sc::set(text_shape_->mutable_text()->mutable_center(), in_front);
+        text_shape_->mutable_text()->set_text("Hello, SCRIMMAGE!");
+
+        // Draw the shape in the 3D viewer
+        draw_shape(text_shape_);
     }
 
     enable_boundary_control_ = scrimmage::get<bool>("enable_boundary_control",
@@ -144,6 +148,19 @@ void Straight::init(std::map<std::string, std::string> &params) {
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+    if (show_text_label_) {
+        // An example of changing a shape's property
+        if (t > 1.0 && t < (1.0 + dt)) {
+            text_shape_->set_opacity(0.1);
+            draw_shape(text_shape_);
+        }
+
+        // An example of removing a shape
+        if (t > 5.0 && t < (5.0 + dt)) {
+            text_shape_->set_persistent(false);
+            draw_shape(text_shape_);
+        }
+    }
 
     // Read data from sensors...
     sc::State own_state = *state_;
@@ -156,7 +173,8 @@ bool Straight::step_autonomy(double t, double dt) {
             }
         } else if (kv.first == "NoisyContacts0") {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
-            shapes_.insert(shapes_.end(), kv.second->shapes().begin(), kv.second->shapes().end());
+            std::for_each(kv.second->shapes().begin(), kv.second->shapes().end(),
+                  [&](auto s) { this->draw_shape(s); });
             kv.second->shapes().clear();
         } else if (kv.first == "AirSimSensor0") {
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)

@@ -298,26 +298,22 @@ bool FixedWing6DOF::step(double time, double dt) {
 
     // draw velocity
     if (draw_vel_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255, 255, 0);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->vel()/10 );
-        shapes_.push_back(shape);
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 255, 0, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->vel());
+        draw_shape(line);
     }
 
     // draw angular velocity
     if (draw_ang_vel_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255, 255, 0);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->ang_vel()*10 );
-        shapes_.push_back(shape);
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 0, 255, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->ang_vel());
+        draw_shape(line);
     }
 
     if (write_csv_) {

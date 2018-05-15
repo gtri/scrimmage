@@ -64,6 +64,9 @@ Multirotor::Multirotor() : write_csv_(false) {
 
 bool Multirotor::init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params) {
+
+    show_shapes_ = sc::get<bool>("show_shapes", params, false);
+
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
 
@@ -236,28 +239,23 @@ bool Multirotor::step(double time, double dt) {
     ang_accel_body_ = angular_acc;
 
     // draw velocity
-    if (1) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255, 255, 0);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->vel() );
-        shapes_.push_back(shape);
+    if (show_shapes_) {
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 255, 255, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->vel());
+        draw_shape(line);
     }
 
-
     // draw angular velocity
-    if (1) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(0, 255, 255);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->ang_vel()*10 );
-        shapes_.push_back(shape);
+    if (show_shapes_) {
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 0, 255, 255);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->ang_vel()*10);
+        draw_shape(line);
     }
 
     if (write_csv_) {

@@ -4,6 +4,8 @@
   <library>Multirotor_plugin</library>
   <write_csv>false</write_csv>
 
+  <show_shapes>false</show_shapes>
+
   <gravity_magnitude>9.81</gravity_magnitude>
 
   <!-- Platform mass -->

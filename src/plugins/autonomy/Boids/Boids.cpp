@@ -45,6 +45,8 @@
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Boids, Boids_plugin)
 
+namespace sc = scrimmage;
+
 namespace scrimmage {
 namespace autonomy {
 
@@ -94,8 +96,6 @@ void Boids::init(std::map<std::string, std::string> &params) {
 }
 
 bool Boids::step_autonomy(double t, double dt) {
-    shapes_.clear();
-
     // Find neighbors that are within field-of-view and within comms range
     std::vector<ID> rtree_neighbors;
     rtree_->neighbors_in_range(state_->pos_const(), rtree_neighbors, comms_range_);
@@ -226,22 +226,20 @@ bool Boids::step_autonomy(double t, double dt) {
         velocity_controller(vel_result);
 
         if (show_shapes_) {
-            ShapePtr shape(new scrimmage_proto::Shape);
-            shape->set_type(scrimmage_proto::Shape::Sphere);
-            shape->set_opacity(0.1);
-            shape->set_radius(sphere_of_influence_);
-            set(shape->mutable_center(), state_->pos());
-            set(shape->mutable_color(), 0, 255, 0);
-            shapes_.push_back(shape);
+            ShapePtr sphere(new scrimmage_proto::Shape);
+            sphere->set_opacity(0.1);
+            sc::set(sphere->mutable_color(), 0, 255, 0);
+            sphere->mutable_sphere()->set_radius(sphere_of_influence_);
+            sc::set(sphere->mutable_sphere()->mutable_center(), state_->pos());
+            draw_shape(sphere);
 
             // Draw resultant vector:
-            ShapePtr arrow(new scrimmage_proto::Shape);
-            arrow->set_type(scrimmage_proto::Shape::Line);
-            set(arrow->mutable_color(), 255, 255, 0);
-            arrow->set_opacity(0.75);
-            add_point(arrow, state_->pos());
-            add_point(arrow, vel_result + state_->pos());
-            shapes_.push_back(arrow);
+            ShapePtr line(new scrimmage_proto::Shape);
+            line->set_opacity(0.75);
+            sc::set(line->mutable_color(), 255, 255, 0);
+            sc::set(line->mutable_line()->mutable_start(), state_->pos());
+            sc::set(line->mutable_line()->mutable_end(), vel_result + state_->pos());
+            draw_shape(line);
         }
     } else {
         velocity_controller(v_goal);

@@ -29,8 +29,10 @@
  * A Long description goes here.
  *
  */
-
 #include <scrimmage/viewer/CameraInterface.h>
+
+#include <vtkWorldPointPicker.h>
+#include <vtkRendererCollection.h>
 
 namespace scrimmage {
 
@@ -83,6 +85,8 @@ void CameraInterface::OnKeyPress() {
         updater_->dec_label_scale();
     } else if (key == "N") {
         updater_->inc_label_scale();
+    } else if (key == "o") {
+        enable_object_draw_ = not enable_object_draw_;
     } else if (key == "h") {
         updater_->toggle_helpmenu();
     } else {
@@ -99,6 +103,16 @@ void CameraInterface::Rotate() {
 }
 
 void CameraInterface::OnLeftButtonDown() {
+    if (enable_object_draw_) {
+        this->Interactor->GetPicker()->Pick(this->Interactor->GetEventPosition()[0],
+                                            this->Interactor->GetEventPosition()[1],
+                                            0,  // always zero.
+                                            this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer());
+        double picked[3];
+        this->Interactor->GetPicker()->GetPickPosition(picked);
+        updater_->world_point_clicked(picked[0], picked[1], picked[2]);
+    }
+    // Forward events
     vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
 }
 
