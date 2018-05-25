@@ -45,6 +45,7 @@ set(SCRIMMAGE_PYTHON_DIR ${CMAKE_SOURCE_DIR}/python)
 
 include(MacroAddExternalTarget)
 include(MacroSubDirList)
+include(FindPythonModule)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
