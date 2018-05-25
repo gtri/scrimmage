@@ -653,7 +653,9 @@ bool MissionParse::create_log_dir() {
         fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
         if (fs_err()) {
             cout << "WARNING: Unable to create latest log file symlink" << endl;
-            cout << "Couldn't create symlink log directory" << endl;
+            cout << "Couldn't create symlink log directory: "
+                 << latest_sym.string() << " -> "
+                 << fs::path(log_dir_).string() << endl;
             print_error();
         }
     }
