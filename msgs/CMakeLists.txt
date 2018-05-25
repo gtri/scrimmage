@@ -18,6 +18,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
 
   get_filename_component(PROTO_NAME ${PROTO_FILE} NAME_WE)
   get_filename_component(ABS_PROTO_NAME ${PROTO_FILE} REALPATH)
+  get_filename_component(PROTO_PATH ${ABS_PROTO_NAME} DIRECTORY)
 
   set(PROTO_FILE_GEN_CPP_FILES
     ${GEN_DIR}/${PROTO_NAME}.pb.cc
@@ -32,9 +33,9 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
 
   add_custom_command(
     OUTPUT ${PROTO_FILE_GEN_FILES}
-    COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${CMAKE_CURRENT_SOURCE_DIR} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
+    COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
     DEPENDS ${PROTO_FILE}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    WORKING_DIRECTORY ${PROTO_PATH}
     )
 
  # Make a list of all generated CPP files
