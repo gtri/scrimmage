@@ -43,7 +43,9 @@ RUN pip install cpplint
 
 RUN pip install protobuf==3.3.0 grpcio==1.2.1
 
-RUN apt install -y ros-kinetic-mrpt-navigation
+RUN apt install -y ros-kinetic-mrpt-local-obstacles \
+    ros-kinetic-mrpt-localization ros-kinetic-mrpt-map \
+    ros-kinetic-mrpt-rawlog ros-kinetic-mrpt-reactivenav2d
 
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
