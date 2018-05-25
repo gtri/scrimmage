@@ -42,7 +42,7 @@ import pandas as pd
 import sys
 import errno
 import shutil
-import scrimmage
+import scrimmage.utils as utils
 
 # If you get warnings about fc-list, remove font cache:
 # rm -rf ~/.cache/matplotlib/
@@ -225,7 +225,7 @@ def main():
             shutil.copyfile(TEMP_MISSION_FILE, mission_dir+"/"+str(i+1)+".xml")
 
     if not args.only_xml:
-        scrimmage.qsub(args.num_runs, mission_dir, args.nodes)
+        utils.qsub(args.num_runs, mission_dir, args.nodes)
 
     os.remove(TEMP_MISSION_FILE)
     return 0
