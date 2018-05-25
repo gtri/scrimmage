@@ -3,9 +3,10 @@ foreach(test_file ${test_files})
   get_filename_component(test_name ${test_file} NAME_WE)
   add_executable(${test_name} ${test_file})
   add_dependencies(${test_name} scrimmage)
+  AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
   target_link_libraries(${test_name}
-    ${GTEST_BOTH_LIBRARIES}
-    ${GMOCK_BOTH_LIBRARIES}
+    gtest_main
+    gmock_main
     scrimmage
     ${PYTHON_LIBRARIES}
     )

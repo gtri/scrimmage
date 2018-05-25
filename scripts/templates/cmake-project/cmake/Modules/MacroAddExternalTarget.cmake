@@ -1,0 +1,11 @@
+macro(AddExternalTarget _VARS)
+  set(LST ${ARGV})
+  list(GET LST 0 TGT)
+  list(REMOVE_AT LST 0)
+
+  foreach(EXT_TGT ${LST})
+    if (${EXT_TGT})
+      add_dependencies(${TGT} ${${EXT_TGT}})
+    endif()
+  endforeach()
+endmacro()
