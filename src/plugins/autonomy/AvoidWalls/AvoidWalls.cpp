@@ -51,9 +51,8 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     auto pc_cb = [&] (scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
         point_cloud_ = msg->data;
     };
-    subscribe<sensor::RayTrace::PointCloud>(
-        "GlobalNetwork", std::to_string(parent_->id().id()) + "/0/pointcloud",
-        pc_cb);
+    std::string topic_name = std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud";
+    subscribe<sensor::RayTrace::PointCloud>("GlobalNetwork", topic_name, pc_cb);
 
     heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
     speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);

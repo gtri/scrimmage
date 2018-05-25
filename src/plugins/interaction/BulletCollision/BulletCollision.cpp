@@ -119,10 +119,10 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
                 if (kv.second->type() == "Ray") {
                     // Create a publisher for this sensor
                     // "entity_id/RayTrace0/pointcloud"
+                    std::string topic_name = std::to_string(id) + "/"
+                        + kv.first  + "/pointcloud";
                     pcl_pubs_[id][kv.first] =
-                        advertise("GlobalNetwork", std::to_string(id) + "/" +
-                                  kv.first  +
-                                  "/pointcloud", 10);
+                        advertise("GlobalNetwork", topic_name, 10);
 
                     std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
