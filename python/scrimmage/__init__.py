@@ -29,7 +29,10 @@
 # A Long description goes here.
 #
 #
-from scrimmage.bindings import *
+try:
+    from scrimmage.bindings import *
+except ImportError:
+    print('Unable to import scrimmage.bindings.')
 from scrimmage.utils import *
 try:
     from scrimmage.external_control import ScrimmageEnv
