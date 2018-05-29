@@ -54,6 +54,8 @@ The 2D trajectories can be plotted with the ``--2d`` flag.
    $ ./plot_3d_fr.py ~/.scrimmage/logs/latest --2d  
    
 
+.. _csv_logging:
+
 CSV File Logging
 ================================
 

@@ -25,4 +25,5 @@ swarm behaviors.
    openai-plugin.rst
    optimize.rst
    open-grid.rst
+   test.rst
               
