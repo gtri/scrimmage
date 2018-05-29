@@ -32,11 +32,8 @@
 
 #include <gtest/gtest.h>
 
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/common/CSV.h>
 #include <scrimmage/simcontrol/SimUtils.h>
-
-#include <fstream>
 
 #include <boost/optional.hpp>
 
@@ -50,23 +47,12 @@ TEST(test_angles, rotation) {
     EXPECT_TRUE(success);
     if (!log_dir) return;
 
-    std::cout << *log_dir << std::endl;
-    std::ifstream summary_file(*log_dir + "/summary.csv");
-    EXPECT_TRUE(summary_file.is_open());
-    if (!summary_file.is_open()) return;
+    sc::CSV csv;
+    bool summary_found = csv.read_csv(*log_dir + "/summary.csv");
+    EXPECT_TRUE(summary_found);
+    if (!summary_found) return;
 
-    std::list<std::string> lines;
-    std::string str;
-    while (std::getline(summary_file, str)) {
-        lines.push_back(str);
-    }
-
-    EXPECT_FALSE(lines.empty());
-    if (lines.empty()) return;
-
-    auto vec = sc::str2vec<double>(lines.back(), ",");
-    EXPECT_EQ(static_cast<int>(vec.size()), 8);
-    if (vec.size() != 8) return;
-
-    EXPECT_GT(vec.rbegin()[1], 0); // expect collisions
+    const int row = csv.rows() - 1;
+    double collisions = csv.at(row, "team_coll");
+    EXPECT_GT(collisions, 0); // expect collisions
 }
