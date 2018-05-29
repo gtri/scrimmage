@@ -93,8 +93,9 @@ bool FileSearch::find_file(const std::string &search,
         search_filename = search + ext;
     }
 
-    auto dbg = [&](std::string msg) {if (verbose) std::cout <<
-        "find_file: " << msg << std::endl;};
+    auto dbg = [&](std::string msg) {
+        if (verbose) std::cout << "find_file: " << msg << std::endl;
+    };
     dbg(std::string("looking for ") + search_filename);
 
     if (!fs::exists(search)) {
@@ -136,9 +137,9 @@ bool FileSearch::find_file(const std::string &search,
 void FileSearch::find_files(std::string env_var, const std::string &ext,
         std::unordered_map<std::string, std::list<std::string>> &out,
         bool verbose) {
-
-    auto dbg = [&](std::string msg) {if (verbose) std::cout <<
-        "find_files: " << msg << std::endl;};
+    auto dbg = [&](std::string msg) {
+        if (verbose) std::cout << "find_files: " << msg << std::endl;
+    };
 
     auto cache_it = cache_.find(env_var);
     auto ext_it = cache_[env_var].find(ext);
@@ -229,4 +230,4 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     return;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage
