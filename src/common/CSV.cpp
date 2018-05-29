@@ -187,7 +187,8 @@ void CSV::set_no_value_string(const std::string &str) { no_value_str_ = str; }
 int CSV::rows() { return table_.size(); }
 
 double CSV::at(int row, const std::string &header) {
-    return table_[row][column_headers_[header]];
+    const int column = column_headers_.at(header);
+    return table_.at(row).at(column);
 }
 
 std::list<std::string> CSV::get_csv_line_elements(const std::string &str) {
