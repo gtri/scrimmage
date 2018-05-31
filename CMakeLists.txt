@@ -215,10 +215,8 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 # Find Boost
 ########################################################
 #set(Boost_DEBUG ON)
-find_package(Boost COMPONENTS thread date_time iostreams program_options regex
+find_package(Boost 1.55 COMPONENTS thread date_time iostreams program_options regex
   filesystem system graph REQUIRED)
-
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 ########################################################
 # Find OpenCV
