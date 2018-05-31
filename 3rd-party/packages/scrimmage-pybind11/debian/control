@@ -7,6 +7,6 @@ Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-pybind11
 Architecture: any
-Depends: python
+# Depends:
 Description: pybind11 used by SCRIMMAGE
  This is the version of pybind11 used by SCRIMMAGE

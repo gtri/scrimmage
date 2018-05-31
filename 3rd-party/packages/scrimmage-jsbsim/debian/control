@@ -7,6 +7,6 @@ Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-jsbsim
 Architecture: any
-Depends: python
+# Depends:
 Description: jsbsim used by SCRIMMAGE
  This is the version of jsbsim used by SCRIMMAGE

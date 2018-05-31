@@ -7,6 +7,6 @@ Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-grpc
 Architecture: any
-Depends: python, scrimmage-protobuf3
+Depends: scrimmage-protobuf3
 Description: grpc used by SCRIMMAGE
  This is the version of grpc used by SCRIMMAGE

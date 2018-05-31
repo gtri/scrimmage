@@ -7,6 +7,6 @@ Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-protobuf3
 Architecture: any
-Depends: python
+# Depends:
 Description: protobuf3 used by SCRIMMAGE
  This is the version of protobuf3 used by SCRIMMAGE

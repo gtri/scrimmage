@@ -26,7 +26,6 @@ Homepage: https://www.scrimmagesim.org
 Package: scrimmage
 Architecture: any
 Depends:
- python,
  parallel,
  scrimmage-dependencies,
  libvtk5.10,
