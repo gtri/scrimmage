@@ -42,10 +42,10 @@ def main():
             with open(fpath, "w") as f:
                 f.write(s)
 
-    ## Rename the ./include/scrimmage-cmake-project to the appropriate project
-    ## name
-    #os.rename(dst_dir+"/include/scrimmage-cmake-project",
-    #          dst_dir+"/include/" + args.project_name)
+    # Rename the ./include/cmake-project to the appropriate project
+    # name
+    os.rename(dst_dir+"/include/cmake-project",
+              dst_dir+"/include/" + args.project_name)
 
     return 0
 

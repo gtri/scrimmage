@@ -13,7 +13,7 @@ else()
   message("ccache not found, repeated builds will be faster if this program is installed")
 endif()
 
-project ((>>>PROJECT_NAME<<<))
+project((>>>PROJECT_NAME<<<))
 
 set(PROJECT_VERSION_MAJOR "0")
 set(PROJECT_VERSION_MINOR "0")
@@ -29,9 +29,9 @@ if(NOT CMAKE_INSTALL_PREFIX)
 endif()
 
 # fetch all the local directories for generated code
-get_filename_component(PROJECT_LIB_DIR ${CMAKE_BINARY_DIR}/lib ABSOLUTE)
-get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${CMAKE_BINARY_DIR}/plugin_libs ABSOLUTE)
-get_filename_component(PROJECT_BIN_DIR ${CMAKE_BINARY_DIR}/bin ABSOLUTE)
+get_filename_component(PROJECT_LIB_DIR ${CMAKE_CURRENT_BINARY_DIR}/lib ABSOLUTE)
+get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${CMAKE_CURRENT_BINARY_DIR}/plugin_libs ABSOLUTE)
+get_filename_component(PROJECT_BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin ABSOLUTE)
 get_filename_component(PROJECT_INC_DIR ./include ABSOLUTE)
 get_filename_component(PROJECT_SRC_DIR ./src ABSOLUTE)
 get_filename_component(PROJECT_SHARE_DIR ./share ABSOLUTE)
@@ -71,12 +71,12 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_LIB_DIR} CACHE PATH
 set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
 set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
 file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
-configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/setenv.in
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/setenv.in
   "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
 execute_process(COMMAND bash "-c" "${PROJECT_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
 
-set(MSGS_INCLUDE_DIR ${CMAKE_BINARY_DIR}/msgs)
-set(PROTO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/src/proto)
+set(MSGS_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/msgs)
+set(PROTO_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/proto)
 
 include_directories(${PROJECT_INC_DIR})
 include_directories(${MSGS_INCLUDE_DIR})
@@ -86,59 +86,6 @@ include_directories(${PROTO_INCLUDE_DIR})
 # Find Scrimmage
 ###############################################################################
 find_package(scrimmage REQUIRED)
-include_directories(${SCRIMMAGE_INCLUDE_DIRS})
-
-###############################################################################
-# Find geographiclib (required)
-###############################################################################
-find_package (GeographicLib 1.34 REQUIRED)
-add_definitions (${GeographicLib_DEFINITIONS})
-include_directories(${GeographicLib_INCLUDE_DIRS})
-
-###############################################################################
-# Find Protobuf (required)
-###############################################################################
-set(PROTOC "" CACHE STRING "External protoc executable")
-set(PROTOBUF_LIBS "" CACHE STRING "External protobuf lib (libprotobuf.so)")
-set(PROTOBUF_INCLUDE "" CACHE STRING "External protobuf include directory")
-if (PROTOC STREQUAL "" OR PROTOBUF_LIBS STREQUAL "" OR PROTOBUF_INCLUDE STREQUAL "")
-  find_package(Protobuf 3.3.0 REQUIRED)
-else()
-  set(PROTOBUF_PROTOC_EXECUTABLE "${PROTOC}")
-  set(PROTOBUF_LIBRARIES "${PROTOBUF_LIBS}")
-  set(PROTOBUF_INCLUDE_DIRS "${PROTOBUF_INCLUDE}")
-endif()
-include_directories(${PROTOBUF_INCLUDE_DIRS})
-
-########################################################
-# Find Eigen
-########################################################
-if(NOT "${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-  # 32 bit check, see https://cmake.org/pipermail/cmake/2013-December/056587.html
-  # see also: http://eigen.tuxfamily.org/dox/group__TopicUnalignedArrayAssert.html
-  add_definitions(-DEIGEN_DONT_VECTORIZE=1)
-  add_definitions(-DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT=1)
-endif()
-find_package(Eigen3 QUIET)
-
-if (NOT Eigen3_FOUND)
-  include(LibFindMacros)
-  libfind_pkg_check_modules(EIGEN_PKGCONFIG eigen3)
-  if (EIGEN_PKGCONFIG_INCLUDE_DIRS STREQUAL "")
-    message(FATAL_ERROR "could not find eigen either through find_package or pkgconfig")
-  endif() 
-  set(EIGEN3_INCLUDE_DIR ${EIGEN_PKGCONFIG_INCLUDE_DIRS})
-  message("Found Eigen with pkg-config, EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
-endif() 
-include_directories(${EIGEN3_INCLUDE_DIR})
-########################################################
-# Find Boost
-########################################################
-#set(Boost_DEBUG ON)
-find_package(Boost COMPONENTS thread date_time iostreams program_options regex
-  filesystem system REQUIRED)
-
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 ########################################################
 # Handle Python settings
@@ -199,17 +146,17 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
 
     # Download and unpack googletest at configure time
     if (NOT TARGET gtest_main)
-        configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
           googletest-download/CMakeLists.txt)
         execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
           RESULT_VARIABLE result
-          WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
         if(result)
           message(FATAL_ERROR "CMake step for googletest failed: ${result}")
         endif()
         execute_process(COMMAND ${CMAKE_COMMAND} --build .
           RESULT_VARIABLE result
-          WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
         if(result)
           message(FATAL_ERROR "Build step for googletest failed: ${result}")
         endif()
@@ -220,8 +167,8 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
 
         # Add googletest directly to our build. This defines
         # the gtest and gtest_main targets.
-        add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-                         ${CMAKE_BINARY_DIR}/googletest-build)
+        add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
+                         ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
 
         # The gtest/gtest_main targets carry header search path
         # dependencies automatically when using CMake 2.8.11 or
@@ -246,7 +193,7 @@ ADD_CUSTOM_TARGET(distclean
 ###############################################################################
 set(PROJECT_DESCRIPTION "(>>>PROJECT_NAME<<<) Plugins")
 
-IF(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE)
   # - Add each library to LIBS_STRING
   # SCRIMMAGE_GTRI_SIM_LIBS is a "global" variable that is passed
   # down to each sub directory and every library that is
@@ -257,6 +204,28 @@ IF(UNIX AND NOT APPLE)
     #message("=======> ${I}")
   endforeach()
 
+  #############################################################################
+  # Generate the cmake configuration files for the build tree
+  #############################################################################
+  include(CMakePackageConfigHelpers)
+
+  set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Include install dir")
+  set(LIB_INSTALL_DIR lib/ CACHE PATH "Library install dir")
+  set(CMAKE_CONFIG_DEST "${LIB_INSTALL_DIR}/${PROJECT_NAME}/cmake")
+
+  configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+    INSTALL_DESTINATION ${CMAKE_SOURCE_DIR}/build
+    PATH_VARS INCLUDE_INSTALL_DIR
+    )
+
+  write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+    )
+
   # Add all library targets to the build-tree export set
   export(TARGETS ${PROJECT_LIBS} ${PROJECT_PLUGINS}
     FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake")
@@ -265,39 +234,35 @@ IF(UNIX AND NOT APPLE)
   # (this registers the build-tree with a global CMake-registry ~/.cmake)
   export(PACKAGE ${PROJECT_NAME})
   
-  # Generate the cmake config file for the source/build tree
-  set(PROJECT_INCLUDE_DIRS
-    ${CMAKE_SOURCE_DIR}/include
-    ${MSGS_INCLUDE_DIR}
-    ${PROTO_INCLUDE_DIR}
+  #############################################################################
+  # Generate the cmake configuration files for the install tree
+  #############################################################################
+  configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
+    INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
+    PATH_VARS INCLUDE_INSTALL_DIR
     )
-  
-  # Generate the config file that sets *_INCLUDE_DIRS and *_LIBRARIES
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" @ONLY)
 
-  # Generate the cmake config file for the install tree
-  set(PROJECT_INCLUDE_DIRS
-    ${CMAKE_INSTALL_PREFIX}/include
+  write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
     )
-  
-  # Generate the config file that sets *_INCLUDE_DIRS and *_LIBRARIES
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake" @ONLY)
 
-  # Generate the package config file for the install tree
-  configure_file (
-    "${PROJECT_MODULES_DIR}/project.pc.in"
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.pc"
-    @ONLY)
+  # Install cmake config files
+  install(FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
+    DESTINATION ${CMAKE_CONFIG_DEST})
 
-  # Generate the cmake version file for both build/source and install trees
-  configure_file (
-    "${PROJECT_MODULES_DIR}/project-config-version.cmake.in"
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
-    @ONLY
-    )   
+  install(
+    EXPORT ${PROJECT_NAME}-targets
+    DESTINATION ${CMAKE_CONFIG_DEST}
+    )
 
+  #############################################################################
+  # Install Targets
+  #############################################################################
   # Install all plugin XML files under etc
   install(
     DIRECTORY plugins
@@ -334,27 +299,15 @@ IF(UNIX AND NOT APPLE)
     FILES_MATCHING PATTERN "*.pb.h"
     )
   
-  ## Install the export set for use with the install-tree
-  ## Each library needs to export to this same export target name
-  #install(
-  #  EXPORT ${PROJECT_NAME}-targets       
-  #  DESTINATION lib/cmake/${PROJECT_NAME}
-  #  )
+  if (NOT EXTERNAL)
+    # Install meshes, terrain, maps
+    install(
+      DIRECTORY data/gui
+      DESTINATION share/${PROJECT_NAME}/data
+      )
+  endif()
 
-  # Install the cmake config
-  install (FILES     
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake"
-    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
-    DESTINATION lib/cmake/${PROJECT_NAME}
-    )  
-  
-  # Install the ${PROJECT_NAME}.pc file to lib/pkgconfig
-  install (FILES 
-    "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.pc"    
-    DESTINATION lib/pkgconfig
-    )
-
-ENDIF()
+endif()
 
 ###############################################################################
 # Binary installation generation
