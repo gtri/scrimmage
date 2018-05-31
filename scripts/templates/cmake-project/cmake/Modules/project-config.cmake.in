@@ -1,7 +1,7 @@
 # - Config file for the FooBar package
 # It defines the following variables
-#  >>>PROJECT_NAME<<<_INCLUDE_DIRS - include directories for FooBar
-#  >>>PROJECT_NAME<<<_LIBRARIES    - libraries to link against
+#  (>>>PROJECT_NAME<<<)_INCLUDE_DIRS - include directories for project (>>>PROJECT_NAME<<<)
+#  (>>>PROJECT_NAME<<<)_LIBRARIES    - libraries to link against
 
 # Compute paths
 get_filename_component(PROJECT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)

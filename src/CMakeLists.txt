@@ -34,16 +34,29 @@ ADD_LIBRARY( ${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-msgs scrimmage-proto-gen)
+add_dependencies(${LIBRARY_NAME}
+  scrimmage scrimmage-msgs scrimmage-proto-gen
+  Boost::boost
+  )
 
-target_link_libraries(
-  ${LIBRARY_NAME}
-  scrimmage-protos
-  ${PYTHON_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${GeographicLib_LIBRARIES}
-  scrimmage-msgs
-  ${CMAKE_DL_LIBS}
+#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+
+target_link_libraries(${LIBRARY_NAME}
+  PUBLIC
+    scrimmage-protos
+    scrimmage-msgs
+    # TODO the cmake documentation says the Boost::boost target
+    # should include all the header-only libraries, but doesn't
+    # seem to work
+    Boost::boost
+    Boost::filesystem
+    Boost::program_options
+    Boost::date_time
+    Boost::graph
+    Boost::thread
+    ${PYTHON_LIBRARIES}
+    ${GeographicLib_LIBRARIES}
+    ${CMAKE_DL_LIBS}
 )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
@@ -54,6 +67,12 @@ set_target_properties(
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   )
+
+target_include_directories(${LIBRARY_NAME}
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR};${EIGEN3_INCLUDE_DIR};${GeographicLib_INCLUDE_DIRS}>"
+)
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"

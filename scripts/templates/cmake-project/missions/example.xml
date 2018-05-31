@@ -61,7 +61,7 @@
 
     <x>-1000</x>
     <y>0</y>
-    <z>195</z>
+    <z>30</z>
     <heading>0</heading>
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
@@ -73,7 +73,7 @@
     <sensor order="2">ContactBlobCamera</sensor>
     -->
 
-    <autonomy>Straight</autonomy>
+    <autonomy>ExamplePlugin</autonomy>
     <base>
       <latitude>35.721112</latitude>
       <longitude>-120.770305</longitude>
