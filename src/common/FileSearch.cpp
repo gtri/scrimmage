@@ -54,16 +54,21 @@ namespace scrimmage {
 
 void FileSearch::clear() {cache_.clear();}
 
-boost::optional<std::string> FileSearch::find_mission(std::string mission, bool verbose) {
+boost::optional<std::string> FileSearch::find_mission(std::string mission,
+        bool verbose) {
     mission = expand_user(mission);
     if (fs::exists(mission)) return mission;
 
     std::string out;
-    auto search = [&](auto env) {return this->find_file(mission, "xml", env, out);};
+    auto search = [&](auto env) {return this->find_file(
+            mission, "xml", env, out);};
     std::list<std::string> env_vars
-        {"SCRIMMAGE_MISSION_PATH", "/usr/share/scrimmage", "/usr/local/share/scrimmage"};
+        {"SCRIMMAGE_MISSION_PATH",
+            "/usr/share/scrimmage",
+            "/usr/local/share/scrimmage"};
     auto it = br::find_if(env_vars, search);
-    return it == env_vars.end() ? boost::none : boost::optional<std::string>(out);
+    return it ==
+        env_vars.end() ? boost::none : boost::optional<std::string>(out);
 }
 
 bool FileSearch::find_file(const std::string &search,
@@ -80,14 +85,23 @@ bool FileSearch::find_file(const std::string &search,
     if (!ext.empty() && ext[0] != '.') {
         ext = std::string(".") + ext;
     }
-    std::string search_filename = search + ext;
+    std::string search_filename = search;
 
-    auto dbg = [&](std::string msg) {if (verbose) std::cout << "find_file: " << msg << std::endl;};
+    // If the search term already ends in the extension, don't add the extension
+    // Otherwise, add the extension
+    if (!boost::algorithm::ends_with(search, ext)) {
+        search_filename = search + ext;
+    }
+
+    auto dbg = [&](std::string msg) {
+        if (verbose) std::cout << "find_file: " << msg << std::endl;
+    };
     dbg(std::string("looking for ") + search_filename);
 
     if (!fs::exists(search)) {
         // files[search_filename] = list of full paths
-        dbg(std::string("not an absolute path, checking recursively in ") + env_var);
+        dbg(std::string("not an absolute path, checking recursively in ")
+                + env_var);
         std::unordered_map<std::string, std::list<std::string>> files;
         find_files(env_var, ext, files, verbose);
         filenames = files[search_filename];
@@ -104,13 +118,16 @@ bool FileSearch::find_file(const std::string &search,
     result = filenames.back();
 
     if (filenames.size() > 1) {
-        std::cout << "===============================================" << std::endl;
-        std::cout << "WARNING: Multiple XML files with same name found" << std::endl;
+        std::cout <<
+            "===============================================" << std::endl;
+        std::cout <<
+            "WARNING: Multiple XML files with same name found" << std::endl;
         for (std::string &full_path : filenames) {
             std::cout << full_path << std::endl;
         }
         std::cout << "Using XML file at: " << result << std::endl;
-        std::cout << "===============================================" << std::endl;
+        std::cout <<
+            "===============================================" << std::endl;
     }
     return true;
 }
@@ -120,8 +137,9 @@ bool FileSearch::find_file(const std::string &search,
 void FileSearch::find_files(std::string env_var, const std::string &ext,
         std::unordered_map<std::string, std::list<std::string>> &out,
         bool verbose) {
-
-    auto dbg = [&](std::string msg) {if (verbose) std::cout << "find_files: " << msg << std::endl;};
+    auto dbg = [&](std::string msg) {
+        if (verbose) std::cout << "find_files: " << msg << std::endl;
+    };
 
     auto cache_it = cache_.find(env_var);
     auto ext_it = cache_[env_var].find(ext);
@@ -145,7 +163,8 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     if (env_var.find("/") == std::string::npos) {
         const char* env_p = std::getenv(env_var.c_str());
         if (env_p == NULL) {
-            std::cout << env_var << " environment variable not set" << std::endl;
+            std::cout << env_var <<
+                " environment variable not set" << std::endl;
             return;
         }
 
@@ -175,7 +194,8 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
                 s.size() > it->size() &&
                 s.at(it->size()) == native_path_sep);
         };
-        tok.erase(std::remove_if(std::next(it), tok.end(), starts_with), tok.end());
+        tok.erase(std::remove_if(std::next(it), tok.end(), starts_with),
+                tok.end());
         it++;
     }
 
@@ -210,4 +230,4 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
     return;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage
