@@ -55,7 +55,6 @@ namespace ba = boost::adaptors;
 namespace scrimmage {
 
 bool create_ent_inters(const SimUtilsInfo &info,
-                       RandomPtr random,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
                        std::list<EntityInteractionPtr> &ent_inters) {
 
@@ -82,7 +81,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
                                             ent_inter_name);
 
         ent_inter->set_name(name);
-        ent_inter->set_random(random);
+        ent_inter->set_random(info.random);
         ent_inter->set_mission_parse(info.mp);
         ent_inter->set_projection(info.mp->projection());
         ent_inter->set_pubsub(info.pubsub);
@@ -127,6 +126,8 @@ bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_lis
         metrics->set_time(info.time);
         metrics->set_name(metrics_name);
         metrics->parent()->rtree() = info.rtree;
+        metrics->parent()->mp() = info.mp;
+        metrics->parent()->random() = info.random;
         metrics->init(config_parse.params());
         metrics_list.push_back(metrics);
     }

@@ -166,6 +166,7 @@ bool External::create_entity(int max_entities, int entity_id,
     sim_info.rtree = rtree;
     sim_info.pubsub = pubsub_;
     sim_info.time = time_;
+    sim_info.random = random;
     sim_info.id_to_team_map = id_to_team_map_;
     sim_info.id_to_ent_map = id_to_ent_map_;
 
@@ -176,7 +177,7 @@ bool External::create_entity(int max_entities, int entity_id,
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, random, shapes, ent_inters_)) {
+    if (!create_ent_inters(sim_info, shapes, ent_inters_)) {
         std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }

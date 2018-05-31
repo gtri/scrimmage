@@ -53,12 +53,12 @@ struct SimUtilsInfo {
     RTreePtr rtree;
     PubSubPtr pubsub;
     TimePtr time;
+    RandomPtr random;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;
 };
 
 bool create_ent_inters(const SimUtilsInfo &info,
-                       RandomPtr random,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
                        std::list<EntityInteractionPtr> &ent_inters);
 
