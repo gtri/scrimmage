@@ -130,6 +130,12 @@ set_target_properties(
   VERSION ${_soversion}
   )
 
+target_include_directories(${LIBRARY_NAME}
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    "$<BUILD_INTERFACE:${PROTO_INCLUDE_DIR};${PROTOBUF_INCLUDE_DIRS}>"
+)
+
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"
   EXPORT ${PROJECT_NAME}-targets

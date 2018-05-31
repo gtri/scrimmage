@@ -13,7 +13,7 @@ else()
   message("ccache not found, repeated builds will be faster if this program is installed")
 endif()
 
-project ((>>>PROJECT_NAME<<<))
+project((>>>PROJECT_NAME<<<))
 
 set(PROJECT_VERSION_MAJOR "0")
 set(PROJECT_VERSION_MINOR "0")
@@ -86,59 +86,6 @@ include_directories(${PROTO_INCLUDE_DIR})
 # Find Scrimmage
 ###############################################################################
 find_package(scrimmage REQUIRED)
-include_directories(${SCRIMMAGE_INCLUDE_DIRS})
-
-###############################################################################
-# Find geographiclib (required)
-###############################################################################
-find_package (GeographicLib 1.34 REQUIRED)
-add_definitions (${GeographicLib_DEFINITIONS})
-include_directories(${GeographicLib_INCLUDE_DIRS})
-
-###############################################################################
-# Find Protobuf (required)
-###############################################################################
-set(PROTOC "" CACHE STRING "External protoc executable")
-set(PROTOBUF_LIBS "" CACHE STRING "External protobuf lib (libprotobuf.so)")
-set(PROTOBUF_INCLUDE "" CACHE STRING "External protobuf include directory")
-if (PROTOC STREQUAL "" OR PROTOBUF_LIBS STREQUAL "" OR PROTOBUF_INCLUDE STREQUAL "")
-  find_package(Protobuf 3.3.0 REQUIRED)
-else()
-  set(PROTOBUF_PROTOC_EXECUTABLE "${PROTOC}")
-  set(PROTOBUF_LIBRARIES "${PROTOBUF_LIBS}")
-  set(PROTOBUF_INCLUDE_DIRS "${PROTOBUF_INCLUDE}")
-endif()
-include_directories(${PROTOBUF_INCLUDE_DIRS})
-
-########################################################
-# Find Eigen
-########################################################
-if(NOT "${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-  # 32 bit check, see https://cmake.org/pipermail/cmake/2013-December/056587.html
-  # see also: http://eigen.tuxfamily.org/dox/group__TopicUnalignedArrayAssert.html
-  add_definitions(-DEIGEN_DONT_VECTORIZE=1)
-  add_definitions(-DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT=1)
-endif()
-find_package(Eigen3 QUIET)
-
-if (NOT Eigen3_FOUND)
-  include(LibFindMacros)
-  libfind_pkg_check_modules(EIGEN_PKGCONFIG eigen3)
-  if (EIGEN_PKGCONFIG_INCLUDE_DIRS STREQUAL "")
-    message(FATAL_ERROR "could not find eigen either through find_package or pkgconfig")
-  endif() 
-  set(EIGEN3_INCLUDE_DIR ${EIGEN_PKGCONFIG_INCLUDE_DIRS})
-  message("Found Eigen with pkg-config, EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
-endif() 
-include_directories(${EIGEN3_INCLUDE_DIR})
-########################################################
-# Find Boost
-########################################################
-#set(Boost_DEBUG ON)
-find_package(Boost COMPONENTS thread date_time iostreams program_options regex
-  filesystem system REQUIRED)
-
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 ########################################################
 # Handle Python settings

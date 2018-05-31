@@ -1,27 +1,34 @@
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-SET (LIBRARY_NAME (>>>PLUGIN_NAME<<<)_plugin)
-SET (LIB_MAJOR 0)
-SET (LIB_MINOR 0)
-SET (LIB_RELEASE 1)
+set(LIBRARY_NAME (>>>PLUGIN_NAME<<<)_plugin)
+set(LIB_MAJOR 0)
+set(LIB_MINOR 0)
+set(LIB_RELEASE 1)
 
 file(GLOB SRCS *.cpp)
 
-ADD_LIBRARY(${LIBRARY_NAME} SHARED 
+add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
-  )
+)
 
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-  )
+target_link_libraries(${LIBRARY_NAME}
+  scrimmage
+)
 
-SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
+set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-set_target_properties(${LIBRARY_NAME} PROPERTIES 
-  SOVERSION ${LIB_MAJOR} 
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+  SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
-  )
+)
+
+target_include_directories(${LIBRARY_NAME}
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${PROJECT_INC_DIR}>
+)
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"

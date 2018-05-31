@@ -37,6 +37,8 @@
 #include <string>
 #include <map>
 
+#include <scrimmage/common/VariableIO.h>
+
 namespace scrimmage {
 namespace autonomy {
 class ExamplePlugin : public scrimmage::Autonomy {
@@ -47,6 +49,15 @@ class ExamplePlugin : public scrimmage::Autonomy {
 
  protected:
     int follow_id_;
+    double initial_speed_;
+
+    // VariableIO
+    uint8_t desired_altitude_idx_ = 0;
+    uint8_t desired_heading_idx_ = 0;
+    uint8_t desired_speed_idx_ = 0;
+    double desired_altitude_ = 0;
+    double desired_heading_ = 0;
+    double desired_speed_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

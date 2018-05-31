@@ -30,12 +30,13 @@
  *
  */
 
-#include <cmake-project/plugins/autonomy/ExamplePlugin/ExamplePlugin.h>
+#include <(>>>PROJECT_NAME<<<)/plugins/autonomy/ExamplePlugin/ExamplePlugin.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/common/VariableIO.h>
 
 #include <iostream>
 #include <limits>
@@ -56,14 +57,16 @@ ExamplePlugin::ExamplePlugin() : follow_id_(-1) {
 }
 
 void ExamplePlugin::init(std::map<std::string, std::string> &params) {
-    double initial_speed = sc::get<double>("initial_speed", params, 21);
+    initial_speed_ = sc::get<double>("initial_speed", params, 21);
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    // VariableIO
+    desired_altitude_idx_ = vars_.declare("desired_altitude", scrimmage::VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare("desired_heading", scrimmage::VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare("desired_speed", scrimmage::VariableIO::Direction::Out);
 }
 
 bool ExamplePlugin::step_autonomy(double t, double dt) {
+
     // Find nearest entity on other team. Loop through each contact, calculate
     // distance to entity, save the ID of the entity that is closest.
     double min_dist = std::numeric_limits<double>::infinity();
@@ -91,15 +94,20 @@ bool ExamplePlugin::step_autonomy(double t, double dt) {
         sc::StatePtr ent_state = contacts_->at(follow_id_).state();
 
         // Calculate the required heading to follow the other entity
-        double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
-                               ent_state->pos()(0) - state_->pos()(0));
-
-        // Set the heading
-        desired_state_->quat().set(0, 0, heading); // roll, pitch, heading
+        desired_heading_ = atan2(ent_state->pos()(1) - state_->pos()(1),
+                           ent_state->pos()(0) - state_->pos()(0));
 
         // Match entity's altitude
-        desired_state_->pos()(2) = ent_state->pos()(2);
+        desired_altitude_ = ent_state->pos()(2);
+
+				// Match entity's speed
+        desired_speed_ = ent_state->vel()(0);
     }
+
+		// set VariableIO desired values
+    vars_.output(desired_altitude_idx_, desired_altitude_);
+    vars_.output(desired_heading_idx_, desired_heading_);
+    vars_.output(desired_speed_idx_, desired_speed_);
 
     return true;
 }
