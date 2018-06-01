@@ -15,11 +15,7 @@ endif()
 
 project (scrimmage)
 
-set(SCRIMMAGE_VERSION_MAJOR "0")
-set(SCRIMMAGE_VERSION_MINOR "0")
-set(SCRIMMAGE_VERSION_PATCH "0")
-set(SCRIMMAGE_VERSION "${SCRIMMAGE_VERSION_MAJOR}.${SCRIMMAGE_VERSION_MINOR}.${SCRIMMAGE_VERSION_PATCH}")
-set(SCRIMMAGE_VERSION_DATE "2012.12.30")
+set(PROJECT_VERSION "0.2.0-dev")
 
 # give SCRIMMAGE 1 series a few more soversions
 set(SCRIMMAGE_SOVERSION "00")
@@ -322,7 +318,6 @@ endif()
 ###############################################################################
 # Installation
 ###############################################################################
-set(PROJECT_VERSION ${SCRIMMAGE_VERSION})
 set(PROJECT_DESCRIPTION "A multi-agent simulator")
 
 if (UNIX AND NOT APPLE)
@@ -450,8 +445,7 @@ endif()
 ###############################################################################
 # Binary installation generation
 ###############################################################################
-set(VERSION "0.0.1")
-set(CPACK_PACKAGE_VERSION ${VERSION})
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SCRIMMAGE")
 set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
