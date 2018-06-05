@@ -79,18 +79,20 @@ bool create_ent_inters(const SimUtilsInfo &info,
         // If the name was overridden, use the override.
         std::string name = get<std::string>("name", config_parse.params(),
                                             ent_inter_name);
+        // Parent specific members
+        ent_inter->parent()->set_random(info.random);
+        ent_inter->parent()->set_mp(info.mp);
+        ent_inter->parent()->projection() = info.mp->projection();
+        ent_inter->parent()->rtree() = info.rtree;
 
+        // Plugin specific members
         ent_inter->set_name(name);
-        ent_inter->set_random(info.random);
-        ent_inter->set_mission_parse(info.mp);
-        ent_inter->set_projection(info.mp->projection());
         ent_inter->set_pubsub(info.pubsub);
         ent_inter->set_time(info.time);
         ent_inter->set_id_to_team_map(info.id_to_team_map);
         ent_inter->set_id_to_ent_map(info.id_to_ent_map);
 
         ent_inter->init(info.mp->params(), config_parse.params());
-        ent_inter->parent()->rtree() = info.rtree;
 
         // Get shapes from plugin
         shapes.insert(
@@ -120,14 +122,19 @@ bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_lis
             return false;
         }
 
-        metrics->set_id_to_team_map(info.id_to_team_map);
-        metrics->set_id_to_ent_map(info.id_to_ent_map);
+        // Parent specific members
+        metrics->parent()->set_random(info.random);
+        metrics->parent()->set_mp(info.mp);
+        metrics->parent()->projection() = info.mp->projection();
+        metrics->parent()->rtree() = info.rtree;
+
+        // Plugin specific members
+        metrics->set_name(metrics_name);
         metrics->set_pubsub(info.pubsub);
         metrics->set_time(info.time);
-        metrics->set_name(metrics_name);
-        metrics->parent()->rtree() = info.rtree;
-        metrics->parent()->mp() = info.mp;
-        metrics->parent()->random() = info.random;
+        metrics->set_id_to_team_map(info.id_to_team_map);
+        metrics->set_id_to_ent_map(info.id_to_ent_map);
+
         metrics->init(config_parse.params());
         metrics_list.push_back(metrics);
     }

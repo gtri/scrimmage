@@ -109,13 +109,12 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
     desired_vector_ *= max_vector_length_;
 
     // Draw the sphere of influence
-    auto shape = std::make_shared<scrimmage_proto::Shape>();
-    shape->set_type(scrimmage_proto::Shape::Circle);
-    shape->set_opacity(0.2);
-    shape->set_radius(sphere_of_influence_);
-    sc::set(shape->mutable_center(), state_->pos());
-    sc::set(shape->mutable_color(), 0, 255, 0);
-    shapes_.push_back(shape);
+    auto circle = std::make_shared<scrimmage_proto::Shape>();
+    circle->set_opacity(0.2);
+    sc::set(circle->mutable_color(), 0, 255, 0);
+    circle->mutable_circle()->set_radius(sphere_of_influence_);
+    sc::set(circle->mutable_circle()->mutable_center(), state_->pos());
+    draw_shape(circle);
 
     return true;
 }

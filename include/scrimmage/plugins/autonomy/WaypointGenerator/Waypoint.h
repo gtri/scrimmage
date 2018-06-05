@@ -88,6 +88,19 @@ class Waypoint {
         return os;
     }
 
+    friend bool operator==(Waypoint &lhs, Waypoint &rhs) {
+        if (std::abs(lhs.latitude() - rhs.latitude()) > std::numeric_limits<double>::epsilon()) {
+            return false;
+        }
+        if (std::abs(lhs.longitude() - rhs.longitude()) > std::numeric_limits<double>::epsilon()) {
+            return false;
+        }
+        if (std::abs(lhs.altitude() - rhs.altitude()) > std::numeric_limits<double>::epsilon()) {
+            return false;
+        }
+        return true;
+    }
+
  protected:
     double time_ = 0.0;
     double latitude_ = 0.0;

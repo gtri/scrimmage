@@ -62,14 +62,13 @@ class Sphere : public BoundaryBase {
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
-        sc::ShapePtr shape(new sp::Shape);
-        shape->set_type(sp::Shape::Sphere);
-        shape->set_opacity(opacity);
-        sc::set(shape->mutable_color(), R, G, B);
-        shape->set_persistent(true);
-        sc::set(shape->mutable_center(), center_);
-        shape->set_radius(radius_);
-        shapes_.push_back(shape);
+        sc::ShapePtr sphere(new sp::Shape);
+        sphere->set_opacity(opacity);
+        sc::set(sphere->mutable_color(), R, G, B);
+        sphere->set_persistent(true);
+        sc::set(sphere->mutable_sphere()->mutable_center(), center_);
+        sphere->mutable_sphere()->set_radius(radius_);
+        shapes_.push_back(sphere);
     }
 
  protected:

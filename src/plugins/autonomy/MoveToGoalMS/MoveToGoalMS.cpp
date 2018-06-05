@@ -43,6 +43,8 @@
 
 #include <iostream>
 #include <limits>
+#include <cmath>
+#include <list>
 
 #include <GeographicLib/LocalCartesian.hpp>
 
@@ -89,13 +91,20 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
     wp.set_position_tolerance(1);
     wp.set_quat_tolerance(1);
     wp_list_.waypoints().push_back(wp);
+    wp_it_ = wp_list_.waypoints().begin();
+    prev_wp_it_ = wp_it_;
 
     auto wp_list_cb = [&] (scrimmage::MessagePtr<WaypointList> msg) {
         // Received a new waypoint list, reset
         wp_list_ = msg->data;
-        wp_idx_ = 0;
-        prev_wp_idx_ = 0;
+        wp_it_ = wp_list_.waypoints().begin();
+        prev_wp_it_ = wp_it_;
         cycles_ = 0;
+        returning_stage_ = false;
+
+        // Filter the waypoint list to ensure that two waypoints in succession
+        // are not equal, otherwise, the line following will produce NaN
+        wp_list_.waypoints().unique();
     };
     subscribe<WaypointList>("LocalNetwork", "WaypointList", wp_list_cb);
 }
@@ -107,7 +116,7 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
         return false;
     }
 
-    Waypoint curr_wp_lla = wp_list_.waypoints()[wp_idx_];
+    Waypoint curr_wp_lla = *wp_it_;
 
     Eigen::Vector3d wp;
     parent_->projection()->Forward(curr_wp_lla.latitude(),
@@ -116,10 +125,10 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
 
     Eigen::Vector3d track_point(0, 0, 0);
     Eigen::Vector3d prev_wp;
-    if (prev_wp_idx_ == wp_idx_) {
+    if (prev_wp_it_ == wp_it_) {
         prev_wp = state_->pos();
     } else {
-        Waypoint prev_wp_lla = wp_list_.waypoints()[prev_wp_idx_];
+        Waypoint prev_wp_lla = *prev_wp_it_;
         parent_->projection()->Forward(prev_wp_lla.latitude(), prev_wp_lla.longitude(),
                                        prev_wp_lla.altitude(), prev_wp(0),
                                        prev_wp(1), prev_wp(2));
@@ -147,14 +156,13 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
 
     desired_vector_ = (track_point - state_->pos());
 
-    // Draw the sphere of influence
-    auto shape = std::make_shared<scrimmage_proto::Shape>();
-    shape->set_type(scrimmage_proto::Shape::Sphere);
-    shape->set_opacity(1.0);
-    shape->set_radius(5);
-    sc::set(shape->mutable_center(), track_point);
-    sc::set(shape->mutable_color(), 0, 0, 0);
-    shapes_.push_back(shape);
+    // Draw the track point
+    auto sphere = std::make_shared<scrimmage_proto::Shape>();
+    sc::set(sphere->mutable_color(), 0, 0, 0);
+    sphere->set_opacity(1.0);
+    sphere->mutable_sphere()->set_radius(5);
+    sc::set(sphere->mutable_sphere()->mutable_center(), track_point);
+    draw_shape(sphere);
 
     // check if within waypoint tolerance
     if ((state_->pos() - wp).norm() <= curr_wp_lla.position_tolerance()) {
@@ -164,21 +172,24 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
 
         switch (wp_list_.mode()) {
         case WaypointList::WaypointMode::follow_once :
-            if (wp_idx_ != wp_list_.waypoints().size()-1) {
-                prev_wp_idx_ = wp_idx_;
-                wp_idx_++;
+            prev_wp_it_ = wp_it_;
+            ++wp_it_;
+
+            if (wp_it_ == wp_list_.waypoints().end()) {
+                wp_it_ = prev_wp_it_;
             }
             break;
 
         case WaypointList::WaypointMode::back_and_forth :
-            if (wp_idx_ == 0) {
+            prev_wp_it_ = wp_it_;
+            wp_it_ = returning_stage_ ? --wp_it_ : ++wp_it_;
+
+            if (wp_it_ == wp_list_.waypoints().begin()) {
                 returning_stage_ = false;
-            } else if (wp_idx_ == wp_list_.waypoints().size()-1) {
+            } else if (wp_it_ == wp_list_.waypoints().end()) {
+                wp_it_ = prev_wp_it_;
                 returning_stage_ = true;
             }
-
-            prev_wp_idx_ = wp_idx_;
-            wp_idx_ = (returning_stage_) ? wp_idx_-1 : wp_idx_+1;
             break;
 
         case WaypointList::WaypointMode::loiter :
@@ -187,11 +198,11 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
 
         case WaypointList::WaypointMode::racetrack :
             // Continuous repeat of waypoints
-            prev_wp_idx_ = wp_idx_;
-            if (wp_idx_ == wp_list_.waypoints().size()-1) {
-                wp_idx_ = 0;
-            } else {
-                wp_idx_++;
+            prev_wp_it_ = wp_it_;
+            ++wp_it_;
+
+            if (wp_it_ == wp_list_.waypoints().end()) {
+                wp_it_ = wp_list_.waypoints().begin();
             }
             break;
 

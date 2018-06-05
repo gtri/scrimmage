@@ -89,16 +89,16 @@ using std::endl;
 namespace scrimmage {
 
 SimControl::SimControl() :
-        id_to_team_map_(new std::unordered_map<int, int>()),
-        id_to_ent_map_(new std::unordered_map<int, EntityPtr>()),
-        time_(std::make_shared<Time>()),
-        timer_(Timer()),
-        random_(new Random()),
-        plugin_manager_(new PluginManager()),
-        networks_(new std::map<std::string, NetworkPtr>()),
-        pubsub_(std::make_shared<PubSub>()),
-        file_search_(std::make_shared<FileSearch>()),
-        sim_plugin_(std::make_shared<Plugin>()) {
+    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
+    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
+    time_(std::make_shared<Time>()),
+    timer_(Timer()),
+    random_(std::make_shared<Random>()),
+    plugin_manager_(std::make_shared<PluginManager>()),
+    networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
+    pubsub_(std::make_shared<PubSub>()),
+    file_search_(std::make_shared<FileSearch>()),
+    sim_plugin_(std::make_shared<Plugin>()) {
 
     pause(false);
     prev_paused_ = false;
@@ -255,24 +255,28 @@ bool SimControl::init() {
         (*networks_)[name] = network;
     }
 
+    // setup sim_plugin
+    sim_plugin_->parent()->set_random(random_);
+    sim_plugin_->set_time(time_);
+    sim_plugin_->set_pubsub(pubsub_);
+
     // Create base shape objects
     for (auto &kv : mp_->team_info()) {
         int i = 0;
         for (Eigen::Vector3d &base_pos : kv.second.bases) {
             auto base = std::make_shared<scrimmage_proto::Shape>();
-            base->set_type(scrimmage_proto::Shape::Sphere);
+            base->mutable_sphere()->set_radius(kv.second.radii[i]);
+            sc::set(base->mutable_sphere()->mutable_center(), base_pos);
+
             base->set_opacity(kv.second.opacities[i]);
-            sc::set(base->mutable_center(), base_pos);
             sc::set(base->mutable_color(), kv.second.color);
-            base->set_radius(kv.second.radii[i]);
             base->set_persistent(true);
-            shapes_[0].push_back(base);
+            sim_plugin_->draw_shape(base);
             i++;
         }
     }
 
     // Setup simcontrol's pubsub plugin
-    sim_plugin_->set_pubsub(pubsub_);
     pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
     pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
     pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
@@ -280,6 +284,7 @@ bool SimControl::init() {
     pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
     pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
     pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
+    pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
 
     // Get the list of "metrics" plugins
     SimUtilsInfo info;
@@ -935,6 +940,19 @@ void SimControl::run_check_network_msgs() {
             control.erase(it++);
         }
         incoming_interface_->gui_msg_mutex.unlock();
+    }
+
+    if (incoming_interface_->world_point_clicked_msg_update()) {
+        incoming_interface_->world_point_clicked_msg_mutex.lock();
+        auto &msg_list = incoming_interface_->world_point_clicked_msg();
+        auto it = msg_list.begin();
+        while (it != msg_list.end()) {
+            auto msg = std::make_shared<Message<sp::WorldPointClicked>>();
+            msg->data = *it;
+            pub_world_point_clicked_->publish(msg);
+            msg_list.erase(it++);
+        }
+        incoming_interface_->world_point_clicked_msg_mutex.unlock();
     }
 }
 

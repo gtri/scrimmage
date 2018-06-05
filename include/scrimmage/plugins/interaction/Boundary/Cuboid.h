@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/math/Quaternion.h>
 
 #include <Eigen/Dense>
 
@@ -51,6 +52,30 @@ namespace interaction {
 class Cuboid : public BoundaryBase {
  public:
     Cuboid() {
+    }
+
+    Cuboid(Eigen::Vector3d center, double x_length, double y_width,
+           double z_height, scrimmage::Quaternion quat) {
+        double x = x_length / 2.0;
+        double y = y_width / 2.0;
+        double z = z_height / 2.0;
+
+        std::vector<Eigen::Vector3d> points;
+        points.push_back(Eigen::Vector3d(x, y, -z));
+        points.push_back(Eigen::Vector3d(-x, y, -z));
+        points.push_back(Eigen::Vector3d(-x, -y, -z));
+        points.push_back(Eigen::Vector3d(x, -y, -z));
+        points.push_back(Eigen::Vector3d(x, y, z));
+        points.push_back(Eigen::Vector3d(-x, y, z));
+        points.push_back(Eigen::Vector3d(-x, -y, z));
+        points.push_back(Eigen::Vector3d(x, -y, z));
+
+        // TODO: Handle rotation
+
+        for (Eigen::Vector3d &p : points) {
+            p += center;
+        }
+        set_points(points);
     }
 
     void compute_dots() {
@@ -126,16 +151,16 @@ class Cuboid : public BoundaryBase {
         };
 
         for (int f = 0; f < num_faces; f++) {
-            sc::ShapePtr shape(new sp::Shape);
-            shape->set_type(sp::Shape::Polygon);
-            shape->set_opacity(opacity);
-            sc::set(shape->mutable_color(), R, G, B);
-            shape->set_persistent(true);
+            sc::ShapePtr polygon(new sp::Shape);
+            polygon->set_opacity(opacity);
+            polygon->set_persistent(true);
+            sc::set(polygon->mutable_color(), R, G, B);
+
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d * p = shape->add_point();
+                sp::Vector3d * p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
-            shapes_.push_back(shape);
+            shapes_.push_back(polygon);
         }
     }
 

@@ -130,6 +130,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     // cppcheck-suppress passedByValue
     void set_time(std::shared_ptr<const Time> time) { time_ = time; }
 
+    void draw_shape(scrimmage_proto::ShapePtr s);
+
  protected:
     std::string name_;
     EntityPtr parent_;
@@ -139,13 +141,14 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
 
-    std::list<scrimmage_proto::ShapePtr> shapes_;
-
     VariableIO vars_;
     PubSubPtr pubsub_;
 
     std::list<SubscriberBasePtr> subs_;
     std::shared_ptr<const Time> time_;
+
+ private:
+    std::list<scrimmage_proto::ShapePtr> shapes_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

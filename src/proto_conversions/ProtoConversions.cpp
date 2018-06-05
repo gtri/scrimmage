@@ -43,7 +43,7 @@
 
 namespace scrimmage {
 
-void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d &src) {
+void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src) {
     dst->set_x(src(0));
     dst->set_y(src(1));
     dst->set_z(src(2));
@@ -132,23 +132,21 @@ Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src) {
     return dst;
 }
 
-void add_point(std::shared_ptr<scrimmage_proto::Shape> s, Eigen::Vector3d src) {
-    scrimmage_proto::Vector3d *point = s->add_point();
-    set(point, src);
-}
-
-void add_point_color(std::shared_ptr<scrimmage_proto::Shape> s, const scrimmage::Color_t &c) {
-    scrimmage_proto::Color *color = s->add_point_color();
+void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
+                     const scrimmage::Color_t &c) {
+    scrimmage_proto::Color *color = s->add_color();
     set(color, c);
 }
 
-void add_point_color(scrimmage_proto::ShapePtr s, int r, int g, int b) {
-    scrimmage_proto::Color *color = s->add_point_color();
+void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
+                     int r, int g, int b) {
+    scrimmage_proto::Color *color = s->add_color();
     set(color, r, g, b);
 }
 
-void add_point_color(scrimmage_proto::ShapePtr s, int grayscale) {
-    scrimmage_proto::Color *color = s->add_point_color();
+void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
+                     int grayscale) {
+    scrimmage_proto::Color *color = s->add_color();
     set(color, grayscale);
 }
 
@@ -175,16 +173,6 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     state.set_vel(proto_2_vector3d(proto_state.velocity()));
     state.set_quat(proto_2_quat(proto_state.orientation()));
     return std::make_shared<State>(state);
-}
-
-void path_to_lines(std::vector<Eigen::Vector3d> &path, scrimmage_proto::Shape &sample_line, std::list<scrimmage_proto::ShapePtr> &shapes) {
-    for (size_t i = 0; i < path.size() - 1; i++) {
-        scrimmage_proto::ShapePtr ln(new scrimmage_proto::Shape());
-        ln->CopyFrom(sample_line);
-        add_point(ln, path[i]);
-        add_point(ln, path[i + 1]);
-        shapes.push_back(ln);
-    }
 }
 
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {

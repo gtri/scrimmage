@@ -35,7 +35,7 @@
 
 #include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 
-#include <vector>
+#include <list>
 
 namespace scrimmage {
 namespace autonomy {
@@ -52,7 +52,7 @@ class WaypointList {
     WaypointList() {
     }
 
-    std::vector<Waypoint> & waypoints() { return waypoints_; }
+    std::list<Waypoint> & waypoints() { return waypoints_; }
     void set_mode(WaypointMode mode) { mode_ = mode; }
     WaypointMode mode() { return mode_; }
 
@@ -72,7 +72,7 @@ class WaypointList {
     }
 
  protected:
-    std::vector<Waypoint> waypoints_;
+    std::list<Waypoint> waypoints_;
     WaypointMode mode_ = WaypointMode::follow_once;
     unsigned int cycles_ = 1;
 };
