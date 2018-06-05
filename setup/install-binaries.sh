@@ -229,11 +229,11 @@ if [ "$PKGSTOINSTALL" != "" ]; then
 	        # ArchLinux (with pacman)
 	    elif which pacman &> /dev/null; then
 	        pacman -Sy $PKGSTOINSTALL
-	        # Else, if no package manager has been founded
+	        # Else, if no package manager has been found
 	    else
 	        # Set $NOPKGMANAGER
 	        NOPKGMANAGER=TRUE
-	        echo "ERROR: impossible to found a package manager in your sistem. Please, install manually ${DEPENDENCIES[*]}."
+	        echo "ERROR: impossible to find a package manager in your system. Please install the following packages manually: ${DEPENDENCIES[*]}."
 	    fi
 
         # Check if installation is successful
@@ -241,12 +241,12 @@ if [ "$PKGSTOINSTALL" != "" ]; then
 	        echo "All dependencies are satisfied."
         else
 	        # Else, if installation isn't successful
-	        echo "ERROR: impossible to install some missing dependencies. Please, install manually ${DEPENDENCIES[*]}."
+	        echo "ERROR: impossible to install some missing dependencies. Please install the following packages manually: ${DEPENDENCIES[*]}."
 	    fi
 
     else
 	    # Else, if user don't want to install missing dependencies
-	    echo "WARNING: Some dependencies may be missing. So, please, install manually ${DEPENDENCIES[*]}."
+	    echo "WARNING: Some dependencies may be missing. Please install the following packages manually: ${DEPENDENCIES[*]}."
     fi
 else
     echo "All dependencies are installed. No further action is required."
