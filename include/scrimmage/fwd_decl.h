@@ -63,9 +63,6 @@ class ID;
 class Random;
 using RandomPtr = std::shared_ptr<Random>;
 
-class Sensable;
-using SensablePtr = std::shared_ptr<Sensable>;
-
 class Contact;
 using ContactMap = std::unordered_map<int, Contact>;
 using ContactMapPtr = std::shared_ptr<ContactMap>;

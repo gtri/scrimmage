@@ -43,7 +43,6 @@
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/sensor/Sensable.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
 #include <iostream>

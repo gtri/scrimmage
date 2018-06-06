@@ -38,7 +38,6 @@
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/sensor/Sensable.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Contact.h>
@@ -123,7 +122,6 @@ bool SimControl::init() {
         plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", *file_search_);
         plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
         plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Sensable", "Sensable Plugins", *file_search_);
         plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
     }
 
