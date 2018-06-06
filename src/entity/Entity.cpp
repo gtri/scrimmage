@@ -232,7 +232,7 @@ bool Entity::init(AttributeMap &overrides,
             << " does not provide inputs required by MotionModel "
             << std::quoted(motion_model_->name())
             << ": ";
-        print_io_error(motion_model_->name(), controller_->name(), motion_model_->vars());
+        print_io_error(motion_model_->name(), motion_model_->vars());
         return false;
     }
 
@@ -282,7 +282,7 @@ bool Entity::init(AttributeMap &overrides,
         br::copy(autonomies_ | ba::transformed(get_name), out_it);
         std::cout << "as follows " << std::endl;
 
-        print_io_error(controller_->name(), "An Autonomy", controller_->vars());
+        print_io_error(controller_->name(), controller_->vars());
         return false;
     }
 

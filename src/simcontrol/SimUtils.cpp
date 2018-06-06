@@ -160,7 +160,7 @@ bool verify_io_connection(VariableIO &output, VariableIO &input) {
     return mismatched_keys.empty();
 }
 
-void print_io_error(const std::string &in_name, const std::string &out_name, VariableIO &v) {
+void print_io_error(const std::string &in_name, VariableIO &v) {
     auto keys = v.input_variable_index() | ba::map_keys;
 
     std::cout << "First, include the VariableIO class in the cpp file: "

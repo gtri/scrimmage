@@ -66,7 +66,7 @@ bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_lis
 
 void run_callbacks(PluginPtr plugin);
 
-void print_io_error(const std::string &in_name, const std::string &out_name, VariableIO &v);
+void print_io_error(const std::string &in_name, VariableIO &v);
 
 bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
 

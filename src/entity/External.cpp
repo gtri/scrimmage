@@ -150,7 +150,7 @@ bool External::create_entity(int max_entities, int entity_id,
             << ctrl->name()
             << " does not provide inputs required by the External class."
             << std::endl;
-        print_io_error("External", ctrl->name(), vars);
+        print_io_error("External", vars);
         std::cout << ctrl->name() << " currently provides the following: ";
         br::copy(ctrl->vars().output_variable_index() | ba::map_keys,
             std::ostream_iterator<std::string>(std::cout, ", "));
