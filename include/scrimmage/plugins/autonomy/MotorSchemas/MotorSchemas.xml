@@ -11,7 +11,7 @@
 
   <behaviors>
     [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
-    [ MoveToGoalMS gain='1.0' use_initial_heading='true' goal='100 0 0']
+    [ MoveToGoalMS gain='1.0' use_initial_heading='false' goal='100,0,0' ]
   </behaviors>
 
 </params>

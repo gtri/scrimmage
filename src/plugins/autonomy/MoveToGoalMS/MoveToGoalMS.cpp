@@ -75,6 +75,8 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
         std::vector<double> goal_vec;
         if (sc::get_vec<double>("goal", params, ", ", goal_vec, 3)) {
             initial_goal = sc::vec2eigen(goal_vec);
+        } else {
+            cout << "Failed to parse MoveToGoalMS' initial goal" << endl;
         }
     }
 
