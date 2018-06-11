@@ -213,6 +213,12 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 #set(Boost_DEBUG ON)
 find_package(Boost 1.55 COMPONENTS thread date_time iostreams program_options regex
   filesystem system graph REQUIRED)
+add_library(scrimmage-boost INTERFACE)
+target_include_directories(scrimmage-boost INTERFACE ${Boost_INCLUDE_DIRS})
+target_link_libraries(scrimmage-boost INTERFACE ${Boost_LIBRARIES})
+install(TARGETS scrimmage-boost
+  EXPORT ${PROJECT_NAME}-targets
+)
 
 ########################################################
 # Find OpenCV
@@ -352,7 +358,7 @@ if (UNIX AND NOT APPLE)
     )
 
   # Add all library targets to the build-tree export set
-  export(TARGETS ${PROJECT_LIBS} ${PROJECT_PLUGINS}
+  export(TARGETS ${PROJECT_LIBS} ${PROJECT_PLUGINS} scrimmage-boost
     FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-targets.cmake")
 
   # Export the package for use from the build-tree
