@@ -397,7 +397,9 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     shutdown_handler = [&](int /*s*/){
         std::cout << std::endl << "Exiting gracefully" << std::endl;
         simcontrol_->force_exit();
-        system("pkill scrimmage-viz");
+        if (enable_gui_ && system("pkill scrimmage-viz")) {
+            // ignore error
+        }
         throw std::exception();
     };
     sa.sa_handler = signal_handler;
@@ -491,7 +493,9 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
         mp_->set_enable_gui(false);
 
         // TODO: fix this to get feedback that the gui is running
-        system("scrimmage-viz &");
+        if (system("scrimmage-viz &")) {
+            std::cout << "could not start scrimmage-viz" << std::endl;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     } else {
         mp_->set_time_warp(0);
@@ -554,7 +558,9 @@ void ScrimmageOpenAIEnv::run_viewer() {
 
 void ScrimmageOpenAIEnv::close() {
     postprocess_scrimmage(mp_, *simcontrol_, log_);
-    system("pkill scrimmage-viz");
+    if (enable_gui_ && system("pkill scrimmage-viz")) {
+        // ignore error
+    }
 }
 
 void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
