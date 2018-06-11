@@ -47,11 +47,6 @@ class NoisyContacts : public scrimmage::Sensor {
     void init(std::map<std::string, std::string> &params) override;
     scrimmage::MessageBasePtr sensor_msg(double t) override;
 
-#if ENABLE_GRPC == 1
-    scrimmage_proto::SpaceParams observation_space_params() override;
-    scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t) override;
-#endif
-
  protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;

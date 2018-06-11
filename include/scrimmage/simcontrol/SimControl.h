@@ -67,6 +67,7 @@ class SimControl {
     void start();
     void display_progress(bool enable);
     void run();
+    bool run_single_step(int loop_number);
     void cleanup();
     bool wait_for_ready();
     void force_exit();
@@ -105,11 +106,12 @@ class SimControl {
     bool paused();
     double time_warp();
     double actual_time_warp();
+    void close();
 
     void single_step(bool value);
     bool single_step();
 
-    bool end_condition_reached(double t, double dt);
+    bool end_condition_reached();
 
     Timer &timer();
 
@@ -127,8 +129,13 @@ class SimControl {
     void step_taken();
 
     void set_incoming_interface(InterfacePtr &incoming_interface);
+    InterfacePtr incoming_interface();
 
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
+    InterfacePtr outgoing_interface();
+
+    void set_limited_verbosity(bool limited_verbosity);
+    std::list<EntityPtr> &ents();
 
  protected:
     // Key: Entity ID
@@ -246,6 +253,7 @@ class SimControl {
     bool prev_paused_;
 
     DelayedTask reseed_task_;
+    bool limited_verbosity_;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

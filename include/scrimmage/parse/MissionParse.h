@@ -113,6 +113,8 @@ class MissionParse {
     bool enable_gui();
     void set_enable_gui(bool enable);
     bool network_gui();
+    void set_network_gui(bool enable);
+    void set_start_paused(bool paused);
 
     AttributeMap &attributes();
     std::map<std::string, std::string> & params();

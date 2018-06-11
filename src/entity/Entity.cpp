@@ -487,6 +487,23 @@ void Entity::close(double t) {
     if (motion_model_) {
         motion_model_->close(t);
     }
+
+    visual_ = nullptr;
+    controller_ = nullptr;
+    autonomies_.clear();
+    mp_ = nullptr;
+    proj_ = nullptr;
+    random_ = nullptr;
+    state_ = nullptr;
+    properties_.clear();
+    sensors_.clear();
+    services_.clear();
+    contacts_ = nullptr;
+    rtree_ = nullptr;
+    plugin_manager_ = nullptr;
+    file_search_ = nullptr;
+    pubsub_ = nullptr;
+    time_ = nullptr;
 }
 
 std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
@@ -524,4 +541,10 @@ ControllerPtr Entity::init_controller(
     return controller;
 }
 
+void Entity::set_time_ptr(TimePtr t) {time_ = t;}
+
+// cppcheck-suppress passedByValue
+void Entity::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
+    proj_ = proj;
+}
 } // namespace scrimmage

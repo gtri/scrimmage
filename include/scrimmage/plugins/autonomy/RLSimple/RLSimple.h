@@ -33,26 +33,35 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLSIMPLE_RLSIMPLE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLSIMPLE_RLSIMPLE_H_
 
-#include <scrimmage/plugins/autonomy/ExternalControl/ExternalControl.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
 
 #include <map>
 #include <string>
 #include <utility>
 
-class RLSimple : public scrimmage::autonomy::ExternalControl {
+namespace scrimmage {
+namespace autonomy {
+
+class RLSimple : public scrimmage::autonomy::ScrimmageOpenAIAutonomy {
  public:
     void init(std::map<std::string, std::string> &params) override;
-    std::pair<bool, double> calc_reward(double t) override;
+    bool step_autonomy(double t, double dt) override;
+
+    void set_environment() override;
+    std::pair<bool, double> calc_reward(double t, double dt) override;
 
  protected:
     double radius_;
-    bool handle_action(
-        double t, double dt, const scrimmage_proto::Action &action) override;
-    scrimmage_proto::SpaceParams action_space_params() override;
+
+    bool x_discrete_ = true;
+
+    bool ctrl_y_ = false;
+    bool y_discrete_ = true;
 
     uint8_t output_vel_x_idx_ = 0;
     uint8_t output_vel_y_idx_ = 0;
-    uint8_t output_vel_z_idx_ = 0;
 };
+} // namespace autonomy
+} // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLSIMPLE_RLSIMPLE_H_

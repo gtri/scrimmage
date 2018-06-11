@@ -132,6 +132,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     int health_points();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
+    void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj);
 
     void set_mp(MissionParsePtr mp);
     MissionParsePtr mp();
@@ -178,6 +179,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
         const std::string &name,
         std::map<std::string, std::string> &overrides,
         VariableIO &next_io);
+
+    void set_time_ptr(TimePtr t);
     ///@}
 
  protected:

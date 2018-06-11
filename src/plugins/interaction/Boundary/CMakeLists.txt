@@ -13,6 +13,8 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   )
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+    scrimmage
+    scrimmage-msgs
   )
 
 add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-msgs scrimmage-proto-gen)

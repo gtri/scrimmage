@@ -3,5 +3,10 @@
 <params>
   <library>RLSimple_plugin</library>
   <server_address>localhost:50051</server_address>
-  <radius>0.2</radius>
+  <radius>2</radius>
+
+  <x_discrete>true</x_discrete>
+
+  <ctrl_y>false</ctrl_y>
+  <y_discrete>false</y_discrete>
 </params>

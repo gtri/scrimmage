@@ -34,30 +34,28 @@
 
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/proto/ExternalControl.pb.h>
+
+#include <boost/range/adaptor/map.hpp>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+namespace ba = boost::adaptors;
 
-REGISTER_PLUGIN(scrimmage::Sensor, RLSimpleSensor, RLSimpleSensor_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLSimpleSensor, RLSimpleSensor_plugin)
 
-scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
-RLSimpleSensor::sensor_msg_flat(double t) {
-    auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
-    msg->data.add_value(parent_->state()->pos()(0));
-    return msg;
+namespace scrimmage {
+namespace sensor {
+
+void RLSimpleSensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
+    data[beg_idx] = parent_->state()->pos()(0);
 }
 
-scrimmage_proto::SpaceParams RLSimpleSensor::observation_space_params() {
-    sp::SpaceParams space_params;
-
+void RLSimpleSensor::set_observation_space() {
     const double inf = std::numeric_limits<double>::infinity();
-    sp::SingleSpaceParams *single_space_params = space_params.add_params();
-    single_space_params->set_num_dims(1);
-    single_space_params->add_minimum(-inf);
-    single_space_params->add_maximum(inf);
-    single_space_params->set_discrete(false);
-
-    return space_params;
+    observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
 }
+
+} // namespace sensor
+} // namespace scrimmage

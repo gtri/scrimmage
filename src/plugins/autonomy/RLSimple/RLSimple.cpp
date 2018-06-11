@@ -30,44 +30,94 @@
  *
  */
 
+#include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/proto/ExternalControl.pb.h>
 
 #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
 
-namespace sp = scrimmage_proto;
-namespace sc = scrimmage;
+#include <iostream>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, RLSimple, RLSimple_plugin)
+#include <boost/range/algorithm/count_if.hpp>
+
+namespace sp = scrimmage_proto;
+namespace br = boost::range;
+
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple, RLSimple_plugin)
+
+namespace scrimmage {
+namespace autonomy {
 
 void RLSimple::init(std::map<std::string, std::string> &params) {
-    output_vel_x_idx_ = vars_.declare(sc::VariableIO::Type::velocity_x, sc::VariableIO::Direction::Out);
-    output_vel_y_idx_ = vars_.declare(sc::VariableIO::Type::velocity_y, sc::VariableIO::Direction::Out);
-    output_vel_z_idx_ = vars_.declare(sc::VariableIO::Type::velocity_z, sc::VariableIO::Direction::Out);
+    x_discrete_ = str2bool(params.at("x_discrete"));
+    y_discrete_ = str2bool(params.at("y_discrete"));
+    ctrl_y_ = str2bool(params.at("ctrl_y"));
+
+    using Type = VariableIO::Type;
+    using Dir = VariableIO::Direction;
+
+    output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
+    output_vel_y_idx_ = vars_.declare(Type::velocity_y, Dir::Out);
+    uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
+
+    vars_.output(output_vel_x_idx_, 0);
+    vars_.output(output_vel_y_idx_, 0);
+    vars_.output(output_vel_z_idx, 0);
 
     radius_ = std::stod(params.at("radius"));
-    ExternalControl::init(params);
+
+    ScrimmageOpenAIAutonomy::init(params);
 }
 
-std::pair<bool, double> RLSimple::calc_reward(double t) {
-    return {false, state_->pos().head<2>().norm() < radius_};
+void RLSimple::set_environment() {
+    reward_range = std::make_pair(0, 1);
+
+    if (x_discrete_) {
+        action_space.discrete_count.push_back(2);
+    } else {
+        const double inf = std::numeric_limits<double>::infinity();
+        action_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
+    }
+
+    if (ctrl_y_) {
+        if (y_discrete_) {
+            action_space.discrete_count.push_back(2);
+        } else {
+            const double inf = std::numeric_limits<double>::infinity();
+            action_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
+        }
+    }
 }
 
-bool RLSimple::handle_action(double t, double dt, const scrimmage_proto::Action &action) {
-    if (!check_action(action, 1, 0)) return false;
+std::pair<bool, double> RLSimple::calc_reward(double /*t*/, double /*dt*/) {
+    const bool done = false;
+    const double x = state_->pos()(0);
+    const bool within_radius = std::round(std::abs(x)) < radius_;
+    double reward = within_radius ? 1 : 0;
+    return {done, reward};
+}
 
-    double x_vel = action.discrete(0) == 1 ? 1 : -1;
+bool RLSimple::step_autonomy(double /*t*/, double /*dt*/) {
+    // cppcheck-suppress variableScope
+    int disc_idx = 0;
+    // cppcheck-suppress variableScope
+    int cont_idx = 0;
+    auto getter = [&](auto discrete) -> double {
+        if (discrete) {
+            return action.discrete[disc_idx++] ? 1 : -1;
+        } else {
+            return action.continuous[cont_idx++];
+        }
+    };
+
+    const double x_vel = getter(x_discrete_);
+    const double y_vel = ctrl_y_ ? getter(y_discrete_) : 0;
+
     vars_.output(output_vel_x_idx_, x_vel);
+    vars_.output(output_vel_y_idx_, y_vel);
     return true;
 }
 
-scrimmage_proto::SpaceParams RLSimple::action_space_params() {
-    sp::SpaceParams space_params;
-    sp::SingleSpaceParams *single_space_params = space_params.add_params();
-    single_space_params->set_discrete(true);
-    single_space_params->set_num_dims(1);
-    single_space_params->add_minimum(0);
-    single_space_params->add_maximum(1);
-    return space_params;
-}
+} // namespace autonomy
+} // namespace scrimmage

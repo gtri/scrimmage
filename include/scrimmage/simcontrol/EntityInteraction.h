@@ -59,8 +59,6 @@ class EntityInteraction : public Plugin {
                                                 double /*t*/, double /*dt*/)
     { return false; }
 
-    void close(double /*t*/) override {}
-
     inline virtual bool collision_exists(std::list<EntityPtr> &/*ents*/,
                                   Eigen::Vector3d &/*p*/)
     { return false; }

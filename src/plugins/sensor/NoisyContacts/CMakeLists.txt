@@ -13,6 +13,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   )
 
 add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
+target_link_libraries(${LIBRARY_NAME} scrimmage)
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

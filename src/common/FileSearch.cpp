@@ -61,7 +61,7 @@ boost::optional<std::string> FileSearch::find_mission(std::string mission,
 
     std::string out;
     auto search = [&](auto env) {return this->find_file(
-            mission, "xml", env, out);};
+            mission, "xml", env, out, verbose);};
     std::list<std::string> env_vars
         {"SCRIMMAGE_MISSION_PATH",
             "/usr/share/scrimmage",
@@ -169,6 +169,7 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
         }
 
         env_path = std::string(env_p);
+        dbg(env_var + " = " + env_path);
     } else {
         // assume is is a path rather than an environment variable
         // since slashes cannot be in an environment variable

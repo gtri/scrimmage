@@ -29,50 +29,25 @@
  * A Long description goes here.
  *
  */
-syntax = "proto3";
 
-option java_multiple_files = true;
-option java_package = "com.syllo.scrimmage";
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RLCONSENSUSSENSOR_RLCONSENSUSSENSOR_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RLCONSENSUSSENSOR_RLCONSENSUSSENSOR_H_
 
-package scrimmage_proto;
+#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 
-service ExternalControl {
-  rpc SendEnvironment (Environment) returns (Empty) {}
-  rpc SendActionResult (ActionResult) returns (Action) {}
-}
+#include <map>
+#include <string>
+#include <vector>
 
-message SingleSpaceParams {
-    int32 num_dims = 1;
-    repeated double minimum = 2;
-    repeated double maximum = 3;
-    bool discrete = 4;
-}
+namespace scrimmage {
+namespace sensor {
+class RLConsensusSensor : public ScrimmageOpenAISensor {
+ public:
+    RLConsensusSensor();
+    void set_observation_space() override;
+    void get_observation(double *data, uint32_t beg_idx, uint32_t end_idx) override;
+};
+} // namespace sensor
+} // namespace scrimmage
 
-message SpaceParams {
-    repeated SingleSpaceParams params = 1;
-}
-
-message Environment {
-    SpaceParams action_spaces = 1;
-    SpaceParams observation_spaces = 2;
-    double min_reward = 3;
-    double max_reward = 4;
-}
-
-message SpaceSample {
-    repeated double value = 1;
-}
-
-message ActionResult {
-    SpaceSample observations = 1;
-    double reward = 2;
-    bool done = 3;
-}
-
-message Action {
-    repeated int32 discrete = 1;
-    repeated double continuous = 2;
-    bool done = 3;
-}
-
-message Empty {}
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RLCONSENSUSSENSOR_RLCONSENSUSSENSOR_H_

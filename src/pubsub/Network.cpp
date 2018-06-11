@@ -226,4 +226,11 @@ void Network::set_rtree(RTreePtr rtree) {
 void Network::set_random(RandomPtr random) {
     random_ = random;
 }
+
+void Network::close(double t) {
+    rtree_ = nullptr;
+    random_ = nullptr;
+    mp_ = nullptr;
+}
+
 } // namespace scrimmage

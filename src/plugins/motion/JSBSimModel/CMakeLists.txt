@@ -17,6 +17,7 @@ if (NOT EXTERNAL AND JSBSIM_FOUND)
 
     TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
       ${JSBSIM_LIBRARIES}
+      scrimmage
       )
 
     SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

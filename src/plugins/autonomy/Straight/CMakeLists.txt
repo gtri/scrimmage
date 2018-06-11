@@ -18,6 +18,7 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
   ${SCRIMMAGE_LIBS}
   ${OpenCV_LIBRARIES}
   Boundary_plugin
+  scrimmage
   )
 
 

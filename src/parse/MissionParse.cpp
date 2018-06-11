@@ -833,4 +833,9 @@ std::string MissionParse::get_mission_filename() {
 void MissionParse::set_enable_gui(bool enable) {enable_gui_ = enable;}
 
 void MissionParse::set_time_warp(double warp) {time_warp_ = warp;}
+
+void MissionParse::set_network_gui(bool enable) {network_gui_ = enable;}
+
+void MissionParse::set_start_paused(bool paused) {start_paused_ = paused;}
 } // namespace scrimmage
+

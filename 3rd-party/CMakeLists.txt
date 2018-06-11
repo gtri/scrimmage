@@ -126,7 +126,7 @@ ExternalProject_Add (
 # Download and build pybind11
 ########################################################
 set(PYBIND11_GIT_REPOSITORY https://github.com/pybind/pybind11.git)
-set(PYBIND11_GIT_TAG 13d8cd2cc7566de34d724f428ea7a6b6448d6a0c)
+set(PYBIND11_GIT_TAG v2.2.3)
 ExternalProject_Add(
   pybind11
   GIT_REPOSITORY    ${PYBIND11_GIT_REPOSITORY}

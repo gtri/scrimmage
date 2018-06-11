@@ -29,39 +29,46 @@
  * A Long description goes here.
  *
  */
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/proto/ExternalControl.pb.h>
-#include <scrimmage/proto/ExternalControl.grpc.pb.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
+
+#include <scrimmage/autonomy/Autonomy.h>
 
 #include <map>
+#include <vector>
 #include <string>
-
-namespace grpc {
-class Channel;
-}
-
-namespace boost {
-template <class T> class optional;
-}
+#include <utility>
 
 namespace scrimmage {
+
+struct EnvParams {
+    std::vector<double> discrete_count;
+    std::vector<std::pair<double, double>> continuous_extrema;
+};
+
+struct EnvValues {
+    std::vector<int> discrete;
+    std::vector<double> continuous;
+};
+
 namespace autonomy {
-class ExternalControlClient {
+
+class ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
  public:
-    ExternalControlClient() = default;
-    explicit ExternalControlClient(std::shared_ptr<grpc::Channel> channel);
+    ScrimmageOpenAIAutonomy();
 
-    bool send_environment(scrimmage_proto::Environment &env);
+    // normal overrides
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
-    boost::optional<scrimmage_proto::Action>
-    send_action_result(scrimmage_proto::ActionResult &action_result);
-
- protected:
-    std::unique_ptr<scrimmage_proto::ExternalControl::Stub> stub_;
+    // additional override
+    virtual void set_environment() {}
+    virtual std::pair<bool, double> calc_reward(double t, double dt);
+    std::pair<double, double> reward_range;
+    EnvParams action_space;
+    EnvValues action;
 };
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_EXTERNALCONTROL_EXTERNALCONTROLCLIENT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_

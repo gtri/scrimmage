@@ -102,4 +102,13 @@ void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
     shapes_.push_back(s);
 }
 
+void Plugin::close(double /*t*/) {
+    parent_ = nullptr;
+    transform_ = nullptr;
+    id_to_ent_map_ = nullptr;
+    pubsub_ = nullptr;
+    subs_.clear();
+    time_ = nullptr;
+    shapes_.clear();
+}
 } // namespace scrimmage

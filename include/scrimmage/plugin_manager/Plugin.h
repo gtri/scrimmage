@@ -74,7 +74,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
-    virtual void close(double /*t*/) {}
+    virtual void close(double /*t*/);
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
@@ -131,6 +131,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     void set_time(std::shared_ptr<const Time> time) { time_ = time; }
 
     void draw_shape(scrimmage_proto::ShapePtr s);
+    bool print_err_on_exit = true;
 
  protected:
     std::string name_;

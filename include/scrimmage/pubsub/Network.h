@@ -61,6 +61,8 @@ class Network : public Plugin {
 
     void set_random(RandomPtr random);
 
+    void close(double t) override;
+
     inline virtual void set_mission_parse(MissionParsePtr mp)
     { mp_ = mp; }
 

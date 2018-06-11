@@ -30,24 +30,17 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
+#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
-#include <scrimmage/sensor/Sensor.h>
+REGISTER_PLUGIN(scrimmage::Sensor,
+                scrimmage::sensor::ScrimmageOpenAISensor,
+                ScrimmageOpenAISensor_plugin)
 
-#include <map>
-#include <string>
-#include <vector>
+namespace scrimmage {
+namespace sensor {
 
-namespace scrimmage_proto {
-class SpaceParams;
-class SpaceSample;
-}
+ScrimmageOpenAISensor::ScrimmageOpenAISensor() : Sensor() {}
 
-class TutorialOpenAISensor : public scrimmage::Sensor {
- public:
-    scrimmage_proto::SpaceParams observation_space_params() override;
-    scrimmage::MessagePtr<scrimmage_proto::SpaceSample> sensor_msg_flat(double t) override;
-};
-
-#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_TUTORIALOPENAISENSOR_TUTORIALOPENAISENSOR_H_
+} // namespace sensor
+} // namespace scrimmage

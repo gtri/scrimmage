@@ -16,7 +16,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 # This is necessary when doing parallel builds (e.g. make -j8)
 add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SCRIMMAGE_LIBS})
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME} scrimmage)
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

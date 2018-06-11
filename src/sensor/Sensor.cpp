@@ -39,17 +39,6 @@ void Sensor::init(std::map<std::string, std::string> &params) {return;}
 std::string Sensor::name() {return std::string("Sensor");}
 std::string Sensor::type() {return std::string("Sensor");}
 
-#if ENABLE_GRPC == 1
-scrimmage_proto::SpaceParams Sensor::observation_space_params() {
-    return scrimmage_proto::SpaceParams();
-}
-
-scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
-Sensor::sensor_msg_flat(double t) {
-    return nullptr;
-}
-#endif
-
 scrimmage::MessageBasePtr Sensor::sensor_msg(double t) {
     return nullptr;
 }

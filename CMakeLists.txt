@@ -82,7 +82,7 @@ set(PROTO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/src/proto)
 
 include_directories(${SCRIMMAGE_INC_DIR})
 include_directories(${MSGS_INCLUDE_DIR})
-include_directories(${PROTO_INCLUDE_DIR})
+include_directories(SYSTEM ${PROTO_INCLUDE_DIR})
 
 option(EXTERNAL "EXTERNAL" 0)
 
@@ -113,7 +113,7 @@ endif()
 ########################################################
 # Find Protobuf
 ########################################################
-set(PROTOBUF_VERSION 3.3.0)
+set(PROTOBUF_VERSION 3.5.2)
 set(PROTOC "" CACHE STRING "External protoc executable")
 set(PROTOBUF_LIBS "" CACHE STRING "External protobuf lib (libprotobuf.so)")
 set(PROTOBUF_INCLUDE "" CACHE STRING "External protobuf include directory")

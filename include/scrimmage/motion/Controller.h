@@ -47,6 +47,11 @@ class Controller : public Plugin {
     virtual bool step(double /*t*/, double /*dt*/) {return true;}
     inline void set_state(StatePtr &state) {state_ = state;}
     inline void set_desired_state(StatePtr &desired_state) {desired_state_ = desired_state;}
+    void close(double t) override {
+        state_ = nullptr;
+        desired_state_ = nullptr;
+        Plugin::close(t);
+    }
 
  protected:
     StatePtr state_;
