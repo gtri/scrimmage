@@ -46,11 +46,11 @@ namespace sc = scrimmage;
 void add_pubsub(pybind11::module &m) {
     py::class_<sc::MessageBase, std::shared_ptr<sc::MessageBase>>(m, "Message")
         .def(py::init<>())
-        .def(py::init<std::string>())
-        .def(py::init<std::string, py::object>())
+        // .def(py::init<std::string>())
+        // .def(py::init<std::string, py::object>())
         .def_readwrite("time", &sc::MessageBase::time)
-        .def_readwrite("serialized_data", &sc::MessageBase::serialized_data)
-        .def_readwrite("data", &sc::MessageBase::py_data);
+        .def_readwrite("serialized_data", &sc::MessageBase::serialized_data);
+        // .def_readwrite("data", &sc::MessageBase::py_data);
 
     py::class_<sc::NetworkDevice, std::shared_ptr<sc::NetworkDevice>>(m, "NetworkDevice")
         .def(py::init<>())
