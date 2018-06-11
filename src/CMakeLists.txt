@@ -36,7 +36,6 @@ ADD_LIBRARY( ${LIBRARY_NAME} SHARED
 
 add_dependencies(${LIBRARY_NAME}
   scrimmage scrimmage-msgs scrimmage-proto-gen
-  Boost::boost
   )
 
 #find_package (Eigen3 3.3 REQUIRED NO_MODULE)
@@ -45,18 +44,16 @@ target_link_libraries(${LIBRARY_NAME}
   PUBLIC
     scrimmage-protos
     scrimmage-msgs
-    # TODO the cmake documentation says the Boost::boost target
-    # should include all the header-only libraries, but doesn't
-    # seem to work
+    ${PYTHON_LIBRARIES}
+    ${GeographicLib_LIBRARIES}
+    ${CMAKE_DL_LIBS}
+  PRIVATE
     Boost::boost
     Boost::filesystem
     Boost::program_options
     Boost::date_time
     Boost::graph
     Boost::thread
-    ${PYTHON_LIBRARIES}
-    ${GeographicLib_LIBRARIES}
-    ${CMAKE_DL_LIBS}
 )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

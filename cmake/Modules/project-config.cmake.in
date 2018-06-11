@@ -11,16 +11,6 @@ set(SCRIMMAGE_INCLUDE_DIRS ${SCRIMMAGE_INCLUDE_DIR}
   @TMP_MSGS_INCLUDE_DIR@
   @TMP_PROTO_INCLUDE_DIR@)
 
-# include dependencies BEFORE including scrimmage-targets.cmake
-include(CMakeFindDependencyMacro)
-find_dependency(Eigen3 REQUIRED)
-find_dependency(Protobuf REQUIRED)
-
-#find_dependency(Boost REQUIRED)
-# FIXME this should not be needed, but for some reason downstream projects can't find boost's targets
-# without this line; this might be a bug with find_dependency
-find_package(Boost 1.55 REQUIRED COMPONENTS thread date_time iostreams program_options regex filesystem system graph)
-
 if(NOT TARGET scrimmage)
   include("${CMAKE_CURRENT_LIST_DIR}/scrimmage-targets.cmake")
 endif()

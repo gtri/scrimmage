@@ -17,11 +17,13 @@ if(VTK_LIBRARIES)
   target_link_libraries(${LIBRARY_NAME}
     scrimmage
     scrimmage-protos
+    scrimmage-boost
     ${VTK_LIBRARIES})
 else()
   target_link_libraries(${LIBRARY_NAME}
     scrimmage
     scrimmage-protos
+    scrimmage-boost
     vtkHybrid
     vtkWidgets)
 endif()
