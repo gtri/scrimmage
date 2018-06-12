@@ -119,11 +119,9 @@ class External {
 #ifdef ROSCPP_ROS_H
 
  public:
-    template <class ScType, class Sc2Ros>
+    template <class ScType, class Sc2Ros, class CallbackFunc>
     void pub_cb(std::string network_name, std::string topic_name,
-                Sc2Ros sc2ros, ros::Publisher ros_pub) {
-
-        auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
+                Sc2Ros sc2ros, CallbackFunc func) {
 
         boost::optional<std::list<NetworkDevicePtr>> pubs =
             pubsub_->find_pubs(network_name, topic_name);
@@ -139,13 +137,22 @@ class External {
                                   << boost::typeindex::type_id<Message<ScType>>().pretty_name()
                                   << " in pub_cb on topic " << pub->get_topic() << std::endl;
                     } else {
-                        ros_pub_ptr->publish(sc2ros(sc_msg_cast->data));
+                        func(sc2ros(sc_msg_cast->data));
                     }
                 };
             }
         } else {
             std::cout << "Failed to setup scrimmage to ROS publisher." << std::endl;
         }
+    }
+
+    template <class ScType, class Sc2Ros>
+    void pub_cb(std::string network_name, std::string topic_name,
+                Sc2Ros sc2ros, ros::Publisher ros_pub) {
+
+        auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
+        auto callback = [&](auto foo){ros_pub_ptr->publish(foo);};
+        pub_cb<ScType, Sc2Ros>(network_name, topic_name, sc2ros, callback);
     }
 
     template <class RosType, class Ros2Sc>
