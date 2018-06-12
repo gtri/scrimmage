@@ -2,7 +2,9 @@ SubDirList(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 list(REMOVE_ITEM SUBDIRS python)
 list(REMOVE_ITEM SUBDIRS TutorialOpenAIAutonomy)
-list(REMOVE_ITEM SUBDIRS PyAutonomy)
+if (NOT ENABLE_PYTHON_BINDINGS)
+    list(REMOVE_ITEM SUBDIRS PyAutonomy)
+endif()
 
 if (NOT GRPC_FOUND OR EXTERNAL)
     list(REMOVE_ITEM SUBDIRS ExternalControl)
