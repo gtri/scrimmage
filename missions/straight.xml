@@ -66,13 +66,8 @@
     <z>195</z>
     <heading>0</heading>
 
-    <!--
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
-    -->
-
-    <controller>DoubleIntegratorControllerVelYaw</controller>
-    <motion_model>DoubleIntegrator</motion_model>
     
     <visual_model>zephyr-blue</visual_model>
 
