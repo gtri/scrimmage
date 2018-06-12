@@ -36,7 +36,6 @@
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
-#include <scrimmage/viewer/Viewer.h>
 
 // temporary includes for scrimmage_memory_cleanup
 #include <scrimmage/motion/MotionModel.h>
@@ -540,20 +539,6 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     create_observation_space();
     create_action_space();
     set_reward_range();
-}
-
-void ScrimmageOpenAIEnv::run_viewer() {
-    py::print("running viewer");
-    scrimmage::Viewer viewer;
-
-    auto outgoing = simcontrol_->outgoing_interface();
-    auto incoming = simcontrol_->incoming_interface();
-
-    viewer.set_incoming_interface(outgoing);
-    viewer.set_outgoing_interface(incoming);
-    viewer.set_enable_network(false);
-    viewer.init(mp_->attributes()["camera"], mp_->log_dir(), mp_->dt());
-    viewer.run();
 }
 
 void ScrimmageOpenAIEnv::close() {

@@ -113,7 +113,7 @@ endif()
 ########################################################
 # Find Protobuf
 ########################################################
-set(PROTOBUF_VERSION 3.5.2)
+set(PROTOBUF_VERSION 3.3.0)
 set(PROTOC "" CACHE STRING "External protoc executable")
 set(PROTOBUF_LIBS "" CACHE STRING "External protobuf lib (libprotobuf.so)")
 set(PROTOBUF_INCLUDE "" CACHE STRING "External protobuf include directory")

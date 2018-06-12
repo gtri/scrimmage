@@ -102,9 +102,7 @@ class ScrimmageOpenAIEnv {
     void distribute_action(pybind11::object action);
     void reset_scrimmage(bool enable_gui);
     void scrimmage_memory_cleanup();
-    void run_viewer();
     int loop_number_ = 0;
-    std::thread viewer_thread_;
 
     pybind11::object create_space(
             pybind11::list discrete_maxima,
