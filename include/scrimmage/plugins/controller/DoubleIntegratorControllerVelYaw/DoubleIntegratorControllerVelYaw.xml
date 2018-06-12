@@ -3,5 +3,6 @@
 <params>
   <library>DoubleIntegratorControllerVelYaw_plugin</library>
   <yaw_pid>0.2, 0.01, 0.001, 9</yaw_pid>
-  <vel_pid>1, 0.1, 0, 1</vel_pid>
+  <speed_pid>1, 0.1, 0, 1</speed_pid>
+  <alt_pid>1, 0.0, 0, 1</alt_pid>
 </params>

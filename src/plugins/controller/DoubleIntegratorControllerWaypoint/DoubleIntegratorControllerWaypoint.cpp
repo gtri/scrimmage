@@ -49,10 +49,26 @@ void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
     } else {
         gain_ << gain[0], gain[1];
     }
+
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+
+    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);
+    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);
+    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 }
 
 bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
-    u_.head(3) = -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
+    Eigen::Vector3d acc = -gain_(0) * (state_->pos() - desired_state_->pos())
+        - gain_(1) * state_->vel();
+
+    vars_.output(acc_x_idx_, acc(0));
+    vars_.output(acc_y_idx_, acc(1));
+    vars_.output(acc_z_idx_, acc(2));
+    vars_.output(turn_rate_idx_, 0);
+
     return true;
 }
 } // namespace controller

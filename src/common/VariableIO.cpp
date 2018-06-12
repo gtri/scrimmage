@@ -60,10 +60,12 @@ std::map<VariableIO::Type, std::string>VariableIO::type_map_ = {
     {VariableIO::Type::velocity_x, "velocity_x"},
     {VariableIO::Type::velocity_y, "velocity_y"},
     {VariableIO::Type::velocity_z, "velocity_z"},
-    {VariableIO::Type::forward_acceleration, "forward_acceleration"},
     {VariableIO::Type::position_x, "position_x"},
     {VariableIO::Type::position_y, "position_y"},
     {VariableIO::Type::position_z, "position_z"},
+    {VariableIO::Type::acceleration_x, "acceleration_x"},
+    {VariableIO::Type::acceleration_y, "acceleration_y"},
+    {VariableIO::Type::acceleration_z, "acceleration_z"}
 };
 
 VariableIO::VariableIO() : input_(std::make_shared<Eigen::VectorXd>()),

@@ -78,14 +78,19 @@ bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[YAW]);
 
+    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::In);
+    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::In);
+    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+
     return true;
 }
 
 bool DoubleIntegrator::step(double t, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controller())->u();
-    ctrl_u_(0) = clamp(ctrl_u_(0), -max_acc_, max_acc_);
-    ctrl_u_(1) = clamp(ctrl_u_(1), -max_acc_, max_acc_);
-    ctrl_u_(2) = clamp(ctrl_u_(2), -max_acc_, max_acc_);
+    acc_vec_(0) = clamp(vars_.input(acc_x_idx_), -max_acc_, max_acc_);
+    acc_vec_(1) = clamp(vars_.input(acc_y_idx_), -max_acc_, max_acc_);
+    acc_vec_(2) = clamp(vars_.input(acc_z_idx_), -max_acc_, max_acc_);
+    turn_rate_ = clamp(vars_.input(turn_rate_idx_), -max_yaw_acc_, max_yaw_acc_);
 
     ode_step(dt);
 
@@ -100,7 +105,6 @@ bool DoubleIntegrator::step(double t, double dt) {
             state_->quat().set(0, 0, atan2(x_[VY], x_[VX]));
         }
     } else if (sim_copter_orientation_) {
-        ctrl_u_(3) = clamp(ctrl_u_(3), -max_yaw_acc_, max_yaw_acc_);
 
         // Get global velocity vector into local coordinate frame
         Eigen::Vector3d vel_global(x_[VX], x_[VY], x_[VZ]);
@@ -110,7 +114,7 @@ bool DoubleIntegrator::step(double t, double dt) {
         double roll = vel_local(1) / max_vel_ * sim_copter_max_roll_;
         state_->quat().set(-roll, pitch, x_[YAW]);
     } else {
-        state_->quat().set(0, 0, ctrl_u_(3));
+        state_->quat().set(0, 0, turn_rate_);
     }
     return true;
 }
@@ -131,10 +135,10 @@ void DoubleIntegrator::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Z] = clamp(x_[VZ], -max_vel_, max_vel_);
     dxdt[YAW] = clamp(x_[VZ], -max_yaw_vel_, max_yaw_vel_);
 
-    dxdt[VX] = update_dvdt(x[VX], max_vel_, ctrl_u_(0));
-    dxdt[VY] = update_dvdt(x[VY], max_vel_, ctrl_u_(1));
-    dxdt[VZ] = update_dvdt(x[VZ], max_vel_, ctrl_u_(2));
-    dxdt[YAW_DOT] = update_dvdt(x[YAW_DOT], max_yaw_vel_, ctrl_u_(3));
+    dxdt[VX] = update_dvdt(x[VX], max_vel_, acc_vec_(0));
+    dxdt[VY] = update_dvdt(x[VY], max_vel_, acc_vec_(1));
+    dxdt[VZ] = update_dvdt(x[VZ], max_vel_, acc_vec_(2));
+    dxdt[YAW_DOT] = update_dvdt(x[YAW_DOT], max_yaw_vel_, turn_rate_);
 }
 
 void DoubleIntegrator::teleport(sc::StatePtr &state) {

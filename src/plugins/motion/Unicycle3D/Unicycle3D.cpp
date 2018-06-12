@@ -92,7 +92,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     if (accel_max_ < 0) {
         speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     } else {
-        accel_idx_ = vars_.declare(VariableIO::Type::forward_acceleration, VariableIO::Direction::In);
+        accel_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::In);
         use_accel_input_ = true;
     }
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);

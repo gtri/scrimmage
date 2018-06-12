@@ -66,10 +66,12 @@ class VariableIO {
         velocity_x,
         velocity_y,
         velocity_z,
-        forward_acceleration,
         position_x,
         position_y,
-        position_z
+        position_z,
+        acceleration_x,
+        acceleration_y,
+        acceleration_z
     };
 
     VariableIO();

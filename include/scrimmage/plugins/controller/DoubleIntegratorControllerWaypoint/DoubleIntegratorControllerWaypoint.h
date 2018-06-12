@@ -40,15 +40,22 @@
 
 namespace scrimmage {
 namespace controller {
-class DoubleIntegratorControllerWaypoint : public motion::DoubleIntegrator::Controller {
+class DoubleIntegratorControllerWaypoint : public scrimmage::Controller {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step(double t, double dt) override;
-    Eigen::Vector4d &u() override {return u_;}
 
  protected:
-    Eigen::Vector4d u_;
     Eigen::Vector2d gain_;
+
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
+
+    int acc_x_idx_ = 0;
+    int acc_y_idx_ = 0;
+    int acc_z_idx_ = 0;
+    int turn_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage
