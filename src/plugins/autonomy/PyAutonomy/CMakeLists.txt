@@ -29,6 +29,8 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
   )
 
+set_target_properties(${LIBRARY_NAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"
   EXPORT ${PROJECT_NAME}-targets
