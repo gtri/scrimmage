@@ -3,12 +3,12 @@ foreach(test_file ${test_files})
   get_filename_component(test_name ${test_file} NAME_WE)
   add_executable(${test_name} ${test_file})
   AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
-  add_dependencies(${test_name} scrimmage)
+  add_dependencies(${test_name} scrimmage-core)
   target_link_libraries(${test_name}
     gtest_main
-    scrimmage
+    scrimmage-core
+    scrimmage-python
     ${PROJECT_PLUGINS}
-    ${PYTHON_LIBRARIES}
     )
   add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach()

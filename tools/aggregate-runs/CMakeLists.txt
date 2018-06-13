@@ -8,10 +8,10 @@ add_executable(${APP_NAME} ${SRCS})
 add_dependencies(${APP_NAME} scrimmage-protos)
 
 target_link_libraries(${APP_NAME}
-  ${Boost_LIBRARIES}
   ${SWARM_SIM_LIBS}
-  scrimmage
-  ${PYTHON_LIBRARIES}
+  scrimmage-core
+  scrimmage-boost
+  scrimmage-python
   )
 
 # Link executable to other libraries

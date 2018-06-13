@@ -12,10 +12,10 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-ADD_DEPENDENCIES(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
+#ADD_DEPENDENCIES(${LIBRARY_NAME} scrimmage-core scrimmage-proto-gen)
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-    scrimmage
+  scrimmage-core
   scrimmage-msgs
   )
 
