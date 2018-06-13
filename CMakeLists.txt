@@ -82,7 +82,7 @@ set(PROTO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/src/proto)
 
 include_directories(${SCRIMMAGE_INC_DIR})
 include_directories(${MSGS_INCLUDE_DIR})
-include_directories(SYSTEM ${PROTO_INCLUDE_DIR})
+include_directories(${PROTO_INCLUDE_DIR})
 
 option(EXTERNAL "EXTERNAL" 0)
 
