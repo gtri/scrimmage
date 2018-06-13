@@ -43,6 +43,7 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/common/VariableIO.h>
 
 #include <iostream>
 #include <limits>
@@ -128,6 +129,9 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     std::string network_name = sc::get<std::string>("network_name", params, "GlobalNetwork");
     std::string topic_name = sc::get<std::string>("topic_name", params, "WaypointList");
     waypoint_list_pub_ = advertise(network_name, topic_name);
+
+    position_x_idx_ = vars_.declare("position_x", scrimmage::VariableIO::Direction::Out);
+    position_y_idx_ = vars_.declare("position_y", scrimmage::VariableIO::Direction::Out);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {
@@ -163,6 +167,8 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         double x, y, z;
         parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(),
                                        x, y, z);
+        vars_.output(position_x_idx_, x);
+        vars_.output(position_y_idx_, y);
 
         auto sphere = std::make_shared<scrimmage_proto::Shape>();
         sphere->set_opacity(0.25);
