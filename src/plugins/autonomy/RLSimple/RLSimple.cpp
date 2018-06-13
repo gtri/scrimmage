@@ -30,19 +30,11 @@
  *
  */
 
-#include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
-
-#include <iostream>
-
-#include <boost/range/algorithm/count_if.hpp>
-
-namespace sp = scrimmage_proto;
-namespace br = boost::range;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple, RLSimple_plugin)
 

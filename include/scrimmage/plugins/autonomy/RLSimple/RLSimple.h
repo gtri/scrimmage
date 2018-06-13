@@ -42,7 +42,7 @@
 namespace scrimmage {
 namespace autonomy {
 
-class RLSimple : public scrimmage::autonomy::ScrimmageOpenAIAutonomy {
+class RLSimple : public ScrimmageOpenAIAutonomy {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;

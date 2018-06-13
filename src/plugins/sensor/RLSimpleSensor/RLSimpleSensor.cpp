@@ -34,14 +34,7 @@
 
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-
-#include <boost/range/adaptor/map.hpp>
-
-namespace sc = scrimmage;
-namespace sp = scrimmage_proto;
-namespace ba = boost::adaptors;
 
 REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLSimpleSensor, RLSimpleSensor_plugin)
 
