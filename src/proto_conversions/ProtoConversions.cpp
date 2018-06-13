@@ -175,6 +175,18 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     return std::make_shared<State>(state);
 }
 
+void path_to_lines(std::vector<Eigen::Vector3d> &path,
+                   std::shared_ptr<scrimmage_proto::Shape> sample_line,
+                   std::shared_ptr<Plugin> p) {
+    for (size_t i = 0; i < path.size() - 1; i++) {
+        auto ln = std::make_shared<scrimmage_proto::Shape>();
+        ln->CopyFrom(*sample_line);
+        scrimmage::set(ln->mutable_line()->mutable_start(), path[i]);
+        scrimmage::set(ln->mutable_line()->mutable_end(), path[i + 1]);
+        p->draw_shape(ln);
+    }
+}
+
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     Frame frame;
 
