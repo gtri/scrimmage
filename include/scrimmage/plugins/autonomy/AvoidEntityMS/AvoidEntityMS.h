@@ -51,6 +51,10 @@ class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
     double sphere_of_influence_;
     double minimum_range_;
     bool avoid_non_team_;
+
+    scrimmage_proto::ShapePtr circle_shape_ = std::make_shared<scrimmage_proto::Shape>();
+
+    bool show_shapes_ = false;
 };
 } // namespace motor_schemas
 } // namespace autonomy

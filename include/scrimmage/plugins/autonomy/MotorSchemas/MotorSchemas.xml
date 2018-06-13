@@ -10,8 +10,8 @@
   <network_name>LocalNetwork</network_name>
 
   <behaviors>
-    [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
-    [ MoveToGoalMS gain='1.0' use_initial_heading='false' goal='100,0,0' ]
+    [ AvoidEntityMS gain='1.0' show_shapes='true' sphere_of_influence='10' minimum_range='2' ]
+    [ MoveToGoalMS gain='1.0' show_shapes='true' use_initial_heading='false' goal='100,0,0' ]
   </behaviors>
 
 </params>

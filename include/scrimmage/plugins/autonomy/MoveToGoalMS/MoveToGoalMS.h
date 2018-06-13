@@ -58,6 +58,9 @@ class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
     bool returning_stage_ = false;
     bool exit_on_reaching_wpt_ = false;
     double lead_distance_ = 50;
+
+    scrimmage_proto::ShapePtr sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    bool show_shapes_ = false;
 };
 } // namespace motor_schemas
 } // namespace autonomy

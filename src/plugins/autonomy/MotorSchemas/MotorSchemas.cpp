@@ -252,17 +252,15 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
     ///////////////////////////////////////////////////////////////////////////
-    // Draw sphere of influence:
     if (show_shapes_) {
         // Draw resultant vector:
-        auto line = std::make_shared<scrimmage_proto::Shape>();
-        sc::set(line->mutable_color(), 255, 255, 0);
-        line->set_opacity(0.75);
-        sc::set(line->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line->mutable_line()->mutable_end(), vel_result + state_->pos());
-        draw_shape(line);
+        line_shape_->set_persistent(true);
+        sc::set(line_shape_->mutable_color(), 255, 255, 0);
+        line_shape_->set_opacity(0.75);
+        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), vel_result + state_->pos());
+        draw_shape(line_shape_);
     }
-
     return true;
 }
 } // namespace autonomy

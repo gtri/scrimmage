@@ -61,6 +61,8 @@ class MotorSchemas : public scrimmage::Autonomy {
     std::map<std::string, std::list<motor_schemas::BehaviorBasePtr>> behaviors_;
     std::list<motor_schemas::BehaviorBasePtr> default_behaviors_;
     std::list<motor_schemas::BehaviorBasePtr> current_behaviors_;
+
+    scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
 };
 } // namespace autonomy
 } // namespace scrimmage

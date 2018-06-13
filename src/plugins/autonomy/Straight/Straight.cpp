@@ -151,7 +151,8 @@ bool Straight::step_autonomy(double t, double dt) {
     if (show_text_label_) {
         // An example of changing a shape's property
         if (t > 1.0 && t < (1.0 + dt)) {
-            text_shape_->set_opacity(0.1);
+            text_shape_->set_opacity(0.5);
+            text_shape_->mutable_text()->set_text("Goodbye, SCRIMMAGE!");
             draw_shape(text_shape_);
         }
 
