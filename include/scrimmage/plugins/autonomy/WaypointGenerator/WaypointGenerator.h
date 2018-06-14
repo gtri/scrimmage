@@ -58,6 +58,7 @@ class WaypointGenerator : public scrimmage::Autonomy {
     bool show_waypoints_ = false;
     uint8_t position_x_idx_ = 0;
     uint8_t position_y_idx_ = 0;
+    uint8_t position_z_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -130,8 +130,9 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     std::string topic_name = sc::get<std::string>("topic_name", params, "WaypointList");
     waypoint_list_pub_ = advertise(network_name, topic_name);
 
-    position_x_idx_ = vars_.declare("position_x", scrimmage::VariableIO::Direction::Out);
-    position_y_idx_ = vars_.declare("position_y", scrimmage::VariableIO::Direction::Out);
+    position_x_idx_ = vars_.declare("position_x", VariableIO::Direction::Out);
+    position_y_idx_ = vars_.declare("position_y", VariableIO::Direction::Out);
+    position_z_idx_ = vars_.declare("position_z", VariableIO::Direction::Out);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {
@@ -169,6 +170,7 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
                                        x, y, z);
         vars_.output(position_x_idx_, x);
         vars_.output(position_y_idx_, y);
+        vars_.output(position_z_idx_, z);
 
         auto sphere = std::make_shared<scrimmage_proto::Shape>();
         sphere->set_opacity(0.25);
