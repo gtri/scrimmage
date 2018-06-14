@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 #define INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 
+#include <scrimmage/plugin_manager/Plugin.h>
+
 #include <Eigen/Dense>
 
 #include <list>
@@ -84,6 +86,10 @@ Quaternion proto_2_quat(scrimmage_proto::Quaternion proto_quat);
 Eigen::Vector3d proto_2_vector3d(scrimmage_proto::Vector3d proto_vector3d);
 
 StatePtr proto_2_state(const scrimmage_proto::State &proto_state);
+
+void path_to_lines(std::vector<Eigen::Vector3d> &path,
+                   std::shared_ptr<scrimmage_proto::Shape> sample_line,
+                   std::shared_ptr<Plugin> p);
 
 Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact);
 

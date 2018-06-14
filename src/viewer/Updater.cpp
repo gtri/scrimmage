@@ -1042,7 +1042,7 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
             mapper->SetInputConnection(transformFilter->GetOutputPort());
 
             // Need to scale contact to current GUI scale:
-            double scale_data[3];
+            double scale_data[3] = {0, 0, 0};
             for (int i = 0; i < 3; i++) {
                 scale_data[i] = cv->scale() * scale_;
             }
@@ -1496,8 +1496,8 @@ bool Updater::draw_arrow(const scrimmage_proto::Arrow &a,
     vtkSmartPointer<vtkArrowSource> arrowSource =
         vtkSmartPointer<vtkArrowSource>::New();
 
-    double startPoint[3];
-    double endPoint[3];
+    double startPoint[3] = {0, 0, 0};
+    double endPoint[3] = {0, 0, 0};
 
     startPoint[0] = a.tail().x();
     startPoint[1] = a.tail().y();
@@ -1518,7 +1518,7 @@ bool Updater::draw_arrow(const scrimmage_proto::Arrow &a,
     vtkMath::Normalize(normalizedX);
 
     // The Z axis is an arbitrary vector cross X
-    double arbitrary[3];
+    double arbitrary[3] = {0, 0, 0};
     arbitrary[0] = 1; // vtkMath::Random(-10,10);
     arbitrary[1] = 2; // vtkMath::Random(-10,10);
     arbitrary[2] = 3; // vtkMath::Random(-10,10);
