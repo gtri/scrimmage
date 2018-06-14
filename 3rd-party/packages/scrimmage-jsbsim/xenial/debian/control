@@ -6,6 +6,7 @@ Build-Depends: cmake, build-essential, python, python-dev, cython, libboost-all-
 Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-jsbsim
+Multi-Arch: same
 Architecture: any
 # Depends:
 Description: jsbsim used by SCRIMMAGE

@@ -8,5 +8,6 @@ Homepage: https://www.scrimmagesim.org
 Package: scrimmage-dependencies
 Depends: scrimmage-pybind11, scrimmage-protobuf3, scrimmage-grpc, scrimmage-jsbsim
 Architecture: any
+Multi-Arch: same
 Description: dependencies used by SCRIMMAGE
  This is the version of dependencies used by SCRIMMAGE

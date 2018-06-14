@@ -4,7 +4,7 @@ BUILDDIR = build_dir
 
 CMAKE_FLAGS = \
 	-DSETUP_HOME_CONFIG=OFF \
-	-DCMAKE_INSTALL_PREFIX=/opt/scrimmage
+	-DCMAKE_INSTALL_PREFIX=/opt/scrimmage/${DEB_HOST_MULTIARCH}
 
 export DH_VERBOSE=1
 

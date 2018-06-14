@@ -66,7 +66,7 @@ Now, install the SCRIMMAGE custom built binary dependencies:
 Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
 local system and sets up some environment variables:
 
-    $ source /opt/scrimmage/setup.sh
+    $ source /opt/scrimmage/*/setup.sh
 
 Note: If you need to build the dependencies from source or generate binary
 packages, see [Build Dependencies from Source](./3rd-party/README.md)

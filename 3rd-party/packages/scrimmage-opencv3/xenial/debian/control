@@ -3,9 +3,11 @@ Section: devel
 Priority: optional
 Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
 Build-Depends:
+ cmake (>= 2.8.7),
  ant,
  wget,
- cmake (>= 2.8.7),
+ git,
+ ca-certificates,
 # specifically include dbus-x11 to temporary work around #878878
 # and allow apt on !linux to satisfy the build-deps
  dbus-x11 [!linux-any],
@@ -51,6 +53,7 @@ Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-opencv3
 Architecture: any
+Multi-Arch: same
 Pre-Depends:
  ${misc:Pre-Depends},
 Depends:

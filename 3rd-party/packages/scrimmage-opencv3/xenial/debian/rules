@@ -38,7 +38,7 @@ CMAKE_ARCH_FLAGS += -DWITH_1394=OFF -DWITH_V4L=OFF
 endif
 
 CMAKE_FLAGS = \
-	-DCMAKE_INSTALL_PREFIX=../debian/tmp/opt/scrimmage \
+	-DCMAKE_INSTALL_PREFIX=../debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH} \
 	-DBUILD_SHARED_LIBS=ON \
 	-DBUILD_DOCS=OFF \
 	-DCMAKE_INSTALL_LIBDIR="lib/$(DEB_HOST_MULTIARCH)" \
@@ -82,9 +82,13 @@ CMAKE_FLAGS = \
 
 # secondly called by launchpad
 build:
+	cd $(CURDIR);
+	# Quiet is needed for this to run in qemu
+	# git clone --quiet https://github.com/opencv/opencv_contrib.git --branch 3.4.0;
+	cd -;
 	mkdir $(BUILDDIR);
 	cd $(BUILDDIR); cmake $(CMAKE_FLAGS) ..
-	make -C $(BUILDDIR)
+	make -j4 -C $(BUILDDIR)
 
 # thirdly called by launchpad
 binary: binary-indep binary-arch
