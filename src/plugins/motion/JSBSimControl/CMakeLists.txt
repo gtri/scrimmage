@@ -13,7 +13,6 @@ if (NOT EXTERNAL AND JSBSIM_FOUND)
     ${SRCS}
     )
 
-  add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
     ${JSBSIM_LIBRARIES}

@@ -50,13 +50,6 @@ if(NOT CMAKE_BUILD_TYPE)
       RelWithDebInfo MinSizeRel." FORCE)
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
-
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BIN_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_LIB_DIR})
 
@@ -78,46 +71,10 @@ execute_process(COMMAND bash "-c" "${PROJECT_SETUP_DIR}/edit-config.sh ${SCRIMMA
 set(MSGS_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/msgs)
 set(PROTO_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/proto)
 
-include_directories(${PROJECT_INC_DIR})
-include_directories(${MSGS_INCLUDE_DIR})
-include_directories(${PROTO_INCLUDE_DIR})
-
 ###############################################################################
 # Find Scrimmage
 ###############################################################################
 find_package(scrimmage REQUIRED)
-
-########################################################
-# Handle Python settings
-########################################################
-if (SCRIMMAGE_ENABLE_PYTHON_BINDINGS)
-  add_definitions(-DENABLE_PYTHON_BINDINGS=1)
-  find_package(PythonLibs ${SCRIMMAGE_PYTHONLIBS_VERSION_STRING} REQUIRED)
-  find_package(PythonInterp ${SCRIMMAGE_PYTHONLIBS_VERSION_STRING} REQUIRED)
-
-  message(STATUS "Python Versions Found: ${PYTHONLIBS_VERSION_STRING}")
-  message(STATUS "PYTHON_LIBRARIES : ${PYTHON_LIBRARIES}")
-  message(STATUS "PYTHON_INCLUDE_DIRS: ${PYTHON_INCLUDE_DIRS}")
-
-  set(PYTHON_FOUND TRUE)
-  find_package(pybind11 REQUIRED)
-  include_directories(${pybind11_INCLUDE_DIRS})
-  include_directories("${PYTHON_INCLUDE_DIRS}")
-
-else() 
-  add_definitions(-DENABLE_PYTHON_BINDINGS=0)
-endif() 
-
-########################################################
-# Find OpenCV
-########################################################
-find_package(OpenCV QUIET)
-if (OpenCV_FOUND)
-  add_definitions(-DENABLE_OPENCV=1)
-  include_directories(${OpenCV_INCLUDE_DIRS})
-else()
-  add_definitions(-DENABLE_OPENCV=0)  
-endif()
 
 ########################################################
 # Recurse into src, share, and plugins
@@ -255,6 +212,7 @@ if(UNIX AND NOT APPLE)
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
     DESTINATION ${CMAKE_CONFIG_DEST})
 
+  # install export targets
   install(
     EXPORT ${PROJECT_NAME}-targets
     DESTINATION ${CMAKE_CONFIG_DEST}
@@ -263,6 +221,13 @@ if(UNIX AND NOT APPLE)
   #############################################################################
   # Install Targets
   #############################################################################
+  # Install all mission XML files under etc
+  install(
+    DIRECTORY missions
+    DESTINATION share/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.xml"
+    )
+
   # Install all plugin XML files under etc
   install(
     DIRECTORY plugins

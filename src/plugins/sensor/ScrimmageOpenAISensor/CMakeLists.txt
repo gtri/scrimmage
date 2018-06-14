@@ -13,7 +13,7 @@ add_library(${LIBRARY_NAME} SHARED
 )
 
 target_link_libraries(${LIBRARY_NAME}
-  scrimmage
+  scrimmage-core
 )
 
 set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

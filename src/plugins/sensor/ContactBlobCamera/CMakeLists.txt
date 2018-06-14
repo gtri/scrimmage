@@ -21,7 +21,6 @@ target_link_libraries(
   ${OpenCV_LIBRARIES}
   )
 
-add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
