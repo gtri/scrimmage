@@ -13,7 +13,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   )
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-  scrimmage
+  scrimmage-core
   ScrimmageOpenAIAutonomy_plugin
   )
 

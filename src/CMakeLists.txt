@@ -1,7 +1,7 @@
 ##############################################
 #          Library Creation                  #
 ##############################################
-SET (LIBRARY_NAME scrimmage)
+SET (LIBRARY_NAME scrimmage-core)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
@@ -35,7 +35,7 @@ ADD_LIBRARY( ${LIBRARY_NAME} SHARED
   )
 
 add_dependencies(${LIBRARY_NAME}
-  scrimmage scrimmage-msgs scrimmage-proto-gen
+  scrimmage-msgs scrimmage-proto-gen
   )
 
 #find_package (Eigen3 3.3 REQUIRED NO_MODULE)
@@ -44,10 +44,10 @@ target_link_libraries(${LIBRARY_NAME}
   PUBLIC
     scrimmage-protos
     scrimmage-msgs
-    ${PYTHON_LIBRARIES}
     ${GeographicLib_LIBRARIES}
     ${CMAKE_DL_LIBS}
   PRIVATE
+    ${PYTHON_LIBRARIES}
     Boost::boost
     Boost::filesystem
     Boost::program_options
@@ -86,7 +86,7 @@ add_subdirectory(plugins)
 
 # Ensure every plugin depends on scrimmage, scrimmage-msgs, and scrimmage-proto
 foreach (plugin ${PROJECT_PLUGINS})
-  add_dependencies(${plugin} scrimmage scrimmage-msgs scrimmage-proto-gen)
+  add_dependencies(${plugin} scrimmage-core scrimmage-msgs scrimmage-proto-gen)
 endforeach()
 
 # Build visualizer is VTK is found

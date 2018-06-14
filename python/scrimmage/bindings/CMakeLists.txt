@@ -14,12 +14,12 @@ pybind11_add_module(${LIBRARY_NAME}
   src/py_openai_env.cpp
   src/py_utils.cpp)
 
-add_dependencies(${LIBRARY_NAME} scrimmage)
+add_dependencies(${LIBRARY_NAME} scrimmage-core)
 
 target_link_libraries(${LIBRARY_NAME} PRIVATE
   ScrimmageOpenAIAutonomy_plugin
   ScrimmageOpenAISensor_plugin
-  scrimmage)
+  scrimmage-core)
 
 # Push up the SCRIMMAGE_LIBS variable
 set_target_properties(${LIBRARY_NAME} PROPERTIES
