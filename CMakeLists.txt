@@ -363,7 +363,7 @@ if (UNIX AND NOT APPLE)
 
   # Add all library targets to the build-tree export set
   export(TARGETS ${PROJECT_LIBS} ${PROJECT_PLUGINS}
-         scrimmage-boost scrimmage-python scrimmage-opencv
+         scrimmage-boost scrimmage-python
     FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-targets.cmake")
 
   # Export the package for use from the build-tree

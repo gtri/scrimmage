@@ -2,14 +2,11 @@
 
 BUILDDIR = build_dir
 
-#LD_LIBRARY_PATH="$LD_LIBRARY_PATH":/opt/scrimmage
-#export LD_LIBRARY_PATH
-
 # secondly called by launchpad
 build:
 	mkdir $(BUILDDIR);
-	cd $(BUILDDIR); cmake -DCMAKE_PREFIX_PATH=/opt/scrimmage -DCMAKE_BUILD_TYPE=Release -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=../debian/tmp/opt/scrimmage ..
-	LD_LIBRARY_PATH=/opt/scrimmage/lib make -C $(BUILDDIR)
+	cd $(BUILDDIR); cmake -DCMAKE_PREFIX_PATH=/opt/scrimmage/${DEB_HOST_MULTIARCH} -DCMAKE_BUILD_TYPE=Release -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=../debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH} ..
+	LD_LIBRARY_PATH=/opt/scrimmage/${DEB_HOST_MULTIARCH}/lib make -C $(BUILDDIR)
 
 # thirdly called by launchpad
 binary: binary-indep binary-arch
