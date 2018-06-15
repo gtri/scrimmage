@@ -2,7 +2,7 @@
 
 # secondly called by launchpad
 build:
-	./configure --prefix=${CURDIR}/debian/tmp/opt/scrimmage
+	./configure --prefix=${CURDIR}/debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH}
 	make
 	make check
 

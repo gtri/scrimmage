@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Setup environment variables
-SCRIMMAGE_ROOT=/opt/scrimmage
+SCRIMMAGE_ROOT=/opt/scrimmage/@DEB_HOST_MULTIARCH@
 export PATH=${SCRIMMAGE_ROOT}/bin:${PATH}
 export JSBSIM_ROOT=${SCRIMMAGE_ROOT}/etc/JSBSim
 export LD_LIBRARY_PATH=${SCRIMMAGE_ROOT}/lib:${LD_LIBRARY_PATH}

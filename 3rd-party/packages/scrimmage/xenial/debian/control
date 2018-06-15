@@ -24,6 +24,7 @@ Build-Depends:
 Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage
+Multi-Arch: same
 Architecture: any
 Depends:
  parallel,

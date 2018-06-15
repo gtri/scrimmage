@@ -22,12 +22,10 @@ RUN apt-get update && \
     add-apt-repository ppa:kevin-demarco/scrimmage && \
     apt-get update && \
     apt-get install -y scrimmage-dependencies && \
-    /opt/scrimmage/setup.sh
+    /opt/scrimmage/*/setup.sh
 
-# this is for openai gym
-# not installed as part of 3rd-party building
-# so as not to confuse python environments
-# see here for installation commands:
+# this is for openai gym not installed as part of 3rd-party building so as not
+# to confuse python environments see here for installation commands:
 # https://github.com/openai/gym#installing-everything
 RUN apt-get update && apt-get install -y python-pip python-numpy python-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python-opengl libboost-all-dev libsdl2-dev swig
 RUN apt-get update && apt-get install -y git ninja-build
@@ -43,10 +41,6 @@ RUN pip install cpplint
 
 RUN pip install protobuf==3.3.0 grpcio==1.2.1
 
-#RUN apt install -y ros-kinetic-mrpt-local-obstacles \
-#    ros-kinetic-mrpt-localization ros-kinetic-mrpt-map \
-#    ros-kinetic-mrpt-rawlog ros-kinetic-mrpt-reactivenav2d
-
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
@@ -54,24 +48,6 @@ COPY ./ /root/scrimmage/scrimmage
 # Install dependencies provided by package manager
 WORKDIR /root/scrimmage/scrimmage
 RUN ./setup/install-binaries.sh -e 0 -p 3
-
-## Build 3rd-party dependencies
-#RUN mkdir -p ./3rd-party/build && \
-#    cd ./3rd-party/build && \
-#    /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
-
-
-## build 3rd party python protobuf
-#RUN cd /root/scrimmage/3rd-party/build/src/protobuf/python && \
-#    python3 setup.py build && python3 setup.py install
-#
-## build 3rd party python grpc
-#RUN cd /root/scrimmage/3rd-party/build/src/grpc && \
-#    pip install -rrequirements.txt && \
-#    GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
-#
-## GRPC requirements installs futures, which doesn't make sense for python3
-#RUN pip uninstall -y futures
 
 # Test Plugin Generation
 #RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage # TODO
@@ -113,7 +89,7 @@ RUN git clone https://github.com/ros-planning/navigation_msgs
 RUN git clone https://github.com/SyllogismRXS/scrimmage_ros.git
 WORKDIR /root/catkin_ws
 RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
-    source /opt/scrimmage/setup.sh && \
+    source /opt/scrimmage/*/setup.sh && \
     catkin_make && \
     source devel/setup.bash && \
     source ~/.scrimmage/setup.bash && \
