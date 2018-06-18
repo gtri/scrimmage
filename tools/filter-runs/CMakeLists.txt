@@ -10,8 +10,10 @@ add_dependencies(${APP_NAME} scrimmage-protos)
 target_link_libraries(${APP_NAME}
   scrimmage-core
   scrimmage-boost
-  scrimmage-python
   )
+if (ENABLE_PYTHON_BINDINGS)
+  target_link_libraries(${APP_NAME} scrimmage-python)
+endif()
 
 # Link executable to other libraries
 #target_link_libraries(${APP_NAME})

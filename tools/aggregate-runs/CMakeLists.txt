@@ -11,8 +11,10 @@ target_link_libraries(${APP_NAME}
   ${SWARM_SIM_LIBS}
   scrimmage-core
   scrimmage-boost
-  scrimmage-python
   )
+if (ENABLE_PYTHON_BINDINGS)
+  target_link_libraries(${APP_NAME} scrimmage-python)
+endif()
 
 # Link executable to other libraries
 #target_link_libraries(${APP_NAME})
