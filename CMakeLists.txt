@@ -361,10 +361,11 @@ if (UNIX AND NOT APPLE)
     COMPATIBILITY SameMajorVersion
     )
 
-  # Add all library targets to the build-tree export set
-  export(TARGETS ${PROJECT_LIBS} ${PROJECT_PLUGINS}
-         scrimmage-boost scrimmage-python
-    FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-targets.cmake")
+  # Export project export set to the build tree
+  export(
+    EXPORT ${PROJECT_NAME}-targets
+    FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-targets.cmake"
+    )
 
   # Export the package for use from the build-tree
   # (this registers the build-tree with a global CMake-registry ~/.cmake)
@@ -400,6 +401,7 @@ if (UNIX AND NOT APPLE)
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
     DESTINATION ${CMAKE_CONFIG_DEST})
 
+  # Export project export set to the install tree
   install(
     EXPORT ${PROJECT_NAME}-targets
     DESTINATION ${CMAKE_CONFIG_DEST}
