@@ -1505,21 +1505,13 @@ bool Updater::draw_arrow(const bool &new_shape,
         vtkSmartPointer<vtkArrowSource> arrowSource =
             vtkSmartPointer<vtkArrowSource>::New();
 
-        double startPoint[3];
-        double endPoint[3];
-
-        startPoint[0] = a.tail().x();
-        startPoint[1] = a.tail().y();
-        startPoint[2] = a.tail().z();
-
-        endPoint[0] = a.head().x();
-        endPoint[1] = a.head().y();
-        endPoint[2] = a.head().z();
+        double startPoint[3] = {a.tail().x(), a.tail().y(), a.tail().z()};
+        double endPoint[3] = {a.head().x(), a.head().y(), a.head().z()};
 
         // Compute a basis
-        double normalizedX[3];
-        double normalizedY[3];
-        double normalizedZ[3];
+        double normalizedX[3] = {0.0, 0.0, 0.0};
+        double normalizedY[3] = {0.0, 0.0, 0.0};
+        double normalizedZ[3] = {0.0, 0.0, 0.0};
 
         // The X axis is a vector from start to end
         vtkMath::Subtract(endPoint, startPoint, normalizedX);
@@ -1527,10 +1519,7 @@ bool Updater::draw_arrow(const bool &new_shape,
         vtkMath::Normalize(normalizedX);
 
         // The Z axis is an arbitrary vector cross X
-        double arbitrary[3];
-        arbitrary[0] = 1; // vtkMath::Random(-10,10);
-        arbitrary[1] = 2; // vtkMath::Random(-10,10);
-        arbitrary[2] = 3; // vtkMath::Random(-10,10);
+        double arbitrary[3] = {1.0, 2.0, 3.0};
         vtkMath::Cross(normalizedX, arbitrary, normalizedZ);
         vtkMath::Normalize(normalizedZ);
 
