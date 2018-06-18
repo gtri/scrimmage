@@ -68,6 +68,7 @@ class Straight : public scrimmage::Autonomy{
      int desired_heading_idx_ = 0;
 
      scrimmage_proto::ShapePtr text_shape_;
+     scrimmage_proto::ShapePtr sphere_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage

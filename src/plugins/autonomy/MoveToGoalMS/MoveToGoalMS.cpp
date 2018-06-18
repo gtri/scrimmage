@@ -65,6 +65,8 @@ MoveToGoalMS::MoveToGoalMS() {
 }
 
 void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
+    show_shapes_ = sc::get<bool>("show_shapes", params, false);
+
     Eigen::Vector3d initial_goal;
     if (sc::get("use_initial_heading", params, false)) {
         Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*2000;
@@ -158,13 +160,15 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
 
     desired_vector_ = (track_point - state_->pos());
 
-    // Draw the track point
-    auto sphere = std::make_shared<scrimmage_proto::Shape>();
-    sc::set(sphere->mutable_color(), 0, 0, 0);
-    sphere->set_opacity(1.0);
-    sphere->mutable_sphere()->set_radius(5);
-    sc::set(sphere->mutable_sphere()->mutable_center(), track_point);
-    draw_shape(sphere);
+    if (show_shapes_) {
+        // Draw the track point
+        sphere_shape_->set_persistent(true);
+        sc::set(sphere_shape_->mutable_color(), 0, 0, 0);
+        sphere_shape_->set_opacity(1.0);
+        sphere_shape_->mutable_sphere()->set_radius(5);
+        sc::set(sphere_shape_->mutable_sphere()->mutable_center(), track_point);
+        draw_shape(sphere_shape_);
+    }
 
     // check if within waypoint tolerance
     if ((state_->pos() - wp).norm() <= curr_wp_lla.position_tolerance()) {

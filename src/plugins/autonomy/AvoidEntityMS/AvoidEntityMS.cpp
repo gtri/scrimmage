@@ -64,6 +64,7 @@ void AvoidEntityMS::init(std::map<std::string, std::string> &params) {
     sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
     minimum_range_ = sc::get<double>("minimum_range", params, 5);
     avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
+    show_shapes_ = sc::get<bool>("show_shapes", params, false);
 }
 
 bool AvoidEntityMS::step_autonomy(double t, double dt) {
@@ -108,13 +109,15 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
 
     desired_vector_ *= max_vector_length_;
 
-    // Draw the sphere of influence
-    auto circle = std::make_shared<scrimmage_proto::Shape>();
-    circle->set_opacity(0.2);
-    sc::set(circle->mutable_color(), 0, 255, 0);
-    circle->mutable_circle()->set_radius(sphere_of_influence_);
-    sc::set(circle->mutable_circle()->mutable_center(), state_->pos());
-    draw_shape(circle);
+    if (show_shapes_) {
+        // Draw the sphere of influence
+        circle_shape_->set_persistent(true);
+        circle_shape_->set_opacity(0.2);
+        sc::set(circle_shape_->mutable_color(), 0, 255, 0);
+        circle_shape_->mutable_circle()->set_radius(sphere_of_influence_);
+        sc::set(circle_shape_->mutable_circle()->mutable_center(), state_->pos());
+        draw_shape(circle_shape_);
+    }
 
     return true;
 }
