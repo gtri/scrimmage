@@ -11,10 +11,13 @@ target_link_libraries(${APP_NAME}
   ${JSBSIM_LIBRARIES}
   scrimmage-core
   scrimmage-boost
-  scrimmage-python
   ${SWARM_SIM_LIBS}
   dl
   )
+if (ENABLE_PYTHON_BINDINGS)
+  target_link_libraries(${APP_NAME} scrimmage-python)
+endif()
+
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
   target_link_libraries(${APP_NAME}

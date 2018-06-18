@@ -9,9 +9,11 @@ target_link_libraries(${APP_NAME}
   ${JSBSIM_LIBRARIES}
   scrimmage-core
   scrimmage-boost
-  scrimmage-python
   dl
   )
+if (ENABLE_PYTHON_BINDINGS)
+  target_link_libraries(${APP_NAME} scrimmage-python)
+endif()
 
 ##--------------------------------------------------------
 ## Library Creation
