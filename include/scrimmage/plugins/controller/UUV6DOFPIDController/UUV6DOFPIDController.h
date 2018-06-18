@@ -30,35 +30,41 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_PID_H_
-#define INCLUDE_SCRIMMAGE_COMMON_PID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
 
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/common/PID.h>
+
+#include <Eigen/Dense>
+
+#include <map>
 #include <string>
 
 namespace scrimmage {
-class PID {
+namespace controller {
+
+class UUV6DOFPIDController : public scrimmage::Controller {
  public:
-    PID();
-    void set_parameters(double kp, double ki, double kd);
-    void set_setpoint(double setpoint);
-    double step(double dt, double measurement);
-    void set_integral_band(double integral_band);
-    void set_is_angle(bool is_angle);
-    bool init(const std::string &str, const bool &is_angle);
+    UUV6DOFPIDController();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step(double t, double dt);
 
  protected:
-    double kp_;
-    double ki_;
-    double kd_;
+    // Inputs
+    int desired_altitude_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
 
-    double prev_error_;
-    double integral_;
+    // Outputs
+    int throttle_idx_ = 0;
+    int elevator_idx_ = 0;
+    int rudder_idx_ = 0;
 
-    double setpoint_;
-
-    double integral_band_;
-    bool is_angle_;
+    scrimmage::PID heading_pid_;
+    scrimmage::PID altitude_pid_;
+    scrimmage::PID speed_pid_;
 };
+} // namespace controller
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_COMMON_PID_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
