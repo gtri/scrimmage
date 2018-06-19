@@ -30,36 +30,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_
+#include <scrimmage/autonomy/Autonomy.h>
 
-#include <scrimmage/common/ID.h>
-
-#include <Eigen/Dense>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <string>
-#include <vector>
+#include <map>
+#include <utility>
 
-namespace sc = scrimmage;
+namespace sci = scrimmage::interaction;
 
 namespace scrimmage {
-namespace interaction {
-
-class BoundaryInfo {
+namespace autonomy {
+class BoundaryDefense : public scrimmage::Autonomy {
  public:
-    enum class Type { Cuboid, Sphere };
+    BoundaryDefense();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
 
-    BoundaryInfo() : type(Type::Cuboid), radius(100), center(0, 0, 0),
-        name(std::string("none")) {
-    }
+ protected:
+    int boundary_id_ = -1;
+    std::map<int, std::pair<sci::BoundaryInfo,
+        std::shared_ptr<sci::BoundaryBase>>> boundaries_;
 
-    Type type;
-    double radius;
-    Eigen::Vector3d center;
-    std::vector<Eigen::Vector3d> points;
-    std::string name;
-    scrimmage::ID id;
+    scrimmage::PublisherPtr pub_wp_list_;
+    void publish_waypoint(const Eigen::Vector3d &point);
 };
-} // namespace interaction
+} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_

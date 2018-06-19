@@ -57,7 +57,7 @@
                       team_id="1"
                       boundary_type="sphere"
                       sphere_radius="5"
-                      sphere_center="450, 0, 200"
+                      sphere_center="350, 0, 200"
                       color="0 0 255"
                       opacity="0.5"
                       >Boundary</entity_interaction>
@@ -82,7 +82,7 @@
                       team_id="2"
                       boundary_type="sphere"
                       sphere_radius="5"
-                      sphere_center="-450, 0, 200"
+                      sphere_center="-350, 0, 200"
                       color="255 0 0"
                       opacity="0.5"
                       >Boundary</entity_interaction>
@@ -130,8 +130,46 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
-    <autonomy>Straight</autonomy>
+    <autonomy flag_boundary_id="4" capture_boundary_id="1">TakeFlag</autonomy>
+    
+    <autonomy show_shapes="false" max_speed="25" behaviors="
+       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
+              >MotorSchemas</autonomy>
+    
+  </entity>
 
+  <!-- Blue defense -->
+  <entity>
+    <team_id>2</team_id>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>5</count>
+    <health>1</health>
+    <radius>2</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>20</variance_z>
+
+    <x>200</x>
+    <y>200</y>
+    <z>200</z>
+
+    <heading>180</heading>
+    <altitude>200</altitude>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-blue</visual_model>
+
+    <autonomy boundary_id="1">BoundaryDefense</autonomy>
+    
+    <autonomy show_shapes="false" max_speed="25" behaviors="
+       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
+              >MotorSchemas</autonomy>
+    
   </entity>
 
   <!-- ====================== Red Team (Team 2) ========================= -->
@@ -156,7 +194,46 @@
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
-    <autonomy>Straight</autonomy>
+
+    <autonomy flag_boundary_id="2" capture_boundary_id="3">TakeFlag</autonomy>
+    
+    <autonomy show_shapes="false" max_speed="25" behaviors="
+       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
+              >MotorSchemas</autonomy>
+    
+  </entity>
+
+  <!-- Red defense -->
+  <entity>
+    <team_id>2</team_id>
+    <color>255 0 0</color>
+    <count>5</count>
+    <health>1</health>
+    <radius>2</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>20</variance_z>
+
+    <x>-400</x>
+    <y>200</y>
+    <z>200</z>
+
+    <heading>0</heading>
+    <altitude>200</altitude>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-red</visual_model>
+
+    <autonomy boundary_id="3">BoundaryDefense</autonomy>
+    
+    <autonomy show_shapes="false" max_speed="25" behaviors="
+       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
+              >MotorSchemas</autonomy>
+    
   </entity>
 
 </runscript>

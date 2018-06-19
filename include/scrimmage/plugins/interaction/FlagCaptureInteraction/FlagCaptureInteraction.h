@@ -35,6 +35,7 @@
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/common/ID.h>
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
@@ -56,9 +57,10 @@ class FlagCaptureInteraction : public scrimmage::EntityInteraction {
               std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                  double t, double dt) override;
+
  protected:
-    int flag_boundary_id_;
-    int capture_boundary_id_;
+    int flag_boundary_id_ = -1;
+    int capture_boundary_id_ = -1;
 
     std::shared_ptr<sci::BoundaryBase> flag_boundary_;
     sci::BoundaryInfo flag_boundary_info_;
@@ -66,9 +68,12 @@ class FlagCaptureInteraction : public scrimmage::EntityInteraction {
     std::shared_ptr<sci::BoundaryBase> capture_boundary_;
     sci::BoundaryInfo capture_boundary_info_;
 
-    bool flag_taken_;
+    bool flag_taken_ = false;
+    bool flag_captured_ = false;
+    scrimmage::ID entity_with_flag_;
 
     scrimmage::PublisherPtr flag_taken_pub_;
+    scrimmage::PublisherPtr flag_captured_pub_;
 
  private:
 };
