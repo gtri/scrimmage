@@ -88,25 +88,25 @@
                       >Boundary</entity_interaction>
 
   <entity_interaction active_boundary_ids="1, 3">EnforceBoundaryInteraction</entity_interaction>
-  
+
   <entity_interaction name="BlueCaptureBoundary" boundary_id="1" capture_range="5">CaptureInBoundaryInteraction</entity_interaction>
   <entity_interaction name="RedCaptureBoundary"  boundary_id="3" capture_range="5">CaptureInBoundaryInteraction</entity_interaction>
 
   <entity_interaction name="BlueFlagCapture" flag_boundary_id="2" capture_boundary_id="3">FlagCaptureInteraction</entity_interaction>
-  <entity_interaction name="RedFlagCapture" flag_boundary_id="4" capture_boundary_id="1">FlagCaptureInteraction</entity_interaction>  
-  
+  <entity_interaction name="RedFlagCapture" flag_boundary_id="4" capture_boundary_id="1">FlagCaptureInteraction</entity_interaction>
+
   <entity_interaction collision_range="2">SimpleCollision</entity_interaction>
 
-  <metrics team_collisions_w="0" non_team_collisions_w="0" flight_time_w="0">SimpleCollisionMetrics</metrics>
-  <metrics TeamCapture_weight="0" NonTeamCapture_weight="0">SimpleCaptureMetrics</metrics>  
-  <metrics flags_taken_w="100" flags_captured_w="0">FlagCaptureMetrics</metrics>  
-  
+  <metrics team_collisions_w="-5" non_team_collisions_w="0" flight_time_w="0">SimpleCollisionMetrics</metrics>
+  <metrics TeamCapture_weight="0" NonTeamCapture_weight="1">SimpleCaptureMetrics</metrics>
+  <metrics flags_taken_w="10" flags_captured_w="100">FlagCaptureMetrics</metrics>
+
   <network>GlobalNetwork</network>
   <network>LocalNetwork</network>
   <network name="comms">SphereNetwork</network>
 
   <!-- uncomment "seed" and use integer for deterministic results -->
-  <seed>1107101826</seed>
+  <seed>1017907566</seed>
 
   <!-- ====================== Blue Team (Team 1) ========================= -->
   <entity>
@@ -121,7 +121,7 @@
     <variance_y>20</variance_y>
     <variance_z>10</variance_z>
 
-    <x>200</x>
+    <x>400</x>
     <y>0</y>
     <z>200</z>
     <heading>180</heading>
@@ -130,46 +130,71 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
-    <autonomy flag_boundary_id="4" capture_boundary_id="1">TakeFlag</autonomy>
+    <autonomy generate_fsm_pdf="false"
+              graphviz_fsm="
+      digraph {
+        rankdir=LR
+        node [ shape = point  ]; qi
+        node [ shape = circle ];
+        qi -> BoundaryDefense
+        }"
+        >GraphvizFSM</autonomy>
+
+    <autonomy state_topic_name="State" network_name="LocalNetwork"
+              autonomies="
+        [ TakeFlag states='TakeFlag' flag_boundary_id='4' capture_boundary_id='1' ]
+        [ BoundaryDefense states='BoundaryDefense' boundary_id='1' ]"
+        >AutonomyExecutor</autonomy>
     
     <autonomy show_shapes="false" max_speed="25" behaviors="
-       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]                                                            
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
-              >MotorSchemas</autonomy>
-    
+       >MotorSchemas</autonomy>
   </entity>
 
-  <!-- Blue defense -->
   <entity>
-    <team_id>2</team_id>
+    <name>uav_entity</name>
     <team_id>1</team_id>
     <color>77 77 255</color>
     <count>5</count>
     <health>1</health>
-    <radius>2</radius>
+    <radius>1</radius>
 
     <variance_x>20</variance_x>
     <variance_y>20</variance_y>
-    <variance_z>20</variance_z>
+    <variance_z>10</variance_z>
 
-    <x>200</x>
+    <x>400</x>
     <y>200</y>
     <z>200</z>
-
     <heading>180</heading>
-    <altitude>200</altitude>
 
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
-    <autonomy boundary_id="1">BoundaryDefense</autonomy>
+    <autonomy generate_fsm_pdf="false"
+              graphviz_fsm="
+      digraph {
+        rankdir=LR
+        node [ shape = point  ]; qi
+        node [ shape = circle ];
+        qi -> TakeFlag
+        }"
+        >GraphvizFSM</autonomy>
+
+    <autonomy state_topic_name="State" network_name="LocalNetwork"
+              autonomies="
+        [ TakeFlag states='TakeFlag' flag_boundary_id='4' capture_boundary_id='1' ]
+        [ BoundaryDefense states='BoundaryDefense' boundary_id='1' ]"
+        >AutonomyExecutor</autonomy>
     
     <autonomy show_shapes="false" max_speed="25" behaviors="
-       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]                                                            
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
-              >MotorSchemas</autonomy>
-    
+       >MotorSchemas</autonomy>
   </entity>
 
   <!-- ====================== Red Team (Team 2) ========================= -->
@@ -195,16 +220,29 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
 
-    <autonomy flag_boundary_id="2" capture_boundary_id="3">TakeFlag</autonomy>
-    
+    <autonomy generate_fsm_pdf="false"
+              graphviz_fsm="
+      digraph {
+        rankdir=LR
+        node [ shape = point  ]; qi
+        node [ shape = circle ];
+        qi -> BoundaryDefense
+        }"
+        >GraphvizFSM</autonomy>
+
+    <autonomy state_topic_name="State" network_name="LocalNetwork"
+              autonomies="
+        [ TakeFlag states='TakeFlag' flag_boundary_id='2' capture_boundary_id='3' ]
+        [ BoundaryDefense states='BoundaryDefense' boundary_id='3' ]"
+        >AutonomyExecutor</autonomy>
+
     <autonomy show_shapes="false" max_speed="25" behaviors="
-       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]              
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
               >MotorSchemas</autonomy>
-    
   </entity>
 
-  <!-- Red defense -->
   <entity>
     <team_id>2</team_id>
     <color>255 0 0</color>
@@ -227,13 +265,26 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
 
-    <autonomy boundary_id="3">BoundaryDefense</autonomy>
-    
+    <autonomy generate_fsm_pdf="false"
+              graphviz_fsm="
+      digraph {
+        rankdir=LR
+        node [ shape = point  ]; qi
+        node [ shape = circle ];
+        qi -> TakeFlag
+        }"
+        >GraphvizFSM</autonomy>
+
+    <autonomy state_topic_name="State" network_name="LocalNetwork"
+              autonomies="
+        [ TakeFlag states='TakeFlag' flag_boundary_id='2' capture_boundary_id='3' ]
+        [ BoundaryDefense states='BoundaryDefense' boundary_id='3' ]"
+        >AutonomyExecutor</autonomy>
+
     <autonomy show_shapes="false" max_speed="25" behaviors="
-       [ AvoidEntityMS gain='1.0' show_shapes='false' sphere_of_influence='10' minimum_range='2' ]
+       [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]              
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
               >MotorSchemas</autonomy>
-    
   </entity>
-
 </runscript>

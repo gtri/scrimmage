@@ -36,6 +36,7 @@
 
 #include <string>
 #include <map>
+#include <list>
 
 namespace scrimmage {
 namespace autonomy {
@@ -46,7 +47,17 @@ class AutonomyExecutor : public scrimmage::Autonomy {
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    // std::map<int, std::string> io_map_;
+    bool show_shapes_;
+
+    std::string current_state_ = "UNDEFINED_NO_STATE";
+
+    std::map<std::string, std::list<scrimmage::AutonomyPtr>> autonomies_;
+    std::list<scrimmage::AutonomyPtr> running_autonomies_;
+    std::list<scrimmage::AutonomyPtr> default_autonomies_;
+
+    // Key : Output variable index determined by controller
+    // Value: Input variable index
+    std::map<int, int> io_map_;
 };
 } // namespace autonomy
 } // namespace scrimmage

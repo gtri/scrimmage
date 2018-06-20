@@ -141,7 +141,8 @@ bool FlagCaptureInteraction::step_entity_interaction(std::list<sc::EntityPtr> &e
         }
     } else if (!flag_captured_) {
         auto it = id_to_ent_map_->find(entity_with_flag_.id());
-        if (it != id_to_ent_map_->end()) {
+        if (it != id_to_ent_map_->end() &&
+            it->second != nullptr && it->second->state() != nullptr) {
             if (capture_boundary_->contains(it->second->state()->pos())) {
                 flag_captured_ = true;
 

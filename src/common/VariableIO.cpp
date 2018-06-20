@@ -174,4 +174,11 @@ std::set<std::string> VariableIO::declared_input_variables() {
 std::set<std::string> VariableIO::declared_output_variables() {
     return declared_output_variables_;
 }
+
+void VariableIO::set_input(const std::shared_ptr<Eigen::VectorXd> &input) {
+    input_ = input;
+}
+void VariableIO::set_output(const std::shared_ptr<Eigen::VectorXd> &output) {
+    output_ = output;
+}
 } // namespace scrimmage

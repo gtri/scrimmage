@@ -100,8 +100,6 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
     for (auto &kv : *contacts_) {
         sc::Contact &cnt = kv.second;
 
-        cout << "checking: " << cnt.id().id() << endl;
-
         // Ignore same team
         if (cnt.id().team_id() == std::get<0>(it->second).id.team_id()) {
             continue;
@@ -109,12 +107,10 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
 
         // Is the entity within the boundary?
         if (std::get<1>(it->second)->contains(cnt.state()->pos())) {
-            cout << "in boundary" << endl;
             if (closest == nullptr ||
                 (state_->pos() - closest->pos()).norm() < min_dist) {
                 closest = cnt.state();
                 min_dist = (state_->pos() - closest->pos()).norm();
-                cout << "found: " << cnt.id().id() << endl;
             }
         }
     }
