@@ -97,6 +97,8 @@
 
   <entity_interaction collision_range="2">SimpleCollision</entity_interaction>
 
+  <entity_interaction ip="localhost" port="60000">GRPCCommandString</entity_interaction>
+
   <metrics team_collisions_w="-5" non_team_collisions_w="0" flight_time_w="0">SimpleCollisionMetrics</metrics>
   <metrics TeamCapture_weight="0" NonTeamCapture_weight="1">SimpleCaptureMetrics</metrics>
   <metrics flags_taken_w="10" flags_captured_w="100">FlagCaptureMetrics</metrics>
@@ -130,6 +132,10 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
+    <autonomy relays="
+       [ GlobalNetwork State LocalNetwork ]"
+              >CommandStringRelay</autonomy>
+    
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -174,6 +180,10 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
+    <autonomy relays="
+       [ GlobalNetwork State LocalNetwork ]"
+              >CommandStringRelay</autonomy>
+    
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -220,6 +230,10 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
 
+    <autonomy relays="
+       [ GlobalNetwork State LocalNetwork ]"
+              >CommandStringRelay</autonomy>
+    
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -265,6 +279,10 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
 
+    <autonomy relays="
+       [ GlobalNetwork State LocalNetwork ]"
+              >CommandStringRelay</autonomy>
+    
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {

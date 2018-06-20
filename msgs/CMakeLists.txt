@@ -12,6 +12,10 @@ file(GLOB PROTO_FILE_LIST
 set(GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/msgs)
 file(MAKE_DIRECTORY ${GEN_DIR})
 
+if (NOT GRPC_FOUND OR EXTERNAL)
+  list(REMOVE_ITEM PROTO_FILE_LIST "Command.proto")
+endif()
+
 foreach(PROTO_FILE ${PROTO_FILE_LIST})
   # Get the name of the file without extension
   # name.proto -> name
@@ -26,17 +30,39 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
   set(PROTO_FILE_GEN_H_FILES
     ${GEN_DIR}/${PROTO_NAME}.pb.h
     )
+
+  if (GRPC_FOUND)
+    set(PROTO_FILE_GEN_CPP_FILES
+      ${PROTO_FILE_GEN_CPP_FILES}
+      ${GEN_DIR}/${PROTO_NAME}.grpc.pb.cc
+      )
+    set(PROTO_FILE_GEN_H_FILES
+      ${PROTO_FILE_GEN_H_FILES}
+      ${GEN_DIR}/${PROTO_NAME}.grpc.pb.h
+      )
+  endif()
+
   set(PROTO_FILE_GEN_FILES
     ${PROTO_FILE_GEN_CPP_FILES}
     ${PROTO_FILE_GEN_H_FILES}
     )
 
-  add_custom_command(
-    OUTPUT ${PROTO_FILE_GEN_FILES}
-    COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
-    DEPENDS ${PROTO_FILE}
-    WORKING_DIRECTORY ${PROTO_PATH}
-    )
+  if (GRPC_FOUND)
+    add_custom_command(
+      OUTPUT ${PROTO_FILE_GEN_FILES}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --grpc_out=${GEN_DIR} --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --python_out=${GEN_DIR} --grpc_python_out=${GEN_DIR} --plugin=protoc-gen-grpc_python=${GRPC_PYTHON_PLUGIN}
+      DEPENDS ${PROTO_FILE}
+      WORKING_DIRECTORY ${PROTO_PATH}
+      )
+  else()
+    add_custom_command(
+      OUTPUT ${PROTO_FILE_GEN_FILES}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
+      DEPENDS ${PROTO_FILE}
+      WORKING_DIRECTORY ${PROTO_PATH}
+      )
+  endif()
 
  # Make a list of all generated CPP files
  set(GEN_CPP_FILES

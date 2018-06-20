@@ -30,34 +30,24 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
-#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
+#include <scrimmage/msgs/Command.grpc.pb.h>
 
-#include <string>
-#include <map>
 #include <list>
 
 namespace scrimmage {
-namespace autonomy {
-class AutonomyExecutor : public scrimmage::Autonomy {
- public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(
+    std::shared_ptr<Plugin> plugin) :
+    plugin_(std::dynamic_pointer_cast<interaction::GRPCCommandString>(plugin)) {
+}
 
- protected:
-    bool show_shapes_ = false;
+grpc::Status scrimmage::ScrimmageMsgServiceImpl::SendCommandString(
+    grpc::ServerContext* context, const scrimmage_msgs::CommandString* cmd,
+    scrimmage_msgs::CommandAck* reply) {
+    plugin_->push_msg(*cmd);
+    reply->set_success(1);
+    return grpc::Status::OK;
+}
 
-    std::string current_state_ = "UNDEFINED_NO_STATE";
-
-    std::map<std::string, std::list<scrimmage::AutonomyPtr>> autonomies_;
-    std::list<scrimmage::AutonomyPtr> running_autonomies_;
-    std::list<scrimmage::AutonomyPtr> default_autonomies_;
-
-    // Key : Output variable index determined by controller
-    // Value: Input variable index
-    std::map<int, int> io_map_;
-};
-} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_

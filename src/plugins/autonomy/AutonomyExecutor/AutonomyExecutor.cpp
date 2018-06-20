@@ -37,7 +37,6 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
@@ -60,9 +59,6 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 
 namespace scrimmage {
 namespace autonomy {
-
-AutonomyExecutor::AutonomyExecutor() {
-}
 
 void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
