@@ -48,33 +48,16 @@ namespace controller {
 
 namespace sc = scrimmage;
 
-void set_pid(sc::PID &pid, std::string str, bool is_angle) {
-    std::vector<std::string> str_vals;
-    boost::split(str_vals, str, boost::is_any_of(","));
-
-    if (str_vals.size() != 4) {
-        std::cout << "error parsing in SimpleAircraftControllerPID" << std::endl;
-    } else {
-        double p = std::stod(str_vals[0]);
-        double i = std::stod(str_vals[1]);
-        double d = std::stod(str_vals[2]);
-        pid.set_parameters(p, i, d);
-
-        if (is_angle) {
-            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
-            pid.set_integral_band(i_lim);
-            pid.set_is_angle(true);
-        } else {
-            double i_lim = std::stod(str_vals[3]);
-            pid.set_integral_band(i_lim);
-        }
-    }
-}
-
 void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &params) {
-    set_pid(heading_pid_, params["heading_pid"], true);
-    set_pid(alt_pid_, params["alt_pid"], false);
-    set_pid(vel_pid_, params["vel_pid"], false);
+    if (!heading_pid_.init(params["heading_pid"], true)) {
+        std::cout << "Failed to set heading PID" << std::endl;
+    }
+    if (!alt_pid_.init(params["alt_pid"], false)) {
+        std::cout << "Failed to set altitude PID" << std::endl;
+    }
+    if (!vel_pid_.init(params["vel_pid"], false)) {
+        std::cout << "Failed to set velocity PID" << std::endl;
+    }
     use_roll_ = sc::str2bool(params.at("use_roll"));
 
     std::string ctrl_name = use_roll_ ?

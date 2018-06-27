@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>UUV6DOFPIDController_plugin</library>
+
+  <write_csv>false</write_csv>
+  
+  <heading_pid>0.5, 0.001, 0.005, 9</heading_pid>
+  <altitude_pid>0.2, 0.001, 0.0001, 1</altitude_pid>
+  <speed_pid>1, 0.0, 0, 1</speed_pid>
+  
+</params>
