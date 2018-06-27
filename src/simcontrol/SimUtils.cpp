@@ -87,7 +87,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
         // Parent specific members
         ent_inter->parent()->set_random(info.random);
         ent_inter->parent()->set_mp(info.mp);
-        ent_inter->parent()->projection() = info.mp->projection();
+        ent_inter->parent()->set_projection(info.mp->projection());
         ent_inter->parent()->rtree() = info.rtree;
 
         // Plugin specific members
