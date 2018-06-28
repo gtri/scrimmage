@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYINFO_H_
 
+#include <scrimmage/common/ID.h>
+
 #include <Eigen/Dense>
 
 #include <string>

@@ -142,8 +142,7 @@ void GraphvizFSM::update_state_info(
 
     current_state_ = next_state;
 
-    cout << "Current State: " << fsm_graph_[current_state_].name << endl;
-
+    // cout << "Current State: " << fsm_graph_[current_state_].name << endl;
     // Publish the state message
     auto msg = std::make_shared<sc::Message<std::string>>();
     msg->data = fsm_graph_[current_state_].name;

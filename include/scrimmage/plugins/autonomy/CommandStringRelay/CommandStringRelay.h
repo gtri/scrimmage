@@ -30,34 +30,24 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
 #include <string>
 #include <map>
-#include <list>
 
 namespace scrimmage {
 namespace autonomy {
-class AutonomyExecutor : public scrimmage::Autonomy {
+class CommandStringRelay : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    CommandStringRelay();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
 
  protected:
-    bool show_shapes_ = false;
-
-    std::string current_state_ = "UNDEFINED_NO_STATE";
-
-    std::map<std::string, std::list<scrimmage::AutonomyPtr>> autonomies_;
-    std::list<scrimmage::AutonomyPtr> running_autonomies_;
-    std::list<scrimmage::AutonomyPtr> default_autonomies_;
-
-    // Key : Output variable index determined by controller
-    // Value: Input variable index
-    std::map<int, int> io_map_;
+    std::map<std::string, scrimmage::PublisherPtr> pubs_;
 };
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_
