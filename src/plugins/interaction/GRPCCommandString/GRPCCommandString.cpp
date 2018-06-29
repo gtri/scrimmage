@@ -92,7 +92,7 @@ bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             pub = advertise(msg.network(), msg.topic());
             pubs_[msg.network()][msg.topic()] = pub;
         }
-        auto sc_msg = scrimmage::MessagePtr<scrimmage_msgs::CommandString>();
+        auto sc_msg = std::make_shared<scrimmage::Message<scrimmage_msgs::CommandString>>();
         sc_msg->data = msg;
         pub->publish(sc_msg);
     }

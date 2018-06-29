@@ -42,6 +42,9 @@
 #include <iostream>
 #include <limits>
 
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+
 using std::cout;
 using std::endl;
 
@@ -74,14 +77,21 @@ void CommandStringRelay::init(std::map<std::string, std::string> &params) {
         pubs_[topic] = advertise(relay_to_network, topic);
 
         auto cb = [&] (scrimmage::MessagePtr<scrimmage_msgs::CommandString> msg) {
-            sc::PublisherPtr pub;
-            auto it = pubs_.find(msg->data.topic());
-            if (it != pubs_.end()) {
-                auto relay_msg = scrimmage::MessagePtr<std::string>();
-                relay_msg->data = msg->data.value();
-                it->second->publish(relay_msg);
+            std::vector<std::string> tokens;
+            boost::split(tokens, msg->data.topic(), boost::is_any_of("/"));
+
+            if (tokens.size() == 3) {
+                sc::PublisherPtr pub;
+                auto it = pubs_.find(tokens[2]);
+                if (it != pubs_.end()) {
+                    auto relay_msg = std::make_shared<scrimmage::Message<std::string>>();
+                    relay_msg->data = msg->data.value();
+                    it->second->publish(relay_msg);
+                } else {
+                    cout << "CommandStringRelay: Failed to find publisher" << endl;
+                }
             } else {
-                cout << "CommandStringRelay: Failed to find publisher" << endl;
+                cout << "CommandStrinRelay: Ignoring message" << endl;
             }
         };
         subscribe<scrimmage_msgs::CommandString>(original_network, original_topic_str, cb);
