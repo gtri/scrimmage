@@ -38,9 +38,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
-#include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
-#include <scrimmage/plugins/interaction/Boundary/Sphere.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 
 #include <memory>
 #include <limits>
@@ -51,6 +49,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
+namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction,
                 scrimmage::interaction::EnforceBoundaryInteraction,
@@ -74,23 +73,12 @@ bool EnforceBoundaryInteraction::init(std::map<std::string, std::string> &missio
                                              active_boundary_ids.end());
     }
 
-    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
-        if (active_boundary_ids_.count(msg->data.id.id()) != 0) {
-            if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
-                std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-                cuboid->set_points(msg->data.points);
-                boundaries_.push_back(cuboid);
-            } else if (msg->data.type == sci::BoundaryInfo::Type::Sphere) {
-                std::shared_ptr<sci::Sphere> sphere = std::make_shared<sci::Sphere>();
-                sphere->set_radius(msg->data.radius);
-                sphere->set_center(msg->data.center);
-                boundaries_.push_back(sphere);
-            } else {
-                std::cout << "Ignoring boundary: " << msg->data.name << std::endl;
-            }
+    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+        if (active_boundary_ids_.count(msg->data.id().id()) != 0) {
+            boundaries_.push_back(sci::Boundary::make_boundary(msg->data));
         }
     };
-    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
     return true;
 }

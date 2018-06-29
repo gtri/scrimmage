@@ -40,9 +40,7 @@
 #include <scrimmage/pubsub/Subscriber.h>
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
-#include <scrimmage/plugins/interaction/Boundary/Sphere.h>
-
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
@@ -70,21 +68,11 @@ BoundaryDefense::BoundaryDefense() {
 void BoundaryDefense::init(std::map<std::string, std::string> &params) {
     boundary_id_ = sc::get<int>("boundary_id", params, boundary_id_);
 
-    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
-        if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
-            std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-            cuboid->set_points(msg->data.points);
-            boundaries_[msg->data.id.id()] = std::make_pair(msg->data, cuboid);
-        } else if (msg->data.type == sci::BoundaryInfo::Type::Sphere) {
-            std::shared_ptr<sci::Sphere> sphere = std::make_shared<sci::Sphere>();
-            sphere->set_radius(msg->data.radius);
-            sphere->set_center(msg->data.center);
-            boundaries_[msg->data.id.id()] = std::make_pair(msg->data, sphere);
-        } else {
-            std::cout << "Ignoring boundary: " << msg->data.name << std::endl;
-        }
+    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+        std::shared_ptr<sci::BoundaryBase> boundary = sci::Boundary::make_boundary(msg->data);
+        boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
     };
-    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
     pub_wp_list_ = advertise("LocalNetwork", "WaypointList");
 }
@@ -104,7 +92,7 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
         sc::Contact &cnt = kv.second;
 
         // Ignore same team
-        if (cnt.id().team_id() == std::get<0>(it->second).id.team_id()) {
+        if (cnt.id().team_id() == std::get<0>(it->second).id().team_id()) {
             continue;
         }
 

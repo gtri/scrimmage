@@ -36,6 +36,7 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 
+#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <map>

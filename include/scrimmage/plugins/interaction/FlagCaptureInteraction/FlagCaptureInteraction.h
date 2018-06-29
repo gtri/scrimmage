@@ -38,7 +38,7 @@
 #include <scrimmage/common/ID.h>
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <map>
 #include <list>
@@ -59,14 +59,14 @@ class FlagCaptureInteraction : public scrimmage::EntityInteraction {
                                  double t, double dt) override;
 
  protected:
-    int flag_boundary_id_ = -1;
-    int capture_boundary_id_ = -1;
+    int flag_boundary_id_ = 0;
+    int capture_boundary_id_ = 0;
 
     std::shared_ptr<sci::BoundaryBase> flag_boundary_;
-    sci::BoundaryInfo flag_boundary_info_;
+    sp::Shape flag_boundary_shape_;
 
     std::shared_ptr<sci::BoundaryBase> capture_boundary_;
-    sci::BoundaryInfo capture_boundary_info_;
+    sp::Shape capture_boundary_shape_;
 
     bool flag_taken_ = false;
     bool flag_captured_ = false;

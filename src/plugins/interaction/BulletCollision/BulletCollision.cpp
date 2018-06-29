@@ -166,18 +166,18 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
 
     auto shape_gen_cb = [&] (scrimmage::MessagePtr<sp::Shapes> msg) {
         for (int i = 0; i < msg->data.shape_size(); i++) {
-            if (msg->data.shape(i).oneof_type_case() == sp::Shape::kCube) {
-                btVector3 xyz(btScalar(msg->data.shape(i).cube().x_length()/2.0),
-                              btScalar(msg->data.shape(i).cube().y_length()/2.0),
-                              btScalar(msg->data.shape(i).cube().z_length()/2.0));
+            if (msg->data.shape(i).oneof_type_case() == sp::Shape::kCuboid) {
+                btVector3 xyz(btScalar(msg->data.shape(i).cuboid().x_length()/2.0),
+                              btScalar(msg->data.shape(i).cuboid().y_length()/2.0),
+                              btScalar(msg->data.shape(i).cuboid().z_length()/2.0));
 
                 btBoxShape *wall = new btBoxShape(xyz);
 
                 btCollisionObject* coll_object = new btCollisionObject();
                 coll_object->setCollisionShape(wall);
-                coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).cube().center().x(),
-                                                                     (btScalar) msg->data.shape(i).cube().center().y(),
-                                                                     (btScalar) msg->data.shape(i).cube().center().z()));
+                coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).cuboid().center().x(),
+                                                                     (btScalar) msg->data.shape(i).cuboid().center().y(),
+                                                                     (btScalar) msg->data.shape(i).cuboid().center().z()));
                 bt_collision_world->addCollisionObject(coll_object);
             }
         }

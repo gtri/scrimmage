@@ -37,6 +37,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
@@ -54,7 +55,6 @@
 #include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
 #endif
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 
 namespace sc = scrimmage;
@@ -133,14 +133,10 @@ void Straight::init(std::map<std::string, std::string> &params) {
     enable_boundary_control_ = scrimmage::get<bool>("enable_boundary_control",
                                                     params, false);
 
-    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
-        if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
-            std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-            cuboid->set_points(msg->data.points);
-            boundary_ = cuboid;
-        }
+    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+        boundary_ = sci::Boundary::make_boundary(msg->data);
     };
-    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);

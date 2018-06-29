@@ -34,21 +34,32 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_SPHERE_H_
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
 
 #include <iostream>
 #include <vector>
+#include <tuple>
 
 using std::cout;
 using std::endl;
+
+namespace sp = scrimmage_proto;
 
 namespace scrimmage {
 namespace interaction {
 
 class Sphere : public BoundaryBase {
  public:
-    Sphere() : radius_(1.0) {
+    Sphere() : BoundaryBase(Eigen::Vector3d(0, 0, 0)), radius_(1.0) {
+    }
+
+    Sphere(const double &radius, const Eigen::Vector3d &center) :
+    BoundaryBase(center), radius_(radius) {}
+
+    explicit Sphere(const scrimmage_proto::Shape &shape) :
+    Sphere(shape.sphere().radius(), proto_2_vector3d(shape.sphere().center())) {
     }
 
     void set_radius(const double &radius) { radius_ = radius; }
@@ -69,6 +80,16 @@ class Sphere : public BoundaryBase {
         sc::set(sphere->mutable_sphere()->mutable_center(), center_);
         sphere->mutable_sphere()->set_radius(radius_);
         shapes_.push_back(sphere);
+    }
+
+    const std::vector<std::tuple<double, double>> &extents() override {
+        // Find the smallest cube that covers the entire sphere
+        extents_.clear();
+        for (unsigned int i = 0; i < 3; i++) {
+            extents_.push_back(std::tuple<double, double>(center_(i)+radius_,
+                                                          center_(i)-radius_));
+        }
+        return extents_;
     }
 
  protected:

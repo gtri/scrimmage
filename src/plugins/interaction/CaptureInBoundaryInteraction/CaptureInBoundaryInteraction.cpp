@@ -44,9 +44,7 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/msgs/Capture.pb.h>
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
-#include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
-#include <scrimmage/plugins/interaction/Boundary/Sphere.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 
 #include <memory>
 #include <limits>
@@ -58,6 +56,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
 namespace sm = scrimmage_msgs;
+namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction,
                 scrimmage::interaction::CaptureInBoundaryInteraction,
@@ -67,7 +66,7 @@ namespace scrimmage {
 namespace interaction {
 
 CaptureInBoundaryInteraction::CaptureInBoundaryInteraction() :
-    capture_range_(5.0), boundary_id_(-1), cool_down_period_(0.0) {
+    capture_range_(5.0), boundary_id_(0), cool_down_period_(0.0) {
 }
 
 bool CaptureInBoundaryInteraction::init(std::map<std::string, std::string> &mission_params,
@@ -77,24 +76,13 @@ bool CaptureInBoundaryInteraction::init(std::map<std::string, std::string> &miss
     boundary_id_ = sc::get<int>("boundary_id", plugin_params, 1);
     cool_down_period_ = sc::get<double>("cool_down_period", plugin_params, 0.0);
 
-    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
-        if (msg->data.id.id() == boundary_id_) {
-            boundary_info_ = msg->data;
-            if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
-                std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-                cuboid->set_points(msg->data.points);
-                boundary_ = cuboid;
-            } else if (msg->data.type == sci::BoundaryInfo::Type::Sphere) {
-                std::shared_ptr<sci::Sphere> sphere = std::make_shared<sci::Sphere>();
-                sphere->set_radius(msg->data.radius);
-                sphere->set_center(msg->data.center);
-                boundary_ = sphere;
-            } else {
-                std::cout << "Ignoring boundary: " << msg->data.name << std::endl;
-            }
+    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+        if (msg->data.id().id() == boundary_id_) {
+            boundary_shape_ = msg->data;
+            boundary_ = sci::Boundary::make_boundary(msg->data);
         }
     };
-    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
     non_team_capture_pub_ = advertise("GlobalNetwork", "NonTeamCapture");
 
@@ -126,7 +114,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
         }
 
         if (cool_down_expired &&
-            ent->id().team_id() == boundary_info_.id.team_id() &&
+            ent->id().team_id() == boundary_shape_.id().team_id() &&
             boundary_->contains(ent->state()->pos())) {
 
             // Find all entities within capture range of this entity
@@ -139,7 +127,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
             // Only copy IDs whose team ID isn't the same as the boundary's
             // team ID.
             for (ID &id : rtree_neighbors) {
-                if (id.team_id() != boundary_info_.id.team_id()) {
+                if (id.team_id() != boundary_shape_.id().team_id()) {
                     possible_captures[id.id()] = ent->id().id();
                 }
             }

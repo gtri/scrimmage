@@ -370,7 +370,7 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
         vtkSmartPointer<vtkPolyDataMapper> mapper;
 
         // Does this shape ID exist already?
-        auto it = shapes_.find(shape.id());
+        auto it = shapes_.find(shape.hash());
         if (it != shapes_.end()) {
             new_shape = false;
             actor = std::get<1>(it->second);
@@ -404,8 +404,8 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
         case sp::Shape::kPolydata:
             shape_status = draw_polydata(new_shape, shape.polydata(), actor, source, mapper);
             break;
-        case sp::Shape::kCube:
-            shape_status = draw_cube(new_shape, shape.cube(), actor, source, mapper);
+        case sp::Shape::kCuboid:
+            shape_status = draw_cube(new_shape, shape.cuboid(), actor, source, mapper);
             break;
         case sp::Shape::kPointcloud:
             shape_status = draw_pointcloud(new_shape, shape, actor, source, mapper);
@@ -445,7 +445,7 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
 
             if (new_shape) {
                 renderer_->AddActor(actor);
-                shapes_[shape.id()] = std::make_tuple(shape, actor, source);
+                shapes_[shape.hash()] = std::make_tuple(shape, actor, source);
             } else {
                 std::get<0>(it->second) = shape;
             }
@@ -1799,7 +1799,7 @@ bool Updater::draw_plane(const bool &new_shape,
 }
 
 bool Updater::draw_cube(const bool &new_shape,
-                        const scrimmage_proto::Cube &c,
+                        const scrimmage_proto::Cuboid &c,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {

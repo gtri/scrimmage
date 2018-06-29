@@ -37,7 +37,11 @@
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
 
-  <entity_interaction>Boundary</entity_interaction>
+  <entity_interaction type="cuboid"
+                      lengths="2000, 2000, 1000"
+                      center="0, 0, 500"
+                      rpy="0, 0, 0"
+                      >Boundary</entity_interaction>
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction>GroundCollision</entity_interaction>
   

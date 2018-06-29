@@ -225,7 +225,7 @@ class Updater : public vtkCommand {
                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
     bool draw_cube(const bool &new_shape,
-                   const scrimmage_proto::Cube &c,
+                   const scrimmage_proto::Cuboid &c,
                    vtkSmartPointer<vtkActor> &actor,
                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
@@ -282,7 +282,7 @@ class Updater : public vtkCommand {
 
     std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visuals_;
 
-    std::unordered_map<unsigned int, std::tuple<scrimmage_proto::Shape,
+    std::unordered_map<uint64_t, std::tuple<scrimmage_proto::Shape,
         vtkSmartPointer<vtkActor>, vtkSmartPointer<vtkPolyDataAlgorithm>>> shapes_;
 
     std::map<std::string, std::shared_ptr<scrimmage_proto::UTMTerrain> > terrain_map_;

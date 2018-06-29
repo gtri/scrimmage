@@ -115,6 +115,7 @@ void FlagCaptureMetrics::print_team_summaries() {
     for (std::map<int, Score>::iterator it = team_flag_scores_.begin();
          it != team_flag_scores_.end(); ++it) {
 
+        cout << "Team ID: " << it->first << endl;
         cout << "Score: " << it->second.score() << endl;
         cout << "Flags Taken: " << it->second.flags_taken() << endl;
         cout << "Flags Captured: " << it->second.flags_captured() << endl;

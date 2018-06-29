@@ -33,9 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_
 #include <scrimmage/autonomy/Autonomy.h>
-
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <string>
 #include <map>
@@ -53,7 +52,6 @@ class BoundaryDefense : public scrimmage::Autonomy {
     int boundary_id_ = -1;
     std::map<int, std::pair<interaction::BoundaryInfo,
         std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
-
     scrimmage::PublisherPtr pub_wp_list_;
     void publish_waypoint(const Eigen::Vector3d &point);
 };

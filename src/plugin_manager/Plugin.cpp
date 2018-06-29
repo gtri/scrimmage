@@ -88,7 +88,7 @@ PublisherPtr Plugin::advertise(std::string network_name, std::string topic) {
 }
 
 void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
-    if (!s->id_set()) {
+    if (!s->hash_set()) {
         // Hash function uses entity ID, current simulation time, plugin name,
         // and a random number.
         std::string str = this->name() + std::to_string(parent_->id().id())
@@ -96,8 +96,8 @@ void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
             + std::to_string(parent_->random()->rng_uniform());
 
         std::size_t hash_id = std::hash<std::string>{}(str);
-        s->set_id(hash_id);
-        s->set_id_set(true);
+        s->set_hash(hash_id);
+        s->set_hash_set(true);
     }
     shapes_.push_back(s);
 }

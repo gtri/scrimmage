@@ -8,6 +8,7 @@ package scrimmage_proto;
 import "scrimmage/proto/Vector3d.proto";
 import "scrimmage/proto/Quaternion.proto";
 import "scrimmage/proto/Color.proto";
+import "scrimmage/proto/ID.proto";
 
 message Triangle {
         Vector3d point0 = 1;
@@ -45,7 +46,11 @@ message Polydata {
         repeated Vector3d point = 1;
 }
 
-message Cube {
+message Polyhedron {
+        repeated Vector3d point = 1;
+}
+
+message Cuboid {
         double x_length = 1;
         double y_length = 2;
         double z_length = 3;
@@ -75,26 +80,29 @@ message Text {
 }
 
 message Shape {
-	uint64 id = 1;
-	bool id_set = 2;
-	Color color = 3;
-	double opacity = 4;
-	int32 ttl = 5;
-	bool persistent = 6;
+    uint64 hash = 1;
+    bool hash_set = 2;
+    ID id = 3;	
+    string name = 4;
+	Color color = 5;
+	double opacity = 6;
+	int32 ttl = 7;
+	bool persistent = 8;
     
     oneof oneof_type {
-          Triangle triangle = 7;
-          Plane plane = 8;
-          Arrow arrow = 9;
-          Cone cone = 10;
-          Line line = 11;
-          Polygon polygon = 12;
-          Polydata polydata = 13;
-          Cube cube = 14;
-          PointCloud pointcloud = 15;
-          Circle circle = 16;
-          Sphere sphere = 17;
-          Text text = 18;
+          Triangle triangle = 9;
+          Plane plane = 10;
+          Arrow arrow = 11;
+          Cone cone = 12;
+          Line line = 13;
+          Polygon polygon = 14;
+          Polydata polydata = 15;
+          Cuboid cuboid = 16;
+          PointCloud pointcloud = 17;
+          Circle circle = 18;
+          Sphere sphere = 19;
+          Text text = 20;
+          Polyhedron polyhedron = 21;
     }
 }
 

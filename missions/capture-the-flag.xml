@@ -39,14 +39,9 @@
 
   <!-- Blue Side (Team 1) is on the positive X side -->
   <entity_interaction name="blue_boundary"
-                      cuboid_boundary="[   0 -500 0   ]
-                                       [ 500 -500 0   ]
-                                       [ 500  500 0   ]
-                                       [   0  500 0   ]
-                                       [   0 -500 500 ]
-                                       [ 500 -500 500 ]
-                                       [ 500  500 500 ]
-                                       [   0  500 500 ]"
+                      type="cuboid"
+                      lengths="500, 500, 500"
+                      center="250, 0, 250"
                       color="0 0 255"
                       id="1"
                       team_id="1"
@@ -55,23 +50,18 @@
   <entity_interaction name="blue_flag"
                       id="2"
                       team_id="1"
-                      boundary_type="sphere"
-                      sphere_radius="5"
-                      sphere_center="350, 0, 200"
+                      type="sphere"
+                      radius="5"
+                      center="350, 0, 200"
                       color="0 0 255"
                       opacity="0.5"
                       >Boundary</entity_interaction>
 
   <!-- Red Side (Team 2) is on the negative X side -->
   <entity_interaction name="red_boundary"
-                      cuboid_boundary="[   0  500 0   ]
-                                       [-500  500 0   ]
-                                       [-500 -500 0   ]
-                                       [   0 -500 0   ]
-                                       [   0  500 500 ]
-                                       [-500  500 500 ]
-                                       [-500 -500 500 ]
-                                       [   0 -500 500 ]"
+                      type="cuboid"
+                      lengths="500, 500, 500"
+                      center="-250, 0, 250"
                       color="255 0 0"
                       id="3"
                       team_id="2"
@@ -80,9 +70,9 @@
   <entity_interaction name="red_flag"
                       id="4"
                       team_id="2"
-                      boundary_type="sphere"
-                      sphere_radius="5"
-                      sphere_center="-350, 0, 200"
+                      type="sphere"
+                      radius="5"
+                      center="-350, 0, 200"
                       color="255 0 0"
                       opacity="0.5"
                       >Boundary</entity_interaction>

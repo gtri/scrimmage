@@ -34,7 +34,8 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <string>
 #include <map>

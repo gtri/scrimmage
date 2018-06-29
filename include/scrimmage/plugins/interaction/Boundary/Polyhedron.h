@@ -30,12 +30,11 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/math/Quaternion.h>
-#include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
 
@@ -47,18 +46,16 @@
 using std::cout;
 using std::endl;
 
-namespace sc = scrimmage;
-
 namespace scrimmage {
 namespace interaction {
 
-class Cuboid : public BoundaryBase {
+class Polyhedron : public BoundaryBase {
  public:
-    Cuboid() {
+    Polyhedron() {
     }
 
-    Cuboid(Eigen::Vector3d center, double x_length, double y_width,
-           double z_height, scrimmage::Quaternion quat) {
+    Polyhedron(Eigen::Vector3d center, double x_length, double y_width,
+               double z_height, scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -79,15 +76,6 @@ class Cuboid : public BoundaryBase {
             p += center;
         }
         set_points(points);
-    }
-
-    explicit Cuboid(const scrimmage_proto::Shape &shape) :
-    Cuboid(proto_2_vector3d(shape.cuboid().center()),
-           shape.cuboid().x_length(), shape.cuboid().y_length(),
-           shape.cuboid().z_length(),
-           sc::proto_2_quat(shape.cuboid().quat())) {
-        set_visual(shape.color().r(), shape.color().g(), shape.color().b(),
-                   shape.opacity());
     }
 
     void compute_dots() {
@@ -138,10 +126,10 @@ class Cuboid : public BoundaryBase {
                 if (p(i) > maxs(i)) maxs(i) = p(i);
             }
         }
-        extents_.clear();
-        extents_.push_back(std::tuple<double, double>(mins(0), maxs(0))); // x bounds
-        extents_.push_back(std::tuple<double, double>(mins(1), maxs(1))); // y bounds
-        extents_.push_back(std::tuple<double, double>(mins(2), maxs(2))); // z bounds
+        bounds_.clear();
+        bounds_.push_back(std::tuple<double, double>(mins(0), maxs(0))); // x bounds
+        bounds_.push_back(std::tuple<double, double>(mins(1), maxs(1))); // y bounds
+        bounds_.push_back(std::tuple<double, double>(mins(2), maxs(2))); // z bounds
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
@@ -172,8 +160,12 @@ class Cuboid : public BoundaryBase {
                 sp::Vector3d * p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
-            // shapes_.push_back(polygon);
+            shapes_.push_back(polygon);
         }
+    }
+
+    const std::vector<std::tuple<double, double>> & get_bounds() const {
+        return bounds_;
     }
 
  protected:
@@ -187,8 +179,8 @@ class Cuboid : public BoundaryBase {
     double v_dot_P3 = 0;
     double w_dot_P0 = 0;
     double w_dot_P4 = 0;
+    std::vector<std::tuple<double, double>> bounds_;
 };
-
 } // namespace interaction
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_

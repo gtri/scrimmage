@@ -36,8 +36,8 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 
+#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 
 #include <map>
 #include <list>
@@ -58,7 +58,7 @@ class CaptureInBoundaryInteraction : public scrimmage::EntityInteraction {
                                  double t, double dt) override;
  protected:
     std::shared_ptr<sci::BoundaryBase> boundary_;
-    sci::BoundaryInfo boundary_info_;
+    scrimmage_proto::Shape boundary_shape_;
     double capture_range_;
     int boundary_id_;
     double cool_down_period_;

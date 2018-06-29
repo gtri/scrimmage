@@ -37,7 +37,6 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 
 #include <Eigen/Dense>
 

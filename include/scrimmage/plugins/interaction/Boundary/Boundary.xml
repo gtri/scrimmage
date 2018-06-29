@@ -2,15 +2,34 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>Boundary_plugin</library>
-
-  <network_name>GlobalNetwork</network_name>
   
-  <boundary_type>cuboid</boundary_type> <!-- cuboid or sphere -->
+  <show_boundary>true</show_boundary>
+  <network_name>GlobalNetwork</network_name>
 
-  <!-- first four rows are one side of the cube (low altitude rectangle) -->
+  <!-- properties for all boundaries -->
+  <id>0</id>
+  <team_id>0</team_id>  
+  <color>0 0 255</color> <!-- R G B -->
+  <opacity>0.1</opacity>
+
+  <!-- specify the boundary type -->
+  <type>cuboid</type> <!-- cuboid, sphere, polyhedron -->
+
+  <center>0 0 0</center> <!-- x y z position -->
+  
+  <!-- cuboid properties -->
+  <lengths>10, 10, 10</lengths> <!-- x, y, z -->
+  <rpy>0, 0, 0</rpy> <!-- roll, pitch, yaw -->
+  <!-- <center>0, 0, 0</center> --> <!-- x, y, z -->
+
+  <!-- sphere properties -->
+  <radius>500</radius>
+  <!-- <center>0, 0, 0</center> -->
+  
+  <!-- first four rows are one side of the polyhedron (low altitude rectangle) -->
   <!-- second four rows are other side of the cube (high altitude rectangle) -->
   <!-- Centered at origin, cube of 2000x2000x1000 meters -->
-  <cuboid_boundary>
+  <polyhedron_points>
     [ 1000  1000 0   ]
     [-1000  1000 0   ]
     [-1000 -1000 0   ]
@@ -19,30 +38,6 @@
     [-1000  1000 1000]
     [-1000 -1000 1000]
     [ 1000 -1000 1000]
-  </cuboid_boundary>
-  
-  <!-- Starting at origin -->
-  <!--
-  <cuboid_boundary>
-    [0    0    0   ]
-    [1000 0    0   ]
-    [1000 1000 0   ]
-    [0    1000 0   ]
-    [0    0    1000]
-    [1000 0    1000]
-    [1000 1000 1000]
-    [0    1000 1000]
-    </cuboid_boundary>
-    -->
-
-  <sphere_radius>500</sphere_radius>
-  <sphere_center>0 0 0</sphere_center> <!-- x y z position -->
-
-  <show_boundary>true</show_boundary>
-  <color>0 0 255</color> <!-- R G B -->
-  <opacity>0.1</opacity>
-
-  <id>0</id>
-  <team_id>0</team_id>
-  
+  </polyhedron_points>
+    
 </params>
