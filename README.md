@@ -279,6 +279,42 @@ Note that you can configure how qsub is called with a `.sge_request` in your
 home directory. Further, you can set the number of available slots (cores
 available) when running grid engine under the Queue Control tab.
 
+## Installing and Configuring PostgreSQL
+
+Install PostgreSQL and configure the database scrimmage, create user scrimmage with
+password scrimmage, and add that user to the scrimmage database:
+
+    $ sudo apt-get install postgresql postgresql-contrib
+    $ sudo update-rc.d postgresql enable &&\
+      sudo service postgresql restart &&\
+      sudo -u postgres createdb scrimmage &&\
+      sudo -u postgres psql -c "CREATE USER scrimmage with password 'scrimmage';" &&\
+      sudo -u postgres psql -c "alter user scrimmage with encrypted password 'scrimmage'" &&\
+      sudo -u postgres psql -c "grant all privileges on database scrimmage to scrimmage;"
+
+Go into /etc/postgresql/9.5/main/pg_hba.conf (or similar path to your postgres
+install) and change the line:
+
+`local    all     all     peer`
+
+to
+
+`local    all     all     md5`
+
+Then run:
+
+    $ sudo service postgresql restart
+
+This will allow us to authenticate the scrimmage user on postgres with the
+password scrimmage that we created.
+
+To use the python scripts for pulling .csv files to postgres, install psycopg2,
+the python interface for postgres:
+
+    $ pip install psycopg2
+
+The scripts are located in the scripts directory.
+
 ## Troubleshooting
 
 ### Problem: I can't run the SCRIMMAGE GUI in a Virtual Machine (VirtualBox)
