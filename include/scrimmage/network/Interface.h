@@ -37,6 +37,7 @@
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #if ENABLE_GRPC == 1
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>

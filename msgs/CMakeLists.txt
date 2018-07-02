@@ -12,10 +12,6 @@ file(GLOB PROTO_FILE_LIST
 set(GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/msgs)
 file(MAKE_DIRECTORY ${GEN_DIR})
 
-if (NOT GRPC_FOUND OR EXTERNAL)
-  list(REMOVE_ITEM PROTO_FILE_LIST "Command.proto")
-endif()
-
 foreach(PROTO_FILE ${PROTO_FILE_LIST})
   # Get the name of the file without extension
   # name.proto -> name
