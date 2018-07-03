@@ -40,8 +40,6 @@
 #include <string>
 #include <vector>
 
-namespace sc = scrimmage;
-
 namespace scrimmage {
 namespace interaction {
 

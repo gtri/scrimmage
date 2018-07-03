@@ -29,6 +29,7 @@
  * A Long description goes here.
  *
  */
+#include <grpc++/grpc++.h>
 
 #include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
 #include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>

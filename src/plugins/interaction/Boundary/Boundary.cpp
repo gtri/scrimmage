@@ -69,11 +69,11 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
                                                      plugin_params,
                                                      "cuboid");
 
-    std::vector<std::vector<std::string>> vecs;
     std::string cuboid_boundary = sc::get<std::string>("cuboid_boundary",
                                                        plugin_params, "");
 
     if (boundary_type == "cuboid") {
+        std::vector<std::vector<std::string>> vecs;
         if (!sc::get_vec_of_vecs(cuboid_boundary, vecs)) {
             cout << "Failed to parse cuboid_boundary." << endl;
             return false;

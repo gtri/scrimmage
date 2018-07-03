@@ -45,8 +45,6 @@
 using std::cout;
 using std::endl;
 
-namespace sc = scrimmage;
-
 REGISTER_PLUGIN(scrimmage::Controller,
                 scrimmage::controller::UUV6DOFPIDController,
                 UUV6DOFPIDController_plugin)

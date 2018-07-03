@@ -67,7 +67,7 @@ class ConfigParse {
     void recursive_params(rapidxml::xml_node<char> *root,
         std::map<std::string, std::string> &overrides,
         std::map<std::string, std::string> &params,
-        std::string prev);
+        const std::string &prev);
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_

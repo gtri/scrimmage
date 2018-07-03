@@ -33,13 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
 
-#include <grpc++/grpc++.h>
-using grpc::Channel;
-using grpc::ClientContext;
-using grpc::Status;
-
 #include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/entity/Entity.h>
 
 #include <scrimmage/msgs/Command.pb.h>
 
@@ -59,9 +53,9 @@ class GRPCCommandString : public scrimmage::EntityInteraction {
  public:
     GRPCCommandString();
     bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params);
+              std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt);
+                                 double t, double dt) override;
     void run_server();
 
     void push_msg(const scrimmage_msgs::CommandString &msg);

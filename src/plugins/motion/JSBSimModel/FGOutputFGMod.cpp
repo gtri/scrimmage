@@ -35,6 +35,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <algorithm>
+
 #include "models/FGAerodynamics.h"
 #include "models/FGAuxiliary.h"
 #include "models/FGPropulsion.h"
@@ -44,10 +46,6 @@
 #include "models/FGFCS.h"
 #include "models/propulsion/FGPiston.h"
 #include "models/propulsion/FGTank.h"
-
-#if !defined (min)
-#  define min(X, Y) X < Y ? X : Y
-#endif
 
 // NOTE: This file has a couple of quirky ways of converting between data types
 // because it's how it is done in FlightGear / JSBSim. That's why there are
@@ -156,7 +154,8 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
          << "version of FlightGear's FGNetFDM only supports " << FGNetFDM::FG_MAX_ENGINES << " engines." << endl
          << "Only the first " << FGNetFDM::FG_MAX_ENGINES << " engines will be used." << endl;
 
-  net->num_engines = min(FGNetFDM::FG_MAX_ENGINES, Propulsion->GetNumEngines()); // Number of valid engines
+  net->num_engines = std::min(static_cast<unsigned int>(FGNetFDM::FG_MAX_ENGINES),
+                              Propulsion->GetNumEngines()); // Number of valid engines
 
   for (i=0; i < net->num_engines; i++) {
     if (Propulsion->GetEngine(i)->GetRunning())
@@ -197,7 +196,8 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
          << "version of FlightGear's FGNetFDM only supports " << FGNetFDM::FG_MAX_TANKS << " tanks." << endl
          << "Only the first " << FGNetFDM::FG_MAX_TANKS << " tanks will be used." << endl;
 
-  net->num_tanks = min(FGNetFDM::FG_MAX_TANKS, Propulsion->GetNumTanks());   // Max number of fuel tanks
+  net->num_tanks = std::min(static_cast<unsigned int>(FGNetFDM::FG_MAX_TANKS),
+                            Propulsion->GetNumTanks());   // Max number of fuel tanks
 
   for (i=0; i < net->num_tanks; i++) {
       net->fuel_quantity[i] = static_cast<float>((static_cast<FGTank *>(Propulsion->GetTank(i))->GetContents()));
@@ -209,7 +209,8 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
          << "version of FlightGear's FGNetFDM only supports " << FGNetFDM::FG_MAX_WHEELS << " bogeys." << endl
          << "Only the first " << FGNetFDM::FG_MAX_WHEELS << " bogeys will be used." << endl;
 
-  net->num_wheels  = min(FGNetFDM::FG_MAX_WHEELS, GroundReactions->GetNumGearUnits());
+  net->num_wheels  = std::min(static_cast<int>(FGNetFDM::FG_MAX_WHEELS),
+                              GroundReactions->GetNumGearUnits());
 
   for (i=0; i < net->num_wheels; i++) {
     net->wow[i]              = GroundReactions->GetGearUnit(i)->GetWOW();

@@ -47,8 +47,8 @@ namespace controller {
 class UUV6DOFPIDController : public scrimmage::Controller {
  public:
     UUV6DOFPIDController();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
     // Inputs

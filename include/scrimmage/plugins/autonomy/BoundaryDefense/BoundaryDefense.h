@@ -41,20 +41,18 @@
 #include <map>
 #include <utility>
 
-namespace sci = scrimmage::interaction;
-
 namespace scrimmage {
 namespace autonomy {
 class BoundaryDefense : public scrimmage::Autonomy {
  public:
     BoundaryDefense();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     int boundary_id_ = -1;
-    std::map<int, std::pair<sci::BoundaryInfo,
-        std::shared_ptr<sci::BoundaryBase>>> boundaries_;
+    std::map<int, std::pair<interaction::BoundaryInfo,
+        std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
 
     scrimmage::PublisherPtr pub_wp_list_;
     void publish_waypoint(const Eigen::Vector3d &point);
