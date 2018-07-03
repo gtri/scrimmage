@@ -98,6 +98,7 @@ double PID::step(double dt, double measurement) {
 
     double derivative = (error - prev_error_) / std::max(1.0e-9, dt);
     double u = kp_*error + ki_*integral_ + kd_*derivative;
+    prev_error_ = error;
     return u;
 }
 } // namespace scrimmage
