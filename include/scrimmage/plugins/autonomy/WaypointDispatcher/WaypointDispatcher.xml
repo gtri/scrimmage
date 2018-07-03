@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>WaypointDispatcher_plugin</library>
+  <waypointlist_network>GlobalNetwork</waypointlist_network>
+  <waypoint_network>LocalNetwork</waypoint_network>
+  <lead_distance>50</lead_distance>
+  <show_shapes>false</show_shapes>
+</params>

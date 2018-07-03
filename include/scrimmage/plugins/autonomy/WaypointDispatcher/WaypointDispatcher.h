@@ -30,43 +30,38 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_
 #include <scrimmage/autonomy/Autonomy.h>
-
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <string>
 #include <map>
-#include <utility>
+#include <list>
 
 namespace scrimmage {
-
-namespace interaction {
-class BoundaryBase;
-}
-
 namespace autonomy {
-class TakeFlag : public scrimmage::Autonomy {
+class WaypointDispatcher : public scrimmage::Autonomy {
  public:
-    TakeFlag();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    WaypointDispatcher();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_autonomy(double t, double dt);
 
  protected:
-    int flag_boundary_id_ = -1;
-    int capture_boundary_id_ = -1;
+    WaypointList wp_list_;
+    std::list<Waypoint>::iterator wp_it_;
+    std::list<Waypoint>::iterator prev_wp_it_;
+    unsigned int cycles_ = 0;
+    bool returning_stage_ = false;
+    bool exit_on_reaching_wpt_ = false;
+    double lead_distance_ = 50;
 
-    scrimmage::PublisherPtr pub_wp_list_;
+    scrimmage_proto::ShapePtr sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    bool show_shapes_ = false;
 
-    std::map<int, std::pair<scrimmage_proto::Shape,
-        std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
-
-    bool has_flag_ = false;
-
-    void publish_waypoint(const Eigen::Vector3d &point);
+    scrimmage::PublisherPtr wp_pub_;
 };
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_

@@ -87,8 +87,6 @@ std::tuple<int, int, int> JSBSimControl::version() {
 
 bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          std::map<std::string, std::string> &params) {
-
-
     draw_vel_ = sc::get<double>("drawVel", params, 1.0);
     draw_ang_vel_ = sc::get<double>("drawAngVel", params, 10.0);
     draw_acc_ = sc::get<double>("drawAcc", params, 1.0);
@@ -98,33 +96,6 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
     aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
-
-    roll_pid_.set_parameters(std::stod(params["roll_kp"]),
-                             std::stod(params["roll_ki"]),
-                             std::stod(params["roll_kd"]));
-
-    roll_pid_.set_integral_band(M_PI/40.0);
-    roll_pid_.set_is_angle(true);
-
-    //////////////////////
-
-    pitch_pid_.set_parameters(std::stod(params["pitch_kp"]),
-                             std::stod(params["pitch_ki"]),
-                             std::stod(params["pitch_kd"]));
-
-    pitch_pid_.set_integral_band(M_PI/40.0);
-    pitch_pid_.set_is_angle(true);
-
-    /////////////////////
-
-    yaw_pid_.set_parameters(std::stod(params["yaw_kp"]),
-                             std::stod(params["yaw_ki"]),
-                             std::stod(params["yaw_kd"]));
-
-    yaw_pid_.set_integral_band(M_PI/40.0);
-    yaw_pid_.set_is_angle(true);
-
-    //////////
 
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
 
@@ -252,25 +223,6 @@ bool JSBSimControl::step(double time, double dt) {
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
     ap_rudder_cmd_node_->setDoubleValue(delta_rudder_);
     ap_throttle_cmd_node_->setDoubleValue(throttle_);
-
-    // double u_roll = u(0);
-    // double u_pitch = u(1);
-    // double u_yaw = u(2);
-    //
-    // // Roll stabilizer
-    // ap_aileron_cmd_node_->setDoubleValue(u_roll);
-    //
-    // // Pitch stabilizer
-    // if (time < 5) {
-    //     ap_elevator_cmd_node_->setDoubleValue(u_pitch);
-    // } else if (time < 7) {
-    //     ap_elevator_cmd_node_->setDoubleValue(0.5);
-    // } else {
-    //     ap_elevator_cmd_node_->setDoubleValue(-0.5);
-    // }
-
-    // // Yaw stabilizer
-    // ap_rudder_cmd_node_->setDoubleValue(u_yaw);
 
     exec_->Setdt(dt);
     exec_->Run();

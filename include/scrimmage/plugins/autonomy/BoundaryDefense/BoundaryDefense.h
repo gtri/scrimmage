@@ -50,7 +50,7 @@ class BoundaryDefense : public scrimmage::Autonomy {
 
  protected:
     int boundary_id_ = -1;
-    std::map<int, std::pair<interaction::BoundaryInfo,
+    std::map<int, std::pair<scrimmage_proto::Shape,
         std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
     scrimmage::PublisherPtr pub_wp_list_;
     void publish_waypoint(const Eigen::Vector3d &point);

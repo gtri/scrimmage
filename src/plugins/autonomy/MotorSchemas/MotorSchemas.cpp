@@ -183,6 +183,9 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
+    // cout << "-----------------" << endl;
+    // cout << "ID: " << parent_->id().id() << endl;
+
     // Run all sub behaviors
     double vec_w_gain_sum = 0;
     Eigen::Vector3d vec_w_gain(0, 0, 0);
@@ -215,7 +218,6 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
             continue;
         }
 
-        // cout << "Behavior: " << behavior->name() << endl;
         // cout << "desired_vector: " << desired_vector << endl;
         // cout << "gain: " << behavior->gain() << endl;
         // cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
@@ -239,6 +241,12 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     }
 
     Eigen::Vector3d vel_result = vec_w_gain / vec_w_gain_sum;
+
+    // If the vel_result has a NaN value, just go straight. NaNs occur during
+    // initialization of some behaviors.
+    if (vel_result.hasNaN()) {
+        vel_result = state_->quat() * Eigen::Vector3d::UnitX() * max_speed_;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Convert resultant vector into heading / speed / altitude command:

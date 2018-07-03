@@ -80,7 +80,6 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
 
     // Need to rotate axes by 180 degrees around X-axis SCRIMMAGE's global
     // frame uses Z-axis pointing up. Many aircraft equations of motion are
@@ -89,21 +88,24 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
                    quat_body_.pitch(), quat_body_.yaw());
 
-    x_[U] = state_->vel()(0);
-    x_[V] = 0;
-    x_[W] = 0;
+    Eigen::Vector3d local_vel(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
+    local_vel = quat_body_.rotate_reverse(local_vel);
+
+    x_[U] = local_vel(0);
+    x_[V] = local_vel(1);
+    x_[W] = local_vel(2);
 
     x_[P] = 0;
     x_[Q] = 0;
     x_[R] = 0;
 
     x_[Uw] = state_->vel()(0);
-    x_[Vw] = 0;
-    x_[Ww] = 0;
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
 
-    x_[Xw] = pos(0);
-    x_[Yw] = pos(1);
-    x_[Zw] = pos(2);
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
 
     x_[q0] = quat_body_.w();
     x_[q1] = quat_body_.x();
@@ -247,8 +249,36 @@ bool FixedWing6DOF::step(double time, double dt) {
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
 
-    // TODO: convert global linear velocity and angular velocity into local
-    // velocities
+    quat_body_ = rot_180_x_axis_ * state_->quat();
+    quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
+                   quat_body_.pitch(), quat_body_.yaw());
+
+    Eigen::Vector3d local_lin_vel(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
+    local_lin_vel = quat_body_.rotate_reverse(local_lin_vel);
+
+    x_[U] = local_lin_vel(0);
+    x_[V] = local_lin_vel(1);
+    x_[W] = local_lin_vel(2);
+
+    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1), -state_->ang_vel()(2));
+    local_ang_vel = quat_body_.rotate_reverse(local_ang_vel);
+
+    x_[P] = local_ang_vel(0);
+    x_[Q] = local_ang_vel(1);
+    x_[R] = local_ang_vel(2);
+
+    x_[Uw] = state_->vel()(0);
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
+
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
+
+    x_[q0] = quat_body_.w();
+    x_[q1] = quat_body_.x();
+    x_[q2] = quat_body_.y();
+    x_[q3] = quat_body_.z();
 
     // Cache values to calculate changes:
     Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);

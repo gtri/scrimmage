@@ -38,7 +38,6 @@
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 #include <scrimmage/entity/Entity.h>
 #include <Eigen/Dense>
 
@@ -67,11 +66,6 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      bool init(std::map<std::string, std::string> &info,
                        std::map<std::string, std::string> &params) override;
      bool step(double time, double dt) override;
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector4d &u() = 0;
-    };
 
  protected:
 #if ENABLE_JSBSIM == 1
@@ -109,10 +103,6 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
 
      JSBSim::FGOutputType* output_fg_ = 0;
      bool fg_out_enable_ = false;
-
-     scrimmage::PID roll_pid_;
-     scrimmage::PID pitch_pid_;
-     scrimmage::PID yaw_pid_;
 
      int throttle_idx_ = 0;
      int elevator_idx_ = 0;

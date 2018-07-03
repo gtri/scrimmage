@@ -35,7 +35,6 @@
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <string>
 #include <map>
@@ -51,16 +50,8 @@ class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    WaypointList wp_list_;
-    std::list<Waypoint>::iterator wp_it_;
-    std::list<Waypoint>::iterator prev_wp_it_;
-    unsigned int cycles_ = 0;
-    bool returning_stage_ = false;
-    bool exit_on_reaching_wpt_ = false;
-    double lead_distance_ = 50;
-
-    scrimmage_proto::ShapePtr sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
-    bool show_shapes_ = false;
+    Waypoint wp_;
+    Eigen::Vector3d wp_local_;
 };
 } // namespace motor_schemas
 } // namespace autonomy
