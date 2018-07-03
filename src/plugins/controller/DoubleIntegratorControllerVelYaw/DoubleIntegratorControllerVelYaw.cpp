@@ -47,29 +47,6 @@ REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorCo
 namespace scrimmage {
 namespace controller {
 
-void set_pid(sc::PID &pid, const std::string &str, bool is_angle = false) {
-    std::vector<std::string> str_vals;
-    split(str_vals, str, ",");
-
-    if (str_vals.size() != 4) {
-        std::cout << "error parsing in SimpleAircraftControllerPID" << std::endl;
-    } else {
-        double p = std::stod(str_vals[0]);
-        double i = std::stod(str_vals[1]);
-        double d = std::stod(str_vals[2]);
-        pid.set_parameters(p, i, d);
-
-        if (is_angle) {
-            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
-            pid.set_integral_band(i_lim);
-            pid.set_is_angle(true);
-        } else {
-            double i_lim = std::stod(str_vals[3]);
-            pid.set_integral_band(i_lim);
-        }
-    }
-}
-
 void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
