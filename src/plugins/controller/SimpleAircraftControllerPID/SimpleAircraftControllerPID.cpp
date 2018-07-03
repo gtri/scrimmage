@@ -74,28 +74,18 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
-    double roll_error;
-    if (use_roll_) {
-        heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
-        roll_error = -heading_pid_.step(dt, state_->quat().roll());
-    } else {
-        double desired_yaw = vars_.input(input_roll_or_heading_idx_);
-
-        heading_pid_.set_setpoint(desired_yaw);
-        double u_heading = heading_pid_.step(dt, state_->quat().yaw());
-        roll_error = u_heading + state_->quat().roll();
-    }
+    heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
+    double u_roll_rate = heading_pid_.step(dt, use_roll_ ? -state_->quat().roll() : state_->quat().yaw());
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_idx_));
-    double u_alt = alt_pid_.step(dt, state_->pos()(2));
-    double pitch_error = (-u_alt - state_->quat().pitch());
+    double u_pitch_rate = -alt_pid_.step(dt, state_->pos()(2));
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
     double u_throttle = vel_pid_.step(dt, state_->vel().norm());
 
+    vars_.output(output_roll_rate_idx_, u_roll_rate);
+    vars_.output(output_pitch_rate_idx_, u_pitch_rate);
     vars_.output(output_throttle_idx_, u_throttle);
-    vars_.output(output_roll_rate_idx_, roll_error);
-    vars_.output(output_pitch_rate_idx_, pitch_error);
     return true;
 }
 } // namespace controller
