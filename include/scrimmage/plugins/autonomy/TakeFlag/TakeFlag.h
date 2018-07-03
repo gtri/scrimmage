@@ -35,22 +35,23 @@
 #include <scrimmage/autonomy/Autonomy.h>
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <string>
 #include <map>
 #include <utility>
 
-namespace sc = scrimmage;
-namespace sci = scrimmage::interaction;
-
 namespace scrimmage {
+
+namespace interaction {
+class BoundaryBase;
+}
+
 namespace autonomy {
 class TakeFlag : public scrimmage::Autonomy {
  public:
     TakeFlag();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     int flag_boundary_id_ = -1;
@@ -58,8 +59,8 @@ class TakeFlag : public scrimmage::Autonomy {
 
     scrimmage::PublisherPtr pub_wp_list_;
 
-    std::map<int, std::pair<sci::BoundaryInfo,
-        std::shared_ptr<sci::BoundaryBase>>> boundaries_;
+    std::map<int, std::pair<interaction::BoundaryInfo,
+        std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
 
     bool has_flag_ = false;
 

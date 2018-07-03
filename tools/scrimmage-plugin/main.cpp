@@ -68,7 +68,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    std::string plugin_type = "autonomy";
     std::map<std::string, std::string> overrides;
     std::string plugin_name_xml;
     if (vm.count("plugin-name")) {
@@ -83,6 +82,7 @@ int main(int argc, char *argv[]) {
     sc::ConfigParse config_parse;
     config_parse.set_required("library");
     if (!config_parse.parse(overrides, plugin_name_xml, "SCRIMMAGE_PLUGIN_PATH", file_search, verbose)) {
+        const std::string plugin_type = "autonomy";
         std::cout << "Failed to parse: " << plugin_name_xml << " for type " << plugin_type << std::endl;
         return -2;
     }

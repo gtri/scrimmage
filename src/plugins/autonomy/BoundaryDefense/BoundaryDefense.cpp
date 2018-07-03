@@ -39,8 +39,10 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 #include <scrimmage/plugins/interaction/Boundary/Sphere.h>
+
 #include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
@@ -53,6 +55,7 @@ using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
+namespace sci = scrimmage::interaction;
 
 REGISTER_PLUGIN(scrimmage::Autonomy,
                 scrimmage::autonomy::BoundaryDefense,

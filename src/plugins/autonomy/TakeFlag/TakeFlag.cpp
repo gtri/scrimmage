@@ -42,6 +42,7 @@
 #include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 #include <scrimmage/plugins/interaction/Boundary/Sphere.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
@@ -56,8 +57,8 @@
 using std::cout;
 using std::endl;
 
-namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
+namespace sci = scrimmage::interaction;
 
 REGISTER_PLUGIN(scrimmage::Autonomy,
                 scrimmage::autonomy::TakeFlag,
@@ -72,8 +73,8 @@ TakeFlag::TakeFlag() {
 void TakeFlag::init(std::map<std::string, std::string> &params) {
     pub_wp_list_ = advertise("LocalNetwork", "WaypointList");
 
-    flag_boundary_id_ = sc::get<int>("flag_boundary_id", params, 1);
-    capture_boundary_id_ = sc::get<int>("capture_boundary_id", params, 1);
+    flag_boundary_id_ = get<int>("flag_boundary_id", params, 1);
+    capture_boundary_id_ = get<int>("capture_boundary_id", params, 1);
 
     auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
         if (msg->data.type == sci::BoundaryInfo::Type::Cuboid) {
@@ -119,7 +120,7 @@ bool TakeFlag::step_autonomy(double t, double dt) {
 }
 
 void TakeFlag::publish_waypoint(const Eigen::Vector3d &point) {
-    auto path_msg = std::make_shared<sc::Message<WaypointList>>();
+    auto path_msg = std::make_shared<Message<WaypointList>>();
     path_msg->data.set_mode(WaypointList::WaypointMode::follow_once);
     path_msg->data.set_cycles(1);
 

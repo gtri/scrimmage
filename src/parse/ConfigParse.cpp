@@ -63,7 +63,7 @@ void ConfigParse::set_required(std::string node_name) {
 void ConfigParse::recursive_params(rx::xml_node<char> *root,
         std::map<std::string, std::string> &overrides,
         std::map<std::string, std::string> &params,
-        std::string prev) {
+        const std::string &prev) {
     // End condition
     if (root == 0 || root->name() == std::string("")
         || root->name() == std::string(" ")) {
