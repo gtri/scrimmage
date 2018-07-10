@@ -40,9 +40,12 @@
 
 #include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/pubsub/PubSub.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <string>
 #include <list>
+#include <vector>
 #include <map>
 
 namespace scrimmage {
@@ -53,7 +56,8 @@ class Joystick {
     Joystick();
     ~Joystick();
 
-    void init(std::map<std::string, std::string> &params, VariableIO &vars);
+    void init(std::map<std::string, std::string> &params, VariableIO &vars,
+              PluginPtr plugin);
     bool step(double t, double dt, VariableIO &vars);
 
  protected:
@@ -70,6 +74,11 @@ class Joystick {
     bool print_js_values_ = false;
 
     std::list<AxisScale> axis_tfs_;
+
+    bool publish_button_state_ = false;
+
+    scrimmage::PublisherPtr pub_buttons_;
+    std::vector<bool> prev_button_state_;
 };
 
 } // namespace controller

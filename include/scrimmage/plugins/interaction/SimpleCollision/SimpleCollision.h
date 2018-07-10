@@ -45,16 +45,16 @@ namespace scrimmage {
 namespace interaction {
 class SimpleCollision : public scrimmage::EntityInteraction {
  public:
-    virtual std::string name() { return std::string("SimpleCollision"); }
+    std::string name() override { return std::string("SimpleCollision"); }
 
-    virtual bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params);
+    bool init(std::map<std::string, std::string> &mission_params,
+                      std::map<std::string, std::string> &plugin_params) override;
 
-    virtual bool step_entity_interaction(
-        std::list<scrimmage::EntityPtr> &ents, double t, double dt);
+    bool step_entity_interaction(
+        std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
 
-    virtual bool collision_exists(
-        std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p);
+    bool collision_exists(
+        std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p) override;
 
  protected:
     double collision_range_;

@@ -13,9 +13,9 @@ index eb0e216..23aefd9 100644
  LDFLAGS += -Llibs/$(CONFIG)
  
 +# Patch for inclusion of local protobuf installation
-+INCLUDES += ${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/include
-+LDFLAGS += -L${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/lib
-+export LD_LIBRARY_PATH=${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/lib
++INCLUDES += /opt/scrimmage/$(DEB_HOST_MULTIARCH)/include
++LDFLAGS += -L/opt/scrimmage/$(DEB_HOST_MULTIARCH)/lib
++export LD_LIBRARY_PATH=/opt/scrimmage/$(DEB_HOST_MULTIARCH)/lib
 +
  ifeq ($(SYSTEM),Darwin)
  ifneq ($(wildcard /usr/local/ssl/include),)

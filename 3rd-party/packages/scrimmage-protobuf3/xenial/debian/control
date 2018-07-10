@@ -1,0 +1,13 @@
+Source: scrimmage-protobuf3
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends: build-essential, autoconf, automake, libtool, curl, make, g++, unzip
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage-protobuf3
+Architecture: any
+Multi-Arch: same
+# Depends:
+Description: protobuf3 used by SCRIMMAGE
+ This is the version of protobuf3 used by SCRIMMAGE

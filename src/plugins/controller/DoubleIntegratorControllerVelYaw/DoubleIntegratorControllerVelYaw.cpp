@@ -47,52 +47,49 @@ REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorCo
 namespace scrimmage {
 namespace controller {
 
-void set_pid(sc::PID &pid, const std::string &str, bool is_angle) {
-    std::vector<std::string> str_vals;
-    split(str_vals, str, ",");
-
-    if (str_vals.size() != 4) {
-        std::cout << "error parsing in SimpleAircraftControllerPID" << std::endl;
-    } else {
-        double p = std::stod(str_vals[0]);
-        double i = std::stod(str_vals[1]);
-        double d = std::stod(str_vals[2]);
-        pid.set_parameters(p, i, d);
-
-        if (is_angle) {
-            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
-            pid.set_integral_band(i_lim);
-            pid.set_is_angle(true);
-        } else {
-            double i_lim = std::stod(str_vals[3]);
-            pid.set_integral_band(i_lim);
-        }
-    }
-}
-
 void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+
+    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);
+    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);
+    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+
     if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
         cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains"
              << endl;
     }
 
-    for (int i = 0; i < 3; i++) {
-        vel_pids_.push_back(sc::PID());
-        if (!sc::set_pid_gains(vel_pids_[i], params["vel_pid"])) {
-            cout << "Failed to set DoubleIntegratorControllerVewYaw vel gain"
-                 << endl;
-        }
+    if (!sc::set_pid_gains(speed_pid_, params["speed_pid"])) {
+        cout << "Failed to set DoubleIntegratorControllerVewYaw speed pid"
+             << endl;
+    }
+
+    if (!sc::set_pid_gains(alt_pid_, params["alt_pid"])) {
+        cout << "Failed to set DoubleIntegratorControllerVewYaw alt pid"
+             << endl;
     }
 }
 
 bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
-    for (int i = 0; i < 3; i++) {
-        vel_pids_[i].set_setpoint(desired_state_->vel()(i));
-        u_(i) = vel_pids_[i].step(dt, state_->vel()(i));
-    }
+    alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
+    double alt_u = alt_pid_.step(dt, state_->pos()(2));
+    vars_.output(acc_z_idx_, alt_u);
 
-    yaw_pid_.set_setpoint(desired_state_->quat().yaw());
-    u_(3) = yaw_pid_.step(dt, state_->quat().yaw());
+    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
+    double acc_u = speed_pid_.step(dt, state_->vel().norm());
+
+    // Rotate acceleration into forward direction of double integrator
+    Eigen::Vector3d acc_vec = state_->quat() * Eigen::Vector3d::UnitX() * acc_u;
+
+    vars_.output(acc_x_idx_, acc_vec(0));
+    vars_.output(acc_y_idx_, acc_vec(1));
+    vars_.output(acc_z_idx_, acc_vec(2));
+
+    yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));
+    vars_.output(turn_rate_idx_, yaw_pid_.step(dt, state_->quat().yaw()));
 
     return true;
 }

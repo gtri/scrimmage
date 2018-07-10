@@ -50,10 +50,10 @@ namespace controller {
 
 void JSBSimControlControllerDirect::init(std::map<std::string,
                                          std::string> &params) {
-	aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::Out);
-	elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::Out);
-	throttle_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
-	rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::Out);
+	aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+	elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+	throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+	rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool JSBSimControlControllerDirect::step(double t, double dt) {

@@ -41,15 +41,15 @@
 
 class TutorialOpenAIAutonomy : public scrimmage::autonomy::ExternalControl {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
+    void init(std::map<std::string, std::string> &params) override;
 
  protected:
     double radius_;
 
-    virtual std::pair<bool, double> calc_reward(double t);
-    virtual bool handle_action(
-        double t, double dt, const scrimmage_proto::Action &action);
-    virtual scrimmage_proto::SpaceParams action_space_params();
+    std::pair<bool, double> calc_reward(double t) override;
+    bool handle_action(
+        double t, double dt, const scrimmage_proto::Action &action) override;
+    scrimmage_proto::SpaceParams action_space_params() override;
 };
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TUTORIALOPENAIAUTONOMY_TUTORIALOPENAIAUTONOMY_H_

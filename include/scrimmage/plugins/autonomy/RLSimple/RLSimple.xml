@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>RLSimple_plugin</library>
+  <radius>2</radius>
+
+  <x_discrete>true</x_discrete>
+
+  <ctrl_y>false</ctrl_y>
+  <y_discrete>false</y_discrete>
+</params>

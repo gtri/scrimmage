@@ -47,11 +47,11 @@ class FixedWing6DOFControllerPID : public Controller {
     virtual bool step(double t, double dt);
 
  protected:
-    scrimmage::PID heading_pid_;
-    scrimmage::PID alt_pid_;
-    scrimmage::PID vel_pid_;
+    PID heading_pid_;
+    PID alt_pid_;
+    PID vel_pid_;
 
-    int thrust_idx_ = 0;
+    int throttle_idx_ = 0;
     int elevator_idx_ = 0;
     int aileron_idx_ = 0;
     int rudder_idx_ = 0;

@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_PID_H_
 #define INCLUDE_SCRIMMAGE_COMMON_PID_H_
 
+#include <string>
+
 namespace scrimmage {
 class PID {
  public:
@@ -42,6 +44,7 @@ class PID {
     double step(double dt, double measurement);
     void set_integral_band(double integral_band);
     void set_is_angle(bool is_angle);
+    bool init(const std::string &str, const bool &is_angle);
 
  protected:
     double kp_;

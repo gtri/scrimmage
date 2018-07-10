@@ -93,7 +93,7 @@ namespace sc = scrimmage;
 namespace scrimmage {
 
 double fps = 0;
-void fpsCallbackFunction(vtkObject* caller, uint64_t vtkNotUsed(eventId),
+void fpsCallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId), // NOLINT
                          void* vtkNotUsed(clientData), void* vtkNotUsed(callData)) {
     vtkRenderer* renderer = static_cast<vtkRenderer*>(caller);
     double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
@@ -139,7 +139,7 @@ void Updater::init(const std::string &log_dir, double dt) {
     dt_ = dt;
 }
 
-void Updater::Execute(vtkObject *caller, uint64_t vtkNotUsed(eventId),
+void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
                       void * vtkNotUsed(callData)) {
     update();
 
@@ -346,13 +346,12 @@ bool Updater::update_scale() {
 bool Updater::update_shapes() {
     // Remove past frames shapes that have reached time-to-live, if they
     // are not persistent
-    auto it = shapes_.begin();
-    while (it != shapes_.end()) {
-        scrimmage_proto::Shape &s = std::get<0>(*it);
+    for (auto it = shapes_.begin(); it != shapes_.end();) {
+        scrimmage_proto::Shape &s = std::get<0>(it->second);
         s.set_ttl(s.ttl()-1);
         if (!s.persistent() && s.ttl() <= 0) {
-            renderer_->RemoveActor(std::get<1>(*it));
-            shapes_.erase(it++);
+            renderer_->RemoveActor(std::get<1>(it->second));
+            it = shapes_.erase(it);
         } else {
             ++it;
         }
@@ -363,45 +362,69 @@ bool Updater::update_shapes() {
 bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
     // Display new shapes
     for (int i = 0; i < shapes.shape_size(); i++) {
+        sp::Shape shape = shapes.shape(i);
 
-        // Create the mapper and actor that each shape will use
-        vtkSmartPointer<vtkPolyDataMapper> mapper =
-            vtkSmartPointer<vtkPolyDataMapper>::New();
-        vtkSmartPointer<vtkActor> actor =
-            vtkSmartPointer<vtkActor>::New();
+        bool new_shape = false;
+        vtkSmartPointer<vtkActor> actor;
+        vtkSmartPointer<vtkPolyDataAlgorithm> source;
+        vtkSmartPointer<vtkPolyDataMapper> mapper;
 
-        const sp::Shape shape = shapes.shape(i);
-        bool status = false;
-        if (shape.type() == sp::Shape::Triangle) {
-            status = draw_triangle(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Arrow) {
-            status = draw_arrow(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Cone) {
-            status = draw_cone(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Line) {
-            status = draw_line(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Polygon) {
-            status = draw_polygon(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Polydata) {
-            status = draw_polydata(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Plane) {
-            status = draw_plane(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Cube) {
-            status = draw_cube(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Pointcloud) {
-            status = draw_pointcloud(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Circle) {
-            status = draw_circle(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Sphere) {
-            status = draw_sphere(shape, actor, mapper);
-        } else if (shape.type() == sp::Shape::Text) {
-            status = draw_text(shape, actor, mapper);
+        // Does this shape ID exist already?
+        auto it = shapes_.find(shape.hash());
+        if (it != shapes_.end()) {
+            new_shape = false;
+            actor = std::get<1>(it->second);
+            source = std::get<2>(it->second);
         } else {
-            status = draw_sphere(shape, actor, mapper);
+            new_shape = true;
+            mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+            actor = vtkSmartPointer<vtkActor>::New();
+        }
+
+        bool shape_status = false;
+        switch (shape.oneof_type_case()) {
+        case sp::Shape::kTriangle:
+            shape_status = draw_triangle(new_shape, shape.triangle(), actor, source, mapper);
+            break;
+        case sp::Shape::kPlane:
+            shape_status = draw_plane(new_shape, shape.plane(), actor, source, mapper);
+            break;
+        case sp::Shape::kArrow:
+            shape_status = draw_arrow(new_shape, shape.arrow(), actor, source, mapper);
+            break;
+        case sp::Shape::kCone:
+            shape_status = draw_cone(new_shape, shape.cone(), actor, source, mapper);
+            break;
+        case sp::Shape::kLine:
+            shape_status = draw_line(new_shape, shape.line(), actor, source, mapper);
+            break;
+        case sp::Shape::kPolygon:
+            shape_status = draw_polygon(new_shape, shape.polygon(), actor, source, mapper);
+            break;
+        case sp::Shape::kPolydata:
+            shape_status = draw_polydata(new_shape, shape.polydata(), actor, source, mapper);
+            break;
+        case sp::Shape::kCuboid:
+            shape_status = draw_cube(new_shape, shape.cuboid(), actor, source, mapper);
+            break;
+        case sp::Shape::kPointcloud:
+            shape_status = draw_pointcloud(new_shape, shape, actor, source, mapper);
+            break;
+        case sp::Shape::kCircle:
+            shape_status = draw_circle(new_shape, shape.circle(), actor, source, mapper);
+            break;
+        case sp::Shape::kSphere:
+            shape_status = draw_sphere(new_shape, shape.sphere(), actor, source, mapper);
+            break;
+        case sp::Shape::kText:
+            shape_status = draw_text(new_shape, shape.text(), actor, source, mapper);
+            break;
+        default:
+            break;
         }
 
         // Only add the actor if it was correctly constructed
-        if (status) {
+        if (shape_status) {
             double opacity = shape.opacity();
             if (opacity < 0.00001) {
                 actor->GetProperty()->SetOpacity(1.0);
@@ -411,16 +434,20 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
             actor->GetProperty()->SetColor(shape.color().r()/255.0,
                                            shape.color().g()/255.0,
                                            shape.color().b()/255.0);
-            renderer_->AddActor(actor);
-
-            shapes_.push_back(std::make_pair(shape, actor));
 
             // Since protobufs default value for int is 0, if the ttl is 0
             // at this point, set ttl to 1. We are creating new shapes
             // here, so it doesn't make sense for a shape to have a ttl
             // less than 1 here.
-            if (std::get<0>(shapes_.back()).ttl() <= 0) {
-                std::get<0>(shapes_.back()).set_ttl(1);
+            if (shape.ttl() <= 0) {
+                shape.set_ttl(1);
+            }
+
+            if (new_shape) {
+                renderer_->AddActor(actor);
+                shapes_[shape.hash()] = std::make_tuple(shape, actor, source);
+            } else {
+                std::get<0>(it->second) = shape;
             }
         }
     }
@@ -1016,7 +1043,7 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
             mapper->SetInputConnection(transformFilter->GetOutputPort());
 
             // Need to scale contact to current GUI scale:
-            double scale_data[3];
+            double scale_data[3] = {0, 0, 0};
             for (int i = 0; i < 3; i++) {
                 scale_data[i] = cv->scale() * scale_;
             }
@@ -1200,6 +1227,14 @@ void Updater::request_cached() {
     gui_msg_.set_request_cached(true);
     outgoing_interface_->send_gui_msg(gui_msg_);
     gui_msg_.set_request_cached(false);
+}
+
+void Updater::world_point_clicked(const double &x, const double &y,
+                                  const double &z) {
+    scrimmage_proto::WorldPointClicked msg;
+    sc::set(msg.mutable_point(), x, y, z);
+    msg.set_name("WorldPointClicked");
+    outgoing_interface_->send_world_point_clicked_msg(msg);
 }
 
 void Updater::toggle_helpmenu() {
@@ -1409,16 +1444,25 @@ void Updater::enable_fps() {
     renderer_->AddObserver(vtkCommand::EndEvent, callback);
 }
 
-bool Updater::draw_triangle(const scrimmage_proto::Shape &s,
+bool Updater::draw_triangle(const bool &new_shape,
+                            const scrimmage_proto::Triangle &t,
                             vtkSmartPointer<vtkActor> &actor,
+                            vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
     vtkSmartPointer<vtkPoints> points =
         vtkSmartPointer<vtkPoints>::New();
 
-    for (int i = 0; i < s.point_size(); i++) {
-        points->InsertNextPoint(s.point(i).x(), s.point(i).y(),
-                                s.point(i).z());
-    }
+    points->InsertNextPoint(t.point0().x(),
+                            t.point0().y(),
+                            t.point0().z());
+
+    points->InsertNextPoint(t.point1().x(),
+                            t.point1().y(),
+                            t.point1().z());
+
+    points->InsertNextPoint(t.point2().x(),
+                            t.point2().y(),
+                            t.point2().z());
 
     vtkSmartPointer<vtkTriangle> triangle =
         vtkSmartPointer<vtkTriangle>::New();
@@ -1430,9 +1474,13 @@ bool Updater::draw_triangle(const scrimmage_proto::Shape &s,
         vtkSmartPointer<vtkCellArray>::New();
     triangles->InsertNextCell(triangle);
 
-    // Create a polydata object
-    vtkSmartPointer<vtkPolyData> trianglePolyData =
-        vtkSmartPointer<vtkPolyData>::New();
+    vtkSmartPointer<vtkPolyData> trianglePolyData;
+    if (new_shape) {
+        trianglePolyData = vtkSmartPointer<vtkPolyData>::New();
+        // source = trianglePolyData;
+    } else {
+        trianglePolyData = vtkPolyData::SafeDownCast(source);
+    }
 
     // Add the geometry and topology to the polydata
     trianglePolyData->SetPoints(points);
@@ -1447,285 +1495,296 @@ bool Updater::draw_triangle(const scrimmage_proto::Shape &s,
     return true;
 }
 
-bool Updater::draw_arrow(const scrimmage_proto::Shape &s,
+bool Updater::draw_arrow(const bool &new_shape,
+                         const scrimmage_proto::Arrow &a,
                          vtkSmartPointer<vtkActor> &actor,
+                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    if (new_shape) {
+        // Create an arrow.
+        vtkSmartPointer<vtkArrowSource> arrowSource =
+            vtkSmartPointer<vtkArrowSource>::New();
 
-    // Create an arrow.
-    vtkSmartPointer<vtkArrowSource> arrowSource =
-        vtkSmartPointer<vtkArrowSource>::New();
+        double startPoint[3] = {a.tail().x(), a.tail().y(), a.tail().z()};
+        double endPoint[3] = {a.head().x(), a.head().y(), a.head().z()};
 
-    double startPoint[3];
-    double endPoint[3];
+        // Compute a basis
+        double normalizedX[3] = {0.0, 0.0, 0.0};
+        double normalizedY[3] = {0.0, 0.0, 0.0};
+        double normalizedZ[3] = {0.0, 0.0, 0.0};
 
-    if (s.point_size() != 2) {
-        cout << "Invalid points size for drawing arrow." << endl;
-        return false;
-    }
+        // The X axis is a vector from start to end
+        vtkMath::Subtract(endPoint, startPoint, normalizedX);
+        double length = vtkMath::Norm(normalizedX);
+        vtkMath::Normalize(normalizedX);
 
-    startPoint[0] = s.point(0).x();
-    startPoint[1] = s.point(0).y();
-    startPoint[2] = s.point(0).z();
+        // The Z axis is an arbitrary vector cross X
+        double arbitrary[3] = {1.0, 2.0, 3.0};
+        vtkMath::Cross(normalizedX, arbitrary, normalizedZ);
+        vtkMath::Normalize(normalizedZ);
 
-    endPoint[0] = s.point(1).x();
-    endPoint[1] = s.point(1).y();
-    endPoint[2] = s.point(1).z();
+        // The Y axis is Z cross X
+        vtkMath::Cross(normalizedZ, normalizedX, normalizedY);
+        vtkSmartPointer<vtkMatrix4x4> matrix =
+            vtkSmartPointer<vtkMatrix4x4>::New();
 
-    // Compute a basis
-    double normalizedX[3];
-    double normalizedY[3];
-    double normalizedZ[3];
+        // Create the direction cosine matrix
+        matrix->Identity();
+        for (unsigned int i = 0; i < 3; i++) {
+            matrix->SetElement(i, 0, normalizedX[i]);
+            matrix->SetElement(i, 1, normalizedY[i]);
+            matrix->SetElement(i, 2, normalizedZ[i]);
+        }
 
-    // The X axis is a vector from start to end
-    vtkMath::Subtract(endPoint, startPoint, normalizedX);
-    double length = vtkMath::Norm(normalizedX);
-    vtkMath::Normalize(normalizedX);
+        // Apply the transforms
+        vtkSmartPointer<vtkTransform> transform =
+            vtkSmartPointer<vtkTransform>::New();
+        transform->Translate(startPoint);
+        transform->Concatenate(matrix);
+        transform->Scale(length, length, length);
 
-    // The Z axis is an arbitrary vector cross X
-    double arbitrary[3];
-    arbitrary[0] = 1; // vtkMath::Random(-10,10);
-    arbitrary[1] = 2; // vtkMath::Random(-10,10);
-    arbitrary[2] = 3; // vtkMath::Random(-10,10);
-    vtkMath::Cross(normalizedX, arbitrary, normalizedZ);
-    vtkMath::Normalize(normalizedZ);
-
-    // The Y axis is Z cross X
-    vtkMath::Cross(normalizedZ, normalizedX, normalizedY);
-    vtkSmartPointer<vtkMatrix4x4> matrix =
-        vtkSmartPointer<vtkMatrix4x4>::New();
-
-    // Create the direction cosine matrix
-    matrix->Identity();
-    for (unsigned int i = 0; i < 3; i++) {
-        matrix->SetElement(i, 0, normalizedX[i]);
-        matrix->SetElement(i, 1, normalizedY[i]);
-        matrix->SetElement(i, 2, normalizedZ[i]);
-    }
-
-    // Apply the transforms
-    vtkSmartPointer<vtkTransform> transform =
-        vtkSmartPointer<vtkTransform>::New();
-    transform->Translate(startPoint);
-    transform->Concatenate(matrix);
-    transform->Scale(length, length, length);
-
-    // Transform the polydata
-    vtkSmartPointer<vtkTransformPolyDataFilter> transformPD =
-        vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-    transformPD->SetTransform(transform);
-    transformPD->SetInputConnection(arrowSource->GetOutputPort());
+        // Transform the polydata
+        vtkSmartPointer<vtkTransformPolyDataFilter> transformPD =
+            vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+        transformPD->SetTransform(transform);
+        transformPD->SetInputConnection(arrowSource->GetOutputPort());
 
 #ifdef USER_MATRIX
-    mapper->SetInputConnection(arrowSource->GetOutputPort());
-    actor->SetUserMatrix(transform->GetMatrix());
+        mapper->SetInputConnection(arrowSource->GetOutputPort());
+        actor->SetUserMatrix(transform->GetMatrix());
 #else
-    mapper->SetInputConnection(transformPD->GetOutputPort());
+        mapper->SetInputConnection(transformPD->GetOutputPort());
 #endif
-    actor->SetMapper(mapper);
+        actor->SetMapper(mapper);
+    }
 
     return true;
 }
 
-bool Updater::draw_cone(const scrimmage_proto::Shape &s,
+bool Updater::draw_cone(const bool &new_shape,
+                        const scrimmage_proto::Cone &c,
                         vtkSmartPointer<vtkActor> &actor,
+                        vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    // Create a cone
-    vtkSmartPointer<vtkConeSource> coneSource =
-        vtkSmartPointer<vtkConeSource>::New();
+    vtkSmartPointer<vtkConeSource> coneSource;
+    if (new_shape) {
+        coneSource = vtkSmartPointer<vtkConeSource>::New();
+        source = coneSource;
+        mapper->SetInputConnection(coneSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        coneSource = vtkConeSource::SafeDownCast(source);
+    }
 
-    coneSource->SetRadius(s.base_radius());
-    coneSource->SetHeight(s.height());
+    coneSource->SetRadius(c.base_radius());
+    coneSource->SetHeight(c.height());
     coneSource->SetResolution(32);
 
-    Eigen::Vector3d cone_dir = sc::eigen(s.direction());
-    Eigen::Vector3d apex_shift = sc::eigen(s.apex()) + cone_dir.normalized()*s.height()/2.0;
+    Eigen::Vector3d cone_dir = sc::eigen(c.direction());
+    Eigen::Vector3d apex_shift = sc::eigen(c.apex()) + cone_dir.normalized()*c.height()/2.0;
     Eigen::Vector3d dir_shift = -cone_dir;
     coneSource->SetCenter(apex_shift(0), apex_shift(1), apex_shift(2));
     coneSource->SetDirection(dir_shift(0), dir_shift(1), dir_shift(2));
     coneSource->Update();
 
-    mapper->SetInputConnection(coneSource->GetOutputPort());
-    actor->SetMapper(mapper);
     return true;
 }
 
-bool Updater::draw_line(const scrimmage_proto::Shape &s,
+bool Updater::draw_line(const bool &new_shape,
+                        const scrimmage_proto::Line &l,
                         vtkSmartPointer<vtkActor> &actor,
+                        vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkLineSource> lineSource =
-        vtkSmartPointer<vtkLineSource>::New();
-
-    if (s.point_size() != 2) {
-        cout << "Invalid points size for drawing line." << endl;
-        return false;
-    }
-
-    lineSource->SetPoint1(s.point(0).x(), s.point(0).y(),
-                          s.point(0).z());
-    lineSource->SetPoint2(s.point(1).x(), s.point(1).y(),
-                          s.point(1).z());
-    lineSource->Update();
-
-    mapper->SetInputConnection(lineSource->GetOutputPort());
-    actor->SetMapper(mapper);
-    actor->GetProperty()->SetLineWidth(2);
-    return true;
-}
-
-bool Updater::draw_polygon(const scrimmage_proto::Shape &s,
-                           vtkSmartPointer<vtkActor> &actor,
-                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    // Setup points
-    vtkSmartPointer<vtkPoints> points =
-        vtkSmartPointer<vtkPoints>::New();
-
-    // Create the polygon
-    vtkSmartPointer<vtkPolygon> polygon =
-        vtkSmartPointer<vtkPolygon>::New();
-
-    polygon->GetPointIds()->SetNumberOfIds(s.point_size());
-
-    for (int i = 0; i < s.point_size(); i++) {
-        points->InsertNextPoint(s.point(i).x(), s.point(i).y(),
-                                s.point(i).z());
-        polygon->GetPointIds()->SetId(i, i);
-    }
-
-    // Add the polygon to a list of polygons
-    vtkSmartPointer<vtkCellArray> polygons =
-        vtkSmartPointer<vtkCellArray>::New();
-    polygons->InsertNextCell(polygon);
-
-    // Create a PolyData
-    vtkSmartPointer<vtkPolyData> polygonPolyData =
-        vtkSmartPointer<vtkPolyData>::New();
-    polygonPolyData->SetPoints(points);
-    polygonPolyData->SetPolys(polygons);
-#if VTK_MAJOR_VERSION < 6
-    mapper->SetInput(polygonPolyData);
-#else
-    mapper->SetInputData(polygonPolyData);
-#endif
-
-    actor->SetMapper(mapper);
-    actor->GetProperty()->SetLineWidth(1);
-
-
-    return true;
-}
-
-bool Updater::draw_polydata(const scrimmage_proto::Shape &s,
-                            vtkSmartPointer<vtkActor> &actor,
-                            vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkPoints> points =
-        vtkSmartPointer<vtkPoints>::New();
-
-    for (int i = 0; i < s.point_size(); i++) {
-        points->InsertNextPoint(s.point(i).x(), s.point(i).y(),
-                                s.point(i).z());
-    }
-
-    vtkSmartPointer<vtkPolyData> polyData =
-        vtkSmartPointer<vtkPolyData>::New();
-    polyData->SetPoints(points);
-
-    vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter =
-        vtkSmartPointer<vtkVertexGlyphFilter>::New();
-
-#if VTK_MAJOR_VERSION < 6
-    glyphFilter->SetInput(polyData);
-#else
-    glyphFilter->SetInputData(polyData);
-#endif
-    glyphFilter->Update();
-
-    mapper->SetInputConnection(glyphFilter->GetOutputPort());
-    actor->SetMapper(mapper);
-    actor->GetProperty()->SetLineWidth(1);
-
-    return true;
-}
-
-bool Updater::draw_pointcloud(const scrimmage_proto::Shape &s,
-                         vtkSmartPointer<vtkActor> &actor,
-                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkPoints> points =
-        vtkSmartPointer<vtkPoints>::New();
-
-    for (int i = 0; i < s.point_size(); i++) {
-        points->InsertNextPoint(s.point(i).x(), s.point(i).y(),
-                                s.point(i).z());
-    }
-
-    vtkSmartPointer<vtkUnsignedCharArray> color_array =
-        vtkSmartPointer<vtkUnsignedCharArray>::New();
-    color_array->SetName("Colors");
-    color_array->SetNumberOfComponents(3);
-
-    if (s.point_size() != s.point_color_size()) {
-        // use same color if the colors and points aren't the same size
-        unsigned char c[3] = {(unsigned char)(s.color().r()),
-                              (unsigned char)(s.color().g()),
-                              (unsigned char)(s.color().b())};
-        for (int i = 0; i < s.point_size(); i++) {
-#if VTK_MAJOR_VERSION <= 6
-            color_array->InsertNextTupleValue(c);
-#else
-            color_array->InsertNextTypedTuple(c);
-#endif
-        }
+    vtkSmartPointer<vtkLineSource> lineSource;
+    if (new_shape) {
+        lineSource = vtkSmartPointer<vtkLineSource>::New();
+        source = lineSource;
+        mapper->SetInputConnection(lineSource->GetOutputPort());
+        actor->SetMapper(mapper);
+        actor->GetProperty()->SetLineWidth(2);
     } else {
-        // Use the color vector if it's the same size as the points
-        for (int i = 0; i < s.point_color_size(); i++) {
-            unsigned char c[3] = {(unsigned char)(s.point_color(i).r()),
-                                  (unsigned char)(s.point_color(i).g()),
-                                  (unsigned char)(s.point_color(i).b())};
-#if VTK_MAJOR_VERSION <= 6
-            color_array->InsertNextTupleValue(c);
-#else
-            color_array->InsertNextTypedTuple(c);
-#endif
-        }
+        lineSource = vtkLineSource::SafeDownCast(source);
     }
+    lineSource->SetPoint1(l.start().x(), l.start().y(),
+                          l.start().z());
+    lineSource->SetPoint2(l.end().x(), l.end().y(),
+                          l.end().z());
+    lineSource->Update();
+    return true;
+}
 
-    vtkSmartPointer<vtkPolyData> pointsPolydata =
-        vtkSmartPointer<vtkPolyData>::New();
+bool Updater::draw_polygon(const bool &new_shape,
+                           const scrimmage_proto::Polygon &p,
+                           vtkSmartPointer<vtkActor> &actor,
+                           vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    if (new_shape) {
+        // Setup points
+        vtkSmartPointer<vtkPoints> points =
+            vtkSmartPointer<vtkPoints>::New();
 
-    pointsPolydata->SetPoints(points);
+        // Create the polygon
+        vtkSmartPointer<vtkPolygon> polygon =
+            vtkSmartPointer<vtkPolygon>::New();
 
-    vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
-        vtkSmartPointer<vtkVertexGlyphFilter>::New();
+        polygon->GetPointIds()->SetNumberOfIds(p.point_size());
+
+        for (int i = 0; i < p.point_size(); i++) {
+            points->InsertNextPoint(p.point(i).x(), p.point(i).y(),
+                                    p.point(i).z());
+            polygon->GetPointIds()->SetId(i, i);
+        }
+
+        // Add the polygon to a list of polygons
+        vtkSmartPointer<vtkCellArray> polygons =
+            vtkSmartPointer<vtkCellArray>::New();
+        polygons->InsertNextCell(polygon);
+
+        // Create a PolyData
+        vtkSmartPointer<vtkPolyData> polygonPolyData =
+            vtkSmartPointer<vtkPolyData>::New();
+        polygonPolyData->SetPoints(points);
+        polygonPolyData->SetPolys(polygons);
 #if VTK_MAJOR_VERSION < 6
-    vertexFilter->SetInput(pointsPolydata);
+        mapper->SetInput(polygonPolyData);
 #else
-    vertexFilter->SetInputData(pointsPolydata);
+        mapper->SetInputData(polygonPolyData);
 #endif
 
-    vertexFilter->Update();
+        actor->SetMapper(mapper);
+        actor->GetProperty()->SetLineWidth(1);
+    }
+    return true;
+}
 
-    vtkSmartPointer<vtkPolyData> poly_data =
-        vtkSmartPointer<vtkPolyData>::New();
-    poly_data->ShallowCopy(vertexFilter->GetOutput());
-    poly_data->GetPointData()->SetScalars(color_array);
+bool Updater::draw_polydata(const bool &new_shape,
+                            const scrimmage_proto::Polydata &p,
+                            vtkSmartPointer<vtkActor> &actor,
+                            vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                            vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    if (new_shape) {
+        vtkSmartPointer<vtkPoints> points =
+            vtkSmartPointer<vtkPoints>::New();
+
+        for (int i = 0; i < p.point_size(); i++) {
+            points->InsertNextPoint(p.point(i).x(), p.point(i).y(),
+                                    p.point(i).z());
+        }
+
+        vtkSmartPointer<vtkPolyData> polyData =
+            vtkSmartPointer<vtkPolyData>::New();
+        polyData->SetPoints(points);
+
+        vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter =
+            vtkSmartPointer<vtkVertexGlyphFilter>::New();
+
 #if VTK_MAJOR_VERSION < 6
-    mapper->SetInput(poly_data);
+        glyphFilter->SetInput(polyData);
 #else
-    mapper->SetInputData(poly_data);
+        glyphFilter->SetInputData(polyData);
 #endif
-    actor->SetMapper(mapper);
-    actor->GetProperty()->SetPointSize(s.size());
+        glyphFilter->Update();
+
+        mapper->SetInputConnection(glyphFilter->GetOutputPort());
+        actor->SetMapper(mapper);
+        actor->GetProperty()->SetLineWidth(1);
+    }
 
     return true;
 }
 
-bool Updater::draw_plane(const scrimmage_proto::Shape &s,
-                         vtkSmartPointer<vtkActor> &actor,
-                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkPlaneSource> planeSource =
-        vtkSmartPointer<vtkPlaneSource>::New();
+bool Updater::draw_pointcloud(const bool &new_shape,
+                              const scrimmage_proto::Shape &shape,
+                              vtkSmartPointer<vtkActor> &actor,
+                              vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                              vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    if (new_shape) {
+        const scrimmage_proto::PointCloud &pc = shape.pointcloud();
 
-    planeSource->SetCenter(s.center().x(), s.center().y(), s.center().z());
-    planeSource->SetNormal(s.normal().x(), s.normal().y(), s.normal().z());
+        vtkSmartPointer<vtkPoints> points =
+            vtkSmartPointer<vtkPoints>::New();
+
+        for (int i = 0; i < pc.point_size(); i++) {
+            points->InsertNextPoint(pc.point(i).x(), pc.point(i).y(),
+                                    pc.point(i).z());
+        }
+
+        vtkSmartPointer<vtkUnsignedCharArray> color_array =
+            vtkSmartPointer<vtkUnsignedCharArray>::New();
+        color_array->SetName("Colors");
+        color_array->SetNumberOfComponents(3);
+
+        if (pc.point_size() != pc.color_size()) {
+            // use same color if the colors and points aren't the same size
+            unsigned char c[3] = {(unsigned char)(shape.color().r()),
+                                  (unsigned char)(shape.color().g()),
+                                  (unsigned char)(shape.color().b())};
+            for (int i = 0; i < pc.point_size(); i++) {
+#if VTK_MAJOR_VERSION <= 6
+                color_array->InsertNextTupleValue(c);
+#else
+                color_array->InsertNextTypedTuple(c);
+#endif
+            }
+        } else {
+            // Use the color vector if it's the same size as the points
+            for (int i = 0; i < pc.color_size(); i++) {
+                unsigned char c[3] = {(unsigned char)(pc.color(i).r()),
+                                      (unsigned char)(pc.color(i).g()),
+                                      (unsigned char)(pc.color(i).b())};
+#if VTK_MAJOR_VERSION <= 6
+                color_array->InsertNextTupleValue(c);
+#else
+                color_array->InsertNextTypedTuple(c);
+#endif
+            }
+        }
+
+        vtkSmartPointer<vtkPolyData> pointsPolydata =
+            vtkSmartPointer<vtkPolyData>::New();
+
+        pointsPolydata->SetPoints(points);
+
+        vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
+            vtkSmartPointer<vtkVertexGlyphFilter>::New();
+#if VTK_MAJOR_VERSION < 6
+        vertexFilter->SetInput(pointsPolydata);
+#else
+        vertexFilter->SetInputData(pointsPolydata);
+#endif
+
+        vertexFilter->Update();
+
+        vtkSmartPointer<vtkPolyData> poly_data =
+            vtkSmartPointer<vtkPolyData>::New();
+        poly_data->ShallowCopy(vertexFilter->GetOutput());
+        poly_data->GetPointData()->SetScalars(color_array);
+#if VTK_MAJOR_VERSION < 6
+        mapper->SetInput(poly_data);
+#else
+        mapper->SetInputData(poly_data);
+#endif
+        actor->SetMapper(mapper);
+        actor->GetProperty()->SetPointSize(pc.size());
+    }
+
+    return true;
+}
+
+bool Updater::draw_plane(const bool &new_shape,
+                         const scrimmage_proto::Plane &p,
+                         vtkSmartPointer<vtkActor> &actor,
+                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    vtkSmartPointer<vtkPlaneSource> planeSource;
+    if (new_shape) {
+        planeSource = vtkSmartPointer<vtkPlaneSource>::New();
+        source = planeSource;
+    } else {
+        planeSource = vtkPlaneSource::SafeDownCast(source);
+    }
+    planeSource->SetCenter(p.center().x(), p.center().y(), p.center().z());
+    planeSource->SetNormal(p.normal().x(), p.normal().y(), p.normal().z());
     planeSource->Update();
 
     vtkPolyData* plane_polydata = planeSource->GetOutput();
@@ -1739,90 +1798,107 @@ bool Updater::draw_plane(const scrimmage_proto::Shape &s,
     return true;
 }
 
-bool Updater::draw_cube(const scrimmage_proto::Shape &s,
+bool Updater::draw_cube(const bool &new_shape,
+                        const scrimmage_proto::Cuboid &c,
                         vtkSmartPointer<vtkActor> &actor,
+                        vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    // Create a cube.
-    vtkSmartPointer<vtkCubeSource> cubeSource =
-        vtkSmartPointer<vtkCubeSource>::New();
+    vtkSmartPointer<vtkCubeSource> cubeSource;
+    if (new_shape) {
+        cubeSource = vtkSmartPointer<vtkCubeSource>::New();
+        source = cubeSource;
+        mapper->SetInputConnection(cubeSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        cubeSource = vtkCubeSource::SafeDownCast(source);
+    }
 
     cubeSource->SetCenter(0, 0, 0); // Place cube at center of actor
-    cubeSource->SetXLength(s.xyz_lengths().x());
-    cubeSource->SetYLength(s.xyz_lengths().y());
-    cubeSource->SetZLength(s.xyz_lengths().z());
-
-    mapper->SetInputConnection(cubeSource->GetOutputPort());
-    actor->SetMapper(mapper);
+    cubeSource->SetXLength(c.x_length());
+    cubeSource->SetYLength(c.y_length());
+    cubeSource->SetZLength(c.z_length());
 
     // Set the actor's position
-    actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
+    actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
 
     // Rotate the actor
-    Quaternion quat = proto_2_quat(s.quat());
+    Quaternion quat = proto_2_quat(c.quat());
     actor->RotateZ(sc::Angles::rad2deg(quat.yaw()));
 
     return true;
 }
 
-bool Updater::draw_sphere(const scrimmage_proto::Shape &s,
+bool Updater::draw_sphere(const bool &new_shape,
+                          const scrimmage_proto::Sphere &s,
                           vtkSmartPointer<vtkActor> &actor,
+                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkSphereSource> sphereSource =
-        vtkSmartPointer<vtkSphereSource>::New();
-
-    sphereSource->SetCenter(0, 0, 0); // actor is moved later
+    vtkSmartPointer<vtkSphereSource> sphereSource;
+    if (new_shape) {
+        sphereSource = vtkSmartPointer<vtkSphereSource>::New();
+        sphereSource->SetCenter(0, 0, 0); // actor is moved later
+        sphereSource->SetThetaResolution(100);
+        sphereSource->SetPhiResolution(100);
+        source = sphereSource;
+        mapper->SetInputConnection(sphereSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        sphereSource = vtkSphereSource::SafeDownCast(source);
+    }
     sphereSource->SetRadius(s.radius());
-    sphereSource->SetThetaResolution(100);
-    sphereSource->SetPhiResolution(100);
-
-    mapper->SetInputConnection(sphereSource->GetOutputPort());
-
-    actor->SetMapper(mapper);
     actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
     return true;
 }
 
-bool Updater::draw_circle(const scrimmage_proto::Shape &s,
+bool Updater::draw_circle(const bool &new_shape,
+                          const scrimmage_proto::Circle &c,
                           vtkSmartPointer<vtkActor> &actor,
+                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    // Create a circle
-    vtkSmartPointer<vtkRegularPolygonSource> polygonSource =
-        vtkSmartPointer<vtkRegularPolygonSource>::New();
+    vtkSmartPointer<vtkRegularPolygonSource> polygonSource;
+    if (new_shape) {
+        polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
+        source = polygonSource;
+        // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of the circle
+        polygonSource->SetNumberOfSides(30);
+        mapper->SetInputConnection(polygonSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
+    }
 
-    // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of the circle
-    polygonSource->SetNumberOfSides(30);
-    polygonSource->SetRadius(s.radius());
-
-    mapper->SetInputConnection(polygonSource->GetOutputPort());
-
-    actor->SetMapper(mapper);
-    actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
+    polygonSource->SetRadius(c.radius());
+    actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
     return true;
 }
 
-bool Updater::draw_text(const scrimmage_proto::Shape &s,
+bool Updater::draw_text(const bool &new_shape,
+                        const scrimmage_proto::Text &t,
                         vtkSmartPointer<vtkActor> &actor,
+                        vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    // Add the object label
-    vtkSmartPointer<vtkVectorText> textSource =
-        vtkSmartPointer<vtkVectorText>::New();
-    textSource->SetText(s.text().c_str());
+    vtkSmartPointer<vtkVectorText> textSource;
+    if (new_shape) {
+        textSource = vtkSmartPointer<vtkVectorText>::New();
+        source = textSource;
+        mapper->SetInputConnection(textSource->GetOutputPort());
 
-    mapper->SetInputConnection(textSource->GetOutputPort());
+        // Create a subclass of vtkActor: a vtkFollower that remains facing the
+        // camera
+        actor = vtkSmartPointer<vtkFollower>::New();
+        actor->SetMapper(mapper);
 
-    // Create a subclass of vtkActor: a vtkFollower that remains facing the
-    // camera
-    actor = vtkSmartPointer<vtkFollower>::New();
-    actor->SetMapper(mapper);
+        // We created this actor object in this function, so we can use a
+        // static_cast. Need to extract the raw pointer from vtk's smartpointer
+        // system first.
+        static_cast<vtkFollower*>(&*actor)->SetCamera(renderer_->GetActiveCamera());
+    } else {
+        textSource = vtkVectorText::SafeDownCast(source);
+    }
 
-    actor->SetPosition(s.center().x(), s.center().y(),
-                       s.center().z());
-
-    // We created this actor object in this function, so we can use a
-    // static_cast. Need to extract the raw pointer from vtk's smartpointer
-    // system first.
-    static_cast<vtkFollower*>(&*actor)->SetCamera(renderer_->GetActiveCamera());
-
+    textSource->SetText(t.text().c_str());
+    actor->SetPosition(t.center().x(), t.center().y(),
+                       t.center().z());
     return true;
 }
 } // namespace scrimmage

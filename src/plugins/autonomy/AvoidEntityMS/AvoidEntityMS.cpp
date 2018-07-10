@@ -56,12 +56,15 @@ namespace autonomy {
 namespace motor_schemas {
 
 AvoidEntityMS::AvoidEntityMS() : sphere_of_influence_(10.0),
-                                 minimum_range_(5.0) {
+                                 minimum_range_(5.0),
+                                 avoid_non_team_(true) {
 }
 
 void AvoidEntityMS::init(std::map<std::string, std::string> &params) {
     sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
     minimum_range_ = sc::get<double>("minimum_range", params, 5);
+    avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
+    show_shapes_ = sc::get<bool>("show_shapes", params, false);
 }
 
 bool AvoidEntityMS::step_autonomy(double t, double dt) {
@@ -69,13 +72,18 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
     std::vector<Eigen::Vector3d> O_vecs;
 
     for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-        // Ignore own position / id
+        // Ignore own position / idrel
         if (it->second.id().id() == parent_->id().id()) continue;
 
-        Eigen::Vector3d rel_pos = state_->rel_pos_local_frame(it->second.state()->pos());
+        if (!avoid_non_team_ &&
+            it->second.id().team_id() != parent_->id().team_id()) {
+            continue;
+        }
+
+        Eigen::Vector3d diff = it->second.state()->pos() - state_->pos();
 
         double O_mag = 0;
-        double dist = rel_pos.norm();
+        double dist = diff.norm();
 
         if (dist > sphere_of_influence_) {
             O_mag = 0;
@@ -86,7 +94,7 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
             O_mag = 1e10;
         }
 
-        Eigen::Vector3d O_dir = -O_mag * rel_pos.normalized();
+        Eigen::Vector3d O_dir = -O_mag * diff.normalized();
         O_vecs.push_back(O_dir);
     }
 
@@ -99,14 +107,17 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
         desired_vector_ += *it;
     }
 
-    // Draw the sphere of influence
-    sc::ShapePtr shape(new scrimmage_proto::Shape);
-    shape->set_type(scrimmage_proto::Shape::Circle);
-    shape->set_opacity(0.2);
-    shape->set_radius(sphere_of_influence_);
-    sc::set(shape->mutable_center(), state_->pos());
-    sc::set(shape->mutable_color(), 0, 255, 0);
-    shapes_.push_back(shape);
+    desired_vector_ *= max_vector_length_;
+
+    if (show_shapes_) {
+        // Draw the sphere of influence
+        circle_shape_->set_persistent(true);
+        circle_shape_->set_opacity(0.2);
+        sc::set(circle_shape_->mutable_color(), 0, 255, 0);
+        circle_shape_->mutable_circle()->set_radius(sphere_of_influence_);
+        sc::set(circle_shape_->mutable_circle()->mutable_center(), state_->pos());
+        draw_shape(circle_shape_);
+    }
 
     return true;
 }

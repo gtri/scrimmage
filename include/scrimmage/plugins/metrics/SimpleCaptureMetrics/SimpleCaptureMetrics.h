@@ -36,6 +36,7 @@
 #include <scrimmage/metrics/Metrics.h>
 
 #include <iostream>
+#include <set>
 #include <map>
 #include <string>
 
@@ -111,15 +112,17 @@ class Score {
 
 class SimpleCaptureMetrics : public scrimmage::Metrics {
  public:
-    virtual std::string name() { return std::string("SimpleCaptureMetrics"); }
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_metrics(double t, double dt);
-    virtual void calc_team_scores();
-    virtual void print_team_summaries();
+    std::string name() override { return std::string("SimpleCaptureMetrics"); }
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_metrics(double t, double dt) override;
+    void calc_team_scores() override;
+    void print_team_summaries() override;
 
  protected:
     std::map<int, Score> scores_;
     std::map<int, Score> team_scores_map_;
+    bool initialized_ = false;
+    std::set<int> teams_;
 
     std::map<std::string, std::string> params_;
 };

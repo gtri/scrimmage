@@ -43,7 +43,8 @@ namespace autonomy {
 namespace motor_schemas {
 class BehaviorBase : public scrimmage::Autonomy {
  public:
-    BehaviorBase() : desired_vector_(Eigen::Vector3d(0, 0, 0)), gain_(1.0) {
+    BehaviorBase() : desired_vector_(Eigen::Vector3d(0, 0, 0)), gain_(1.0),
+        max_vector_length_(1.0) {
     }
 
     Eigen::Vector3d &desired_vector() {
@@ -53,9 +54,14 @@ class BehaviorBase : public scrimmage::Autonomy {
     void set_gain(const double &gain) { gain_ = gain; }
     const double &gain() { return gain_; }
 
+    void set_max_vector_length(const double &max_vector_length) {
+        max_vector_length_ = max_vector_length;
+    }
+
  protected:
     Eigen::Vector3d desired_vector_;
     double gain_;
+    double max_vector_length_;
 };
 using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
 } // namespace motor_schemas

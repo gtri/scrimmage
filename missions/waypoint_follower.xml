@@ -9,7 +9,7 @@
        network_gui="false"
        start_paused="true"/>
 
-  <multi_threaded num_threads="8">false</num_threads>
+  <multi_threaded num_threads="8">false</multi_threaded>
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
 
@@ -43,6 +43,9 @@
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+
   <!-- ========================== Moving Aircraft ========================= -->
   <entity>
     <team_id>1</team_id>
@@ -59,7 +62,13 @@
     <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-blue</visual_model>
 
-    <autonomy>WaypointFollower</autonomy>
+    <autonomy waypointlist_network="GlobalNetwork"
+              waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
+    
+    <autonomy show_shapes="false" max_speed="25" behaviors="
+       [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' use_initial_heading='true' goal='-1300,0,100']"
+              >MotorSchemas</autonomy>
 
   </entity>
   
@@ -75,8 +84,7 @@
     <y>0</y>
     <z>0</z>
     <heading>0</heading>
-    <controller>UnicycleControllerDirect</controller>
-    <motion_model>Unicycle</motion_model>
+    
     <visual_model>sea-angler</visual_model>
     <autonomy show_waypoints="true">WaypointGenerator</autonomy>    
   </entity>

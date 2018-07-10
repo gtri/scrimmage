@@ -5,13 +5,24 @@ Create an OpenAI Plugin
 
 SCRIMMAGE can be used in conjunction with OpenAI to generate environments for
 learning scenarios. OpenAI environments need to have a state space, action
-space, and a reward function. In this tutorial, we shall go through a quick
+space, and a reward function. In this tutorial, we will go through a quick
 example of how to set up a scrimmage agent to interact with OpenAI by providing
 a state space, action space, and reward. We will use the plugins project we
-created in a previous tutorial ( :doc:`create-project` ) to build our new OpenAI
+created in a previous tutorial (:doc:`create-project`) to build our new OpenAI
 plugins. To start with, we will need to create an Autonomy and a Sensor plugin.
+Files similar to what is described below are located in the following places::
 
-We can use the script provided with SCRIMMAGE to create these plugins. To do so,
+    scrimmage/include/scrimmage/plugins/autonomy/RLSimple
+    scrimmage/src/plugins/autonomy/RLSimple
+    scrimmage/include/scrimmage/plugins/sensor/RLSimpleSensor
+    scrimmage/src/plugins/sensor/RLSimpleSensor
+    scrimmage/missions/rlsimple.xml
+    scrimmage/test/test_openai.py
+
+In addition, the interface between python and scrimmage is defined in
+``scrimmage/python/scrimmage/bindings/src/py_openai_env.h``.
+We can use the script provided with SCRIMMAGE to create these plugins (we will 
+call them something different in this tutorial). To do so,
 enter the following at the terminal: ::
 
   $ cd /path/to/scrimmage/scripts
@@ -30,13 +41,21 @@ If the plugin built successfuly, you will see the following output: ::
   [ 50%] Built target MyOpenAISensor_plugin
   [100%] Built target SimpleLearner
 
-For this tutorial, we want to have an environment in which there is one player.
-This player can either go forward, turn left, or turn right. The goal is for the
-player to fly over the other team's base. We will set up the reward to be 1 when
-the player is over the base and 0 otherwise. The state space of this environment
-consists of 4 variables: x,y, cos(heading), and sin(heading). Together, these
-describe a continous 2D plane and our player's heading. Now let's go and see how
-these are implemented.
+In general, the scrimmage openai interface allows you to customize the environment
+in the following ways:
+
+    * n agents - The most common scenario is 1 agent but SCRIMMAGE also
+      supports multi-agent reinforcement learning. In particular, it supports 
+      centralized approaches where actions and observations for individual
+      learning agents are combined into a single action. Alternatively,
+      one can have multiple agents operate independently.
+
+    * Action/Observation space - this can be discrete, continuous, or combined
+      (the latter would a a ``TupleSpace`` in openai).
+
+For a demonstration of these basic combinations, see ``test/test_openai.py``. 
+For this tutorial, we will only be investigating how to develop a discrete
+action space and a continuous observation space.
 
 Rewrite the Autonomy Plugin
 ---------------------------
@@ -49,45 +68,62 @@ with OpenAI. Let's start with the header file located at
 ``~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h``.
 
 Normal autonomy plugins extend the Autonomy class. For the OpenAI autonomy
-plugin, we will instead extend the ExternalController autonomy plugin. This
-class covers the normal componenets of the autonomy plugin and allows to only
-worry about creating a few methods specfic for OpenAI. We will thus have to
-change our include statements to the following:
+plugin, we will instead extend the ``ScrimmageOpenAIAutonomy`` autonomy plugin.
+In addition to the normal ``init`` and ``step_autonomy`` virtual methods,
+``ScrimmageOpenAIAutonomy`` defines some extra components:
+
+    * ``reward_range`` - this setting maps directly to an openai environment's
+      reward_range.
+
+    * ``action_space`` - this is a struct containing a vector of ``discrete_counts``
+      and ``continuous_extrema``. For each discrete action you want your autonomy
+      to have, add an element to ``action_space.discrete_counts`` with the number
+      of discrete actions (this will result in a ``Discrete`` or ``MultiDiscrete``
+      openai space, depending on whether there is one or multiple elements
+      in ``action_space.discrete_counts``). Similarly, if you want continuous actions,
+      set ``action_space.continuous_extrema`` with the low and high values
+      (this will result in a ``Box`` space). If both ``discrete_counts``
+      and ``continuous_extrema`` have elements then the resulting space will
+      be an openai ``TupleSpace``.
+
+    * ``set_environment`` - a virtual method that will be called after
+      all agents have been generated. This is meant to set ``reward_range``
+      and ``action_space``
+
+    * ``calc_reward`` - called every timestep, this function returns
+      a pair representing whether the environment is done and what 
+      the reward for that step is.
+
+In python, when you call ``env.step(action)``, the action will be copied
+to your autonomy's ``action`` member (defined in ``ScrimmageOpenAIAutonomy``. 
+Here is the include file for ``SimpleLearner``:
 
 .. code-block:: c++
    :linenos:
 
-   #include <scrimmage/plugins/autonomy/ExternalControl/ExternalControl.h>
+    #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
 
-   #include <map>
-   #include <string>
-   #include <utility>
+    #include <map>
+    #include <string>
+    #include <utility>
 
+    class SimpleLearner : public scrimmage::autonomy::ScrimmageOpenAIAutonomy {
+     public:
+        void init(std::map<std::string, std::string> &params) override;
+        bool step_autonomy(double t, double dt) override;
 
-Below the include statements, we have the following class definition:
+        void set_environment() override;
+        std::pair<bool, double> calc_reward(double t, double dt) override;
 
-.. code-block:: c++
-   :linenos:
-
-   class TutorialOpenAIAutonomy : public scrimmage::autonomy::ExternalControl {
-    public:
-       virtual void init(std::map<std::string, std::string> &params);
-
-    protected:
-       double radius_;
-
-       virtual std::pair<bool, double> calc_reward(double t);
-       virtual bool handle_action(
-           double t, double dt, const scrimmage_proto::Action &action);
-       virtual scrimmage_proto::SpaceParams action_space_params();
-   };
+     protected:
+        double radius_;
+        uint8_t output_vel_x_idx_ = 0;
+    };
 
 
-As can be seen, there only four methods we need to create in our source file.
-They handle the initialization of our autonomy plugin, how the reward is
-calculated, the type of action space that will be seen by the OpenAI
-environment, and how those actions are interpreted in SCRIMMAGE.
-
+Note that we are overriding the normal two virtual functions of ``init``
+and ``step_autonomy`` but in addition we will override ``set_environment``
+and ``calc_reward``.
 
 OpenAI Autonomy Plugin Source File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,111 +136,75 @@ We will first change the includes at the top of the file to be:
 .. code-block:: c++
    :linenos:
 
-   #include <scrimmage/plugin_manager/RegisterPlugin.h>
-   #include <scrimmage/entity/Entity.h>
-   #include <scrimmage/math/State.h>
-   #include <scrimmage/parse/ParseUtils.h>
-   #include <scrimmage/sensor/Sensor.h>
-   #include <scrimmage/proto/ExternalControl.pb.h>
-   #include <Tutorial-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h>
+    #include <scrimmage/math/State.h>
+    #include <scrimmage/parse/ParseUtils.h>
+    #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
-   namespace sc = scrimmage;
-   namespace sp = scrimmage_proto;
+    // override this for your namespace
+    #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
+
+    // override this for your namespace
+    REGISTER_PLUGIN(scrimmage::Autonomy, SimpleLearner, SimpleLearner_plugin)
 
 Next, let us look at the ``init``:
 
 .. code-block:: c++
    :linenos:
 
-   void SimpleLearner::init(std::map<std::string,std::string> &params)
-   {
-       desired_state_->pos()(2) = state_->pos()(2);
-       ExternalControl::init(params);
-   }
+    void SimpleLearner::init(std::map<std::string, std::string> &params) {
+        using Type = scrimmage::VariableIO::Type;
+        using Dir = scrimmage::VariableIO::Direction;
 
-In our case, the ``init`` just calls the inherited ``init`` from
-ExternalControl. This would also be where parameters from the
-``SimpleLearner.xml`` file would be initialized. We set the desired altitude
-to be the same as our current altitude in order to preserve the 2D plane
-environment. From here, we can then move on to look at the action space
-representation for OpenAI:
+        output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
+        const uint8_t output_vel_y_idx = vars_.declare(Type::velocity_y, Dir::Out);
+        const uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
+
+        vars_.output(output_vel_x_idx_, 0);
+        vars_.output(output_vel_y_idx, 0);
+        vars_.output(output_vel_z_idx, 0);
+
+        radius_ = std::stod(params.at("radius"));
+
+        ScrimmageOpenAIAutonomy::init(params);
+    }
+
+We now define the environment:
+.. code-block:: c++
+   :linenos:
+  
+    void SimpleLearner::set_environment() {
+        reward_range = std::make_pair(0, 1);
+        action_space.discrete_count.push_back(2);
+    }
+
+This says that the reward range will be between 0 and 1
+and we will have a single discrete action that can take values of 0 or 1.
+We now define the ``calc_reward`` function:
 
 .. code-block:: c++
    :linenos:
 
-   scrimmage_proto::SpaceParams SimpleLearner::action_space_params() {
-       sp::SpaceParams space_params;
-       sp::SingleSpaceParams *single_space_params = space_params.add_params();
-       single_space_params->set_discrete(true);
-       single_space_params->set_num_dims(1);
-       single_space_params->add_minimum(0);
-       single_space_params->add_maximum(2);
-       return space_params;
-   }
+    std::pair<bool, double> SimpleLearner::calc_reward(double /*t*/, double /*dt*/) {
+        const bool done = false;
+        const double x = state_->pos()(0);
+        const bool within_radius = std::round(std::abs(x)) < radius_;
+        double reward = within_radius ? 1 : 0;
+        return {done, reward};
+    }
 
-In this method, we set up a discrete action space of one dimension, with 3
-possible values: 0, 1, 2. Next, let's see what we do when we receive those
-actions from OpenAI in our ``handle_action`` method:
-
-.. code-block:: c++
-   :linenos:
-
-   bool SimpleLearner::handle_action(double t, double dt, const scrimmage_proto::Action &action) {
-       if (!check_action(action, 1, 0)) {
-           return false;
-       }
-       Eigen::Vector3d velocity_cmd;
-       double turn_rate = (action.discrete(0) - 1)*.2;
-       Eigen::Vector3d velocity_cmd;
-       velocity_cmd << 1, turn_rate, 0;
-       return true;
-   }
-
-Here, we can see that we take our ``action`` of 0, 1, or 2 and convert it
-into a corresponding turning rate. We limit the turning rate to .2 and also
-tell the player to constantly fly forward at a speed of 1 m/s. Notice that we
-are not using the ``t`` or ``dt`` parameters in our specific example. However,
-those are available for other environment setups if needed.
-
-Finally, we need to set up the reward for this environment in ``calc_reward``. This
-function returns a `std::pair<bool, double>` which corresponds to whether the
-environment is done and the reward:
+This says that the autonomy is never going to end the simulation and gives
+a reward for being within ``1`` of the origin. We now define ``step_autonomy``
+to handle actions given from python. It will have positive x-velocity
+when the action is 1 and negative x-velocity when the action is 0:
 
 .. code-block:: c++
    :linenos:
 
-   std::pair<bool, double> TutorialOpenAIAutonomy::calc_reward(double time) {
-       const bool done = false;
-       double reward = 0.0;
-
-       for (auto &kv : parent_->mp()->team_info()) {
-           // same team
-           if (kv.first == parent_->id().team_id()) {
-               continue;
-           }
-
-           // For each base
-           int i = 0;
-           for (Eigen::Vector3d &base_pos : kv.second.bases) {
-               Eigen::Vector3d base_2d_pos(base_pos.x(), base_pos.y(), state_->pos().z());
-               double radius = kv.second.radii.at(i);
-               if ((state_->pos()-base_2d_pos).norm() < radius) {
-                   reward += 1;
-               }
-               i++;
-           }
-       }
-       return std::make_pair(done, reward);
-   }
-
-For this example, we do not use the time parameter but it is there for cases
-where you want to include the time in your reward function. Our ``calc_reward``
-goes through every team and looks at every base. For every base radius the
-player is within from a top down view, the reward is incremented up by 1.
-
-With this, we have created the action space and reward function for the OpenAI
-enviornment. The only part left is creating the state space. Before working on
-the sensor code, we do have two more files to edit for ``SimpleLearner``.
+    bool SimpleLearner::step_autonomy(double /*t*/, double /*dt*/) {
+        const double x_vel = action.discrete[0] ? 1 : -1;
+        vars_.output(output_vel_x_idx_, x_vel);
+        return true;
+    }
 
 Rewrite CMakeLists.txt for OpenAI Autonomy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -215,42 +215,35 @@ we do need to make a small edit to the ``CMakeLists.txt``. Open up
 and change line 15 from
 
 .. code-block:: cmake
-   :lineno-start: 15
+   :linenos:
 
    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+    scrimmage
+    ScrimmageOpenAIAutonomy_plugin
      )
 
-to
+This makes sure the plugin links to the libraries it needs. 
 
-.. code-block:: cmake
-   :lineno-start: 15
-   :emphasize-lines: 2
+Plugin Parameter File 
+~~~~~~~~~~~~~~~~~~~~~
 
-   TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-     ExternalControl_plugin
-     )
+The following is the parameter file for ``SimpleLearner``:
 
-in order for ``SimpleLearner`` to see the ``ExternalControl`` autonomy plugin.
-From here, we can now build the project: ::
+.. code-block:: xml
+    :linenos"
+
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+    <params>
+      <library>SimpleLearner_plugin</library>
+      <radius>2</radius>
+    </params>
+        
+From here, we can now build the project::
 
   $ cd ~/scrimmage/my-scrimmage-plugins/build
   $ cmake ..
   $ make
-
-Xml file for OpenAI Autonomy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The last part we need to edit is the ``SimpleLearner.xml`` located at:
-``~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.xml``.
-Here, we need to add a field for a server address to run SCRIMMAGE on. To do so,
-simply add the following line to the ``<params>`` field.
-
-.. code-block:: xml
-
-  <server_address>localhost:50051</server_address>
-
-With that, we are now done with ``SimpleLearner`` and can now focus on the
-sensor plugin.
 
 Rewrite the Sensor Plugin
 -------------------------
@@ -258,44 +251,46 @@ Rewrite the Sensor Plugin
 OpenAI Sensor Plugin Header File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now let's move on to defining the state space. We shall do this with through a
+The sensor plugin is very similar to the autonomy plugin. It inherits
+from ``ScrimmageOpenAISensor`` which provides
+the following:
+
+    * ``observation_space`` - this has the same effect as ``action_space`` above
+      but will determine the environment's observation space.
+
+    * ``set_observation_space`` - this is similar to ``set_environment`` above
+      but is designed to set the variable ``observation_space`` after all entities
+      have been generates.
+
+    * ``get_observation`` - there are two versions of this virtual function:
+      one for discrete observations and another for continuous observations.
+      Note that because observations can sometimes be high dimensional,
+      these functions directly edit the underlying python buffers.
+      This avoids a needless copy.
+
+Now let's move on to defining the observation space. We shall do this with through a
 sensor plugin to OpenAI. We shall start by rewriting the header file for the
 sensor plugin we created above. You can find it at
 ``~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h``.
 
 First up, we shall rewrite the includes in ``MyOpenAISensor.h`` to be the
-following:
+following. The main thing to note is that it inherits from ``ScrimmageOpenAISensor``
+and overrides two virtual methods:
 
 .. code-block:: c++
    :linenos:
 
-   #include <scrimmage/sensor/Sensor.h>
+    #include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 
-   #include <map>
-   #include <string>
-   #include <vector>
+    #include <map>
+    #include <string>
+    #include <vector>
 
-   namespace scrimmage_proto {
-   class SpaceParams;
-   class SpaceSample;
-   }
-
-Below that, we create the ``MyOpenAISensor`` class defined as:
-
-.. code-block:: c++
-   :linenos:
-
-   class MyOpenAISensor : public scrimmage::Sensor {
-    public:
-       virtual scrimmage_proto::SpaceParams observation_space_params();
-       virtual scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
-           sensor_msg_flat(double t);
-   };
-
-``observation_space_params`` sets up the state space model for the OpenAI
-environment. ``sensor_msg_flat`` then creates the state space message to send to
-as the state in the OpenAI environment. It is important to note that
-``sensor_msg_flat`` is different from the default sensor method ``sensor_msg``.
+    class MyOpenAISensor : public scrimmage::sensor::ScrimmageOpenAISensor {
+     public:
+        void set_observation_space() override;
+        void get_observation(double* data, uint32_t beg_idx, uint32_t end_idx) override;
+    };
 
 OpenAI Sensor Plugin Source File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -308,79 +303,53 @@ In this source file, we need to add the following includes:
 .. code-block:: c++
    :linenos:
 
-   #include <scrimmage/plugin_manager/RegisterPlugin.h>
-   #include <scrimmage/entity/Entity.h>
-   #include <scrimmage/math/State.h>
-   #include <scrimmage/proto/ExternalControl.pb.h>
-   #include <boost/range/adaptor/map.hpp>
+    // override this for your namespace
+    #include <scrimmage/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
 
+    #include <scrimmage/entity/Entity.h>
+    #include <scrimmage/math/State.h>
+    #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
-   #include <Tutorial-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
+    // override this for your namespace
+    REGISTER_PLUGIN(scrimmage::Sensor, MyOpenAISensor, MyOpenAISensor_plugin)
 
-   namespace sc = scrimmage;
-   namespace sp = scrimmage_proto;
-   namespace ba = boost::adaptors;
+    void MyOpenAISensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
+        data[beg_idx] = parent_->state()->pos()(0);
+    }
 
-From there, we then look at method implementation. ``observation_space_params``
-creates a 4 dimensional state space for x,y, cos(heading), and sin(heading). It
-sets the limits for each state as well as defines them as continous variables.
-If we had more players in this space, it would add 4 states for each of them as
-well.
+    void MyOpenAISensor::set_observation_space() {
+        const double inf = std::numeric_limits<double>::infinity();
+        observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
+    }
 
-.. code-block:: c++
+Plugin Parameter File 
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block: xml
+    :linenos:
+
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+    <params>
+      <library>MyOpenAISensor_plugin</library>
+    </params>
+
+Rewrite CMakeLists.txt for OpenAI Sensor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``MyOpenAISensor`` C++ code is now finished. Before we can build it though,
+we do need to make a small edit to the ``CMakeLists.txt``. Open up
+``~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/CMakeLists.txt``
+and change line 15 from
+
+.. code-block:: cmake
    :linenos:
 
-   scrimmage_proto::SpaceParams
-   MyOpenAISensor::observation_space_params() {
-       sp::SpaceParams space_params;
+   TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+    scrimmage
+    ScrimmageOpenAISensor_plugin
+     )
 
-       const double inf = std::numeric_limits<double>::infinity();
-       for (size_t i = 0; i < parent_->contacts()->size(); i++) {
-           sp::SingleSpaceParams *single_space_params = space_params.add_params();
-           single_space_params->set_num_dims(4);
-
-           const std::vector<double> lims {inf, inf, 1, 1}; // x, y, cos(yaw), sin(yaw)
-           for (double lim : lims) {
-             single_space_params->add_minimum(-lim);
-             single_space_params->add_maximum(lim);
-           }
-           single_space_params->set_discrete(false);
-       }
-
-       return space_params;
-   }
-
-``sensor_msg_flat`` sets up a message type, fills in the message with the new
-state information and then returns the message as its output. As the list of
-players is unordered, we get the keys (entity ids) from the contacts map
-and copy them into an ordered set.
-This is to ensure that the state message has the same format every time. Again,
-our message consists of 4 states: x,y, cos(heading), and sin(heading). If there
-are more than one players on the field, it would also add their states to the
-message as well.
-
-.. code-block:: c++
-   :linenos:
-
-   scrimmage::MessagePtr<scrimmage_proto::SpaceSample>
-   MyOpenAISensor::sensor_msg_flat(double t) {
-       auto msg = std::make_shared<sc::Message<sp::SpaceSample>>();
-
-       // we need these sorted but contacts are an unordered map
-       auto keys = *parent_->contacts() | ba::map_keys;
-       std::set<int> contact_ids(keys.begin(), keys.end());
-
-       for (int contact_id : contact_ids) {
-           sc::State &s = *parent_->contacts()->at(contact_id).state();
-           const double yaw = s.quat().yaw();
-           msg->data.add_value(s.pos()(0));
-           msg->data.add_value(s.pos()(1));
-           msg->data.add_value(cos(yaw));
-           msg->data.add_value(sin(yaw));
-       }
-
-       return msg;
-   }
 
 OpenAI Mission XML File
 -----------------------
@@ -396,46 +365,29 @@ following blocks (More detail on creating mission files is located at
 .. code-block:: xml
    :linenos:
 
-   <entity_common name="all">
-       <count>1</count>
-       <health>1</health>
-       <radius>1</radius>
-       <motion_model>SimpleAircraft</motion_model>
-       <controller>SimpleAircraftControllerPID</controller>
-   </entity_common>
+      <entity_common name="all">
+          <count>1</count>
+          <health>1</health>
+          <radius>1</radius>
 
-   <entity entity_common="all">
-     <x>0</x>
-     <y>0</y>
-     <z>200</z>
-     <heading>0</heading>
-     <team_id>1</team_id>
-     <color>77 77 255</color>
-     <autonomy>SimpleLearner</autonomy>
-     <visual_model>zephyr-blue</visual_model>
-     <sensor order="0">MyOpenAISensor</sensor>
-     <motion_model>Unicycle</motion_model>
-     <controller>UnicycleControllerDirect</controller>
-   </entity>
+          <team_id>1</team_id>
+          <visual_model>Sphere</visual_model>
+          <motion_model>SingleIntegrator</motion_model>
+          <controller>SingleIntegratorControllerSimple</controller>
+          <sensor order="0">MyOpenAISensor</sensor>
+          <autonomy
+            discrete_x="true"
+            discrete_y="true"
+            ctrl_y="false">SimpleLearner</autonomy>
+          <y>0</y>
+          <z>0</z>
+      </entity_common>
 
-   <entity entity_common="all">
-     <team_id>2</team_id>
-     <color>255 0 0</color>
-     <count>0</count>
+      <entity entity_common="all">
+        <x>0</x>
+        <color>77 77 255</color>
+      </entity>
 
-     <base>
-       <x>30</x>
-       <y>0</y>
-       <z>200</z>
-       <radius>25</radius>
-     </base>
-   </entity>
-
-This example environment is intended to work with the ``Unicycle`` motion model
-through the ``UnicycleControllerDirect controller``. If we wanted to use a
-different motion model/controller, we would need to change our ``handle_action``
-in ``SimpleLearner.cpp`` to output the correct control for the new setup. If
-``openai.xml`` is opened without using OpenAI, SCRIMMAGE will
 
 Now we have completed our work on the SCRIMMAGE side. Now all that is left is to
 write the python code to run our OpenAI environment.
@@ -454,45 +406,49 @@ reward. We will save this python file at
 .. code-block:: python
    :linenos:
 
-   import numpy as np
-   import gym
-   import scrimmage
+    import copy
+    import gym
+    import scrimmage
 
 
-   def test_openai():
-       """Open single entity scenario and make sure it banks."""
-       try:
-           env = gym.make('scrimmage-v0')
-       except gym.error.Error:
-           mission_file = scrimmage.find_mission('openai.xml')
+    def test_openai():
+        try:
+            env = gym.make('scrimmage-v0')
+        except gym.error.Error:
+            mission_file = scrimmage.find_mission('rlsimple.xml')
 
-           gym.envs.register(
-               id='scrimmage-v0',
-               entry_point='scrimmage.external_control:ScrimmageEnv',
-               max_episode_steps=1e9,
-               reward_threshold=1e9,
-               kwargs={"enable_gui": True,
-                       "mission_file": mission_file}
-           )
-           env = gym.make('scrimmage-v0')
+            gym.envs.register(
+                id='scrimmage-v0',
+                entry_point='scrimmage:ScrimmageOpenAIEnv',
+                max_episode_steps=1e9,
+                reward_threshold=1e9,
+                kwargs={"enable_gui": True,
+                        "mission_file": mission_file}
+            )
+            env = gym.make('scrimmage-v0')
 
-       # the observation is the state of the aircraft
-       obs = env.reset()
-       total_reward = 0
-       for i in range(200):
+        # the observation is the x position of the vehicle
+        # note that a deepcopy is used when a history
+        # of observations is desired. This is because
+        # the sensor plugin edits the data in-place
+        obs = []
+        obs.append(copy.deepcopy(env.reset()))
+        total_reward = 0
+        for i in range(200):
 
-           action = 1 if i < 100 else 2
-           obs, reward, done = env.step(action)[:3]
-           total_reward += reward
+            action = 1 if i < 100 else 0
+            temp_obs, reward, done = env.step(action)[:3]
+            obs.append(copy.deepcopy(temp_obs))
+            total_reward += reward
 
-           if done:
-               break
+            if done:
+                break
 
-       env.env.close()
-       print("Total Reward: %2.2f" % total_reward)
+        env.close()
+        print("Total Reward: %2.2f" % total_reward)
 
-   if __name__ == '__main__':
-       test_openai()
+if __name__ == '__main__':
+    test_openai()
 
 Now that we have completed all of the code, we can simply type the following
 into the terminal to see it run! ::

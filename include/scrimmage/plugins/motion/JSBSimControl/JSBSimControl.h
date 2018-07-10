@@ -38,7 +38,6 @@
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 #include <scrimmage/entity/Entity.h>
 #include <Eigen/Dense>
 
@@ -47,6 +46,7 @@
 #include <models/FGAircraft.h>
 #include <input_output/FGPropertyManager.h>
 #include <initialization/FGInitialCondition.h>
+#include <models/FGOutput.h>
 
 typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #endif
@@ -63,18 +63,13 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
 
      virtual std::tuple<int, int, int> version();
 
-     virtual bool init(std::map<std::string, std::string> &info,
-                       std::map<std::string, std::string> &params);
-     virtual bool step(double time, double dt);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector4d &u() = 0;
-    };
+     bool init(std::map<std::string, std::string> &info,
+                       std::map<std::string, std::string> &params) override;
+     bool step(double time, double dt) override;
 
  protected:
 #if ENABLE_JSBSIM == 1
-     FGFDMExecPtr exec;
+     FGFDMExecPtr exec_;
 
      JSBSim::FGPropertyNode *longitude_node_ = nullptr;
      JSBSim::FGPropertyNode *latitude_node_ = nullptr;
@@ -106,23 +101,22 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      scrimmage::Angles angles_to_jsbsim_;
      scrimmage::Angles angles_from_jsbsim_;
 
-     scrimmage::PID roll_pid_;
-     scrimmage::PID pitch_pid_;
-     scrimmage::PID yaw_pid_;
+     JSBSim::FGOutputType* output_fg_ = 0;
+     bool fg_out_enable_ = false;
 
-     int thrust_idx_ = 0;
+     int throttle_idx_ = 0;
      int elevator_idx_ = 0;
      int aileron_idx_ = 0;
      int rudder_idx_ = 0;
 
-     double thrust_ = 0;
+     double throttle_ = 0;
      double delta_elevator_ = 0;
      double delta_aileron_ = 0;
      double delta_rudder_ = 0;
 
-     double drawVel_ = 0;
-     double drawAngVel_ = 0;
-     double drawAcc_ = 0;
+     double draw_vel_ = 0;
+     double draw_ang_vel_ = 0;
+     double draw_acc_ = 0;
 #endif
 };
 } // namespace motion

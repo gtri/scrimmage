@@ -44,11 +44,11 @@ class PyAutonomy : public scrimmage::Autonomy {
  public:
     PyAutonomy();
     void init(std::map<std::string, std::string> &params) override;
-    virtual bool step_autonomy(double t, double dt);
+    bool step_autonomy(double t, double dt) override;
 
-    std::string type() {return std::string("PyAutonomy");}
+    std::string type() override {return std::string("PyAutonomy");}
 
-    virtual void set_contacts(scrimmage::ContactMapPtr &contacts) {
+    void set_contacts(scrimmage::ContactMapPtr &contacts) override {
         contacts_ = contacts;
         py_contacts_.clear();
         for (auto &kv : *contacts) {
@@ -57,14 +57,14 @@ class PyAutonomy : public scrimmage::Autonomy {
         }
     }
 
-    virtual void set_contacts_from_plugin(scrimmage::AutonomyPtr &ptr) {
+    void set_contacts_from_plugin(scrimmage::AutonomyPtr &ptr) override {
         std::shared_ptr<PyAutonomy> py_ptr =
             std::static_pointer_cast<PyAutonomy>(ptr);
         contacts_ = py_ptr->contacts_;
         py_contacts_ = py_ptr->py_contacts_;
     }
 
-    virtual void set_state(scrimmage::StatePtr &state) {
+    void set_state(scrimmage::StatePtr &state) override {
         state_ = state;
     }
 

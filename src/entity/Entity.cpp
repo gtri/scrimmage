@@ -43,18 +43,17 @@
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/sensor/Sensable.h>
+#include <scrimmage/simcontrol/SimUtils.h>
 
-#include <iomanip>
 #include <iostream>
+#include <iomanip>
 #include <memory>
 #include <algorithm>
 
 #include <boost/algorithm/cxx11/none_of.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/range/algorithm/copy.hpp>
-#include <boost/range/algorithm/set_algorithm.hpp>
-#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 
 using std::cout;
 using std::endl;
@@ -217,11 +216,10 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     auto it = info.find("controller");
     if (it == info.end()) {
-        std::cout << "Error: no controller specified" << std::endl;
-        return false;
+        controller_ = std::make_shared<Controller>();
+    } else {
+        controller_ = init_controller(it->second, overrides["controller"], motion_model_->vars());
     }
-
-    controller_ = init_controller(it->second, overrides["controller"], motion_model_->vars());
 
     if (controller_ == nullptr) {
         std::cout << "Failed to open controller plugin: " << it->second << std::endl;
@@ -234,9 +232,7 @@ bool Entity::init(AttributeMap &overrides,
             << " does not provide inputs required by MotionModel "
             << std::quoted(motion_model_->name())
             << ": ";
-        br::copy(motion_model_->vars().input_variable_index() | ba::map_keys,
-            std::ostream_iterator<std::string>(std::cout, ", "));
-        std::cout << std::endl;
+        print_io_error(motion_model_->name(), motion_model_->vars());
         return false;
     }
 
@@ -259,8 +255,6 @@ bool Entity::init(AttributeMap &overrides,
         }
 
         connect(autonomy->vars(), controller_->vars());
-        autonomy->vars().output_variable_index() = controller_->vars().input_variable_index();
-
 
         autonomy->set_rtree(rtree);
         autonomy->set_parent(parent);
@@ -277,20 +271,18 @@ bool Entity::init(AttributeMap &overrides,
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
     }
 
-    auto verify_io = [&](auto &p) {return this->verify_io_connection(p->vars(), controller_->vars());};
+    auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controller_->vars());};
     if (boost::algorithm::none_of(autonomies_, verify_io)) {
         auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
         std::cout << "VariableIO Error: "
             << "no autonomies provide inputs required by Controller "
             << std::quoted(controller_->name())
-            << ": ";
-        br::copy(controller_->vars().input_variable_index() | ba::map_keys, out_it);
-        std::cout << std::endl;
-
+            << ". Add VariableIO output declarations in ";
         auto get_name = [&](auto &p) {return p->name();};
-        std::cout << "Add VariableIO output declarations in ";
         br::copy(autonomies_ | ba::transformed(get_name), out_it);
-        std::cout << std::endl;
+        std::cout << "as follows " << std::endl;
+
+        print_io_error(controller_->name(), controller_->vars());
         return false;
     }
 
@@ -397,6 +389,7 @@ std::shared_ptr<GeographicLib::LocalCartesian> Entity::projection()
 
 MissionParsePtr Entity::mp() { return mp_; }
 
+void Entity::set_mp(MissionParsePtr mp) { mp_ = mp; }
 void Entity::set_random(RandomPtr random) { random_ = random; }
 
 RandomPtr Entity::random() { return random_; }
@@ -439,7 +432,10 @@ void Entity::setup_desired_state() {
 
     auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
         [&](auto autonomy) {return autonomy->get_is_controlling();});
-    controller_->set_desired_state((*it)->desired_state());
+
+    if (it != autonomies_.rend()) {
+        controller_->set_desired_state((*it)->desired_state());
+    }
 }
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
@@ -484,8 +480,30 @@ void Entity::close(double t) {
         kv.second->close(t);
     }
 
-    controller_->close(t);
-    motion_model_->close(t);
+    if (controller_) {
+        controller_->close(t);
+    }
+
+    if (motion_model_) {
+        motion_model_->close(t);
+    }
+
+    visual_ = nullptr;
+    controller_ = nullptr;
+    autonomies_.clear();
+    mp_ = nullptr;
+    proj_ = nullptr;
+    random_ = nullptr;
+    state_ = nullptr;
+    properties_.clear();
+    sensors_.clear();
+    services_.clear();
+    contacts_ = nullptr;
+    rtree_ = nullptr;
+    plugin_manager_ = nullptr;
+    file_search_ = nullptr;
+    pubsub_ = nullptr;
+    time_ = nullptr;
 }
 
 std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
@@ -513,7 +531,6 @@ ControllerPtr Entity::init_controller(
     // The controller's variable indices should be the same as the motion
     // model's variable indices. This will speed up copying during the
     // simulation.
-    controller->vars().output_variable_index() = next_io.input_variable_index();
     connect(controller->vars(), next_io);
 
     controller->set_parent(shared_from_this());
@@ -524,14 +541,10 @@ ControllerPtr Entity::init_controller(
     return controller;
 }
 
-bool Entity::verify_io_connection(
-        VariableIO &output, VariableIO &input) {
-    std::vector<std::string> mismatched_keys;
-    br::set_difference(
-        input.declared_input_variables(),
-        output.declared_output_variables(),
-        std::back_inserter(mismatched_keys));
+void Entity::set_time_ptr(TimePtr t) {time_ = t;}
 
-    return mismatched_keys.empty();
+// cppcheck-suppress passedByValue
+void Entity::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
+    proj_ = proj;
 }
 } // namespace scrimmage

@@ -37,6 +37,7 @@
 #include "SimpleCollisionScore.h"
 
 #include <map>
+#include <set>
 #include <string>
 
 namespace scrimmage {
@@ -45,11 +46,11 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
     SimpleCollisionMetrics();
 
-    virtual std::string name() { return std::string("SimpleCollisionMetrics"); }
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_metrics(double t, double dt);
-    virtual void calc_team_scores();
-    virtual void print_team_summaries();
+    std::string name() override { return std::string("SimpleCollisionMetrics"); }
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_metrics(double t, double dt) override;
+    void calc_team_scores() override;
+    void print_team_summaries() override;
 
  protected:
     std::map<int, SimpleCollisionScore> scores_;
@@ -57,7 +58,9 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
     std::map<int, bool> surviving_teams_;
 
     std::map<std::string, std::string> params_;
+    bool initialized_ = false;
+    std::set<int> teams_;
 };
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_

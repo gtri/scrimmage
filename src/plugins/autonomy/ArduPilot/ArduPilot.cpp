@@ -65,19 +65,15 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-ArduPilot::ArduPilot()
-    : to_ardupilot_ip_("127.0.0.1")
-    , to_ardupilot_port_("5003")
-    , from_ardupilot_port_(5002) {
+ArduPilot::ArduPilot() :
+    to_ardupilot_ip_("127.0.0.1"),
+    to_ardupilot_port_("5003"),
+    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS),
+    from_ardupilot_port_(5002) {
 
     for (int i = 0; i < MAX_NUM_SERVOS; i++) {
         servo_pkt_.servos[i] = 0;
     }
-
-    angles_to_gps_.set_input_clock_direction(sc::Angles::Rotate::CCW);
-    angles_to_gps_.set_input_zero_axis(sc::Angles::HeadingZero::Pos_X);
-    angles_to_gps_.set_output_clock_direction(sc::Angles::Rotate::CW);
-    angles_to_gps_.set_output_zero_axis(sc::Angles::HeadingZero::Pos_Y);
 }
 
 void ArduPilot::init(std::map<std::string, std::string> &params) {

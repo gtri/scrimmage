@@ -63,7 +63,7 @@ void ConfigParse::set_required(std::string node_name) {
 void ConfigParse::recursive_params(rx::xml_node<char> *root,
         std::map<std::string, std::string> &overrides,
         std::map<std::string, std::string> &params,
-        std::string prev) {
+        const std::string &prev) {
     // End condition
     if (root == 0 || root->name() == std::string("")
         || root->name() == std::string(" ")) {
@@ -109,7 +109,11 @@ bool ConfigParse::parse(std::map<std::string, std::string> &overrides,
     std::string result = "";
     bool status = file_search.find_file(filename, "xml", env_var, result, verbose);
     if (!status) {
-        cout << "Failed to find configuration: " << filename << endl;
+        if (boost::algorithm::to_lower_copy(filename) != "sphere") {
+            // sphere does not have a filename so we do not
+            // need a warning message for this
+            cout << "Failed to find configuration: " << filename << endl;
+        }
         return false;
     } else if (verbose) {
         cout << "ConfigParse: found " << result << std::endl;

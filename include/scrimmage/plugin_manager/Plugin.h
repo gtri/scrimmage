@@ -74,7 +74,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
-    virtual void close(double /*t*/) {}
+    virtual void close(double /*t*/);
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
@@ -85,10 +85,10 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     /* Homogeneous transform from parent link */
     StatePtr transform() { return transform_; }
 
-    virtual void set_id_to_team_map(std::shared_ptr<std::unordered_map<int, int> > &lookup)
+    virtual void set_id_to_team_map(std::shared_ptr<std::unordered_map<int, int>> lookup)
     { id_to_team_map_ = lookup; }
 
-    virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> &lookup)
+    virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> lookup)
     { id_to_ent_map_ = lookup; }
 
     std::list<scrimmage_proto::ShapePtr> &shapes();
@@ -126,11 +126,12 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
     std::list<SubscriberBasePtr> subs() { return subs_; }
 
-    void run_callbacks();
-
     void set_time(const std::shared_ptr<Time> &time) { time_ = time; }
     // cppcheck-suppress passedByValue
     void set_time(std::shared_ptr<const Time> time) { time_ = time; }
+
+    void draw_shape(scrimmage_proto::ShapePtr s);
+    bool print_err_on_exit = true;
 
  protected:
     std::string name_;
@@ -141,13 +142,14 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
 
-    std::list<scrimmage_proto::ShapePtr> shapes_;
-
     VariableIO vars_;
     PubSubPtr pubsub_;
 
     std::list<SubscriberBasePtr> subs_;
     std::shared_ptr<const Time> time_;
+
+ private:
+    std::list<scrimmage_proto::ShapePtr> shapes_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

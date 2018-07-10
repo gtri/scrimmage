@@ -44,12 +44,12 @@ class SingleIntegrator : public scrimmage::MotionModel {
  public:
     SingleIntegrator();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
+    bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) override;
 
-    virtual bool step(double t, double dt);
+    bool step(double t, double dt) override;
 
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
     int vel_x_idx_;

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <run start="0.0" end="1000" dt="0.0083333"
+       time_warp="10"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <!--<terrain>mcmillan</terrain>-->
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>  
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <entity_interaction>SimpleCollision</entity_interaction>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>  
+  
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <!--<seed>2147483648</seed>-->
+
+  <entity>
+    <team_id>1</team_id>
+    <count>1</count>
+    <color>255 0 0</color>    
+    <health>1</health>
+    <radius>1</radius>
+    
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+    <heading>90</heading>
+
+    <autonomy server_ip="10.108.21.229" callsign="leader">FlightGearMultiplayer</autonomy>
+    <autonomy speed="15">Straight</autonomy>
+
+    <visual_model>cessna</visual_model>
+    <motion_model flightgear_output_enable="true"
+                  flightgear_ip="localhost"
+                  flightgear_port="5600">JSBSimModel</motion_model>
+    <controller>JSBSimModelControllerHeadingPID</controller>
+    <script_name>rascal_piedmont.xml</script_name>
+    
+  </entity>
+
+  
+  <entity>
+    <team_id>1</team_id>
+    <count>1</count>
+    <color>255 0 0</color>    
+    <health>1</health>
+    <radius>1</radius>
+    
+    <variance_x>10</variance_x>
+    <variance_y>10</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>-100</x>
+    <y>0</y>
+    <z>0</z>
+    <heading>0</heading>
+
+    <autonomy server_ip="10.108.21.229" callsign="wingman">FlightGearMultiplayer</autonomy>
+    
+    <autonomy>GraphvizFSM</autonomy>
+    <autonomy behaviors="
+       [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]       
+       [ TrailMS gain='1.0' trail_id='1' trail_range='15' trail_angle='180' show_track_point='true' ]"
+              >MotorSchemas</autonomy>
+    <!--<autonomy>AutonomyExecutor</autonomy>-->
+
+    <visual_model>cessna</visual_model>
+    <motion_model>JSBSimModel</motion_model>
+    <controller>JSBSimModelControllerHeadingPID</controller>
+    <script_name>rascal_piedmont.xml</script_name>
+    
+  </entity>
+
+</runscript>

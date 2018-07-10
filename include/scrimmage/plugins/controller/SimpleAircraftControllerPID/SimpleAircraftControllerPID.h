@@ -33,26 +33,34 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_
 
-#include <scrimmage/plugins/motion/SimpleAircraft/SimpleAircraft.h>
+#include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
 namespace controller {
-class SimpleAircraftControllerPID : public motion::SimpleAircraft::Controller {
+
+class SimpleAircraftControllerPID : public Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
-    virtual std::shared_ptr<Eigen::Vector3d> u() {return u_;}
 
  protected:
-    std::shared_ptr<Eigen::Vector3d> u_;
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
     bool use_roll_ = false;
     int alt_idx_ = 0;
+
+    uint8_t input_roll_or_heading_idx_ = 0;
+    uint8_t input_altitude_idx_ = 0;
+    uint8_t input_velocity_idx_ = 0;
+
+    uint8_t output_throttle_idx_ = 0;
+    uint8_t output_roll_rate_idx_ = 0;
+    uint8_t output_pitch_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

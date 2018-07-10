@@ -35,6 +35,9 @@ and match between the two paradigms for a single entity.
     user types ``b`` into the gui. This allows the user to ensure that the
     simulation's initial conditions are correct before running simulation since
     the gui can launch after the actual simulation begins execution.
+  - ``motion_multiplier`` : set to an integer greater than or equal to 1.
+      If not 1, scrimmage will run controller and motion plugins
+      multiple times for each timestep.
 
 - ``stream_port`` : When ``network_gui`` is enabled, GRPC messages of the
   positions and orientations of SCRIMMAGE entities will be streamed to this
@@ -54,22 +57,30 @@ and match between the two paradigms for a single entity.
   tag.
 
 - ``end_condition`` : Specifies the conditions for ending the simulation. The
-  possible end conditions are ``time``, ``one_team``, and ``none``. If ``time``
-  is set, the simulation will automatically end when the time reaches the
-  ``end`` attribute defined in the ``run`` tag. If ``one_team`` is set, the
-  simulation will end when all entities remaining belong to the same
-  team ID. If ``none`` is set, the simulation will only end when the user
-  closes the gui or if the user "kills" the simulation by typing ``CTRL + c``
-  in the terminal that launched scrimmage. The end conditions can be OR-ed
-  together by separating the end conditions with commas. For example, if the
-  ``end_condition`` is set to "time, one_team" the simulation will end if the
-  ``end`` time is reached or if only a single team is remaining.
+  possible end conditions are ``time``, ``one_team``, ``all_dead``, and
+  ``none``. If ``time`` is set, the simulation will automatically end when the
+  time reaches the ``end`` attribute defined in the ``run`` tag. If
+  ``one_team`` is set, the simulation will end when all entities remaining
+  belong to the same team ID. If ``all_dead`` is set, the simulation will end
+  when there are no more remaining entities. If ``none`` is set, the simulation
+  will only end when the user closes the gui or if the user "kills" the
+  simulation by typing ``CTRL + c`` in the terminal that launched
+  scrimmage. The end conditions can be OR-ed together by separating the end
+  conditions with commas. For example, if the ``end_condition`` is set to
+  "time, one_team" the simulation will end if the ``end`` time is reached or if
+  only a single team is remaining.
 
 - ``terrain`` : Defines the name of the folder that holds the terrain polygon
   and texture data. This is typically located at:
   ``$SCRIMMAGE_DATA_PATH/gui/terrain``.
 
-- ``background-color`` : The visualization background color defined in RED,
+- ``grid_spacing`` : Defines the distance in meters between grid lines when not
+  using the ``terrain`` tag.
+
+- ``grid_size`` : Defines the length in meters of the square grid when not
+  using the ``terrain`` tag.
+
+- ``background_color`` : The visualization background color defined in RED,
   GREEN, BLUE order.
 
 - ``gui_update_period`` : The gui update period in milliseconds. Providing a
@@ -101,14 +112,16 @@ and match between the two paradigms for a single entity.
   this to ``false``, so that multiple instances of SCRIMMAGE do not try to
   create the same ``latest`` directory.
 
-- ``latitude_origin`` : This is the latitude at which the simulation's
-  cartesian coordinate system's origin is centered.
+- ``latitude_origin`` : This is the latitude (decimal degrees) at which the
+  simulation's cartesian coordinate system's origin is centered. (e.g.,
+  35.721025)
 
-- ``longitude_origin`` : This is the longitude at which the simulation's
-  cartesian coordinate system's origin is centered.
+- ``longitude_origin`` : This is the longitude (decimal degrees) at which the
+  simulation's cartesian coordinate system's origin is centered. (e.g.,
+  -120.767925)
 
-- ``altitude_origin`` : This is the altitude at which the simulation's
-  cartesian coordinate system's origin is centered.
+- ``altitude_origin`` : This is the altitude in meters above sea level at which
+  the simulation's cartesian coordinate system's origin is centered.
 
 - ``show_origin`` : If set to ``true``, a three axis coordinate system will be
   drawn at the origin of the simulation. This is help for debugging the
@@ -120,8 +133,9 @@ and match between the two paradigms for a single entity.
   ``show_origin`` is enabled.
 
 - ``metrics`` : This tag loads metrics plugins and executes them during the
-  mission based on the ``order`` attribute. A metrics plugin counts "events" in
-  the simulation and outputs the counts to the summary CSV file.
+  mission. Metrics plugins are executed in the order in which they appear in
+  the mission file. A metrics plugin counts "events" in the simulation and
+  outputs the counts to the summary CSV file.
 
 - ``entity_interaction`` : This tag loads a plugin that computes interactions
   between entities during the simulation. For example, the ``SimpleCollision``
@@ -129,9 +143,8 @@ and match between the two paradigms for a single entity.
   the distance between any two entities is below a given threshold, the
   entities are removed from the simulation. The ``GroundCollision`` entity
   interaction plugin removes entities from the simulation that are within a
-  given distance from the ground. The order of entity interaction plugin
-  computation is determined by the ``entity_interaction``'s ``order``
-  attribute. Lower order plugins are processed first.
+  given distance from the ground. Entity interaction plugins are executed in
+  the order in which they appear in the mission file.
 
 - ``network`` : This tag loads a plugin that simulates network
   communications. This can be used to simulate dropped packets. By default,
@@ -174,8 +187,8 @@ and match between the two paradigms for a single entity.
   - ``autonomy`` : This tag assigns an autonomy plugin for each entity in the
     entity group. Scrimmage searches the SCRIMMAGE_PLUGIN_PATH for an XML file
     with the autonomy tag's name. Multiple autonomy plugins can run in serial
-    on a single entity. The order of execution is specifed by the ``order``
-    attribute.
+    on a single entity. Autonomy plugins are executed in the order in which
+    they appear in the mission file.
   - ``health`` : The initial health points for this entity. The entity
     interaction plugin can affect the health points of each entity depending on
     entity messages and the world state. When the health points decrement to
@@ -229,13 +242,11 @@ and match between the two paradigms for a single entity.
   - ``visual_model`` : Loads an XML file that specifies the appearance of the
     entity. Examples: zephyr-blue, zephyr-red, iris, sea-angler, volkswagon.
 
-  - ``controller`` : Loads a low-level controller plugin. Multiple controllers
-    plugins can run in serial on a single entity. The order of execution is
-    specifed by the ``order`` attribute.
+  - ``controller`` : Loads a low-level controller plugin. Each entity can only
+    have a single controller.
 
   - ``sensor`` : Loads a sensor plugin. Multiple sensor plugins can run in
-    serial on a single entity. The order of execution is specifed by the
-    ``order`` attribute.
+    serial on a single entity.
 
   - ``base`` : Used to define a "home base" for the entity. Only one home base
     per team should be specified. Entity groups that share a team ID will share
@@ -285,7 +296,8 @@ and match between the two paradigms for a single entity.
   screenshots at regular intervals.  This will slow down performance as the
   simulation loop will wait for the gui to save the screenshot before
   proceeding. Note that ``enable_gui`` must be true for this setting to be
-  effective.
+  effective. The ``min_period``, ``start``, and ``end`` attributes are
+  specified in seconds.
 
   - ``min_period`` : how often to save screenshots
   - ``start``: when to start taking screenshots

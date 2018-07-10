@@ -52,33 +52,18 @@ class EntityInteraction : public Plugin {
                       std::map<std::string, std::string> &/*plugin_params*/)
     { return true;}
 
-    inline virtual std::string name()
+    inline std::string name() override
     { return std::string("EntityInteraction"); }
 
     inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
                                                 double /*t*/, double /*dt*/)
     { return false; }
 
-    virtual void close(double /*t*/) {}
-
     inline virtual bool collision_exists(std::list<EntityPtr> &/*ents*/,
                                   Eigen::Vector3d &/*p*/)
     { return false; }
 
-    inline virtual void set_random(RandomPtr random)
-    { random_ = random; }
-
-    inline virtual void set_mission_parse(MissionParsePtr mp)
-    { mp_ = mp; }
-
-    inline virtual void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj)
-    { proj_ = proj;}
-
  protected:
-    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
-
-    RandomPtr random_;
-    MissionParsePtr mp_;
 };
 
 typedef std::shared_ptr<EntityInteraction> EntityInteractionPtr;

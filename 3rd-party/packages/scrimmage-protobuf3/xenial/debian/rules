@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+# secondly called by launchpad
+build:
+	./configure --prefix=${CURDIR}/debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH}
+	make
+	make check
+
+# thirdly called by launchpad
+binary: binary-indep binary-arch
+
+binary-indep:
+	# nothing to be done
+
+binary-arch:
+	make install
+	mkdir debian/tmp/DEBIAN
+	dpkg-gencontrol -pscrimmage-protobuf3
+	dpkg --build debian/tmp ..
+
+# firstly called by launchpad
+clean:
+	# nothing to be done
+
+.PHONY: binary binary-arch binary-indep clean

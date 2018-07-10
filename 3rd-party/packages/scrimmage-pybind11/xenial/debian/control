@@ -1,0 +1,13 @@
+Source: scrimmage-pybind11
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends: cmake, build-essential, python, python-dev
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage-pybind11
+Multi-Arch: same
+Architecture: any
+# Depends:
+Description: pybind11 used by SCRIMMAGE
+ This is the version of pybind11 used by SCRIMMAGE

@@ -35,6 +35,9 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/State.h>
+
+#include <iostream>
+
 #include <boost/algorithm/string.hpp>
 
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerHeadingPID, JSBSimControlControllerHeadingPID_plugin)
@@ -44,29 +47,6 @@ namespace controller {
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
-
-void set_pid(sc::PID &pid, std::string str, bool is_angle) {
-    std::vector<std::string> str_vals;
-    boost::split(str_vals, str, boost::is_any_of(","));
-
-    if (str_vals.size() != 4) {
-        std::cout << "error parsing in JSBSimControlControllerPID" << std::endl;
-    } else {
-        double p = std::stod(str_vals[0]);
-        double i = std::stod(str_vals[1]);
-        double d = std::stod(str_vals[2]);
-        pid.set_parameters(p, i, d);
-
-        if (is_angle) {
-            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
-            pid.set_integral_band(i_lim);
-            pid.set_is_angle(true);
-        } else {
-            double i_lim = std::stod(str_vals[3]);
-            pid.set_integral_band(i_lim);
-        }
-    }
-}
 
 void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string> &params) {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
@@ -79,9 +59,21 @@ void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string> 
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
-    set_pid(roll_pid_, params["roll_pid"], true);
-    set_pid(pitch_pid_, params["pitch_pid"], true);
-    set_pid(yaw_pid_, params["yaw_pid"], true);
+    if (!roll_pid_.init(params["roll_pid"], true)) {
+        std::cout << "Failed to parse roll_pid." << std::endl;
+    }
+    if (!pitch_pid_.init(params["pitch_pid"], true)) {
+        std::cout << "Failed to parse pitch_pid." << std::endl;
+    }
+    if (!yaw_pid_.init(params["yaw_pid"], true)) {
+        std::cout << "Failed to parse yaw_pid." << std::endl;
+    }
+
+    // Setup variable index for controllers
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
@@ -89,17 +81,17 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
     // Roll stabilizer
     roll_pid_.set_setpoint(0);
     double u_roll = roll_pid_.step(dt, state_->quat().roll());
-    u_(0) = ang::angle_pi(u_roll);
+    vars_.output(aileron_idx_, ang::angle_pi(u_roll));
 
     // Pitch stabilizer
     pitch_pid_.set_setpoint(0);
-    u_(1) = -pitch_pid_.step(dt, state_->quat().pitch());
+    vars_.output(elevator_idx_, -pitch_pid_.step(dt, state_->quat().pitch()));
 
     // Yaw stabilizer
     double desired_yaw = desired_state_->quat().yaw();
     angles_to_jsbsim_.set_angle(ang::rad2deg(desired_yaw));
     yaw_pid_.set_setpoint(ang::deg2rad(angles_to_jsbsim_.angle()));
-    u_(2) = -yaw_pid_.step(dt, state_->quat().yaw());
+    vars_.output(rudder_idx_, -yaw_pid_.step(dt, state_->quat().yaw()));
 
     return true;
 }

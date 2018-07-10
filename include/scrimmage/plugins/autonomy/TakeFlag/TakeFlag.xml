@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>TakeFlag_plugin</library>
+  <flag_boundary_id>1</flag_boundary_id>
+  <capture_boundary_id>2</capture_boundary_id>
+</params>

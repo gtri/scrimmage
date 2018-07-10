@@ -94,13 +94,13 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
      */
     double rotation_angle() const;
 
-    /*! \brief rotate the input vector around the \ref vector_ axis by an angle
+    /*! \brief rotate the input vector around the vec axis by an angle
      * given by RotationAngle(). This can also be used to convert a vector in
      * the local frame to a vector in the global frame.
      */
     Eigen::Vector3d rotate(const Eigen::Vector3d &vec) const;
 
-    /*! \brief rotate the input vector around the \ref vector_ axis by an angle
+    /*! \brief rotate the input vector around the vec axis by an angle
      * given by RotationAngle(). This can also be used to convert a vector in
      * the local frame to a vector in the global frame.
      */

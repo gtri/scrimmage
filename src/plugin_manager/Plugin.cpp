@@ -36,9 +36,13 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #include <string>
 #include <memory>
+#include <functional>
 
 namespace scrimmage {
 
@@ -83,11 +87,28 @@ PublisherPtr Plugin::advertise(std::string network_name, std::string topic) {
                               shared_from_this());
 }
 
-void Plugin::run_callbacks() {
-    for (auto &sub : subs_) {
-        for (auto msg : sub->pop_msgs<MessageBase>()) {
-            sub->accept(msg);
-        }
+void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
+    if (!s->hash_set()) {
+        // Hash function uses entity ID, current simulation time, plugin name,
+        // and a random number.
+        std::string str = this->name() + std::to_string(parent_->id().id())
+            + std::to_string(time_->t())
+            + std::to_string(parent_->random()->rng_uniform());
+
+        std::size_t hash_id = std::hash<std::string>{}(str);
+        s->set_hash(hash_id);
+        s->set_hash_set(true);
     }
+    shapes_.push_back(s);
+}
+
+void Plugin::close(double /*t*/) {
+    parent_ = nullptr;
+    transform_ = nullptr;
+    id_to_ent_map_ = nullptr;
+    pubsub_ = nullptr;
+    subs_.clear();
+    time_ = nullptr;
+    shapes_.clear();
 }
 } // namespace scrimmage

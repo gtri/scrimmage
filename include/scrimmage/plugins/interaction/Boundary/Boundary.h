@@ -36,7 +36,7 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <map>
 #include <string>
@@ -51,14 +51,16 @@ class Boundary : public scrimmage::EntityInteraction {
  public:
     Boundary();
     bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params);
+              std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt);
+                                 double t, double dt) override;
+
+    static std::shared_ptr<BoundaryBase> make_boundary(const scrimmage_proto::Shape &shape);
+
  protected:
-    std::shared_ptr<sc::interaction::BoundaryBase> boundary_;
     sc::PublisherPtr pub_boundary_;
     bool boundary_published_ = false;
-    BoundaryInfo boundary_info_;
+    std::shared_ptr<scrimmage_proto::Shape> boundary_shape_;
 };
 } // namespace interaction
 } // namespace scrimmage

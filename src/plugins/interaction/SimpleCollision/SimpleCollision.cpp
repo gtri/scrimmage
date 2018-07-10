@@ -45,7 +45,6 @@
 #include <limits>
 #include <memory>
 
-namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::SimpleCollision, SimpleCollision_plugin)
@@ -55,18 +54,18 @@ namespace interaction {
 
 bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
-    collision_range_ = sc::get("collision_range", plugin_params, 0.0);
+    collision_range_ = get("collision_range", plugin_params, 0.0);
 
     // If startup_collision_range isn't defined, default to the collision_range
-    startup_collision_range_ = sc::get("startup_collision_range",
+    startup_collision_range_ = get("startup_collision_range",
                                        plugin_params, collision_range_);
 
-    startup_collisions_only_ = sc::get("startup_collisions_only", plugin_params, false);
+    startup_collisions_only_ = get("startup_collisions_only", plugin_params, false);
 
-    enable_team_collisions_ = sc::get<bool>("enable_team_collisions", plugin_params, true);
-    enable_non_team_collisions_ = sc::get<bool>("enable_non_team_collisions", plugin_params, true);
+    enable_team_collisions_ = get<bool>("enable_team_collisions", plugin_params, true);
+    enable_non_team_collisions_ = get<bool>("enable_non_team_collisions", plugin_params, true);
 
-    init_alt_deconflict_ = sc::get<bool>("init_alt_deconflict", plugin_params, false);
+    init_alt_deconflict_ = get<bool>("init_alt_deconflict", plugin_params, false);
 
     // Setup publishers
     team_collision_pub_ = advertise("GlobalNetwork", "TeamCollision");
@@ -76,16 +75,16 @@ bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
 }
 
 
-bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
+bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
                                               double t, double dt) {
     if (startup_collisions_only_) {
         return true;
     }
 
     // Account for entities "colliding"
-    for (sc::EntityPtr ent1 : ents) {
+    for (EntityPtr ent1 : ents) {
         Eigen::Vector3d p1 = ent1->state()->pos();
-        for (sc::EntityPtr ent2 : ents) {
+        for (EntityPtr ent2 : ents) {
             // ignore distance between itself
             if (ent1->id().id() == ent2->id().id()) continue;
 
@@ -102,7 +101,7 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     ent1->collision();
                     ent2->collision();
 
-                    auto msg = std::make_shared<sc::Message<sm::TeamCollision>>();
+                    auto msg = std::make_shared<Message<sm::TeamCollision>>();
                     msg->data.set_entity_id_1(ent1->id().id());
                     msg->data.set_entity_id_2(ent2->id().id());
                     team_collision_pub_->publish(msg);
@@ -112,7 +111,7 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     ent1->collision();
                     ent2->collision();
 
-                    auto msg = std::make_shared<sc::Message<sm::NonTeamCollision>>();
+                    auto msg = std::make_shared<Message<sm::NonTeamCollision>>();
                     msg->data.set_entity_id_1(ent1->id().id());
                     msg->data.set_entity_id_2(ent2->id().id());
                     non_team_collision_pub_->publish(msg);
@@ -123,24 +122,24 @@ bool SimpleCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     return true;
 }
 
-bool SimpleCollision::collision_exists(std::list<sc::EntityPtr> &ents,
+bool SimpleCollision::collision_exists(std::list<EntityPtr> &ents,
                                        Eigen::Vector3d &p) {
     if (ents.empty()) {
         return false;
     } else {
         if (init_alt_deconflict_) {
-            for (sc::EntityPtr ent : ents) {
+            for (EntityPtr ent : ents) {
                 if (std::abs(p(2) - ent->state()->pos()(2)) <=
                     startup_collision_range_) {
                     return true;
                 }
             }
         } else {
-            std::vector<sc::ID> neighbors;
             if (ents.front()->autonomies().empty()) {
                 return false;
             } else {
-                sc::RTreePtr rtree = ents.front()->autonomies().front()->rtree();
+                std::vector<ID> neighbors;
+                RTreePtr rtree = ents.front()->autonomies().front()->rtree();
                 rtree->neighbors_in_range(p, neighbors, startup_collision_range_);
                 return !neighbors.empty();
             }

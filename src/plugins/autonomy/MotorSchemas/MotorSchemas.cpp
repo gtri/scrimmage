@@ -34,15 +34,15 @@
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Time.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugin_manager/PluginManager.h>
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h>
 
@@ -68,10 +68,29 @@ namespace scrimmage {
 namespace autonomy {
 
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
+    show_shapes_ = sc::get("show_shapes", params, false);
+    max_speed_ = sc::get<double>("max_speed", params, 21);
+
+    // Subscribe to state information
+    std::string state_topic_name = sc::get<std::string>("state_topic_name", params, "State");
+    std::string network_name = sc::get<std::string>("network_name", params, "LocalNetwork");
+    auto state_callback = [&] (scrimmage::MessagePtr<std::string> msg) {
+        current_state_ = msg->data;
+
+        // Get the currently running behaviors
+        auto behavior_list = behaviors_.find(current_state_);
+        if (behavior_list != behaviors_.end()) {
+            current_behaviors_ = behavior_list->second;
+        } else {
+            current_behaviors_ = default_behaviors_;
+        }
+    };
+    subscribe<std::string>(network_name, state_topic_name, state_callback);
+
     // Parse the behavior plugins
     std::string behaviors_str = sc::get<std::string>("behaviors", params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
-    sc::get_vec_of_vecs(behaviors_str, vecs_of_vecs);
+    sc::get_vec_of_vecs(behaviors_str, vecs_of_vecs, " ");
     for (std::vector<std::string> vecs : vecs_of_vecs) {
         if (vecs.size() < 1) {
             std::cout << "Behavior name missing." << std::endl;
@@ -129,31 +148,52 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 
             // Extract the gain for this plugin and apply it
             behavior->set_gain(sc::get<double>("gain", behavior_params, 1.0));
-            behaviors_.push_back(behavior);
+            behavior->set_max_vector_length(max_speed_);
+
+            // cout << "Behavior: " << behavior->name() << endl;
+
+            // Determine which states in which this behavior is active
+            std::vector<std::string> states;
+            if (sc::get_vec("states", config_parse.params(), " ,", states)) {
+                // cout << "adding to... " << endl;
+                // This is a behavior that only runs in these states
+                for (std::string state : states) {
+                    // cout << state << " ";
+                    behaviors_[state].push_back(behavior);
+                }
+                // cout << endl;
+            } else {
+                default_behaviors_.push_back(behavior);
+            }
         }
     }
 
-    show_shapes_ = sc::get("show_shapes", params, false);
-    max_speed_ = sc::get<double>("max_speed", params, 21);
+    // Add the default behaviors to each declared state
+    for (motor_schemas::BehaviorBasePtr behavior : default_behaviors_) {
+        for (auto &kv : behaviors_) {
+            kv.second.push_back(behavior);
+        }
+    }
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    current_behaviors_ = default_behaviors_;
 
-    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
-    shapes_.clear();
+    // cout << "-----------------" << endl;
+    // cout << "ID: " << parent_->id().id() << endl;
 
     // Run all sub behaviors
-    std::list<Eigen::Vector3d> vecs_with_gains;
-    double sum_norms = 0;
-    Eigen::Vector3d vec_sums(0, 0, 0);
-    for (motor_schemas::BehaviorBasePtr &behavior : behaviors_) {
+    double vec_w_gain_sum = 0;
+    Eigen::Vector3d vec_w_gain(0, 0, 0);
+
+    for (motor_schemas::BehaviorBasePtr &behavior : current_behaviors_) {
         behavior->shapes().clear();
+
+        // cout << "Behavior: " << behavior->name() << endl;
 
         // Execute callbacks for received messages before calling
         // step_autonomy
@@ -166,63 +206,69 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
             cout << "MotorSchemas: behavior error" << endl;
         }
 
-        // Grab the desired vector
-        Eigen::Vector3d vec_with_gain = behavior->desired_vector() * behavior->gain();
-        vecs_with_gains.push_back(vec_with_gain);
+        // Grab the desired vector and normalize to max_speed if too large
+        Eigen::Vector3d desired_vector = behavior->desired_vector();
+        if (desired_vector.norm() > max_speed_) {
+            desired_vector = desired_vector.normalized() * max_speed_;
+        }
 
-        // Keep a running sum of the norms of all vectors with gains
-        sum_norms += vec_with_gain.norm();
+        if (desired_vector.hasNaN()) {
+            cout << "Behavior error: " << behavior->name()
+                 << ", desired vector has NaN" << endl;
+            continue;
+        }
+
+        // cout << "desired_vector: " << desired_vector << endl;
+        // cout << "gain: " << behavior->gain() << endl;
+        // cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
 
         // Keep a running sum of all vectors with gains
-        vec_sums += vec_with_gain;
+        vec_w_gain += desired_vector * behavior->gain();
+
+        // Keep a running sum of all gains that have an effective vector
+        Eigen::Vector3d desired_vector_normalized = desired_vector.normalized();
+        if (!desired_vector_normalized.hasNaN()) {
+            vec_w_gain_sum += desired_vector.normalized().norm() * behavior->gain();
+        }
 
         if (show_shapes_) {
-            // Grab the behavior shapes:
-            shapes_.insert(shapes_.end(), behavior->shapes().begin(),
-                           behavior->shapes().end());
+             std::for_each(behavior->shapes().begin(),
+                           behavior->shapes().end(), [&](auto &s) {
+                               this->draw_shape(s);
+                           });
         }
         behavior->shapes().clear();
     }
 
-    Eigen::Vector3d v_sum = vec_sums / sum_norms;
+    Eigen::Vector3d vel_result = vec_w_gain / vec_w_gain_sum;
 
-    // Scale velocity to max speed:
-    Eigen::Vector3d vel_result = v_sum * max_speed_;
+    // If the vel_result has a NaN value, just go straight. NaNs occur during
+    // initialization of some behaviors.
+    if (vel_result.hasNaN()) {
+        vel_result = state_->quat() * Eigen::Vector3d::UnitX() * max_speed_;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Convert resultant vector into heading / speed / altitude command:
     ///////////////////////////////////////////////////////////////////////////
 
-    // Forward speed is normed value of vector:
-    desired_state_->vel()(0) = vel_result.norm();
-
-    // Desired heading
     double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
-    desired_state_->quat().set(0, 0, heading);
-
-    // Set Desired Altitude by projecting velocity
-    desired_state_->pos()(2) = state_->pos()(2) + vel_result(2);
-
-    // Set the VariableIO output for controller
-    vars_.output(desired_alt_idx_, desired_state_->pos()(2));
-    vars_.output(desired_speed_idx_, desired_state_->vel()(0));
+    vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
+    vars_.output(desired_speed_idx_, vel_result.norm());
     vars_.output(desired_heading_idx_, heading);
 
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
     ///////////////////////////////////////////////////////////////////////////
-    // Draw sphere of influence:
     if (show_shapes_) {
         // Draw resultant vector:
-        sc::ShapePtr arrow(new scrimmage_proto::Shape);
-        arrow->set_type(scrimmage_proto::Shape::Line);
-        sc::set(arrow->mutable_color(), 255, 255, 0);
-        arrow->set_opacity(0.75);
-        sc::add_point(arrow, state_->pos());
-        sc::add_point(arrow, vel_result + state_->pos());
-        shapes_.push_back(arrow);
+        line_shape_->set_persistent(true);
+        sc::set(line_shape_->mutable_color(), 255, 255, 0);
+        line_shape_->set_opacity(0.75);
+        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), vel_result + state_->pos());
+        draw_shape(line_shape_);
     }
-
     return true;
 }
 } // namespace autonomy

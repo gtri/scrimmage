@@ -72,11 +72,11 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase{
 
     Multirotor();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
-    virtual bool step(double time, double dt);
+    bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) override;
+    bool step(double time, double dt) override;
 
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
     class Controller : public scrimmage::Controller {
      public:
@@ -112,6 +112,8 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase{
     CSV csv_;
 
     Eigen::Vector3d force_ext_body_;
+
+    bool show_shapes_ = false;
 
  private:
 };

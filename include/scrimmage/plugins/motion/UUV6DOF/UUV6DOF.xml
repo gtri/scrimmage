@@ -1,5 +1,60 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
-<autonomy>
-  <library>UUV6DOF_plugin</library>  
-</autonomy>
+<params>
+  <library>UUV6DOF_plugin</library>
+  <write_csv>false</write_csv>
+
+  <gravity_magnitude>9.81</gravity_magnitude> <!-- m / s^2 -->
+
+  <!-- The following properties are for a REMUS -->
+  <!-- Values taken from "Verification of a Six-Degree of Freedom Simulation
+       Model for the REMUS Autonomous Underwater Vehicle" by Timothy Prestero
+  -->
+
+  <!-- kg * m^2 -->
+  <inertia_matrix>
+    [ 0.177 0.000 0.000 ]
+    [ 0.000 3.450 0.000 ]
+    [ 0.000 0.000 3.450 ]
+  </inertia_matrix>
+
+  <mass>30.479102956</mass> <!-- kg -->
+  <buoyancy>306.0</buoyancy> <!-- Newtons -->
+
+  <c_b>0.0, 0.0, 0.0</c_b> <!-- center of buoyancy r_B meters -->
+  <!--<c_b>-0.611, 0.0, 0.0000</c_b>--> <!-- center of buoyancy r_B meters -->
+  <c_g> 0.000, 0.0, 0.0196</c_g> <!-- center of gravity r_G meters -->
+   
+  <!-- <rho>1030.0</rho> --> <!-- seawater density kg/m^3 -->
+  <!-- <c_d>0.27</c_d> -->
+  <!-- <A_f>0.0285</A_f> --> <!-- hull frontal area m^2 -->
+
+  <!-- drag coefficients -->
+  <Xuu>-1.620</Xuu> <!-- axial drag -->
+  <Yvv>-131.0</Yvv>
+  <Zww>-131.0</Zww>
+  <Mww>+3.180</Mww>
+  <Yrr>+0.632</Yrr>
+  <Mqq>-9.400</Mqq>
+
+  <!-- Added mass matrix -->
+  <!--
+      [ Xu_dot Xv_dot Xw_dot Xp_dot Xq_dot Xr_dot ]
+      [ Yu_dot Yv_dot Yw_dot Yp_dot Yq_dot Yr_dot ]
+      [ Zu_dot Zv_dot Zw_dot Zp_dot Zq_dot Zr_dot ]
+      [ Ku_dot Kv_dot Kw_dot Kp_dot Kq_dot Kr_dot ]
+      [ Mu_dot Mv_dot Mw_dot Mp_dot Mq_dot Mr_dot ]
+      [ Nu_dot Nv_dot Nw_dot Np_dot Nq_dot Nr_dot ]
+  -->
+  <!--
+  <added_mass>
+    [ -0.93   0.0   0.0  0.0000  0.00  0.00 ]
+    [  0.00 -35.5   0.0  0.0000  0.00  1.93 ]
+    [  0.00   0.0 -35.5  0.0000 -1.93  0.00 ]
+    [  0.00   0.0   0.0 -0.0141  0.00  0.00 ]
+    [  0.00   0.0 -1.93  0.0000 -4.88  0.00 ]
+    [  0.00  1.93   0.0  0.0000  0.00 -4.88 ]
+    </added_mass>
+  -->  
+  
+</params>

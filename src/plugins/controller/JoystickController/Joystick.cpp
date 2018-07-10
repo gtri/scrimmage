@@ -32,8 +32,10 @@
 
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/controller/JoystickController/Joystick.h>
+#include <scrimmage/plugin_manager/Plugin.h>
 
 #include <iostream>
+#include <algorithm>
 
 using std::cout;
 using std::endl;
@@ -52,7 +54,7 @@ Joystick::~Joystick() {
 }
 
 void Joystick::init(std::map<std::string, std::string> &params,
-                    VariableIO &vars) {
+                    VariableIO &vars, PluginPtr plugin) {
     print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");
@@ -68,6 +70,8 @@ void Joystick::init(std::map<std::string, std::string> &params,
 
 	axis_ = reinterpret_cast<int*>(calloc(num_of_axis_, sizeof(int)));
 	button_ = reinterpret_cast<char*>(calloc(num_of_buttons_, sizeof(char)));
+
+    prev_button_state_.resize(num_of_buttons_);
 
     if (print_js_values_) {
         cout << "Joystick detected:" << *name_of_joystick << endl;
@@ -104,6 +108,13 @@ void Joystick::init(std::map<std::string, std::string> &params,
             }
         }
     }
+
+    publish_button_state_ = sc::get<bool>("publish_button_state", params, false);
+    std::string button_topic = sc::get<std::string>("button_topic", params, "joystick_buttons");
+    std::string button_network_name = sc::get<std::string>("button_network_name", params, "LocalNetwork");
+    if (publish_button_state_) {
+        pub_buttons_ = plugin->advertise(button_network_name, button_topic);
+    }
 }
 
 bool Joystick::step(double t, double dt, VariableIO &vars) {
@@ -113,12 +124,14 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
     }
 
     // see what to do with the event
+    bool button_changed = false;
     switch (js_.type & ~JS_EVENT_INIT) {
     case JS_EVENT_AXIS:
         axis_[js_.number] = js_.value;
         break;
     case JS_EVENT_BUTTON:
         button_[js_.number] = js_.value;
+        button_changed = true;
         break;
     }
 
@@ -137,6 +150,25 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
     for (AxisScale axis_tf : axis_tfs_) {
         vars.output(axis_tf.vector_index(),
                     axis_tf.scale(axis_[axis_tf.axis_index()]));
+    }
+
+    if (publish_button_state_) {
+        // If the button state has changed, publish a new button message
+        if (button_changed) {
+            auto msg = std::make_shared<sc::Message<std::vector<bool>>>();
+            msg->data.resize(num_of_buttons_);
+
+            for (int i = 0; i < num_of_buttons_; i++) {
+                msg->data[i] = button_[i];
+            }
+
+            auto it = std::mismatch(msg->data.begin(), msg->data.end(),
+                              prev_button_state_.begin());
+            if (it.first != msg->data.end()) {
+                pub_buttons_->publish(msg);
+                prev_button_state_ = msg->data;
+            }
+        }
     }
 
     return true;

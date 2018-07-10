@@ -78,10 +78,10 @@ void FixedWing6DOFControllerPID::init(
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
 
-    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::Out);
-    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::Out);
-    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::Out);
-    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::Out);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool FixedWing6DOFControllerPID::step(double t, double dt) {
@@ -96,10 +96,10 @@ bool FixedWing6DOFControllerPID::step(double t, double dt) {
     // double pitch_error = (-u_alt - state_->quat().pitch());
     //
     // vel_pid_.set_setpoint(desired_state_->vel()(0));
-    // double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+    // double u_throttle = vel_pid_.step(dt, state_->vel().norm());
 
-    // u_ << u_thrust, roll_error, pitch_error, 0;
-    // thrust, elevator, aileron, rudder
+    // u_ << u_throttle, roll_error, pitch_error, 0;
+    // throttle, elevator, aileron, rudder
 
 #if 1
     // Rudder dublet (TODO)

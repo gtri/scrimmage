@@ -17,7 +17,7 @@
   <grid_spacing>10</grid_spacing>
   <grid_size>1000</grid_size>
 
-  <terrain>mcmillan</terrain>
+  <!--<terrain>mcmillan</terrain>-->
   <background_color>191 191 191</background_color> <!-- Red Green Blue -->
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
 
@@ -54,20 +54,33 @@
     <y>0</y>
     <z>100</z>
 
+    <!--
+        <vx>156.977705423</vx>
+        <vy>156.977705423</vy>
+        <heading>45</heading>
+    -->
+
     <vx>222</vx>
     <vy>0</vy>
+    <heading>0</heading>
+    
     <vz>0</vz>
 
     <roll>0</roll>
     <pitch>0</pitch>
-    <heading>0</heading>
     
-    <controller print_raw_joystick_values="false">JoystickController</controller>
-    <!--<controller>FixedWing6DOFControllerPID</controller>-->
-    <motion_model write_csv="true">FixedWing6DOF</motion_model>
-    <!--<motion_model vel_max="100">Unicycle3D</motion_model>-->
-    <visual_model>cessna</visual_model>
+
+    <!--
     <autonomy>Control3D</autonomy>
+    <controller print_raw_joystick_values="false">JoystickController</controller>
+    -->
+
+    <autonomy speed="220">Straight</autonomy>
+    <controller>AircraftPIDController</controller>
+    <motion_model write_csv="true">FixedWing6DOF</motion_model>
+    
+    <visual_model>cessna</visual_model>
+    
 
   </entity>
 

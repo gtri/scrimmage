@@ -30,17 +30,13 @@
  *
  */
 
-#include <scrimmage/plugins/motion/SimpleCar/SimpleCar.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
+#include <scrimmage/plugins/motion/SimpleCar/SimpleCar.h>
 
 #include <boost/algorithm/clamp.hpp>
-
-namespace sc = scrimmage;
-namespace pl = std::placeholders;
 
 using boost::algorithm::clamp;
 
@@ -71,17 +67,20 @@ bool SimpleCar::init(std::map<std::string, std::string> &info,
     x_[Y] = std::stod(info["y"]);
     x_[Z] = std::stod(info["z"]);
     x_[Z_dot] = 0;
-    x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));
+    x_[THETA] = Angles::deg2rad(std::stod(info["heading"]));
 
-    length_ = sc::get<double>("length", params, 100.0);
-    mass_ = sc::get<double>("mass", params, 1.0);
-    enable_gravity_ = sc::get<bool>("enable_gravity", params, false);
-    max_velocity_ = sc::get<double>("max_velocity", params, 30.0);
+    length_ = get<double>("length", params, 100.0);
+    mass_ = get<double>("mass", params, 1.0);
+    enable_gravity_ = get<bool>("enable_gravity", params, false);
+    max_velocity_ = get<double>("max_velocity", params, 30.0);
 
     /////////
     state_->vel() << 0, 0, 0;
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
+
+    input_speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+    input_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
 
     return true;
 }
@@ -111,18 +110,9 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 1 : y-position
     /// 2 : theta
 
-    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
-    double u_vel = u(FORWARD_VELOCITY);
-    double u_theta = u(TURN_RATE);
-
-    u_vel = clamp(u_vel, 0, max_velocity_);
-
-    // Saturate wheel angle to keep tan stable
-    if (u_theta >= M_PI/4) {
-        u_theta = M_PI/4 - 0.0001;
-    } else if (u_theta <= -M_PI/4) {
-        u_theta = -M_PI/4 + 0.0001;
-    }
+    const double u_vel = clamp(vars_.input(input_speed_idx_), 0, max_velocity_);
+    const double theta_lim = M_PI / 4 - 0.0001;
+    const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -theta_lim, theta_lim);
 
     dxdt[X] = u_vel*cos(x[THETA]);
     dxdt[Y] = u_vel*sin(x[THETA]);

@@ -47,9 +47,6 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft, Simpl
 namespace scrimmage {
 namespace motion {
 
-namespace sc = scrimmage;
-namespace pl = std::placeholders;
-
 enum ModelParams {
     X = 0,
     Y,
@@ -76,12 +73,12 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
-    sc::Quaternion &quat = state_->quat();
+    Quaternion &quat = state_->quat();
 
-    min_velocity_ = sc::get("min_velocity", params, 15.0);
-    max_velocity_ = sc::get("max_velocity", params, 40.0);
-    max_roll_ = sc::Angles::deg2rad(sc::get("max_roll", params, 30.0));
-    max_pitch_ = sc::Angles::deg2rad(sc::get("max_pitch", params, 30.0));
+    min_velocity_ = get("min_velocity", params, 15.0);
+    max_velocity_ = get("max_velocity", params, 40.0);
+    max_roll_ = Angles::deg2rad(get("max_roll", params, 30.0));
+    max_pitch_ = Angles::deg2rad(get("max_pitch", params, 30.0));
 
     x_[X] = pos(0);
     x_[Y] = pos(1);
@@ -91,11 +88,15 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     x_[YAW] = quat.yaw();
     x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
 
-    length_ = sc::get("turning_radius", params, 50.0);
+    length_ = get("turning_radius", params, 50.0);
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
     state_->vel() << x_[SPEED] * cos(x_[5]), x_[SPEED] * sin(x_[5]), 0;
+
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
 
     return true;
 }
@@ -105,18 +106,6 @@ bool SimpleAircraft::step(double time, double dt) {
     x_[ROLL] = clamp(x_[ROLL], -max_roll_, max_roll_);
     x_[PITCH] = clamp(x_[PITCH], -max_pitch_, max_pitch_);
     x_[SPEED] = clamp(x_[SPEED], min_velocity_, max_velocity_);
-
-    if (ctrl_u_ == nullptr) {
-        std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(parent_->controller());
-        if (ctrl) {
-            ctrl_u_ = ctrl->u();
-        }
-    }
-
-    if (ctrl_u_ == nullptr) {
-        return false;
-    }
 
     ode_step(dt);
 
@@ -135,12 +124,12 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 4 : pitch
     /// 5 : yaw
     /// 6 : speed
-    double thrust = (*ctrl_u_)(THRUST);
-    double roll_rate = (*ctrl_u_)(TURN_RATE);
-    double pitch_rate = (*ctrl_u_)(PITCH_RATE);
+    double throttle = vars_.input(throttle_idx_);
+    double roll_rate = vars_.input(roll_rate_idx_);
+    double pitch_rate = vars_.input(pitch_rate_idx_);
 
     // Saturate control inputs
-    thrust = clamp(thrust, -100.0, 100.0);
+    throttle = clamp(throttle, -100.0, 100.0);
     roll_rate = clamp(roll_rate, -1, 1.0);
     pitch_rate = clamp(pitch_rate, -1.0, 1.0);
 
@@ -152,10 +141,10 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[PITCH] = pitch_rate;
     dxdt[YAW] = x[SPEED]/length_*tan(x[ROLL]);
 
-    dxdt[SPEED] = thrust/5;
+    dxdt[SPEED] = throttle/5;
 }
 
-void SimpleAircraft::teleport(sc::StatePtr &state) {
+void SimpleAircraft::teleport(StatePtr &state) {
     x_[X] = state->pos()[0];
     x_[Y] = state->pos()[1];
     x_[Z] = state->pos()[2];

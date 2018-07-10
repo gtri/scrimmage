@@ -40,3 +40,7 @@ message Temp {
     int32 other_large = 5;
     double last_update = 6;
 }
+
+message State {
+    string state = 1;
+}

@@ -35,11 +35,10 @@
   <seed>0</seed>
   
   <!-- ========================== TEAM 1 ========================= -->
-  <entity>
-    <name>agent</name>
+  <entity_common name="auction">
     <team_id>1</team_id> 
     <color>0 0 255</color>
-    <count>2</count>
+    <count>1</count>
     <health>1</health>
     <variance_x>50</variance_x>
     <variance_y>50</variance_y>
@@ -52,6 +51,13 @@
     <controller>SingleIntegratorControllerSimple</controller>
     <motion_model>SingleIntegrator</motion_model>
     <autonomy>AuctionAssign</autonomy>            
+  </entity_common> 
+
+  <entity entity_common="auction">
+    <name>agent</name>
+  </entity>
+
+  <entity entity_common="auction">
   </entity>
   
 </runscript>

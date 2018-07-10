@@ -1,0 +1,21 @@
+Source: scrimmage-extra-data
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends: debhelper (>= 9), cmake (>= 3.5.0)
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage-extra-terrain
+# This could be all, but to support multiarch using any for now
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}
+Description: Extra terrain used by SCRIMMAGE
+ Extra terrain data files used by SCRIMMAGE
+
+Package: scrimmage-extra-visual-models
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}
+Description: Extra visual models used by SCRIMMAGE
+ Extra visual model data files used by SCRIMMAGE

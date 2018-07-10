@@ -47,9 +47,9 @@ namespace autonomy {
 class MOOSAutonomy : public scrimmage::Autonomy {
  public:
     MOOSAutonomy();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool ready();
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool ready() override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     void run_moos_node();
@@ -64,6 +64,10 @@ class MOOSAutonomy : public scrimmage::Autonomy {
 
     scrimmage::Angles angles_to_moos_;
     scrimmage::Angles angles_from_moos_;
+
+    int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -42,16 +42,25 @@
 
 namespace scrimmage {
 namespace controller {
-class DoubleIntegratorControllerVelYaw : public motion::DoubleIntegrator::Controller {
+class DoubleIntegratorControllerVelYaw : public scrimmage::Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual Eigen::Vector4d &u() {return u_;}
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-    Eigen::Vector4d u_;
-    std::vector<scrimmage::PID> vel_pids_;
+    scrimmage::PID speed_pid_;
+    scrimmage::PID alt_pid_;
+
     scrimmage::PID yaw_pid_;
+
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
+
+    int acc_x_idx_ = 0;
+    int acc_y_idx_ = 0;
+    int acc_z_idx_ = 0;
+    int turn_rate_idx_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

@@ -80,12 +80,12 @@ int main(int argc, char *argv[]) {
     // Find all summary.csv files under the directory
     std::vector<std::string> paths;
     fs::path root = log_dir;
-    std::string summary_csv = "summary.csv";
     if (fs::exists(root) && fs::is_directory(root)) {
         fs::recursive_directory_iterator it(root);
         fs::recursive_directory_iterator endit;
 
         while (it != endit) {
+            const std::string summary_csv = "summary.csv";
             if (fs::is_regular_file(*it) && it->path().filename() == summary_csv) {
                 std::string full_path = fs::absolute(it->path()).string();
                 paths.push_back(full_path);

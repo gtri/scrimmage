@@ -43,6 +43,7 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/common/VariableIO.h>
 
 #include <iostream>
 #include <limits>
@@ -110,22 +111,41 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
             wp_list_.waypoints().push_back(wp);
         }
     }
-    wp_list_.set_mode(WaypointList::WaypointMode::follow_once); // default for now
 
-    waypoint_list_pub_ = advertise("GlobalNetwork", "WaypointList");
+    std::string mode = sc::get<std::string>("mode", params, "follow_once");
+    if (mode == "follow_once") {
+        wp_list_.set_mode(WaypointList::WaypointMode::follow_once);
+    } else if (mode == "back_and_forth") {
+        wp_list_.set_mode(WaypointList::WaypointMode::back_and_forth);
+    } else if (mode == "loiter") {
+        wp_list_.set_mode(WaypointList::WaypointMode::loiter);
+    } else if (mode == "racetrack") {
+        wp_list_.set_mode(WaypointList::WaypointMode::racetrack);
+    } else {
+        cout << "WaypointGenerator: Invalid mode. Defaulting to follow_once" << endl;
+        wp_list_.set_mode(WaypointList::WaypointMode::follow_once);
+    }
+
+    std::string network_name = sc::get<std::string>("network_name", params, "GlobalNetwork");
+    std::string topic_name = sc::get<std::string>("topic_name", params, "WaypointList");
+    waypoint_list_pub_ = advertise(network_name, topic_name);
+
+    position_x_idx_ = vars_.declare("position_x", VariableIO::Direction::Out);
+    position_y_idx_ = vars_.declare("position_y", VariableIO::Direction::Out);
+    position_z_idx_ = vars_.declare("position_z", VariableIO::Direction::Out);
 }
 
 bool WaypointGenerator::step_autonomy(double t, double dt) {
     auto msg = std::make_shared<sc::Message<WaypointList>>();
 
-    std::vector<Waypoint>::iterator it = wp_list_.waypoints().begin();
+    std::list<Waypoint>::iterator it = wp_list_.waypoints().begin();
     while (it != wp_list_.waypoints().end()) {
         if (t >= it->time()) {
             msg->data.set_mode(wp_list_.mode());
             msg->data.waypoints().push_back(*it);
 
             // Erase this waypoint from the main list
-            std::vector<Waypoint>::iterator it_del = it;
+            std::list<Waypoint>::iterator it_del = it;
             it = wp_list_.waypoints().erase(it_del);
         } else {
             ++it;
@@ -139,6 +159,7 @@ bool WaypointGenerator::step_autonomy(double t, double dt) {
         }
         waypoint_list_pub_->publish(msg);
     }
+
     return true;
 }
 
@@ -147,16 +168,19 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         double x, y, z;
         parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(),
                                        x, y, z);
+        vars_.output(position_x_idx_, x);
+        vars_.output(position_y_idx_, y);
+        vars_.output(position_z_idx_, z);
 
-        sc::ShapePtr shape(new scrimmage_proto::Shape);
-        shape->set_type(scrimmage_proto::Shape::Sphere);
-        shape->set_opacity(0.25);
-        shape->set_radius(wp.position_tolerance());
-        shape->set_persistent(true);
-        sc::set(shape->mutable_center(), x, y, z);
-        sc::set(shape->mutable_color(), waypoint_color_[0], waypoint_color_[1],
+        auto sphere = std::make_shared<scrimmage_proto::Shape>();
+        sphere->set_opacity(0.25);
+        sphere->set_persistent(true);
+        sc::set(sphere->mutable_color(), waypoint_color_[0], waypoint_color_[1],
                 waypoint_color_[2]);
-        shapes_.push_back(shape);
+
+        sphere->mutable_sphere()->set_radius(wp.position_tolerance());
+        sc::set(sphere->mutable_sphere()->mutable_center(), x, y, z);
+        draw_shape(sphere);
     }
 }
 } // namespace autonomy

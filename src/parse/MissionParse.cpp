@@ -62,13 +62,13 @@ namespace rx = rapidxml;
 namespace scrimmage {
 
 bool MissionParse::parse(const std::string &filename) {
-    mission_filename_ = filename;
+    mission_filename_ = expand_user(filename);
 
     rapidxml::xml_document<> doc;
     std::ifstream file(mission_filename_.c_str());
 
     if (!file.is_open()) {
-        cout << "SCRIMMAGE mission file not found: " << filename << endl;
+        cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
         return false;
     }
 
@@ -117,19 +117,28 @@ bool MissionParse::parse(const std::string &filename) {
     // Parse entity_interaction tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("entity_interaction");
          node != 0; node = node->next_sibling("entity_interaction")) {
-        entity_interactions_.push_back(node->value());
+        // If a "name" is specified, use this name
+        rapidxml::xml_attribute<> *attr = node->first_attribute("name");
+        std::string name = (attr == 0) ? node->value() : attr->value();
+        entity_interactions_.push_back(name);
     }
 
     // Parse network name tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("network");
          node != 0; node = node->next_sibling("network")) {
-        network_names_.push_back(node->value());
+        // If a "name" is specified, use this name
+        rapidxml::xml_attribute<> *attr = node->first_attribute("name");
+        std::string name = (attr == 0) ? node->value() : attr->value();
+        network_names_.push_back(name);
     }
 
     // Parse metrics tags
     for (rapidxml::xml_node<> *node = runscript_node->first_node("metrics");
          node != 0; node = node->next_sibling("metrics")) {
-        metrics_.push_back(node->value());
+        // If a "name" is specified, use this name
+        rapidxml::xml_attribute<> *attr = node->first_attribute("name");
+        std::string name = (attr == 0) ? node->value() : attr->value();
+        metrics_.push_back(name);
     }
 
     // param_common name: tag: value
@@ -163,13 +172,20 @@ bool MissionParse::parse(const std::string &filename) {
         if (nm != "entity" && nm != "base"  && nm != "entity_common" && nm != "param_common") {
             params_[nm] = node->value();
 
+            rapidxml::xml_attribute<> *attr = node->first_attribute("name");
+            std::string name = (attr == 0) ? node->value() : attr->value();
+
+            std::string nm2 = nm == "entity_interaction" ? name : nm;
+            std::string nm3 = nm == "metrics" ? name : nm;
+            std::string nm4 = nm == "network" ? name : nm;
+
+            attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node->value();
+            attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node->value();
+            attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node->value();
+
             // Loop through each node's attributes:
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
-
-                std::string nm2 = nm == "entity_interaction" ? node->value() : nm;
-                std::string nm3 = nm == "metrics" ? node->value() : nm;
-                std::string nm4 = nm == "network" ? node->value() : nm;
 
                 std::string attr_name = attr->name();
                 if (attr_name == "param_common") {
@@ -637,7 +653,9 @@ bool MissionParse::create_log_dir() {
         fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
         if (fs_err()) {
             cout << "WARNING: Unable to create latest log file symlink" << endl;
-            cout << "Couldn't create symlink log directory" << endl;
+            cout << "Couldn't create symlink log directory: "
+                 << latest_sym.string() << " -> "
+                 << fs::path(log_dir_).string() << endl;
             print_error();
         }
     }
@@ -811,4 +829,13 @@ std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain()
 std::string MissionParse::get_mission_filename() {
     return mission_filename_;
 }
+
+void MissionParse::set_enable_gui(bool enable) {enable_gui_ = enable;}
+
+void MissionParse::set_time_warp(double warp) {time_warp_ = warp;}
+
+void MissionParse::set_network_gui(bool enable) {network_gui_ = enable;}
+
+void MissionParse::set_start_paused(bool paused) {start_paused_ = paused;}
 } // namespace scrimmage
+

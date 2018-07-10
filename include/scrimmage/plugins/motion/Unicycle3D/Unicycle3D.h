@@ -49,10 +49,10 @@ class Unicycle3D : public scrimmage::MotionModel {
     Unicycle3D();
     ~Unicycle3D();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+    bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
     Eigen::Vector3d ctrl_u_;
@@ -71,7 +71,7 @@ class Unicycle3D : public scrimmage::MotionModel {
 
     bool use_accel_input_;
 
-    int velocity_idx_ = 0;
+    int speed_idx_ = 0;
     int accel_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;

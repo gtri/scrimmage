@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>RLConsensus_plugin</library>
+  <server_address>localhost:50051</server_address>
+  <radius>2</radius>
+
+  <x_discrete>true</x_discrete>
+
+  <ctrl_y>false</ctrl_y>
+  <y_discrete>false</y_discrete>
+
+  <reward_type>origin</reward_type>
+</params>

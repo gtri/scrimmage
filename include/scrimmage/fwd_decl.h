@@ -43,7 +43,14 @@ class LocalCartesian;
 using LocalCartesianPtr = std::shared_ptr<LocalCartesian>;
 }
 
+namespace scrimmage_proto {
+class Shape;
+using ShapePtr = std::shared_ptr<scrimmage_proto::Shape>;
+}
+
 namespace scrimmage {
+
+using ShapePtr = std::shared_ptr<scrimmage_proto::Shape>;
 
 class Autonomy;
 using AutonomyPtr = std::shared_ptr<Autonomy>;
@@ -55,9 +62,6 @@ class ID;
 
 class Random;
 using RandomPtr = std::shared_ptr<Random>;
-
-class Sensable;
-using SensablePtr = std::shared_ptr<Sensable>;
 
 class Contact;
 using ContactMap = std::unordered_map<int, Contact>;

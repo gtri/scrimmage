@@ -37,7 +37,6 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 
 #include <Eigen/Dense>
 
@@ -48,8 +47,8 @@ namespace scrimmage {
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{
  public:
-     virtual void init(std::map<std::string, std::string> &params);
-     virtual bool step_autonomy(double t, double dt);
+     void init(std::map<std::string, std::string> &params) override;
+     bool step_autonomy(double t, double dt) override;
 
  protected:
      double speed_;
@@ -66,6 +65,9 @@ class Straight : public scrimmage::Autonomy{
      int desired_alt_idx_ = 0;
      int desired_speed_idx_ = 0;
      int desired_heading_idx_ = 0;
+
+     scrimmage_proto::ShapePtr text_shape_;
+     scrimmage_proto::ShapePtr sphere_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage

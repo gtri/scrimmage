@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/entity/Entity.h>
@@ -40,6 +41,7 @@
 #include <scrimmage/math/Angles.h>
 
 #include <initialization/FGTrim.h>
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
 #include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084
@@ -53,7 +55,6 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::JSBSimModel, JSBSimMo
 namespace scrimmage {
 namespace motion {
 
-namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
 std::tuple<int, int, int> JSBSimModel::version() {
@@ -62,21 +63,35 @@ std::tuple<int, int, int> JSBSimModel::version() {
 
 bool JSBSimModel::init(std::map<std::string, std::string> &info,
                        std::map<std::string, std::string> &params) {
-    angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
-    angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
-    angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
-    angles_from_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_X);
+    angles_from_jsbsim_ = Angles(0, Angles::Type::GPS, Angles::Type::EUCLIDEAN);
+    angles_to_jsbsim_ = Angles(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS);
 
-    angles_to_jsbsim_.set_input_clock_direction(ang::Rotate::CCW);
-    angles_to_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_X);
-    angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
-    angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
+    use_pitch_ = str2bool(params.at("use_pitch"));
+    std::string z_name =  use_pitch_ ?
+        vars_.type_map().at(VariableIO::Type::desired_pitch) :
+        vars_.type_map().at(VariableIO::Type::desired_altitude);
 
-    use_pitch_ = sc::str2bool(params.at("use_pitch"));
+    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
+    alt_or_pitch_idx_ = vars_.declare(z_name, VariableIO::Direction::In);
 
     JSBSim::FGJSBBase base;
     base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
+
+    fg_out_enable_ = get<bool>("flightgear_output_enable", params, false);
+    if (fg_out_enable_) {
+        output_fg_ = new JSBSim::FGOutputFGMod(&(*exec_));
+        std::string ip = get<std::string>("flightgear_ip", params, "localhost");
+        std::string port = get<std::string>("flightgear_port", params, "5600");
+        std::string protocol = get<std::string>("flightgear_protocol", params, "UDP");
+        std::string name = ip + ":" + protocol + "/" + port; // localhost:UDP/5600
+
+        output_fg_->SetIdx(0);
+        output_fg_->SetOutputName(name);
+        output_fg_->SetRateHz(60);
+        output_fg_->InitModel();
+    }
 
     exec_->SetDebugLevel(0);
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
@@ -187,15 +202,13 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimModel::step(double time, double dt) {
-    Eigen::Vector3d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
+    double desired_velocity = vars_.input(speed_idx_);
+    double roll_cmd = vars_.input(roll_idx_);
 
-    double desired_velocity = u[0];
-    double bank_cmd = u[1];
-
-    // + : bank right, - : bank left
-    bank_setpoint_node_->setDoubleValue(bank_cmd);
+    // + : roll right, - : roll left
+    bank_setpoint_node_->setDoubleValue(roll_cmd);
     if (use_pitch_) {
-        double elevator_cmd = u[2];
+        double elevator_cmd = vars_.input(alt_or_pitch_idx_);
 
         // Negate altitude PID from the elevator control
         elevator_cmd -= exec_->GetPropertyValue("ap/elevator_cmd");
@@ -204,7 +217,7 @@ bool JSBSimModel::step(double time, double dt) {
         // Try to remove altitude control by putting setpoint to current altitude
         desired_altitude_node_->setDoubleValue(state_->pos()(2) * meters2feet);
     } else {
-        double desired_alt = u[2];
+        double desired_alt = vars_.input(alt_or_pitch_idx_);
         // Set desired altitude (we just need the desired altitude, use the current
         // x,y as placeholders).
         double lat_curr, lon_curr, alt_result;
@@ -220,6 +233,11 @@ bool JSBSimModel::step(double time, double dt) {
     exec_->Setdt(dt);
     exec_->Run();
     // Save state
+
+    if (fg_out_enable_) {
+        output_fg_->Print();
+    }
+
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
                                    longitude_node_->getDoubleValue(),
                                    altitude_node_->getDoubleValue() * feet2meters,
@@ -239,7 +257,7 @@ bool JSBSimModel::step(double time, double dt) {
     return true;
 }
 
-void JSBSimModel::teleport(sc::StatePtr &state) {
+void JSBSimModel::teleport(StatePtr &state) {
     double lat, lon, alt;
     parent_->projection()->Reverse(state->pos()(0),
                                    state->pos()(1),

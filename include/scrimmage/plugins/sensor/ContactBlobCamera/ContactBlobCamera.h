@@ -48,8 +48,8 @@ namespace scrimmage {
 namespace sensor {
 class ContactBlobCamera : public scrimmage::Sensor {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual scrimmage::MessageBasePtr sensor_msg(double t);
+    void init(std::map<std::string, std::string> &params) override;
+    scrimmage::MessageBasePtr sensor_msg(double t) override;
 
  protected:
     std::shared_ptr<std::default_random_engine> gener_;
@@ -58,10 +58,18 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     Eigen::Vector2d project_rel_3d_to_2d(Eigen::Vector3d rel_pos);
     bool in_field_of_view(Eigen::Vector3d rel_pos);
+    void draw_object_with_bounding_box(cv::Mat frame, cv::Rect rect,
+                                       Eigen::Vector2d center, double radius);
 
     double max_detect_range_;
     double az_thresh_;
     double el_thresh_;
+
+    double fn_prob_;
+    double fp_prob_;
+    int max_false_positives_;
+    int std_dev_w_;
+    int std_dev_h_;
 
     int img_width_;
     int img_height_;

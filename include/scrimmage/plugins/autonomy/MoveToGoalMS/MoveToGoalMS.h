@@ -34,9 +34,11 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 
 #include <string>
 #include <map>
+#include <list>
 
 namespace scrimmage {
 namespace autonomy {
@@ -44,11 +46,12 @@ namespace motor_schemas {
 class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
     MoveToGoalMS();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-    Eigen::Vector3d goal_;
+    Waypoint wp_;
+    Eigen::Vector3d wp_local_;
 };
 } // namespace motor_schemas
 } // namespace autonomy

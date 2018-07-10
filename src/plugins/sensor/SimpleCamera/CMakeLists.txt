@@ -12,7 +12,6 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-proto-gen)
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

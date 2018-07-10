@@ -34,10 +34,39 @@
 
 #include <Eigen/Dense>
 
+#include <iostream>
 #include <map>
 #include <string>
 
 namespace scrimmage {
+
+std::map<VariableIO::Type, std::string>VariableIO::type_map_ = {
+    {VariableIO::Type::desired_altitude, "desired_altitude"},
+    {VariableIO::Type::desired_speed, "desired_speed"},
+    {VariableIO::Type::desired_heading, "desired_heading"},
+    {VariableIO::Type::desired_roll, "desired_roll"},
+    {VariableIO::Type::desired_pitch, "desired_pitch"},
+    {VariableIO::Type::desired_turn_rate, "desired_turn_rate"},
+    {VariableIO::Type::desired_pitch_rate, "desired_pitch_rate"},
+    {VariableIO::Type::desired_roll_rate, "desired_roll_rate"},
+    {VariableIO::Type::speed, "speed"},
+    {VariableIO::Type::throttle, "throttle"},
+    {VariableIO::Type::elevator, "elevator"},
+    {VariableIO::Type::aileron, "aileron"},
+    {VariableIO::Type::rudder, "rudder"},
+    {VariableIO::Type::turn_rate, "turn_rate"},
+    {VariableIO::Type::pitch_rate, "pitch_rate"},
+    {VariableIO::Type::roll_rate, "roll_rate"},
+    {VariableIO::Type::velocity_x, "velocity_x"},
+    {VariableIO::Type::velocity_y, "velocity_y"},
+    {VariableIO::Type::velocity_z, "velocity_z"},
+    {VariableIO::Type::position_x, "position_x"},
+    {VariableIO::Type::position_y, "position_y"},
+    {VariableIO::Type::position_z, "position_z"},
+    {VariableIO::Type::acceleration_x, "acceleration_x"},
+    {VariableIO::Type::acceleration_y, "acceleration_y"},
+    {VariableIO::Type::acceleration_z, "acceleration_z"}
+};
 
 VariableIO::VariableIO() : input_(std::make_shared<Eigen::VectorXd>()),
                            output_(std::make_shared<Eigen::VectorXd>()) {
@@ -90,6 +119,17 @@ int VariableIO::declare(std::string var, Direction dir) {
     }
 }
 
+int VariableIO::declare(Type type, Direction dir) {
+    std::string var("");
+    auto it = type_map_.find(type);
+    if (it == type_map_.end()) {
+        std::cout << "Warning: Use of invalid VariableIO::Type" << std::endl;
+    } else {
+        var = it->second;
+    }
+    return declare(var, dir);
+}
+
 double VariableIO::input(int i) {
     return (*input_)(i);
 }
@@ -107,6 +147,7 @@ double VariableIO::output(int i) {
 }
 
 void connect(VariableIO &output, VariableIO &input) {
+    output.output_variable_index() = input.input_variable_index();
     output.output_ = input.input_;
 }
 
@@ -118,11 +159,26 @@ bool VariableIO::exists(std::string var, Direction dir) {
     }
 }
 
+bool VariableIO::exists(Type type, Direction dir) {
+    auto it = type_map_.find(type);
+    if (it == type_map_.end()) {
+        return false;
+    }
+    return exists(it->second, dir);
+}
+
 std::set<std::string> VariableIO::declared_input_variables() {
     return declared_input_variables_;
 }
 
 std::set<std::string> VariableIO::declared_output_variables() {
     return declared_output_variables_;
+}
+
+void VariableIO::set_input(const std::shared_ptr<Eigen::VectorXd> &input) {
+    input_ = input;
+}
+void VariableIO::set_output(const std::shared_ptr<Eigen::VectorXd> &output) {
+    output_ = output;
 }
 } // namespace scrimmage

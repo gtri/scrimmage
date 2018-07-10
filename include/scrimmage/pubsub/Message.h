@@ -42,14 +42,8 @@ template <class T>
 class Message : public MessageBase {
  public:
     Message() : MessageBase() {}
-#if ENABLE_PYTHON_BINDINGS == 0
     explicit Message(T _data, const std::string &_serialized_data = "") :
-    MessageBase(_serialized_data), data(_data) {}
-#else
-    explicit Message(T _data,
-                     const std::string &_serialized_data = "", pybind11::object _py_data = pybind11::none()) :
-    MessageBase(_serialized_data, _py_data), data(_data) {}
-#endif
+      MessageBase(), data(_data) {}
     T data;
 };
 

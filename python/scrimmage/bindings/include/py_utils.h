@@ -37,3 +37,4 @@ void add_math(pybind11::module &m);
 void add_pubsub(pybind11::module &m);
 void add_common(pybind11::module &m);
 void add_autonomy(pybind11::module &m);
+void add_openai_env(pybind11::module &m);

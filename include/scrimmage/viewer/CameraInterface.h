@@ -71,6 +71,7 @@ class CameraInterface : public vtkInteractorStyleTrackballCamera {
 
  protected:
     vtkSmartPointer<Updater> updater_;
+    bool enable_object_draw_ = false;
 };
 // vtkStandardNewMacro(CameraInterface);
 } // namespace scrimmage

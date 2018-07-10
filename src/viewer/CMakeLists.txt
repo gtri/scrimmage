@@ -15,13 +15,15 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 add_dependencies(${LIBRARY_NAME} scrimmage-protos)
 if(VTK_LIBRARIES)
   target_link_libraries(${LIBRARY_NAME}
-    scrimmage
+    scrimmage-core
     scrimmage-protos
+    scrimmage-boost
     ${VTK_LIBRARIES})
 else()
   target_link_libraries(${LIBRARY_NAME}
-    scrimmage
+    scrimmage-core
     scrimmage-protos
+    scrimmage-boost
     vtkHybrid
     vtkWidgets)
 endif()

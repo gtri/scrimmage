@@ -75,13 +75,12 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
 
     // Setup variable index for controllers
-    thrust_idx_ = vars_.declare("thrust", VariableIO::Direction::In);
-    elevator_idx_ = vars_.declare("elevator", VariableIO::Direction::In);
-    aileron_idx_ = vars_.declare("aileron", VariableIO::Direction::In);
-    rudder_idx_ = vars_.declare("rudder", VariableIO::Direction::In);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
 
     // Need to rotate axes by 180 degrees around X-axis SCRIMMAGE's global
     // frame uses Z-axis pointing up. Many aircraft equations of motion are
@@ -104,9 +103,9 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     x_[Vw] = state_->vel()(1);
     x_[Ww] = state_->vel()(2);
 
-    x_[Xw] = pos(0);
-    x_[Yw] = pos(1);
-    x_[Zw] = pos(2);
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
 
     x_[q0] = quat_body_.w();
     x_[q1] = quat_body_.x();
@@ -181,7 +180,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                     "Ax_b", "Ay_b", "Az_b",
                     "AngAccelx_b", "AngAccely_b", "AngAccelz_b",
                     "roll", "pitch", "yaw",
-                    "thrust", "elevator", "aileron", "rudder"});
+                    "throttle", "thrust", "elevator", "aileron", "rudder"});
     }
 
     rho_ = sc::get<double>("air_density", params, rho_); // air density
@@ -245,8 +244,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 
 bool FixedWing6DOF::step(double time, double dt) {
     // Get inputs and saturate
-    double thrust_norm = clamp(vars_.input(thrust_idx_), -1.0, 1.0);
-    thrust_ = scale<double>(thrust_norm, -1.0, 1.0, thrust_min_, thrust_max_);
+    throttle_ = clamp(vars_.input(throttle_idx_), -1.0, 1.0);
+    thrust_ = scale<double>(throttle_, -1.0, 1.0, thrust_min_, thrust_max_);
 
     delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
@@ -261,8 +260,36 @@ bool FixedWing6DOF::step(double time, double dt) {
     cout<< std::setprecision(prec) << "delta_rudder_:   " << delta_rudder_ << endl;
 #endif
 
-    // TODO: convert global linear velocity and angular velocity into local
-    // velocities
+    quat_body_ = rot_180_x_axis_ * state_->quat();
+    quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
+                   quat_body_.pitch(), quat_body_.yaw());
+
+    Eigen::Vector3d local_lin_vel(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
+    local_lin_vel = quat_body_.rotate_reverse(local_lin_vel);
+
+    x_[U] = local_lin_vel(0);
+    x_[V] = local_lin_vel(1);
+    x_[W] = local_lin_vel(2);
+
+    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1), -state_->ang_vel()(2));
+    local_ang_vel = quat_body_.rotate_reverse(local_ang_vel);
+
+    x_[P] = local_ang_vel(0);
+    x_[Q] = local_ang_vel(1);
+    x_[R] = local_ang_vel(2);
+
+    x_[Uw] = state_->vel()(0);
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
+
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
+
+    x_[q0] = quat_body_.w();
+    x_[q1] = quat_body_.x();
+    x_[q2] = quat_body_.y();
+    x_[q3] = quat_body_.z();
 
     // Cache values to calculate changes:
     Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
@@ -312,26 +339,22 @@ bool FixedWing6DOF::step(double time, double dt) {
 
     // draw velocity
     if (draw_vel_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255, 255, 0);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->vel()/10 );
-        shapes_.push_back(shape);
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 255, 0, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->vel());
+        draw_shape(line);
     }
 
     // draw angular velocity
     if (draw_ang_vel_) {
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Line);
-        shape->set_opacity(1.0);
-        sc::add_point(shape, state_->pos() );
-        Eigen::Vector3d color(255, 255, 0);
-        sc::set(shape->mutable_color(), color[0], color[1], color[2]);
-        sc::add_point(shape, state_->pos() + state_->ang_vel()*10 );
-        shapes_.push_back(shape);
+        sc::ShapePtr line(new sp::Shape());
+        line->set_opacity(1.0);
+        sc::set(line->mutable_color(), 0, 255, 0);
+        sc::set(line->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->ang_vel());
+        draw_shape(line);
     }
 
     if (write_csv_) {
@@ -358,6 +381,7 @@ bool FixedWing6DOF::step(double time, double dt) {
                 {"roll", quat_body_.roll()},
                 {"pitch", quat_body_.pitch()},
                 {"yaw", quat_body_.yaw()},
+                {"throttle", throttle_},
                 {"thrust", thrust_},
                 {"elevator", delta_elevator_},
                 {"aileron", delta_aileron_},

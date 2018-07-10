@@ -126,7 +126,7 @@ ExternalProject_Add (
 # Download and build pybind11
 ########################################################
 set(PYBIND11_GIT_REPOSITORY https://github.com/pybind/pybind11.git)
-set(PYBIND11_GIT_TAG 13d8cd2cc7566de34d724f428ea7a6b6448d6a0c)
+set(PYBIND11_GIT_TAG v2.2.3)
 ExternalProject_Add(
   pybind11
   GIT_REPOSITORY    ${PYBIND11_GIT_REPOSITORY}
@@ -175,36 +175,24 @@ endif()
 
 
 if (BUILD_SOURCE_PACKAGES)
-  ########################################################
-  # Configuration for Building Source Packages
-  ########################################################
-  find_program(TAR tar)
-  if (NOT TAR)
-    message(WARNING "Unable to find tar program. "
-      "Won't be able to build source packages.")
-  endif()
-
-  find_program(DEBUILD debuild)
-  if (NOT DEBUILD)
-    message(WARNING "Unable to find debuild. "
-      "Won't be able to build source packages.")
-  endif()
-
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/Modules)
-  include(FuncBuildPPA)
-
   # Only kevin-demarco can push to this PPA. However, if you setup your own PPA
   # on Launchpad and generate the appropriate GPG keys, you can push to your
   # own PPA.
+  find_package(CMakeDebSrc)
   SET(PPA "ppa:kevin-demarco/scrimmage" CACHE STRING "Launchpad PPA for dput.")
   SET(GPG_KEY_ID "3951DA01" CACHE STRING "GPG Key ID on local system.")
+  SET(DISTRIBUTIONS "xenial jessie" CACHE STRING "Target Linux distributions.")
+  SET(ARCHITECTURES "amd64 i386 armhf arm64" CACHE STRING "Possible build architectures.")
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-pybind11"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${PYBIND11_GIT_REPOSITORY}
     GIT_TAG ${PYBIND11_GIT_TAG}
-    SOURCE_VERSION 0.1
-    PPA_NUMBER 1
+    SOURCE_VERSION 2.2.3
+    PPA_VERSION_NUMBER 6
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -212,12 +200,15 @@ if (BUILD_SOURCE_PACKAGES)
     CONFIGURE_COMMAND ""
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-protobuf3"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${PROTOBUF_GIT_REPOSITORY}
     GIT_TAG ${PROTOBUF_VERSION}
     SOURCE_VERSION ${PROTOBUF_VERSION_NUM}
-    PPA_NUMBER 1
+    PPA_VERSION_NUMBER 4
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -225,12 +216,15 @@ if (BUILD_SOURCE_PACKAGES)
     CONFIGURE_COMMAND ./autogen.sh
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-grpc"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${GRPC_GIT_REPOSITORY}
     GIT_TAG ${GRPC_VERSION}
     SOURCE_VERSION ${GRPC_VERSION_NUM}
-    PPA_NUMBER 1
+    PPA_VERSION_NUMBER 7
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -238,38 +232,47 @@ if (BUILD_SOURCE_PACKAGES)
     CONFIGURE_COMMAND ""
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-jsbsim"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${JSBSIM_GIT_REPOSITORY}
     GIT_TAG ${JSBSIM_GIT_TAG}
     SOURCE_VERSION 0.1
-    PPA_NUMBER 2
+    PPA_VERSION_NUMBER 5
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
-    PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch && ${SETUP_DIR}/install-aircraft.sh -c "${CMAKE_CURRENT_BINARY_DIR}/src/scrimmage-jsbsim-ppa"
+    PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch && ${SETUP_DIR}/install-aircraft.sh -c "${CMAKE_CURRENT_BINARY_DIR}/src/scrimmage-jsbsim-xenial-deb-src"
     CONFIGURE_COMMAND ""
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-opencv3"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${OPENCV3_GIT_REPOSITORY}
     GIT_TAG ${OPENCV3_VERSION}
     SOURCE_VERSION ${OPENCV3_VERSION}
-    PPA_NUMBER 1
+    PPA_VERSION_NUMBER 4
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
-    UPDATE_COMMAND ""
-    PATCH_COMMAND git clone ${OPENCV3_CONTRIB_GIT_REPOSITORY} && cd opencv_contrib && git checkout ${OPENCV3_VERSION}
+    UPDATE_COMMAND git clone https://github.com/opencv/opencv_contrib.git --branch 3.4.0
+    PATCH_COMMAND ""
     CONFIGURE_COMMAND ""
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-vtk8"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${VTK8_GIT_REPOSITORY}
     GIT_TAG ${VTK8_GIT_TAG}
     SOURCE_VERSION ${VTK8_VERSION_NUM}
-    PPA_NUMBER 0
+    PPA_VERSION_NUMBER 0
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -277,12 +280,15 @@ if (BUILD_SOURCE_PACKAGES)
     CONFIGURE_COMMAND ""
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY https://github.com/gtri/scrimmage.git
     GIT_TAG master
-    SOURCE_VERSION 0.1
-    PPA_NUMBER 5
+    SOURCE_VERSION 0.2.0
+    PPA_VERSION_NUMBER 0
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
@@ -290,20 +296,27 @@ if (BUILD_SOURCE_PACKAGES)
     CONFIGURE_COMMAND ""
     )
 
-  BuildPPA(
+  BuildDebSrcFromDir(
     NAME "scrimmage-dependencies"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
+    PROJECT_DIRECTORY ${CMAKE_SOURCE_DIR}/packages/scrimmage-dependencies/scrimmage-dependencies
     SOURCE_VERSION 0.2.1
     PPA ${PPA}
-    PPA_NUMBER 0
+    PPA_VERSION_NUMBER 3
     GPG_KEY_ID ${GPG_KEY_ID}
     )
 
-  BuildPPAFromRepo(
+  BuildDebSrcFromRepo(
     NAME "scrimmage-extra-data"
+    DISTRIBUTIONS ${DISTRIBUTIONS}
+    ARCHITECTURES ${ARCHITECTURES}
+    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY https://github.com/SyllogismRXS/scrimmage-extra-data.git
     GIT_TAG master
     SOURCE_VERSION 0.1
-    PPA_NUMBER 0
+    PPA_VERSION_NUMBER 6
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""

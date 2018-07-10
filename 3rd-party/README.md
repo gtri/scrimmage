@@ -52,14 +52,22 @@ the packages are uploaded to Kevin DeMarco's PPA
 don't), but you still want to upload to Launchpad, you will need to create a
 Launchpad account, a PPA, and setup your GPG keys with the Ubuntu
 keyserver. You can change the PPA and GPG key ID with the "PPA" and
-"GPG\_KEY\_ID" CMake cache variables.
+"GPG\_KEY\_ID" CMake cache variables. 
+
+The CMakeDebSrc cmake project is used to build the debian source
+packages. CMakeDebSrc is a collection of cmake scripts that wrap around
+pbuilder commands to build packages for various Linux distributions and
+architectures. First, clone and install the CMakeDebSrc project from GitHub:
+https://github.com/SyllogismRXS/CMakeDebSrc. You will also need to use pbuilder
+to initialize a base tarball and setup a pbuilderrc file (see CMakeDebSrc's
+installation instructions).
 
     $ cd /path/to/3rd-party
     $ mkdir -p build-ppa && cd build-ppa
     $ cmake -DBUILD_SOURCE_PACKAGES=ON ..
-    $ make scrimmage-pybind11-debuild     # build the deb source package
-    $ make scrimmage-pybind11-local-test  # build a deb binary package locally
-    $ make scrimmage-pybind11-upload-ppa  # upload deb src to PPA
+    $ make scrimmage-pybind11-xenial-debuild # build the deb source package
+    $ make scrimmage-pybind11-xenial-amd64-local-test  # build a deb binary package locally
+    $ make scrimmage-pybind11-xenial-upload-ppa  # upload deb src to PPA
 
 As changes are made to the dependencies source code and the debian packaging
 configuration files, the package maintainer needs to bump the versions for the

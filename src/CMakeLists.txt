@@ -1,7 +1,7 @@
 ##############################################
 #          Library Creation                  #
 ##############################################
-SET (LIBRARY_NAME scrimmage)
+SET (LIBRARY_NAME scrimmage-core)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
@@ -25,6 +25,7 @@ set(SRCS
     pubsub/NetworkDevice.cpp pubsub/Publisher.cpp pubsub/PubSub.cpp
     sensor/Sensor.cpp
     simcontrol/SimControl.cpp
+    simcontrol/SimUtils.cpp
     common/DelayedTask.cpp
     common/ExponentialFilter.cpp
 )
@@ -33,16 +34,26 @@ ADD_LIBRARY( ${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-add_dependencies(${LIBRARY_NAME} scrimmage scrimmage-msgs scrimmage-proto-gen)
+add_dependencies(${LIBRARY_NAME}
+  scrimmage-msgs scrimmage-proto-gen
+  )
 
-target_link_libraries(
-  ${LIBRARY_NAME}
-  scrimmage-protos
-  ${PYTHON_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${GeographicLib_LIBRARIES}
-  scrimmage-msgs
-  ${CMAKE_DL_LIBS}
+#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+
+target_link_libraries(${LIBRARY_NAME}
+  PUBLIC
+    scrimmage-protos
+    scrimmage-msgs
+    ${GeographicLib_LIBRARIES}
+    ${CMAKE_DL_LIBS}
+  PRIVATE
+    ${PYTHON_LIBRARIES}
+    Boost::boost
+    Boost::filesystem
+    Boost::program_options
+    Boost::date_time
+    Boost::graph
+    Boost::thread
 )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
@@ -53,6 +64,12 @@ set_target_properties(
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   )
+
+target_include_directories(${LIBRARY_NAME}
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR};${EIGEN3_INCLUDE_DIR};${GeographicLib_INCLUDE_DIRS}>"
+)
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"
@@ -69,7 +86,7 @@ add_subdirectory(plugins)
 
 # Ensure every plugin depends on scrimmage, scrimmage-msgs, and scrimmage-proto
 foreach (plugin ${PROJECT_PLUGINS})
-  add_dependencies(${plugin} scrimmage scrimmage-msgs scrimmage-proto-gen)
+  add_dependencies(${plugin} scrimmage-core scrimmage-msgs scrimmage-proto-gen)
 endforeach()
 
 # Build visualizer is VTK is found

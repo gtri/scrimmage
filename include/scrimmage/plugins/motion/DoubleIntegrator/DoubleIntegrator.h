@@ -48,23 +48,17 @@ class DoubleIntegrator : public scrimmage::MotionModel {
  public:
     DoubleIntegrator();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
+    bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) override;
 
-    virtual bool step(double t, double dt);
+    bool step(double t, double dt) override;
 
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
     void teleport(scrimmage::StatePtr &state);
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector4d &u() = 0;
-    };
-
  protected:
     double update_dvdt(double vel, double max_vel, double acc);
-    Eigen::Vector4d ctrl_u_;
     double max_vel_ = std::numeric_limits<double>::infinity();
     double max_acc_ = std::numeric_limits<double>::infinity();
     double max_yaw_vel_ = std::numeric_limits<double>::infinity();
@@ -73,6 +67,14 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     bool sim_copter_orientation_ = false;
     double sim_copter_max_roll_ = 1.0;
     double sim_copter_max_pitch_ = 1.0;
+
+    int acc_x_idx_ = 0;
+    int acc_y_idx_ = 0;
+    int acc_z_idx_ = 0;
+    int turn_rate_idx_ = 0;
+
+    Eigen::Vector3d acc_vec_;
+    double turn_rate_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

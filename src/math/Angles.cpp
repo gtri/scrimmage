@@ -38,6 +38,29 @@
 
 namespace scrimmage {
 
+Angles::Angles() {}
+
+Angles::Angles(double angle, Type input_type, Type output_type) {
+
+    if (input_type == Type::GPS) {
+        in_zero_ = HeadingZero::Pos_Y;
+        in_direction_ = Rotate::CW;
+    } else if (input_type == Type::EUCLIDEAN) {
+        in_zero_ = HeadingZero::Pos_X;
+        in_direction_ = Rotate::CCW;
+    }
+
+    if (output_type == Type::GPS) {
+        out_zero_ = HeadingZero::Pos_Y;
+        out_direction_ = Rotate::CW;
+    } else if (output_type == Type::EUCLIDEAN) {
+        out_zero_ = HeadingZero::Pos_X;
+        out_direction_ = Rotate::CCW;
+    }
+
+    set_angle(angle);
+}
+
 double Angles::deg2rad(double deg) {return deg * M_PI / 180.0;}
 
 double Angles::rad2deg(double rad) {return rad * 180.0 / M_PI;}

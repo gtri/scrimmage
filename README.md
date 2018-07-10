@@ -66,7 +66,7 @@ Now, install the SCRIMMAGE custom built binary dependencies:
 Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
 local system and sets up some environment variables:
 
-    $ source /opt/scrimmage/setup.sh
+    $ source /opt/scrimmage/*/setup.sh
 
 Note: If you need to build the dependencies from source or generate binary
 packages, see [Build Dependencies from Source](./3rd-party/README.md)
@@ -202,9 +202,31 @@ contact information, and receive desired state from the IvP Helm. To build
 MOOSAutonomy, you have to provide cmake with the path to the moos-ivp source
 tree:
 
-    cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
+    $ cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
 
-## Download SCRIMMAGE Docker Image
+
+## FlightGear Multiplayer Server (FGMS) Integration
+
+If you want to use FGMS with SCRIMMAGE, you will first need to download and
+build FGMS according to the instructions at:
+https://github.com/FlightGear/fgms
+
+Clone the flight gear multiplayer server repository and build it:
+
+    $ git clone https://github.com/FlightGear/fgms.git
+    $ cd fgms
+    $ git checkout 6669ac222b9f6ca34b0d56ba1bc6cac9cc0324b2
+    $ mkdir build && cd build
+    $ cmake .. -DBUILD_SHARED_LIB=ON
+    $ make
+
+The FGMS plugin interacts with SCRIMMAGE to receive the state variables of each
+entity. To build FGMS, you have to provide SCRIMMAGE's CMake project the path
+to the FGMS root source:
+
+    $ cmake .. -DFGMS_SOURCE_TREE_BASE=/path/to/fgms
+
+## Running SCRIMMAGE inside of Docker
 
 The SCRIMMAGE docker image is pushed to a public repository after a successful
 build on Travis. If docker is installed on your machine, you can obtain the
@@ -212,10 +234,33 @@ SCRIMMAGE docker image by running the following command:
 
     $ docker pull syllogismrxs/scrimmage:latest
 
-Now you can run an instance of the SCRIMMAGE docker image and run SCRIMMAGE in
-headless mode:
+You can pass mission files from your host machine to the `scrimmage` executable
+inside of the docker container with the following command:
 
-    $ docker run -it syllogismrxs/scrimmage:latest /bin/bash
+    $ cd /path/to/scrimmage/missions
+    $ docker run --name my-scrimmage \
+        -v ${PWD}/straight_jsbsim.xml:/straight_jsbsim.xml \
+        syllogismrxs/scrimmage:latest /straight_jsbsim.xml
+
+The previous command mounts the `straight_jsbsim.xml` mission file on your host
+machine into the scrimmage container and then the `/straight_jsbsim.xml`
+portion at the end of the command overwrites the default docker `CMD`, which is
+defined in the Dockerfile. Finally, the `scrimmage` executable is passed the
+`/straight_jsbsim.xml` mission file.
+
+Since we provided a name for our container, we can easily extract the SCRIMMAGE
+log files from the docker container:
+
+    $ docker cp my-scrimmage:/root/.scrimmage/logs .
+
+If you need to drop into a shell inside of the scrimmage container, you will
+need to overwrite the docker image's ENTRYPOINT.
+
+    $ docker run -it --entrypoint="/bin/bash" syllogismrxs/scrimmage:latest
+
+Once inside of the container, you will need to source the `setup.bash` file
+manually before running a mission.
+
     $ source ~/.scrimmage/setup.bash
     $ scrimmage ./missions/straight-no-gui.xml
 
@@ -233,6 +278,42 @@ Install Grid Engine:
 Note that you can configure how qsub is called with a `.sge_request` in your
 home directory. Further, you can set the number of available slots (cores
 available) when running grid engine under the Queue Control tab.
+
+## Installing and Configuring PostgreSQL
+
+Install PostgreSQL and configure the database scrimmage, create user scrimmage with
+password scrimmage, and add that user to the scrimmage database:
+
+    $ sudo apt-get install postgresql postgresql-contrib
+    $ sudo update-rc.d postgresql enable &&\
+      sudo service postgresql restart &&\
+      sudo -u postgres createdb scrimmage &&\
+      sudo -u postgres psql -c "CREATE USER scrimmage with password 'scrimmage';" &&\
+      sudo -u postgres psql -c "alter user scrimmage with encrypted password 'scrimmage'" &&\
+      sudo -u postgres psql -c "grant all privileges on database scrimmage to scrimmage;"
+
+Go into /etc/postgresql/9.5/main/pg_hba.conf (or similar path to your postgres
+install) and change the line:
+
+`local    all     all     peer`
+
+to
+
+`local    all     all     md5`
+
+Then run:
+
+    $ sudo service postgresql restart
+
+This will allow us to authenticate the scrimmage user on postgres with the
+password scrimmage that we created.
+
+To use the python scripts for pulling .csv files to postgres, install psycopg2,
+the python interface for postgres:
+
+    $ pip install psycopg2
+
+The scripts are located in the scripts directory.
 
 ## Troubleshooting
 

@@ -7,11 +7,13 @@ add_executable(${APP_NAME} ${SRCS})
 
 target_link_libraries(${APP_NAME}
   ${JSBSIM_LIBRARIES}
-  ${PYTHON_LIBRARIES}  
-  scrimmage
-  ${Boost_LIBRARIES}
+  scrimmage-core
+  scrimmage-boost
   dl
   )
+if (ENABLE_PYTHON_BINDINGS)
+  target_link_libraries(${APP_NAME} scrimmage-python)
+endif()
 
 ##--------------------------------------------------------
 ## Library Creation

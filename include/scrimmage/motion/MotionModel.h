@@ -49,7 +49,7 @@ class MotionModel : public Plugin {
     typedef std::vector<double> vector_t;
 
     MotionModel();
-    std::string type();
+    std::string type() override;
 
     virtual bool init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params);
@@ -66,6 +66,7 @@ class MotionModel : public Plugin {
     virtual std::vector<double> &full_state_vector() {
         return x_;
     }
+    void close(double t) override;
 
  protected:
     void ode_step(double dt);

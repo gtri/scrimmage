@@ -239,7 +239,8 @@ Eigen::Vector3d vec2eigen(std::vector<double> &vec) {
 }
 
 bool get_vec_of_vecs(std::string &str,
-                     std::vector<std::vector<std::string>> &out) {
+                     std::vector<std::vector<std::string>> &out,
+                     const std::string &delims) {
     // Of the form...
     // [a b c d]
     // [e f g h]
@@ -252,7 +253,7 @@ bool get_vec_of_vecs(std::string &str,
         if (t_1.length() > 0) {
             // Split based on space or comma
             std::vector<std::string> tokens_2;
-            boost::algorithm::split(tokens_2, t_1, boost::is_any_of(" ,"),
+            boost::algorithm::split(tokens_2, t_1, boost::is_any_of(delims),
                                     boost::token_compress_on);
 
             std::vector<std::string> temp;

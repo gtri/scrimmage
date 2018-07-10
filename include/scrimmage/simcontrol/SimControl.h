@@ -33,7 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 
+#include <Eigen/Dense>
+
 #include <scrimmage/fwd_decl.h>
+
 #include <scrimmage/common/Timer.h>
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/FileSearch.h>
@@ -53,8 +56,6 @@
 
 namespace scrimmage {
 
-typedef std::shared_ptr<scrimmage_proto::Shape> ShapePtr;
-
 typedef std::shared_ptr<scrimmage_proto::ContactVisual> ContactVisualPtr;
 
 enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
@@ -66,6 +67,7 @@ class SimControl {
     void start();
     void display_progress(bool enable);
     void run();
+    bool run_single_step(int loop_number);
     void cleanup();
     bool wait_for_ready();
     void force_exit();
@@ -92,6 +94,8 @@ class SimControl {
     void set_time(double t);
     double t();
 
+    bool output_summary();
+    bool output_runtime();
     void setup_timer(double rate, double time_warp);
     void start_overall_timer();
     void start_loop_timer();
@@ -102,11 +106,12 @@ class SimControl {
     bool paused();
     double time_warp();
     double actual_time_warp();
+    void close();
 
     void single_step(bool value);
     bool single_step();
 
-    bool end_condition_reached(double t, double dt);
+    bool end_condition_reached();
 
     Timer &timer();
 
@@ -124,14 +129,19 @@ class SimControl {
     void step_taken();
 
     void set_incoming_interface(InterfacePtr &incoming_interface);
+    InterfacePtr incoming_interface();
 
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
+    InterfacePtr outgoing_interface();
+
+    void set_limited_verbosity(bool limited_verbosity);
+    std::list<EntityPtr> &ents();
 
  protected:
     // Key: Entity ID
     // Value: Team ID
-    std::shared_ptr<std::unordered_map<int, int> > id_to_team_map_;
-    std::shared_ptr<std::unordered_map<int, EntityPtr> > id_to_ent_map_;
+    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
 
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
@@ -144,7 +154,7 @@ class SimControl {
 
     ContactMapPtr contacts_;
 
-    std::map<int, std::list<ShapePtr> > shapes_;
+    std::map<int, std::list<scrimmage_proto::ShapePtr>> shapes_;
 
     std::map<int, ContactVisualPtr> contact_visuals_;
 
@@ -236,12 +246,14 @@ class SimControl {
     PublisherPtr pub_ent_int_exit_;
     PublisherPtr pub_no_teams_;
     PublisherPtr pub_one_team_;
+    PublisherPtr pub_world_point_clicked_;
 
     std::list<EntityPtr> not_ready_;
     DelayedTask screenshot_task_;
     bool prev_paused_;
 
     DelayedTask reseed_task_;
+    bool limited_verbosity_;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

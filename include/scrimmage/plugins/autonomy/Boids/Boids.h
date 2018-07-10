@@ -42,8 +42,8 @@ namespace scrimmage {
 namespace autonomy {
 class Boids : public scrimmage::Autonomy{
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     void velocity_controller(Eigen::Vector3d &v);
@@ -74,6 +74,10 @@ class Boids : public scrimmage::Autonomy{
     int io_vel_idx_ = 0;
     int io_turn_rate_idx_ = 0;
     int io_pitch_rate_idx_ = 0;
+
+    int io_heading_idx_  = 0;
+    int io_altitude_idx_  = 0;
+    int io_desired_speed_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

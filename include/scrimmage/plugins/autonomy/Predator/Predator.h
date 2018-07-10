@@ -42,8 +42,8 @@ namespace scrimmage {
 namespace autonomy {
 class Predator : public scrimmage::Autonomy {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     int follow_id_;
@@ -53,9 +53,12 @@ class Predator : public scrimmage::Autonomy {
     bool allow_prey_switching_;
     scrimmage::PublisherPtr capture_ent_pub_;
 
-    int io_vel_idx_ = 0;
-    int io_turn_rate_idx_ = 0;
-    int io_pitch_rate_idx_ = 0;
+    int speed_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
+
+    int desired_heading_idx_ = 0;
+    int desired_speed_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

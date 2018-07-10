@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Publisher.h>
 
@@ -54,7 +55,8 @@ PublisherPtr PubSub::advertise(std::string &network_name, const std::string &top
                                unsigned int max_queue_size,
                                bool enable_queue_size, PluginPtr plugin) {
     if (pub_map_.count(network_name) == 0) {
-        cout << "WARNING: Publisher unable to connect to network ("
+        cout << "WARNING: " << plugin->name()
+             << " - Publisher unable to connect to network ("
              << network_name << ") on topic (" << topic << ")" << endl;
     }
 
@@ -65,7 +67,7 @@ PublisherPtr PubSub::advertise(std::string &network_name, const std::string &top
 }
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_devices(
-    std::string &network_name, std::string &topic_name, TopicMap &devs) {
+    const std::string &network_name, const std::string &topic_name, TopicMap &devs) {
 
     auto it_network = devs.find(network_name);
     if (it_network == devs.end()) {
@@ -86,12 +88,12 @@ boost::optional<std::list<NetworkDevicePtr>> PubSub::find_devices(
 }
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_pubs(
-    std::string &network_name, std::string &topic_name) {
+    const std::string &network_name, const std::string &topic_name) {
     return find_devices(network_name, topic_name, pub_map_);
 }
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_subs(
-    std::string &network_name, std::string &topic_name) {
+    const std::string &network_name, const std::string &topic_name) {
     return find_devices(network_name, topic_name, sub_map_);
 }
 

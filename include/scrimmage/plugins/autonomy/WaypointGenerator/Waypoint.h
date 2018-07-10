@@ -45,6 +45,9 @@ namespace autonomy {
 
 class Waypoint {
  public:
+    Waypoint() : latitude_(0.0), longitude_(0.0),
+        altitude_(0.0) {
+    }
     Waypoint(double latitude, double longitude, double altitude)
         : latitude_(latitude), longitude_(longitude), altitude_(altitude) {
     }
@@ -86,6 +89,19 @@ class Waypoint {
            << wp.position_tolerance() << ", "
            << wp.quat_tolerance();
         return os;
+    }
+
+    friend bool operator==(Waypoint &lhs, Waypoint &rhs) {
+        if (std::abs(lhs.latitude() - rhs.latitude()) > std::numeric_limits<double>::epsilon()) {
+            return false;
+        }
+        if (std::abs(lhs.longitude() - rhs.longitude()) > std::numeric_limits<double>::epsilon()) {
+            return false;
+        }
+        if (std::abs(lhs.altitude() - rhs.altitude()) > std::numeric_limits<double>::epsilon()) {
+            return false;
+        }
+        return true;
     }
 
  protected:

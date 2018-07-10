@@ -1,0 +1,68 @@
+<runscript name="Straight flying">
+
+  <run dt="1"
+    end="100"
+    enable_gui="false"
+    network_gui="false"
+    start="0.0"
+    start_paused="true"
+    time_warp="30" />
+
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time</end_condition> 
+
+  <grid_spacing>1</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <background_color>191 191 191</background_color> 
+  <gui_update_period>10</gui_update_period> 
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>nothing</output_type>
+  <display_progress>false</display_progress>
+  <show_plugins>false</show_plugins>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>false</show_origin>
+  <origin_length>10</origin_length>
+  <camera focal_point="0,0,0" follow_id="4" mode="free" pos="0,0.01,50" show_fps="false" />
+
+  <!-- <entity_interaction -->
+  <!--   server_address="localhost:50051" -->
+  <!--   timeout="5">ExternalControlInteraction</entity_interaction> -->
+
+  <seed>3361078855</seed>
+
+  <entity_common name="all">
+      <count>1</count>
+      <health>1</health>
+      <radius>1</radius>
+
+      <team_id>1</team_id>
+      <visual_model>Sphere</visual_model>
+      <motion_model>SingleIntegrator</motion_model>
+      <controller>SingleIntegratorControllerSimple</controller>
+      <sensor order="0">RLConsensusSensor</sensor>
+      <autonomy
+        reward_type="origin"
+        discrete_x="true"
+        discrete_y="true"
+        radius="1.5"
+        ctrl_y="false">RLConsensus</autonomy>
+      <y>0</y>
+      <z>0</z>
+  </entity_common>
+
+  <entity entity_common="all">
+    <count>2</count>
+    <x>0</x>
+    <variance_x>5</variance_x>
+    <color>77 77 255</color>
+  </entity>
+</runscript>

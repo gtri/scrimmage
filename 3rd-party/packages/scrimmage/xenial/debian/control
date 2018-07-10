@@ -1,0 +1,45 @@
+Source: scrimmage
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends:
+ cmake,
+ build-essential,
+ scrimmage-dependencies,
+ python,
+ python-dev,
+ libvtk5-dev,
+ librapidxml-dev,
+ libeigen3-dev,
+ libgeographic-dev,
+ libboost-thread-dev,
+ libboost-date-time-dev,
+ libboost-iostreams-dev,
+ libboost-program-options-dev,
+ libboost-regex-dev,
+ libboost-filesystem-dev,
+ libboost-system-dev,
+ libboost-graph-dev,
+ libbullet-dev,
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage
+Multi-Arch: same
+Architecture: any
+Depends:
+ parallel,
+ scrimmage-dependencies,
+ libvtk5.10,
+ libgeographic14,
+ libboost-thread1.58.0,
+ libboost-date-time1.58.0,
+ libboost-iostreams1.58.0,
+ libboost-program-options1.58.0,
+ libboost-regex1.58.0,
+ libboost-filesystem1.58.0,
+ libboost-system1.58.0,
+ libbulletcollision2.83.6,
+Description: SCRIMMAGE multi-agent robotics simulator
+ SCRIMMAGE is a multi-agent simulator for robotics research. It has been used
+ to conduct studies in multi-agent task assignment, differential game theory,
+ novel controllers, and reinforcement learning.

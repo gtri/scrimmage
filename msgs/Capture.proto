@@ -19,3 +19,18 @@ message NonTeamCapture{
         int32 source_id = 1;
         int32 target_id = 2;
 }
+
+message FlagTaken{
+        int32 entity_id = 1;
+        int32 entity_team_id = 2;
+        int32 flag_boundary_id = 3;
+        int32 flag_team_id = 4;
+}
+
+message FlagCaptured{
+        int32 entity_id = 1;
+        int32 entity_team_id = 2;
+        int32 capture_boundary_id = 3;
+        int32 flag_boundary_id = 4;
+        int32 flag_team_id = 5;        
+}

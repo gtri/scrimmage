@@ -41,7 +41,6 @@ REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControl
 namespace scrimmage {
 namespace controller {
 
-namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
 void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &params) {
@@ -62,10 +61,24 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
     heading_lag_initialized_ = false;
 
     max_bank_ = ang::deg2rad(std::stod(params.at("max_bank")));
+
+    input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    input_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+
+    output_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    output_bank_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::Out);
+
+    // Is the motion model using pitch or altitude control
+    std::string z_name = vars_.exists(VariableIO::Type::desired_pitch, VariableIO::Direction::Out) ?
+        vars_.type_map().at(VariableIO::Type::desired_pitch) :
+        vars_.type_map().at(VariableIO::Type::desired_altitude);
+
+    output_alt_idx_ = vars_.declare(z_name, VariableIO::Direction::Out);
 }
 
 bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
-    double desired_yaw = desired_state_->quat().yaw();
+    double desired_yaw = vars_.input(input_heading_idx_);
     angles_to_jsbsim_.set_angle(ang::rad2deg(desired_yaw));
     desired_yaw = ang::deg2rad(angles_to_jsbsim_.angle());
     desired_yaw = ang::angle_pi(desired_yaw);
@@ -86,7 +99,9 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
         desired_yaw_lag = desired_yaw * k + (1.0 - k) * prev_desired_yaw_;
     } else {
         desired_yaw_lag = desired_yaw;
-        heading_lag_initialized_ = true;
+        if (!std::isnan(desired_yaw_lag)) {
+            heading_lag_initialized_ = true;
+        }
     }
     prev_desired_yaw_ = desired_yaw_lag;
 
@@ -98,9 +113,9 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     bank_cmd = boost::algorithm::clamp(bank_cmd, -max_bank_, max_bank_);
 
     // save what was used as the input
-    u_(0) = desired_state_->vel()(0);
-    u_(1) = bank_cmd;
-    u_(2) = desired_state_->pos()(2);
+    vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));
+    vars_.output(output_bank_idx_, bank_cmd);
+    vars_.output(output_alt_idx_, vars_.input(input_alt_idx_));
 
     return true;
 }

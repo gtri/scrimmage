@@ -135,16 +135,15 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         sc::Quaternion quat(0, 0, 0);
 
         std::shared_ptr<sp::Shape> wall(new sp::Shape);
-        wall->set_type(sp::Shape::Cube);
         sc::set(wall->mutable_color(), color[0], color[1], color[2]);
         wall->set_opacity(1.0);
         wall->set_persistent(true);
-        sc::set(wall->mutable_center(), center);
-        sc::set(wall->mutable_xyz_lengths(), width, height, wall_height_);
-        sc::set(wall->mutable_quat(), quat);
-
-        shapes_.push_back(wall);
-
+        sc::set(wall->mutable_cuboid()->mutable_center(), center);
+        wall->mutable_cuboid()->set_x_length(width);
+        wall->mutable_cuboid()->set_y_length(height);
+        wall->mutable_cuboid()->set_z_length(wall_height_);
+        sc::set(wall->mutable_cuboid()->mutable_quat(), quat);
+        draw_shape(wall);
 
         sp::Shape *shape = msg->data.add_shape();
         *shape = *wall;

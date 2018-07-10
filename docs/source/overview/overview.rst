@@ -13,4 +13,5 @@ Overview
    core-plugins
    logging
    xml-tags
+   variableio
    changelog

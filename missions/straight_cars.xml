@@ -3,7 +3,7 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Test">
   <run start="0.0" end="100" dt="0.01"
        time_warp="1"
-       enable_gui="true"
+       enable_gui="false"
        network_gui="false"
        start_paused="true"/>
 

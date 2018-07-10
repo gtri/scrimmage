@@ -35,7 +35,6 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/pubsub/NetworkDevice.h>
 #include <scrimmage/common/CSV.h>
 
 #include <map>
@@ -55,12 +54,14 @@ class Network : public Plugin {
                       std::map<std::string, std::string> &/*plugin_params*/);
     virtual bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
                       std::map<std::string, std::list<NetworkDevicePtr>> &subs);
-    virtual std::string name();
-    virtual std::string type();
+    std::string name() override;
+    std::string type() override;
 
     void set_rtree(RTreePtr rtree);
 
     void set_random(RandomPtr random);
+
+    void close(double t) override;
 
     inline virtual void set_mission_parse(MissionParsePtr mp)
     { mp_ = mp; }

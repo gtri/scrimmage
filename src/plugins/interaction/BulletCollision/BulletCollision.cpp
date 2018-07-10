@@ -119,10 +119,10 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
                 if (kv.second->type() == "Ray") {
                     // Create a publisher for this sensor
                     // "entity_id/RayTrace0/pointcloud"
+                    std::string topic_name = std::to_string(id) + "/"
+                        + kv.first  + "/pointcloud";
                     pcl_pubs_[id][kv.first] =
-                        advertise("GlobalNetwork", std::to_string(id) + "/" +
-                                  kv.first  +
-                                  "/pointcloud", 10);
+                        advertise("GlobalNetwork", topic_name, 10);
 
                     std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
@@ -166,18 +166,18 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
 
     auto shape_gen_cb = [&] (scrimmage::MessagePtr<sp::Shapes> msg) {
         for (int i = 0; i < msg->data.shape_size(); i++) {
-            if (msg->data.shape(i).type() == sp::Shape::Cube) {
-                btVector3 xyz(btScalar(msg->data.shape(i).xyz_lengths().x()/2.0),
-                              btScalar(msg->data.shape(i).xyz_lengths().y()/2.0),
-                              btScalar(msg->data.shape(i).xyz_lengths().z()/2.0));
+            if (msg->data.shape(i).oneof_type_case() == sp::Shape::kCuboid) {
+                btVector3 xyz(btScalar(msg->data.shape(i).cuboid().x_length()/2.0),
+                              btScalar(msg->data.shape(i).cuboid().y_length()/2.0),
+                              btScalar(msg->data.shape(i).cuboid().z_length()/2.0));
 
                 btBoxShape *wall = new btBoxShape(xyz);
 
                 btCollisionObject* coll_object = new btCollisionObject();
                 coll_object->setCollisionShape(wall);
-                coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).center().x(),
-                                                                     (btScalar) msg->data.shape(i).center().y(),
-                                                                     (btScalar) msg->data.shape(i).center().z()));
+                coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).cuboid().center().x(),
+                                                                     (btScalar) msg->data.shape(i).cuboid().center().y(),
+                                                                     (btScalar) msg->data.shape(i).cuboid().center().z()));
                 bt_collision_world->addCollisionObject(coll_object);
             }
         }
@@ -200,8 +200,6 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
 
 bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt) {
-    shapes_.clear();
-
     // Update positions of all objects
     for (auto &kv : objects_) {
         sc::EntityPtr &ent = (*id_to_ent_map_)[kv.first];
@@ -267,24 +265,22 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                           (hit_point-sensor_pos_w).norm(), 255));
 
                     if (show_rays_) {
-                        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
-                        arrow->set_type(sp::Shape::Line);
-                        sc::set(arrow->mutable_color(), 255, 0, 0);
-                        arrow->set_opacity(1.0);
-                        sc::add_point(arrow, sensor_pos_w);
-                        sc::add_point(arrow, hit_point);
-                        shapes_.push_back(arrow);
+                        std::shared_ptr<sp::Shape> line(new sp::Shape);
+                        sc::set(line->mutable_color(), 255, 0, 0);
+                        line->set_opacity(1.0);
+                        sc::set(line->mutable_line()->mutable_start(), sensor_pos_w);
+                        sc::set(line->mutable_line()->mutable_end(), hit_point);
+                        draw_shape(line);
                     }
                 } else {
                     msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255));
                     if (show_rays_) {
-                        std::shared_ptr<sp::Shape> arrow(new sp::Shape);
-                        arrow->set_type(sp::Shape::Line);
-                        sc::set(arrow->mutable_color(), 0, 0, 255);
-                        arrow->set_opacity(0.5);
-                        sc::add_point(arrow, sensor_pos_w);
-                        sc::add_point(arrow, ray_w);
-                        shapes_.push_back(arrow);
+                        std::shared_ptr<sp::Shape> line(new sp::Shape);
+                        sc::set(line->mutable_color(), 0, 0, 255);
+                        line->set_opacity(0.5);
+                        sc::set(line->mutable_line()->mutable_start(), sensor_pos_w);
+                        sc::set(line->mutable_line()->mutable_end(), ray_w);
+                        draw_shape(line);
                     }
                 }
             }

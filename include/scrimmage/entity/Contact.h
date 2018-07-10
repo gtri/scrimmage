@@ -48,9 +48,6 @@ using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
 
 namespace scrimmage {
 
-class Sensable;
-using SensablePtr = std::shared_ptr<Sensable>;
-
 class State;
 using StatePtr = std::shared_ptr<State>;
 

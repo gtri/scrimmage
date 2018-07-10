@@ -18,6 +18,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
 
   get_filename_component(PROTO_NAME ${PROTO_FILE} NAME_WE)
   get_filename_component(ABS_PROTO_NAME ${PROTO_FILE} REALPATH)
+  get_filename_component(PROTO_PATH ${ABS_PROTO_NAME} DIRECTORY)
 
   set(PROTO_FILE_GEN_CPP_FILES
     ${GEN_DIR}/${PROTO_NAME}.pb.cc
@@ -25,17 +26,39 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
   set(PROTO_FILE_GEN_H_FILES
     ${GEN_DIR}/${PROTO_NAME}.pb.h
     )
+
+  if (GRPC_FOUND)
+    set(PROTO_FILE_GEN_CPP_FILES
+      ${PROTO_FILE_GEN_CPP_FILES}
+      ${GEN_DIR}/${PROTO_NAME}.grpc.pb.cc
+      )
+    set(PROTO_FILE_GEN_H_FILES
+      ${PROTO_FILE_GEN_H_FILES}
+      ${GEN_DIR}/${PROTO_NAME}.grpc.pb.h
+      )
+  endif()
+
   set(PROTO_FILE_GEN_FILES
     ${PROTO_FILE_GEN_CPP_FILES}
     ${PROTO_FILE_GEN_H_FILES}
     )
 
-  add_custom_command(
-    OUTPUT ${PROTO_FILE_GEN_FILES}
-    COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${CMAKE_CURRENT_SOURCE_DIR} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
-    DEPENDS ${PROTO_FILE}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    )
+  if (GRPC_FOUND)
+    add_custom_command(
+      OUTPUT ${PROTO_FILE_GEN_FILES}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --grpc_out=${GEN_DIR} --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --python_out=${GEN_DIR} --grpc_python_out=${GEN_DIR} --plugin=protoc-gen-grpc_python=${GRPC_PYTHON_PLUGIN}
+      DEPENDS ${PROTO_FILE}
+      WORKING_DIRECTORY ${PROTO_PATH}
+      )
+  else()
+    add_custom_command(
+      OUTPUT ${PROTO_FILE_GEN_FILES}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
+      DEPENDS ${PROTO_FILE}
+      WORKING_DIRECTORY ${PROTO_PATH}
+      )
+  endif()
 
  # Make a list of all generated CPP files
  set(GEN_CPP_FILES
@@ -75,6 +98,12 @@ set_target_properties(
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   )
+
+target_include_directories(${LIBRARY_NAME}
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    "$<BUILD_INTERFACE:${MSGS_INCLUDE_DIR};${PROTOBUF_INCLUDE_DIRS}>"
+)
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"

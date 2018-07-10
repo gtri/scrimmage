@@ -72,8 +72,6 @@ bool LocalNetwork::init(std::map<std::string, std::string> &mission_params,
 bool LocalNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
                                 const scrimmage::PluginPtr &sub_plugin) {
     // If the publisher and subscriber have the same parent, it is reachable
-  std::cout << "pub_plugin->parent() = " << pub_plugin->parent() << ", sub_plugin->parent() = " << sub_plugin->parent() << std::endl;
-  std::cout << (pub_plugin->parent() == sub_plugin->parent()) << std::endl;
     return (pub_plugin->parent() == sub_plugin->parent());
 }
 

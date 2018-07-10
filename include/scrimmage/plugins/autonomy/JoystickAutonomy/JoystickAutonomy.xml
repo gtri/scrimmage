@@ -10,7 +10,7 @@
   <!-- PS3 style controller aircraft mapping -->
   <!--
   <axis_map>
-    [ thrust   1 -32767 +32767 -1 +1 -1 ]
+    [ throttle 1 -32767 +32767 -1 +1 -1 ]
     [ elevator 3 -32767 +32767 -1 +1 -1 ]
     [ aileron  2 -32767 +32767 -1 +1 +1 ]
     [ rudder   4 -32767 +32767 -1 +1 -1 ]
@@ -19,13 +19,15 @@
 
   <!-- Flight joystick aircraft mapping -->
   <axis_map>
-    [ thrust   2 -32767 +32767 -1 +1 -1 ]
+    [ throttle 2 -32767 +32767 -1 +1 -1 ]
     [ elevator 1 -32767 +32767 -1 +1 -1 ]
     [ aileron  0 -32767 +32767 -1 +1 +1 ]
     [ rudder   3 -32767 +32767 -1 +1 -1 ]
   </axis_map>
 
-
+  <button_topic>joystick_buttons</button_topic>
+  <button_network_name>LocalNetwork</button_network_name>
+  
   <!-- Mapping for controlling Unicycle model -->
   <!--
   <axis_map>

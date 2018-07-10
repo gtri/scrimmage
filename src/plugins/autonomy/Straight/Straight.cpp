@@ -37,6 +37,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
@@ -54,7 +55,6 @@
 #include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
 #endif
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryInfo.h>
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 
 namespace sc = scrimmage;
@@ -104,10 +104,6 @@ void Straight::init(std::map<std::string, std::string> &params) {
         /////////////////////////////////////////////////////////
     }
 
-    desired_state_->vel() = speed_*Eigen::Vector3d::UnitX();
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = state_->pos()(2)*Eigen::Vector3d::UnitZ();
-
     // Project goal in front...
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
     Eigen::Vector3d unit_vector = rel_pos.normalized();
@@ -120,32 +116,48 @@ void Straight::init(std::map<std::string, std::string> &params) {
         // Draw a text label 30 meters in front of vehicle:
         Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
 
-        sc::ShapePtr shape(new sp::Shape());
-        shape->set_type(sp::Shape::Text);
-        sc::set(shape->mutable_color(), 255, 255, 255);
-        sc::set(shape->mutable_center(), in_front);
-        shape->set_persistent(true);
-        shape->set_text("Hello SCRIMMAGE!");
-        shape->set_opacity(1.0);
-        shapes_.push_back(shape);
+        // Create the shape and set generic shape properties
+        text_shape_ = std::make_shared<sp::Shape>();
+        text_shape_->set_persistent(true);
+        text_shape_->set_opacity(1.0);
+        sc::set(text_shape_->mutable_color(), 255, 255, 255);
+
+        // Set the text shape's specific properties
+        sc::set(text_shape_->mutable_text()->mutable_center(), in_front);
+        text_shape_->mutable_text()->set_text("Hello, SCRIMMAGE!");
+
+        // Draw the shape in the 3D viewer
+        draw_shape(text_shape_);
     }
 
     enable_boundary_control_ = scrimmage::get<bool>("enable_boundary_control",
                                                     params, false);
 
-    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
-        std::shared_ptr<sci::Cuboid> cuboid = std::make_shared<sci::Cuboid>();
-        cuboid->set_points(msg->data.points);
-        boundary_ = cuboid;
+    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+        boundary_ = sci::Boundary::make_boundary(msg->data);
     };
-    subscribe<sci::BoundaryInfo>("GlobalNetwork", "Boundary", callback);
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
-    desired_alt_idx_ = vars_.declare("desired_altitude", VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare("desired_speed", VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare("desired_heading", VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+    if (show_text_label_) {
+        // An example of changing a shape's property
+        if (t > 1.0 && t < (1.0 + dt)) {
+            text_shape_->set_opacity(0.5);
+            text_shape_->mutable_text()->set_text("Goodbye, SCRIMMAGE!");
+            draw_shape(text_shape_);
+        }
+
+        // An example of removing a shape
+        if (t > 5.0 && t < (5.0 + dt)) {
+            text_shape_->set_persistent(false);
+            draw_shape(text_shape_);
+        }
+    }
 
     // Read data from sensors...
     sc::State own_state = *state_;
@@ -158,6 +170,9 @@ bool Straight::step_autonomy(double t, double dt) {
             }
         } else if (kv.first == "NoisyContacts0") {
             auto msg = kv.second->sense<std::list<sc::Contact>>(t);
+            std::for_each(kv.second->shapes().begin(), kv.second->shapes().end(),
+                  [&](auto s) { this->draw_shape(s); });
+            kv.second->shapes().clear();
         } else if (kv.first == "AirSimSensor0") {
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
             auto msg = kv.second->sense<std::vector<sc::sensor::AirSimSensorType>>(t);
@@ -207,24 +222,11 @@ bool Straight::step_autonomy(double t, double dt) {
     ///////////////////////////////////////////////////////////////////////////
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
-    desired_state_->vel()(0) = v.norm();
 
-    // Desired heading
-    double heading = scrimmage::Angles::angle_2pi(atan2(v(1), v(0)));
-
-    // Desired pitch
-    Eigen::Vector2d xy(v(0), v(1));
-    double pitch = scrimmage::Angles::angle_2pi(atan2(v(2), xy.norm()));
-
-    // Set Desired Altitude to goal's z-position
-    desired_state_->pos()(2) = goal_(2);
-
+    double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
-
-    // Set the desired pitch and heading
-    desired_state_->quat().set(0, pitch, heading);
 
     return true;
 }

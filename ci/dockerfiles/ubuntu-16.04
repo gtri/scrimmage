@@ -10,7 +10,7 @@ WORKDIR /root
 #install ros
 #see here: http://wiki.ros.org/kinetic/Installation/Ubuntu
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
 RUN apt-get update
 RUN apt-get install -y ros-kinetic-desktop-full
 RUN rosdep init && rosdep update
@@ -22,18 +22,16 @@ RUN apt-get update && \
     add-apt-repository ppa:kevin-demarco/scrimmage && \
     apt-get update && \
     apt-get install -y scrimmage-dependencies && \
-    /opt/scrimmage/setup.sh
+    /opt/scrimmage/*/setup.sh
 
-# this is for openai gym
-# not installed as part of 3rd-party building
-# so as not to confuse python environments
-# see here for installation commands:
+# this is for openai gym not installed as part of 3rd-party building so as not
+# to confuse python environments see here for installation commands:
 # https://github.com/openai/gym#installing-everything
 RUN apt-get update && apt-get install -y python-pip python-numpy python-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python-opengl libboost-all-dev libsdl2-dev swig
 RUN apt-get update && apt-get install -y git ninja-build
 RUN git clone https://github.com/openai/gym
 WORKDIR /root/gym
-RUN git checkout 0c91364cd4a7ea70f242a28b85c3aea2d74aa35a
+RUN git checkout v0.10.5
 RUN pip install -e '.[all]'
 WORKDIR /root
 
@@ -43,8 +41,6 @@ RUN pip install cpplint
 
 RUN pip install protobuf==3.3.0 grpcio==1.2.1
 
-RUN apt install -y ros-kinetic-mrpt-navigation
-
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
@@ -52,24 +48,6 @@ COPY ./ /root/scrimmage/scrimmage
 # Install dependencies provided by package manager
 WORKDIR /root/scrimmage/scrimmage
 RUN ./setup/install-binaries.sh -e 0 -p 3
-
-## Build 3rd-party dependencies
-#RUN mkdir -p ./3rd-party/build && \
-#    cd ./3rd-party/build && \
-#    /bin/bash -c "cmake .. && source ~/.scrimmage/setup.bash && make"
-
-
-## build 3rd party python protobuf
-#RUN cd /root/scrimmage/3rd-party/build/src/protobuf/python && \
-#    python3 setup.py build && python3 setup.py install
-#
-## build 3rd party python grpc
-#RUN cd /root/scrimmage/3rd-party/build/src/grpc && \
-#    pip install -rrequirements.txt && \
-#    GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
-#
-## GRPC requirements installs futures, which doesn't make sense for python3
-#RUN pip uninstall -y futures
 
 # Test Plugin Generation
 #RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage # TODO
@@ -111,12 +89,13 @@ RUN git clone https://github.com/ros-planning/navigation_msgs
 RUN git clone https://github.com/SyllogismRXS/scrimmage_ros.git
 WORKDIR /root/catkin_ws
 RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
-    source /opt/scrimmage/setup.sh && \
+    source /opt/scrimmage/*/setup.sh && \
     catkin_make && \
     source devel/setup.bash && \
     source ~/.scrimmage/setup.bash && \
-    catkin_make run_tests && \
-    catkin_test_results"
+    cd build && \
+    make tests && \
+    make test"
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
@@ -124,3 +103,7 @@ RUN pip install -e .
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]

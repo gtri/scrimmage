@@ -45,6 +45,8 @@
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Boids, Boids_plugin)
 
+namespace sc = scrimmage;
+
 namespace scrimmage {
 namespace autonomy {
 
@@ -80,18 +82,20 @@ void Boids::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    io_vel_x_idx_ = vars_.declare("velocity_x", VariableIO::Direction::Out);
-    io_vel_y_idx_ = vars_.declare("velocity_y", VariableIO::Direction::Out);
-    io_vel_z_idx_ = vars_.declare("velocity_z", VariableIO::Direction::Out);
+    io_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    io_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    io_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 
-    io_vel_idx_ = vars_.declare("velocity", VariableIO::Direction::Out);
-    io_turn_rate_idx_ = vars_.declare("turn_rate", VariableIO::Direction::Out);
-    io_pitch_rate_idx_ = vars_.declare("pitch_rate", VariableIO::Direction::Out);
+    io_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    io_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    io_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+
+    io_desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    io_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
 }
 
 bool Boids::step_autonomy(double t, double dt) {
-    shapes_.clear();
-
     // Find neighbors that are within field-of-view and within comms range
     std::vector<ID> rtree_neighbors;
     rtree_->neighbors_in_range(state_->pos_const(), rtree_neighbors, comms_range_);
@@ -222,22 +226,20 @@ bool Boids::step_autonomy(double t, double dt) {
         velocity_controller(vel_result);
 
         if (show_shapes_) {
-            ShapePtr shape(new scrimmage_proto::Shape);
-            shape->set_type(scrimmage_proto::Shape::Sphere);
-            shape->set_opacity(0.1);
-            shape->set_radius(sphere_of_influence_);
-            set(shape->mutable_center(), state_->pos());
-            set(shape->mutable_color(), 0, 255, 0);
-            shapes_.push_back(shape);
+            ShapePtr sphere(new scrimmage_proto::Shape);
+            sphere->set_opacity(0.1);
+            sc::set(sphere->mutable_color(), 0, 255, 0);
+            sphere->mutable_sphere()->set_radius(sphere_of_influence_);
+            sc::set(sphere->mutable_sphere()->mutable_center(), state_->pos());
+            draw_shape(sphere);
 
             // Draw resultant vector:
-            ShapePtr arrow(new scrimmage_proto::Shape);
-            arrow->set_type(scrimmage_proto::Shape::Line);
-            set(arrow->mutable_color(), 255, 255, 0);
-            arrow->set_opacity(0.75);
-            add_point(arrow, state_->pos());
-            add_point(arrow, vel_result + state_->pos());
-            shapes_.push_back(arrow);
+            ShapePtr line(new scrimmage_proto::Shape);
+            line->set_opacity(0.75);
+            sc::set(line->mutable_color(), 255, 255, 0);
+            sc::set(line->mutable_line()->mutable_start(), state_->pos());
+            sc::set(line->mutable_line()->mutable_end(), vel_result + state_->pos());
+            draw_shape(line);
         }
     } else {
         velocity_controller(v_goal);
@@ -254,6 +256,10 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
     vars_.output(io_vel_idx_, max_speed_);
     vars_.output(io_turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
     vars_.output(io_pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
+
+    vars_.output(io_heading_idx_, desired_heading);
+    vars_.output(io_altitude_idx_, v(2));
+    vars_.output(io_desired_speed_idx_, max_speed_);
 
     double norm = v.norm();
     double ratio = (max_speed_ / 2) / std::max(norm, 1.0);

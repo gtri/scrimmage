@@ -51,7 +51,7 @@ class Subscriber : public SubscriberBase {
         callback_(callback) {
     }
 
-    virtual void accept(scrimmage::MessageBasePtr msg) {
+    void accept(scrimmage::MessageBasePtr msg) override {
         auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
         if (msg_cast != nullptr) {
             callback_(msg_cast);
