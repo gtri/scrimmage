@@ -29,6 +29,10 @@ Now build your project: ::
   $ cmake ..
   $ make
   
+Now to make sure scrimmage will find the new plugins: ::
+
+  $ source ~/.scrimmage/setup.bash
+
 Running the ``cmake`` command will be successful if the SCRIMMAGE core project has
 already been built/installed on your system. The final output of the CMake
 command will look like the following if it was successful: ::
