@@ -50,6 +50,9 @@
 #include <boost/algorithm/clamp.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
+
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -184,10 +187,8 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     cout << std::setprecision(prec) << "GetAltitudeASLFtIC: " << ic->GetAltitudeASLFtIC() << endl;
 #endif
 
-
-
     exec->RunIC();
-    exec->Setdt(std::stod(info["dt"]));
+    exec->Setdt(std::stod(info["dt"])/std::stod(info["motion_multiplier"]));
     exec->Run();
 
     // Get references to each of the nodes that hold properties that we
@@ -290,8 +291,15 @@ bool JSBSimControl::step(double time, double dt) {
     // // Yaw stabilizer
     // ap_rudder_cmd_node_->setDoubleValue(u_yaw);
 
+
+    boost::posix_time::ptime time1 = boost::posix_time::microsec_clock::local_time();
+
     exec->Setdt(dt);
     exec->Run();
+
+    boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
+    boost::posix_time::time_duration time_diff = time2 - time1;
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
@@ -330,6 +338,7 @@ bool JSBSimControl::step(double time, double dt) {
 
 
 
+    shapes_.clear();
     // draw velocity
     if (drawVel_) {
         sc::ShapePtr shape(new sp::Shape());
@@ -374,6 +383,8 @@ bool JSBSimControl::step(double time, double dt) {
     cout << "  State information in JSBSImControl" << endl;
     cout << "--------------------------------------------------------" << endl;
     int prec = 5;
+    std::cout << "processing time, ms: " << ((double)time_diff.total_microseconds())/1000 << std::endl;
+    cout << std::setprecision(prec) << "dt: " << dt << endl;
     cout << std::setprecision(prec) << "time: " << time << endl;
     cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
     cout << std::setprecision(prec) << "WOW[0]: " << mgr->GetNode("gear/unit/WOW")->getDoubleValue() << endl;
