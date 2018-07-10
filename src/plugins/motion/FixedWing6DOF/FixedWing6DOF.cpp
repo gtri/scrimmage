@@ -376,7 +376,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     // Calculate commonly used quantities
     double beta = atan2(x_[V], x_[U]); // side slip
     double delta_Ve = 0.05*V_tau; // wind velocity across tail of aircraft (approximation)
-    double VtauVe = pow((V_tau + delta_Ve)/V_tau, 2);
+    //double VtauVe = pow((V_tau + delta_Ve)/V_tau, 2);
     double pVtS = rho_ * pow(V_tau, 2) * S_ / 2.0;
 
 

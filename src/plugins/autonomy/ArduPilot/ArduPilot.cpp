@@ -167,7 +167,6 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
     cout << "--------------------------------------------------------" << endl;
 #endif
 
-    int prec = 9;
     if (error) {
         cout << "error: handle_receive" << endl;
     } else if (num_bytes != sizeof(servo_packet)) {
@@ -178,6 +177,7 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
             servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
 #if 0
+            int prec = 9;
             cout << std::setprecision(prec) << "servo"<< i << ": " << servo_pkt_.servos[i] << endl;
 #endif
         }
