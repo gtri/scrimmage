@@ -89,7 +89,9 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
                    quat_body_.pitch(), quat_body_.yaw());
 
-    Eigen::Vector3d vel_body = quat_body_.rotate(state_->vel());
+    Eigen::Vector3d vel_body(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
+    vel_body = quat_body_.rotate_reverse(vel_body);
+    //Eigen::Vector3d vel_body = quat_body_.rotate(state_->vel());
 
     x_[U] = vel_body(0);
     x_[V] = vel_body(1);

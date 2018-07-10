@@ -53,8 +53,6 @@
 #include <GeographicLib/LocalCartesian.hpp>
 
 
-#include <boost/date_time/posix_time/posix_time.hpp>
-
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -257,14 +255,14 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
 bool JSBSimControl::step(double time, double dt) {
 
-
+    throttle_ = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
     delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
     delta_aileron_ = ba::clamp(vars_.input(aileron_idx_), -1.0, 1.0);
     delta_rudder_ = ba::clamp(vars_.input(rudder_idx_), -1.0, 1.0);
 
     // TODO: for some reason, jsb sim does not like it when there is an immediate thottle input
     if( time < .05 )
-        thrust_ = 0;
+        throttle_ = 0;
 
     ap_aileron_cmd_node_->setDoubleValue(delta_aileron_);
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
@@ -312,7 +310,6 @@ bool JSBSimControl::step(double time, double dt) {
 
     Eigen::Vector3d a_ENU = state_->quat().rotate(a_FLU);
 
-    shapes_.clear();
     // draw velocity
     if (draw_vel_) {
         sc::ShapePtr line(new sp::Shape());

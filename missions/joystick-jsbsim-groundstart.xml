@@ -69,10 +69,10 @@
     <!-- <controller>JoystickController</controller> -->
 
     <controller print_raw_joystick_values="false" axis_map=
-    "[ thrust   1 -32767 +32767 -1 +1 -1 ]
-    [ elevator 3 -32767 +32767 -1 +1 -1 ]
-    [ aileron  2 -32767 +32767 -1 +1 +1 ]
-    [ rudder   0 -32767 +32767 -1 +1 -1 ]"  >JoystickController</controller>
+    "[ throttle 1 -32767 +32767 -1 +1 -1 ]
+    [ elevator  3 -32767 +32767 -1 +1 -1 ]
+    [ aileron   2 -32767 +32767 -1 +1 +1 ]
+    [ rudder    0 -32767 +32767 -1 +1 -1 ]"  >JoystickController</controller>
 
 
     <script_name>rascal_no_autopilot.xml</script_name>
