@@ -45,8 +45,8 @@ namespace autonomy {
 class WaypointDispatcher : public scrimmage::Autonomy {
  public:
     WaypointDispatcher();
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step_autonomy(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
     WaypointList wp_list_;
