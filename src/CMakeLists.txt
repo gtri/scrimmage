@@ -67,7 +67,7 @@ set_target_properties(
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    $<INSTALL_INTERFACE:include>
+    "$<INSTALL_INTERFACE:include;${EIGEN3_INCLUDE_DIR};${GeographicLib_INCLUDE_DIRS}>"
     "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR};${EIGEN3_INCLUDE_DIR};${GeographicLib_INCLUDE_DIRS}>"
 )
 
