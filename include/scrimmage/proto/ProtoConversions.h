@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 
 #include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/Contact.h>
 
 #include <Eigen/Dense>
 
