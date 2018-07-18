@@ -177,7 +177,7 @@ bool External::create_entity(int max_entities, int entity_id,
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, shapes, ent_inters_)) {
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_)) {
         std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }

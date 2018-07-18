@@ -60,6 +60,7 @@ namespace ba = boost::adaptors;
 namespace scrimmage {
 
 bool create_ent_inters(const SimUtilsInfo &info,
+                       ContactMapPtr contacts,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
                        std::list<EntityInteractionPtr> &ent_inters) {
 
@@ -89,6 +90,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
         ent_inter->parent()->set_mp(info.mp);
         ent_inter->parent()->set_projection(info.mp->projection());
         ent_inter->parent()->rtree() = info.rtree;
+        ent_inter->parent()->contacts() = contacts;
 
         // Plugin specific members
         ent_inter->set_name(name);

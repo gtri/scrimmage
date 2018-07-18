@@ -308,7 +308,7 @@ bool SimControl::init() {
     info.id_to_ent_map = id_to_ent_map_;
 
     if (!create_metrics(info, metrics_)) return false;
-    if (!create_ent_inters(info, shapes_[0], ent_inters_)) return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_)) return false;
 
     contacts_mutex_.lock();
     contacts_->reserve(max_num_entities+1);
