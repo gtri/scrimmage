@@ -1887,13 +1887,16 @@ bool Updater::draw_text(const bool &new_shape,
         // camera
         actor = vtkSmartPointer<vtkFollower>::New();
         actor->SetMapper(mapper);
-
         // We created this actor object in this function, so we can use a
         // static_cast. Need to extract the raw pointer from vtk's smartpointer
         // system first.
         static_cast<vtkFollower*>(&*actor)->SetCamera(renderer_->GetActiveCamera());
     } else {
         textSource = vtkVectorText::SafeDownCast(source);
+    }
+
+    if (t.scale() > 0) {
+        actor->SetScale(t.scale(), t.scale(), t.scale());
     }
 
     textSource->SetText(t.text().c_str());
