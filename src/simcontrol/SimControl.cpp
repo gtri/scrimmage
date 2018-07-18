@@ -715,6 +715,7 @@ bool SimControl::run_single_step(int loop_number) {
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
+        return false;
     }
 
     // The networks are run before the metrics, so that messages that are
