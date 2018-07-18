@@ -32,9 +32,9 @@
 
 #include <(>>>PROJECT_NAME<<<)/plugins/interaction/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
 
 #include <memory>
