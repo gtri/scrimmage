@@ -76,20 +76,23 @@ void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &
 bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
     alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
     double alt_u = alt_pid_.step(dt, state_->pos()(2));
-    vars_.output(acc_z_idx_, alt_u);
 
+    double heading = vars_.input(desired_heading_idx_);
     speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
     double acc_u = speed_pid_.step(dt, state_->vel().norm());
+    Eigen::Vector2d dir;
+    dir << cos(heading), sin(heading);
 
     // Rotate acceleration into forward direction of double integrator
-    Eigen::Vector3d acc_vec = state_->quat() * Eigen::Vector3d::UnitX() * acc_u;
+    Eigen::Vector2d acc_vec = dir * acc_u;
 
     vars_.output(acc_x_idx_, acc_vec(0));
     vars_.output(acc_y_idx_, acc_vec(1));
-    vars_.output(acc_z_idx_, acc_vec(2));
+    vars_.output(acc_z_idx_, alt_u);
 
     yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    vars_.output(turn_rate_idx_, yaw_pid_.step(dt, state_->quat().yaw()));
+    double yaw_rate = yaw_pid_.step(dt, state_->quat().yaw());
+    vars_.output(turn_rate_idx_, yaw_rate);
 
     return true;
 }
