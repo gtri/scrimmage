@@ -112,6 +112,10 @@ class CSVPlot (FileSystemEventHandler):
     def plot(self,i):
         df = pd.read_csv(self.full_path + '/' + self.csv_filename)
 
+        if df.shape[0] == 0:
+            # If there are no rows in the dataframe, just return
+            return
+
         for i in range(len(self.y_axis_vars)):
             self.axarr[i].clear()
 

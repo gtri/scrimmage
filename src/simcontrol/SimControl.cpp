@@ -698,6 +698,45 @@ bool SimControl::run_single_step(int loop_number) {
         return false;
     }
 
+    if (!run_logging()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to logging exception" << std::endl;
+        }
+        return false;
+    }
+
+    // Wait loop timer.
+    // Stay in loop if currently paused.
+    bool exit_loop = false;
+    do {
+        loop_wait();
+
+        // Were we told to exit, externally?
+        exit_mutex_.lock();
+        if (exit_) {
+            exit_loop = true;
+        }
+        exit_mutex_.unlock();
+
+        if (single_step()) {
+            single_step(false);
+            take_step_mutex_.lock();
+            take_step_ = true;
+            take_step_mutex_.unlock();
+            pause(prev_paused_);
+            break;
+        }
+
+        run_check_network_msgs();
+
+        scrimmage_proto::SimInfo info;
+        info.set_time(this->t());
+        info.set_desired_warp(this->time_warp());
+        info.set_actual_warp(this->actual_time_warp());
+        info.set_shutting_down(false);
+        outgoing_interface_->send_sim_info(info);
+    } while (paused() && !exit_loop);
+
     if (!wait_for_ready()) {
         cleanup();
         return false;
@@ -734,13 +773,6 @@ bool SimControl::run_single_step(int loop_number) {
         return false;
     }
 
-    if (!run_logging()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to logging exception" << std::endl;
-        }
-        return false;
-    }
-
     run_remove_inactive();
     run_send_shapes();
     run_send_contact_visuals(); // send updated visuals
@@ -754,38 +786,6 @@ bool SimControl::run_single_step(int loop_number) {
     if (screenshot_task_.update(t_).first) {
         request_screenshot();
     }
-
-    // Wait loop timer.
-    // Stay in loop if currently paused.
-    bool exit_loop = false;
-    do {
-        loop_wait();
-
-        // Were we told to exit, externally?
-        exit_mutex_.lock();
-        if (exit_) {
-            exit_loop = true;
-        }
-        exit_mutex_.unlock();
-
-        if (single_step()) {
-            single_step(false);
-            take_step_mutex_.lock();
-            take_step_ = true;
-            take_step_mutex_.unlock();
-            pause(prev_paused_);
-            break;
-        }
-
-        run_check_network_msgs();
-
-        scrimmage_proto::SimInfo info;
-        info.set_time(this->t());
-        info.set_desired_warp(this->time_warp());
-        info.set_actual_warp(this->actual_time_warp());
-        info.set_shutting_down(false);
-        outgoing_interface_->send_sim_info(info);
-    } while (paused() && !exit_loop);
 
     // Increment time and loop counter
     set_time(t + dt_);
@@ -1240,8 +1240,8 @@ bool SimControl::run_entities() {
             success &= future.get();
         }
     } else {
-
         for (EntityPtr &ent : ents_) {
+
             for (AutonomyPtr &a : ent->autonomies()) {
                 // Execute callbacks for received messages before calling
                 // step_autonomy
