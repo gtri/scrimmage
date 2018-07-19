@@ -101,7 +101,7 @@ set_target_properties(
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    $<INSTALL_INTERFACE:include>
+    "$<INSTALL_INTERFACE:include;${PROTOBUF_INCLUDE_DIRS}>"
     "$<BUILD_INTERFACE:${MSGS_INCLUDE_DIR};${PROTOBUF_INCLUDE_DIRS}>"
 )
 
