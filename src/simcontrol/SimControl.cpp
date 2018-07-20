@@ -667,7 +667,7 @@ bool SimControl::run_metrics() {
 
 bool SimControl::run_logging() {
     contacts_mutex_.lock();
-    outgoing_interface_->send_frame(t_, contacts_);
+    outgoing_interface_->send_frame(t_ + dt_, contacts_);
     contacts_mutex_.unlock();
     return true;
 }
