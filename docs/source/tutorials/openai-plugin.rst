@@ -101,24 +101,24 @@ Here is the include file for ``SimpleLearner``:
 .. code-block:: c++
    :linenos:
 
-    #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
+   #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
 
-    #include <map>
-    #include <string>
-    #include <utility>
+   #include <map>
+   #include <string>
+   #include <utility>
 
-    class SimpleLearner : public scrimmage::autonomy::ScrimmageOpenAIAutonomy {
-     public:
-        void init(std::map<std::string, std::string> &params) override;
-        bool step_autonomy(double t, double dt) override;
+   class SimpleLearner : public scrimmage::autonomy::ScrimmageOpenAIAutonomy {
+    public:
+       void init(std::map<std::string, std::string> &params) override;
+       bool step_autonomy(double t, double dt) override;
 
-        void set_environment() override;
-        std::pair<bool, double> calc_reward(double t, double dt) override;
+       void set_environment() override;
+       std::pair<bool, double> calc_reward(double t, double dt) override;
 
-     protected:
-        double radius_;
-        uint8_t output_vel_x_idx_ = 0;
-    };
+    protected:
+       double radius_;
+       uint8_t output_vel_x_idx_ = 0;
+   };
 
 
 Note that we are overriding the normal two virtual functions of ``init``
@@ -136,46 +136,45 @@ We will first change the includes at the top of the file to be:
 .. code-block:: c++
    :linenos:
 
-    #include <scrimmage/math/State.h>
-    #include <scrimmage/parse/ParseUtils.h>
-    #include <scrimmage/plugin_manager/RegisterPlugin.h>
+   #include <scrimmage/math/State.h>
+   #include <scrimmage/parse/ParseUtils.h>
+   #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
-    // override this for your namespace
-    #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
+   #include <my-scrimmage-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h>
 
-    // override this for your namespace
-    REGISTER_PLUGIN(scrimmage::Autonomy, SimpleLearner, SimpleLearner_plugin)
+   REGISTER_PLUGIN(scrimmage::Autonomy, SimpleLearner, SimpleLearner_plugin)
 
 Next, let us look at the ``init``:
 
 .. code-block:: c++
    :linenos:
 
-    void SimpleLearner::init(std::map<std::string, std::string> &params) {
-        using Type = scrimmage::VariableIO::Type;
-        using Dir = scrimmage::VariableIO::Direction;
+   void SimpleLearner::init(std::map<std::string, std::string> &params) {
+       using Type = scrimmage::VariableIO::Type;
+       using Dir = scrimmage::VariableIO::Direction;
 
-        output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
-        const uint8_t output_vel_y_idx = vars_.declare(Type::velocity_y, Dir::Out);
-        const uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
+       output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
+       const uint8_t output_vel_y_idx = vars_.declare(Type::velocity_y, Dir::Out);
+       const uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
 
-        vars_.output(output_vel_x_idx_, 0);
-        vars_.output(output_vel_y_idx, 0);
-        vars_.output(output_vel_z_idx, 0);
+       vars_.output(output_vel_x_idx_, 0);
+       vars_.output(output_vel_y_idx, 0);
+       vars_.output(output_vel_z_idx, 0);
 
-        radius_ = std::stod(params.at("radius"));
+       radius_ = std::stod(params.at("radius"));
 
-        ScrimmageOpenAIAutonomy::init(params);
-    }
+       ScrimmageOpenAIAutonomy::init(params);
+   }
 
 We now define the environment:
+
 .. code-block:: c++
    :linenos:
-  
-    void SimpleLearner::set_environment() {
-        reward_range = std::make_pair(0, 1);
-        action_space.discrete_count.push_back(2);
-    }
+
+   void SimpleLearner::set_environment() {
+       reward_range = std::make_pair(0, 1);
+       action_space.discrete_count.push_back(2);
+   }
 
 This says that the reward range will be between 0 and 1
 and we will have a single discrete action that can take values of 0 or 1.
@@ -184,13 +183,13 @@ We now define the ``calc_reward`` function:
 .. code-block:: c++
    :linenos:
 
-    std::pair<bool, double> SimpleLearner::calc_reward(double /*t*/, double /*dt*/) {
-        const bool done = false;
-        const double x = state_->pos()(0);
-        const bool within_radius = std::round(std::abs(x)) < radius_;
-        double reward = within_radius ? 1 : 0;
-        return {done, reward};
-    }
+   std::pair<bool, double> SimpleLearner::calc_reward(double /*t*/, double /*dt*/) {
+       const bool done = false;
+       const double x = state_->pos()(0);
+       const bool within_radius = std::round(std::abs(x)) < radius_;
+       double reward = within_radius ? 1 : 0;
+       return {done, reward};
+   }
 
 This says that the autonomy is never going to end the simulation and gives
 a reward for being within ``1`` of the origin. We now define ``step_autonomy``
@@ -200,11 +199,11 @@ when the action is 1 and negative x-velocity when the action is 0:
 .. code-block:: c++
    :linenos:
 
-    bool SimpleLearner::step_autonomy(double /*t*/, double /*dt*/) {
-        const double x_vel = action.discrete[0] ? 1 : -1;
-        vars_.output(output_vel_x_idx_, x_vel);
-        return true;
-    }
+   bool SimpleLearner::step_autonomy(double /*t*/, double /*dt*/) {
+       const double x_vel = action.discrete[0] ? 1 : -1;
+       vars_.output(output_vel_x_idx_, x_vel);
+       return true;
+   }
 
 Rewrite CMakeLists.txt for OpenAI Autonomy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,7 +217,7 @@ and change line 15 from
    :linenos:
 
    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-    scrimmage
+    scrimmage-core
     ScrimmageOpenAIAutonomy_plugin
      )
 
@@ -230,7 +229,7 @@ Plugin Parameter File
 The following is the parameter file for ``SimpleLearner``:
 
 .. code-block:: xml
-    :linenos"
+    :linenos:
 
     <?xml version="1.0"?>
     <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
@@ -280,17 +279,17 @@ and overrides two virtual methods:
 .. code-block:: c++
    :linenos:
 
-    #include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
+   #include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 
-    #include <map>
-    #include <string>
-    #include <vector>
+   #include <map>
+   #include <string>
+   #include <vector>
 
-    class MyOpenAISensor : public scrimmage::sensor::ScrimmageOpenAISensor {
-     public:
-        void set_observation_space() override;
-        void get_observation(double* data, uint32_t beg_idx, uint32_t end_idx) override;
-    };
+   class MyOpenAISensor : public scrimmage::sensor::ScrimmageOpenAISensor {
+    public:
+       void set_observation_space() override;
+       void get_observation(double* data, uint32_t beg_idx, uint32_t end_idx) override;
+   };
 
 OpenAI Sensor Plugin Source File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -303,29 +302,27 @@ In this source file, we need to add the following includes:
 .. code-block:: c++
    :linenos:
 
-    // override this for your namespace
-    #include <scrimmage/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
-
-    #include <scrimmage/entity/Entity.h>
-    #include <scrimmage/math/State.h>
-    #include <scrimmage/plugin_manager/RegisterPlugin.h>
-
-    // override this for your namespace
-    REGISTER_PLUGIN(scrimmage::Sensor, MyOpenAISensor, MyOpenAISensor_plugin)
-
-    void MyOpenAISensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
-        data[beg_idx] = parent_->state()->pos()(0);
-    }
-
-    void MyOpenAISensor::set_observation_space() {
-        const double inf = std::numeric_limits<double>::infinity();
-        observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
-    }
+   #include <my-scrimmage-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
+   
+   #include <scrimmage/entity/Entity.h>
+   #include <scrimmage/math/State.h>
+   #include <scrimmage/plugin_manager/RegisterPlugin.h>
+   
+   REGISTER_PLUGIN(scrimmage::Sensor, MyOpenAISensor, MyOpenAISensor_plugin)
+   
+   void MyOpenAISensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
+       data[beg_idx] = parent_->state()->pos()(0);
+   }
+   
+   void MyOpenAISensor::set_observation_space() {
+       const double inf = std::numeric_limits<double>::infinity();
+       observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
+   }
 
 Plugin Parameter File 
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block: xml
+.. code-block:: xml
     :linenos:
 
     <?xml version="1.0"?>
@@ -346,9 +343,9 @@ and change line 15 from
    :linenos:
 
    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-    scrimmage
-    ScrimmageOpenAISensor_plugin
-     )
+     scrimmage-core
+     ScrimmageOpenAISensor_plugin
+   )
 
 
 OpenAI Mission XML File
@@ -365,28 +362,28 @@ following blocks (More detail on creating mission files is located at
 .. code-block:: xml
    :linenos:
 
-      <entity_common name="all">
-          <count>1</count>
-          <health>1</health>
-          <radius>1</radius>
+    <entity_common name="all">
+        <count>1</count>
+        <health>1</health>
+        <radius>1</radius>
 
-          <team_id>1</team_id>
-          <visual_model>Sphere</visual_model>
-          <motion_model>SingleIntegrator</motion_model>
-          <controller>SingleIntegratorControllerSimple</controller>
-          <sensor order="0">MyOpenAISensor</sensor>
-          <autonomy
-            discrete_x="true"
-            discrete_y="true"
-            ctrl_y="false">SimpleLearner</autonomy>
-          <y>0</y>
-          <z>0</z>
-      </entity_common>
+        <team_id>1</team_id>
+        <visual_model>Sphere</visual_model>
+        <motion_model>SingleIntegrator</motion_model>
+        <controller>SingleIntegratorControllerSimple</controller>
+        <sensor order="0">MyOpenAISensor</sensor>
+        <autonomy
+          discrete_x="true"
+          discrete_y="true"
+          ctrl_y="false">SimpleLearner</autonomy>
+        <y>0</y>
+        <z>0</z>
+    </entity_common>
 
-      <entity entity_common="all">
-        <x>0</x>
-        <color>77 77 255</color>
-      </entity>
+    <entity entity_common="all">
+      <x>0</x>
+      <color>77 77 255</color>
+    </entity>
 
 
 Now we have completed our work on the SCRIMMAGE side. Now all that is left is to
@@ -406,49 +403,49 @@ reward. We will save this python file at
 .. code-block:: python
    :linenos:
 
-    import copy
-    import gym
-    import scrimmage
+   import copy
+   import gym
+   import scrimmage
 
 
-    def test_openai():
-        try:
-            env = gym.make('scrimmage-v0')
-        except gym.error.Error:
-            mission_file = scrimmage.find_mission('rlsimple.xml')
+   def test_openai():
+       try:
+           env = gym.make('scrimmage-v0')
+       except gym.error.Error:
+           mission_file = scrimmage.find_mission('rlsimple.xml')
 
-            gym.envs.register(
-                id='scrimmage-v0',
-                entry_point='scrimmage:ScrimmageOpenAIEnv',
-                max_episode_steps=1e9,
-                reward_threshold=1e9,
-                kwargs={"enable_gui": True,
-                        "mission_file": mission_file}
-            )
-            env = gym.make('scrimmage-v0')
+           gym.envs.register(
+               id='scrimmage-v0',
+               entry_point='scrimmage:ScrimmageOpenAIEnv',
+               max_episode_steps=1e9,
+               reward_threshold=1e9,
+               kwargs={"enable_gui": True,
+                       "mission_file": mission_file}
+           )
+           env = gym.make('scrimmage-v0')
 
-        # the observation is the x position of the vehicle
-        # note that a deepcopy is used when a history
-        # of observations is desired. This is because
-        # the sensor plugin edits the data in-place
-        obs = []
-        obs.append(copy.deepcopy(env.reset()))
-        total_reward = 0
-        for i in range(200):
+       # the observation is the x position of the vehicle
+       # note that a deepcopy is used when a history
+       # of observations is desired. This is because
+       # the sensor plugin edits the data in-place
+       obs = []
+       obs.append(copy.deepcopy(env.reset()))
+       total_reward = 0
+       for i in range(200):
 
-            action = 1 if i < 100 else 0
-            temp_obs, reward, done = env.step(action)[:3]
-            obs.append(copy.deepcopy(temp_obs))
-            total_reward += reward
+           action = 1 if i < 100 else 0
+           temp_obs, reward, done = env.step(action)[:3]
+           obs.append(copy.deepcopy(temp_obs))
+           total_reward += reward
 
-            if done:
-                break
+           if done:
+               break
 
-        env.close()
-        print("Total Reward: %2.2f" % total_reward)
+       env.close()
+       print("Total Reward: %2.2f" % total_reward)
 
-if __name__ == '__main__':
-    test_openai()
+   if __name__ == '__main__':
+       test_openai()
 
 Now that we have completed all of the code, we can simply type the following
 into the terminal to see it run! ::
