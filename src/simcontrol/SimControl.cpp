@@ -388,7 +388,7 @@ void SimControl::request_screenshot() {
     prev_paused_ = paused();
     pause(true);
     scrimmage_proto::GUIMsg gui_msg;
-    gui_msg.set_time(t_);
+    gui_msg.set_time(t_ + dt_);
     gui_msg.set_single_step(true);
     outgoing_interface_->push_gui_msg(gui_msg);
 }
@@ -698,6 +698,10 @@ bool SimControl::run_single_step(int loop_number) {
         return false;
     }
 
+    if (screenshot_task_.update(t_).first) {
+        request_screenshot();
+    }
+
     if (!run_logging()) {
         if (!limited_verbosity_) {
             std::cout << "Exiting due to logging exception" << std::endl;
@@ -781,10 +785,6 @@ bool SimControl::run_single_step(int loop_number) {
         if (loop_number % 100 == 0) {
             sc::display_progress((tend_ == 0) ? 1.0 : t / tend_);
         }
-    }
-
-    if (screenshot_task_.update(t_).first) {
-        request_screenshot();
     }
 
     // Increment time and loop counter
