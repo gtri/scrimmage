@@ -25,12 +25,12 @@
   <!-- Aircraft control limits -->
   <thrust_min>0.0</thrust_min> <!-- Newtons (N) -->
   <thrust_max>25.0</thrust_max> <!-- Newtons (N) -->
-  <delta_elevator_min>-0.3</delta_elevator_min> <!-- radians -->
-  <delta_elevator_max>0.3</delta_elevator_max> <!-- radians -->
-  <delta_aileron_min>-0.35</delta_aileron_min> <!-- radians -->
-  <delta_aileron_max>0.35</delta_aileron_max> <!-- radians -->
-  <delta_rudder_min>-0.35</delta_rudder_min> <!-- radians -->
-  <delta_rudder_max>0.35</delta_rudder_max> <!-- radians -->
+  <delta_elevator_min>-1</delta_elevator_min> <!-- normalized -->
+  <delta_elevator_max>1</delta_elevator_max> <!-- normalized -->
+  <delta_aileron_min>-1</delta_aileron_min> <!-- normalized -->
+  <delta_aileron_max>1</delta_aileron_max> <!-- normalized -->
+  <delta_rudder_min>-1</delta_rudder_min> <!-- normalized -->
+  <delta_rudder_max>1</delta_rudder_max> <!-- normalized -->
 
   <!-- Aircraft dimensional specifications -->
   <mass>5.91</mass> <!-- kg -->
