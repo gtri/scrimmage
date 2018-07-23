@@ -261,7 +261,7 @@ bool JSBSimControl::step(double time, double dt) {
     delta_rudder_ = ba::clamp(vars_.input(rudder_idx_), -1.0, 1.0);
 
     // TODO: for some reason, jsb sim does not like it when there is an immediate thottle input
-    if( time < .05 )
+    if (time < .05)
         throttle_ = 0;
 
     ap_aileron_cmd_node_->setDoubleValue(delta_aileron_);
@@ -346,7 +346,7 @@ bool JSBSimControl::step(double time, double dt) {
     cout << "  State information in JSBSImControl" << endl;
     cout << "--------------------------------------------------------" << endl;
     int prec = 5;
-    //std::cout << "processing time, ms: " << ((double)time_diff.total_microseconds())/1000 << std::endl;
+    // std::cout << "processing time, ms: " << ((double)time_diff.total_microseconds())/1000 << std::endl;
     cout << std::setprecision(prec) << "dt: " << dt << endl;
     cout << std::setprecision(prec) << "time: " << time << endl;
     cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
