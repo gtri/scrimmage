@@ -290,7 +290,10 @@ pybind11::object ScrimmageOpenAIEnv::create_space(
     int len_discrete = py::len(discrete_count);
     int len_continuous = py::len(continuous_minima);
     if (len_discrete != 0 && len_continuous != 0) {
-        return gym_tuple_space(discrete_space, continuous_space);
+        py::list spaces;
+        spaces.append(discrete_space);
+        spaces.append(continuous_space);
+        return gym_tuple_space(spaces);
     } else if (len_discrete != 0) {
         return discrete_space;
     } else if (len_continuous != 0) {
@@ -618,9 +621,9 @@ void ScrimmageOpenAIEnv::distribute_action(pybind11::object action) {
         disc_actions = py::list();
         cont_actions = py::list();
         if (PyObject_IsInstance(space.ptr(), tuple_space_.ptr())) {
-            py::list action_list = space.cast<py::list>();
-            disc_actions = asarray_(action_list[0]);
-            cont_actions = asarray_(action_list[1]);
+            py::tuple action_list = act.cast<py::list>();
+            disc_actions = asarray_(action_list[0], py::str("int"));
+            cont_actions = asarray_(action_list[1], py::str("float"));
             disc_action_data = static_cast<int*>(disc_actions.request().ptr);
             cont_action_data = static_cast<double*>(cont_actions.request().ptr);
         } else if (PyObject_IsInstance(space.ptr(), box_space_.ptr())) {

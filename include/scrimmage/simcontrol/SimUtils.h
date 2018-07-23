@@ -61,6 +61,7 @@ struct SimUtilsInfo {
 };
 
 bool create_ent_inters(const SimUtilsInfo &info,
+                       ContactMapPtr contacts,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
                        std::list<EntityInteractionPtr> &ent_inters);
 

@@ -47,27 +47,27 @@ namespace scrimmage {
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{
  public:
-     void init(std::map<std::string, std::string> &params) override;
-     bool step_autonomy(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-     double speed_;
-     Eigen::Vector3d goal_;
+    double speed_;
+    Eigen::Vector3d goal_;
 
-     int frame_number_;
-     bool show_camera_images_;
-     bool save_camera_images_;
-     bool show_text_label_;
+    int frame_number_;
+    bool show_camera_images_;
+    bool save_camera_images_;
+    bool show_text_label_;
 
-     bool enable_boundary_control_ = false;
-     std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
+    bool enable_boundary_control_ = false;
+    std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
 
-     int desired_alt_idx_ = 0;
-     int desired_speed_idx_ = 0;
-     int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
 
-     scrimmage_proto::ShapePtr text_shape_;
-     scrimmage_proto::ShapePtr sphere_shape_;
+    scrimmage_proto::ShapePtr text_shape_;
+    scrimmage_proto::ShapePtr sphere_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage

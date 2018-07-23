@@ -32,15 +32,14 @@
 
 #include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/MissionParse.h>
-
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
-
 
 #include <Eigen/Dense>
 
@@ -73,7 +72,6 @@ std::tuple<int, int, int> FixedWing6DOF::version() {
 
 bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
-
     // Setup variable index for controllers
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
@@ -88,6 +86,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     quat_body_ = rot_180_x_axis_ * state_->quat();
     quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
                    quat_body_.pitch(), quat_body_.yaw());
+    quat_body_.normalize();
 
     Eigen::Vector3d vel_body(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
     vel_body = quat_body_.rotate_reverse(vel_body);
@@ -97,9 +96,12 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     x_[V] = vel_body(1);
     x_[W] = vel_body(2);
 
-    x_[P] = 0;
-    x_[Q] = 0;
-    x_[R] = 0;
+    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1), -state_->ang_vel()(2));
+    local_ang_vel = quat_body_.rotate_reverse(local_ang_vel);
+
+    x_[P] = local_ang_vel(0);
+    x_[Q] = local_ang_vel(1);
+    x_[R] = local_ang_vel(2);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -113,6 +115,13 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     x_[q1] = quat_body_.x();
     x_[q2] = quat_body_.y();
     x_[q3] = quat_body_.z();
+
+    x_[U_dot] = 0;
+    x_[V_dot] = 0;
+    x_[W_dot] = 0;
+    x_[P_dot] = 0;
+    x_[Q_dot] = 0;
+    x_[R_dot] = 0;
 
     // Parse XML parameters
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
@@ -177,7 +186,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
                     "x", "y", "z",
-                    "U", "V", "W", "alpha", "beta",
+                    "U", "V", "W", "alpha", "alpha_dot", "beta",
                     "P", "Q", "R",
                     "Ax_b", "Ay_b", "Az_b",
                     "AngAccelx_b", "AngAccely_b", "AngAccelz_b",
@@ -265,6 +274,7 @@ bool FixedWing6DOF::step(double time, double dt) {
     quat_body_ = rot_180_x_axis_ * state_->quat();
     quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
                    quat_body_.pitch(), quat_body_.yaw());
+    quat_body_.normalize();
 
     Eigen::Vector3d local_lin_vel(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
     local_lin_vel = quat_body_.rotate_reverse(local_lin_vel);
@@ -293,6 +303,13 @@ bool FixedWing6DOF::step(double time, double dt) {
     x_[q2] = quat_body_.y();
     x_[q3] = quat_body_.z();
 
+    x_[U_dot] = linear_accel_body_(0);
+    x_[V_dot] = linear_accel_body_(1);
+    x_[W_dot] = linear_accel_body_(2);
+    x_[P_dot] = ang_accel_body_(0);
+    x_[Q_dot] = ang_accel_body_(1);
+    x_[R_dot] = ang_accel_body_(2);
+
     // Cache values to calculate changes:
     Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
@@ -302,12 +319,12 @@ bool FixedWing6DOF::step(double time, double dt) {
     ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
 
     alpha_ = atan2(x_[W], x_[U]); // angle of attack
-    alpha_dot_ = (alpha_ - alpha_prev_) / dt;
-    alpha_prev_ = alpha_;
+    // TODO: Need to compute alpha_dot without using alpha_prev_
+    alpha_dot_ = 0;
+    // alpha_dot_ = (alpha_ - alpha_prev_) / dt;
+    // alpha_prev_ = alpha_;
 
     ode_step(dt);
-
-    beta_ = atan2(x_[V], x_[U]); // side slip
 
     quat_body_.set(x_[q0], x_[q1], x_[q2], x_[q3]);
     quat_body_.normalize();
@@ -319,25 +336,22 @@ bool FixedWing6DOF::step(double time, double dt) {
     Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
     Eigen::Vector3d angular_acc_FLU(angular_acc(0), -angular_acc(1), -angular_acc(2));
 
-
     // Rotate back to Z-axis pointing up
     state_->quat() = rot_180_x_axis_ * quat_body_;
     state_->quat().set(sc::Angles::angle_pi(state_->quat().roll()+M_PI),
                        state_->quat().pitch(), state_->quat().yaw());
-
+    state_->quat().normalize();
 
     Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate(angular_vel);
     Eigen::Vector3d angvel_b_e_ENU;
-    angvel_b_e_ENU << angvel_b_e_bodyRef[0], -angvel_b_e_bodyRef[1], -angvel_b_e_bodyRef[2];
+    angvel_b_e_ENU << angvel_b_e_bodyRef(0), -angvel_b_e_bodyRef(1), -angvel_b_e_bodyRef(2);
+
+    state_->set_pos(Eigen::Vector3d(x_[Xw], x_[Yw], x_[Zw]));
+    state_->set_vel(linear_vel_ENU);
     state_->set_ang_vel(angvel_b_e_ENU);
-
-
-    state_->pos() << x_[Xw], x_[Yw], x_[Zw];
-    state_->vel() << x_[Uw], x_[Vw], x_[Ww];
 
     linear_accel_body_ = state_->quat().rotate_reverse(linear_acc_ENU);
     ang_accel_body_ = angular_acc_FLU;
-
 
     // draw velocity
     if (draw_vel_) {
@@ -360,6 +374,7 @@ bool FixedWing6DOF::step(double time, double dt) {
     }
 
     if (write_csv_) {
+        double beta = atan2(x_[V], x_[U]); // side slip
         // Log state to CSV
         csv_.append(sc::CSV::Pairs{
                 {"t", time},
@@ -370,7 +385,8 @@ bool FixedWing6DOF::step(double time, double dt) {
                 {"V", x_[V]},
                 {"W", x_[W]},
                 {"alpha", alpha_},
-                {"beta", beta_},
+                {"alpha_dot", alpha_dot_},
+                {"beta", beta},
                 {"P", x_[P]},
                 {"Q", x_[Q]},
                 {"R", x_[R]},
@@ -455,8 +471,6 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     Eigen::Vector3d Moments_aero((C_L_beta_*beta + C_LP_*x_[P]*b_/(2*V_tau) + C_LR_*x_[R]*b_/(2*V_tau) + C_L_delta_aileron_*delta_aileron_ + C_L_delta_rudder_*delta_rudder_) * pVtS*b_,
                                  (C_M0_ + C_M_alpha_*alpha_ + C_MQ_*x_[Q]*c_/(2*V_tau) + C_M_alpha_dot_*alpha_dot_*c_/(2*V_tau) + C_M_delta_elevator_*delta_elevator_) * pVtS*c_,
                                  (C_N_beta_*beta + C_NP_*x_[P]*b_/(2*V_tau) + C_NR_*x_[R]*b_/(2*V_tau) + C_N_delta_aileron_*delta_aileron_ + C_N_delta_rudder_*delta_rudder_) * pVtS*b_);
-
-
     // Sum moments
     Eigen::Vector3d Moments_total = Moments_aero + Moments_thrust +
         Moments_torque + Moments_gyro;
@@ -477,10 +491,6 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
     // Normalize quaternion
     sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
-    quat.w() = x[q0];
-    quat.x() = x[q1];
-    quat.y() = x[q2];
-    quat.z() = x[q3];
     quat.normalize();
 
     // Integrate local velocities to compute local positions
@@ -496,24 +506,6 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Uw] = acc_world(0);
     dxdt[Vw] = -acc_world(1); // Due to rotated frame
     dxdt[Ww] = -acc_world(2); // Due to rotated frame
-
-    // Accelerations get updated based on change in velocities
-    dxdt[U_dot] = 0;
-    dxdt[V_dot] = 0;
-    dxdt[W_dot] = 0;
-    dxdt[P_dot] = 0;
-    dxdt[Q_dot] = 0;
-    dxdt[R_dot] = 0;
-}
-
-void FixedWing6DOF::teleport(sc::StatePtr &state) {
-    // x_[X] = state->pos()[0];
-    // x_[Y] = state->pos()[1];
-    // x_[Z] = state->pos()[2];
-    // x_[ROLL] = state->quat().roll();
-    // x_[PITCH] = state->quat().pitch();
-    // x_[YAW] = state->quat().yaw();
-    // x_[SPEED] = state->vel()[0];
 }
 } // namespace motion
 } // namespace scrimmage

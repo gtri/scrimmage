@@ -308,7 +308,7 @@ bool SimControl::init() {
     info.id_to_ent_map = id_to_ent_map_;
 
     if (!create_metrics(info, metrics_)) return false;
-    if (!create_ent_inters(info, shapes_[0], ent_inters_)) return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_)) return false;
 
     contacts_mutex_.lock();
     contacts_->reserve(max_num_entities+1);
@@ -388,7 +388,7 @@ void SimControl::request_screenshot() {
     prev_paused_ = paused();
     pause(true);
     scrimmage_proto::GUIMsg gui_msg;
-    gui_msg.set_time(t_);
+    gui_msg.set_time(t_ + dt_);
     gui_msg.set_single_step(true);
     outgoing_interface_->push_gui_msg(gui_msg);
 }
@@ -698,39 +698,8 @@ bool SimControl::run_single_step(int loop_number) {
         return false;
     }
 
-    if (!wait_for_ready()) {
-        cleanup();
-        return false;
-    }
-
-    create_rtree();
-    set_autonomy_contacts();
-    if (!run_entities()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to plugin request." << std::endl;
-        }
-        return false;
-    }
-
-    if (!run_interaction_detection()) {
-        auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
-        pub_ent_int_exit_->publish(msg);
-    }
-
-    // The networks are run before the metrics, so that messages that are
-    // published on the final time stamp can be processed by the metrics.
-    if (!run_networks()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to network plugin request." << std::endl;
-        }
-        return false;
-    }
-
-    if (!run_metrics()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to metrics plugin exception" << std::endl;
-        }
-        return false;
+    if (screenshot_task_.update(t_).first) {
+        request_screenshot();
     }
 
     if (!run_logging()) {
@@ -738,20 +707,6 @@ bool SimControl::run_single_step(int loop_number) {
             std::cout << "Exiting due to logging exception" << std::endl;
         }
         return false;
-    }
-
-    run_remove_inactive();
-    run_send_shapes();
-    run_send_contact_visuals(); // send updated visuals
-
-    if (display_progress_) {
-        if (loop_number % 100 == 0) {
-            sc::display_progress((tend_ == 0) ? 1.0 : t / tend_);
-        }
-    }
-
-    if (screenshot_task_.update(t_).first) {
-        request_screenshot();
     }
 
     // Wait loop timer.
@@ -785,6 +740,52 @@ bool SimControl::run_single_step(int loop_number) {
         info.set_shutting_down(false);
         outgoing_interface_->send_sim_info(info);
     } while (paused() && !exit_loop);
+
+    if (!wait_for_ready()) {
+        cleanup();
+        return false;
+    }
+
+    create_rtree();
+    set_autonomy_contacts();
+    if (!run_entities()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to plugin request." << std::endl;
+        }
+        return false;
+    }
+
+    if (!run_interaction_detection()) {
+        auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
+        pub_ent_int_exit_->publish(msg);
+        return false;
+    }
+
+    // The networks are run before the metrics, so that messages that are
+    // published on the final time stamp can be processed by the metrics.
+    if (!run_networks()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to network plugin request." << std::endl;
+        }
+        return false;
+    }
+
+    if (!run_metrics()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to metrics plugin exception" << std::endl;
+        }
+        return false;
+    }
+
+    run_remove_inactive();
+    run_send_shapes();
+    run_send_contact_visuals(); // send updated visuals
+
+    if (display_progress_) {
+        if (loop_number % 100 == 0) {
+            sc::display_progress((tend_ == 0) ? 1.0 : t / tend_);
+        }
+    }
 
     // Increment time and loop counter
     set_time(t + dt_);
@@ -1239,8 +1240,8 @@ bool SimControl::run_entities() {
             success &= future.get();
         }
     } else {
-
         for (EntityPtr &ent : ents_) {
+
             for (AutonomyPtr &a : ent->autonomies()) {
                 // Execute callbacks for received messages before calling
                 // step_autonomy

@@ -40,6 +40,9 @@
 
 namespace scrimmage {
 namespace controller {
+
+/*! \brief implementation of \cite olfati2002near
+ */
 class UnicycleControllerPoint : public Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);

@@ -62,7 +62,7 @@ RUN ./generate-plugin.sh network NetworkTest ~/scrimmage/scrimmage
 
 # Run static analysis tests
 WORKDIR /root/scrimmage/scrimmage
-RUN pyclean -v .
+RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv
 RUN py.test test/test_cppcheck.py
 RUN echo "the following test is optional but will check for style"
 RUN python test/test_cpplint.py

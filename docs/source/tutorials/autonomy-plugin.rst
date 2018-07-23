@@ -25,53 +25,99 @@ If the plugin built successfuly, you will see the following output: ::
 
   [100%] Built target MyFollowBehavior_plugin
 
-  
+
 Examine Autonomy Plugin
 -----------------------
 
 Autonomy Plugin Initialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's take a look at the Autonomy plugin template code to better understand the
+Let's take a look at the header file
+``~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h``:
+
+.. code-block:: c++
+   :linenos:
+                
+    #ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
+    #define INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
+    #include <scrimmage/autonomy/Autonomy.h>
+
+    #include <string>
+    #include <map>
+
+    namespace scrimmage {
+    namespace autonomy {
+    class MyFollowBehavior : public scrimmage::Autonomy {
+     public:
+        void init(std::map<std::string, std::string> &params) override;
+        bool step_autonomy(double t, double dt) override;
+
+     protected:
+        int desired_alt_idx_ = 0;
+        int desired_speed_idx_ = 0;
+        int desired_heading_idx_ = 0;
+    };
+    } // namespace autonomy
+    } // namespace scrimmage
+    #endif // INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
+
+Note that it inherits from the scrimmage base class ``Autonomy.h`` located at
+``scrimmage/include/scrimmage/autonomy/Autonomy.h`` which provides a couple virtual methods,
+``init`` and ``step``,
+we will be overriding. The member variables ``desired_alt_idx_``, ``desired_speed_idx_``,
+and ``desired_heading_idx_`` will be used to interact with the controller. For more details
+on interacting with controllers, see :ref:`variableio`.
+
+Now let's take a look at the Autonomy plugin template code to better understand the
 types of information that are available to the Autonomy developer. Use your
 favorite text editor to open the file at
-``~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.cpp``.
-
-After the relevant header files are included, there is the plugin's
-constructor: 
+``~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.cpp``:
 
 .. code-block:: c++
    :linenos:
-                
-   MyFollowBehavior::MyFollowBehavior()
-   {
-   }
 
-and the plugin's ``init`` function
+    #include <my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h>
+
+    #include <scrimmage/plugin_manager/RegisterPlugin.h>
+    #include <scrimmage/entity/Entity.h>
+    #include <scrimmage/math/State.h>
+    #include <scrimmage/parse/ParseUtils.h>
+
+    #include <limits>
+
+    namespace sc = scrimmage;
+
+    REGISTER_PLUGIN(scrimmage::Autonomy,
+                    scrimmage::autonomy::MyFollowBehavior,
+                    MyFollowBehavior_plugin)
+
+    namespace scrimmage {
+    namespace autonomy {
+
+
+After the relevant header files are included, there is a ``REGISTER_PLUGIN``
+macro that adds information to your source file so scrimmage can dynamically load it
+at runtime. The plugin's ``init`` function is pasted below:
 
 .. code-block:: c++
    :linenos:
-                
-   void MyFollowBehavior::init(std::map<std::string,std::string> &params)
-   {
-       double initial_speed = sc::get<double>("initial_speed", params, 21);
-       desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-       desired_state_->quat().set(0,0,state_->quat().yaw());
-       desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
-   }
-                     
-All SCRIMMAGE plugins must implement an ``init`` function. The ``init``
-function is called one time when the plugin is initialized and takes a
-parameter ``params`` that contains a map of strings that point to strings. This
-``params`` map is populated with the values specified in the plugin's XML
-configuration file. The XML configuration file is located in the ``include``
-path of your project. Thus, MyFollowBehavior's XML file exists at
-``~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.xml``.
-In addition, ``params`` will have two values, ``XML_DIR`` and ``XML_FILENAME``.
-These variables may be useful if you have data that you want to load into the plugin
-that isn't easy to put into an XML format.
 
-Since the ``initial_speed`` tag exists in the ``MyFollowBehavior.xml`` file:
+    void MyFollowBehavior::init(std::map<std::string, std::string> &params) {
+        double initial_speed = sc::get<double>("initial_speed", params, 21);
+        desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+        desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+        vars_.output(desired_speed_idx_, initial_speed);
+        vars_.output(desired_alt_idx_, state_->pos()(2));
+        vars_.output(desired_heading_idx_, state_->quat().yaw());
+    }
+
+This is just setting up the VariableIO to interact with the controller. See
+:ref:`variableio` for more details.
+The ``initial_speed`` tag is in the ``MyFollowBehavior.xml`` file, which
+we get from the function ``get`` found in the ``ParseUtils.h`` header available
+from scrimmage:
 
 .. code-block:: xml
    :linenos:
@@ -89,43 +135,6 @@ arbitrarly define tags in the Autonomy plugin's XML file. The ``sc::get``
 supports all standard C++ data types, such as ``int``, ``double``,
 ``std::string``, ``bool``, ``unsigned int``, etc.
 
-The ``desired_state_`` member variable is a shared pointer to a
-``scrimmage::State`` type, which should be set by the Autonomy plugin. A
-Controller plugin converts the ``desired_state_`` variable into actuator
-commands for the motion model plugin. The plugin developer can determine what
-the velocity, quaternion (orientation), and position member variables of the
-``State`` type represent. However, we typically define the velocity portion
-with respect to the body frame, the quaternion with the inertial frame, and the
-position with the inertial frame. The position and velocity are of
-``Eigen::Vector3d`` type and the quaternion is a ``scrimmage::Quaterion`` type,
-which inherits from Eigen's Quaternion class. In this example, we want to set
-the initial velocity to be 24.3 m/s in the vehicle's forward direction, the
-velocity is set to
-
-.. code-block:: c++
-
-   // Set forward speed to initial_speed
-   desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-                
-since the X-axis is defined in the forward direction in the body frame. Since
-we want the entity to move in the forward direction on initialization, the
-desired yaw is set to the current yaw (which is the initial yaw).
-
-.. code-block:: c++
-
-   // set: roll, pitch, yaw
-   desired_state_->quat().set(0,0,state_->quat().yaw());
-                
-The Controller plugin that will be paired with this Autonomy plugin uses the Z
-element in the ``State``'s position vector to control altitude. To remain at
-the same altitude, the desired state's Z-position is set to the current
-Z-position.
-
-.. code-block:: c++
-
-   // Remain at current altitude
-   desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
-
 Step Autonomy
 ~~~~~~~~~~~~~
 
@@ -135,7 +144,7 @@ The real work of the Autonomy plugin is typically implemented in the
 .. code-block:: c++
 
    bool MyFollowBehavior::step_autonomy(double t, double dt)
-                
+
 The ``step_autonomy`` method takes the current simulation time, ``t``, and the
 simulation step size ``dt``, as inputs. If an error is detected during method
 execution, the Autonomy developer can return ``false`` to inform SCRIMMAGE's
@@ -147,33 +156,56 @@ implements the following simple behavior:
 2. Find the the closest contact that is not on my team.
 3. Head in the direction of the closest contact.
 
-The first and second bullet points are implemented by
-
 .. code-block:: c++
    :linenos:
-                
-    // Find nearest entity on other team. Loop through each contact, calculate
-    // distance to entity, save the ID of the entity that is closest.
-    double min_dist = std::numeric_limits<double>::infinity();
-    for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
 
-        // Skip if this contact is on the same team
-        if (it->second.id().team_id() == parent_->id().team_id()) {
-            continue;
+    bool MyFollowBehavior::step_autonomy(double t, double dt) {
+        // Find nearest entity on other team. Loop through each contact, calculate
+        // distance to entity, save the ID of the entity that is closest.
+        int follow_id_ = -1;
+        double min_dist = std::numeric_limits<double>::infinity();
+        for (auto &kv : *contacts_) {
+
+            int contact_id = kv.first;
+            sc::Contact &contact = kv.second;
+
+            // Skip if this contact is on the same team
+            if (contact.id().team_id() == parent_->id().team_id()) {
+                continue;
+            }
+
+            // Calculate distance to entity
+            double dist = (contact.state()->pos() - state_->pos()).norm();
+
+            if (dist < min_dist) {
+                // If this is the minimum distance, save distance and reference to
+                // entity
+                min_dist = dist;
+                follow_id_ = contact_id;
+            }
         }
 
-        // Calculate distance to entity
-        double dist = (it->second.state()->pos() - state_->pos()).norm();
+        // Head toward entity on other team
+        if (contacts_->count(follow_id_) > 0) {
+            // Get a reference to the entity's state.
+            sc::StatePtr ent_state = contacts_->at(follow_id_).state();
 
-        if (dist < min_dist) {
-            // If this is the minimum distance, save distance and reference to
-            // entity
-            min_dist = dist;
-            follow_id_ = it->first;
+            // Calculate the required heading to follow the other entity
+            double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
+                                   ent_state->pos()(0) - state_->pos()(0));
+
+            // Set the heading
+            vars_.output(desired_heading_idx_, heading);
+
+            // Match entity's altitude
+            vars_.output(desired_alt_idx_, ent_state->pos()(2));
         }
+
+        return true;
     }
-    
-Line 4 is a common way to iterate over all contacts. In line 7, we ignore
+
+Line 6 is a common way to iterate over all contacts
+using range-based for loops available from c++-11. In line 12, we ignore
 contacts that are on the same team by checking team IDs. ``parent_`` is a
 reference to the plugin's parent entity. The parent entity holds references to
 the entity's ID and other plugins. The ``scrimmage::ID`` class has three member
@@ -183,37 +215,16 @@ distance between our entity and the contact. In lines 14 to 18, we determine if
 this is the small distance encountered so far and save the distance and ID of
 the contact if it is the closest distance.
 
-Next, we set the Autonomy's ``desired_state_`` to move in the direction of the
-closest non-team member, if it exists.
-
-.. code-block:: c++
-   :linenos:
-
-    // Head toward entity on other team
-    if (contacts_->count(follow_id_) > 0) {
-        // Get a reference to the entity's state.
-        sc::StatePtr ent_state = contacts_->at(follow_id_).state();
-
-        // Calculate the required heading to follow the other entity
-        double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
-                               ent_state->pos()(0) - state_->pos()(0));
-
-        // Set the heading
-        desired_state_->quat().set(0, 0, heading); // roll, pitch, heading
-
-        // Match entity's altitude
-        desired_state_->pos()(2) = ent_state->pos()(2);
-    }
-
-Line 2 ensures that the ID of the contact that we want to follow exists. Next,
-we get a pointer to the contact's ``scrimmage::State`` in line 4. Using basic
-trigonometry, we calculate the required heading to follow the contact in lines
-7 and 8.  In line 11, we set the desired heading, similarly to how we set the
+In the second ``if`` block, 
+we set the Autonomy's controller inputs using :ref:`variableio`.
+Line 28 ensures that the ID of the contact that we want to follow exists. Next,
+we get a pointer to the contact's ``scrimmage::State`` in line 30. Using basic
+trigonometry, we calculate the required heading to follow the contact in line
+33.  In line 37, we set the desired heading, similarly to how we set the
 heading in the initialization method. Finally, we set the desired altitude to
-the same altitude of the contact in line 14. If the closest contact search
+the same altitude of the contact in line 40. If the closest contact search
 didn't succeed in the first part of ``step_autonomy``, then the
-``desired_state_`` won't be updated due to the guard in line 2 and our Autonomy
-plugin will just drive our entity in the forward direction.
+controller inputs won't be updated due to the guard.
 
 By just using the state's of other contacts, Autonomy plugins can implement
 formation controllers, spatial search algorithms, biologically-inspired
@@ -221,3 +232,58 @@ algorithms, and many other algorithms associated with multi-robot problems. The
 contacts in this example are ground truth contacts without any noise. When you
 complete the Sensor plugin tutorial (:doc:`sensor-plugin`), you will learn how
 to add noise and filter out contacts based on a sensor model.
+
+Running the Plugin
+------------------
+
+In our project, open ``missions/example.xml`` and go to the second entity block.
+Change ``count`` to 1 and ``autonomy`` to ``MyFollowBehavior`` and save the file:
+
+.. code-block:: xml
+   :linenos:
+
+    <entity>
+      <team_id>2</team_id>
+      <color>255 0 0</color>
+      <count>1</count>
+      <health>1</health>
+      <radius>2</radius>
+
+      <!--
+      <generate_rate> 1 / 2 </generate_rate>
+      <generate_count>2</generate_count>
+      <generate_start_time>0</generate_start_time>
+      <generate_time_variance>0.10</generate_time_variance>
+      -->
+
+      <variance_x>20</variance_x>
+      <variance_y>20</variance_y>
+      <variance_z>20</variance_z>
+
+      <x>50</x>
+      <y>0</y>
+      <z>200</z>
+
+      <heading>180</heading>
+      <altitude>200</altitude>
+      <controller>SimpleAircraftControllerPID</controller>
+      <motion_model>SimpleAircraft</motion_model>
+      <visual_model>zephyr-red</visual_model>
+      <autonomy>MyFollowBehavior</autonomy>
+      <base>
+        <latitude>35.719961</latitude>
+        <longitude>-120.767304</longitude>
+        <altitude>300</altitude>
+        <radius>25</radius>
+      </base>
+    </entity>
+
+Now we can run the simulation:
+
+.. code-block:: bash
+
+  scrimmage missions/example.xml
+
+You can change the viewer by pressing ``a`` once, scrolling out and moving the picture
+so both vehicles are in view. You can additionally press ``+`` so that the vehicles
+are larger. You should see two vehicles approach each other and circle.

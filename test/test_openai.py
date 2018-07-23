@@ -144,12 +144,52 @@ def test_two_dim_discrete():
     assert total_reward == 4
 
 
+def test_two_dim_continuous():
+    """Open single entity scenario and make sure it banks."""
+    def _get_action(i):
+        return np.array([1.0, 1.0] if i < 100 else [-1.0, -1.0], dtype=float)
+
+    VERSION = 'scrimmage-v2'
+    _write_temp_mission(x_discrete=False, ctrl_y=True, y_discrete=False,
+                        num_actors=1, end=1000)
+    combine_actors = False
+    global_sensor = False
+    env, obs, total_reward = \
+        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+
+    assert len(obs[0]) == 1
+    assert obs[0] == 0
+    assert isinstance(env.action_space, gym.spaces.Box)
+    assert isinstance(env.observation_space, gym.spaces.Box)
+    assert total_reward == 4
+
+
+def test_two_dim_tuple():
+    """Open single entity scenario and make sure it banks."""
+    def _get_action(i):
+        return np.array([[1], [1.0]] if i < 100 else [[0], [-1.0]])
+
+    VERSION = 'scrimmage-v3'
+    _write_temp_mission(x_discrete=False, ctrl_y=True, y_discrete=True,
+                        num_actors=1, end=1000)
+    combine_actors = False
+    global_sensor = False
+    env, obs, total_reward = \
+        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+
+    assert len(obs[0]) == 1
+    assert obs[0] == 0
+    assert isinstance(env.action_space, gym.spaces.Tuple)
+    assert isinstance(env.observation_space, gym.spaces.Box)
+    assert total_reward == 4
+
+
 def test_one_dim_continuous():
     """Open single entity scenario and make sure it banks."""
     def _get_action(i):
         return 1.0 if i < 100 else -1.0
 
-    VERSION = 'scrimmage-v2'
+    VERSION = 'scrimmage-v4'
     _write_temp_mission(x_discrete=False, ctrl_y=False, y_discrete=False,
                         num_actors=1, end=1000)
     combine_actors = False
@@ -169,7 +209,7 @@ def test_two_combined_veh_dim_discrete():
     def _get_action(i):
         return [1, 0] if i < 100 else [0, 1]
 
-    VERSION = 'scrimmage-v3'
+    VERSION = 'scrimmage-v5'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = True
@@ -189,7 +229,7 @@ def test_two_not_combined_veh_dim_discrete():
     def _get_action(i):
         return [[1], [0]] if i < 100 else [[0], [1]]
 
-    VERSION = 'scrimmage-v4'
+    VERSION = 'scrimmage-v6'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = False
@@ -210,7 +250,7 @@ def test_two_combined_veh_dim_discrete_global_sensor():
     def _get_action(i):
         return [1, 0] if i < 100 else [0, 1]
 
-    VERSION = 'scrimmage-v5'
+    VERSION = 'scrimmage-v7'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = True
@@ -230,7 +270,7 @@ def test_sim_end():
     def _get_action(i):
         return 1 if i < 100 else 0
 
-    VERSION = 'scrimmage-v6'
+    VERSION = 'scrimmage-v8'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
                         num_actors=1, end=2)
     combine_actors = False
@@ -244,7 +284,7 @@ def test_timestep():
     def _get_action(i):
         return 1 if i < 100 else 0
 
-    VERSION = 'scrimmage-v7'
+    VERSION = 'scrimmage-v9'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
@@ -261,11 +301,13 @@ def test_timestep():
     assert total_reward == 0
 
 if __name__ == '__main__':
-    test_one_dim_discrete()
-    test_two_dim_discrete()
-    test_one_dim_continuous()
-    test_two_combined_veh_dim_discrete()
-    test_two_not_combined_veh_dim_discrete()
-    test_sim_end()
-    test_two_combined_veh_dim_discrete_global_sensor()
-    test_timestep()
+    # test_two_dim_continuous()
+    test_two_dim_tuple()
+    # test_one_dim_discrete()
+    # test_two_dim_discrete()
+    # test_one_dim_continuous()
+    # test_two_combined_veh_dim_discrete()
+    # test_two_not_combined_veh_dim_discrete()
+    # test_sim_end()
+    # test_two_combined_veh_dim_discrete_global_sensor()
+    # test_timestep()

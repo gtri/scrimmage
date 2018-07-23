@@ -42,8 +42,7 @@ template <class T>
 class Message : public MessageBase {
  public:
     Message() : MessageBase() {}
-    explicit Message(T _data, const std::string &_serialized_data = "") :
-      MessageBase(), data(_data) {}
+    explicit Message(T _data) : MessageBase(), data(_data) {}
     T data;
 };
 

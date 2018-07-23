@@ -40,8 +40,6 @@
 #include <list>
 #include <string>
 
-namespace sc = scrimmage;
-
 namespace scrimmage {
 namespace interaction {
 
@@ -49,9 +47,9 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::EntityInteraction {
  public:
     (>>>PLUGIN_NAME<<<)();
     bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params);
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt);
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
  protected:
  private:
 };

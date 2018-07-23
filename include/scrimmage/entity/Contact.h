@@ -76,6 +76,7 @@ class Contact {
         return out;
     }
 
+    std::unordered_map<std::string, MessageBasePtr> &properties() {return properties_;}
     void set_id(const ID &id);
     ID &id();
 

@@ -84,8 +84,6 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
 
     void model(const vector_t &x , vector_t &dxdt , double t);
 
-    void teleport(scrimmage::StatePtr &state) override;
-
  protected:
     int throttle_idx_ = 0;
     int elevator_idx_ = 0;
@@ -119,10 +117,8 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double delta_rudder_ = 0;
 
     double alpha_ = 0; // angle of attack
-    double alpha_prev_ = 0;
+    // double alpha_prev_ = 0;
     double alpha_dot_ = 0;
-
-    double beta_ = 0;
 
     double rho_ = 1.2250; // air density
 

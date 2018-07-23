@@ -77,6 +77,7 @@ message Sphere {
 message Text {
         string text = 1;
         Vector3d center = 2;
+        double scale = 3;
 }
 
 message Shape {

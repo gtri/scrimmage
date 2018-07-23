@@ -73,14 +73,14 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
     auto capture_cb = [&] (scrimmage::MessagePtr<sm::CaptureEntity> msg) {
         int source_id = msg->data.source_id();
         int target_id = msg->data.target_id();
-        sc::EntityPtr &src = (*id_to_ent_map_)[source_id];
-        sc::EntityPtr &dst = (*id_to_ent_map_)[target_id];
 
         // if target_id is already present in already_captured_,
         // capture_result.second will be false
         auto capture_result = already_captured_.emplace(target_id);
 
         if (capture_result.second) {
+            sc::EntityPtr &src = (*id_to_ent_map_)[source_id];
+            sc::EntityPtr &dst = (*id_to_ent_map_)[target_id];
             if ((src->state()->pos() - dst->state()->pos()).norm() <=
                 capture_range_) {
                 if (enable_team_captures_ &&
@@ -109,7 +109,6 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
     subscribe<sm::CaptureEntity>("GlobalNetwork", "CaptureEntity", capture_cb);
     return true;
 }
-
 
 bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                             double t, double dt) {

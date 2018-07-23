@@ -117,6 +117,10 @@ class Cuboid : public BoundaryBase {
         return false;
     }
 
+    const std::vector<Eigen::Vector3d> & points() {
+        return points_;
+    }
+
     void set_points(std::vector<Eigen::Vector3d> &points) {
         points_ = points;
         compute_dots();
