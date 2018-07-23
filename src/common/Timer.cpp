@@ -105,7 +105,9 @@ uint64_t Timer::getnanotime() {
 }
 
 void Timer::inc_warp() {
-    if (time_warp_ < 2) {
+    if (time_warp_ == 0) {
+        time_warp_ = 1;
+    } else if (time_warp_ < 2) {
         time_warp_ *= 2;
     } else {
         time_warp_ += 1.0;
@@ -114,7 +116,9 @@ void Timer::inc_warp() {
 }
 
 void Timer::dec_warp() {
-    if (time_warp_ < 2) {
+    if (time_warp_ == 0) {
+        time_warp_ = 1;
+    } else if (time_warp_ < 2) {
         time_warp_ /= 2;
     } else {
         time_warp_ -= 1.0;
