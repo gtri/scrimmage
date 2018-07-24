@@ -62,6 +62,7 @@ namespace autonomy {
 
 void AuctionAssign::init(std::map<std::string, std::string> &params) {
     id_ = parent_->id().id();
+    auctioneer_ = str2bool(params.at("auctioneer"));
 
     desired_state_->vel() << 0, 0, 0;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
@@ -70,6 +71,7 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
     // Setup Publishers
     start_auction_pub_ = advertise("CommsNetwork", "StartAuction");
     bid_auction_pub_ = advertise("CommsNetwork", "BidAuction");
+    result_auction_pub_ = advertise("CommsNetwork", "ResultAuction");
 
     // Setup the lambda function to process the StartAuction message
     auto start_auction_callback = [&]
@@ -117,7 +119,7 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
 }
 
 bool AuctionAssign::step_autonomy(double t, double dt) {
-    if (!auction_started_ && id_ == 1) {
+    if (!auction_started_ && auctioneer_ && id_ == 1) {
         cout << "Agent (" << id_ << ") starting auction" << endl;
 
         auto msg = std::make_shared<sc::Message<auction::StartAuction>>();
@@ -137,6 +139,10 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
         cout << "Bid: " << max_bid_ << endl;
         cout << "======================================" << endl;
         auction_in_prog_ = false;
+        auto msg = std::make_shared<sc::Message<auction::BidAuction>>();
+        msg->data.set_sender_id(max_bid_champ_);
+        msg->data.set_bid(max_bid_);
+        result_auction_pub_->publish(msg);
     }
 
     return true;

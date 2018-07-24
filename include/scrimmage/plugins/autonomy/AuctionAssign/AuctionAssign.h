@@ -47,8 +47,9 @@ class AuctionAssign : public scrimmage::Autonomy {
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    scrimmage::PublisherPtr start_auction_pub_;
-    scrimmage::PublisherPtr bid_auction_pub_;
+    PublisherPtr start_auction_pub_;
+    PublisherPtr bid_auction_pub_;
+    PublisherPtr result_auction_pub_;
 
     bool auction_started_ = false;
     bool auction_in_prog_ = false;
@@ -56,7 +57,9 @@ class AuctionAssign : public scrimmage::Autonomy {
     double auction_max_time_ = 5;
     double max_bid_ = -std::numeric_limits<double>::max();
     int max_bid_champ_ = -1;
+
     int id_ = -1;
+    bool auctioneer_;
 
     int output_vel_x_idx_ = 0;
     int output_vel_y_idx_ = 0;

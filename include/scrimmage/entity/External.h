@@ -89,13 +89,14 @@ class External {
     std::mutex mutex;
     DelayedTask update_contacts_task;
     MissionParsePtr mp();
-    void send_messages();
+    bool send_messages();
 
  protected:
     void update_ents();
     EntityPtr entity_;
     std::list<EntityInteractionPtr> ent_inters_;
     std::list<MetricsPtr> metrics_;
+    NetworkMapPtr networks_;
 
     PluginManagerPtr plugin_manager_;
     std::shared_ptr<Log> log_;

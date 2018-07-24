@@ -67,6 +67,8 @@ bool create_ent_inters(const SimUtilsInfo &info,
 
 bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_list);
 
+bool create_networks(const SimUtilsInfo &info, NetworkMap &networks);
+
 void run_callbacks(PluginPtr plugin);
 
 void print_io_error(const std::string &in_name, VariableIO &v);
