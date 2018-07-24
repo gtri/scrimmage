@@ -64,7 +64,8 @@
     <sensor>RigidBody6DOFStateSensor</sensor>
 
     <autonomy>ArduPilot</autonomy>
-    <controller>JSBSimControlControllerDirect</controller>
+    <!-- <controller>JSBSimControlControllerDirect</controller> -->
+    <controller>DirectController</controller>
     <motion_model>JSBSimControl</motion_model>
     <script_name>rascal_no_autopilot.xml</script_name>
     <visual_model>zephyr-blue</visual_model>

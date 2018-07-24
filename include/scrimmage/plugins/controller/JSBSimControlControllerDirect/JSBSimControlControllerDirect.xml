@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
-<params>
-  <library>JSBSimControlControllerDirect_plugin</library>  
-  <gain>1</gain>
-  <yaw_pid>2, 0.5, 0, 4.5</yaw_pid>
-  <pitch_pid>2, 0.5, 0, 4.5</pitch_pid>
-  <roll_pid>10, 0.5, 0, 4.5</roll_pid>
-</params>

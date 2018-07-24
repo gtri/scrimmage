@@ -92,6 +92,7 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase{
 
  protected:
     Eigen::VectorXd ctrl_u_;
+    Eigen::VectorXd motor_idx_vec_;
 
     // multirotor parameters
     Eigen::Matrix3d I_;

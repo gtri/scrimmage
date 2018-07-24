@@ -9,5 +9,21 @@
 
   <!-- Receive Socket: PWM commands from ArduPilot -->
   <from_ardupilot_port>5002</from_ardupilot_port>
-  
+
+  <!-- servo mapping for plane -->
+  <servo_map>
+    [ throttle 2 1000 +2000     0 +1 +1 ]
+    [ elevator 1 1000 +2000    -1 +1 -1 ]
+    [ aileron  0 1000 +2000    -1 +1 +1 ]
+    [ rudder   3 1000 +2000    -1 +1 +1 ]
+  </servo_map>
+
+  <!-- servo mapping for copter -->
+  <!-- <servo_map>
+    [ motor_0 0 1000 +2000    346.41 1200.0 +1 ]
+    [ motor_1 1 1000 +2000    346.41 1200.0 +1 ]
+    [ motor_2 2 1000 +2000    346.41 1200.0 +1 ]
+    [ motor_3 3 1000 +2000    346.41 1200.0 +1 ]
+  </servo_map> -->
+
 </params>
