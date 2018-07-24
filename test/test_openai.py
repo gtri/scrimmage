@@ -42,7 +42,7 @@ MISSION_FILE = 'rlsimple.xml'
 TEMP_MISSION_FILE = '.rlsimple.xml'
 
 
-def _run_test(version, combine_actors, global_sensor, get_action, timestep = -1):
+def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     try:
         env = gym.make(version)
     except gym.error.Error:
@@ -103,7 +103,7 @@ def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end):
 
 
 def test_one_dim_discrete():
-    """Open single entity scenario and make sure it banks."""
+    """A single agent along the x-axis."""
     def _get_action(i):
         return 1 if i < 100 else 0
 
@@ -124,7 +124,7 @@ def test_one_dim_discrete():
 
 
 def test_two_dim_discrete():
-    """Open single entity scenario and make sure it banks."""
+    """A single agent along the x and y-axis."""
     def _get_action(i):
         return np.array([1, 1] if i < 100 else [0, 0], dtype=int)
 
@@ -145,7 +145,7 @@ def test_two_dim_discrete():
 
 
 def test_two_dim_continuous():
-    """Open single entity scenario and make sure it banks."""
+    """A single agent along the x and y-axis with continuous input."""
     def _get_action(i):
         return np.array([1.0, 1.0] if i < 100 else [-1.0, -1.0], dtype=float)
 
@@ -165,7 +165,7 @@ def test_two_dim_continuous():
 
 
 def test_two_dim_tuple():
-    """Open single entity scenario and make sure it banks."""
+    """Single agent with discrete and continuous input."""
     def _get_action(i):
         return np.array([[1], [1.0]] if i < 100 else [[0], [-1.0]])
 
@@ -185,7 +185,7 @@ def test_two_dim_tuple():
 
 
 def test_one_dim_continuous():
-    """Open single entity scenario and make sure it banks."""
+    """A single agent along the x-axis with continuous input."""
     def _get_action(i):
         return 1.0 if i < 100 else -1.0
 
@@ -205,7 +205,7 @@ def test_one_dim_continuous():
 
 
 def test_two_combined_veh_dim_discrete():
-    """Open single entity scenario and make sure it banks."""
+    """Two agents, each with one discrete input, treated as a single agent."""
     def _get_action(i):
         return [1, 0] if i < 100 else [0, 1]
 
@@ -225,7 +225,7 @@ def test_two_combined_veh_dim_discrete():
 
 
 def test_two_not_combined_veh_dim_discrete():
-    """Open single entity scenario and make sure it banks."""
+    """Two agents, each with discrete input, treated as separate agents."""
     def _get_action(i):
         return [[1], [0]] if i < 100 else [[0], [1]]
 
@@ -246,7 +246,11 @@ def test_two_not_combined_veh_dim_discrete():
 
 
 def test_two_combined_veh_dim_discrete_global_sensor():
-    """Open single entity scenario and make sure it banks."""
+    """Two agents, each with discrete input, treated as a single agent.
+
+    global_sensor means that the sensor of the first agent will define the
+    state.
+    """
     def _get_action(i):
         return [1, 0] if i < 100 else [0, 1]
 
@@ -280,7 +284,7 @@ def test_sim_end():
 
 
 def test_timestep():
-    """Open single entity scenario and make sure it banks."""
+    """Verify that scrimmage closes."""
     def _get_action(i):
         return 1 if i < 100 else 0
 
