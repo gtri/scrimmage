@@ -51,7 +51,7 @@ boost::posix_time::time_duration Timer::elapsed_time() {
 }
 
 void Timer::start_loop_timer() {
-    loop_timer_ = boost::posix_time::second_clock::local_time();
+    loop_timer_ = boost::posix_time::microsec_clock::local_time();
 
     boost::posix_time::time_duration time_diff = loop_timer_ - actual_time_;
 
@@ -66,7 +66,7 @@ void Timer::start_loop_timer() {
 bool Timer::loop_wait() {
     bool missed_deadline = true;
 
-    boost::posix_time::ptime time = boost::posix_time::second_clock::local_time();
+    boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration time_diff = time - loop_timer_;
 
     if (time_diff < iterate_period_) {

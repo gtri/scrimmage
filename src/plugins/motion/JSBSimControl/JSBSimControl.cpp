@@ -52,6 +52,7 @@
 #include <boost/algorithm/clamp.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
+
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -125,10 +126,49 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     exec_->SetRootDir(info["JSBSIM_ROOT"]);
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();
-    ic->SetVEastFpsIC(state_->vel()[1] * meters2feet);
-    ic->SetVNorthFpsIC(state_->vel()[0] * meters2feet);
+
+    Quaternion q_ned_enu(M_PI, 0.0, M_PI/2.0);
+    Quaternion q_flu_frd(M_PI, 0.0, 0.0);
+    Quaternion q_frd_enu(q_ned_enu * state_->quat() * q_flu_frd);
+    ic->SetPsiRadIC(q_frd_enu.yaw());
+    ic->SetThetaRadIC(q_frd_enu.pitch());
+    ic->SetPhiRadIC(q_frd_enu.roll());
+
+    ic->SetVEastFpsIC(state_->vel()[0] * meters2feet);
+    ic->SetVNorthFpsIC(state_->vel()[1] * meters2feet);
     ic->SetVDownFpsIC(-state_->vel()[2] * meters2feet);
+
     ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() * meters2feet);
+
+    Eigen::Vector3d lla;
+    parent_->projection()->Reverse(state_->pos()[0], state_->pos()[1], state_->pos()[2], lla[0], lla[1], lla[2]);
+    ic->SetLatitudeDegIC(lla[0]);
+    ic->SetLongitudeDegIC(lla[1]);
+    ic->SetAltitudeASLFtIC(lla[2] * meters2feet);
+
+#if 0
+    cout << "--------------------------------------------------------" << endl;
+    cout << "  State information in JSBSImControl" << endl;
+    cout << "--------------------------------------------------------" << endl;
+    int prec = 5;
+    cout << std::setprecision(prec) << "state_->quat(): " << state_->quat() << endl;
+    cout << std::setprecision(prec) << "lla[0]: " << lla[0] << endl;
+    cout << std::setprecision(prec) << "lla[1]: " << lla[1] << endl;
+    cout << std::setprecision(prec) << "lla[2]: " << lla[2] << endl;
+    cout << std::setprecision(prec) << "lla[0]: " << lla[0] << endl;
+    cout << std::setprecision(prec) << "lla[1]: " << lla[1] << endl;
+    cout << std::setprecision(prec) << "lla[2]: " << lla[2] << endl;
+
+    cout << std::setprecision(prec) << "GetVEastFpsIC: " << ic->GetVEastFpsIC() << endl;
+    cout << std::setprecision(prec) << "GetVNorthFpsIC: " << ic->GetVNorthFpsIC() << endl;
+    cout << std::setprecision(prec) << "GetVDownFpsIC: " << ic->GetVDownFpsIC() << endl;
+    cout << std::setprecision(prec) << "GetPsiRadIC: " << ic->GetPsiRadIC() << endl;
+    cout << std::setprecision(prec) << "GetThetaRadIC: " << ic->GetThetaRadIC() << endl;
+    cout << std::setprecision(prec) << "GetPhiRadIC: " << ic->GetPhiRadIC() << endl;
+    cout << std::setprecision(prec) << "GetLatitudeDegIC: " << ic->GetLatitudeDegIC() << endl;
+    cout << std::setprecision(prec) << "GetLongitudeDegIC: " << ic->GetLongitudeDegIC() << endl;
+    cout << std::setprecision(prec) << "GetAltitudeASLFtIC: " << ic->GetAltitudeASLFtIC() << endl;
+#endif
 
     if (info.count("latitude") > 0) {
         ic->SetLatitudeDegIC(std::stod(info["latitude"]));
@@ -214,10 +254,15 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimControl::step(double time, double dt) {
+
     throttle_ = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
     delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
     delta_aileron_ = ba::clamp(vars_.input(aileron_idx_), -1.0, 1.0);
     delta_rudder_ = ba::clamp(vars_.input(rudder_idx_), -1.0, 1.0);
+
+    // TODO: for some reason, jsb sim does not like it when there is an immediate thottle input
+    if (time < .05)
+        throttle_ = 0;
 
     ap_aileron_cmd_node_->setDoubleValue(delta_aileron_);
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
@@ -227,9 +272,8 @@ bool JSBSimControl::step(double time, double dt) {
     exec_->Setdt(dt);
     exec_->Run();
 
-    if (fg_out_enable_) {
-        output_fg_->Print();
-    }
+
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
@@ -302,6 +346,8 @@ bool JSBSimControl::step(double time, double dt) {
     cout << "  State information in JSBSImControl" << endl;
     cout << "--------------------------------------------------------" << endl;
     int prec = 5;
+    // std::cout << "processing time, ms: " << ((double)time_diff.total_microseconds())/1000 << std::endl;
+    cout << std::setprecision(prec) << "dt: " << dt << endl;
     cout << std::setprecision(prec) << "time: " << time << endl;
     cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
     cout << std::setprecision(prec) << "WOW[0]: " << mgr->GetNode("gear/unit/WOW")->getDoubleValue() << endl;
@@ -314,10 +360,29 @@ bool JSBSimControl::step(double time, double dt) {
     cout << std::setprecision(prec) << "elevator cmd: " << delta_elevator_ << endl;
     cout << std::setprecision(prec) << "rudder cmd: " << delta_rudder_ << endl;
     cout << std::setprecision(prec) << "throttle cmd: " << throttle_ << endl;
-    cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-norm")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-norm")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-norm")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "thrust jsb: " << mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "throttle jsb: " << mgr->GetNode("fcs/throttle-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "thrust (N): " << mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue()*4.44 << endl;
+    cout << std::setprecision(prec) << "alpha: " << mgr->GetNode("aero/alpha-rad")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "drag: " << mgr->GetNode("forces/fwx-aero-lbs")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "lift: " << -mgr->GetNode("forces/fwz-aero-lbs")->getDoubleValue() << endl;
+
+    cout << std::setprecision(prec) << "lat:   " << latitude_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "lon:   " << longitude_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "alt:   " << altitude_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "ve:    " << vel_east_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "vn:    " << vel_north_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "nd:    " << vel_down_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "phi:   " << roll_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "theta: " << pitch_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "psi:   " << yaw_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "p:     " << p_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "q:     " << q_node_->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "r:     " << r_node_->getDoubleValue() << endl;
+
+    cout << std::setprecision(prec) << "lift: " << -mgr->GetNode("forces/fwz-aero-lbs")->getDoubleValue() << endl;
 #endif
 
     return true;

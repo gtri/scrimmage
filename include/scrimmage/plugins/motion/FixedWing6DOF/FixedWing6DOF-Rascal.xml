@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>FixedWing6DOF_plugin</library>
+  <write_csv>false</write_csv>
+
+  <!--
+      Model parameters from Ardupilot JSBSim Model
+
+      Unit Notes:
+      Everything is in SI units, unless specified
+      _slug_ft_sq : slugs*ft^2
+  -->
+
+  <!-- Scenario / Environmental Parameters -->
+  <gravity_magnitude>9.81</gravity_magnitude> <!-- m / s^2 -->
+  <air_density>1.2250</air_density> <!-- rho (p) [kg / m^3] -->
+
+  <inertia_matrix_slug_ft_sq>
+    [ 1.95 0.00000 0.0 ]
+    [ 0.0000 1.55 0.00000 ]
+    [ 0.0 0.0000  1.91 ]
+  </inertia_matrix_slug_ft_sq>
+
+  <!-- Aircraft control limits -->
+  <thrust_min>0.0</thrust_min> <!-- Newtons (N) -->
+  <thrust_max>25.0</thrust_max> <!-- Newtons (N) -->
+  <delta_elevator_min>-1</delta_elevator_min> <!-- normalized -->
+  <delta_elevator_max>1</delta_elevator_max> <!-- normalized -->
+  <delta_aileron_min>-1</delta_aileron_min> <!-- normalized -->
+  <delta_aileron_max>1</delta_aileron_max> <!-- normalized -->
+  <delta_rudder_min>-1</delta_rudder_min> <!-- normalized -->
+  <delta_rudder_max>1</delta_rudder_max> <!-- normalized -->
+
+  <!-- Aircraft dimensional specifications -->
+  <mass>5.91</mass> <!-- kg -->
+  <wing_span>2.70</wing_span> <!-- b [m] -->
+  <surface_area_of_wing>0.982</surface_area_of_wing> <!-- S [m^2] -->
+  <chord_length>.351</chord_length> <!-- c [m] -->
+
+  <!-- nondimensional coefficients -->
+
+  <!-- drag coefficients -->
+  <C_D0>0.028</C_D0> <!-- wing drag -->
+  <C_D_alpha>0.0</C_D_alpha> <!-- drag due to alpha -->
+  <C_D_delta_elevator>0.03</C_D_delta_elevator> <!-- elevator drag -->
+
+  <!-- lift coefficients -->
+  <C_L0>0.25</C_L0>
+  <C_L_alpha>5</C_L_alpha>
+  <C_LQ>0.0</C_LQ>
+  <C_L_alpha_dot>0.0</C_L_alpha_dot>
+  <C_L_delta_elevator>0.2</C_L_delta_elevator>
+
+  <!-- Side force coefficients-->
+  <C_Y_beta>-1.0</C_Y_beta>
+  <C_Y_delta_rudder>0.0</C_Y_delta_rudder>
+
+  <!-- Roll moment coefficients -->
+  <C_L_beta>-0.1</C_L_beta>
+  <C_LP>-0.4</C_LP>
+  <C_LR>0.15</C_LR>
+  <C_L_delta_aileron>0.13</C_L_delta_aileron>
+  <C_L_delta_rudder>0.01</C_L_delta_rudder>
+
+  <!-- Pitch moment coefficients -->
+  <C_M0>0.0</C_M0>
+  <C_MQ>-12.0</C_MQ>
+  <C_M_alpha>-0.5</C_M_alpha>
+  <C_M_alpha_dot>-7.0</C_M_alpha_dot>
+  <C_M_delta_elevator>-0.5</C_M_delta_elevator>
+
+  <!-- Yaw moment coefficients -->
+  <C_N_beta>0.12</C_N_beta>
+  <C_NP>0.0</C_NP>
+  <C_NR>-0.15</C_NR>
+  <C_N_delta_aileron>-0.03</C_N_delta_aileron>
+  <C_N_delta_rudder>-0.05</C_N_delta_rudder>
+
+</params>
