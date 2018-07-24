@@ -347,12 +347,15 @@ if (UNIX AND NOT APPLE)
   set(TMP_INCLUDE_INSTALL_DIR ${CMAKE_SOURCE_DIR}/include)
   set(TMP_MSGS_INCLUDE_DIR ${MSGS_INCLUDE_DIR})
   set(TMP_PROTO_INCLUDE_DIR ${PROTO_INCLUDE_DIR})
+  set(SCRIMMAGE_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/src/proto)
+  set(SCRIMMAGE_MSGS_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/msgs)
 
   configure_package_config_file(
     ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_SOURCE_DIR}/build
-    PATH_VARS TMP_INCLUDE_INSTALL_DIR
+    PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
+    SCRIMMAGE_MSGS_PROTO_PATH
     )
 
   write_basic_package_version_file(
@@ -375,6 +378,7 @@ if (UNIX AND NOT APPLE)
   # Generate the cmake configuration files for the install tree
   #############################################################################
   set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Include install dir")
+  set(SHARE_INSTALL_DIR share/ CACHE PATH "share install dir")
   set(LIB_INSTALL_DIR lib/ CACHE PATH "Library install dir")
   set(CMAKE_CONFIG_DEST "${LIB_INSTALL_DIR}/${PROJECT_NAME}/cmake")
 
@@ -382,12 +386,15 @@ if (UNIX AND NOT APPLE)
   set(TMP_INCLUDE_INSTALL_DIR ${INCLUDE_INSTALL_DIR})
   unset(TMP_MSGS_INCLUDE_DIR)
   unset(TMP_PROTO_INCLUDE_DIR)
+  set(SCRIMMAGE_PROTO_PATH ${SHARE_INSTALL_DIR}/${PROJECT_NAME}/proto)
+  set(SCRIMMAGE_MSGS_PROTO_PATH ${SHARE_INSTALL_DIR}/${PROJECT_NAME}/msgs)
 
   configure_package_config_file(
     ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
     ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
-    PATH_VARS TMP_INCLUDE_INSTALL_DIR
+    PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
+    SCRIMMAGE_MSGS_PROTO_PATH
     )
 
   write_basic_package_version_file(
@@ -443,6 +450,20 @@ if (UNIX AND NOT APPLE)
     DIRECTORY ${MSGS_INCLUDE_DIR}/${PROJECT_NAME}
     DESTINATION include
     FILES_MATCHING PATTERN "*.pb.h"
+    )
+
+  # Install the .proto files in case another project wants to use them
+  install(
+    DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/proto
+    DESTINATION share/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.proto"
+    )
+
+  # Install the message .proto files in case another project wants to use them
+  install(
+    DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/msgs
+    DESTINATION share/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.proto"
     )
 
   if (NOT EXTERNAL)

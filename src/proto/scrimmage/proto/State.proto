@@ -9,7 +9,8 @@ import "scrimmage/proto/Vector3d.proto";
 import "scrimmage/proto/Quaternion.proto";
 
 message State {
-Vector3d position = 1;
-Vector3d velocity = 2;
-Quaternion orientation = 3;
+        Vector3d position = 1;
+        Quaternion orientation = 2;
+        Vector3d linear_velocity = 3;
+        Vector3d angular_velocity = 4;
 }
