@@ -34,16 +34,17 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-
 #include <Eigen/Dense>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
+
+namespace interaction {
+class BoundaryBase;
+}
+
 namespace autonomy {
 class Straight : public scrimmage::Autonomy{
  public:
@@ -68,6 +69,9 @@ class Straight : public scrimmage::Autonomy{
 
     scrimmage_proto::ShapePtr text_shape_;
     scrimmage_proto::ShapePtr sphere_shape_;
+
+    bool noisy_state_set_ = false;
+    State noisy_state_;
 };
 } // namespace autonomy
 } // namespace scrimmage

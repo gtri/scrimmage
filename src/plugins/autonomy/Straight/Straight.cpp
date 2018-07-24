@@ -130,13 +130,44 @@ void Straight::init(std::map<std::string, std::string> &params) {
         draw_shape(text_shape_);
     }
 
-    enable_boundary_control_ = scrimmage::get<bool>("enable_boundary_control",
-                                                    params, false);
+    enable_boundary_control_ = get<bool>("enable_boundary_control", params, false);
 
-    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
-        boundary_ = sci::Boundary::make_boundary(msg->data);
+    auto bd_cb = [&](auto &msg) {boundary_ = sci::Boundary::make_boundary(msg->data);};
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
+
+    auto state_cb = [&](auto &msg) {
+        noisy_state_set_ = true;
+        noisy_state_ = msg->data;
     };
-    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
+    subscribe<State>("LocalNetwork", "NoisyState", state_cb);
+
+#if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
+    auto airsim_cb = [&](auto &msg) {
+        for (sc::sensor::AirSimSensorType a : msg->data) {
+            if (show_camera_images_) {
+                cv::imshow(a.camera_config.name.c_str(), a.img);
+                cv::waitKey(1);
+            }
+        }
+    };
+    subscribe<sensor::AirSimSensorType>>("LocalNetwork", "AirSim");
+#endif
+
+#if ENABLE_OPENCV == 1
+    auto blob_cb = [&](auto &msg) {
+        if (save_camera_images_) {
+            std::string img_name = "./imgs/camera_" +
+                std::to_string(frame_number_++) + ".png";
+            cv::imwrite(img_name, msg->data.frame);
+        }
+
+        if (show_camera_images_) {
+            cv::imshow("Camera Sensor", msg->data.frame);
+            cv::waitKey(1);
+        }
+    };
+    subscribe<sc::sensor::ContactBlobCameraType>("LocalNetwork", "ContactBlobCamera");
+#endif
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
@@ -160,63 +191,21 @@ bool Straight::step_autonomy(double t, double dt) {
     }
 
     // Read data from sensors...
-    sc::State own_state = *state_;
-
-    for (auto kv : parent_->sensors()) {
-        if (kv.first == "NoisyState0") {
-            auto msg = kv.second->sense<sc::State>(t);
-            if (msg) {
-                own_state = msg->data;
-            }
-        } else if (kv.first == "NoisyContacts0") {
-            auto msg = kv.second->sense<std::list<sc::Contact>>(t);
-            std::for_each(kv.second->shapes().begin(), kv.second->shapes().end(),
-                  [&](auto s) { this->draw_shape(s); });
-            kv.second->shapes().clear();
-        } else if (kv.first == "AirSimSensor0") {
-#if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
-            auto msg = kv.second->sense<std::vector<sc::sensor::AirSimSensorType>>(t);
-            if (msg) {
-                for (sc::sensor::AirSimSensorType a : msg->data) {
-                    if (show_camera_images_) {
-                        cv::imshow(a.camera_config.name.c_str(), a.img);
-                        cv::waitKey(1);
-                    }
-                }
-            }
-#endif
-        } else if (kv.first == "ContactBlobCamera0") {
-#if ENABLE_OPENCV == 1
-            if (show_camera_images_ || save_camera_images_) {
-                auto msg = kv.second->sense<sc::sensor::ContactBlobCameraType>(t);
-                if (msg) {
-                    if (save_camera_images_) {
-                        std::string img_name = "./imgs/camera_" +
-                            std::to_string(frame_number_++) + ".png";
-                        cv::imwrite(img_name, msg->data.frame);
-                    }
-
-                    if (show_camera_images_) {
-                        cv::imshow("Camera Sensor", msg->data.frame);
-                        cv::waitKey(1);
-                    }
-                }
-            }
-#endif
-        }
+    if (!noisy_state_set_) {
+        noisy_state_ = *state_;
     }
 
     if (boundary_ != nullptr && enable_boundary_control_) {
-        if (!boundary_->contains(own_state.pos())) {
+        if (!boundary_->contains(noisy_state_.pos())) {
             // Project goal through center of boundary
             Eigen::Vector3d center = boundary_->center();
-            center(2) = own_state.pos()(2); // maintain altitude
-            Eigen::Vector3d diff = center - own_state.pos();
-            goal_ = own_state.pos() + diff.normalized() * 1e6;
+            center(2) = noisy_state_.pos()(2); // maintain altitude
+            Eigen::Vector3d diff = center - noisy_state_.pos();
+            goal_ = noisy_state_.pos() + diff.normalized() * 1e6;
         }
     }
 
-    Eigen::Vector3d diff = goal_ - own_state.pos();
+    Eigen::Vector3d diff = goal_ - noisy_state_.pos();
     Eigen::Vector3d v = speed_ * diff.normalized();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -228,6 +217,7 @@ bool Straight::step_autonomy(double t, double dt) {
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
 
+    noisy_state_set_ = false;
     return true;
 }
 } // namespace autonomy

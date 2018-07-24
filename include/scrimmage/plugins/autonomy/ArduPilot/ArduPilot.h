@@ -50,6 +50,11 @@
 #include <boost/array.hpp>
 
 namespace scrimmage {
+
+namespace motion {
+class RigidBody6DOFState;
+}
+
 namespace autonomy {
 class ArduPilot : public scrimmage::Autonomy {
  private:
@@ -107,6 +112,8 @@ class ArduPilot : public scrimmage::Autonomy {
     void start_receive();
     void handle_receive(const boost::system::error_code& error,
                         std::size_t num_bytes);
+
+    std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
 };
 } // namespace autonomy
 } // namespace scrimmage

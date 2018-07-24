@@ -77,10 +77,11 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
             pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
-    return;
+
+    pub_ = advertise("LocalNetwork", "NoisyState");
 }
 
-scrimmage::MessageBasePtr (>>>PLUGIN_NAME<<<)::sensor_msg(double t) {
+bool (>>>PLUGIN_NAME<<<)::step() {
     // Make a copy of the current state
     sc::State ns = *(parent_->state());
 
@@ -93,7 +94,8 @@ scrimmage::MessageBasePtr (>>>PLUGIN_NAME<<<)::sensor_msg(double t) {
     }
 
     // Return the sensor message.
-    return msg;
+    pub_->publish(msg);
+    return true;
 }
 } // namespace sensor
 } // namespace scrimmage

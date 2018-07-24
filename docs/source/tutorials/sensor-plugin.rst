@@ -28,12 +28,11 @@ noise sources that will be used to add noise to our own state's position.
 .. code-block:: c++
    :linenos:
 
-   void MyNoisyState::init(std::map<std::string,std::string> &params)
-   {
+   void MyNoisyState::init(std::map<std::string, std::string> &params) {
        // Use the same generator as the parent so that the simulation is
        // completely deterministic with respect to the simulation seed.
        gener_ = parent_->random()->gener();
-   
+
        // Create three independent gaussian noise generators. They will use the
        // same generator seed.
        for (int i = 0; i < 3; i++) {
@@ -46,19 +45,19 @@ noise sources that will be used to add noise to our own state's position.
                pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
            }
        }
-           
-       return;
+
+       pub_ = advertise("LocalNetwork", "NoisyState");
    }
+
  
-A Sensor plugin must implement the ``sensor_msg`` method, which returns message
-containing the sampled sensor data. It should return ``nullptr`` if the data is
-invalid.
+A Sensor plugin must implement the ``step`` method, which is generally
+expected to publish some messages.
+It should return a boolean indicating if the function was successful.
 
 .. code-block:: c++
    :linenos:
 
-   scrimmage::MessageBasePtr MyNoisyState::sensor_msg(double t)
-   {
+   bool MyNoisyState::step() {
        // Make a copy of the current state
        sc::State ns = *(parent_->state());
    
@@ -67,11 +66,12 @@ invalid.
    
        // Add noise to the three scalars in the 3D position vector.
        for (int i = 0; i < 3; i++) {
-           msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);    
-       }    
+           msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);
+       }
    
        // Return the sensor message.
-       return msg;
+       pub_->publish(msg);
+       return true;
    }
      
 An Autonomy or Controller plugin can use this sensor by adding the sensor to
@@ -85,27 +85,14 @@ the entity block in the mission file:
    ...
    </entity>
 
-and then "sampling" from the sensor by calling its ``sense`` method in the
-Autonomy's ``step_autonomy`` method:
+and then "sampling" from the sensor by creating a subscriber:
 
 .. code-block:: c++
    :linenos:  
 
-   bool Straight::step_autonomy(double t, double dt) {
-       sc::State own_state; // Will hold noisy own state measurement
-
-       // Loop through all possible sensors defined for entity
-        for (auto kv : parent_->sensors()) {
-            if (kv.first == "NoisyState0") {
-                auto msg = kv.second->sense<sc::State>(t);
-                if (msg) {
-                    own_state = msg->data;
-                    // Use the noisy state own_state below for decision making...
-                }
-            }
-        }
-
-
-       ...
-
-       
+   void Straight::init(std::map<std::string, std::string> &params) {
+       auto state_cb = [&](auto &msg) {
+           noisy_state_set_ = true;
+           noisy_state_ = msg->data;
+       };
+   }

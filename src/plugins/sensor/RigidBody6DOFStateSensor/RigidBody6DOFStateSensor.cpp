@@ -30,26 +30,23 @@
  *
  */
 
+#include <scrimmage/common/Random.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
-// #include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/pubsub/Message.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <iostream>
-#include <limits>
 
 using std::cout;
 using std::endl;
-
-namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Sensor,
                 scrimmage::sensor::RigidBody6DOFStateSensor,
@@ -71,7 +68,7 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
     for (int i = 0; i < 3; i++) {
         std::string tag_name = "pos_noise_" + std::to_string(i);
         std::vector<double> vec;
-        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
+        bool status = get_vec(tag_name, params, " ", vec, 2);
         if (status) {
             pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
         } else {
@@ -87,11 +84,13 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
              << "are supported by RigidBody6DOFStateSensor" << endl;
     }
 
+    pub_ = advertise("LocalNetwork", "RigidBody6DOFState");
+
     return;
 }
 
-scrimmage::MessageBasePtr RigidBody6DOFStateSensor::sensor_msg(double t) {
-    auto msg = std::make_shared<sc::Message<sc::motion::RigidBody6DOFState>>();
+bool RigidBody6DOFStateSensor::step() {
+    auto msg = std::make_shared<Message<motion::RigidBody6DOFState>>();
 
     // Copy elements from scrimmage::State
     msg->data.pos() = parent_->state()->pos();
@@ -105,9 +104,9 @@ scrimmage::MessageBasePtr RigidBody6DOFStateSensor::sensor_msg(double t) {
     msg->data.linear_accel_body() = motion_->linear_accel_body();
     msg->data.ang_accel_body() = motion_->ang_accel_body();
 
-
     // Return the sensor message.
-    return msg;
+    pub_->publish(msg);
+    return true;
 }
 } // namespace sensor
 } // namespace scrimmage

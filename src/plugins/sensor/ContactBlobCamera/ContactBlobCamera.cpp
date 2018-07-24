@@ -32,23 +32,23 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h>
+#include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/ID.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/common/RTree.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
+#include <scrimmage/common/Random.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/ParseUtils.h>
-
-#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/math/Quaternion.h>
-
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <list>
 #include <utility>
@@ -113,15 +113,13 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    return;
+    pub_ = advertise("LocalNetwork", "ContactBlobCamera");
 }
 
-sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t) {
-    auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
+bool ContactBlobCamera::step() {
+    if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
 
-    if ((t - last_frame_t_) < 1.0 / fps_) {
-        return std::make_shared<sc::MessageBase>();
-    }
+    auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
 
@@ -226,9 +224,10 @@ sc::MessageBasePtr ContactBlobCamera::sensor_msg(double t) {
     }
 
     frame_ = msg->data.frame;
-    last_frame_t_ = t;
+    last_frame_t_ = time_->t();
 
-    return msg;
+    pub_->publish(msg);
+    return true;
 }
 
 Eigen::Vector2d ContactBlobCamera::project_rel_3d_to_2d(Eigen::Vector3d rel_pos) {

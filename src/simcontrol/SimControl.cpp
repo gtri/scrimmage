@@ -723,6 +723,13 @@ bool SimControl::run_single_step(int loop_number) {
         return false;
     }
 
+    if (!run_sensors()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to plugin request." << std::endl;
+        }
+        return false;
+    }
+
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
@@ -1180,6 +1187,19 @@ void print_err(PluginPtr p) {
     }
 }
 
+bool SimControl::run_sensors() {
+    for (EntityPtr &ent : ents_) {
+        br::for_each(ent->sensors() | ba::map_values, run_callbacks);
+        for (auto &sensor : ent->sensors() | ba::map_values) {
+            if (!sensor->step()) {
+                print_err(sensor);
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 bool SimControl::run_entities() {
     contacts_mutex_.lock();
     bool success = true;
@@ -1258,10 +1278,6 @@ bool SimControl::run_entities() {
             ent->motion()->shapes().clear();
         }
         temp_t += motion_dt;
-    }
-
-    for (EntityPtr &ent : ents_) {
-        br::for_each(ent->sensors() | ba::map_values, run_callbacks);
     }
 
     for (EntityPtr &ent : ents_) {

@@ -49,7 +49,7 @@ namespace sensor {
 class ContactBlobCamera : public scrimmage::Sensor {
  public:
     void init(std::map<std::string, std::string> &params) override;
-    scrimmage::MessageBasePtr sensor_msg(double t) override;
+    bool step() override;
 
  protected:
     std::shared_ptr<std::default_random_engine> gener_;
@@ -81,6 +81,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
     cv::Mat frame_;
     double fps_;
     double last_frame_t_;
+
+    PublisherPtr pub_;
 };
 } // namespace sensor
 } // namespace scrimmage
