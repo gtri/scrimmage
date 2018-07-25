@@ -113,7 +113,9 @@ bool create_ent_inters(const SimUtilsInfo &info,
     return true;
 }
 
-bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_list) {
+bool create_metrics(const SimUtilsInfo &info,
+                    ContactMapPtr contacts,
+                    std::list<MetricsPtr> &metrics_list) {
 
     for (std::string metrics_name : info.mp->metrics()) {
         ConfigParse config_parse;
@@ -135,6 +137,7 @@ bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_lis
         metrics->parent()->set_mp(info.mp);
         metrics->parent()->projection() = info.mp->projection();
         metrics->parent()->rtree() = info.rtree;
+        metrics->parent()->contacts() = contacts;
 
         // Plugin specific members
         metrics->set_name(metrics_name);

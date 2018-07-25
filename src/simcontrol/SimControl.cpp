@@ -265,7 +265,7 @@ bool SimControl::init() {
 
     networks_ = std::make_shared<NetworkMap>();
     if (!create_networks(info, *networks_)) return false;
-    if (!create_metrics(info, metrics_)) return false;
+    if (!create_metrics(info, contacts_, metrics_)) return false;
     if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_)) return false;
 
     // Setup simcontrol's pubsub plugin

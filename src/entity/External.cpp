@@ -134,7 +134,7 @@ bool External::create_entity(int max_entities, int entity_id,
     }
 
     metrics_.clear();
-    if (!create_metrics(sim_info, metrics_)) {
+    if (!create_metrics(sim_info, contacts, metrics_)) {
         std::cout << "External::create_entity() failed on create_metrics()" << std::endl;
         return false;
     }
