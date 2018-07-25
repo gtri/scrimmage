@@ -139,6 +139,24 @@ void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state) {
     set(dst->mutable_orientation(), state->quat());
 }
 
+void set(scrimmage::Quaternion &dst, const scrimmage_proto::Quaternion &quat) {
+    dst.set(quat.w(), quat.x(), quat.y(), quat.z());
+}
+
+void set(scrimmage::State &dst, const scrimmage_proto::State &state) {
+    set(dst.pos(), state.position());
+    set(dst.vel(), state.linear_velocity());
+    set(dst.ang_vel(), state.angular_velocity());
+    set(dst.quat(), state.orientation());
+}
+
+void set(scrimmage_proto::State *dst, scrimmage::State &state) {
+    set(dst->mutable_position(), state.pos());
+    set(dst->mutable_linear_velocity(), state.vel());
+    set(dst->mutable_angular_velocity(), state.ang_vel());
+    set(dst->mutable_orientation(), state.quat());
+}
+
 Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src) {
     Eigen::Vector3d dst;
     dst(0) = src.x();

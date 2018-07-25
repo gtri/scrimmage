@@ -78,6 +78,8 @@ void set(scrimmage_proto::Quaternion *dst, Quaternion &src);
 void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x,
          const double &y, const double &z);
 void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state);
+void set(scrimmage::State &dst, const scrimmage_proto::State &state);
+void set(scrimmage::Quaternion &dst, const scrimmage_proto::Quaternion &quat);
 
 Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src);
 
