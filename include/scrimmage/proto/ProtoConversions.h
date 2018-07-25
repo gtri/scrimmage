@@ -75,16 +75,23 @@ void set(scrimmage_proto::Color *dst, const scrimmage::Color_t &src);
 void set(scrimmage_proto::Color *color, int r, int g, int b);
 void set(scrimmage_proto::Color *color, int grayscale);
 void set(scrimmage_proto::Quaternion *dst, Quaternion &src);
+void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x,
+         const double &y, const double &z);
+void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state);
 
 Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src);
 
 void add_point_color(std::shared_ptr<scrimmage_proto::Shape> s, const scrimmage::Color_t &c);
-void add_point_color(scrimmage_proto::ShapePtr s, int r, int g, int b);
-void add_point_color(scrimmage_proto::ShapePtr s, int grayscale);
+void add_point_color(scrimmage_proto::ShapePtr s, const int &r, const int &g, const int &b);
+void add_point_color(scrimmage_proto::ShapePtr s, const int &grayscale);
 
-ID proto_2_id(const scrimmage_proto::ID &proto_id);
-Quaternion proto_2_quat(scrimmage_proto::Quaternion proto_quat);
-Eigen::Vector3d proto_2_vector3d(scrimmage_proto::Vector3d proto_vector3d);
+void set(scrimmage::ID &id, const scrimmage_proto::ID &proto_id);
+
+Quaternion proto_2_quat(const scrimmage_proto::Quaternion & proto_quat);
+
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Vector3d &proto_vector3d);
+
+Eigen::Vector3d proto_2_vector3d(const scrimmage_proto::Vector3d &proto_vector3d);
 
 StatePtr proto_2_state(const scrimmage_proto::State &proto_state);
 
