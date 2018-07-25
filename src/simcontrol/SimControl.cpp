@@ -1189,12 +1189,14 @@ void print_err(PluginPtr p) {
 
 bool SimControl::run_sensors() {
     for (EntityPtr &ent : ents_) {
+        auto &shapes = shapes_[ent->id().id()];
         br::for_each(ent->sensors() | ba::map_values, run_callbacks);
         for (auto &sensor : ent->sensors() | ba::map_values) {
             if (!sensor->step()) {
                 print_err(sensor);
                 return false;
             }
+            shapes.insert(shapes.end(), sensor->shapes().begin(), sensor->shapes().end());
         }
     }
     return true;
