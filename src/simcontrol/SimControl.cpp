@@ -776,7 +776,21 @@ void SimControl::run() {
     int loop_number = 0;
     set_time(t0_);
 
-    while (run_single_step(loop_number++) && !end_condition_reached()) {}
+    bool success = true;
+    if (!generate_entities(t0_ - dt_)) {
+        cout << "Failed to generate entity" << endl;
+        success = false;
+    }
+
+    if (!run_interaction_detection()) {
+        auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
+        pub_ent_int_exit_->publish(msg);
+        success = false;
+    }
+
+    while (success &&
+           run_single_step(loop_number++) &&
+           !end_condition_reached()) {}
     cleanup();
 }
 
