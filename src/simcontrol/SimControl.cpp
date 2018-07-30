@@ -1197,6 +1197,7 @@ bool SimControl::run_sensors() {
                 return false;
             }
             shapes.insert(shapes.end(), sensor->shapes().begin(), sensor->shapes().end());
+            sensor->shapes().clear();
         }
     }
     return true;
