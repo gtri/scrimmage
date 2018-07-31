@@ -34,6 +34,7 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
@@ -161,6 +162,9 @@ class External {
                     using ScType = decltype(ros2sc(*ros_msg));
                     call_update_contacts(ros::Time::now().toSec());
                     mutex.lock();
+
+                    // dt will remain unset until the step function is called
+                    time_->set_t(ros::Time::now().toSec());
                     auto sc_msg = std::make_shared<Message<ScType>>(ros2sc(*ros_msg));
                     sub->accept(sc_msg);
                     send_messages();
