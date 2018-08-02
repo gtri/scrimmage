@@ -207,6 +207,11 @@ bool External::step(double t) {
         autonomy->step_autonomy(t, dt);
     }
 
+    for (const auto &kv : entity_->sensors()) {
+        SensorPtr sensor = kv.second;
+        sensor->step();
+    }
+
     entity_->setup_desired_state();
 
     int num_steps = dt <= min_motion_dt ? 1 : ceil(dt / min_motion_dt);
