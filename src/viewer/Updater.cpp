@@ -422,6 +422,9 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
         case sp::Shape::kText:
             shape_status = draw_text(new_shape, shape.text(), actor, source, mapper);
             break;
+        case sp::Shape::kMesh:
+            shape_status = draw_mesh(new_shape, shape.mesh(), actor, source, mapper);
+            break;
         default:
             break;
         }
@@ -1941,6 +1944,119 @@ bool Updater::draw_text(const bool &new_shape,
     textSource->SetText(t.text().c_str());
     actor->SetPosition(t.center().x(), t.center().y(),
                        t.center().z());
+    return true;
+}
+
+void Updater::get_model_texture(std::string name,
+                                std::string& model_file, bool& model_found,
+                                std::string& texture_file, bool& texture_found,
+                                double& base_scale, Quaternion& base_rot) {
+    ConfigParse c_parse;
+    FileSearch file_search;
+    std::map<std::string, std::string> overrides;
+
+    model_found = false;
+    texture_found = false;
+
+    base_scale = 1.0;
+    base_rot = Quaternion(0.0, 0.0, 0.0);
+
+    if (c_parse.parse(overrides, name, "SCRIMMAGE_DATA_PATH", file_search)) {
+        model_file = c_parse.directory() + "/" + c_parse.params()["model"];
+        texture_file = c_parse.directory() + "/" + c_parse.params()["texture"];
+
+        model_found = fs::exists(model_file) && fs::is_regular_file(model_file);
+        texture_found = fs::exists(texture_file) && fs::is_regular_file(texture_file);
+
+        auto sc_iter = c_parse.params().find("visual_scale");
+        if (sc_iter != c_parse.params().end()) {
+            base_scale = std::stod(sc_iter->second);
+        }
+
+        auto rpy_iter = c_parse.params().find("visual_rpy");
+        if (rpy_iter != c_parse.params().end()) {
+            std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
+            str2vec(rpy_iter->second, " ", tf_rpy, 3);
+            for (auto& e : tf_rpy) {
+                e = sc::Angles::deg2rad(e);
+            }
+            base_rot = Quaternion(tf_rpy[0], tf_rpy[1], tf_rpy[2]);
+        }
+    }
+}
+
+bool Updater::draw_mesh(const bool &new_shape,
+                        const scrimmage_proto::Mesh &m,
+                        vtkSmartPointer<vtkActor> &actor,
+                        vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                        vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter;
+
+    if (new_shape) {
+        // get transformFilter hooked up to texture and model
+        std::string texture_file = "";
+        bool texture_file_found = false;
+        std::string model_file = "";
+        bool model_file_found = false;
+
+        double base_scale = 1.0;
+        Quaternion base_rot(0.0, 0.0, 0.0);
+
+        // get model, texture, and params for a given model name
+        get_model_texture(m.name(),
+                          model_file, model_file_found,
+                          texture_file, texture_file_found,
+                          base_scale, base_rot);
+
+        if (!model_file_found) {
+            std::cout << "Updater: Couldn't find model for "
+                      << m.name() << std::endl;
+            return false;
+        }
+
+        // use texture if we find it
+        if (texture_file_found) {
+            auto pngReader = vtkSmartPointer<vtkPNGReader>::New();
+            pngReader->SetFileName(texture_file.c_str());
+            pngReader->Update();
+
+            auto colorTexture = vtkSmartPointer<vtkTexture>::New();
+            colorTexture->SetInputConnection(pngReader->GetOutputPort());
+            colorTexture->InterpolateOn();
+            actor->SetTexture(colorTexture);
+        }
+
+        auto reader = vtkSmartPointer<vtkOBJReader>::New();
+        reader->SetFileName(model_file.c_str());
+        reader->Update();
+
+        // add transform from model coordinates to normal aircraft rpy and scale
+        // based on the rpy and scale in the model config file
+        transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+        auto transform = vtkSmartPointer<vtkTransform>::New();
+        quat_2_transform(base_rot, transform);
+        transform->Scale(base_scale, base_scale, base_scale);
+        transformFilter->SetTransform(transform);
+
+        // connect transform filter
+        transformFilter->SetInputConnection(reader->GetOutputPort());
+        transformFilter->Update();
+        source = transformFilter;
+
+        mapper->SetInputConnection(transformFilter->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        transformFilter = vtkTransformPolyDataFilter::SafeDownCast(source);
+    }
+
+    Quaternion quat = proto_2_quat(m.quat());
+    actor->SetPosition(m.center().x(), m.center().y(), m.center().z());
+    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
+                          sc::Angles::rad2deg(quat.pitch()),
+                          sc::Angles::rad2deg(quat.yaw()));
+    auto scale = m.scale() * scale_;
+    actor->SetScale(scale, scale, scale);
+
     return true;
 }
 } // namespace scrimmage
