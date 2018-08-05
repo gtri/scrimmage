@@ -1,0 +1,52 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+###############################################################################
+FROM ubuntu:18.04
+
+MAINTAINER Eric Squires
+
+WORKDIR /root
+
+RUN apt-get update && apt-get upgrade -y
+
+# optional for gui: apt-get install -y libvtk6-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    cmake \
+    git \
+    libgrpc++-dev \
+    libeigen3-dev \
+    librapidxml-dev \
+    libboost-thread-dev \
+    libboost-date-time-dev \
+    libboost-graph-dev \
+    libboost-iostreams-dev \
+    libboost-program-options-dev \
+    libboost-regex-dev \
+    libboost-filesystem-dev \
+    libboost-system-dev \
+    libprotobuf-dev \
+    protobuf-compiler \
+    libgeographic-dev \
+    protobuf-compiler-grpc
+
+COPY ./ /root/scrimmage/scrimmage
+WORKDIR /root/scrimmage/scrimmage
+
+WORKDIR /root/scrimmage/scrimmage/3rd-party
+RUN rm -rf build
+RUN mkdir -p build
+WORKDIR build
+RUN cmake ..
+RUN make jsbsim pybind11 -j $(($(nproc --all) - 1)) 
+
+WORKDIR /root/scrimmage/scrimmage
+RUN rm -rf build
+RUN mkdir -p build
+WORKDIR build
+RUN cmake .. -DBUILD_TESTS=ON -DENABLE_PYTHON_BINDINGS=OFF -DCMAKE_PREFIX_PATH=~/.local
+
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && \
+    make -j $(($(nproc --all) - 1)) && \
+    make test && \
+    scrimmage ../missions/straight-no-gui.xml && \
+    scrimmage ../missions/straight_jsbsim.xml"

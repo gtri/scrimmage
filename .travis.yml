@@ -19,6 +19,7 @@ services:
 
 script:
   - docker build -t $DOCKER_USERNAME/scrimmage:$TRAVIS_BUILD_NUMBER -f ./ci/dockerfiles/ubuntu-16.04 .
+  - docker build -t $DOCKER_USERNAME/scrimmage:${TRAVIS_BUILD_NUMBER}_ubuntu1804 -f ./ci/dockerfiles/ubuntu-18.04 .
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
