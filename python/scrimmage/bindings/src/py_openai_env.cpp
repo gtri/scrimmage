@@ -578,6 +578,10 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
     done |= py_done.cast<bool>();
     py_done = py::bool_(done);
 
+    if (done && enable_gui_ && system("pkill scrimmage-viz")) {
+        // ignore error
+    }
+
     return py::make_tuple(observation, py_reward, py_done, py_info);
 }
 
