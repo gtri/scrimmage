@@ -506,7 +506,7 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     simcontrol_->start_overall_timer();
     simcontrol_->set_time(mp_->t0());
     if (enable_gui) {
-        simcontrol_->pause(true);
+        simcontrol_->pause(mp_->start_paused());
     } else {
         simcontrol_->pause(false);
     }
