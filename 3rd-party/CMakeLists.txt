@@ -30,7 +30,7 @@ if (BUILD_BINARY_PACKAGES)
 
   set(SCRIMMAGE_PREFIX_DIR "opt/scrimmage")
   set(TEMP_INSTALL_PREFIX "/${SCRIMMAGE_PREFIX_DIR}")
-  set(DESTDIR "${CMAKE_BINARY_DIR}/installdir")
+  set(DESTDIR "${CMAKE_CURRENT_BINARY_DIR}/installdir")
   set(PROTOBUF_DESTDIR "${DESTDIR}/protobuf")
   set(PYBIND11_DESTDIR "${DESTDIR}/pybind11")
   set(JSBSIM_DESTDIR "${DESTDIR}/jsbsim")
