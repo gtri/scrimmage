@@ -13,7 +13,7 @@ set(SCRIMMAGE_INCLUDE_DIRS ${SCRIMMAGE_INCLUDE_DIR}
   @TMP_MSGS_INCLUDE_DIR@
   @TMP_PROTO_INCLUDE_DIR@)
 
-if(NOT TARGET scrimmage)
+if(NOT TARGET scrimmage-core)
   include("${CMAKE_CURRENT_LIST_DIR}/scrimmage-targets.cmake")
 endif()
 
