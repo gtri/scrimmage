@@ -101,10 +101,10 @@ if (ENABLE_PYTHON_BINDINGS)
   message(STATUS "PYTHON_INCLUDE_DIRS: ${PYTHON_INCLUDE_DIRS}")
 
   set(PYTHON_FOUND TRUE)
+  include_directories("${PYTHON_INCLUDE_DIRS}")
   find_package(pybind11 REQUIRED)
   include_directories(${pybind11_INCLUDE_DIRS})
   set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
-  include_directories("${PYTHON_INCLUDE_DIRS}")
 
   add_library(scrimmage-python INTERFACE)
   target_include_directories(scrimmage-python INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
@@ -123,6 +123,15 @@ set(PROTOBUF_LIBS "" CACHE STRING "External protobuf lib (libprotobuf.so)")
 set(PROTOBUF_INCLUDE "" CACHE STRING "External protobuf include directory")
 if (PROTOC STREQUAL "" OR PROTOBUF_LIBS STREQUAL "" OR PROTOBUF_INCLUDE STREQUAL "")
   find_package(Protobuf ${PROTOBUF_VERSION} REQUIRED)
+  if (Protobuf_VERSION AND CMAKE_VERSION VERSION_GREATER 3.5)
+      set(PROTOBUF_VERSION ${Protobuf_VERSION})
+  else() 
+      # cmake does not provide a version before 3.6
+      # so we assume that it is the protobuf supplied by the scrimmage ppa
+      # this is only used for versioning the protobuf in the setup.py file
+      # so it can be overwritten
+      set(PROTOBUF_VERSION 3.3.0)
+  endif() 
 else()
   set(PROTOBUF_PROTOC_EXECUTABLE "${PROTOC}")
   set(PROTOBUF_LIBRARIES "${PROTOBUF_LIBS}")
@@ -134,7 +143,7 @@ set(PROTOBUF_INCLUDE ${PROTOBUF_INCLUDE_DIRS})
 ########################################################
 # Find GRPC
 ########################################################
-set(GRPC_VERSION 1.2.1)
+set(GRPC_VERSION 1.3.2-1.1)
 find_package(GRPC)
 if (GRPC_FOUND)
   add_definitions(-DENABLE_GRPC=1)

@@ -8,7 +8,6 @@ setup(
     install_requires=[
         "pandas",
         "protobuf==${PROTOBUF_VERSION}",
-        "grpcio==${GRPC_VERSION}",
     ],
     entry_points={
           'console_scripts': [

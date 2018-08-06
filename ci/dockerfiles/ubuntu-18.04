@@ -27,7 +27,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libprotobuf-dev \
     protobuf-compiler \
     libgeographic-dev \
-    protobuf-compiler-grpc
+    protobuf-compiler-grpc \
+    libpython3.7-dev \
+    python3-pip
 
 COPY ./ /root/scrimmage/scrimmage
 WORKDIR /root/scrimmage/scrimmage
@@ -37,16 +39,16 @@ RUN rm -rf build
 RUN mkdir -p build
 WORKDIR build
 RUN cmake ..
-RUN make jsbsim pybind11 -j $(($(nproc --all) - 1)) 
+RUN make jsbsim pybind11 -j $(($(nproc --all) - 1))
 
 WORKDIR /root/scrimmage/scrimmage
 RUN rm -rf build
 RUN mkdir -p build
 WORKDIR build
-RUN cmake .. -DBUILD_TESTS=ON -DENABLE_PYTHON_BINDINGS=OFF -DCMAKE_PREFIX_PATH=~/.local
+RUN cmake .. -DBUILD_TESTS=ON -DPYTHON_MIN_VERSION=3 -DCMAKE_PREFIX_PATH=~/.local
 
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && \
-    make -j $(($(nproc --all) - 1)) && \
-    make test && \
-    scrimmage ../missions/straight-no-gui.xml && \
-    scrimmage ../missions/straight_jsbsim.xml"
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && make -j $(($(nproc --all) - 1))"
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && make test"
+
+WORKDIR /root/scrimmage/scrimmage/python
+RUN pip3 install -e .
