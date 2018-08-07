@@ -173,7 +173,7 @@ if(UNIX AND NOT APPLE)
   configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
     ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-    INSTALL_DESTINATION ${PROJECT_SOURCE_DIR}/build
+    INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
     PATH_VARS INCLUDE_INSTALL_DIR
     )
 

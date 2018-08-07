@@ -125,13 +125,13 @@ if (PROTOC STREQUAL "" OR PROTOBUF_LIBS STREQUAL "" OR PROTOBUF_INCLUDE STREQUAL
   find_package(Protobuf ${PROTOBUF_VERSION} REQUIRED)
   if (Protobuf_VERSION AND CMAKE_VERSION VERSION_GREATER 3.5)
       set(PROTOBUF_VERSION ${Protobuf_VERSION})
-  else() 
+  else()
       # cmake does not provide a version before 3.6
       # so we assume that it is the protobuf supplied by the scrimmage ppa
       # this is only used for versioning the protobuf in the setup.py file
       # so it can be overwritten
       set(PROTOBUF_VERSION 3.3.0)
-  endif() 
+  endif()
 else()
   set(PROTOBUF_PROTOC_EXECUTABLE "${PROTOC}")
   set(PROTOBUF_LIBRARIES "${PROTOBUF_LIBS}")
@@ -362,7 +362,7 @@ if (UNIX AND NOT APPLE)
   configure_package_config_file(
     ${PROJECT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
     ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-    INSTALL_DESTINATION ${PROJECT_SOURCE_DIR}/build
+    INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
     PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
     SCRIMMAGE_MSGS_PROTO_PATH
     )
@@ -490,7 +490,7 @@ endif()
 ###############################################################################
 set(CPACK_GENERATOR "DEB")
 set(CPACK_INSTALL_CMAKE_PROJECTS "${PROJECT_BINARY_DIR};${PROJECT_NAME};ALL;/")
-set(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig-${PROJECT_NAME}.cmake")
+set(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig.cmake")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SCRIMMAGE")
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
