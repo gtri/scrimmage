@@ -83,9 +83,12 @@ void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &render
         renderer->AddActor(actor);
     };
 
-    for (double val = low; val <= high; val += spacing) {
+
+    double val = low;
+    while (val <= high) {
         create_line(val, true);
         create_line(val, false);
+        val += spacing;
     }
 }
 

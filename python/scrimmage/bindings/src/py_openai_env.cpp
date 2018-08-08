@@ -618,8 +618,8 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
 void ScrimmageOpenAIEnv::distribute_action(pybind11::object action) {
     py::array_t<int> disc_actions;
     py::array_t<double> cont_actions;
-    int* disc_action_data;
-    double* cont_action_data;
+    int* disc_action_data = nullptr;
+    double* cont_action_data = nullptr;
 
     auto update_action_lists = [&](py::object space, py::object act) {
         disc_actions = py::list();
@@ -639,19 +639,25 @@ void ScrimmageOpenAIEnv::distribute_action(pybind11::object action) {
         }
     };
 
-    auto put_action = [&](auto &a, int &disc_idx, int cont_idx) {
-        if (a->action.discrete.size() != a->action_space.discrete_count.size()) {
-            a->action.discrete.resize(a->action_space.discrete_count.size());
+    auto put_action = [&](int &idx, size_t from_sz, auto *from_data, auto &to_vec) {
+        if (to_vec.size() != from_sz) {
+            to_vec.resize(from_sz);
         }
-        if (a->action.continuous.size() != a->action_space.continuous_extrema.size()) {
-            a->action.continuous.resize(a->action_space.continuous_extrema.size());
+        if (from_data == nullptr && from_sz > 0) {
+            std::cout << "Error: disc_action_data not set correctly" << std::endl;
+            return;
+        } else {
+            for (size_t i = 0; i < from_sz; i++) {
+                to_vec[i] = from_data[idx++];
+            }
         }
-        for (size_t i = 0; i < a->action_space.discrete_count.size(); i++) {
-            a->action.discrete[i] = disc_action_data[disc_idx++];
-        }
-        for (size_t i = 0; i < a->action_space.continuous_extrema.size(); i++) {
-            a->action.continuous[i] = cont_action_data[cont_idx++];
-        }
+    };
+
+    auto put_actions = [&](auto a, int &disc_action_idx, int &cont_action_idx) {
+        put_action(disc_action_idx, a->action_space.discrete_count.size(),
+                   disc_action_data, a->action.discrete);
+        put_action(cont_action_idx, a->action_space.continuous_extrema.size(),
+                   cont_action_data, a->action.continuous);
     };
 
     if (ext_ctrl_vec_.size() == 1 || combine_actors_) {
@@ -661,7 +667,7 @@ void ScrimmageOpenAIEnv::distribute_action(pybind11::object action) {
         int disc_action_idx = 0;
         int cont_action_idx = 0;
         for (auto &a : ext_ctrl_vec_) {
-            put_action(a, disc_action_idx, cont_action_idx);
+            put_actions(a, disc_action_idx, cont_action_idx);
         }
 
     } else {
@@ -673,7 +679,7 @@ void ScrimmageOpenAIEnv::distribute_action(pybind11::object action) {
             update_action_lists(indiv_action_space, indiv_action);
             int disc_action_idx = 0;
             int cont_action_idx = 0;
-            put_action(ext_ctrl_vec_[i], disc_action_idx, cont_action_idx);
+            put_actions(ext_ctrl_vec_[i], disc_action_idx, cont_action_idx);
         }
     }
 }

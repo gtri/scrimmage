@@ -1,6 +1,6 @@
 include/scrimmage/proto/*.py
 include/scrimmage/proto/*.pb.*
-build
+build*
 .gdbinit
 Makefile
 gdb.txt
