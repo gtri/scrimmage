@@ -1,5 +1,25 @@
 #!/usr/bin/env sh
 
+usage()
+{
+    cat <<EOF
+
+        USAGE:
+        # Normal scrimmage initialization
+        $0
+
+        # Point to a directory of project-setenv environment variable scripts
+        $0 /path/to/scrimmage/env
+
+EOF
+}
+
+# Clear out scrimmage variables that are typically appended to
+export SCRIMMAGE_MISSION_PATH=""
+export SCRIMMAGE_PLUGIN_PATH=""
+export SCRIMMAGE_CONFIG_PATH=""
+export SCRIMMAGE_DATA_PATH=""
+
 # Setup environment variables
 SCRIMMAGE_ROOT=/opt/scrimmage/@DEB_HOST_MULTIARCH@
 export PATH=${SCRIMMAGE_ROOT}/bin:${PATH}
@@ -15,21 +35,34 @@ if [ -e ${SCRIMMAGE_ROOT}/share/scrimmage-extra-data/data ]; then
     export SCRIMMAGE_DATA_PATH=${SCRIMMAGE_ROOT}/share/scrimmage-extra-data/data:${SCRIMMAGE_DATA_PATH}
 fi
 
-# Create user's ~/.scrimmage directory if it doesn't exist.
-if [ ! -e ${HOME}/.scrimmage ]; then
-    mkdir -p ${HOME}/.scrimmage/env
-fi
+# if an argument is passed in, this is a directory containing scrimmage project
+# setenv bash scripts. Execute each one in the directory.
+if [ "$#" -eq 1 ]; then
+    if [ ! -d $1 ]; then
+        echo "Error. Not a valid directory: $1"
+    else
+        # Source each of the project-setenv files
+        for f in $1/*; do
+            source $f
+        done
+    fi
+else
+    # Create user's ~/.scrimmage directory if it doesn't exist.
+    if [ ! -e ${HOME}/.scrimmage ]; then
+        mkdir -p ${HOME}/.scrimmage/env
+    fi
 
-# Create user's local setup.bash script if it doesn't exist.
-USER_SETUP_SCRIPT=${HOME}/.scrimmage/setup.bash
-if [ ! -e ${USER_SETUP_SCRIPT} ]; then
-    touch ${USER_SETUP_SCRIPT}
-fi
+    # Create user's local setup.bash script if it doesn't exist.
+    USER_SETUP_SCRIPT=${HOME}/.scrimmage/setup.bash
+    if [ ! -e ${USER_SETUP_SCRIPT} ]; then
+        touch ${USER_SETUP_SCRIPT}
+    fi
 
-# If this script isn't sourced in the user's ~/.scrimmage/setup.bash script,
-# add it. We allow the user to comment out the source.
-LINE="source ${SCRIMMAGE_ROOT}/setup.sh"
-grep "${LINE}" "${USER_SETUP_SCRIPT}" > /dev/null 2>&1
-if [ $? != 0 ]; then
-    echo ${LINE} >> ${USER_SETUP_SCRIPT}
+    # If this script isn't sourced in the user's ~/.scrimmage/setup.bash script,
+    # add it. We allow the user to comment out the source.
+    LINE="source ${SCRIMMAGE_ROOT}/setup.sh"
+    grep "${LINE}" "${USER_SETUP_SCRIPT}" > /dev/null 2>&1
+    if [ $? != 0 ]; then
+        echo ${LINE} >> ${USER_SETUP_SCRIPT}
+    fi
 fi

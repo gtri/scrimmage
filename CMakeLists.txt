@@ -35,7 +35,8 @@ get_filename_component(SCRIMMAGE_SCRIPTS_DIR ./scripts ABSOLUTE)
 get_filename_component(SCRIMMAGE_SETUP_DIR ./setup ABSOLUTE)
 get_filename_component(PROJECT_MODULES_DIR ./cmake/Modules ABSOLUTE)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_MODULES_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_MODULES_DIR}
+  ${PROJECT_SOURCE_DIR}/share/cmake/${PROJECT_NAME})
 
 set(SCRIMMAGE_PYTHON_DIR ${PROJECT_SOURCE_DIR}/python)
 
@@ -68,14 +69,19 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
   "Output directory for the static libraries (archives)" )
 
 option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
-if (SETUP_HOME_CONFIG)
-  set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
-  set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
-  file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
-  configure_file(${PROJECT_SOURCE_DIR}/cmake/Modules/setenv.in
-    "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
-  execute_process(COMMAND bash "-c" "${SCRIMMAGE_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
-endif()
+include(GenerateSetEnv)
+GenerateSetEnv(
+  SETUP_HOME_CONFIG ${SETUP_HOME_CONFIG}
+  SETENV_IN_FILE ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
+  MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
+  PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs
+              ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
+  PATH ${PROJECT_BINARY_DIR}/bin ${SCRIMMAGE_SCRIPTS_DIR}
+  CONFIG_PATH ${PROJECT_SOURCE_DIR}/config
+  DATA_PATH ${PROJECT_SOURCE_DIR}/data
+  PYTHONPATH ${PROJECT_SOURCE_DIR}/src/plugins/autonomy/python
+             ${PROJECT_BINARY_DIR}/msgs/scrimmage/msgs
+  )
 
 set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
 set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
@@ -358,13 +364,14 @@ if (UNIX AND NOT APPLE)
   set(TMP_PROTO_INCLUDE_DIR ${PROTO_INCLUDE_DIR})
   set(SCRIMMAGE_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/src/proto)
   set(SCRIMMAGE_MSGS_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/msgs)
+  set(SHARE_INSTALL_DIR ${PROJECT_SOURCE_DIR}/share)
 
   configure_package_config_file(
     ${PROJECT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
     ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
     PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
-    SCRIMMAGE_MSGS_PROTO_PATH
+    SCRIMMAGE_MSGS_PROTO_PATH SHARE_INSTALL_DIR
     )
 
   write_basic_package_version_file(
@@ -387,7 +394,7 @@ if (UNIX AND NOT APPLE)
   # Generate the cmake configuration files for the install tree
   #############################################################################
   set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Include install dir")
-  set(SHARE_INSTALL_DIR share/ CACHE PATH "share install dir")
+  set(SHARE_INSTALL_DIR share/)
   set(LIB_INSTALL_DIR lib/ CACHE PATH "Library install dir")
   set(CMAKE_CONFIG_DEST "${LIB_INSTALL_DIR}/${PROJECT_NAME}/cmake")
 
@@ -403,7 +410,7 @@ if (UNIX AND NOT APPLE)
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
     PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
-    SCRIMMAGE_MSGS_PROTO_PATH
+    SCRIMMAGE_MSGS_PROTO_PATH SHARE_INSTALL_DIR
     )
 
   write_basic_package_version_file(
@@ -482,6 +489,22 @@ if (UNIX AND NOT APPLE)
       DESTINATION share/${PROJECT_NAME}/data
       )
   endif()
+
+  # Create the ld.so.conf.d/project.conf file
+  file(WRITE
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
+    ${CMAKE_INSTALL_PREFIX}/lib
+    )
+  install(
+    FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
+    DESTINATION /etc/ld.so.conf.d
+    )
+
+  # Install the project-setenv file
+  install(
+    FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-setenv
+    DESTINATION etc/scrimmage/env
+    )
 
 endif()
 
