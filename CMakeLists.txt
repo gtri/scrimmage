@@ -69,9 +69,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
   "Output directory for the static libraries (archives)" )
 
 option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
+set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
 include(GenerateSetEnv)
 GenerateSetEnv(
-  SETUP_HOME_CONFIG ${SETUP_HOME_CONFIG}
+  SETUP_LOCAL_ENV ${SETUP_HOME_CONFIG}
+  LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
   SETENV_IN_FILE ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
   MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
   PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs

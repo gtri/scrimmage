@@ -2,14 +2,18 @@ include(CMakeParseArguments)
 
 function(GenerateSetEnv)
   set(options)
-  set(oneValueArgs SETUP_HOME_CONFIG SETENV_IN_FILE)
+  set(oneValueArgs SETUP_LOCAL_ENV SETENV_IN_FILE LOCAL_CONFIG_DIR)
   set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH PYTHONPATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
-  if (ARG_SETUP_HOME_CONFIG)
-    set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
-    set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
-    set(LOCAL_SETUP_BASH ${SCRIMMAGE_LOCAL_CONFIG_DIR}/setup.bash)
+  if (ARG_SETUP_LOCAL_ENV)
+
+    if ("${ARG_LOCAL_CONFIG_DIR}" STREQUAL "")
+      set(ARG_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
+    endif()
+
+    set(SCRIMMAGE_ENV_DIR "${ARG_LOCAL_CONFIG_DIR}/env")
+    set(LOCAL_SETUP_BASH ${ARG_LOCAL_CONFIG_DIR}/setup.bash)
     file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
 
     # Convert CMake lists into file paths separated by ":"
@@ -54,7 +58,7 @@ function(GenerateSetEnv)
 
     if(EXISTS ${LOCAL_SETUP_BASH})
       # Determine if this project's source line exists already
-      set(SOURCE_LINE "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env/${PROJECT_NAME}-setenv")
+      set(SOURCE_LINE "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv")
 
       FILE(READ ${LOCAL_SETUP_BASH} FILE_TEXT)
       STRING(FIND "${FILE_TEXT}" "${SOURCE_LINE}" STR_MATCHES)
