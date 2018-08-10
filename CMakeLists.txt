@@ -72,7 +72,7 @@ option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
 set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
 include(GenerateSetEnv)
 GenerateSetEnv(
-  SETUP_LOCAL_ENV ${SETUP_HOME_CONFIG}
+  SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
   LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
   SETENV_IN_FILE ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
   MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
