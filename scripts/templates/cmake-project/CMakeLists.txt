@@ -61,13 +61,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR} CACHE PATH
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_LIB_DIR} CACHE PATH
   "Output directory for the static libraries (archives)" )
 
-set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
-set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
-file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/setenv.in
-  "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
-execute_process(COMMAND bash "-c" "${PROJECT_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
-
 set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
 set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 
@@ -75,6 +68,17 @@ set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 # Find Scrimmage
 ###############################################################################
 find_package(scrimmage REQUIRED)
+
+option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
+include(GenerateSetEnv)
+GenerateSetEnv(
+  SETUP_HOME_CONFIG ${SETUP_HOME_CONFIG}
+  SETENV_IN_FILE ${SCRIMMAGE_CMAKE_MODULES}/setenv.in
+  MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
+  PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs
+              ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
+  #CONFIG_PATH ${PROJECT_SOURCE_DIR}/config
+  )
 
 ########################################################
 # Recurse into src, share, and plugins
@@ -272,13 +276,23 @@ if(UNIX AND NOT APPLE)
       )
   endif()
 
+  # Create the ld.so.conf.d/project.conf file
+  file(WRITE
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
+    ${CMAKE_INSTALL_PREFIX}/lib
+    )
+  install(
+    FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
+    DESTINATION /etc/ld.so.conf.d
+    )
+
 endif()
 
 ###############################################################################
 # Binary installation generation
 ###############################################################################
 set(CPACK_INSTALL_CMAKE_PROJECTS "${PROJECT_BINARY_DIR};${PROJECT_NAME};ALL;/")
-set(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig-${PROJECT_NAME}.cmake")
+set(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig.cmake")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
 set(CPACK_GENERATOR "DEB")

@@ -304,7 +304,7 @@ if (BUILD_SOURCE_PACKAGES)
     PROJECT_DIRECTORY ${CMAKE_SOURCE_DIR}/packages/scrimmage-dependencies/scrimmage-dependencies
     SOURCE_VERSION 0.2.1
     PPA ${PPA}
-    PPA_VERSION_NUMBER 3
+    PPA_VERSION_NUMBER 4
     GPG_KEY_ID ${GPG_KEY_ID}
     )
 
