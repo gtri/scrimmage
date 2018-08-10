@@ -43,6 +43,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/pubsub/Network.h>
+#include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 
@@ -101,22 +102,6 @@ bool External::create_entity(int max_entities, int entity_id,
         mp_->network_names().push_back("GlobalNetwork");
     }
 
-    // Load the network names (don't need to load the network plugins)
-    pubsub_->pubs().clear();
-    pubsub_->subs().clear();
-    for (std::string network_name : mp_->network_names()) {
-        // Seed the pubsub with network names
-        std::string aliased_name = network_name;
-        auto it = mp_->attributes().find(network_name);
-        if (it != mp_->attributes().end()) {
-            auto it2 = it->second.find("name");
-            if (it2 != it->second.end()) {
-                aliased_name = it2->second;
-            }
-        }
-        pubsub_->add_network_name(aliased_name);
-    }
-
     std::map<std::string, std::string> info =
         mp_->entity_descriptions()[it_name_id->second];
     info.erase("motion_model"); // we don't need to initialize this
@@ -126,10 +111,41 @@ bool External::create_entity(int max_entities, int entity_id,
     rtree->init(max_entities);
 
     FileSearchPtr file_search = std::make_shared<FileSearch>();
-    entity_ = std::make_shared<Entity>();
-
     RandomPtr random = std::make_shared<Random>();
     random->seed();
+
+    std::list<scrimmage_proto::ShapePtr> shapes;
+
+    SimUtilsInfo sim_info;
+    sim_info.mp = mp_;
+    sim_info.plugin_manager = plugin_manager_;
+    sim_info.file_search = file_search;
+    sim_info.rtree = rtree;
+    sim_info.pubsub = pubsub_;
+    sim_info.time = time_;
+    sim_info.random = random;
+    sim_info.id_to_team_map = id_to_team_map_;
+    sim_info.id_to_ent_map = id_to_ent_map_;
+
+    networks_ = std::make_shared<NetworkMap>();
+    if (!create_networks(sim_info, *networks_)) {
+        std::cout << "External::create_entity() failed on create_networks()" << std::endl;
+        return false;
+    }
+
+    metrics_.clear();
+    if (!create_metrics(sim_info, contacts, metrics_)) {
+        std::cout << "External::create_entity() failed on create_metrics()" << std::endl;
+        return false;
+    }
+
+    ent_inters_.clear();
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_)) {
+        std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
+        return false;
+    }
+
+    entity_ = std::make_shared<Entity>();
     entity_->set_random(random);
 
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
@@ -154,31 +170,6 @@ bool External::create_entity(int max_entities, int entity_id,
         std::cout << ctrl->name() << " currently provides the following: ";
         br::copy(ctrl->vars().output_variable_index() | ba::map_keys,
             std::ostream_iterator<std::string>(std::cout, ", "));
-        return false;
-    }
-
-    std::list<scrimmage_proto::ShapePtr> shapes;
-
-    SimUtilsInfo sim_info;
-    sim_info.mp = mp_;
-    sim_info.plugin_manager = plugin_manager_;
-    sim_info.file_search = file_search;
-    sim_info.rtree = rtree;
-    sim_info.pubsub = pubsub_;
-    sim_info.time = time_;
-    sim_info.random = random;
-    sim_info.id_to_team_map = id_to_team_map_;
-    sim_info.id_to_ent_map = id_to_ent_map_;
-
-    metrics_.clear();
-    if (!create_metrics(sim_info, metrics_)) {
-        std::cout << "External::create_entity() failed on create_metrics()" << std::endl;
-        return false;
-    }
-
-    ent_inters_.clear();
-    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_)) {
-        std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }
 
@@ -216,6 +207,11 @@ bool External::step(double t) {
         autonomy->step_autonomy(t, dt);
     }
 
+    for (const auto &kv : entity_->sensors()) {
+        SensorPtr sensor = kv.second;
+        sensor->step();
+    }
+
     entity_->setup_desired_state();
 
     int num_steps = dt <= min_motion_dt ? 1 : ceil(dt / min_motion_dt);
@@ -237,7 +233,7 @@ bool External::step(double t) {
         metrics->step_metrics(t, dt);
     }
 
-    send_messages();
+    if (!send_messages()) {return false;}
 
     // shapes
     scrimmage_proto::Shapes shapes;
@@ -263,7 +259,7 @@ EntityPtr &External::entity() {
     return entity_;
 }
 
-void External::send_messages() {
+bool External::send_messages() {
     // Send messages that are published by a SCRIMMAGE plugin to the external
     // network (e.g., ROS, MOOS)
     auto to_publisher = [&](auto &network_device) {return std::dynamic_pointer_cast<Publisher>(network_device);};
@@ -280,6 +276,25 @@ void External::send_messages() {
             }
         }
     }
+
+    // any messages that are not linked to the external network can now
+    // be sent via the internal scrimmage messaging system
+    auto &pubs = pubsub_->pubs();
+    auto &subs = pubsub_->subs();
+    for (auto &network : *networks_ | ba::map_values) {
+        auto name = network->name();
+        if (!network->step(pubs[name], subs[name])) {
+            std::cout << "Network failed: " << name << std::endl;
+            return false;
+        }
+    }
+
+    br::for_each(entity_->autonomies(), run_callbacks);
+    run_callbacks(entity_->controller());
+    br::for_each(ent_inters_, run_callbacks);
+    br::for_each(metrics_, run_callbacks);
+    br::for_each(entity_->sensors() | ba::map_values, run_callbacks);
+    return true;
 }
 
 void External::call_update_contacts(double t) {

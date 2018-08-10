@@ -37,6 +37,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
@@ -132,6 +133,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     // Start the image request thread
     request_images_thread_ = std::thread(&AirSimSensor::request_images, this);
 
+    pub_ = advertise("LocalNetwork", "AirSim");
     return;
 }
 
@@ -195,7 +197,7 @@ void AirSimSensor::request_images() {
     }
 }
 
-scrimmage::MessageBasePtr AirSimSensor::sensor_msg(double t) {
+bool AirSimSensor::step() {
     ///////////////////////////////////////////////////////////////////////////
     /// Client Connection / Disconnection Handling
     ///////////////////////////////////////////////////////////////////////////
@@ -246,7 +248,7 @@ scrimmage::MessageBasePtr AirSimSensor::sensor_msg(double t) {
     msg = img_msg_;
     img_msg_mutex_.unlock();
 
-    return msg;
+    pub_->publish(msg);
 }
 
 void AirSimSensor::close(double t) {

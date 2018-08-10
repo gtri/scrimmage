@@ -2,4 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>AuctionAssign_plugin</library>  
+  <auctioneer>true</auctioneer>
 </params>

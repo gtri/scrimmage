@@ -30,28 +30,19 @@
  *
  */
 
+#include <scrimmage/common/Random.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/NoisyState/NoisyState.h>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/ParseUtils.h>
-
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/math/Quaternion.h>
 
 #include <vector>
 
 namespace sc = scrimmage;
-namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::NoisyState, NoisyState_plugin)
 
@@ -59,63 +50,47 @@ namespace scrimmage {
 namespace sensor {
 
 void NoisyState::init(std::map<std::string, std::string> &params) {
-    gener_ = parent_->random()->gener();
-
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "pos_noise_" + std::to_string(i);
-        std::vector<double> vec;
-        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+    auto add_noise = [&](std::string prefix, auto &noise_vec) {
+        for (int i = 0; i < 3; i++) {
+            std::string tag_name = prefix + std::to_string(i);
+            std::vector<double> vec;
+            double mean, stdev;
+            std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2) ?
+                std::make_pair(vec[0], vec[1]) : std::make_pair(0.0, 1.0);
+            noise_vec.push_back(parent_->random()->make_rng_normal(mean, stdev));
         }
-    }
+    };
 
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "vel_noise_" + std::to_string(i);
-        std::vector<double> vec;
-        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            vel_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            vel_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
-        }
-    }
+    add_noise("pos_noise", pos_noise_);
+    add_noise("vel_noise", vel_noise_);
+    add_noise("orient_noise", orient_noise_);
 
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "orient_noise_" + std::to_string(i);
-        std::vector<double> vec;
-        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
-        }
-    }
-
+    pub_ = advertise("LocalNetwork", "NoisyState");
     return;
 }
 
-scrimmage::MessageBasePtr NoisyState::sensor_msg(double t) {
-    // Make a copy of the current state
-    sc::State ns = *(parent_->state());
+bool NoisyState::step() {
+    auto gener = parent_->random()->gener();
 
-    auto msg = std::make_shared<sc::Message<sc::State>>();
+    // Make a copy of the current state
+    State ns = *(parent_->state());
+
+    auto msg = std::make_shared<Message<State>>();
 
     for (int i = 0; i < 3; i++) {
-        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);
-        msg->data.vel()(i) = ns.vel()(i) + (*vel_noise_[i])(*gener_);
+        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);
+        msg->data.vel()(i) = ns.vel()(i) + (*vel_noise_[i])(*gener);
     }
 
     // TODO: Test this math.
     // add noise in roll, pitch, yaw order
     msg->data.quat() = ns.quat()
-        * sc::Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener_))
-        * sc::Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener_))
-        * sc::Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener_));
+        * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
+        * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
+        * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
-    return msg;
+    pub_->publish(msg);
+    return true;
 }
 } // namespace sensor
 } // namespace scrimmage

@@ -48,6 +48,7 @@
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 
   <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
@@ -75,9 +76,7 @@
     
     <visual_model>zephyr-blue</visual_model>
 
-    <!--<sensor>NoisyState</sensor>
-        <sensor>NoisyContacts</sensor>
-        -->
+    <sensor>NoisyState</sensor>
     <!--<sensor>ContactBlobCamera</sensor>-->
 
     <autonomy show_text_label="true"

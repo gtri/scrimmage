@@ -36,6 +36,7 @@
   <entity_interaction enable_collision_detection="false"
                       show_rays="false">BulletCollision</entity_interaction>
   <entity_interaction>MapGen2D</entity_interaction>
+  <network>LocalNetwork</network>
 
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>1714060370</seed>-->

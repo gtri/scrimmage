@@ -25,9 +25,9 @@ if(NOT CMAKE_INSTALL_PREFIX)
 endif()
 
 # fetch all the local directories for generated code
-get_filename_component(SCRIMMAGE_LIB_DIR ${CMAKE_BINARY_DIR}/lib ABSOLUTE)
-get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${CMAKE_BINARY_DIR}/plugin_libs ABSOLUTE)
-get_filename_component(SCRIMMAGE_BIN_DIR ${CMAKE_BINARY_DIR}/bin ABSOLUTE)
+get_filename_component(SCRIMMAGE_LIB_DIR ${PROJECT_BINARY_DIR}/lib ABSOLUTE)
+get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${PROJECT_BINARY_DIR}/plugin_libs ABSOLUTE)
+get_filename_component(SCRIMMAGE_BIN_DIR ${PROJECT_BINARY_DIR}/bin ABSOLUTE)
 get_filename_component(SCRIMMAGE_INC_DIR ./include ABSOLUTE)
 get_filename_component(SCRIMMAGE_SRC_DIR ./src ABSOLUTE)
 get_filename_component(SCRIMMAGE_SHARE_DIR ./share ABSOLUTE)
@@ -37,7 +37,7 @@ get_filename_component(PROJECT_MODULES_DIR ./cmake/Modules ABSOLUTE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_MODULES_DIR})
 
-set(SCRIMMAGE_PYTHON_DIR ${CMAKE_SOURCE_DIR}/python)
+set(SCRIMMAGE_PYTHON_DIR ${PROJECT_SOURCE_DIR}/python)
 
 include(MacroAddExternalTarget)
 include(MacroSubDirList)
@@ -72,13 +72,13 @@ if (SETUP_HOME_CONFIG)
   set(SCRIMMAGE_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
   set(SCRIMMAGE_ENV_DIR "${SCRIMMAGE_LOCAL_CONFIG_DIR}/env")
   file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/setenv.in
+  configure_file(${PROJECT_SOURCE_DIR}/cmake/Modules/setenv.in
     "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
   execute_process(COMMAND bash "-c" "${SCRIMMAGE_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
 endif()
 
-set(MSGS_INCLUDE_DIR ${CMAKE_BINARY_DIR}/msgs)
-set(PROTO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/src/proto)
+set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
+set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 
 include_directories(${SCRIMMAGE_INC_DIR})
 include_directories(${MSGS_INCLUDE_DIR})
@@ -101,10 +101,10 @@ if (ENABLE_PYTHON_BINDINGS)
   message(STATUS "PYTHON_INCLUDE_DIRS: ${PYTHON_INCLUDE_DIRS}")
 
   set(PYTHON_FOUND TRUE)
+  include_directories("${PYTHON_INCLUDE_DIRS}")
   find_package(pybind11 REQUIRED)
   include_directories(${pybind11_INCLUDE_DIRS})
   set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
-  include_directories("${PYTHON_INCLUDE_DIRS}")
 
   add_library(scrimmage-python INTERFACE)
   target_include_directories(scrimmage-python INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
@@ -117,12 +117,21 @@ endif()
 ########################################################
 # Find Protobuf
 ########################################################
-set(PROTOBUF_VERSION 3.3.0)
+set(PROTOBUF_VERSION 3.0)
 set(PROTOC "" CACHE STRING "External protoc executable")
 set(PROTOBUF_LIBS "" CACHE STRING "External protobuf lib (libprotobuf.so)")
 set(PROTOBUF_INCLUDE "" CACHE STRING "External protobuf include directory")
 if (PROTOC STREQUAL "" OR PROTOBUF_LIBS STREQUAL "" OR PROTOBUF_INCLUDE STREQUAL "")
   find_package(Protobuf ${PROTOBUF_VERSION} REQUIRED)
+  if (Protobuf_VERSION AND CMAKE_VERSION VERSION_GREATER 3.5)
+      set(PROTOBUF_VERSION ${Protobuf_VERSION})
+  else()
+      # cmake does not provide a version before 3.6
+      # so we assume that it is the protobuf supplied by the scrimmage ppa
+      # this is only used for versioning the protobuf in the setup.py file
+      # so it can be overwritten
+      set(PROTOBUF_VERSION 3.3.0)
+  endif()
 else()
   set(PROTOBUF_PROTOC_EXECUTABLE "${PROTOC}")
   set(PROTOBUF_LIBRARIES "${PROTOBUF_LIBS}")
@@ -290,17 +299,17 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
 
   # Download and unpack googletest at configure time
   if (NOT TARGET gtest_main)
-      configure_file(${CMAKE_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
+      configure_file(${PROJECT_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
         googletest-download/CMakeLists.txt)
       execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
         RESULT_VARIABLE result
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
       if(result)
         message(FATAL_ERROR "CMake step for googletest failed: ${result}")
       endif()
       execute_process(COMMAND ${CMAKE_COMMAND} --build .
         RESULT_VARIABLE result
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
       if(result)
         message(FATAL_ERROR "Build step for googletest failed: ${result}")
       endif()
@@ -311,8 +320,8 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
 
       # Add googletest directly to our build. This defines
       # the gtest and gtest_main targets.
-      add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-                       ${CMAKE_BINARY_DIR}/googletest-build)
+      add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
+                       ${PROJECT_BINARY_DIR}/googletest-build)
 
       # The gtest/gtest_main targets carry header search path
       # dependencies automatically when using CMake 2.8.11 or
@@ -344,19 +353,22 @@ if (UNIX AND NOT APPLE)
   include(CMakePackageConfigHelpers)
 
   # Configure variables used in project-config.cmake.in for build tree
-  set(TMP_INCLUDE_INSTALL_DIR ${CMAKE_SOURCE_DIR}/include)
+  set(TMP_INCLUDE_INSTALL_DIR ${PROJECT_SOURCE_DIR}/include)
   set(TMP_MSGS_INCLUDE_DIR ${MSGS_INCLUDE_DIR})
   set(TMP_PROTO_INCLUDE_DIR ${PROTO_INCLUDE_DIR})
+  set(SCRIMMAGE_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/src/proto)
+  set(SCRIMMAGE_MSGS_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/msgs)
 
   configure_package_config_file(
-    ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-    INSTALL_DESTINATION ${CMAKE_SOURCE_DIR}/build
-    PATH_VARS TMP_INCLUDE_INSTALL_DIR
+    ${PROJECT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+    INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
+    PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
+    SCRIMMAGE_MSGS_PROTO_PATH
     )
 
   write_basic_package_version_file(
-    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
     )
@@ -364,7 +376,7 @@ if (UNIX AND NOT APPLE)
   # Export project export set to the build tree
   export(
     EXPORT ${PROJECT_NAME}-targets
-    FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-targets.cmake"
+    FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake"
     )
 
   # Export the package for use from the build-tree
@@ -375,6 +387,7 @@ if (UNIX AND NOT APPLE)
   # Generate the cmake configuration files for the install tree
   #############################################################################
   set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Include install dir")
+  set(SHARE_INSTALL_DIR share/ CACHE PATH "share install dir")
   set(LIB_INSTALL_DIR lib/ CACHE PATH "Library install dir")
   set(CMAKE_CONFIG_DEST "${LIB_INSTALL_DIR}/${PROJECT_NAME}/cmake")
 
@@ -382,16 +395,19 @@ if (UNIX AND NOT APPLE)
   set(TMP_INCLUDE_INSTALL_DIR ${INCLUDE_INSTALL_DIR})
   unset(TMP_MSGS_INCLUDE_DIR)
   unset(TMP_PROTO_INCLUDE_DIR)
+  set(SCRIMMAGE_PROTO_PATH ${SHARE_INSTALL_DIR}/${PROJECT_NAME}/proto)
+  set(SCRIMMAGE_MSGS_PROTO_PATH ${SHARE_INSTALL_DIR}/${PROJECT_NAME}/msgs)
 
   configure_package_config_file(
-    ${CMAKE_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
+    ${PROJECT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
-    PATH_VARS TMP_INCLUDE_INSTALL_DIR
+    PATH_VARS TMP_INCLUDE_INSTALL_DIR SCRIMMAGE_PROTO_PATH
+    SCRIMMAGE_MSGS_PROTO_PATH
     )
 
   write_basic_package_version_file(
-    ${CMAKE_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
     )
@@ -445,6 +461,20 @@ if (UNIX AND NOT APPLE)
     FILES_MATCHING PATTERN "*.pb.h"
     )
 
+  # Install the .proto files in case another project wants to use them
+  install(
+    DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/proto
+    DESTINATION share/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.proto"
+    )
+
+  # Install the message .proto files in case another project wants to use them
+  install(
+    DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/msgs
+    DESTINATION share/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.proto"
+    )
+
   if (NOT EXTERNAL)
     # Install meshes, terrain, maps that come with scrimmage core
     install(
@@ -458,13 +488,15 @@ endif()
 ###############################################################################
 # Binary installation generation
 ###############################################################################
+set(CPACK_GENERATOR "DEB")
+set(CPACK_INSTALL_CMAKE_PROJECTS "${PROJECT_BINARY_DIR};${PROJECT_NAME};ALL;/")
+set(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig.cmake")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SCRIMMAGE")
-set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_RELEASE 1)
 set(CPACK_PACKAGE_CONTACT "Kevin DeMarco")
 set(CPACK_PACKAGE_VENDOR "GTRI")
-set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
+set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
 include(CPack)

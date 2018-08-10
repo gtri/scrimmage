@@ -38,6 +38,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/State.pb.h>
 
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
@@ -79,12 +80,12 @@ void RayTrace::init(std::map<std::string, std::string> &params) {
     min_range_ = sc::get<double>("min_range", params, 1);
     max_sample_rate_ = sc::get<double>("max_sample_rate", params, 1);
 
-    return;
+    pub_ = advertise("LocalNetwork", "RayTrace");
 }
 
-scrimmage::MessageBasePtr RayTrace::sensor_msg(double t) {
-    // Return the sensor message.
-    return std::make_shared<sc::MessageBase>();
+bool RayTrace::step() {
+    pub_->publish(std::make_shared<MessageBase>());
+    return true;
 }
 } // namespace sensor
 } // namespace scrimmage

@@ -230,40 +230,6 @@ bool SimControl::init() {
         mp_->network_names().push_back("GlobalNetwork");
     }
 
-    // Load the appropriate network plugins
-    for (std::string network_name : mp_->network_names()) {
-        ConfigParse config_parse;
-        std::map<std::string, std::string> &overrides =
-            mp_->attributes()[network_name];
-
-        NetworkPtr network =
-            std::dynamic_pointer_cast<Network>(
-                plugin_manager_->make_plugin("scrimmage::Network",
-                                             network_name, *file_search_,
-                                             config_parse, overrides));
-
-        // If the name was overridden, use the override.
-        std::string name = get<std::string>("name", config_parse.params(),
-                                            network_name);
-        network->set_name(name);
-        network->set_mission_parse(mp_);
-        network->set_time(time_);
-        network->set_pubsub(pubsub_);
-        network->set_random(random_);
-        network->set_rtree(rtree_);
-
-        if (network == nullptr) {
-            cout << "Failed to load network plugin: " << network_name << endl;
-            continue;
-        }
-
-        // Seed the pubsub with network names
-        pubsub_->add_network_name(name);
-
-        network->init(mp_->params(), config_parse.params());
-        (*networks_)[name] = network;
-    }
-
     // setup sim_plugin
     sim_plugin_->parent()->set_random(random_);
     sim_plugin_->set_time(time_);
@@ -285,16 +251,6 @@ bool SimControl::init() {
         }
     }
 
-    // Setup simcontrol's pubsub plugin
-    pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
-    pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
-    pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
-    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
-    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
-    pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
-    pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
-    pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
-
     // Get the list of "metrics" plugins
     SimUtilsInfo info;
     info.mp = mp_;
@@ -307,8 +263,20 @@ bool SimControl::init() {
     info.id_to_team_map = id_to_team_map_;
     info.id_to_ent_map = id_to_ent_map_;
 
-    if (!create_metrics(info, metrics_)) return false;
+    networks_ = std::make_shared<NetworkMap>();
+    if (!create_networks(info, *networks_)) return false;
+    if (!create_metrics(info, contacts_, metrics_)) return false;
     if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_)) return false;
+
+    // Setup simcontrol's pubsub plugin
+    pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
+    pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
+    pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
+    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
+    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
+    pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
+    pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
+    pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
 
     contacts_mutex_.lock();
     contacts_->reserve(max_num_entities+1);
@@ -755,6 +723,13 @@ bool SimControl::run_single_step(int loop_number) {
         return false;
     }
 
+    if (!run_sensors()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to plugin request." << std::endl;
+        }
+        return false;
+    }
+
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
@@ -801,7 +776,21 @@ void SimControl::run() {
     int loop_number = 0;
     set_time(t0_);
 
-    while (run_single_step(loop_number++) && !end_condition_reached()) {}
+    bool success = true;
+    if (!generate_entities(t0_ - dt_)) {
+        cout << "Failed to generate entity" << endl;
+        success = false;
+    }
+
+    if (!run_interaction_detection()) {
+        auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
+        pub_ent_int_exit_->publish(msg);
+        success = false;
+    }
+
+    while (success &&
+           run_single_step(loop_number++) &&
+           !end_condition_reached()) {}
     cleanup();
 }
 
@@ -1212,6 +1201,22 @@ void print_err(PluginPtr p) {
     }
 }
 
+bool SimControl::run_sensors() {
+    for (EntityPtr &ent : ents_) {
+        auto &shapes = shapes_[ent->id().id()];
+        br::for_each(ent->sensors() | ba::map_values, run_callbacks);
+        for (auto &sensor : ent->sensors() | ba::map_values) {
+            if (!sensor->step()) {
+                print_err(sensor);
+                return false;
+            }
+            shapes.insert(shapes.end(), sensor->shapes().begin(), sensor->shapes().end());
+            sensor->shapes().clear();
+        }
+    }
+    return true;
+}
+
 bool SimControl::run_entities() {
     contacts_mutex_.lock();
     bool success = true;
@@ -1290,10 +1295,6 @@ bool SimControl::run_entities() {
             ent->motion()->shapes().clear();
         }
         temp_t += motion_dt;
-    }
-
-    for (EntityPtr &ent : ents_) {
-        br::for_each(ent->sensors() | ba::map_values, run_callbacks);
     }
 
     for (EntityPtr &ent : ents_) {

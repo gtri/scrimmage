@@ -128,6 +128,10 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
                                                              ba::ip::udp::v4(),
                                                              from_ardupilot_port_));
     start_receive();
+
+    state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
+    auto cb = [&](auto &msg){*state_6dof_ = msg->data;};
+    subscribe<motion::RigidBody6DOFState>("LocalNetwork", "RigidBody6DOFState", cb);
 }
 
 void ArduPilot::start_receive() {
@@ -145,18 +149,9 @@ void ArduPilot::close(double t) {
 }
 
 bool ArduPilot::step_autonomy(double t, double dt) {
-    scrimmage::motion::RigidBody6DOFState state_6dof;
-    for (auto kv : parent_->sensors()) {
-        if (kv.first == "RigidBody6DOFStateSensor0") {
-            auto msg = kv.second->sense<sc::motion::RigidBody6DOFState>(t);
-            if (msg) {
-                state_6dof = msg->data;
-            }
-        }
-    }
 
     // Convert state6dof into ArduPilot fdm_packet and transmit
-    fdm_packet fdm_pkt = state6dof_to_fdm_packet(t, state_6dof);
+    fdm_packet fdm_pkt = state6dof_to_fdm_packet(t, *state_6dof_);
     try {
         // TODO: Michael, endian handling?
         tx_socket_->send_to(ba::buffer(&fdm_pkt, sizeof(fdm_packet)),

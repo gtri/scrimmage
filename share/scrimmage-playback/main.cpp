@@ -161,7 +161,6 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             out_interface->send_sim_info(info);
 
             if (single_step) {
-                single_step = false;
                 break;
             }
         } while (paused && !exit_loop);

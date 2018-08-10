@@ -65,7 +65,10 @@ bool create_ent_inters(const SimUtilsInfo &info,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
                        std::list<EntityInteractionPtr> &ent_inters);
 
-bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_list);
+bool create_metrics(const SimUtilsInfo &info, ContactMapPtr contacts,
+                    std::list<MetricsPtr> &metrics_list);
+
+bool create_networks(const SimUtilsInfo &info, NetworkMap &networks);
 
 void run_callbacks(PluginPtr plugin);
 

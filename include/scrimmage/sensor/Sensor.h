@@ -50,6 +50,8 @@ class Sensor : public Plugin {
     std::string name() override;
     std::string type() override;
 
+    virtual bool step() {return true;}
+
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting) */
@@ -61,6 +63,7 @@ class Sensor : public Plugin {
 
     /*! \brief default version */
     template <class T>
+    [[deprecated("use Sensor::step() with publish/subscribe functionality instead")]]
     std::shared_ptr<scrimmage::Message<T>> sense(double t) {
         auto msg = sensor_msg(t);
         if (msg) {

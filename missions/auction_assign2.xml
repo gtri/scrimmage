@@ -55,9 +55,6 @@
   <entity entity_common="auction">
     <name>agent</name>
     <autonomy auctioneer="true">AuctionAssign</autonomy>            
-  </entity>
-
-  <entity entity_common="auction">
     <autonomy auctioneer="false">AuctionAssign</autonomy>            
   </entity>
   

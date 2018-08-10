@@ -198,6 +198,7 @@ class SimControl {
     std::vector<std::thread> entity_worker_threads_;
     void worker();
     bool run_entities();
+    bool run_sensors();
     bool run_motion(EntityPtr &ent, double t, double dt);
     bool reset_autonomies();
 

@@ -40,6 +40,7 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
+#include <scrimmage/pubsub/Network.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
@@ -112,7 +113,9 @@ bool create_ent_inters(const SimUtilsInfo &info,
     return true;
 }
 
-bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_list) {
+bool create_metrics(const SimUtilsInfo &info,
+                    ContactMapPtr contacts,
+                    std::list<MetricsPtr> &metrics_list) {
 
     for (std::string metrics_name : info.mp->metrics()) {
         ConfigParse config_parse;
@@ -134,6 +137,7 @@ bool create_metrics(const SimUtilsInfo &info, std::list<MetricsPtr> &metrics_lis
         metrics->parent()->set_mp(info.mp);
         metrics->parent()->projection() = info.mp->projection();
         metrics->parent()->rtree() = info.rtree;
+        metrics->parent()->contacts() = contacts;
 
         // Plugin specific members
         metrics->set_name(metrics_name);
@@ -364,4 +368,41 @@ std::shared_ptr<Log> setup_logging(MissionParsePtr mp) {
     return log;
 }
 
+bool create_networks(const SimUtilsInfo &info, NetworkMap &networks) {
+
+    for (std::string network_name : info.mp->network_names()) {
+        ConfigParse config_parse;
+        std::map<std::string, std::string> &overrides =
+            info.mp->attributes()[network_name];
+
+        NetworkPtr network =
+            std::dynamic_pointer_cast<Network>(
+                info.plugin_manager->make_plugin(
+                    "scrimmage::Network", network_name, *info.file_search,
+                    config_parse, overrides));
+
+        // If the name was overridden, use the override.
+        std::string name =
+            get<std::string>("name", config_parse.params(), network_name);
+        network->set_name(name);
+        network->set_mission_parse(info.mp);
+        network->set_time(info.time);
+        network->set_pubsub(info.pubsub);
+        network->set_random(info.random);
+        network->set_rtree(info.rtree);
+
+        if (network == nullptr) {
+            std::cout << "Failed to load network plugin: "
+                << network_name << std::endl;
+            return false;
+        }
+
+        // Seed the pubsub with network names
+        info.pubsub->add_network_name(name);
+
+        network->init(info.mp->params(), config_parse.params());
+        networks[name] = network;
+    }
+    return true;
+}
 } // namespace scrimmage

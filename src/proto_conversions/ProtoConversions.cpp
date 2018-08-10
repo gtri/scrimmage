@@ -124,6 +124,39 @@ void set(scrimmage_proto::Quaternion *dst, Quaternion &src) {
     dst->set_w(src.w());
 }
 
+void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x,
+         const double &y, const double &z) {
+    dst->set_x(x);
+    dst->set_y(y);
+    dst->set_z(z);
+    dst->set_w(w);
+}
+
+void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state) {
+    set(dst->mutable_position(), state->pos());
+    set(dst->mutable_linear_velocity(), state->vel());
+    set(dst->mutable_angular_velocity(), state->ang_vel());
+    set(dst->mutable_orientation(), state->quat());
+}
+
+void set(scrimmage::Quaternion &dst, const scrimmage_proto::Quaternion &quat) {
+    dst.set(quat.w(), quat.x(), quat.y(), quat.z());
+}
+
+void set(scrimmage::State &dst, const scrimmage_proto::State &state) {
+    set(dst.pos(), state.position());
+    set(dst.vel(), state.linear_velocity());
+    set(dst.ang_vel(), state.angular_velocity());
+    set(dst.quat(), state.orientation());
+}
+
+void set(scrimmage_proto::State *dst, scrimmage::State &state) {
+    set(dst->mutable_position(), state.pos());
+    set(dst->mutable_linear_velocity(), state.vel());
+    set(dst->mutable_angular_velocity(), state.ang_vel());
+    set(dst->mutable_orientation(), state.quat());
+}
+
 Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src) {
     Eigen::Vector3d dst;
     dst(0) = src.x();
@@ -139,38 +172,41 @@ void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
 }
 
 void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
-                     int r, int g, int b) {
+                     const int &r, const int &g, const int &b) {
     scrimmage_proto::Color *color = s->add_color();
     set(color, r, g, b);
 }
 
 void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
-                     int grayscale) {
+                     const int &grayscale) {
     scrimmage_proto::Color *color = s->add_color();
     set(color, grayscale);
 }
 
-ID proto_2_id(const scrimmage_proto::ID &proto_id) {
-    ID id;
+void set(scrimmage::ID &id, const scrimmage_proto::ID &proto_id) {
     id.set_id(proto_id.id());
     id.set_sub_swarm_id(proto_id.sub_swarm_id());
     id.set_team_id(proto_id.team_id());
-    return id;
 }
 
-Quaternion proto_2_quat(scrimmage_proto::Quaternion proto_quat) {
+Eigen::Vector3d proto_2_vector3d(const scrimmage_proto::Vector3d &proto_vector3d) {
+    return Eigen::Vector3d(proto_vector3d.x(), proto_vector3d.y(), proto_vector3d.z());
+}
+
+Quaternion proto_2_quat(const scrimmage_proto::Quaternion &proto_quat) {
     const Quaternion quat(proto_quat.w(), proto_quat.x(), proto_quat.y(), proto_quat.z());
     return quat;
 }
 
-Eigen::Vector3d proto_2_vector3d(scrimmage_proto::Vector3d proto_vector3d) {
-    return Eigen::Vector3d(proto_vector3d.x(), proto_vector3d.y(), proto_vector3d.z());
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Vector3d &proto_vector3d) {
+    dst << proto_vector3d.x(), proto_vector3d.y(), proto_vector3d.z();
 }
 
 StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     State state;
-    state.set_pos(proto_2_vector3d(proto_state.position()));
-    state.set_vel(proto_2_vector3d(proto_state.velocity()));
+    set(state.pos(), proto_state.position());
+    set(state.vel(), proto_state.linear_velocity());
+    set(state.ang_vel(), proto_state.angular_velocity());
     state.set_quat(proto_2_quat(proto_state.orientation()));
     return std::make_shared<State>(state);
 }
@@ -206,40 +242,31 @@ std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_pt
     frame->set_time(time);
 
     for (auto &kv : *contacts) {
-
         StatePtr &state = kv.second.state();
-        Eigen::Vector3d &pos = state->pos();
-        Eigen::Vector3d &vel = state->vel();
-        Quaternion &quat = state->quat();
         Contact::Type type = kv.second.type();
         const ID &id = kv.second.id();
 
         scrimmage_proto::Contact *contact = frame->add_contact();
-        scrimmage_proto::State *sp_state = contact->mutable_state();
-        scrimmage_proto::Vector3d *sp_pos = sp_state->mutable_position();
-        scrimmage_proto::Vector3d *sp_vel = sp_state->mutable_velocity();
-        scrimmage_proto::Quaternion *sp_quat = sp_state->mutable_orientation();
         scrimmage_proto::ID *sp_id = contact->mutable_id();
 
-        sp_pos->set_x(pos(0));
-        sp_pos->set_y(pos(1));
-        sp_pos->set_z(pos(2));
-
-        sp_vel->set_x(vel(0));
-        sp_vel->set_y(vel(1));
-        sp_vel->set_z(vel(2));
-
-        sp_quat->set_x(quat.x());
-        sp_quat->set_y(quat.y());
-        sp_quat->set_z(quat.z());
-        sp_quat->set_w(quat.w());
+        set(contact->mutable_state(), state);
 
         switch (type) {
-        case Contact::Type::AIRCRAFT: contact->set_type(scrimmage_proto::AIRCRAFT); break;
-        case Contact::Type::QUADROTOR: contact->set_type(scrimmage_proto::QUADROTOR); break;
-        case Contact::Type::SPHERE: contact->set_type(scrimmage_proto::SPHERE); break;
-        case Contact::Type::MESH: contact->set_type(scrimmage_proto::MESH); break;
-        default: contact->set_type(scrimmage_proto::UNKNOWN);
+        case Contact::Type::AIRCRAFT:
+            contact->set_type(scrimmage_proto::AIRCRAFT);
+            break;
+        case Contact::Type::QUADROTOR:
+            contact->set_type(scrimmage_proto::QUADROTOR);
+            break;
+        case Contact::Type::SPHERE:
+            contact->set_type(scrimmage_proto::SPHERE);
+            break;
+        case Contact::Type::MESH:
+            contact->set_type(scrimmage_proto::MESH);
+            break;
+        default:
+            contact->set_type(scrimmage_proto::UNKNOWN);
+            break;
         }
 
         contact->set_active(kv.second.active());
@@ -253,7 +280,7 @@ std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_pt
 
 Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact) {
     Contact contact;
-    contact.set_id(proto_2_id(proto_contact.id()));
+    set(contact.id(), proto_contact.id());
 
     if (proto_contact.type() == scrimmage_proto::AIRCRAFT) {
         contact.set_type(Contact::Type::AIRCRAFT);

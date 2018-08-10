@@ -90,6 +90,7 @@ struct CameraResetParams {
 
 class Updater : public vtkCommand {
  public:
+    // codechecker_intentional [cplusplus.NewDeleteLeaks]
     vtkTypeMacro(Updater, vtkCommand);
 
     enum class ViewMode {FOLLOW = 0, FREE, OFFSET, FPV};

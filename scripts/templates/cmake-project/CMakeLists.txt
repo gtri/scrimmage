@@ -9,7 +9,7 @@ endif()
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
   set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
-else() 
+else()
   message("ccache not found, repeated builds will be faster if this program is installed")
 endif()
 
@@ -29,9 +29,9 @@ if(NOT CMAKE_INSTALL_PREFIX)
 endif()
 
 # fetch all the local directories for generated code
-get_filename_component(PROJECT_LIB_DIR ${CMAKE_CURRENT_BINARY_DIR}/lib ABSOLUTE)
-get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${CMAKE_CURRENT_BINARY_DIR}/plugin_libs ABSOLUTE)
-get_filename_component(PROJECT_BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin ABSOLUTE)
+get_filename_component(PROJECT_LIB_DIR ${PROJECT_BINARY_DIR}/lib ABSOLUTE)
+get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${PROJECT_BINARY_DIR}/plugin_libs ABSOLUTE)
+get_filename_component(PROJECT_BIN_DIR ${PROJECT_BINARY_DIR}/bin ABSOLUTE)
 get_filename_component(PROJECT_INC_DIR ./include ABSOLUTE)
 get_filename_component(PROJECT_SRC_DIR ./src ABSOLUTE)
 get_filename_component(PROJECT_SHARE_DIR ./share ABSOLUTE)
@@ -68,8 +68,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/setenv.in
   "${SCRIMMAGE_ENV_DIR}/${PROJECT_NAME}-setenv" @ONLY)
 execute_process(COMMAND bash "-c" "${PROJECT_SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL_CONFIG_DIR} ${PROJECT_NAME}" OUTPUT_VARIABLE result)
 
-set(MSGS_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/msgs)
-set(PROTO_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/proto)
+set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
+set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 
 ###############################################################################
 # Find Scrimmage
@@ -95,7 +95,7 @@ option(BUILD_TESTS "BUILD_TESTS" OFF)
 option(BUILD_GTEST "Build_GTEST" ON)
 if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   enable_testing()
-  
+
   if (BUILD_GTEST)
     ############################################################
     # https://github.com/google/googletest/tree/master/googletest#incorporating-into-an-existing-cmake-project
@@ -107,13 +107,13 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
           googletest-download/CMakeLists.txt)
         execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
           RESULT_VARIABLE result
-          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+          WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
         if(result)
           message(FATAL_ERROR "CMake step for googletest failed: ${result}")
         endif()
         execute_process(COMMAND ${CMAKE_COMMAND} --build .
           RESULT_VARIABLE result
-          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+          WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
         if(result)
           message(FATAL_ERROR "Build step for googletest failed: ${result}")
         endif()
@@ -124,8 +124,8 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
 
         # Add googletest directly to our build. This defines
         # the gtest and gtest_main targets.
-        add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-                         ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
+        add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
+                         ${PROJECT_BINARY_DIR}/googletest-build)
 
         # The gtest/gtest_main targets carry header search path
         # dependencies automatically when using CMake 2.8.11 or
@@ -142,7 +142,7 @@ endif()
 # Add a distclean target to the Makefile
 set (DIST_CLEAN_DIRS "${PROJECT_LIB_DIR};${PROJECT_BIN_DIR};${PROJECT_PLUGIN_LIBS_DIR};${CMAKE_BINARY_DIR}")
 ADD_CUSTOM_TARGET(distclean
-  COMMAND ${CMAKE_COMMAND} -DDIRS_TO_REMOVE="${DIST_CLEAN_DIRS}" -P ${CMAKE_SOURCE_DIR}/cmake/Modules/distclean.cmake
+  COMMAND ${CMAKE_COMMAND} -DDIRS_TO_REMOVE="${DIST_CLEAN_DIRS}" -P ${PROJECT_SOURCE_DIR}/cmake/Modules/distclean.cmake
   )
 
 ###############################################################################
@@ -172,13 +172,13 @@ if(UNIX AND NOT APPLE)
 
   configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-    INSTALL_DESTINATION ${CMAKE_SOURCE_DIR}/build
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+    INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
     PATH_VARS INCLUDE_INSTALL_DIR
     )
 
   write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
     )
@@ -190,19 +190,19 @@ if(UNIX AND NOT APPLE)
   # Export the package for use from the build-tree
   # (this registers the build-tree with a global CMake-registry ~/.cmake)
   export(PACKAGE ${PROJECT_NAME})
-  
+
   #############################################################################
   # Generate the cmake configuration files for the install tree
   #############################################################################
   configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/project-config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
     INSTALL_DESTINATION ${CMAKE_CONFIG_DEST}
     PATH_VARS INCLUDE_INSTALL_DIR
     )
 
   write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
+    ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config-version.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
     )
@@ -250,20 +250,20 @@ if(UNIX AND NOT APPLE)
     PATTERN "*__pycache__*" EXCLUDE
     )
 
-  # Install all project proto headers  
+  # Install all project proto headers
   install(
     DIRECTORY ${PROTO_INCLUDE_DIR}/${PROJECT_NAME}
     DESTINATION include
     FILES_MATCHING PATTERN "*.pb.h"
     )
 
-  # Install all project message proto headers  
+  # Install all project message proto headers
   install(
     DIRECTORY ${MSGS_INCLUDE_DIR}/${PROJECT_NAME}
     DESTINATION include
     FILES_MATCHING PATTERN "*.pb.h"
     )
-  
+
   if (NOT EXTERNAL)
     # Install meshes, terrain, maps
     install(
@@ -277,8 +277,9 @@ endif()
 ###############################################################################
 # Binary installation generation
 ###############################################################################
-set(VERSION "0.0.1")
-set(CPACK_PACKAGE_VERSION ${VERSION})
+set(CPACK_INSTALL_CMAKE_PROJECTS "${PROJECT_BINARY_DIR};${PROJECT_NAME};ALL;/")
+set(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig-${PROJECT_NAME}.cmake")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
 set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})

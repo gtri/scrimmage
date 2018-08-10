@@ -72,7 +72,7 @@ class RayTrace : public scrimmage::Sensor {
     std::string name() override { return "RayTrace"; }
     std::string type() override { return "Ray"; }
     void init(std::map<std::string, std::string> &params) override;
-    scrimmage::MessageBasePtr sensor_msg(double t) override;
+    bool step() override;
 
     double angle_res_vert() { return angle_res_vert_; }
     double angle_res_horiz() { return angle_res_horiz_; }
@@ -93,6 +93,8 @@ class RayTrace : public scrimmage::Sensor {
     double max_range_;
     double min_range_;
     double max_sample_rate_;
+
+    PublisherPtr pub_;
 };
 } // namespace sensor
 } // namespace scrimmage
