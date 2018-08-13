@@ -508,6 +508,11 @@ if (UNIX AND NOT APPLE)
     DESTINATION etc/scrimmage/env
     )
 
+  # Install scrimmage cmake helper files
+  install(
+    DIRECTORY ${PROJECT_SOURCE_DIR}/share/cmake
+    DESTINATION share
+    )
 endif()
 
 ###############################################################################
