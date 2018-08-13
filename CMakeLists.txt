@@ -110,6 +110,11 @@ if (ENABLE_PYTHON_BINDINGS)
 
   set(PYTHON_FOUND TRUE)
   include_directories("${PYTHON_INCLUDE_DIRS}")
+
+  # We have already found the python libs and modules, so tell pybind11 to not
+  # search for the python interpreter and libraries again.
+  set(PYTHONLIBS_FOUND TRUE)
+  set(PYTHON_MODULE_EXTENSION TRUE)
   find_package(pybind11 REQUIRED)
   include_directories(${pybind11_INCLUDE_DIRS})
   set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
