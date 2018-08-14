@@ -96,8 +96,8 @@ def find_mission(fname):
 
     Raises a StopIteration exception when it cannot find the file.
     """
-    files = (os.path.join(path, '..', 'missions', fname)
-             for path in os.environ["SCRIMMAGE_DATA_PATH"].split(':'))
+    files = (os.path.join(path, fname)
+             for path in os.environ["SCRIMMAGE_MISSION_PATH"].split(':'))
     return next((f for f in files if os.path.exists(f)))
 
 
