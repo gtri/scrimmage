@@ -2,27 +2,23 @@
 
 BUILDDIR = build_dir
 
-# secondly called by launchpad
-build:
-	mkdir $(BUILDDIR);
-	cd $(BUILDDIR); cmake -DCMAKE_INSTALL_PREFIX=/opt/scrimmage/${DEB_HOST_MULTIARCH} -DDEB_HOST_MULTIARCH=${DEB_HOST_MULTIARCH} ..
-	make -C $(BUILDDIR)
+CMAKE_FLAGS = \
+	-DDEB_HOST_MULTIARCH=${DEB_HOST_MULTIARCH} \
+	-DCMAKE_INSTALL_PREFIX=/opt/scrimmage/${DEB_HOST_MULTIARCH}
 
-# thirdly called by launchpad
-binary: binary-indep binary-arch
+export DH_VERBOSE=1
 
-binary-indep:
-	# nothing to be done
+%:
+	dh $@ --buildsystem=cmake
 
-binary-arch:
-	make -C $(BUILDDIR) DESTDIR=../debian/tmp install
-	mkdir ./debian/tmp/DEBIAN
-	dpkg-gencontrol -pscrimmage-dependencies
-	dpkg --build ./debian/tmp ..
+override_dh_clean:
+	dh_clean -O--buildsystem=cmake
 
-# firstly called by launchpad
-clean:
-	rm -f build
-	rm -rf $(BUILDDIR)
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_FLAGS)
 
-.PHONY: binary binary-arch binary-indep clean
+override_dh_install:
+	dh_install -O--buildsystem=cmake --list-missing
+
+override_dh_fixperms-indep:
+	dh_fixperms
