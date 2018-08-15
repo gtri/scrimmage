@@ -413,6 +413,9 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
         case sp::Shape::kCircle:
             shape_status = draw_circle(new_shape, shape.circle(), actor, source, mapper);
             break;
+        case sp::Shape::kEllipse:
+            shape_status = draw_ellipse(new_shape, shape.ellipse(), actor, source, mapper);
+            break;
         case sp::Shape::kSphere:
             shape_status = draw_sphere(new_shape, shape.sphere(), actor, source, mapper);
             break;
@@ -1869,6 +1872,40 @@ bool Updater::draw_circle(const bool &new_shape,
 
     polygonSource->SetRadius(c.radius());
     actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
+    return true;
+}
+
+bool Updater::draw_ellipse(const bool &new_shape,
+                           const scrimmage_proto::Ellipse &elp,
+                           vtkSmartPointer<vtkActor> &actor,
+                           vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    vtkSmartPointer<vtkTransformPolyDataFilter> transformSource;
+    if (new_shape) {
+        auto polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
+        // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of the circle
+        polygonSource->SetNumberOfSides(30);
+
+        transformSource = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+        transformSource->SetInputConnection(polygonSource->GetOutputPort());
+        transformSource->SetTransform(vtkSmartPointer<vtkTransform>::New());
+        source = transformSource;
+
+
+        mapper->SetInputConnection(transformSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        transformSource = vtkTransformPolyDataFilter::SafeDownCast(source);
+    }
+
+    auto transform = vtkTransform::SafeDownCast(transformSource->GetTransform());
+    transform->Identity();
+    transform->RotateZ(elp.ang_deg());
+    transform->Scale(elp.x_radius(), elp.y_radius(), 1.0);
+    transformSource->SetTransform(transform);
+    transformSource->Update();
+
+    actor->SetPosition(elp.center().x(), elp.center().y(), elp.center().z());
     return true;
 }
 
