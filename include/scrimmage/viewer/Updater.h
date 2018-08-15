@@ -235,6 +235,11 @@ class Updater : public vtkCommand {
                      vtkSmartPointer<vtkActor> &actor,
                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_ellipse(const bool &new_shape,
+                      const scrimmage_proto::Ellipse &elp,
+                      vtkSmartPointer<vtkActor> &actor,
+                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
     bool draw_text(const bool &new_shape,
                    const scrimmage_proto::Text &t,
                    vtkSmartPointer<vtkActor> &actor,
