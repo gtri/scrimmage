@@ -1447,6 +1447,13 @@ void Updater::enable_fps() {
     renderer_->AddObserver(vtkCommand::EndEvent, callback);
 }
 
+void Updater::quat_2_transform(const sc::Quaternion q,
+                       vtkSmartPointer<vtkTransform> transform) {
+    transform->RotateX(sc::Angles::rad2deg(q.roll()));
+    transform->RotateY(sc::Angles::rad2deg(q.pitch()));
+    transform->RotateZ(sc::Angles::rad2deg(q.yaw()));
+}
+
 bool Updater::draw_triangle(const bool &new_shape,
                             const scrimmage_proto::Triangle &t,
                             vtkSmartPointer<vtkActor> &actor,
@@ -1880,32 +1887,27 @@ bool Updater::draw_ellipse(const bool &new_shape,
                            vtkSmartPointer<vtkActor> &actor,
                            vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                            vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkTransformPolyDataFilter> transformSource;
+    vtkSmartPointer<vtkRegularPolygonSource> polygonSource;
     if (new_shape) {
-        auto polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
-        // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of the circle
+        polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
+        source = polygonSource;
+        // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of the ellipse
         polygonSource->SetNumberOfSides(30);
 
-        transformSource = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-        transformSource->SetInputConnection(polygonSource->GetOutputPort());
-        transformSource->SetTransform(vtkSmartPointer<vtkTransform>::New());
-        source = transformSource;
-
-
-        mapper->SetInputConnection(transformSource->GetOutputPort());
+        mapper->SetInputConnection(polygonSource->GetOutputPort());
         actor->SetMapper(mapper);
     } else {
-        transformSource = vtkTransformPolyDataFilter::SafeDownCast(source);
+        polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
     }
 
-    auto transform = vtkTransform::SafeDownCast(transformSource->GetTransform());
-    transform->Identity();
-    transform->RotateZ(elp.ang_deg());
-    transform->Scale(elp.x_radius(), elp.y_radius(), 1.0);
-    transformSource->SetTransform(transform);
-    transformSource->Update();
+    Quaternion quat = proto_2_quat(elp.quat());
 
     actor->SetPosition(elp.center().x(), elp.center().y(), elp.center().z());
+    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
+                          sc::Angles::rad2deg(quat.pitch()),
+                          sc::Angles::rad2deg(quat.yaw()));
+    actor->SetScale(elp.x_radius(), elp.y_radius(), 0);
+
     return true;
 }
 

@@ -78,7 +78,7 @@ message Ellipse {
         Vector3d center = 1;
         double x_radius = 2;
         double y_radius = 3;
-        double ang_deg = 4;
+        Quaternion quat = 4;
 }
 
 message Text {
