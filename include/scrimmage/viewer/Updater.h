@@ -181,8 +181,8 @@ class Updater : public vtkCommand {
     void update_contact_visual(std::shared_ptr<ActorContact> &actor_contact,
                                std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
 
-    void quat_2_transform(const Quaternion quat,
-                           vtkSmartPointer<vtkTransform> transform);
+    void quat_2_transform(const Quaternion &quat,
+                          vtkSmartPointer<vtkTransform> transform);
 
     bool draw_triangle(const bool &new_shape,
                        const scrimmage_proto::Triangle &t,

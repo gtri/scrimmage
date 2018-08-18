@@ -1447,8 +1447,8 @@ void Updater::enable_fps() {
     renderer_->AddObserver(vtkCommand::EndEvent, callback);
 }
 
-void Updater::quat_2_transform(const sc::Quaternion q,
-                       vtkSmartPointer<vtkTransform> transform) {
+void Updater::quat_2_transform(const sc::Quaternion &q,
+                               vtkSmartPointer<vtkTransform> transform) {
     transform->RotateX(sc::Angles::rad2deg(q.roll()));
     transform->RotateY(sc::Angles::rad2deg(q.pitch()));
     transform->RotateZ(sc::Angles::rad2deg(q.yaw()));
