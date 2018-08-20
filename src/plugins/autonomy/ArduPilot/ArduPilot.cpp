@@ -103,6 +103,9 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
                              std::stod(vec[5]), std::stod(vec[6]),
                              vars_.declare(vec[0], VariableIO::Direction::Out));
                 servo_tfs_.push_back(at);
+
+                // cout << "Mapping servo " << at.axis_index() << " to channel " << 
+                //     vec[0] << "(" << at.vector_index() << ")" << endl;
             }
         }
     }
@@ -166,7 +169,9 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     // Copy the received servo commands into the desired state
     servo_pkt_mutex_.lock();
     for (auto servo_tf : servo_tfs_) {
-        vars_.output(servo_tf.axis_index(), servo_tf.scale(servo_pkt_.servos[servo_tf.vector_index()]));
+        vars_.output(servo_tf.vector_index(), servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
+        int prec = 9;
+        cout << std::setprecision(prec) << "servo_out"<< servo_tf.axis_index() << ": " << servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]) << endl;
     }
     servo_pkt_mutex_.unlock();
 
