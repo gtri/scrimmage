@@ -79,6 +79,10 @@ class ROSAutonomy : public scrimmage::Autonomy {
     void publish_clock_msg(double t);
 
     scrimmage::sensor::RayTrace::PointCloud pcl_;
+
+    int speed_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

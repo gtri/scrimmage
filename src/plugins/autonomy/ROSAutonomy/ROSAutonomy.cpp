@@ -61,6 +61,10 @@ void ROSAutonomy::publish_clock_msg(double t) {
 }
 
 void ROSAutonomy::init(std::map<std::string, std::string> &params) {
+    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+
     if (!ros::isInitialized()) {
         int argc = 0;
         // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
@@ -102,9 +106,9 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
         "GlobalNetwork",
         std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud", pc_cb);
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX() * 0;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    vars_.output(speed_idx_, 0);
+    vars_.output(turn_rate_idx_, 0);
+    vars_.output(pitch_rate_idx_, 0);
 }
 
 bool ROSAutonomy::step_autonomy(double t, double dt) {
@@ -174,12 +178,9 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     laser_broadcaster_->sendTransform(laser_trans_);
 
     // Send commands to low-level controller
-    desired_state_->vel()(0) = cmd_vel_.linear.x;
-    desired_state_->vel()(1) = cmd_vel_.angular.z;
-    desired_state_->vel()(2) = 0;
-    // double u_rot = cmd_vel_.angular.z;
-    // desired_state_->quat().set(0,0,state_->quat().yaw() + u_rot);
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    vars_.output(speed_idx_, cmd_vel_.linear.x);
+    vars_.output(turn_rate_idx_, cmd_vel_.angular.z);
+    vars_.output(pitch_rate_idx_, 0);
 
     return true;
 }
