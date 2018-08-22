@@ -48,6 +48,7 @@ class ShapeDraw : public scrimmage::Autonomy {
  protected:
     void draw_ellipse(double t, double dt);
     void draw_cuboid(double t, double dt);
+    void draw_mesh(double t, double dt);
     int follow_id_;
     bool init_;
 };

@@ -78,6 +78,8 @@ bool ShapeDraw::step_autonomy(double t, double dt) {
         init_ = false;
     }
 
+    draw_mesh(t, dt);
+
     return true;
 }
 
@@ -119,6 +121,29 @@ void ShapeDraw::draw_cuboid(double t, double dt) {
     shape->set_persistent(true);
     shape->set_ttl(60);
     sc::set(shape->mutable_color(), 0, 255, 0);
+    draw_shape(shape);
+}
+
+void ShapeDraw::draw_mesh(double t, double dt) {
+    auto shape = std::make_shared<scrimmage_proto::Shape>();
+
+    shape->set_hash(182379817238);
+    shape->set_hash_set(true);
+    shape->set_opacity(1.0);
+    sc::set(shape->mutable_mesh()->mutable_center(), 20, -20, 0);
+    // corresponds to zephyr-red.xml
+    shape->mutable_mesh()->set_name("zephyr-red");
+
+    sc::Quaternion quat(sc::Angles::deg2rad(0.0),
+                        sc::Angles::deg2rad(45.0),
+                        sc::Angles::deg2rad(90.0));
+    sc::set(shape->mutable_mesh()->mutable_quat(), quat);
+    shape->mutable_mesh()->set_scale(10.0);
+    sc::set(shape->mutable_color(), 255, 255, 255);
+
+    shape->set_persistent(true);
+    shape->set_ttl(60);
+
     draw_shape(shape);
 }
 

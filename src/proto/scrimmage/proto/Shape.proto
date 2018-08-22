@@ -87,6 +87,13 @@ message Text {
         double scale = 3;
 }
 
+message Mesh {
+        string name = 1;
+        Vector3d center = 2;
+        Quaternion quat = 3;
+        double scale = 4;
+}
+
 message Shape {
     uint64 hash = 1;
     bool hash_set = 2;
@@ -112,6 +119,7 @@ message Shape {
           Text text = 20;
           Polyhedron polyhedron = 21;
           Ellipse ellipse = 22;
+          Mesh mesh = 23;
     }
 }
 

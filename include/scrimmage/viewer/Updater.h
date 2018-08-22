@@ -249,6 +249,17 @@ class Updater : public vtkCommand {
                    vtkSmartPointer<vtkActor> &actor,
                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_mesh(const bool &new_shape,
+                   const scrimmage_proto::Mesh &m,
+                   vtkSmartPointer<vtkActor> &actor,
+                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
+
+ protected:
+    void get_model_texture(std::string name,
+                           std::string& model_file, bool& model_found,
+                           std::string& texture_file, bool& texture_found,
+                           double& base_scale, Quaternion& base_rot);
 
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;
