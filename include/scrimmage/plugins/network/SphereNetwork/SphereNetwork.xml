@@ -4,6 +4,9 @@
   <library>SphereNetwork_plugin</library>
   <range>100</range>
   <prob_transmit>1.0</prob_transmit>
+  <filter_comms_plane>0</filter_comms_plane>
+  <comms_boundary_altitude>0</comms_boundary_altitude>
+  <comms_boundary_epsilon>0</comms_boundary_epsilon>
 
   <monitor_publisher_topics/>
   <monitor_subscriber_topics/>

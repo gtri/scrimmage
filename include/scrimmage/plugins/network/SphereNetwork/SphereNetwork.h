@@ -53,6 +53,16 @@ class SphereNetwork : public scrimmage::Network {
                                             const scrimmage::PluginPtr &sub_plugin) override;
     double range_;
     double prob_transmit_;
+
+    // Attributes of a boundary plane that blocks communication. Example use
+    // would be putting a boundary at a water/air intersection such that
+    // communications wouldn't go between water and the surface.
+    double comms_boundary_altitude_;
+    // The buffer zone around the boundary plane that doesn't directly block
+    // comms
+    double comms_boundary_epsilon_;
+    bool filter_comms_plane_;
+    bool within_planar_boundary(double z1, double z2);
 };
 } // namespace network
 } // namespace scrimmage
