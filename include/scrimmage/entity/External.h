@@ -151,7 +151,9 @@ class External {
                 Sc2Ros sc2ros, ros::Publisher ros_pub) {
 
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
-        auto callback = [&](auto foo){ros_pub_ptr->publish(foo);};
+        auto callback = [=](auto foo) {
+            ros_pub_ptr->publish(foo);
+        };
         pub_cb<ScType, Sc2Ros>(network_name, topic_name, sc2ros, callback);
     }
 
