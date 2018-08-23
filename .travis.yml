@@ -24,13 +24,16 @@ jobs:
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
       - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
-      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-      - docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG
-      - docker create --name mycontainer $REPO:$TAG
-      - docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output
-      - if [[ "$TAG" == "latest" ]]; then bash ./ci/scripts/deploy-docs.sh; fi
-      - docker push $REPO
+      - |
+        if [[ "$TAG" == "latest" ]]; then
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG;
+            docker create --name mycontainer $REPO:$TAG;
+            docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
+            bash ./ci/scripts/deploy-docs.sh;
+            docker push $REPO;
+        fi
     - name: "Build on Ubuntu 18.04"
       script:
       - docker build -t $DOCKER_USERNAME/scrimmage:${TRAVIS_BUILD_NUMBER}_ubuntu1804 -f ./ci/dockerfiles/ubuntu-18.04 .
