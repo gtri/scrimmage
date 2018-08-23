@@ -66,14 +66,17 @@ class External {
     EntityPtr &entity();
     void setup_logging();
     bool create_entity(int max_entities, int entity_id,
-                       const std::string &entity_name);
+                       const std::string &entity_name,
+                       bool connect_entity = true);
 
     template <class AcceptFunc>
     bool create_entity(int max_entities, int entity_id,
                        const std::string &entity_name,
-                       AcceptFunc accept_func) {
+                       AcceptFunc accept_func, bool connect_entity = true) {
 
-        if (!create_entity(max_entities, entity_id, entity_name)) return false;
+        if (!create_entity(max_entities, entity_id, entity_name, connect_entity)) {
+            return false;
+        }
 
         auto filter_func = [&](auto &p) {return !accept_func(p);};
         auto &a = entity_->autonomies();

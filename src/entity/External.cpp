@@ -79,7 +79,8 @@ External::External() :
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()) {}
 
 bool External::create_entity(int max_entities, int entity_id,
-                             const std::string &entity_name) {
+                             const std::string &entity_name,
+                             bool connect_entity) {
 
     if (mp_->get_mission_filename() == "") {
         cout << "External::mp()->parse() has not been run yet, "
@@ -105,6 +106,7 @@ bool External::create_entity(int max_entities, int entity_id,
     std::map<std::string, std::string> info =
         mp_->entity_descriptions()[it_name_id->second];
     info.erase("motion_model"); // we don't need to initialize this
+    info["connect_entity"] = std::to_string(connect_entity);
 
     ContactMapPtr contacts = std::make_shared<ContactMap>();
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
@@ -159,18 +161,20 @@ bool External::create_entity(int max_entities, int entity_id,
         return false;
     }
 
-    connect(entity_->controller()->vars(), vars);
-    if (!verify_io_connection(entity_->controller()->vars(), vars)) {
-        auto ctrl = entity_->controller();
-        std::cout << "VariableIO Error: "
-            << ctrl->name()
-            << " does not provide inputs required by the External class."
-            << std::endl;
-        print_io_error("External", vars);
-        std::cout << ctrl->name() << " currently provides the following: ";
-        br::copy(ctrl->vars().output_variable_index() | ba::map_keys,
-            std::ostream_iterator<std::string>(std::cout, ", "));
-        return false;
+    if (connect_entity) {
+        connect(entity_->controller()->vars(), vars);
+        if (!verify_io_connection(entity_->controller()->vars(), vars)) {
+            auto ctrl = entity_->controller();
+            std::cout << "VariableIO Error: "
+                      << ctrl->name()
+                      << " does not provide inputs required by the External class."
+                      << std::endl;
+            print_io_error("External", vars);
+            std::cout << ctrl->name() << " currently provides the following: ";
+            br::copy(ctrl->vars().output_variable_index() | ba::map_keys,
+                     std::ostream_iterator<std::string>(std::cout, ", "));
+            return false;
+        }
     }
 
     return true;

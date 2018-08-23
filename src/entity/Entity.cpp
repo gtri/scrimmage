@@ -54,6 +54,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptor/transformed.hpp>
+#include <boost/lexical_cast.hpp>
 
 using std::cout;
 using std::endl;
@@ -271,19 +272,26 @@ bool Entity::init(AttributeMap &overrides,
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
     }
 
-    auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controller_->vars());};
-    if (boost::algorithm::none_of(autonomies_, verify_io)) {
-        auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
-        std::cout << "VariableIO Error: "
-            << "no autonomies provide inputs required by Controller "
-            << std::quoted(controller_->name())
-            << ". Add VariableIO output declarations in ";
-        auto get_name = [&](auto &p) {return p->name();};
-        br::copy(autonomies_ | ba::transformed(get_name), out_it);
-        std::cout << "as follows " << std::endl;
+    bool connect_entity = true;
+    if (info.count("connect_entity") > 0) {
+        connect_entity = boost::lexical_cast<bool>(info["connect_entity"]);
+    }
 
-        print_io_error(controller_->name(), controller_->vars());
-        return false;
+    if (connect_entity) {
+        auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controller_->vars());};
+        if (boost::algorithm::none_of(autonomies_, verify_io)) {
+            auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
+            std::cout << "VariableIO Error: "
+                      << "no autonomies provide inputs required by Controller "
+                      << std::quoted(controller_->name())
+                      << ". Add VariableIO output declarations in ";
+            auto get_name = [&](auto &p) {return p->name();};
+            br::copy(autonomies_ | ba::transformed(get_name), out_it);
+            std::cout << "as follows " << std::endl;
+
+            print_io_error(controller_->name(), controller_->vars());
+            return false;
+        }
     }
 
     if (autonomies_.empty()) {
