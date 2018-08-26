@@ -75,7 +75,9 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
-    double u_roll_rate = heading_pid_.step(dt, use_roll_ ? -state_->quat().roll() : state_->quat().yaw());
+    double u_roll_rate = use_roll_ ?
+        -heading_pid_.step(dt, state_->quat().roll()) :
+        heading_pid_.step(dt, state_->quat().yaw());
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_idx_));
     double u_pitch_rate = -alt_pid_.step(dt, state_->pos()(2));
