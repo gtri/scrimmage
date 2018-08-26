@@ -302,3 +302,12 @@ and match between the two paradigms for a single entity.
   - ``min_period`` : how often to save screenshots
   - ``start``: when to start taking screenshots
   - ``end``: when to stop taking screenshots.
+
+- ``multi_threaded``: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
+  The default is for scrimmage to run in a single thread. The attributes are:
+  
+  - ``num_threads`` : how many threads to use (``default = 1``)
+  - ``autonomy`` : whether to enable or disable running autonomy plugins in threads (``default = true``)
+  - ``controller`` : whether to enable or disable running controller plugins in threads (``default = true``)
+  - ``motion`` : whether to enable or disable running motion plugins in threads (``default = true``)
+  - ``sensor`` : whether to enable or disable running sensor plugins in threads (``default = true``)
