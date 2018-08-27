@@ -774,7 +774,7 @@ void SimControl::run() {
 
     // Simulate over the time range
     int loop_number = 0;
-    set_time(t0_);
+    set_time(t0_ - dt_);
 
     bool success = true;
     if (!generate_entities(t0_ - dt_)) {
@@ -788,6 +788,7 @@ void SimControl::run() {
         success = false;
     }
 
+    set_time(t0_);
     while (success &&
            run_single_step(loop_number++) &&
            !end_condition_reached()) {}
