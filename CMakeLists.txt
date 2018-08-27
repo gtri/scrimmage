@@ -500,7 +500,7 @@ if (UNIX AND NOT APPLE)
   # Create the ld.so.conf.d/project.conf file
   file(WRITE
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
-    ${CMAKE_INSTALL_PREFIX}/lib
+    "${CMAKE_INSTALL_PREFIX}/lib\n${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/plugin_libs"
     )
   install(
     FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
