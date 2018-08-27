@@ -41,6 +41,7 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/parse/ParseUtils.h>
 
 #include <iostream>
 #include <vector>
@@ -65,9 +66,15 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
 
     range_ = std::stod(plugin_params.at("range"));
     prob_transmit_ = std::stod(plugin_params.at("prob_transmit"));
-    filter_comms_plane_ = std::stoi(plugin_params.at("filter_comms_plane"));
-    comms_boundary_altitude_ = std::stod(plugin_params.at("comms_boundary_altitude"));
-    comms_boundary_epsilon_ = std::stod(plugin_params.at("comms_boundary_epsilon"));
+    filter_comms_plane_ = sc::get<bool>("filter_comms_plane", plugin_params,
+            filter_comms_plane_);
+    if (filter_comms_plane_) {
+        comms_boundary_altitude_ = sc::get<double>("comms_boundary_altitude",
+                plugin_params, std::numeric_limits<double>::quiet_NaN());
+        comms_boundary_epsilon_ = sc::get<double>("comms_boundary_epsilon",
+                plugin_params, std::numeric_limits<double>::quiet_NaN());
+        comms_boundary_epsilon_ =
+            std::stod(plugin_params.at("comms_boundary_epsilon")); }
     return true;
 }
 

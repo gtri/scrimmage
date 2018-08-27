@@ -61,7 +61,7 @@ class SphereNetwork : public scrimmage::Network {
     // The buffer zone around the boundary plane that doesn't directly block
     // comms
     double comms_boundary_epsilon_;
-    bool filter_comms_plane_;
+    bool filter_comms_plane_ = false;
     bool within_planar_boundary(double z1, double z2);
 };
 } // namespace network
