@@ -133,7 +133,6 @@ bool SphereNetwork::within_planar_boundary(double z1, double z2) {
     bool both_below = (z1 <= (comms_boundary_altitude_ + comms_boundary_epsilon_))
         && (z2 <= (comms_boundary_altitude_ + comms_boundary_epsilon_));
     return (both_above || both_below);
-
 }
 
 } // namespace network
