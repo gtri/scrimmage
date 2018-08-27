@@ -120,6 +120,15 @@ class SimControl {
     FileSearchPtr &file_search();
 
     struct Task {
+        // FIXME: this will be much simpler once there is a
+        // step function in Plugin.h
+        // In particular, we can get rid of Task::Type and
+        // more easily do entity_interaction/network plugins in multiple threads.
+        enum class Type {AUTONOMY, CONTROLLER, MOTION, SENSOR};
+
+        Type type;
+        double t;
+        double dt;
         EntityPtr ent;
         std::promise<bool> prom;
     };
@@ -190,7 +199,7 @@ class SimControl {
     std::mutex time_warp_mutex_;
     std::mutex entity_pool_mutex_;
 
-    bool use_entity_threads_ = false;
+    std::set<Task::Type> entity_thread_types_;
     int num_entity_threads_ = 0;
     bool entity_pool_stop_ = false;
     std::deque<std::shared_ptr<Task>> entity_pool_queue_;
@@ -198,6 +207,9 @@ class SimControl {
     std::vector<std::thread> entity_worker_threads_;
     void worker();
     bool run_entities();
+
+    bool add_tasks(Task::Type type, double t, double dt);
+
     bool run_sensors();
     bool run_motion(EntityPtr &ent, double t, double dt);
     bool reset_autonomies();

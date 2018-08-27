@@ -286,14 +286,29 @@ bool SimControl::init() {
         plugin_manager_->print_returned_plugins();
     }
 
-    use_entity_threads_ = get("multi_threaded", mp_->params(), false);
-    if (use_entity_threads_) {
-        entity_pool_stop_ = false;
-        num_entity_threads_ = get("num_threads", mp_->attributes()["multi_threaded"], 1);
-        entity_worker_threads_.clear();
-        entity_worker_threads_.reserve(num_entity_threads_);
-        for (int i = 0; i < num_entity_threads_; i++) {
-            entity_worker_threads_.push_back(std::thread(&SimControl::worker, this));
+    if (get("multi_threaded", mp_->params(), false)) {
+        auto it = mp_->attributes().find("multi_threaded");
+        if (it != mp_->attributes().end()) {
+            auto &attr_map = it->second;
+            auto add = [&](auto attr_str, auto attr_type) {
+                if (str2bool(get(attr_str, attr_map, "true"))) {
+                    entity_thread_types_.insert(attr_type);
+                }
+            };
+            add("autonomy", Task::Type::AUTONOMY);
+            add("controller", Task::Type::CONTROLLER);
+            add("motion", Task::Type::MOTION);
+            add("sensor", Task::Type::SENSOR);
+        }
+
+        if (!entity_thread_types_.empty()) {
+            entity_pool_stop_ = false;
+            num_entity_threads_ = get("num_threads", mp_->attributes()["multi_threaded"], 1);
+            entity_worker_threads_.clear();
+            entity_worker_threads_.reserve(num_entity_threads_);
+            for (int i = 0; i < num_entity_threads_; i++) {
+                entity_worker_threads_.push_back(std::thread(&SimControl::worker, this));
+            }
         }
     }
 
@@ -796,7 +811,7 @@ void SimControl::run() {
 }
 
 void SimControl::cleanup() {
-    if (use_entity_threads_) {
+    if (!entity_thread_types_.empty()) {
         entity_pool_stop_ = true;
         entity_pool_condition_var_.notify_all();
         for (std::thread &t : entity_worker_threads_) {
@@ -1179,13 +1194,28 @@ void SimControl::worker() {
             }
             std::shared_ptr<Task> task = entity_pool_queue_.front();
             EntityPtr ent = task->ent;
+            Task::Type task_type = task->type;
+            double temp_t = task->t;
+            double temp_dt = task->dt;
             entity_pool_queue_.pop_front();
             entity_pool_mutex_.unlock();
 
-            auto &autonomies = ent->autonomies();
-            br::for_each(autonomies, run_callbacks);
-            auto run = [&](auto &autonomy) {return autonomy->step_autonomy(t_, dt_);};
-            bool success = std::all_of(autonomies.begin(), autonomies.end(), run);
+            bool success = false;
+            if (task_type == Task::Type::AUTONOMY) {
+                auto &autonomies = ent->autonomies();
+                br::for_each(autonomies, run_callbacks);
+                auto run = [&](auto &a) {return a->step_autonomy(temp_t, temp_dt);};
+                success = std::all_of(autonomies.begin(), autonomies.end(), run);
+            } else if (task_type == Task::Type::CONTROLLER) {
+                success = ent->controller()->step(temp_t, temp_dt);
+            } else if (task_type == Task::Type::MOTION) {
+                success = ent->motion()->step(temp_t, temp_dt);
+            } else if (task_type == Task::Type::SENSOR) {
+                auto sensors = ent->sensors() | ba::map_values;
+                br::for_each(sensors, run_callbacks);
+                auto run = [&](auto &s) {return s->step();};
+                success = std::all_of(sensors.begin(), sensors.end(), run);
+            }
 
             entity_pool_mutex_.lock();
             task->prom.set_value(success);
@@ -1203,59 +1233,82 @@ void print_err(PluginPtr p) {
 }
 
 bool SimControl::run_sensors() {
+    bool success = true;
+    if (entity_thread_types_.count(Task::Type::SENSOR)) {
+        success &= add_tasks(Task::Type::SENSOR, t_, dt_);
+    } else {
+        for (EntityPtr &ent : ents_) {
+            br::for_each(ent->sensors() | ba::map_values, run_callbacks);
+            for (auto &sensor : ent->sensors() | ba::map_values) {
+                if (!sensor->step()) {
+                    print_err(sensor);
+                    success = false;
+                }
+            }
+        }
+    }
+
     for (EntityPtr &ent : ents_) {
         auto &shapes = shapes_[ent->id().id()];
-        br::for_each(ent->sensors() | ba::map_values, run_callbacks);
         for (auto &sensor : ent->sensors() | ba::map_values) {
-            if (!sensor->step()) {
-                print_err(sensor);
-                return false;
-            }
             shapes.insert(shapes.end(), sensor->shapes().begin(), sensor->shapes().end());
             sensor->shapes().clear();
         }
     }
-    return true;
+    return success;
+}
+
+bool SimControl::add_tasks(Task::Type type, double t, double dt) {
+    // FIXME: this will be much simpler once there is a
+    // step function in Plugin.h
+    // In particular, we can get rid of Task::Type and
+    // more easily do entity_interaction/network plugins in multiple threads.
+
+    // put tasks on queue
+    std::vector<std::future<bool>> futures;
+    futures.reserve(ents_.size());
+
+    entity_pool_mutex_.lock();
+    for (EntityPtr &ent : ents_) {
+        std::shared_ptr<Task> task = std::make_shared<Task>();
+        task->ent = ent;
+        task->type = type;
+        task->t = t;
+        task->dt = dt;
+        entity_pool_queue_.push_back(task);
+        futures.push_back(task->prom.get_future());
+    }
+    entity_pool_mutex_.unlock();
+
+    // tell the threads to run
+    entity_pool_condition_var_.notify_all();
+
+    // wait for results
+    auto get = [&](auto &future) {return future.get();};
+    return std::all_of(futures.begin(), futures.end(), get);
 }
 
 bool SimControl::run_entities() {
     contacts_mutex_.lock();
     bool success = true;
 
+    auto exec_step = [&](auto p, auto step_func) {
+        run_callbacks(p);
+        if (!step_func(p)) {
+            print_err(p);
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     // run autonomies threaded or in a single thread
-    if (use_entity_threads_) {
-
-        // put tasks on queue
-        std::vector<std::future<bool>> futures;
-        futures.reserve(ents_.size());
-
-        entity_pool_mutex_.lock();
-        for (EntityPtr &ent : ents_) {
-            std::shared_ptr<Task> task = std::make_shared<Task>();
-            task->ent = ent;
-            entity_pool_queue_.push_back(task);
-            futures.push_back(task->prom.get_future());
-        }
-        entity_pool_mutex_.unlock();
-
-        // tell the threads to run
-        entity_pool_condition_var_.notify_all();
-
-        // wait for results
-        for (std::future<bool> &future : futures) {
-            success &= future.get();
-        }
+    if (entity_thread_types_.count(Task::Type::AUTONOMY)) {
+        success &= add_tasks(Task::Type::AUTONOMY, t_, dt_);
     } else {
         for (EntityPtr &ent : ents_) {
-
-            for (AutonomyPtr &a : ent->autonomies()) {
-                // Execute callbacks for received messages before calling
-                // step_autonomy
-                run_callbacks(a);
-                if (!a->step_autonomy(t_, dt_)) {
-                    print_err(a);
-                    success = false;
-                }
+            for (auto a : ent->autonomies()) {
+                success &= exec_step(a, [&](auto a){return a->step_autonomy(t_, dt_);});
             }
         }
     }
@@ -1263,38 +1316,20 @@ bool SimControl::run_entities() {
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
-        // Run each entity's controllers
-        for (EntityPtr &ent : ents_) {
-            std::list<ShapePtr> &shapes = shapes_[ent->id().id()];
-            ControllerPtr ctrl = ent->controller();
-
-            // Execute callbacks for received messages before calling
-            // controllers
-            run_callbacks(ctrl);
-            if (!ctrl->step(temp_t, motion_dt)) {
-                print_err(ctrl);
-                success = false;
+        auto step_all = [&](Task::Type type, auto getter) {
+            if (entity_thread_types_.count(type)) {
+                success &= add_tasks(type, temp_t, motion_dt);
+            } else {
+                for (EntityPtr &ent : ents_) {
+                    auto step = [&](auto p){return p->step(temp_t, motion_dt);};
+                    success &= exec_step(getter(ent), step);
+                }
             }
-            shapes.insert(shapes.end(), ctrl->shapes().begin(),
-                          ctrl->shapes().end());
-            ctrl->shapes().clear();
-        }
+        };
 
-        // Run each entity's motion model
-        for (EntityPtr &ent : ents_) {
-            auto &shapes = shapes_[ent->id().id()];
+        step_all(Task::Type::CONTROLLER, [&](auto ent){return ent->controller();});
+        step_all(Task::Type::MOTION, [&](auto ent){return ent->motion();});
 
-            // Execute callbacks for received messages before calling
-            // motion models
-            run_callbacks(ent->motion());
-            if (!ent->motion()->step(temp_t, motion_dt)) {
-                print_err(ent->motion());
-                success = false;
-            }
-            shapes.insert(shapes.end(), ent->motion()->shapes().begin(),
-                          ent->motion()->shapes().end());
-            ent->motion()->shapes().clear();
-        }
         temp_t += motion_dt;
     }
 
@@ -1314,11 +1349,13 @@ bool SimControl::run_entities() {
 
     for (EntityPtr &ent : ents_) {
         auto &shapes = shapes_[ent->id().id()];
-        for (AutonomyPtr &autonomy : ent->autonomies()) {
-            shapes.insert(shapes.end(), autonomy->shapes().begin(),
-                          autonomy->shapes().end());
-            autonomy->shapes().clear();
-        }
+        auto add_shapes = [&](const auto &p) {
+            shapes.insert(shapes.end(), p->shapes().begin(), p->shapes().end());
+            p->shapes().clear();
+        };
+        br::for_each(ent->autonomies(), add_shapes);
+        add_shapes(ent->controller());
+        add_shapes(ent->motion());
     }
     return success;
 }
