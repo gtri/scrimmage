@@ -70,11 +70,10 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
             filter_comms_plane_);
     if (filter_comms_plane_) {
         comms_boundary_altitude_ = sc::get<double>("comms_boundary_altitude",
-                plugin_params, std::numeric_limits<double>::quiet_NaN());
+                plugin_params, comms_boundary_altitude_);
         comms_boundary_epsilon_ = sc::get<double>("comms_boundary_epsilon",
-                plugin_params, std::numeric_limits<double>::quiet_NaN());
-        comms_boundary_epsilon_ =
-            std::stod(plugin_params.at("comms_boundary_epsilon")); }
+                plugin_params, comms_boundary_epsilon_);
+    }
     return true;
 }
 
