@@ -390,6 +390,8 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks) {
         network->set_pubsub(info.pubsub);
         network->set_random(info.random);
         network->set_rtree(info.rtree);
+        network->set_id_to_team_map(info.id_to_team_map);
+        network->set_id_to_ent_map(info.id_to_ent_map);
 
         if (network == nullptr) {
             std::cout << "Failed to load network plugin: "

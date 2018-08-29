@@ -41,6 +41,7 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/parse/ParseUtils.h>
 
 #include <iostream>
 #include <vector>
@@ -65,6 +66,14 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
 
     range_ = std::stod(plugin_params.at("range"));
     prob_transmit_ = std::stod(plugin_params.at("prob_transmit"));
+    filter_comms_plane_ = sc::get<bool>("filter_comms_plane", plugin_params,
+            filter_comms_plane_);
+    if (filter_comms_plane_) {
+        comms_boundary_altitude_ = sc::get<double>("comms_boundary_altitude",
+                plugin_params, comms_boundary_altitude_);
+        comms_boundary_epsilon_ = sc::get<double>("comms_boundary_epsilon",
+                plugin_params, comms_boundary_epsilon_);
+    }
     return true;
 }
 
@@ -96,9 +105,19 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
     // Look for the subscriber ID
     bool sub_id_found = false;
     for (sc::ID id : neigh) {
-        reachable_map_[pub_id][id.id()] = true;
-        if (sub_id == id.id()) {
-            sub_id_found = true;
+        auto ent_neighbor = id_to_ent_map_->find(id.id());
+        if (ent_neighbor == id_to_ent_map_->end()) {
+            std::cout << "Warning: Sphere Network entity id doesn't exists: "
+                << id.id() << std::endl;
+            continue;
+        }
+        if (filter_comms_plane_ &&
+                within_planar_boundary(pub_plugin->parent()->state()->pos()[2],
+                     ent_neighbor->second->state()->pos()[2])) {
+            reachable_map_[pub_id][id.id()] = true;
+            if (sub_id == id.id()) {
+                sub_id_found = true;
+            }
         }
     }
 
@@ -111,6 +130,15 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
 bool SphereNetwork::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
                                                const scrimmage::PluginPtr &sub_plugin) {
     return (random_->rng_uniform(0, 1) <= prob_transmit_);
+}
+
+// Return true if the plane does not block communications
+bool SphereNetwork::within_planar_boundary(double z1, double z2) {
+    bool both_above = (z1 >= (comms_boundary_altitude_ - comms_boundary_epsilon_))
+        && (z2 >= (comms_boundary_altitude_ - comms_boundary_epsilon_));
+    bool both_below = (z1 <= (comms_boundary_altitude_ + comms_boundary_epsilon_))
+        && (z2 <= (comms_boundary_altitude_ + comms_boundary_epsilon_));
+    return (both_above || both_below);
 }
 
 } // namespace network
