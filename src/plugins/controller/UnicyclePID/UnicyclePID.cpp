@@ -30,14 +30,17 @@
  *
  */
 
-#include <scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h>
+#include <scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/Time.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/common/Time.h>
+
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #include <iostream>
 #include <limits>
@@ -45,58 +48,73 @@
 using std::cout;
 using std::endl;
 
+namespace sc = scrimmage;
+
 REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UUV6DOFPIDController,
-                UUV6DOFPIDController_plugin)
+                scrimmage::controller::UnicyclePID,
+                UnicyclePID_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-UUV6DOFPIDController::UUV6DOFPIDController() {
+UnicyclePID::UnicyclePID() {
 }
 
-void UUV6DOFPIDController::init(std::map<std::string, std::string> &params) {
-    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+void UnicyclePID::init(std::map<std::string, std::string> &params) {
+    show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
+
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
-    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    // Is the motion model using speed or acceleration input control?
+    std::string input_name = vars_.exists(VariableIO::Type::acceleration_x, VariableIO::Direction::Out) ?
+        vars_.type_map().at(VariableIO::Type::acceleration_x) :
+        vars_.type_map().at(VariableIO::Type::speed);
 
+    speed_idx_ = vars_.declare(input_name, VariableIO::Direction::Out);
+
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+
+    // Outer loop PIDs
     if (!heading_pid_.init(params["heading_pid"], true)) {
-        std::cout << "Failed to set UUV6DOFPIDController heading_pid" << endl;
-    }
-    if (!speed_pid_.init(params["speed_pid"], false)) {
-        std::cout << "Failed to set UUV6DOFPIDController speed_pid" << endl;
+        std::cout << "Failed to set heading PID" << std::endl;
     }
     if (!pitch_pid_.init(params["pitch_pid"], false)) {
-        std::cout << "Failed to set UUV6DOFPIDController pitch_pid" << endl;
+        std::cout << "Failed to set altitude PID" << std::endl;
+    }
+    if (!speed_pid_.init(params["speed_pid"], false)) {
+        std::cout << "Failed to set speed PID" << std::endl;
     }
 }
 
-bool UUV6DOFPIDController::step(double t, double dt) {
-
+bool UnicyclePID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    double u_rudder = heading_pid_.step(time_->dt(), state_->quat().yaw());
+    vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), state_->quat().yaw()));
 
-    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    double u_throttle = speed_pid_.step(time_->dt(), state_->vel().norm());
-
-    // Reconstruct original velocity vector (close, but not exact)
+    // Reconstruct original velocity vector (close, but not exact
     double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_altitude_idx_)-state_->pos()(2));
+    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_)-state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
-    double u_elevator = -pitch_pid_.step(time_->dt(), -state_->quat().pitch());
+    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
 
-    vars_.output(rudder_idx_, u_rudder);
-    vars_.output(elevator_idx_, u_elevator);
-    vars_.output(throttle_idx_, u_throttle);
+    if (show_shapes_) {
+        line_shape_->set_persistent(true);
+        sc::set(line_shape_->mutable_color(), 255, 0, 0);
+        line_shape_->set_opacity(1.0);
+        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), vel + state_->pos());
+        draw_shape(line_shape_);
+    }
+
+    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
+    vars_.output(speed_idx_, speed_pid_.step(time_->dt(), state_->vel().norm()));
 
     return true;
 }
