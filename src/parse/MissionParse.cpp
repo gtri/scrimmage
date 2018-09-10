@@ -292,6 +292,8 @@ bool MissionParse::parse(const std::string &filename) {
 
             if (node_name == "autonomy") {
                 node_name += std::to_string(orders[nm]["autonomy"]++);
+            } else if (node_name == "controller") {
+                node_name += std::to_string(orders[nm]["controller"]++);
             } else if (node_name == "sensor") {
                 node_name += std::to_string(orders[nm]["sensor"]++);
             }
@@ -325,7 +327,7 @@ bool MissionParse::parse(const std::string &filename) {
 
         rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("entity_common");
 
-        int autonomy_order = 0, sensor_order = 0;
+        int autonomy_order = 0, controller_order = 0, sensor_order = 0;
         if (nm_attr != 0) {
             std::string nm = nm_attr->value();
             auto it = entity_common.find(nm);
@@ -335,6 +337,7 @@ bool MissionParse::parse(const std::string &filename) {
                 script_info = it->second;
                 entity_attributes_[ent_desc_id] = entity_common_attributes[nm];
                 autonomy_order = orders[nm]["autonomy"];
+                controller_order = orders[nm]["controller"];
                 sensor_order = orders[nm]["sensor"];
             }
         }
@@ -434,6 +437,8 @@ bool MissionParse::parse(const std::string &filename) {
             std::string nm = node->name();
             if (nm == "autonomy") {
                 nm += std::to_string(autonomy_order++);
+            } else if (nm == "controller") {
+                nm += std::to_string(controller_order++);
             } else if (nm == "sensor") {
                 nm += std::to_string(sensor_order++);
             }

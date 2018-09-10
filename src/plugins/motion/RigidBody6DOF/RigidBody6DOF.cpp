@@ -120,7 +120,7 @@ bool RigidBody6DOF::init(std::map<std::string, std::string> &info,
 bool RigidBody6DOF::step(double time, double dt) {
     if (ctrl_u_ == nullptr) {
         std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(parent_->controller());
+            std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
         if (ctrl) {
             ctrl_u_ = ctrl->u();
         }

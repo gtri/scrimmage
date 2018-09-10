@@ -111,7 +111,7 @@ void SimpleQuadrotor::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 6 : yaw
     /// 7 : yaw-velocity
 
-    Eigen::Vector4d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
+    Eigen::Vector4d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
     double max_x_velocity = 15;
     double max_z_velocity = 10;
 

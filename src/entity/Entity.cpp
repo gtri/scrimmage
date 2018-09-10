@@ -215,26 +215,55 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
-    auto it = info.find("controller");
-    if (it == info.end()) {
-        controller_ = std::make_shared<Controller>();
-    } else {
-        controller_ = init_controller(it->second, overrides["controller"], motion_model_->vars());
+    int controller_ct = 0;
+    std::string controller_name = std::string("controller") + std::to_string(controller_ct);
+
+    while (info.count(controller_name) > 0) {
+        ControllerPtr controller = init_controller(info[controller_name],
+                                                   overrides[controller_name],
+                                                   motion_model_->vars());
+        if (controller == nullptr) {
+            std::cout << "Failed to open controller plugin: " << controller_name << std::endl;
+            return false;
+        }
+
+        if (!verify_io_connection(controller->vars(), motion_model_->vars())) {
+            std::cout << "VariableIO Error: "
+                      << std::quoted(controller->name())
+                      << " does not provide inputs required by MotionModel "
+                      << std::quoted(motion_model_->name())
+                      << ": ";
+            print_io_error(motion_model_->name(), motion_model_->vars());
+            return false;
+        }
+
+        controllers_.push_back(controller);
+
+        controller_name = std::string("controller") + std::to_string(++controller_ct);
     }
 
-    if (controller_ == nullptr) {
-        std::cout << "Failed to open controller plugin: " << it->second << std::endl;
-        return false;
-    }
+    // Configure the controller variableIO's, such that they run in series
+    for (std::vector<ControllerPtr>::iterator it = controllers_.begin();
+         it != controllers_.end(); ++it) {
+        // Last controller points to motion model
+        auto next = std::next(it);
+        if (next == controllers_.end()) {
+            connect((*it)->vars(), motion_model_->vars());
+        } else {
+            // Controller's output variable IO points to next controller's
+            // input variableIO
+            connect((*it)->vars(), (*next)->vars());
 
-    if (!verify_io_connection(controller_->vars(), motion_model_->vars())) {
-        std::cout << "VariableIO Error: "
-            << std::quoted(controller_->name())
-            << " does not provide inputs required by MotionModel "
-            << std::quoted(motion_model_->name())
-            << ": ";
-        print_io_error(motion_model_->name(), motion_model_->vars());
-        return false;
+            if (!verify_io_connection((*it)->vars(), (*next)->vars())) {
+                std::cout << "VariableIO Error: "
+                          << std::quoted((*it)->name())
+                          << " does not provide inputs required by next controller "
+                          << std::quoted((*next)->name())
+                          << ": ";
+                print_io_error((*next)->name(), (*next)->vars());
+                return false;
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////
@@ -255,7 +284,8 @@ bool Entity::init(AttributeMap &overrides,
             return false;
         }
 
-        connect(autonomy->vars(), controller_->vars());
+        // Connect the autonomy to the first controller
+        connect(autonomy->vars(), controllers_.front()->vars());
 
         autonomy->set_rtree(rtree);
         autonomy->set_parent(parent);
@@ -278,26 +308,26 @@ bool Entity::init(AttributeMap &overrides,
     }
 
     if (connect_entity) {
-        auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controller_->vars());};
+        auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controllers_.front()->vars());};
         if (boost::algorithm::none_of(autonomies_, verify_io)) {
             auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
             std::cout << "VariableIO Error: "
                       << "no autonomies provide inputs required by Controller "
-                      << std::quoted(controller_->name())
+                      << std::quoted(controllers_.front()->name())
                       << ". Add VariableIO output declarations in ";
             auto get_name = [&](auto &p) {return p->name();};
             br::copy(autonomies_ | ba::transformed(get_name), out_it);
             std::cout << "as follows " << std::endl;
 
-            print_io_error(controller_->name(), controller_->vars());
+            print_io_error(controllers_.front()->name(), controllers_.front()->vars());
             return false;
         }
     }
 
     if (autonomies_.empty()) {
-        controller_->set_desired_state(state_);
+        controllers_.front()->set_desired_state(state_);
     } else {
-        controller_->set_desired_state(autonomies_.front()->desired_state());
+        controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
     }
 
     return true;
@@ -353,7 +383,7 @@ bool Entity::ready() {
     auto values_single_ready = [&](auto &kv) {return kv.second->ready();};
 
     return all_ready(autonomies_, single_ready)
-        && controller_->ready()
+        && all_ready(controllers_, single_ready)
         && all_ready(sensors_, values_single_ready)
         && motion_model_->ready();
 }
@@ -364,8 +394,8 @@ std::vector<AutonomyPtr> &Entity::autonomies() {return autonomies_;}
 
 MotionModelPtr &Entity::motion() {return motion_model_;}
 
-ControllerPtr Entity::controller() {
-    return controller_;
+std::vector<ControllerPtr> &Entity::controllers() {
+    return controllers_;
 }
 
 void Entity::set_id(ID &id) { id_ = id; }
@@ -436,13 +466,13 @@ void Entity::set_active(bool active) { active_ = active; }
 bool Entity::active() { return active_; }
 
 void Entity::setup_desired_state() {
-    if (!controller_) return;
+    if (!controllers_.front()) return;
 
     auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
         [&](auto autonomy) {return autonomy->get_is_controlling();});
 
     if (it != autonomies_.rend()) {
-        controller_->set_desired_state((*it)->desired_state());
+        controllers_.front()->set_desired_state((*it)->desired_state());
     }
 }
 
@@ -488,8 +518,8 @@ void Entity::close(double t) {
         kv.second->close(t);
     }
 
-    if (controller_) {
-        controller_->close(t);
+    for (ControllerPtr controller: controllers_) {
+        controller->close(t);
     }
 
     if (motion_model_) {
@@ -497,7 +527,7 @@ void Entity::close(double t) {
     }
 
     visual_ = nullptr;
-    controller_ = nullptr;
+    controllers_.clear();
     autonomies_.clear();
     mp_ = nullptr;
     proj_ = nullptr;

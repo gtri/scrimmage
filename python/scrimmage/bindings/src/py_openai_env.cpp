@@ -436,12 +436,12 @@ void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
             kv.second->set_time(std::make_shared<sc::Time>());
         }
 
-        if (e->controller()) {
-            e->controller()->set_parent(nullptr);
-            e->controller()->set_time(std::make_shared<sc::Time>());
-            e->controller()->set_pubsub(nullptr);
+        for (auto c : e->controllers()) {
+            c->set_parent(nullptr);
+            c->set_time(std::make_shared<sc::Time>());
+            c->set_pubsub(nullptr);
             auto ds = std::make_shared<sc::State>();
-            e->controller()->set_desired_state(ds);
+            c->set_desired_state(ds);
         }
 
         for (auto a : e->autonomies()) {
@@ -462,7 +462,7 @@ void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
 
         e->autonomies().clear();
         e->motion() = nullptr;
-        e->controller() = nullptr;
+        e->controllers().clear();
         e->set_mp(nullptr);
         e->state() = nullptr;
         e->contacts() = nullptr;

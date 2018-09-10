@@ -1207,7 +1207,10 @@ void SimControl::worker() {
                 auto run = [&](auto &a) {return a->step_autonomy(temp_t, temp_dt);};
                 success = std::all_of(autonomies.begin(), autonomies.end(), run);
             } else if (task_type == Task::Type::CONTROLLER) {
-                success = ent->controller()->step(temp_t, temp_dt);
+                auto &controllers = ent->controllers();
+                br::for_each(controllers, run_callbacks);
+                auto run = [&](auto &c) {return c->step(temp_t, temp_dt);};
+                success = std::all_of(controllers.begin(), controllers.end(), run);
             } else if (task_type == Task::Type::MOTION) {
                 success = ent->motion()->step(temp_t, temp_dt);
             } else if (task_type == Task::Type::SENSOR) {
@@ -1316,6 +1319,14 @@ bool SimControl::run_entities() {
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
+        // run controllers in a single thread since they are serially connected
+        for (EntityPtr &ent : ents_) {
+            for (auto c : ent->controllers()) {
+                success &= exec_step(c, [&](auto c){return c->step(temp_t, motion_dt);});
+            }
+        }
+
+        // run motion model
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
                 success &= add_tasks(type, temp_t, motion_dt);
@@ -1326,8 +1337,6 @@ bool SimControl::run_entities() {
                 }
             }
         };
-
-        step_all(Task::Type::CONTROLLER, [&](auto ent){return ent->controller();});
         step_all(Task::Type::MOTION, [&](auto ent){return ent->motion();});
 
         temp_t += motion_dt;
@@ -1354,7 +1363,7 @@ bool SimControl::run_entities() {
             p->shapes().clear();
         };
         br::for_each(ent->autonomies(), add_shapes);
-        add_shapes(ent->controller());
+        br::for_each(ent->controllers(), add_shapes);
         add_shapes(ent->motion());
     }
     return success;
