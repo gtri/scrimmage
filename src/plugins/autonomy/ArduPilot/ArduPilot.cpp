@@ -78,9 +78,37 @@ ArduPilot::ArduPilot() :
 
 void ArduPilot::init(std::map<std::string, std::string> &params) {
 
-    desired_pwm_state_ = std::make_shared<sc::motion::PwmState>();
-    desired_pwm_state_->pwm_input().resize(MAX_NUM_SERVOS);
-    desired_state_ = desired_pwm_state_;
+
+    std::string servo_map = sc::get<std::string>("servo_map", params, "");
+    std::vector<std::vector<std::string>> vecs;
+    if (!sc::get_vec_of_vecs(servo_map, vecs)) {
+        cout << "Failed to parse servo map:" << servo_map << endl;
+    } else {
+        for (std::vector<std::string> vec : vecs) {
+            if (vec.size() != 7) {
+                cout << "Invalid servo mapping: " << endl;
+                for (std::string s : vec) {
+                    cout << s << " ";
+                }
+                continue;
+            }
+
+            int servo = std::stod(vec[1]);
+            if (servo >= MAX_NUM_SERVOS) {
+                cout << "Warning: servo_map contains out-of-range servo index"
+                     << endl;
+            } else {
+                scrimmage::controller::AxisScale at(servo, std::stod(vec[2]),
+                             std::stod(vec[3]), std::stod(vec[4]),
+                             std::stod(vec[5]), std::stod(vec[6]),
+                             vars_.declare(vec[0], VariableIO::Direction::Out));
+                servo_tfs_.push_back(at);
+
+                // cout << "Mapping servo " << at.axis_index() << " to channel " <<
+                //     vec[0] << "(" << at.vector_index() << ")" << endl;
+            }
+        }
+    }
 
     // Get parameters for transmit socket (to ardupilot)
     to_ardupilot_ip_ = sc::get<std::string>("to_ardupilot_ip", params, "127.0.0.1");
@@ -140,12 +168,12 @@ bool ArduPilot::step_autonomy(double t, double dt) {
 
     // Copy the received servo commands into the desired state
     servo_pkt_mutex_.lock();
-    for (int i = 0; i < desired_pwm_state_->pwm_input().size(); i++) {
-        desired_pwm_state_->pwm_input()(i) = servo_pkt_.servos[i];
+    for (auto servo_tf : servo_tfs_) {
+        vars_.output(servo_tf.vector_index(), servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
+        // int prec = 9;
+        // cout << std::setprecision(prec) << "servo_out"<< servo_tf.axis_index() << ": " << servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]) << endl;
     }
     servo_pkt_mutex_.unlock();
-
-    desired_state_ = desired_pwm_state_;
 
     return true;
 }

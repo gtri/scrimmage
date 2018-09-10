@@ -36,14 +36,14 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/math/Angles.h>
 
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/plugins/autonomy/ArduPilot/PwmState.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
+#include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
 
 #include <thread> // NOLINT
 #include <mutex> // NOLINT
 #include <map>
 #include <string>
+#include <list>
 
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
@@ -92,8 +92,7 @@ class ArduPilot : public scrimmage::Autonomy {
     std::shared_ptr<boost::asio::ip::udp::resolver> tx_resolver_;
     boost::asio::ip::udp::endpoint tx_endpoint_;
 
-    std::shared_ptr<scrimmage::motion::Multirotor> multirotor_;
-    std::shared_ptr<scrimmage::motion::PwmState> desired_pwm_state_;
+    std::list<scrimmage::controller::AxisScale> servo_tfs_;
 
     servo_packet servo_pkt_;
     std::mutex servo_pkt_mutex_;
@@ -101,7 +100,7 @@ class ArduPilot : public scrimmage::Autonomy {
     scrimmage::Angles angles_to_gps_;
 
     fdm_packet state6dof_to_fdm_packet(double t,
-                                       sc::motion::RigidBody6DOFState &state);
+                                       scrimmage::motion::RigidBody6DOFState &state);
 
     boost::asio::io_service recv_io_service_;
     std::shared_ptr<boost::asio::ip::udp::socket> recv_socket_;

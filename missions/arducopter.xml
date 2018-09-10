@@ -63,15 +63,15 @@
 
     <sensor>RigidBody6DOFStateSensor</sensor>
 
-    <autonomy>ArduPilot</autonomy>
-<!--    <motion_model write_csv="true">Multirotor</motion_model>
-    <controller>MultirotorControllerOmega</controller>
-    <visual_model>iris</visual_model> -->
+    <autonomy servo_map = "[ motor_0 0 1000 +2000    346.41 1200.0 +1 ]
+                           [ motor_1 1 1000 +2000    346.41 1200.0 +1 ]
+                           [ motor_2 2 1000 +2000    346.41 1200.0 +1 ]
+                           [ motor_3 3 1000 +2000    346.41 1200.0 +1 ]" 
+        >ArduPilot</autonomy>
 
-    <controller>JSBSimControlControllerDirect</controller>
-    <motion_model>JSBSimControl</motion_model>
-    <script_name>rascal_no_autopilot.xml</script_name>
-    <visual_model>zephyr-blue</visual_model>
+    <motion_model write_csv="true">Multirotor</motion_model>
+    <controller>DirectController</controller>
+    <visual_model>iris</visual_model>
 
   </entity>
 

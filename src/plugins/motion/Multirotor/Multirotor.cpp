@@ -166,6 +166,15 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
         rotors_.push_back(r);
     }
 
+
+    motor_idx_vec_.resize(rotors_.size());
+    ctrl_u_.resize(rotors_.size());
+    for (unsigned int i = 0; i < rotors_.size(); i++) {
+        std::string name = "motor_"+std::to_string(i);
+        motor_idx_vec_(i) = vars_.declare(name, VariableIO::Direction::In);
+    }
+
+
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
         csv_.open_output(parent_->mp()->log_dir() + "/"
@@ -186,11 +195,15 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
 }
 
 bool Multirotor::step(double time, double dt) {
-    ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controller())->u();
+    // ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controller())->u();
 
-    // Saturate inputs:
-    for (int i = 0; i < ctrl_u_.size(); i++) {
-        ctrl_u_(i) = boost::algorithm::clamp(ctrl_u_(i), wmin_, wmax_);
+    // // Saturate inputs:
+    // for (int i = 0; i < ctrl_u_.size(); i++) {
+    //     ctrl_u_(i) = boost::algorithm::clamp(ctrl_u_(i), wmin_, wmax_);
+    // }
+
+    for (int i = 0; i < motor_idx_vec_.size(); i++) {
+        ctrl_u_(i) = boost::algorithm::clamp(vars_.input(motor_idx_vec_(i)), wmin_, wmax_);
     }
 
     // TODO: convert global linear velocity and angular velocity into local
@@ -292,7 +305,7 @@ bool Multirotor::step(double time, double dt) {
 void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     // Omega values for each rotor
     Eigen::VectorXd omega = ctrl_u_;
-    Eigen::VectorXd omega_sq = omega * omega;
+    Eigen::VectorXd omega_sq = omega.cwiseProduct(omega);
 
     // Calculate force from combined rotor thrust
     Eigen::Vector3d F_thrust(0, 0, 0);

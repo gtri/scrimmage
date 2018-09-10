@@ -186,7 +186,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     }
 
     exec_->RunIC();
-    exec_->Setdt(std::stod(info["dt"]));
+    exec_->Setdt(std::stod(info["dt"])/std::stod(info["motion_multiplier"]));
     exec_->Run();
 
     // Get references to each of the nodes that hold properties that we
@@ -255,10 +255,10 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
 bool JSBSimControl::step(double time, double dt) {
 
-    throttle_ = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
+    throttle_       = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
     delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
-    delta_aileron_ = ba::clamp(vars_.input(aileron_idx_), -1.0, 1.0);
-    delta_rudder_ = ba::clamp(vars_.input(rudder_idx_), -1.0, 1.0);
+    delta_aileron_  = ba::clamp(vars_.input(aileron_idx_),  -1.0, 1.0);
+    delta_rudder_   = ba::clamp(vars_.input(rudder_idx_),   -1.0, 1.0);
 
     // TODO: for some reason, jsb sim does not like it when there is an immediate thottle input
     if (time < .05)
@@ -350,9 +350,9 @@ bool JSBSimControl::step(double time, double dt) {
     cout << std::setprecision(prec) << "dt: " << dt << endl;
     cout << std::setprecision(prec) << "time: " << time << endl;
     cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
-    cout << std::setprecision(prec) << "WOW[0]: " << mgr->GetNode("gear/unit/WOW")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "WOW[1]: " << mgr->GetNode("gear/unit[1]/WOW")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "WOW[2]: " << mgr->GetNode("gear/unit[2]/WOW")->getDoubleValue() << endl;
+    // cout << std::setprecision(prec) << "WOW[0]: " << mgr->GetNode("gear/unit/WOW")->getDoubleValue() << endl;
+    // cout << std::setprecision(prec) << "WOW[1]: " << mgr->GetNode("gear/unit[1]/WOW")->getDoubleValue() << endl;
+    // cout << std::setprecision(prec) << "WOW[2]: " << mgr->GetNode("gear/unit[2]/WOW")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "xAccel: " << linear_accel_body_(0) << endl;
     cout << std::setprecision(prec) << "yAccel: " << linear_accel_body_(1) << endl;
     cout << std::setprecision(prec) << "zAccel: " << linear_accel_body_(2) << endl;
@@ -381,8 +381,6 @@ bool JSBSimControl::step(double time, double dt) {
     cout << std::setprecision(prec) << "p:     " << p_node_->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "q:     " << q_node_->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "r:     " << r_node_->getDoubleValue() << endl;
-
-    cout << std::setprecision(prec) << "lift: " << -mgr->GetNode("forces/fwz-aero-lbs")->getDoubleValue() << endl;
 #endif
 
     return true;
