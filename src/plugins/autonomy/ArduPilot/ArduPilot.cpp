@@ -171,7 +171,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     for (auto servo_tf : servo_tfs_) {
         vars_.output(servo_tf.vector_index(), servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
         int prec = 9;
-        cout << std::setprecision(prec) << "servo_out"<< servo_tf.axis_index() << ": " << servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]) << endl;
+        // cout << std::setprecision(prec) << "servo_out"<< servo_tf.axis_index() << ": " << servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]) << endl;
     }
     servo_pkt_mutex_.unlock();
 

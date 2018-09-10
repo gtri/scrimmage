@@ -445,12 +445,31 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     Eigen::Vector3d F_thrust(thrust_, 0, 0);
     Eigen::Vector3d F_total = F_weight + F_thrust + F_aero;
 
+    // simple ground contact model
+    Eigen::Vector3d F_ground_W(0, 0, 0);
+    Eigen::Vector3d F_ground(0, 0, 0);
+    if (x_[Zw] < 0) {
+        double wn = 20;
+        double Kp = wn*wn*mass_;
+        double Kd = 2*wn;
+
+        F_ground_W[2] = std::max(0.0, -Kp*(x_[Zw] - 0.0) - Kd*(x_[Ww] - 0.0));
+
+        F_ground(0) =  F_ground_W(0);
+        F_ground(1) = -F_ground_W(1);
+        F_ground(2) = -F_ground_W(2);
+        F_ground = quat_body_.rotate_reverse(F_ground);
+
+        F_total += F_ground;
+    }
+
 #if 0
     int prec = 5;
     cout<< "*************************" << endl;
     cout<< std::setprecision(prec) << "alpha:    " << alpha_ << endl;
     cout<< std::setprecision(prec) << "lift:     " << lift << endl;
     cout<< std::setprecision(prec) << "drag:     " << drag << endl;
+    cout<< std::setprecision(prec) << "F_ground: " << F_ground[0] << " " << F_ground[1] << " " << F_ground[2] << " " << endl;
     cout<< std::setprecision(prec) << "F_weight: " << F_weight[0] << " " << F_weight[1] << " " << F_weight[2] << " " << endl;
     cout<< std::setprecision(prec) << "thrust_:  " << thrust_ << endl;
     cout<< std::setprecision(prec) << "F_total:  " << F_total[0] << " " << F_total[1] << " " << F_total[2] << " " << endl;
