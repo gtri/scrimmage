@@ -30,19 +30,23 @@
  *
  */
 
+#include <(>>>PROJECT_NAME<<<)/plugins/motion/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
 
-#include <(>>>PROJECT_NAME<<<)/plugins/motion/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <boost/algorithm/clamp.hpp>
 
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::MotionModel,
                 scrimmage::motion::(>>>PLUGIN_NAME<<<),
                 (>>>PLUGIN_NAME<<<)_plugin)
+
+using boost::algorithm::clamp;
 
 namespace scrimmage {
 namespace motion {
@@ -51,83 +55,65 @@ enum ModelParams {
     X = 0,
     Y,
     Z,
-    THETA,
+    YAW,
+    PITCH,
     MODEL_NUM_ITEMS
 };
 
-enum ControlParams {
-    FORWARD_VELOCITY = 0,
-    TURN_RATE,
-    CONTROL_NUM_ITEMS
-};
-
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() : length_(1.0),
-                    enable_gravity_(false) {
-    x_.resize(MODEL_NUM_ITEMS);
-}
-
 bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
                      std::map<std::string, std::string> &params) {
-    // Get the initial internal state values
-    x_[X] = std::stod(info["x"]);
-    x_[Y] = std::stod(info["y"]);
-    x_[Z] = std::stod(info["z"]);
-    x_[THETA] = sc::Angles::deg2rad(std::stod(info["heading"]));
+    // Declare variables for controllers
+    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
 
-    length_ = sc::get<double>("length", params, 100.0);
-
-    // Set the state_ variable that is used by the entity and the main
-    // simulation controller
-    state_->vel() << 0, 0, 0;
-    state_->pos() << x_[X], x_[Y], x_[Z];
-    state_->quat().set(0, 0, x_[THETA]);
+    x_.resize(MODEL_NUM_ITEMS);
+    x_[X] = state_->pos()(0);
+    x_[Y] = state_->pos()(1);
+    x_[Z] = state_->pos()(2);
+    x_[YAW] = state_->quat().yaw();
+    x_[PITCH] = state_->quat().pitch();
 
     return true;
 }
 
 bool (>>>PLUGIN_NAME<<<)::step(double time, double dt) {
-    // Save the previous x, y, z to calculate velocities
+    // Get inputs and saturate
+    velocity_ = clamp(vars_.input(speed_idx_), -1.0, 1.0);
+    turn_rate_ = clamp(vars_.input(turn_rate_idx_), -1.0, 1.0);
+    pitch_rate_ = clamp(vars_.input(pitch_rate_idx_), -1.0, 1.0);
+
     double prev_x = x_[X];
     double prev_y = x_[Y];
     double prev_z = x_[Z];
 
-    ode_step(dt); // step the motion model ODE solver
+    ode_step(dt);
 
-    // Save state (position, velocity, orientation) used by simulation
-    // controller
-    state_->vel() << (x_[X] - prev_x) / dt,
-        (x_[Y] - prev_y) / dt,
-        (x_[Z] - prev_z) / dt;
+    double dx = (x_[X] - prev_x) / dt;
+    double dy = (x_[Y] - prev_y) / dt;
+    double dz = (x_[Z] - prev_z) / dt;
 
-    state_->pos() << x_[X], x_[Y], x_[Z];
-    state_->quat().set(0, 0, x_[THETA]);
+    state_->vel()(0) = dx;
+    state_->vel()(1) = dy;
+    state_->vel()(2) = dz;
+
+    state_->pos()(0) = x_[X];
+    state_->pos()(1) = x_[Y];
+    state_->pos()(2) = x_[Z];
+
+    state_->quat().set(0.0, -x_[PITCH], x_[YAW]);
+
     return true;
 }
 
 void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt ,
                                 double t) {
-    // 0 : x-position
-    // 1 : y-position
-    // 2 : theta
-
-    // Get the controller's actuator inputs
-    Eigen::Vector2d &u = std::static_pointer_cast<Controller>(parent_->controller())->u();
-    double u_vel = u(FORWARD_VELOCITY);
-    double u_theta = u(TURN_RATE);
-
-    // Saturate wheel angle:
-    if (u_theta >= M_PI/4) {
-        u_theta = M_PI/4 - 0.0001;
-    } else if (u_theta <= -M_PI/4) {
-        u_theta = -M_PI/4 + 0.0001;
-    }
-
-    // Define the state differential
-    dxdt[X] = u_vel*cos(x[THETA]);
-    dxdt[Y] = u_vel*sin(x[THETA]);
-    dxdt[THETA] = u_vel/length_*tan(u_theta);
-
-    dxdt[Z] = 0; // Remain at initial z-position
+    double xy_speed = velocity_ * cos(x[PITCH]);
+    dxdt[X] = xy_speed * cos(x[YAW]);
+    dxdt[Y] = xy_speed * sin(x[YAW]);
+    dxdt[Z] = velocity_ * sin(x[PITCH]);
+    dxdt[YAW] = turn_rate_;
+    dxdt[PITCH] = pitch_rate_;
 }
 } // namespace motion
 } // namespace scrimmage

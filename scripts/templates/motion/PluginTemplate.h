@@ -32,10 +32,7 @@
 #ifndef (>>>HEADER_GUARD<<<)
 #define (>>>HEADER_GUARD<<<)
 
-#include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 
 #include <map>
 #include <string>
@@ -44,22 +41,19 @@ namespace scrimmage {
 namespace motion {
 class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel {
  public:
-    (>>>PLUGIN_NAME<<<)();
+    bool init(std::map<std::string, std::string> &info,
+              std::map<std::string, std::string> &params) override;
+    bool step(double time, double dt) override;
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
-
-    virtual bool step(double time, double dt);
-
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
-
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual Eigen::Vector2d &u() = 0;
-    };
  protected:
-    double length_;
-    bool enable_gravity_;
+    int speed_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
+
+    double velocity_ = 0;
+    double turn_rate_ = 0;
+    double pitch_rate_ = 0;
 
  private:
 };
