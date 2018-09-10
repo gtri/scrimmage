@@ -43,6 +43,7 @@
 #include <mutex> // NOLINT
 #include <map>
 #include <string>
+#include <list>
 
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
