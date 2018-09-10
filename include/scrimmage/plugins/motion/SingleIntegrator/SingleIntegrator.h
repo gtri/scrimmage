@@ -42,23 +42,14 @@ namespace scrimmage {
 namespace motion {
 class SingleIntegrator : public scrimmage::MotionModel {
  public:
-    SingleIntegrator();
-
     bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) override;
-
+              std::map<std::string, std::string> &params) override;
     bool step(double t, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
-
  protected:
-    int vel_x_idx_;
-    int vel_y_idx_;
-    int vel_z_idx_;
-
-    double vel_x_;
-    double vel_y_;
-    double vel_z_;
+    uint8_t vel_x_idx_ = 0;
+    uint8_t vel_y_idx_ = 0;
+    uint8_t vel_z_idx_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

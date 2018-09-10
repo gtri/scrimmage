@@ -30,13 +30,11 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_
 
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
-
-#include <Eigen/Dense>
 
 #include <map>
 #include <string>
@@ -44,27 +42,30 @@
 namespace scrimmage {
 namespace controller {
 
-class UUV6DOFPIDController : public scrimmage::Controller {
+class UnicyclePID : public scrimmage::Controller {
  public:
-    UUV6DOFPIDController();
+    UnicyclePID();
     void init(std::map<std::string, std::string> &params) override;
     bool step(double t, double dt) override;
 
  protected:
-    // Inputs
-    int desired_altitude_idx_ = 0;
-    int desired_speed_idx_ = 0;
+    // Input variables
     int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
 
-    // Outputs
-    int throttle_idx_ = 0;
-    int elevator_idx_ = 0;
-    int rudder_idx_ = 0;
+    // Output variables
+    int speed_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
 
     scrimmage::PID heading_pid_;
-    scrimmage::PID pitch_pid_;
     scrimmage::PID speed_pid_;
+    scrimmage::PID pitch_pid_;
+
+    bool show_shapes_ = false;
+    scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
 };
 } // namespace controller
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_

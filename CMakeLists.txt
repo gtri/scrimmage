@@ -69,9 +69,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
   "Output directory for the static libraries (archives)" )
 
 option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
+set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
 include(GenerateSetEnv)
 GenerateSetEnv(
-  SETUP_HOME_CONFIG ${SETUP_HOME_CONFIG}
+  SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
+  LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
   SETENV_IN_FILE ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
   MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
   PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs
@@ -108,6 +110,11 @@ if (ENABLE_PYTHON_BINDINGS)
 
   set(PYTHON_FOUND TRUE)
   include_directories("${PYTHON_INCLUDE_DIRS}")
+
+  # We have already found the python libs and modules, so tell pybind11 to not
+  # search for the python interpreter and libraries again.
+  set(PYTHONLIBS_FOUND TRUE)
+  set(PYTHON_MODULE_EXTENSION TRUE)
   find_package(pybind11 REQUIRED)
   include_directories(${pybind11_INCLUDE_DIRS})
   set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
@@ -493,7 +500,7 @@ if (UNIX AND NOT APPLE)
   # Create the ld.so.conf.d/project.conf file
   file(WRITE
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
-    ${CMAKE_INSTALL_PREFIX}/lib
+    "${CMAKE_INSTALL_PREFIX}/lib\n${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/plugin_libs"
     )
   install(
     FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
@@ -506,6 +513,11 @@ if (UNIX AND NOT APPLE)
     DESTINATION etc/scrimmage/env
     )
 
+  # Install scrimmage cmake helper files
+  install(
+    DIRECTORY ${PROJECT_SOURCE_DIR}/share/cmake
+    DESTINATION share
+    )
 endif()
 
 ###############################################################################

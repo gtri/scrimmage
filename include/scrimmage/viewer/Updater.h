@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
 
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Contact.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
@@ -180,6 +181,9 @@ class Updater : public vtkCommand {
     void update_contact_visual(std::shared_ptr<ActorContact> &actor_contact,
                                std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
 
+    void quat_2_transform(const Quaternion &quat,
+                          vtkSmartPointer<vtkTransform> transform);
+
     bool draw_triangle(const bool &new_shape,
                        const scrimmage_proto::Triangle &t,
                        vtkSmartPointer<vtkActor> &actor,
@@ -235,11 +239,27 @@ class Updater : public vtkCommand {
                      vtkSmartPointer<vtkActor> &actor,
                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_ellipse(const bool &new_shape,
+                      const scrimmage_proto::Ellipse &elp,
+                      vtkSmartPointer<vtkActor> &actor,
+                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
     bool draw_text(const bool &new_shape,
                    const scrimmage_proto::Text &t,
                    vtkSmartPointer<vtkActor> &actor,
                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_mesh(const bool &new_shape,
+                   const scrimmage_proto::Mesh &m,
+                   vtkSmartPointer<vtkActor> &actor,
+                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
+
+ protected:
+    void get_model_texture(std::string name,
+                           std::string& model_file, bool& model_found,
+                           std::string& texture_file, bool& texture_found,
+                           double& base_scale, Quaternion& base_rot);
 
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;

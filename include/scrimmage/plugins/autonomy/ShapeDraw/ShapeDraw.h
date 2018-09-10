@@ -30,60 +30,28 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
-
-#include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
-#include <nav_msgs/Odometry.h>
-#include <sensor_msgs/LaserScan.h>
-#include <tf/transform_broadcaster.h>
-
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SHAPEDRAW_SHAPEDRAW_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SHAPEDRAW_SHAPEDRAW_H_
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
-#include <map>
 #include <string>
+#include <map>
 
 namespace scrimmage {
 namespace autonomy {
-class ROSAutonomy : public scrimmage::Autonomy {
+class ShapeDraw : public scrimmage::Autonomy {
  public:
-    ROSAutonomy();
+    ShapeDraw();
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
-    void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
 
  protected:
-    std::shared_ptr<ros::NodeHandle> nh_;
-
-    ros::Subscriber cmd_vel_sub_;
-    geometry_msgs::Twist cmd_vel_;
-
-    ros::Publisher odom_pub_;
-    ros::Publisher odom_laser_pub_;
-    ros::Publisher base_scan_pub_;
-    ros::Publisher base_pose_truth_pub;
-
-    ros::Publisher clock_pub_;
-
-    std::shared_ptr<tf::TransformBroadcaster> odom_broadcaster_;
-    geometry_msgs::TransformStamped odom_trans_;
-
-    std::shared_ptr<tf::TransformBroadcaster> laser_broadcaster_;
-    geometry_msgs::TransformStamped laser_trans_;
-
-    std::string ros_namespace_;
-
-    void publish_clock_msg(double t);
-
-    scrimmage::sensor::RayTrace::PointCloud pcl_;
-
-    int speed_idx_ = 0;
-    int turn_rate_idx_ = 0;
-    int pitch_rate_idx_ = 0;
+    void draw_ellipse(double t, double dt);
+    void draw_cuboid(double t, double dt);
+    void draw_mesh(double t, double dt);
+    int follow_id_;
+    bool init_;
 };
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SHAPEDRAW_SHAPEDRAW_H_

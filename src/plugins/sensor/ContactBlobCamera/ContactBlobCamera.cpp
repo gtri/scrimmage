@@ -43,6 +43,7 @@
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -66,28 +67,29 @@ namespace scrimmage {
 namespace sensor {
 
 void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
+    std::stringstream ss;
+    ss << parent_->id().id();
+    parameters_file_.open(parent_->mp()->log_dir() + "/blob_sensor_parameters_" + ss.str() + ".txt");
+
     gener_ = parent_->random()->gener();
 
-    img_width_ = sc::get<int>("img_width", params, 800);
-    img_height_ = sc::get<int>("img_height", params, 600);
+    // override default parameters
+    std::map<std::string, double> plugin_params;
+    plugin_params["senderId"] = parent_->id().id();
+    plugin_params["img_width"] = sc::get<int>("img_width", params, 800);
+    plugin_params["img_height"] = sc::get<int>("img_height", params, 600);
+    plugin_params["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
+    plugin_params["focal_length"] = sc::get<double>("focal_length", params, 1.0);
+    plugin_params["fps"] = sc::get<double>("frames_per_second", params, 10);
+    plugin_params["az_thresh"] = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
+    plugin_params["el_thresh"] = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
+    plugin_params["fn_prob"] = sc::get<double>("false_negative_probability", params, 0.1);
+    plugin_params["fp_prob"] = sc::get<double>("false_positive_probability", params, 0.1);
+    plugin_params["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
+    plugin_params["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
+    plugin_params["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
 
-    max_detect_range_ = sc::get<double>("max_detect_range", params, 1000);
-    focal_length_ = sc::get<double>("focal_length", params, 1.0);
-    fps_ = sc::get<double>("frames_per_second", params, 10);
-    az_thresh_ = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
-    el_thresh_ = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
-
-    fn_prob_ = sc::get<double>("false_negative_probability", params, 0.1);
-    fp_prob_ = sc::get<double>("false_positive_probability", params, 0.1);
-    max_false_positives_ = sc::get<int>("max_false_positives_per_frame", params, 10);
-    std_dev_w_ = sc::get<int>("std_dev_width", params, 10);
-    std_dev_h_ = sc::get<int>("std_dev_height", params, 10);
-
-    if (std_dev_w_ > img_width_) { std_dev_w_ = 10; } // TODO: use standard deviation values to inform the false positives
-    if (std_dev_h_ > img_height_) { std_dev_h_ = 10; }
-
-    canvas_width_ = 2 * focal_length_ * tan(az_thresh_ / 2.0);
-    canvas_height_ = 2 * focal_length_ * tan(el_thresh_ / 2.0);
+    set_plugin_params(plugin_params);
 
     srand(time(NULL));
 
@@ -113,6 +115,13 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
         }
     }
 
+    /**
+     * Allow for updating plugin parameters in real-time.
+     */
+    auto params_cb = [&](sc::MessagePtr<std::map<std::string, double>> msg) {set_plugin_params(msg->data);};
+    subscribe<std::map<std::string, double>>("LocalNetwork", "BlobPluginParams", params_cb);
+
+    // Publish the resulting bounding boxes
     pub_ = advertise("LocalNetwork", "ContactBlobCamera");
 }
 
@@ -275,5 +284,40 @@ void ContactBlobCamera::draw_object_with_bounding_box(cv::Mat frame, cv::Rect re
 
     cv::rectangle(frame, rect, cv::Scalar(0, 0, 255), 1, 8, 0);
 }
+
+void ContactBlobCamera::set_plugin_params(std::map<std::string, double> params) {
+    if (params["senderId"] != parent_->id().id()) { return; }
+
+    img_width_ = static_cast<int>(params["img_width"]);
+    img_height_ = static_cast<int>(params["img_height"]);
+
+    max_detect_range_ = params["max_detect_range"];
+    focal_length_ = params["focal_length"];
+    fps_ = params["fps"];
+    az_thresh_ = params["az_thresh"];
+    el_thresh_ = params["el_thresh"];
+
+    fn_prob_ = params["fn_prob"];
+    fp_prob_ = params["fp_prob"];
+    max_false_positives_ = params["max_false_positives"];
+    std_dev_w_ = params["std_dev_w"];
+    std_dev_h_ = params["std_dev_h"];
+
+    if (std_dev_w_ > img_width_) { std_dev_w_ = 10; } // TODO: use standard deviation values to inform the false positives
+    if (std_dev_h_ > img_height_) { std_dev_h_ = 10; }
+
+    canvas_width_ = 2 * focal_length_ * tan(az_thresh_ / 2.0);
+    canvas_height_ = 2 * focal_length_ * tan(el_thresh_ / 2.0);
+
+    // keep track of values of the parameters
+    char buf[100];
+    snprintf(buf, sizeof(buf), "\n===================================\n");
+    parameters_file_ << buf << std::endl;
+    for (const auto &kv : params) {
+        snprintf(buf, sizeof(buf), "%s: %f", kv.first.c_str(), kv.second);
+        parameters_file_ << buf << std::endl;
+    }
+}
+
 } // namespace sensor
 } // namespace scrimmage

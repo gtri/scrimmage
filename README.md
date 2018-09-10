@@ -365,7 +365,7 @@ image (such as 8.8.8.8), but you can't ping archive.ubuntu.com, create the file
         "dns": ["<DNS-IP>", "8.8.8.8"]
     }
 
-Where <DNS-IP> is the first DNS IP address and <interfacename> is a network
+Where `<DNS-IP>` is the first DNS IP address and <interfacename> is a network
 interface with internet access from the commands:
 
     $ nmcli dev list | grep 'IP4.DNS'                    # Ubuntu <= 14

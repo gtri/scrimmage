@@ -90,6 +90,8 @@ class Contact {
 
     void set_active(bool active);
     bool active();
+
+    void set_radius(double radius);
     double radius() { return radius_; }
 
     friend std::ostream& operator<<(std::ostream& os, const Contact& c);

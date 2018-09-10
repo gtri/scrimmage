@@ -64,6 +64,8 @@ scrimmage_proto::ContactVisualPtr &Contact::contact_visual()
 
 void Contact::set_active(bool active) { active_ = active; }
 
+void Contact::set_radius(double radius) { radius_ = radius; }
+
 bool Contact::active() { return active_; }
 
 std::ostream& operator<<(std::ostream& os, const Contact& c) {

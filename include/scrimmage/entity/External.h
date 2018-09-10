@@ -66,14 +66,17 @@ class External {
     EntityPtr &entity();
     void setup_logging();
     bool create_entity(int max_entities, int entity_id,
-                       const std::string &entity_name);
+                       const std::string &entity_name,
+                       bool connect_entity = true);
 
     template <class AcceptFunc>
     bool create_entity(int max_entities, int entity_id,
                        const std::string &entity_name,
-                       AcceptFunc accept_func) {
+                       AcceptFunc accept_func, bool connect_entity = true) {
 
-        if (!create_entity(max_entities, entity_id, entity_name)) return false;
+        if (!create_entity(max_entities, entity_id, entity_name, connect_entity)) {
+            return false;
+        }
 
         auto filter_func = [&](auto &p) {return !accept_func(p);};
         auto &a = entity_->autonomies();
@@ -119,11 +122,9 @@ class External {
 #ifdef ROSCPP_ROS_H
 
  public:
-    template <class ScType, class Sc2Ros>
+    template <class ScType, class Sc2Ros, class CallbackFunc>
     void pub_cb(std::string network_name, std::string topic_name,
-                Sc2Ros sc2ros, ros::Publisher ros_pub) {
-
-        auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
+                Sc2Ros sc2ros, CallbackFunc func) {
 
         boost::optional<std::list<NetworkDevicePtr>> pubs =
             pubsub_->find_pubs(network_name, topic_name);
@@ -139,13 +140,24 @@ class External {
                                   << boost::typeindex::type_id<Message<ScType>>().pretty_name()
                                   << " in pub_cb on topic " << pub->get_topic() << std::endl;
                     } else {
-                        ros_pub_ptr->publish(sc2ros(sc_msg_cast->data));
+                        func(sc2ros(sc_msg_cast->data));
                     }
                 };
             }
         } else {
             std::cout << "Failed to setup scrimmage to ROS publisher." << std::endl;
         }
+    }
+
+    template <class ScType, class Sc2Ros>
+    void pub_cb(std::string network_name, std::string topic_name,
+                Sc2Ros sc2ros, ros::Publisher ros_pub) {
+
+        auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
+        auto callback = [=](auto foo) {
+            ros_pub_ptr->publish(foo);
+        };
+        pub_cb<ScType, Sc2Ros>(network_name, topic_name, sc2ros, callback);
     }
 
     template <class RosType, class Ros2Sc>

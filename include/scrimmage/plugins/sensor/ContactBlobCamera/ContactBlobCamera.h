@@ -41,6 +41,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include <opencv2/core/core.hpp>
 
@@ -52,6 +53,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool step() override;
 
  protected:
+    std::ofstream parameters_file_;
+
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
@@ -60,26 +63,25 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool in_field_of_view(Eigen::Vector3d rel_pos);
     void draw_object_with_bounding_box(cv::Mat frame, cv::Rect rect,
                                        Eigen::Vector2d center, double radius);
+    void set_plugin_params(std::map<std::string, double> params);
 
+    // plugin parameters
+    int img_width_;
+    int img_height_;
     double max_detect_range_;
+    double focal_length_;
+    double fps_;
     double az_thresh_;
     double el_thresh_;
-
     double fn_prob_;
     double fp_prob_;
     int max_false_positives_;
     int std_dev_w_;
     int std_dev_h_;
-
-    int img_width_;
-    int img_height_;
-
-    double focal_length_;
     double canvas_width_;
     double canvas_height_;
 
     cv::Mat frame_;
-    double fps_;
     double last_frame_t_;
 
     PublisherPtr pub_;

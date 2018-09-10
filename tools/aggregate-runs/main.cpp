@@ -138,6 +138,8 @@ int main(int argc, char *argv[]) {
             std::vector<std::string> t;
             boost::split(t, line, boost::is_any_of(","));
 
+            if (t.size() < 2) continue;
+
             int team_id = std::stoi(t[0]);
             team_scores[team_id] = std::stod(t[1]);
         }

@@ -52,7 +52,7 @@ namespace sensor {
 void NoisyState::init(std::map<std::string, std::string> &params) {
     auto add_noise = [&](std::string prefix, auto &noise_vec) {
         for (int i = 0; i < 3; i++) {
-            std::string tag_name = prefix + std::to_string(i);
+            std::string tag_name = prefix + "_" + std::to_string(i);
             std::vector<double> vec;
             double mean, stdev;
             std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2) ?

@@ -732,8 +732,22 @@ bool MissionParse::parse_terrain() {
              (!northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "SOUTH")) &&
             zone == get("zone", terrain_parse.params(), -2)) {
 
-            utm_terrain_->set_x_translate(x_easting);
-            utm_terrain_->set_y_translate(y_northing);
+            double origin_offset_x = 0;
+            double origin_offset_y = 0;
+            double origin_offset_z = 0;
+
+            if (terrain_parse.params().count("origin_offset_x") == 1
+                && terrain_parse.params().count("origin_offset_y") == 1
+                && terrain_parse.params().count("origin_offset_z") == 1) {
+
+                origin_offset_x = stod(terrain_parse.params()["origin_offset_x"]);
+                origin_offset_y = stod(terrain_parse.params()["origin_offset_y"]);
+                origin_offset_z = stod(terrain_parse.params()["origin_offset_z"]);
+            }
+
+            utm_terrain_->set_x_translate(x_easting - origin_offset_x);
+            utm_terrain_->set_y_translate(y_northing - origin_offset_y);
+            utm_terrain_->set_z_translate(altitude_origin() - origin_offset_z);
             utm_terrain_->set_z_translate(altitude_origin());
             utm_terrain_->set_system(terrain_parse.params()["system"]);
             utm_terrain_->set_zone(zone);
@@ -838,4 +852,3 @@ void MissionParse::set_network_gui(bool enable) {network_gui_ = enable;}
 
 void MissionParse::set_start_paused(bool paused) {start_paused_ = paused;}
 } // namespace scrimmage
-
