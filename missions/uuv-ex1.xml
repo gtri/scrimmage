@@ -96,6 +96,7 @@
               >MotorSchemas</autonomy>
     
     <controller>UUV6DOFPIDController</controller>
+    <!--<controller energy_initial="2000">UUV6DOFLinearEnergy</controller>-->
     <motion_model write_csv="true">UUV6DOF</motion_model>
 
     <visual_model>submarine</visual_model>

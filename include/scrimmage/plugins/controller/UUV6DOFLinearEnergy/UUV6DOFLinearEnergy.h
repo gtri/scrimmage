@@ -29,34 +29,38 @@
  * A Long description goes here.
  *
  */
-#ifndef (>>>HEADER_GUARD<<<)
-#define (>>>HEADER_GUARD<<<)
 
-#include <scrimmage/motion/MotionModel.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_
+
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
 
 namespace scrimmage {
-namespace motion {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel {
+namespace controller {
+
+class UUV6DOFLinearEnergy : public scrimmage::Controller {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
-    bool step(double time, double dt) override;
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-    uint8_t speed_idx_ = 0;
-    uint8_t turn_rate_idx_ = 0;
-    uint8_t pitch_rate_idx_ = 0;
+    // Inputs
+    uint8_t in_throttle_idx_ = 0;
+    uint8_t in_elevator_idx_ = 0;
+    uint8_t in_rudder_idx_ = 0;
 
-    double velocity_ = 0;
-    double turn_rate_ = 0;
-    double pitch_rate_ = 0;
+    // Outputs
+    uint8_t out_throttle_idx_ = 0;
+    uint8_t out_elevator_idx_ = 0;
+    uint8_t out_rudder_idx_ = 0;
 
- private:
+    double energy_ = 1000;
+    double energy_max_ = 5000;
+    double energy_min_ = 0;
 };
-} // namespace motion
+} // namespace controller
 } // namespace scrimmage
-#endif // (>>>HEADER_GUARD<<<)
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_

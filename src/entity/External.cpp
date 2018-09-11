@@ -162,9 +162,9 @@ bool External::create_entity(int max_entities, int entity_id,
     }
 
     if (connect_entity) {
-        connect(entity_->controller()->vars(), vars);
-        if (!verify_io_connection(entity_->controller()->vars(), vars)) {
-            auto ctrl = entity_->controller();
+        connect(entity_->controllers().back()->vars(), vars);
+        if (!verify_io_connection(entity_->controllers().back()->vars(), vars)) {
+            auto ctrl = entity_->controllers().back();
             std::cout << "VariableIO Error: "
                       << ctrl->name()
                       << " does not provide inputs required by the External class."
@@ -222,7 +222,9 @@ bool External::step(double t) {
     double motion_dt = dt / num_steps;
     double temp_t = t - dt;
     for (int i = 0; i < num_steps; i++) {
-        entity_->controller()->step(temp_t, motion_dt);
+        for (ControllerPtr controller : entity_->controllers()) {
+            controller->step(temp_t, motion_dt);
+        }
         temp_t += motion_dt;
     }
 
@@ -248,7 +250,7 @@ bool External::step(double t) {
     };
 
     br::for_each(entity_->autonomies(), add_shapes);
-    add_shapes(entity_->controller());
+    br::for_each(entity_->controllers(), add_shapes);
     br::for_each(ent_inters_, add_shapes);
     br::for_each(metrics_, add_shapes);
 
@@ -294,7 +296,7 @@ bool External::send_messages() {
     }
 
     br::for_each(entity_->autonomies(), run_callbacks);
-    run_callbacks(entity_->controller());
+    br::for_each(entity_->controllers(), run_callbacks);
     br::for_each(ent_inters_, run_callbacks);
     br::for_each(metrics_, run_callbacks);
     br::for_each(entity_->sensors() | ba::map_values, run_callbacks);

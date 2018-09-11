@@ -195,13 +195,6 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
 }
 
 bool Multirotor::step(double time, double dt) {
-    // ctrl_u_ = std::static_pointer_cast<Controller>(parent_->controller())->u();
-
-    // // Saturate inputs:
-    // for (int i = 0; i < ctrl_u_.size(); i++) {
-    //     ctrl_u_(i) = boost::algorithm::clamp(ctrl_u_(i), wmin_, wmax_);
-    // }
-
     for (int i = 0; i < motor_idx_vec_.size(); i++) {
         ctrl_u_(i) = boost::algorithm::clamp(vars_.input(motor_idx_vec_(i)), wmin_, wmax_);
     }
