@@ -226,31 +226,31 @@ bool Entity::init(AttributeMap &overrides,
             std::cout << "Failed to open controller plugin: " << controller_name << std::endl;
             return false;
         }
-
-        if (!verify_io_connection(controller->vars(), motion_model_->vars())) {
-            std::cout << "VariableIO Error: "
-                      << std::quoted(controller->name())
-                      << " does not provide inputs required by MotionModel "
-                      << std::quoted(motion_model_->name())
-                      << ": ";
-            print_io_error(motion_model_->name(), motion_model_->vars());
-            return false;
-        }
-
         controllers_.push_back(controller);
-
         controller_name = std::string("controller") + std::to_string(++controller_ct);
     }
 
     // Configure the controller variableIO's, such that they run in series
     for (std::vector<ControllerPtr>::iterator it = controllers_.begin();
          it != controllers_.end(); ++it) {
-        // Last controller points to motion model
         auto next = std::next(it);
         if (next == controllers_.end()) {
+            // Last controller's variables connect to the motion model
             connect((*it)->vars(), motion_model_->vars());
+
+            // Make sure that the last controller provides the variables
+            // required by the motion model
+            if (!verify_io_connection((*it)->vars(), motion_model_->vars())) {
+                std::cout << "VariableIO Error: "
+                          << std::quoted((*it)->name())
+                          << " does not provide inputs required by MotionModel "
+                          << std::quoted(motion_model_->name())
+                          << ": ";
+                print_io_error(motion_model_->name(), motion_model_->vars());
+                return false;
+            }
         } else {
-            // Controller's output variable IO points to next controller's
+            // Controller's output variables connect to the next controller's
             // input variableIO
             connect((*it)->vars(), (*next)->vars());
 

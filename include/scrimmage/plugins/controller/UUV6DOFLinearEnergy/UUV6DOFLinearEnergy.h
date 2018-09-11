@@ -48,14 +48,14 @@ class UUV6DOFLinearEnergy : public scrimmage::Controller {
 
  protected:
     // Inputs
-    int in_throttle_idx_ = 0;
-    int in_elevator_idx_ = 0;
-    int in_rudder_idx_ = 0;
+    uint8_t in_throttle_idx_ = 0;
+    uint8_t in_elevator_idx_ = 0;
+    uint8_t in_rudder_idx_ = 0;
 
     // Outputs
-    int out_throttle_idx_ = 0;
-    int out_elevator_idx_ = 0;
-    int out_rudder_idx_ = 0;
+    uint8_t out_throttle_idx_ = 0;
+    uint8_t out_elevator_idx_ = 0;
+    uint8_t out_rudder_idx_ = 0;
 
     double energy_ = 1000;
     double energy_max_ = 5000;

@@ -47,9 +47,9 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel {
     void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
-    int speed_idx_ = 0;
-    int turn_rate_idx_ = 0;
-    int pitch_rate_idx_ = 0;
+    uint8_t speed_idx_ = 0;
+    uint8_t turn_rate_idx_ = 0;
+    uint8_t pitch_rate_idx_ = 0;
 
     double velocity_ = 0;
     double turn_rate_ = 0;

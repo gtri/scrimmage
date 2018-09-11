@@ -53,9 +53,6 @@ REGISTER_PLUGIN(scrimmage::Controller,
 namespace scrimmage {
 namespace controller {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
-}
-
 void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
 }
 

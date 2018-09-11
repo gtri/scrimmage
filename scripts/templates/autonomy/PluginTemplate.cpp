@@ -52,15 +52,12 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() : follow_id_(-1) {
-}
-
 void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
-    double initial_speed = sc::get<double>("initial_speed", params, 21);
+    initial_speed_ = sc::get<double>("initial_speed", params, initial_speed_);
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt) {
@@ -93,14 +90,14 @@ bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt) {
         // Calculate the required heading to follow the other entity
         double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
                                ent_state->pos()(0) - state_->pos()(0));
-
-        // Set the heading
-        desired_state_->quat().set(0, 0, heading); // roll, pitch, heading
+        vars_.output(desired_heading_idx_, heading);
 
         // Match entity's altitude
-        desired_state_->pos()(2) = ent_state->pos()(2);
-    }
+        vars_.output(desired_alt_idx_, ent_state->pos()(2));
 
+        // Maintain speed
+        vars_.output(desired_speed_idx_, initial_speed_);
+    }
     return true;
 }
 } // namespace autonomy

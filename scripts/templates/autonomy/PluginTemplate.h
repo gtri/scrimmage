@@ -41,12 +41,16 @@ namespace scrimmage {
 namespace autonomy {
 class (>>>PLUGIN_NAME<<<) : public scrimmage::Autonomy {
  public:
-    (>>>PLUGIN_NAME<<<)();
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    int follow_id_;
+    int follow_id_ = -1;
+    double initial_speed_ = 0;
+
+    uint8_t desired_heading_idx_ = 0;
+    uint8_t desired_alt_idx_ = 0;
+    uint8_t desired_speed_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage
