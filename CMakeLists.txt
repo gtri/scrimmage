@@ -502,10 +502,13 @@ if (UNIX AND NOT APPLE)
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
     "${CMAKE_INSTALL_PREFIX}/lib\n${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/plugin_libs"
     )
-  install(
-    FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
-    DESTINATION /etc/ld.so.conf.d
-    )
+  option(ENABLE_LD_SO_CONF_INSTALL "Install ${PROJECT_NAME}.conf to /etc/ld.so.conf.d" ON)
+  if (ENABLE_LD_SO_CONF_INSTALL)
+    install(
+      FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
+      DESTINATION /etc/ld.so.conf.d
+      )
+  endif()
 
   # Install the project-setenv file
   install(

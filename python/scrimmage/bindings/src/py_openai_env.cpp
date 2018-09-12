@@ -51,6 +51,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
+#include <signal.h>
+
 #include <string>
 #include <algorithm>
 #include <limits>
