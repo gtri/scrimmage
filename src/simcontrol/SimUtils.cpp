@@ -237,13 +237,21 @@ boost::optional<std::string> run_test(std::string mission) {
         }
 
         auto log = preprocess_scrimmage(mp, simcontrol);
+#if ENABLE_PYTHON_BINDINGS == 1
+        Py_Initialize();
+#endif
         if (log == nullptr) {
             return boost::none;
         }
         simcontrol.pause(false);
         simcontrol.run();
 
-        return postprocess_scrimmage(mp, simcontrol, log);
+        auto out = postprocess_scrimmage(mp, simcontrol, log);
+
+#if ENABLE_PYTHON_BINDINGS == 1
+    Py_Finalize();
+#endif
+        return out;
     }
 }
 
