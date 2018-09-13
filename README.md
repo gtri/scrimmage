@@ -264,6 +264,44 @@ manually before running a mission.
     $ source ~/.scrimmage/setup.bash
     $ scrimmage ./missions/straight-no-gui.xml
 
+## Building SCRIMMAGE for CentOS or RedHat
+
+This repository contains a Dockerfile that builds a compiler with C++14
+support, SCRIMMAGE's dependencies, and SCRIMMAGE for CentOS6 or RedHat6. RPMs
+are built inside of the docker image and they can be extracted and install on a
+CentOS or RedHat system. The user can change the package install prefix for all
+RPMs by specifying the `PKG_PREFIX` docker build argument. Building the docker
+image can take several hours:
+
+    $ cd /path/to/scrimmage/ci/dockerfiles
+    $ docker build --build-arg PKG_PREFIX=/opt/scrimmage \
+                   --tag scrimmage/centos6:latest \
+                   --file centos6 .
+
+Extract the RPMs that were built to the host's `rpms` folder:
+
+    $ docker create --name mycontainer scrimmage/centos6:latest
+    $ docker cp mycontainer:/root/rpms ./rpms     # extract the rpms
+    $ docker rm mycontainer                       # clean up container
+
+Copy the `rpms` folder to your CentOS or RedHat system and install the run-time
+dependencies:
+
+    $ cd /path/to/rpms
+    $ rpm -ivh scrimmage_gcc*.rpm \
+               scrimmage_python*.rpm \
+               scrimmage_boost*.rpm \
+               scrimmage_geographiclib*.rpm \
+               scrimmage_dependencies*.rpm  \
+               scrimmage_0.2.0*.rpm \
+      && ldconfig
+
+To test that SCRIMMAGE was installed correctly, run the following command:
+
+    $ export JSBSIM_ROOT=/opt/scrimmage/etc/JSBSim \
+        && source /opt/scrimmage/etc/scrimmage/env/scrimmage-setenv \
+        && scrimmage /opt/scrimmage/share/scrimmage/missions/straight-no-gui.xml
+
 ## Installing and Configuring Open Grid Engine
 
 Instructions modified from:
