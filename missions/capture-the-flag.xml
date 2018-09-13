@@ -140,7 +140,10 @@
               autonomies="
         [ TakeFlag states='TakeFlag' flag_boundary_id='4' capture_boundary_id='1' ]
         [ BoundaryDefense states='BoundaryDefense' boundary_id='1' ]"
-        >AutonomyExecutor</autonomy>
+              >AutonomyExecutor</autonomy>
+
+    <autonomy waypointlist_network="LocalNetwork"
+              waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
     
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
@@ -188,7 +191,10 @@
               autonomies="
         [ TakeFlag states='TakeFlag' flag_boundary_id='4' capture_boundary_id='1' ]
         [ BoundaryDefense states='BoundaryDefense' boundary_id='1' ]"
-        >AutonomyExecutor</autonomy>
+              >AutonomyExecutor</autonomy>
+
+    <autonomy waypointlist_network="LocalNetwork"
+              waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
     
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
@@ -238,7 +244,10 @@
               autonomies="
         [ TakeFlag states='TakeFlag' flag_boundary_id='2' capture_boundary_id='3' ]
         [ BoundaryDefense states='BoundaryDefense' boundary_id='3' ]"
-        >AutonomyExecutor</autonomy>
+              >AutonomyExecutor</autonomy>
+
+    <autonomy waypointlist_network="LocalNetwork"
+              waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
 
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
@@ -287,7 +296,10 @@
               autonomies="
         [ TakeFlag states='TakeFlag' flag_boundary_id='2' capture_boundary_id='3' ]
         [ BoundaryDefense states='BoundaryDefense' boundary_id='3' ]"
-        >AutonomyExecutor</autonomy>
+              >AutonomyExecutor</autonomy>
+
+    <autonomy waypointlist_network="LocalNetwork"
+              waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
 
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
