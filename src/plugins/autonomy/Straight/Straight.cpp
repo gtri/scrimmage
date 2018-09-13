@@ -141,6 +141,11 @@ void Straight::init(std::map<std::string, std::string> &params) {
     };
     subscribe<State>("LocalNetwork", "NoisyState", state_cb);
 
+    auto noisy_contacts_cb = [&](auto &msg) {
+        noisy_contacts_ = msg->data; // Save map of noisy contacts
+    };
+    subscribe<std::map<int, State>>("LocalNetwork", "NoisyContacts", noisy_contacts_cb);
+
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
     auto airsim_cb = [&](auto &msg) {
         for (sc::sensor::AirSimSensorType a : msg->data) {

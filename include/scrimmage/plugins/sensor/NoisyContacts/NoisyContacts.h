@@ -30,51 +30,34 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
 
-#include <Eigen/Dense>
+#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/pubsub/Publisher.h>
 
+#include <random>
+#include <vector>
 #include <map>
 #include <string>
 
 namespace scrimmage {
-
-namespace interaction {
-class BoundaryBase;
-}
-
-namespace autonomy {
-class Straight : public scrimmage::Autonomy{
+namespace sensor {
+class NoisyContacts : public scrimmage::Sensor {
  public:
+    NoisyContacts();
     void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    bool step() override;
 
  protected:
-    double speed_;
-    Eigen::Vector3d goal_;
-
-    int frame_number_;
-    bool show_camera_images_;
-    bool save_camera_images_;
-    bool show_text_label_;
-
-    bool enable_boundary_control_ = false;
-    std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
-
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
-    int desired_heading_idx_ = 0;
-
-    scrimmage_proto::ShapePtr text_shape_;
-    scrimmage_proto::ShapePtr sphere_shape_;
-
-    bool noisy_state_set_ = false;
-    State noisy_state_;
-
-    std::map<int, State> noisy_contacts_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
+    PublisherPtr pub_;
+ private:
 };
-} // namespace autonomy
+} // namespace sensor
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_

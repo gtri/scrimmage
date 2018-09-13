@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>NoisyContacts_plugin</library>
+
+  <topic_name>NoisyContacts</topic_name>
+  
+  <!-- noise params are defined with (mean, standard deviation) -->
+  <pos_noise_0>0.0 5.0</pos_noise_0> <!-- x position noise -->
+  <pos_noise_1>0.0 5.0</pos_noise_1> <!-- y position noise -->
+  <pos_noise_2>0.0 1.0</pos_noise_2> <!-- z position noise -->
+
+  <vel_noise_0>0.0 5.0</vel_noise_0> <!-- x velocity noise -->
+  <vel_noise_1>0.0 5.0</vel_noise_1> <!-- y velocity noise -->
+  <vel_noise_2>0.0 1.0</vel_noise_2> <!-- z velocity noise -->
+
+  <orient_noise_0>0.0 0.0</orient_noise_0> <!-- roll noise (rad) -->
+  <orient_noise_1>0.0 0.0</orient_noise_1> <!-- pitch noise (rad) -->
+  <orient_noise_2>0.0 0.0</orient_noise_2> <!-- yaw noise (rad) -->  
+  
+</params>
