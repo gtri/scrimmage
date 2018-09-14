@@ -77,12 +77,14 @@ ExternalProject_Add (
   GIT_TAG ${JSBSIM_GIT_TAG}
   PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch
   UPDATE_COMMAND ${SETUP_DIR}/install-aircraft.sh "${CMAKE_CURRENT_BINARY_DIR}/src/jsbsim"
-  CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${JSBSIM_INSTALL_PREFIX}
+  CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${JSBSIM_INSTALL_PREFIX} -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib -DBUILD_SHARED_LIBS=ON -DINSTALL_JSBSIM_EXEC=ON
   )
 
 ########################################################
 # Download and build protobuf
 ########################################################
+find_program(ENV_EXECUTABLE env)
+
 set(PROTOBUF_CMAKE_MODULE_DIR ${CMAKE_INSTALL_PREFIX}/share/cmake/protobuf/)
 set(PROTOBUF_VERSION_NUM 3.3.0)
 set(PROTOBUF_VERSION v${PROTOBUF_VERSION_NUM})
@@ -93,7 +95,7 @@ ExternalProject_Add (
   GIT_REPOSITORY ${PROTOBUF_GIT_REPOSITORY}
   GIT_TAG ${PROTOBUF_VERSION}
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=${CMAKE_INSTALL_PREFIX}
+  CONFIGURE_COMMAND ./autogen.sh COMMAND ${ENV_EXECUTABLE} LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib' && ./configure --prefix=${CMAKE_INSTALL_PREFIX}
   PATCH_COMMAND ""
   UPDATE_COMMAND ""
   INSTALL_COMMAND make install DESTDIR="${PROTOBUF_DESTDIR}"

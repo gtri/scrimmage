@@ -24,6 +24,8 @@ if(NOT CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX /usr/local)
 endif()
 
+set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+
 # fetch all the local directories for generated code
 get_filename_component(SCRIMMAGE_LIB_DIR ${PROJECT_BINARY_DIR}/lib ABSOLUTE)
 get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${PROJECT_BINARY_DIR}/plugin_libs ABSOLUTE)
@@ -502,7 +504,7 @@ if (UNIX AND NOT APPLE)
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
     "${CMAKE_INSTALL_PREFIX}/lib\n${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/plugin_libs"
     )
-  option(ENABLE_LD_SO_CONF_INSTALL "Install ${PROJECT_NAME}.conf to /etc/ld.so.conf.d" ON)
+  option(ENABLE_LD_SO_CONF_INSTALL "Install ${PROJECT_NAME}.conf to /etc/ld.so.conf.d" OFF)
   if (ENABLE_LD_SO_CONF_INSTALL)
     install(
       FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.conf
