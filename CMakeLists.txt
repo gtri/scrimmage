@@ -24,7 +24,7 @@ if(NOT CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX /usr/local)
 endif()
 
-set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib" CACHE STRING "The installed RPATH")
 
 # fetch all the local directories for generated code
 get_filename_component(SCRIMMAGE_LIB_DIR ${PROJECT_BINARY_DIR}/lib ABSOLUTE)
