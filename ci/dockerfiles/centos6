@@ -55,27 +55,20 @@ RUN wget https://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.xz \
     && tar xJvf gcc-7.2.0.tar.xz
 
 WORKDIR gcc-7.2.0
-RUN ./contrib/download_prerequisites
-RUN LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib64' \
-    ./configure --disable-multilib --enable-languages=c,c++ --prefix=${PKG_PREFIX}
-RUN make -j 8
-RUN make DESTDIR=/root/installs/gcc install
+RUN ./contrib/download_prerequisites \
+    && ./configure --disable-multilib --enable-languages=c,c++ --prefix=${PKG_PREFIX} \
+    && make -j 8 \
+    && make DESTDIR=/root/installs/gcc install
 
-## Create the gcc.conf file:
-#RUN mkdir -p /root/installs/gcc/etc/ld.so.conf.d \
-#    && echo "${PKG_PREFIX}/lib64" > /root/installs/gcc/etc/ld.so.conf.d/scrimmage-gcc72.conf
-
-# Build RPM package
+# Build RPM package, install RPM, test installation
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/gcc \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-gcc --version 7.2.0 \
-           --package scrimmage_gcc_VERSION_ARCH.rpm ./
-
-# Install the gcc RPM
-RUN rpm -ivh /root/installs/gcc/*.rpm
-
-# Test gcc installation
-RUN ${PKG_PREFIX}/bin/gcc --version
+           --package scrimmage_gcc_VERSION_ARCH.rpm ./ \
+    && rpm -ivh /root/installs/gcc/*.rpm \
+    && echo "${PKG_PREFIX}/lib64" > /etc/ld.so.conf.d/scrimmage-gcc72.conf \
+    && ldconfig \
+    && ${PKG_PREFIX}/bin/gcc --version
 
 # Use the new compiler for the following builds
 ENV CC ${PKG_PREFIX}/bin/gcc
@@ -95,18 +88,18 @@ RUN git clone https://github.com/Kitware/CMake.git
 WORKDIR CMake
 RUN git checkout v3.5.1
 
-RUN LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib' \
-    ./bootstrap --prefix=${PKG_PREFIX}
-RUN make && make DESTDIR=/root/installs/cmake install
+RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
+    ./bootstrap --prefix=${PKG_PREFIX} \
+    && make -j $(($(nproc)-1)) \
+    && make DESTDIR=/root/installs/cmake install
 
 # Build RPM package for cmake
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/cmake \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-cmake --version 3.5.1 \
-           --package scrimmage_cmake_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
-
-# Install the cmake RPM
-RUN rpm -ivh /root/installs/cmake/*.rpm
+           --package scrimmage_cmake_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/cmake/*.rpm \
+    && cmake --version
 
 ###############################################################################
 # Build Python
@@ -115,22 +108,17 @@ WORKDIR /root/3rd-party
 RUN wget https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz
 RUN tar xvf Python-2.7.12.tgz
 WORKDIR Python-2.7.12
-RUN LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib' \
+RUN LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib:\$$ORIGIN/../lib64' \
     ./configure --prefix=${PKG_PREFIX} --enable-shared --enable-unicode=ucs4 \
-    && make && make DESTDIR=/root/installs/python install
-
-## Create the scrimmage-python2.7.conf file:
-#RUN mkdir -p /root/installs/python/etc/ld.so.conf.d \
-#    && echo "${PKG_PREFIX}/lib" > /root/installs/python/etc/ld.so.conf.d/scrimmage-python2.7.conf
+    && make -j $(($(nproc)-1)) && make DESTDIR=/root/installs/python install
 
 # Build RPM package for python
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/python \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-python --version 2.7.12 \
-           --package scrimmage_python_VERSION_ARCH.rpm ./
-
-# Install the RPM
-RUN rpm -ivh /root/installs/python/*.rpm
+           --package scrimmage_python_VERSION_ARCH.rpm ./ \
+    && rpm -ivh /root/installs/python/*.rpm \
+    && python --version
 
 ###############################################################################
 # Build Boost
@@ -139,20 +127,19 @@ WORKDIR /root/3rd-party
 RUN wget http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz
 RUN tar xvf boost_1_58_0.tar.gz
 WORKDIR boost_1_58_0
-RUN echo "using gcc : 7.2 : ${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\""; >> ./tools/build/example/user-config.jam \
+RUN echo "using gcc : 7.2 : ${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
     && cp ./tools/build/example/user-config.jam ./tools/build/src/user-config.jam
 
-RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX}
-RUN ./b2 -d 2 && ./b2 install
+RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX} \
+    && ./b2 -d 2 \
+    && ./b2 install
 
 # Build RPM package for boost
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/boost \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-boost --version 1.58 \
-           --package scrimmage_boost_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
-
-# Install the boost RPM
-RUN rpm -ivh /root/installs/boost/*.rpm
+           --package scrimmage_boost_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/boost/*.rpm
 
 # Help other projects find boost
 ENV BOOST_ROOT ${PKG_PREFIX}
@@ -165,16 +152,14 @@ RUN wget bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2
 RUN tar xvf 3.3.4.tar.bz2
 WORKDIR eigen-eigen-5a0156e40feb
 RUN mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
-    && make && make DESTDIR=/root/installs/eigen install
+    && make -j $(($(nproc)-1)) && make DESTDIR=/root/installs/eigen install
 
 # Build RPM package for eigen
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/eigen \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-eigen --version 3.3.4 \
-           --package scrimmage_eigen_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
-
-# Install the eigen RPM
-RUN rpm -ivh /root/installs/eigen/*.rpm
+           --package scrimmage_eigen_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/eigen/*.rpm
 
 ###############################################################################
 # Build GeographicLib
@@ -184,17 +169,15 @@ RUN git clone https://git.code.sf.net/p/geographiclib/code geographiclib
 WORKDIR geographiclib
 RUN git checkout v1.45 && mkdir build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
-                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib \
-    && make && make DESTDIR=/root/installs/geographiclib install
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64 \
+    && make -j $(($(nproc)-1)) && make DESTDIR=/root/installs/geographiclib install
 
 # Build RPM package for geographiclib
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/geographiclib \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-geographiclib --version 1.45 \
-           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
-
-# Install the geographiclib RPM
-RUN rpm -ivh /root/installs/geographiclib/*.rpm
+           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/geographiclib/*.rpm
 
 ###############################################################################
 # RapidXML Package
@@ -210,53 +193,85 @@ RUN mkdir -p /root/installs/rapidxml${PKG_PREFIX}/include \
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/rapidxml \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-rapidxml --version 1.00 \
-           --package scrimmage_rapidxml_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
-
-# Install the rapidxml RPM
-RUN rpm -ivh /root/installs/rapidxml/*.rpm
+           --package scrimmage_rapidxml_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/rapidxml/*.rpm
 
 ###############################################################################
-# Build SCRIMMAGE's dependencies
+# Build PyBind11
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/pybind/pybind11.git && cd pybind11 \
+    && git checkout v2.2.3 && mkdir -p ./build
+WORKDIR ./pybind11/build
+RUN cmake .. -DPYBIND11_TEST:BOOL=OFF -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+    && make && make DESTDIR=/root/installs/pybind11 install
+
+# Build RPM package
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/pybind11 \
+    && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-pybind11 --version 2.2.3 \
+           --package scrimmage_pybind11_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/pybind11/*.rpm
+
+###############################################################################
+# Build Protobuf
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/google/protobuf.git && cd protobuf \
+    && git checkout v3.3.0
+WORKDIR ./protobuf
+RUN ./autogen.sh \
+    && LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib:\$$ORIGIN/../lib64' \
+       ./configure --prefix=${PKG_PREFIX} \
+    && make DESTDIR=/root/installs/protobuf install
+
+# Build RPM package
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/protobuf \
+    && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-protobuf --version 3.3.0 \
+           --package scrimmage_protobuf_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/protobuf/*.rpm
+
+###############################################################################
+# Build GRPC
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/grpc/grpc && cd grpc \
+    && git checkout v1.2.1
+WORKDIR ./grpc
+# remove warnings as errors, build, install
+RUN git submodule update --init --recursive
+RUN sed -i -- "s/-Wextra -Werror -Wno-long-long/-Wextra -Wno-long-long/g" ./Makefile \
+    && LD_LIBRARY_PATH=${PKG_PREFIX}/lib:${PKG_PREFIX}/lib64 \
+       LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
+       make HAS_SYSTEM_PROTOBUF=true PROTOC=${PKG_PREFIX}/bin/protoc -j $(($(nproc)-1)) \
+    && make install prefix=/root/installs/grpc${PKG_PREFIX}
+
+# Build RPM package for grpc
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/grpc \
+    && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-grpc --version 1.2.1 \
+           --package scrimmage_grpc_VERSION_ARCH.rpm ./ \
+    && rpm -ivh --force /root/installs/grpc/*.rpm
+
+###############################################################################
+# Build JSBsim from scrimmage's 3rd-party
 ###############################################################################
 WORKDIR /root/3rd-party
 RUN git clone https://github.com/gtri/scrimmage.git
 WORKDIR ./scrimmage/3rd-party
 RUN mkdir ./build && cd build \
-    && cmake .. -DCMAKE_INSTALL_PREFIX=/root/installs/scrimmage-dependencies${PKG_PREFIX}
+    && cmake .. -DCMAKE_INSTALL_PREFIX=/root/installs/jsbsim${PKG_PREFIX}
 
 WORKDIR ./build
-RUN make pybind11
-RUN make jsbsim
-RUN make protobuf
+RUN make jsbsim -j $(($(nproc)-1))
 
-## Create the scrimmage-dependencies.conf file:
-#RUN mkdir -p /root/installs/scrimmage-dependencies/etc/ld.so.conf.d \
-#    && echo "${PKG_PREFIX}/lib" > /root/installs/scrimmage-dependencies/etc/ld.so.conf.d/scrimmage-dependencies.conf
-
-# Build intermediate RPM package for scrimmage-dependencies
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/scrimmage-dependencies \
+# Build RPM package for jsbsim
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/jsbsim \
     && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-dependencies --version 0.2.0 \
-           --package scrimmage_dependencies_VERSION_ARCH.rpm ./
-
-# Install the intermediate RPM
-RUN rpm -ivh /root/installs/scrimmage-dependencies/*.rpm
-
-# The first 'make grpc' will fail due to an warning, then remove -Werror from
-# Makefile and try again.
-RUN LD_LIBRARY_PATH=${PKG_PREFIX}/lib:${LD_LIBRARY_PATH} \
-    make grpc; \
-    sed -i -- "s/-Wextra -Werror -Wno-long-long/-Wextra -Wno-long-long/g" ./src/grpc/Makefile; \
-    make grpc;
-
-# Build final RPM package for scrimmage-dependencies
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/scrimmage-dependencies \
-    && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-dependencies --version 0.2.0 \
-           --package scrimmage_dependencies_VERSION_ARCH.rpm ./
-
-# Install the final RPM package for scrimmage-dependencies
-RUN rpm -ivh --force /root/installs/scrimmage-dependencies/*.rpm
+           --name scrimmage-jsbsim --version 0.1.0 \
+           --package scrimmage_jsbsim_VERSION_ARCH.rpm ./ \
+    && rpm -ivh /root/installs/jsbsim/*.rpm
 
 ###############################################################################
 # Build SCRIMMAGE
@@ -264,9 +279,11 @@ RUN rpm -ivh --force /root/installs/scrimmage-dependencies/*.rpm
 WORKDIR /root/3rd-party/scrimmage
 RUN mkdir build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
-                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib \
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
                 -DENABLE_LD_SO_CONF_INSTALL=OFF
-RUN cd build && make -j7 && make DESTDIR=/root/installs/scrimmage install
+RUN cd build \
+    && LD_LIBRARY_PATH=${PKG_PREFIX}/lib \
+       make -j $(($(nproc)-1)) && make DESTDIR=/root/installs/scrimmage install
 
 # Build RPM package for scrimmage
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/scrimmage \
@@ -282,7 +299,7 @@ RUN find /root/installs -type f -name '*.rpm' -exec mv -i {} /root/rpms \;
 ###############################################################################
 # Install packages in clean image and run a scrimmage mission
 ###############################################################################
-FROM centos:6.8
+FROM centos:6.8 as tester
 
 MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
@@ -298,7 +315,9 @@ RUN rpm -ivh scrimmage_gcc*.rpm \
              scrimmage_python*.rpm \
              scrimmage_boost*.rpm \
              scrimmage_geographiclib*.rpm \
-             scrimmage_dependencies*.rpm  \
+             scrimmage_jsbsim*.rpm \
+             scrimmage_grpc*.rpm \
+             scrimmage_protobuf*.rpm \
              scrimmage_0.2.0*.rpm
 
 ARG PKG_PREFIX=/opt/scrimmage

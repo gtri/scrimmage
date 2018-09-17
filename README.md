@@ -289,12 +289,13 @@ dependencies:
 
     $ cd /path/to/rpms
     $ rpm -ivh scrimmage_gcc*.rpm \
-               scrimmage_python*.rpm \
-               scrimmage_boost*.rpm \
-               scrimmage_geographiclib*.rpm \
-               scrimmage_dependencies*.rpm  \
-               scrimmage_0.2.0*.rpm \
-      && ldconfig
+             scrimmage_python*.rpm \
+             scrimmage_boost*.rpm \
+             scrimmage_geographiclib*.rpm \
+             scrimmage_jsbsim*.rpm \
+             scrimmage_grpc*.rpm \
+             scrimmage_protobuf*.rpm \
+             scrimmage_0.2.0*.rpm
 
 To test that SCRIMMAGE was installed correctly, run the following command:
 
