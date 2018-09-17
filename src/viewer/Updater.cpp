@@ -1789,26 +1789,69 @@ bool Updater::draw_plane(const bool &new_shape,
                          vtkSmartPointer<vtkActor> &actor,
                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkPlaneSource> planeSource;
-    if (new_shape) {
-        planeSource = vtkSmartPointer<vtkPlaneSource>::New();
-        source = planeSource;
-    } else {
-        planeSource = vtkPlaneSource::SafeDownCast(source);
+  // sanity checks
+  if (abs(p.x_length() * p.y_length()) < std::numeric_limits<double>::epsilon()) {
+    std::cout << "Cannot draw plane: bad dimensions" << std::endl;
+    return false;
+  }
+  // Load texture
+  std::string texture_file, texture_name;
+  texture_name = p.texture();
+  bool texture_found = false;
+  if (!texture_name.empty()) {
+    ConfigParse c_parse;
+    FileSearch file_search;
+    std::map<std::string, std::string> overrides;
+    if (c_parse.parse(overrides, p.texture(), "SCRIMMAGE_DATA_PATH", file_search)) {
+      texture_file = c_parse.directory() + "/" + c_parse.params()["texture"];
+      texture_found = fs::exists(texture_file) && fs::is_regular_file(texture_file);
     }
-    planeSource->SetCenter(p.center().x(), p.center().y(), p.center().z());
-    planeSource->SetNormal(p.normal().x(), p.normal().y(), p.normal().z());
-    planeSource->Update();
+  }
 
-    vtkPolyData* plane_polydata = planeSource->GetOutput();
-#if VTK_MAJOR_VERSION < 6
-    mapper->SetInput(plane_polydata);
-#else
-    mapper->SetInputData(plane_polydata);
-#endif
+  vtkSmartPointer<vtkPlaneSource> planeSource;
+  vtkSmartPointer<vtkJPEGReader> jPEGReader;
+  vtkSmartPointer<vtkTexture> texture;
+  vtkSmartPointer<vtkTextureMapToPlane> texturePlane;
+  jPEGReader = vtkSmartPointer<vtkJPEGReader>::New();
+  texture = vtkSmartPointer<vtkTexture>::New();
+  texturePlane = vtkSmartPointer<vtkTextureMapToPlane>::New();
+  if (new_shape) {
+    planeSource = vtkSmartPointer<vtkPlaneSource>::New();
+    source = planeSource;
+    texture_found ?
+      mapper->SetInputConnection(texturePlane->GetOutputPort()) :
+      mapper->SetInputConnection(planeSource->GetOutputPort());
     actor->SetMapper(mapper);
+  } else {
+    planeSource = vtkPlaneSource::SafeDownCast(source);
+  }
 
-    return true;
+  // update properties
+  Eigen::Vector3d center, point1, point2;
+  scrimmage::Quaternion quat(
+      p.quat().w(), p.quat().x(), p.quat().y(), p.quat().z());
+  center << p.center().x(), p.center().y(), p.center().z();
+  auto x_hat = quat.rotate(Eigen::Vector3d::UnitX());
+  auto y_hat = quat.rotate(Eigen::Vector3d::UnitY());
+
+  // vtk's "center" is actually the bottom left corner
+  center -= x_hat * (p.x_length() / 2.0) + y_hat * (p.y_length() / 2.0);
+
+  // calculate point1 and point2, which define the plane axes
+  point1 = center + x_hat * p.x_length();
+  point2 = center + y_hat * p.y_length();
+  planeSource->SetOrigin(center[0], center[1], center[2]);
+  planeSource->SetPoint1(point1[0], point1[1], point1[2]);
+  planeSource->SetPoint2(point2[0], point2[1], point2[2]);
+
+  if (texture_found) {
+    actor->SetTexture(texture);
+    jPEGReader->SetFileName(texture_file.c_str());
+    texture->SetInputConnection(jPEGReader->GetOutputPort());
+    texturePlane->SetInputConnection(planeSource->GetOutputPort());
+  }
+
+  return true;
 }
 
 bool Updater::draw_cube(const bool &new_shape,

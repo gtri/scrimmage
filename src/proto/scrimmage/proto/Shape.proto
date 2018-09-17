@@ -18,7 +18,10 @@ message Triangle {
 
 message Plane {
         Vector3d center = 1;
-        Vector3d normal = 2;
+        Quaternion quat = 2;
+        double x_length = 3;
+        double y_length = 4;
+        string texture = 5;
 }
 
 message Arrow {
@@ -99,10 +102,10 @@ message Shape {
     bool hash_set = 2;
     ID id = 3;
     string name = 4;
-	Color color = 5;
-	double opacity = 6;
-	int32 ttl = 7;
-	bool persistent = 8;
+    Color color = 5;
+    double opacity = 6;
+    int32 ttl = 7;
+    bool persistent = 8;
 
     oneof oneof_type {
           Triangle triangle = 9;
