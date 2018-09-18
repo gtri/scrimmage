@@ -125,20 +125,22 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
         }
 
         sc::ConfigParse config_parse;
-        scrimmage::AutonomyPtr autonomy =
-            std::dynamic_pointer_cast<scrimmage::Autonomy>(
-                parent_->plugin_manager()->make_plugin("scrimmage::Autonomy",
-                                                       autonomy_name,
-                                                       *(parent_->file_search()),
-                                                       config_parse,
-                                                       autonomy_params));
-        if (autonomy == nullptr) {
-            cout << "Failed to load autonomy plugin: " << autonomy_name << endl;
-        } else {
+        PluginStatus<Autonomy> status =
+            parent_->plugin_manager()->make_plugin<Autonomy>("scrimmage::Autonomy",
+                                                             autonomy_name,
+                                                             *(parent_->file_search()),
+                                                             config_parse,
+                                                             autonomy_params,
+                                                             std::set<std::string>{});
+        if (status.status == PluginStatus<Autonomy>::cast_failed) {
+            cout << "AutonomyExecutor Failed to open autonomy plugin: "
+                 << autonomy_name << endl;
+        } else if (status.status == PluginStatus<Autonomy>::loaded) {
             // connect the initialized autonomy plugin's variable output with
             // the variable input to the controller. This is similar to
             // connect(autonomy->vars(), controller->vars());
             // but without the reference to the controller->vars()
+            AutonomyPtr autonomy = status.plugin;
             autonomy->vars().output_variable_index() = vars_.output_variable_index();
             autonomy->vars().set_output(vars_.output());
 

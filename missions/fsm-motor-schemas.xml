@@ -44,6 +44,7 @@
   <!--<seed>2147483648</seed>-->
 
   <entity>
+    <name>robot</name>
     <team_id>1</team_id>
     <count>1</count>
     <color>255 0 0</color>    

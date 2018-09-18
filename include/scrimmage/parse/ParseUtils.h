@@ -35,6 +35,7 @@
 #include <Eigen/Dense>
 
 #include <map>
+#include <set>
 #include <vector>
 #include <string>
 #include <memory>
@@ -83,6 +84,20 @@ template <class T1, class T2 = T1>
 // a wrapper around boost so that boost does not have to be included
 void split(std::vector<std::string> &tokens, const std::string &str,
            const std::string &delims);
+
+template <typename T>
+std::set<T> str2set(const std::string &str, const std::string &delims) {
+    std::set<T> out;
+    std::vector<std::string> tokens;
+    split(tokens, str, delims);
+
+    for (std::string &t : tokens) {
+        if (t.length() > 0) {
+            out.emplace(convert<T>(t));
+        }
+    }
+    return out;
+}
 
 template <typename T>
 std::vector<T> str2vec(const std::string &str, const std::string &delims) {
