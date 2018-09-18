@@ -124,6 +124,11 @@ The GUI's camera can operate in three modes (cycle with 'a' key):
 Note: If all of the terrain data does not appear, click on the GUI window with
 your mouse.
 
+## Building on macOS
+
+Refer [here](https://github.com/crichardson332/homebrew-crich_brews) for instructions on installing dependencies and running
+SCRIMMAGE on macOS.
+
 ## Python Bindings
 
 SCRIMMAGE's Python bindings depend on protobuf, GRPC, and pandas. Install the
