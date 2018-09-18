@@ -3,7 +3,11 @@ set (APP_NAME scrimmage-playback)
 file (GLOB SRCS *.cpp)
 file (GLOB HDRS *.h)
 
-add_executable(${APP_NAME} ${SRCS})
+if(APPLE)
+  add_executable(${APP_NAME} MACOSX_BUNDLE ${SRCS})
+else()
+  add_executable(${APP_NAME} ${SRCS})
+endif()
 
 add_dependencies(${APP_NAME} scrimmage-protos)
 

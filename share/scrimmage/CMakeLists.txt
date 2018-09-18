@@ -3,7 +3,17 @@ set (APP_NAME scrimmage-bin)
 file (GLOB SRCS *.cpp)
 file (GLOB HDRS *.h)
 
-add_executable(${APP_NAME} ${SRCS})
+#
+if(APPLE)
+  set(MACOSX_BUNDLE_ICON_FILE scrimmage.icns)
+  set(appIcon ${PROJECT_SOURCE_DIR}/data/icons/${MACOSX_BUNDLE_ICON_FILE})
+  set_source_files_properties(${appIcon} PROPERTIES
+    MACOSX_PACKAGE_LOCATION "Resources")
+  add_executable(${APP_NAME} MACOSX_BUNDLE ${appIcon} ${SRCS})
+else()
+  add_executable(${APP_NAME} ${SRCS})
+endif()
+
 
 add_dependencies(${APP_NAME} scrimmage-protos)
 
@@ -35,7 +45,7 @@ set_target_properties(
   OUTPUT_NAME scrimmage
 )
 
-export(TARGETS ${APP_NAME} FILE scrimmage-exports.cmake)  
+export(TARGETS ${APP_NAME} FILE scrimmage-exports.cmake)
 # Link executable to other libraries
 #target_link_libraries(${APP_NAME})
 

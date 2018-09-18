@@ -73,13 +73,13 @@ class Waypoint {
         }
     }
 
-    double time() { return time_; }
-    double latitude() { return latitude_; }
-    double longitude() { return longitude_; }
-    double altitude() { return altitude_; }
+    double time() const { return time_; }
+    double latitude() const { return latitude_; }
+    double longitude() const { return longitude_; }
+    double altitude() const { return altitude_; }
     scrimmage::Quaternion &quat() { return quat_; }
-    double position_tolerance() { return position_tolerance_; }
-    double quat_tolerance() { return quat_tolerance_; }
+    double position_tolerance() const { return position_tolerance_; }
+    double quat_tolerance() const { return quat_tolerance_; }
 
     friend std::ostream& operator<<(std::ostream& os, Waypoint& wp) {
         os << std::setprecision(10)
@@ -91,7 +91,7 @@ class Waypoint {
         return os;
     }
 
-    friend bool operator==(Waypoint &lhs, Waypoint &rhs) {
+    friend bool operator==(const Waypoint &lhs, const Waypoint &rhs) {
         if (std::abs(lhs.latitude() - rhs.latitude()) > std::numeric_limits<double>::epsilon()) {
             return false;
         }

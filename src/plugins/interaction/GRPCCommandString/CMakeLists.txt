@@ -17,7 +17,7 @@ add_library(${LIBRARY_NAME} SHARED
 )
 
 target_compile_options(${LIBRARY_NAME}
-  PRIVATE -Wall -std=c++14
+  PRIVATE -Wall -Wno-return-type-c-linkage -std=c++14
 )
 
 target_link_libraries(${LIBRARY_NAME}

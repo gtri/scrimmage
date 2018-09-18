@@ -53,6 +53,7 @@
 #include <map>
 #include <list>
 #include <mutex> // NOLINT
+#include <condition_variable> // NOLINT
 
 namespace scrimmage {
 

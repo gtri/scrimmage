@@ -58,6 +58,7 @@
 #include <limits>
 #include <exception>
 #include <chrono> // NOLINT
+#include <signal.h>
 
 #include <boost/optional.hpp>
 #include <boost/range/numeric.hpp>
