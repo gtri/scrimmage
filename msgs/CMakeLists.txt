@@ -86,6 +86,8 @@ ADD_LIBRARY( ${LIBRARY_NAME} SHARED
   ${GEN_H_FILES}
   )
 
+add_dependencies(${PROJECT_NAME}-msgs scrimmage-protos)
+
 target_link_libraries(${LIBRARY_NAME}
   ${PROTOBUF_LIBRARIES}
   )
