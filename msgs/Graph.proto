@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+import "scrimmage/proto/Vector3d.proto";
+
+package scrimmage_msgs;
+
+message Node {
+    int32 id = 1;
+    scrimmage_proto.Vector3d point = 2;
+}
+
+message Edge {
+    int32 start_node_id = 1;
+    int32 end_node_id = 2;
+    double weight = 3;
+    string label = 4;
+}
+
+message Graph {
+    int32 id = 1;
+    repeated Node nodes = 2;
+    repeated Edge edges = 3;
+}
+
+
+
