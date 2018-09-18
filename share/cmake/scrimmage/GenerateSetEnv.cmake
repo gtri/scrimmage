@@ -2,11 +2,11 @@ include(CMakeParseArguments)
 
 function(GenerateSetEnv)
   set(options)
-  set(oneValueArgs SETUP_HOME_CONFIG LOCAL_CONFIG_DIR SETENV_IN_FILE)
+  set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE)
   set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH PYTHONPATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
-  if (ARG_SETUP_HOME_CONFIG)
+  if (ARG_SETUP_LOCAL_CONFIG_DIR)
     if ("${ARG_LOCAL_CONFIG_DIR}" STREQUAL "")
       set(ARG_LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage")
     endif()

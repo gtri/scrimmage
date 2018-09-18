@@ -61,7 +61,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 if(APPLE)
   set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -undefined dynamic_lookup")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-return-type-c-linkage")
-  set(SCRIMMAGE_BIN_PATH "${PROJECT_BINARY_DIR}/bin/scrimmage.app/Contents/MacOS")
+  string(JOIN ":" SCRIMMAGE_BIN_PATH
+         "${PROJECT_BINARY_DIR}/bin/scrimmage.app/Contents/MacOS"
+         "${PROJECT_BINARY_DIR}/bin/scrimmage-playback.app/Contents/MacOS"
+         "${PROJECT_BINARY_DIR}/bin/scrimmage-viz.app/Contents/MacOS")
 else()
   set(SCRIMMAGE_BIN_PATH "${PROJECT_BINARY_DIR}/bin")
 endif()
@@ -84,7 +87,7 @@ option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
 set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
 include(GenerateSetEnv)
 GenerateSetEnv(
-  SETUP_HOME_CONFIG ${SETUP_HOME_CONFIG}
+  SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
   LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
   SETENV_IN_FILE ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
   MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
