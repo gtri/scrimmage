@@ -19,6 +19,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
   get_filename_component(PROTO_NAME ${PROTO_FILE} NAME_WE)
   get_filename_component(ABS_PROTO_NAME ${PROTO_FILE} REALPATH)
   get_filename_component(PROTO_PATH ${ABS_PROTO_NAME} DIRECTORY)
+  get_filename_component(SCRIMMAGE_PROTO_PATH ${SCRIMMAGE_PROTO_PATH} REALPATH)
 
   set(PROTO_FILE_GEN_CPP_FILES
     ${GEN_DIR}/${PROTO_NAME}.pb.cc
@@ -54,7 +55,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
   else()
     add_custom_command(
       OUTPUT ${PROTO_FILE_GEN_FILES}
-      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --proto_path=${SCRIMMAGE_PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
       DEPENDS ${PROTO_FILE}
       WORKING_DIRECTORY ${PROTO_PATH}
       )
