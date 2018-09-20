@@ -427,7 +427,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
                    C_L_delta_elevator_ * delta_elevator_);
     double lift = CL * pVtS;
 
-    double drag = (C_D0_ + C_D_alpha_*alpha_ + CL*CL/(M_PI*AR_*e_) +
+    double drag = (C_D0_ + C_D_alpha_*std::abs(alpha_) + CL*CL/(M_PI*AR_*e_) +
                    C_D_delta_elevator_*std::abs(delta_elevator_)) * pVtS;
 
 
