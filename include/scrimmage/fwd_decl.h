@@ -79,6 +79,12 @@ using EntityPtr = std::shared_ptr<Entity>;
 class Time;
 using TimePtr = std::shared_ptr<Time>;
 
+class ParameterBase;
+using ParameterBasePtr = std::shared_ptr<ParameterBase>;
+
+class ParameterServer;
+using ParameterServerPtr = std::shared_ptr<ParameterServer>;
+
 class Network;
 using NetworkPtr = std::shared_ptr<Network>;
 using NetworkMap = std::map<std::string, NetworkPtr>;

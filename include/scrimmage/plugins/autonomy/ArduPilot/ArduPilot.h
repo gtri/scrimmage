@@ -81,7 +81,7 @@ class ArduPilot : public scrimmage::Autonomy {
     ArduPilot();
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
-    void close(double t) override;
+    void close(const double &t) override;
 
  protected:
     std::string to_ardupilot_ip_;

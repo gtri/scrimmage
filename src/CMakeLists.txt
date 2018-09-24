@@ -28,6 +28,7 @@ set(SRCS
     simcontrol/SimUtils.cpp
     common/DelayedTask.cpp
     common/ExponentialFilter.cpp
+    common/ParameterServer.cpp
 )
 
 ADD_LIBRARY( ${LIBRARY_NAME} SHARED

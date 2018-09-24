@@ -30,34 +30,21 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
-#define INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/common/ParameterServer.h>
 
-#include <memory>
-#include <map>
 #include <string>
+#include <algorithm>
 
 namespace scrimmage {
-
-class Controller : public Plugin {
- public:
-    virtual void init(std::map<std::string, std::string> &/*params*/) {}
-    virtual bool step(double /*t*/, double /*dt*/) {return true;}
-    inline void set_state(StatePtr &state) {state_ = state;}
-    inline void set_desired_state(StatePtr &desired_state) {desired_state_ = desired_state;}
-    void close(const double &t) override {
-        state_ = nullptr;
-        desired_state_ = nullptr;
+void ParameterServer::unregister_params(PluginPtr owner) {
+    // For all parameters, remove all parameters owned by this plugin
+    for (auto &kv1 : params_) {
+        for (auto &kv2 : kv1.second) {
+            kv2.second.erase(std::remove_if(kv2.second.begin(), kv2.second.end(),
+                                            [&](ParameterBasePtr ptr) {
+                                                return ptr->owner() == owner; }),
+                             kv2.second.end());
+        }
     }
-
- protected:
-    StatePtr state_;
-    StatePtr desired_state_;
-};
-
-using ControllerPtr = std::shared_ptr<Controller>;
-
+}
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_

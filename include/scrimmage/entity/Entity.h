@@ -75,6 +75,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
               RTreePtr &rtree,
               PubSubPtr &pubsub,
               TimePtr &time,
+              const ParameterServerPtr &param_server,
               const std::set<std::string> &plugin_tags,
               std::function<void(std::map<std::string, std::string>&)> param_override_func
         );

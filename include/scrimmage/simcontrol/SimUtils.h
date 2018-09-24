@@ -57,6 +57,7 @@ struct SimUtilsInfo {
     RTreePtr rtree;
     PubSubPtr pubsub;
     TimePtr time;
+    ParameterServerPtr param_server;
     RandomPtr random;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;

@@ -30,34 +30,42 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
-#define INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#ifndef INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
+#define INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
 
-#include <memory>
-#include <map>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 
-class Controller : public Plugin {
- public:
-    virtual void init(std::map<std::string, std::string> &/*params*/) {}
-    virtual bool step(double /*t*/, double /*dt*/) {return true;}
-    inline void set_state(StatePtr &state) {state_ = state;}
-    inline void set_desired_state(StatePtr &desired_state) {desired_state_ = desired_state;}
-    void close(const double &t) override {
-        state_ = nullptr;
-        desired_state_ = nullptr;
-    }
+class Plugin;
+using PluginPtr = std::shared_ptr<Plugin>;
 
+class ParameterBase {
+ public:
+    explicit ParameterBase(PluginPtr &owner) : owner_(owner) {}
+    virtual ~ParameterBase() {}
+    const PluginPtr &owner() { return owner_; }
  protected:
-    StatePtr state_;
-    StatePtr desired_state_;
+    PluginPtr owner_ = nullptr;
 };
 
-using ControllerPtr = std::shared_ptr<Controller>;
+template <class T>
+class Parameter : public ParameterBase {
+ public:
+    Parameter(T &variable, std::function<void(const T &value)> callback,
+              PluginPtr &owner) : ParameterBase(owner), value_(variable),
+        callback_(callback) {}
+    void set_value(const T &value) {
+        value_ = value;
+        callback_(value_);
+    }
+ protected:
+    T &value_;
+    std::function<void(const T &value)> callback_;
+};
+
+typedef std::shared_ptr<ParameterBase> ParameterBasePtr;
 
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_

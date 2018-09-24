@@ -76,6 +76,7 @@ bool Entity::init(AttributeMap &overrides,
                   RTreePtr &rtree,
                   PubSubPtr &pubsub,
                   TimePtr &time,
+                  const ParameterServerPtr &param_server,
                   const std::set<std::string> &plugin_tags,
                   std::function<void(std::map<std::string, std::string>&)> param_override_func) {
 
@@ -155,6 +156,7 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_->set_parent(parent);
             motion_model_->set_pubsub(pubsub);
             motion_model_->set_time(time);
+            motion_model_->set_param_server(param_server);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
             motion_model_->init(info, config_parse.params());
@@ -166,6 +168,7 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_state(state_);
         motion_model_->set_parent(parent);
         motion_model_->set_pubsub(pubsub);
+        motion_model_->set_param_server(param_server);
         motion_model_->set_time(time);
         motion_model_->set_name("BLANK");
     }
@@ -216,6 +219,7 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_parent(parent);
             sensor->set_pubsub(pubsub);
             sensor->set_time(time);
+            sensor->set_param_server(param_server);
             sensor->set_name(sensor_name);
             param_override_func(config_parse.params());
             sensor->init(config_parse.params());
@@ -254,6 +258,7 @@ bool Entity::init(AttributeMap &overrides,
 
             controller->set_parent(shared_from_this());
             controller->set_time(time_);
+            controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
             param_override_func(config_parse.params());
@@ -328,6 +333,7 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_projection(proj_);
             autonomy->set_pubsub(pubsub);
             autonomy->set_time(time);
+            autonomy->set_param_server(param_server);
             autonomy->set_state(motion_model_->state());
             autonomy->set_contacts(contacts);
             autonomy->set_is_controlling(true);
@@ -550,19 +556,19 @@ void Entity::print(const std::string &msg) {
 
 void Entity::close(double t) {
     for (AutonomyPtr autonomy : autonomies_) {
-        autonomy->close(t);
+        autonomy->close_plugin(t);
     }
 
     for (auto &kv : sensors_) {
-        kv.second->close(t);
+        kv.second->close_plugin(t);
     }
 
     for (ControllerPtr controller: controllers_) {
-        controller->close(t);
+        controller->close_plugin(t);
     }
 
     if (motion_model_) {
-        motion_model_->close(t);
+        motion_model_->close_plugin(t);
     }
 
     visual_ = nullptr;

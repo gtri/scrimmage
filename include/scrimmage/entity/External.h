@@ -36,6 +36,7 @@
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/DelayedTask.h>
+#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/math/State.h>
@@ -84,6 +85,8 @@ class External {
 
     void print_plugins(std::ostream &out) const;
 
+    ParameterServerPtr param_server() { return param_server_; }
+
  protected:
     void setup_logging(const std::string &log_dir);
     void update_ents();
@@ -98,6 +101,7 @@ class External {
     double last_t_;
     PubSubPtr pubsub_;
     TimePtr time_;
+    ParameterServerPtr param_server_;
     MissionParsePtr mp_;
 
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;

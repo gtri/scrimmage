@@ -34,6 +34,7 @@
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -72,6 +73,11 @@ namespace autonomy {
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
+
+    auto max_speed_cb = [&] (const double &max_speed) {
+        cout << "MotorSchemas Max speed set: " << max_speed << endl;
+    };
+    register_param<double>("max_speed", max_speed_, max_speed_cb);
 
     // Subscribe to state information
     std::string state_topic_name = sc::get<std::string>("state_topic_name", params, "State");

@@ -101,6 +101,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->set_name(name);
             ent_inter->set_pubsub(info.pubsub);
             ent_inter->set_time(info.time);
+            ent_inter->set_param_server(info.param_server);
             ent_inter->set_id_to_team_map(info.id_to_team_map);
             ent_inter->set_id_to_ent_map(info.id_to_ent_map);
 
@@ -152,6 +153,7 @@ bool create_metrics(const SimUtilsInfo &info,
             metrics->set_name(metrics_name);
             metrics->set_pubsub(info.pubsub);
             metrics->set_time(info.time);
+            metrics->set_param_server(info.param_server);
             metrics->set_id_to_team_map(info.id_to_team_map);
             metrics->set_id_to_ent_map(info.id_to_ent_map);
 
@@ -413,6 +415,7 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
             network->set_name(name);
             network->set_mission_parse(info.mp);
             network->set_time(info.time);
+            network->set_param_server(info.param_server);
             network->set_pubsub(info.pubsub);
             network->set_random(info.random);
             network->set_rtree(info.rtree);
