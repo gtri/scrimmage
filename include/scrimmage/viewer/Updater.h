@@ -131,6 +131,8 @@ class Updater : public vtkCommand {
 
     void next_mode();
 
+    void process_custom_key(std::string &key);
+
     void inc_follow();
     void dec_follow();
 

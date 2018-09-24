@@ -50,6 +50,8 @@
 
 #include <scrimmage/viewer/Updater.h>
 
+#include <string>
+
 namespace scrimmage {
 // Define interaction style
 class CameraInterface : public vtkInteractorStyleTrackballCamera {
@@ -72,6 +74,7 @@ class CameraInterface : public vtkInteractorStyleTrackballCamera {
  protected:
     vtkSmartPointer<Updater> updater_;
     bool enable_object_draw_ = false;
+    std::string last_key_;
 };
 // vtkStandardNewMacro(CameraInterface);
 } // namespace scrimmage
