@@ -54,7 +54,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
   else()
     add_custom_command(
       OUTPUT ${PROTO_FILE_GEN_FILES}
-      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${PROTO_PATH} --proto_path=${SCRIMMAGE_PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
       DEPENDS ${PROTO_FILE}
       WORKING_DIRECTORY ${PROTO_PATH}
       )
