@@ -86,20 +86,34 @@ void split(std::vector<std::string> &tokens, const std::string &str,
            const std::string &delims);
 
 template <typename T>
-std::set<T> str2set(const std::string &str, const std::string &delims) {
-    std::set<T> out;
+T str2container(const std::string &str, const std::string &delims) {
+    T out;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
 
     for (std::string &t : tokens) {
         if (t.length() > 0) {
-            out.emplace(convert<T>(t));
+            out.insert(out.end(), convert<typename T::value_type>(t));
         }
     }
     return out;
 }
 
 template <typename T>
+bool str2container(const std::string &str, const std::string &delims,
+                   T &result, int size = -1) {
+    T tmp = str2container<T>(str, delims);
+    if (size >= 0 && (unsigned int)size != tmp.size()) {
+        return false;
+    } else {
+        // Only modify vec if it was a valid conversion
+        result = tmp;
+        return true;
+    }
+}
+
+template <typename T>
+[[deprecated("str2vec is deprecated, use str2container instead")]]
 std::vector<T> str2vec(const std::string &str, const std::string &delims) {
     std::vector<T> out;
     std::vector<std::string> tokens;
@@ -114,6 +128,7 @@ std::vector<T> str2vec(const std::string &str, const std::string &delims) {
 }
 
 template <typename T>
+[[deprecated("str2vec is deprecated, use str2container instead")]]
 bool str2vec(const std::string &str, const std::string &delims,
              std::vector<T> &vec, int size = -1) {
     std::vector<T> tmp_vec;
@@ -142,7 +157,7 @@ bool get_vec(const std::string &str,
              std::vector<T> &vec,
              int size = -1) {
     auto it = params.find(str);
-    return it == params.end() ? false : str2vec<T>(it->second, delims, vec, size);
+    return it == params.end() ? false : str2container(it->second, delims, vec, size);
 }
 
 bool get_vec(const std::string &str,

@@ -26,8 +26,8 @@
   <altitude_origin>300</altitude_origin>
   <show_origin>false</show_origin>
   
-  <network>GlobalNetwork</network>
-  <network name="CommsNetwork">SphereNetwork</network>
+  <network tags="SIL">GlobalNetwork</network>
+  <network tags="SIL" name="CommsNetwork">SphereNetwork</network>
   
   <entity_interaction>SimpleCollision</entity_interaction>
   
@@ -52,13 +52,12 @@
     <motion_model>SingleIntegrator</motion_model>
   </entity_common> 
 
-  <entity entity_common="auction">
-    <name>agent</name>
-    <autonomy auctioneer="true">AuctionAssign</autonomy>            
+  <entity entity_common="auction" tag="entity_1">
+    <autonomy tags="REAL, SIL" auctioneer="true">AuctionAssign</autonomy>            
   </entity>
 
-  <entity entity_common="auction">
-    <autonomy auctioneer="false">AuctionAssign</autonomy>            
+  <entity entity_common="auction" tag="entity_2">
+    <autonomy tags="REAL, SIL" auctioneer="false">AuctionAssign</autonomy>            
   </entity>
   
 </runscript>

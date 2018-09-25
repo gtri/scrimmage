@@ -44,7 +44,7 @@ namespace controller {
 
 void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
     std::vector<double> gain;
-    if (!scrimmage::str2vec<double>(params.at("gain"), ",", gain, 2)) {
+    if (!scrimmage::str2container(params.at("gain"), ",", gain, 2)) {
         std::cout << "warning: did not get gain properly in DoubleIntegratorControllerWaypoint" << std::endl;
     } else {
         gain_ << gain[0], gain[1];

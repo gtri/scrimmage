@@ -39,14 +39,7 @@
 #include <vector>
 #include <string>
 
-#include <memory>
-#include <array>
-#include <stdexcept>
-#include <cstdio>
-
 namespace scrimmage {
-
-std::string exec_command(const char* cmd);
 
 void display_progress(float progress);
 

@@ -98,7 +98,7 @@ void External::print_plugins(std::ostream &out) const {
 }
 
 bool External::create_entity(const std::string &mission_file,
-                             const std::string &entity_name,
+                             const std::string &entity_tag,
                              const std::string &plugin_tags_str,
                              int entity_id,
                              int max_entities, const std::string &log_dir,
@@ -120,9 +120,9 @@ bool External::create_entity(const std::string &mission_file,
 
     // Parse the entity name and find the entity block ID for the associated
     // entity name
-    auto it_name_id = mp_->entity_name_to_id().find(entity_name);
-    if (it_name_id == mp_->entity_name_to_id().end()) {
-        cout << "Entity name (" << entity_name << ") not found in mission file"
+    auto it_name_id = mp_->entity_tag_to_id().find(entity_tag);
+    if (it_name_id == mp_->entity_tag_to_id().end()) {
+        cout << "Entity name (" << entity_tag << ") not found in mission file"
              << endl;
         return false;
     }
@@ -157,7 +157,7 @@ bool External::create_entity(const std::string &mission_file,
     sim_info.id_to_team_map = id_to_team_map_;
     sim_info.id_to_ent_map = id_to_ent_map_;
 
-    std::set<std::string> plugin_tags = str2set<std::string>(plugin_tags_str, ", ");
+    auto plugin_tags = str2container<std::set<std::string>>(plugin_tags_str, ", ");
 
     networks_ = std::make_shared<NetworkMap>();
     if (!create_networks(sim_info, *networks_, plugin_tags, param_override_func)) {

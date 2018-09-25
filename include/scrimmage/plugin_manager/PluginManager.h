@@ -116,14 +116,15 @@ class PluginManager {
             bool valid_tag = false;
             auto it_tags = overrides.find("tags");
             if (it_tags != overrides.end()) {
-                // Do any of the plugin tags match the tags for this plugin?
-                std::set<std::string> tags = str2set<std::string>(it_tags->second, ", ");
-                for (const std::string &tag: tags) {
-                    if (plugin_tags.find(tag) != plugin_tags.end()) {
-                        valid_tag = true;
-                        break;
-                    }
-                }
+                // Break up the plugin's tags attribute into a set of strings
+                auto tags = str2container<std::set<std::string>>(it_tags->second, ", ");
+                // If the plugin_tags contains any tag in tags, this plugin
+                // should be loaded
+                valid_tag = std::any_of(tags.begin(), tags.end(),
+                                        [&](const std::string &tag) {
+                                            return (plugin_tags.find(tag) !=
+                                                    plugin_tags.end());
+                                        });
             }
             if (not valid_tag) {
                 status.status = PluginStatus<T>::invalid_tag;

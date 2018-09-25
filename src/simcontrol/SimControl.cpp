@@ -264,9 +264,9 @@ bool SimControl::init() {
     info.id_to_ent_map = id_to_ent_map_;
 
     networks_ = std::make_shared<NetworkMap>();
-    if (!create_networks(info, *networks_, std::set<std::string>{}, [](std::map<std::string, std::string>&){})) return false;
-    if (!create_metrics(info, contacts_, metrics_, std::set<std::string>{}, [](std::map<std::string, std::string>&){})) return false;
-    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, std::set<std::string>{}, [](std::map<std::string, std::string>&){})) return false;
+    if (!create_networks(info, *networks_)) return false;
+    if (!create_metrics(info, contacts_, metrics_)) return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_)) return false;
 
     // Setup simcontrol's pubsub plugin
     pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");

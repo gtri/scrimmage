@@ -2030,7 +2030,7 @@ void Updater::get_model_texture(std::string name,
         auto rpy_iter = c_parse.params().find("visual_rpy");
         if (rpy_iter != c_parse.params().end()) {
             std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
-            str2vec(rpy_iter->second, " ", tf_rpy, 3);
+            str2container(rpy_iter->second, " ", tf_rpy, 3);
             for (auto& e : tf_rpy) {
                 e = sc::Angles::deg2rad(e);
             }

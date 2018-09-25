@@ -67,9 +67,8 @@ WaypointGenerator::WaypointGenerator() {
 }
 
 void WaypointGenerator::init(std::map<std::string, std::string> &params) {
-    waypoint_color_ = sc::str2vec<int>(sc::get<std::string>("waypoint_color",
-                                                            params,
-                                                            "255,0,0"), ",");
+    waypoint_color_ = sc::str2container<std::vector<int>>(
+        sc::get<std::string>("waypoint_color", params, "255,0,0"), ",");
 
     show_waypoints_ = sc::get<bool>("show_waypoints", params, false);
 

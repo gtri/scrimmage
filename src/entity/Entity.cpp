@@ -199,7 +199,7 @@ bool Entity::init(AttributeMap &overrides,
             std::vector<double> tf_xyz = {0.0, 0.0, 0.0};
             auto it_xyz = overrides[sensor_order_name].find("xyz");
             if (it_xyz != overrides[sensor_order_name].end()) {
-                str2vec(it_xyz->second, " ", tf_xyz, 3);
+                str2container(it_xyz->second, " ", tf_xyz, 3);
             }
             sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
 
@@ -207,7 +207,7 @@ bool Entity::init(AttributeMap &overrides,
             std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
             auto it_rpy = overrides[sensor_order_name].find("rpy");
             if (it_rpy != overrides[sensor_order_name].end()) {
-                str2vec(it_rpy->second, " ", tf_rpy, 3);
+                str2container(it_rpy->second, " ", tf_rpy, 3);
             }
             sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
                                             Angles::deg2rad(tf_rpy[1]),

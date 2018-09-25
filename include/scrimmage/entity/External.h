@@ -66,7 +66,7 @@ class External {
     External();
     EntityPtr &entity();
     bool create_entity(const std::string &mission_file,
-                       const std::string &entity_name,
+                       const std::string &entity_tag,
                        const std::string &plugin_tags_str,
                        int entity_id,
                        int max_entities,

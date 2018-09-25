@@ -103,7 +103,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
 
     // Parse wall color
     std::vector<int> color;
-    bool color_status = sc::str2vec(color_str, " ", color, 3);
+    bool color_status = sc::str2container(color_str, " ", color, 3);
     if (!color_status) {
         cout << "Warning: Failed to parse wall color." << endl;
         color = {0, 0, 255};
