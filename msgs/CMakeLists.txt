@@ -19,6 +19,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
   get_filename_component(PROTO_NAME ${PROTO_FILE} NAME_WE)
   get_filename_component(ABS_PROTO_NAME ${PROTO_FILE} REALPATH)
   get_filename_component(PROTO_PATH ${ABS_PROTO_NAME} DIRECTORY)
+  get_filename_component(SCRIMMAGE_PROTO_PATH ${SCRIMMAGE_PROTO_PATH} REALPATH)
 
   set(PROTO_FILE_GEN_CPP_FILES
     ${GEN_DIR}/${PROTO_NAME}.pb.cc
