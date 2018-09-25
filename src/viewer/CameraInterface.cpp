@@ -48,8 +48,10 @@ void CameraInterface::OnKeyPress() {
     vtkRenderWindowInteractor *rwi = this->Interactor;
     std::string key = rwi->GetKeySym();
 
-    // Handle an arrow key
-    if (key == "Right") {
+    if (last_key_ == "semicolon") {
+      updater_->process_custom_key(key);
+      last_key_ = "";
+    } else if (key == "Right") {
         updater_->inc_follow();
     } else if (key == "Left") {
         updater_->dec_follow();
@@ -89,6 +91,8 @@ void CameraInterface::OnKeyPress() {
         enable_object_draw_ = not enable_object_draw_;
     } else if (key == "h") {
         updater_->toggle_helpmenu();
+    } else if (key == "semicolon") {
+      last_key_ = key;
     } else {
         // cout << "key: " << key << endl;
     }

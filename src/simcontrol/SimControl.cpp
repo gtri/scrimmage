@@ -277,6 +277,7 @@ bool SimControl::init() {
     pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
     pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
     pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
+    pub_custom_key_ = sim_plugin_->advertise("GlobalNetwork", "CustomKeyPress");
 
     contacts_mutex_.lock();
     contacts_->reserve(max_num_entities+1);
@@ -878,6 +879,7 @@ void SimControl::close() {
     pub_no_teams_ = nullptr;
     pub_one_team_ = nullptr;
     pub_world_point_clicked_ = nullptr;
+    pub_custom_key_ = nullptr;
     not_ready_.clear();
 }
 
@@ -997,6 +999,11 @@ void SimControl::run_check_network_msgs() {
                 this->force_exit();
             } else if (it->request_cached()) {
                 outgoing_interface_->send_cached();
+            } else if (it->custom_key() != "") {
+                auto msg = std::make_shared<Message<std::string>>();
+                std::string key(it->custom_key());
+                msg->data = key;
+                pub_custom_key_->publish(msg);
             }
             control.erase(it++);
         }

@@ -15,6 +15,7 @@ message GUIMsg {
         bool single_step = 5;
         bool shutting_down = 6;
         bool request_cached = 7;
+        string custom_key = 8;
 }
 
 message WorldPointClicked {
