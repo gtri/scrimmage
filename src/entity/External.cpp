@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
@@ -49,6 +50,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <set>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
@@ -78,21 +80,49 @@ External::External() :
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()) {}
 
-bool External::create_entity(int max_entities, int entity_id,
-                             const std::string &entity_name,
-                             bool connect_entity) {
+void External::print_plugins(std::ostream &out) const {
+    out << "====== SCRIMMAGE Plugins Loaded =======" << endl;
+    out << "----------- Network ------------" << endl;
+    for (auto &kv : *networks_) {
+        out << kv.first << endl;
+    }
+    out << "------ Entity Interaction ------" << endl;
+    for (EntityInteractionPtr ei:  ent_inters_) {
+        out << ei->name() << endl;
+    }
+    out << "----------- Metrics ------------" << endl;
+    for (MetricsPtr m : metrics_) {
+        out << m->name() << endl;
+    }
+    entity_->print_plugins(out);
+}
 
-    if (mp_->get_mission_filename() == "") {
-        cout << "External::mp()->parse() has not been run yet, "
-            << "exiting External::create_entity()" << endl;
+bool External::create_entity(const std::string &mission_file,
+                             const std::string &entity_tag,
+                             const std::string &plugin_tags_str,
+                             int entity_id,
+                             int max_entities, const std::string &log_dir,
+                             std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+    // Find the mission file
+    auto found_mission_file = FileSearch().find_mission(mission_file);
+    if (not found_mission_file) {
+        cout << "Failed to load mission file: " << mission_file << endl;
         return false;
     }
 
+    // Parse the mission file
+    if (not mp_->parse(*found_mission_file)) {
+        cout << "Failed to parse mission file: " << *found_mission_file << endl;
+        return false;
+    }
+
+    setup_logging(log_dir);
+
     // Parse the entity name and find the entity block ID for the associated
     // entity name
-    auto it_name_id = mp_->entity_name_to_id().find(entity_name);
-    if (it_name_id == mp_->entity_name_to_id().end()) {
-        cout << "Entity name (" << entity_name << ") not found in mission file"
+    auto it_name_id = mp_->entity_tag_to_id().find(entity_tag);
+    if (it_name_id == mp_->entity_tag_to_id().end()) {
+        cout << "Entity name (" << entity_tag << ") not found in mission file"
              << endl;
         return false;
     }
@@ -105,8 +135,6 @@ bool External::create_entity(int max_entities, int entity_id,
 
     std::map<std::string, std::string> info =
         mp_->entity_descriptions()[it_name_id->second];
-    info.erase("motion_model"); // we don't need to initialize this
-    info["connect_entity"] = std::to_string(connect_entity);
 
     ContactMapPtr contacts = std::make_shared<ContactMap>();
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
@@ -129,20 +157,22 @@ bool External::create_entity(int max_entities, int entity_id,
     sim_info.id_to_team_map = id_to_team_map_;
     sim_info.id_to_ent_map = id_to_ent_map_;
 
+    auto plugin_tags = str2container<std::set<std::string>>(plugin_tags_str, ", ");
+
     networks_ = std::make_shared<NetworkMap>();
-    if (!create_networks(sim_info, *networks_)) {
+    if (!create_networks(sim_info, *networks_, plugin_tags, param_override_func)) {
         std::cout << "External::create_entity() failed on create_networks()" << std::endl;
         return false;
     }
 
     metrics_.clear();
-    if (!create_metrics(sim_info, contacts, metrics_)) {
+    if (!create_metrics(sim_info, contacts, metrics_, plugin_tags, param_override_func)) {
         std::cout << "External::create_entity() failed on create_metrics()" << std::endl;
         return false;
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_)) {
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, plugin_tags, param_override_func)) {
         std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }
@@ -155,13 +185,15 @@ bool External::create_entity(int max_entities, int entity_id,
         entity_->init(
             attr_map, info, contacts, mp_, mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_);
+            time_, plugin_tags, param_override_func);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;
     }
 
-    if (connect_entity) {
+    motion_dt_ = mp_->dt() * 1.0 / mp_->motion_multiplier();
+
+    if (entity_->controllers().size() > 0) {
         connect(entity_->controllers().back()->vars(), vars);
         if (!verify_io_connection(entity_->controllers().back()->vars(), vars)) {
             auto ctrl = entity_->controllers().back();
@@ -180,7 +212,9 @@ bool External::create_entity(int max_entities, int entity_id,
     return true;
 }
 
-void External::setup_logging() {
+void External::setup_logging(const std::string &log_dir) {
+    mp_->set_log_dir(log_dir);
+
     std::string output_type = get("output_type", mp_->params(), std::string("all"));
 
     mp_->create_log_dir();
@@ -218,14 +252,16 @@ bool External::step(double t) {
 
     entity_->setup_desired_state();
 
-    int num_steps = dt <= min_motion_dt ? 1 : ceil(dt / min_motion_dt);
-    double motion_dt = dt / num_steps;
+    int num_steps = std::round(dt / motion_dt_);
     double temp_t = t - dt;
     for (int i = 0; i < num_steps; i++) {
         for (ControllerPtr controller : entity_->controllers()) {
-            controller->step(temp_t, motion_dt);
+            controller->step(temp_t, motion_dt_);
         }
-        temp_t += motion_dt;
+        if (enable_motion_) {
+            entity_->motion()->step(temp_t, motion_dt_);
+        }
+        temp_t += motion_dt_;
     }
 
     if (!ent_inters_.empty()) {

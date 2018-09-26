@@ -75,7 +75,9 @@ bool Entity::init(AttributeMap &overrides,
                   FileSearchPtr &file_search,
                   RTreePtr &rtree,
                   PubSubPtr &pubsub,
-                  TimePtr &time) {
+                  TimePtr &time,
+                  const std::set<std::string> &plugin_tags,
+                  std::function<void(std::map<std::string, std::string>&)> param_override_func) {
 
     pubsub_ = pubsub;
     time_ = time;
@@ -124,8 +126,6 @@ bool Entity::init(AttributeMap &overrides,
 
     EntityPtr parent = shared_from_this();
 
-    ConfigParse config_parse;
-
     // Save entity specific params in mp reference for later use
     mp_->entity_params()[id] = info;
     mp_->ent_id_to_block_id()[id] = ent_desc_id;
@@ -133,31 +133,41 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // motion model
     ////////////////////////////////////////////////////////////
-    if (info.count("motion_model") == 0) {
+    bool init_empty_motion_model = true;
+    if (info.count("motion_model") > 0) {
+        ConfigParse config_parse;
+        PluginStatus<MotionModel> status =
+            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel",
+                                                     info["motion_model"],
+                                                     *file_search,
+                                                     config_parse,
+                                                     overrides["motion_model"],
+                                                     plugin_tags);
+        if (status.status == PluginStatus<MotionModel>::cast_failed) {
+            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::loaded) {
+            // We have created a valid motion model
+            init_empty_motion_model = false;
+
+            motion_model_ = status.plugin;
+            motion_model_->set_state(state_);
+            motion_model_->set_parent(parent);
+            motion_model_->set_pubsub(pubsub);
+            motion_model_->set_time(time);
+            motion_model_->set_name(info["motion_model"]);
+            param_override_func(config_parse.params());
+            motion_model_->init(info, config_parse.params());
+        }
+    }
+
+    if (init_empty_motion_model) {
         motion_model_ = std::make_shared<MotionModel>();
         motion_model_->set_state(state_);
         motion_model_->set_parent(parent);
         motion_model_->set_pubsub(pubsub);
         motion_model_->set_time(time);
-        // cout << "Warning: Missing motion model tag, initializing with base class" << endl;
-    } else {
-        motion_model_ =
-            std::dynamic_pointer_cast<MotionModel>(
-                plugin_manager->make_plugin("scrimmage::MotionModel",
-                    info["motion_model"], *file_search, config_parse,
-                    overrides["motion_model"]));
-
-        if (motion_model_ == nullptr) {
-            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
-            return false;
-        }
-
-        motion_model_->set_state(state_);
-        motion_model_->set_parent(parent);
-        motion_model_->set_pubsub(pubsub);
-        motion_model_->set_time(time);
-        motion_model_->set_name(info["motion_model"]);
-        motion_model_->init(info, config_parse.params());
+        motion_model_->set_name("BLANK");
     }
 
     ////////////////////////////////////////////////////////////
@@ -170,45 +180,47 @@ bool Entity::init(AttributeMap &overrides,
         std::to_string(sensor_ct);
 
     while (info.count(sensor_order_name) > 0) {
+        ConfigParse config_parse;
         std::string sensor_name = info[sensor_order_name];
-        SensorPtr sensor =
-            std::dynamic_pointer_cast<Sensor>(
-                plugin_manager->make_plugin("scrimmage::Sensor",
-                                            sensor_name, *file_search,
-                                            config_parse,
-                                            overrides[sensor_order_name]));
-
-        if (sensor == nullptr) {
+        PluginStatus<Sensor> status =
+            plugin_manager->make_plugin<Sensor>("scrimmage::Sensor",
+                                                sensor_name, *file_search,
+                                                config_parse,
+                                                overrides[sensor_order_name],
+                                                plugin_tags);
+        if (status.status == PluginStatus<Sensor>::cast_failed) {
             std::cout << "Failed to open sensor plugin: " << sensor_name
                       << std::endl;
             return false;
+        } else if (status.status == PluginStatus<Sensor>::loaded) {
+            SensorPtr sensor = status.plugin;
+
+            // Get sensor's offset from entity origin
+            std::vector<double> tf_xyz = {0.0, 0.0, 0.0};
+            auto it_xyz = overrides[sensor_order_name].find("xyz");
+            if (it_xyz != overrides[sensor_order_name].end()) {
+                str2container(it_xyz->second, " ", tf_xyz, 3);
+            }
+            sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
+
+            // Get sensor's orientation relative to entity's coordinate frame
+            std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
+            auto it_rpy = overrides[sensor_order_name].find("rpy");
+            if (it_rpy != overrides[sensor_order_name].end()) {
+                str2container(it_rpy->second, " ", tf_rpy, 3);
+            }
+            sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
+                                            Angles::deg2rad(tf_rpy[1]),
+                                            Angles::deg2rad(tf_rpy[2]));
+
+            sensor->set_parent(parent);
+            sensor->set_pubsub(pubsub);
+            sensor->set_time(time);
+            sensor->set_name(sensor_name);
+            param_override_func(config_parse.params());
+            sensor->init(config_parse.params());
+            sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
         }
-
-        // Get sensor's offset from entity origin
-        std::vector<double> tf_xyz = {0.0, 0.0, 0.0};
-        auto it_xyz = overrides[sensor_order_name].find("xyz");
-        if (it_xyz != overrides[sensor_order_name].end()) {
-            str2vec(it_xyz->second, " ", tf_xyz, 3);
-        }
-        sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
-
-        // Get sensor's orientation relative to entity's coordinate frame
-        std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
-        auto it_rpy = overrides[sensor_order_name].find("rpy");
-        if (it_rpy != overrides[sensor_order_name].end()) {
-            str2vec(it_rpy->second, " ", tf_rpy, 3);
-        }
-        sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
-                                 Angles::deg2rad(tf_rpy[1]),
-                                 Angles::deg2rad(tf_rpy[2]));
-
-        sensor->set_parent(parent);
-        sensor->set_pubsub(pubsub);
-        sensor->set_time(time);
-        sensor->set_name(sensor_name);
-        sensor->init(config_parse.params());
-        sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
-
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
     }
 
@@ -219,14 +231,35 @@ bool Entity::init(AttributeMap &overrides,
     std::string controller_name = std::string("controller") + std::to_string(controller_ct);
 
     while (info.count(controller_name) > 0) {
-        ControllerPtr controller = init_controller(info[controller_name],
-                                                   overrides[controller_name],
-                                                   motion_model_->vars());
-        if (controller == nullptr) {
-            std::cout << "Failed to open controller plugin: " << controller_name << std::endl;
+        ConfigParse config_parse;
+        PluginStatus<Controller> status =
+            plugin_manager_->make_plugin<Controller>("scrimmage::Controller",
+                                                     info[controller_name],
+                                                     *file_search,
+                                                     config_parse,
+                                                     overrides[controller_name],
+                                                     plugin_tags);
+        if (status.status == PluginStatus<Controller>::cast_failed) {
+            std::cout << "Failed to open controller plugin: "
+                      << controller_name << std::endl;
             return false;
+        } else if (status.status == PluginStatus<Controller>::loaded) {
+            ControllerPtr controller = status.plugin;
+            controller->set_state(state_);
+
+            // The controller's variable indices should be the same as the motion
+            // model's variable indices. This will speed up copying during the
+            // simulation.
+            connect(controller->vars(), motion_model_->vars());
+
+            controller->set_parent(shared_from_this());
+            controller->set_time(time_);
+            controller->set_pubsub(pubsub_);
+            controller->set_name(info[controller_name]);
+            param_override_func(config_parse.params());
+            controller->init(config_parse.params());
+            controllers_.push_back(controller);
         }
-        controllers_.push_back(controller);
         controller_name = std::string("controller") + std::to_string(++controller_ct);
     }
 
@@ -273,32 +306,37 @@ bool Entity::init(AttributeMap &overrides,
     std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
 
     while (info.count(autonomy_name) > 0) {
-        AutonomyPtr autonomy =
-            std::dynamic_pointer_cast<Autonomy>(
-                plugin_manager->make_plugin("scrimmage::Autonomy",
-                                            info[autonomy_name], *file_search, config_parse,
-                                            overrides[autonomy_name]));
-
-        if (autonomy == nullptr) {
+        ConfigParse config_parse;
+        PluginStatus<Autonomy> status =
+            plugin_manager->make_plugin<Autonomy>("scrimmage::Autonomy",
+                                                  info[autonomy_name],
+                                                  *file_search,
+                                                  config_parse,
+                                                  overrides[autonomy_name],
+                                                  plugin_tags);
+        if (status.status == PluginStatus<Autonomy>::cast_failed) {
             cout << "Failed to open autonomy plugin: " << info[autonomy_name] << endl;
             return false;
+        } else if (status.status == PluginStatus<Autonomy>::loaded) {
+            AutonomyPtr autonomy = status.plugin;
+            // Connect the autonomy to the first controller
+            if (not controllers_.empty()) {
+                connect(autonomy->vars(), controllers_.front()->vars());
+            }
+            autonomy->set_rtree(rtree);
+            autonomy->set_parent(parent);
+            autonomy->set_projection(proj_);
+            autonomy->set_pubsub(pubsub);
+            autonomy->set_time(time);
+            autonomy->set_state(motion_model_->state());
+            autonomy->set_contacts(contacts);
+            autonomy->set_is_controlling(true);
+            autonomy->set_name(info[autonomy_name]);
+            param_override_func(config_parse.params());
+            autonomy->init(config_parse.params());
+
+            autonomies_.push_back(autonomy);
         }
-
-        // Connect the autonomy to the first controller
-        connect(autonomy->vars(), controllers_.front()->vars());
-
-        autonomy->set_rtree(rtree);
-        autonomy->set_parent(parent);
-        autonomy->set_projection(proj_);
-        autonomy->set_pubsub(pubsub);
-        autonomy->set_time(time);
-        autonomy->set_state(motion_model_->state());
-        autonomy->set_contacts(contacts);
-        autonomy->set_is_controlling(true);
-        autonomy->set_name(info[autonomy_name]);
-        autonomy->init(config_parse.params());
-
-        autonomies_.push_back(autonomy);
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
     }
 
@@ -307,7 +345,7 @@ bool Entity::init(AttributeMap &overrides,
         connect_entity = boost::lexical_cast<bool>(info["connect_entity"]);
     }
 
-    if (connect_entity) {
+    if (connect_entity && not controllers_.empty()) {
         auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controllers_.front()->vars());};
         if (boost::algorithm::none_of(autonomies_, verify_io)) {
             auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
@@ -324,12 +362,13 @@ bool Entity::init(AttributeMap &overrides,
         }
     }
 
-    if (autonomies_.empty()) {
-        controllers_.front()->set_desired_state(state_);
-    } else {
-        controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
+    if (not controllers_.empty()) {
+        if (autonomies_.empty()) {
+            controllers_.front()->set_desired_state(state_);
+        } else {
+            controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
+        }
     }
-
     return true;
 }
 
@@ -466,7 +505,7 @@ void Entity::set_active(bool active) { active_ = active; }
 bool Entity::active() { return active_; }
 
 void Entity::setup_desired_state() {
-    if (!controllers_.front()) return;
+    if (controllers_.empty()) return;
 
     auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
         [&](auto autonomy) {return autonomy->get_is_controlling();});
@@ -548,41 +587,29 @@ std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
     return properties_;
 }
 
-ControllerPtr Entity::init_controller(
-        const std::string &name,
-        std::map<std::string, std::string> &overrides,
-        VariableIO &next_io) {
-
-    ConfigParse config_parse;
-    ControllerPtr controller =
-        std::static_pointer_cast<Controller>(
-            plugin_manager_->make_plugin("scrimmage::Controller",
-                name, *file_search_, config_parse, overrides));
-
-    if (controller == nullptr) {
-        std::cout << "Failed to open controller plugin: " << name << std::endl;
-        return nullptr;
-    }
-
-    controller->set_state(state_);
-
-    // The controller's variable indices should be the same as the motion
-    // model's variable indices. This will speed up copying during the
-    // simulation.
-    connect(controller->vars(), next_io);
-
-    controller->set_parent(shared_from_this());
-    controller->set_time(time_);
-    controller->set_pubsub(pubsub_);
-    controller->set_name(name);
-    controller->init(config_parse.params());
-    return controller;
-}
-
 void Entity::set_time_ptr(TimePtr t) {time_ = t;}
 
 // cppcheck-suppress passedByValue
 void Entity::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
     proj_ = proj;
+}
+
+void Entity::print_plugins(std::ostream &out) const {
+    out << "----------- Sensor -------------" << endl;
+    for (auto &kv : sensors_) {
+        out << kv.second->name() << endl;
+    }
+    out << "---------- Autonomy ------------" << endl;
+    for (AutonomyPtr a : autonomies_) {
+        out << a->name() << endl;
+    }
+    out << "---------- Controller ----------" << endl;
+    for (ControllerPtr c : controllers_) {
+        out << c->name() << endl;
+    }
+    out << "----------- Motion -------------" << endl;
+    if (motion_model_->name() != "BLANK") {
+        out << motion_model_->name() << endl;
+    }
 }
 } // namespace scrimmage

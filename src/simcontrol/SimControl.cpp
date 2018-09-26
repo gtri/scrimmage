@@ -471,7 +471,9 @@ bool SimControl::generate_entities(double t) {
             AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
             bool ent_status = ent->init(attr_map, params,
                 contacts_, mp_, proj_, next_id_, ent_desc_id,
-                plugin_manager_, file_search_, rtree_, pubsub_, time_);
+                plugin_manager_, file_search_, rtree_, pubsub_, time_,
+                std::set<std::string>{},
+                [](std::map<std::string, std::string>&){});
             contacts_mutex_.unlock();
 
             if (!ent_status) {

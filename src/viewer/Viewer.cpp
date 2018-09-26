@@ -133,7 +133,7 @@ bool Viewer::run() {
         get<std::string>("pos", params_, "0, 1, 200");
 
     std::vector<double> camera_pos;
-    if (!str2vec(camera_pos_str, ",", camera_pos, 3)) {
+    if (!str2container(camera_pos_str, ",", camera_pos, 3)) {
         std::cout << "camera_position should have 3 comma separated entries" << std::endl;
         return false;
     }
@@ -142,7 +142,7 @@ bool Viewer::run() {
         get<std::string>("focal_point", params_, "0, 0, 0");
 
     std::vector<double> camera_focal_pos;
-    if (!str2vec(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
+    if (!str2container(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
         std::cout << "camera_focal_point should have 3 comma separated entries" << std::endl;
         return false;
     }

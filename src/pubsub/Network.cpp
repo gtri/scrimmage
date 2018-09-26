@@ -62,7 +62,7 @@ bool Network::network_init(std::map<std::string, std::string> &mission_params,
                             bool &monitor_all) {
         std::string topics_str = get<std::string>(str, plugin_params, "");
 
-        std::vector<std::string> topics = str2vec<std::string>(topics_str, ", ");
+        auto topics = str2container<std::vector<std::string>>(topics_str, ", ");
 
         if (std::end(topics) != std::find(std::begin(topics),
                                           std::end(topics), "*")) {

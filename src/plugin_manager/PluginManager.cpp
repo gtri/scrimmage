@@ -35,18 +35,14 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/plugin_manager/Plugin.h>
 
 #include <iostream>
+#include <set>
 
 #include <boost/filesystem.hpp>
-
-#ifdef __APPLE__
-#define LIB_EXT ".dylib"
-#else
-#define LIB_EXT ".so"
-#endif
 
 namespace scrimmage {
 
@@ -171,78 +167,6 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::strin
             }
         }
     }
-    return nullptr;
-}
-
-PluginPtr PluginManager::make_plugin(
-        std::string plugin_type,
-        const std::string &plugin_name_xml,
-        FileSearch &file_search,
-        ConfigParse &config_parse,
-        std::map<std::string, std::string> &overrides) {
-
-    std::string plugin_name = plugin_name_xml;
-    auto it_orig_plugin_name = overrides.find("ORIGINAL_PLUGIN_NAME");
-    if (it_orig_plugin_name != overrides.end()) {
-        plugin_name = it_orig_plugin_name->second;
-    }
-
-    config_parse.set_required("library");
-    if (!config_parse.parse(overrides, plugin_name, "SCRIMMAGE_PLUGIN_PATH", file_search)) {
-        std::cout << "Failed to parse: " << plugin_name << ".xml for type " << plugin_type << std::endl;
-        std::cout << "Check that you have sourced ~/.scrimmage/setup.bash "
-            << "(this sets the environment variable SCRIMMAGE_PLUGIN_PATH to a directory including "
-            << plugin_name << ".xml)" << std::endl;
-        return nullptr;
-    }
-
-    std::string plugin_name_so = config_parse.params()["library"];
-
-    // first, if this has already been processed, return it
-    PluginPtr plugin = make_plugin_helper(plugin_type, plugin_name_so);
-    if (plugin != nullptr) {
-        // plugins_.push_back(plugin);
-        return plugin;
-    }
-
-    if (!files_checked_ && so_files_.empty()) {
-        file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files_);
-        files_checked_ = true;
-    }
-
-    // try the most obvious case, that the lib is named the same as the
-    // plugin_name
-    auto it = so_files_.find(std::string("lib") + plugin_name_so + LIB_EXT);
-    if (it != so_files_.end()) {
-        for (std::string &full_fname : it->second) {
-            if (check_library(full_fname) == 0) {
-                // don't need to check again that it is in the map since the helper
-                // will do this already
-                so_files_.erase(it);
-                PluginPtr ptr = make_plugin_helper(plugin_type, plugin_name_so);
-                // plugins_.push_back(ptr);
-                return ptr;
-            }
-        }
-    }
-
-    // last, loop through the files
-    it = so_files_.begin();
-    while (it != so_files_.end()) {
-        for (std::string &full_fname : it->second) {
-            if (check_library(full_fname) == 0) {
-                // don't need to check again that it is in the map since the helper
-                // will do this already
-                so_files_.erase(it);
-                PluginPtr ptr = make_plugin_helper(plugin_type, plugin_name_so);
-                // plugins_.push_back(ptr);
-                return ptr;
-            }
-        }
-        it++;
-    }
-
-    std::cout << "could not locate " << plugin_type << "::" << plugin_name_so << std::endl;
     return nullptr;
 }
 

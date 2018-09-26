@@ -45,6 +45,7 @@
 #include <scrimmage/plugin_manager/PluginManager.h>
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h>
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
 #include <iostream>
 #include <string>
@@ -59,6 +60,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
+namespace ms = scrimmage::autonomy::motor_schemas;
 
 REGISTER_PLUGIN(scrimmage::Autonomy,
                 scrimmage::autonomy::MotorSchemas,
@@ -124,16 +126,18 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
         }
 
         sc::ConfigParse config_parse;
-        motor_schemas::BehaviorBasePtr behavior =
-            std::dynamic_pointer_cast<motor_schemas::BehaviorBase>(
-                parent_->plugin_manager()->make_plugin("scrimmage::Autonomy",
-                                                       behavior_name,
-                                                       *(parent_->file_search()),
-                                                       config_parse,
-                                                       behavior_params));
-        if (behavior == nullptr) {
+        PluginStatus<ms::BehaviorBase> status =
+            parent_->plugin_manager()->make_plugin<ms::BehaviorBase>(
+                "scrimmage::Autonomy",
+                behavior_name,
+                *(parent_->file_search()),
+                config_parse,
+                behavior_params,
+                std::set<std::string>{});
+        if (status.status == PluginStatus<ms::BehaviorBase>::cast_failed) {
             cout << "Failed to load MotorSchemas behavior: " << behavior_name << endl;
-        } else {
+        } else if (status.status == PluginStatus<ms::BehaviorBase>::loaded) {
+            ms::BehaviorBasePtr behavior = status.plugin;
             // Initialize the autonomy/behavior
             behavior->set_rtree(rtree_);
             behavior->set_parent(parent_);
@@ -183,9 +187,6 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
-    // cout << "-----------------" << endl;
-    // cout << "ID: " << parent_->id().id() << endl;
-
     // Run all sub behaviors
     double vec_w_gain_sum = 0;
     Eigen::Vector3d vec_w_gain(0, 0, 0);

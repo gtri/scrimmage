@@ -108,7 +108,7 @@ class MissionParse {
 
     EntityDesc_t & entity_descriptions();
 
-    std::map<std::string, int> & entity_name_to_id();
+    std::map<std::string, int> & entity_tag_to_id();
 
     bool enable_gui();
     void set_enable_gui(bool enable);
@@ -195,7 +195,7 @@ class MissionParse {
     // Key: entity_description ID in EntityDesc_t vector
     std::map<int, std::vector<double> > next_gen_times_;
 
-    std::map<std::string, int> entity_name_to_id_;
+    std::map<std::string, int> entity_tag_to_id_;
 
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 

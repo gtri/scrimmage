@@ -3,7 +3,8 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="Straight flying">
 
-  <run start="0.0" end="1000" dt="0.008"
+  <run start="0.0" end="1000" dt="0.1"
+       motion_multiplier="12.5"
        time_warp="20"
        enable_gui="true"
        network_gui="false"
@@ -25,8 +26,6 @@
   <output_type>all</output_type>
   <show_plugins>false</show_plugins>
 
-  <metrics>SimpleCollisionMetrics</metrics>
-
   <log_dir>~/.scrimmage/logs</log_dir>
   <create_latest_dir>true</create_latest_dir>
 
@@ -37,18 +36,18 @@
   <origin_length>10</origin_length>
 
   <entity_interaction>SimpleCollision</entity_interaction>
+  <metrics tags="REAL">SimpleCollisionMetrics</metrics>
 
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 
-  <network>GlobalNetwork</network>
-  <network>LocalNetwork</network>
+  <network tags="REAL">GlobalNetwork</network>
+  <network tags="REAL">LocalNetwork</network>
 
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 
   <!-- ========================== TEAM 1 ========================= -->
-  <entity>
-    <name>uuv_entity</name>
+  <entity tag="uuv_entity">
     <team_id>1</team_id>
     <color>77 77 255</color>
     <count>1</count>
@@ -76,7 +75,8 @@
         <autonomy>Straight</autonomy>
     -->
 
-    <autonomy network_name="LocalNetwork" topic_Name="WaypointList"
+    <autonomy tags="REAL"
+              network_name="LocalNetwork" topic_Name="WaypointList"
               mode="racetrack"
               show_waypoints="true"
               waypoints="
@@ -87,17 +87,21 @@
                          "                               
               >WaypointGenerator</autonomy>
 
-    <autonomy waypointlist_network="LocalNetwork"
+    <autonomy tags="REAL"
+              waypointlist_network="LocalNetwork"
               waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
-    
-    <autonomy show_shapes="false" max_speed="25" behaviors="
+        
+    <autonomy tags="REAL"
+              show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
        [ MoveToGoalMS gain='1.0' show_shapes='true' use_initial_heading='true' goal='200,200,-100']"
               >MotorSchemas</autonomy>
     
-    <controller>UUV6DOFPIDController</controller>
-    <!--<controller energy_initial="2000">UUV6DOFLinearEnergy</controller>-->
-    <motion_model write_csv="true">UUV6DOF</motion_model>
+    <controller tags="REAL"
+                >UUV6DOFPIDController</controller>
+    <controller tags="SIL" energy_initial="2000">UUV6DOFLinearEnergy</controller>
+    <motion_model tags="SIL"
+                  write_csv="true">UUV6DOF</motion_model>
 
     <visual_model>submarine</visual_model>
   </entity>

@@ -49,6 +49,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <set>
 #include <string>
 #include <mutex> // NOLINT
 
@@ -64,40 +65,30 @@ class External {
  public:
     External();
     EntityPtr &entity();
-    void setup_logging();
-    bool create_entity(int max_entities, int entity_id,
-                       const std::string &entity_name,
-                       bool connect_entity = true);
-
-    template <class AcceptFunc>
-    bool create_entity(int max_entities, int entity_id,
-                       const std::string &entity_name,
-                       AcceptFunc accept_func, bool connect_entity = true) {
-
-        if (!create_entity(max_entities, entity_id, entity_name, connect_entity)) {
-            return false;
-        }
-
-        auto filter_func = [&](auto &p) {return !accept_func(p);};
-        auto &a = entity_->autonomies();
-        a.erase(std::remove_if(a.begin(), a.end(), filter_func), a.end());
-
-        return true;
-    }
-
+    bool create_entity(const std::string &mission_file,
+                       const std::string &entity_tag,
+                       const std::string &plugin_tags_str,
+                       int entity_id,
+                       int max_entities,
+                       const std::string &log_dir,
+                       std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>&){});
     void close();
     bool create_interactions();
 
-    double min_motion_dt = 1;
+    double motion_dt_ = 1;
     VariableIO vars;
     std::mutex mutex;
     DelayedTask update_contacts_task;
     MissionParsePtr mp();
     bool send_messages();
 
+    void print_plugins(std::ostream &out) const;
+
  protected:
+    void setup_logging(const std::string &log_dir);
     void update_ents();
     EntityPtr entity_;
+    bool enable_motion_ = false;
     std::list<EntityInteractionPtr> ent_inters_;
     std::list<MetricsPtr> metrics_;
     NetworkMapPtr networks_;

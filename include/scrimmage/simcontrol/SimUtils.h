@@ -40,6 +40,8 @@
 #include <memory>
 #include <unordered_map>
 #include <list>
+#include <set>
+#include <map>
 #include <string>
 
 namespace boost {
@@ -63,12 +65,21 @@ struct SimUtilsInfo {
 bool create_ent_inters(const SimUtilsInfo &info,
                        ContactMapPtr contacts,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
-                       std::list<EntityInteractionPtr> &ent_inters);
+                       std::list<EntityInteractionPtr> &ent_inters,
+                       const std::set<std::string> &plugin_tags = {},
+                       std::function<void(std::map<std::string, std::string>&)>
+                       param_override_func = [](std::map<std::string, std::string>&){});
 
 bool create_metrics(const SimUtilsInfo &info, ContactMapPtr contacts,
-                    std::list<MetricsPtr> &metrics_list);
+                    std::list<MetricsPtr> &metrics_list,
+                    const std::set<std::string> &plugin_tags = {},
+                    std::function<void(std::map<std::string, std::string>&)>
+                    param_override_func = [](std::map<std::string, std::string>&){});
 
-bool create_networks(const SimUtilsInfo &info, NetworkMap &networks);
+bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
+                     const std::set<std::string> &plugin_tags = {},
+                     std::function<void(std::map<std::string, std::string>&)>
+                     param_override_func = [](std::map<std::string, std::string>&){});
 
 void run_callbacks(PluginPtr plugin);
 

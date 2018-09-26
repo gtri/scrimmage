@@ -133,7 +133,7 @@ bool find_model_properties(std::string model_name,
     it_info = cv_parse.params().find("visual_rpy");
     if (it_info != cv_parse.params().end()) {
         std::vector<double> temp_rotate;
-        if (str2vec<double>(it_info->second, " ", temp_rotate, 3)) {
+        if (str2container(it_info->second, " ", temp_rotate, 3)) {
             valid_rotate = true;
             for (auto it = temp_rotate.begin(); it != temp_rotate.end(); it++) {
                 cv->add_rotate(*it);

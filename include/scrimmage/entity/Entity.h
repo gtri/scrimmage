@@ -40,6 +40,7 @@
 #include <scrimmage/pubsub/Message.h>
 
 #include <map>
+#include <set>
 #include <unordered_map>
 #include <list>
 #include <vector>
@@ -73,7 +74,12 @@ class Entity : public std::enable_shared_from_this<Entity> {
               FileSearchPtr &file_search,
               RTreePtr &rtree,
               PubSubPtr &pubsub,
-              TimePtr &time);
+              TimePtr &time,
+              const std::set<std::string> &plugin_tags,
+              std::function<void(std::map<std::string, std::string>&)> param_override_func
+        );
+
+    void print_plugins(std::ostream &out) const;
 
     bool parse_visual(std::map<std::string, std::string> &info,
                       MissionParsePtr mp,
@@ -174,12 +180,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
     }
 
     double radius() { return radius_; }
-
-    ControllerPtr init_controller(
-        const std::string &name,
-        std::map<std::string, std::string> &overrides,
-        VariableIO &next_io);
-
     void set_time_ptr(TimePtr t);
     ///@}
 
