@@ -30,53 +30,43 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
+#ifndef INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
+#define INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
 
-#include <Eigen/Dense>
-
-#include <map>
 #include <string>
+#include <memory>
+#include <functional>
 
 namespace scrimmage {
 
-namespace interaction {
-class BoundaryBase;
-}
+class Plugin;
+using PluginPtr = std::shared_ptr<Plugin>;
 
-namespace autonomy {
-class Straight : public scrimmage::Autonomy{
+class ParameterBase {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
-
+    explicit ParameterBase(PluginPtr &owner) : owner_(owner) {}
+    virtual ~ParameterBase() {}
+    const PluginPtr &owner() { return owner_; }
  protected:
-    double speed_;
-    Eigen::Vector3d goal_;
-
-    int frame_number_;
-    bool show_camera_images_;
-    bool save_camera_images_;
-    bool show_text_label_;
-
-    bool enable_boundary_control_ = false;
-    std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
-
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
-    int desired_heading_idx_ = 0;
-
-    scrimmage_proto::ShapePtr text_shape_;
-    scrimmage_proto::ShapePtr sphere_shape_;
-
-    bool noisy_state_set_ = false;
-    State noisy_state_;
-
-    std::map<int, State> noisy_contacts_;
-
-    double desired_z_ = 0;
+    PluginPtr owner_ = nullptr;
 };
-} // namespace autonomy
+
+template <class T>
+class Parameter : public ParameterBase {
+ public:
+    Parameter(T &variable, std::function<void(const T &value)> callback,
+              PluginPtr &owner) : ParameterBase(owner), value_(variable),
+        callback_(callback) {}
+    void set_value(const T &value) {
+        value_ = value;
+        callback_(value_);
+    }
+ protected:
+    T &value_;
+    std::function<void(const T &value)> callback_;
+};
+
+typedef std::shared_ptr<ParameterBase> ParameterBasePtr;
+
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_

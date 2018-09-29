@@ -30,53 +30,32 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/ParameterServer.h>
 
-#include <Eigen/Dense>
-
-#include <map>
 #include <string>
+#include <algorithm>
 
 namespace scrimmage {
-
-namespace interaction {
-class BoundaryBase;
+void ParameterServer::unregister_params(PluginPtr owner) {
+    // For all parameters, remove all parameters owned by this plugin
+    for (auto &kv1 : params_) {
+        for (auto &kv2 : kv1.second) {
+            remove_if_owner(kv2.second, owner);
+        }
+    }
 }
 
-namespace autonomy {
-class Straight : public scrimmage::Autonomy{
- public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
-
- protected:
-    double speed_;
-    Eigen::Vector3d goal_;
-
-    int frame_number_;
-    bool show_camera_images_;
-    bool save_camera_images_;
-    bool show_text_label_;
-
-    bool enable_boundary_control_ = false;
-    std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
-
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
-    int desired_heading_idx_ = 0;
-
-    scrimmage_proto::ShapePtr text_shape_;
-    scrimmage_proto::ShapePtr sphere_shape_;
-
-    bool noisy_state_set_ = false;
-    State noisy_state_;
-
-    std::map<int, State> noisy_contacts_;
-
-    double desired_z_ = 0;
-};
-} // namespace autonomy
+bool ParameterServer::remove_if_owner(std::set<ParameterBasePtr> &param_set,
+                                      PluginPtr owner) {
+    auto it_param = std::find_if(param_set.begin(),
+                                 param_set.end(),
+                                 [&](auto p) {
+                                     return p->owner() == owner;
+                                 });
+    if (it_param != param_set.end()) {
+        param_set.erase(it_param);
+        return true;
+    }
+    return false;
+}
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_

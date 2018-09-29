@@ -92,6 +92,5 @@ void Autonomy::close(double t) {
     desired_state_ = nullptr;
     contacts_ = nullptr;
     rtree_ = nullptr;
-    Plugin::close(t);
 }
 } // namespace scrimmage

@@ -174,6 +174,7 @@ class SimControl {
     std::string jsbsim_root_;
 
     TimePtr time_;
+    ParameterServerPtr param_server_;
 
     double t0_ = 0;
     double tend_ = 0;

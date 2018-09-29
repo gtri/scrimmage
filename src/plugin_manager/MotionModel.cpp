@@ -69,6 +69,5 @@ void MotionModel::set_external_force(Eigen::Vector3d force) {
 
 void MotionModel::close(double t) {
     state_ = nullptr;
-    Plugin::close(t);
 }
 } // namespace scrimmage

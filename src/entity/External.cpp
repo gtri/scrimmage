@@ -76,6 +76,7 @@ External::External() :
     last_t_(NAN),
     pubsub_(std::make_shared<PubSub>()),
     time_(std::make_shared<Time>()),
+    param_server_(std::make_shared<ParameterServer>()),
     mp_(std::make_shared<MissionParse>()),
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()) {}
@@ -185,7 +186,7 @@ bool External::create_entity(const std::string &mission_file,
         entity_->init(
             attr_map, info, contacts, mp_, mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_, plugin_tags, param_override_func);
+            time_, param_server_, plugin_tags, param_override_func);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;

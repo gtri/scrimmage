@@ -42,6 +42,7 @@
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -91,6 +92,7 @@ SimControl::SimControl() :
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
     time_(std::make_shared<Time>()),
+    param_server_(std::make_shared<ParameterServer>()),
     timer_(Timer()),
     random_(std::make_shared<Random>()),
     plugin_manager_(std::make_shared<PluginManager>()),
@@ -259,6 +261,7 @@ bool SimControl::init() {
     info.rtree = rtree_;
     info.pubsub = pubsub_;
     info.time = time_;
+    info.param_server = param_server_;
     info.random = random_;
     info.id_to_team_map = id_to_team_map_;
     info.id_to_ent_map = id_to_ent_map_;
@@ -472,6 +475,7 @@ bool SimControl::generate_entities(double t) {
             bool ent_status = ent->init(attr_map, params,
                 contacts_, mp_, proj_, next_id_, ent_desc_id,
                 plugin_manager_, file_search_, rtree_, pubsub_, time_,
+                param_server_,
                 std::set<std::string>{},
                 [](std::map<std::string, std::string>&){});
             contacts_mutex_.unlock();
@@ -834,11 +838,11 @@ void SimControl::cleanup() {
     }
 
     for (EntityInteractionPtr ent_inter : ent_inters_) {
-        ent_inter->close(t());
+        ent_inter->close_plugin(t());
     }
 
     for (auto &kv : *networks_) {
-        kv.second->close(t());
+        kv.second->close_plugin(t());
     }
 
     run_logging();
@@ -872,7 +876,7 @@ void SimControl::close() {
     pubsub_ = nullptr;
     file_search_ = nullptr;
     rtree_ = nullptr;
-    sim_plugin_->close(t());
+    sim_plugin_->close_plugin(t());
     pub_end_time_ = nullptr;
     pub_ent_gen_ = nullptr;
     pub_ent_rm_ = nullptr;

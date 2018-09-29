@@ -61,6 +61,9 @@
 
 namespace scrimmage {
 
+class ParameterServer;
+using ParameterServerPtr = std::shared_ptr<ParameterServer>;
+
 class External {
  public:
     External();
@@ -84,6 +87,8 @@ class External {
 
     void print_plugins(std::ostream &out) const;
 
+    ParameterServerPtr param_server() { return param_server_; }
+
  protected:
     void setup_logging(const std::string &log_dir);
     void update_ents();
@@ -98,6 +103,7 @@ class External {
     double last_t_;
     PubSubPtr pubsub_;
     TimePtr time_;
+    ParameterServerPtr param_server_;
     MissionParsePtr mp_;
 
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;

@@ -50,7 +50,6 @@ class Controller : public Plugin {
     void close(double t) override {
         state_ = nullptr;
         desired_state_ = nullptr;
-        Plugin::close(t);
     }
 
  protected:

@@ -33,6 +33,8 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/pubsub/Message.h>

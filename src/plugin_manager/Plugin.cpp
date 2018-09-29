@@ -37,6 +37,7 @@
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/Random.h>
+#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
@@ -50,7 +51,8 @@ Plugin::Plugin() : name_("Plugin"), parent_(std::make_shared<Entity>()),
                    transform_(std::make_shared<State>()),
                    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
                    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
-                   time_(std::make_shared<const Time>()) {
+                   time_(std::make_shared<const Time>()),
+                   param_server_(std::make_shared<ParameterServer>()) {
 }
 
 Plugin::~Plugin() {}
@@ -102,7 +104,14 @@ void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
     shapes_.push_back(s);
 }
 
-void Plugin::close(double /*t*/) {
+void Plugin::set_param_server(const ParameterServerPtr &param_server) {
+    param_server_ = param_server;
+}
+
+void Plugin::close_plugin(const double &t) {
+    close(t); // allow subclass to close()
+
+    param_server_->unregister_params(shared_from_this());
     parent_ = nullptr;
     transform_ = nullptr;
     id_to_ent_map_ = nullptr;

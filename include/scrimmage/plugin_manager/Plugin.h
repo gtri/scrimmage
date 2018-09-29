@@ -36,6 +36,7 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
@@ -74,7 +75,9 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual std::string name();
     virtual std::string type();
     virtual bool ready() { return true; }
-    virtual void close(double /*t*/);
+
+    void close_plugin(const double &t);
+    virtual void close(double t) {}
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
@@ -133,6 +136,27 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     void draw_shape(scrimmage_proto::ShapePtr s);
     bool print_err_on_exit = true;
 
+    void set_param_server(const ParameterServerPtr &param_server);
+
+    template <class T>
+    bool register_param(const std::string &name, T &variable,
+                        std::function<void(const T &value)> callback =
+                        [](const T &value){}) {
+        return param_server_->register_param<T>(name, variable,
+                                                callback,
+                                                shared_from_this());
+    }
+
+    template <class T>
+    bool set_param(const std::string &name, const T &value) {
+        return param_server_->set_param<T>(name, value);
+    }
+
+    template <class T>
+    bool unregister_param(const std::string &name) {
+        return param_server_->unregister_param<T>(name, shared_from_this());
+    }
+
  protected:
     std::string name_;
     EntityPtr parent_;
@@ -150,6 +174,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 
  private:
     std::list<scrimmage_proto::ShapePtr> shapes_;
+    ParameterServerPtr param_server_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
