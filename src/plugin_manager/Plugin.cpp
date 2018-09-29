@@ -55,8 +55,7 @@ Plugin::Plugin() : name_("Plugin"), parent_(std::make_shared<Entity>()),
                    param_server_(std::make_shared<ParameterServer>()) {
 }
 
-Plugin::~Plugin() {
-}
+Plugin::~Plugin() {}
 
 std::string Plugin::name() { return name_; }
 

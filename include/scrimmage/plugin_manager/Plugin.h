@@ -77,7 +77,7 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     virtual bool ready() { return true; }
 
     void close_plugin(const double &t);
-    virtual void close(const double &t) {}
+    virtual void close(double t) {}
 
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();

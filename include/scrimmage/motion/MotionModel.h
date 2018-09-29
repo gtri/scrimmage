@@ -66,7 +66,7 @@ class MotionModel : public Plugin {
     virtual std::vector<double> &full_state_vector() {
         return x_;
     }
-    void close(const double &t) override;
+    void close(double t) override;
 
  protected:
     void ode_step(double dt);

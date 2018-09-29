@@ -86,7 +86,7 @@ ContactMapPtr &Autonomy::get_contacts() {return contacts_;}
 
 ContactMap &Autonomy::get_contacts_raw() {return *contacts_;}
 
-void Autonomy::close(const double &t) {
+void Autonomy::close(double t) {
     proj_ = nullptr;
     state_ = nullptr;
     desired_state_ = nullptr;

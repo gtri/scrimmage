@@ -36,11 +36,15 @@
 #include <scrimmage/common/Parameter.h>
 
 #include <string>
-#include <map>
-#include <list>
+#include <unordered_map>
+#include <set>
+#include <tuple>
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <functional>
+
+#include <boost/optional.hpp>
 
 class Plugin;
 using PluginPtr = std::shared_ptr<Plugin>;
@@ -54,85 +58,60 @@ class ParameterServer {
     bool register_param(const std::string &name, T &variable,
                         std::function<void(const T &value)> callback,
                         PluginPtr owner) {
-        // Create the Parameter
-        auto param = std::make_shared<Parameter<T>>(variable, callback, owner);
-
-        // Search for the parameter name in the server
-        auto it_name = params_.find(name);
-        if (it_name == params_.end()) {
-            // The parameter name doesn't exist it, create it.
-            params_[name][typeid(T).name()] = std::list<ParameterBasePtr> {param};
-        } else {
-            // Does this type exist for this parameter name?
-            auto it_type = it_name->second.find(typeid(T).name());
-            if (it_type != it_name->second.end()) {
-                // This param name / type combo exists
-                // Has this specific plugin already registered this parameter?
-                for (const ParameterBasePtr &ptr : it_type->second) {
-                    if (ptr->owner() == owner) {
-                        return false;
-                    }
-                }
-            }
-            // Add the parameter to the params_ map
-            (it_name->second)[typeid(T).name()].push_back(param);
-        }
-        return true;
+        auto it = params_[name][typeid(T).name()].emplace(
+            std::make_shared<Parameter<T>>(variable, callback, owner));
+        return it.second; // return false if the param already exists
     }
 
     template <class T>
     bool set_param(const std::string &name, const T &value) {
-        // Search for the parameter name in the server
-        auto it_name = params_.find(name);
-        if (it_name != params_.end()) {
-            // The param name exists, does the type exist?
-            auto it_type = it_name->second.find(typeid(T).name());
-            if (it_type != it_name->second.end()) {
-                // The param name/type exists in the list, iterate over the
-                // list of parameters and call their set_value functions
-                for (ParameterBasePtr param : it_type->second) {
-                    auto param_cast = std::dynamic_pointer_cast<Parameter<T>>(param);
-                    if (param_cast) {
-                        param_cast->set_value(value);
-                    }
-                }
-                return true;
+        auto param_set = find_name_type(name, typeid(T).name());
+        if (param_set) {
+            for (ParameterBasePtr param : *param_set) {
+                auto param_cast = std::dynamic_pointer_cast<Parameter<T>>(param);
+                param_cast->set_value(value);
             }
+            return true;
         }
         return false;
     }
 
     template <class T>
     bool unregister_param(const std::string &name, PluginPtr owner) {
-        // Search for the parameter name in the server
-        auto it_name = params_.find(name);
-        if (it_name != params_.end()) {
-            auto it_type = it_name->second.find(typeid(T).name());
-            if (it_type != it_name->second.end()) {
-                // The parameter name/type exists, let's find the specific
-                // plugin
-                auto it_param = std::remove_if(it_type->second.begin(),
-                                               it_type->second.end(),
-                                               [&](ParameterBasePtr ptr) {
-                                                   return ptr->owner() == owner; });
-                if (it_param != it_type->second.end()) {
-                    // The plugin created this param, erase it.
-                    it_type->second.erase(it_param, it_type->second.end());
-                    return true;
-                }
-            }
+        auto param_set = find_name_type(name, typeid(T).name());
+        if (param_set) {
+            // Remove the parameter if this is the owner
+            return remove_if_owner(*param_set, owner);
         }
         // Could not find the appropriate param name/type/plugin-owner
         return false;
     }
 
  protected:
+    bool remove_if_owner(std::set<ParameterBasePtr> &param_set,
+                         PluginPtr owner);
+
+    inline boost::optional<std::set<ParameterBasePtr>&>
+        find_name_type(const std::string &name, const std::string &type) {
+        // Search for the parameter name
+        auto it_name = params_.find(name);
+        if (it_name != params_.end()) {
+            // Search for the parameter type
+            auto it_type = it_name->second.find(type);
+            if (it_type != it_name->second.end()) {
+                return boost::optional<std::set<ParameterBasePtr>&>
+                    (it_type->second);
+            }
+        }
+        return boost::none;
+    }
+
     // Key 1: parameter name (string)
     // Key 2: parameter type (as a string)
-    // Value: ParameterBase shared_ptr
-    std::map<std::string, std::map<std::string, std::list<ParameterBasePtr>>> params_;
+    // Value: Set of ParameterBasePtr
+    std::unordered_map<std::string,
+        std::unordered_map<std::string, std::set<ParameterBasePtr>>> params_;
 };
-typedef std::shared_ptr<ParameterServer> ParameterServerPtr;
+using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 } // namespace scrimmage
-
 #endif // INCLUDE_SCRIMMAGE_COMMON_PARAMETERSERVER_H_

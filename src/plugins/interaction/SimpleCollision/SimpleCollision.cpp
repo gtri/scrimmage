@@ -46,7 +46,6 @@
 
 #include <limits>
 #include <memory>
-#include <iostream>
 
 namespace sm = scrimmage_msgs;
 

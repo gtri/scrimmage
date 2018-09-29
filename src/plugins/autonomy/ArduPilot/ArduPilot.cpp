@@ -146,7 +146,7 @@ void ArduPilot::start_receive() {
                     ba::placeholders::bytes_transferred));
 }
 
-void ArduPilot::close(const double &t) {
+void ArduPilot::close(double t) {
     tx_socket_->close();
     recv_socket_->close();
 }

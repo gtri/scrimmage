@@ -36,7 +36,6 @@
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/DelayedTask.h>
-#include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/math/State.h>
@@ -61,6 +60,9 @@
 #include <boost/function.hpp>
 
 namespace scrimmage {
+
+class ParameterServer;
+using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 
 class External {
  public:
