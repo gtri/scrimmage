@@ -41,6 +41,8 @@
 #include <map>
 #include <list>
 #include <string>
+#include <vector>
+#include <deque>
 
 namespace scrimmage {
 namespace interaction {
@@ -52,11 +54,14 @@ class GraphInteraction : public scrimmage::EntityInteraction {
                 std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
                                     double t, double dt) override;
+
+    unsigned int num_nodes() { return num_nodes_; }
  protected:
  private:
     bool vis_graph_ = true;
     PublisherPtr pub_graph_;
     int id_ = 1;
+    unsigned int num_nodes_ = 0;
 };
 } // namespace interaction
 } // namespace scrimmage
