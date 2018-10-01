@@ -64,7 +64,6 @@ UUV6DOF::UUV6DOF() {
 
 bool UUV6DOF::init(std::map<std::string, std::string> &info,
                      std::map<std::string, std::string> &params) {
-
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
@@ -110,6 +109,7 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
     mass_ = sc::get<double>("mass", params, 1.2);
     buoyancy_ = sc::get<double>("buoyancy", params, buoyancy_);
+    surface_height_ = sc::get<double>("surface_height", params, surface_height_);
 
     {
         // Get the inertia matrix
@@ -265,6 +265,15 @@ bool UUV6DOF::step(double time, double dt) {
     ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
 
     ode_step(dt);
+
+    // Limit depth/height
+    if (x_[Zw] >= surface_height_) {
+        x_[Zw] = surface_height_;
+        if (x_[Q] > 0) {
+            x_[Q] *= 0.90;
+            x_[Q_dot] *= 0.10;
+        }
+    }
 
     quat_body_.set(x_[q0], x_[q1], x_[q2], x_[q3]);
     quat_body_.normalize();

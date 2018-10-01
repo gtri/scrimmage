@@ -181,6 +181,8 @@ class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
     double Kprop_ = -0.543; // TODO: Proportion of thrust
     double Kprop_max_mag_ = 0.543;
 
+    double surface_height_ = 0;
+
  private:
 };
 } // namespace motion
