@@ -80,8 +80,8 @@ class VariableIO {
     std::map<std::string, int> &output_variable_index();
     std::map<std::string, int> &input_variable_index();
 
-    int add_input_variable(std::string &var);
-    int add_output_variable(std::string &var);
+    int add_input_variable(const std::string &var);
+    int add_output_variable(const std::string &var);
     int declare(std::string var, Direction dir);
     int declare(Type type, Direction dir);
 

@@ -80,7 +80,7 @@ std::map<std::string, int> & VariableIO::input_variable_index() {
     return input_variable_index_;
 }
 
-int VariableIO::add_input_variable(std::string &var) {
+int VariableIO::add_input_variable(const std::string &var) {
     // If the variable already exists, return its existing index
     declared_input_variables_.insert(var);
     auto it = input_variable_index_.find(var);
@@ -96,7 +96,7 @@ int VariableIO::add_input_variable(std::string &var) {
     return idx;
 }
 
-int VariableIO::add_output_variable(std::string &var) {
+int VariableIO::add_output_variable(const std::string &var) {
     // If the variable already exists, return its existing index
     declared_output_variables_.insert(var);
     int idx;

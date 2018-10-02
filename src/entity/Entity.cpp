@@ -274,6 +274,11 @@ bool Entity::init(AttributeMap &overrides,
         auto next = std::next(it);
         if (next == controllers_.end()) {
             // Last controller's variables connect to the motion model
+            // Note that we do not need to make the connection if there is no
+            // motion model. This would needlessly clear the IO of the
+            // controller
+            if (init_empty_motion_model) continue;
+
             connect((*it)->vars(), motion_model_->vars());
 
             // Make sure that the last controller provides the variables
