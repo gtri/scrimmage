@@ -72,10 +72,10 @@ void Autonomy::set_is_controlling(bool is_controlling) {is_controlling_ = is_con
 
 std::string Autonomy::type() { return std::string("Autonomy"); }
 
-bool Autonomy::step_autonomy(double t, double dt) { return false; }
-bool Autonomy::posthumous(double t) { return true; }
+bool Autonomy::step_autonomy(double /*t*/, double /*dt*/) { return false; }
+bool Autonomy::posthumous(double /*t*/) { return true; }
 void Autonomy::init() {}
-void Autonomy::init(std::map<std::string, std::string> &params) {}
+void Autonomy::init(std::map<std::string, std::string> &/*params*/) {}
 bool Autonomy::need_reset() {return need_reset_;}
 
 StatePtr &Autonomy::desired_state() {return desired_state_;}
@@ -86,7 +86,7 @@ ContactMapPtr &Autonomy::get_contacts() {return contacts_;}
 
 ContactMap &Autonomy::get_contacts_raw() {return *contacts_;}
 
-void Autonomy::close(double t) {
+void Autonomy::close(double /*t*/) {
     proj_ = nullptr;
     state_ = nullptr;
     desired_state_ = nullptr;
