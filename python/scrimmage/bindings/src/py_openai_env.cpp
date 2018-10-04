@@ -37,6 +37,12 @@
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
+
+#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
+
 // temporary includes for scrimmage_memory_cleanup
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -64,7 +70,9 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/transform.hpp>
 
 #include <GeographicLib/LocalCartesian.hpp>
 
@@ -72,6 +80,7 @@ namespace py = pybind11;
 namespace sc = scrimmage;
 namespace ba = boost::adaptors;
 namespace br = boost::range;
+namespace sc_auto = scrimmage::autonomy;
 
 namespace {
 // https://stackoverflow.com/a/48164204
@@ -88,9 +97,10 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
     spec(py::none()),
     metadata(py::dict()),
     mission_file_(mission_file),
-    combine_actors_(combine_actors),
-    global_sensor_(global_sensor),
     enable_gui_(enable_gui) {
+
+    observations_.set_global_sensor(global_sensor);
+    observations_.set_combine_actors(combine_actors);
 
     delayed_task_.delay = timestep;
 
@@ -100,157 +110,25 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
     mp_ = std::make_shared<sc::MissionParse>();
     reset_scrimmage(false);
 
-    tuple_space_ = get_gym_space("Tuple");
-    discrete_space_ = get_gym_space("Discrete");
-    multidiscrete_space_ = get_gym_space("MultiDiscrete");
-    box_space_ = get_gym_space("Box");
-    asarray_ = py::module::import("numpy").attr("asarray");
-}
-
-void ScrimmageOpenAIEnv::to_continuous(std::vector<std::pair<double, double>> &p,
-                                       pybind11::list &minima,
-                                       pybind11::list &maxima) {
-    for (auto &value : p) {
-        py::list min_max;
-        minima.append(value.first);
-        maxima.append(value.second);
-    }
-}
-
-void ScrimmageOpenAIEnv::to_discrete(std::vector<double> &p, py::list &maxima) {
-    for (auto &value : p) {
-        maxima.append(value);
-    }
-}
-
-void ScrimmageOpenAIEnv::create_action_space() {
-
-    if (ext_ctrl_vec_.size() == 1 || combine_actors_) {
-        py::list discrete_count;
-        py::list continuous_minima;
-        py::list continuous_maxima;
-
-        for (auto &a : ext_ctrl_vec_) {
-            a->set_environment();
-            to_discrete(a->action_space.discrete_count, discrete_count);
-            to_continuous(a->action_space.continuous_extrema, continuous_minima, continuous_maxima);
-        }
-
-        action_space =
-            create_space(discrete_count, continuous_minima, continuous_maxima);
-
-    } else {
-
-        py::list action_spaces;
-
-        for (auto &a : ext_ctrl_vec_) {
-            py::list discrete_count;
-            py::list continuous_minima;
-            py::list continuous_maxima;
-
-            a->set_environment();
-            to_discrete(a->action_space.discrete_count, discrete_count);
-            to_continuous(a->action_space.continuous_extrema, continuous_minima, continuous_maxima);
-
-            auto space =
-                create_space(discrete_count, continuous_minima, continuous_maxima);
-            action_spaces.append(space);
-        }
-
-        py::object tuple_space = get_gym_space("Tuple");
-        action_space = tuple_space(action_spaces);
-    }
-}
-
-void ScrimmageOpenAIEnv::create_observation_space() {
-
-    py::object tuple_space = get_gym_space("Tuple");
-
-    auto create_obs = [&](py::list &discrete_count, py::list &continuous_maxima) -> py::object {
-
-        int len_discrete = py::len(discrete_count);
-        int len_continuous = py::len(continuous_maxima);
-
-        py::array_t<int> discrete_array(len_discrete);
-        py::array_t<double> continuous_array(len_continuous);
-
-        if (len_discrete > 0 && len_continuous > 0) {
-            py::list obs;
-            obs.append(discrete_array);
-            obs.append(continuous_array);
-            return obs;
-        } else if (len_continuous > 0) {
-            return continuous_array;
-        } else {
-            return discrete_array;
-        }
-    };
-
-    if (ext_ctrl_vec_.size() == 1 || combine_actors_) {
-        py::list discrete_count;
-        py::list continuous_minima;
-        py::list continuous_maxima;
-
-        bool done = false;
-        for (auto &v : ext_sensor_vec_) {
-            if (done) break;
-            for (auto &s : v) {
-                s->set_observation_space();
-                to_discrete(s->observation_space.discrete_count, discrete_count);
-                to_continuous(s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
-
-                if (global_sensor_) {
-                    done = true;
-                    break;
-                }
-            }
-        }
-
-        observation_space =
-            create_space(discrete_count, continuous_minima, continuous_maxima);
-
-        observation = create_obs(discrete_count, continuous_maxima);
-
-    } else {
-
-        py::list observation_spaces;
-        py::list obs;
-
-        for (auto &v : ext_sensor_vec_) {
-            for (auto &s : v) {
-                py::list discrete_count;
-                py::list continuous_minima;
-                py::list continuous_maxima;
-
-                s->set_observation_space();
-                to_discrete(s->observation_space.discrete_count, discrete_count);
-                to_continuous(s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
-
-                auto space =
-                    create_space(discrete_count, continuous_minima, continuous_maxima);
-                observation_spaces.append(space);
-                obs.append(create_obs(discrete_count, continuous_maxima));
-            }
-        }
-
-        observation_space = tuple_space(observation_spaces);
-        observation = obs;
-    }
+    tuple_space_ = sc_auto::get_gym_space("Tuple");
+    discrete_space_ = sc_auto::get_gym_space("Discrete");
+    multidiscrete_space_ = sc_auto::get_gym_space("MultiDiscrete");
+    box_space_ = sc_auto::get_gym_space("Box");
 }
 
 void ScrimmageOpenAIEnv::set_reward_range() {
     reward_range = pybind11::tuple(2);
-    if (ext_ctrl_vec_.size() == 1) {
-        reward_range[0] = ext_ctrl_vec_[0]->reward_range.first;
-        reward_range[1] = ext_ctrl_vec_[0]->reward_range.second;
+    if (actions_.ext_ctrl_vec().size() == 1) {
+        reward_range[0] = actions_.ext_ctrl_vec()[0]->reward_range.first;
+        reward_range[1] = actions_.ext_ctrl_vec()[0]->reward_range.second;
     } else {
 
         auto get_min_reward = [&](auto &a) {return a->reward_range.first;};
         auto get_max_reward = [&](auto &a) {return a->reward_range.second;};
-        auto min_reward = ext_ctrl_vec_ | ba::transformed(get_min_reward);
-        auto max_reward = ext_ctrl_vec_ | ba::transformed(get_max_reward);
+        auto min_reward = actions_.ext_ctrl_vec() | ba::transformed(get_min_reward);
+        auto max_reward = actions_.ext_ctrl_vec() | ba::transformed(get_max_reward);
 
-        if (combine_actors_) {
+        if (observations_.get_combine_actors()) {
             reward_range[0] = boost::accumulate(min_reward, 0.0);
             reward_range[1] = boost::accumulate(max_reward, 0.0);
         } else {
@@ -266,131 +144,12 @@ void ScrimmageOpenAIEnv::set_reward_range() {
     }
 }
 
-pybind11::object ScrimmageOpenAIEnv::create_space(
-        pybind11::list discrete_count,
-        pybind11::list continuous_minima,
-        pybind11::list continuous_maxima) {
-
-    py::module np = py::module::import("numpy");
-    py::object np_array = np.attr("array");
-    py::object np_float32 = np.attr("float32");
-
-    py::object gym_discrete_space = get_gym_space("Discrete");
-    py::object gym_multidiscrete_space = get_gym_space("MultiDiscrete");
-    py::object gym_box_space = get_gym_space("Box");
-    py::object gym_tuple_space = get_gym_space("Tuple");
-
-    py::object discrete_space = py::len(discrete_count) == 1 ?
-        gym_discrete_space(discrete_count[0]) :
-        gym_multidiscrete_space(discrete_count);
-
-    py::object continuous_space = gym_box_space(
-        np_array(continuous_minima),
-        np_array(continuous_maxima),
-        py::none(),
-        np_float32);
-
-    int len_discrete = py::len(discrete_count);
-    int len_continuous = py::len(continuous_minima);
-    if (len_discrete != 0 && len_continuous != 0) {
-        py::list spaces;
-        spaces.append(discrete_space);
-        spaces.append(continuous_space);
-        return gym_tuple_space(spaces);
-    } else if (len_discrete != 0) {
-        return discrete_space;
-    } else if (len_continuous != 0) {
-        return continuous_space;
-    } else {
-        // TODO: error handling
-        return pybind11::object();
-    }
-}
-
 void ScrimmageOpenAIEnv::render(const std::string &/*mode*/) {
     warning_function_("render must be set in gym.make with enable_gui kwargs");
 }
 
-void ScrimmageOpenAIEnv::update_observation() {
-
-    auto call_get_obs = [&](auto *data, uint32_t &beg_idx, auto sensor, int obs_size) {
-        uint32_t end_idx = beg_idx + obs_size;
-        if (end_idx != beg_idx) {
-            sensor->get_observation(data, beg_idx, end_idx);
-            beg_idx = end_idx;
-        }
-    };
-
-    auto init_arrays = [&](py::object obs_space, py::object obs) {
-        py::array_t<int> disc_obs;
-        py::array_t<double> cont_obs;
-        if (PyObject_IsInstance(obs_space.ptr(), tuple_space_.ptr())) {
-            py::list obs_list = obs.cast<py::list>();
-            disc_obs = obs_list[0].cast<py::array_t<int>>();
-            cont_obs = obs_list[1].cast<py::array_t<double>>();
-        } else if (PyObject_IsInstance(obs_space.ptr(), box_space_.ptr())) {
-            cont_obs = obs.cast<py::array_t<double>>();
-        } else {
-            disc_obs = obs.cast<py::array_t<int>>();
-        }
-
-        return std::make_tuple(disc_obs, cont_obs);
-    };
-
-    py::array_t<int> disc_obs;
-    py::array_t<double> cont_obs;
-    if (ext_ctrl_vec_.size() == 1 || combine_actors_) {
-
-        std::tie(disc_obs, cont_obs) = init_arrays(observation_space, observation);
-        uint32_t disc_beg_idx = 0;
-        uint32_t cont_beg_idx = 0;
-        int* r_disc = static_cast<int *>(disc_obs.request().ptr);
-        double* r_cont = static_cast<double *>(cont_obs.request().ptr);
-
-        bool done = false;
-        for (auto &v : ext_sensor_vec_) {
-            if (done) break;
-            for (auto &s : v) {
-                auto obs_space = s->observation_space;
-                call_get_obs(r_disc, disc_beg_idx, s, obs_space.discrete_count.size());
-                call_get_obs(r_cont, cont_beg_idx, s, obs_space.continuous_extrema.size());
-
-                if (global_sensor_) {
-                    done = true;
-                    break;
-                }
-            }
-        }
-
-    } else {
-        py::list observation_space_list =
-            observation_space.attr("spaces").cast<py::list>();
-        py::list observation_list = observation.cast<py::list>();
-
-        for (size_t i = 0; i < ext_sensor_vec_.size(); i++) {
-            py::object indiv_space = observation_space_list[i];
-            py::object indiv_obs = observation_list[i];
-            std::tie(disc_obs, cont_obs) = init_arrays(indiv_space, indiv_obs);
-            uint32_t disc_beg_idx = 0;
-            uint32_t cont_beg_idx = 0;
-            int* r_disc = static_cast<int *>(disc_obs.request().ptr);
-            double* r_cont = static_cast<double *>(cont_obs.request().ptr);
-
-            for (auto &s : ext_sensor_vec_[i]) {
-                auto obs_space = s->observation_space;
-                call_get_obs(r_disc, disc_beg_idx, s, obs_space.discrete_count.size());
-                call_get_obs(r_cont, cont_beg_idx, s, obs_space.continuous_extrema.size());
-            }
-        }
-    }
-}
-
-py::object ScrimmageOpenAIEnv::get_gym_space(const std::string &type) {
-    return py::module::import("gym").attr("spaces").attr(type.c_str());
-}
-
 bool ScrimmageOpenAIEnv::is_gym_instance(pybind11::object &obj, const std::string &type) {
-    py::object cls = get_gym_space(type);
+    py::object cls = sc_auto::get_gym_space(type);
     return PyObject_IsInstance(obj.ptr(), cls.ptr());
 }
 
@@ -413,14 +172,14 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     sigaction(SIGTERM, &sa, NULL);
 
     reset_scrimmage(enable_gui_);
-    update_observation();
-    return observation;
+    observations_.update_observation(actions_.ext_ctrl_vec().size());
+    return observations_.observation;
 }
 
 void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
     // temporary fix until scrimmage uses weak pointers
-    ext_ctrl_vec_.clear();
-    ext_sensor_vec_.clear();
+    actions_.ext_ctrl_vec().clear();
+    observations_.ext_sensor_vec().clear();
 
     if (!simcontrol_) return;
 
@@ -505,6 +264,10 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     } else {
         mp_->set_time_warp(0);
     }
+    // users may have forgotten to turn off nonlearning_mode.
+    // If this code is being called then it should never be nonlearning_mode
+    reset_learning_mode();
+
     log_ = sc::preprocess_scrimmage(mp_, *simcontrol_);
     simcontrol_->start_overall_timer();
     simcontrol_->set_time(mp_->t0());
@@ -517,33 +280,24 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     if (log_ == nullptr) {
         py::print("scrimmage initialization unsuccessful");
     }
+
     loop_number_ = 0;
     if (!simcontrol_->generate_entities(0)) {
         py::print("scrimmage entity generation unsuccessful");
     }
 
-    ext_ctrl_vec_.clear();
-    ext_sensor_vec_.clear();
+    actions_.ext_ctrl_vec().clear();
+    observations_.ext_sensor_vec().clear();
     for (auto &e : simcontrol_->ents()) {
-        for (auto &a : e->autonomies()) {
-            auto a_cast = std::dynamic_pointer_cast<sc::autonomy::ScrimmageOpenAIAutonomy>(a);
-            if (a_cast) {
-                ext_ctrl_vec_.push_back(a_cast);
-
-                std::vector<ScrimmageOpenAISensor> vec;
-                for (auto &s : a_cast->parent()->sensors()) {
-                    auto s_cast =
-                      std::dynamic_pointer_cast<sc::sensor::ScrimmageOpenAISensor>(s.second);
-                    if (s_cast) {
-                        vec.push_back(s_cast);
-                    }
-                }
-                ext_sensor_vec_.push_back(vec);
-            }
+        auto cast = [&](auto &p) {return std::dynamic_pointer_cast<sc_auto::ScrimmageOpenAIAutonomy>(p);};
+        auto good_ptr = [&](auto &p) {return cast(p) != nullptr;};
+        for (const auto &a : e->autonomies() | ba::filtered(good_ptr) | ba::transformed(cast)) {
+            actions_.ext_ctrl_vec().push_back(a);
+            observations_.add_sensors(a->parent()->sensors());
         }
     }
-    create_observation_space();
-    create_action_space();
+    observations_.create_observation_space(actions_.ext_ctrl_vec().size());
+    actions_.create_action_space(observations_.get_combine_actors());
     set_reward_range();
 }
 
@@ -561,7 +315,7 @@ void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
 
 pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
 
-    distribute_action(action);
+    actions_.distribute_action(action, observations_.get_combine_actors());
 
     delayed_task_.update(simcontrol_->t());
     bool done = !simcontrol_->run_single_step(loop_number_++) ||
@@ -571,7 +325,7 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
         simcontrol_->end_condition_reached();
     }
 
-    update_observation();
+    observations_.update_observation(actions_.ext_ctrl_vec().size());
 
     py::float_ py_reward;
     py::bool_ py_done;
@@ -585,7 +339,27 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
         // ignore error
     }
 
-    return py::make_tuple(observation, py_reward, py_done, py_info);
+    return py::make_tuple(observations_.observation, py_reward, py_done, py_info);
+}
+
+void ScrimmageOpenAIEnv::reset_learning_mode() {
+    // users may have forgotten to turn off nonlearning_mode.
+    // If this code is being called then it should never be nonlearning_mode
+    for (auto &kv : mp_->entity_descriptions()) {
+        int id = kv.first;
+        auto &desc_map = kv.second;
+        auto &attrs = mp_->entity_attributes()[id];
+
+        size_t autonomy_ct = 0;
+        auto autonomy_str = [&](int ct){return std::string("autonomy") + std::to_string(ct);};
+        auto find_autonomy = [&](int ct) {return desc_map.find(autonomy_str(ct));};
+
+        auto it = find_autonomy(autonomy_ct);
+        while (it != desc_map.end()) {
+            attrs[autonomy_str(autonomy_ct++)]["nonlearning_mode_openai_plugin"] = "false";
+            it = find_autonomy(autonomy_ct);
+        }
+    }
 }
 
 std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv::calc_reward() {
@@ -594,16 +368,13 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
     py::list info_done;
     py::list info_reward;
 
-    double t = simcontrol_->t();
-    double dt = mp_->dt(); // TODO: rely on time pointer
-
     double reward = 0;
     bool done = false;
 
-    for (auto &a : ext_ctrl_vec_) {
+    for (auto &a : actions_.ext_ctrl_vec()) {
         double temp_reward;
         bool temp_done;
-        std::tie(temp_done, temp_reward) = a->calc_reward(t, dt);
+        std::tie(temp_done, temp_reward) = a->calc_reward();
 
         reward += temp_reward;
         done |= temp_done;
@@ -616,75 +387,6 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
     info["done"] = info_done;
 
     return std::make_tuple(py::float_(reward), py::bool_(done), info);
-}
-
-void ScrimmageOpenAIEnv::distribute_action(pybind11::object action) {
-    py::array_t<int> disc_actions;
-    py::array_t<double> cont_actions;
-    int* disc_action_data = nullptr;
-    double* cont_action_data = nullptr;
-
-    auto update_action_lists = [&](py::object space, py::object act) {
-        disc_actions = py::list();
-        cont_actions = py::list();
-        if (PyObject_IsInstance(space.ptr(), tuple_space_.ptr())) {
-            py::tuple action_list = act.cast<py::list>();
-            disc_actions = asarray_(action_list[0], py::str("int"));
-            cont_actions = asarray_(action_list[1], py::str("float"));
-            disc_action_data = static_cast<int*>(disc_actions.request().ptr);
-            cont_action_data = static_cast<double*>(cont_actions.request().ptr);
-        } else if (PyObject_IsInstance(space.ptr(), box_space_.ptr())) {
-            cont_actions = asarray_(act);
-            cont_action_data = static_cast<double*>(cont_actions.request().ptr);
-        } else {
-            disc_actions = asarray_(act);
-            disc_action_data = static_cast<int*>(disc_actions.request().ptr);
-        }
-    };
-
-    auto put_action = [&](int &idx, size_t from_sz, auto *from_data, auto &to_vec) {
-        if (to_vec.size() != from_sz) {
-            to_vec.resize(from_sz);
-        }
-        if (from_data == nullptr && from_sz > 0) {
-            std::cout << "Error: disc_action_data not set correctly" << std::endl;
-            return;
-        } else {
-            for (size_t i = 0; i < from_sz; i++) {
-                to_vec[i] = from_data[idx++];
-            }
-        }
-    };
-
-    auto put_actions = [&](auto a, int &disc_action_idx, int &cont_action_idx) {
-        put_action(disc_action_idx, a->action_space.discrete_count.size(),
-                   disc_action_data, a->action.discrete);
-        put_action(cont_action_idx, a->action_space.continuous_extrema.size(),
-                   cont_action_data, a->action.continuous);
-    };
-
-    if (ext_ctrl_vec_.size() == 1 || combine_actors_) {
-
-        update_action_lists(action_space, action);
-
-        int disc_action_idx = 0;
-        int cont_action_idx = 0;
-        for (auto &a : ext_ctrl_vec_) {
-            put_actions(a, disc_action_idx, cont_action_idx);
-        }
-
-    } else {
-        py::list action_space_list = action_space.attr("spaces").cast<py::list>();
-        py::list action_list = action.cast<py::list>();
-        for (size_t i = 0; i < ext_ctrl_vec_.size(); i++) {
-            py::object indiv_action_space = action_space_list[i];
-            py::object indiv_action = action_list[i];
-            update_action_lists(indiv_action_space, indiv_action);
-            int disc_action_idx = 0;
-            int cont_action_idx = 0;
-            put_actions(ext_ctrl_vec_[i], disc_action_idx, cont_action_idx);
-        }
-    }
 }
 
 void add_openai_env(pybind11::module &m) {
@@ -749,9 +451,9 @@ info : dict
    When there is a single learner, these lists have length 1.
 )")
         .def_readwrite("reward_range", &ScrimmageOpenAIEnv::reward_range)
-        .def_readwrite("action_space", &ScrimmageOpenAIEnv::action_space)
-        .def_readwrite("observation_space", &ScrimmageOpenAIEnv::observation_space)
-        .def_readwrite("observation", &ScrimmageOpenAIEnv::observation)
+        .def_property("action_space", &ScrimmageOpenAIEnv::get_action_space, &ScrimmageOpenAIEnv::set_action_space)
+        .def_property("observation_space", &ScrimmageOpenAIEnv::get_observation_space, &ScrimmageOpenAIEnv::set_observation_space)
+        .def_property("observation", &ScrimmageOpenAIEnv::get_observation, &ScrimmageOpenAIEnv::set_observation)
         .def_readwrite("spec", &ScrimmageOpenAIEnv::spec)
         .def_readwrite("metadata", &ScrimmageOpenAIEnv::metadata)
         .def("reset", &ScrimmageOpenAIEnv::reset, "restart scrimmage")

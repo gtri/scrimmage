@@ -53,16 +53,12 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLConsensus, RLConsens
 namespace scrimmage {
 namespace autonomy {
 
-void RLConsensus::init(std::map<std::string, std::string> &params) {
-    RLSimple::init(params);
-}
-
 void RLConsensus::set_environment() {
     RLSimple::set_environment();
     reward_range = std::make_pair(0, 1 / parent_->mp()->tend());
 }
 
-std::pair<bool, double> RLConsensus::calc_reward(double /*t*/, double /*dt*/) {
+std::pair<bool, double> RLConsensus::calc_reward() {
     const bool done = false;
     const double x = state_->pos()(0);
     auto dist = [&](auto &kv) {return std::abs(kv.second.state()->pos()(0) - x);};

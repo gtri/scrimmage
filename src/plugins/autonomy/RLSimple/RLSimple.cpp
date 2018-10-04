@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/common/Time.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -41,7 +42,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple, RLSimple_plu
 namespace scrimmage {
 namespace autonomy {
 
-void RLSimple::init(std::map<std::string, std::string> &params) {
+void RLSimple::init_helper(std::map<std::string, std::string> &params) {
     x_discrete_ = str2bool(params.at("x_discrete"));
     y_discrete_ = str2bool(params.at("y_discrete"));
     ctrl_y_ = str2bool(params.at("ctrl_y"));
@@ -58,8 +59,6 @@ void RLSimple::init(std::map<std::string, std::string> &params) {
     vars_.output(output_vel_z_idx, 0);
 
     radius_ = std::stod(params.at("radius"));
-
-    ScrimmageOpenAIAutonomy::init(params);
 }
 
 void RLSimple::set_environment() {
@@ -82,7 +81,7 @@ void RLSimple::set_environment() {
     }
 }
 
-std::pair<bool, double> RLSimple::calc_reward(double /*t*/, double /*dt*/) {
+std::pair<bool, double> RLSimple::calc_reward() {
     const bool done = false;
     const double x = state_->pos()(0);
     const bool within_radius = std::round(std::abs(x)) < radius_;
@@ -90,7 +89,7 @@ std::pair<bool, double> RLSimple::calc_reward(double /*t*/, double /*dt*/) {
     return {done, reward};
 }
 
-bool RLSimple::step_autonomy(double /*t*/, double /*dt*/) {
+bool RLSimple::step_helper() {
     // cppcheck-suppress variableScope
     int disc_idx = 0;
     // cppcheck-suppress variableScope

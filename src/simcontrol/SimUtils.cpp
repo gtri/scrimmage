@@ -216,7 +216,7 @@ std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) { shutdown_handler(signal); }
 } // namespace
 
-boost::optional<std::string> run_test(std::string mission) {
+boost::optional<std::string> run_test(std::string mission, bool init_python) {
 
     auto found_mission = FileSearch().find_mission(mission);
     if (!found_mission) {
@@ -248,7 +248,7 @@ boost::optional<std::string> run_test(std::string mission) {
 
         auto log = preprocess_scrimmage(mp, simcontrol);
 #if ENABLE_PYTHON_BINDINGS == 1
-        Py_Initialize();
+        if (init_python) Py_Initialize();
 #endif
         if (log == nullptr) {
             return boost::none;
@@ -259,7 +259,7 @@ boost::optional<std::string> run_test(std::string mission) {
         auto out = postprocess_scrimmage(mp, simcontrol, log);
 
 #if ENABLE_PYTHON_BINDINGS == 1
-    Py_Finalize();
+        if (init_python) Py_Finalize();
 #endif
         return out;
     }

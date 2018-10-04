@@ -90,7 +90,7 @@ void TrajectoryRecordPlayback::init(std::map<std::string,
                  << endl;
         }
 
-        for (int r = 0; r < csv_.rows(); r++) {
+        for (size_t r = 0; r < csv_.rows(); r++) {
             scrimmage::State desired_state;
             desired_state.pos() << csv_.at(r, "x_d"),
                 csv_.at(r, "y_d"),

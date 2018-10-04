@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>OpenAIRewards_plugin</library>
+
+  <!-- weights for scoring function -->
+  <ground_collisions>-1.0</ground_collisions>
+  
+</params>

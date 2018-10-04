@@ -20,7 +20,7 @@
   <gui_update_period>10</gui_update_period> 
 
   <plot_tracks>false</plot_tracks>
-  <output_type>nothing</output_type>
+  <output_type>summary</output_type>
   <display_progress>false</display_progress>
   <show_plugins>false</show_plugins>
 
@@ -38,6 +38,8 @@
   <!--   timeout="5">ExternalControlInteraction</entity_interaction> -->
 
   <seed>3361078855</seed>
+  <network>GlobalNetwork</network>
+  <metrics>OpenAIRewards</metrics>
 
   <entity_common name="all">
       <count>1</count>

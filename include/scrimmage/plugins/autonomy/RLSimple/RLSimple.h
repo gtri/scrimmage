@@ -44,11 +44,11 @@ namespace autonomy {
 
 class RLSimple : public ScrimmageOpenAIAutonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    void init_helper(std::map<std::string, std::string> &params) override;
+    bool step_helper() override;
 
     void set_environment() override;
-    std::pair<bool, double> calc_reward(double t, double dt) override;
+    std::pair<bool, double> calc_reward() override;
 
  protected:
     double radius_;

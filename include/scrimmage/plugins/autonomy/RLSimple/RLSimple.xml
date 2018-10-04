@@ -8,4 +8,7 @@
 
   <ctrl_y>false</ctrl_y>
   <y_discrete>false</y_discrete>
+
+  <module>test_openai</module>
+  <actor_func>get_action_test_two_not_combined_veh_dim_discrete</actor_func>
 </params>

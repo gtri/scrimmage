@@ -184,7 +184,7 @@ bool CSV::read_csv(const std::string &filename, bool contains_header) {
 
 void CSV::set_no_value_string(const std::string &str) { no_value_str_ = str; }
 
-int CSV::rows() { return table_.size(); }
+size_t CSV::rows() { return table_.size(); }
 
 double CSV::at(int row, const std::string &header) {
     const int column = column_headers_.at(header);

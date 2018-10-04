@@ -32,6 +32,7 @@
 
 #include <scrimmage/plugins/sensor/RLSimpleSensor/RLSimpleSensor.h>
 
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -43,10 +44,12 @@ namespace sensor {
 
 void RLSimpleSensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
     data[beg_idx] = parent_->state()->pos()(0);
+    data[beg_idx + 1] = time_->t();
 }
 
 void RLSimpleSensor::set_observation_space() {
     const double inf = std::numeric_limits<double>::infinity();
+    observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
     observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
 }
 

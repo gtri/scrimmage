@@ -32,17 +32,27 @@
 
 #include <pybind11/pybind11.h>
 
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
-#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
-#include <scrimmage/simcontrol/SimControl.h>
+#include <scrimmage/common/DelayedTask.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 
 #include <string>
 #include <memory>
 #include <vector>
 #include <thread> // NOLINT
-#include <utility>
 #include <tuple>
+
+namespace scrimmage {
+class MissionParse;
+using MissionParsePtr = std::shared_ptr<MissionParse>;
+
+class SimControl;
+class Log;
+
+namespace autonomy {
+class ScrimmageOpenAIAutonomy;
+} // namespace autonomy
+} // namespace scrimmage
 
 class ScrimmageOpenAIEnv {
  public:
@@ -62,21 +72,31 @@ class ScrimmageOpenAIEnv {
     void seed(pybind11::object _seed = pybind11::none());
     ScrimmageOpenAIEnv *get_this() {return this;}
 
+    pybind11::object get_observation_space() {return observations_.observation_space;}
+    void set_observation_space(pybind11::object observation_space) {observations_.observation_space = observation_space;}
+
+    pybind11::object get_action_space() {return actions_.action_space;}
+    void set_action_space(pybind11::object action_space) {actions_.action_space = action_space;}
+
+    pybind11::object get_observation() {return observations_.observation;}
+    void set_observation(pybind11::object observation) {observations_.observation = observation;}
+
+    bool get_global_sensor() {return observations_.get_global_sensor();}
+    void set_global_sensor(bool global_sensor) {observations_.set_global_sensor(global_sensor);}
+
+    bool get_combine_actors() {return observations_.get_combine_actors();}
+    void set_combine_actors(bool combine_actors) {observations_.set_combine_actors(combine_actors);}
+
     pybind11::object spec;
     pybind11::object metadata;
 
     pybind11::object env;
     pybind11::tuple reward_range;
-    pybind11::object action_space;
-    pybind11::object observation_space;
-    pybind11::object observation;
 
  protected:
     pybind11::object warning_function_;
 
     std::string mission_file_ = "";
-    bool combine_actors_ = false;
-    bool global_sensor_ = false;
     bool enable_gui_ = false;
     scrimmage::DelayedTask delayed_task_;
 
@@ -89,39 +109,25 @@ class ScrimmageOpenAIEnv {
     int seed_;
 
     using ExternalControlPtr = std::shared_ptr<scrimmage::autonomy::ScrimmageOpenAIAutonomy>;
-    using ScrimmageOpenAISensor = std::shared_ptr<scrimmage::sensor::ScrimmageOpenAISensor>;
 
-    std::vector<ExternalControlPtr> ext_ctrl_vec_;
-    std::vector<std::vector<ScrimmageOpenAISensor>> ext_sensor_vec_;
+    scrimmage::autonomy::OpenAIObservations observations_;
+    scrimmage::autonomy::OpenAIActions actions_;
 
     void set_reward_range();
-    void create_action_space();
-    void create_observation_space();
     void update_observation();
     std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> calc_reward();
-    void distribute_action(pybind11::object action);
     void reset_scrimmage(bool enable_gui);
     void scrimmage_memory_cleanup();
+    void reset_learning_mode();
     int loop_number_ = 0;
 
-    pybind11::object create_space(
-            pybind11::list discrete_maxima,
-            pybind11::list continuous_minima,
-            pybind11::list continuous_maxima);
-
-    pybind11::object get_gym_space(const std::string &type);
     bool is_gym_instance(pybind11::object &obj, const std::string &type);
 
     pybind11::object tuple_space_;
     pybind11::object discrete_space_;
     pybind11::object multidiscrete_space_;
     pybind11::object box_space_;
-    pybind11::object asarray_;
 
  private:
-    void to_continuous(std::vector<std::pair<double, double>> &p,
-                       pybind11::list &minima,
-                       pybind11::list &maxima);
 
-    void to_discrete(std::vector<double> &p, pybind11::list &maxima);
 };

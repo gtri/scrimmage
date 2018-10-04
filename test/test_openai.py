@@ -29,14 +29,12 @@ This file is part of SCRIMMAGE.
 @section DESCRIPTION
 A Long description goes here.
 """
-
 import xml.etree.ElementTree as ET
 import copy
-import signal
 
 import numpy as np
 import gym
-import scrimmage
+import scrimmage.utils
 
 MISSION_FILE = 'rlsimple.xml'
 TEMP_MISSION_FILE = '.rlsimple.xml'
@@ -48,7 +46,7 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     except gym.error.Error:
         gym.envs.register(
             id=version,
-            entry_point='scrimmage:ScrimmageOpenAIEnv',
+            entry_point='scrimmage.bindings:ScrimmageOpenAIEnv',
             max_episode_steps=1e9,
             reward_threshold=1e9,
             kwargs={"enable_gui": False,
@@ -62,10 +60,11 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     # the observation is the state of the aircraft
     obs = []
 
-    obs.append(np.copy(env.reset()))
+    temp_obs = np.copy(env.reset())
+    obs.append(temp_obs)
     total_reward = 0
     for i in range(1000):
-        action = get_action(i)
+        action = get_action(temp_obs)
         temp_obs, reward, done = env.step(action)[:3]
         obs.append(np.copy(temp_obs))
         try:
@@ -82,8 +81,9 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     return env, obs, total_reward
 
 
-def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end):
-    tree = ET.parse(scrimmage.find_mission(MISSION_FILE))
+def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end,
+                        actor_func=''):
+    tree = ET.parse(scrimmage.utils.find_mission(MISSION_FILE))
     root = tree.getroot()
 
     run_node = root.find("run")
@@ -94,6 +94,7 @@ def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end):
     autonomy_node.attrib['x_discrete'] = str(x_discrete)
     autonomy_node.attrib['y_discrete'] = str(y_discrete)
     autonomy_node.attrib['ctrl_y'] = str(ctrl_y)
+    autonomy_node.attrib['actor_func'] = actor_func
 
     if num_actors == 2:
         entity_node2 = copy.deepcopy(root.find('entity'))
@@ -102,21 +103,52 @@ def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end):
     tree.write(TEMP_MISSION_FILE)
 
 
+def get_action_test_one_dim_discrete(i):
+    return 1 if i[1] < 100 else 0
+
+
+def get_action_test_two_dim_discrete(i):
+    return np.array([1, 1] if i[1] < 100 else [0, 0], dtype=int)
+
+
+def get_action_test_one_dim_continuous(i):
+    return 1.0 if i[1] < 100 else -1.0
+
+
+def get_action_test_two_dim_continuous(i):
+    return np.array([1.0, 1.0] if i[1] < 100 else [-1.0, -1.0], dtype=float)
+
+
+def get_action_test_two_dim_tuple(i):
+    return np.array([[1], [1.0]] if i[1] < 100 else [[0], [-1.0]])
+
+
+def get_action_two_combined_veh_dim_discrete(i):
+    return [1, 0] if i[1] < 100 else [0, 1]
+
+
+def get_action_test_two_not_combined_veh_dim_discrete(i):
+    return [[1], [0]] if i[0][1] < 100 else [[0], [1]]
+
+
+def get_action_test_two_combined_veh_dim_discrete_global_sensor(i):
+    return [1, 0] if i[1] < 100 else [0, 1]
+
+
 def test_one_dim_discrete():
     """A single agent along the x-axis."""
-    def _get_action(i):
-        return 1 if i < 100 else 0
-
     VERSION = 'scrimmage-v0'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_one_dim_discrete)
 
-    assert len(obs[0]) == 1
+    assert len(obs[0]) == 2
     assert obs[0][0] == 0
+    assert obs[0][1] == 0
     assert isinstance(env.action_space, gym.spaces.Discrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert env.action_space.n == 2
@@ -125,19 +157,18 @@ def test_one_dim_discrete():
 
 def test_two_dim_discrete():
     """A single agent along the x and y-axis."""
-    def _get_action(i):
-        return np.array([1, 1] if i < 100 else [0, 0], dtype=int)
-
     VERSION = 'scrimmage-v1'
     _write_temp_mission(x_discrete=True, ctrl_y=True, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_two_dim_discrete)
 
-    assert len(obs[0]) == 1
-    assert obs[0] == 0
+    assert len(obs[0]) == 2
+    assert obs[0][0] == 0
+    assert obs[0][1] == 0
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert np.array_equal(env.action_space.nvec, np.array([2, 2], dtype=int))
@@ -146,19 +177,18 @@ def test_two_dim_discrete():
 
 def test_two_dim_continuous():
     """A single agent along the x and y-axis with continuous input."""
-    def _get_action(i):
-        return np.array([1.0, 1.0] if i < 100 else [-1.0, -1.0], dtype=float)
-
     VERSION = 'scrimmage-v2'
     _write_temp_mission(x_discrete=False, ctrl_y=True, y_discrete=False,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_two_dim_continuous)
 
-    assert len(obs[0]) == 1
-    assert obs[0] == 0
+    assert len(obs[0]) == 2
+    assert obs[0][0] == 0
+    assert obs[0][1] == 0
     assert isinstance(env.action_space, gym.spaces.Box)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert total_reward == 4
@@ -166,19 +196,18 @@ def test_two_dim_continuous():
 
 def test_two_dim_tuple():
     """Single agent with discrete and continuous input."""
-    def _get_action(i):
-        return np.array([[1], [1.0]] if i < 100 else [[0], [-1.0]])
-
     VERSION = 'scrimmage-v3'
     _write_temp_mission(x_discrete=False, ctrl_y=True, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_two_dim_tuple)
 
-    assert len(obs[0]) == 1
-    assert obs[0] == 0
+    assert len(obs[0]) == 2
+    assert obs[0][0] == 0
+    assert obs[0][1] == 0
     assert isinstance(env.action_space, gym.spaces.Tuple)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert total_reward == 4
@@ -186,19 +215,18 @@ def test_two_dim_tuple():
 
 def test_one_dim_continuous():
     """A single agent along the x-axis with continuous input."""
-    def _get_action(i):
-        return 1.0 if i < 100 else -1.0
-
     VERSION = 'scrimmage-v4'
     _write_temp_mission(x_discrete=False, ctrl_y=False, y_discrete=False,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_one_dim_continuous)
 
-    assert len(obs[0]) == 1
-    assert obs[0] == 0
+    assert len(obs[0]) == 2
+    assert obs[0][0] == 0
+    assert obs[0][1] == 0
     assert isinstance(env.action_space, gym.spaces.Box)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert total_reward == 4
@@ -206,19 +234,17 @@ def test_one_dim_continuous():
 
 def test_two_combined_veh_dim_discrete():
     """Two agents, each with one discrete input, treated as a single agent."""
-    def _get_action(i):
-        return [1, 0] if i < 100 else [0, 1]
-
     VERSION = 'scrimmage-v5'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = True
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_two_combined_veh_dim_discrete)
 
-    assert len(obs[0]) == 2
-    assert np.array_equal(obs[0], np.array([0., 0.]))
+    assert len(obs[0]) == 4
+    assert np.array_equal(obs[0], np.zeros(4))
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert total_reward == 8
@@ -226,20 +252,16 @@ def test_two_combined_veh_dim_discrete():
 
 def test_two_not_combined_veh_dim_discrete():
     """Two agents, each with discrete input, treated as separate agents."""
-    def _get_action(i):
-        return [[1], [0]] if i < 100 else [[0], [1]]
-
     VERSION = 'scrimmage-v6'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_two_not_combined_veh_dim_discrete)
 
-    assert len(obs[0]) == 2
-    assert obs[0][0] == 0
-    assert obs[0][1] == 0
+    assert np.array_equal(obs[0], np.zeros((2, 2)))
     assert isinstance(env.action_space, gym.spaces.Tuple)
     assert isinstance(env.observation_space, gym.spaces.Tuple)
     assert total_reward == 8
@@ -251,19 +273,17 @@ def test_two_combined_veh_dim_discrete_global_sensor():
     global_sensor means that the sensor of the first agent will define the
     state.
     """
-    def _get_action(i):
-        return [1, 0] if i < 100 else [0, 1]
-
     VERSION = 'scrimmage-v7'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = True
     global_sensor = True
     env, obs, total_reward = \
-        _run_test(VERSION, combine_actors, global_sensor, _get_action)
+        _run_test(VERSION, combine_actors, global_sensor,
+                  get_action_test_two_combined_veh_dim_discrete_global_sensor)
 
-    assert len(obs[0]) == 1
-    assert np.array_equal(obs[0], np.array([0.]))
+    assert len(obs[0]) == 2
+    assert np.array_equal(obs[0], np.zeros(2))
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert total_reward == 8
@@ -272,7 +292,7 @@ def test_two_combined_veh_dim_discrete_global_sensor():
 def test_sim_end():
     """Verify that scrimmage can close an environment."""
     def _get_action(i):
-        return 1 if i < 100 else 0
+        return 1 if i[1] < 100 else 0
 
     VERSION = 'scrimmage-v8'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
@@ -286,7 +306,7 @@ def test_sim_end():
 def test_timestep():
     """Verify that scrimmage closes."""
     def _get_action(i):
-        return 1 if i < 100 else 0
+        return 1 if i[1] < 100 else 0
 
     VERSION = 'scrimmage-v9'
     _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
@@ -296,13 +316,13 @@ def test_timestep():
     env, obs, total_reward = \
         _run_test(VERSION, combine_actors, global_sensor, _get_action, 10)
 
-    assert len(obs[0]) == 1
+    assert len(obs[0]) == 2
     assert obs[0][0] == 0
     assert obs[1][0] == 10
     assert isinstance(env.action_space, gym.spaces.Discrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert env.action_space.n == 2
-    assert total_reward == 0
+    assert total_reward == 1
 
 if __name__ == '__main__':
     test_one_dim_discrete()

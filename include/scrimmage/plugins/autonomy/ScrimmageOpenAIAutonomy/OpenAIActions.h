@@ -30,24 +30,37 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
 
-#include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
+#include <pybind11/pybind11.h>
 
-#include <map>
-#include <string>
-#include <utility>
+#include <scrimmage/common/Visibility.h>
+
+#include <vector>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {
 
-class RLConsensus : public scrimmage::autonomy::RLSimple {
+class ScrimmageOpenAIAutonomy;
+
+class DLL_PUBLIC OpenAIActions {
  public:
-    void set_environment() override;
-    std::pair<bool, double> calc_reward() override;
+    OpenAIActions();
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &ext_ctrl_vec();
+    void create_action_space(bool combine_actors);
+    void distribute_action(pybind11::object action, bool combine_actors);
+
+    pybind11::object action_space;
+
+ protected:
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> ext_ctrl_vec_;
+    pybind11::object tuple_space_;
+    pybind11::object box_space_;
+    pybind11::object asarray_;
 };
+
 } // namespace autonomy
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_

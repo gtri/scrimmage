@@ -34,6 +34,11 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/Visibility.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
+
+#include <pybind11/pybind11.h>
 
 #include <map>
 #include <vector>
@@ -54,20 +59,32 @@ struct EnvValues {
 
 namespace autonomy {
 
-class ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
+class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
  public:
     ScrimmageOpenAIAutonomy();
 
     // normal overrides
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) final;
+    bool step_autonomy(double t, double dt) final;
 
-    // additional override
+    // new overrides
+    virtual void init_helper(std::map<std::string, std::string> &/*params*/) {}
+    virtual bool step_helper() {return true;}
+
     virtual void set_environment() {}
-    virtual std::pair<bool, double> calc_reward(double t, double dt);
+    virtual std::pair<bool, double> calc_reward();
     std::pair<double, double> reward_range;
     EnvParams action_space;
     EnvValues action;
+
+ private:
+    // nonlearning mode variables
+    bool first_step_ = true;
+    PublisherPtr pub_reward_;
+    pybind11::object actor_func_;
+    bool nonlearning_mode_ = false;
+    OpenAIObservations observations_;
+    OpenAIActions actions_;
 };
 } // namespace autonomy
 } // namespace scrimmage
