@@ -1,4 +1,23 @@
 FILE(GLOB test_files test_*.cpp test_*.cc)
+set(test_files
+    test_algorithms.cpp
+    test_angles.cpp
+    test_collisions.cpp
+    test_delayed_task.cpp
+    test_exponential_filter.cpp
+    test_find_mission.cpp
+    test_id.cpp
+    test_params.cpp
+    test_quaternion.cpp
+    test_rtree.cpp
+    test_simple.cpp
+    test_state.cpp
+    test_utilities.cpp)
+
+if (NOT ENABLE_PYTHON_BINDINGS)
+    LIST(REMOVE_ITEM test_files "test_openai.py")
+endif()
+
 foreach(test_file ${test_files})
   get_filename_component(test_name ${test_file} NAME_WE)
   add_executable(${test_name} ${test_file})

@@ -1,7 +1,7 @@
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-set(LIBRARY_NAME ScrimmageOpenAISensor_plugin)
+set(LIBRARY_NAME OpenAIRewards_plugin)
 set(LIB_MAJOR 0)
 set(LIB_MINOR 0)
 set(LIB_RELEASE 1)
@@ -12,6 +12,14 @@ add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
 )
 
+target_compile_options(${LIBRARY_NAME}
+  PRIVATE -Wall -Wno-return-type-c-linkage -std=c++14
+)
+
+target_link_libraries(${LIBRARY_NAME}
+  scrimmage-core
+)
+
 set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES
@@ -20,15 +28,11 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
 )
 
-TARGET_INCLUDE_DIRECTORIES(${LIBRARY_NAME}
+target_include_directories(${LIBRARY_NAME}
   PUBLIC
-  ${PYTHON_INCLUDE_DIRS})
-
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-  PUBLIC
-  scrimmage-core
-  scrimmage-python
-  )
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${PROJECT_INC_DIR}>
+)
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"

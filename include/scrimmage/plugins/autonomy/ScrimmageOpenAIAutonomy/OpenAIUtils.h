@@ -30,24 +30,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
 
-#include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
+#include <pybind11/pybind11.h>
 
-#include <map>
-#include <string>
+#include <scrimmage/common/Visibility.h>
+
 #include <utility>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
+
 namespace autonomy {
 
-class RLConsensus : public scrimmage::autonomy::RLSimple {
- public:
-    void set_environment() override;
-    std::pair<bool, double> calc_reward() override;
-};
+pybind11::object DLL_PUBLIC get_gym_space(const std::string &type);
+
+void DLL_PUBLIC to_continuous(
+        std::vector<std::pair<double, double>> &p,
+        pybind11::list &minima,
+        pybind11::list &maxima);
+
+void DLL_PUBLIC to_discrete(std::vector<double> &p, pybind11::list &maxima);
+
+pybind11::object DLL_PUBLIC create_space(
+        pybind11::list discrete_maxima,
+        pybind11::list continuous_minima,
+        pybind11::list continuous_maxima);
 } // namespace autonomy
 } // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_

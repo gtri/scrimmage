@@ -1422,19 +1422,24 @@ bool SimControl::output_summary() {
     std::map<int, std::map<std::string, double>> team_metrics;
     std::list<std::string> headers;
 
+    bool metrics_empty = true;
+
     // Loop through each of the metrics plugins.
     for (auto metrics : metrics_) {
-        cout << sc::generate_chars("=", 80) << endl;
-        cout << metrics->name() << endl;
-        cout << sc::generate_chars("=", 80) << endl;
-        metrics->calc_team_scores();
-        metrics->print_team_summaries();
+        if (metrics->get_print_team_summary()) {
+            cout << sc::generate_chars("=", 80) << endl;
+            cout << metrics->name() << endl;
+            cout << sc::generate_chars("=", 80) << endl;
+            metrics->calc_team_scores();
+            metrics->print_team_summaries();
+        }
 
         // Add all elements from individual metrics plugin to overall
         // metrics data structure
         for (auto const &team_str_double : metrics->team_metrics()) {
             team_metrics[team_str_double.first].insert(team_str_double.second.begin(),
                                                        team_str_double.second.end());
+            metrics_empty = false;
         }
 
         // Calculate aggregated team scores:
@@ -1491,13 +1496,15 @@ bool SimControl::output_summary() {
     summary_file.close();
 
     // Print Overall Scores
-    cout << sc::generate_chars("=", 80) << endl;
-    cout << "Overall Scores" << endl;
-    cout << sc::generate_chars("=", 80) << endl;
-    for (auto const &team_score : team_scores) {
-        cout << "Team ID: " << team_score.first << endl;
-        cout << "Score: " << team_score.second << endl;
-        cout << sc::generate_chars("-", 80) << endl;
+    if (!metrics_empty) {
+        cout << sc::generate_chars("=", 80) << endl;
+        cout << "Overall Scores" << endl;
+        cout << sc::generate_chars("=", 80) << endl;
+        for (auto const &team_score : team_scores) {
+            cout << "Team ID: " << team_score.first << endl;
+            cout << "Score: " << team_score.second << endl;
+            cout << sc::generate_chars("-", 80) << endl;
+        }
     }
 
     return true;

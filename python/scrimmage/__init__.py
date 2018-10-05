@@ -28,6 +28,3 @@
 # @section DESCRIPTION
 # A Long description goes here.
 #
-#
-from scrimmage.bindings import *
-from scrimmage.utils import *

@@ -30,24 +30,33 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_VISIBILITY_H_
+#define INCLUDE_SCRIMMAGE_COMMON_VISIBILITY_H_
 
-#include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
+// https://gcc.gnu.org/wiki/Visibility
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef BUILDING_DLL
+    #ifdef __GNUC__
+      #define DLL_PUBLIC __attribute__ ((dllexport))
+    #else
+      #define DLL_PUBLIC __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+    #endif
+  #else
+    #ifdef __GNUC__
+      #define DLL_PUBLIC __attribute__ ((dllimport))
+    #else
+      #define DLL_PUBLIC __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
+    #endif
+  #endif
+  #define DLL_LOCAL
+#else
+  #if __GNUC__ >= 4
+    #define DLL_PUBLIC __attribute__ ((visibility ("default")))
+    #define DLL_LOCAL  __attribute__ ((visibility ("hidden")))
+  #else
+    #define DLL_PUBLIC
+    #define DLL_LOCAL
+  #endif
+#endif
 
-#include <map>
-#include <string>
-#include <utility>
-
-namespace scrimmage {
-namespace autonomy {
-
-class RLConsensus : public scrimmage::autonomy::RLSimple {
- public:
-    void set_environment() override;
-    std::pair<bool, double> calc_reward() override;
-};
-} // namespace autonomy
-} // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_VISIBILITY_H_

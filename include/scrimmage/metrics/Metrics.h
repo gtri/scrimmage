@@ -63,11 +63,14 @@ class Metrics : public Plugin{
 
     virtual std::map<int, double> & team_scores();
 
+    bool get_print_team_summary() {return print_team_summary_;}
+
  protected:
     std::string weights_file_;
     std::map<int, std::map<std::string, double>> team_metrics_;
     std::map<int, double> team_scores_;
     std::list<std::string> headers_;
+    bool print_team_summary_ = true;
 };
 
 using MetricsPtr = std::shared_ptr<Metrics>;

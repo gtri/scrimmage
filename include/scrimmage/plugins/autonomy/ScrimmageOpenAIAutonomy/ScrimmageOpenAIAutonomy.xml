@@ -2,4 +2,6 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>ScrimmageOpenAIAutonomy_plugin</library>
+  <module>my_module</module>
+  <actor_func>my_func</actor_func>
 </params>

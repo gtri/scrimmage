@@ -9,14 +9,26 @@ SET (LIB_RELEASE 1)
 file(GLOB SRCS *.cpp)
 
 ADD_LIBRARY(${LIBRARY_NAME} SHARED 
-  ${SRCS}
+  ScrimmageOpenAIAutonomy.cpp
+  OpenAIObservations.cpp
+  OpenAIActions.cpp
+  OpenAIUtils.cpp
   )
 
+
+TARGET_INCLUDE_DIRECTORIES(${LIBRARY_NAME}
+  PUBLIC
+  ${PYTHON_INCLUDE_DIRS})
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-  ${SCRIMMAGE_LIBS}
+  PUBLIC
+  scrimmage-core
+  scrimmage-python
   )
 
+target_compile_options(${LIBRARY_NAME}
+  PRIVATE -Wall -Wno-return-type-c-linkage -std=c++14 -fext-numeric-literals
+  )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

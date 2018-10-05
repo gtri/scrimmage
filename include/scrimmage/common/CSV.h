@@ -69,7 +69,7 @@ class CSV {
 
     void set_no_value_string(const std::string &str);
 
-    int rows();
+    size_t rows();
 
     double at(int row, const std::string &header);
 

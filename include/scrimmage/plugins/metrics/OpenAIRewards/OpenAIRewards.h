@@ -30,24 +30,31 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_
 
-#include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
+#include <scrimmage/metrics/Metrics.h>
 
 #include <map>
 #include <string>
-#include <utility>
 
 namespace scrimmage {
-namespace autonomy {
+namespace metrics {
 
-class RLConsensus : public scrimmage::autonomy::RLSimple {
+class OpenAIRewards : public scrimmage::Metrics {
  public:
-    void set_environment() override;
-    std::pair<bool, double> calc_reward() override;
-};
-} // namespace autonomy
-} // namespace scrimmage
+    OpenAIRewards();
+    std::string name() override {return std::string("OpenAIRewards");}
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_metrics(double /*t*/, double /*dt*/) override {return true;}
+    void print_team_summaries() override;
+    void calc_team_scores() override;
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+ protected:
+    std::map<std::string, std::string> params_;
+    std::map<size_t, double> rewards_;
+};
+
+} // namespace metrics
+} // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_

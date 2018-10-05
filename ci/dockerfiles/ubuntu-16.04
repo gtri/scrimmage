@@ -72,15 +72,23 @@ RUN /bin/bash -c "mkdir -p build && \
     cd build && \
     source ~/.scrimmage/setup.bash && \
     cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" && \
-    ninja -j 3 && \
+    ninja && \
     ninja docs"
 
+# install python package and run tests
+WORKDIR /root/scrimmage/scrimmage/python
+RUN pip install -e .
+
 # run tests
-RUN /bin/bash -c "cd build && \
-    source ~/.scrimmage/setup.bash && \
+SHELL ["/bin/bash", "-c"]
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source ~/.scrimmage/setup.bash && \
+    export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
+    export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
+    py.test ../test/test_openai.py && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
-    scrimmage ../missions/straight_jsbsim.xml"
+    scrimmage ../missions/straight_jsbsim.xml
 
 # Test scrimmage_ros package integration
 RUN mkdir -p /root/catkin_ws/src
@@ -96,10 +104,6 @@ RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
     cd build && \
     make tests && \
     make test"
-
-# install python package and run tests
-WORKDIR /root/scrimmage/scrimmage/python
-RUN pip install -e .
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"
