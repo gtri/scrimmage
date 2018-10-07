@@ -72,7 +72,9 @@ endif()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
 
-set(EXECUTABLE_OUTPUT_PATH ${SCRIMMAGE_BIN_DIR})
+if (NOT EXECUTABLE_OUTPUT_PATH)
+    set(EXECUTABLE_OUTPUT_PATH ${SCRIMMAGE_BIN_DIR})
+endif() 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR})
 
 ## set the cmake defaults for libraries and binaries
@@ -86,6 +88,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
 option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
 set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
 include(GenerateSetEnv)
+
 GenerateSetEnv(
   SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
   LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
@@ -93,7 +96,7 @@ GenerateSetEnv(
   MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
   PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs
               ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
-  PATH ${SCRIMMAGE_BIN_PATH} ${SCRIMMAGE_SCRIPTS_DIR}
+              PATH ${SCRIMMAGE_BIN_PATH} ${SCRIMMAGE_SCRIPTS_DIR} ${EXECUTABLE_OUTPUT_PATH}
   CONFIG_PATH ${PROJECT_SOURCE_DIR}/config
   DATA_PATH ${PROJECT_SOURCE_DIR}/data
   PYTHONPATH ${PROJECT_SOURCE_DIR}/src/plugins/autonomy/python
