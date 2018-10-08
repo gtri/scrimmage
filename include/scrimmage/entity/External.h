@@ -194,7 +194,7 @@ class External {
     srv_cb(const std::string &service_name,
            scrimmage::Service sc_service_func,
            Sc2RosResFunc sc2ros_response_func) {
-        auto ros2sc_req_func = [&](typename RosType::Request &ros_req) {return 0;};
+        auto ros2sc_req_func = [&](typename RosType::Request &/*ros_req*/) {return 0;};
         return srv_cb<RosType, ScrimmageResponseType>(
             service_name, sc_service_func, ros2sc_req_func, sc2ros_response_func);
     }
@@ -292,9 +292,9 @@ class External {
               class RosType>
     void
     // cppcheck-suppress passedByValue
-    create_ros_req(typename std::enable_if_t<std::is_void<ScReqType>::value, MessageBasePtr> sc_req,
-                   Sc2RosReqFunc sc2ros_req_func,
-                   const std::string &err_msg, RosType &srv) {}
+    create_ros_req(typename std::enable_if_t<std::is_void<ScReqType>::value, MessageBasePtr> /*sc_req*/,
+                   Sc2RosReqFunc /*sc2ros_req_func*/,
+                   const std::string &/*err_msg*/, RosType &/*srv*/) {}
 
     template <class ScReqType,
               class Sc2RosReqFunc,
