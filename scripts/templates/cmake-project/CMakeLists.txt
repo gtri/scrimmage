@@ -69,10 +69,10 @@ set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 ###############################################################################
 find_package(scrimmage REQUIRED)
 
-option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
+option(SETUP_LOCAL_CONFIG_DIR "Setup ~/.scrimmage" ON)
 include(GenerateSetEnv)
 GenerateSetEnv(
-  SETUP_HOME_CONFIG ${SETUP_HOME_CONFIG}
+  SETUP_LOCAL_CONFIG_DIR ${SETUP_LOCAL_CONFIG_DIR}
   SETENV_IN_FILE ${SCRIMMAGE_CMAKE_MODULES}/setenv.in
   MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
   PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs
