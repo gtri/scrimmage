@@ -703,7 +703,6 @@ bool SimControl::run_single_step(int loop_number) {
     // Stay in loop if currently paused.
     bool exit_loop = false;
     do {
-        loop_wait();
 
         // Were we told to exit, externally?
         exit_mutex_.lock();
@@ -785,6 +784,7 @@ bool SimControl::run_single_step(int loop_number) {
     }
 
     // Increment time and loop counter
+    loop_wait();
     set_time(t + dt_);
     prev_paused_ = paused_;
 
