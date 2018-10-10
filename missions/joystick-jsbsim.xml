@@ -7,7 +7,7 @@
        time_warp="1" 
        enable_gui="true"
        network_gui="false"
-       start_paused="false"/>
+       start_paused="true"/>
   
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
@@ -60,7 +60,11 @@
         control inputs directly from the autonomy plugin.
     -->
     
-    <autonomy print_raw_joystick_values="false">JoystickAutonomy</autonomy>
+    <autonomy print_raw_joystick_values="false" axis_map=
+    "[ throttle 1 -32767 +32767 -1 +1 -1 ]
+    [ elevator  3 -32767 +32767 -1 +1 -1 ]
+    [ aileron   2 -32767 +32767 -1 +1 +1 ]
+    [ rudder    0 -32767 +32767 -1 +1 -1 ]">JoystickAutonomy</autonomy>
     <controller>DirectController</controller>    
 
     <!--
@@ -72,9 +76,9 @@
         <controller>JoystickController</controller>
     -->
 
-    <motion_model>JSBSimControl</motion_model>
+    <motion_model parachute_reef="1.0">JSBSimControl</motion_model>
     <script_name>rascal_no_autopilot.xml</script_name>
-    <visual_model>cessna</visual_model>    
+    <visual_model>zephyr-blue</visual_model>    
             
   </entity>
 
