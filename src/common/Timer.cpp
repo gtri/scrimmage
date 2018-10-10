@@ -63,18 +63,15 @@ void Timer::start_loop_timer() {
     sim_elapsed_time_ += sim_time_diff;
 }
 
-bool Timer::loop_wait() {
-    bool missed_deadline = true;
-
+boost::posix_time::time_duration Timer::loop_wait() {
     boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration time_diff = time - loop_timer_;
 
+    boost::posix_time::time_duration remainder = iterate_period_ - time_diff;
     if (time_diff < iterate_period_) {
-        boost::posix_time::time_duration remainder = iterate_period_ - time_diff;
         boost::this_thread::sleep(remainder);
-        missed_deadline = false;
     }
-    return missed_deadline;
+    return remainder;
 }
 
 void Timer::set_iterate_rate(double iterate_rate) {
