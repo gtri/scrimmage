@@ -12,6 +12,8 @@ add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
 )
 
+include_directories(${Boost_INCLUDE_DIRS})
+
 target_compile_options(${LIBRARY_NAME}
   PRIVATE -Wall -std=c++14
 )
@@ -20,6 +22,8 @@ target_link_libraries(${LIBRARY_NAME}
   scrimmage-core
   scrimmage-msgs
 )
+
+target_link_libraries( GraphInteraction_plugin ${Boost_LIBRARIES} )
 
 set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

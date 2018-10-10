@@ -26,7 +26,7 @@
  * @version 0.1.0
  * @brief Brief file description.
  * @section DESCRIPTION
- * A Long description goes here.
+ * A int64 description goes here.
  *
  */
 
@@ -41,6 +41,12 @@
 #include <map>
 #include <list>
 #include <string>
+#include <vector>
+#include <deque>
+
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/graph_utility.hpp>
+#include <boost/graph/graphml.hpp>
 
 namespace scrimmage {
 namespace interaction {
@@ -52,12 +58,38 @@ class GraphInteraction : public scrimmage::EntityInteraction {
                 std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
                                     double t, double dt) override;
+
  protected:
+    struct GraphData {
+        std::string Name;
+    };
+
+    struct NodeProperties {
+        uint64_t osmid;
+        double x;
+        double y;
+    };
+
+    struct EdgeProperties {
+        std::string geometry;
+        std::string highway;
+        double length;
+        std::string osmid;
+        std::string name;
+    };
+
+    typedef boost::adjacency_list<
+        boost::vecS,  // edge storage
+        boost::vecS,   // vertex storage
+        boost::directedS,
+        NodeProperties, EdgeProperties> Graph;
+    Graph g_;
+
  private:
     bool vis_graph_ = true;
     PublisherPtr pub_graph_;
     int id_ = 1;
 };
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_
