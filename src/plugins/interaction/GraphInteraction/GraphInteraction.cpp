@@ -45,7 +45,6 @@
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/msgs/Graph.pb.h>
 
-#include <typeinfo>
 #include <memory>
 #include <limits>
 #include <iostream>
