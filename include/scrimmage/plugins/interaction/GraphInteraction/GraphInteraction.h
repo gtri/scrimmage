@@ -34,21 +34,21 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
 
 #include <map>
 #include <list>
 #include <string>
-#include <vector>
-#include <deque>
 
 #include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/graph_utility.hpp>
-#include <boost/graph/graphml.hpp>
 
 namespace scrimmage {
+
+class Entity;
+using EntityPtr = std::shared_ptr<Entity>;
+
+class Publisher;
+using PublisherPtr = std::shared_ptr<Publisher>;
+
 namespace interaction {
 
 class GraphInteraction : public scrimmage::EntityInteraction {
@@ -64,7 +64,7 @@ class GraphInteraction : public scrimmage::EntityInteraction {
         std::string Name;
     };
 
-    struct NodeProperties {
+    struct VertexProperties {
         uint64_t osmid;
         double x;
         double y;
@@ -82,7 +82,7 @@ class GraphInteraction : public scrimmage::EntityInteraction {
         boost::vecS,  // edge storage
         boost::vecS,   // vertex storage
         boost::directedS,
-        NodeProperties, EdgeProperties> Graph;
+        VertexProperties, EdgeProperties> Graph;
     Graph g_;
 
  private:

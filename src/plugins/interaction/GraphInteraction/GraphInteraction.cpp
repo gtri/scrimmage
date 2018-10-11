@@ -37,6 +37,8 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -48,7 +50,6 @@
 #include <limits>
 #include <iostream>
 #include <fstream>
-#include <deque>
 
 #include <GeographicLib/LocalCartesian.hpp>
 
@@ -79,14 +80,6 @@ namespace interaction {
 GraphInteraction::GraphInteraction() {
 }
 
-std::ifstream& GotoLine(std::ifstream& file, unsigned int num) {
-    file.seekg(std::ios::beg);
-    for (unsigned int i = 0; i < num - 1; ++i) {
-        file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    return file;
-}
-
 // Uses graph file to draw graph
 bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
         std::map<std::string, std::string> &plugin_params) {
@@ -103,7 +96,8 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
         graph_file_name = sc::get<std::string>("graph_file", data_params,
                 default_file_name);
         if (graph_file_name != default_file_name) {
-            std::string graph_ext = fs::path(graph_file_name).extension().string();
+            std::string graph_ext =
+                fs::path(graph_file_name).extension().string();
             file_search.find_file(graph_file_name, graph_ext,
                     "SCRIMMAGE_DATA_PATH", graph_file_name);
         }
@@ -117,9 +111,9 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
     std::ifstream graph_file(graph_file_name);
 
     boost::dynamic_properties dp(boost::ignore_other_properties);
-    dp.property("osmid", boost::get(&NodeProperties::osmid, g_));
-    dp.property("x", boost::get(&NodeProperties::x, g_));
-    dp.property("y", boost::get(&NodeProperties::y, g_));
+    dp.property("osmid", boost::get(&VertexProperties::osmid, g_));
+    dp.property("x", boost::get(&VertexProperties::x, g_));
+    dp.property("y", boost::get(&VertexProperties::y, g_));
 
     dp.property("geometry", boost::get(&EdgeProperties::geometry, g_));
     dp.property("length", boost::get(&EdgeProperties::length, g_));
@@ -132,18 +126,16 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
         graph_file.close();
     }
 
-    std::pair<boost::adjacency_list<>::vertex_iterator,
-        boost::adjacency_list<>::vertex_iterator> vs = boost::vertices(g_);
-
     std::map<uint64_t, Eigen::Vector3d> nodes;
     std::map<uint64_t, uint64_t> boost_vert_to_osmid;
 
     auto graph_msg = std::make_shared<sc::Message<sm::Graph>>();
     graph_msg->data.set_id(id_);
-    for (; vs.first != vs.second; ++vs.first) {
-        // double longitude = boost::get(&NodeProperties::x, g_, *vs.first);
-        // double latitude = boost::get(&NodeProperties::y, g_, *vs.first);
-        // uint64_t this_osmid = boost::get(&NodeProperties::osmid, g_, *vs.first);
+    for (auto vs = boost::vertices(g_); vs.first != vs.second; ++vs.first) {
+        // double longitude = boost::get(&VertexProperties::x, g_, *vs.first);
+        // double latitude = boost::get(&VertexProperties::y, g_, *vs.first);
+        // uint64_t this_osmid =
+        //        boost::get(&VertexProperties::osmid, g_, *vs.first);
         // NOTE: the above three lines are equivalent to the below three lines
         double longitude = g_[*vs.first].x;
         double latitude = g_[*vs.first].y;
@@ -158,8 +150,7 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
         sc::set(node_ptr->mutable_point(), nodes[this_osmid]);
     }
 
-    auto es = boost::edges(g_);
-    for (; es.first != es.second; ++es.first) {
+    for (auto es = boost::edges(g_); es.first != es.second; ++es.first) {
         uint64_t id_start = boost_vert_to_osmid[boost::source(*es.first, g_)];
         uint64_t id_end = boost_vert_to_osmid[boost::target(*es.first, g_)];
 
@@ -175,8 +166,10 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
             edge_shape->set_persistent(true);
             edge_shape->set_opacity(1.0);
             scrimmage::set(edge_shape->mutable_color(), 0, 0, 0);
-            scrimmage::set(edge_shape->mutable_line()->mutable_start(), nodes[id_start]);
-            scrimmage::set(edge_shape->mutable_line()->mutable_end(), nodes[id_end]);
+            scrimmage::set(edge_shape->mutable_line()->mutable_start(),
+                    nodes[id_start]);
+            scrimmage::set(edge_shape->mutable_line()->mutable_end(),
+                    nodes[id_end]);
             draw_shape(edge_shape);
         }
     }
