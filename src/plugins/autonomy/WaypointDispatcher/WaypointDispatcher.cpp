@@ -135,7 +135,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
         sphere->set_opacity(1.0);
         sphere->mutable_sphere()->set_radius(10);
         sc::set(sphere->mutable_sphere()->mutable_center(), pt);
-        draw_shape(sphere);
+        this->draw_shape(sphere);
     };
 
     if (show_shapes_) {
