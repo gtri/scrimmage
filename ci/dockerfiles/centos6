@@ -274,6 +274,39 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/jsbsim \
     && rpm -ivh /root/installs/jsbsim/*.rpm
 
 ###############################################################################
+# Build VTK
+###############################################################################
+RUN yum -y install \
+    libX11-devel \
+    mesa-libGL \
+    mesa-libGL-devel \
+    libXt-devel
+
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/Kitware/VTK.git \
+    && cd VTK \
+    && git checkout v6.2.0
+
+# Apply patch to allow gcc 7.2.0
+RUN sed -i 's/345/3457/g' ./VTK/CMake/vtkCompilerExtras.cmake && \
+    sed -i 's/ARGS//g' ./VTK/CMake/vtkCompilerExtras.cmake && \
+    sed -i 's/345/3457/g' ./VTK/CMake/GenerateExportHeader.cmake
+
+RUN cd VTK \
+    && mkdir build \
+    && cd build \
+    && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} -DBUILD_TESTING=OFF \
+    && make -j $(($(nproc)-1)) \
+    && make DESTDIR=/root/installs/vtk install
+
+# Build RPM package for VTK
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/vtk \
+    && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-vtk --version 6.2.0 \
+           --package scrimmage_vtk_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh /root/installs/vtk/*.rpm
+
+###############################################################################
 # Build SCRIMMAGE
 ###############################################################################
 WORKDIR /root/3rd-party/scrimmage
@@ -305,6 +338,11 @@ MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
+RUN yum -y install \
+    libX11 \
+    mesa-libGL \
+    libXt
+
 # Copy over the RPMS from the builder image
 RUN mkdir -p /root/rpms
 COPY --from=builder /root/rpms/*.rpm /root/rpms/
@@ -318,6 +356,7 @@ RUN rpm -ivh scrimmage_gcc*.rpm \
              scrimmage_jsbsim*.rpm \
              scrimmage_grpc*.rpm \
              scrimmage_protobuf*.rpm \
+             scrimmage_vtk*.rpm \
              scrimmage_0.2.0*.rpm
 
 ARG PKG_PREFIX=/opt/scrimmage
