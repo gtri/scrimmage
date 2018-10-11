@@ -35,44 +35,27 @@
 
 #include <scrimmage/math/Quaternion.h>
 
-#include <iomanip>
 #include <string>
 #include <map>
-#include <limits>
 
 namespace scrimmage {
 namespace autonomy {
 
 class Waypoint {
  public:
-    Waypoint() : latitude_(0.0), longitude_(0.0),
-        altitude_(0.0) {
-    }
-    Waypoint(double latitude, double longitude, double altitude)
-        : latitude_(latitude), longitude_(longitude), altitude_(altitude) {
-    }
+    Waypoint() = default;
+    Waypoint(double latitude, double longitude, double altitude);
 
+    void set_id(size_t id) {id_ = id;}
     void set_time(double time) { time_ = time; }
     void set_latitude(double latitude) { latitude_ = latitude; }
     void set_longitude(double longitude) { longitude_ = longitude; }
     void set_altitude(double altitude) { altitude_ = altitude; }
     void set_quat(scrimmage::Quaternion &quat) { quat_ = quat; }
-    void set_position_tolerance(double pos_tol) {
-        if (pos_tol < 0.0) {
-            position_tolerance_ = std::numeric_limits<double>::max();
-        } else {
-            position_tolerance_ = pos_tol;
-        }
-    }
+    void set_position_tolerance(double pos_tol);
+    void set_quat_tolerance(double quat_tol);
 
-    void set_quat_tolerance(double quat_tol) {
-        if (quat_tol < 0.0) {
-            quat_tolerance_ = std::numeric_limits<double>::max();
-        } else {
-            quat_tolerance_ = quat_tol;
-        }
-    }
-
+    double id() const { return id_; }
     double time() const { return time_; }
     double latitude() const { return latitude_; }
     double longitude() const { return longitude_; }
@@ -81,30 +64,12 @@ class Waypoint {
     double position_tolerance() const { return position_tolerance_; }
     double quat_tolerance() const { return quat_tolerance_; }
 
-    friend std::ostream& operator<<(std::ostream& os, Waypoint& wp) {
-        os << std::setprecision(10)
-           << wp.time() << ", "
-           << wp.latitude() << ", " << wp.longitude() << ", " << wp.altitude()
-           << wp.quat() << ", "
-           << wp.position_tolerance() << ", "
-           << wp.quat_tolerance();
-        return os;
-    }
+    friend std::ostream& operator<<(std::ostream& os, Waypoint& wp);
 
-    friend bool operator==(const Waypoint &lhs, const Waypoint &rhs) {
-        if (std::abs(lhs.latitude() - rhs.latitude()) > std::numeric_limits<double>::epsilon()) {
-            return false;
-        }
-        if (std::abs(lhs.longitude() - rhs.longitude()) > std::numeric_limits<double>::epsilon()) {
-            return false;
-        }
-        if (std::abs(lhs.altitude() - rhs.altitude()) > std::numeric_limits<double>::epsilon()) {
-            return false;
-        }
-        return true;
-    }
+    friend bool operator==(const Waypoint &lhs, const Waypoint &rhs);
 
  protected:
+    size_t id_ = 0;
     double time_ = 0.0;
     double latitude_ = 0.0;
     double longitude_ = 0.0;
