@@ -129,14 +129,19 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
         track_point = wp;
     }
 
+    auto draw_sphere = [&](auto &sphere, auto &pt, double r, double g, double b) {
+        sphere->set_persistent(true);
+        sc::set(sphere->mutable_color(), r, g, b);
+        sphere->set_opacity(1.0);
+        sphere->mutable_sphere()->set_radius(10);
+        sc::set(sphere->mutable_sphere()->mutable_center(), pt);
+        draw_shape(sphere);
+    };
+
     if (show_shapes_) {
-        // Draw the track point
-        sphere_shape_->set_persistent(true);
-        sc::set(sphere_shape_->mutable_color(), 0, 0, 0);
-        sphere_shape_->set_opacity(1.0);
-        sphere_shape_->mutable_sphere()->set_radius(5);
-        sc::set(sphere_shape_->mutable_sphere()->mutable_center(), track_point);
-        draw_shape(sphere_shape_);
+        draw_sphere(track_sphere_shape_, track_point, 0, 0, 0);
+        draw_sphere(curr_wp_sphere_shape_, wp, 255, 0, 0);
+        draw_sphere(prev_wp_sphere_shape_, prev_wp, 0, 0, 255);
     }
 
     // convert track_point to lat/lon and Publish track_point!
@@ -146,6 +151,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     auto wp_msg = std::make_shared<sc::Message<Waypoint>>();
     wp_msg->data = Waypoint(lat, lon, alt);
+    wp_msg->data.set_id(curr_wp_lla.id());
     wp_pub_->publish(wp_msg);
 
     // check if within waypoint tolerance
