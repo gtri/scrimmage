@@ -27,7 +27,7 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
   )
 
 target_compile_options(${LIBRARY_NAME}
-  PRIVATE -Wall -Wno-return-type-c-linkage -std=c++14 -fext-numeric-literals
+  PRIVATE -Wall -Wno-return-type-c-linkage -std=c++14
   )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
