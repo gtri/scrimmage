@@ -71,11 +71,17 @@
 #include <memory>
 #include <future> // NOLINT
 
+#if ENABLE_PYTHON_BINDINGS == 1
+#include <pybind11/pybind11.h>
+#endif
+
 #include <GeographicLib/LocalCartesian.hpp>
 
 #include <boost/thread.hpp>
 #include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/for_each.hpp>
+#include <boost/range/numeric.hpp>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -157,16 +163,24 @@ bool SimControl::init() {
 
     // Setup random seed
     if (mp_->params().count("seed") > 0) {
-        random_->seed(std::stoul(mp_->params()["seed"]));
+        auto seed = std::stoul(mp_->params()["seed"]);
+        random_->seed(seed);
+#if ENABLE_PYTHON_BINDINGS == 1
+        pybind11::module::import("random").attr("seed")(seed);
+        try {
+            pybind11::module::import("numpy.random").attr("seed")(seed);
+        } catch (pybind11::error_already_set) {
+            // ignore. numpy not installed
+        }
+#endif
     } else {
         random_->seed();
     }
     log_->write_ascii("Seed: " + std::to_string(random_->get_seed()));
 
-    int max_num_entities = 0;
-    for (auto &kv : mp_->gen_info()) {
-        max_num_entities += kv.second.total_count;
-    }
+    auto get_count = [&](auto &kv) {return kv.second.total_count;};
+    int max_num_entities =
+        boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
 
     rtree_ = std::make_shared<scrimmage::RTree>();
     rtree_->init(max_num_entities);
