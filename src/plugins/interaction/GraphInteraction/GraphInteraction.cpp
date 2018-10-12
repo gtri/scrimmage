@@ -33,15 +33,17 @@
 #include <scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h>
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/msgs/Graph.pb.h>
-
 
 #include <memory>
 #include <limits>
@@ -51,10 +53,19 @@
 #include <GeographicLib/LocalCartesian.hpp>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/optional.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/graph_utility.hpp>
+#include <boost/graph/graphml.hpp>
 
 using std::cout;
 using std::endl;
+using std::stoi;
 
+
+namespace fs = ::boost::filesystem;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
@@ -68,120 +79,122 @@ namespace interaction {
 GraphInteraction::GraphInteraction() {
 }
 
-std::ifstream& GotoLine(std::ifstream& file, unsigned int num) {
-    file.seekg(std::ios::beg);
-    for (unsigned int i = 0; i < num - 1; ++i) {
-        file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    return file;
-}
-
 // Uses graph file to draw graph
-// https://github.com/AndGem/OsmToRoadGraph
 bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
-                               std::map<std::string, std::string> &plugin_params) {
+        std::map<std::string, std::string> &plugin_params) {
     pub_graph_ = advertise("GlobalNetwork", "Graph");
     std::string default_file_name = "default";
-    std::string graph_file_name = sc::get<std::string>("graph_file", plugin_params, default_file_name);
-    std::string labels_file_name = sc::get<std::string>("labels_file", plugin_params, default_file_name);
+    std::string graph_file_name =
+        sc::get<std::string>("graph_file", plugin_params, default_file_name);
+
+    // If the data tag has been set for this plugin in the  mission file, get
+    // the graph and label filenames from that instead of using those above.
+    std::map<std::string, std::string> data_params;
+    if (sc::parse_autonomy_data(plugin_params, data_params)) {
+        FileSearch file_search;
+        graph_file_name = sc::get<std::string>("graph_file", data_params,
+                default_file_name);
+        if (graph_file_name != default_file_name) {
+            std::string graph_ext =
+                fs::path(graph_file_name).extension().string();
+            file_search.find_file(graph_file_name, graph_ext,
+                    "SCRIMMAGE_DATA_PATH", graph_file_name);
+        }
+    }
+
     vis_graph_ = sc::get<bool>("visualize_graph", plugin_params, true);
     id_ = sc::get<int>("id", plugin_params, 1);
     if (graph_file_name == default_file_name)
         return true;
 
     std::ifstream graph_file(graph_file_name);
-    std::ifstream names_file(labels_file_name);
 
-    bool found_labels = true;
-    if (!names_file.good()) {
-        found_labels = false;
-        std::cout << labels_file_name << " not found. Resuming with default labels" << std::endl;
-    }
+    boost::dynamic_properties dp(boost::ignore_other_properties);
+    dp.property("osmid", boost::get(&VertexProperties::osmid, g_));
+    dp.property("x", boost::get(&VertexProperties::x, g_));
+    dp.property("y", boost::get(&VertexProperties::y, g_));
+
+    dp.property("geometry", boost::get(&EdgeProperties::geometry, g_));
+    dp.property("length", boost::get(&EdgeProperties::length, g_));
+    dp.property("osmid", boost::get(&EdgeProperties::osmid, g_));
+    dp.property("name", boost::get(&EdgeProperties::name, g_));
 
     if (graph_file.is_open()) {
-        std::string line;
-        // Skip header until the node and edge count
-        while (std::getline(graph_file, line)) {
-            if (line[0] != '#') { // Line is node count
-                std::getline(graph_file, line); // Line is edge count
-                break;
-            }
-        }
-
-        // Read the nodes and edges
-        std::map<int, Eigen::Vector3d> nodes;
-        auto graph_msg = std::make_shared<sc::Message<sm::Graph>>();
-        graph_msg->data.set_id(id_);
-        unsigned int edge_counter = 0;
-        while (std::getline(graph_file, line)) {
-            std::vector<std::string> words;
-            boost::split(words, line, [](char c) { return c == ' '; });
-
-            bool is_node = words.size() == 3;
-            if (is_node) {
-                double x, y, z;
-                int id = std::stoi(words[0]);
-                double latitude = std::stod(words[1]), longitude = std::stod(words[2]);
-                parent_->projection()->Forward(latitude, longitude, 0.0, x, y, z);
-                nodes[id] = Eigen::Vector3d(x, y, z);
-
-                auto node_ptr = graph_msg->data.add_nodes();
-                node_ptr->set_id(id);
-                sc::set(node_ptr->mutable_point(), nodes[id]);
-            } else { // is edge
-                edge_counter++;
-                int id_start = std::stoi(words[0]), id_end = std::stoi(words[1]);
-                double length = std::stod(words[2]);
-
-                bool edge_nodes_exist = nodes.count(id_start) > 0 && nodes.count(id_end) > 0; // reality check
-                if (edge_nodes_exist) {
-                    auto edge_ptr = graph_msg->data.add_edges();
-                    edge_ptr->set_start_node_id(id_start);
-                    edge_ptr->set_end_node_id(id_end);
-                    edge_ptr->set_weight(length);
-
-                    if (found_labels) {
-                        // Get Street Name
-                        GotoLine(names_file, edge_counter);
-                        std::string street_name;
-                        std::getline(names_file, street_name);
-                        edge_ptr->set_label(street_name);
-                    }
-
-                    // Visualize the Edges
-                    if (vis_graph_) {
-                        auto edge_shape = std::make_shared<scrimmage_proto::Shape>();
-                        edge_shape->set_persistent(true);
-                        edge_shape->set_opacity(1.0);
-                        scrimmage::set(edge_shape->mutable_color(), 255, 0, 0);
-                        scrimmage::set(edge_shape->mutable_line()->mutable_start(), nodes[id_start]);
-                        scrimmage::set(edge_shape->mutable_line()->mutable_end(), nodes[id_end]);
-                        draw_shape(edge_shape);
-                    }
-                }
-            }
-        }
-        pub_graph_->publish(graph_msg);
-
-        // Visualize the Nodes
-        if (vis_graph_) {
-            auto node_shape = std::make_shared<scrimmage_proto::Shape>();
-            node_shape->set_persistent(true);
-            for (auto node : nodes) {
-                scrimmage::set(node_shape->mutable_pointcloud()->add_point(), node.second[0], node.second[1], node.second[2]);
-            }
-            node_shape->mutable_pointcloud()->set_size(3);
-            draw_shape(node_shape);
-        }
-
+        boost::read_graphml(graph_file, g_, dp);
+        cout << "read graph file" << endl;
         graph_file.close();
-    } else {
-        cout << "Unable to open file: " + graph_file_name;
+    }
+
+    std::map<uint64_t, Eigen::Vector3d> nodes;
+    std::map<uint64_t, uint64_t> boost_vert_to_osmid;
+
+    auto graph_msg = std::make_shared<sc::Message<sm::Graph>>();
+    graph_msg->data.set_id(id_);
+    for (auto vs = boost::vertices(g_); vs.first != vs.second; ++vs.first) {
+        // double longitude = boost::get(&VertexProperties::x, g_, *vs.first);
+        // double latitude = boost::get(&VertexProperties::y, g_, *vs.first);
+        // uint64_t this_osmid =
+        //        boost::get(&VertexProperties::osmid, g_, *vs.first);
+        // NOTE: the above three lines are equivalent to the below three lines
+        double longitude = g_[*vs.first].x;
+        double latitude = g_[*vs.first].y;
+        double this_osmid = g_[*vs.first].osmid;
+        boost_vert_to_osmid[*vs.first] = this_osmid;
+
+        double x, y, z;
+        parent_->projection()->Forward(latitude, longitude, 0.0, x, y, z);
+        nodes[this_osmid] = Eigen::Vector3d(x, y, z);
+        auto node_ptr = graph_msg->data.add_nodes();
+        node_ptr->set_id(this_osmid);
+        sc::set(node_ptr->mutable_point(), nodes[this_osmid]);
+    }
+
+    for (auto es = boost::edges(g_); es.first != es.second; ++es.first) {
+        uint64_t id_start = boost_vert_to_osmid[boost::source(*es.first, g_)];
+        uint64_t id_end = boost_vert_to_osmid[boost::target(*es.first, g_)];
+
+        auto edge_ptr = graph_msg->data.add_edges();
+        edge_ptr->set_start_node_id(id_start);
+        edge_ptr->set_end_node_id(id_end);
+        edge_ptr->set_weight(g_[*es.first].length);
+        edge_ptr->set_label(g_[*es.first].name);
+
+        // Visualize the edges
+        if (vis_graph_) {
+            auto edge_shape = std::make_shared<scrimmage_proto::Shape>();
+            edge_shape->set_persistent(true);
+            edge_shape->set_opacity(1.0);
+            scrimmage::set(edge_shape->mutable_color(), 0, 0, 0);
+            scrimmage::set(edge_shape->mutable_line()->mutable_start(),
+                    nodes[id_start]);
+            scrimmage::set(edge_shape->mutable_line()->mutable_end(),
+                    nodes[id_end]);
+            draw_shape(edge_shape);
+        }
+    }
+    pub_graph_->publish(graph_msg);
+
+    // Visualize the nodes
+    if (vis_graph_) {
+        int counter_viz = 0;
+        auto node_shape = std::make_shared<scrimmage_proto::Shape>();
+        node_shape->set_persistent(true);
+        for (auto node : nodes) {
+            scrimmage::set(node_shape->mutable_pointcloud()->add_point(),
+                    node.second[0], node.second[1], node.second[2]);
+            sc::set(node_shape->mutable_pointcloud()->add_color(),
+                    0, 0, 255);
+            if (counter_viz % 1000 == 0) {
+                cout << counter_viz << endl;
+            }
+            counter_viz++;
+        }
+        node_shape->mutable_pointcloud()->set_size(6);
+        draw_shape(node_shape);
     }
 
     return true;
 }
-
 
 bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                   double t, double dt) {
@@ -191,5 +204,6 @@ bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
     return true;
 }
-} // namespace interaction
-} // namespace scrimmage
+
+}  // namespace interaction
+}  // namespace scrimmage
