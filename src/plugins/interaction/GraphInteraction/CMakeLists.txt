@@ -32,12 +32,13 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
 )
 
 target_include_directories(${LIBRARY_NAME}
-  PUBLIC ${Boost_LIBRARIES}
+  PUBLIC    
+    $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
 )
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-  $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${PROJECT_INC_DIR}>
 )
 
