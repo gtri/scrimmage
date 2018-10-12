@@ -54,7 +54,6 @@ class WaypointDispatcher : public scrimmage::Autonomy {
     std::list<Waypoint>::iterator prev_wp_it_;
     unsigned int cycles_ = 0;
     bool returning_stage_ = false;
-    bool exit_on_reaching_wpt_ = false;
     double lead_distance_ = 50;
 
     scrimmage_proto::ShapePtr track_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
@@ -63,6 +62,7 @@ class WaypointDispatcher : public scrimmage::Autonomy {
     bool show_shapes_ = false;
 
     scrimmage::PublisherPtr wp_pub_;
+    scrimmage::PublisherPtr wp_pub_status_;
 };
 } // namespace autonomy
 } // namespace scrimmage

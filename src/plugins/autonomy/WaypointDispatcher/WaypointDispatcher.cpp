@@ -65,14 +65,13 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
     lead_distance_ = sc::get<double>("lead_distance", params, lead_distance_);
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
 
-    std::string waypointlist_network = sc::get<std::string>("waypointlist_network",
-                                                            params,
-                                                            "GlobalNetwork");
-    std::string waypoint_network = sc::get<std::string>("waypoint_network",
-                                                        params,
-                                                        "LocalNetwork");
+    std::string waypointlist_network = get<std::string>(
+        "waypointlist_network", params, "GlobalNetwork");
+    std::string waypoint_network = sc::get<std::string>(
+        "waypoint_network", params, "LocalNetwork");
 
     wp_pub_ = advertise(waypoint_network, "Waypoint");
+    wp_pub_status_ = advertise(waypoint_network, "WaypointStatus");
 
     auto wp_list_cb = [&] (scrimmage::MessagePtr<WaypointList> msg) {
         // Received a new waypoint list, reset
@@ -156,10 +155,8 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     // check if within waypoint tolerance
     if ((state_->pos() - wp).norm() <= curr_wp_lla.position_tolerance()) {
-        if (exit_on_reaching_wpt_) {
-            return false;
-        }
 
+        bool done = false;
         switch (wp_list_.mode()) {
         case WaypointList::WaypointMode::follow_once :
             prev_wp_it_ = wp_it_;
@@ -167,6 +164,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
             if (wp_it_ == wp_list_.waypoints().end()) {
                 wp_it_ = prev_wp_it_;
+                done = true;
             }
             break;
 
@@ -200,6 +198,11 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
             std::string msg = "Waypoint mode not defined yet.";
             throw std::runtime_error(msg);
         }
+
+        auto msg = std::make_shared<sc::Message<std::tuple<size_t, size_t, bool>>>();
+        size_t idx = std::distance(wp_list_.waypoints().begin(), wp_it_);
+        msg->data = std::make_tuple(idx, wp_list_.waypoints().size(), done);
+        wp_pub_status_->publish(msg);
     }
 
     return true;
