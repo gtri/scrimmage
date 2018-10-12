@@ -12,9 +12,6 @@ add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
 )
 
-target_include_directories(scrimmage-boost
-  INTERFACE ${Boost_INCLUDE_DIRS})
-
 target_compile_options(${LIBRARY_NAME}
   PRIVATE -Wall -std=c++14
 )
@@ -35,8 +32,12 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
 )
 
 target_include_directories(${LIBRARY_NAME}
+  PUBLIC ${Boost_LIBRARIES}
+)
+
+target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${PROJECT_INC_DIR}>
 )
 
