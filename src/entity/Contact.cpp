@@ -55,6 +55,8 @@ void Contact::set_state(StatePtr &state) { state_ = state; }
 
 StatePtr &Contact::state() { return state_; }
 
+std::shared_ptr<const State> Contact::state_const() const { return state_; }
+
 void Contact::set_type(Contact::Type type) { type_ = type; }
 
 Contact::Type Contact::type() { return type_; }

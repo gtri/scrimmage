@@ -82,6 +82,7 @@ class Contact {
 
     void set_state(StatePtr &state);
     StatePtr &state();
+    std::shared_ptr<const State> state_const() const;
 
     void set_type(Type type);
     Type type();
