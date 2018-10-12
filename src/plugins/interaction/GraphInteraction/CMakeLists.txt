@@ -19,9 +19,8 @@ target_compile_options(${LIBRARY_NAME}
 target_link_libraries(${LIBRARY_NAME}
   scrimmage-core
   scrimmage-msgs
+  Boost::graph
 )
-
-target_link_libraries( GraphInteraction_plugin ${Boost_LIBRARIES} )
 
 set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
@@ -29,11 +28,6 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
-)
-
-target_include_directories(${LIBRARY_NAME}
-  PUBLIC    
-    $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
 )
 
 target_include_directories(${LIBRARY_NAME}
