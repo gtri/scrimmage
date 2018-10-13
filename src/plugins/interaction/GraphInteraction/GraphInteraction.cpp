@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
 #include <scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h>
 
 #include <scrimmage/common/Utilities.h>
@@ -125,15 +126,15 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
         graph_file.close();
     }
 
-    std::map<uint64_t, Eigen::Vector3d> nodes;
-    std::map<uint64_t, uint64_t> boost_vert_to_osmid;
+    std::map<int64_t, Eigen::Vector3d> nodes;
+    std::map<int64_t, int64_t> boost_vert_to_osmid;
 
     auto graph_msg = std::make_shared<sc::Message<sm::Graph>>();
     graph_msg->data.set_id(id_);
     for (auto vs = boost::vertices(g_); vs.first != vs.second; ++vs.first) {
         // double longitude = boost::get(&VertexProperties::x, g_, *vs.first);
         // double latitude = boost::get(&VertexProperties::y, g_, *vs.first);
-        // uint64_t this_osmid =
+        // int64_t this_osmid =
         //        boost::get(&VertexProperties::osmid, g_, *vs.first);
         // NOTE: the above three lines are equivalent to the below three lines
         double longitude = g_[*vs.first].x;
@@ -150,47 +151,23 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
     }
 
     for (auto es = boost::edges(g_); es.first != es.second; ++es.first) {
-        uint64_t id_start = boost_vert_to_osmid[boost::source(*es.first, g_)];
-        uint64_t id_end = boost_vert_to_osmid[boost::target(*es.first, g_)];
+        int64_t id_start = boost_vert_to_osmid[boost::source(*es.first, g_)];
+        int64_t id_end = boost_vert_to_osmid[boost::target(*es.first, g_)];
 
         auto edge_ptr = graph_msg->data.add_edges();
         edge_ptr->set_start_node_id(id_start);
         edge_ptr->set_end_node_id(id_end);
         edge_ptr->set_weight(g_[*es.first].length);
         edge_ptr->set_label(g_[*es.first].name);
-
-        // Visualize the edges
-        if (vis_graph_) {
-            auto edge_shape = std::make_shared<scrimmage_proto::Shape>();
-            edge_shape->set_persistent(true);
-            edge_shape->set_opacity(1.0);
-            scrimmage::set(edge_shape->mutable_color(), 0, 0, 0);
-            scrimmage::set(edge_shape->mutable_line()->mutable_start(),
-                    nodes[id_start]);
-            scrimmage::set(edge_shape->mutable_line()->mutable_end(),
-                    nodes[id_end]);
-            draw_shape(edge_shape);
-        }
     }
     pub_graph_->publish(graph_msg);
 
-    // Visualize the nodes
     if (vis_graph_) {
-        int counter_viz = 0;
-        auto node_shape = std::make_shared<scrimmage_proto::Shape>();
-        node_shape->set_persistent(true);
-        for (auto node : nodes) {
-            scrimmage::set(node_shape->mutable_pointcloud()->add_point(),
-                    node.second[0], node.second[1], node.second[2]);
-            sc::set(node_shape->mutable_pointcloud()->add_color(),
-                    0, 0, 255);
-            if (counter_viz % 1000 == 0) {
-                cout << counter_viz << endl;
-            }
-            counter_viz++;
-        }
-        node_shape->mutable_pointcloud()->set_size(6);
-        draw_shape(node_shape);
+        auto node_idx_to_pos = nodes_idxs_to_pos_map(graph_msg->data);
+        auto ptr = shared_from_this();
+        bool draw_node_labels = sc::get<bool>("draw_node_labels", plugin_params, true);
+        auto draw = draw_node_labels ? DrawNodeLabels::YES : DrawNodeLabels::NO;
+        draw_graph(graph_msg->data, node_idx_to_pos, draw, ptr);
     }
 
     return true;
