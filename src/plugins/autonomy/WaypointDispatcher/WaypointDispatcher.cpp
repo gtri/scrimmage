@@ -58,11 +58,16 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-WaypointDispatcher::WaypointDispatcher() {
+Eigen::Vector3d WaypointDispatcher::lla_to_xyz(const Waypoint &wpt) {
+    Eigen::Vector3d xyz;
+    parent_->projection()->Forward(
+        wpt.latitude(), wpt.longitude(), wpt.altitude(), xyz(0), xyz(1), xyz(2));
+    return xyz;
 }
 
 void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
     lead_distance_ = sc::get<double>("lead_distance", params, lead_distance_);
+    filter_dist_ = sc::get<double>("filter_dist", params, filter_dist_);
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
 
     std::string waypointlist_network = get<std::string>(
@@ -83,7 +88,10 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
 
         // Filter the waypoint list to ensure that two waypoints in succession
         // are not equal, otherwise, the line following will produce NaN
-        wp_list_.waypoints().unique();
+        auto is_close = [&](auto &wpt1, auto &wpt2) {
+            return (this->lla_to_xyz(wpt1) - this->lla_to_xyz(wpt2)).norm() < filter_dist_;
+        };
+        wp_list_.waypoints().unique(is_close);
     };
     subscribe<WaypointList>(waypointlist_network, "WaypointList", wp_list_cb);
 }
@@ -132,7 +140,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
         sphere->set_persistent(true);
         sc::set(sphere->mutable_color(), r, g, b);
         sphere->set_opacity(1.0);
-        sphere->mutable_sphere()->set_radius(10);
+        sphere->mutable_sphere()->set_radius(30);
         sc::set(sphere->mutable_sphere()->mutable_center(), pt);
         this->draw_shape(sphere);
     };

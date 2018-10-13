@@ -59,7 +59,7 @@ std::ostream& operator<<(std::ostream& os, Waypoint& wp) {
 }
 
 bool operator==(const Waypoint &lhs, const Waypoint &rhs) {
-    auto far = [&](double a, double b) {return std::abs(a - b) > std::numeric_limits<double>::epsilon();};
+    auto far = [&](double a, double b) {return std::abs(a - b) > 1.0e-6;};
 
     return !far(lhs.altitude(), rhs.latitude()) &&
            !far(lhs.longitude(), rhs.longitude()) &&

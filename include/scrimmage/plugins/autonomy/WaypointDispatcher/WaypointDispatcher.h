@@ -44,17 +44,19 @@ namespace scrimmage {
 namespace autonomy {
 class WaypointDispatcher : public scrimmage::Autonomy {
  public:
-    WaypointDispatcher();
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
+    Eigen::Vector3d lla_to_xyz(const Waypoint &wpt);
+
     WaypointList wp_list_;
     std::list<Waypoint>::iterator wp_it_;
     std::list<Waypoint>::iterator prev_wp_it_;
     unsigned int cycles_ = 0;
     bool returning_stage_ = false;
     double lead_distance_ = 50;
+    double filter_dist_ = 1;
 
     scrimmage_proto::ShapePtr track_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
     scrimmage_proto::ShapePtr curr_wp_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
