@@ -246,10 +246,10 @@ boost::optional<std::string> run_test(std::string mission, bool init_python) {
             return boost::none;
         }
 
-        auto log = preprocess_scrimmage(mp, simcontrol);
 #if ENABLE_PYTHON_BINDINGS == 1
         if (init_python) Py_Initialize();
 #endif
+        auto log = preprocess_scrimmage(mp, simcontrol);
         if (log == nullptr) {
             return boost::none;
         }

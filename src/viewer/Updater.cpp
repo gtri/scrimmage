@@ -1991,14 +1991,18 @@ bool Updater::draw_text(const bool &new_shape,
         textSource = vtkVectorText::SafeDownCast(source);
     }
 
-    if (t.scale() > 0) {
-        actor->SetScale(t.scale(), t.scale(), t.scale());
-    }
+    if (textSource) {
+        if (t.scale() > 0) {
+            actor->SetScale(t.scale(), t.scale(), t.scale());
+        }
 
-    textSource->SetText(t.text().c_str());
-    actor->SetPosition(t.center().x(), t.center().y(),
-                       t.center().z());
-    return true;
+        textSource->SetText(t.text().c_str());
+        actor->SetPosition(t.center().x(), t.center().y(),
+                           t.center().z());
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void Updater::get_model_texture(std::string name,

@@ -6,6 +6,7 @@
   <library>GraphInteraction_plugin</library> 
   <data>default</data>
   <graph_file>default</graph_file> 
-  <visualize_graph>1</visualize_graph>
+  <visualize_graph>true</visualize_graph>
+  <draw_node_labels>true</draw_node_labels>
   <id>1</id>
 </params>

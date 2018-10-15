@@ -35,6 +35,7 @@
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Frame.pb.h>

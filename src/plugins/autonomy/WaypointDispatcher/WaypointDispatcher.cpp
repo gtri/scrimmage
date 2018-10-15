@@ -58,21 +58,25 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-WaypointDispatcher::WaypointDispatcher() {
+Eigen::Vector3d WaypointDispatcher::lla_to_xyz(const Waypoint &wpt) {
+    Eigen::Vector3d xyz;
+    parent_->projection()->Forward(
+        wpt.latitude(), wpt.longitude(), wpt.altitude(), xyz(0), xyz(1), xyz(2));
+    return xyz;
 }
 
 void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
     lead_distance_ = sc::get<double>("lead_distance", params, lead_distance_);
+    filter_dist_ = sc::get<double>("filter_dist", params, filter_dist_);
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
 
-    std::string waypointlist_network = sc::get<std::string>("waypointlist_network",
-                                                            params,
-                                                            "GlobalNetwork");
-    std::string waypoint_network = sc::get<std::string>("waypoint_network",
-                                                        params,
-                                                        "LocalNetwork");
+    std::string waypointlist_network = get<std::string>(
+        "waypointlist_network", params, "GlobalNetwork");
+    std::string waypoint_network = sc::get<std::string>(
+        "waypoint_network", params, "LocalNetwork");
 
     wp_pub_ = advertise(waypoint_network, "Waypoint");
+    wp_pub_status_ = advertise(waypoint_network, "WaypointStatus");
 
     auto wp_list_cb = [&] (scrimmage::MessagePtr<WaypointList> msg) {
         // Received a new waypoint list, reset
@@ -84,7 +88,10 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
 
         // Filter the waypoint list to ensure that two waypoints in succession
         // are not equal, otherwise, the line following will produce NaN
-        wp_list_.waypoints().unique();
+        auto is_close = [&](auto &wpt1, auto &wpt2) {
+            return (this->lla_to_xyz(wpt1) - this->lla_to_xyz(wpt2)).norm() < filter_dist_;
+        };
+        wp_list_.waypoints().unique(is_close);
     };
     subscribe<WaypointList>(waypointlist_network, "WaypointList", wp_list_cb);
 }
@@ -129,14 +136,19 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
         track_point = wp;
     }
 
+    auto draw_sphere = [&](auto &sphere, auto &pt, double r, double g, double b) {
+        sphere->set_persistent(true);
+        sc::set(sphere->mutable_color(), r, g, b);
+        sphere->set_opacity(1.0);
+        sphere->mutable_sphere()->set_radius(30);
+        sc::set(sphere->mutable_sphere()->mutable_center(), pt);
+        this->draw_shape(sphere);
+    };
+
     if (show_shapes_) {
-        // Draw the track point
-        sphere_shape_->set_persistent(true);
-        sc::set(sphere_shape_->mutable_color(), 0, 0, 0);
-        sphere_shape_->set_opacity(1.0);
-        sphere_shape_->mutable_sphere()->set_radius(5);
-        sc::set(sphere_shape_->mutable_sphere()->mutable_center(), track_point);
-        draw_shape(sphere_shape_);
+        draw_sphere(track_sphere_shape_, track_point, 0, 0, 0);
+        draw_sphere(curr_wp_sphere_shape_, wp, 255, 0, 0);
+        draw_sphere(prev_wp_sphere_shape_, prev_wp, 0, 0, 255);
     }
 
     // convert track_point to lat/lon and Publish track_point!
@@ -146,14 +158,13 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     auto wp_msg = std::make_shared<sc::Message<Waypoint>>();
     wp_msg->data = Waypoint(lat, lon, alt);
+    wp_msg->data.set_id(curr_wp_lla.id());
     wp_pub_->publish(wp_msg);
 
     // check if within waypoint tolerance
     if ((state_->pos() - wp).norm() <= curr_wp_lla.position_tolerance()) {
-        if (exit_on_reaching_wpt_) {
-            return false;
-        }
 
+        bool done = false;
         switch (wp_list_.mode()) {
         case WaypointList::WaypointMode::follow_once :
             prev_wp_it_ = wp_it_;
@@ -161,6 +172,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
             if (wp_it_ == wp_list_.waypoints().end()) {
                 wp_it_ = prev_wp_it_;
+                done = true;
             }
             break;
 
@@ -194,6 +206,11 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
             std::string msg = "Waypoint mode not defined yet.";
             throw std::runtime_error(msg);
         }
+
+        auto msg = std::make_shared<sc::Message<std::tuple<size_t, size_t, bool>>>();
+        size_t idx = std::distance(wp_list_.waypoints().begin(), wp_it_);
+        msg->data = std::make_tuple(idx, wp_list_.waypoints().size(), done);
+        wp_pub_status_->publish(msg);
     }
 
     return true;
