@@ -138,15 +138,18 @@ void OpenAIObservations::create_observation_space(size_t num_entities) {
         py::array_t<int> discrete_array(len_discrete);
         py::array_t<double> continuous_array(len_continuous);
 
+        // Return by move to fix this warning from clang: warning: local
+        // variable 'obs' will be copied despite being returned by name
+        // [-Wreturn-std-move]
         if (len_discrete > 0 && len_continuous > 0) {
             py::list obs;
             obs.append(discrete_array);
             obs.append(continuous_array);
-            return obs;
+            return std::move(obs);
         } else if (len_continuous > 0) {
-            return continuous_array;
+            return std::move(continuous_array);
         } else {
-            return discrete_array;
+            return std::move(discrete_array);
         }
     };
 
