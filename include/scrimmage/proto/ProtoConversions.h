@@ -33,13 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 #define INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
 
-#include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/entity/Contact.h>
-
 #include <Eigen/Dense>
 
 #include <list>
 #include <vector>
+#include <unordered_map>
+#include <memory>
 
 namespace scrimmage_proto {
 class Contact;
@@ -61,6 +60,14 @@ struct Color_t;
 class ID;
 class Quaternion;
 class Frame;
+class Plugin;
+
+class State;
+using StatePtr = std::shared_ptr<State>;
+
+class Contact;
+using ContactMap = std::unordered_map<int, Contact>;
+using ContactMapPtr = std::shared_ptr<ContactMap>;
 
 void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src);
 void set(scrimmage_proto::Vector3d *dst, double x, double y, double z);
