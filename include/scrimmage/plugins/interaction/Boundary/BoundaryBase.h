@@ -52,6 +52,7 @@ namespace interaction {
 class BoundaryBase {
  public:
     BoundaryBase() : center_(0, 0, 0) {}
+    virtual ~BoundaryBase() {}
     explicit BoundaryBase(const Eigen::Vector3d &center) : center_(center) {}
     virtual bool contains(Eigen::Vector3d p) = 0;
     const sc::ShapePtr shape() const { return shape_; }

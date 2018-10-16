@@ -41,6 +41,9 @@ RUN pip install cpplint
 
 RUN pip install protobuf==3.3.0 grpcio==1.2.1
 
+#install clang
+RUN apt-get install -y clang
+
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
@@ -89,6 +92,17 @@ RUN source ~/.scrimmage/setup.bash && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
+
+# build with clang
+RUN rm * -rf && \
+    export CC=/usr/bin/clang && \
+    export CXX=/usr/bin/clang++ && \
+    source ~/.scrimmage/setup.bash && \
+    cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror"
+
+RUN ninja
+RUN source ~/.scrimmage/setup.bash && \
+    ninja test
 
 # Test scrimmage_ros package integration
 RUN mkdir -p /root/catkin_ws/src

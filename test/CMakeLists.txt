@@ -26,7 +26,6 @@ foreach(test_file ${test_files})
   target_link_libraries(${test_name}
     gtest_main
     scrimmage-core
-    ${PROJECT_PLUGINS}
     )
   if (ENABLE_PYTHON_BINDINGS)
     target_link_libraries(${test_name} scrimmage-python)

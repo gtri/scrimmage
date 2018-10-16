@@ -1798,8 +1798,8 @@ bool Updater::draw_plane(const bool &new_shape,
                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper) {
   // sanity checks
-  if (abs(p.x_length()) < std::numeric_limits<double>::epsilon()
-      || abs(p.y_length()) < std::numeric_limits<double>::epsilon()) {
+  if (std::abs(p.x_length()) < std::numeric_limits<double>::epsilon()
+      || std::abs(p.y_length()) < std::numeric_limits<double>::epsilon()) {
     std::cout << "Cannot draw plane: bad dimensions (" << p.x_length() << ", " << p.y_length() << ")\n";
     return false;
   }

@@ -3,7 +3,7 @@ if (NOT BULLET_FOUND)
   return()
 endif()
 
-include_directories(${BULLET_INCLUDE_DIRS})
+include_directories(SYSTEM ${BULLET_INCLUDE_DIRS})
 
 #--------------------------------------------------------
 # Library Creation
