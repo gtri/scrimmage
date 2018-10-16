@@ -59,7 +59,15 @@
 #include <scrimmage/log/Log.h>
 
 #if ENABLE_PYTHON_BINDINGS == 1
+#ifdef __clang__
+_Pragma("clang diagnostic push")
+_Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
+_Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
+#endif
 #include <Python.h>
+#ifdef __clang__
+_Pragma("clang diagnostic pop")
+#endif
 #endif
 
 #include <boost/optional.hpp>
@@ -181,4 +189,3 @@ int main(int argc, char *argv[]) {
     Py_Finalize();
 #endif
 }
-
