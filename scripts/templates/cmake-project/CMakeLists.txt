@@ -84,7 +84,7 @@ GenerateSetEnv(
 # Recurse into src, share, and plugins
 ########################################################
 #add_subdirectory(share)
-#add_subdirectory(msgs)
+add_subdirectory(msgs)
 add_subdirectory(src)
 
 option(BUILD_DOCS "Build documentation" OFF)
