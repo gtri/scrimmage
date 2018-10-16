@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.(>>>PROJECT_NAME<<<)";
+
+import "scrimmage/proto/Vector3d.proto";
+
+package (>>>PROJECT_NAME<<<);
+
+message Example1 {
+        scrimmage_proto.Vector3d vec = 1;
+        double value = 2;
+}
