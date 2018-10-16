@@ -76,10 +76,10 @@ class RTree {
     void add(Eigen::Vector3d &pos, const ID &id);
     void nearest_n_neighbors(const Eigen::Vector3d &pos,
                              std::vector<ID> &neighbors, unsigned int n,
-                             int self_id = -1, int team_id = -1);
+                             int self_id = -1, int team_id = -1) const;
     void neighbors_in_range(const Eigen::Vector3d &pos,
                             std::vector<ID> &neighbors, double dist,
-                            int self_id = -1, int team_id = -1);
+                            int self_id = -1, int team_id = -1) const;
  protected:
     rtreePtr rtree_;
     std::map<int, rtreePtr> rtree_team_;

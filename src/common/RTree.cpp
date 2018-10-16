@@ -85,7 +85,7 @@ void results_to_neighbors(std::list<point_id_t> &results,
 
 void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos,
                                 std::vector<ID> &neighbors, unsigned int n,
-                                int self_id, int team_id) {
+                                int self_id, int team_id) const {
     std::list<point_id_t> results;
     point sought(pos(0), pos(1), pos(2));
 
@@ -112,7 +112,7 @@ void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos,
 void RTree::neighbors_in_range(const Eigen::Vector3d &pos,
                                std::vector<ID> &neighbors,
                                double dist,
-                               int self_id, int team_id) {
+                               int self_id, int team_id) const {
     // see here: http://stackoverflow.com/a/22910447
     std::list<point_id_t> results;
     double x = pos(0);
