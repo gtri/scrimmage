@@ -268,7 +268,7 @@ bool UUV6DOF::step(double time, double dt) {
 
     // Limit depth/height
     if (x_[Zw] >= surface_height_) {
-        x_[Zw] = surface_height_;
+        x_[Zw] = surface_height_ - std::numeric_limits<double>::epsilon();
         if (x_[Q] > 0) {
             x_[Q] *= 0.90;
             x_[Q_dot] *= 0.10;
