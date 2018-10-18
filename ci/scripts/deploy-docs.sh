@@ -1,6 +1,16 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
+# Ensure documentation folders exist
+if [ ! -d "./doc_output/sphinx" ]; then
+    echo "ERROR: sphinx documentation doesn't exist."
+    exit 1
+fi
+if [ ! -d "./doc_output/doxygen" ]; then
+    echo "ERROR: doxygen documentation doesn't exist."
+    exit 1
+fi
+
 # References:
 # https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 # https://github.com/alrra/travis-scripts/blob/master/doc/github-deploy-keys.md
