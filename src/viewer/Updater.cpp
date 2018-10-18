@@ -1862,6 +1862,12 @@ bool Updater::draw_plane(const bool &new_shape,
     std::cout << "plane texture not found: " << texture_file << std::endl;
   }
 
+  // set ambient lighting for the plane
+  if (!p.diffuse_lighting()) {
+    actor->GetProperty()->SetAmbient(1);
+    actor->GetProperty()->SetDiffuse(0);
+  }
+
   return true;
 }
 

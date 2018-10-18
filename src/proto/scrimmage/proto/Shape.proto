@@ -22,6 +22,7 @@ message Plane {
         double x_length = 3;
         double y_length = 4;
         string texture = 5;
+        bool diffuse_lighting = 6;
 }
 
 message Arrow {
