@@ -48,7 +48,7 @@ WORKDIR build
 RUN cmake .. -DBUILD_TESTS=ON -DPYTHON_MIN_VERSION=3 -DCMAKE_PREFIX_PATH=~/.local
 
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && make -j $(($(nproc --all) - 1))"
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && make test"
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && export CTEST_OUTPUT_ON_FAILURE=1 && make test"
 
 WORKDIR /root/scrimmage/scrimmage/python
 RUN pip3 install -e .
