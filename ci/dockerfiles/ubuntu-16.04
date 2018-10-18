@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y git ninja-build
 RUN git clone https://github.com/openai/gym
 WORKDIR /root/gym
 RUN git checkout v0.10.5
-# TODO DISABLE OPENAI # RUN pip install -e '.[all]'
+RUN pip install -e '.[all]'
 WORKDIR /root
 
 # these are only used for static analysis of the code
@@ -88,7 +88,7 @@ WORKDIR /root/scrimmage/scrimmage/build
 RUN source ~/.scrimmage/setup.bash && \
     export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
     export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
-    # TODO DISABLE OPENAI # py.test ../test/test_openai.py && \
+    py.test ../test/test_openai.py && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
