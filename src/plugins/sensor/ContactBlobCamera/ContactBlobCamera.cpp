@@ -128,6 +128,13 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
 bool ContactBlobCamera::step() {
     if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
 
+    sc::State sensor_frame;
+    sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera0"];
+    sc::Quaternion quat = static_cast<sc::Quaternion>(parent_->state()->quat() *  sensor->transform()->quat());
+    sensor_frame.set_quat(quat);
+    // TODO make this add the camera offset too
+    sensor_frame.set_pos(parent_->state()->pos());
+
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
@@ -148,7 +155,9 @@ bool ContactBlobCamera::step() {
         if (r <= fn_prob_) continue;
 
         // Transform contact into "camera" coordinate system
-        Eigen::Vector3d rel_pos = parent_->state()->rel_pos_local_frame(kv.second.state()->pos());
+        // Eigen::Vector3d rel_pos = parent_->state()->rel_pos_local_frame(kv.second.state()->pos());
+        Eigen::Vector3d rel_pos = sensor_frame.rel_pos_local_frame(kv.second.state()->pos());
+
 
         if (!in_field_of_view(rel_pos)) continue;
 
