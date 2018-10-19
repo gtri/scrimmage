@@ -56,6 +56,9 @@ void FileSearch::clear() {cache_.clear();}
 
 boost::optional<std::string> FileSearch::find_mission(std::string mission,
         bool verbose) {
+    if (!boost::algorithm::ends_with(mission, "xml")) {
+        mission = mission + ".xml";
+    }
     mission = expand_user(mission);
     if (fs::exists(mission)) return mission;
 

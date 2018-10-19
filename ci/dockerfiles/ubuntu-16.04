@@ -24,22 +24,15 @@ RUN apt-get update && \
     apt-get install -y scrimmage-dependencies && \
     /opt/scrimmage/*/setup.sh
 
-# this is for openai gym not installed as part of 3rd-party building so as not
-# to confuse python environments see here for installation commands:
-# https://github.com/openai/gym#installing-everything
-RUN apt-get update && apt-get install -y python-pip python-numpy python-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python-opengl libboost-all-dev libsdl2-dev swig
-RUN apt-get update && apt-get install -y git ninja-build
-RUN git clone https://github.com/openai/gym
-WORKDIR /root/gym
-RUN git checkout v0.10.5
-# TODO DISABLE OPENAI # RUN pip install -e '.[all]'
-WORKDIR /root
-
 # these are only used for static analysis of the code
 RUN apt-get update && apt-get install -y cppcheck python-pytest python-pip
 RUN pip install cpplint
 
 RUN pip install protobuf==3.3.0 grpcio==1.2.1
+
+# for testing openai gym plugin
+RUN apt-get update && apt-get install -y git ninja-build
+RUN pip install gym
 
 #install clang
 RUN apt-get install -y clang
@@ -88,7 +81,8 @@ WORKDIR /root/scrimmage/scrimmage/build
 RUN source ~/.scrimmage/setup.bash && \
     export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
     export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
-    # TODO DISABLE OPENAI # py.test ../test/test_openai.py && \
+    py.test ../test/test_openai.py && \
+    export CTEST_OUTPUT_ON_FAILURE=1 && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
@@ -102,6 +96,8 @@ RUN rm * -rf && \
 
 RUN ninja && ninja docs
 RUN source ~/.scrimmage/setup.bash && \
+    export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
+    export CTEST_OUTPUT_ON_FAILURE=1 && \
     ninja test
 
 # Test scrimmage_ros package integration

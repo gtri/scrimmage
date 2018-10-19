@@ -97,7 +97,7 @@ pybind11::object create_space(
 }
 
 pybind11::object get_gym_space(const std::string &type) {
-    return pybind11::module::import("gym").attr("spaces").attr(type.c_str());
+    return pybind11::module::import("gym.spaces").attr(type.c_str());
 }
 } // namespace autonomy
 } // namespace scrimmage
