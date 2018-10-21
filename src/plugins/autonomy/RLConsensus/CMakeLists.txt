@@ -1,8 +1,3 @@
-if(NOT GRPC_FOUND)
-    message("GRPC not found. Not building RLSimple.")
-    return()
-endif()
-
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------

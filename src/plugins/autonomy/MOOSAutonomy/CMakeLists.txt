@@ -92,11 +92,11 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 # This is necessary when doing parallel builds (e.g. make -j8)
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+  scrimmage-core
   ${MOOS_LIBRARIES}
   contacts
   mbutil
   geometry
-  
   )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

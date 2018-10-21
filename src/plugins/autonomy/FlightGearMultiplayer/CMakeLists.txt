@@ -1,6 +1,6 @@
 # TODO Find fgms code. include_directories() to point at the ./fgms/src
 # directory. Also, get the libraries that are built by fgms and allow them to
-# be used in the target_link_libraries below:
+# be used in the target_link_libraries below:  scrimmage-core  scrimmage-core
 find_package(FGMS QUIET)
 if(NOT FGMS_FOUND)
   return()
@@ -28,6 +28,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   )
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+  scrimmage-core
   ${FGMS_LIBRARIES}
   )
 
