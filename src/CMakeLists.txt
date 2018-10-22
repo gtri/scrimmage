@@ -48,7 +48,6 @@ target_link_libraries(${LIBRARY_NAME}
     ${GeographicLib_LIBRARIES}
     ${CMAKE_DL_LIBS}
   PRIVATE
-    ${PYTHON_LIBRARIES}
     Boost::boost
     Boost::filesystem
     Boost::program_options
@@ -58,8 +57,12 @@ target_link_libraries(${LIBRARY_NAME}
 )
 
 if (ENABLE_PYTHON_BINDINGS)
-    target_link_libraries(
-        ${LIBRARY_NAME} PRIVATE scrimmage-python)
+  # compile definitions need to be public
+  # but the rest can be private
+  get_target_property(python_def scrimmage-python INTERFACE_COMPILE_DEFINITIONS)
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC ${python_def})
+  target_link_libraries(
+    ${LIBRARY_NAME} PRIVATE scrimmage-python)
 endif()
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

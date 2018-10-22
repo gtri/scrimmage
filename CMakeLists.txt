@@ -134,9 +134,7 @@ if (ENABLE_PYTHON_BINDINGS)
 
   add_library(scrimmage-python INTERFACE)
   target_include_directories(scrimmage-python
-      SYSTEM INTERFACE ${PYTHON_INCLUDE_DIRS})
-  target_include_directories(scrimmage-python
-      INTERFACE ${pybind11_INCLUDE_DIRS})
+      SYSTEM INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
   target_compile_definitions(scrimmage-python 
       INTERFACE -DENABLE_PYTHON_BINDINGS=1)
   target_link_libraries(scrimmage-python INTERFACE ${PYTHON_LIBRARIES})
