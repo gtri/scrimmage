@@ -14,7 +14,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 
 # This is necessary when doing parallel builds (e.g. make -j8)
 
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME} scrimmage-core ${SCRIMMAGE_LIBS})
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME} scrimmage-core)
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 

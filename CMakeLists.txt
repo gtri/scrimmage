@@ -106,8 +106,6 @@ GenerateSetEnv(
 set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
 set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 
-include_directories(${SCRIMMAGE_INC_DIR})
-include_directories(${MSGS_INCLUDE_DIR})
 include_directories(${PROTO_INCLUDE_DIR})
 
 option(EXTERNAL "EXTERNAL" 0)
@@ -115,7 +113,6 @@ option(EXTERNAL "EXTERNAL" 0)
 option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
 set(PYTHON_MIN_VERSION "2.7" CACHE STRING "Minimum Python version for building")
 if (ENABLE_PYTHON_BINDINGS)
-  add_definitions(-DENABLE_PYTHON_BINDINGS=1)
 
   # Find Python
   #The order of the followin find_package calls is important!
@@ -127,22 +124,24 @@ if (ENABLE_PYTHON_BINDINGS)
   message(STATUS "PYTHON_INCLUDE_DIRS: ${PYTHON_INCLUDE_DIRS}")
 
   set(PYTHON_FOUND TRUE)
-  include_directories("${PYTHON_INCLUDE_DIRS}")
 
   # We have already found the python libs and modules, so tell pybind11 to not
   # search for the python interpreter and libraries again.
   set(PYTHONLIBS_FOUND TRUE)
   set(PYTHON_MODULE_EXTENSION TRUE)
   find_package(pybind11 REQUIRED)
-  include_directories(${pybind11_INCLUDE_DIRS})
   set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
 
   add_library(scrimmage-python INTERFACE)
-  target_include_directories(scrimmage-python INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
+  target_include_directories(scrimmage-python
+      SYSTEM INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
+  target_compile_definitions(scrimmage-python 
+      INTERFACE -DENABLE_PYTHON_BINDINGS=1)
   target_link_libraries(scrimmage-python INTERFACE ${PYTHON_LIBRARIES})
   install(TARGETS scrimmage-python EXPORT ${PROJECT_NAME}-targets)
 else()
-  add_definitions(-DENABLE_PYTHON_BINDINGS=0)
+  target_compile_definitions(scrimmage-python 
+      INTERFACE -DENABLE_PYTHON_BINDINGS=0)
 endif()
 
 ########################################################
@@ -168,7 +167,6 @@ else()
   set(PROTOBUF_LIBRARIES "${PROTOBUF_LIBS}")
   set(PROTOBUF_INCLUDE_DIRS "${PROTOBUF_INCLUDE}")
 endif()
-include_directories(${PROTOBUF_INCLUDE_DIRS})
 set(PROTOBUF_INCLUDE ${PROTOBUF_INCLUDE_DIRS})
 
 ########################################################
@@ -187,7 +185,6 @@ endif()
 ########################################################
 find_package (GeographicLib REQUIRED)
 add_definitions (${GeographicLib_DEFINITIONS})
-include_directories (${GeographicLib_INCLUDE_DIRS})
 
 ########################################################
 # Find JSBSim
@@ -196,7 +193,6 @@ if (NOT APPLE)
   find_package(JSBSIM REQUIRED)
   string(FIND "${JSBSIM_INCLUDE_DIRS}" "NOTFOUND" POS)
   if (JSBSIM_FOUND AND (POS EQUAL -1))
-    include_directories(SYSTEM ${JSBSIM_INCLUDE_DIR})
     add_definitions(-DENABLE_JSBSIM=1)
   else()
     add_definitions(-DENABLE_JSBSIM=0)
@@ -256,7 +252,6 @@ if (NOT Eigen3_FOUND)
   set(EIGEN3_INCLUDE_DIR ${EIGEN_PKGCONFIG_INCLUDE_DIRS})
   message("Found Eigen with pkg-config, EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
 endif()
-include_directories(${EIGEN3_INCLUDE_DIR})
 
 ########################################################
 # Find Boost
@@ -360,13 +355,6 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
       # the gtest and gtest_main targets.
       add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
                        ${PROJECT_BINARY_DIR}/googletest-build)
-
-      # The gtest/gtest_main targets carry header search path
-      # dependencies automatically when using CMake 2.8.11 or
-      # later. Otherwise we have to add them here ourselves.
-      if (CMAKE_VERSION VERSION_LESS 2.8.11)
-        include_directories("${gtest_SOURCE_DIR}/include")
-      endif()
   endif()
 
   add_subdirectory(test)

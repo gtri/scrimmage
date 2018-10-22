@@ -24,7 +24,6 @@ endif()
 set(SCRIMMAGE_LIBRARIES "@PROJECT_LIBS@")
 set(SCRIMMAGE_VIEWER_LIB "scrimmage-viewer")
 set(SCRIMMAGE_PLUGINS "@PROJECT_PLUGINS@")
-set(SCRIMMAGE_ENABLE_PYTHON_BINDINGS "@ENABLE_PYTHON_BINDINGS@")
 
 ###############################################################################
 # Include references to the important 3rd-party libraries and utilities that

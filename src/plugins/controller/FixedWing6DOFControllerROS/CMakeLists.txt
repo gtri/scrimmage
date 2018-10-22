@@ -18,6 +18,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED ${SRCS})
 
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+    scrimmage-core
   ${catkin_LIBRARIES}
   )
 

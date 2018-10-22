@@ -48,7 +48,6 @@ target_link_libraries(${LIBRARY_NAME}
     ${GeographicLib_LIBRARIES}
     ${CMAKE_DL_LIBS}
   PRIVATE
-    ${PYTHON_LIBRARIES}
     Boost::boost
     Boost::filesystem
     Boost::program_options
@@ -56,6 +55,15 @@ target_link_libraries(${LIBRARY_NAME}
     Boost::graph
     Boost::thread
 )
+
+if (ENABLE_PYTHON_BINDINGS)
+  # compile definitions need to be public
+  # but the rest can be private
+  get_target_property(python_def scrimmage-python INTERFACE_COMPILE_DEFINITIONS)
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC ${python_def})
+  target_link_libraries(
+    ${LIBRARY_NAME} PRIVATE scrimmage-python)
+endif()
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
@@ -68,8 +76,10 @@ set_target_properties(
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    "$<INSTALL_INTERFACE:include;${EIGEN3_INCLUDE_DIR};${GeographicLib_INCLUDE_DIRS}>"
-    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR};${EIGEN3_INCLUDE_DIR};${GeographicLib_INCLUDE_DIRS}>"
+    ${EIGEN3_INCLUDE_DIR}
+    ${GeographicLib_INCLUDE_DIRS}
+    "$<INSTALL_INTERFACE:include>"
+    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
 )
 
 install(TARGETS ${LIBRARY_NAME}

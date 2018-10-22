@@ -21,6 +21,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}  
+    scrimmage-core
   scrimmage-msgs
   RayTrace_plugin
   ${BULLET_LIBRARIES}

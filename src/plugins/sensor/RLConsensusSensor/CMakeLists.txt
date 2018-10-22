@@ -1,8 +1,3 @@
-if(NOT GRPC_FOUND)
-    message("GRPC not found. Not building RLConsensusSensor.")
-    return()
-endif()
-
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------

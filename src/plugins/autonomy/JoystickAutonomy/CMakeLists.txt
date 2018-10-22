@@ -14,6 +14,7 @@ if (NOT APPLE)
     )
 
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+    scrimmage-core
     JoystickController_plugin
     )
 

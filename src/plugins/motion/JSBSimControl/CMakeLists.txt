@@ -13,8 +13,12 @@ if (NOT EXTERNAL AND JSBSIM_FOUND)
     ${SRCS}
     )
 
+  target_include_directories(${LIBRARY_NAME}
+      SYSTEM PUBLIC ${JSBSIM_INCLUDE_DIRS}
+    )
 
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+      scrimmage-core
     ${JSBSIM_LIBRARIES}
     JSBSimModel_plugin
     )
