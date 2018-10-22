@@ -130,10 +130,14 @@ bool ContactBlobCamera::step() {
 
     sc::State sensor_frame;
     sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera0"];
-    sc::Quaternion quat = static_cast<sc::Quaternion>(parent_->state()->quat() *  sensor->transform()->quat());
-    sensor_frame.set_quat(quat);
-    // TODO make this add the camera offset too
-    sensor_frame.set_pos(parent_->state()->pos());
+    sc::Quaternion sensor_quat =
+      static_cast<sc::Quaternion>(parent_->state()->quat() *
+          sensor->transform()->quat());
+    Eigen::Vector3d sensor_pos = sensor->transform()->pos() +
+      parent_->state()->pos();
+
+    sensor_frame.set_quat(sensor_quat);
+    sensor_frame.set_pos(sensor_pos);
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
@@ -145,7 +149,7 @@ bool ContactBlobCamera::step() {
 
         // Filter out contacts out of range, should use RTree, but rtree still
         // requires querying of ID from contact lists. (TODO)
-        if ((kv.second.state()->pos() - parent_->state()->pos()).norm() >
+        if ((kv.second.state()->pos() - sensor_frame.pos()).norm() >
             max_detect_range_) {
             continue;
         }
@@ -155,7 +159,6 @@ bool ContactBlobCamera::step() {
         if (r <= fn_prob_) continue;
 
         // Transform contact into "camera" coordinate system
-        // Eigen::Vector3d rel_pos = parent_->state()->rel_pos_local_frame(kv.second.state()->pos());
         Eigen::Vector3d rel_pos = sensor_frame.rel_pos_local_frame(kv.second.state()->pos());
 
 
