@@ -103,7 +103,8 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
 
     // Add the entity IDs to the publisher's reachability set
     // Look for the subscriber ID
-    bool sub_id_found = false;
+    reachable_map_[pub_id][sub_id] = false; // Default to not reachable
+    reachable_map_[sub_id][pub_id] = false; // Default to not reachable
     for (sc::ID id : neigh) {
         auto ent_neighbor = id_to_ent_map_->find(id.id());
         if (ent_neighbor == id_to_ent_map_->end()) {
@@ -111,20 +112,16 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
                 << id.id() << std::endl;
             continue;
         }
-        if (filter_comms_plane_ &&
-                within_planar_boundary(pub_plugin->parent()->state()->pos()[2],
-                     ent_neighbor->second->state()->pos()[2])) {
+        if (not filter_comms_plane_) {
             reachable_map_[pub_id][id.id()] = true;
-            if (sub_id == id.id()) {
-                sub_id_found = true;
-            }
+            reachable_map_[id.id()][pub_id] = true;
+        } else if (within_planar_boundary(pub_plugin->parent()->state()->pos()[2],
+                                          ent_neighbor->second->state()->pos()[2])) {
+            reachable_map_[pub_id][id.id()] = true;
+            reachable_map_[id.id()][pub_id] = true;
         }
     }
-
-    // Save the reachability for faster lookup
-    reachable_map_[pub_id][sub_id] = sub_id_found;
-
-    return sub_id_found;
+    return reachable_map_[pub_id][sub_id];
 }
 
 bool SphereNetwork::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
