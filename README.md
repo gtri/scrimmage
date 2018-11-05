@@ -22,6 +22,17 @@ controllers, and reinforcement learning.
 
 [SCRIMMAGE API](http://www.scrimmagesim.org/docs/doxygen/html/index.html)
 
+## Citation
+
+If you use SCRIMMAGE in your research, please cite our research paper:
+
+    @inproceedings{demarco2018,
+        title={Simulating Collaborative Robots in a Massive Multi-Agent Game Environment ({SCRIMMAGE})},
+        author={DeMarco, Kevin and Squires, Eric and Day, Michael and Pippin, Charles},
+        booktitle={Int. Symp. on Distributed Autonomous Robotic Systems},
+        year={2018},
+    }
+
 ## Build SCRIMMAGE
 
 ### Directory Setup
