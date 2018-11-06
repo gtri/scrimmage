@@ -235,7 +235,11 @@ void CSV::write_row(int row) {
     // column_headers, use column index to fill in columne for values.
     std::vector<std::string> values(column_headers_.size(), no_value_str_);
     for (auto &kv : table_[row]) {
-        values[kv.first] = std::to_string(kv.second);
+        if (static_cast<int64_t>(kv.second) == kv.second) {
+            values[kv.first] = std::to_string(static_cast<int64_t>(kv.second));
+        } else {
+            values[kv.first] = std::to_string(kv.second);
+        }
     }
 
     // Write out the values to the csv file
