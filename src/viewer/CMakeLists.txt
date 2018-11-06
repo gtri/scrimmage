@@ -12,7 +12,10 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-add_dependencies(${LIBRARY_NAME} scrimmage-protos)
+add_dependencies(${LIBRARY_NAME} 
+    scrimmage-core
+    scrimmage-protos)
+
 if(VTK_LIBRARIES)
   target_link_libraries(${LIBRARY_NAME}
     scrimmage-core
