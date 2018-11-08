@@ -27,21 +27,22 @@ endif()
 set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/../lib/${PROJECT_NAME}/plugin_libs" CACHE STRING "The installed RPATH")
 
 # fetch all the local directories for generated code
-get_filename_component(SCRIMMAGE_LIB_DIR ${PROJECT_BINARY_DIR}/lib ABSOLUTE)
 get_filename_component(PROJECT_PLUGIN_LIBS_DIR ${PROJECT_BINARY_DIR}/plugin_libs ABSOLUTE)
-get_filename_component(SCRIMMAGE_BIN_DIR ${PROJECT_BINARY_DIR}/bin ABSOLUTE)
 get_filename_component(SCRIMMAGE_INC_DIR ./include ABSOLUTE)
-get_filename_component(SCRIMMAGE_SRC_DIR ./src ABSOLUTE)
-get_filename_component(SCRIMMAGE_SHARE_DIR ./share ABSOLUTE)
 get_filename_component(SCRIMMAGE_SCRIPTS_DIR ./scripts ABSOLUTE)
-get_filename_component(SCRIMMAGE_SETUP_DIR ./setup ABSOLUTE)
-get_filename_component(PROJECT_MODULES_DIR ./cmake/Modules ABSOLUTE)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_MODULES_DIR}
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules
   ${PROJECT_SOURCE_DIR}/share/cmake/${PROJECT_NAME})
 
 set(SCRIMMAGE_PYTHON_DIR ${PROJECT_SOURCE_DIR}/python)
 set(SCRIMMAGE_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/src/proto)
+set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
+set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
+
+include_directories(${PROTO_INCLUDE_DIR})
 
 include(MacroAddExternalTarget)
 include(MacroSubDirList)
@@ -57,33 +58,19 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
-# macOS
+# macOS requires additional directories added to the path
+set(APPEND_TO_PATH "")
 if(APPLE)
   set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -undefined dynamic_lookup")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-return-type-c-linkage")
-  string(JOIN ":" SCRIMMAGE_BIN_PATH
-         "${PROJECT_BINARY_DIR}/bin/scrimmage.app/Contents/MacOS"
-         "${PROJECT_BINARY_DIR}/bin/scrimmage-playback.app/Contents/MacOS"
-         "${PROJECT_BINARY_DIR}/bin/scrimmage-viz.app/Contents/MacOS")
-else()
-  set(SCRIMMAGE_BIN_PATH "${PROJECT_BINARY_DIR}/bin")
+  string(JOIN ":" APPEND_TO_PATH
+    "${PROJECT_BINARY_DIR}/bin/scrimmage.app/Contents/MacOS"
+    "${PROJECT_BINARY_DIR}/bin/scrimmage-playback.app/Contents/MacOS"
+    "${PROJECT_BINARY_DIR}/bin/scrimmage-viz.app/Contents/MacOS")
 endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
-
-if (NOT EXECUTABLE_OUTPUT_PATH)
-    set(EXECUTABLE_OUTPUT_PATH ${SCRIMMAGE_BIN_DIR})
-endif() 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR})
-
-## set the cmake defaults for libraries and binaries
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
-  "Output directory for the dynamic libraries" )
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SCRIMMAGE_BIN_DIR} CACHE PATH
-  "Output directory for the binaries" )
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCRIMMAGE_LIB_DIR} CACHE PATH
-  "Output directory for the static libraries (archives)" )
 
 option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
 set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
@@ -92,21 +79,16 @@ include(GenerateSetEnv)
 GenerateSetEnv(
   SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
   LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
-  SETENV_IN_FILE ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
-  MISSION_PATH ${PROJECT_SOURCE_DIR}/missions
-  PLUGIN_PATH ${PROJECT_BINARY_DIR}/plugin_libs
-              ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
-              PATH ${SCRIMMAGE_BIN_PATH} ${SCRIMMAGE_SCRIPTS_DIR} ${EXECUTABLE_OUTPUT_PATH}
-  CONFIG_PATH ${PROJECT_SOURCE_DIR}/config
-  DATA_PATH ${PROJECT_SOURCE_DIR}/data
-  PYTHONPATH ${PROJECT_SOURCE_DIR}/src/plugins/autonomy/python
-             ${PROJECT_BINARY_DIR}/msgs/scrimmage/msgs
-  )
-
-set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
-set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
-
-include_directories(${PROTO_INCLUDE_DIR})
+  SETENV_IN_FILE   ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
+  MISSION_PATH     ${PROJECT_SOURCE_DIR}/missions
+  PLUGIN_PATH      ${PROJECT_BINARY_DIR}/plugin_libs
+                   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
+  PATH             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${SCRIMMAGE_SCRIPTS_DIR} ${APPEND_TO_PATH}
+  CONFIG_PATH      ${PROJECT_SOURCE_DIR}/config
+  DATA_PATH        ${PROJECT_SOURCE_DIR}/data
+  PYTHONPATH       ${PROJECT_SOURCE_DIR}/src/plugins/autonomy/python
+                   ${PROJECT_BINARY_DIR}/msgs/scrimmage/msgs
+                   )
 
 option(EXTERNAL "EXTERNAL" 0)
 
@@ -135,12 +117,12 @@ if (ENABLE_PYTHON_BINDINGS)
   add_library(scrimmage-python INTERFACE)
   target_include_directories(scrimmage-python
       SYSTEM INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
-  target_compile_definitions(scrimmage-python 
+  target_compile_definitions(scrimmage-python
       INTERFACE -DENABLE_PYTHON_BINDINGS=1)
   target_link_libraries(scrimmage-python INTERFACE ${PYTHON_LIBRARIES})
   install(TARGETS scrimmage-python EXPORT ${PROJECT_NAME}-targets)
 else()
-  target_compile_definitions(scrimmage-python 
+  target_compile_definitions(scrimmage-python
       INTERFACE -DENABLE_PYTHON_BINDINGS=0)
 endif()
 
