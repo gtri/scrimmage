@@ -102,8 +102,8 @@ void fpsCallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId
 
 Updater::Updater() :
         frame_time_(-1.0), update_count(0), inc_follow_(true),
-        dec_follow_(false), view_mode_(ViewMode::FOLLOW), follow_offset_(50),
-        show_helpmenu_(false) {
+        dec_follow_(false), view_mode_(ViewMode::FOLLOW), view_mode_prev_(ViewMode::FREE),
+        follow_offset_(50), follow_vec_(-50, 10, 10), show_helpmenu_(false) {
     prev_time.tv_nsec = 0;
     prev_time.tv_sec = 0;
     max_update_rate_ = 1.0;
@@ -551,15 +551,17 @@ bool Updater::update_camera() {
             camera_pos[2] = z_pos + 2.0;
         } else if (view_mode_ == ViewMode::FOLLOW) {
 
-            double currentPos[3];
-            renderer_->GetActiveCamera()->GetPosition(currentPos);
-            double currentFp[3];
-            renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
-            Eigen::Vector3d base_offset(currentPos[0]-currentFp[0],
-                                        currentPos[1]-currentFp[1],
-                                        currentPos[2]-currentFp[2]);
+            if (view_mode_prev_ == ViewMode::FOLLOW) {
+                double currentPos[3];
+                renderer_->GetActiveCamera()->GetPosition(currentPos);
+                double currentFp[3];
+                renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
+                for (int i = 0; i < 3; i++)
+                    follow_vec_[i] = currentPos[i]-currentFp[i];
+                follow_offset_ = follow_vec_.norm();
+            }
 
-            Eigen::Vector3d rel_cam_pos = base_offset.normalized() * follow_offset_;
+            Eigen::Vector3d rel_cam_pos = follow_vec_.normalized() * follow_offset_;
             Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
 
             sp::Quaternion sp_quat = it->second->contact.state().orientation();
@@ -603,6 +605,7 @@ bool Updater::update_camera() {
             renderer_->GetActiveCamera()->SetViewUp(up(0), up(1), up(2));
         }
     }
+    view_mode_prev_ = view_mode_;
     reset_camera_ = false;
     renderer_->GetActiveCamera()->SetPosition(camera_pos);
     renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
