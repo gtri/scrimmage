@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Multiple Aircraft Takeoff">
+
+  <run start="0.0" end="10" dt="0.1"
+       time_warp="10"
+       enable_gui="true"
+       start_paused="true"/>
+
+  <end_condition>time</end_condition> <!-- time, one_team, none-->
+
+  <display_progress>true</display_progress>
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <run_metrics weights="sasc">true</run_metrics>
+  <show_plugins>false</show_plugins>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>false</show_origin>
+
+  <network tags="REAL, SIL">GlobalNetwork</network>
+  <network tags="REAL, SIL" name="CommsNetwork">SphereNetwork</network>
+
+  <entity_interaction>SimpleCollision</entity_interaction>
+
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>0</seed>
+
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity_common name="auction">
+    <team_id>1</team_id>
+    <color>0 0 255</color>
+    <count>1</count>
+    <health>1</health>
+    <variance_x>50</variance_x>
+    <variance_y>50</variance_y>
+    <variance_z>50</variance_z>
+    <x>0</x>
+    <y>0</y>
+    <z>100</z>
+    <heading>0</heading>
+    <visual_model>sea-angler</visual_model>
+    <controller>SingleIntegratorControllerSimple</controller>
+    <motion_model>SingleIntegrator</motion_model>
+  </entity_common>
+
+  <entity tag="entity_1" entity_common="auction">
+    <autonomy tags="REAL, SIL" auctioneer="true">AuctionAssign</autonomy>
+    <autonomy tags="REAL, SIL" auctioneer="true">AuctionAssign</autonomy>
+  </entity>
+
+  <entity tag="entity_2" entity_common="auction">
+    <autonomy tags="REAL, SIL" auctioneer="false">AuctionAssign</autonomy>
+  </entity>
+
+</runscript>

@@ -164,28 +164,43 @@ class External {
         boost::optional<std::list<NetworkDevicePtr>> subs =
             pubsub_->find_subs(network_name, topic_name);
 
-        if (subs) {
-            for (NetworkDevicePtr dev : *subs) {
-                auto sub = std::dynamic_pointer_cast<SubscriberBase>(dev);
-                return [=](const boost::shared_ptr<RosType const> &ros_msg) {
-                    using ScType = decltype(ros2sc(*ros_msg));
-                    call_update_contacts(ros::Time::now().toSec());
-                    mutex.lock();
+        auto no_subs_msg = [&]() {
+            std::cout << "No subscribers exist in SCRIMMAGE" << std::endl;
+            std::cout << "Network name: " << network_name << std::endl;
+            std::cout << "Topic name: " << topic_name << std::endl;
+        };
 
-                    // dt will remain unset until the step function is called
-                    time_->set_t(ros::Time::now().toSec());
-                    auto sc_msg = std::make_shared<Message<ScType>>(ros2sc(*ros_msg));
-                    sub->accept(sc_msg);
-                    send_messages();
-                    mutex.unlock();
-                };
-            }
+        if (!subs) {
+            no_subs_msg();
         }
 
-        std::cout << "Failed to create ROS to SCRIMMAGE subscriber (callback) " << std::endl;
-        std::cout << "Network name: " << network_name << std::endl;
-        std::cout << "Topic name: " << topic_name << std::endl;
-        return [=](const boost::shared_ptr<RosType const>&/*ros_msg*/) { };
+        return [=](const boost::shared_ptr<RosType const> &ros_msg) {
+            boost::optional<std::list<NetworkDevicePtr>> curr_subs =
+                pubsub_->find_subs(network_name, topic_name);
+            if (!curr_subs) {
+                no_subs_msg();
+                return;
+            }
+
+            using ScType = decltype(ros2sc(*ros_msg));
+            call_update_contacts(ros::Time::now().toSec());
+            mutex.lock();
+
+            // dt will remain unset until the step function is called
+            time_->set_t(ros::Time::now().toSec());
+            auto sc_msg = std::make_shared<Message<ScType>>(ros2sc(*ros_msg));
+
+            for (auto sub : *curr_subs) {
+                auto sub_cast = std::dynamic_pointer_cast<SubscriberBase>(sub);
+                if (sub_cast) {
+                    sub_cast->accept(sc_msg);
+                } else {
+                    std::cout << "Error: could not cast to Subscriber base in callback" << std::endl;
+                }
+            }
+            send_messages();
+            mutex.unlock();
+        };
     }
 
     template <class RosType, class ScrimmageResponseType,
