@@ -117,6 +117,13 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
         circle_shape_->mutable_circle()->set_radius(sphere_of_influence_);
         sc::set(circle_shape_->mutable_circle()->mutable_center(), state_->pos());
         draw_shape(circle_shape_);
+
+        line_shape_->set_persistent(true);
+        sc::set(line_shape_->mutable_color(), 255, 0, 0);
+        line_shape_->set_opacity(0.75);
+        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), desired_vector_ + state_->pos());
+        draw_shape(line_shape_);
     }
 
     return true;
