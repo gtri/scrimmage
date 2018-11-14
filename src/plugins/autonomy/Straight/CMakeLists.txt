@@ -12,13 +12,17 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
-
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-  ${OpenCV_LIBRARIES}
   Boundary_plugin
   scrimmage-core
   )
 
+if (OpenCV_FOUND)
+  TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
+    ${OpenCV_LIBRARIES}
+    scrimmage-opencv
+    )
+endif()
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
