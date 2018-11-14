@@ -4,12 +4,12 @@
   <library>AircraftPIDController_plugin</library>
 
   <!-- outer loop PIDs -->
-  <heading_pid>1.0, 0.1, 0.1, 45</heading_pid>
-  <altitude_pid>0.01, 0.0001, 0.0001, 10</altitude_pid>
+  <heading_pid>1.0, 0.2, 1.0, 45</heading_pid>
+  <altitude_pid>0.1, 0.0001, 0.01, 10</altitude_pid>
   <speed_pid>1, 0.1, 0.03, 10</speed_pid>
   
   <!-- inner loop PIDs -->
-  <roll_pid>0.2, 0.1, 0.001, 9</roll_pid>
+  <roll_pid>0.3, 0.1, 0.001, 9</roll_pid>
   <pitch_pid>5.0, 0.01, 0.01, 9</pitch_pid>
 
   <max_pitch>45</max_pitch>

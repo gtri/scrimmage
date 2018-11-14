@@ -166,7 +166,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
             }
         }
     };
-    subscribe<sensor::AirSimSensorType>>("LocalNetwork", "AirSim");
+    subscribe<sensor::AirSimSensorType>>("LocalNetwork", "AirSim", airsim_cb);
 #endif
 
 #if ENABLE_OPENCV == 1
@@ -182,7 +182,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
             cv::waitKey(1);
         }
     };
-    subscribe<sc::sensor::ContactBlobCameraType>("LocalNetwork", "ContactBlobCamera");
+    subscribe<sc::sensor::ContactBlobCameraType>("LocalNetwork", "ContactBlobCamera", blob_cb);
 #endif
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
