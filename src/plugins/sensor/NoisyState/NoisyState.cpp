@@ -39,6 +39,7 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/NoisyState/NoisyState.h>
+#include <scrimmage/math/StateWithCovariance.h>
 
 #include <vector>
 
@@ -65,7 +66,7 @@ void NoisyState::init(std::map<std::string, std::string> &params) {
     add_noise("vel_noise", vel_noise_);
     add_noise("orient_noise", orient_noise_);
 
-    pub_ = advertise("LocalNetwork", "NoisyState");
+    pub_ = advertise("LocalNetwork", "StateWithCovariance");
     return;
 }
 
@@ -73,9 +74,9 @@ bool NoisyState::step() {
     auto gener = parent_->random()->gener();
 
     // Make a copy of the current state
-    State ns = *(parent_->state());
+    StateWithCovariance ns(*(parent_->state()));
 
-    auto msg = std::make_shared<Message<State>>();
+    auto msg = std::make_shared<Message<StateWithCovariance>>();
 
     for (int i = 0; i < 3; i++) {
         msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);

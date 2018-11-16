@@ -30,38 +30,56 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDENTITYMS_AVOIDENTITYMS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDENTITYMS_AVOIDENTITYMS_H_
-
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <string>
-#include <map>
-#include <vector>
+#include <scrimmage/parse/ParseUtils.h>
 
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
-class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
- public:
-    AvoidEntityMS();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
 
- protected:
-    double sphere_of_influence_;
-    double minimum_range_;
-    bool avoid_non_team_;
+BehaviorBase::BehaviorBase() : desired_vector_(Eigen::Vector3d(0, 0, 0)), gain_(1.0),
+                               max_vector_length_(1.0) {
+}
 
-    scrimmage_proto::ShapePtr circle_shape_ = std::make_shared<scrimmage_proto::Shape>();
-    scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
+Eigen::Vector3d &BehaviorBase::desired_vector() {
+    return desired_vector_;
+}
 
-    bool show_shapes_ = false;
+void BehaviorBase::set_gain(const double &gain) {
+    gain_ = gain;
+}
 
-    void avoidance_vectors(ContactMap &contacts,
-                           std::vector<Eigen::Vector3d> &O_vecs);
-};
+const double &BehaviorBase::gain() {
+    return gain_;
+}
+
+void BehaviorBase::set_max_vector_length(const double &max_vector_length) {
+    max_vector_length_ = max_vector_length;
+}
+
+void BehaviorBase::configure_contacts(std::map<std::string, std::string> &params) {
+    std::vector<std::string> use_contacts;
+    if (get_vec("contacts", params, ", ", use_contacts)) {
+        use_truth_contacts_ = false;
+        use_noisy_contacts_ = false;
+        for (auto &str : use_contacts) {
+            if (str == "truth") {
+                use_truth_contacts_ = true;
+            } else if (str == "noisy") {
+                use_noisy_contacts_ = true;
+            }
+        }
+    }
+
+    if (use_noisy_contacts_) {
+        auto cnt_cb = [&] (scrimmage::MessagePtr<ContactMap> &msg) {
+                          noisy_contacts_ = msg->data;
+                      };
+        subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
+    }
+}
+
 } // namespace motor_schemas
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDENTITYMS_AVOIDENTITYMS_H_

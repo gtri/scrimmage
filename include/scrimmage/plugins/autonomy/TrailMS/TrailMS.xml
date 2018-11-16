@@ -8,4 +8,8 @@
   <trail_angle_elevation>0</trail_angle_elevation>
 
   <show_track_point>false</show_track_point>
+
+  <!-- truth, noisy, or "truth, noisy" -->
+  <contacts>truth</contacts>
+  
 </params>

@@ -41,6 +41,10 @@ namespace scrimmage {
 
 Contact::Contact() : state_(std::make_shared<State>()) {}
 
+Contact::Contact(const ID &id, const StatePtr &state) :
+    id_(id), state_(state) {
+}
+
 Contact::Contact(ID &id, double radius, StatePtr &state, Type type,
                  scrimmage_proto::ContactVisualPtr cv,
                  const std::unordered_map<std::string, MessageBasePtr> &properties) :

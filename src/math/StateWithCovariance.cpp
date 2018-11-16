@@ -29,42 +29,31 @@
  * A Long description goes here.
  *
  */
-
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
-
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
-
-#include <map>
-#include <string>
+#include <scrimmage/math/StateWithCovariance.h>
 
 namespace scrimmage {
-namespace autonomy {
-namespace motor_schemas {
-class BehaviorBase : public scrimmage::Autonomy {
- public:
-    BehaviorBase();
-    Eigen::Vector3d &desired_vector();
-    void set_gain(const double &gain);
-    const double &gain();
-    void set_max_vector_length(const double &max_vector_length);
-    void configure_contacts(std::map<std::string, std::string> &params);
+StateWithCovariance::StateWithCovariance() :
+    covariance_(Eigen::MatrixXd::Identity(3, 3)) {
+}
 
- protected:
-    Eigen::Vector3d desired_vector_;
-    double gain_;
-    double max_vector_length_;
+StateWithCovariance::StateWithCovariance(const scrimmage::State &state) :
+    StateWithCovariance(state, 3, 3, 1.0) {
+}
 
-    // Use truth contacts by default, unless 'contacts' parameter is set
-    bool use_truth_contacts_ = true;
-    bool use_noisy_contacts_ = false;
+StateWithCovariance::StateWithCovariance(const scrimmage::State &state,
+                                         const int &cov_num_rows,
+                                         const int &cov_num_cols,
+                                         const double &cov_diag) :
+    State(state.pos_const(), state.vel_const(), state.ang_vel_const(),
+          state.quat_const()),
+    covariance_(cov_diag * Eigen::MatrixXd::Identity(cov_num_rows, cov_num_cols)) {
+}
 
-    ContactMap noisy_contacts_;
-};
-using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
-} // namespace motor_schemas
-} // namespace autonomy
+void StateWithCovariance::set_covariance(const Eigen::MatrixXd &covariance) {
+    covariance_ = covariance;
+}
+
+const Eigen::MatrixXd &StateWithCovariance::covariance() {
+    return covariance_;
+}
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
