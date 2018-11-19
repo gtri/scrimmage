@@ -3,7 +3,7 @@
 <params>
   <library>NoisyContacts_plugin</library>
 
-  <topic_name>NoisyContacts</topic_name>
+  <topic_name>ContactsWithCovariances</topic_name>
   
   <!-- noise params are defined with (mean, standard deviation) -->
   <pos_noise_0>0.0 5.0</pos_noise_0> <!-- x position noise -->

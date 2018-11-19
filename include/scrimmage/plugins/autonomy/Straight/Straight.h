@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/entity/Contact.h>
 
 #include <Eigen/Dense>
 
@@ -73,7 +74,7 @@ class Straight : public scrimmage::Autonomy{
     bool noisy_state_set_ = false;
     State noisy_state_;
 
-    std::map<int, State> noisy_contacts_;
+    ContactMap noisy_contacts_;
 
     double desired_z_ = 0;
 };

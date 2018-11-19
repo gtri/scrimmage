@@ -30,41 +30,28 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#ifndef INCLUDE_SCRIMMAGE_MATH_STATEWITHCOVARIANCE_H_
+#define INCLUDE_SCRIMMAGE_MATH_STATEWITHCOVARIANCE_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
+#include <scrimmage/math/State.h>
 
-#include <map>
-#include <string>
+#include <memory>
 
 namespace scrimmage {
-namespace autonomy {
-namespace motor_schemas {
-class BehaviorBase : public scrimmage::Autonomy {
+class StateWithCovariance : public scrimmage::State {
  public:
-    BehaviorBase();
-    Eigen::Vector3d &desired_vector();
-    void set_gain(const double &gain);
-    const double &gain();
-    void set_max_vector_length(const double &max_vector_length);
-    void configure_contacts(std::map<std::string, std::string> &params);
+    StateWithCovariance();
+    explicit StateWithCovariance(const scrimmage::State &state);
+    StateWithCovariance(const scrimmage::State &state,
+                        const int &cov_num_rows, const int &cov_num_cols,
+                        const double &cov_diag);
+
+    void set_covariance(const Eigen::MatrixXd &covariance);
+    const Eigen::MatrixXd &covariance();
 
  protected:
-    Eigen::Vector3d desired_vector_;
-    double gain_;
-    double max_vector_length_;
-
-    // Use truth contacts by default, unless 'contacts' parameter is set
-    bool use_truth_contacts_ = true;
-    bool use_noisy_contacts_ = false;
-
-    ContactMap noisy_contacts_;
+    Eigen::MatrixXd covariance_;
 };
-using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
-} // namespace motor_schemas
-} // namespace autonomy
+using StateWithCovariancePtr = std::shared_ptr<StateWithCovariance>;
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#endif // INCLUDE_SCRIMMAGE_MATH_STATEWITHCOVARIANCE_H_

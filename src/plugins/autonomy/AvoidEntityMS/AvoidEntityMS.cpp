@@ -65,15 +65,17 @@ void AvoidEntityMS::init(std::map<std::string, std::string> &params) {
     minimum_range_ = sc::get<double>("minimum_range", params, 5);
     avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
     show_shapes_ = sc::get<bool>("show_shapes", params, false);
+
+    configure_contacts(params);
 }
 
-bool AvoidEntityMS::step_autonomy(double t, double dt) {
-    // Compute repulsion vector from each robot contact
-    std::vector<Eigen::Vector3d> O_vecs;
-
-    for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-        // Ignore own position / idrel
-        if (it->second.id().id() == parent_->id().id()) continue;
+void AvoidEntityMS::avoidance_vectors(ContactMap &contacts,
+                                      std::vector<Eigen::Vector3d> &O_vecs) {
+    for (auto it = contacts.begin(); it != contacts.end(); it++) {
+        // Ignore own position / id
+        if (it->second.id().id() == parent_->id().id()) {
+            continue;
+        }
 
         if (!avoid_non_team_ &&
             it->second.id().team_id() != parent_->id().team_id()) {
@@ -96,6 +98,18 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
 
         Eigen::Vector3d O_dir = -O_mag * diff.normalized();
         O_vecs.push_back(O_dir);
+    }
+}
+
+bool AvoidEntityMS::step_autonomy(double t, double dt) {
+    // Compute repulsion vector from each robot contact
+    std::vector<Eigen::Vector3d> O_vecs;
+
+    if (use_truth_contacts_) {
+        avoidance_vectors(*contacts_, O_vecs);
+    }
+    if (use_noisy_contacts_) {
+        avoidance_vectors(noisy_contacts_, O_vecs);
     }
 
     // Normalize each repulsion vector and sum

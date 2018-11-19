@@ -34,6 +34,7 @@
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/math/StateWithCovariance.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -150,12 +151,12 @@ void Straight::init(std::map<std::string, std::string> &params) {
         noisy_state_set_ = true;
         noisy_state_ = msg->data;
     };
-    subscribe<State>("LocalNetwork", "NoisyState", state_cb);
+    subscribe<StateWithCovariance>("LocalNetwork", "StateWithCovariance", state_cb);
 
-    auto noisy_contacts_cb = [&](auto &msg) {
+    auto cnt_cb = [&](scrimmage::MessagePtr<ContactMap> &msg) {
         noisy_contacts_ = msg->data; // Save map of noisy contacts
     };
-    subscribe<std::map<int, State>>("LocalNetwork", "NoisyContacts", noisy_contacts_cb);
+    subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
 
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
     auto airsim_cb = [&](auto &msg) {

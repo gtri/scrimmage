@@ -34,9 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
 
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/pubsub/Publisher.h>
 
 #include <random>
 #include <vector>

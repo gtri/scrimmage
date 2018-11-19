@@ -57,6 +57,7 @@ class Contact {
 
     Contact();
 
+    Contact(const ID &id, const StatePtr &state);
     Contact(ID &id, double radius, StatePtr &state, Type type,
         scrimmage_proto::ContactVisualPtr cv,
         const std::unordered_map<std::string, MessageBasePtr> &properties);

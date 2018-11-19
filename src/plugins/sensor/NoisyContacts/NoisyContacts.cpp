@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/plugins/sensor/NoisyContacts/NoisyContacts.h>
+#include <scrimmage/math/StateWithCovariance.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
@@ -38,6 +39,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/math/Quaternion.h>
@@ -76,32 +78,42 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
     add_noise("vel_noise", vel_noise_);
     add_noise("orient_noise", orient_noise_);
 
-    std::string topic_name = sc::get<std::string>("topic_name", params, "NoisyContacts");
+    std::string topic_name = sc::get<std::string>("topic_name", params, "ContactsWithCovariances");
     pub_ = advertise("LocalNetwork", topic_name);
 }
 
 bool NoisyContacts::step() {
     auto gener = parent_->random()->gener();
-    auto msg = std::make_shared<Message<std::map<int, State>>>();
+    auto msg = std::make_shared<Message<ContactMap>>();
 
-    // Create noisy versions of all contacts
+    // Create noisy versions of all contacts that aren't own vehicle
     for (auto &kv: (*parent_->contacts())) {
-        State ns = *(kv.second.state()); // Create copy of contact state
+        // ignore own vehicle
+        if (kv.second.id().id() == parent_->id().id()) {
+            continue;
+        }
+
+        // Construct a StateWithCovariance.
+        // Covar Matrix is 3x3 (x, y, z) with 5.0 along diagonal
+        std::shared_ptr<StateWithCovariance> state =
+            std::make_shared<StateWithCovariance>(*(kv.second.state()), 3, 3,
+                                                  5.0);
 
         // Add noise to position and velocity
         for (int i = 0; i < 3; i++) {
-            ns.pos()(i) += ns.pos()(i) + (*pos_noise_[i])(*gener);
-            ns.vel()(i) += ns.vel()(i) + (*vel_noise_[i])(*gener);
+            state->pos()(i) += (*pos_noise_[i])(*gener);
+            state->vel()(i) += (*vel_noise_[i])(*gener);
         }
 
         // add noise in roll, pitch, yaw order
-        ns.quat() = ns.quat()
+        state->quat() = state->quat()
             * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
             * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
             * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
-        // Add the noisy contact to the map
-        msg->data[kv.second.id().id()] = ns;
+        // Construct a new Contact in place
+        msg->data.emplace(kv.second.id().id(), Contact(kv.second.id(),
+                          std::static_pointer_cast<State>(state)));
     }
 
     // Publish the noisy contact map
