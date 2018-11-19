@@ -166,23 +166,24 @@ Python packages: ::
      $ sudo apt-get install python-pip python-scipy python-pandas parallel
      $ sudo pip install pyDOE
 
-We will now use one of SCRIMMAGE's tools, ``scrimmage_runner.sh``, to execute
+We will now use one of SCRIMMAGE's tools, ``run_experiments.py``, to execute
 100 simulation runs of this same scenario (7 instances allowed in parallel) ::
 
   $ cd ~/scrimmage/scrimmage/scripts
-  $ ./scrimmage_runner.sh -t 100 -m ../missions/straight-vs-motorschemas.xml -p 7
+  $ ./run_experiments.py -t 100 -m ../missions/straight-vs-motorschemas.xml -p 7
 
 Since my machine has eight cores, I allow seven SCRIMMAGE instances to run in
 parallel at a time to prevent system lockup. After the 100 simulations finish
-executing, you should have 100 new time-stamped log directories under
-``~/.scrimmage/logs``. The ``aggregate-runs`` program is used to read the
-summary.csv files in each log directory, tally the wins for each team, and
-display the results. Let's aggregate the results by providing the directory
-that holds all the results to the ``aggregate-runs`` program: ::
+executing, you should have a new timestamped folder in ``~/.scrimmage/logs``
+and an additional 100 timestamped log folders under that.  The
+``aggregate-runs`` program is used to read the summary.csv files in each log
+directory, tally the wins for each team, and display the results. Let's
+aggregate the results by providing the directory that holds all the results to
+the ``aggregate-runs`` program: ::
 
- $ aggregate-runs ~/.scrimmage/logs
+ $ aggregate-runs ~/.scrimmage/logs/{new_timestamped_folder}
 
-This should produce the following output: ::
+This should produce a terminal output that looks something like this ::
 
    Aggregating 100 runs. 
    [======================================================================] 100 %
@@ -191,8 +192,9 @@ This should produce the following output: ::
    Team ID         Wins            Draws           Total           
    2               100             0               100
 
-In this simplified example, it is clear that using collision avoidance is
-better for reducing mid-air collisions than not using collision avoidance.
+
+To see other inputs to ``run_experiments.py``, view its command line help with
+the ``-h`` flag.
 
 Playback Scenarios
 ------------------
@@ -243,75 +245,89 @@ Varying Initial Conditions
 
 SCRIMMAGE also has the ability to vary initial conditions in the SCRIMMAGE
 mission file with the use of a "ranges" file. Let's take a look at the example
-ranges file located at ``/path/to/scrimmage/config/ranges/test-1.xml``.
+mission file located at ``/path/to/scrimmage/missions/batch-example-mission.xml``.
 
 .. code-block:: xml
 
-   <?xml version="1.0"?>
-   <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
-   <ranges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
-       name="Random Orientations">
-   
-     <heading low="0" high="360" type="float"/>
-     <altitude low="500" high="600" type="float"/>  
-     <x low="0" high="2000" type="float"/>  
-     <y low="0" high="2000" type="float"/>  
-           
-   </ranges>
+    <autonomy show_shapes="true" max_speed="${max_speed=25}" behaviors="
+       [ AvoidEntityMS show_shapes='true' gain='1.0' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='${MS_gain=1.0}' show_shapes='true' use_initial_heading='true' goal='200,200,-100']"
+              >MotorSchemas</autonomy>
 
-By providing the path of this ranges file to the ``scrimmage_runner.sh``
-script, SCRIMMAGE will vary the initial heading, altitude, x, y for each entity
-based on the ``low`` and ``high`` values specified. However, before we generate
-more scenarios, let's move our previous results into a safe location, so that
-we don't confuse results: ::
+In this example we can see that we have created two variables - max_speed and
+MS_gain. These variables are enclosed by braces and have a dollar sign at the
+beginning. You must also provide a  default value for the variables to the
+right of the equal sign. In this example, the default max_speed is 25, and the
+default gain is 1.0. Everything from the $ to the } will become that variables
+value, so be sure to enclose the expression in the proper quotations.  Let's
+now take a look at the ranges file,
+``/path/to/scrimmage/missions/batch-ranges.xml``.
 
-  $ cd ~/.scrimmage/logs
-  $ mv logs logs.bak
+.. code-block:: xml
 
-With our previous simulation data safe, let's execute 100 simulations again,
-but we'll vary the initial conditions with the ranges file this time: ::
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+    <ranges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
+        name="BatchExample">
+        <MS_gain low="0" high="2" type="float"/>
+        <max_speed low="15" high="25" type="float"/>
+    </ranges>
+
+By providing the path of this ranges file to the ``run_experiments.py``
+script, SCRIMMAGE will vary the max_speed and gain for MoveToGoalMS for each entity
+based on the ``low`` and ``high`` values specified in the ranges file.
+
+Let's execute 100 simulations again,
+but we'll vary the initial conditions with the ranges file this time. Lets also
+name the mission this time: ::
 
   $ cd ~/scrimmage/scrimmage/scripts
-  $ ./scrimmage_runner.sh -t 100 -m ../missions/straight-vs-motorschemas.xml \
-    -p 7 -r ../config/ranges/test-1.xml
+  $ ./run_experiments.py -t 100 -m ../missions/batch-example-mission.xml \
+    -p 7 -r ../mission/batch-ranges.xml -n my_first_parameter_varying
 
-After the 100 runs complete, we'll aggregate the results like before: ::
+This should output 100 timestamped folders to
+``~/.scrimmage/my_first_parameter_varying/`` representing the files for each
+individual run. In addition, it will output a params file for each run and a
+batch_params.csv file showing all of the params for each file in one run.
 
-  $ aggregate-runs ~/.scrimmage/logs
 
-which may produce the following output: ::
+.. After the 100 runs complete, we'll aggregate the results like before: ::
 
-  Aggregating 100 runs. 
-  [======================================================================] 100 %
-  Total time to process log files: 0.004977
-  -----------------------------------------------------
-  Team ID         Wins            Draws           Total           
-  1               6               81              100             
-  2               13              81              100 
+  .. $ aggregate-runs ~/.scrimmage/logs
 
-As expected, we have many draws because there were probably many scenarios
-where there were no collisions due to the random orientations. Interestingly,
-team #1 had some wins. Let's playback some of those wins to try to understand
-what happened: ::
+.. which may produce the following output: ::
 
-  $ filter-runs ~/.scrimmage/logs
-  ====================================================
-  Choose an outcome number: 
-  ----------------------------------------------------
-  Number          Name            Count           
-  ----------------------------------------------------
-  [0]             draw_1_2        81              
-  [1]             team_1          6               
-  [2]             team_2          13              
-  >> 
+  .. Aggregating 100 runs. 
+  .. [======================================================================] 100 %
+  .. Total time to process log files: 0.004977
+  .. -----------------------------------------------------
+  .. Team ID         Wins            Draws           Total           
+  .. 1               6               81              100             
+  .. 2               13              81              100 
 
-Type ``1`` and hit ``[ENTER]`` to view the scenarios where team #1 was the
-winner. By watching the playback and looking at the results in the summary.csv
-files for the scenarios where team #1 was the winner, we can conclude that in
-some instances there were collisions between entities running Motor
-Schemas. This is most likely due to the random initial placement of entities
-around the initial ``x``, ``y``, and ``z`` tags and the ``variance_*`` tags. In
-some instances, entities were placed close enough to result in early
-collisions, but not too close, such that the initial placement of the entities
-was not valid. Take a look at the SimpleCollision.xml file for collision range
-values and other parameters for the SimpleCollision entity interaction plugin.
+.. As expected, we have many draws because there were probably many scenarios
+.. where there were no collisions due to the random orientations. Interestingly,
+.. team #1 had some wins. Let's playback some of those wins to try to understand
+.. what happened: ::
+
+  .. $ filter-runs ~/.scrimmage/logs
+  .. ====================================================
+  .. Choose an outcome number: 
+  .. ----------------------------------------------------
+  .. Number          Name            Count           
+  .. ----------------------------------------------------
+  .. [0]             draw_1_2        81              
+  .. [1]             team_1          6               
+  .. [2]             team_2          13              
+  .. >> 
+
+.. Type ``1`` and hit ``[ENTER]`` to view the scenarios where team #1 was the
+.. winner. By watching the playback and looking at the results in the summary.csv
+.. files for the scenarios where team #1 was the winner, we can conclude that in
+.. some instances there were collisions between entities running Motor
+.. Schemas. This is most likely due to the random initial placement of entities
+.. around the initial ``x``, ``y``, and ``z`` tags and the ``variance_*`` tags. In
+.. some instances, entities were placed close enough to result in early
+.. collisions, but not too close, such that the initial placement of the entities
+.. was not valid. Take a look at the SimpleCollision.xml file for collision range
+.. values and other parameters for the SimpleCollision entity interaction plugin.

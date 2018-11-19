@@ -148,7 +148,7 @@
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
        [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]                                                            
-       [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
+       [ MoveToGoalMS gain='${MS_gain=1.0}' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
        >MotorSchemas</autonomy>
   </entity>
 
