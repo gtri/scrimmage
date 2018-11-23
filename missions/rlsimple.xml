@@ -52,15 +52,16 @@
       <controller>SingleIntegratorControllerSimple</controller>
       <sensor order="0">RLSimpleSensor</sensor>
       <autonomy
-        discrete_x="true"
-        discrete_y="true"
-        ctrl_y="false">RLSimple</autonomy>
+        x_discrete="true"
+        y_discrete="true"
+        ctrl_y="true">RLSimple</autonomy>
       <y>0</y>
       <z>0</z>
   </entity_common>
 
   <entity entity_common="all">
     <x>0</x>
+    <count>1</count>
     <color>77 77 255</color>
   </entity>
 </runscript>
