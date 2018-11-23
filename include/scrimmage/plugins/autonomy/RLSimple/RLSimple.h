@@ -37,7 +37,7 @@
 
 #include <map>
 #include <string>
-#include <utility>
+#include <tuple>
 
 namespace scrimmage {
 namespace autonomy {
@@ -48,7 +48,7 @@ class RLSimple : public ScrimmageOpenAIAutonomy {
     bool step_helper() override;
 
     void set_environment() override;
-    std::pair<bool, double> calc_reward() override;
+    std::tuple<bool, double, pybind11::dict> calc_reward() override;
 
  protected:
     double radius_;

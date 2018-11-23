@@ -35,9 +35,7 @@
 
 #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
 
-#include <map>
-#include <string>
-#include <utility>
+#include <tuple>
 
 namespace scrimmage {
 namespace autonomy {
@@ -45,7 +43,7 @@ namespace autonomy {
 class RLConsensus : public scrimmage::autonomy::RLSimple {
  public:
     void set_environment() override;
-    std::pair<bool, double> calc_reward() override;
+    std::tuple<bool, double, pybind11::dict> calc_reward() override;
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -58,7 +58,7 @@ void RLConsensus::set_environment() {
     reward_range = std::make_pair(0, 1 / parent_->mp()->tend());
 }
 
-std::pair<bool, double> RLConsensus::calc_reward() {
+std::tuple<bool, double, pybind11::dict> RLConsensus::calc_reward() {
     const bool done = false;
     const double x = state_->pos()(0);
     auto dist = [&](auto &kv) {return std::abs(kv.second.state()->pos()(0) - x);};
@@ -68,7 +68,7 @@ std::pair<bool, double> RLConsensus::calc_reward() {
     const int num_close = br::count_if(*contacts_ | ba::transformed(dist), close) - 1;
 
     const double reward = num_close / (num_veh * parent_->mp()->tend());
-    return {done, reward};
+    return std::make_tuple(done, reward, pybind11::dict());
 }
 
 } // namespace autonomy

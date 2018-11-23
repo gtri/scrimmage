@@ -81,12 +81,15 @@ void RLSimple::set_environment() {
     }
 }
 
-std::pair<bool, double> RLSimple::calc_reward() {
+std::tuple<bool, double, pybind11::dict> RLSimple::calc_reward() {
     const bool done = false;
     const double x = state_->pos()(0);
     const bool within_radius = std::round(std::abs(x)) < radius_;
     double reward = within_radius ? 1 : 0;
-    return {done, reward};
+
+    pybind11::dict info;
+    info["x_within_radius"] = within_radius; // added for test harness
+    return std::make_tuple(done, reward, info);
 }
 
 bool RLSimple::step_helper() {
