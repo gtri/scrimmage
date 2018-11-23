@@ -113,7 +113,8 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
         } else {
             bool done;
             double reward;
-            std::tie(done, reward) = calc_reward();
+            py::dict info;
+            std::tie(done, reward, info) = calc_reward();
             if (done) return false;
             if (reward != 0) {
                 auto msg = std::make_shared<Message<std::pair<size_t, double>>>();
@@ -127,8 +128,8 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
     return step_helper();
 }
 
-std::pair<bool, double> ScrimmageOpenAIAutonomy::calc_reward() {
-    return {false, 0.0};
+std::tuple<bool, double, pybind11::dict> ScrimmageOpenAIAutonomy::calc_reward() {
+    return std::make_tuple(false, 0.0, pybind11::dict());
 }
 
 } // namespace autonomy

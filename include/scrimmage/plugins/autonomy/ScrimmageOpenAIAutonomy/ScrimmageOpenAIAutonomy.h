@@ -43,7 +43,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <utility>
+#include <tuple>
 
 namespace scrimmage {
 
@@ -72,7 +72,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     virtual bool step_helper() {return true;}
 
     virtual void set_environment() {}
-    virtual std::pair<bool, double> calc_reward();
+    virtual std::tuple<bool, double, pybind11::dict> calc_reward();
     std::pair<double, double> reward_range;
     EnvParams action_space;
     EnvValues action;

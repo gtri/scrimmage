@@ -56,6 +56,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
+#include <pybind11/stl.h>
 
 #include <signal.h>
 
@@ -64,7 +65,7 @@
 #include <limits>
 #include <exception>
 #include <chrono> // NOLINT
-#include <signal.h>
+#include <map> // NOLINT
 
 #include <boost/optional.hpp>
 #include <boost/range/numeric.hpp>
@@ -365,8 +366,7 @@ void ScrimmageOpenAIEnv::reset_learning_mode() {
 std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv::calc_reward() {
 
     py::dict info;
-    py::list info_done;
-    py::list info_reward;
+    py::list done_list, reward_list, info_list;
 
     double reward = 0;
     bool done = false;
@@ -374,17 +374,26 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
     for (auto &a : actions_.ext_ctrl_vec()) {
         double temp_reward;
         bool temp_done;
-        std::tie(temp_done, temp_reward) = a->calc_reward();
+        py::dict temp_info;
+        std::tie(temp_done, temp_reward, temp_info) = a->calc_reward();
 
         reward += temp_reward;
         done |= temp_done;
 
-        info_reward.append(temp_reward);
-        info_done.append(temp_done);
+        reward_list.append(temp_reward);
+        done_list.append(temp_done);
+        info_list.append(temp_info);
     }
 
-    info["reward"] = info_reward;
-    info["done"] = info_done;
+    if (actions_.ext_ctrl_vec().size() == 1) {
+        info = info_list[0];
+        info["reward"] = reward_list[0];
+        info["done"] = done_list[0];
+    } else {
+        info["info"] = info_list;
+        info["reward"] = reward_list;
+        info["done"] = done_list;
+    }
 
     return std::make_tuple(py::float_(reward), py::bool_(done), info);
 }
