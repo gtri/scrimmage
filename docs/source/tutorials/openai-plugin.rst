@@ -100,8 +100,13 @@ between a learning and non-learning mode seamlessly. In addition,
       and ``action_space``
 
     * ``calc_reward`` - called every timestep, this function returns
-      a pair representing whether the environment is done and what 
-      the reward for that step is.
+      a tuple with the following order:
+        
+        * done: whether the environment is done
+        * reward: what the reward for that step is.
+        * info: a `pybind11 <https://pybind11.readthedocs.io/en/stable>`_ dict
+          object that can be used for debugging. Examples of use will be given below.
+          To return an empty dict (the typical case), just use ``pybind11::dict()``
 
 In python, when you call ``env.step(action)``, the action will be copied
 to your autonomy's ``action`` member (defined in ``ScrimmageOpenAIAutonomy``. 
@@ -125,7 +130,7 @@ Here is the include file for ``SimpleLearner``:
        bool step_helper() override;
 
        void set_environment() override;
-       std::pair<bool, double> calc_reward() override;
+       std::tuple<bool, double, pybind11::dict> calc_reward() override;
 
     protected:
        double radius_;
@@ -199,7 +204,11 @@ We now define the ``calc_reward`` function:
        const double x = state_->pos()(0);
        const bool within_radius = std::round(std::abs(x)) < radius_;
        double reward = within_radius ? 1 : 0;
-       return {done, reward};
+
+       // here we setup the debugging info.
+       pybind11::dict info;
+       info["x_within_radius"] = within_radius; // an example of adding debugging information
+       return std::make_tuple(done, reward, info);
    }
 
 This says that the autonomy is never going to end the simulation and gives
