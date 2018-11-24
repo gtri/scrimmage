@@ -56,7 +56,9 @@ int main(int argc, char* argv[]) {
         ("local_ip,i", po::value<std::string>(), "The local IP address where this viewer will run.")
         ("local_port,p", po::value<std::string>(), "The local port where this viewer will listen.")
         ("remote_ip,r", po::value<std::string>(), "The remote IP address where SCRIMMAGE is running.")
-        ("remote_port,o", po::value<std::string>(), "The remote port where SCRIMMAGE is running.");
+        ("remote_port,o", po::value<std::string>(), "The remote port where SCRIMMAGE is running.")
+        ("pos", po::value<std::string>(), "camera position")
+        ("focal_point", po::value<std::string>(), "camera focal point");
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -76,6 +78,12 @@ int main(int argc, char* argv[]) {
     set_param(vm, params, "local_port");
     set_param(vm, params, "remote_ip");
     set_param(vm, params, "remote_port");
+    set_param(vm, params, "pos");
+    set_param(vm, params, "focal_point");
+
+    if (params.count("pos") > 0 || params.count("focal_point") > 0) {
+        params["mode"] = "FREE";
+    }
 
     sc::Viewer viewer;
     viewer.set_enable_network(true);
