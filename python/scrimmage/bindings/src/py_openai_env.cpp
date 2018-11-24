@@ -34,6 +34,7 @@
 
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
@@ -256,9 +257,19 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     if (enable_gui) {
         mp_->set_network_gui(true);
         mp_->set_enable_gui(false);
+        std::string cmd = "scrimmage-viz ";
+
+        auto it = mp_->attributes().find("camera");
+        if (it != mp_->attributes().end()) {
+            auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
+            auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
+            cmd += "--pos " + camera_pos_str
+                + " --focal_point " + camera_focal_pos_str;
+        }
+        cmd += " &";
 
         // TODO: fix this to get feedback that the gui is running
-        if (system("scrimmage-viz &")) {
+        if (system(cmd.c_str())) {
             std::cout << "could not start scrimmage-viz" << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
