@@ -58,6 +58,9 @@ grpc::Status scrimmage::ScrimmageServiceImpl::SendSimInfo(grpc::ServerContext *c
 grpc::Status scrimmage::ScrimmageServiceImpl::SendGUIMsg(grpc::ServerContext *context, const scrimmage_proto::GUIMsg *gui_msg, scrimmage_proto::BlankReply *reply) {
     scrimmage_proto::GUIMsg si = *gui_msg;
     interface_->push_gui_msg(si);
+    if (si.shutting_down()) {
+        exit_requested.set_value();
+    }
     return grpc::Status::OK;
 }
 

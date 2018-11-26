@@ -54,11 +54,14 @@ using std::endl;
 
 namespace scrimmage {
 
+void Interface::start_server() {
+    server_->Wait();
+}
+
 bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int port) {
     mode_ = mode;
     ip_ = ip;
     port_ = port;
-
 
     if (mode_ == server) {
 #if ENABLE_GRPC
@@ -67,9 +70,16 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
         grpc::ServerBuilder builder;
         builder.AddListeningPort(result, grpc::InsecureServerCredentials());
         builder.RegisterService(&frame_service);
-        std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
+        server_ = builder.BuildAndStart();
         std::cout << "Server listening on " << result << std::endl;
-        server->Wait(); // this function blocks (should be in thread now)
+
+        // start thread with shutdown option
+        // https://stackoverflow.com/a/36182429
+        auto serving_thread = std::thread(&Interface::start_server, this);
+        auto future = frame_service.exit_requested.get_future();
+        future.wait();
+        server_->Shutdown();
+        serving_thread.join();
 #else
         cout << "WARNING: GRPC DISABLED!" << endl;
 #endif

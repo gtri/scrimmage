@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_NETWORK_INTERFACE_H_
 
 #include <scrimmage/fwd_decl.h>
+#include <scrimmage/network/ScrimmageServiceImpl.h>
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
@@ -41,6 +42,7 @@
 
 #if ENABLE_GRPC == 1
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#include <grpc++/grpc++.h>
 #endif
 
 #include <list>
@@ -128,8 +130,11 @@ class Interface {
     void send_cached();
 
  protected:
+
+    void start_server();
+
     Mode_t mode_ = shared;
-    int port_;
+    int port_ = 50051;
     std::string ip_;
 
     std::list<std::shared_ptr<scrimmage_proto::Frame> > frames_list_;
@@ -146,6 +151,8 @@ class Interface {
 #if ENABLE_GRPC
     std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> scrimmage_stub_;
 #endif
+
+    std::unique_ptr<grpc::Server> server_;
 
     // Connection timeout in seconds
     unsigned int client_timeout_ = 1;
