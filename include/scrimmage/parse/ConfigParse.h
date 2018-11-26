@@ -37,9 +37,14 @@
 #include <vector>
 #include <string>
 
+namespace boost {
+namespace property_tree {
+namespace detail {
 namespace rapidxml {
 template <class T> class xml_node;
-}
+}}}}
+
+namespace rapidxml = boost::property_tree::detail::rapidxml;
 
 namespace scrimmage {
 

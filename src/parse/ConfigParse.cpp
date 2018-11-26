@@ -44,10 +44,10 @@
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/algorithm/string.hpp>
 
-#include <rapidxml/rapidxml.hpp>
+#include <boost/property_tree/detail/rapidxml.hpp>
 
 namespace fs = boost::filesystem;
-namespace rx = rapidxml;
+namespace rx = boost::property_tree::detail::rapidxml;
 
 using std::cout;
 using std::endl;

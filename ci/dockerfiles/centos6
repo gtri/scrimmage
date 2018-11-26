@@ -180,23 +180,6 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/geographiclib \
     && rpm -ivh /root/installs/geographiclib/*.rpm
 
 ###############################################################################
-# RapidXML Package
-###############################################################################
-WORKDIR /root/3rd-party
-RUN git clone https://github.com/dwd/rapidxml.git && cd rapidxml \
-    && git checkout f0058ab9374643018c1db3de521e44d4d52b8f5d
-RUN rm -rf ./rapidxml/{.git,test}
-RUN mkdir -p /root/installs/rapidxml${PKG_PREFIX}/include \
-    && cp -r ./rapidxml /root/installs/rapidxml${PKG_PREFIX}/include
-
-# Build RPM package for rapidxml
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/rapidxml \
-    && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-rapidxml --version 1.00 \
-           --package scrimmage_rapidxml_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/rapidxml/*.rpm
-
-###############################################################################
 # Build PyBind11
 ###############################################################################
 WORKDIR /root/3rd-party

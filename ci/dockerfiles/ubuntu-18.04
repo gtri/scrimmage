@@ -15,7 +15,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     git \
     libgrpc++-dev \
     libeigen3-dev \
-    librapidxml-dev \
     libboost-thread-dev \
     libboost-date-time-dev \
     libboost-graph-dev \

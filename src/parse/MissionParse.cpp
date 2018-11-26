@@ -51,13 +51,13 @@
 #include <boost/filesystem.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 
-#include <rapidxml/rapidxml.hpp>
+#include <boost/property_tree/detail/rapidxml.hpp>
 
 using std::cout;
 using std::endl;
 
 namespace fs = boost::filesystem;
-namespace rx = rapidxml;
+namespace rapidxml = boost::property_tree::detail::rapidxml;
 
 namespace scrimmage {
 
@@ -143,11 +143,11 @@ bool MissionParse::parse(const std::string &filename) {
 
     // param_common name: tag: value
     std::map<std::string, std::map<std::string, std::string>> param_common;
-    for (rx::xml_node<> *script_node = runscript_node->first_node("param_common");
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("param_common");
          script_node != 0;
          script_node = script_node->next_sibling("param_common")) {
 
-        rx::xml_attribute<> *nm_attr = script_node->first_attribute("name");
+        rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("name");
         if (nm_attr == 0) {
             std::cout << "warning: found param_common block without a name, skipping" << std::endl;
             continue;
@@ -155,7 +155,7 @@ bool MissionParse::parse(const std::string &filename) {
 
         std::string nm = nm_attr->value();
 
-        for (rx::xml_node<> *node = script_node->first_node(); node != 0;
+        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
 
             param_common[nm][node->name()] = node->value();
