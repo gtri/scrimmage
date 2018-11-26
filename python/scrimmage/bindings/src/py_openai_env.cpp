@@ -396,7 +396,7 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
         info_list.append(temp_info);
     }
 
-    if (actions_.ext_ctrl_vec().size() == 1) {
+    if (actions_.ext_ctrl_vec().size() == 1 || observations_.get_combine_actors()) {
         info = info_list[0];
         info["reward"] = reward_list[0];
         info["done"] = done_list[0];
