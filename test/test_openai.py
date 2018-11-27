@@ -49,7 +49,7 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
             entry_point='scrimmage.bindings:ScrimmageOpenAIEnv',
             max_episode_steps=1e9,
             reward_threshold=1e9,
-            kwargs={"enable_gui": True,
+            kwargs={"enable_gui": False,
                     "combine_actors": combine_actors,
                     "global_sensor": global_sensor,
                     "mission_file": TEMP_MISSION_FILE,
@@ -63,7 +63,7 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     temp_obs = np.copy(env.reset())
     obs.append(temp_obs)
     total_reward = 0
-    for _ in range(10):
+    for _ in range(1000):
         action = get_action(temp_obs)
         temp_obs, reward, done, info = env.step(action)
         obs.append(np.copy(temp_obs))
@@ -147,14 +147,14 @@ def test_one_dim_discrete():
         _run_test(VERSION, combine_actors, global_sensor,
                   get_action_test_one_dim_discrete)
 
-    # assert len(obs[0]) == 2
-    # assert obs[0][0] == 0
-    # assert obs[0][1] == 0
-    # assert info_hx[0]["x_within_radius"]
-    # assert isinstance(env.action_space, gym.spaces.Discrete)
-    # assert isinstance(env.observation_space, gym.spaces.Box)
-    # assert env.action_space.n == 2
-    # assert total_reward == 4
+    assert len(obs[0]) == 2
+    assert obs[0][0] == 0
+    assert obs[0][1] == 0
+    assert info_hx[0]["x_within_radius"]
+    assert isinstance(env.action_space, gym.spaces.Discrete)
+    assert isinstance(env.observation_space, gym.spaces.Box)
+    assert env.action_space.n == 2
+    assert total_reward == 4
 
 
 def test_two_dim_discrete():
@@ -250,8 +250,8 @@ def test_two_combined_veh_dim_discrete():
                   get_action_two_combined_veh_dim_discrete)
 
     assert len(obs[0]) == 4
-    assert info_hx[0]['info'][0]["x_within_radius"]
-    assert info_hx[0]['info'][1]["x_within_radius"]
+    assert info_hx[0]["x_within_radius"]
+    assert info_hx[0]["x_within_radius"]
     assert np.array_equal(obs[0], np.zeros(4))
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
@@ -292,8 +292,7 @@ def test_two_combined_veh_dim_discrete_global_sensor():
         _run_test(VERSION, combine_actors, global_sensor,
                   get_action_test_two_combined_veh_dim_discrete_global_sensor)
 
-    assert info_hx[0]['info'][0]["x_within_radius"]
-    assert info_hx[0]['info'][1]["x_within_radius"]
+    assert info_hx[0]["x_within_radius"]
     assert len(obs[0]) == 2
     assert np.array_equal(obs[0], np.zeros(2))
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)
@@ -338,8 +337,7 @@ def test_timestep():
 
 
 if __name__ == '__main__':
-    for i in range(10):
-        test_one_dim_discrete()
+    test_one_dim_discrete()
     test_two_dim_discrete()
     test_one_dim_continuous()
     test_two_dim_continuous()
