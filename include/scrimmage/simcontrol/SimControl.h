@@ -146,6 +146,8 @@ class SimControl {
 
     void set_limited_verbosity(bool limited_verbosity);
     std::list<EntityPtr> &ents();
+    void send_terrain();
+    void run_send_shapes();
 
  protected:
     // Key: Entity ID
@@ -247,7 +249,6 @@ class SimControl {
     bool run_metrics();
     void run_remove_inactive();
     void run_check_network_msgs();
-    void run_send_shapes();
     void run_send_contact_visuals();
     bool run_networks();
 

@@ -149,6 +149,9 @@ int main(int argc, char *argv[]) {
 #endif
 
     auto log = sc::preprocess_scrimmage(mp, simcontrol);
+    simcontrol.send_terrain();
+    simcontrol.run_send_shapes(); // draw any intial shapes
+
     if (log == nullptr) {
         return -1;
     }

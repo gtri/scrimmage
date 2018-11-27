@@ -250,8 +250,8 @@ def test_two_combined_veh_dim_discrete():
                   get_action_two_combined_veh_dim_discrete)
 
     assert len(obs[0]) == 4
-    assert info_hx[0]['info'][0]["x_within_radius"]
-    assert info_hx[0]['info'][1]["x_within_radius"]
+    assert info_hx[0]["x_within_radius"]
+    assert info_hx[0]["x_within_radius"]
     assert np.array_equal(obs[0], np.zeros(4))
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
@@ -292,8 +292,7 @@ def test_two_combined_veh_dim_discrete_global_sensor():
         _run_test(VERSION, combine_actors, global_sensor,
                   get_action_test_two_combined_veh_dim_discrete_global_sensor)
 
-    assert info_hx[0]['info'][0]["x_within_radius"]
-    assert info_hx[0]['info'][1]["x_within_radius"]
+    assert info_hx[0]["x_within_radius"]
     assert len(obs[0]) == 2
     assert np.array_equal(obs[0], np.zeros(2))
     assert isinstance(env.action_space, gym.spaces.MultiDiscrete)

@@ -117,6 +117,12 @@ SimControl::SimControl() :
     contacts_mutex_.unlock();
 }
 
+void SimControl::send_terrain() {
+    // Send initial gui information through GUI interface
+    mp_->utm_terrain()->set_time(this->t());
+    outgoing_interface_->send_utm_terrain(mp_->utm_terrain());
+}
+
 bool SimControl::init() {
     ents_.clear();
     ent_inters_.clear();
@@ -234,10 +240,6 @@ bool SimControl::init() {
         incoming_interface_->set_mode(Interface::shared);
     }
 
-    // Send initial gui information through GUI interface
-    mp_->utm_terrain()->set_time(this->t());
-    outgoing_interface_->send_utm_terrain(mp_->utm_terrain());
-
     // If the GlobalNetwork doesn't exist, add it.
     auto it_global_network = std::find(mp_->network_names().begin(),
                                        mp_->network_names().end(),
@@ -329,8 +331,6 @@ bool SimControl::init() {
             }
         }
     }
-
-    run_send_shapes(); // draw any intial shapes
 
     // screenshots
     if (enable_gui() && get<bool>("enable_screenshots", mp_->params(), false) && mp_) {

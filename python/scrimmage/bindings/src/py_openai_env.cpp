@@ -33,6 +33,7 @@
 #include "py_openai_env.h"
 
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/simcontrol/SimControl.h>
@@ -163,9 +164,7 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     shutdown_handler = [&](int /*s*/){
         std::cout << std::endl << "Exiting gracefully" << std::endl;
         simcontrol_->force_exit();
-        if (enable_gui_ && system("pkill scrimmage-viz")) {
-            // ignore error
-        }
+        close_viewer();
         throw std::exception();
     };
     sa.sa_handler = signal_handler;
@@ -257,28 +256,13 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     if (enable_gui) {
         mp_->set_network_gui(true);
         mp_->set_enable_gui(false);
-        std::string cmd = "scrimmage-viz ";
-
-        auto it = mp_->attributes().find("camera");
-        if (it != mp_->attributes().end()) {
-            auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
-            auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
-            cmd += "--pos " + camera_pos_str
-                + " --focal_point " + camera_focal_pos_str;
-        }
-        cmd += " &";
-
-        // TODO: fix this to get feedback that the gui is running
-        if (system(cmd.c_str())) {
-            std::cout << "could not start scrimmage-viz" << std::endl;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     } else {
         mp_->set_time_warp(0);
     }
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
     reset_learning_mode();
+
 
     log_ = sc::preprocess_scrimmage(mp_, *simcontrol_);
     simcontrol_->start_overall_timer();
@@ -291,6 +275,48 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     delayed_task_.last_updated_time = -std::numeric_limits<double>::infinity();
     if (log_ == nullptr) {
         py::print("scrimmage initialization unsuccessful");
+    }
+
+    if (enable_gui) {
+        std::string cmd = "scrimmage-viz ";
+
+        auto it = mp_->attributes().find("camera");
+        if (it != mp_->attributes().end()) {
+            auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
+            auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
+            cmd += "--pos " + camera_pos_str
+                + " --focal_point " + camera_focal_pos_str;
+        }
+
+        std::string stream_ip = sc::get<std::string>("stream_ip", mp_->params(), "localhost");
+        size_t stream_port = sc::get<size_t>("stream_port", mp_->params(), 50051);
+
+        cmd += std::string(" --local_ip localhost")
+            + " --local_port " + std::to_string(stream_port)
+            + " --remote_ip " + stream_ip
+            + " --remote_port " + std::to_string(stream_port + 1)
+            + " &";
+
+        if (system(cmd.c_str())) {
+            std::cout << "could not start scrimmage-viz" << std::endl;
+        }
+
+        double wait_time = 10;
+        double wait_per_iteration = 0.1;
+        size_t ct = 0;
+        const size_t ct_max = wait_time / wait_per_iteration;
+        while (ct++ < ct_max && !simcontrol_->outgoing_interface()->check_ready()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                    static_cast<uint32_t>(wait_per_iteration * 1000)));
+        }
+
+        if (ct == ct_max) {
+            throw std::runtime_error("SimControl server could not be contacted");
+        }
+
+
+        simcontrol_->run_send_shapes();
+        simcontrol_->send_terrain();
     }
 
     loop_number_ = 0;
@@ -313,11 +339,15 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     set_reward_range();
 }
 
-void ScrimmageOpenAIEnv::close() {
-    postprocess_scrimmage(mp_, *simcontrol_, log_);
+void ScrimmageOpenAIEnv::close_viewer() {
     if (enable_gui_ && system("pkill scrimmage-viz")) {
         // ignore error
     }
+}
+
+void ScrimmageOpenAIEnv::close() {
+    postprocess_scrimmage(mp_, *simcontrol_, log_);
+    close_viewer();
 }
 
 void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
@@ -347,8 +377,8 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
     done |= py_done.cast<bool>();
     py_done = py::bool_(done);
 
-    if (done && enable_gui_ && system("pkill scrimmage-viz")) {
-        // ignore error
+    if (done) {
+        close_viewer();
     }
 
     return py::make_tuple(observations_.observation, py_reward, py_done, py_info);
