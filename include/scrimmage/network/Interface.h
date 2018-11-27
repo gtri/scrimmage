@@ -128,6 +128,7 @@ class Interface {
     void set_log(std::shared_ptr<scrimmage::Log> log) { log_ = log; }
 
     void send_cached();
+    bool check_ready();
 
  protected:
 

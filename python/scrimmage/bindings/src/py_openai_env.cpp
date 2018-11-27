@@ -33,6 +33,7 @@
 #include "py_openai_env.h"
 
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/simcontrol/SimControl.h>
@@ -257,28 +258,13 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     if (enable_gui) {
         mp_->set_network_gui(true);
         mp_->set_enable_gui(false);
-        std::string cmd = "scrimmage-viz ";
-
-        auto it = mp_->attributes().find("camera");
-        if (it != mp_->attributes().end()) {
-            auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
-            auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
-            cmd += "--pos " + camera_pos_str
-                + " --focal_point " + camera_focal_pos_str;
-        }
-        cmd += " &";
-
-        // TODO: fix this to get feedback that the gui is running
-        if (system(cmd.c_str())) {
-            std::cout << "could not start scrimmage-viz" << std::endl;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     } else {
         mp_->set_time_warp(0);
     }
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
     reset_learning_mode();
+
 
     log_ = sc::preprocess_scrimmage(mp_, *simcontrol_);
     simcontrol_->start_overall_timer();
@@ -291,6 +277,40 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     delayed_task_.last_updated_time = -std::numeric_limits<double>::infinity();
     if (log_ == nullptr) {
         py::print("scrimmage initialization unsuccessful");
+    }
+
+    if (enable_gui) {
+        std::string cmd = "scrimmage-viz ";
+
+        auto it = mp_->attributes().find("camera");
+        if (it != mp_->attributes().end()) {
+            auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
+            auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
+            cmd += "--pos " + camera_pos_str
+                + " --focal_point " + camera_focal_pos_str;
+        }
+        cmd += " &";
+
+        if (system(cmd.c_str())) {
+            std::cout << "could not start scrimmage-viz" << std::endl;
+        }
+
+        double wait_time = 10;
+        double wait_per_iteration = 0.1;
+        size_t ct = 0;
+        const size_t ct_max = wait_time / wait_per_iteration;
+        while (ct++ < ct_max && !simcontrol_->outgoing_interface()->check_ready()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                    static_cast<uint32_t>(wait_per_iteration * 1000)));
+        }
+
+        if (ct == ct_max) {
+            throw std::runtime_error("SimControl server could not be contacted");
+        }
+
+
+        simcontrol_->run_send_shapes();
+        simcontrol_->send_terrain();
     }
 
     loop_number_ = 0;

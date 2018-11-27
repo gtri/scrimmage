@@ -76,4 +76,10 @@ grpc::Status scrimmage::ScrimmageServiceImpl::SendShapes(grpc::ServerContext *co
     return grpc::Status::OK;
 }
 
+grpc::Status scrimmage::ScrimmageServiceImpl::Ready(grpc::ServerContext* context,
+                                                    const google::protobuf::Empty* shape,
+                                                    scrimmage_proto::BlankReply* reply) {
+    return grpc::Status::OK;
+}
+
 #endif // ENABLE_GRPC

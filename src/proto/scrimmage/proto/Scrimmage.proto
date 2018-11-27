@@ -10,6 +10,7 @@ import "scrimmage/proto/Frame.proto";
 import "scrimmage/proto/Shape.proto";
 import "scrimmage/proto/Visual.proto";
 import "scrimmage/proto/GUIControl.proto";
+import "google/protobuf/empty.proto";
 
 // Messages output from simulation controller to GUI
 service ScrimmageService {
@@ -18,6 +19,7 @@ rpc SendUTMTerrain (UTMTerrain) returns (BlankReply) {}
 rpc SendSimInfo (SimInfo) returns (BlankReply) {}
 rpc SendContactVisual (ContactVisual) returns (BlankReply) {}
 rpc SendShapes (Shapes) returns (BlankReply) {}
+rpc Ready (google.protobuf.Empty) returns (BlankReply) {}
 
 rpc SendGUIMsg (GUIMsg) returns (BlankReply) {}
 rpc SendWorldPointClicked (WorldPointClicked) returns (BlankReply) {}

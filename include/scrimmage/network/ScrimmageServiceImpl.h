@@ -37,6 +37,8 @@
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
 
+#include <google/protobuf/empty.pb.h>
+
 #include <list>
 #include <mutex> // NOLINT
 #include <future> // NOLINT
@@ -70,6 +72,10 @@ class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Ser
     grpc::Status SendShapes(grpc::ServerContext* context,
                             const scrimmage_proto::Shapes* shape,
                             scrimmage_proto::BlankReply* reply) override;
+
+    grpc::Status Ready(grpc::ServerContext* context,
+                       const google::protobuf::Empty* shape,
+                       scrimmage_proto::BlankReply* reply) override;
 
     std::promise<void> exit_requested;
 

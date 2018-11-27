@@ -99,6 +99,28 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
     return true;
 }
 
+bool Interface::check_ready() {
+    if (mode_ == server || mode_ == shared) return true;
+
+    grpc::ClientContext context;
+    std::chrono::system_clock::time_point deadline =
+        std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
+    context.set_deadline(deadline);
+
+    // recreate the channel because using the cached version will keep
+    // the non-connection
+    std::string result = ip_ + ":" + std::to_string(port_);
+    std::shared_ptr<Channel> channel(
+        grpc::CreateChannel(result, grpc::InsecureChannelCredentials())
+    );
+    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(scrimmage_proto::ScrimmageService::NewStub(channel));
+
+    google::protobuf::Empty req;
+    scrimmage_proto::BlankReply reply;
+    grpc::Status status = stub->Ready(&context, req, &reply);
+    return status.ok();
+}
+
 bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     log_->save_frame(frame);
 
