@@ -33,7 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_
 
-#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
+#include <scrimmage/common/Waypoint.h>
 
 #include <list>
 

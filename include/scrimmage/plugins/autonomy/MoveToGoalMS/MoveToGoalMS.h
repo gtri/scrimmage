@@ -34,7 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
+#include <scrimmage/common/Waypoint.h>
 
 #include <string>
 #include <map>

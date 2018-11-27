@@ -29,7 +29,7 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
+#include <scrimmage/common/Waypoint.h>
 
 #include <iomanip>
 #include <limits>
