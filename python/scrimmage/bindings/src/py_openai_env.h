@@ -94,6 +94,8 @@ class ScrimmageOpenAIEnv {
     pybind11::tuple reward_range;
 
  protected:
+    void close_viewer();
+
     pybind11::object warning_function_;
 
     std::string mission_file_ = "";

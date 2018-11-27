@@ -164,9 +164,7 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     shutdown_handler = [&](int /*s*/){
         std::cout << std::endl << "Exiting gracefully" << std::endl;
         simcontrol_->force_exit();
-        if (enable_gui_ && system("pkill scrimmage-viz")) {
-            // ignore error
-        }
+        close_viewer();
         throw std::exception();
     };
     sa.sa_handler = signal_handler;
@@ -289,7 +287,15 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
             cmd += "--pos " + camera_pos_str
                 + " --focal_point " + camera_focal_pos_str;
         }
-        cmd += " &";
+
+        std::string stream_ip = sc::get<std::string>("stream_ip", mp_->params(), "localhost");
+        size_t stream_port = sc::get<size_t>("stream_port", mp_->params(), 50051);
+
+        cmd += std::string(" --local_ip localhost")
+            + " --local_port " + std::to_string(stream_port)
+            + " --remote_ip " + stream_ip
+            + " --remote_port " + std::to_string(stream_port + 1)
+            + " &";
 
         if (system(cmd.c_str())) {
             std::cout << "could not start scrimmage-viz" << std::endl;
@@ -333,11 +339,15 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     set_reward_range();
 }
 
-void ScrimmageOpenAIEnv::close() {
-    postprocess_scrimmage(mp_, *simcontrol_, log_);
+void ScrimmageOpenAIEnv::close_viewer() {
     if (enable_gui_ && system("pkill scrimmage-viz")) {
         // ignore error
     }
+}
+
+void ScrimmageOpenAIEnv::close() {
+    postprocess_scrimmage(mp_, *simcontrol_, log_);
+    close_viewer();
 }
 
 void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
@@ -367,8 +377,8 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
     done |= py_done.cast<bool>();
     py_done = py::bool_(done);
 
-    if (done && enable_gui_ && system("pkill scrimmage-viz")) {
-        // ignore error
+    if (done) {
+        close_viewer();
     }
 
     return py::make_tuple(observations_.observation, py_reward, py_done, py_info);
