@@ -131,7 +131,6 @@ class Interface {
     bool check_ready();
 
  protected:
-
     void start_server();
 
     Mode_t mode_ = shared;
