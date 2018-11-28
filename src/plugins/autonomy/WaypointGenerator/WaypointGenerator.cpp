@@ -30,8 +30,8 @@
  *
  */
 
+#include <scrimmage/common/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>

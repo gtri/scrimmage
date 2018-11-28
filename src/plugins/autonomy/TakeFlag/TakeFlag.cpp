@@ -42,7 +42,7 @@
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 
-#include <scrimmage/plugins/autonomy/WaypointGenerator/Waypoint.h>
+#include <scrimmage/common/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <scrimmage/msgs/Capture.pb.h>

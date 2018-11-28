@@ -30,6 +30,7 @@ set(SRCS
     common/DelayedTask.cpp
     common/ExponentialFilter.cpp
     common/ParameterServer.cpp
+    common/Waypoint.cpp
 )
 
 ADD_LIBRARY( ${LIBRARY_NAME} SHARED
