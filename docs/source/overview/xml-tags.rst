@@ -240,7 +240,7 @@ and match between the two paradigms for a single entity.
       motion planning.
 
   - ``visual_model`` : Loads an XML file that specifies the appearance of the
-    entity. Examples: zephyr-blue, zephyr-red, iris, sea-angler, volkswagon.
+    entity. Examples: zephyr-blue, zephyr-red, iris, sea-angler, volkswagen.
 
   - ``controller`` : Loads a low-level controller plugin. Each entity can only
     have a single controller.
