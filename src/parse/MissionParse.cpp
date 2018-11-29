@@ -312,6 +312,9 @@ bool MissionParse::parse(const std::string &filename) {
                 }
             }
 
+            if (script_info.count(node_name) > 0 && node_name.compare("team_id")) {
+              cout << "Warning: entity contains multiple tags for \"" << node_name << "\"" << endl;
+            }
             script_info[node_name] = node->value();
         }
 
@@ -346,6 +349,9 @@ bool MissionParse::parse(const std::string &filename) {
         // nodes. Also, setup the TeamInfo structs / map.
         rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
         if (team_id_node != 0) {
+            if (team_id_node->next_sibling("team_id") != 0) {
+              cout << "Warning: entity contains multiple tags for \"team_id\"" << endl;
+            }
             script_info["team_id"] = team_id_node->value();
         } else if (script_info.count("team_id") == 0) {
             cout << "Warning: Team ID not set" << endl;
@@ -443,6 +449,9 @@ bool MissionParse::parse(const std::string &filename) {
                 nm += std::to_string(sensor_order++);
             }
 
+            if (script_info.count(nm) > 0 && nm.compare("team_id")) {
+              cout << "Warning: entity contains multiple tags for \"" << nm << "\"" << endl;
+            }
             script_info[nm] = node->value();
 
             // Loop through each node's attributes:
