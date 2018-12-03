@@ -150,9 +150,8 @@ class Interface {
 
 #if ENABLE_GRPC
     std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> scrimmage_stub_;
-#endif
-
     std::unique_ptr<grpc::Server> server_;
+#endif
 
     // Connection timeout in seconds
     unsigned int client_timeout_ = 1;
