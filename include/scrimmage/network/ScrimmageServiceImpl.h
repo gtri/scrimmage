@@ -33,6 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_
 #define INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_
 
+#if ENABLE_GRPC == 1
+
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
@@ -43,7 +45,6 @@
 #include <mutex> // NOLINT
 #include <future> // NOLINT
 
-#if ENABLE_GRPC
 
 namespace scrimmage {
 
@@ -84,6 +85,6 @@ class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Ser
 };
 } // namespace scrimmage
 
-#endif // ENABLE_GRPC
+#endif // ENABLE_GRPC == 1
 
 #endif // INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_

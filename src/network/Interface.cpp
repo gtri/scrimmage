@@ -54,9 +54,11 @@ using std::endl;
 
 namespace scrimmage {
 
+#if ENABLE_GRPC == 1
 void Interface::start_server() {
     server_->Wait();
 }
+#endif
 
 bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int port) {
     mode_ = mode;
@@ -64,7 +66,7 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
     port_ = port;
 
     if (mode_ == server) {
-#if ENABLE_GRPC
+#if ENABLE_GRPC == 1
         std::string result = ip_ + ":" + std::to_string(port_);
         ScrimmageServiceImpl frame_service(this);
         grpc::ServerBuilder builder;
@@ -100,6 +102,7 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
 }
 
 bool Interface::check_ready() {
+#if ENABLE_GRPC == 1
     if (mode_ == server || mode_ == shared) return true;
 
     grpc::ClientContext context;
@@ -119,6 +122,9 @@ bool Interface::check_ready() {
     scrimmage_proto::BlankReply reply;
     grpc::Status status = stub->Ready(&context, req, &reply);
     return status.ok();
+#else
+    return true;
+#endif
 }
 
 bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
