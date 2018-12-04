@@ -80,7 +80,8 @@ External::External() :
     param_server_(std::make_shared<ParameterServer>()),
     mp_(std::make_shared<MissionParse>()),
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
-    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()) {}
+    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
+    shape_queue_max_size_(0) {}
 
 void External::print_plugins(std::ostream &out) const {
     out << "====== SCRIMMAGE Plugins Loaded =======" << endl;
@@ -299,15 +300,25 @@ bool External::step(double t) {
     // shapes
     scrimmage_proto::Shapes shapes;
     shapes.set_time(t);
-    auto add_shapes = [&](auto p) {
-        auto add_shape = [&](auto &shape) {*shapes.add_shape() = *shape;};
+    auto add_clear_shapes = [&](auto p) {
+        auto add_shape = [&](auto &shape) {
+            *shapes.add_shape() = *shape;
+
+            shape_queue_.push(shape);
+
+            auto max_size = this->shape_queue_max_size();
+            if (shape_queue_.size() > max_size) {
+                shape_queue_.pop();
+            }
+        };
         br::for_each(p->shapes(), add_shape);
+        p->shapes().clear(); // don't let shapes build up
     };
 
-    br::for_each(entity_->autonomies(), add_shapes);
-    br::for_each(entity_->controllers(), add_shapes);
-    br::for_each(ent_inters_, add_shapes);
-    br::for_each(metrics_, add_shapes);
+    br::for_each(entity_->autonomies(), add_clear_shapes);
+    br::for_each(entity_->controllers(), add_clear_shapes);
+    br::for_each(ent_inters_, add_clear_shapes);
+    br::for_each(metrics_, add_clear_shapes);
 
     log_->save_frame(create_frame(t, entity_->contacts()));
     log_->save_shapes(shapes);

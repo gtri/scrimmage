@@ -52,6 +52,7 @@
 #include <set>
 #include <string>
 #include <mutex> // NOLINT
+#include <queue>
 
 #include <iostream>
 
@@ -79,6 +80,11 @@ class External {
     bool create_interactions();
 
     double motion_dt_ = 1;
+
+    std::size_t& shape_queue_max_size() { return shape_queue_max_size_; }
+    using ShapeQueue = std::queue<scrimmage_proto::ShapePtr>;
+    ShapeQueue& shape_queue() { return shape_queue_; }
+
     VariableIO vars;
     std::mutex mutex;
     DelayedTask update_contacts_task;
@@ -109,6 +115,9 @@ class External {
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
     std::list<EntityPtr> ents_;
+
+    std::size_t shape_queue_max_size_;
+    ShapeQueue shape_queue_;
 
  public:
     bool step(double t);
