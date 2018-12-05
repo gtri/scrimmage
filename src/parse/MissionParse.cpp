@@ -40,6 +40,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <regex> //NOLINT
 
 #include <GeographicLib/UTMUPS.hpp>
 #include <GeographicLib/Geocentric.hpp>
@@ -76,6 +77,13 @@ bool MissionParse::parse(const std::string &filename) {
     buffer << file.rdbuf();
     file.close();
     std::string content(buffer.str());
+
+    // Replace our xml variables in the form ${var=default} with the default
+    // value
+    std::string fmt{"$1"};
+    std::regex reg("\\$\\{.+?=(.+?)\\}");
+    content = std::regex_replace(content, reg, fmt);
+
     doc.parse<0>(&content[0]);
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
