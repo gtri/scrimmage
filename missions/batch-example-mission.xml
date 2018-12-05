@@ -92,8 +92,8 @@
               waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
     
     <autonomy show_shapes="true" max_speed="${max_speed=25}" behaviors="
-       [ AvoidEntityMS show_shapes='true' gain='1.0' sphere_of_influence='10' minimum_range='2' ]
-       [ MoveToGoalMS gain='${MS_gain=1.0}' show_shapes='true' use_initial_heading='true' goal='200,200,-100']"
+      [ AvoidEntityMS show_shapes='true' gain='${MS_gain=1.0}' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' show_shapes='true' use_initial_heading='true' goal='200,200,-100']"
               >MotorSchemas</autonomy>
     
     <controller>UnicyclePID</controller>
