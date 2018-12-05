@@ -294,10 +294,10 @@ batch_params.csv file showing all of the params for each file in one run.
 Aggregating Multi-run Data
 -------------------------- 
 In your webbrowser, navigate to
-https://github.com/gtri/scrimmage/blob/master/scripts/BatchExample.ipynb.  This
-is a python jupyter notebook showing a simple example of how to aggregate data
-from this tutorial. In this example, we output all of the data on entity 1 per
-run into a single .csv file saved at
+https://nbviewer.jupyter.org/github/gtri/scrimmage/blob/master/scripts/BatchExample.ipynb
+This is a python jupyter notebook showing a simple example of how to aggregate
+data from this tutorial. In this example, we output all of the data on entity 1
+per run into a single .csv file saved at
 ``~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv``.
 
 
