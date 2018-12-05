@@ -38,9 +38,8 @@ import multiprocessing
 import subprocess
 import datetime
 import argparse
-import argcomplete
+#  import argcomplete
 import generate_scenarios
-import pdb
 
 
 def call_scrimmage(arg):
@@ -65,7 +64,7 @@ parser.add_argument('-n', '--experiment-name', help='Name of the batch '
 parser.add_argument('-l', '--log-dir', help='Log directory',
                     default="~/.scrimmage")
 
-argcomplete.autocomplete(parser)
+#  argcomplete.autocomplete(parser)
 args = parser.parse_args()
 
 if not args.mission:
