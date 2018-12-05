@@ -174,14 +174,14 @@ We will now use one of SCRIMMAGE's tools, ``run_experiments.py``, to execute
 
 Since my machine has eight cores, I allow seven SCRIMMAGE instances to run in
 parallel at a time to prevent system lockup. After the 100 simulations finish
-executing, you should have a new timestamped folder in ``~/.scrimmage/logs``
+executing, you should have a new timestamped folder in ``~/.scrimmage/experiments``
 and an additional 100 timestamped log folders under that.  The
 ``aggregate-runs`` program is used to read the summary.csv files in each log
 directory, tally the wins for each team, and display the results. Let's
 aggregate the results by providing the directory that holds all the results to
 the ``aggregate-runs`` program: ::
 
- $ aggregate-runs ~/.scrimmage/logs/{new_timestamped_folder}
+ $ aggregate-runs ~/.scrimmage/experiments/{new_timestamped_folder}
 
 This should produce a terminal output that looks something like this ::
 
@@ -205,7 +205,7 @@ team #2? You could use the ``filter-runs`` program to playback the scenario
 that contains the outlier. Execute ``filter-runs`` by providing it with the log
 directory: ::
 
-  $ filter-runs ~/.scrimmage/logs
+  $ filter-runs ~/.scrimmage/experiments/{new_timestamped_folder}
 
 Now you can select the type of outcome to playback: ::
 
@@ -224,7 +224,7 @@ simulation. Also, some information about the simulation is displayed to the
 screen: ::
 
   Playing back: team_2
-  Mission: /home/myuser/.scrimmage/logs/2017-07-25_16-29-05_job_0_task_50
+  Mission: ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
   Frames parsed: 502
   Playback Complete
   ====================================
@@ -238,7 +238,7 @@ scenario, move to the next scenario, or quit the ``filter-runs`` program,
 respectively. The user can also playback specific scenarios by providing the
 log directory of a specific scenario to the ``scrimmage-playback`` program: ::
 
-  $ scrimmage-playback ~/.scrimmage/logs/2017-07-25_16-29-05_job_0_task_50
+  $ scrimmage-playback ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
 
 Varying Initial Conditions
 --------------------------  
@@ -250,18 +250,18 @@ mission file located at ``/path/to/scrimmage/missions/batch-example-mission.xml`
 .. code-block:: xml
 
     <autonomy show_shapes="true" max_speed="${max_speed=25}" behaviors="
-       [ AvoidEntityMS show_shapes='true' gain='1.0' sphere_of_influence='10' minimum_range='2' ]
-       [ MoveToGoalMS gain='${MS_gain=1.0}' show_shapes='true' use_initial_heading='true' goal='200,200,-100']"
+      [ AvoidEntityMS show_shapes='true' gain='${MS_gain=1.0}' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' show_shapes='true' use_initial_heading='true' goal='200,200,-100']"
               >MotorSchemas</autonomy>
 
 In this example we can see that we have created two variables - max_speed and
 MS_gain. These variables are enclosed by braces and have a dollar sign at the
-beginning. You must also provide a  default value for the variables to the
-right of the equal sign. In this example, the default max_speed is 25, and the
-default gain is 1.0. Everything from the $ to the } will become that variables
-value, so be sure to enclose the expression in the proper quotations.  Let's
-now take a look at the ranges file,
-``/path/to/scrimmage/missions/batch-ranges.xml``.
+beginning. The basic format is ``${var_name=value}``. You must also provide a
+default value for the variables to the right of the equal sign. In this
+example, the default max_speed is 25, and the default gain is 1.0. Everything
+from the $ to the } will become that variables value, so be sure to enclose the
+expression in the proper quotations.  Let's now take a look at the ranges file,
+``/path/to/scrimmage/config/ranges/batch-ranges.xml``.
 
 .. code-block:: xml
 
@@ -283,13 +283,40 @@ name the mission this time: ::
 
   $ cd ~/scrimmage/scrimmage/scripts
   $ ./run_experiments.py -t 100 -m ../missions/batch-example-mission.xml \
-    -p 7 -r ../mission/batch-ranges.xml -n my_first_parameter_varying
+    -p 7 -r ../config/ranges/batch-ranges.xml -n my_first_parameter_varying
 
 This should output 100 timestamped folders to
-``~/.scrimmage/my_first_parameter_varying/`` representing the files for each
+``~/.scrimmage/experiments/my_first_parameter_varying/`` representing the files for each
 individual run. In addition, it will output a params file for each run and a
 batch_params.csv file showing all of the params for each file in one run.
 
+
+Aggregating Multi-run Data
+-------------------------- 
+In your webbrowser, navigate to
+https://github.com/gtri/scrimmage/blob/master/scripts/BatchExample.ipynb.  This
+is a python jupyter notebook showing a simple example of how to aggregate data
+from this tutorial. In this example, we output all of the data on entity 1 per
+run into a single .csv file saved at
+``~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv``.
+
+
+Basic Visualization
+-------------------
+This .csv file that we just generated is formatted nicely to work with many
+visualization tools. One tool that will allow you to quickly generate graphs is
+RAW Graphs.  Navigate to http://app.rawgraphs.io/. You will see a button that
+allows you to upload a csv file. Upload
+``~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv``.  You
+can then scroll down and quickly generate graphs for this data. An example
+graph for this data is included below. This graph demonstrates an intuitive
+result - increasing the gain on AvoidEntityMS causes the Closest Point of
+Approach (CPA) to increase.  RAW Graphs can also set up to run locally by
+following the instructions on their github page:
+https://github.com/densitydesign/raw/
+
+.. image:: ../images/raw_graphs.png
+    :width: 600
 
 .. After the 100 runs complete, we'll aggregate the results like before: ::
 

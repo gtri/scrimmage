@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 #
 # @file
 #
@@ -62,7 +62,7 @@ parser.add_argument('-n', '--experiment-name', help='Name of the batch '
                     default=datetime.datetime.now().strftime(
                         "experiment_%Y-%m-%d_%H-%M-%S"))
 parser.add_argument('-l', '--log-dir', help='Log directory',
-                    default="~/.scrimmage")
+                    default="~/.scrimmage/experiments")
 
 #  argcomplete.autocomplete(parser)
 args = parser.parse_args()
