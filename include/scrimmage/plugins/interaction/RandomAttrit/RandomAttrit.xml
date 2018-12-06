@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>RandomAttrit_plugin</library>
+
+  <decay_method>linear</decay_method>
+  <!-- <decay_method>exponential</decay_method> -->
+
+  <!-- Wait this many seconds before starting to begin attrit -->
+  <start_after>5.0</start_after>
+  <!-- Perform attrition down to the "leave_alive" entities within this time frame -->
+  <duration>30.0</duration>
+
+  <!-- Which team to attrit -->
+  <team>1</team>
+
+  <!-- Pick individual entities to stay alive, leave empty if none -->
+  <leave_alive>1 2</leave_alive>
+</params>
