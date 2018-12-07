@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Random Attrit">
+
+  <run start="0.0" end="100" dt="0.1"
+       time_warp="10"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+
+  <multi_threaded num_threads="8">false</multi_threaded>
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+  <create_latest_dir>true</create_latest_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <entity_interaction type="cuboid"
+                      lengths="2000, 2000, 1000"
+                      center="0, 0, 500"
+                      rpy="0, 0, 0"
+                      >Boundary</entity_interaction>
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>GroundCollision</entity_interaction>
+  
+  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+  
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>2147483648</seed>
+
+  <entity_interaction decay_method="linear"
+                      start_after="2"
+                      duration="60.0"
+                      team="1"
+                      leave_alive="1 2">RandomAttrit</entity_interaction>
+
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity>
+    <name>uav_entity</name>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>30</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>-900</x>
+    <y>0</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyState</sensor>
+    <sensor>NoisyContacts</sensor>
+    <!--<sensor>ContactBlobCamera</sensor>-->
+
+    <autonomy show_text_label="true"
+              enable_boundary_control="true">Straight</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <entity>
+    <team_id>2</team_id>
+    <color>255 0 0</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>2</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>20</variance_z>
+
+    <x>50</x>
+    <y>0</y>
+    <z>200</z>
+
+    <heading>180</heading>
+    <altitude>200</altitude>
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-red</visual_model>
+    <autonomy speed="21"
+              enable_boundary_control="true">Straight</autonomy>
+    <base>
+      <latitude>35.719961</latitude>
+      <longitude>-120.767304</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+    
+</runscript>
