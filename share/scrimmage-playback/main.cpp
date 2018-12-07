@@ -188,13 +188,9 @@ int main(int argc, char *argv[]) {
 
     sc::InterfacePtr to_gui_interface(new sc::Interface);
     sc::InterfacePtr from_gui_interface(new sc::Interface);
-    to_gui_interface->set_log(log);
-    from_gui_interface->set_log(log);
 
     to_gui_interface->set_mode(sc::Interface::shared);
     from_gui_interface->set_mode(sc::Interface::shared);
-    to_gui_interface->set_log(log);
-    from_gui_interface->set_log(log);
 
     //// Kick off server thread
     // std::thread server_thread(&Interface::init_network, &(*incoming_interface_),

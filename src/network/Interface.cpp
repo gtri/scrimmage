@@ -41,7 +41,6 @@ using grpc::Status;
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Contact.h>
-#include <scrimmage/log/Log.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/network/Interface.h>
@@ -128,8 +127,6 @@ bool Interface::check_ready() {
 }
 
 bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
-    log_->save_frame(frame);
-
     if (mode_ == shared) {
         push_frame(frame);
     } else if (mode_ == client) {
@@ -171,8 +168,6 @@ bool Interface::send_frame(double time,
 }
 
 bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
-    log_->save_utm_terrain(utm_terrain);
-
     if (caching_enabled_) {
         utm_terrain_cache_ = utm_terrain;
     }
@@ -210,8 +205,6 @@ bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
 }
 
 bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
-    log_->save_contact_visual(cv);
-
     if (caching_enabled_) {
         contact_visual_cache_.push_back(cv);
     }
@@ -349,8 +342,6 @@ bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
 }
 
 bool Interface::send_shapes(scrimmage_proto::Shapes &shapes) {
-    log_->save_shapes(shapes);
-
     if (mode_ == shared) {
         push_shapes(shapes);
     } else if (mode_ == client) {
