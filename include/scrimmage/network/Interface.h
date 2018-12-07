@@ -124,9 +124,6 @@ class Interface {
     std::list<scrimmage_proto::Shapes> & shapes()
     { return shapes_list_; }
 
-    // cppcheck-suppress passedByValue
-    void set_log(std::shared_ptr<scrimmage::Log> log) { log_ = log; }
-
     void send_cached();
     bool check_ready();
 
@@ -155,8 +152,6 @@ class Interface {
 
     // Connection timeout in seconds
     unsigned int client_timeout_ = 1;
-
-    std::shared_ptr<scrimmage::Log> log_;
 
     // Cached variables that the gui can request:
     bool caching_enabled_ = true;

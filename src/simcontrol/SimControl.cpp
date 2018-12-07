@@ -121,6 +121,7 @@ void SimControl::send_terrain() {
     // Send initial gui information through GUI interface
     mp_->utm_terrain()->set_time(this->t());
     outgoing_interface_->send_utm_terrain(mp_->utm_terrain());
+    log_->save_utm_terrain(mp_->utm_terrain());
 }
 
 bool SimControl::init() {
@@ -507,6 +508,7 @@ bool SimControl::generate_entities(double t) {
 
             // Send the visual information to the viewer
             outgoing_interface_->send_contact_visual(ent->contact_visual());
+            log_->save_contact_visual(ent->contact_visual());
 
             // Store pointer to entities that aren't ready yet
             if (!ent->ready()) {
@@ -671,7 +673,13 @@ bool SimControl::run_metrics() {
 
 bool SimControl::run_logging() {
     contacts_mutex_.lock();
-    outgoing_interface_->send_frame(t_ + dt_, contacts_);
+
+    std::shared_ptr<scrimmage_proto::Frame> frame =
+        create_frame(t_ + dt_, contacts_);
+
+    outgoing_interface_->send_frame(frame);
+    log_->save_frame(frame);
+
     contacts_mutex_.unlock();
     return true;
 }
@@ -1407,6 +1415,7 @@ void SimControl::run_send_shapes() {
         }
     }
     outgoing_interface_->send_shapes(shapes);
+    log_->save_shapes(shapes);
     shapes_.clear();
 }
 
@@ -1414,6 +1423,7 @@ void SimControl::run_send_contact_visuals() {
     for (EntityPtr &ent : ents_) {
         if (ent->visual_changed()) {
             outgoing_interface_->send_contact_visual(ent->contact_visual());
+            log_->save_contact_visual(ent->contact_visual());
             ent->set_visual_changed(false);
         }
     }

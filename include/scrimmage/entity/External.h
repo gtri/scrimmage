@@ -95,6 +95,9 @@ class External {
 
     ParameterServerPtr param_server() { return param_server_; }
 
+    bool enable_outgoing_interface(const std::string &ip, const int &port);
+    bool disable_outgoing_interfaces();
+
  protected:
     void setup_logging(const std::string &log_dir);
     void update_ents();
@@ -343,6 +346,8 @@ class External {
  protected:
     void call_update_contacts(double t);
     void update_time(double t);
+
+    std::list<InterfacePtr> outgoing_interfaces_;
 };
 
 } // namespace scrimmage

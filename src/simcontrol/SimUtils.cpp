@@ -298,8 +298,6 @@ std::shared_ptr<Log> preprocess_scrimmage(
 
     InterfacePtr to_gui_interface = std::make_shared<Interface>();
     InterfacePtr from_gui_interface = std::make_shared<Interface>();
-    to_gui_interface->set_log(log);
-    from_gui_interface->set_log(log);
 
     simcontrol.set_incoming_interface(from_gui_interface);
     simcontrol.set_outgoing_interface(to_gui_interface);

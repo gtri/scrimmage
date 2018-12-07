@@ -46,6 +46,7 @@
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/simcontrol/SimUtils.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <iostream>
@@ -323,6 +324,12 @@ bool External::step(double t) {
     log_->save_frame(create_frame(t, entity_->contacts()));
     log_->save_shapes(shapes);
 
+    // Send shapes over configured grpc network interfaces
+    for (auto interface : outgoing_interfaces_) {
+        interface->send_shapes(shapes);
+        interface->send_frame(t, entity_->contacts());
+    }
+
     mutex.unlock();
     return true;
 }
@@ -417,6 +424,20 @@ void External::close() {
     br::for_each(ent_inters_, close);
     br::for_each(metrics_, close);
     mutex.unlock();
+}
+
+bool External::enable_outgoing_interface(const std::string &ip, const int &port) {
+    InterfacePtr interface = std::make_shared<Interface>();
+    interface->init_network(Interface::client, ip, port);
+
+    interface->send_contact_visual(entity_->contact_visual());
+    outgoing_interfaces_.push_back(interface);
+    return true;
+}
+
+bool External::disable_outgoing_interfaces() {
+    outgoing_interfaces_.clear();
+    return true;
 }
 
 } // namespace scrimmage
