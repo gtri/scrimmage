@@ -32,26 +32,39 @@
 #
 #
 
+from __future__ import (absolute_import, division,
+                        print_function, unicode_literals)
+from builtins import *
+
 import os
 import sys
+import errno
 import multiprocessing
 import subprocess
 import datetime
 import argparse
-#  import argcomplete
+import tqdm
 import generate_scenarios
 
 
 def call_scrimmage(arg):
     subprocess.call(arg, shell=True)
 
+def symlink_force(target, link_name):
+    """Create symlink even if one already exists"""
+    try:
+        os.symlink(target, link_name)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            os.remove(link_name)
+            os.symlink(target, link_name)
+        else:
+            raise e
 
 parser = argparse.ArgumentParser(
         description="Run batch SCRIMMAGE experiments",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
         )
-parser.add_argument('-t', '--tasks', help='Number of simulation runs',
-                    type=int)
 parser.add_argument('-m', '--mission', help='Mission file')
 parser.add_argument('-r', '--ranges', help='Ranges file for generating new'
                     ' scenarios')
@@ -63,8 +76,13 @@ parser.add_argument('-n', '--experiment-name', help='Name of the batch '
                         "experiment_%Y-%m-%d_%H-%M-%S"))
 parser.add_argument('-l', '--log-dir', help='Log directory',
                     default="~/.scrimmage/experiments")
+parser.add_argument('-s', '--num-repeats', help='Num repeats per set of params',
+                    default=1, type=int)
+parser.add_argument('-d', '--method', help='Method of sampling, grid or lhs',
+                    default='lhs', type=str)
+parser.add_argument('-t', '--tasks', help='Number of simulation runs',
+                    type=int)
 
-#  argcomplete.autocomplete(parser)
 args = parser.parse_args()
 
 if not args.mission:
@@ -79,15 +97,22 @@ if not args.ranges:
 elif not os.path.exists(args.ranges):
     sys.exit('Ranges file does not exist... Exiting')
 
-if args.parallel > multiprocessing.cpu_count():
-    print("""=================================================================
-WARNING: MAX_PARALLEL_TASKS is set to {},
-but you only have {} processors.
-====================================================================""".format(
-          args.parallel, multiprocessing.cpu_count()))
+if args.method == "lhs":
+    if args.tasks is None:
+        parser.error("Cannot use lhs without -t (--tasks) specifying how many runs")
+elif args.method == "grid":
+    if args.tasks is not None:
+        print("Warning, --tasks ignored, using counts in ranges file")
+
+print("Using parameter selection method: {}".format(args.method))
 
 MISSION_FILE = args.mission
-ROOT_LOG = os.path.join(os.path.expanduser(args.log_dir), args.experiment_name)
+
+EXPERIMENTS_DIR = os.path.expanduser(args.log_dir)
+ROOT_LOG = os.path.join(EXPERIMENTS_DIR, args.experiment_name)
+
+# Add latest symlink to experiments folder
+symlink_force(ROOT_LOG, os.path.join(EXPERIMENTS_DIR, "latest"))
 
 if os.path.exists(ROOT_LOG):
     sys.exit("Experiment name already exists")
@@ -100,11 +125,11 @@ if not os.path.exists(LOG_FILE_DIR):
 if not os.path.exists(MISSION_FILE_DIR):
     os.makedirs(MISSION_FILE_DIR)
 
-generate_scenarios.from_run_experiments(args, LOG_FILE_DIR, MISSION_FILE_DIR,
-                                        ROOT_LOG)
-
-ids_files = [(os.path.join(MISSION_FILE_DIR, "{}.xml".format(i))) for i in
-             range(1, args.tasks + 1)]
+# generates set of mission files
+ids_files = generate_scenarios.from_run_experiments(
+                args, LOG_FILE_DIR, MISSION_FILE_DIR,
+                ROOT_LOG, num_repeats=args.num_repeats,
+                method=args.method)
 
 STARTTIME = datetime.datetime.now()
 
@@ -113,14 +138,18 @@ pool = multiprocessing.Pool(args.parallel)
 # TODO: Kevin fix logging. This script doesn't know about the folders that
 # scrimmage generates
 tasks = ['scrimmage -j 0 -t {0} {1} > {2}/{0}.log 2>&1'.format(i + 1,
-         ids_files[i], LOG_FILE_DIR) for i in range(0, args.tasks)]
+         id_file, LOG_FILE_DIR) for i, id_file in enumerate(ids_files)]
 # Map tasks to pools
-results = pool.map_async(call_scrimmage, tasks)
+results = []
+imap = pool.imap_unordered(call_scrimmage, tasks)
+# tqdm lets us get a progress bar for long experiments
+for res in tqdm.tqdm(imap, total=len(tasks)):
+    results.append(res)
 # Don't let anything else go to the pool and wait for everything in the pool to
 # finish
 pool.close()
 pool.join()
 
 ENDTIME = datetime.datetime.now()
-print("Completed {} simulations in {} seconds".format(args.tasks, (ENDTIME -
+print("Completed {} simulations in {} seconds".format(len(tasks), (ENDTIME -
       STARTTIME).total_seconds()))

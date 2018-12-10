@@ -45,6 +45,8 @@ import shutil
 import scrimmage.utils as utils
 import re
 import pdb
+import itertools
+from collections import OrderedDict
 
 # If you get warnings about fc-list, remove font cache:
 # rm -rf ~/.cache/matplotlib/
@@ -74,11 +76,6 @@ def rewrite_mission_file(mission_file, enable_gui, root_log=None):
 
     tree.write(TEMP_MISSION_FILE)
 
-def scale_value(OldValue, OldMin, OldMax, NewMin, NewMax):
-    OldRange = (OldMax - OldMin)
-    NewRange = (NewMax - NewMin)
-    NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
-    return NewValue
 
 def convert(value, type_):
     import importlib
@@ -94,67 +91,101 @@ def convert(value, type_):
         module, type_ = type_.rsplit(".", 1)
         module = importlib.import_module(module)
         cls = getattr(module, type_)
-    return (cls(value), cls)
+    return cls(value), cls
 
-
-def expand_variable_ranges(ranges_file, num_runs, mission_dir, root_log=None, entity_list=None):
-    if not root_log:
-        root_log = mission_dir
+def ranges_file_to_dict(ranges_file):
+    """Convert from XML ranges file to simple dictionary"""
     root = ET.parse(ranges_file).getroot()
-    num_of_vars = len(list(root))
-    xx = pyDOE.lhs(num_of_vars, samples=int(num_runs))
-    # Build a list of tuples ('tag name', low, high)
-    ranges_list = []
-    cls_dict = {}
-
+    ranges = OrderedDict()
     for idx, child in enumerate(root):
+        ranges_dict = {}
         try:
-            high, cls = convert(child.attrib['high'], child.attrib['type'])
-            low, cls = convert(child.attrib['low'], child.attrib['type'])
+            name = child.tag
+            ranges_dict['high'], _ = convert(child.attrib['high'], child.attrib['type'])
+            ranges_dict['low'], cls = convert(child.attrib['low'], child.attrib['type'])
+            ranges_dict['type'] = cls
+            if 'count' in child.attrib:
+                ranges_dict['count'], _ = convert(child.attrib['count'], 'int')
         except (AttributeError, KeyError):
             print('missing type or low or high in element ', child.tag)
 
-        column_name = child.tag
+        ranges[name] = ranges_dict
 
-        cls_dict[column_name] = cls
-        ranges_list.append((column_name, high, low))
+    return ranges
 
-        xx[:, idx] = [cls(scale_value(x, 0.0, 1.0, low, high)) for x in
-                      xx[:, idx]]
+
+def expand_variable_ranges(ranges_file, num_runs, mission_dir, root_log=None, entity_list=None,
+        num_repeats=1, method="lhs"):
+    """Generate list of variable values to change, and associated mission files"""
+
+    if not root_log:
+        root_log = mission_dir
+
+    ranges = ranges_file_to_dict(ranges_file)
+
+    # Generate set of params to test
+    if method == "lhs":
+        # Latin-Hypercube method
+        xx = np.array(pyDOE.lhs(len(ranges), samples=num_runs), dtype=object)
+
+        for idx, (param, desc) in enumerate(ranges.items()):
+            diff = desc['high'] - desc['low']
+            xx[:, idx] = (xx[:, idx] * diff + desc['low']).astype(desc['type'])
+    elif method == "grid":
+        # Dumb grid search, try every combination
+        val_options = []
+        for param, desc in ranges.items():
+            if 'count' not in desc:
+                raise AttributeError("Param '{}' needs count specified for grid method"
+                        .format(param))
+            vals = np.linspace(desc['low'], desc['high'], desc['count']).astype(desc['type'])
+            val_options.append(vals)
+
+        # combine all lists of options to get every combination
+        xx = np.array(list(itertools.product(*val_options)), dtype=object)
+
+    # Allow multiple repetitions at each combination of parameters
+    xx = np.repeat(xx, num_repeats, axis=0)
 
     # Build a data frame where the columns are labelled with the XML element
     # tag. Rows represent values for the variables for each run
-    df = pd.DataFrame(xx, columns=[c[0] for c in ranges_list])
+    df = pd.DataFrame(xx, columns=ranges)
+
     # Add a column for run number - indexed from 1 to match everything else,
     # set this as the index
     df['run'] = [i for i in range(1, len(df) + 1)]
     df.set_index('run', inplace=True)
-    # This is a simple line to output the batch params
+    # Output csv mapping params to log directories
     df.to_csv(os.path.join(root_log, 'batch_params.csv'), index=True)
-    write_scenarios(df, cls_dict, mission_dir)
+    return write_scenarios(df, mission_dir)
 
 
-def write_scenarios(df, cls_dict, mission_dir):
+def write_scenarios(df, mission_dir):
     # For each row in the df, replace all instances of key with the associated
     # value from LHS sampling
+    mission_list = []
     mission_string = ""
     with open(TEMP_MISSION_FILE) as f:
         mission_string = f.read()
     for run, row in df.iterrows():
         this_mission = mission_string
         #  pdb.set_trace()
-        for var, cls in cls_dict.items():
-            this_mission = replace_with_LHS_val(var, this_mission, row[var])
+        for col in df:
+            this_mission = replace_val(col, this_mission, row[col])
         # Output this mission file
-        out_name = os.path.join(mission_dir, str(run)) + '.xml'
+        out_name = os.path.join(mission_dir, str(run)) + '_mission.xml'
+        mission_list.append(out_name)
         with open(out_name, "w") as out_file:
             out_file.write(this_mission)
 
+        #  print("Writing", out_name, "with params", row)
         out_params = os.path.join(mission_dir, str(run)) + '_params.xml'
         row.to_csv(out_params)
 
+    return mission_list
 
-def replace_with_LHS_val(var, mission_string, val):
+
+def replace_val(var, mission_string, val):
     # Replace var in the xml string with the value from LHS
     reg = r"\${{{}=(.+?)}}".format(var)
     pattern = re.compile(reg)
@@ -163,19 +194,26 @@ def replace_with_LHS_val(var, mission_string, val):
             mission_string)
     return mission_string
 
-def from_run_experiments(args, out_dir, mission_dir, root_log):
+def from_run_experiments(args, out_dir, mission_dir, root_log, num_repeats=1,
+        method='lhs'):
     # TODO: Can we incorporate this and main together? Or should
     # generate_scenarios even be callable?
+    missions = []
     rewrite_mission_file(args.mission, False, root_log)
     if args.ranges and os.path.isfile(args.ranges):
-        expand_variable_ranges(args.ranges, args.tasks, mission_dir, root_log)
+        missions += expand_variable_ranges(args.ranges, args.tasks, mission_dir, root_log,
+                num_repeats=num_repeats, method=method)
     else:
         # If the user didn't supply a ranges file, just copy the temp mission
         # file and rename it for each run
+        # num_repeats doesn't work here, just use tasks to control run number
         for i in range(0, args.tasks):
-            shutil.copyfile(TEMP_MISSION_FILE, mission_dir+"/"+str(i+1)+".xml")
+            fn = os.path.join(mission_dir, str(i+1), "_mission.xml")
+            shutil.copyfile(TEMP_MISSION_FILE, fn)
+            missions.append(fn)
     os.remove(TEMP_MISSION_FILE)
 
+    return missions
 
 
 def main():
