@@ -98,6 +98,8 @@ class External {
     bool enable_outgoing_interface(const std::string &ip, const int &port);
     bool disable_outgoing_interfaces();
 
+    void set_time(const double &t, const double &dt);
+
  protected:
     void setup_logging(const std::string &log_dir);
     void update_ents();

@@ -440,4 +440,9 @@ bool External::disable_outgoing_interfaces() {
     return true;
 }
 
+void External::set_time(const double &t, const double &dt) {
+    time_->set_t(t);
+    time_->set_dt(dt);
+}
+
 } // namespace scrimmage
