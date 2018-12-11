@@ -256,9 +256,9 @@ fi
 # Install Pip Packages
 ########################
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip install sphinx-git pydoe
+    pip install sphinx-git pydoe tqdm
 fi 
 
 if [[ "$PYTHON_VERSION" = "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip3 install sphinx-git pydoe
+    pip3 install sphinx-git pydoe tqdm
 fi 
