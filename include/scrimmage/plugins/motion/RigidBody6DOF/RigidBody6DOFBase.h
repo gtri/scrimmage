@@ -36,10 +36,19 @@
 
 namespace scrimmage {
 namespace motion {
-class RigidBody6DOFBase : public scrimmage::MotionModel{
+class RigidBody6DOFBase : public scrimmage::MotionModel {
  public:
-    RigidBody6DOFBase() : linear_accel_body_(0, 0, 0),
-        ang_accel_body_(0, 0, 0) {
+    RigidBody6DOFBase() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
+                          linear_accel_body_(0, 0, 0),
+                          ang_accel_body_(0, 0, 0) {
+    }
+
+    Eigen::Vector3d &linear_vel_body() {
+        return linear_vel_body_;
+    }
+
+    Eigen::Vector3d &ang_vel_body() {
+        return ang_vel_body_;
     }
 
     Eigen::Vector3d &linear_accel_body() {
@@ -51,8 +60,8 @@ class RigidBody6DOFBase : public scrimmage::MotionModel{
     }
 
  protected:
-    // TODO: this really ought to be a part of the state_ but
-    //      not sure how to make that happen
+    Eigen::Vector3d linear_vel_body_;
+    Eigen::Vector3d ang_vel_body_;
     Eigen::Vector3d linear_accel_body_;
     Eigen::Vector3d ang_accel_body_;
 };

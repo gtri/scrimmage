@@ -331,6 +331,9 @@ bool FixedWing6DOF::step(double time, double dt) {
     quat_body_.set(x_[q0], x_[q1], x_[q2], x_[q3]);
     quat_body_.normalize();
 
+    linear_vel_body_ << x_[U], x_[V], x_[W];
+    ang_vel_body_ << x_[P], x_[Q], x_[R];
+
     // Calculate change in velocity to populate acceleration elements
     Eigen::Vector3d linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
     Eigen::Vector3d linear_acc_ENU = (linear_vel_ENU - prev_linear_vel_ENU) / dt;
