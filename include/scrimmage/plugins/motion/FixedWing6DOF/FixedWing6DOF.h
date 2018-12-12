@@ -123,6 +123,8 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double rho_ = 1.2250; // air density
 
     // Control input limits
+    double throttle_input_min_ = 0.0;
+    double throttle_input_max_ = 1.0;
     double thrust_min_ = -100.0e3;
     double thrust_max_ = 100.0e3;
     double delta_elevator_min_ = -0.5236;

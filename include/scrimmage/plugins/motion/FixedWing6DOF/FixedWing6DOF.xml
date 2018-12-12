@@ -21,6 +21,9 @@
   </inertia_matrix_slug_ft_sq>
 
   <!-- Aircraft control limits -->
+  <throttle_input_min>0.0</throttle_input_min>
+  <throttle_input_max>1.0</throttle_input_max>
+
   <thrust_min>-36000</thrust_min> <!-- Newtons (N) -->
   <thrust_max>36000</thrust_max> <!-- Newtons (N) -->
   <delta_elevator_min>-0.5236</delta_elevator_min> <!-- radians -->

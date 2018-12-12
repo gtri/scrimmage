@@ -196,6 +196,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     rho_ = sc::get<double>("air_density", params, rho_); // air density
 
     // thrust and dimensional specs
+    throttle_input_min_ = sc::get<double>("throttle_input_min", params, throttle_input_min_);
+    throttle_input_max_ = sc::get<double>("throttle_input_max", params, throttle_input_max_);
     thrust_min_ = sc::get<double>("thrust_min", params, thrust_min_);
     thrust_max_ = sc::get<double>("thrust_max", params, thrust_max_);
     delta_elevator_min_ = sc::get<double>("delta_elevator_min", params, delta_elevator_min_);
@@ -255,7 +257,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 bool FixedWing6DOF::step(double time, double dt) {
     // Get inputs and saturate
     throttle_ = clamp(vars_.input(throttle_idx_), -1.0, 1.0);
-    thrust_ = scale<double>(throttle_, -1.0, 1.0, thrust_min_, thrust_max_);
+    thrust_ = scale<double>(throttle_, throttle_input_min_,
+                            throttle_input_max_, thrust_min_, thrust_max_);
 
     delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
