@@ -13,7 +13,6 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   )
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-  Boundary_plugin
   scrimmage-core
   )
 
