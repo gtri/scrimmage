@@ -61,7 +61,6 @@
 
   <entity entity_common="all">
     <x>0</x>
-    <count>1</count>
     <color>77 77 255</color>
   </entity>
 </runscript>
