@@ -60,6 +60,8 @@ class RLSimple : public ScrimmageOpenAIAutonomy {
 
     uint8_t output_vel_x_idx_ = 0;
     uint8_t output_vel_y_idx_ = 0;
+
+    double max_speed_ = 0; // for continuous case
 };
 } // namespace autonomy
 } // namespace scrimmage

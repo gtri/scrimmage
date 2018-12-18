@@ -47,6 +47,11 @@ void RLSimple::init_helper(std::map<std::string, std::string> &params) {
     y_discrete_ = str2bool(params.at("y_discrete"));
     ctrl_y_ = str2bool(params.at("ctrl_y"));
 
+    bool has_continuous_output = !x_discrete_ || (ctrl_y_ && !y_discrete_);
+    if (has_continuous_output) {
+        max_speed_ = std::stod(params.at("max_speed"));
+    }
+
     using Type = VariableIO::Type;
     using Dir = VariableIO::Direction;
 
@@ -64,20 +69,17 @@ void RLSimple::init_helper(std::map<std::string, std::string> &params) {
 void RLSimple::set_environment() {
     reward_range = std::make_pair(0, 1);
 
-    if (x_discrete_) {
-        action_space.discrete_count.push_back(2);
-    } else {
-        const double inf = std::numeric_limits<double>::infinity();
-        action_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
-    }
-
-    if (ctrl_y_) {
-        if (y_discrete_) {
-            action_space.discrete_count.push_back(2);
+    auto add_output = [&](bool is_discrete) {
+        if (is_discrete) {
+            action_space.discrete_count.push_back(2); // forward/backward
         } else {
-            const double inf = std::numeric_limits<double>::infinity();
-            action_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
+            action_space.continuous_extrema.push_back({-max_speed_, max_speed_});
         }
+    };
+
+    add_output(x_discrete_);
+    if (ctrl_y_) {
+        add_output(y_discrete_);
     }
 }
 

@@ -54,6 +54,7 @@
       <autonomy
         x_discrete="true"
         y_discrete="true"
+        max_speed="10"
         ctrl_y="true">RLSimple</autonomy>
       <y>0</y>
       <z>0</z>
