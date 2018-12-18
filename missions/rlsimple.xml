@@ -54,6 +54,7 @@
       <autonomy
         x_discrete="true"
         y_discrete="true"
+        max_speed="10"
         ctrl_y="true">RLSimple</autonomy>
       <y>0</y>
       <z>0</z>
@@ -61,7 +62,6 @@
 
   <entity entity_common="all">
     <x>0</x>
-    <count>1</count>
     <color>77 77 255</color>
   </entity>
 </runscript>
