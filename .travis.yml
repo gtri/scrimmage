@@ -31,7 +31,7 @@ jobs:
             docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG;
             docker create --name mycontainer $REPO:$TAG;
             docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
-            bash ./ci/scripts/deploy-docs.sh;
+            #bash ./ci/scripts/deploy-docs.sh;
             docker push $REPO;
         fi
     - name: "Build on Ubuntu 18.04"

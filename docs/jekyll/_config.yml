@@ -45,3 +45,5 @@ plugins:
 #header_pages:
 #  - about.md
 #  - other.md
+
+baseurl: "/scrimmage"
