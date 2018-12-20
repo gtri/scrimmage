@@ -79,6 +79,8 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
 
 bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
                                  const scrimmage::PluginPtr &sub_plugin) {
+    // Never reachable if plugin's entity was destroyed
+    if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr) return false;
     // If the publisher and subscriber have the same parent, it is reachable
     if (pub_plugin->parent() == sub_plugin->parent()) return true;
 
