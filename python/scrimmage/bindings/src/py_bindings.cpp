@@ -33,10 +33,27 @@
 #include <pybind11/pybind11.h>
 #include <py_utils.h>
 #include <memory>
+#include "../../../../share/scrimmage/scrimmage_main.h"
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>)
 
 // see: http://pybind11.readthedocs.io/en/master/faq.html#how-can-i-reduce-the-build-time
+
+pybind11::object scrimmage_main(
+         const std::string &mission_file,
+         int job_id = -1,
+         int task_id = -1,
+         std::string seed = "") {
+
+    scrimmage::SimControl simcontrol;
+    auto log_dir = scrimmage_main_run(simcontrol, mission_file, job_id, task_id, seed);
+    if (log_dir) {
+        return pybind11::str(*log_dir);
+    } else {
+        return pybind11::none();
+    }
+}
+
 PYBIND11_MODULE(py_bindings, m) {
     m.doc() = "pybind11 example plugin";
 
@@ -47,4 +64,5 @@ PYBIND11_MODULE(py_bindings, m) {
     add_openai_env(m);
 
     m.def("frames2pandas", &frames2pandas, "converts a protobuf frames.bin file to a pandas DataFrame");
+    m.def("scrimmage_main", &scrimmage_main, "converts a protobuf frames.bin file to a pandas DataFrame");
 }

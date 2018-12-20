@@ -19,7 +19,9 @@ add_dependencies(${LIBRARY_NAME} scrimmage-core)
 target_link_libraries(${LIBRARY_NAME} PRIVATE
   ScrimmageOpenAIAutonomy_plugin
   ScrimmageOpenAISensor_plugin
-  scrimmage-core)
+  scrimmage-core
+  scrimmage-viewer
+  )
 
 # Push up the SCRIMMAGE_LIBS variable
 set_target_properties(${LIBRARY_NAME} PROPERTIES

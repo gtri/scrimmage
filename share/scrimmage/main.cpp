@@ -30,47 +30,9 @@
  *
  */
 
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/simcontrol/SimControl.h>
-#include <scrimmage/simcontrol/SimUtils.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/metrics/Metrics.h>
-
-#include <signal.h>
-#include <cstdlib>
+#include "scrimmage_main.h"
 
 #include <iostream>
-#include <ctime>
-
-#include <unordered_set>
-#include <string>
-#include <ostream>
-#include <memory>
-#if ENABLE_VIEWER == 1
-#include <scrimmage/viewer/Viewer.h>
-#endif
-
-#include <scrimmage/log/Log.h>
-
-#if ENABLE_PYTHON_BINDINGS == 1
-#ifdef __clang__
-_Pragma("clang diagnostic push")
-_Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
-_Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
-#endif
-#include <Python.h>
-#ifdef __clang__
-_Pragma("clang diagnostic pop")
-#endif
-#endif
-
-#include <boost/optional.hpp>
 
 using std::cout;
 using std::endl;
@@ -97,7 +59,6 @@ int main(int argc, char *argv[]) {
     int job_id = -1;
     int task_id = -1;
 
-    bool seed_set = false;
     std::string seed = "";
 
     int opt;
@@ -111,7 +72,6 @@ int main(int argc, char *argv[]) {
             break;
         case 's':
             seed = std::string(optarg);
-            seed_set = true;
             break;
         case '?':
             if (optopt == 't') {
@@ -133,62 +93,12 @@ int main(int argc, char *argv[]) {
     }
 
     std::string mission_file = argv[optind];
-    auto mp = std::make_shared<sc::MissionParse>();
-    if (task_id != -1) mp->set_task_number(task_id);
-    if (job_id != -1) mp->set_job_number(job_id);
 
-    if (!mp->parse(mission_file)) {
-        std::cout << "Failed to parse file: " << mission_file << std::endl;
-        return -1;
-    }
-
-    if (seed_set) mp->params()["seed"] = seed;
-
-#if ENABLE_PYTHON_BINDINGS == 1
-    Py_Initialize();
-#endif
-
-    auto log = sc::preprocess_scrimmage(mp, simcontrol);
-    simcontrol.send_terrain();
-    simcontrol.run_send_shapes(); // draw any intial shapes
-
-    if (log == nullptr) {
-        return -1;
-    }
-
-#if ENABLE_VIEWER == 0
-    simcontrol.pause(false);
-    simcontrol.run();
-#else
-    if (simcontrol.enable_gui()) {
-        simcontrol.start();
-        scrimmage::Viewer viewer;
-
-        auto outgoing = simcontrol.outgoing_interface();
-        auto incoming = simcontrol.incoming_interface();
-
-        viewer.set_incoming_interface(outgoing);
-        viewer.set_outgoing_interface(incoming);
-        viewer.set_enable_network(false);
-        viewer.init(mp->attributes()["camera"], mp->log_dir(), mp->dt());
-        viewer.run();
-
-        // When the viewer finishes, tell simcontrol to exit
-        simcontrol.force_exit();
-        simcontrol.join();
-    } else {
-        simcontrol.pause(false);
-        simcontrol.run();
-    }
-#endif
-
-    if (sc::postprocess_scrimmage(mp, simcontrol, log)) {
-        return 0;
-    } else {
-        return -1;
-    }
+    auto log_dir = scrimmage_main_run(simcontrol, mission_file, job_id, task_id, seed);
 
 #if ENABLE_PYTHON_BINDINGS == 1
     Py_Finalize();
 #endif
+
+    return log_dir ? 0 : -1;
 }
