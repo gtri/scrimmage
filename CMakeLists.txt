@@ -94,6 +94,7 @@ option(EXTERNAL "EXTERNAL" 0)
 
 option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
 set(PYTHON_MIN_VERSION "2.7" CACHE STRING "Minimum Python version for building")
+add_library(scrimmage-python INTERFACE)
 if (ENABLE_PYTHON_BINDINGS)
 
   # Find Python
@@ -114,17 +115,16 @@ if (ENABLE_PYTHON_BINDINGS)
   find_package(pybind11 REQUIRED)
   set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
 
-  add_library(scrimmage-python INTERFACE)
   target_include_directories(scrimmage-python
       SYSTEM INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
   target_compile_definitions(scrimmage-python
       INTERFACE -DENABLE_PYTHON_BINDINGS=1)
   target_link_libraries(scrimmage-python INTERFACE ${PYTHON_LIBRARIES})
-  install(TARGETS scrimmage-python EXPORT ${PROJECT_NAME}-targets)
 else()
   target_compile_definitions(scrimmage-python
       INTERFACE -DENABLE_PYTHON_BINDINGS=0)
 endif()
+install(TARGETS scrimmage-python EXPORT ${PROJECT_NAME}-targets)
 
 ########################################################
 # Find Protobuf
