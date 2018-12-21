@@ -437,6 +437,7 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
             } else {
                 actor->GetProperty()->SetOpacity(shape.opacity());
             }
+
             actor->GetProperty()->SetColor(shape.color().r()/255.0,
                                            shape.color().g()/255.0,
                                            shape.color().b()/255.0);
@@ -1900,12 +1901,12 @@ bool Updater::draw_cube(const bool &new_shape,
     cubeSource->SetYLength(c.y_length());
     cubeSource->SetZLength(c.z_length());
 
-    // Set the actor's position
-    actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
-
-    // Rotate the actor
     Quaternion quat = proto_2_quat(c.quat());
-    actor->RotateZ(sc::Angles::rad2deg(quat.yaw()));
+
+    actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
+    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
+                          sc::Angles::rad2deg(quat.pitch()),
+                          sc::Angles::rad2deg(quat.yaw()));
 
     return true;
 }
