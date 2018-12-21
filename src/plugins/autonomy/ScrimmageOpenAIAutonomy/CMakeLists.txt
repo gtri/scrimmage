@@ -13,6 +13,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   OpenAIObservations.cpp
   OpenAIActions.cpp
   OpenAIUtils.cpp
+  ActorFunc.cpp
   )
 
 

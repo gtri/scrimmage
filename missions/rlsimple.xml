@@ -2,7 +2,7 @@
 
   <run dt="1"
     end="100"
-    enable_gui="true"
+    enable_gui="false"
     network_gui="false"
     start="0.0"
     start_paused="true"
@@ -53,7 +53,7 @@
       <sensor order="0">RLSimpleSensor</sensor>
       <autonomy
         x_discrete="true"
-        y_discrete="true"
+        y_discrete="false"
         max_speed="10"
         ctrl_y="true">RLSimple</autonomy>
       <y>0</y>
