@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Publishers and Subscribers &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Create a ROS Node" href="ros-plugin.html"/>
+        <link rel="prev" title="Plugin Parameters" href="parameters.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Publishers and Subscribers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-plugins">Network Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-publisher">Create a Publisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-subscriber">Create a Subscriber</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>Publishers and Subscribers</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/pub-sub.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="publishers-and-subscribers">
+<span id="pub-sub"></span><h1>Publishers and Subscribers<a class="headerlink" href="#publishers-and-subscribers" title="Permalink to this headline">¶</a></h1>
+<p>SCRIMMAGE provides a light-weight publish-and-subscribe system that allows for
+arbitrary data to be transmitted between plugins. In order to setup a publisher
+or a subscriber, the developer needs to identify the data type of the message,
+the topic name (std::string), and the network name (std::string).</p>
+<div class="section" id="network-plugins">
+<h2>Network Plugins<a class="headerlink" href="#network-plugins" title="Permalink to this headline">¶</a></h2>
+<p>The network name refers to Network plugin that must be specified in the mission
+xml file.</p>
+<ul class="simple">
+<li><strong>GlobalNetwork</strong> : By default, the GlobalNetwork is initialized in all
+SCRIMMAGE plugins because it is used by SimControl to publish simulation
+event information. Use the GlobalNetwork to transfer simulation-level data.</li>
+<li><strong>LocalNetwork</strong> : The LocalNetwork only allows transmission of messages
+between plugins that are attached to the same entity. Use this network to
+transmit messages that shouldn’t leave the current physical entity. For
+example, use the LocalNetwork to publish accelerometer data, own-vehicle pose
+data, and other state information that you don’t want to conflict with
+another entity’s data.</li>
+<li><strong>SphereNetwork</strong> : The SphereNetwork is a probabilistic transmission model
+that is parameterized by communication range. (perfect comms within range or
+probabilistic comms within a range).</li>
+</ul>
+<p>Multiple network tags can be specified in a single mission file. For example,
+you may want to use the GlobalNetwork, LocalNetwork, and SphereNetwork in the
+same mission.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;network&gt;</span>GlobalNetwork<span class="nt">&lt;/network&gt;</span>
+<span class="nt">&lt;network&gt;</span>LocalNetwork<span class="nt">&lt;/network&gt;</span>
+<span class="nt">&lt;network&gt;</span>SphereNetwork<span class="nt">&lt;/network&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-publisher">
+<h2>Create a Publisher<a class="headerlink" href="#create-a-publisher" title="Permalink to this headline">¶</a></h2>
+<p>Creating a SCRIMMAGE publisher is easy. First, declare a publisher in your
+plugin’s header file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">sc</span><span class="o">::</span><span class="n">PublisherPtr</span> <span class="n">pub_boundary_</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Now, intialize the publisher in the init() method of the plugin’s *.cpp
+file. In this case, we are creating a publisher in the “GlobalNetwork” with a
+topic name of “Boundary”.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">pub_boundary_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We can publish a message by creating a scrimmage::Message (templated with the
+data type that we want to publish), filling in any data that is required, and
+calling the <code class="docutils literal notranslate"><span class="pre">publish</span></code> method.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">sc</span><span class="o">::</span><span class="n">Message</span><span class="o">&lt;</span><span class="n">BoundaryInfo</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">BoundaryInfo</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">Cuboid</span><span class="p">;</span>
+<span class="n">pub_boundary_</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In the previous example, <code class="docutils literal notranslate"><span class="pre">msg-&gt;data</span></code> provides direct access to an instance of
+the BoundaryInfo class. See the <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/plugins/interaction/Boundary/Boundary.cpp/">Boundary</a>
+entity interaction plugin for the complete example.</p>
+<p>If you wanted to limit the number of messages in the publisher output queue,
+you can call the advertise method with a maximum queue size argument.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">pub_boundary_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>You may have to include additional header files in your plugins that are
+not automatically included in the plugin templates. For example you may
+need:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span class="c1">#include &lt;scrimmage/pubsub/Message.h&gt;</span>
+<span class="c1">#include &lt;scrimmage/pubsub/Publisher.h&gt;</span>
+<span class="c1">#include &lt;scrimmage/pubsub/Subscriber.h&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-a-subscriber">
+<h2>Create a Subscriber<a class="headerlink" href="#create-a-subscriber" title="Permalink to this headline">¶</a></h2>
+<p>We need to setup a callback function that will be called when a SCRIMMAGE
+plugin receives a new message. This callback can be a class method, a static
+function, or a lambda function. In this example, we will use a lambda function
+due to its simplicity. Define the lambda callback function in the init() method
+of your plugin:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="k">auto</span> <span class="n">callback</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">MessagePtr</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Time: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">time_</span><span class="o">-&gt;</span><span class="n">t</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Received a boundary info message!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>This lambda function consumes a scrimmage::MessagePtr templated with the
+BoundaryInfo class. This lambda function has access to the plugin’s member
+variables because its closure was declared with <code class="docutils literal notranslate"><span class="pre">[&amp;]</span></code>. Thus, the lambda
+function can access plugin member variables, such as the <code class="docutils literal notranslate"><span class="pre">time_</span></code> member
+variable. Finally, you need to initialize the subscriber:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The subscriber is templated with the message data type. This subscriber will
+listen to the “Boundary” topic on the “GlobalNetwork” network. The name of the
+lambda callback function was also passed to the subscribe method. If you wanted
+to limit the number of messages in the receive queue, you can call the
+subscribe method with a maximum queue size argument.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In this case, only the 10 most recent messages will remain in the queue if more
+than 10 messages have been received since the autonomy last ran.</p>
+<p>See the <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/plugins/autonomy/Straight/Straight.cpp/">Straight</a>
+autonomy plugin for the complete example.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The subscriber callbacks are not called immediately when a message is
+published to the subscriber’s topic. Instead, the published messages are
+filtered through the Network plugins and possibly delivered to the
+subscribers’ message input queues during the next simulation time
+step. Before each plugins’ <code class="docutils literal notranslate"><span class="pre">step()</span></code> method is called, the messages that
+were successfully delivered to the subscribers’ input queues are delivered
+to their respective callback functions. This allows for complete determinism
+in the publishing and receiving of messages.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ros-plugin.html" class="btn btn-neutral float-right" title="Create a ROS Node" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="parameters.html" class="btn btn-neutral" title="Plugin Parameters" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

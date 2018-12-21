@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SCRIMMAGE Logging &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Overview" href="overview.html"/>
+        <link rel="next" title="Mission XML Tag Definitions" href="xml-tags.html"/>
+        <link rel="prev" title="Core Plugins" href="core-plugins.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">SCRIMMAGE Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html">SCRIMMAGE Viewer Controls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">SCRIMMAGE Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment-vars.html">SCRIMMAGE Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SCRIMMAGE Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#protocol-buffer-logging-visualization">Protocol Buffer Logging / Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csv-file-logging">CSV File Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#csv-file-writing">CSV File Writing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv-file-reading">CSV File Reading</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#real-time-plotting-from-csv">Real-time Plotting from CSV</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tips-for-naming-csv-files">Tips for Naming CSV Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="xml-tags.html">Mission XML Tag Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variableio.html">Variable IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="overview.html">Overview</a> &raquo;</li>
+      
+    <li>SCRIMMAGE Logging</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/overview/logging.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scrimmage-logging">
+<h1>SCRIMMAGE Logging<a class="headerlink" href="#scrimmage-logging" title="Permalink to this headline">¶</a></h1>
+<p>SCRIMMAGE provides several tools for logging and playback of data from a
+simulation. A user can specify a SCRIMMAGE root logging directory in a
+SCRIMMAGE mission file with the <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> XML tag. By default, the root
+logging directory is set to ~/.scrimmage/logs. Every time a new simulation is
+run, a new directory is created under the root logging directory based on the
+current time stamp (e.g., YYYY-MM-DD_HH-MM-SS). A SCRIMMAGE plugin can gain
+access to the current simulation’s logging directory through the MissionParse
+class’ <code class="docutils literal notranslate"><span class="pre">log_dir()</span></code> method and access to the root log directory though the
+<code class="docutils literal notranslate"><span class="pre">root_log_dir()</span></code> method. For example, from within a plugin, the log
+directories are accessed through the following statements:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">//Need this include</span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/parse/MissionParse.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// Get the current simulation&#39;s log directory (time-stamped directory)</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">mission_log_dir</span> <span class="o">=</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">mp</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">log_dir</span><span class="p">();</span>
+
+<span class="c1">// Get the root log directory</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">root_log_dir</span> <span class="o">=</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">mp</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">root_log_dir</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p>The types of files written to the current simulation’s logging directory
+depends on the <code class="docutils literal notranslate"><span class="pre">output_type</span></code> XML tags defined in <a class="reference internal" href="xml-tags.html"><span class="doc">Mission XML Tag Definitions</span></a>. Generally,
+this consists of frames.bin (full state history of all entities in simulation),
+contact_visual.bin (entity visualization information: meshes, colors, etc.),
+utm_terrain.bin (which terrain was loaded), shapes.bin (which shapes were drawn
+during the simulation), summary.csv (output from metrics plugins), log.txt
+(contains mission pseudorandom seed value), mission.xml (the mission file that
+was executed), and runtime_seconds.txt (the runtime for the simulation).</p>
+<div class="section" id="protocol-buffer-logging-visualization">
+<h2>Protocol Buffer Logging / Visualization<a class="headerlink" href="#protocol-buffer-logging-visualization" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">plot_3d_fr.py</span></code> python script can be used to plot 2D and 3D trajectories
+on entities from simulations. Plot the 3D trajectories by pointing to a
+directory containing a frames.bin file.</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./plot_3d_fr.py ~/.scrimmage/logs/latest
+</pre></div>
+</td></tr></table></div>
+<p>The 2D trajectories can be plotted with the <code class="docutils literal notranslate"><span class="pre">--2d</span></code> flag.</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./plot_3d_fr.py ~/.scrimmage/logs/latest --2d
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="csv-file-logging">
+<span id="csv-logging"></span><h2>CSV File Logging<a class="headerlink" href="#csv-file-logging" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class can be used in any plugin to log custom data in a comma
+separated format. The <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class can also be used to read data from a comma
+separated file. For a full example of using the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class, see the
+<code class="docutils literal notranslate"><span class="pre">TrajectoryRecordPlayback</span></code> autonomy plugin. The following code examples
+briefly describe the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> classes API.</p>
+<div class="section" id="csv-file-writing">
+<h3>CSV File Writing<a class="headerlink" href="#csv-file-writing" title="Permalink to this headline">¶</a></h3>
+<p>Include the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;scrimmage/common/CSV.h&gt;</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+<p>Create a file to write comma separated data:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">scrimmage</span><span class="o">::</span><span class="n">CSV</span> <span class="n">csv</span><span class="p">;</span>
+
+<span class="c1">// Write the CSV file to the root log directory</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">mp</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">root_log_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/my.csv&quot;</span><span class="p">;</span>
+
+<span class="c1">// Create the file</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">csv</span><span class="p">.</span><span class="n">open_output</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="p">{</span>
+   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Couldn&#39;t create output file&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Specify the names for the column headers (t, x, y, z):</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">set_column_headers</span><span class="p">(</span><span class="s">&quot;t, x, y, z&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Write data to the csv file:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">sc</span><span class="o">::</span><span class="n">CSV</span><span class="o">::</span><span class="n">Pairs</span><span class="p">{</span>
+   <span class="p">{</span><span class="s">&quot;t&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">},</span>
+   <span class="p">{</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">0</span><span class="p">)}</span>
+   <span class="p">{</span><span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">1</span><span class="p">)}</span>
+   <span class="p">{</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">)}});</span>
+</pre></div>
+</td></tr></table></div>
+<p>Close the output file when you are done writing data:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">close_output</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="csv-file-reading">
+<h3>CSV File Reading<a class="headerlink" href="#csv-file-reading" title="Permalink to this headline">¶</a></h3>
+<p>When reading in a CSV file, the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class will use the header column names
+for indexing columns. If the CSV file doesn’t have header columns, the CSV file
+can be indexed with integers.</p>
+<p>First, read the CSV file:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">csv</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="p">{</span>
+   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Failed to read CSV file: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">filename</span>
+        <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Print out the data from the CSV file:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">csv</span><span class="p">.</span><span class="n">rows</span><span class="p">();</span> <span class="n">r</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;t: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">csv</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s">&quot;t&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;x: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">csv</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;y: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">csv</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;z: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">csv</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="real-time-plotting-from-csv">
+<h3>Real-time Plotting from CSV<a class="headerlink" href="#real-time-plotting-from-csv" title="Permalink to this headline">¶</a></h3>
+<p>You can plot data from CSV files with the <code class="docutils literal notranslate"><span class="pre">csv-plot</span></code> script in the
+<code class="docutils literal notranslate"><span class="pre">scrimmage/scripts</span></code> directory. <code class="docutils literal notranslate"><span class="pre">csv-plot</span></code> can plot previously created CSV
+files or it can create real-time plots while SCRIMMAGE is running. For example,
+to plot the pitch, pitch_rate, yaw, and yaw_rate columns from a CSV file called
+<code class="docutils literal notranslate"><span class="pre">my.csv</span></code>, run the following command:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./csv-plot.py -c my.csv -y pitch pitch_rate
+</pre></div>
+</td></tr></table></div>
+<p>To create a 3D plot, use the <code class="docutils literal notranslate"><span class="pre">-x</span></code>, <code class="docutils literal notranslate"><span class="pre">-y</span></code>, and <code class="docutils literal notranslate"><span class="pre">-z</span></code> flags:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./csv-plot.py -c my.csv -x x -y y -z z -e
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag tells the plotter to ensure that the x, y, and z axes have
+equal scales.</p>
+<p>By default, the script looks for the CSV file located in the
+~/.scrimmage/logs/latest directory, but the <code class="docutils literal notranslate"><span class="pre">-l</span></code> flag can be used to change
+the directory. The <code class="docutils literal notranslate"><span class="pre">csv-plot.py</span></code> script can also detect when SCRIMMAGE links
+the <code class="docutils literal notranslate"><span class="pre">latest</span></code> directory to the newest log directory and it will automatically
+start plotting data from the newest CSV file. Thus, during development, the
+plugin developer can leave the <code class="docutils literal notranslate"><span class="pre">csv-plot.py</span></code> script constantly running, while
+restarting SCRIMMAGE.</p>
+</div>
+</div>
+<div class="section" id="tips-for-naming-csv-files">
+<h2>Tips for Naming CSV Files<a class="headerlink" href="#tips-for-naming-csv-files" title="Permalink to this headline">¶</a></h2>
+<p>Since your simulation may consist of multiple entities running the same
+plugins, which in turn, could be writing CSV files, it’s important to ensure
+that each entity writes to a uniquely named CSV file. It is advised the plugin
+developer includes the entity’s ID in the filename. For example, to create a
+CSV file that contains the entity’s ID and is written to the current
+simulation’s log directory, use the following code:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">csv_filename</span> <span class="o">=</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">mp</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">log_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span>
+                           <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">parent_</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">().</span><span class="n">id</span><span class="p">())</span>
+                           <span class="o">+</span> <span class="s">&quot;-my.csv&quot;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="xml-tags.html" class="btn btn-neutral float-right" title="Mission XML Tag Definitions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="core-plugins.html" class="btn btn-neutral" title="Core Plugins" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

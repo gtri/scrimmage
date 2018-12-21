@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Core Plugins &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Overview" href="overview.html"/>
+        <link rel="next" title="SCRIMMAGE Logging" href="logging.html"/>
+        <link rel="prev" title="SCRIMMAGE Environment" href="environment-vars.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">SCRIMMAGE Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html">SCRIMMAGE Viewer Controls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">SCRIMMAGE Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment-vars.html">SCRIMMAGE Environment</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Core Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#autonomy-plugins">Autonomy Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-model-plugins">Motion Model Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controller-plugins">Controller Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sensor-plugins">Sensor Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entity-interaction-plugins">Entity Interaction Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metrics-plugins">Metrics Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">SCRIMMAGE Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xml-tags.html">Mission XML Tag Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variableio.html">Variable IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="overview.html">Overview</a> &raquo;</li>
+      
+    <li>Core Plugins</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/overview/core-plugins.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="core-plugins">
+<h1>Core Plugins<a class="headerlink" href="#core-plugins" title="Permalink to this headline">¶</a></h1>
+<p>The SCRIMMAGE core project provides several plugins that can be used for
+multi-agent simulation. The following is a brief description of the available
+plugins.</p>
+<div class="section" id="autonomy-plugins">
+<h2>Autonomy Plugins<a class="headerlink" href="#autonomy-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>AuctionAssign</strong> : An example of using Auction-based methods and SCRIMMAGE’s
+messaging system to generate auctions and bids between multiple entities.</li>
+<li><strong>Boids</strong> : An implementation of Boid’s swarm control
+model. (<a class="reference external" href="http://www.red3d.com/cwr/boids/">http://www.red3d.com/cwr/boids/</a>)</li>
+<li><strong>MOOSAutonomy</strong> : Allows an entity to be controlled by MOOS-IvP. See the
+<code class="docutils literal notranslate"><span class="pre">moos_scrimmage.py</span></code> script in the scripts directory for help on running
+MOOS with SCRIMMAGE.</li>
+<li><strong>MotorSchemas</strong> : An implementation of the Motor Schemas autonomous control
+framework. The entity can move towards a waypoint while avoiding other
+entities.</li>
+<li><strong>PyAutonomy</strong> : Allows an entity to be controlled by a Python script.</li>
+<li><strong>ROSAutonomy</strong> : Allows an entity to be controlled by a ROS
+node. (experimental).</li>
+<li><strong>Straight</strong> : Moves the entity in the forward direction from its initial
+heading.</li>
+</ul>
+</div>
+<div class="section" id="motion-model-plugins">
+<h2>Motion Model Plugins<a class="headerlink" href="#motion-model-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>DoubleIntegrator</strong> : Implements a 3D double integrator motion model.</li>
+<li><strong>FixedWing6DOF</strong> : A dynamics-based with quaternion integration fixed-wing
+model.</li>
+<li><strong>JSBSimControl</strong> : An example of controlling JSBSim’s actuators directly
+from an Autonomy plugin.</li>
+<li><strong>JSBSimModel</strong> : An example of controlling JSBSim’s autopilot / model from
+an Autonomy plugin.</li>
+<li><strong>RigidBody6DOF</strong> : A general purpose rigid body 6DOF model.</li>
+<li><strong>SimpleAircraft</strong> : Implements a simple 3D aircraft model.</li>
+<li><strong>SimpleCar</strong> : Implements a simple car
+model. (<a class="reference external" href="http://planning.cs.uiuc.edu/node658.html">http://planning.cs.uiuc.edu/node658.html</a>)</li>
+<li><strong>SimpleQuadrotor</strong> : Implements a simple 3D quadrotor model.</li>
+<li><strong>SingleIntegrator</strong> : Implements a 3D single integrator motion model. The
+entity can instantaneously change velocity and heading.</li>
+<li><strong>Unicycle</strong> : Implements a simple unicycle
+model. (<a class="reference external" href="http://planning.cs.uiuc.edu/node660.html">http://planning.cs.uiuc.edu/node660.html</a>)</li>
+</ul>
+</div>
+<div class="section" id="controller-plugins">
+<h2>Controller Plugins<a class="headerlink" href="#controller-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>DoubleIntegratorControllerWaypoint</strong> : A waypoint controller for the
+DoubleIntegrator.</li>
+<li><strong>FixedWing6DOFControllerPID</strong> : Controls speed, altitude, and heading.</li>
+<li><strong>FixedWing6DOFControllerROS</strong> : Controls speed, altitude, and heading from
+ROS node (experimental).</li>
+<li><strong>JSBSimControlControllerHeadingPID</strong> : Directly controls actuators of JSBSim
+model from SCRIMMAGE.</li>
+<li><strong>JSBSimModelControllerHeadingPID</strong> : Controls speed, altitude, and
+heading. Uses an autopilot defined in JSBSim’s XML syntax.</li>
+<li><strong>RigidBody6DOFControllerPID</strong> : Controls speed, altitude, and heading.</li>
+<li><strong>RigidBody6DOFControllerROS</strong>: Controls speed, altitude, and heading from
+ROS node (experimental).</li>
+<li><strong>SimpleAircraftControllerPID</strong> : Controls speed, altitude, and heading.</li>
+<li><strong>SimpleCarControllerHeading</strong>: Controls speed and heading.</li>
+<li><strong>SimpleQuadrotorControllerLQR</strong> : Implements linear-quadratic regulator
+(LQR) controller for quadrotor model. Controls heading, speed, and altitude.</li>
+<li><strong>SingleIntegratorControllerSimple</strong> : Directly controls 3D velocity
+components of single integrator.</li>
+<li><strong>SingleIntegratorControllerWaypoint</strong> : Implements waypoint control of
+single integrator model.</li>
+<li><strong>UnicycleControllerDirect</strong> : Directly controls the speed and angular
+velocity.</li>
+<li><strong>UnicycleControllerPoint</strong> : Drives the unicycle to a desired X/Y position.</li>
+</ul>
+</div>
+<div class="section" id="sensor-plugins">
+<h2>Sensor Plugins<a class="headerlink" href="#sensor-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>ContactBlobCamera</strong> : Converts contacts within a field-of-view and range
+into a circle projected onto a 2D camera image. A bounding box is generated
+around each contact. See the ContactBlobCamera.xml file for complete sensor
+configuration.</li>
+<li><strong>NoisyContacts</strong> : Converts the states of contacts within a field-of-view
+and range into noisy states. Simulates noisy range-based sensors.</li>
+<li><strong>NoisyState</strong> : Converts the entity’s own state into a noisy
+version. Simulates noisy localization.</li>
+</ul>
+</div>
+<div class="section" id="entity-interaction-plugins">
+<h2>Entity Interaction Plugins<a class="headerlink" href="#entity-interaction-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>BulletCollision</strong> : Perform collision detection between entities
+with the open source Bullet physics engine.</li>
+<li><strong>GroundCollision</strong> : Determine if an entity falls below a z-position
+threshold. If so, remove the entity from the simulation.</li>
+<li><strong>SimpleCollision</strong> : Determine if the distance between two entities is below
+a given threshold. If so, remove the two entities from the simulation.</li>
+</ul>
+</div>
+<div class="section" id="metrics-plugins">
+<h2>Metrics Plugins<a class="headerlink" href="#metrics-plugins" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>SimpleCollisionMetrics</strong> : Keeps track of each entity’s total simulation
+time, collisions with teammates, collisions with non teammates, and
+collisions with the ground. This metric computes a score for each team based
+on the counts and the weights, which are defined in
+SimpleCollisionMetrics.xml</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="logging.html" class="btn btn-neutral float-right" title="SCRIMMAGE Logging" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="environment-vars.html" class="btn btn-neutral" title="SCRIMMAGE Environment" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

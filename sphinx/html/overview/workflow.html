@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SCRIMMAGE Workflow &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Overview" href="overview.html"/>
+        <link rel="next" title="SCRIMMAGE Environment" href="environment-vars.html"/>
+        <link rel="prev" title="SCRIMMAGE Viewer Controls" href="viewer.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">SCRIMMAGE Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Install SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html">SCRIMMAGE Viewer Controls</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SCRIMMAGE Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment-vars.html">SCRIMMAGE Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">SCRIMMAGE Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xml-tags.html">Mission XML Tag Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variableio.html">Variable IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="overview.html">Overview</a> &raquo;</li>
+      
+    <li>SCRIMMAGE Workflow</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/overview/workflow.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scrimmage-workflow">
+<span id="id1"></span><h1>SCRIMMAGE Workflow<a class="headerlink" href="#scrimmage-workflow" title="Permalink to this headline">¶</a></h1>
+<p>SCRIMMAGE ships with a number of tools to help you simulate, playback, and
+analyze simulation results. The following is a description of SCRIMMAGE’s
+tools and how they may be used in a typical workflow:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If scrimmage is not installed on your system, please navigate to
+<a class="reference internal" href="install.html#install-scrimmage"><span class="std std-ref">Install SCRIMMAGE</span></a>. If you don’t know if scrimmage is installed, enter
+the following command into a terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage
+</pre></div>
+</div>
+<p class="last">If you receive the message, <code class="docutils literal notranslate"><span class="pre">scrimmage:</span> <span class="pre">command</span> <span class="pre">not</span> <span class="pre">found</span></code>, you will have
+to install scrimmage.</p>
+</div>
+<ul>
+<li><p class="first"><strong>scrimmage</strong> : The main work horse of scrimmage. Simulates scrimmage
+missions.  Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage ~/scrimmage/scrimmage/missions/straight.xml
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>scrimmage-playback</strong> : Used to replay scrimmage simulations from saved
+Protocol Buffer binary files. Every time a simulation is executed, a
+time-stamped directory is created in the <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> location (defined in the
+mission file. This is <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/logs</span></code> by default). The time-stamped
+directory contains a .bin file, which contains the trajectories of all
+entities, a log.txt file, which contains the number that was used to seed
+scrimmage’s random number generator, and a mission.xml file, which contains
+an exact copy of the mission used to run the simulation. Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage-playback ~/.scrimmage/logs/2016-11-01_14-53-27
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>./scripts/plot_3d_fr.py</strong> : Used to plot the recorded trajectories of the
+entities. The resulting plot can be difficult to visualize if the simulation
+contained a large number of aircraft. This plot is typically used for reports
+and testing low-level controllers. Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+$ ./plot_3d_fr.py ~/swarm-log/2017-07-20_15-37-25/frames.bin
+$ ./plot_3d_fr.py ~/swarm-log/2017-07-20_15-37-25/frames.bin --2d  # 2D mode
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>aggregate-runs</strong> : The <code class="docutils literal notranslate"><span class="pre">aggregate-runs</span></code> tool can be executed on a
+directory containing many runs in order to calculate the number of wins for
+each team. The <code class="docutils literal notranslate"><span class="pre">aggregate-runs</span></code> program creates text
+files at <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/logs/aggregate/wins</span></code> that specify the scenarios in
+which each team won. Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ aggregate-runs -d ~/.scrimmage/logs
+</pre></div>
+</div>
+</li>
+<li><dl class="first docutils">
+<dt><strong>filter-runs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Reads the generated text files and allows for easy playback</span></dt>
+<dd><p class="first">of each type of scenario:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ filter-runs ~/.scrimmage/logs
+</pre></div>
+</div>
+<p>Running <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> will print output similar to the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">====================================================</span>
+<span class="n">Choose</span> <span class="n">an</span> <span class="n">outcome</span> <span class="n">number</span><span class="p">:</span>
+<span class="o">----------------------------------------------------</span>
+<span class="n">Number</span>             <span class="n">Name</span>            <span class="n">Win</span> <span class="n">Count</span>
+<span class="o">----------------------------------------------------</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>                <span class="n">draw</span>            <span class="mi">1</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                <span class="n">team_1</span>          <span class="mi">7</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                <span class="n">team_2</span>          <span class="mi">3</span>
+<span class="o">&gt;&gt;</span>
+</pre></div>
+</div>
+<p class="last">To view the simulation runs where <code class="docutils literal notranslate"><span class="pre">team_1</span></code> was the winner, type the number
+<code class="docutils literal notranslate"><span class="pre">1</span></code>, hit enter, and follow the remaing prompts to step through the
+playback of each simulation.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>scrimmage-plugin</strong> : Display information about a plugin. This program can
+help you debug the location of SCRIMMAGE plugins. Provide this program with a
+plugin name. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage-plugin Straight
+</pre></div>
+</div>
+<p>will produce something like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">==========================================</span>
+<span class="n">Plugin</span> <span class="n">found</span><span class="o">.</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">Straight</span>
+<span class="n">File</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">myuser</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">Straight</span><span class="o">/</span><span class="n">Straight</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">Library</span><span class="p">:</span> <span class="n">Straight_plugin</span>
+<span class="o">-------------------------</span>
+<span class="n">Params</span><span class="p">:</span> <span class="n">XML_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">myuser</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">Straight</span><span class="o">/</span>
+<span class="n">library</span><span class="o">=</span><span class="n">Straight_plugin</span>
+<span class="n">save_camera_images</span><span class="o">=</span><span class="n">false</span>
+<span class="n">show_camera_images</span><span class="o">=</span><span class="n">true</span>
+<span class="n">speed</span><span class="o">=</span><span class="mi">21</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="environment-vars.html" class="btn btn-neutral float-right" title="SCRIMMAGE Environment" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="viewer.html" class="btn btn-neutral" title="SCRIMMAGE Viewer Controls" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

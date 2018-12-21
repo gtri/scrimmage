@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AirSimSensor Plugin Setup &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Create an OpenAI Plugin" href="openai-plugin.html"/>
+        <link rel="prev" title="Create a ROS Node" href="ros-plugin.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AirSimSensor Plugin Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux-system-setup">Linux System Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-linux-setup">Windows / Linux Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>AirSimSensor Plugin Setup</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/airsim-plugin.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="airsimsensor-plugin-setup">
+<span id="airsim-plugin"></span><h1>AirSimSensor Plugin Setup<a class="headerlink" href="#airsimsensor-plugin-setup" title="Permalink to this headline">¶</a></h1>
+<p>SCRIMMAGE provides a sensor plugin that communicates over AirSim’s RPC protocol
+to set the position and orientation of an entity in AirSim and retrieve the
+camera images generated by AirSim. The <code class="docutils literal notranslate"><span class="pre">quad-airsim-ex1.xml</span></code> mission file
+provides an example for configuring SCRIMMAGE to use the AirSimSensor plugin
+with a SCRIMMAGE entity. An example of extracting the image data from the
+Sensor is provided in the Straight Autonomy plugin in the Straight.cpp file.</p>
+<div class="section" id="linux-system-setup">
+<h2>Linux System Setup<a class="headerlink" href="#linux-system-setup" title="Permalink to this headline">¶</a></h2>
+<p>In order to run SCRIMMAGE and AirSim / Unreal on Linux, we will have to build
+Unreal and AirSim from source. Some of the following directions were taken from
+AirSim’s build_linux.md documentation, but they are placed here for posterity.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Unreal Engine uses libc++ while SCRIMMAGE uses libstdc++. You
+cannot easily link binaries that are built from one library with
+binaries that were built with the other library. The simplest way of
+dealing with this issue is to build the AirSim libraries/plugins in
+two different directories.</p>
+</div>
+<ol class="arabic">
+<li><p class="first"><strong>Make sure you are registered with</strong> <a class="reference external" href="https://docs.unrealengine.com/latest/INT/Platforms/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/1/index.html">Epic Games</a>. <strong>This is required to get
+source code access for Unreal engine.</strong></p>
+</li>
+<li><p class="first"><strong>Clone Unreal in your favorite folder and build it (this may take a
+while!). Note: We only support Unreal 4.16 and newer.</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="c1"># go to folder where you clone GitHub projects</span>
+git clone -b 4.17 https://github.com/EpicGames/UnrealEngine.git
+<span class="nb">cd</span> UnrealEngine
+<span class="c1"># few times Epic folks broke the build so we will get commit that works</span>
+git checkout af96417313a908b20621a443175ba91683c238c8
+./Setup.sh
+./GenerateProjectFiles.sh
+make
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Build the libstdc++ version of AirSim (which will be loaded into SCRIMMAGE)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="c1"># go to folder where you clone GitHub projects</span>
+git clone https://github.com/Microsoft/AirSim.git
+<span class="nb">cd</span> AirSim
+git checkout v1.1.8
+git apply /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch
+./setup.sh
+<span class="nb">cd</span> cmake
+chmod +x gcc_build.sh
+./gcc_build.sh
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Build the libc++ version of AirSim (which will be loaded into Unreal)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="c1"># go to folder where you clone GitHub projects</span>
+git clone https://github.com/Microsoft/AirSim.git AirSim-plugin
+<span class="nb">cd</span> AirSim-plugin
+git checkout v1.1.8
+./setup.sh
+./build.sh
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Build SCRIMMAGE’s AirSimSensor Plugin</strong></p>
+<p>Make sure you have OpenCV installed on your system and that you have
+successfully built the AirSim libraries (using libstdc++) in step 3. Go to
+your scrimmage build directory and provide the location of the AirSim
+libraries (libstdc++ version) to cmake.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="nb">cd</span> /path/to/scrimmage/build
+cmake .. -DAIRSIM_ROOT_SEARCH<span class="o">=</span>/path/to/AirSim
+make
+</pre></div>
+</div>
+<p>Ensure that the <code class="docutils literal notranslate"><span class="pre">AirSimSensor_plugin</span></code> target built successfully.</p>
+</li>
+<li><p class="first"><strong>Open the Blocks Environment in Unreal</strong></p>
+<p>Go to the UnrealEngine repository that you cloned and run the UE4Editor
+binary that was built.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="nb">cd</span> /path/to/UnrealEngine
+./Engine/Binaries/Linux/UE4Editor
+</pre></div>
+</div>
+<p>Use the UE4Editor to open the Blocks project (Blocks.uproject) in the
+/path/to/AirSim-plugin/Unreal/Environments/Blocks directory. You will
+probably be prompted about updating the project version, say “Yes” to
+update. Now we have to sync the AirSim plugin with this updated project
+version. Close the project and UE4Editor and open a terminal.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="nb">cd</span> /path/to/AirSim-plugin
+rsync -t -r Unreal/Plugins ./Unreal/Environments/Blocks<span class="se">\ </span>Blocks 4.17
+</pre></div>
+</div>
+<p>Run the UE4Editor binary again and open the new Blocks 4.17 project. When
+you hit the “Play” button in the project, you should see a quadrotor appear
+on the screen and it may start flying around.</p>
+</li>
+<li><p class="first"><strong>Configure Settings</strong></p>
+<p>AirSim reads a json file located at ~/Documents/AirSim/settings.json to
+configure itself. SCRIMMAGE provides an example json file. After running
+AirSim one time, it will create the json file. Let’s remove it and link to
+the one provided by SCRIMMAGE.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre>rm ~/Documents/AirSim/settings.json
+<span class="nb">cd</span> ~/Documents/AirSim
+ln -s /path/to/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/settings.json .
+</pre></div>
+</div>
+<p>Open the configuration file for the AirSimSensor SCRIMMAGE plugin, which is
+located at:
+/path/to/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml. Note
+that the <code class="docutils literal notranslate"><span class="pre">airsim_ip</span></code> and <code class="docutils literal notranslate"><span class="pre">airsim_port</span></code> XML tags can be used to connect
+to an AirSim instance on either the local computer or a remote networked
+computer. <code class="docutils literal notranslate"><span class="pre">airsim_port</span></code> (from AirSimSensor.xml) and <code class="docutils literal notranslate"><span class="pre">ApiServerPort</span></code>
+(from settings.json) should match. Multiple simulated cameras can be
+configured through the <code class="docutils literal notranslate"><span class="pre">camera_config</span></code> example tag. This tag takes a list
+of camera configurations, where each camera configuration is of the form:
+<code class="docutils literal notranslate"><span class="pre">[CameraName</span> <span class="pre">ImageType</span> <span class="pre">CameraNumber</span> <span class="pre">Width</span> <span class="pre">Height]</span></code>. The following example
+configures multiple simulated camera sensors:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;camera_config&gt;</span>
+  [SceneForward Scene 0 256 144]
+  [SceneDownward Scene 3 256 144]
+  [DepthPlanner DepthPlanner 0 256 144]
+  [DepthPerspective DepthPerspective 0 256 144]
+  [DepthViz DepthVis 0 256 144]
+  [DisparityNormalized DisparityNormalized 0 256 144]
+  [Segmentation Segmentation 0 256 144]
+  [SurfaceNormals SurfaceNormals 0 256 144]
+<span class="nt">&lt;/camera_config&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">CameraName</span></code> is an arbitrary string that can be used by SCRIMMAGE
+plugins to identify camera images. The ImageType is a type defined by AirSim
+that specifies the type of camera (optical, depth, segmentation, etc.). The
+camera number refers to different camera translations and orientations on
+the Unreal actor instance. 0 looks forward, 3 looks down, etc.</p>
+</li>
+<li><p class="first"><strong>Run a simulation with AirSim Camera Images</strong></p>
+<p>After configuring settings.json and AirSimSensor.xml, you can run a
+simulation. Use the UE4Editor to open the updated Blocks environment and
+press “Play” to start the AirSim instance. Now, you can start the SCRIMMAGE
+instance, which will move the AirSim actor, request images, and display the
+images.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre>scrimmage /path/to/scrimmage/missions/quad-airsim-ex1.xml
+</pre></div>
+</div>
+<p>You should see camera images open in OpenCV windows when the SCRIMMAGE
+simulation begins (hit ‘b’ to unpause, if necessary).</p>
+</li>
+</ol>
+</div>
+<div class="section" id="windows-linux-setup">
+<h2>Windows / Linux Setup<a class="headerlink" href="#windows-linux-setup" title="Permalink to this headline">¶</a></h2>
+<p>You can run the Unreal Engine on a Windows computer and SCRIMMAGE on a Linux
+computer. You will need to build the libstdc++ version of AirSim on your Linux
+computer (see above: “Build the libstdc++ version of AirSim”) and build the
+AirSim SCRIMMAGE plugin (see above “Build SCRIMMAGE’s AirSimSensor Plugin”) on
+your Linux computer.</p>
+<p>See AirSim’s documentation for either downloading the binaries for Windows or
+building it on Windows. Make sure you that you use the same version of AirSim
+across your systems. For example, at the time that this tutorial was written,
+we used AirSim version v1.1.8.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="openai-plugin.html" class="btn btn-neutral float-right" title="Create an OpenAI Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ros-plugin.html" class="btn btn-neutral" title="Create a ROS Node" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

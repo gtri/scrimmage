@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Draw Shapes in the Viewer &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Create a Sensor Plugin" href="sensor-plugin.html"/>
+        <link rel="prev" title="Create an Autonomy Plugin" href="autonomy-plugin.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Draw Shapes in the Viewer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#removing-a-shape">Removing a Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shape-persistence-and-ttl">Shape Persistence and TTL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-examples">Additional Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#draw-a-sphere">Draw a Sphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#draw-a-line">Draw a Line</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>Draw Shapes in the Viewer</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/draw-shapes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="draw-shapes-in-the-viewer">
+<span id="draw-shapes"></span><h1>Draw Shapes in the Viewer<a class="headerlink" href="#draw-shapes-in-the-viewer" title="Permalink to this headline">¶</a></h1>
+<p>You can draw shapes in the SCRIMMAGE Viewer from any plugin. For example, you
+could draw the text, “Hello, SCRIMMAGE!”, with the following code in a plugin:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Include the Shape header and some protobuf helper functions</span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/proto/Shape.pb.h&gt;         // scrimmage_proto::Shape</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/proto/ProtoConversions.h&gt; // scrimmage::set()</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+<p>Later in the init() or step() functions you can create a shape:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Create a shared pointer to a scrimmage protobuf Shape instance</span>
+<span class="k">auto</span> <span class="n">text_shape</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">scrimmage_proto</span><span class="o">::</span><span class="n">Shape</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="c1">// Set generic shape properties (opacity and color)</span>
+<span class="n">text_shape</span><span class="o">-&gt;</span><span class="n">set_opacity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="n">scrimmage</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">text_shape</span><span class="o">-&gt;</span><span class="n">mutable_color</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">);</span> <span class="c1">// r, g, b</span>
+
+<span class="c1">// Set the shape&#39;s persistence to &quot;true&quot;. This means the shape will not be</span>
+<span class="c1">// removed from the Viewer unless the plugin specifically removes it.</span>
+<span class="n">text_shape</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="c1">// Set the text&#39;s position</span>
+<span class="n">scrimmage</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">text_shape</span><span class="o">-&gt;</span><span class="n">mutable_text</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mutable_center</span><span class="p">(),</span> <span class="n">in_front</span><span class="p">);</span>
+
+<span class="c1">// Set the string text</span>
+<span class="n">text_shape</span><span class="o">-&gt;</span><span class="n">mutable_text</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_text</span><span class="p">(</span><span class="s">&quot;Hello, SCRIMMAGE!&quot;</span><span class="p">);</span>
+
+<span class="c1">// Draw the shape in the 3D viewer. The draw_shape function sets the Shape&#39;s</span>
+<span class="c1">// ID with a hash and appends it to the Plugin&#39;s private shapes_ member</span>
+<span class="c1">// variable. The simulation controller queries the Plugin for new shapes to</span>
+<span class="c1">// draw and then sends them to the Viewer.</span>
+<span class="n">draw_shape</span><span class="p">(</span><span class="n">text_shape</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The scrimmage_proto::Shape protocol buffer class makes use of protobuf’s
+<a class="reference external" href="https://developers.google.com/protocol-buffers/docs/proto#oneof">oneof</a> feature. See the <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/proto/scrimmage/proto/Shape.proto">Shape.proto</a> file for the types of shapes that can
+be drawn. Note, you can only set the parameters for a single shape within the
+oneof_type block in Shape.proto, otherwise, previous parameters will be
+cleared.</p>
+<div class="section" id="removing-a-shape">
+<h2>Removing a Shape<a class="headerlink" href="#removing-a-shape" title="Permalink to this headline">¶</a></h2>
+<p>To remove a shape after drawing it with the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function, just set
+the shape’s persistence to false and call the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function again:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">text_shape_</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="n">draw_shape</span><span class="p">(</span><span class="n">text_shape</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can also change the shape’s color, opacity, and ttl after it has been
+drawn by changing the value and calling <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> again.</p>
+</div>
+<div class="section" id="shape-persistence-and-ttl">
+<h2>Shape Persistence and TTL<a class="headerlink" href="#shape-persistence-and-ttl" title="Permalink to this headline">¶</a></h2>
+<p>If you know that you want a shape to be visible for a specific number of frames
+and then have it removed automatically, you can use the shape’s peristence and
+ttl (time-to-live, measured in simulation steps) parameters. Let’s create a
+cuboid that will only exist for five frames before it is removed from the
+viewer.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Create a shape instance</span>
+<span class="k">auto</span> <span class="n">wall</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">scrimmage_proto</span><span class="o">::</span><span class="n">Shape</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="c1">// Set the color and opacity</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">wall</span><span class="o">-&gt;</span><span class="n">mutable_color</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// r, g, b</span>
+<span class="n">wall</span><span class="o">-&gt;</span><span class="n">set_opacity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+
+<span class="c1">// The shape will be removed after five simulation steps</span>
+<span class="n">wall</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="n">wall</span><span class="o">-&gt;</span><span class="n">set_ttl</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">// Set the cube&#39;s center position to (10, 10, 10)</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">wall</span><span class="o">-&gt;</span><span class="n">mutable_cube</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mutable_center</span><span class="p">(),</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
+
+<span class="c1">// Set the x, y, and z lengths of the cuboid (3x3x3) (meters)</span>
+<span class="n">wall</span><span class="o">-&gt;</span><span class="n">mutable_cube</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_x_length</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">wall</span><span class="o">-&gt;</span><span class="n">mutable_cube</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_y_length</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">wall</span><span class="o">-&gt;</span><span class="n">mutable_cube</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_z_length</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">// Set the cube&#39;s rotation to zero:</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">Quaternion</span> <span class="n">quat</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// roll, pitch, yaw (radians)</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">wall</span><span class="o">-&gt;</span><span class="n">mutable_cube</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mutable_quat</span><span class="p">(),</span> <span class="n">quat</span><span class="p">);</span>
+
+<span class="c1">// Draw the shape in the viewer</span>
+<span class="n">draw_shape</span><span class="p">(</span><span class="n">wall</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>We know which parameters to specify for the cube because they are explicitly
+listed in <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/proto/scrimmage/proto/Shape.proto">Shape.proto</a> in the <code class="docutils literal notranslate"><span class="pre">Cube</span></code> protobuf message:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">message</span> <span class="n">Cube</span> <span class="p">{</span>
+   <span class="kt">double</span> <span class="n">x_length</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="kt">double</span> <span class="n">y_length</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="kt">double</span> <span class="n">z_length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+   <span class="n">Vector3d</span> <span class="n">center</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+   <span class="n">Quaternion</span> <span class="n">quat</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="additional-examples">
+<h2>Additional Examples<a class="headerlink" href="#additional-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="draw-a-sphere">
+<h3>Draw a Sphere<a class="headerlink" href="#draw-a-sphere" title="Permalink to this headline">¶</a></h3>
+<p>The following will draw a persistent blue sphere with an opacity of 0.25, a
+radius of 5 meters, at the position (1, 2, 3):</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">auto</span> <span class="n">sphere</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">scrimmage_proto</span><span class="o">::</span><span class="n">Shape</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">sphere</span><span class="o">-&gt;</span><span class="n">set_opacity</span><span class="p">(</span><span class="mf">0.25</span><span class="p">);</span>
+<span class="n">sphere</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">sphere</span><span class="o">-&gt;</span><span class="n">mutable_color</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">);</span> <span class="c1">// r, g, b</span>
+
+<span class="n">sphere</span><span class="o">-&gt;</span><span class="n">mutable_sphere</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_radius</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">sphere</span><span class="o">-&gt;</span><span class="n">mutable_sphere</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mutable_center</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="n">draw_shape</span><span class="p">(</span><span class="n">sphere</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="draw-a-line">
+<h3>Draw a Line<a class="headerlink" href="#draw-a-line" title="Permalink to this headline">¶</a></h3>
+<p>The following will draw a red line from (0, 0, 0) to (10, 10, 10).</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">auto</span> <span class="n">line</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">scrimmage_proto</span><span class="o">::</span><span class="n">Shape</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">line</span><span class="o">-&gt;</span><span class="n">mutable_color</span><span class="p">(),</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">line</span><span class="o">-&gt;</span><span class="n">set_opacity</span><span class="p">(</span><span class="mf">0.75</span><span class="p">);</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">line</span><span class="o">-&gt;</span><span class="n">mutable_line</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mutable_start</span><span class="p">(),</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">line</span><span class="o">-&gt;</span><span class="n">mutable_line</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mutable_end</span><span class="p">(),</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
+<span class="n">draw_shape</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sensor-plugin.html" class="btn btn-neutral float-right" title="Create a Sensor Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="autonomy-plugin.html" class="btn btn-neutral" title="Create an Autonomy Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

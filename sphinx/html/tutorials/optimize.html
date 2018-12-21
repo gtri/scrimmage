@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Optimizing Parameters in SCRIMMAGE &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Multiple Runs with Open Grid Engine" href="open-grid.html"/>
+        <link rel="prev" title="Create an OpenAI Plugin" href="openai-plugin.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Optimizing Parameters in SCRIMMAGE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mission-setup">Mission Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>Optimizing Parameters in SCRIMMAGE</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/optimize.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="optimizing-parameters-in-scrimmage">
+<span id="optimize"></span><h1>Optimizing Parameters in SCRIMMAGE<a class="headerlink" href="#optimizing-parameters-in-scrimmage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mission-setup">
+<h2>Mission Setup<a class="headerlink" href="#mission-setup" title="Permalink to this headline">¶</a></h2>
+<p>Here we investigate a predator-prey scenario and discuss how to use SCRIMMAGE
+to optimize model parameters. There are many ways to do this but here
+we focus on optimization using Gaussian Processes.
+For background on Gaussian Processes see <a class="reference internal" href="#rasmussen" id="id1">[Rasmussen]</a>. For a similar
+discussion on surrogate modeling with an additional discussion of sampling plans
+see <a class="reference internal" href="#forrester" id="id2">[Forrester]</a>. When the parameter space is larger than the
+current application it is recommended to start
+with a latin hypercube sampling technique. We do not discuss this here
+but note that it is available elsewhere in SCRIMMAGE (see <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span class="std std-ref">Multiple Runs on a Local Computer</span></a>
+for details).</p>
+<p>First let’s run the scenario:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">scrimmage</span> <span class="n">missions</span><span class="o">/</span><span class="n">predator_prey_boids</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>The code for the optimization can be found in <code class="docutils literal notranslate"><span class="pre">scripts/optimization_tutorial.py</span></code>.
+To run it you will need to install the python dependences:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">sklearn</span> <span class="n">python3</span><span class="o">-</span><span class="n">pandas</span> <span class="n">python</span><span class="o">-</span><span class="n">numpy</span>
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">bayesian</span><span class="o">-</span><span class="n">optimization</span>
+</pre></div>
+</div>
+<p>You should see about 50 blue vehicles (the prey) and 1 red vehicle (the
+predator). The blue vehicles are running a version of the Reynolds-Boids model
+<a class="reference internal" href="#boids" id="id3">[Boids]</a>. The predators attempt to get close enough to the prey to capture
+them and in the process get points. There are a couple of parameters
+that affect the efficacy of a predator, namely speed and capture radius.
+Both factors generally yield better performance when they are larger.
+To create a more interesting scenario we assume that the two factors are
+coupled. In particular, we assume that as the speed is increased
+there is a proportionate decrease in capture radius. We want to know
+what the optimal speed and capture radius are under this constraint.</p>
+<p>To do this note that the <code class="docutils literal notranslate"><span class="pre">predator_prey_boids.xml</span></code> file uses metrics plugin
+called <code class="docutils literal notranslate"><span class="pre">SimpleCaptureMetrics</span></code> that is responsible for writing to
+a <code class="docutils literal notranslate"><span class="pre">summary.csv</span></code> file in the log directory. See <a class="reference internal" href="metrics-plugin.html#metrics-plugin"><span class="std std-ref">Create a Metrics Plugin</span></a>
+for details of how metrics work. We will be changing the <code class="docutils literal notranslate"><span class="pre">max_speed</span></code>
+of the predator autonomy model in order to maximize this output.</p>
+<p>To make the problem somewhat more interesting we will introduce noise into the
+simulation by randomizing the starting locations (see the <code class="docutils literal notranslate"><span class="pre">variance_x</span></code>,
+<code class="docutils literal notranslate"><span class="pre">variance_y</span></code>, and <code class="docutils literal notranslate"><span class="pre">variance_z</span></code> tags). This means that we need
+to repeat simulations to get an estimate of the expected value
+of the output. Gaussian Processes can interpolate with noise
+by adding a constant to the correlation matrix. We could go with
+this approach since we can estimate the variance of an output
+given the repeated runs. However, it is simpler to just let
+the library handle this for us. This is the purpose of the WhiteKernel below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">repeats</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">cores</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">mission</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">.</span><span class="n">find_mission</span><span class="p">(</span><span class="s1">&#39;predator_prey_boids.xml&#39;</span><span class="p">)</span>
+    <span class="n">nominal_capture_range</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">nominal_speed</span> <span class="o">=</span> <span class="mi">35</span>
+    <span class="n">kappa</span> <span class="o">=</span> <span class="mi">5</span>       <span class="c1"># higher is more exploration, less exploitation</span>
+
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">low_speed</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">high_speed</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">num_explore_points</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="n">max_speed</span><span class="p">):</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;.optimize*&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span>
+                   <span class="n">nominal_capture_range</span><span class="p">,</span> <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">)</span>
+
+    <span class="n">pbounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_speed&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">)}</span>
+    <span class="n">bo</span> <span class="o">=</span> <span class="n">bayes_opt</span><span class="o">.</span><span class="n">BayesianOptimization</span><span class="p">(</span><span class="n">_run</span><span class="p">,</span> <span class="n">pbounds</span><span class="p">)</span>
+
+    <span class="n">init_explore_points</span> <span class="o">=</span> \
+        <span class="p">{</span><span class="s1">&#39;max_speed&#39;</span><span class="p">:</span>  <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">low_speed</span><span class="p">,</span> <span class="n">high_speed</span><span class="p">,</span> <span class="n">num_explore_points</span><span class="p">)}</span>
+    <span class="n">bo</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">init_explore_points</span><span class="p">)</span>
+
+    <span class="n">gp_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kernel&#39;</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">()</span> <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">()}</span>
+    <span class="n">bo</span><span class="o">.</span><span class="n">maximize</span><span class="p">(</span><span class="n">init_points</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="n">num_samples</span> <span class="o">-</span> <span class="n">num_explore_points</span><span class="p">,</span>
+                <span class="n">kappa</span><span class="o">=</span><span class="n">kappa</span><span class="p">,</span> <span class="o">**</span><span class="n">gp_params</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This code essentially provides the function to optimize <code class="docutils literal notranslate"><span class="pre">_run</span></code> to
+the Gaussian Process. <code class="docutils literal notranslate"><span class="pre">_run</span></code> captures some variables so that it is
+only a function of the optimization variable and calls <code class="docutils literal notranslate"><span class="pre">run</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span>
+        <span class="n">nominal_capture_range</span><span class="p">,</span> <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">):</span>
+
+    <span class="n">out_dir</span><span class="p">,</span> <span class="n">out_mission</span> <span class="o">=</span> \
+        <span class="n">create_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">nominal_capture_range</span><span class="p">,</span>
+                       <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">)</span>
+
+    <span class="n">scrimmage</span><span class="o">.</span><span class="n">parallel</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">out_mission</span><span class="p">,</span> <span class="n">cores</span><span class="p">)</span>
+
+    <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;summary.csv&#39;</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">out_dir</span><span class="p">))]</span>
+
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">score</span>
+</pre></div>
+</div>
+<p>This function adjusts the <code class="docutils literal notranslate"><span class="pre">predator_prey_boids.xml</span></code> file so that
+the constraint is satisfied. In particular, it sets the <code class="docutils literal notranslate"><span class="pre">max_speed</span></code>
+for the predator and makes the corresponding adjustment to <code class="docutils literal notranslate"><span class="pre">capture_radius</span></code>.
+It then calls a helper function <code class="docutils literal notranslate"><span class="pre">parallel</span></code> that runs
+SCRIMMAGE instances locally (see <a class="reference internal" href="#parallel" id="id4">[Parallel]</a> and <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span class="std std-ref">Multiple Runs on a Local Computer</span></a> for
+more details). For larger problems where grid engine is available for a cluster,
+batch jobs can instead call the <code class="docutils literal notranslate"><span class="pre">scrimmage.qsub</span></code> and <code class="docutils literal notranslate"><span class="pre">scrimmage.wait_for_job</span></code>
+functions. Here is the <code class="docutils literal notranslate"><span class="pre">create_mission</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an xml node.&quot;&quot;&quot;</span>
+    <span class="n">el</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="n">el</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{:.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">el</span>
+
+
+<span class="k">def</span> <span class="nf">create_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">nominal_capture_range</span><span class="p">,</span> <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">):</span>
+
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">mission</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="n">seed_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">seed_node</span><span class="p">:</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">seed_node</span><span class="p">)</span>
+
+    <span class="n">run_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)</span>
+    <span class="n">run_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;enable_gui&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;false&quot;</span>
+    <span class="n">run_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;time_warp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+
+    <span class="n">log_dir_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;log_dir&#39;</span><span class="p">)</span>
+    <span class="n">out_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir_node</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;optimize&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+    <span class="n">log_dir_node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">out_dir</span>
+
+    <span class="k">for</span> <span class="n">entity_node</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">):</span>
+        <span class="n">autonomy_node</span> <span class="o">=</span> <span class="n">entity_node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;autonomy&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">autonomy_node</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;Predator&#39;</span><span class="p">:</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="n">nominal_speed</span> <span class="o">/</span> <span class="n">max_speed</span>
+
+            <span class="n">autonomy_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;max_speed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_speed</span><span class="p">)</span>
+            <span class="n">autonomy_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;capture_range&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="nb">str</span><span class="p">(</span><span class="n">nominal_capture_range</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
+
+    <span class="n">out_mission</span> <span class="o">=</span> <span class="s1">&#39;.optimize&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out_mission</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out_dir</span><span class="p">,</span> <span class="n">out_mission</span>
+</pre></div>
+</div>
+<p>We can now run this file and get the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Initialization</span>
+<span class="o">-------------------------------------------</span>
+ <span class="n">Step</span> <span class="o">|</span>   <span class="n">Time</span> <span class="o">|</span>      <span class="n">Value</span> <span class="o">|</span>   <span class="n">max_speed</span> <span class="o">|</span>
+    <span class="mi">1</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">0.00000</span> <span class="o">|</span>     <span class="mf">10.0000</span> <span class="o">|</span>
+    <span class="mi">2</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">1.68317</span> <span class="o">|</span>     <span class="mf">31.1111</span> <span class="o">|</span>
+    <span class="mi">3</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m28s</span> <span class="o">|</span>    <span class="mf">7.65347</span> <span class="o">|</span>     <span class="mf">52.2222</span> <span class="o">|</span>
+    <span class="mi">4</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">7.67327</span> <span class="o">|</span>     <span class="mf">73.3333</span> <span class="o">|</span>
+    <span class="mi">5</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m31s</span> <span class="o">|</span>    <span class="mf">6.08911</span> <span class="o">|</span>     <span class="mf">94.4444</span> <span class="o">|</span>
+    <span class="mi">6</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m31s</span> <span class="o">|</span>    <span class="mf">4.94059</span> <span class="o">|</span>    <span class="mf">115.5556</span> <span class="o">|</span>
+    <span class="mi">7</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m29s</span> <span class="o">|</span>    <span class="mf">3.59406</span> <span class="o">|</span>    <span class="mf">136.6667</span> <span class="o">|</span>
+    <span class="mi">8</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m31s</span> <span class="o">|</span>    <span class="mf">2.56436</span> <span class="o">|</span>    <span class="mf">157.7778</span> <span class="o">|</span>
+    <span class="mi">9</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">2.29703</span> <span class="o">|</span>    <span class="mf">178.8889</span> <span class="o">|</span>
+   <span class="mi">10</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">2.07921</span> <span class="o">|</span>    <span class="mf">200.0000</span> <span class="o">|</span>
+   <span class="mi">11</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">0.00000</span> <span class="o">|</span>     <span class="mf">18.4934</span> <span class="o">|</span>
+<span class="n">Bayesian</span> <span class="n">Optimization</span>
+<span class="o">-------------------------------------------</span>
+ <span class="n">Step</span> <span class="o">|</span>   <span class="n">Time</span> <span class="o">|</span>      <span class="n">Value</span> <span class="o">|</span>   <span class="n">max_speed</span> <span class="o">|</span>
+   <span class="mi">12</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">7.55446</span> <span class="o">|</span>     <span class="mf">62.8933</span> <span class="o">|</span>
+   <span class="mi">13</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">7.61386</span> <span class="o">|</span>     <span class="mf">68.0475</span> <span class="o">|</span>
+   <span class="mi">14</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">8.17822</span> <span class="o">|</span>     <span class="mf">65.6019</span> <span class="o">|</span>
+   <span class="mi">15</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">7.87129</span> <span class="o">|</span>     <span class="mf">64.1568</span> <span class="o">|</span>
+   <span class="mi">16</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m33s</span> <span class="o">|</span>    <span class="mf">7.79208</span> <span class="o">|</span>     <span class="mf">63.3237</span> <span class="o">|</span>
+   <span class="mi">17</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">8.00000</span> <span class="o">|</span>     <span class="mf">63.1199</span> <span class="o">|</span>
+   <span class="mi">18</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m33s</span> <span class="o">|</span>    <span class="mf">7.99010</span> <span class="o">|</span>     <span class="mf">62.5929</span> <span class="o">|</span>
+   <span class="mi">19</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">7.47525</span> <span class="o">|</span>     <span class="mf">62.2671</span> <span class="o">|</span>
+   <span class="mi">20</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">7.87129</span> <span class="o">|</span>     <span class="mf">63.8412</span> <span class="o">|</span>
+</pre></div>
+</div>
+<p>The best speed found so far is 65.6019 (note that we could have had more
+exploration by setting <code class="docutils literal notranslate"><span class="pre">kappa</span></code> to something higher). We can either continue
+the search process with more or use a function minimizer to minimize the
+Gaussian Process to get a final estimate of optimal value.</p>
+<table class="docutils citation" frame="void" id="boids" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[Boids]</a></td><td>Reynolds, Craig W. “Flocks, herds and schools: A distributed behavioral model.” ACM SIGGRAPH computer graphics. Vol. 21. No. 4. ACM, 1987.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="rasmussen" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Rasmussen]</a></td><td>Rasmussen, Carl Edward. “Gaussian processes in machine learning.” Advanced lectures on machine learning. Springer, Berlin, Heidelberg, 2004. 63-71.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="forrester" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Forrester]</a></td><td>Forrester, Alexander, and Andy Keane. Engineering design via surrogate modelling: a practical guide. John Wiley &amp; Sons, 2008.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="parallel" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[Parallel]</a></td><td>Tange, Ole. “Gnu parallel-the command-line power tool.” The USENIX Magazine 36.1 (2011): 42-47.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="open-grid.html" class="btn btn-neutral float-right" title="Multiple Runs with Open Grid Engine" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="openai-plugin.html" class="btn btn-neutral" title="Create an OpenAI Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

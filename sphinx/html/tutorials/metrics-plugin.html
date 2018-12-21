@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Create a Metrics Plugin &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Plugin Parameters" href="parameters.html"/>
+        <link rel="prev" title="Create an Entity Interaction Plugin" href="entity-interaction-plugin.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Create a Metrics Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examine-metrics-plugin">Examine Metrics Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>Create a Metrics Plugin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/metrics-plugin.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="create-a-metrics-plugin">
+<span id="metrics-plugin"></span><h1>Create a Metrics Plugin<a class="headerlink" href="#create-a-metrics-plugin" title="Permalink to this headline">¶</a></h1>
+<p>A Metrics plugin is a fairly abstract plugin that allows a developer to keep
+track of continuous variables in the simulation or count messages generated by
+entities and Entity Interaction plugins. At the end of a simulation, the
+SCRIMMAGE simulation controller requests the <code class="docutils literal notranslate"><span class="pre">team_metrics_</span></code> member variable
+from a Metrics plugin and writes the value for the team’s metrics to a CSV file
+for later processing. This is how SCRIMMAGE is able to determine the success of
+an algorithm across a large number of scenarios. A common use of the Metrics
+plugin interface is to count collisions generated by the Entity Interaction
+plugins. To create a Metrics plugin, enter the following at the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+$ ./generate-plugin.sh metrics MyMetrics ~/scrimmage/my-scrimmage-plugins
+</pre></div>
+</div>
+<p>Build the metrics plugin:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
+$ cmake ..
+$ make
+</pre></div>
+</div>
+<div class="section" id="examine-metrics-plugin">
+<h2>Examine Metrics Plugin<a class="headerlink" href="#examine-metrics-plugin" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">init</span></code> method can be used to save variables from the plugin’s XML
+file. The automatically generated plugin counts the number of ground collision
+messages that are generated by the Entity Interaction plugin, so in this
+<code class="docutils literal notranslate"><span class="pre">init</span></code> method, a subscriber for the <code class="docutils literal notranslate"><span class="pre">GroundCollision</span></code> message is setup.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="n">MyMetrics</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">params</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">sub_ground_collision_</span> <span class="o">=</span> <span class="n">create_subscriber</span><span class="p">(</span><span class="s">&quot;GroundCollision&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">step_metrics</span></code> method is also simple in that it processes the ground
+collision messages that are generated and counts them.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">MyMetrics</span><span class="o">::</span><span class="n">step_metrics</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">msg</span> <span class="p">:</span> <span class="n">sub_ground_collision_</span><span class="o">-&gt;</span><span class="n">msgs</span><span class="o">&lt;</span><span class="n">sc</span><span class="o">::</span><span class="n">Message</span><span class="o">&lt;</span><span class="n">sm</span><span class="o">::</span><span class="n">GroundCollision</span><span class="o">&gt;&gt;</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">scores_</span><span class="p">[</span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">entity_id</span><span class="p">()].</span><span class="n">increment_ground_collisions</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">step_metrics</span></code> method makes use of the helper class, Score, which is
+defined in MyMetrics.h. The Score class is a class that allows the user to
+increment, set, and get counts of various variables or metrics. Also, the Score
+class computes the weighted score based on the number of counts of a metric and
+the associated weight value defined in the plugin’s XML file. For example, if
+the plugin’s XML file contains the tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;ground_collisions&gt;</span>-1.0<span class="nt">&lt;/ground_collisions&gt;</span>
+</pre></div>
+</div>
+<p>and there were 5 ground collisions. The score for that team would be -1.0 times
+5, which is -5. In this example, the Score class is used to first compute
+single entity metrics, which are then aggregated to a team Score at the end of
+the simulation.</p>
+<p>When the simulation is complete, the simulation controller calls the
+<code class="docutils literal notranslate"><span class="pre">calc_team_scores</span></code> method.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="n">MyMetrics</span><span class="o">::</span><span class="n">calc_team_scores</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">kv</span> <span class="p">:</span> <span class="n">scores_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Score</span> <span class="o">&amp;</span><span class="n">score</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+
+        <span class="kt">int</span> <span class="n">team_id</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">team_lookup_</span><span class="p">)[</span><span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">];</span>
+
+        <span class="c1">// Create the score, if necessary</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">team_coll_scores_</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">team_id</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Score</span> <span class="n">score</span><span class="p">;</span>
+            <span class="n">score</span><span class="p">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">params_</span><span class="p">);</span>
+            <span class="n">team_coll_scores_</span><span class="p">[</span><span class="n">team_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">team_coll_scores_</span><span class="p">[</span><span class="n">team_id</span><span class="p">].</span><span class="n">add_ground_collisions</span><span class="p">(</span><span class="n">score</span><span class="p">.</span><span class="n">ground_collisions</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">kv</span> <span class="p">:</span> <span class="n">team_coll_scores_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">team_id</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+        <span class="n">Score</span> <span class="o">&amp;</span><span class="n">score</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+        <span class="n">team_metrics_</span><span class="p">[</span><span class="n">team_id</span><span class="p">][</span><span class="s">&quot;ground_coll&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span><span class="p">.</span><span class="n">ground_collisions</span><span class="p">();</span>
+        <span class="n">team_scores_</span><span class="p">[</span><span class="n">team_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span><span class="p">.</span><span class="n">score</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// list the headers we want put in the csv file</span>
+    <span class="n">headers_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&quot;ground_coll&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>It is the responsibility of the Metrics plugin to
+fill in the <code class="docutils literal notranslate"><span class="pre">team_scores_</span></code> map, which is a map of team IDs that point to
+weighted team scores. Also, the <code class="docutils literal notranslate"><span class="pre">team_metrics_</span></code> map has to be filled in,
+which is a map of team IDs, which point to metric names (as strings) with their
+values.  The Metrics plugin developer also has to provide header names for the
+CSV file is generated. This is done by appending to the <code class="docutils literal notranslate"><span class="pre">headers_</span></code> list. The
+strings in the <code class="docutils literal notranslate"><span class="pre">headers_</span></code> should match those in the <code class="docutils literal notranslate"><span class="pre">team_metrics_</span></code>.</p>
+<p>Finally, the simulation controller will call the Metrics plugin’s
+<code class="docutils literal notranslate"><span class="pre">print_team_summaries</span></code> method to display scores to the terminal.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="n">MyMetrics</span><span class="o">::</span><span class="n">print_team_summaries</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">Score</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">team_coll_scores_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+         <span class="n">it</span> <span class="o">!=</span> <span class="n">team_coll_scores_</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">it</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Score: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">.</span><span class="n">score</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Ground Collisions: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">.</span><span class="n">ground_collisions</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">sc</span><span class="o">::</span><span class="n">generate_chars</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">,</span><span class="mi">70</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Metrics plugin’s “score” functionality will probably be augmented in the
+future since it’s sort of an awkward interface right now. Take a look at the
+SimpleCollisionMetrics plugin in SCRIMMAGE core for a more complete example.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="parameters.html" class="btn btn-neutral float-right" title="Plugin Parameters" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="entity-interaction-plugin.html" class="btn btn-neutral" title="Create an Entity Interaction Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
