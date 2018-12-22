@@ -10,10 +10,12 @@ if [ ! -d "./doc_output/doxygen" ]; then
     echo "ERROR: doxygen documentation doesn't exist."
     exit 1
 fi
+if [ ! -d "./doc_output/jekyll" ]; then
+    echo "ERROR: jekyll documentation doesn't exist."
+    exit 1
+fi
 
-# References:
-# https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
-# https://github.com/alrra/travis-scripts/blob/master/doc/github-deploy-keys.md
+SHA=`git rev-parse --verify HEAD`
 
 # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
@@ -27,15 +29,20 @@ chmod 600 ./ci/keys/deploy_key
 eval `ssh-agent -s`
 ssh-add ./ci/keys/deploy_key
 
-# Create a tarball of the documentation
-tar -czf doc_output.tar.gz ./doc_output
+git clone --single-branch --branch gh-pages git@github.com:gtri/scrimmage.git gh-pages-dir
+pushd gh-pages-dir
+    git config user.name "Travis CI"
+    git config user.email "deploy@travis.ci"
+    cp -r ../doc_output/jekyll/* .
+    cp -r ../doc_output/sphinx .
 
-# Send the tarball to the document server
-scp ./doc_output.tar.gz kevindem@scrimmagesim.org:~/public_html/scrimmagesim
+    # If there are no changes to the compiled out, don't push
+    if git diff --quiet; then
+        echo "No changes to the output on this push; exiting."
+        exit 0
+    fi
 
-# ssh into the documentation server.
-# 1. Remove the old docs folder.
-# 2. Recreate the docs folder.
-# 3. Untar the docs
-# 4. Move the sphinx and doxygen html output to the correct directories.
-ssh kevindem@scrimmagesim.org 'cd public_html/scrimmagesim; rm -rf ./docs; mkdir -p ./docs; tar xf doc_output.tar.gz; mv ./doc_output/sphinx ./docs/; mv ./doc_output/doxygen ./docs/'
+    git add -A .
+    git commit -m "Deploy to GitHub Pages: ${SHA}"
+    git push origin gh-pages
+popd
