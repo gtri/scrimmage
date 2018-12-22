@@ -43,6 +43,20 @@ add_custom_target(sphinx-docs
   COMMENT "Building HTML documentation with Sphinx")
 
 ###############################################################################
+# Jekyll Website Build
+###############################################################################
+find_program(BUNDLE bundle)
+if(BUNDLE_NOTFOUND)
+  message("Failed to find bundle / gem. Not building jekyll website.")
+else()
+  add_custom_target(website-docs
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/jekyll
+    COMMAND JEKYLL_ENV=production bundle exec jekyll build --destination ${PROJECT_BINARY_DIR}/docs/jekyll
+    COMMENT "Building scrimmage website."
+    )
+endif()
+
+###############################################################################
 # Doxygen setup
 ###############################################################################
 find_package(Doxygen)
@@ -61,3 +75,7 @@ add_custom_target(doxygen-docs
 ###############################################################################
 add_custom_target(docs COMMENT "Building Sphinx and Doxygen documentation.")
 add_dependencies(docs sphinx-docs doxygen-docs)
+
+# if (NOT BUNDLE_NOTFOUND)
+#   add_dependencies(docs website-docs)
+# endif()

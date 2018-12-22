@@ -15,6 +15,5 @@ and testing of novel mobile robotics algorithms.
 
 ## [GitHub Repository](https://github.com/gtri/scrimmage)
 
-## [Tutorials](http://www.scrimmagesim.org/docs/sphinx/html/index.html)
+## [Tutorials](./sphinx/html/index.html)
 
-## [Doxygen Documentation](http://www.scrimmagesim.org/docs/doxygen/html/index.html)

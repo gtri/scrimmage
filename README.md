@@ -18,9 +18,7 @@ controllers, and reinforcement learning.
 
 ## Online Documentation
 
-[Tutorials](http://www.scrimmagesim.org/docs/sphinx/html/index.html)
-
-[SCRIMMAGE API](http://www.scrimmagesim.org/docs/doxygen/html/index.html)
+[Tutorials](https://gtri.github.io/scrimmage/sphinx/html/index.html)
 
 ## Citation
 
