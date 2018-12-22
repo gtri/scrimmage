@@ -91,7 +91,7 @@ class PluginManager {
                                 const std::string &plugin_name_xml,
                                 FileSearch &file_search,
                                 ConfigParse &config_parse,
-                                std::map<std::string, std::string> &overrides,
+                                const std::map<std::string, std::string> &overrides,
                                 const std::set<std::string> &plugin_tags) {
         PluginStatus<T> status;
         std::string plugin_name = plugin_name_xml;

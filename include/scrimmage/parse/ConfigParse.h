@@ -49,7 +49,7 @@ class ConfigParse {
  public:
     ConfigParse();
     void set_required(std::string node_name);
-    bool parse(std::map<std::string, std::string> &overrides,
+    bool parse(const std::map<std::string, std::string> &overrides,
         std::string filename, std::string env_var, FileSearch &file_search,
         bool verbose = false);
     std::map<std::string, std::string> & params();
@@ -65,7 +65,7 @@ class ConfigParse {
     std::string filename_;
 
     void recursive_params(rapidxml::xml_node<char> *root,
-        std::map<std::string, std::string> &overrides,
+        const std::map<std::string, std::string> &overrides,
         std::map<std::string, std::string> &params,
         const std::string &prev);
 };
