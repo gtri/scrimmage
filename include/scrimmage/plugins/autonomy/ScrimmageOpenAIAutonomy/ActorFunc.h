@@ -49,10 +49,13 @@ class ScrimmageOpenAIAutonomy;
 class OpenAIActions;
 class OpenAIObservations;
 
+enum class UseGlobalSensor {NO, YES};
+
 std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> DLL_PUBLIC
 init_actor_func(
-        std::shared_ptr<ScrimmageOpenAIAutonomy> openai_autonomy,
-        const std::map<std::string, std::string> &params);
+        std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
+        const std::map<std::string, std::string> &params,
+        UseGlobalSensor global_sensor);
 } // namespace autonomy
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_

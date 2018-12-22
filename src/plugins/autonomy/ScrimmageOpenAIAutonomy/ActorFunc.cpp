@@ -39,37 +39,45 @@
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
 
+#include <boost/range/algorithm/copy.hpp>
+
 namespace py = pybind11;
+namespace br = boost::range;
 
 namespace scrimmage {
 namespace autonomy {
 
 std::tuple<OpenAIActions, OpenAIObservations, pybind11::object>
 init_actor_func(
-        std::shared_ptr<ScrimmageOpenAIAutonomy> openai_autonomy,
-        const std::map<std::string, std::string> &params) {
+        std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
+        const std::map<std::string, std::string> &params,
+        UseGlobalSensor global_sensor) {
 
     // there is only 1 entity in this case so it would make no sense
     // to combine actors
     const size_t num_entities = 1;
 
     OpenAIActions actions;
-    actions.ext_ctrl_vec().push_back(openai_autonomy);
+    br::copy(autonomies, std::back_inserter(actions.ext_ctrl_vec()));
     actions.create_action_space(false);
 
     OpenAIObservations observations;
     observations.set_combine_actors(false);
     observations.set_global_sensor(false);
 
-    observations.add_sensors(openai_autonomy->parent()->sensors());
+    for (auto autonomy : autonomies) {
+        observations.add_sensors(autonomy->parent()->sensors());
+        if (global_sensor == UseGlobalSensor::YES) break;
+    }
 
     observations.create_observation_space(num_entities);
 
     // get the actor func
     const std::string module_str = params.at("module");
     const std::string actor_init_func_str = params.at("actor_init_func");
+    py::object m = py::module::import(module_str.c_str());
     py::object actor_init_func =
-        py::module::import(module_str.c_str()).attr(actor_init_func_str.c_str());
+        m.attr(actor_init_func_str.c_str());
 
     py::object actor_func = actor_init_func(
         actions.action_space, observations.observation_space, params);
