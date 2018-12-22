@@ -4,79 +4,80 @@
 FROM ubuntu:16.04
 
 MAINTAINER Kevin DeMarco
+ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
 
-WORKDIR /root
-
-#install ros
-#see here: http://wiki.ros.org/kinetic/Installation/Ubuntu
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-RUN apt-get update
-RUN apt-get install -y ros-kinetic-desktop-full
-RUN rosdep init && rosdep update
-RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-
-# Install / setup scrimmage dependencies
-RUN apt-get update && \
-    apt-get install -y software-properties-common python-software-properties && \
-    add-apt-repository ppa:kevin-demarco/scrimmage && \
-    apt-get update && \
-    apt-get install -y scrimmage-dependencies && \
-    /opt/scrimmage/*/setup.sh
-
-# these are only used for static analysis of the code
-RUN apt-get update && apt-get install -y cppcheck python-pytest python-pip
-RUN pip install cpplint
-
-RUN pip install protobuf==3.3.0 grpcio==1.2.1
-
-# for testing openai gym plugin
-RUN apt-get update && apt-get install -y git ninja-build
-RUN pip install gym
-
-#install clang
-RUN apt-get install -y clang
+# Install initial dependencies and setup .bashrc
+RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list \
+ && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116 \
+ && apt-get update \
+ && apt-get install -y \
+    ros-kinetic-desktop-full \
+    software-properties-common \
+    python-software-properties \
+    cppcheck \
+    python-pytest \
+    python-pip \
+    git \
+    ninja-build \
+    clang \
+    ruby-full \
+    build-essential \
+    zlib1g-dev \
+ && add-apt-repository ppa:kevin-demarco/scrimmage \
+ && apt-get update \
+ && apt-get install -y scrimmage-dependencies \
+ && rm -rf /var/lib/apt/lists/* \
+ && rosdep init && rosdep update \
+ && echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
+ && echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
+ && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
+ && /opt/scrimmage/*/setup.sh \
+ && pip install cpplint protobuf==3.3.0 grpcio==1.2.1 gym \
+ && source ~/.bashrc \
+ && gem install jekyll bundler
 
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
 
-# Install dependencies provided by package manager
-WORKDIR /root/scrimmage/scrimmage
-RUN ./setup/install-binaries.sh -e 0 -p 3
-
-# Test Plugin Generation
-#RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage # TODO
-WORKDIR /root/scrimmage/scrimmage/scripts
-RUN ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/scrimmage
-RUN ./generate-plugin.sh interaction InteractionTest ~/scrimmage/scrimmage
-RUN ./generate-plugin.sh metrics MetricsTest ~/scrimmage/scrimmage
-RUN ./generate-plugin.sh motion MotionTest ~/scrimmage/scrimmage
-RUN ./generate-plugin.sh sensor SensorTest ~/scrimmage/scrimmage
-RUN ./generate-plugin.sh controller ControllerTest ~/scrimmage/scrimmage
-RUN ./generate-plugin.sh network NetworkTest ~/scrimmage/scrimmage
-
 # Run static analysis tests
 WORKDIR /root/scrimmage/scrimmage
-RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv
-RUN py.test test/test_cppcheck.py
-RUN echo "the following test is optional but will check for style"
-RUN python test/test_cpplint.py
+RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv \
+ && py.test test/test_cppcheck.py \
+ && python test/test_cpplint.py
+
+# Install dependencies through script
+WORKDIR /root/scrimmage/scrimmage
+RUN ./setup/install-binaries.sh -e 0 -p 3 \
+ && rm -rf /var/lib/apt/lists/*
+
+# Test Plugin Generation
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+ && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh motion MotionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh sensor SensorTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
 
 # Build scrimmage core, plugins, and documentation
-RUN /bin/bash -c "mkdir -p build && \
-    cd build && \
-    source ~/.scrimmage/setup.bash && \
-    cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" && \
-    ninja && \
-    ninja docs"
+WORKDIR /root/scrimmage/scrimmage
+RUN mkdir -p build \
+ && cd build \
+ && source ~/.bashrc \
+ && source ~/.scrimmage/setup.bash \
+ && cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+ && ninja \
+ && ninja docs website-docs
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
 RUN pip install -e .
 
 # run tests
-SHELL ["/bin/bash", "-c"]
 WORKDIR /root/scrimmage/scrimmage/build
 RUN source ~/.scrimmage/setup.bash && \
     export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
@@ -87,33 +88,33 @@ RUN source ~/.scrimmage/setup.bash && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
 
-# build with clang
-RUN rm * -rf && \
-    export CC=/usr/bin/clang && \
-    export CXX=/usr/bin/clang++ && \
-    source ~/.scrimmage/setup.bash && \
-    cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror"
-
-RUN ninja && ninja docs
-RUN source ~/.scrimmage/setup.bash && \
-    export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
-    export CTEST_OUTPUT_ON_FAILURE=1 && \
-    ninja test
+# # build with clang
+# RUN rm * -rf \
+#  && export CC=/usr/bin/clang \
+#  && export CXX=/usr/bin/clang++ \
+#  && source ~/.scrimmage/setup.bash \
+#  && cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+#  && ninja \
+#  && ninja docs website-docs \
+#  && source ~/.scrimmage/setup.bash \
+#  && export PYTHONPATH=$PYTHONPATH:$PWD/../test \
+#  && export CTEST_OUTPUT_ON_FAILURE=1 \
+#  && ninja test
 
 # Test scrimmage_ros package integration
-RUN mkdir -p /root/catkin_ws/src
-WORKDIR /root/catkin_ws/src
-RUN git clone https://github.com/ros-planning/navigation_msgs
-RUN git clone https://github.com/SyllogismRXS/scrimmage_ros.git
-WORKDIR /root/catkin_ws
-RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
-    source /opt/scrimmage/*/setup.sh && \
-    catkin_make && \
-    source devel/setup.bash && \
-    source ~/.scrimmage/setup.bash && \
-    cd build && \
-    make tests && \
-    make test"
+RUN mkdir -p /root/catkin_ws/src \
+ && cd /root/catkin_ws/src \
+ && git clone https://github.com/ros-planning/navigation_msgs \
+ && git clone https://github.com/SyllogismRXS/scrimmage_ros.git \
+ && cd /root/catkin_ws \
+ && source /opt/ros/kinetic/setup.bash \
+ && source /opt/scrimmage/*/setup.sh \
+ && catkin_make \
+ && source devel/setup.bash \
+ && source ~/.scrimmage/setup.bash \
+ && cd build \
+ && make tests \
+ && make test
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"

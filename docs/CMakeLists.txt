@@ -51,6 +51,7 @@ if(BUNDLE_NOTFOUND)
 else()
   add_custom_target(website-docs
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/jekyll
+    COMMAND bundle install
     COMMAND JEKYLL_ENV=production bundle exec jekyll build --destination ${PROJECT_BINARY_DIR}/docs/jekyll
     COMMENT "Building scrimmage website."
     )

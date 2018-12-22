@@ -4,16 +4,30 @@
 FROM ubuntu:18.04
 
 MAINTAINER Eric Squires
+ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
 
-WORKDIR /root
-
-RUN apt-get update && apt-get upgrade -y
-
-# optional for gui: apt-get install -y libvtk6-dev
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    cmake \
+# Install initial dependencies and setup .bashrc
+RUN apt-get update \
+ && apt-get install -y \
+    gnupg \
+ && echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list \
+ && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116 \
+ && apt-get update \
+ && apt-get install -y \
+    ros-melodic-desktop-full \
+    software-properties-common \
+    cppcheck \
+    python-pytest \
+    python-pip \
     git \
-    libgrpc++-dev \
+    ninja-build \
+    clang \
+    ruby-full \
+    build-essential \
+    zlib1g-dev \
+    python3-pip \
+    libgeographic-dev \
     libeigen3-dev \
     librapidxml-dev \
     libboost-thread-dev \
@@ -29,26 +43,106 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libgeographic-dev \
     protobuf-compiler-grpc \
     libpython3.7-dev \
-    python3-pip
+    doxygen python-sphinx \
+    sphinx-rtd-theme-common \
+ && add-apt-repository ppa:kevin-demarco/scrimmage-bionic \
+ && apt-get update \
+ && apt-get install -y scrimmage-dependencies \
+ && rm -rf /var/lib/apt/lists/* \
+ && rosdep init && rosdep update \
+ && echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc \
+ && echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
+ && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
+ && /opt/scrimmage/*/setup.sh \
+ && pip install cpplint \
+    protobuf==3.3.0 \
+    grpcio==1.2.1 \
+    gym \
+    sphinx-git \
+ && source ~/.bashrc \
+ && gem install jekyll bundler
 
+# Copy repo code into image
+RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
+
+# # Run static analysis tests
+# WORKDIR /root/scrimmage/scrimmage
+# RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv \
+#  && py.test test/test_cppcheck.py \
+#  && python test/test_cpplint.py
+
+# Install dependencies through script
 WORKDIR /root/scrimmage/scrimmage
+RUN ./setup/install-binaries.sh -e 0 -p 3 \
+ && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /root/scrimmage/scrimmage/3rd-party
-RUN rm -rf build
-RUN mkdir -p build
-WORKDIR build
-RUN cmake ..
-RUN make jsbsim pybind11 -j $(($(nproc --all) - 1))
+# Test Plugin Generation
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+ && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh motion MotionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh sensor SensorTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
 
+# Build scrimmage core, plugins, and documentation
 WORKDIR /root/scrimmage/scrimmage
-RUN rm -rf build
-RUN mkdir -p build
-WORKDIR build
-RUN cmake .. -DBUILD_TESTS=ON -DPYTHON_MIN_VERSION=3 -DCMAKE_PREFIX_PATH=~/.local
+RUN mkdir -p build \
+ && cd build \
+ && source ~/.bashrc \
+ && source ~/.scrimmage/setup.bash \
+ && cmake .. -G Ninja -DBUILD_TESTS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+ && ninja
 
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && make -j $(($(nproc --all) - 1))"
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && export CTEST_OUTPUT_ON_FAILURE=1 && make test"
-
+# install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
-RUN pip3 install -e .
+RUN pip install -e .
+
+# run tests
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source ~/.scrimmage/setup.bash && \
+    export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
+    export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
+    py.test ../test/test_openai.py && \
+    export CTEST_OUTPUT_ON_FAILURE=1 && \
+    ninja test && \
+    scrimmage ../missions/straight-no-gui.xml && \
+    scrimmage ../missions/straight_jsbsim.xml
+
+# # build with clang
+# RUN rm * -rf \
+#  && export CC=/usr/bin/clang \
+#  && export CXX=/usr/bin/clang++ \
+#  && source ~/.scrimmage/setup.bash \
+#  && cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+#  && ninja \
+#  && ninja docs website-docs \
+#  && source ~/.scrimmage/setup.bash \
+#  && export PYTHONPATH=$PYTHONPATH:$PWD/../test \
+#  && export CTEST_OUTPUT_ON_FAILURE=1 \
+#  && ninja test
+
+# Test scrimmage_ros package integration
+RUN mkdir -p /root/catkin_ws/src \
+ && cd /root/catkin_ws/src \
+ && git clone https://github.com/ros-planning/navigation_msgs \
+ && git clone https://github.com/SyllogismRXS/scrimmage_ros.git \
+ && cd /root/catkin_ws \
+ && source /opt/ros/melodic/setup.bash \
+ && source /opt/scrimmage/*/setup.sh \
+ && catkin_make \
+ && source devel/setup.bash \
+ && source ~/.scrimmage/setup.bash \
+ && cd build \
+ && make tests \
+ && make test
+
+WORKDIR /root/scrimmage/scrimmage
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
