@@ -65,86 +65,74 @@ void ShapeDraw::init(std::map<std::string, std::string> &params) {
     desired_state_->vel() = Eigen::Vector3d::UnitX()*initial_speed;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+
+    ellipse_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    cuboid_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    mesh_shape_ = std::make_shared<scrimmage_proto::Shape>();
 }
 
 bool ShapeDraw::step_autonomy(double t, double dt) {
     draw_ellipse(t, dt);
-
-    // cuboid adds current rotation to its transformed position,
-    // so repeatedly specifying a cuboid at the same location will
-    // cause it to continuously rotate, which we don't want
-    if (init_) {
-        draw_cuboid(t, dt);
-        init_ = false;
-    }
-
+    draw_cuboid(t, dt);
     draw_mesh(t, dt);
 
     return true;
 }
 
 void ShapeDraw::draw_ellipse(double t, double dt) {
-    auto shape = std::make_shared<scrimmage_proto::Shape>();
-    shape->set_hash(84276524578);
-    shape->set_hash_set(true);
-    shape->set_opacity(1.0);
-    shape->mutable_ellipse()->set_x_radius(10);
-    shape->mutable_ellipse()->set_y_radius(5);
+    ellipse_shape_->set_opacity(1.0);
+    if (t > 5) {
+        std::cout << "Setting ellipse opacity to low to hide it!" << std::endl;
+        ellipse_shape_->set_opacity(0.01);
+    }
+
+    ellipse_shape_->mutable_ellipse()->set_x_radius(10);
+    ellipse_shape_->mutable_ellipse()->set_y_radius(5);
 
     sc::Quaternion quat(sc::Angles::deg2rad(0.0),
                         sc::Angles::deg2rad(0.0),
                         sc::Angles::deg2rad(45.0));
-    sc::set(shape->mutable_ellipse()->mutable_quat(), quat);
+    sc::set(ellipse_shape_->mutable_ellipse()->mutable_quat(), quat);
 
-    shape->set_persistent(true);
-    shape->set_ttl(60);
-    sc::set(shape->mutable_ellipse()->mutable_center(), -20, -20, 0);
-    sc::set(shape->mutable_color(), 0, 0, 255);
-    draw_shape(shape);
+    ellipse_shape_->set_persistent(true);
+    sc::set(ellipse_shape_->mutable_ellipse()->mutable_center(), -20, -20, 0);
+    sc::set(ellipse_shape_->mutable_color(), 0, 0, 255);
+    draw_shape(ellipse_shape_);
 }
 
 void ShapeDraw::draw_cuboid(double t, double dt) {
-    auto shape = std::make_shared<scrimmage_proto::Shape>();
-    shape->set_hash(64927777123);
-    shape->set_hash_set(true);
-    shape->set_opacity(1.0);
-    sc::set(shape->mutable_cuboid()->mutable_center(), 20, 20, 0);
-    shape->mutable_cuboid()->set_x_length(10);
-    shape->mutable_cuboid()->set_y_length(5);
-    shape->mutable_cuboid()->set_z_length(5);
+    cuboid_shape_->set_opacity(1.0);
+    sc::set(cuboid_shape_->mutable_cuboid()->mutable_center(), 20, 20, 0);
+    cuboid_shape_->mutable_cuboid()->set_x_length(10);
+    cuboid_shape_->mutable_cuboid()->set_y_length(5);
+    cuboid_shape_->mutable_cuboid()->set_z_length(5);
 
     sc::Quaternion quat(sc::Angles::deg2rad(0.0),
-                        sc::Angles::deg2rad(0.0),
+                        sc::Angles::deg2rad(45.0),
                         sc::Angles::deg2rad(45.0));
-    sc::set(shape->mutable_cuboid()->mutable_quat(), quat);
+    sc::set(cuboid_shape_->mutable_cuboid()->mutable_quat(), quat);
 
-    shape->set_persistent(true);
-    shape->set_ttl(60);
-    sc::set(shape->mutable_color(), 0, 255, 0);
-    draw_shape(shape);
+    cuboid_shape_->set_persistent(true);
+    sc::set(cuboid_shape_->mutable_color(), 0, 255, 0);
+    draw_shape(cuboid_shape_);
 }
 
 void ShapeDraw::draw_mesh(double t, double dt) {
-    auto shape = std::make_shared<scrimmage_proto::Shape>();
-
-    shape->set_hash(182379817238);
-    shape->set_hash_set(true);
-    shape->set_opacity(1.0);
-    sc::set(shape->mutable_mesh()->mutable_center(), 20, -20, 0);
+    mesh_shape_->set_opacity(1.0);
+    sc::set(mesh_shape_->mutable_mesh()->mutable_center(), 20, -20, 0);
     // corresponds to zephyr-red.xml
-    shape->mutable_mesh()->set_name("zephyr-red");
+    mesh_shape_->mutable_mesh()->set_name("zephyr-red");
 
     sc::Quaternion quat(sc::Angles::deg2rad(0.0),
                         sc::Angles::deg2rad(45.0),
                         sc::Angles::deg2rad(90.0));
-    sc::set(shape->mutable_mesh()->mutable_quat(), quat);
-    shape->mutable_mesh()->set_scale(10.0);
-    sc::set(shape->mutable_color(), 255, 255, 255);
+    sc::set(mesh_shape_->mutable_mesh()->mutable_quat(), quat);
+    mesh_shape_->mutable_mesh()->set_scale(10.0);
+    sc::set(mesh_shape_->mutable_color(), 255, 255, 255);
 
-    shape->set_persistent(true);
-    shape->set_ttl(60);
+    mesh_shape_->set_persistent(true);
 
-    draw_shape(shape);
+    draw_shape(mesh_shape_);
 }
 
 } // namespace autonomy

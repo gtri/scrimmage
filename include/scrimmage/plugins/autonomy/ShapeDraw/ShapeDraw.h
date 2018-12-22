@@ -51,6 +51,10 @@ class ShapeDraw : public scrimmage::Autonomy {
     void draw_mesh(double t, double dt);
     int follow_id_;
     bool init_;
+
+    scrimmage_proto::ShapePtr ellipse_shape_;
+    scrimmage_proto::ShapePtr cuboid_shape_;
+    scrimmage_proto::ShapePtr mesh_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage
