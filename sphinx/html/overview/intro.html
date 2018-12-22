@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Overview" href="overview.html"/>
         <link rel="next" title="Install SCRIMMAGE" href="install.html"/>
@@ -87,7 +84,7 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">SCRIMMAGE Description</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">SCRIMMAGE Description</a></li>
 <li class="toctree-l2"><a class="reference internal" href="install.html">Install SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewer.html">SCRIMMAGE Viewer Controls</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html">SCRIMMAGE Workflow</a></li>
@@ -136,7 +133,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/overview/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/overview/intro.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -152,7 +149,7 @@
 SCRIMMAGE, provides a flexible simulation environment for the experimentation
 and testing of novel mobile robotics algorithms.  The development of SCRIMMAGE
 was inspired by the Stage robotics simulator
-(<a class="reference external" href="http://playerstage.sourceforge.net/doc/stage-svn/">http://playerstage.sourceforge.net/doc/stage-svn/</a>). Specifically, Stage’s
+(<a class="reference external" href="http://playerstage.sourceforge.net/doc/stage-svn/">http://playerstage.sourceforge.net/doc/stage-svn/</a>). Specifically, Stage&#8217;s
 ability to efficiently simulate multiple robots and its plugin interface for
 robotic control, motion models, sensors, and autonomy communication are
 desirable. However, Stage is inherently a two-dimensional simulator, which
@@ -164,29 +161,29 @@ motion models or tens of aircraft with high-fidelity motion models on a
 standard consumer laptop. If greater performance is desired, SCRIMMAGE was
 designed with parallelization in mind, such that it can execute on a cluster.</p>
 <p>An overview of the types of SCRIMMAGE plugins and how data flows through the
-SCRIMMAGE simulation is shown in <a class="reference internal" href="#plugin-order"><span class="std std-numref">Fig. 1</span></a>.</p>
-<div class="figure" id="plugin-order">
-<img alt="SCRIMMAGE's plugin interface" src="../_images/plugin-order.png" />
-<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">SCRIMMAGE’s plugin interface.</span></p>
+SCRIMMAGE simulation is shown in <a class="reference internal" href="#plugin-order"><span>Fig. 1</span></a>.</p>
+<div class="figure" id="id1">
+<img alt="SCRIMMAGE's plugin interface" id="plugin-order" src="../_images/plugin-order.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">SCRIMMAGE&#8217;s plugin interface.</span><a class="headerlink" href="#plugin-order" title="Permalink to this image">¶</a></p>
 </div>
 <p>A SCRIMMAGE developer creates and uses existing plugins to assemble agents,
 also known as entities, in a SCRIMMAGE mission or scenario. An entity consists
 of an assemblage of sensor, communication, autonomy, controller, and motion
-model plugins, as shown in <a class="reference internal" href="#entity-plugins"><span class="std std-numref">Fig. 2</span></a>.</p>
-<div class="figure" id="entity-plugins">
-<img alt="A SCRIMMAGE entity is composed of multiple plugins." src="../_images/entity_plugins.png" />
-<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">A SCRIMMAGE entity is composed of multiple plugins.</span></p>
+model plugins, as shown in <a class="reference internal" href="#entity-plugins"><span>Fig. 2</span></a>.</p>
+<div class="figure" id="id2">
+<img alt="A SCRIMMAGE entity is composed of multiple plugins." id="entity-plugins" src="../_images/entity_plugins.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">A SCRIMMAGE entity is composed of multiple plugins.</span><a class="headerlink" href="#entity-plugins" title="Permalink to this image">¶</a></p>
 </div>
 <p>A robotics researcher uses SCRIMMAGE to develop, visualize, and test novel
 autonomy and control algorithms for both single-vehicle and swarm-based
 robotics. The researcher accomplishes this by first deciding on the robotic
-platform’s motion model and sensor suite. The researcher can use SCRIMMAGE’s
+platform&#8217;s motion model and sensor suite. The researcher can use SCRIMMAGE&#8217;s
 XML configuration files to “build” a simulated robotic model based on the
 built-in motion models and sensors or the researcher can use the C++ plugin
 interface to design their own motion models and sensors.</p>
 <p>In addition to the motion model and sensor plugin interface, SCRIMMAGE also has
 an Autonomy plugin interface. Through this interface, the robotics researcher
-can write C++ code that queries SCRIMMAGE’s World Model and sensor models and
+can write C++ code that queries SCRIMMAGE&#8217;s World Model and sensor models and
 then provide a desired future state for the robot being controlled. It is in
 this C++ code that the robotics researcher develops the higher-level autonomy
 algorithms. The Autonomy C++ code has an associated XML parameter file that
@@ -203,7 +200,7 @@ Mission Oriented Operating Suite (MOOS), and Data Distribution Server (DDS). It
 is through the Autonomy plugin interface that the real autonomy research takes
 place.</p>
 <p>After building the models and autonomy control logic for the robotic platforms,
-the researcher uses SCRIMMAGE’s XML configuration files to design the World
+the researcher uses SCRIMMAGE&#8217;s XML configuration files to design the World
 Model and initial conditions for all robotic platforms. SCRIMMAGE is especially
 designed to handle the initialization of swarms of homogeneous and
 heterogeneous robotic platforms, which can be tedious to define in XML if not
@@ -215,7 +212,7 @@ laptop or a cluster via parallelization. When running on a cluster, SCRIMMAGE
 uses the Google Protocol Buffer serialization standard to communicate with
 remote processes. The remote processes are typically the high-level autonomy
 logic and high-fidelity motion models. The user can visualize the simulation
-while it’s running or after the simulation is complete via SCRIMMAGE’s
+while it&#8217;s running or after the simulation is complete via SCRIMMAGE&#8217;s
 visualization GUI. The GUI was written with the open source Visualization
 Toolkit (VTK) (<a class="reference external" href="http://www.vtk.org/">http://www.vtk.org/</a>), but it is not required during simulation.</p>
 </div>

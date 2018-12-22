@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Publishers and Subscribers" href="pub-sub.html"/>
@@ -98,7 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Plugin Parameters</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Plugin Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
@@ -144,7 +141,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/parameters.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/parameters.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,11 +154,11 @@
   <div class="section" id="plugin-parameters">
 <span id="parameters"></span><h1>Plugin Parameters<a class="headerlink" href="#plugin-parameters" title="Permalink to this headline">¶</a></h1>
 <p>Each SCRIMMAGE plugin is parameterized by the parameters in its respective
-PluginName.xml file. For example, the <code class="docutils literal notranslate"><span class="pre">Straight.xml</span></code> file has a parameter,
-<code class="docutils literal notranslate"><span class="pre">speed</span></code>, that specifies the desired forward speed for the entity. During
+PluginName.xml file. For example, the <code class="docutils literal"><span class="pre">Straight.xml</span></code> file has a parameter,
+<code class="docutils literal"><span class="pre">speed</span></code>, that specifies the desired forward speed for the entity. During
 plugin initialization, this parameter can be parsed and saved to a member variable of
-the Straight class with the help of SCRIMMAGE’s <code class="docutils literal notranslate"><span class="pre">get()</span></code> function:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+the Straight class with the help of SCRIMMAGE&#8217;s <code class="docutils literal"><span class="pre">get()</span></code> function:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="n">Straight</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">params</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">speed_</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;speed&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
@@ -170,21 +167,21 @@ the Straight class with the help of SCRIMMAGE’s <code class="docutils literal 
 </td></tr></table></div>
 <p>The previous method for setting plugin parameters only applies during plugin
 initialization. If you want to update a parameter during runtime, you can use
-the <code class="docutils literal notranslate"><span class="pre">register_param()</span></code> function. For example, if you wanted to update a
-member variable, <code class="docutils literal notranslate"><span class="pre">desired_z_</span></code>, during runtime, you can register this
-parameter in your plugin’s <code class="docutils literal notranslate"><span class="pre">init()</span></code> function:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">register_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">,</span> <span class="n">desired_z_</span><span class="p">);</span>
+the <code class="docutils literal"><span class="pre">register_param()</span></code> function. For example, if you wanted to update a
+member variable, <code class="docutils literal"><span class="pre">desired_z_</span></code>, during runtime, you can register this
+parameter in your plugin&#8217;s <code class="docutils literal"><span class="pre">init()</span></code> function:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">register_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">,</span> <span class="n">desired_z_</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-<p>During the simulation, another plugin can call the <code class="docutils literal notranslate"><span class="pre">set_param()</span></code> function:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">set_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
+<p>During the simulation, another plugin can call the <code class="docutils literal"><span class="pre">set_param()</span></code> function:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">set_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>while will have the affect of directly modifying the value of <code class="docutils literal notranslate"><span class="pre">desired_z_</span></code> in
+<p>while will have the affect of directly modifying the value of <code class="docutils literal"><span class="pre">desired_z_</span></code> in
 the plugin that registered that parameter. If you require a callback function
 when the parameter value is updated, you can use the optional callback form of
-the <code class="docutils literal notranslate"><span class="pre">register_param()</span></code> function:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+the <code class="docutils literal"><span class="pre">register_param()</span></code> function:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">auto</span> <span class="n">param_cb</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="kt">double</span> <span class="o">&amp;</span><span class="n">desired_z</span><span class="p">)</span> <span class="p">{</span>
@@ -193,9 +190,9 @@ the <code class="docutils literal notranslate"><span class="pre">register_param(
 <span class="n">register_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">,</span> <span class="n">desired_z_</span><span class="p">,</span> <span class="n">param_cb</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-<p>You can also “unregister” the parameter update with the <code class="docutils literal notranslate"><span class="pre">unregister_param</span></code>
+<p>You can also &#8220;unregister&#8221; the parameter update with the <code class="docutils literal"><span class="pre">unregister_param</span></code>
 function:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">unregister_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">);</span>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">unregister_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
 </div>

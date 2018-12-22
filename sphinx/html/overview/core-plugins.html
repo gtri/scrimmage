@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Overview" href="overview.html"/>
         <link rel="next" title="SCRIMMAGE Logging" href="logging.html"/>
@@ -92,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="viewer.html">SCRIMMAGE Viewer Controls</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html">SCRIMMAGE Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environment-vars.html">SCRIMMAGE Environment</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Core Plugins</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Core Plugins</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#autonomy-plugins">Autonomy Plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#motion-model-plugins">Motion Model Plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#controller-plugins">Controller Plugins</a></li>
@@ -144,7 +141,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/overview/core-plugins.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/overview/core-plugins.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,12 +159,12 @@ plugins.</p>
 <div class="section" id="autonomy-plugins">
 <h2>Autonomy Plugins<a class="headerlink" href="#autonomy-plugins" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>AuctionAssign</strong> : An example of using Auction-based methods and SCRIMMAGE’s
+<li><strong>AuctionAssign</strong> : An example of using Auction-based methods and SCRIMMAGE&#8217;s
 messaging system to generate auctions and bids between multiple entities.</li>
-<li><strong>Boids</strong> : An implementation of Boid’s swarm control
+<li><strong>Boids</strong> : An implementation of Boid&#8217;s swarm control
 model. (<a class="reference external" href="http://www.red3d.com/cwr/boids/">http://www.red3d.com/cwr/boids/</a>)</li>
 <li><strong>MOOSAutonomy</strong> : Allows an entity to be controlled by MOOS-IvP. See the
-<code class="docutils literal notranslate"><span class="pre">moos_scrimmage.py</span></code> script in the scripts directory for help on running
+<code class="docutils literal"><span class="pre">moos_scrimmage.py</span></code> script in the scripts directory for help on running
 MOOS with SCRIMMAGE.</li>
 <li><strong>MotorSchemas</strong> : An implementation of the Motor Schemas autonomous control
 framework. The entity can move towards a waypoint while avoiding other
@@ -185,9 +182,9 @@ heading.</li>
 <li><strong>DoubleIntegrator</strong> : Implements a 3D double integrator motion model.</li>
 <li><strong>FixedWing6DOF</strong> : A dynamics-based with quaternion integration fixed-wing
 model.</li>
-<li><strong>JSBSimControl</strong> : An example of controlling JSBSim’s actuators directly
+<li><strong>JSBSimControl</strong> : An example of controlling JSBSim&#8217;s actuators directly
 from an Autonomy plugin.</li>
-<li><strong>JSBSimModel</strong> : An example of controlling JSBSim’s autopilot / model from
+<li><strong>JSBSimModel</strong> : An example of controlling JSBSim&#8217;s autopilot / model from
 an Autonomy plugin.</li>
 <li><strong>RigidBody6DOF</strong> : A general purpose rigid body 6DOF model.</li>
 <li><strong>SimpleAircraft</strong> : Implements a simple 3D aircraft model.</li>
@@ -211,7 +208,7 @@ ROS node (experimental).</li>
 <li><strong>JSBSimControlControllerHeadingPID</strong> : Directly controls actuators of JSBSim
 model from SCRIMMAGE.</li>
 <li><strong>JSBSimModelControllerHeadingPID</strong> : Controls speed, altitude, and
-heading. Uses an autopilot defined in JSBSim’s XML syntax.</li>
+heading. Uses an autopilot defined in JSBSim&#8217;s XML syntax.</li>
 <li><strong>RigidBody6DOFControllerPID</strong> : Controls speed, altitude, and heading.</li>
 <li><strong>RigidBody6DOFControllerROS</strong>: Controls speed, altitude, and heading from
 ROS node (experimental).</li>
@@ -237,7 +234,7 @@ around each contact. See the ContactBlobCamera.xml file for complete sensor
 configuration.</li>
 <li><strong>NoisyContacts</strong> : Converts the states of contacts within a field-of-view
 and range into noisy states. Simulates noisy range-based sensors.</li>
-<li><strong>NoisyState</strong> : Converts the entity’s own state into a noisy
+<li><strong>NoisyState</strong> : Converts the entity&#8217;s own state into a noisy
 version. Simulates noisy localization.</li>
 </ul>
 </div>
@@ -255,7 +252,7 @@ a given threshold. If so, remove the two entities from the simulation.</li>
 <div class="section" id="metrics-plugins">
 <h2>Metrics Plugins<a class="headerlink" href="#metrics-plugins" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>SimpleCollisionMetrics</strong> : Keeps track of each entity’s total simulation
+<li><strong>SimpleCollisionMetrics</strong> : Keeps track of each entity&#8217;s total simulation
 time, collisions with teammates, collisions with non teammates, and
 collisions with the ground. This metric computes a score for each team based
 on the counts and the weights, which are defined in

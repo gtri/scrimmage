@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Create a Motion Model Plugin" href="motion-model-plugin.html"/>
@@ -94,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Create a Controller Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Create a Controller Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examine-controller-plugin">Examine Controller Plugin</a></li>
 </ul>
 </li>
@@ -147,7 +144,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/controller-plugin.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/controller-plugin.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -159,24 +156,24 @@
             
   <div class="section" id="create-a-controller-plugin">
 <span id="controller-plugin"></span><h1>Create a Controller Plugin<a class="headerlink" href="#create-a-controller-plugin" title="Permalink to this headline">¶</a></h1>
-<p>A Controller plugin converts the <code class="docutils literal notranslate"><span class="pre">desired_state_</span></code> variable and the current
-<code class="docutils literal notranslate"><span class="pre">state_</span></code> variable into actuator inputs that drive the motion model’s
-dynamics. Currently, there isn’t an automated script to create a Controller
+<p>A Controller plugin converts the <code class="docutils literal"><span class="pre">desired_state_</span></code> variable and the current
+<code class="docutils literal"><span class="pre">state_</span></code> variable into actuator inputs that drive the motion model&#8217;s
+dynamics. Currently, there isn&#8217;t an automated script to create a Controller
 plugin, so if you need to create a controller plugin, you will need to manually
 create files and name them appropriately. This will be fixed in the near
 future. Currently, Controller plugins are directly associated with Motion Model
 plugins, so by convention, Controller plugins are placed in the corresponding
-Motion model’s directory. (e.g., <code class="docutils literal notranslate"><span class="pre">SimpleAircraftControllerPID</span></code> is placed
-under the <code class="docutils literal notranslate"><span class="pre">motion/SimpleAircraft</span></code> directory).</p>
+Motion model&#8217;s directory. (e.g., <code class="docutils literal"><span class="pre">SimpleAircraftControllerPID</span></code> is placed
+under the <code class="docutils literal"><span class="pre">motion/SimpleAircraft</span></code> directory).</p>
 <div class="section" id="examine-controller-plugin">
 <h2>Examine Controller Plugin<a class="headerlink" href="#examine-controller-plugin" title="Permalink to this headline">¶</a></h2>
-<p>Let’s take a look at the SimpleAircraftControllerPID Controller plugin. The
+<p>Let&#8217;s take a look at the SimpleAircraftControllerPID Controller plugin. The
 SimpleAircraftControllerPID controls the thrust, roll, pitch, and yaw of the
 SimpleAircraft in order to reach the desired speed, altitude, and heading set
 by the Autonomy plugin. The SimpleAircraftControllerPID plugin makes use of
-SCRIMMAGE’s built-in PID controller. The <code class="docutils literal notranslate"><span class="pre">init</span></code> function sets the PID gains
-with the help of a helper function, <code class="docutils literal notranslate"><span class="pre">set_pid</span></code>:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+SCRIMMAGE&#8217;s built-in PID controller. The <code class="docutils literal"><span class="pre">init</span></code> function sets the PID gains
+with the help of a helper function, <code class="docutils literal"><span class="pre">set_pid</span></code>:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -235,8 +232,8 @@ with the help of a helper function, <code class="docutils literal notranslate"><
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
-<p>The plugin’s XML file contains the actual PID gain values:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;params&gt;</span>
+<p>The plugin&#8217;s XML file contains the actual PID gain values:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;params&gt;</span>
 
 ...
 
@@ -249,12 +246,12 @@ with the help of a helper function, <code class="docutils literal notranslate"><
 <span class="nt">&lt;/params&gt;</span>
 </pre></div>
 </div>
-<p>The Controller’s <code class="docutils literal notranslate"><span class="pre">step</span></code> method merely assigns the new setpoints coming from
+<p>The Controller&#8217;s <code class="docutils literal"><span class="pre">step</span></code> method merely assigns the new setpoints coming from
 the Autonomy plugin to each PID controller, tells each PID the current value of
 the state variable being tracked, and tells each PID to update itself. The PID
-output values are assigned to the <code class="docutils literal notranslate"><span class="pre">u_</span></code> member variable, which is retrieved
+output values are assigned to the <code class="docutils literal"><span class="pre">u_</span></code> member variable, which is retrieved
 later by the Motion Model plugin when it runs.</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4

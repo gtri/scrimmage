@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Create a SCRIMMAGE Plugins Project" href="create-project.html"/>
@@ -89,7 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple Runs on a Local Computer</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Multiple Runs on a Local Computer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mission-setup">Mission Setup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#run-single-mission">Run Single Mission</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#multiple-runs-in-parallel">Multiple Runs in Parallel</a></li>
@@ -153,7 +150,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/multiple-local-runs.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/multiple-local-runs.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -174,27 +171,27 @@ ships with scripts that generate scenarios with different initial conditions
 based on an initial scenario file and then runs the scenarios on your local
 machine in parallel. The following describes the workflow for generating
 scenarios from a base scenario, executing the runs on your local machine in
-parallel, and then analyzing the results with SCRIMMAGE’s tools.</p>
+parallel, and then analyzing the results with SCRIMMAGE&#8217;s tools.</p>
 <p>In this example, we will be setting up an experiment to determine the
 effectiveness of the collision avoidance behavior provided by Motor Schemas. To
 accomplish this we will first setup a team to serve as a control group, where
 the control group is not using collision avoidance. The team without collision
 avoidance will be split into two groups, each initially heading towards each
-other. Using the <code class="docutils literal notranslate"><span class="pre">variance_x</span></code>, <code class="docutils literal notranslate"><span class="pre">variance_y</span></code>, and <code class="docutils literal notranslate"><span class="pre">variance_z</span></code> XML tags,
-we can vary how far the entities will be generated around the entity’s <code class="docutils literal notranslate"><span class="pre">x</span></code>,
-<code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code> position tags. The control group will use the <code class="docutils literal notranslate"><span class="pre">Straight</span></code>
+other. Using the <code class="docutils literal"><span class="pre">variance_x</span></code>, <code class="docutils literal"><span class="pre">variance_y</span></code>, and <code class="docutils literal"><span class="pre">variance_z</span></code> XML tags,
+we can vary how far the entities will be generated around the entity&#8217;s <code class="docutils literal"><span class="pre">x</span></code>,
+<code class="docutils literal"><span class="pre">y</span></code>, and <code class="docutils literal"><span class="pre">z</span></code> position tags. The control group will use the <code class="docutils literal"><span class="pre">Straight</span></code>
 Autonomy plugin, which simply drives the entity in the forward direction based
 on its initial heading.</p>
-<p>The second team will use the <code class="docutils literal notranslate"><span class="pre">MotorSchemas</span></code> Autonomy plugin. This autonomy
+<p>The second team will use the <code class="docutils literal"><span class="pre">MotorSchemas</span></code> Autonomy plugin. This autonomy
 plugin attempts to drive the entity in the forward direction based on its
 initial heading, but it will also try to avoid other entities that enter its
-<code class="docutils literal notranslate"><span class="pre">sphere_of_influence</span></code>. The second team will also be split into two groups and
+<code class="docutils literal"><span class="pre">sphere_of_influence</span></code>. The second team will also be split into two groups and
 will initially point at each other, but they will be offset from the control
 group, so that they do not interact.</p>
-<p>This SCRIMMAGE mission is provided by the <code class="docutils literal notranslate"><span class="pre">straight-vs-motorschemas.xml</span></code>
-mission, which is located in the SCRIMMAGE core missions directory. Let’s take
+<p>This SCRIMMAGE mission is provided by the <code class="docutils literal"><span class="pre">straight-vs-motorschemas.xml</span></code>
+mission, which is located in the SCRIMMAGE core missions directory. Let&#8217;s take
 a look at the important aspects of this mission.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="c">&lt;!-- ========================== TEAM 1 ========================= --&gt;</span>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- ========================== TEAM 1 ========================= --&gt;</span>
 <span class="c">&lt;!--                   No Collision Avoidance                    --&gt;</span>
 <span class="nt">&lt;entity&gt;</span>
   <span class="nt">&lt;team_id&gt;</span>1<span class="nt">&lt;/team_id&gt;</span>
@@ -227,70 +224,70 @@ a look at the important aspects of this mission.</p>
 <span class="nt">&lt;/entity&gt;</span>
 </pre></div>
 </div>
-<p>First of all, the mission contains four entity’s: two entities for team #1
-running the <code class="docutils literal notranslate"><span class="pre">Straight</span></code> Autonomy plugin and two entities for team #2 running
-the <code class="docutils literal notranslate"><span class="pre">MotorSchemas</span></code> Autonomy plugin. Also, each entity XML block will actually
+<p>First of all, the mission contains four entity&#8217;s: two entities for team #1
+running the <code class="docutils literal"><span class="pre">Straight</span></code> Autonomy plugin and two entities for team #2 running
+the <code class="docutils literal"><span class="pre">MotorSchemas</span></code> Autonomy plugin. Also, each entity XML block will actually
 generate 20 entities. This is a key feature of SCRIMMAGE that makes it more
 versatile at developing swarm-based algorithms compared to other robotics
-simulators. Also, note that the team #2 <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> tag sets the
-<code class="docutils literal notranslate"><span class="pre">sphere_of_influence</span></code> tag to 50. This allows a higher-level mission file to
+simulators. Also, note that the team #2 <code class="docutils literal"><span class="pre">autonomy</span></code> tag sets the
+<code class="docutils literal"><span class="pre">sphere_of_influence</span></code> tag to 50. This allows a higher-level mission file to
 override sub-XML file parameters. If you open up the MotorSchemas.xml file in
 the SCRIMMAGE core project, you will find:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;sphere_of_influence&gt;</span>10<span class="nt">&lt;/sphere_of_influence&gt;</span>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;sphere_of_influence&gt;</span>10<span class="nt">&lt;/sphere_of_influence&gt;</span>
 </pre></div>
 </div>
-<p>By setting the <code class="docutils literal notranslate"><span class="pre">sphere_of_influence</span></code> in the <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> tag’s attribute, we
+<p>By setting the <code class="docutils literal"><span class="pre">sphere_of_influence</span></code> in the <code class="docutils literal"><span class="pre">autonomy</span></code> tag&#8217;s attribute, we
 change the value from 10 to 50. This can be accomplished for arbitrary
 parameters in SCRIMMAGE XML files.</p>
 </div>
 <div class="section" id="run-single-mission">
 <h2>Run Single Mission<a class="headerlink" href="#run-single-mission" title="Permalink to this headline">¶</a></h2>
-<p>Let’s execute a single simulation run to ensure that our initial conditions are
-correct. We can run the <code class="docutils literal notranslate"><span class="pre">scrimmage</span></code> executable from anywhere on the system as
+<p>Let&#8217;s execute a single simulation run to ensure that our initial conditions are
+correct. We can run the <code class="docutils literal"><span class="pre">scrimmage</span></code> executable from anywhere on the system as
 long as we provide a relative or absolute path to the mission file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage
+<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage
 $ scrimmage ./missions/straight-vs-motorschemas.xml
 </pre></div>
 </div>
 <p>Click on the SCRIMMAGE viewer window to bring it into focus. You can use your
 mouse and keyboard to navigate around the environment as described in
-<a class="reference internal" href="../overview/viewer.html"><span class="doc">SCRIMMAGE Viewer Controls</span></a> (You will have to hit the ‘a’ key to cycle between
+<a class="reference internal" href="../overview/viewer.html"><em>SCRIMMAGE Viewer Controls</em></a> (You will have to hit the &#8216;a&#8217; key to cycle between
 camera types). You should see four groups of aircraft in the SCRIMMAGE
-environment. Type ‘b’ to start the simulation. After the simulation is
+environment. Type &#8216;b&#8217; to start the simulation. After the simulation is
 complete, the SimpleCollisionMetrics will print out a report of the events it
 recorded and the weighted score. For example, the following output may be
 generated:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">================================================================================</span>
-<span class="n">SimpleCollisionMetrics</span>
-<span class="o">================================================================================</span>
-<span class="n">Team</span> <span class="n">ID</span><span class="p">:</span> <span class="mi">1</span>    <span class="p">(</span><span class="n">Survived</span> <span class="nb">round</span><span class="p">)</span>
-<span class="n">Score</span><span class="p">:</span> <span class="o">-</span><span class="mi">6</span>
-<span class="n">Entity</span> <span class="n">Count</span><span class="p">:</span> <span class="mi">60</span>
-<span class="n">Total</span> <span class="n">Flight</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">5557.4</span>
-<span class="n">Total</span> <span class="n">Normalized</span> <span class="n">Flight</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">55.574</span>
-<span class="n">Non</span><span class="o">-</span><span class="n">Team</span> <span class="n">Collisions</span><span class="p">:</span> <span class="mi">0</span>
-<span class="n">Team</span> <span class="n">Collisions</span><span class="p">:</span> <span class="mi">6</span>
-<span class="n">Ground</span> <span class="n">Collisions</span><span class="p">:</span> <span class="mi">0</span>
-<span class="o">----------------------------------------------------------------------</span>
-<span class="n">Team</span> <span class="n">ID</span><span class="p">:</span> <span class="mi">2</span>    <span class="p">(</span><span class="n">Survived</span> <span class="nb">round</span><span class="p">)</span>
-<span class="n">Score</span><span class="p">:</span> <span class="mi">0</span>
-<span class="n">Entity</span> <span class="n">Count</span><span class="p">:</span> <span class="mi">20</span>
-<span class="n">Total</span> <span class="n">Flight</span> <span class="n">Time</span><span class="p">:</span> <span class="mi">2000</span>
-<span class="n">Total</span> <span class="n">Normalized</span> <span class="n">Flight</span> <span class="n">Time</span><span class="p">:</span> <span class="mi">20</span>
-<span class="n">Non</span><span class="o">-</span><span class="n">Team</span> <span class="n">Collisions</span><span class="p">:</span> <span class="mi">0</span>
-<span class="n">Team</span> <span class="n">Collisions</span><span class="p">:</span> <span class="mi">0</span>
-<span class="n">Ground</span> <span class="n">Collisions</span><span class="p">:</span> <span class="mi">0</span>
-<span class="o">----------------------------------------------------------------------</span>
-<span class="o">================================================================================</span>
-<span class="n">Overall</span> <span class="n">Scores</span>
-<span class="o">================================================================================</span>
-<span class="n">Team</span> <span class="n">ID</span><span class="p">:</span> <span class="mi">1</span>
-<span class="n">Score</span><span class="p">:</span> <span class="o">-</span><span class="mi">6</span>
-<span class="o">--------------------------------------------------------------------------------</span>
-<span class="n">Team</span> <span class="n">ID</span><span class="p">:</span> <span class="mi">2</span>
-<span class="n">Score</span><span class="p">:</span> <span class="mi">0</span>
-<span class="o">--------------------------------------------------------------------------------</span>
-<span class="n">Simulation</span> <span class="n">Complete</span>
+<div class="highlight-python"><div class="highlight"><pre>================================================================================
+SimpleCollisionMetrics
+================================================================================
+Team ID: 1    (Survived round)
+Score: -6
+Entity Count: 60
+Total Flight Time: 5557.4
+Total Normalized Flight Time: 55.574
+Non-Team Collisions: 0
+Team Collisions: 6
+Ground Collisions: 0
+----------------------------------------------------------------------
+Team ID: 2    (Survived round)
+Score: 0
+Entity Count: 20
+Total Flight Time: 2000
+Total Normalized Flight Time: 20
+Non-Team Collisions: 0
+Team Collisions: 0
+Ground Collisions: 0
+----------------------------------------------------------------------
+================================================================================
+Overall Scores
+================================================================================
+Team ID: 1
+Score: -6
+--------------------------------------------------------------------------------
+Team ID: 2
+Score: 0
+--------------------------------------------------------------------------------
+Simulation Complete
 </pre></div>
 </div>
 <p>From this report, you can see that team #1 (the team without collision
@@ -298,7 +295,7 @@ avoidance) had six team collisions and that team #2 (the team with collision
 avoidance) had zero team collisions. The SimpleCollisionMetrics plugin uses the
 weights defined in SimpleCollisionMetrics.xml to compute the final score. Thus,
 with the weights:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>&lt;!-- weights for scoring function --&gt;
+<div class="highlight-python"><div class="highlight"><pre>&lt;!-- weights for scoring function --&gt;
 &lt;flight_time_w&gt;0.0&lt;/flight_time_w&gt;
 &lt;team_collisions_w&gt;-1.0&lt;/team_collisions_w&gt;
 &lt;non_team_collisions_w&gt;-1.0&lt;/non_team_collisions_w&gt;
@@ -308,95 +305,95 @@ with the weights:</p>
 of 0. Thus, for this example, the team with collision avoidance performed
 better. The metrics are also saved to a CSV file called summary.csv in the
 output log directory. In this case, the file can be found at:
-<code class="docutils literal notranslate"><span class="pre">~/.scrimmage/logs/2017-07-25_16-15-05/summary.csv</span></code>.</p>
+<code class="docutils literal"><span class="pre">~/.scrimmage/logs/2017-07-25_16-15-05/summary.csv</span></code>.</p>
 </div>
 <div class="section" id="multiple-runs-in-parallel">
 <h2>Multiple Runs in Parallel<a class="headerlink" href="#multiple-runs-in-parallel" title="Permalink to this headline">¶</a></h2>
 <p>Before running multiple scenarios in parallel, you will need to install some
 Python packages:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ sudo apt-get install python-pip python-scipy python-pandas parallel
+<div class="highlight-python"><div class="highlight"><pre>$ sudo apt-get install python-pip python-scipy python-pandas parallel
 $ sudo pip install pyDOE
 </pre></div>
 </div>
-<p>We will now use one of SCRIMMAGE’s tools, <code class="docutils literal notranslate"><span class="pre">run_experiments.py</span></code>, to execute
+<p>We will now use one of SCRIMMAGE&#8217;s tools, <code class="docutils literal"><span class="pre">run_experiments.py</span></code>, to execute
 100 simulation runs of this same scenario (7 instances allowed in parallel)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage/scripts
+<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage/scripts
 $ ./run_experiments.py -t 100 -m ../missions/straight-vs-motorschemas.xml -p 7
 </pre></div>
 </div>
 <p>Since my machine has eight cores, I allow seven SCRIMMAGE instances to run in
 parallel at a time to prevent system lockup. After the 100 simulations finish
-executing, you should have a new timestamped folder in <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/experiments</span></code>
+executing, you should have a new timestamped folder in <code class="docutils literal"><span class="pre">~/.scrimmage/experiments</span></code>
 and an additional 100 timestamped log folders under that.  The
-<code class="docutils literal notranslate"><span class="pre">aggregate-runs</span></code> program is used to read the summary.csv files in each log
-directory, tally the wins for each team, and display the results. Let’s
+<code class="docutils literal"><span class="pre">aggregate-runs</span></code> program is used to read the summary.csv files in each log
+directory, tally the wins for each team, and display the results. Let&#8217;s
 aggregate the results by providing the directory that holds all the results to
-the <code class="docutils literal notranslate"><span class="pre">aggregate-runs</span></code> program:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ aggregate-runs ~/.scrimmage/experiments/{new_timestamped_folder}
+the <code class="docutils literal"><span class="pre">aggregate-runs</span></code> program:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ aggregate-runs ~/.scrimmage/experiments/{new_timestamped_folder}
 </pre></div>
 </div>
 <p>This should produce a terminal output that looks something like this</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Aggregating</span> <span class="mi">100</span> <span class="n">runs</span><span class="o">.</span>
-<span class="p">[</span><span class="o">======================================================================</span><span class="p">]</span> <span class="mi">100</span> <span class="o">%</span>
-<span class="n">Total</span> <span class="n">time</span> <span class="n">to</span> <span class="n">process</span> <span class="n">log</span> <span class="n">files</span><span class="p">:</span> <span class="mf">0.002509</span>
-<span class="o">-----------------------------------------------------</span>
-<span class="n">Team</span> <span class="n">ID</span>         <span class="n">Wins</span>            <span class="n">Draws</span>           <span class="n">Total</span>
-<span class="mi">2</span>               <span class="mi">100</span>             <span class="mi">0</span>               <span class="mi">100</span>
+<div class="highlight-python"><div class="highlight"><pre>Aggregating 100 runs.
+[======================================================================] 100 %
+Total time to process log files: 0.002509
+-----------------------------------------------------
+Team ID         Wins            Draws           Total
+2               100             0               100
 </pre></div>
 </div>
-<p>To see other inputs to <code class="docutils literal notranslate"><span class="pre">run_experiments.py</span></code>, view its command line help with
-the <code class="docutils literal notranslate"><span class="pre">-h</span></code> flag.</p>
+<p>To see other inputs to <code class="docutils literal"><span class="pre">run_experiments.py</span></code>, view its command line help with
+the <code class="docutils literal"><span class="pre">-h</span></code> flag.</p>
 </div>
 <div class="section" id="playback-scenarios">
 <h2>Playback Scenarios<a class="headerlink" href="#playback-scenarios" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes your results might contain outliers that you want to look at
 closer. For example, what if there was a mission where team #1 outperformed
-team #2? You could use the <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> program to playback the scenario
-that contains the outlier. Execute <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> by providing it with the log
+team #2? You could use the <code class="docutils literal"><span class="pre">filter-runs</span></code> program to playback the scenario
+that contains the outlier. Execute <code class="docutils literal"><span class="pre">filter-runs</span></code> by providing it with the log
 directory:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ filter-runs ~/.scrimmage/experiments/{new_timestamped_folder}
+<div class="highlight-python"><div class="highlight"><pre>$ filter-runs ~/.scrimmage/experiments/{new_timestamped_folder}
 </pre></div>
 </div>
 <p>Now you can select the type of outcome to playback:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">====================================================</span>
-<span class="n">Choose</span> <span class="n">an</span> <span class="n">outcome</span> <span class="n">number</span><span class="p">:</span>
-<span class="o">----------------------------------------------------</span>
-<span class="n">Number</span>          <span class="n">Name</span>            <span class="n">Count</span>
-<span class="o">----------------------------------------------------</span>
-<span class="p">[</span><span class="mi">0</span><span class="p">]</span>             <span class="n">team_2</span>          <span class="mi">100</span>
-<span class="o">&gt;&gt;</span>
+<div class="highlight-python"><div class="highlight"><pre>====================================================
+Choose an outcome number:
+----------------------------------------------------
+Number          Name            Count
+----------------------------------------------------
+[0]             team_2          100
+&gt;&gt;
 </pre></div>
 </div>
 <p>In this case, there were no outliers and team #2 always won. But, we can
-playback the scenarios where team #2 won by entering <code class="docutils literal notranslate"><span class="pre">0</span></code> and hitting
-<code class="docutils literal notranslate"><span class="pre">[ENTER]</span></code>. This will open the SCRIMMAGE viewer and playback the
+playback the scenarios where team #2 won by entering <code class="docutils literal"><span class="pre">0</span></code> and hitting
+<code class="docutils literal"><span class="pre">[ENTER]</span></code>. This will open the SCRIMMAGE viewer and playback the
 simulation. Also, some information about the simulation is displayed to the
 screen:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Playing</span> <span class="n">back</span><span class="p">:</span> <span class="n">team_2</span>
-<span class="n">Mission</span><span class="p">:</span> <span class="o">~/.</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">experiments</span><span class="o">/</span><span class="p">{</span><span class="n">new_timestamped_folder</span><span class="p">}</span><span class="o">/</span><span class="p">{</span><span class="n">timestamp</span><span class="p">}</span><span class="n">_job_0_task_50</span>
-<span class="n">Frames</span> <span class="n">parsed</span><span class="p">:</span> <span class="mi">502</span>
-<span class="n">Playback</span> <span class="n">Complete</span>
-<span class="o">====================================</span>
-<span class="n">Choose</span> <span class="n">an</span> <span class="n">option</span><span class="p">:</span>
-<span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="n">eplay</span>
-<span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="n">ext</span>
-<span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="n">uit</span>
+<div class="highlight-python"><div class="highlight"><pre>Playing back: team_2
+Mission: ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
+Frames parsed: 502
+Playback Complete
+====================================
+Choose an option:
+(r)eplay
+(n)ext
+(q)uit
 </pre></div>
 </div>
-<p>The user can then use the <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">n</span></code>, and <code class="docutils literal notranslate"><span class="pre">q</span></code> keys to replay the same
-scenario, move to the next scenario, or quit the <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> program,
+<p>The user can then use the <code class="docutils literal"><span class="pre">r</span></code>, <code class="docutils literal"><span class="pre">n</span></code>, and <code class="docutils literal"><span class="pre">q</span></code> keys to replay the same
+scenario, move to the next scenario, or quit the <code class="docutils literal"><span class="pre">filter-runs</span></code> program,
 respectively. The user can also playback specific scenarios by providing the
-log directory of a specific scenario to the <code class="docutils literal notranslate"><span class="pre">scrimmage-playback</span></code> program:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage-playback ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
+log directory of a specific scenario to the <code class="docutils literal"><span class="pre">scrimmage-playback</span></code> program:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ scrimmage-playback ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
 </pre></div>
 </div>
 </div>
 <div class="section" id="varying-initial-conditions">
 <h2>Varying Initial Conditions<a class="headerlink" href="#varying-initial-conditions" title="Permalink to this headline">¶</a></h2>
 <p>SCRIMMAGE also has the ability to vary initial conditions in the SCRIMMAGE
-mission file with the use of a “ranges” file. Let’s take a look at the example
-mission file located at <code class="docutils literal notranslate"><span class="pre">/path/to/scrimmage/missions/batch-example-mission.xml</span></code>.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;autonomy</span> <span class="na">show_shapes=</span><span class="s">&quot;true&quot;</span> <span class="na">max_speed=</span><span class="s">&quot;${max_speed=25}&quot;</span> <span class="na">behaviors=</span><span class="s">&quot;</span>
+mission file with the use of a &#8220;ranges&#8221; file. Let&#8217;s take a look at the example
+mission file located at <code class="docutils literal"><span class="pre">/path/to/scrimmage/missions/batch-example-mission.xml</span></code>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;autonomy</span> <span class="na">show_shapes=</span><span class="s">&quot;true&quot;</span> <span class="na">max_speed=</span><span class="s">&quot;${max_speed=25}&quot;</span> <span class="na">behaviors=</span><span class="s">&quot;</span>
 <span class="s">  [ AvoidEntityMS show_shapes=&#39;true&#39; gain=&#39;${MS_gain=1.0}&#39; sphere_of_influence=&#39;10&#39; minimum_range=&#39;2&#39; ]</span>
 <span class="s">   [ MoveToGoalMS gain=&#39;1.0&#39; show_shapes=&#39;true&#39; use_initial_heading=&#39;true&#39; goal=&#39;200,200,-100&#39;]&quot;</span>
           <span class="nt">&gt;</span>MotorSchemas<span class="nt">&lt;/autonomy&gt;</span>
@@ -404,13 +401,13 @@ mission file located at <code class="docutils literal notranslate"><span class="
 </div>
 <p>In this example we can see that we have created two variables - max_speed and
 MS_gain. These variables are enclosed by braces and have a dollar sign at the
-beginning. The basic format is <code class="docutils literal notranslate"><span class="pre">${var_name=value}</span></code>. You must also provide a
+beginning. The basic format is <code class="docutils literal"><span class="pre">${var_name=value}</span></code>. You must also provide a
 default value for the variables to the right of the equal sign. In this
 example, the default max_speed is 25, and the default gain is 1.0. Everything
 from the $ to the } will become that variables value, so be sure to enclose the
-expression in the proper quotations.  Let’s now take a look at the ranges file,
-<code class="docutils literal notranslate"><span class="pre">/path/to/scrimmage/config/ranges/batch-ranges.xml</span></code>.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+expression in the proper quotations.  Let&#8217;s now take a look at the ranges file,
+<code class="docutils literal"><span class="pre">/path/to/scrimmage/config/ranges/batch-ranges.xml</span></code>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;</span>
 <span class="nt">&lt;ranges</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
     <span class="na">name=</span><span class="s">&quot;BatchExample&quot;</span><span class="nt">&gt;</span>
@@ -419,19 +416,19 @@ expression in the proper quotations.  Let’s now take a look at the ranges file
 <span class="nt">&lt;/ranges&gt;</span>
 </pre></div>
 </div>
-<p>By providing the path of this ranges file to the <code class="docutils literal notranslate"><span class="pre">run_experiments.py</span></code>
+<p>By providing the path of this ranges file to the <code class="docutils literal"><span class="pre">run_experiments.py</span></code>
 script, SCRIMMAGE will vary the max_speed and gain for MoveToGoalMS for each entity
-based on the <code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> values specified in the ranges file.</p>
-<p>Let’s execute 100 simulations again,
-but we’ll vary the initial conditions with the ranges file this time. Lets also
+based on the <code class="docutils literal"><span class="pre">low</span></code> and <code class="docutils literal"><span class="pre">high</span></code> values specified in the ranges file.</p>
+<p>Let&#8217;s execute 100 simulations again,
+but we&#8217;ll vary the initial conditions with the ranges file this time. Lets also
 name the mission this time:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage/scripts
+<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage/scripts
 $ ./run_experiments.py -t 100 -m ../missions/batch-example-mission.xml \
   -p 7 -r ../config/ranges/batch-ranges.xml -n my_first_parameter_varying
 </pre></div>
 </div>
 <p>This should output 100 timestamped folders to
-<code class="docutils literal notranslate"><span class="pre">~/.scrimmage/experiments/my_first_parameter_varying/</span></code> representing the files for each
+<code class="docutils literal"><span class="pre">~/.scrimmage/experiments/my_first_parameter_varying/</span></code> representing the files for each
 individual run. In addition, it will output a params file for each run and a
 batch_params.csv file showing all of the params for each file in one run.</p>
 </div>
@@ -442,7 +439,7 @@ batch_params.csv file showing all of the params for each file in one run.</p>
 This is a python jupyter notebook showing a simple example of how to aggregate
 data from this tutorial. In this example, we output all of the data on entity 1
 per run into a single .csv file saved at
-<code class="docutils literal notranslate"><span class="pre">~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv</span></code>.</p>
+<code class="docutils literal"><span class="pre">~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv</span></code>.</p>
 </div>
 <div class="section" id="basic-visualization">
 <h2>Basic Visualization<a class="headerlink" href="#basic-visualization" title="Permalink to this headline">¶</a></h2>
@@ -450,7 +447,7 @@ per run into a single .csv file saved at
 visualization tools. One tool that will allow you to quickly generate graphs is
 RAW Graphs.  Navigate to <a class="reference external" href="http://app.rawgraphs.io/">http://app.rawgraphs.io/</a>. You will see a button that
 allows you to upload a csv file. Upload
-<code class="docutils literal notranslate"><span class="pre">~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv</span></code>.  You
+<code class="docutils literal"><span class="pre">~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv</span></code>.  You
 can then scroll down and quickly generate graphs for this data. An example
 graph for this data is included below. This graph demonstrates an intuitive
 result - increasing the gain on AvoidEntityMS causes the Closest Point of

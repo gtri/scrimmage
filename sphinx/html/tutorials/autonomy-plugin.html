@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Draw Shapes in the Viewer" href="draw-shapes.html"/>
@@ -91,7 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Create an Autonomy Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Create an Autonomy Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examine-autonomy-plugin">Examine Autonomy Plugin</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#autonomy-plugin-initialization">Autonomy Plugin Initialization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-autonomy">Step Autonomy</a></li>
@@ -152,7 +149,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/autonomy-plugin.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/autonomy-plugin.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,31 +164,31 @@
 <p>SCRIMMAGE ships with a script that generates an Autonomy plugin template. The
 developer needs to provide the name of the Autonomy plugin and the root
 directory of your SCRIMMAGE plugins project. We will use the plugins project we
-created in the previous tutorial ( <a class="reference internal" href="create-project.html"><span class="doc">Create a SCRIMMAGE Plugins Project</span></a> ) to build our new
+created in the previous tutorial ( <a class="reference internal" href="create-project.html"><em>Create a SCRIMMAGE Plugins Project</em></a> ) to build our new
 Autonomy plugin.</p>
 <p>To create an Autonomy plugin, enter the following at the terminal:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+<div class="highlight-python"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
 $ ./generate-plugin.sh autonomy MyFollowBehavior ~/scrimmage/my-scrimmage-plugins
 </pre></div>
 </div>
-<p>Now, let’s build the plugin that was placed in the my-scrimmage-plugins
+<p>Now, let&#8217;s build the plugin that was placed in the my-scrimmage-plugins
 project:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
+<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
 $ cmake ..
 $ make
 </pre></div>
 </div>
 <p>If the plugin built successfuly, you will see the following output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="p">[</span><span class="mi">100</span><span class="o">%</span><span class="p">]</span> <span class="n">Built</span> <span class="n">target</span> <span class="n">MyFollowBehavior_plugin</span>
+<div class="highlight-python"><div class="highlight"><pre>[100%] Built target MyFollowBehavior_plugin
 </pre></div>
 </div>
 <div class="section" id="examine-autonomy-plugin">
 <h2>Examine Autonomy Plugin<a class="headerlink" href="#examine-autonomy-plugin" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="autonomy-plugin-initialization">
 <h3>Autonomy Plugin Initialization<a class="headerlink" href="#autonomy-plugin-initialization" title="Permalink to this headline">¶</a></h3>
-<p>Let’s take a look at the header file
-<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h</span></code>:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>Let&#8217;s take a look at the header file
+<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h</span></code>:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -236,17 +233,17 @@ $ make
  <span class="cp">#endif </span><span class="c1">// INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
 </pre></div>
 </td></tr></table></div>
-<p>Note that it inherits from the scrimmage base class <code class="docutils literal notranslate"><span class="pre">Autonomy.h</span></code> located at
-<code class="docutils literal notranslate"><span class="pre">scrimmage/include/scrimmage/autonomy/Autonomy.h</span></code> which provides a couple virtual methods,
-<code class="docutils literal notranslate"><span class="pre">init</span></code> and <code class="docutils literal notranslate"><span class="pre">step</span></code>,
-we will be overriding. The member variables <code class="docutils literal notranslate"><span class="pre">desired_alt_idx_</span></code>, <code class="docutils literal notranslate"><span class="pre">desired_speed_idx_</span></code>,
-and <code class="docutils literal notranslate"><span class="pre">desired_heading_idx_</span></code> will be used to interact with the controller. For more details
-on interacting with controllers, see <a class="reference internal" href="../overview/variableio.html#variableio"><span class="std std-ref">Variable IO</span></a>.</p>
-<p>Now let’s take a look at the Autonomy plugin template code to better understand the
+<p>Note that it inherits from the scrimmage base class <code class="docutils literal"><span class="pre">Autonomy.h</span></code> located at
+<code class="docutils literal"><span class="pre">scrimmage/include/scrimmage/autonomy/Autonomy.h</span></code> which provides a couple virtual methods,
+<code class="docutils literal"><span class="pre">init</span></code> and <code class="docutils literal"><span class="pre">step</span></code>,
+we will be overriding. The member variables <code class="docutils literal"><span class="pre">desired_alt_idx_</span></code>, <code class="docutils literal"><span class="pre">desired_speed_idx_</span></code>,
+and <code class="docutils literal"><span class="pre">desired_heading_idx_</span></code> will be used to interact with the controller. For more details
+on interacting with controllers, see <a class="reference internal" href="../overview/variableio.html#variableio"><span>Variable IO</span></a>.</p>
+<p>Now let&#8217;s take a look at the Autonomy plugin template code to better understand the
 types of information that are available to the Autonomy developer. Use your
 favorite text editor to open the file at
-<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.cpp</span></code>:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.cpp</span></code>:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -281,10 +278,10 @@ favorite text editor to open the file at
  <span class="k">namespace</span> <span class="n">autonomy</span> <span class="p">{</span>
 </pre></div>
 </td></tr></table></div>
-<p>After the relevant header files are included, there is a <code class="docutils literal notranslate"><span class="pre">REGISTER_PLUGIN</span></code>
+<p>After the relevant header files are included, there is a <code class="docutils literal"><span class="pre">REGISTER_PLUGIN</span></code>
 macro that adds information to your source file so scrimmage can dynamically load it
-at runtime. The plugin’s <code class="docutils literal notranslate"><span class="pre">init</span></code> function is pasted below:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+at runtime. The plugin&#8217;s <code class="docutils literal"><span class="pre">init</span></code> function is pasted below:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -306,11 +303,11 @@ at runtime. The plugin’s <code class="docutils literal notranslate"><span clas
 </pre></div>
 </td></tr></table></div>
 <p>This is just setting up the VariableIO to interact with the controller. See
-<a class="reference internal" href="../overview/variableio.html#variableio"><span class="std std-ref">Variable IO</span></a> for more details.
-The <code class="docutils literal notranslate"><span class="pre">initial_speed</span></code> tag is in the <code class="docutils literal notranslate"><span class="pre">MyFollowBehavior.xml</span></code> file, which
-we get from the function <code class="docutils literal notranslate"><span class="pre">get</span></code> found in the <code class="docutils literal notranslate"><span class="pre">ParseUtils.h</span></code> header available
+<a class="reference internal" href="../overview/variableio.html#variableio"><span>Variable IO</span></a> for more details.
+The <code class="docutils literal"><span class="pre">initial_speed</span></code> tag is in the <code class="docutils literal"><span class="pre">MyFollowBehavior.xml</span></code> file, which
+we get from the function <code class="docutils literal"><span class="pre">get</span></code> found in the <code class="docutils literal"><span class="pre">ParseUtils.h</span></code> header available
 from scrimmage:</p>
-<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -323,23 +320,23 @@ from scrimmage:</p>
 <span class="nt">&lt;/params&gt;</span>
 </pre></div>
 </td></tr></table></div>
-<p>the <code class="docutils literal notranslate"><span class="pre">sc::get&lt;double&gt;()</span></code> function can convert the string value of
-<code class="docutils literal notranslate"><span class="pre">initial_speed</span></code> to a double value. The Autonomy plugin developer can add
-arbitrarly define tags in the Autonomy plugin’s XML file. The <code class="docutils literal notranslate"><span class="pre">sc::get</span></code>
-supports all standard C++ data types, such as <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>,
-<code class="docutils literal notranslate"><span class="pre">std::string</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>, etc.</p>
+<p>the <code class="docutils literal"><span class="pre">sc::get&lt;double&gt;()</span></code> function can convert the string value of
+<code class="docutils literal"><span class="pre">initial_speed</span></code> to a double value. The Autonomy plugin developer can add
+arbitrarly define tags in the Autonomy plugin&#8217;s XML file. The <code class="docutils literal"><span class="pre">sc::get</span></code>
+supports all standard C++ data types, such as <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">double</span></code>,
+<code class="docutils literal"><span class="pre">std::string</span></code>, <code class="docutils literal"><span class="pre">bool</span></code>, <code class="docutils literal"><span class="pre">unsigned</span> <span class="pre">int</span></code>, etc.</p>
 </div>
 <div class="section" id="step-autonomy">
 <h3>Step Autonomy<a class="headerlink" href="#step-autonomy" title="Permalink to this headline">¶</a></h3>
 <p>The real work of the Autonomy plugin is typically implemented in the
-<code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> method.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span>
+<code class="docutils literal"><span class="pre">step_autonomy</span></code> method.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> method takes the current simulation time, <code class="docutils literal notranslate"><span class="pre">t</span></code>, and the
-simulation step size <code class="docutils literal notranslate"><span class="pre">dt</span></code>, as inputs. If an error is detected during method
-execution, the Autonomy developer can return <code class="docutils literal notranslate"><span class="pre">false</span></code> to inform SCRIMMAGE’s
-simulation controller, but typically, <code class="docutils literal notranslate"><span class="pre">true</span></code> should be returned when the
+<p>The <code class="docutils literal"><span class="pre">step_autonomy</span></code> method takes the current simulation time, <code class="docutils literal"><span class="pre">t</span></code>, and the
+simulation step size <code class="docutils literal"><span class="pre">dt</span></code>, as inputs. If an error is detected during method
+execution, the Autonomy developer can return <code class="docutils literal"><span class="pre">false</span></code> to inform SCRIMMAGE&#8217;s
+simulation controller, but typically, <code class="docutils literal"><span class="pre">true</span></code> should be returned when the
 method finishes execution. The example Autonomy plugin that was generated
 implements the following simple behavior:</p>
 <ol class="arabic simple">
@@ -347,7 +344,7 @@ implements the following simple behavior:</p>
 <li>Find the the closest contact that is not on my team.</li>
 <li>Head in the direction of the closest contact.</li>
 </ol>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -438,37 +435,37 @@ implements the following simple behavior:</p>
 </td></tr></table></div>
 <p>Line 6 is a common way to iterate over all contacts
 using range-based for loops available from c++-11. In line 12, we ignore
-contacts that are on the same team by checking team IDs. <code class="docutils literal notranslate"><span class="pre">parent_</span></code> is a
-reference to the plugin’s parent entity. The parent entity holds references to
-the entity’s ID and other plugins. The <code class="docutils literal notranslate"><span class="pre">scrimmage::ID</span></code> class has three member
-variables that refer to the entity’s ID, the sub_swarm_id, and the team_id,
-respectively. In line 12, we use Eigen’s <code class="docutils literal notranslate"><span class="pre">norm()</span></code> function to calculate the
+contacts that are on the same team by checking team IDs. <code class="docutils literal"><span class="pre">parent_</span></code> is a
+reference to the plugin&#8217;s parent entity. The parent entity holds references to
+the entity&#8217;s ID and other plugins. The <code class="docutils literal"><span class="pre">scrimmage::ID</span></code> class has three member
+variables that refer to the entity&#8217;s ID, the sub_swarm_id, and the team_id,
+respectively. In line 12, we use Eigen&#8217;s <code class="docutils literal"><span class="pre">norm()</span></code> function to calculate the
 distance between our entity and the contact. In lines 14 to 18, we determine if
 this is the small distance encountered so far and save the distance and ID of
 the contact if it is the closest distance.</p>
-<p>In the second <code class="docutils literal notranslate"><span class="pre">if</span></code> block,
-we set the Autonomy’s controller inputs using <a class="reference internal" href="../overview/variableio.html#variableio"><span class="std std-ref">Variable IO</span></a>.
+<p>In the second <code class="docutils literal"><span class="pre">if</span></code> block,
+we set the Autonomy&#8217;s controller inputs using <a class="reference internal" href="../overview/variableio.html#variableio"><span>Variable IO</span></a>.
 Line 28 ensures that the ID of the contact that we want to follow exists. Next,
-we get a pointer to the contact’s <code class="docutils literal notranslate"><span class="pre">scrimmage::State</span></code> in line 30. Using basic
+we get a pointer to the contact&#8217;s <code class="docutils literal"><span class="pre">scrimmage::State</span></code> in line 30. Using basic
 trigonometry, we calculate the required heading to follow the contact in line
 33.  In line 37, we set the desired heading, similarly to how we set the
 heading in the initialization method. Finally, we set the desired altitude to
 the same altitude of the contact in line 40. If the closest contact search
-didn’t succeed in the first part of <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code>, then the
-controller inputs won’t be updated due to the guard.</p>
-<p>By just using the state’s of other contacts, Autonomy plugins can implement
+didn&#8217;t succeed in the first part of <code class="docutils literal"><span class="pre">step_autonomy</span></code>, then the
+controller inputs won&#8217;t be updated due to the guard.</p>
+<p>By just using the state&#8217;s of other contacts, Autonomy plugins can implement
 formation controllers, spatial search algorithms, biologically-inspired
 algorithms, and many other algorithms associated with multi-robot problems. The
 contacts in this example are ground truth contacts without any noise. When you
-complete the Sensor plugin tutorial (<a class="reference internal" href="sensor-plugin.html"><span class="doc">Create a Sensor Plugin</span></a>), you will learn how
+complete the Sensor plugin tutorial (<a class="reference internal" href="sensor-plugin.html"><em>Create a Sensor Plugin</em></a>), you will learn how
 to add noise and filter out contacts based on a sensor model.</p>
 </div>
 </div>
 <div class="section" id="running-the-plugin">
 <h2>Running the Plugin<a class="headerlink" href="#running-the-plugin" title="Permalink to this headline">¶</a></h2>
-<p>In our project, open <code class="docutils literal notranslate"><span class="pre">missions/example.xml</span></code> and go to the second entity block.
-Change <code class="docutils literal notranslate"><span class="pre">count</span></code> to 1 and <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> to <code class="docutils literal notranslate"><span class="pre">MyFollowBehavior</span></code> and save the file:</p>
-<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>In our project, open <code class="docutils literal"><span class="pre">missions/example.xml</span></code> and go to the second entity block.
+Change <code class="docutils literal"><span class="pre">count</span></code> to 1 and <code class="docutils literal"><span class="pre">autonomy</span></code> to <code class="docutils literal"><span class="pre">MyFollowBehavior</span></code> and save the file:</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -540,11 +537,11 @@ Change <code class="docutils literal notranslate"><span class="pre">count</span>
 </pre></div>
 </td></tr></table></div>
 <p>Now we can run the simulation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre>scrimmage missions/example.xml
+<div class="highlight-bash"><div class="highlight"><pre>scrimmage missions/example.xml
 </pre></div>
 </div>
-<p>You can change the viewer by pressing <code class="docutils literal notranslate"><span class="pre">a</span></code> once, scrolling out and moving the picture
-so both vehicles are in view. You can additionally press <code class="docutils literal notranslate"><span class="pre">+</span></code> so that the vehicles
+<p>You can change the viewer by pressing <code class="docutils literal"><span class="pre">a</span></code> once, scrolling out and moving the picture
+so both vehicles are in view. You can additionally press <code class="docutils literal"><span class="pre">+</span></code> so that the vehicles
 are larger. You should see two vehicles approach each other and circle.</p>
 </div>
 </div>

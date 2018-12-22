@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Overview" href="overview.html"/>
         <link rel="next" title="Change Log" href="changelog.html"/>
@@ -95,7 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">SCRIMMAGE Logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="xml-tags.html">Mission XML Tag Definitions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Variable IO</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Variable IO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
 </ul>
 </li>
@@ -136,7 +133,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/overview/variableio.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/overview/variableio.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -154,13 +151,13 @@ A user can start with a low fidelity motion model (e.g., a single integrator)
 where it is fast to lots of batch runs and optimizations. After
 this initial step, a higher fidelity motion model (e.g., 6-dof) can be used.
 However, this creates an issue because different motion models may
-require different inputs. The <code class="docutils literal notranslate"><span class="pre">VariableIO</span></code> class exists
+require different inputs. The <code class="docutils literal"><span class="pre">VariableIO</span></code> class exists
 to resolve this interfacing problem.</p>
-<p>In a plugin’s <code class="docutils literal notranslate"><span class="pre">init</span></code> function, it will declare what it expects
+<p>In a plugin&#8217;s <code class="docutils literal"><span class="pre">init</span></code> function, it will declare what it expects
 to receive as well as what it outputs. Since a motion model
 only needs inputs (it always outputs an updated state), this
-may look something like (example for a <code class="docutils literal notranslate"><span class="pre">SingleIntegrator</span></code>):</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+may look something like (example for a <code class="docutils literal"><span class="pre">SingleIntegrator</span></code>):</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">vel_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">velocity_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">velocity_y</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
@@ -168,25 +165,25 @@ may look something like (example for a <code class="docutils literal notranslate
 </pre></div>
 </td></tr></table></div>
 <p>These lines say the motion model expects a velocity in the <cite>x</cite>, <cite>y</cite>, and <cite>z</cite> directions.
-The second argument to <code class="docutils literal notranslate"><span class="pre">declare</span></code> is the direction (in this case it is an input).
+The second argument to <code class="docutils literal"><span class="pre">declare</span></code> is the direction (in this case it is an input).
 The first argument is an enum that will internally be converted
 to a string. SCRIMMAGE offers the enum option for the first argument
 so that typing errors can be found at compile rather than runtime. However,
-if a type is not available (see the list in <code class="docutils literal notranslate"><span class="pre">scrimmage/common/VariableIO.h</span></code>),
+if a type is not available (see the list in <code class="docutils literal"><span class="pre">scrimmage/common/VariableIO.h</span></code>),
 a user can also specify a string:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">vel_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_x&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_y&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_z_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_z&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-<p>The output of <code class="docutils literal notranslate"><span class="pre">declare</span></code> is an index into a vector internal to the
-<code class="docutils literal notranslate"><span class="pre">VariableIO</span></code> object. A controller plugin will output values to
-this vector, also through a  <code class="docutils literal notranslate"><span class="pre">VariableIO</span></code> object. The controller
+<p>The output of <code class="docutils literal"><span class="pre">declare</span></code> is an index into a vector internal to the
+<code class="docutils literal"><span class="pre">VariableIO</span></code> object. A controller plugin will output values to
+this vector, also through a  <code class="docutils literal"><span class="pre">VariableIO</span></code> object. The controller
 should expect an input from an autonomy and will output to a
-motion model, so in its <code class="docutils literal notranslate"><span class="pre">init</span></code> function the declaration will look like this:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+motion model, so in its <code class="docutils literal"><span class="pre">init</span></code> function the declaration will look like this:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -202,9 +199,9 @@ motion model, so in its <code class="docutils literal notranslate"><span class="
 </pre></div>
 </td></tr></table></div>
 <p>In other words, it expects to take in a position and outputs a velocity (this comes
-from <code class="docutils literal notranslate"><span class="pre">SingleIntegratorControllerWaypoint</span></code> which is a proportional controller).
+from <code class="docutils literal"><span class="pre">SingleIntegratorControllerWaypoint</span></code> which is a proportional controller).
 Finally, an autonomy will provide the desired position:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">output_pos_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
 <span class="n">output_pos_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_y</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
@@ -212,37 +209,37 @@ Finally, an autonomy will provide the desired position:</p>
 </pre></div>
 </td></tr></table></div>
 <p>Now that the declarations have been made, it is time to use them.
-If the autonomy wants to go to position <code class="docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">10,</span> <span class="pre">0)</span></code>
+If the autonomy wants to go to position <code class="docutils literal"><span class="pre">(5,</span> <span class="pre">10,</span> <span class="pre">0)</span></code>
 it will execute the following:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_x_idx_</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
 <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_y_idx_</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_z_idx_</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-<p>The <code class="docutils literal notranslate"><span class="pre">vars_</span></code> variable is available to all SCRIMMAGE plugins. Similar
+<p>The <code class="docutils literal"><span class="pre">vars_</span></code> variable is available to all SCRIMMAGE plugins. Similar
 lines exist in the controller.</p>
 <p>SCRIMMAGE will also attempt to figure out if a motion or controller
 needs an input not provided by a controller or autonomy, respectively.
 In particular, if you get the following message, all you need to
 do is follow the prompts:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">VariableIO</span> <span class="n">Error</span><span class="p">:</span> <span class="n">no</span> <span class="n">autonomies</span> <span class="n">provide</span> <span class="n">inputs</span> <span class="n">required</span> <span class="n">by</span> <span class="n">Controller</span> <span class="s2">&quot;SimpleAircraftControllerPID&quot;</span><span class="o">.</span> <span class="n">Add</span> <span class="n">VariableIO</span> <span class="n">output</span> <span class="n">declarations</span> <span class="ow">in</span> <span class="n">Straight</span><span class="p">,</span> <span class="k">as</span> <span class="n">follows</span>
-<span class="n">First</span><span class="p">,</span> <span class="n">place</span> <span class="n">the</span> <span class="n">following</span> <span class="ow">in</span> <span class="n">its</span> <span class="n">initializer</span><span class="p">:</span>
-    <span class="n">altitude_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="p">::</span><span class="n">Direction</span><span class="p">::</span><span class="n">Out</span><span class="p">);</span>
-    <span class="n">heading_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;heading&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="p">::</span><span class="n">Direction</span><span class="p">::</span><span class="n">Out</span><span class="p">);</span>
-    <span class="n">velocity_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="p">::</span><span class="n">Direction</span><span class="p">::</span><span class="n">Out</span><span class="p">);</span>
-<span class="n">Second</span><span class="p">,</span> <span class="n">place</span> <span class="n">the</span> <span class="n">following</span> <span class="ow">in</span> <span class="n">its</span> <span class="n">step</span> <span class="n">function</span><span class="p">:</span>
-    <span class="n">vars_</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">altitude_idx_</span><span class="p">,</span> <span class="n">value_to_output</span><span class="p">);</span>
-    <span class="n">vars_</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">heading_idx_</span><span class="p">,</span> <span class="n">value_to_output</span><span class="p">);</span>
-    <span class="n">vars_</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">velocity_idx_</span><span class="p">,</span> <span class="n">value_to_output</span><span class="p">);</span>
-<span class="n">where</span> <span class="n">value_to_output</span> <span class="ow">is</span> <span class="n">what</span> <span class="n">you</span> <span class="n">want</span> <span class="n">SimpleAircraftControllerPID</span> <span class="n">to</span> <span class="n">receive</span> <span class="k">as</span> <span class="n">its</span> <span class="nb">input</span><span class="o">.</span>
-<span class="n">Third</span><span class="p">,</span> <span class="n">place</span> <span class="n">following</span> <span class="ow">in</span> <span class="n">the</span> <span class="k">class</span> <span class="nc">declaration</span><span class="p">:</span>
-    <span class="n">uint8_t</span> <span class="n">altitude_idx_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">uint8_t</span> <span class="n">heading_idx_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">uint8_t</span> <span class="n">velocity_idx_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="n">Failed</span> <span class="n">to</span> <span class="n">parse</span> <span class="n">entity</span> <span class="n">at</span> <span class="n">start</span> <span class="n">position</span><span class="p">:</span> <span class="n">x</span><span class="o">=-</span><span class="mi">900</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span>
-<span class="n">Failed</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">entity</span>
+<div class="highlight-python"><div class="highlight"><pre>VariableIO Error: no autonomies provide inputs required by Controller &quot;SimpleAircraftControllerPID&quot;. Add VariableIO output declarations in Straight, as follows
+First, place the following in its initializer:
+    altitude_idx_ = vars_.declare(&quot;altitude&quot;, VariableIO::Direction::Out);
+    heading_idx_ = vars_.declare(&quot;heading&quot;, VariableIO::Direction::Out);
+    velocity_idx_ = vars_.declare(&quot;velocity&quot;, VariableIO::Direction::Out);
+Second, place the following in its step function:
+    vars_.output(altitude_idx_, value_to_output);
+    vars_.output(heading_idx_, value_to_output);
+    vars_.output(velocity_idx_, value_to_output);
+where value_to_output is what you want SimpleAircraftControllerPID to receive as its input.
+Third, place following in the class declaration:
+    uint8_t altitude_idx_ = 0;
+    uint8_t heading_idx_ = 0;
+    uint8_t velocity_idx_ = 0;
+Failed to parse entity at start position: x=-900, y=0
+Failed to generate entity
 </pre></div>
 </div>
 </div>

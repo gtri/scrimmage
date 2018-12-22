@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Create a Metrics Plugin" href="metrics-plugin.html"/>
@@ -96,7 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Create an Entity Interaction Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Create an Entity Interaction Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examine-entity-interaction-plugin">Examine Entity Interaction Plugin</a></li>
 </ul>
 </li>
@@ -147,7 +144,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/entity-interaction-plugin.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/entity-interaction-plugin.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,26 +164,26 @@ this interface. Given a high-fidelity motion model, the Bullet entity
 interaction SCRIMMAGE plugin implements mesh-based collision detection between
 entities. To create an entity interaction plugin, enter the following at the
 terminal:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+<div class="highlight-python"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
 $ ./generate-plugin.sh interaction MyInteraction ~/scrimmage/my-scrimmage-plugins
 </pre></div>
 </div>
 <p>Build the entity interaction plugin:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
+<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
 $ cmake ..
 $ make
 </pre></div>
 </div>
 <div class="section" id="examine-entity-interaction-plugin">
 <h2>Examine Entity Interaction Plugin<a class="headerlink" href="#examine-entity-interaction-plugin" title="Permalink to this headline">¶</a></h2>
-<p>The entity interaction plugin implements the <code class="docutils literal notranslate"><span class="pre">init</span></code> method like all
-plugins. It also implements the <code class="docutils literal notranslate"><span class="pre">step_entity_interaction</span></code> method, which takes
-a list of SCRIMMAGE entities as input. Let’s take a look at the
-“GroundCollision” entity interaction that ships with SCRIMMAGE. The
+<p>The entity interaction plugin implements the <code class="docutils literal"><span class="pre">init</span></code> method like all
+plugins. It also implements the <code class="docutils literal"><span class="pre">step_entity_interaction</span></code> method, which takes
+a list of SCRIMMAGE entities as input. Let&#8217;s take a look at the
+&#8220;GroundCollision&#8221; entity interaction that ships with SCRIMMAGE. The
 GroundCollision plugin simply determines whether an entity is below a certain
-z-position threshold and calls the entity’s <code class="docutils literal notranslate"><span class="pre">collision</span></code> method if it is below
+z-position threshold and calls the entity&#8217;s <code class="docutils literal"><span class="pre">collision</span></code> method if it is below
 that threshold.</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -217,18 +214,18 @@ that threshold.</p>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
-<p>The GroundCollision plugin also makes use of SCRIMMAGE’s internal
+<p>The GroundCollision plugin also makes use of SCRIMMAGE&#8217;s internal
 publish-and-subscribe system. When the plugin determines that a ground
 collision exists, it creates a GroundCollision message and publishes it using
-the <code class="docutils literal notranslate"><span class="pre">collision_pub_</span></code> variable. The <code class="docutils literal notranslate"><span class="pre">collision_pub_</span></code> member variable was
-initialized in the <code class="docutils literal notranslate"><span class="pre">init</span></code> method with the <code class="docutils literal notranslate"><span class="pre">advertise</span></code> method, which
+the <code class="docutils literal"><span class="pre">collision_pub_</span></code> variable. The <code class="docutils literal"><span class="pre">collision_pub_</span></code> member variable was
+initialized in the <code class="docutils literal"><span class="pre">init</span></code> method with the <code class="docutils literal"><span class="pre">advertise</span></code> method, which
 takes a string network name and a string topic name as arguments.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">collision_pub_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;GroundCollision&quot;</span><span class="p">);</span>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">collision_pub_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;GroundCollision&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The GroundCollision entity interaction plugin is used in a SCRIMMAGE mission by
 adding the following XML tag:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;entity_interaction&gt;</span>GroundCollision<span class="nt">&lt;/entity_interaction&gt;</span>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;entity_interaction&gt;</span>GroundCollision<span class="nt">&lt;/entity_interaction&gt;</span>
 </pre></div>
 </div>
 <p>Multiple entity interactions can be used in the same mission file. The order in
@@ -237,12 +234,12 @@ positions from the top of the XML file. Plugins that are listed first are
 executed first. It is common to use both the GroundCollision and
 SimpleCollision (collision between entities) in the same simulation. This would
 be accomplished with the following XML lines:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;entity_interaction&gt;</span>SimpleCollision<span class="nt">&lt;/entity_interaction&gt;</span>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;entity_interaction&gt;</span>SimpleCollision<span class="nt">&lt;/entity_interaction&gt;</span>
 <span class="nt">&lt;entity_interaction&gt;</span>GroundCollision<span class="nt">&lt;/entity_interaction&gt;</span>
 </pre></div>
 </div>
-<p>Since the entity interaction plugin isn’t applied to a single entity, the
-<code class="docutils literal notranslate"><span class="pre">entity_interaction</span></code> tag should exist outside of the <code class="docutils literal notranslate"><span class="pre">entity</span></code> block.</p>
+<p>Since the entity interaction plugin isn&#8217;t applied to a single entity, the
+<code class="docutils literal"><span class="pre">entity_interaction</span></code> tag should exist outside of the <code class="docutils literal"><span class="pre">entity</span></code> block.</p>
 </div>
 </div>
 
