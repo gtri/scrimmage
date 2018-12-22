@@ -65,7 +65,7 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     if (nonlearning_mode_) {
         auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(shared_from_this());
         std::tie(actions_, observations_, actor_func_) =
-            init_actor_func({p}, params, UseGlobalSensor::NO);
+            init_actor_func({p}, params, CombineActors::NO, UseGlobalSensor::NO);
         pub_reward_ = advertise("GlobalNetwork", "reward");
     }
 }

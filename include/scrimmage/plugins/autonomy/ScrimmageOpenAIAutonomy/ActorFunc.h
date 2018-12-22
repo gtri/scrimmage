@@ -35,6 +35,7 @@
 #include <scrimmage/common/Visibility.h>
 
 #include <map>
+#include <vector>
 #include <string>
 #include <tuple>
 
@@ -49,12 +50,14 @@ class ScrimmageOpenAIAutonomy;
 class OpenAIActions;
 class OpenAIObservations;
 
+enum class CombineActors {NO, YES};
 enum class UseGlobalSensor {NO, YES};
 
 std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> DLL_PUBLIC
 init_actor_func(
         std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
         const std::map<std::string, std::string> &params,
+        CombineActors combine_actors,
         UseGlobalSensor global_sensor);
 } // namespace autonomy
 } // namespace scrimmage

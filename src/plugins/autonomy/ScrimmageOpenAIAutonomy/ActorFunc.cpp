@@ -51,26 +51,27 @@ std::tuple<OpenAIActions, OpenAIObservations, pybind11::object>
 init_actor_func(
         std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
         const std::map<std::string, std::string> &params,
+        CombineActors combine_actors,
         UseGlobalSensor global_sensor) {
 
-    // there is only 1 entity in this case so it would make no sense
-    // to combine actors
-    const size_t num_entities = 1;
+    if (autonomies.empty()) {
+        return std::make_tuple(OpenAIActions(), OpenAIObservations(), pybind11::none());
+    }
 
     OpenAIActions actions;
     br::copy(autonomies, std::back_inserter(actions.ext_ctrl_vec()));
-    actions.create_action_space(false);
+    actions.create_action_space(combine_actors == CombineActors::YES);
 
     OpenAIObservations observations;
-    observations.set_combine_actors(false);
-    observations.set_global_sensor(false);
+    observations.set_combine_actors(combine_actors == CombineActors::YES);
+    observations.set_global_sensor(global_sensor == UseGlobalSensor::YES);
 
     for (auto autonomy : autonomies) {
         observations.add_sensors(autonomy->parent()->sensors());
         if (global_sensor == UseGlobalSensor::YES) break;
     }
 
-    observations.create_observation_space(num_entities);
+    observations.create_observation_space(autonomies.size());
 
     // get the actor func
     const std::string module_str = params.at("module");
