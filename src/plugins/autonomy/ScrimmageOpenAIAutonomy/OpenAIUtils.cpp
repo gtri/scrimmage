@@ -91,8 +91,8 @@ pybind11::object create_space(
     } else if (len_continuous != 0) {
         return continuous_space;
     } else {
-        // TODO: error handling
-        return pybind11::object();
+        throw std::runtime_error(
+            "discrete and continuous space do not have maxima set");
     }
 }
 

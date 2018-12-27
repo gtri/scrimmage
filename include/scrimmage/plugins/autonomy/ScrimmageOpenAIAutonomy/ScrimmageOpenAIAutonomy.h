@@ -79,13 +79,14 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     EnvValues action;
 
  private:
-    // nonlearning mode variables
+    bool is_init_ = false;
     bool first_step_ = true;
     PublisherPtr pub_reward_;
     pybind11::object actor_func_;
     bool nonlearning_mode_ = false;
     OpenAIObservations observations_;
     OpenAIActions actions_;
+    std::map<std::string, std::string> params_;
 };
 } // namespace autonomy
 } // namespace scrimmage
