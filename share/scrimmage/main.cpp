@@ -72,123 +72,24 @@ _Pragma("clang diagnostic pop")
 
 #include <boost/optional.hpp>
 
+#include <pybind11/pybind11.h>
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
+namespace py = pybind11;
 
-sc::SimControl simcontrol;
-
-// Handle kill signal
-void HandleSignal(int s) {
-    cout << endl << "Exiting gracefully" << endl;
-    simcontrol.force_exit();
+void importer(const std::string &module) {
+    py::print("importing " + module);
+    py::module::import(module.c_str());
+    py::print("done importing " + module);
 }
 
+
 int main(int argc, char *argv[]) {
-    // Handle kill signals
-    struct sigaction sa;
-    memset( &sa, 0, sizeof(sa) );
-    sa.sa_handler = HandleSignal;
-    sigfillset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGTERM, &sa, NULL);
-
-    int job_id = -1;
-    int task_id = -1;
-
-    bool seed_set = false;
-    std::string seed = "";
-
-    int opt;
-    while ((opt = getopt(argc, argv, "t:j:s:")) != -1) {
-        switch (opt) {
-        case 't':
-            task_id = std::stoi(std::string(optarg));
-            break;
-        case 'j':
-            job_id = std::stoi(std::string(optarg));
-            break;
-        case 's':
-            seed = std::string(optarg);
-            seed_set = true;
-            break;
-        case '?':
-            if (optopt == 't') {
-                fprintf(stderr, "Option -%d requires an integer argument.\n", optopt);
-            } else {
-                fprintf(stderr,
-                         "Unknown option character `\\x%x'.\n",
-                         optopt);
-            }
-            return 1;
-        default:
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    if (optind >= argc || argc < 2) {
-        cout << "usage: " << argv[0] << " scenario.xml" << endl;
-        return -1;
-    }
-
-    std::string mission_file = argv[optind];
-    auto mp = std::make_shared<sc::MissionParse>();
-    if (task_id != -1) mp->set_task_number(task_id);
-    if (job_id != -1) mp->set_job_number(job_id);
-
-    if (!mp->parse(mission_file)) {
-        std::cout << "Failed to parse file: " << mission_file << std::endl;
-        return -1;
-    }
-
-    if (seed_set) mp->params()["seed"] = seed;
-
-#if ENABLE_PYTHON_BINDINGS == 1
     Py_Initialize();
-#endif
-
-    auto log = sc::preprocess_scrimmage(mp, simcontrol);
-    simcontrol.send_terrain();
-    simcontrol.run_send_shapes(); // draw any intial shapes
-
-    if (log == nullptr) {
-        return -1;
-    }
-
-#if ENABLE_VIEWER == 0
-    simcontrol.pause(false);
-    simcontrol.run();
-#else
-    if (simcontrol.enable_gui()) {
-        simcontrol.start();
-        scrimmage::Viewer viewer;
-
-        auto outgoing = simcontrol.outgoing_interface();
-        auto incoming = simcontrol.incoming_interface();
-
-        viewer.set_incoming_interface(outgoing);
-        viewer.set_outgoing_interface(incoming);
-        viewer.set_enable_network(false);
-        viewer.init(mp->attributes()["camera"], mp->log_dir(), mp->dt());
-        viewer.run();
-
-        // When the viewer finishes, tell simcontrol to exit
-        simcontrol.force_exit();
-        simcontrol.join();
-    } else {
-        simcontrol.pause(false);
-        simcontrol.run();
-    }
-#endif
-
-    if (sc::postprocess_scrimmage(mp, simcontrol, log)) {
-        return 0;
-    } else {
-        return -1;
-    }
-
-#if ENABLE_PYTHON_BINDINGS == 1
+    importer("numpy");
+    importer("tensorflow");
     Py_Finalize();
-#endif
+    sc::SimControl simcontrol;
 }
