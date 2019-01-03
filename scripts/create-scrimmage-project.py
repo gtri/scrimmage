@@ -33,12 +33,15 @@ def main():
         return -1
     
     # Search and replace project name over all project files
+    project_name_no_dashes = args.project_name.replace('-', '_')
     for dname, dirs, files in os.walk(dst_dir):
         for fname in files:
             fpath = os.path.join(dname, fname)
             with open(fpath) as f:
                 s = f.read()
                 s = s.replace("(>>>PROJECT_NAME<<<)", args.project_name)
+                s = s.replace("(>>>PROJECT_NAME_NO_DASHES<<<)",
+                              project_name_no_dashes)
             with open(fpath, "w") as f:
                 f.write(s)
 

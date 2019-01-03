@@ -94,10 +94,6 @@ target_link_libraries(${LIBRARY_NAME}
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-target_compile_features(${LIBRARY_NAME}
-  PRIVATE cxx_std_11
-  )
-
 set_target_properties(
   ${LIBRARY_NAME}
   PROPERTIES

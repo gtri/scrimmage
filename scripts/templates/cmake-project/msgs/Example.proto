@@ -5,7 +5,7 @@ option java_package = "com.(>>>PROJECT_NAME<<<)";
 
 import "scrimmage/proto/Vector3d.proto";
 
-package (>>>PROJECT_NAME<<<);
+package (>>>PROJECT_NAME_NO_DASHES<<<);
 
 message Example1 {
         scrimmage_proto.Vector3d vec = 1;
