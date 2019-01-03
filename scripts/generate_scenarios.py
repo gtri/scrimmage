@@ -45,6 +45,7 @@ import shutil
 import scrimmage.utils as utils
 import re
 import pdb
+import scrimmage.utils
 import itertools
 from collections import OrderedDict
 
@@ -209,6 +210,7 @@ def from_run_experiments(args, out_dir, mission_dir, root_log, num_repeats=1,
         # num_repeats doesn't work here, just use tasks to control run number
         for i in range(0, args.tasks):
             fn = os.path.join(mission_dir, str(i+1), "_mission.xml")
+            scrimmage.utils.make_dirs_recursive(os.path.dirname(fn))
             shutil.copyfile(TEMP_MISSION_FILE, fn)
             missions.append(fn)
     os.remove(TEMP_MISSION_FILE)

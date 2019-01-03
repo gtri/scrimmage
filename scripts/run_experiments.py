@@ -45,6 +45,7 @@ import datetime
 import argparse
 import tqdm
 import generate_scenarios
+import scrimmage.utils
 
 
 def call_scrimmage(arg):
@@ -112,6 +113,7 @@ EXPERIMENTS_DIR = os.path.expanduser(args.log_dir)
 ROOT_LOG = os.path.join(EXPERIMENTS_DIR, args.experiment_name)
 
 # Add latest symlink to experiments folder
+scrimmage.utils.make_dirs_recursive(EXPERIMENTS_DIR)
 symlink_force(ROOT_LOG, os.path.join(EXPERIMENTS_DIR, "latest"))
 
 if os.path.exists(ROOT_LOG):
