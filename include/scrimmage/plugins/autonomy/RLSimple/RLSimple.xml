@@ -11,5 +11,5 @@
   <max_speed>10</max_speed>
 
   <module>test_openai</module>
-  <actor_func>get_action_test_two_not_combined_veh_dim_discrete</actor_func>
+  <actor_init_func>actor_init_func</actor_init_func>
 </params>

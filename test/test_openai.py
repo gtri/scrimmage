@@ -103,6 +103,18 @@ def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end,
 
     tree.write(TEMP_MISSION_FILE)
 
+def actor_init_func(action_space, observation_space, params):
+    if isinstance(action_space, gym.spaces.Discrete):
+        return get_action_test_one_dim_discrete
+    elif isinstance(action_space, gym.spaces.MultiDiscrete):
+        return get_action_test_two_dim_discrete
+    elif isinstance(action_space, gym.spaces.Box):
+        if action_space.shape[0] == 0:
+            return get_action_test_one_dim_continuous
+        else:
+            return get_action_test_two_dim_continuous
+    elif isinstance(action_space, gym.spaces.Tuple):
+        return get_action_test_two_dim_tuple
 
 def get_action_test_one_dim_discrete(i):
     return 1 if i[1] < 100 else 0

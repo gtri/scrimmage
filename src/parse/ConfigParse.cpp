@@ -61,7 +61,7 @@ void ConfigParse::set_required(std::string node_name) {
 }
 
 void ConfigParse::recursive_params(rx::xml_node<char> *root,
-        std::map<std::string, std::string> &overrides,
+        const std::map<std::string, std::string> &overrides,
         std::map<std::string, std::string> &params,
         const std::string &prev) {
     // End condition
@@ -90,7 +90,7 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
     }
 
     if (overrides.count(name)) {
-        params[name] = overrides[name];
+        params[name] = overrides.at(name);
     } else {
         params[name] = root->value();
     }
@@ -102,7 +102,7 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
     recursive_params(root->next_sibling(), overrides, params, prev);
 }
 
-bool ConfigParse::parse(std::map<std::string, std::string> &overrides,
+bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
         std::string filename, std::string env_var,
         FileSearch &file_search, bool verbose) {
 

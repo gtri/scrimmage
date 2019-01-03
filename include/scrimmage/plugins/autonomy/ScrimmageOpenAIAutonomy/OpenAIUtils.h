@@ -58,6 +58,7 @@ pybind11::object DLL_PUBLIC create_space(
         pybind11::list discrete_maxima,
         pybind11::list continuous_minima,
         pybind11::list continuous_maxima);
+
 } // namespace autonomy
 } // namespace scrimmage
 

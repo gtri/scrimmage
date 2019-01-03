@@ -29,45 +29,36 @@
  * A Long description goes here.
  *
  */
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_
 
-#ifndef INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
-#define INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+#include <scrimmage/common/Visibility.h>
 
 #include <map>
 #include <vector>
 #include <string>
+#include <tuple>
 
-namespace rapidxml {
-template <class T> class xml_node;
+namespace pybind11 {
+class object;
 }
 
 namespace scrimmage {
+namespace autonomy {
 
-class FileSearch;
+class ScrimmageOpenAIAutonomy;
+class OpenAIActions;
+class OpenAIObservations;
 
-class ConfigParse {
- public:
-    ConfigParse();
-    void set_required(std::string node_name);
-    bool parse(const std::map<std::string, std::string> &overrides,
-        std::string filename, std::string env_var, FileSearch &file_search,
-        bool verbose = false);
-    std::map<std::string, std::string> & params();
-    std::string filename();
-    std::string directory();
-    std::string extension();
-    std::string stem();
-    void print_params();
+enum class CombineActors {NO, YES};
+enum class UseGlobalSensor {NO, YES};
 
- protected:
-    std::map<std::string, std::string> params_;
-    std::vector<std::string> required_;
-    std::string filename_;
-
-    void recursive_params(rapidxml::xml_node<char> *root,
-        const std::map<std::string, std::string> &overrides,
-        std::map<std::string, std::string> &params,
-        const std::string &prev);
-};
+std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> DLL_PUBLIC
+init_actor_func(
+        std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
+        const std::map<std::string, std::string> &params,
+        CombineActors combine_actors,
+        UseGlobalSensor global_sensor);
+} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_

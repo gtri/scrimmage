@@ -10,8 +10,6 @@ import numpy as np
 import scrimmage
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 
-import lvdb
-
 def create_node(tag, text):
     """Create an xml node."""
     el = ET.Element(tag)

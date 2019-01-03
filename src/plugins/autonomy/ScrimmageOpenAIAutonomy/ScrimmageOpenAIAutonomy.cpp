@@ -31,24 +31,18 @@
  */
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
-#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ActorFunc.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/sensor/Sensor.h>
 
-#include <iostream>
 #include <limits>
-
-#include <boost/algorithm/string.hpp>
-
-#include <chrono> // NOLINT
-#include <thread> // NOLINT
 
 namespace sp = scrimmage_proto;
 namespace py = pybind11;
@@ -65,41 +59,19 @@ ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy() :
 
 void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     init_helper(params);
-
     nonlearning_mode_ = get("nonlearning_mode_openai_plugin", params, true);
-
-    if (nonlearning_mode_) {
-        // get the actor func
-        const std::string module = params.at("module");
-        actor_func_ = py::module::import(module.c_str());
-
-        std::vector<std::string> tokens;
-        split(tokens, params.at("actor_func"), ".");
-        for (std::string s : tokens) {
-            actor_func_ = actor_func_.attr(py::str(s));
-        }
-
-        // there is only 1 entity in this case so it would make no sense
-        // to combine actors
-        const size_t num_entities = 1;
-
-        auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(shared_from_this());
-        actions_.ext_ctrl_vec().push_back(p);
-        actions_.create_action_space(false);
-
-        observations_.set_combine_actors(false);
-        observations_.set_global_sensor(false);
-
-        observations_.add_sensors(parent_->sensors());
-
-        observations_.create_observation_space(num_entities);
-    }
-
-    pub_reward_ = advertise("GlobalNetwork", "reward");
+    params_ = params;
 }
 
 bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
     if (nonlearning_mode_) {
+        if (!is_init_) {
+            // need contacts size to be set before calling init
+            auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(shared_from_this());
+            std::tie(actions_, observations_, actor_func_) =
+                init_actor_func({p}, params_, CombineActors::NO, UseGlobalSensor::NO);
+            pub_reward_ = advertise("GlobalNetwork", "reward");
+        }
         const size_t num_entities = 1;
         observations_.update_observation(num_entities);
         py::object temp_action = actor_func_(observations_.observation);

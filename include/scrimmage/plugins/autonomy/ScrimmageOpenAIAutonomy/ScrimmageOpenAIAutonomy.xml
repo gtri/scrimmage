@@ -3,5 +3,5 @@
 <params>
   <library>ScrimmageOpenAIAutonomy_plugin</library>
   <module>my_module</module>
-  <actor_func>my_func</actor_func>
+  <actor_initializer_func>my_func</actor_initializer_func>
 </params>
