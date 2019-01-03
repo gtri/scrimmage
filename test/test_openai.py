@@ -35,7 +35,6 @@ import copy
 import numpy as np
 import gym
 import scrimmage.utils
-import lvdb
 
 MISSION_FILE = 'rlsimple.xml'
 TEMP_MISSION_FILE = '.rlsimple.xml'
