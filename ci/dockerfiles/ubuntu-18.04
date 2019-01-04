@@ -51,15 +51,18 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && rosdep init && rosdep update \
  && echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc \
- && echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
- && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh \
  && pip install cpplint \
     protobuf==3.3.0 \
     grpcio==1.2.1 \
     gym \
-    sphinx-git \
+    sphinx-git
+
+# Install jekyll
+RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
+ && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
  && source ~/.bashrc \
+ && gem update --system \
  && gem install jekyll bundler
 
 # Copy repo code into image

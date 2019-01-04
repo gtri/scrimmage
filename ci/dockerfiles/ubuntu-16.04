@@ -30,11 +30,14 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
  && rm -rf /var/lib/apt/lists/* \
  && rosdep init && rosdep update \
  && echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
- && echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
- && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh \
- && pip install cpplint protobuf==3.3.0 grpcio==1.2.1 gym \
+ && pip install cpplint protobuf==3.3.0 grpcio==1.2.1 gym
+
+# Install jekyll
+RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
+ && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
  && source ~/.bashrc \
+ && gem update --system \
  && gem install jekyll bundler
 
 # Copy repo code into image
