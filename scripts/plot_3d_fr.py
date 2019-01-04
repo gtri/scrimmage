@@ -61,6 +61,7 @@ import time
 import shutil
 import struct
 import scrimmage as sc
+import scrimmage.proto_utils as utils
 
 ## imports for mplot3d
 import matplotlib as mpl
@@ -143,7 +144,7 @@ def main():
 
     # Read in the frames from the protocol buffer
     print('Reading frames...\n')
-    frames = sc.read_frames(finalFramesLoc)
+    frames = utils.read_frames(finalFramesLoc)
 
     ## Organize data for plotting ##
     # Make a list of lists for each coordinate (one list per entity)
