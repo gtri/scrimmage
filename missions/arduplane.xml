@@ -19,7 +19,7 @@
   <grid_spacing>10</grid_spacing>
   <grid_size>1000</grid_size>
 
-  <!--<terrain>mcmillan</terrain>-->
+  <terrain>mcmillan</terrain>
   <background_color>191 191 191</background_color> <!-- Red Green Blue -->
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
 
@@ -69,7 +69,6 @@
     <controller>DirectController</controller>
     <motion_model drawVel="0" drawAngVel="0" drawAcc="0">JSBSimControl</motion_model>
     <script_name>rascal_no_autopilot.xml</script_name>
-    <!-- <motion_model draw_vel="true" draw_ang_vel="true" write_csv="true">FixedWing6DOF-BlueEagle</motion_model> -->
     <visual_model>zephyr-blue</visual_model>
 
   </entity>
