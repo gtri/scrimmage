@@ -233,3 +233,19 @@ def parallel(num_runs, mission, cores):
 
     FNULL = open(os.devnull, 'w')
     subprocess.call(cmd, stdout=FNULL, stderr=FNULL)
+
+
+def make_dirs_recursive(path):
+    """Written for compatibility with python 2."""
+    components = path.split(os.sep)
+
+    idx = 0
+    for i in range(len(components), -1, -1):
+        temp_path = os.sep.join(components[:i])
+        if os.path.exists(temp_path):
+            idx = i + 1
+            break
+
+    for j in range(idx, len(components) + 1):
+        os.mkdir(os.sep.join(components[:j]))
+
