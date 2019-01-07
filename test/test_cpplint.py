@@ -10,7 +10,8 @@ def test_cpplint():
     dirs = [os.path.join(scrimmage_root, d)
             for d in ['include', 'share', 'src', 'tools', 'plugins']]
 
-    cmd = ['cpplint', '--verbose=3', '--quiet', '--recursive'] + dirs
+    cmd = ['cpplint', '--verbose=3', '--quiet', '--recursive',
+           '--repository', scrimmage_root] + dirs
     print('running the following command:')
     print(' '.join(cmd))
     subprocess.check_call(cmd)
