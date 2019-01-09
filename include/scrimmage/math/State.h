@@ -51,9 +51,12 @@ class State {
 
     virtual ~State();
 
+    // Position is in local level coordinate system (East/North/Up)
     Eigen::Vector3d &pos();
     Eigen::Vector3d &vel();
     Eigen::Vector3d &ang_vel();
+    
+    // Converts between local level (East/North/Up) and body (Nose/Left/Up)
     Quaternion &quat();
 
     const Eigen::Vector3d &pos_const() const;
