@@ -46,6 +46,7 @@ namespace scrimmage {
 namespace sensor {
 class LOSSensor : public scrimmage::Sensor {
  public:
+    LOSSensor();
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
 
@@ -58,16 +59,16 @@ class LOSSensor : public scrimmage::Sensor {
     double range_sd_per_unit_;
     double range_sd_oor_;
     double oor_return_;
-    
+
     // Error characteristics
     double probability_of_error_;
     double error_sd_;
     double probability_oor_error_;
-    
+
     // Orientation + offset
     Eigen::Vector3d orientation_;
     Eigen::Vector3d offset_;
-    
+
     // For generating errors
     std::default_random_engine generator_;
 

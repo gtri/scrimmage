@@ -55,7 +55,7 @@ class State {
     Eigen::Vector3d &pos();
     Eigen::Vector3d &vel();
     Eigen::Vector3d &ang_vel();
-    
+
     // Converts between local level (East/North/Up) and body (Nose/Left/Up)
     Quaternion &quat();
 
