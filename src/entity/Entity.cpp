@@ -120,6 +120,13 @@ bool Entity::init(AttributeMap &overrides,
     double vz = get("vz", info, 0.0);
     state_->vel() << vx, vy, vz;
 
+    double sp = get("speed", info, 0.0);
+    if (sp > 0 && vx == 0 && vy == 0 && vz == 0) {
+      Eigen::Vector3d relative_vel_vector = Eigen::Vector3d::UnitX()*sp;
+      Eigen::Vector3d vel_vector = state_->quat().rotate(relative_vel_vector);
+      state_->vel() << vel_vector[0], vel_vector[1], vel_vector[2];
+    }
+
     double roll = Angles::deg2rad(get("roll", info, 0.0));
     double pitch = Angles::deg2rad(get("pitch", info, 0.0));
     double yaw = Angles::deg2rad(get("heading", info, 0.0));

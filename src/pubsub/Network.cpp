@@ -75,6 +75,10 @@ bool Network::network_init(std::map<std::string, std::string> &mission_params,
         }
     };
 
+    // Get communication delay for the network (default is 0)
+    comm_delay_ = scrimmage::get<double>("comm_delay", plugin_params, comm_delay_);
+    is_stochastic_delay_ = scrimmage::get<bool>("is_stochastic_delay", plugin_params, is_stochastic_delay_);
+
     setup_counts("monitor_publisher_topics", plugin_params, pub_counts_, monitor_all_pubs_);
     setup_counts("monitor_subscriber_topics", plugin_params, sub_counts_, monitor_all_subs_);
 
@@ -114,6 +118,10 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     auto it_all_pub = pub_counts_.find("*");
     auto it_all_sub = sub_counts_.find("*");
 
+
+    // number of messages delivered (may be >1 if delivered with delay)
+    int n_delivered = 0;
+
     // For all publisher topic names
     for (auto &pub_kv : pubs) {
         std::string topic = pub_kv.first;
@@ -149,21 +157,45 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
 
             // For all subscribers on this topic
             for (NetworkDevicePtr &sub : subs[topic]) {
+
+                if (sub->undelivered_msg_list_size() > 0) {
+                    // deliver undelivered messages if delay time has passed
+                    n_delivered = sub->deliver_undelivered_msg(time_->t(), is_stochastic_delay_);
+                    if (monitor_all_subs_) {
+                        // Accumulate received msg counts on all topics
+                        it_all_sub->second += n_delivered;
+                    }
+                    if (valid_sub_topic) {
+                        // Accumulate received msg counts on specific topic
+                        it_sub_topic->second += n_delivered;
+                    }
+                }
+
                 if (is_reachable(pub->plugin(), sub->plugin())) {
                     for (auto &msg : msgs) {
                         if (is_successful_transmission(pub->plugin(),
                                                        sub->plugin())) {
-                            msg->time = time_->t();
-                            sub->add_msg(msg);
 
-                            if (monitor_all_subs_) {
-                                // Accumulate received message counts on all topics
-                                it_all_sub->second += 1;
-                            }
+                            double msg_delay = get_transmission_delay();
 
-                            if (valid_sub_topic) {
-                                // Accumulate received message counts on specific topic
-                                it_sub_topic->second += 1;
+                            if (msg_delay < 0) {
+
+                                msg->time = time_->t();
+                                sub->add_msg(msg);
+
+                                if (monitor_all_subs_) {
+                                    // Accumulate received message counts on all topics
+                                    it_all_sub->second += 1;
+                                }
+
+                                if (valid_sub_topic) {
+                                    // Accumulate received message counts on specific topic
+                                    it_sub_topic->second += 1;
+                                }
+                            } else {
+                                // put msg in subs undelivered msg queue
+                                msg->time = time_->t()+msg_delay;
+                                sub->add_undelivered_msg(msg, is_stochastic_delay_);
                             }
                         }
                     }
@@ -199,6 +231,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     return true;
 }
 
+
 bool Network::is_reachable(const scrimmage::PluginPtr &pub_plugin,
                            const scrimmage::PluginPtr &sub_plugin) {
     return false;
@@ -207,6 +240,10 @@ bool Network::is_reachable(const scrimmage::PluginPtr &pub_plugin,
 bool Network::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
                                          const scrimmage::PluginPtr &sub_plugin) {
     return false;
+}
+
+double Network::get_transmission_delay() {
+    return comm_delay_;
 }
 
 std::string Network::name() {
