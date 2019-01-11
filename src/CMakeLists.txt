@@ -41,6 +41,12 @@ add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen
   )
 
+if (GRPC_FOUND)
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
+else()
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
+endif()
+
 #find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 target_link_libraries(${LIBRARY_NAME}
