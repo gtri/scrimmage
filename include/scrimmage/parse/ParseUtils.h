@@ -85,6 +85,8 @@ template <class T1, class T2 = T1>
 void split(std::vector<std::string> &tokens, const std::string &str,
            const std::string &delims);
 
+std::string remove_whitespace(const std::string &str);
+
 template <typename T>
 T str2container(const std::string &str, const std::string &delims) {
     T out;
