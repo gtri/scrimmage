@@ -99,9 +99,10 @@ int main(int argc, char *argv[]) {
 
     bool seed_set = false;
     std::string seed = "";
+    std::string overrides = "";
 
     int opt;
-    while ((opt = getopt(argc, argv, "t:j:s:")) != -1) {
+    while ((opt = getopt(argc, argv, "t:j:s:o:")) != -1) {
         switch (opt) {
         case 't':
             task_id = std::stoi(std::string(optarg));
@@ -112,6 +113,9 @@ int main(int argc, char *argv[]) {
         case 's':
             seed = std::string(optarg);
             seed_set = true;
+            break;
+        case 'o':
+            overrides = std::string(optarg);
             break;
         case '?':
             if (optopt == 't') {
@@ -136,6 +140,8 @@ int main(int argc, char *argv[]) {
     auto mp = std::make_shared<sc::MissionParse>();
     if (task_id != -1) mp->set_task_number(task_id);
     if (job_id != -1) mp->set_job_number(job_id);
+
+    mp->set_overrides(overrides);
 
     if (!mp->parse(mission_file)) {
         std::cout << "Failed to parse file: " << mission_file << std::endl;

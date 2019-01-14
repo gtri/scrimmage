@@ -238,6 +238,16 @@ Eigen::Vector3d vec2eigen(std::vector<double> &vec) {
     return v;
 }
 
+std::string remove_whitespace(const std::string &str) {
+    std::string result = str;
+    result.erase(
+        std::remove_if(result.begin(),
+                       result.end(),
+                       [](unsigned char x){return std::isspace(x);}),
+        result.end());
+    return result;
+}
+
 bool get_vec_of_vecs(std::string &str,
                      std::vector<std::vector<std::string>> &out,
                      const std::string &delims) {

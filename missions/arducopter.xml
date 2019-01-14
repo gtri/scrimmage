@@ -30,15 +30,16 @@
 
   <log_dir>~/.scrimmage/logs</log_dir>
 
-  <latitude_origin>32.42553</latitude_origin>
-  <longitude_origin>-84.79109</longitude_origin>
-  <altitude_origin>75</altitude_origin>
+  <latitude_origin>${latitude_origin=32.42553}</latitude_origin>
+  <longitude_origin>${longitude_origin=-84.79109}</longitude_origin>
+  <altitude_origin>${altitude_origin=75}</altitude_origin>
+
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
 
   <network>LocalNetwork</network>
-  <network>GlobalNetwork</network>  
-  
+  <network>GlobalNetwork</network>
+
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction enable_startup_collisions="false"
                       remove_on_collision="false">GroundCollision</entity_interaction>
@@ -57,21 +58,20 @@
     <x>0</x>
     <y>0</y>
     <z>0</z>
-    <!--<heading>190</heading>-->
-    <heading>0</heading>
-    
+    <heading>${heading=0}</heading>
+
 
     <sensor>RigidBody6DOFStateSensor</sensor>
 
     <autonomy servo_map = "[ motor_0 0 1000 +2000    346.41 1200.0 +1 ]
                            [ motor_1 1 1000 +2000    346.41 1200.0 +1 ]
                            [ motor_2 2 1000 +2000    346.41 1200.0 +1 ]
-                           [ motor_3 3 1000 +2000    346.41 1200.0 +1 ]" 
+                           [ motor_3 3 1000 +2000    346.41 1200.0 +1 ]"
         >ArduPilot</autonomy>
 
-    <motion_model write_csv="true">Multirotor</motion_model>
+    <motion_model write_csv="true">${motion_model=Multirotor}</motion_model>
     <controller>DirectController</controller>
-    <visual_model>iris</visual_model>
+    <visual_model>${visual_model=iris}</visual_model>
 
   </entity>
 
