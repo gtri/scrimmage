@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>GPS_plugin</library>
+
+  <topic_name>GPSStatus</topic_name>
+
+  <!-- GPS params -->
+  <gps_lat>35.721112</gps_lat> 		<!-- latitude -->
+  <gps_lon>-120.767925</gps_lon> 		<!-- longitude -->
+  <gps_alt>59.204430</gps_alt> 		<!-- altitude -->
+
+  <gps_time>00000074767</gps_time> 	<!-- time -->
+  <gps_fix>false</gps_fix> 		<!-- GPS fix -->
+
+
+</params>

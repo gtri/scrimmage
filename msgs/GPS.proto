@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+
+package scrimmage_msgs;
+
+message GPSStatus {
+	int32 sender_id = 1;
+	sint64 lat = 2; 	// Possibly negative value
+	sint64 lon = 3; 	// Possibly negative value
+	sint64 alt = 4; 	// Possibly negative value
+	double time = 5;
+	bool fixed = 6;
+}
+
+
