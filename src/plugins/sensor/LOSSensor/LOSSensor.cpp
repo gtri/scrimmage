@@ -119,14 +119,13 @@ bool LOSSensor::step() {
     //  impacts the terrain.  Range limits and noise added subsequently.
     // Note that this also does not handle other entities.  Will need a service
     //  to incorporate that.
-    
+
     // Check whether an update is available
-    if(time_->t() < (last_update_time_ + update_dt_))
-    {
+    if (time_->t() < (last_update_time_ + update_dt_)) {
         // No update, no message sent
         return true;
     }
-    
+
     // Can update
     last_update_time_ = time_->t();
 
