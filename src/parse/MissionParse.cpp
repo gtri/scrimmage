@@ -62,29 +62,75 @@ namespace rx = rapidxml;
 
 namespace scrimmage {
 
+void MissionParse::set_overrides(const std::string &overrides) {
+    std::string overrides_no_space = remove_whitespace(overrides);
+
+    // Iterate over comma-separated overrides.
+    std::vector<std::string> overrides_tokens;
+    split(overrides_tokens, overrides_no_space, ", ");
+    for (auto &overrides_str: overrides_tokens) {
+        // Parse each key=value pair
+        std::vector<std::string> kv_tokens;
+        split(kv_tokens, overrides_str, ":= ");
+
+        // Only add to the map if the key:value was parsed correctly
+        if (kv_tokens.size() == 2) {
+            overrides_map_[kv_tokens[0]] = kv_tokens[1];
+        }
+    }
+}
+
 bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = expand_user(filename);
 
-    rapidxml::xml_document<> doc;
-    std::ifstream file(mission_filename_.c_str());
+    // First, explicitly search for the mission file.
+    if (!fs::exists(mission_filename_)) {
+        // If the file doesn't exist, search for the mission file under the
+        // SCRIMMAGE_MISSION_PATH.
+        FileSearch file_search;
+        std::string result = "";
+        bool status = file_search.find_file(mission_filename_, "xml",
+                                            "SCRIMMAGE_MISSION_PATH",
+                                            result, false);
+        if (!status) {
+            // The mission file wasn't found. Exit.
+            cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
+            return false;
+        }
+        // The mission file was found, save its path.
+        mission_filename_ = result;
+    }
 
+    std::ifstream file(mission_filename_.c_str());
     if (!file.is_open()) {
-        cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
+        std::cout << "Failed to open mission file: " << mission_filename_ << endl;
         return false;
     }
 
     std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
-    std::string content(buffer.str());
+    mission_file_content_ = buffer.str();
 
-    // Replace our xml variables in the form ${var=default} with the default
+    // Search and replace any overrides of the form ${key=value} in the mission
+    // file
+    for (auto &kv : overrides_map_) {
+        std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
+        mission_file_content_ = std::regex_replace(mission_file_content_, reg,
+                                                   kv.second);
+    }
+
+    // Replace our xml variables of the form ${var=default} with the default
     // value
     std::string fmt{"$1"};
     std::regex reg("\\$\\{.+?=(.+?)\\}");
-    content = std::regex_replace(content, reg, fmt);
+    mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
 
-    doc.parse<0>(&content[0]);
+    // Make a copy of the content since the xml parser can mangle the original
+    // content.
+    std::string content_tmp(mission_file_content_);
+    rapidxml::xml_document<> doc;
+    doc.parse<0>(&content_tmp[0]);
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
     if (runscript_node == 0) {
@@ -643,8 +689,13 @@ bool MissionParse::create_log_dir() {
 
     // Copy the input scenario xml file to the output directory
     if (fs::exists(mission_filename_)) {
-        fs::copy_file(fs::path(mission_filename_), fs::path(log_dir_+"/mission.xml"));
+        fs::copy_file(fs::path(mission_filename_), fs::path(log_dir_+"/mission.orig.xml"));
     }
+
+    // Write the parsed content to the output directory
+    std::ofstream content_out(log_dir_+"/mission.xml");
+    content_out << mission_file_content_;
+    content_out.close();
 
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
