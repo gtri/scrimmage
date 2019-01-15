@@ -181,11 +181,12 @@ bool Unicycle3D::step(double t, double dt) {
     Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
 
     if (use_accel_input_) {
-        // Enforce acceleration limits, if being used
+        // Enforce acceleration input limits
         acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), -accel_max_, accel_max_);
         x_[U] += force_body(0) / mass_;
     } else {
-        velocity_ = vars_.input(speed_idx_);
+        // Enforce velocity input limits
+        velocity_ = boost::algorithm::clamp(vars_.input(speed_idx_), -vel_max_, vel_max_);
         x_[U] = velocity_ + force_body(0) / mass_;
     }
 
@@ -195,9 +196,6 @@ bool Unicycle3D::step(double t, double dt) {
     x_[P] = 0;
     x_[Q] = pitch_rate_;
     x_[R] = turn_rate_;
-
-    // Enforce forward velocity limits
-    x_[U] = boost::algorithm::clamp(x_[U], -vel_max_, vel_max_);
 
     ode_step(dt);
 
