@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>ExternalForceField_plugin</library>
+  <!-- constant, variable -->
+  <force_type>constant</force_type>
+  <constant_force>1, 0, 0</constant_force>
+
+  <!-- mean, std -->
+  <force_change_period>1.0, 0.1</force_change_period>
+
+  <!-- mean, std -->
+  <variable_force_0>0.0, 5.0</variable_force_0> <!-- x force noise -->
+  <variable_force_1>0.0, 5.0</variable_force_1> <!-- y force noise -->
+  <variable_force_2>0.0, 1.0</variable_force_2> <!-- z force noise -->  
+  
+</params>
