@@ -58,7 +58,7 @@
     <name>uav_entity</name>
     <team_id>1</team_id>
     <color>77 77 255</color>
-    <count>1</count>
+    <count>${count=1}</count>
     <health>1</health>
     <radius>1</radius>
 

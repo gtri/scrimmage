@@ -81,6 +81,7 @@ struct GenerateInfo {
 class MissionParse {
  public:
     bool create_log_dir();
+    void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
     bool write(const std::string &filename);
 
@@ -145,6 +146,7 @@ class MissionParse {
 
  protected:
     std::string mission_filename_ = "";
+    std::string mission_file_content_ = "";
 
     double t0_ = 0;
     double tend_ = 50;
@@ -200,6 +202,8 @@ class MissionParse {
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
     std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_;
+
+    std::map<std::string, std::string> overrides_map_;
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
 } // namespace scrimmage
