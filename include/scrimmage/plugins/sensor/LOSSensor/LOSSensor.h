@@ -53,6 +53,8 @@ class LOSSensor : public scrimmage::Sensor {
  private:
     // Sensor characteristics
     uint32_t sensor_id_;
+    double update_dt_;
+    double last_update_time_;
     double min_sensor_range_;
     double max_sensor_range_;
     double range_sd_min_;

@@ -30,6 +30,7 @@
  */
 
 #include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
@@ -54,6 +55,8 @@ namespace sensor {
 
 LOSSensor::LOSSensor():
     sensor_id_(0),
+    update_dt_(0.0),
+    last_update_time_(0.0),
     min_sensor_range_(0.0),
     max_sensor_range_(0.0),
     range_sd_min_(0.0),
@@ -93,6 +96,7 @@ void LOSSensor::init(std::map<std::string, std::string> &params) {
     orientation_ << vec[0], vec[1], vec[2];
 
     sensor_id_ = sc::get<int>("sensor_id", params, 0);
+    update_dt_ = sc::get<double>("update_delta_time_s", params, 0.0);
     min_sensor_range_ = sc::get<double>("min_range", params, 0.0);
     max_sensor_range_ = sc::get<double>("max_range", params, 0.0);
     range_sd_min_ = sc::get<double>("range_sd_min", params, 0.0001);
@@ -115,6 +119,16 @@ bool LOSSensor::step() {
     //  impacts the terrain.  Range limits and noise added subsequently.
     // Note that this also does not handle other entities.  Will need a service
     //  to incorporate that.
+    
+    // Check whether an update is available
+    if(time_->t() < (last_update_time_ + update_dt_))
+    {
+        // No update, no message sent
+        return true;
+    }
+    
+    // Can update
+    last_update_time_ = time_->t();
 
     // Coordinate systems used:
     // Local level: East/North/Up
