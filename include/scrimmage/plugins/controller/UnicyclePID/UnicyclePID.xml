@@ -6,6 +6,7 @@
   <!-- outer loop PIDs -->
   <heading_pid>1.0, 0.1, 0.1, 45</heading_pid>
   <pitch_pid>1.0, 0.0, 0.0, 10</pitch_pid>
+  <roll_pid>1.0, 0.0, 0.0, 10</roll_pid>
   <speed_pid>1, 0.1, 0.03, 10</speed_pid>
 
   <show_shapes>false</show_shapes>

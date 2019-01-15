@@ -58,6 +58,7 @@ class Unicycle3D : public scrimmage::MotionModel {
     Eigen::Vector3d ctrl_u_;
     double turn_rate_max_;
     double pitch_rate_max_;
+    double roll_rate_max_;
     double vel_max_;
     double accel_max_;
     bool enable_roll_;
@@ -75,11 +76,13 @@ class Unicycle3D : public scrimmage::MotionModel {
     int accel_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
+    int roll_rate_idx_ = 0;
 
     double velocity_ = 0;
     double acceleration_ = 0;
     double turn_rate_ = 0;
     double pitch_rate_ = 0;
+    double roll_rate_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

@@ -68,14 +68,8 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-enum ControlParams {
-    VELOCITY = 0,
-    TURN_RATE,
-    PITCH_RATE,
-    CONTROL_NUM_ITEMS
-};
-
-Unicycle3D::Unicycle3D() : turn_rate_max_(1), pitch_rate_max_(1), vel_max_(1),
+Unicycle3D::Unicycle3D() : turn_rate_max_(1), pitch_rate_max_(1),
+                           roll_rate_max_(1), vel_max_(1),
                            accel_max_(-1.0), enable_roll_(false),
                            write_csv_(false), use_accel_input_(false) {
 }
@@ -97,6 +91,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     }
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
     pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
@@ -108,6 +103,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
     turn_rate_max_ = std::stod(params.at("turn_rate_max"));
     pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
+    roll_rate_max_ = std::stod(params.at("roll_rate_max"));
     vel_max_ = std::stod(params.at("vel_max"));
     enable_roll_ = sc::get<bool>("enable_roll", params, false);
     write_csv_ = sc::get<bool>("write_csv", params, false);
@@ -149,7 +145,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
                     "U", "V", "W",
                     "P", "Q", "R",
                     "roll", "pitch", "yaw",
-                    "vel", "turn_rate", "pitch_rate",
+                    "vel", "turn_rate", "pitch_rate", "roll_rate",
                     "Uw", "Vw", "Ww",
                     "Xw", "Yw", "Zw"});
     }
@@ -161,6 +157,7 @@ bool Unicycle3D::step(double t, double dt) {
     // Get inputs and saturate
     turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
     pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
+    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), -roll_rate_max_, roll_rate_max_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -179,6 +176,9 @@ bool Unicycle3D::step(double t, double dt) {
     x_[q3] = quat_local_.z();
 
     Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
+    Eigen::Vector3d ext_moment_body = ext_moment_;
+    ext_force_ = Eigen::Vector3d::Zero();
+    ext_moment_ = Eigen::Vector3d::Zero();
 
     if (use_accel_input_) {
         // Enforce acceleration input limits
@@ -193,9 +193,9 @@ bool Unicycle3D::step(double t, double dt) {
     x_[V] = force_body(1) / mass_;
     x_[W] = force_body(2) / mass_;
 
-    x_[P] = 0;
-    x_[Q] = pitch_rate_;
-    x_[R] = turn_rate_;
+    x_[P] = ext_moment_body(0) / mass_ + roll_rate_;
+    x_[Q] = ext_moment_body(1) / mass_ + pitch_rate_;
+    x_[R] = ext_moment_body(2) / mass_ + turn_rate_;
 
     ode_step(dt);
 
@@ -240,6 +240,7 @@ bool Unicycle3D::step(double t, double dt) {
                 {"vel", velocity_},
                 {"turn_rate", turn_rate_},
                 {"pitch_rate", pitch_rate_},
+                {"roll_rate", roll_rate_},
                 {"Uw", state_->vel()(0)},
                 {"Vw", state_->vel()(1)},
                 {"Ww", state_->vel()(2)},
