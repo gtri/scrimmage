@@ -112,6 +112,17 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
         cout << "Invalid force type: " << force_type_str << endl;
         return false;
     }
+
+    // moment periods
+    roll_period_ = sc::get("moment_roll_period", plugin_params, roll_period_);
+    pitch_period_ = sc::get("moment_pitch_period", plugin_params, pitch_period_);
+    yaw_period_ = sc::get("moment_yaw_period", plugin_params, yaw_period_);
+
+    // moment amplitudes
+    roll_amp_ = sc::get("moment_roll_amplitude", plugin_params, roll_amp_);
+    pitch_amp_ = sc::get("moment_pitch_amplitude", plugin_params, pitch_amp_);
+    yaw_amp_ = sc::get("moment_yaw_amplitude", plugin_params, yaw_amp_);
+
     return true;
 }
 
@@ -123,8 +134,20 @@ bool ExternalForceField::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         }
     }
 
+    moment_(0) = roll_amp_ * sin(time_->t() * 2 * M_PI * 1.0 / roll_period_);
+    moment_(1) = pitch_amp_ * sin(time_->t() * 2 * M_PI * 1.0 / pitch_period_);
+    moment_(2) = yaw_amp_ * sin(time_->t() * 2 * M_PI * 1.0 / yaw_period_);
+
     for (auto &ent : ents) {
         ent->motion()->set_external_force(force_);
+
+        // Only apply moment force within z-boundary. Scale magnitude.
+        if (ent->state()->pos()(2) >= moment_enable_min_z_ &&
+            ent->state()->pos()(2) <= moment_enable_max_z_) {
+            double scale = (ent->state()->pos()(2) - moment_enable_min_z_) /
+                (moment_enable_max_z_ - moment_enable_min_z_);
+            ent->motion()->set_external_moment(moment_ * scale);
+        }
     }
     return true;
 }
