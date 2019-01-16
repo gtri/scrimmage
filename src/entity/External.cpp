@@ -255,7 +255,7 @@ bool External::step(double t) {
     last_t_ = t;
     mutex.unlock();
 
-    this->call_update_contacts(t);
+    if (!this->call_update_contacts(t)) return false;
 
     mutex.lock();
 
@@ -296,7 +296,7 @@ bool External::step(double t) {
         metrics->step_metrics(t, dt);
     }
 
-    if (!send_messages()) {return false;}
+    if (!send_messages()) {mutex.unlock(); return false;}
 
     // shapes
     scrimmage_proto::Shapes shapes;
@@ -376,10 +376,11 @@ bool External::send_messages() {
     return true;
 }
 
-void External::call_update_contacts(double t) {
+bool External::call_update_contacts(double t) {
     mutex.lock();
     if (update_contacts_task.update(t).first) {
-        auto rtree = entity_->rtree();
+        auto rtree = entity_->rtree(); // rtree is a shared_ptr
+        if (!rtree) {mutex.unlock(); return false;}
         rtree->init(100);
         rtree->clear();
         for (auto &kv : *entity_->contacts()) {
@@ -388,6 +389,7 @@ void External::call_update_contacts(double t) {
         update_ents();
     }
     mutex.unlock();
+    return true;
 }
 
 MissionParsePtr External::mp() {
