@@ -126,19 +126,19 @@ bool MissionParse::parse(const std::string &filename) {
     std::regex reg("\\$\\{.+?=(.+?)\\}");
     mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
 
-    //Parse the xml tree.
+    // Parse the xml tree.
     rapidxml::xml_document<> doc;
-    //doc.parse requires a null terminated string that it can modify.
-    std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); //allocation done here
-    mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); //copy
-    mission_file_content_vec.push_back('\0'); //shouldn't reallocate
+    // doc.parse requires a null terminated string that it can modify.
+    std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
+    mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
+    mission_file_content_vec.push_back('\0'); // shouldn't reallocate
     try {
-      //Note: This parse function can hard fail (seg fault, no exception) on
-      //      badly formatted xml data. Sometimes it'll except, sometimes not.
-      doc.parse<0>(mission_file_content_vec.data());
+        // Note: This parse function can hard fail (seg fault, no exception) on
+        //       badly formatted xml data. Sometimes it'll except, sometimes not.
+        doc.parse<0>(mission_file_content_vec.data());
     } catch (...) {
-      cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
-      return false;
+        cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+        return false;
     }
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");

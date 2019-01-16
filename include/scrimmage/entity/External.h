@@ -178,22 +178,10 @@ class External {
         boost::optional<std::list<NetworkDevicePtr>> subs =
             pubsub_->find_subs(network_name, topic_name);
 
-        auto no_subs_msg = [=]() { //capture by copy, used in returned function.
-            //Note: Find_subs already prints this information. Keep it here or there?
-            std::cout << "No subscribers exist in SCRIMMAGE" << std::endl;
-            std::cout << "Network name: " << network_name << std::endl;
-            std::cout << "Topic name: " << topic_name << std::endl;
-        };
-
-        if (!subs) {
-            no_subs_msg();
-        }
-
         return [=](const boost::shared_ptr<RosType const> &ros_msg) {
             boost::optional<std::list<NetworkDevicePtr>> curr_subs =
                 pubsub_->find_subs(network_name, topic_name);
             if (!curr_subs) {
-                no_subs_msg();
                 return;
             }
 
@@ -347,7 +335,7 @@ class External {
 #endif
 
  protected:
-    bool call_update_contacts(double t); //false on error
+    bool call_update_contacts(double t); // false on error
     void update_time(double t);
 
     std::list<InterfacePtr> outgoing_interfaces_;

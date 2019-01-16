@@ -255,7 +255,7 @@ bool External::step(double t) {
     last_t_ = t;
     mutex.unlock();
 
-    if(!this->call_update_contacts(t)) return false;
+    if (!this->call_update_contacts(t)) return false;
 
     mutex.lock();
 
@@ -379,8 +379,8 @@ bool External::send_messages() {
 bool External::call_update_contacts(double t) {
     mutex.lock();
     if (update_contacts_task.update(t).first) {
-        auto rtree = entity_->rtree(); //rtree is a shared_ptr
-        if(!rtree) {mutex.unlock(); return false;}
+        auto rtree = entity_->rtree(); // rtree is a shared_ptr
+        if (!rtree) {mutex.unlock(); return false;}
         rtree->init(100);
         rtree->clear();
         for (auto &kv : *entity_->contacts()) {
