@@ -152,6 +152,13 @@
 <div class="section" id="git-change-log">
 <h2>git change log<a class="headerlink" href="#git-change-log" title="Permalink to this headline">¶</a></h2>
 <ul>
+<li><strong class="first">Merge pull request #219 from JamesMichaelMatthews/add-various-error-checks</strong><span> by </span><em>Eric Squires</em><span> at </span><em>2019-01-16 19:25:36</em><p>Added various error checks in MissionParse and External.</p>
+</li>
+<li><strong class="first">Formatting fixes. Removed additional printout in parse.</strong><span> by </span><em>James Michael Matthews</em><span> at </span><em>2019-01-16 17:54:57</em></li>
+<li><strong class="first">Added various error checks in MissionParse and External.</strong><span> by </span><em>James Michael Matthews</em><span> at </span><em>2019-01-16 16:44:39</em><p>Added checks for xml parsing errors in MissionParse. However, note that sometimes it hard crashes, sometimes not.
+Fixed sub_cb return that was getting bad data from a bad lambda.
+Added error checking in the External step function, to catch the case where scrimmage was not setup properly. Also found a missing mutex unlock.</p>
+</li>
 <li><strong class="first">Merge pull request #218 from gtri/force-field</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-01-16 02:16:07</em><p>add rpy sinusoidal moments to ExternalForceField</p>
 </li>
 <li><strong class="first">add rpy sinusoidal moments to ExternalForceField</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-01-15 22:55:10</em></li>
@@ -162,11 +169,6 @@
 </li>
 <li><strong class="first">Format cleanup</strong><span> by </span><em>Joel Dunham</em><span> at </span><em>2019-01-15 13:44:39</em></li>
 <li><strong class="first">Merge branch &#8216;master&#8217; of https://github.com/chacalnoir/scrimmage into LOSSensor</strong><span> by </span><em>Joel Dunham</em><span> at </span><em>2019-01-15 13:10:45</em></li>
-<li><strong class="first">Merge pull request #1 from gtri/master</strong><span> by </span><em>chacalnoir</em><span> at </span><em>2019-01-15 13:10:29</em><p>Updating fork</p>
-</li>
-<li><strong class="first">Added an update rate limit for LOS sensors that are slower than the simulation step time</strong><span> by </span><em>Joel Dunham</em><span> at </span><em>2019-01-15 13:00:11</em></li>
-<li><strong class="first">Merge pull request #215 from gtri/override-params-cli</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-01-14 22:03:41</em><p>Override mission params from command line</p>
-</li>
 </ul>
 </div>
 </div>
