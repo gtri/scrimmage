@@ -58,10 +58,12 @@ class UnicyclePID : public scrimmage::Controller {
     int speed_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
+    int roll_rate_idx_ = 0;
 
     scrimmage::PID heading_pid_;
     scrimmage::PID speed_pid_;
     scrimmage::PID pitch_pid_;
+    scrimmage::PID roll_pid_;
 
     bool show_shapes_ = false;
     scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();

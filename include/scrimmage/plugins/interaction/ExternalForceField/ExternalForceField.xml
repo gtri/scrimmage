@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>ExternalForceField_plugin</library>
+  <!-- constant, variable -->
+  <force_type>constant</force_type>
+  <constant_force>1, 0, 0</constant_force>
+
+  <!-- mean, std -->
+  <force_change_period>1.0, 0.1</force_change_period>
+
+  <!-- mean, std -->
+  <variable_force_0>0.0, 5.0</variable_force_0> <!-- x force noise -->
+  <variable_force_1>0.0, 5.0</variable_force_1> <!-- y force noise -->
+  <variable_force_2>0.0, 1.0</variable_force_2> <!-- z force noise -->
+
+  <!-- z-range for which rpy moment's take effect -->
+  <moment_enable_min_z>-10</moment_enable_min_z>
+  <moment_enable_max_z>0.5</moment_enable_max_z>
+
+  <!-- period and amplitude of sinusoids that affect rpy moments -->
+  <moment_roll_period>1.0</moment_roll_period>
+  <moment_roll_amplitude>0.0</moment_roll_amplitude>
+  <moment_pitch_period>1.0</moment_pitch_period>
+  <moment_pitch_amplitude>0.0</moment_pitch_amplitude>
+  <moment_yaw_period>1.0</moment_yaw_period>
+  <moment_yaw_amplitude>0.0</moment_yaw_amplitude>
+
+</params>
