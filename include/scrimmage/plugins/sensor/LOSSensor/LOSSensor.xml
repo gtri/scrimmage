@@ -6,7 +6,7 @@
   <!-- The sensor ID - should be unique for all LOS sensors and non-negative -->
   <sensor_id>0</sensor_id>
   <!-- Maximum update delta time in seconds if the sensor is less than the simulation rate -->
-  <update_delta_time_s>0.1<update_delta_time_s>
+  <update_delta_time_s>0.1</update_delta_time_s>
   <!-- Minimum range the sensor can see -->
   <min_range>0.1</min_range>
   <!-- Standard deviation at minimum range -->
