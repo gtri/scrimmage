@@ -73,7 +73,7 @@ init_actor_func(
     }
 
     observations.create_observation_space(autonomies.size());
-    py::object actor_func = py::cast<py::none>(Py_None);
+    py::object actor_func = py::none();
 
     if (!grpc_mode) {
         // get the actor func
