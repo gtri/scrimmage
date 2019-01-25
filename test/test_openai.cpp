@@ -45,7 +45,6 @@ namespace py = pybind11;
 using namespace pybind11::literals; // NOLINT
 
 void runner(bool x_discrete, bool ctrl_y, bool y_discrete, size_t num_actors,
-            const std::string &actor_func,
             const std::map<int, double> &expected_rewards) {
 
     py::object test_open_ai_module = py::module::import("test_openai");
@@ -53,8 +52,7 @@ void runner(bool x_discrete, bool ctrl_y, bool y_discrete, size_t num_actors,
 
     write_temp_mission(
         "x_discrete"_a = x_discrete, "ctrl_y"_a = ctrl_y, "y_discrete"_a = y_discrete,
-        "num_actors"_a = num_actors, "end"_a = 1000,
-        "actor_func"_a = actor_func);
+        "num_actors"_a = num_actors, "end"_a = 1000);
 
     const std::string mission = ".rlsimple";
     auto log_dir = sc::run_test(mission, false);
@@ -77,14 +75,14 @@ void runner(bool x_discrete, bool ctrl_y, bool y_discrete, size_t num_actors,
 
 TEST(TestOpenAI, one_dim_discrete) {
     Py_Initialize();
-    runner(true, false, true, 1, "get_action_test_one_dim_discrete", {{1, 4}});
-    runner(true, true, true, 1, "get_action_test_two_dim_discrete", {{1, 4}});
-    runner(false, false, true, 1, "get_action_test_one_dim_continuous", {{1, 4}});
-    runner(false, true, false, 1, "get_action_test_two_dim_continuous", {{1, 4}});
-    runner(false, true, true, 1, "get_action_test_two_dim_tuple", {{1, 4}});
+    runner(true, false, true, 1, {{1, 4}});
+    runner(true, true, true, 1, {{1, 4}});
+    runner(false, false, true, 1, {{1, 4}});
+    runner(false, true, false, 1, {{1, 4}});
+    runner(false, true, true, 1, {{1, 4}});
 
     // when there are multiple vehicles we need to specify an action
     // that is specific to an entity
-    runner(true, false, true, 2, "get_action_test_one_dim_discrete", {{1, 4}, {2, 4}});
+    runner(true, false, true, 2, {{1, 4}, {2, 4}});
     Py_Finalize();
 }
