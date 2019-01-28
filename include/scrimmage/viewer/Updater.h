@@ -307,7 +307,8 @@ class Updater : public vtkCommand {
     std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visuals_;
 
     std::unordered_map<uint64_t, std::tuple<scrimmage_proto::Shape,
-        vtkSmartPointer<vtkActor>, vtkSmartPointer<vtkPolyDataAlgorithm>>> shapes_;
+        vtkSmartPointer<vtkActor>, vtkSmartPointer<vtkPolyDataAlgorithm>,
+        double>> shapes_;
 
     std::map<std::string, std::shared_ptr<scrimmage_proto::UTMTerrain> > terrain_map_;
     std::map<std::string, std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visual_map_;

@@ -347,9 +347,33 @@ bool Updater::update_shapes() {
     // Remove past frames shapes that have reached time-to-live, if they
     // are not persistent
     for (auto it = shapes_.begin(); it != shapes_.end();) {
+        bool remove = false;
+
         scrimmage_proto::Shape &s = std::get<0>(it->second);
-        s.set_ttl(s.ttl()-1);
-        if (!s.persistent() && s.ttl() <= 0) {
+        if (not s.persistent()) {
+            switch (s.oneof_ttl_case()) {
+            case sp::Shape::kTtl:
+                s.set_ttl(s.ttl()-1);
+                if (s.ttl() <= 0) {
+                    remove = true;
+                }
+                break;
+            case sp::Shape::kPersistDuration:
+                if (std::get<3>(it->second) + s.persist_duration() < frame_time_) {
+                    remove = true;
+                }
+                break;
+            case sp::Shape::kPersistUntil:
+                if (s.persist_until() < frame_time_) {
+                    remove = true;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+
+        if (remove) {
             renderer_->RemoveActor(std::get<1>(it->second));
             it = shapes_.erase(it);
         } else {
@@ -442,17 +466,10 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
                                            shape.color().g()/255.0,
                                            shape.color().b()/255.0);
 
-            // Since protobufs default value for int is 0, if the ttl is 0
-            // at this point, set ttl to 1. We are creating new shapes
-            // here, so it doesn't make sense for a shape to have a ttl
-            // less than 1 here.
-            if (shape.ttl() <= 0) {
-                shape.set_ttl(1);
-            }
-
             if (new_shape) {
                 renderer_->AddActor(actor);
-                shapes_[shape.hash()] = std::make_tuple(shape, actor, source);
+                shapes_[shape.hash()] = std::make_tuple(shape, actor, source,
+                                                        frame_time_);
             } else {
                 std::get<0>(it->second) = shape;
             }
