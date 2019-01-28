@@ -11,7 +11,7 @@ setup(
     ],
     entry_points={
           'console_scripts': [
-              'external_control.py = scrimmage.external_control:main'
+              'openai_grpc_link.py = scrimmage.openai_grpc_link:main'
           ]
       },
     package_data={"scrimmage.bindings": ["*.so"]},

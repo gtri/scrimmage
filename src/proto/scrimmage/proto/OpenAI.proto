@@ -29,37 +29,45 @@
  * A Long description goes here.
  *
  */
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_
+syntax = "proto3";
 
-#include <scrimmage/common/Visibility.h>
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
 
-#include <map>
-#include <vector>
-#include <string>
-#include <tuple>
+package scrimmage_proto;
 
-namespace pybind11 {
-class object;
+service OpenAI {
+  rpc SendEnvironment (Environment) returns (Empty) {}
+  rpc GetAction (Obs) returns (Action) {}
 }
 
-namespace scrimmage {
-namespace autonomy {
+message Environment {
+    ActionSpace action_spaces = 1;
+    ActionSpace observation_spaces = 2;
+    double min_reward = 3;
+    double max_reward = 4;
+    map<string, string> params = 5;
+}
 
-class ScrimmageOpenAIAutonomy;
-class OpenAIActions;
-class OpenAIObservations;
+message Action {
+    repeated int32 discrete = 1;
+    repeated double continuous = 2;
+    bool done = 3;
+}
 
-enum class CombineActors {NO, YES};
-enum class UseGlobalSensor {NO, YES};
+message ActionSpace {
+    repeated int32 discrete = 1;
+    repeated ContExtrema continuous = 2;
+}
 
-std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> DLL_PUBLIC
-init_actor_func(
-        std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
-        const std::map<std::string, std::string> &params,
-        CombineActors combine_actors,
-        UseGlobalSensor global_sensor,
-        bool grpc_mode);
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_
+message ContExtrema {
+    double min = 1;
+    double max = 2;
+}
+
+message Obs {
+    repeated int32 discrete = 1;
+    repeated double continuous = 2;
+}
+
+message Empty {}
