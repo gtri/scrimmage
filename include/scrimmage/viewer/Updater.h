@@ -256,6 +256,11 @@ class Updater : public vtkCommand {
                    vtkSmartPointer<vtkActor> &actor,
                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_spline(const bool &new_shape,
+                     const scrimmage_proto::Spline &s,
+                     vtkSmartPointer<vtkActor> &actor,
+                     vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                     vtkSmartPointer<vtkPolyDataMapper> &mapper);
 
  protected:
     void get_model_texture(std::string name,
