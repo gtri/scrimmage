@@ -92,6 +92,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     boost::optional<scrimmage_proto::Action> get_action(scrimmage_proto::Obs &observation);
     pybind11::object convert_proto_action(const scrimmage_proto::Action &proto_act);
     scrimmage_proto::Obs obs_to_proto();
+    void kill_grpc_server();
     bool send_env();
 
     std::map<std::string, std::string> params_;

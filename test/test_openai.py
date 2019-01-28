@@ -82,7 +82,7 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     return env, obs, total_reward, info_hx
 
 
-def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end):
+def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end, grpc_mode=False):
     tree = ET.parse(scrimmage.utils.find_mission(MISSION_FILE))
     root = tree.getroot()
 
@@ -94,6 +94,7 @@ def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end):
     autonomy_node.attrib['x_discrete'] = str(x_discrete)
     autonomy_node.attrib['y_discrete'] = str(y_discrete)
     autonomy_node.attrib['ctrl_y'] = str(ctrl_y)
+    autonomy_node.attrib['grpc_mode'] = str(grpc_mode)
 
     if num_actors == 2:
         entity_node2 = copy.deepcopy(root.find('entity'))
