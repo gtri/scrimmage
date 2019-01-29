@@ -98,6 +98,10 @@ message Mesh {
         double scale = 4;
 }
 
+message Spline {
+        repeated Vector3d point = 1;
+}
+
 message Shape {
     uint64 hash = 1;
     bool hash_set = 2;
@@ -127,6 +131,7 @@ message Shape {
           Polyhedron polyhedron = 23;
           Ellipse ellipse = 24;
           Mesh mesh = 25;
+          Spline spline = 26;
     }
 }
 

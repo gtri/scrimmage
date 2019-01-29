@@ -45,6 +45,8 @@
 #include <vtkJPEGReader.h>
 #include <vtkPolyDataReader.h>
 #include <vtkSmoothPolyDataFilter.h>
+#include <vtkParametricFunctionSource.h>
+#include <vtkParametricSpline.h>
 #include <vtkPolyDataNormals.h>
 #include <vtkTextureMapToPlane.h>
 #include <vtkPointData.h>
@@ -448,6 +450,9 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
             break;
         case sp::Shape::kMesh:
             shape_status = draw_mesh(new_shape, shape.mesh(), actor, source, mapper);
+            break;
+        case sp::Shape::kSpline:
+            shape_status = draw_spline(new_shape, shape.spline(), actor, source, mapper);
             break;
         default:
             break;
@@ -2147,6 +2152,46 @@ bool Updater::draw_mesh(const bool &new_shape,
                           sc::Angles::rad2deg(quat.yaw()));
     auto scale = m.scale() * scale_;
     actor->SetScale(scale, scale, scale);
+
+    return true;
+}
+
+bool Updater::draw_spline(const bool &new_shape,
+                          const scrimmage_proto::Spline &s,
+                          vtkSmartPointer<vtkActor> &actor,
+                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                          vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    // Setup points
+    vtkSmartPointer<vtkPoints> points =
+        vtkSmartPointer<vtkPoints>::New();
+
+    // FIXME
+    for (int i = 0; i < s.point_size(); i++) {
+        points->InsertNextPoint(s.point(i).x(), s.point(i).y(),
+                                s.point(i).z());
+    }
+
+    // Create the spline
+    vtkSmartPointer<vtkParametricSpline> spline =
+      vtkSmartPointer<vtkParametricSpline>::New();
+    spline->SetPoints(points);
+
+    // set up source for mapper
+    vtkSmartPointer<vtkParametricFunctionSource> functionSource;
+    if (new_shape) {
+        functionSource = vtkSmartPointer<vtkParametricFunctionSource>::New();
+        /* functionSource->SetParametricFunction(spline); */
+        /* functionSource->Update(); */
+        source = functionSource;
+
+        mapper->SetInputConnection(functionSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        functionSource = vtkParametricFunctionSource::SafeDownCast(source);
+    }
+
+    functionSource->SetParametricFunction(spline);
+    functionSource->Update();
 
     return true;
 }
