@@ -1,0 +1,63 @@
+<runscript name="Flocking Mission with Single Team">
+
+  <run dt="0.1" enable_gui="true" end="200" network_gui="false" start="0.0" start_paused="false" time_warp="10"
+    motion_multiplier="1"/>
+
+  <end_condition>time, all_dead</end_condition> 
+
+  <grid_spacing>50</grid_spacing>
+  <grid_size>500</grid_size>
+  
+  <background_color>191 191 191</background_color> 
+  <gui_update_period>10</gui_update_period> 
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>frames, summary</output_type>
+  <show_plugins>false</show_plugins>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>5</origin_length>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+  <network range="10000" prob_transmit="1" comm_delay="8" is_stochastic_delay="true">DelayedComms</network>
+  <!-- <network range="10000" prob_transmit="0.5">SphereNetwork</network> -->
+    
+  <!-- <entity_interaction capture_range="-1">SimpleCapture</entity_interaction> -->
+  <!-- <entity_interaction startup_collisions_only="true">SimpleCollision</entity_interaction> -->
+  
+  <!-- <metrics>SimpleCaptureMetrics</metrics> -->
+  
+  <seed>1</seed>
+  <entity>
+    <team_id>1</team_id>
+    <color>0 0 255</color>
+    <count>50</count>
+    <health>5</health>
+    <variance_x>3</variance_x>
+    <variance_y>3</variance_y>
+    <variance_z>0</variance_z>
+    <use_variance_all_ents>true</use_variance_all_ents>
+    <x>0</x>
+    <y>0</y>
+    <z>200</z>
+    <speed0>0.0</speed0>
+
+    <heading>0</heading>
+
+    <autonomy>PublishOwnState</autonomy>
+    <autonomy gain="0.75" goal_speed="0.5" initial_speed="0.0">TeamFollower</autonomy>
+    <controller>AccelerationControl</controller>
+    <motion_model>DoubleIntegrator</motion_model>
+    <!-- <script_name>rascal_piedmont.xml</script_name> -->
+    
+
+    <visual_model>zephyr-blue</visual_model>
+  </entity>
+
+</runscript>

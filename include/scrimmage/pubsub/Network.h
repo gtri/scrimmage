@@ -66,10 +66,18 @@ class Network : public Plugin {
     inline virtual void set_mission_parse(MissionParsePtr mp)
     { mp_ = mp; }
 
+    // Get/set delay values
+    double comm_delay() {return comm_delay_;}
+    void set_comm_delay(double del) {comm_delay_ = del;}
+
  protected:
     RTreePtr rtree_;
     RandomPtr random_;
     MissionParsePtr mp_;
+
+    // Delay handling
+    double comm_delay_ = -1;
+    bool is_stochastic_delay_ = false;
 
     // Key 1: Publisher Entity ID
     // Key 2: Subscriber Entity ID
@@ -81,6 +89,8 @@ class Network : public Plugin {
 
     virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
                                             const scrimmage::PluginPtr &sub_plugin);
+
+    virtual double get_transmission_delay();
 
     bool network_init(std::map<std::string, std::string> &/*mission_params*/,
                       std::map<std::string, std::string> &/*plugin_params*/);
