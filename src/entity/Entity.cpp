@@ -231,10 +231,27 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
+    // Create a list of controller names (from XML top-down order)
+    std::list<std::string> controller_names;
     int controller_ct = 0;
     std::string controller_name = std::string("controller") + std::to_string(controller_ct);
+    bool valid_controller_name = true;
+    do {
+        if (info.count(controller_name) > 0) {
+            controller_names.push_back(controller_name);
+        } else {
+            valid_controller_name = false;
+        }
+        controller_name = std::string("controller") + std::to_string(++controller_ct);
+    } while (valid_controller_name);
 
-    while (info.count(controller_name) > 0) {
+    // Reverse iterate over controllers, so that the VariableIO can be setup
+    // correctly. Last controller connects to motion model, second to last
+    // controller connects to the last controller.
+    for (std::list<std::string>::reverse_iterator rit = controller_names.rbegin();
+         rit != controller_names.rend(); ++rit) {
+        std::string controller_name = *rit;
+
         ConfigParse config_parse;
         PluginStatus<Controller> status =
             plugin_manager_->make_plugin<Controller>("scrimmage::Controller",
@@ -251,63 +268,59 @@ bool Entity::init(AttributeMap &overrides,
             ControllerPtr controller = status.plugin;
             controller->set_state(state_);
 
-            // The controller's variable indices should be the same as the motion
-            // model's variable indices. This will speed up copying during the
-            // simulation.
-            connect(controller->vars(), motion_model_->vars());
-
             controller->set_parent(shared_from_this());
             controller->set_time(time_);
             controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
             param_override_func(config_parse.params());
+
+            // Connect this controller to the motion model if it is the last
+            // controller in XML top-down order (i.e., first in the reverse
+            // list). If it is not the last controller, connect it to the next
+            // controller.
+            bool connect_to_motion_model = (controllers_.size() == 0);
+            if (connect_to_motion_model) {
+                if (init_empty_motion_model) continue;
+                connect(controller->vars(), motion_model_->vars());
+            } else {
+                connect(controller->vars(), controllers_.back()->vars());
+            }
+
+            // Initialize this controller.
             controller->init(config_parse.params());
+
+            // Verify the VariableIO connection
+            if (connect_to_motion_model) {
+                if (!verify_io_connection(controller->vars(), motion_model_->vars())) {
+                    std::cout << "VariableIO Error: "
+                              << std::quoted(controller->name())
+                              << " does not provide inputs required by next controller "
+                              << std::quoted(motion_model_->name())
+                              << ": ";
+                    print_io_error(motion_model_->name(), motion_model_->vars());
+                    return false;
+                }
+            } else {
+                if (!verify_io_connection(controller->vars(), controllers_.back()->vars())) {
+                    std::cout << "VariableIO Error: "
+                              << std::quoted(controller->name())
+                              << " does not provide inputs required by next controller "
+                              << std::quoted(controllers_.back()->name())
+                              << ": ";
+                    print_io_error(controllers_.back()->name(), controllers_.back()->vars());
+                    return false;
+                }
+            }
+            // Save this controller instance
             controllers_.push_back(controller);
         }
-        controller_name = std::string("controller") + std::to_string(++controller_ct);
     }
 
-    // Configure the controller variableIO's, such that they run in series
-    for (std::vector<ControllerPtr>::iterator it = controllers_.begin();
-         it != controllers_.end(); ++it) {
-        auto next = std::next(it);
-        if (next == controllers_.end()) {
-            // Last controller's variables connect to the motion model
-            // Note that we do not need to make the connection if there is no
-            // motion model. This would needlessly clear the IO of the
-            // controller
-            if (init_empty_motion_model) continue;
-
-            connect((*it)->vars(), motion_model_->vars());
-
-            // Make sure that the last controller provides the variables
-            // required by the motion model
-            if (!verify_io_connection((*it)->vars(), motion_model_->vars())) {
-                std::cout << "VariableIO Error: "
-                          << std::quoted((*it)->name())
-                          << " does not provide inputs required by MotionModel "
-                          << std::quoted(motion_model_->name())
-                          << ": ";
-                print_io_error(motion_model_->name(), motion_model_->vars());
-                return false;
-            }
-        } else {
-            // Controller's output variables connect to the next controller's
-            // input variableIO
-            connect((*it)->vars(), (*next)->vars());
-
-            if (!verify_io_connection((*it)->vars(), (*next)->vars())) {
-                std::cout << "VariableIO Error: "
-                          << std::quoted((*it)->name())
-                          << " does not provide inputs required by next controller "
-                          << std::quoted((*next)->name())
-                          << ": ";
-                print_io_error((*next)->name(), (*next)->vars());
-                return false;
-            }
-        }
-    }
+    // Since the controllers_ list was constructed in reverse XML order, we
+    // need to reverse it to ensure that the controllers are executed in the
+    // correct order
+    std::reverse(controllers_.begin(), controllers_.end());
 
     ////////////////////////////////////////////////////////////
     // autonomy
