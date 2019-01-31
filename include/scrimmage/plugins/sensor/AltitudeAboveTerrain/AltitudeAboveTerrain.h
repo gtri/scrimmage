@@ -30,35 +30,36 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h>
 
+#include <random>
+#include <vector>
 #include <map>
-#include <list>
 #include <string>
 
 namespace scrimmage {
-namespace interaction {
-
-class TerrainGenerator : public scrimmage::EntityInteraction {
+namespace sensor {
+class AltitudeAboveTerrain : public scrimmage::Sensor {
  public:
-    TerrainGenerator();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    AltitudeAboveTerrain();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-    TerrainMap map_;
-    bool terrain_published_ = false;
-    scrimmage::PublisherPtr terrain_pub_;
-
+    std::shared_ptr<std::default_random_engine> gener_;
+    std::shared_ptr<std::normal_distribution<double>> noise_;
+    PublisherPtr pub_true_;
+    PublisherPtr pub_noise_;
+    std::shared_ptr<scrimmage::interaction::TerrainMap> map_ = nullptr;
  private:
 };
-} // namespace interaction
+} // namespace sensor
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_

@@ -36,10 +36,14 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/msgs/Terrain.pb.h>
 
 #include <vector>
 #include <string>
 #include <limits>
+#include <random>
+
+#include <boost/optional.hpp>
 
 namespace scrimmage {
 namespace interaction {
@@ -54,8 +58,11 @@ class TerrainMap {
                const double &x_resolution, const double &y_resolution,
                const double &z_min, const double &z_max,
                const Eigen::Vector3d &color);
+    explicit TerrainMap(const scrimmage_msgs::Terrain &terrain);
     bool generate();
-    const scrimmage::ShapePtr shape() const { return shape_; }
+    scrimmage::ShapePtr shape();
+    scrimmage_msgs::Terrain proto();
+    boost::optional<double> height_at(const double &x, const double &y);
 
  protected:
     std::shared_ptr<std::normal_distribution<double>> rng_;
@@ -81,8 +88,6 @@ class TerrainMap {
 
     std::vector<std::vector<Node>> grid_;
     double get_neighbor_avg(const int &row, const int &col);
-
-    std::shared_ptr<scrimmage_proto::Shape> shape_;
 
  private:
 };

@@ -66,6 +66,25 @@ TerrainMap::TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
     generate();
 }
 
+TerrainMap::TerrainMap(const scrimmage_msgs::Terrain &terrain) :
+        rng_(nullptr), gener_(nullptr), center_(Eigen::Vector3d(0, 0, 0)),
+        x_length_(terrain.x_length()), y_length_(terrain.y_length()),
+        x_resolution_(terrain.x_resolution()),
+        y_resolution_(terrain.y_resolution()), z_min_(terrain.z_min()),
+        z_max_(terrain.z_max()), num_x_cols_(x_length_ / x_resolution_),
+        num_y_rows_(y_length_ / y_resolution_),
+        grid_(std::vector<std::vector<Node>>(num_y_rows_, std::vector<Node>(num_x_cols_))) {
+    sc::set(center_, terrain.center());
+
+    // Populate the grid
+    for (int r = 0; r < terrain.map().row_size(); ++r) {
+        for (int c = 0; c < terrain.map().row(r).col_size(); ++c) {
+            grid_[r][c].height = terrain.map().row(r).col(c);
+            grid_[r][c].is_set = true;
+        }
+    }
+}
+
 bool TerrainMap::generate() {
     if (gener_ == nullptr || rng_ == nullptr) {
         cout << "default_random_enginer is nullptr" << endl;
@@ -93,21 +112,6 @@ bool TerrainMap::generate() {
         }
     }
 
-    // Create the shape associated with this terrain
-    shape_ = std::make_shared<sp::Shape>();
-    shape_->set_persistent(true);
-    sc::set(shape_->mutable_color(), color_(0), color_(1), color_(2));
-    shape_->mutable_pointcloud()->set_size(3);
-
-    for (unsigned int row = 0; row < num_y_rows_; ++row) {
-        double y = center_(1)-y_length_ / 2.0 + row * y_resolution_;
-        for (unsigned int col = 0; col < num_x_cols_; ++col) {
-            sp::Vector3d *p = shape_->mutable_pointcloud()->add_point();
-            double x = center_(0)-x_length_ / 2.0 + col * x_resolution_;
-            sc::set(p, x, y, grid_[row][col].height);
-        }
-    }
-
     return true;
 }
 
@@ -129,6 +133,55 @@ double TerrainMap::get_neighbor_avg(const int &row, const int &col) {
     }
 
     return (neighbors == 0) ? 0 : height_sum / neighbors;
+}
+
+scrimmage::ShapePtr TerrainMap::shape() {
+    // Create the shape associated with this terrain
+    sc::ShapePtr shape = std::make_shared<sp::Shape>();
+    shape->set_persistent(true);
+    sc::set(shape->mutable_color(), color_(0), color_(1), color_(2));
+    shape->mutable_pointcloud()->set_size(3);
+
+    for (unsigned int row = 0; row < num_y_rows_; ++row) {
+        double y = center_(1)-y_length_ / 2.0 + row * y_resolution_;
+        for (unsigned int col = 0; col < num_x_cols_; ++col) {
+            sp::Vector3d *p = shape->mutable_pointcloud()->add_point();
+            double x = center_(0)-x_length_ / 2.0 + col * x_resolution_;
+            sc::set(p, x, y, grid_[row][col].height);
+        }
+    }
+    return shape;
+}
+
+scrimmage_msgs::Terrain TerrainMap::proto() {
+    scrimmage_msgs::Terrain terrain;
+
+    sc::set(terrain.mutable_center(), center_);
+    terrain.set_x_length(x_length_);
+    terrain.set_y_length(y_length_);
+    terrain.set_x_resolution(x_resolution_);
+    terrain.set_y_resolution(y_resolution_);
+    terrain.set_z_min(z_min_);
+    terrain.set_z_max(z_max_);
+
+    for (unsigned int r = 0; r < num_y_rows_; ++r) {
+        scrimmage_msgs::Array1D *row = terrain.mutable_map()->add_row();
+        for (unsigned int c = 0; c < num_x_cols_; ++c) {
+            row->add_col(grid_[r][c].height);
+        }
+    }
+    return terrain;
+}
+
+boost::optional<double> TerrainMap::height_at(const double &x, const double &y) {
+    int row = std::floor((y + y_length_/2.0 - center_(1)) / y_resolution_);
+    int col = std::floor((x + x_length_/2.0 - center_(0)) / x_resolution_);
+    if (row < 0 || row >= static_cast<int>(num_y_rows_) ||
+        col < 0 || col >= static_cast<int>(num_x_cols_) ||
+        not grid_[row][col].is_set) {
+        return boost::optional<double>{};
+    }
+    return grid_[row][col].height;
 }
 
 } // namespace interaction

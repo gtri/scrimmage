@@ -38,6 +38,8 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/common/Random.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <memory>
 #include <limits>
@@ -47,6 +49,7 @@ using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
+namespace sp = scrimmage_proto;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction,
                 scrimmage::interaction::TerrainGenerator,
@@ -86,6 +89,9 @@ bool TerrainGenerator::init(std::map<std::string, std::string> &mission_params,
                       parent_->random()->gener(), center_point,
                       x_length, y_length, x_resolution, y_resolution,
                       z_min, z_max, color);
+
+    terrain_pub_ = advertise("GlobalNetwork", "Terrain");
+
     return true;
 }
 
@@ -94,6 +100,13 @@ bool TerrainGenerator::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                double t, double dt) {
     if (not terrain_published_) {
         terrain_published_ = true;
+
+        // Publish the terrain protobuf message
+        auto msg = std::make_shared<sc::Message<scrimmage_msgs::Terrain>>();
+        msg->data = map_.proto();
+        terrain_pub_->publish(msg);
+
+        // Draw the terrain
         draw_shape(map_.shape());
     }
     return true;

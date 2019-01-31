@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>AltitudeAboveTerrain_plugin</library>
+
+  <!-- noise params are defined with (mean, standard deviation) -->
+  <altitude_noise>0.0 5.0</altitude_noise>
+
+</params>
