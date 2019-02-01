@@ -1839,7 +1839,8 @@ bool Updater::draw_plane(const bool &new_shape,
   std::string texture_file, texture_name;
   texture_name = p.texture();
   bool texture_found = false;
-  if (!texture_name.empty()) {
+
+  if (!texture_name.empty() && std::string(texture_name) != "") {
     ConfigParse c_parse;
     FileSearch file_search;
     std::map<std::string, std::string> overrides;
@@ -1890,8 +1891,6 @@ bool Updater::draw_plane(const bool &new_shape,
     jPEGReader->SetFileName(texture_file.c_str());
     texture->SetInputConnection(jPEGReader->GetOutputPort());
     texturePlane->SetInputConnection(planeSource->GetOutputPort());
-  } else {
-    std::cout << "plane texture not found: " << texture_file << std::endl;
   }
 
   // set ambient lighting for the plane
