@@ -351,9 +351,9 @@ bool FixedWing6DOF::step(double time, double dt) {
     Eigen::Vector3d angvel_b_e_ENU;
     angvel_b_e_ENU << angvel_b_e_bodyRef(0), -angvel_b_e_bodyRef(1), -angvel_b_e_bodyRef(2);
 
-    state_->set_pos(Eigen::Vector3d(x_[Xw], x_[Yw], x_[Zw]));
-    state_->set_vel(linear_vel_ENU);
-    state_->set_ang_vel(angvel_b_e_ENU);
+    state_->pos() = Eigen::Vector3d(x_[Xw], x_[Yw], x_[Zw]);
+    state_->vel() = linear_vel_ENU;
+    state_->ang_vel() = angvel_b_e_ENU;
 
     linear_accel_body_ = state_->quat().rotate_reverse(linear_acc_ENU);
     ang_accel_body_ = angular_acc_FLU;

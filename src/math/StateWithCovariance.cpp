@@ -44,8 +44,8 @@ StateWithCovariance::StateWithCovariance(const scrimmage::State &state,
                                          const int &cov_num_rows,
                                          const int &cov_num_cols,
                                          const double &cov_diag) :
-    State(state.pos_const(), state.vel_const(), state.ang_vel_const(),
-          state.quat_const()),
+    State(state.pos(), state.vel(), state.ang_vel(),
+          state.quat()),
     covariance_(cov_diag * Eigen::MatrixXd::Identity(cov_num_rows, cov_num_cols)) {
 }
 

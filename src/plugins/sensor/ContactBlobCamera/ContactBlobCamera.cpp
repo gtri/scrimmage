@@ -138,8 +138,8 @@ bool ContactBlobCamera::step() {
     Eigen::Vector3d sensor_pos = sensor->transform()->pos() +
       parent_->state()->pos();
 
-    sensor_frame.set_quat(sensor_quat);
-    sensor_frame.set_pos(sensor_pos);
+    sensor_frame.quat() = sensor_quat;
+    sensor_frame.pos() = sensor_pos;
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 

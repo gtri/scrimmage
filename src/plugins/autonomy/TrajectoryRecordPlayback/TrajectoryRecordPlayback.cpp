@@ -104,7 +104,7 @@ void TrajectoryRecordPlayback::init(std::map<std::string,
                                        csv_.at(r, "pitch_d"),
                                        csv_.at(r, "yaw_d"));
 
-            desired_state.set_quat(quat);
+            desired_state.quat() = quat;
 
             TrajectoryPoint traj;
             traj.set_t(csv_.at(r, "t"));
