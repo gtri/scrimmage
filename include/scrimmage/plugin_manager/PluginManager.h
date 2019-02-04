@@ -86,6 +86,11 @@ class PluginManager {
                        FileSearch &file_search);
     void print_returned_plugins();
 
+    void find_matching_plugins(
+        const std::string &plugin_name_so,
+        std::unordered_map<std::string, std::list<std::string>> &so_files,
+        std::list<std::string> &plugins);
+
     template <class T>
     PluginStatus<T> make_plugin(std::string plugin_type,
                                 const std::string &plugin_name_xml,
@@ -151,49 +156,33 @@ class PluginManager {
             files_checked_ = true;
         }
 
-        // try the most obvious case, that the lib is named the same as the
-        // plugin_name
-        auto it = so_files_.find(std::string("lib") + plugin_name_so + LIB_EXT);
-        if (it != so_files_.end()) {
-            for (std::string &full_fname : it->second) {
-                if (check_library(full_fname) == 0) {
-                    // don't need to check again that it is in the map since the helper
-                    // will do this already
-                    so_files_.erase(it);
-                    PluginPtr plugin = make_plugin_helper(plugin_type, plugin_name_so);
-                    status.plugin = std::dynamic_pointer_cast<T>(plugin);
-                    if (status.plugin == nullptr) {
-                        status.status = PluginStatus<T>::cast_failed;
-                    } else {
-                        status.status = PluginStatus<T>::loaded;
-                    }
-                    return status;
-                }
+        // Find the shared libraries / plugins that match this name.
+        std::list<std::string> matching_plugins;
+        find_matching_plugins(plugin_name_so, so_files_, matching_plugins);
+
+        // Warn the user if multiple plugin libraries were found
+        if (matching_plugins.size() > 1) {
+            std::cout << "WARNING: Multiple paths found for plugin:"
+                      << plugin_name_so << std::endl;
+            for (const std::string &plugin_path : matching_plugins) {
+                std::cout << plugin_path << std::endl;
             }
         }
 
-        // last, loop through the files
-        it = so_files_.begin();
-        while (it != so_files_.end()) {
-            for (std::string &full_fname : it->second) {
-                if (check_library(full_fname) == 0) {
-                    // don't need to check again that it is in the map since the helper
-                    // will do this already
-                    so_files_.erase(it);
-                    PluginPtr plugin = make_plugin_helper(plugin_type, plugin_name_so);
-                    status.plugin = std::dynamic_pointer_cast<T>(plugin);
-                    if (status.plugin == nullptr) {
-                        status.status = PluginStatus<T>::cast_failed;
-                    } else {
-                        status.status = PluginStatus<T>::loaded;
-                    }
-                    return status;
-                }
+        if (matching_plugins.size() > 0) {
+            // A matching plugin was found. Create one using make_plugin_helper
+            PluginPtr plugin = make_plugin_helper(plugin_type, plugin_name_so);
+            status.plugin = std::dynamic_pointer_cast<T>(plugin);
+            if (status.plugin == nullptr) {
+                status.status = PluginStatus<T>::cast_failed;
+            } else {
+                status.status = PluginStatus<T>::loaded;
             }
-            it++;
+            return status;
         }
 
-        std::cout << "could not locate " << plugin_type << "::" << plugin_name_so << std::endl;
+        std::cout << "ERROR: Could not locate " << plugin_type << "::"
+                  << plugin_name_so << std::endl;
         status.status = PluginStatus<T>::missing;
         return status;
     }

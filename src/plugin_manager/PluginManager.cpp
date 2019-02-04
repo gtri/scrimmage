@@ -189,6 +189,24 @@ std::map<std::string, std::unordered_set<std::string>> PluginManager::get_commit
     return commits;
 }
 
+void PluginManager::find_matching_plugins(
+    const std::string &plugin_name_so,
+    std::unordered_map<std::string, std::list<std::string>> &so_files,
+    std::list<std::string> &plugins) {
+
+    auto it = so_files.find(std::string("lib") + plugin_name_so + LIB_EXT);
+    if (it != so_files.end()) {
+        for (std::string &full_fname : it->second) {
+            if (check_library(full_fname) == 0) {
+                plugins.push_back(full_fname);
+            }
+        }
+        if (plugins.size() > 0) {
+            so_files.erase(it);
+        }
+    }
+}
+
 void PluginManager::set_reload(bool reload) {reload_ = reload;}
 
 bool PluginManager::get_reload() {return reload_;}
