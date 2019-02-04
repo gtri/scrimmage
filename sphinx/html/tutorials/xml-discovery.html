@@ -85,7 +85,10 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">SCRIMMAGE Plugin / XML File Discovery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#finding-plugins">Finding Plugins</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
@@ -180,6 +183,15 @@ to the <code class="docutils literal"><span class="pre">init</span></code> metho
 strings (we will discuss this below as well).</li>
 </ol>
 <p>Later tutorials will discuss how to implement custom autonomy plugins.</p>
+<div class="section" id="finding-plugins">
+<h2>Finding Plugins<a class="headerlink" href="#finding-plugins" title="Permalink to this headline">¶</a></h2>
+<p>A command line utility called <code class="docutils literal"><span class="pre">scrimmage-plugin</span></code> can be used to find a plugin
+and print its properties. For example, to find the <code class="docutils literal"><span class="pre">Straight</span></code> autonomy
+plugin, type the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre>$ scrimmage-plugin Straight
+</pre></div>
+</div>
+<p>This utility is useful for debugging file path problems.</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -192,6 +204,7 @@ have the <code class="docutils literal"><span class="pre">SimpleQuadrotor</span>
 are higher fidelity motion models available.</td></tr>
 </tbody>
 </table>
+</div>
 </div>
 
 
