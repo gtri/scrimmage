@@ -116,7 +116,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#openai-mission-xml-file">OpenAI Mission XML File</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-the-openai-environment">Running The OpenAI Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#run-in-non-learning-mode">Run In Non-learning Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-in-non-learning-mode-for-non-tensorflow-based-code">Run In Non-learning Mode (for non-Tensorflow-based code)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-in-non-learning-mode-using-grpc-for-tensorflow-based-code">Run In Non-learning Mode using gRPC (for Tensorflow-based code)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
@@ -464,15 +465,15 @@ and change line 15 from</p>
   <span class="nt">&lt;library&gt;</span>SimpleLearner_plugin<span class="nt">&lt;/library&gt;</span>
   <span class="nt">&lt;radius&gt;</span>2<span class="nt">&lt;/radius&gt;</span>
   <span class="nt">&lt;module&gt;</span>my_openai<span class="nt">&lt;/module&gt;</span>
-  <span class="nt">&lt;actor_func&gt;</span>get_action<span class="nt">&lt;/actor_func&gt;</span>
+  <span class="nt">&lt;actor_init_func&gt;</span>return_action_func<span class="nt">&lt;/actor_init_func&gt;</span>
 <span class="nt">&lt;/params&gt;</span>
 </pre></div>
 </td></tr></table></div>
-<p><code class="docutils literal"><span class="pre">module</span></code> and <code class="docutils literal"><span class="pre">actor_func</span></code> exist so that we can
+<p><code class="docutils literal"><span class="pre">module</span></code> and <code class="docutils literal"><span class="pre">actor_init_func</span></code> exist so that we can
 call our learner outside the OpenAI environment. This is useful
 in case we want to train using python and then do a lot of runs
 to test/verify what has been learned.
-We will discuss this later in <a class="reference internal" href="#non-learning-mode"><span>Run In Non-learning Mode</span></a>.</p>
+We will discuss this later in <a class="reference internal" href="#non-learning-mode"><span>Run In Non-learning Mode (for non-Tensorflow-based code)</span></a>.</p>
 <p>From here, we can now build the project:</p>
 <div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -780,7 +781,10 @@ reward. We will save this python file at
 46
 47
 48
-49</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">copy</span>
+49
+50
+51
+52</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">gym</span>
 <span class="kn">import</span> <span class="nn">scrimmage.utils</span>
 <span class="kn">import</span> <span class="nn">random</span>
@@ -789,6 +793,9 @@ reward. We will save this python file at
 <span class="k">def</span> <span class="nf">get_action</span><span class="p">(</span><span class="n">obs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
+<span class="c1"># Used for non-learning mode</span>
+<span class="k">def</span> <span class="nf">return_action_func</span><span class="p">(</span><span class="n">action_space</span><span class="p">,</span> <span class="n">obs_space</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_action</span>
 
 <span class="k">def</span> <span class="nf">test_openai</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
@@ -843,8 +850,8 @@ into the terminal to see it run!</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="run-in-non-learning-mode">
-<span id="non-learning-mode"></span><h2>Run In Non-learning Mode<a class="headerlink" href="#run-in-non-learning-mode" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="run-in-non-learning-mode-for-non-tensorflow-based-code">
+<span id="non-learning-mode"></span><h2>Run In Non-learning Mode (for non-Tensorflow-based code)<a class="headerlink" href="#run-in-non-learning-mode-for-non-tensorflow-based-code" title="Permalink to this headline">¶</a></h2>
 <p>In <a class="reference internal" href="#learning-mode"><span>Running The OpenAI Environment</span></a> we ran an OpenAI environment using
 the newly defined environments from SCRIMMAGE. If <cite>my_openai.py</cite>
 had done something with the data from the environment,
@@ -859,11 +866,34 @@ In other words, we want to be able to run this line:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ python my_openai.py
 </pre></div>
 </div>
-<p>Because you placed the <code class="docutils literal"><span class="pre">module</span></code> and <code class="docutils literal"><span class="pre">actor_func</span></code> in your
-<code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code> file, SCRIMMAGE knows where to find
-what it needs.</p>
+<p>Because you set the <code class="docutils literal"><span class="pre">module</span></code> as &#8220;my_openai&#8221; and <code class="docutils literal"><span class="pre">actor_init_func</span></code> as
+&#8220;return_action_func&#8221; in your <code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code> file, SCRIMMAGE knows where to find
+what it needs. <code class="docutils literal"><span class="pre">actor_init_func</span></code> is a function that will take in the action
+space, observation space, and parameters from SCRIMMAGE in order to return a
+function that will then be used during non-training mode. This setup is
+useful in cases where there is some initialization needed before being able to return actions. For example, there might a directory pointing to some saved
+model that needs to be loaded first. By adding a directory parameter to the <code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code> file, it will then be passed down to the function named in <code class="docutils literal"><span class="pre">actor_init_func</span></code>. The function returned from <code class="docutils literal"><span class="pre">actor_init_func</span></code> should take in a
+observation and return an action.</p>
+<p>To use non-learning mode, <code class="docutils literal"><span class="pre">nonlearning_mode_openai_plugin</span></code> should be set to true in your mission or
+plugin parameter file. Note, if your action method uses tensorflow, you will
+need to use <a class="reference internal" href="#non-learning-mode-grpc"><span>Run In Non-learning Mode using gRPC (for Tensorflow-based code)</span></a>.</p>
 <div class="highlight-bash"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
 <span class="o">[</span>&gt;                                                                     <span class="o">]</span> <span class="m">0</span> %
+<span class="o">================================================================================</span>
+<span class="nv">OpenAIRewards</span>
+<span class="o">================================================================================</span>
+Reward <span class="k">for</span> id <span class="nv">1</span> <span class="o">=</span> 20
+Simulation Complete
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-in-non-learning-mode-using-grpc-for-tensorflow-based-code">
+<span id="non-learning-mode-grpc"></span><h2>Run In Non-learning Mode using gRPC (for Tensorflow-based code)<a class="headerlink" href="#run-in-non-learning-mode-using-grpc-for-tensorflow-based-code" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="#non-learning-mode"><span>Run In Non-learning Mode (for non-Tensorflow-based code)</span></a>, we could start up a trained agent directly inside of SCRIMMAGE. However if your training code uses tensorflow, that method won&#8217;t work. What you will need to do instead is use the gRPC mode for non-learning mode. This creates a gRPC server in python that will then run the agent and send the action back across to SCRIMMAGE. To use this mode, <code class="docutils literal"><span class="pre">module</span></code> and <code class="docutils literal"><span class="pre">actor_init_func</span></code> will need to be set as before. Then, <code class="docutils literal"><span class="pre">grpc_mode</span></code> will also need to be set to &#8220;true&#8221; in <code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code>. Additional arguments such as <code class="docutils literal"><span class="pre">grpc_address</span></code> or <code class="docutils literal"><span class="pre">port</span></code> can also be changed to move what address and port number the gRPC server will located at but the defaults should work fine for most users (localhost on port 50051).</p>
+<p>Once the parameters are set, you should be able to run this line:</p>
+<div class="highlight-bash"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
+PYTHON: GRPC Server Started
+Connecting to gRPC Server attempt: 1/ <span class="nv">10</span>
 <span class="o">================================================================================</span>
 <span class="nv">OpenAIRewards</span>
 <span class="o">================================================================================</span>
