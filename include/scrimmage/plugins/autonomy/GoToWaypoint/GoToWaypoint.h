@@ -30,56 +30,29 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
-#include <scrimmage/common/Waypoint.h>
-
-#include <list>
+#include <vector>
+#include <string>
+#include <map>
 
 namespace scrimmage {
 namespace autonomy {
-
-class WaypointList {
+class GoToWaypoint : public scrimmage::Autonomy {
  public:
-    enum class WaypointMode {
-        follow_once = 0,
-        back_and_forth = 1,
-        loiter = 2,
-        racetrack = 3
-    };
-
-    WaypointList() {
-    }
-
-    std::list<Waypoint> & waypoints() { return waypoints_; }
-    void set_mode(WaypointMode mode) { mode_ = mode; }
-    WaypointMode mode() { return mode_; }
-
-    friend std::ostream& operator<<(std::ostream& os, WaypointList& wp_list) {
-        for (Waypoint wp : wp_list.waypoints()) {
-            os << wp << std::endl;
-        }
-        return os;
-    }
-
-    void set_cycles(unsigned int cycles) {
-        cycles_ = cycles;
-    }
-
-    unsigned int cycles() {
-        return cycles_;
-    }
-
-    unsigned int size() {
-        return waypoints_.size();
-    }
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
+    void publish_waypoint(double t);
 
  protected:
-    std::list<Waypoint> waypoints_;
-    WaypointMode mode_ = WaypointMode::follow_once;
-    unsigned int cycles_ = 1;
+    bool waypoint_status_;
+    WaypointList wp_list_;
+    std::vector<std::string> waypoint_;
+    scrimmage::PublisherPtr waypoint_list_pub_;
 };
 } // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_

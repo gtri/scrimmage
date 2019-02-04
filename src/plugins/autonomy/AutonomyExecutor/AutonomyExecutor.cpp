@@ -35,7 +35,6 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -156,6 +155,8 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
             autonomy->set_name(autonomy_name);
             autonomy->init(config_parse.params());
 
+            autonomies_config_[autonomy_name] = config_parse;
+
             // Determine which states in which this autonomy is active
             std::vector<std::string> states;
             if (sc::get_vec("states", config_parse.params(), " ,", states)) {
@@ -189,6 +190,14 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
                 sub->accept(msg);
             }
         }
+
+        if (autonomy_cache_ != autonomy->name()) {
+            if (!call_init(autonomy->name(), autonomy)) {
+                cout << "AutonomyExecutor: Failed to reload init for " << autonomy->name() << endl;
+            }
+            autonomy_cache_ = autonomy->name();
+        }
+
         if (!autonomy->step_autonomy(time_->t(), time_->dt())) {
             cout << "AutonomyExecutor: autonomy error- " << autonomy->name();
         }
@@ -200,6 +209,26 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
                           });
         }
     }
+    return true;
+}
+
+bool AutonomyExecutor::call_init(std::string autonomy_name, sc::AutonomyPtr autonomy_s) {
+    sc::ConfigParse config_parse = autonomies_config_[autonomy_name];
+    AutonomyPtr autonomy = autonomy_s;
+    autonomy->vars().output_variable_index() = vars_.output_variable_index();
+    autonomy->vars().set_output(vars_.output());
+
+    // Initialize the autonomy
+    autonomy->set_rtree(rtree_);
+    autonomy->set_parent(parent_);
+    autonomy->set_projection(proj_);
+    autonomy->set_pubsub(parent_->pubsub());
+    autonomy->set_time(time_);
+    autonomy->set_state(state_);
+    autonomy->set_contacts(contacts_);
+    autonomy->set_is_controlling(true);
+    autonomy->set_name(autonomy_name);
+    autonomy->init(config_parse.params());
     return true;
 }
 } // namespace autonomy

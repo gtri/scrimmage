@@ -33,10 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/parse/ConfigParse.h>
 
 #include <string>
 #include <map>
 #include <list>
+
+namespace sc = scrimmage;
 
 namespace scrimmage {
 namespace autonomy {
@@ -44,6 +47,7 @@ class AutonomyExecutor : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
+    bool call_init(std::string autonomy_name, sc::AutonomyPtr autonomy_s);
 
  protected:
     bool show_shapes_ = false;
@@ -53,6 +57,9 @@ class AutonomyExecutor : public scrimmage::Autonomy {
     std::map<std::string, std::list<scrimmage::AutonomyPtr>> autonomies_;
     std::list<scrimmage::AutonomyPtr> running_autonomies_;
     std::list<scrimmage::AutonomyPtr> default_autonomies_;
+
+    std::map<std::string, sc::ConfigParse> autonomies_config_;
+    std::string autonomy_cache_;
 
     // Key : Output variable index determined by controller
     // Value: Input variable index
