@@ -32,10 +32,13 @@
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/plugin_manager/PluginManager.h>
 
 #include <iostream>
 #include <string>
 #include <memory>
+#include <unordered_map>
+#include <list>
 
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
@@ -46,6 +49,12 @@ using std::endl;
 namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 namespace sc = scrimmage;
+
+#ifdef __APPLE__
+#define LIB_EXT ".dylib"
+#else
+#define LIB_EXT ".so"
+#endif
 
 int main(int argc, char *argv[]) {
     // Declare the supported options.
@@ -86,14 +95,30 @@ int main(int argc, char *argv[]) {
         std::cout << "Failed to parse: " << plugin_name_xml << " for type " << plugin_type << std::endl;
         return -2;
     }
+
+    std::string library_name = config_parse.params()["library"];
+
     cout << "==========================================" << endl;
     cout << "Plugin found." << endl;
     cout << "Name: " << plugin_name_xml << endl;
     cout << "File: " << config_parse.filename() << endl;
-    cout << "Library: " << config_parse.params()["library"] << endl;
+    cout << "Library: " << library_name << endl;
     cout << "-------------------------" << endl;
     cout << "Params: ";
     config_parse.print_params();
 
+    // Find the paths to the libraries
+    std::unordered_map<std::string, std::list<std::string>> so_files;
+    file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files);
+
+    scrimmage::PluginManager plugin_mgr;
+    std::list<std::string> plugins_found;
+    plugin_mgr.find_matching_plugins(library_name, so_files, plugins_found);
+
+    cout << "---------------------------" << endl;
+    cout << "Matching plugin libraries found: " << endl;
+    for (const std::string &str  : plugins_found) {
+        cout << str << endl;
+    }
     return 0;
 }

@@ -1,5 +1,5 @@
 SCRIMMAGE Plugin / XML File Discovery
--------------------------------------
+=====================================
 
 This tutorial assumes you have completed the section
 :ref:`install_scrimmage`.  Let's start with the command we ran to run the
@@ -28,6 +28,21 @@ pointing to ``Straight`` it does the following:
    strings (we will discuss this below as well).
 
 Later tutorials will discuss how to implement custom autonomy plugins.
+
+
+Finding Plugins
+---------------
+
+A command line utility called ``scrimmage-plugin`` can be used to find a plugin
+and print its properties. For example, to find the ``Straight`` autonomy
+plugin, type the following:
+
+.. code-block:: bash
+
+   $ scrimmage-plugin Straight
+
+This utility is useful for debugging file path problems.
+
 
 .. [#f1] We actually fully specify an entity with the ``motion_model``,
         ``visual_model``, ``controller``, and ``autonomy``. The first item
