@@ -42,6 +42,7 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/parse/MissionParse.h>
 
 #include <limits>
 
@@ -74,16 +75,18 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     nonlearning_mode_ = get("nonlearning_mode_openai_plugin", params, true);
 
     #if ENABLE_GRPC
-    std::string port_ = get("port", params, "50051");
-    std::string grpc_address_ = get("grpc_address", params, "localhost");
+    int port_ = get("port", params, 50050);
+    // In case we have multiple agents, add the id to the port number
+    std::string port_str = std::to_string(port_ + parent_->id().id());
+    std::string grpc_address_ = get("grpc_address", params, "127.0.0.1");
     std::string module = get("module", params, "my_module");
     std::string actor_func_str = get("actor_init_func", params, "my_func");
     grpc_mode_ = get("grpc_mode", params, grpc_mode_);
 
-    std::string address_ = grpc_address_ + ":" + port_;
-    if (grpc_mode_) {
+    std::string address_ = grpc_address_ + ":" + port_str;
+    if (grpc_mode_ && nonlearning_mode_) {
         python_cmd_ = std::string("openai_grpc_link.py")
-                    + " --port " + port_
+                    + " --port " + port_str
                     + " --actor " + module + ":" + actor_func_str
                     + " --ip " + grpc_address_
                     + " &";
@@ -103,7 +106,7 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
 
 
 
-bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
+bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
     if (nonlearning_mode_) {
         if (pub_reward_ == nullptr) {
             // need contacts size to be set before calling init
@@ -115,11 +118,10 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
             pub_reward_ = advertise("GlobalNetwork", "reward");
             #if ENABLE_GRPC
             if (grpc_mode_) {
-                std::cout << "Connecting to GRPC Server" << std::endl;
                 int attempts = 0;
                 bool done = false;
                 while (attempts++ < 10 && !done) {
-                    std::cout << "Attempt " << attempts << "/ 10" << std::endl;
+                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/ 10" << std::endl;
                     done = send_env();
                 }
                 // Return an exception saying we could not connect to grpc
@@ -134,6 +136,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
         }
         const size_t num_entities = 1;
         observations_.update_observation(num_entities);
+
         py::object temp_action;
         if (grpc_mode_) {
             #if ENABLE_GRPC
@@ -154,7 +157,6 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
             // Get action from actor function called through pybind
             temp_action = actor_func_(observations_.observation);
         }
-
         bool combine_actors = false;
         actions_.distribute_action(temp_action, combine_actors);
 
@@ -168,16 +170,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
             std::tie(done, reward, info) = calc_reward();
             if (done) {
                 if (grpc_mode_) {
-                    // Kill grpc server. Removes the " &" at the end to find it
-                    auto py_cmd_ = python_cmd_.substr(0, python_cmd_.size() - 2);
-                    std::string kill_cmd = std::string("pkill -f \"")
-                                         + py_cmd_
-                                         + "\"";
-                    int result = system(kill_cmd.c_str());
-                    if (!result) {
-                        std::cout << "Killing grpc failed. "
-                                  << "It is still running!" << std::endl;
-                    }
+                    kill_grpc_server();
                 }
                 return false;
             }
@@ -189,10 +182,30 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double /*t*/, double /*dt*/) {
             }
         }
     }
+    if (grpc_mode_) {
+        // Kill grpc server if we are on the last timestep
+        double last_time = parent_->mp()->tend() - parent_->mp()->dt();
+        if (t >= last_time) {
+            kill_grpc_server();
+        }
+    }
     return step_helper();
 }
 
 #if ENABLE_GRPC
+void ScrimmageOpenAIAutonomy::kill_grpc_server() {
+    // Kill grpc server. Removes the " &" at the end to find it
+    auto py_cmd_ = python_cmd_.substr(0, python_cmd_.size() - 2);
+    std::string kill_cmd = std::string("pkill -f \"")
+                         + py_cmd_
+                         + "\"";
+    int result = system(kill_cmd.c_str());
+    if (!result) {
+        std::cout << "Killing grpc failed. "
+                  << "It is still running!" << std::endl;
+    }
+}
+
 boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(sp::Obs &observation) {
     if (!openai_stub_) return boost::none;
 
@@ -292,17 +305,18 @@ pybind11::object ScrimmageOpenAIAutonomy::convert_proto_action(const sp::Action 
     pybind11::list py_act;
     std::vector<int> disc(proto_act.discrete_size(), 0);
     std::vector<double> cont(proto_act.continuous_size(), 0);
+
     for (int i = 0; i < proto_act.discrete_size(); i++) {
-        disc.push_back(proto_act.discrete(i));
+        disc[i] = proto_act.discrete(i);
     }
 
     for (int i = 0; i < proto_act.continuous_size(); i++) {
-        cont.push_back(proto_act.continuous(i));
+        cont[i] = proto_act.continuous(i);
     }
 
     if (PyObject_IsInstance(actions_.action_space.ptr(), tuple_space_.ptr())) {
-        py_act[0] = py::cast(disc);
-        py_act[1] = py::cast(cont);
+        py_act.attr("append")(py::cast(disc));
+        py_act.attr("append")(py::cast(cont));
     } else if (PyObject_IsInstance(actions_.action_space.ptr(), box_space_.ptr())) {
         py_act = py::cast(cont);
     } else {

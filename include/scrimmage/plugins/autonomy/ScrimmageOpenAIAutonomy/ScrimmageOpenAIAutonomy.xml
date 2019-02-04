@@ -5,6 +5,6 @@
   <module>my_module</module>
   <port>50051</port>
   <grpc_mode>false</grpc_mode>
-  <grpc_address>localhost</grpc_address>
+  <grpc_address>127.0.0.1</grpc_address>
   <actor_init_func>my_func</actor_init_func>
 </params>

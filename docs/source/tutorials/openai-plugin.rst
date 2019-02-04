@@ -21,13 +21,13 @@ Files similar to what is described below are located in the following places::
 
 In addition, the interface between python and scrimmage is defined in
 ``scrimmage/python/scrimmage/bindings/src/py_openai_env.h``.
-We can use the script provided with SCRIMMAGE to create these plugins (we will 
+We can use the script provided with SCRIMMAGE to create these plugins (we will
 call them something different in this tutorial). To do so,
 enter the following at the terminal:
 
 .. code-block:: bash
 
-  cd /path/to/scrimmage/scripts 
+  cd /path/to/scrimmage/scripts
   ./generate-plugin.sh autonomy SimpleLearner ~/scrimmage/my-scrimmage-plugins
   ./generate-plugin.sh sensor MyOpenAISensor ~/scrimmage/my-scrimmage-plugins
 
@@ -50,7 +50,7 @@ In general, the SCRIMMAGE openai interface allows you to customize the environme
 in the following ways:
 
     * n agents - The most common scenario is 1 agent but SCRIMMAGE also
-      supports multi-agent reinforcement learning. In particular, it supports 
+      supports multi-agent reinforcement learning. In particular, it supports
       centralized approaches where actions and observations for individual
       learning agents are combined into a single action. Alternatively,
       one can have multiple agents operate independently.
@@ -58,7 +58,7 @@ in the following ways:
     * Action/Observation space - this can be discrete, continuous, or combined
       (the latter would a a ``TupleSpace`` in openai).
 
-For a demonstration of these combinations, see ``test/test_openai.py``. 
+For a demonstration of these combinations, see ``test/test_openai.py``.
 For this tutorial, we will only be investigating how to develop a discrete
 action space and a continuous observation space.
 
@@ -75,7 +75,7 @@ with OpenAI. Let's start with the header file located at
 Normal autonomy plugins extend the Autonomy class. For the OpenAI autonomy
 plugin, we will instead extend the ``ScrimmageOpenAIAutonomy`` autonomy plugin.
 In this case, the ``init`` and ``step_autonomy`` functions become ``init_helper``
-and ``step_helper`` (the base class will handle the ``init`` and ``step_autonomy`` 
+and ``step_helper`` (the base class will handle the ``init`` and ``step_autonomy``
 functions and will call these methods). These methods can be treated similarly
 to ``init`` and ``step_autonomy`` and exist so that the user can switch
 between a learning and non-learning mode seamlessly. In addition,
@@ -101,7 +101,7 @@ between a learning and non-learning mode seamlessly. In addition,
 
     * ``calc_reward`` - called every timestep, this function returns
       a tuple with the following order:
-        
+
         * done: whether the environment is done
         * reward: what the reward for that step is.
         * info: a `pybind11 <https://pybind11.readthedocs.io/en/stable>`_ dict
@@ -109,7 +109,7 @@ between a learning and non-learning mode seamlessly. In addition,
           To return an empty dict (the typical case), just use ``pybind11::dict()``
 
 In python, when you call ``env.step(action)``, the action will be copied
-to your autonomy's ``action`` member (defined in ``ScrimmageOpenAIAutonomy``. 
+to your autonomy's ``action`` member (defined in ``ScrimmageOpenAIAutonomy``.
 Here is the include file for ``SimpleLearner``:
 
 .. code-block:: c++
@@ -241,9 +241,9 @@ and change line 15 from
     ScrimmageOpenAIAutonomy_plugin
      )
 
-This makes sure the plugin links to the libraries it needs. 
+This makes sure the plugin links to the libraries it needs.
 
-Plugin Parameter File 
+Plugin Parameter File
 ~~~~~~~~~~~~~~~~~~~~~
 
 The following is the parameter file for ``SimpleLearner``:
@@ -257,11 +257,11 @@ The following is the parameter file for ``SimpleLearner``:
       <library>SimpleLearner_plugin</library>
       <radius>2</radius>
       <module>my_openai</module>
-      <actor_func>get_action</actor_func>
+      <actor_init_func>return_action_func</actor_init_func>
     </params>
-        
-``module`` and ``actor_func`` exist so that we can
-call our learner outside the OpenAI environment. This is useful 
+
+``module`` and ``actor_init_func`` exist so that we can
+call our learner outside the OpenAI environment. This is useful
 in case we want to train using python and then do a lot of runs
 to test/verify what has been learned.
 We will discuss this later in :ref:`non-learning-mode`.
@@ -339,23 +339,23 @@ In this source file, we need to add the following includes:
    :linenos:
 
    #include <my-scrimmage-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h>
-   
+
    #include <scrimmage/entity/Entity.h>
    #include <scrimmage/math/State.h>
    #include <scrimmage/plugin_manager/RegisterPlugin.h>
-   
+
    REGISTER_PLUGIN(scrimmage::Sensor, MyOpenAISensor, MyOpenAISensor_plugin)
-   
+
    void MyOpenAISensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
        data[beg_idx] = parent_->state()->pos()(0);
    }
-   
+
    void MyOpenAISensor::set_observation_space() {
        const double inf = std::numeric_limits<double>::infinity();
        observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
    }
 
-Plugin Parameter File 
+Plugin Parameter File
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: xml
@@ -402,34 +402,34 @@ following blocks (More detail on creating mission files is located at
    <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
    <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        name="Straight flying">
-   
+
      <run start="0.0" end="100" dt="1"
           time_warp="10"
           enable_gui="true"
           network_gui="false"
           start_paused="true"/>
-   
+
      <stream_port>50051</stream_port>
      <stream_ip>localhost</stream_ip>
-   
+
      <end_condition>time</end_condition> <!-- time, one_team, none-->
-   
+
      <grid_spacing>1</grid_spacing>
      <grid_size>1000</grid_size>
-   
+
      <gui_update_period>10</gui_update_period> <!-- milliseconds -->
-   
+
      <output_type>summary</output_type>
      <metrics order="0">OpenAIRewards</metrics>
-   
+
      <background_color>191 191 191</background_color> <!-- Red Green Blue -->
      <log_dir>~/.scrimmage/logs</log_dir>
-   
+
      <entity_common name="all">
           <count>1</count>
           <health>1</health>
           <radius>1</radius>
-   
+
           <team_id>1</team_id>
           <visual_model>Sphere</visual_model>
           <motion_model>SingleIntegrator</motion_model>
@@ -439,12 +439,12 @@ following blocks (More detail on creating mission files is located at
           <y>0</y>
           <z>0</z>
       </entity_common>
-   
+
       <entity entity_common="all">
         <x>0</x>
         <color>77 77 255</color>
       </entity>
-   
+
    </runscript>
 
 Now we have completed our work on the SCRIMMAGE side. Now all that is left is to
@@ -461,7 +461,7 @@ through the environment and keeping track of the observations. It also sends
 a straight ahead action for the first 100 timesteps and afterwards sends a turn
 right action. At the end, it closes the environment and prints out the total
 reward. We will save this python file at
-``~/scrimmage/my-scrimmage-plugins/my_openai.py``. 
+``~/scrimmage/my-scrimmage-plugins/my_openai.py``.
 
 
 .. code-block:: python
@@ -471,18 +471,21 @@ reward. We will save this python file at
    import gym
    import scrimmage.utils
    import random
-   
-   
+
+
    def get_action(obs):
        return random.randint(0, 1)
-   
-   
+
+   # Used for non-learning mode
+   def return_action_func(action_space, obs_space, params):
+       return get_action
+
    def test_openai():
        try:
            env = gym.make('scrimmage-v0')
        except gym.error.Error:
            mission_file = scrimmage.utils.find_mission('openai_mission.xml')
-   
+
            gym.envs.register(
                id='scrimmage-v0',
                entry_point='scrimmage.bindings:ScrimmageOpenAIEnv',
@@ -492,7 +495,7 @@ reward. We will save this python file at
                        "mission_file": mission_file}
            )
            env = gym.make('scrimmage-v0')
-   
+
        # the observation is the x position of the vehicle
        # note that a deepcopy is used when a history
        # of observations is desired. This is because
@@ -502,18 +505,18 @@ reward. We will save this python file at
        obs.append(temp_obs)
        total_reward = 0
        for i in range(200):
-   
+
            action = get_action(temp_obs)
            temp_obs, reward, done = env.step(action)[:3]
            obs.append(copy.deepcopy(temp_obs))
            total_reward += reward
-   
+
            if done:
                break
-   
+
        env.close()
        print("Total Reward: %2.2f" % total_reward)
-   
+
    if __name__ == '__main__':
        test_openai()
 
@@ -524,7 +527,7 @@ the mission below:
 .. code-block:: bash
 
    source ~/.scrimmage/setup.bash # you probably already did this step
-  
+
 Now that we have completed all of the code, we can simply type the following
 into the terminal to see it run! ::
 
@@ -533,8 +536,8 @@ into the terminal to see it run! ::
 
 .. _non-learning-mode:
 
-Run In Non-learning Mode
-------------------------
+Run In Non-learning Mode (for non-Tensorflow-based code)
+--------------------------------------------------------
 
 In :ref:`learning-mode` we ran an OpenAI environment using
 the newly defined environments from SCRIMMAGE. If `my_openai.py`
@@ -550,9 +553,18 @@ as well as ::
 
    $ python my_openai.py
 
-Because you placed the ``module`` and ``actor_func`` in your 
-``SimpleLearner.xml`` file, SCRIMMAGE knows where to find 
-what it needs.
+Because you set the ``module`` as "my_openai" and ``actor_init_func`` as
+"return_action_func" in your ``SimpleLearner.xml`` file, SCRIMMAGE knows where to find
+what it needs. ``actor_init_func`` is a function that will take in the action
+space, observation space, and parameters from SCRIMMAGE in order to return a
+function that will then be used during non-training mode. This setup is
+useful in cases where there is some initialization needed before being able to return actions. For example, there might a directory pointing to some saved
+model that needs to be loaded first. By adding a directory parameter to the ``SimpleLearner.xml`` file, it will then be passed down to the function named in ``actor_init_func``. The function returned from ``actor_init_func`` should take in a
+observation and return an action.
+
+To use non-learning mode, ``nonlearning_mode_openai_plugin`` should be set to true in your mission or
+plugin parameter file. Note, if your action method uses tensorflow, you will
+need to use :ref:`non-learning-mode-grpc`.
 
 .. code-block:: bash
 
@@ -564,3 +576,22 @@ what it needs.
    Reward for id 1 = 20
    Simulation Complete
 
+.. _non-learning-mode-grpc:
+
+Run In Non-learning Mode using gRPC (for Tensorflow-based code)
+---------------------------------------------------------------
+
+In :ref:`non-learning-mode`, we could start up a trained agent directly inside of SCRIMMAGE. However if your training code uses tensorflow, that method won't work. What you will need to do instead is use the gRPC mode for non-learning mode. This creates a gRPC server in python that will then run the agent and send the action back across to SCRIMMAGE. To use this mode, ``module`` and ``actor_init_func`` will need to be set as before. Then, ``grpc_mode`` will also need to be set to "true" in ``SimpleLearner.xml``. Additional arguments such as ``grpc_address`` or ``port`` can also be changed to move what address and port number the gRPC server will located at but the defaults should work fine for most users (localhost on port 50051).
+
+Once the parameters are set, you should be able to run this line:
+
+.. code-block:: bash
+
+  $ scrimmage missions/openai_mission.xml
+  PYTHON: GRPC Server Started
+  Connecting to gRPC Server attempt: 1/ 10
+  ================================================================================
+  OpenAIRewards
+  ================================================================================
+  Reward for id 1 = 20
+  Simulation Complete

@@ -3,6 +3,7 @@ import argparse
 import collections
 import grpc
 import gym
+import gym.spaces
 import importlib
 import numpy as np
 import threading
@@ -63,7 +64,8 @@ def create_space(space):
     # Create Continuous Gym Space
     if continuous_extrema:
         low, high = zip(*continuous_extrema)
-        continuous_space = gym.spaces.Box(np.array(low), np.array(high))
+        continuous_space = gym.spaces.Box(np.array(low), np.array(high),
+                                          dtype=np.float32)
     # Create overall space
     if continuous_extrema and discrete_extrema:
         return gym.spaces.Tuple((discrete_space, continuous_space))
@@ -81,10 +83,10 @@ class OpenAIControl(OpenAI_pb2_grpc.OpenAIServicer):
 
     def __init__(self, actor_str):
         """Load up the python module that contains the Actor class."""
-        actor_module_str, actor_class_str = actor_str.split(":")
+        actor_module_str, actor_init_func_str = actor_str.split(":")
         actor_module = importlib.import_module(actor_module_str)
-        self.actor_class = getattr(actor_module, actor_class_str)
-        self.actor = None
+        self.actor_init_func = getattr(actor_module, actor_init_func_str)
+        self.actor_func = None
 
     def SendEnvironment(self, env, context):
         """Receive Environment proto and return acknowledgement."""
@@ -93,7 +95,7 @@ class OpenAIControl(OpenAI_pb2_grpc.OpenAIServicer):
         self.act_space = create_space(env.action_spaces)
         # Initialize Actor
         try:
-            self.actor = self.actor_class(self.act_space, self.obs_space,
+            self.actor_func = self.actor_init_func(self.act_space, self.obs_space,
                                       env.params)
         # Try except is needed to catch any errors in initializing the Actor
         except Exception as e:
@@ -102,7 +104,7 @@ class OpenAIControl(OpenAI_pb2_grpc.OpenAIServicer):
 
     def GetAction(self, observation, context):
         """Receive Obs proto and send back an Action."""
-        if self.actor is None:
+        if self.actor_func is None:
             print("Actor is not initialized")
             return
         if isinstance(self.obs_space, gym.spaces.Tuple):
@@ -112,15 +114,15 @@ class OpenAIControl(OpenAI_pb2_grpc.OpenAIServicer):
         else:
             obs = observation.discrete
 
-        action = self.actor.act(obs)
+        action = self.actor_func(obs)
         if not isinstance(action, collections.Iterable):
             action = [action]
 
         if isinstance(self.act_space, gym.spaces.Box):
             action_proto = OpenAI_pb2.Action(continuous=action, done=False)
         elif isinstance(self.act_space, gym.spaces.Tuple):
-            action_proto = OpenAI_pb2.Action(continuous=action.continuous,
-                                             discrete=action.discrete, done=False)
+            action_proto = OpenAI_pb2.Action(discrete=action[0].astype(int),
+                                             continuous=action[1], done=False)
         else:
             action_proto = OpenAI_pb2.Action(discrete=action, done=False)
 
