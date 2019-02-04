@@ -164,7 +164,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
         boundary_shape_->mutable_plane()->set_y_length(lengths[1]);
 
         std::string texture;
-        texture = sc::get<std::string>("texture", plugin_params, "default");
+        texture = sc::get<std::string>("texture", plugin_params, "");
         boundary_shape_->mutable_plane()->set_texture(texture);
 
         bool diffuse;
