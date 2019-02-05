@@ -100,6 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#network-plugins">Network Plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-publisher">Create a Publisher</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-subscriber">Create a Subscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subscribing-to-another-entity-s-localnetwork">Subscribing to Another Entity&#8217;s LocalNetwork</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
@@ -274,6 +275,101 @@ were successfully delivered to the subscribers&#8217; input queues are delivered
 to their respective callback functions. This allows for complete determinism
 in the publishing and receiving of messages.</p>
 </div>
+</div>
+<div class="section" id="subscribing-to-another-entity-s-localnetwork">
+<h2>Subscribing to Another Entity&#8217;s LocalNetwork<a class="headerlink" href="#subscribing-to-another-entity-s-localnetwork" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">LocalNetwork</span></code> is often used to keep sensor data and internal state
+information isolated between entities. This can be an issue if a metrics or
+entity interaction plugin wants to subscribe to a topic in the <code class="docutils literal"><span class="pre">LocalNetwork</span></code>
+of an entity. This can be accomplished in two different ways:</p>
+<ol class="arabic simple">
+<li>Create an autonomy plugin that subscribes to the <code class="docutils literal"><span class="pre">LocalNetwork</span></code> topic and
+re-publishes the data on a <code class="docutils literal"><span class="pre">GlobalNetwork</span></code> topic. In this case, you
+probably want to augment the <code class="docutils literal"><span class="pre">GlobalNetwork</span></code> topic name with the ID of the
+entity (e.g., &#8220;/3/AltitudeAboveTerrain&#8221;).</li>
+<li>Programmatically generate a plugin/subscriber in the metrics or entity
+interaction plugin and attach it to the entity that you wish to monitor. The
+code-block below provides an example for achieving this effect.</li>
+</ol>
+<p>In the following code-block, an &#8220;empty&#8221; autonomy plugin is created during the
+first iteration of <code class="docutils literal"><span class="pre">step_entity_interaction()</span></code> and the autonomy plugin is
+added to the entity&#8217;s autonomies list. The empty autonomy plugin is used to
+create a subscriber on the entity&#8217;s <code class="docutils literal"><span class="pre">LocalNetwork</span></code>. When the callback
+function is called, the entity&#8217;s ID is used as the key of a map to store the
+received data.</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">MyInteractionPlugin</span><span class="o">::</span><span class="n">step_entity_interaction</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">EntityPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">ents</span><span class="p">,</span>
+                                                  <span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sub_setup_</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">// Only setup the subscribers one time.</span>
+     <span class="n">sub_setup_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+     <span class="c1">// For all entities in the simulation</span>
+     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">kv</span> <span class="p">:</span> <span class="o">*</span><span class="n">id_to_ent_map_</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Construct an empty plugin that we will use to create a</span>
+         <span class="c1">// subscriber to a specific entity&#39;s LocalNetwork.</span>
+         <span class="n">AutonomyPtr</span> <span class="n">plugin</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Autonomy</span><span class="o">&gt;</span><span class="p">();</span>
+
+         <span class="c1">// In order for plugins to communicate on the LocalNetwork they</span>
+         <span class="c1">// need the same parent and pubsub pointers.</span>
+         <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">set_parent</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+         <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">set_pubsub</span><span class="p">(</span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">pubsub</span><span class="p">());</span>
+
+         <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">;</span> <span class="c1">// The ID is used in the lambda callback</span>
+
+         <span class="c1">// Create the subscriber in the LocalNetwork</span>
+         <span class="k">auto</span> <span class="n">state_cb</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">id</span><span class="p">](</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+             <span class="c1">// Save the most recent published data in a map that can be</span>
+             <span class="c1">// used later. The entity ID is the map&#39;s key.</span>
+             <span class="n">states_with_covs_</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+         <span class="p">};</span>
+         <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">StateWithCovariance</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LocalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;StateWithCovariance&quot;</span><span class="p">,</span> <span class="n">state_cb</span><span class="p">);</span>
+
+         <span class="c1">// Add the empty plugin that we created to the entity&#39;s autonomies</span>
+         <span class="c1">// list, so that the simulation controller calls its callbacks when</span>
+         <span class="c1">// messages are received.</span>
+         <span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">autonomies</span><span class="p">().</span><span class="n">push_back</span><span class="p">(</span><span class="n">plugin</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>In the plugin&#8217;s header file, the following member variables were declared:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">sub_setup_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">StateWithCovariance</span><span class="o">&gt;</span> <span class="n">states_with_covs_</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
 </div>
 </div>
 
