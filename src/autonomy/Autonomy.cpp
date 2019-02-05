@@ -72,7 +72,7 @@ void Autonomy::set_is_controlling(bool is_controlling) {is_controlling_ = is_con
 
 std::string Autonomy::type() { return std::string("Autonomy"); }
 
-bool Autonomy::step_autonomy(double /*t*/, double /*dt*/) { return false; }
+bool Autonomy::step_autonomy(double /*t*/, double /*dt*/) { return true; }
 bool Autonomy::posthumous(double /*t*/) { return true; }
 void Autonomy::init() {}
 void Autonomy::init(std::map<std::string, std::string> &/*params*/) {}
