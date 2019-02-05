@@ -52,7 +52,8 @@ init_actor_func(
         std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
         const std::map<std::string, std::string> &params,
         CombineActors combine_actors,
-        UseGlobalSensor global_sensor) {
+        UseGlobalSensor global_sensor,
+        bool grpc_mode) {
 
     if (autonomies.empty()) {
         return std::make_tuple(OpenAIActions(), OpenAIObservations(), pybind11::none());
@@ -72,17 +73,19 @@ init_actor_func(
     }
 
     observations.create_observation_space(autonomies.size());
+    py::object actor_func = py::none();
 
-    // get the actor func
-    const std::string module_str = params.at("module");
-    const std::string actor_init_func_str = params.at("actor_init_func");
-    py::object m = py::module::import(module_str.c_str());
-    py::object actor_init_func =
-        m.attr(actor_init_func_str.c_str());
+    if (!grpc_mode) {
+        // get the actor func
+        const std::string module_str = params.at("module");
+        const std::string actor_init_func_str = params.at("actor_init_func");
+        py::object m = py::module::import(module_str.c_str());
+        py::object actor_init_func =
+            m.attr(actor_init_func_str.c_str());
 
-    py::object actor_func = actor_init_func(
-        actions.action_space, observations.observation_space, params);
-
+        actor_func = actor_init_func(
+            actions.action_space, observations.observation_space, params);
+    }
     return std::make_tuple(actions, observations, actor_func);
 }
 } // namespace autonomy

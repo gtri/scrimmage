@@ -98,6 +98,10 @@ message Mesh {
         double scale = 4;
 }
 
+message Spline {
+        repeated Vector3d point = 1;
+}
+
 message Shape {
     uint64 hash = 1;
     bool hash_set = 2;
@@ -105,25 +109,29 @@ message Shape {
     string name = 4;
     Color color = 5;
     double opacity = 6;
-    int32 ttl = 7;
-    bool persistent = 8;
-
+    oneof oneof_ttl {
+          int32 ttl = 7;
+          double persist_duration = 8;
+          double persist_until = 9;
+    }
+    bool persistent = 10;
     oneof oneof_type {
-          Triangle triangle = 9;
-          Plane plane = 10;
-          Arrow arrow = 11;
-          Cone cone = 12;
-          Line line = 13;
-          Polygon polygon = 14;
-          Polydata polydata = 15;
-          Cuboid cuboid = 16;
-          PointCloud pointcloud = 17;
-          Circle circle = 18;
-          Sphere sphere = 19;
-          Text text = 20;
-          Polyhedron polyhedron = 21;
-          Ellipse ellipse = 22;
-          Mesh mesh = 23;
+          Triangle triangle = 11;
+          Plane plane = 12;
+          Arrow arrow = 13;
+          Cone cone = 14;
+          Line line = 15;
+          Polygon polygon = 16;
+          Polydata polydata = 17;
+          Cuboid cuboid = 18;
+          PointCloud pointcloud = 19;
+          Circle circle = 20;
+          Sphere sphere = 21;
+          Text text = 22;
+          Polyhedron polyhedron = 23;
+          Ellipse ellipse = 24;
+          Mesh mesh = 25;
+          Spline spline = 26;
     }
 }
 

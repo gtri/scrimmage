@@ -156,11 +156,6 @@ set(PROTOBUF_INCLUDE ${PROTOBUF_INCLUDE_DIRS})
 ########################################################
 set(GRPC_VERSION 1.2.1)
 find_package(GRPC)
-if (GRPC_FOUND)
-  add_definitions(-DENABLE_GRPC=1)
-else()
-  add_definitions(-DENABLE_GRPC=0)
-endif()
 
 ########################################################
 # Find GeographicLib

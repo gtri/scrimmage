@@ -256,6 +256,11 @@ class Updater : public vtkCommand {
                    vtkSmartPointer<vtkActor> &actor,
                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_spline(const bool &new_shape,
+                     const scrimmage_proto::Spline &s,
+                     vtkSmartPointer<vtkActor> &actor,
+                     vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                     vtkSmartPointer<vtkPolyDataMapper> &mapper);
 
  protected:
     void get_model_texture(std::string name,
@@ -307,7 +312,8 @@ class Updater : public vtkCommand {
     std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visuals_;
 
     std::unordered_map<uint64_t, std::tuple<scrimmage_proto::Shape,
-        vtkSmartPointer<vtkActor>, vtkSmartPointer<vtkPolyDataAlgorithm>>> shapes_;
+        vtkSmartPointer<vtkActor>, vtkSmartPointer<vtkPolyDataAlgorithm>,
+        double>> shapes_;
 
     std::map<std::string, std::shared_ptr<scrimmage_proto::UTMTerrain> > terrain_map_;
     std::map<std::string, std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visual_map_;

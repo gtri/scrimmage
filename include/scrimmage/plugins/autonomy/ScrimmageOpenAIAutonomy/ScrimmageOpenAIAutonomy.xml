@@ -3,5 +3,8 @@
 <params>
   <library>ScrimmageOpenAIAutonomy_plugin</library>
   <module>my_module</module>
-  <actor_initializer_func>my_func</actor_initializer_func>
+  <port>50051</port>
+  <grpc_mode>false</grpc_mode>
+  <grpc_address>127.0.0.1</grpc_address>
+  <actor_init_func>my_func</actor_init_func>
 </params>

@@ -40,6 +40,13 @@
 
 #include <pybind11/pybind11.h>
 
+#if ENABLE_GRPC
+#include <grpc++/grpc++.h>
+#include <scrimmage/network/ScrimmageServiceImpl.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
+#include <scrimmage/proto/OpenAI.grpc.pb.h>
+#endif
+
 #include <map>
 #include <vector>
 #include <string>
@@ -78,15 +85,31 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     EnvParams action_space;
     EnvValues action;
 
- private:
-    bool is_init_ = false;
+ protected:
+#if ENABLE_GRPC
+    std::unique_ptr<scrimmage_proto::OpenAI::Stub> openai_stub_;
+    std::unique_ptr<grpc::Server> server_;
+    boost::optional<scrimmage_proto::Action> get_action(scrimmage_proto::Obs &observation);
+    pybind11::object convert_proto_action(const scrimmage_proto::Action &proto_act);
+    scrimmage_proto::Obs obs_to_proto();
+    void kill_grpc_server();
+    bool send_env();
+
+    std::map<std::string, std::string> params_;
+    std::string python_cmd_;
+#endif
+    pybind11::object tuple_space_, box_space_;
     bool first_step_ = true;
-    PublisherPtr pub_reward_;
-    pybind11::object actor_func_;
+    PublisherPtr pub_reward_ = nullptr;
+    pybind11::object actor_func_ = pybind11::none();
     bool nonlearning_mode_ = false;
     OpenAIObservations observations_;
     OpenAIActions actions_;
-    std::map<std::string, std::string> params_;
+#if ENABLE_GRPC
+    bool grpc_mode_ = true;
+#else
+    bool grpc_mode_ = false;
+#endif
 };
 } // namespace autonomy
 } // namespace scrimmage

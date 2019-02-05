@@ -68,6 +68,11 @@ class NetworkDevice {
         return msg_list_.size();
     }
 
+    unsigned int undelivered_msg_list_size() {
+        return undelivered_msg_list_.size();
+    }
+
+
     void set_max_queue_size(unsigned int size);
     unsigned int max_queue_size();
     void enable_queue_size(bool enforce);
@@ -76,6 +81,12 @@ class NetworkDevice {
     void enforce_queue_size();
 
     void add_msg(MessageBasePtr msg);
+
+    /* added for delay handling */
+    void add_undelivered_msg(MessageBasePtr msg, bool is_stochastic_delay = false);
+    auto deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it);
+    int deliver_undelivered_msg(double time_now, bool is_stochastic_delay = false);
+    /* end delay handling */
 
     template <class T = MessageBase,
               class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
@@ -169,6 +180,9 @@ class NetworkDevice {
     void print_str(const std::string &msg);
     std::list<MessageBasePtr> msg_list_;
     std::mutex mutex_;
+
+    /* added for delay handling */
+    std::list<MessageBasePtr> undelivered_msg_list_;
 };
 using NetworkDevicePtr = std::shared_ptr<NetworkDevice>;
 } // namespace scrimmage

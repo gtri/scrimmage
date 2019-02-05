@@ -90,6 +90,12 @@ void NetworkDevice::enforce_queue_size() {
             auto erase_end = msg_list_.begin();
             std::advance(erase_end, msg_list_.size() - max_queue_size_);
             msg_list_.erase(msg_list_.begin(), erase_end);
+
+            // enforce size constraint on undelivered messages
+            erase_end = undelivered_msg_list_.begin();
+            std::advance(erase_end, undelivered_msg_list_.size() - max_queue_size_);
+            undelivered_msg_list_.erase(undelivered_msg_list_.begin(), erase_end);
+
             mutex_.unlock();
         }
     }
@@ -114,5 +120,60 @@ void NetworkDevice::print_str(const std::string &msg) {
 PluginPtr & NetworkDevice::plugin() {
     return plugin_;
 }
+
+
+/* added for delay handling */
+void NetworkDevice::add_undelivered_msg(MessageBasePtr msg, bool is_stochastic_delay) {
+    mutex_.lock();
+    if (!is_stochastic_delay) {
+        // in case of a single, deterministic delay, just add msg to end of queue
+        undelivered_msg_list_.push_back(msg);
+    } else {
+        // if delay is stochastic, sort messages by delivery time, with first-to-deliver in front
+        std::list<MessageBasePtr>::reverse_iterator it = undelivered_msg_list_.rbegin();
+        for (; it != undelivered_msg_list_.rend();) {
+            if ((*it)->time <= msg->time) {
+                break;
+            } else {
+                ++it;
+            }
+        }
+        undelivered_msg_list_.insert(it.base(), msg);
+    }
+    mutex_.unlock();
+}
+
+
+auto NetworkDevice::deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it) {
+    mutex_.lock();
+    msg_list_.push_back(*it);
+    it = undelivered_msg_list_.erase(it);
+    mutex_.unlock();
+    return it;
+}
+
+
+int NetworkDevice::deliver_undelivered_msg(double time_now, bool is_stochastic_delay) {
+    // number of messages delivered
+    int n_delivered = 0;
+
+    for (auto it = undelivered_msg_list_.begin(); it != undelivered_msg_list_.end(); /**/) {
+        if ( time_now >= (*it)->time ) {
+
+            mutex_.lock();
+            msg_list_.push_back(*it);
+            it = undelivered_msg_list_.erase(it);
+            mutex_.unlock();
+
+            ++n_delivered;
+
+        } else {
+            break;
+        }
+    }
+
+    return n_delivered;
+}
+
 //
 } // namespace scrimmage

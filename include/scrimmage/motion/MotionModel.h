@@ -59,7 +59,8 @@ class MotionModel : public Plugin {
     virtual StatePtr &state();
     virtual void set_state(StatePtr &state);
     virtual void teleport(StatePtr &state);
-    virtual void set_external_force(Eigen::Vector3d force);
+    virtual void set_external_force(const Eigen::Vector3d &force);
+    virtual void set_external_moment(const Eigen::Vector3d &moment);
     virtual void set_mass(double mass) { mass_ = mass; }
     virtual double mass() { return mass_; }
     virtual double gravity_magnitude() { return g_; }
@@ -76,6 +77,7 @@ class MotionModel : public Plugin {
     vector_t x_;
 
     Eigen::Vector3d ext_force_;
+    Eigen::Vector3d ext_moment_;
     double mass_;
     double g_;
 };

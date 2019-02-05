@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+
+import "scrimmage/proto/Vector3d.proto";
+
+package scrimmage_msgs;
+
+message Array1D {
+        repeated double col = 1;
+}
+
+message Array2D {
+        repeated Array1D row = 1;
+}
+
+message Terrain {
+        scrimmage_proto.Vector3d center = 1;
+        double x_length = 2;
+        double y_length = 3;
+        double x_resolution = 4;
+        double y_resolution = 5;
+        double z_min = 6;
+        double z_max = 7;
+        Array2D map = 8;        
+}

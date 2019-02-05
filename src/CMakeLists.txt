@@ -12,6 +12,7 @@ set(SRCS
     common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
     common/CSV.cpp
     common/VariableIO.cpp
+    common/Battery.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     log/FrameUpdateClient.cpp log/Log.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp
@@ -40,6 +41,12 @@ ADD_LIBRARY( ${LIBRARY_NAME} SHARED
 add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen
   )
+
+if (GRPC_FOUND)
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
+else()
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
+endif()
 
 #find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 

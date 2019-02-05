@@ -58,7 +58,8 @@ init_actor_func(
         std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
         const std::map<std::string, std::string> &params,
         CombineActors combine_actors,
-        UseGlobalSensor global_sensor);
+        UseGlobalSensor global_sensor,
+        bool grpc_mode);
 } // namespace autonomy
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_ACTORFUNC_H_

@@ -57,6 +57,7 @@ GraphvizFSM::GraphvizFSM() {
 }
 
 void GraphvizFSM::init(std::map<std::string, std::string> &params) {
+    print_current_state_ = sc::get<bool>("print_current_state", params, print_current_state_);
     std::string graph_str = sc::get<std::string>("graphviz_fsm", params, "");
 
     boost::dynamic_properties dp(boost::ignore_other_properties);
@@ -142,7 +143,9 @@ void GraphvizFSM::update_state_info(
 
     current_state_ = next_state;
 
-    // cout << "Current State: " << fsm_graph_[current_state_].name << endl;
+    if (print_current_state_) {
+        cout << "Current State: " << fsm_graph_[current_state_].name << endl;
+    }
     // Publish the state message
     auto msg = std::make_shared<sc::Message<std::string>>();
     msg->data = fsm_graph_[current_state_].name;

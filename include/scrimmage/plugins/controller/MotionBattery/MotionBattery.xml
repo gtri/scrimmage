@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>MotionBattery_plugin</library>
+  <charge_initial>10</charge_initial>
+  <charge_min>0</charge_min>
+  <charge_max>1</charge_max>
+
+  <!--
+       [ VariableIO Name (string), Depletion Rate (Energy/Sec),
+         DepletionType (NonZero or Delta),
+         Limit on Depleted (boolean), Value When Depleted (double) ]
+  -->
+  <depletion_map>
+    [ desired_speed, 1.0, NonZero, true, 0.0 ]
+    [ desired_altitude, 0.0, Delta, false, 0.0 ]
+    [ desired_heading, 0.0, Delta, false, 0.0 ]
+  </depletion_map>
+
+</params>

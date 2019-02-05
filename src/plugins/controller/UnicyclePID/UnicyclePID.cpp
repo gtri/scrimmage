@@ -76,13 +76,17 @@ void UnicyclePID::init(std::map<std::string, std::string> &params) {
 
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
     pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
 
     // Outer loop PIDs
     if (!heading_pid_.init(params["heading_pid"], true)) {
         std::cout << "Failed to set heading PID" << std::endl;
     }
     if (!pitch_pid_.init(params["pitch_pid"], false)) {
-        std::cout << "Failed to set altitude PID" << std::endl;
+        std::cout << "Failed to set pitch PID" << std::endl;
+    }
+    if (!roll_pid_.init(params["roll_pid"], false)) {
+        std::cout << "Failed to set roll PID" << std::endl;
     }
     if (!speed_pid_.init(params["speed_pid"], false)) {
         std::cout << "Failed to set speed PID" << std::endl;
@@ -103,6 +107,10 @@ bool UnicyclePID::step(double t, double dt) {
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
     vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
+
+    // Track zero roll
+    roll_pid_.set_setpoint(0);
+    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), -state_->quat().roll()));
 
     if (show_shapes_) {
         line_shape_->set_persistent(true);

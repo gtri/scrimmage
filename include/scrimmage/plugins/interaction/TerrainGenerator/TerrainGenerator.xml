@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>TerrainGenerator_plugin</library>
+
+  <x_length>500</x_length> <!-- meters -->
+  <y_length>500</y_length> <!-- meters -->
+  <x_resolution>1.0</x_resolution>
+  <y_resolution>1.0</y_resolution>
+  <z_std>1.0</z_std>
+  <center>0, 0, 0</center>
+  <color>0, 255, 0</color>
+
+</params>

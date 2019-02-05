@@ -12,4 +12,5 @@
 
   <module>test_openai</module>
   <actor_init_func>actor_init_func</actor_init_func>
+  <grpc_mode>false</grpc_mode>
 </params>

@@ -77,6 +77,8 @@ class GraphvizFSM : public scrimmage::Autonomy {
     void update_state_info(
         boost::graph_traits<graph_t>::vertex_descriptor current_state,
         boost::graph_traits<graph_t>::vertex_descriptor next_state);
+
+    bool print_current_state_ = false;
 };
 } // namespace autonomy
 } // namespace scrimmage

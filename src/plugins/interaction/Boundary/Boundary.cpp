@@ -44,6 +44,7 @@
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 #include <scrimmage/plugins/interaction/Boundary/Sphere.h>
+#include <scrimmage/plugins/interaction/Boundary/Plane.h>
 
 #include <memory>
 #include <limits>
@@ -138,6 +139,38 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
             return false;
         }
         sc::set(boundary_shape_->mutable_sphere()->mutable_center(), sc::vec2eigen(center));
+    } else if (type == "plane") {
+        std::vector<double> center;
+        if (!sc::get_vec<double>("center", plugin_params, " ,", center, 3)) {
+            std::cout << "Failed to parse 'center'" << endl;
+            return false;
+        }
+        sc::set(boundary_shape_->mutable_plane()->mutable_center(), sc::vec2eigen(center)); // TODO
+
+        std::vector<double> rpy;
+        if (!sc::get_vec<double>("rpy", plugin_params, " ,", rpy, 3)) {
+            std::cout << "Failed to parse 'rpy'" << endl;
+            return false;
+        }
+        sc::Quaternion quat(rpy[0], rpy[1], rpy[2]);
+        sc::set(boundary_shape_->mutable_plane()->mutable_quat(), quat);
+
+        std::vector<double> lengths;
+        if (!sc::get_vec<double>("lengths", plugin_params, " ,", lengths, 2)) {
+            std::cout << "Failed to parse 'lengths'" << endl;
+            return false;
+        }
+        boundary_shape_->mutable_plane()->set_x_length(lengths[0]);
+        boundary_shape_->mutable_plane()->set_y_length(lengths[1]);
+
+        std::string texture;
+        texture = sc::get<std::string>("texture", plugin_params, "");
+        boundary_shape_->mutable_plane()->set_texture(texture);
+
+        bool diffuse;
+        diffuse = sc::get<bool>("diffuse_lighting", plugin_params, false);
+        boundary_shape_->mutable_plane()->set_diffuse_lighting(diffuse);
+
     } else {
         cout << "Invalid type: " << type << endl;
         return false;
@@ -159,6 +192,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
         draw_shape(boundary_shape_);
     }
 
+
     return true;
 }
 
@@ -179,6 +213,7 @@ std::shared_ptr<BoundaryBase> Boundary::make_boundary(const scrimmage_proto::Sha
     case sp::Shape::kTriangle:
         break;
     case sp::Shape::kPlane:
+        boundary = std::make_shared<Plane>(shape);
         break;
     case sp::Shape::kArrow:
         break;
@@ -213,6 +248,7 @@ std::shared_ptr<BoundaryBase> Boundary::make_boundary(const scrimmage_proto::Sha
 
     return boundary;
 }
+
 
 } // namespace interaction
 } // namespace scrimmage

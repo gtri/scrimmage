@@ -182,7 +182,7 @@ bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
 bool parse_autonomy_data(std::map<std::string, std::string> &params,
                          std::map<std::string, std::string> &data_params);
 
-bool get_vec_of_vecs(std::string &str,
+bool get_vec_of_vecs(const std::string &str,
                      std::vector<std::vector<std::string>> &out,
                      const std::string &delims = " ,");
 

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+
+package scrimmage_msgs;
+
+message Charge {
+        int32 id = 1;
+        double charge_amount = 2;        
+}
+
+message LeavingCharger {
+        int32 id = 1;
+}
+
+message NeedCharge {
+        int32 id = 1;
+}
+
+message CurrentCharge {
+        double charge = 1;
+}
+
+message BatteryInfo {
+        double max_charge = 1;
+        double min_charge = 2;
+}
