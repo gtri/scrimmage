@@ -35,25 +35,25 @@ you may want to use the GlobalNetwork, LocalNetwork, and SphereNetwork in the
 same mission.
 
 .. code-block:: xml
-                
+
    <network>GlobalNetwork</network>
    <network>LocalNetwork</network>
    <network>SphereNetwork</network>
 
 Create a Publisher
-------------------   
+------------------
 
 Creating a SCRIMMAGE publisher is easy. First, declare a publisher in your
 plugin's header file:
 
 .. code-block:: c++
-                  
+
    sc::PublisherPtr pub_boundary_;
 
 Now, intialize the publisher in the init() method of the plugin's \*.cpp
 file. In this case, we are creating a publisher in the "GlobalNetwork" with a
 topic name of "Boundary".
-   
+
 .. code-block:: c++
 
    pub_boundary_ = advertise("GlobalNetwork", "Boundary");
@@ -67,7 +67,7 @@ calling the ``publish`` method.
    auto msg = std::make_shared<sc::Message<BoundaryInfo>>();
    msg->data.type = BoundaryInfo::Type::Cuboid;
    pub_boundary_->publish(msg);
-   
+
 In the previous example, ``msg->data`` provides direct access to an instance of
 the BoundaryInfo class. See the `Boundary
 <https://github.com/gtri/scrimmage/blob/master/src/plugins/interaction/Boundary/Boundary.cpp/>`_
@@ -79,7 +79,7 @@ you can call the advertise method with a maximum queue size argument.
 .. code-block:: c++
 
    pub_boundary_ = advertise("GlobalNetwork", "Boundary", 10);
-   
+
 .. note::
 
    You may have to include additional header files in your plugins that are
@@ -90,7 +90,7 @@ you can call the advertise method with a maximum queue size argument.
      #include <scrimmage/pubsub/Publisher.h>
      #include <scrimmage/pubsub/Subscriber.h>
 
-Create a Subscriber     
+Create a Subscriber
 -------------------
 
 We need to setup a callback function that will be called when a SCRIMMAGE
@@ -100,7 +100,7 @@ due to its simplicity. Define the lambda callback function in the init() method
 of your plugin:
 
 .. code-block:: c++
-                
+
    auto callback = [&] (scrimmage::MessagePtr<sci::BoundaryInfo> msg) {
        cout << "Time: " << time_->t() << endl;
        cout << "Received a boundary info message!" << endl;
@@ -143,3 +143,72 @@ autonomy plugin for the complete example.
    were successfully delivered to the subscribers' input queues are delivered
    to their respective callback functions. This allows for complete determinism
    in the publishing and receiving of messages.
+
+Subscribing to Another Entity's LocalNetwork
+--------------------------------------------
+
+The ``LocalNetwork`` is often used to keep sensor data and internal state
+information isolated between entities. This can be an issue if a metrics or
+entity interaction plugin wants to subscribe to a topic in the ``LocalNetwork``
+of an entity. This can be accomplished in two different ways:
+
+1. Create an autonomy plugin that subscribes to the ``LocalNetwork`` topic and
+   re-publishes the data on a ``GlobalNetwork`` topic. In this case, you
+   probably want to augment the ``GlobalNetwork`` topic name with the ID of the
+   entity (e.g., "/3/AltitudeAboveTerrain").
+
+2. Programmatically generate a plugin/subscriber in the metrics or entity
+   interaction plugin and attach it to the entity that you wish to monitor. The
+   code-block below provides an example for achieving this effect.
+
+In the following code-block, an "empty" autonomy plugin is created during the
+first iteration of ``step_entity_interaction()`` and the autonomy plugin is
+added to the entity's autonomies list. The empty autonomy plugin is used to
+create a subscriber on the entity's ``LocalNetwork``. When the callback
+function is called, the entity's ID is used as the key of a map to store the
+received data.
+
+.. code-block:: c++
+   :linenos:
+
+   bool MyInteractionPlugin::step_entity_interaction(std::list<EntityPtr> &ents,
+                                                     double t, double dt) {
+    if (!sub_setup_) {
+        // Only setup the subscribers one time.
+        sub_setup_ = true;
+
+        // For all entities in the simulation
+        for (auto &kv : *id_to_ent_map_) {
+            // Construct an empty plugin that we will use to create a
+            // subscriber to a specific entity's LocalNetwork.
+            AutonomyPtr plugin = std::make_shared<Autonomy>();
+
+            // In order for plugins to communicate on the LocalNetwork they
+            // need the same parent and pubsub pointers.
+            plugin->set_parent(kv.second);
+            plugin->set_pubsub(plugin->parent()->pubsub());
+
+            int id = kv.first; // The ID is used in the lambda callback
+
+            // Create the subscriber in the LocalNetwork
+            auto state_cb = [&, id](auto &msg) {
+                // Save the most recent published data in a map that can be
+                // used later. The entity ID is the map's key.
+                states_with_covs_[id] = msg->data;
+            };
+            plugin->subscribe<StateWithCovariance>("LocalNetwork", "StateWithCovariance", state_cb);
+
+            // Add the empty plugin that we created to the entity's autonomies
+            // list, so that the simulation controller calls its callbacks when
+            // messages are received.
+            kv.second->autonomies().push_back(plugin);
+        }
+    }
+
+In the plugin's header file, the following member variables were declared:
+
+.. code-block:: c++
+   :linenos:
+
+   bool sub_setup_ = false;
+   std::unordered_map<int, StateWithCovariance> states_with_covs_;
