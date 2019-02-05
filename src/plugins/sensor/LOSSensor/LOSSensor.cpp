@@ -54,51 +54,37 @@ namespace sensor {
 
 
 LOSSensor::LOSSensor():
+    RayTrace(),
     sensor_id_(0),
-    update_dt_(0.0),
     last_update_time_(0.0),
-    min_sensor_range_(0.0),
-    max_sensor_range_(0.0),
     range_sd_min_(0.0),
     range_sd_per_unit_(0.0),
     range_sd_oor_(0.0),
     oor_return_(0.1),
     probability_of_error_(0.0),
     error_sd_(0.0),
-    probability_oor_error_(0.0) {
+    probability_oor_error_(0.0),
+    use_flat_earth_(true),
+    new_data_(false),
+    range_(0.0),
+    oor_(false),
+    subscribed_(false) {
+}
+
+std::string LOSSensor::name() {
+    return "LOSSensor" + std::to_string(sensor_id_);
 }
 
 void LOSSensor::init(std::map<std::string, std::string> &params) {
+    // Call the super class
+    RayTrace::init(params);
+
     // Initialize the random number generator
     std::srand(std::time(0));
 
     // Get the parameters
-    // Offset
-    std::vector<double> vec;
-    if (!get_vec("offset", params, " ", vec, 3)) {
-        // No offset
-        vec.clear();
-        vec.push_back(0.0);
-        vec.push_back(0.0);
-        vec.push_back(0.0);
-    }
-    offset_ << vec[0], vec[1], vec[2];
-
-    // Orientation
-    vec.clear();
-    if (!get_vec("orientation", params, " ", vec, 3)) {
-        // Default is out the nose
-        vec.clear();
-        vec.push_back(1.0);
-        vec.push_back(0.0);
-        vec.push_back(0.0);
-    }
-    orientation_ << vec[0], vec[1], vec[2];
-
+    use_flat_earth_ = sc::get<bool>("use_flat_earth", params, false);
     sensor_id_ = sc::get<int>("sensor_id", params, 0);
-    update_dt_ = sc::get<double>("update_delta_time_s", params, 0.0);
-    min_sensor_range_ = sc::get<double>("min_range", params, 0.0);
-    max_sensor_range_ = sc::get<double>("max_range", params, 0.0);
     range_sd_min_ = sc::get<double>("range_sd_min", params, 0.0001);
     range_sd_per_unit_ = sc::get<double>("range_sd_per_unit", params, 0.0);
     range_sd_oor_ = sc::get<double>("range_sd_oor", params, 0.0001);
@@ -108,26 +94,44 @@ void LOSSensor::init(std::map<std::string, std::string> &params) {
     probability_oor_error_ = sc::get<double>("probability_oor_error", params, 0.0);
 
     // Create the response
-    pub_ = advertise("LocalNetwork", "LOSRange");
+    std::string topic_name = "LOSRange" + std::to_string(sensor_id_);
+    pub_ = advertise("LocalNetwork", topic_name);
     return;
 }
 
 bool LOSSensor::step() {
-
-    // Currently, there is no terrain or line-of-sight services.
-    // Doing a simple geometry calculation to determine when/if the sensor
-    //  impacts the terrain.  Range limits and noise added subsequently.
-    // Note that this also does not handle other entities.  Will need a service
-    //  to incorporate that.
-
-    // Check whether an update is available
-    if (time_->t() < (last_update_time_ + update_dt_)) {
-        // No update, no message sent
-        return true;
+    // Call the super class first
+    bool retVal = RayTrace::step();
+    if (retVal == false) {
+        return retVal;
+    }
+    // Check whether an update is available if not using the collision service
+    if (use_flat_earth_ == true) {
+        if (time_->t() < (last_update_time_ + max_sample_rate())) {
+            // No update, no message sent
+            return retVal;
+        }
+    } else {  // Updated rate managed by collision system
+        if (subscribed_ == false) {
+            subscribed_ = true;
+            // Register for the collision callbacks.  Assume set up for local network publish
+            auto pc_cb = [&] (scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
+                range_ = msg->data.points[0].point.norm();
+                oor_ = msg->data.points[0].oor;
+                new_data_ = true;
+            };
+            std::string topic_name = std::to_string(parent_->id().id()) + "/" + name() + "/pointcloud";
+            subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", topic_name, pc_cb);
+            printf("Subscribing with topic name %s\n", topic_name.c_str());
+        }
+        if (new_data_ == false) {
+            return retVal;
+        }
     }
 
     // Can update
     last_update_time_ = time_->t();
+    new_data_ = false;
 
     // Coordinate systems used:
     // Local level: East/North/Up
@@ -135,36 +139,45 @@ bool LOSSensor::step() {
 
     bool oor = false;
     double range = 0.0;
+    if (use_flat_earth_ == true) {
+        // Get appropriate conversion
+        Eigen::Matrix4d tf_m = parent_->state()->tf_matrix(false) *
+                               transform()->tf_matrix();
+        // Transform sensor's origin to world coordinates
+        Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
+        Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + parent_->state()->pos();
 
-    // Get required state data
-    Eigen::Vector3d pos = parent_->state()->pos();
-    Quaternion quat = parent_->state()->quat();
+        // Transform ray's end point to world coordinates
+        Eigen::Vector4d ray = tf_m * Eigen::Vector4d(1.0, 0.0, 0.0, 1.0);
+        Eigen::Vector3d ray_w = ray.head<3>();
 
-    // Get the sensor location in the local level frame.
-    Eigen::Vector3d offset_ll = quat.rotate_reverse(offset_);
-    Eigen::Vector3d sensor_loc_ll = pos + offset_ll;
+        // Verify that this will intersect the ground
+        if ((sensor_pos_w(2) < 0.0) || (ray_w(2) >= 0.0)) {  // Out of range
+            oor = true;
+        } else {  // Potentially in range
+            // Project the unit vector intersection to the ground.
+            range = sensor_pos_w(2) / (-1.0 * ray_w(2));
+        }
+    } else {
+        // Use a service to get range to collision
+        // Without a service available, this returns oor at all times
+        range = range_;
+        oor = oor_;
+    }
 
-    // Get the sensor LOS unit vector in the local level frame.
-    Eigen::Vector3d sensor_los_ll = quat.rotate_reverse(orientation_);
-
-    // Verify that this will intersect the ground
-    if ((sensor_loc_ll(2) < 0.0) || (sensor_los_ll(2) >= 0.0)) { // Out of range
-        oor = true;
-    } else { // Potentially in range
-        // Project the unit vector intersection to the ground.
-        range = sensor_loc_ll(2) / (-1.0 * sensor_los_ll(2));
+    if ((oor == false) && (probability_oor_error_ > 0.0)) {
         // Check the random error to see whether it could swap in-range/out-of-range.
         bool swap_in_out_range =
             (static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)) < probability_oor_error_;
 
-        if ((((range < min_sensor_range_) || (range > max_sensor_range_)) && !swap_in_out_range) ||
-            (((range > min_sensor_range_) && (range < max_sensor_range_)) && swap_in_out_range)) {
+        if ((((range < min_range()) || (range > max_range())) && !swap_in_out_range) ||
+                (((range > min_range()) && (range < max_range())) && swap_in_out_range)) {
             // Out of range
             oor = true;
-        } else { // In-range
+        } else {  // In-range
             // Limit to the range boundaries (in case an error caused an in-range
             //  measurement when it was actually out of range)
-            range = MIN(MAX(range, min_sensor_range_), max_sensor_range_);
+            range = MIN(MAX(range, min_range()), max_range());
         }
     }
 
@@ -178,19 +191,19 @@ bool LOSSensor::step() {
             // Add additional error
             std::normal_distribution<double> error_dist(0.0, error_sd_);
             double error = error_dist(generator_);
-            range = MIN(MAX(range + error, min_sensor_range_), max_sensor_range_);
+            range = MIN(MAX(range + error, min_range()), max_range());
         }
 
         // Finally, add the actual noise
         double total_sd = range_sd_min_ + (range_sd_per_unit_ * range);
         if (total_sd > 0.0) {
             std::normal_distribution<double> noise_dist(0.0, total_sd);
-            range = MIN(MAX(range + noise_dist(generator_), min_sensor_range_), max_sensor_range_);
+            range = MIN(MAX(range + noise_dist(generator_), min_range()), max_range());
         }
         // Set the values to the message
         msg->data.set_range(range);
         msg->data.set_range_var(total_sd * total_sd);
-    } else { // Out of range
+    } else {  // Out of range
         // Set the values to the message
         msg->data.set_range(oor_return_);
         msg->data.set_range_var(range_sd_oor_ * range_sd_oor_);
@@ -198,7 +211,7 @@ bool LOSSensor::step() {
 
     // Publish the message and return all good
     pub_->publish(msg);
-    return true;
+    return retVal;
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

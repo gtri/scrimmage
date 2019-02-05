@@ -2,24 +2,18 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>LOSSensor_plugin</library>
-  
+
   <!-- The sensor ID - should be unique for all LOS sensors and non-negative -->
   <sensor_id>0</sensor_id>
-  <!-- Maximum update delta time in seconds if the sensor is less than the simulation rate -->
-  <update_delta_time_s>0.1</update_delta_time_s>
-  <!-- Minimum range the sensor can see -->
-  <min_range>0.1</min_range>
   <!-- Standard deviation at minimum range -->
   <range_sd_min>0.001</range_sd_min>
   <!-- Standard deviation per unit of range -->
   <range_sd_per_unit>0.01</range_sd_per_unit>
   <!-- Standard deviation returned when out of range -->
   <range_sd_oor>10.0</range_sd_oor>
-  <!-- Maximum range the sensor can see -->
-  <max_range>150.0</max_range>
   <!-- Return value when out of range (should be greater than the max sensor range) -->
   <oor_return>150.0</oor_return>
-  
+
   <!-- Error characteristics -->
   <!-- Probability that the result will have a bad measurement -->
   <probability_of_error>0.05</probability_of_error>
@@ -27,13 +21,13 @@
   <error_sd>0.5</error_sd>
   <!-- The probability that a in-range measurement will return oor or vice-versa -->
   <probability_oor_error>0.015</probability_oor_error>
-  
-  <!-- In (non-aerospace standard) body coordinates (nose, left, up) -->
-  <offset>0.0 0.0 0.0</offset>
-  <!--
-  Unit vector of orientation in (non-aerospace standard)
-  body coordinates (nose, left, up)
-   -->
-  <orientation>0.0 0.0 -1.0</orientation>
-  
+
+  <!-- Set to true to run simple tests with a flat earth (no terrain or collisions) -->
+  <use_flat_earth_>true</use_flat_earth_>
+
+  <!-- Override the defaults in RayTrace such that there is only one ray for the LOS sensor -->
+  <angle_res_vert>0</angle_res_vert> <!-- degrees -->
+  <num_rays_vert>1</num_rays_vert>
+  <angle_res_horiz>0</angle_res_horiz>  <!-- degrees -->
+  <num_rays_horiz>1</num_rays_horiz>
 </params>

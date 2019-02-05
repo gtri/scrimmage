@@ -32,7 +32,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_
 
-#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 #include <eigen3/Eigen/Dense>
 
@@ -44,19 +44,17 @@
 
 namespace scrimmage {
 namespace sensor {
-class LOSSensor : public scrimmage::Sensor {
+class LOSSensor : public RayTrace {
  public:
     LOSSensor();
+    std::string name() override;
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
 
  private:
     // Sensor characteristics
     uint32_t sensor_id_;
-    double update_dt_;
     double last_update_time_;
-    double min_sensor_range_;
-    double max_sensor_range_;
     double range_sd_min_;
     double range_sd_per_unit_;
     double range_sd_oor_;
@@ -67,9 +65,14 @@ class LOSSensor : public scrimmage::Sensor {
     double error_sd_;
     double probability_oor_error_;
 
-    // Orientation + offset
-    Eigen::Vector3d orientation_;
-    Eigen::Vector3d offset_;
+    // For simple tests
+    bool use_flat_earth_;
+
+    // For the collision capability
+    bool new_data_;
+    double range_;
+    bool oor_;
+    bool subscribed_;
 
     // For generating errors
     std::default_random_engine generator_;
@@ -77,6 +80,6 @@ class LOSSensor : public scrimmage::Sensor {
     // The output
     PublisherPtr pub_;
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_

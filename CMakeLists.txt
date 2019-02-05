@@ -215,8 +215,10 @@ if (NOT EXTERNAL AND ${VTK_FOUND})
   include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
   include(${VTK_USE_FILE})
   add_definitions(-DENABLE_VIEWER=1)
+  add_definitions(-DENABLE_TERRAIN=1)
 else()
   add_definitions(-DENABLE_VIEWER=0)
+  add_definitions(-DENABLE_TERRAIN=0)
 endif()
 
 ########################################################
