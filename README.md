@@ -83,13 +83,13 @@ packages, see [Build Dependencies from Source](./3rd-party/README.md)
 ### Build SCRIMMAGE Core
 
     $ mkdir build && cd build
-    $ source ~/.scrimmage/setup.bash
     $ cmake ..
     $ make
+    $ source ~/.scrimmage/setup.bash
 
 ### Environment Setup
 
-Whenever, you want to use scrimmage, you need to source the
+Whenever you want to use scrimmage, you need to source the
 ~/.scrimmage/setup.bash file or you can place a line in your ~/.bashrc file to
 source it automatically:
 
@@ -99,7 +99,7 @@ source it automatically:
 
 Open a new terminal, change to the scrimmage directory, and execute a mission.
 
-    $ cd scrimmage
+    $ cd </path/to/>scrimmage
     $ scrimmage ./missions/straight.xml
 
 You should see the visualization GUI open up and display the simulation.
