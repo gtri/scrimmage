@@ -233,6 +233,14 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_param_server(param_server);
             sensor->set_name(sensor_name);
             param_override_func(config_parse.params());
+
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              sensor->set_loop_rate(loop_rate);
+            }
+
             sensor->init(config_parse.params());
             sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
         }
@@ -287,6 +295,13 @@ bool Entity::init(AttributeMap &overrides,
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
             param_override_func(config_parse.params());
+
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              controller->set_loop_rate(loop_rate);
+            }
 
             // Connect this controller to the motion model if it is the last
             // controller in XML top-down order (i.e., first in the reverse
@@ -386,6 +401,13 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_name(info[autonomy_name]);
             param_override_func(config_parse.params());
             autonomy->init(config_parse.params());
+
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              autonomy->set_loop_rate(loop_rate);
+            }
 
             autonomies_.push_back(autonomy);
         }

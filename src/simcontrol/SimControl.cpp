@@ -1311,19 +1311,25 @@ void SimControl::worker() {
             if (task_type == Task::Type::AUTONOMY) {
                 auto &autonomies = ent->autonomies();
                 br::for_each(autonomies, run_callbacks);
-                auto run = [&](auto &a) {return a->step_autonomy(temp_t, temp_dt);};
+                auto run = [&](auto &a) {
+                  return a->step_loop_timer(temp_dt) ?
+                    a->step_autonomy(temp_t, temp_dt) : true;};
                 success = std::all_of(autonomies.begin(), autonomies.end(), run);
             } else if (task_type == Task::Type::CONTROLLER) {
                 auto &controllers = ent->controllers();
                 br::for_each(controllers, run_callbacks);
-                auto run = [&](auto &c) {return c->step(temp_t, temp_dt);};
+                auto run = [&](auto &c) {
+                  return c->step_loop_timer(temp_dt) ?
+                    c->step(temp_t, temp_dt) : true;};
                 success = std::all_of(controllers.begin(), controllers.end(), run);
             } else if (task_type == Task::Type::MOTION) {
                 success = ent->motion()->step(temp_t, temp_dt);
             } else if (task_type == Task::Type::SENSOR) {
                 auto sensors = ent->sensors() | ba::map_values;
                 br::for_each(sensors, run_callbacks);
-                auto run = [&](auto &s) {return s->step();};
+                auto run = [&](auto &s) {
+                  return s->step_loop_timer(temp_dt) ?
+                    s->step() : true;};
                 success = std::all_of(sensors.begin(), sensors.end(), run);
             }
 
@@ -1350,9 +1356,11 @@ bool SimControl::run_sensors() {
         for (EntityPtr &ent : ents_) {
             br::for_each(ent->sensors() | ba::map_values, run_callbacks);
             for (auto &sensor : ent->sensors() | ba::map_values) {
-                if (!sensor->step()) {
-                    print_err(sensor);
-                    success = false;
+                if (sensor->step_loop_timer(dt_)) {
+                    if (!sensor->step()) {
+                        print_err(sensor);
+                        success = false;
+                    }
                 }
             }
         }
@@ -1418,7 +1426,9 @@ bool SimControl::run_entities() {
     } else {
         for (EntityPtr &ent : ents_) {
             for (auto a : ent->autonomies()) {
-                success &= exec_step(a, [&](auto a){return a->step_autonomy(t_, dt_);});
+                success &= exec_step(a, [&](auto a){
+                  return a->step_loop_timer(dt_) ?
+                    a->step_autonomy(t_, dt_) : true;});
             }
         }
     }
@@ -1429,7 +1439,9 @@ bool SimControl::run_entities() {
         // run controllers in a single thread since they are serially connected
         for (EntityPtr &ent : ents_) {
             for (auto c : ent->controllers()) {
-                success &= exec_step(c, [&](auto c){return c->step(temp_t, motion_dt);});
+                success &= exec_step(c, [&](auto c){
+                  return c->step_loop_timer(dt_) ?
+                    c->step(t_, dt_) : true;});
             }
         }
 
