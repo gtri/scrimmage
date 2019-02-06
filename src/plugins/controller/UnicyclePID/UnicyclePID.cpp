@@ -68,9 +68,11 @@ void UnicyclePID::init(std::map<std::string, std::string> &params) {
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     // Is the motion model using speed or acceleration input control?
-    std::string input_name = vars_.exists(VariableIO::Type::acceleration_x, VariableIO::Direction::Out) ?
-        vars_.type_map().at(VariableIO::Type::acceleration_x) :
-        vars_.type_map().at(VariableIO::Type::speed);
+    std::string input_name = vars_.type_map().at(VariableIO::Type::speed);
+    if (vars_.exists(VariableIO::Type::acceleration_x, VariableIO::Direction::Out)) {
+        input_name = vars_.type_map().at(VariableIO::Type::acceleration_x);
+        use_accel_ = true;
+    }
 
     speed_idx_ = vars_.declare(input_name, VariableIO::Direction::Out);
 
@@ -121,8 +123,14 @@ bool UnicyclePID::step(double t, double dt) {
         draw_shape(line_shape_);
     }
 
-    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    vars_.output(speed_idx_, speed_pid_.step(time_->dt(), state_->vel().norm()));
+    // Only use PID if controlling acceleration, otherwise, we directly set the
+    // forward speed
+    double desired_speed = vars_.input(desired_speed_idx_);
+    if (use_accel_) {
+        speed_pid_.set_setpoint(desired_speed);
+        desired_speed = speed_pid_.step(time_->dt(), state_->vel().norm());
+    }
+    vars_.output(speed_idx_, desired_speed);
 
     return true;
 }

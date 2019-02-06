@@ -67,6 +67,8 @@ class UnicyclePID : public scrimmage::Controller {
 
     bool show_shapes_ = false;
     scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
+
+    bool use_accel_ = false;
 };
 } // namespace controller
 } // namespace scrimmage
