@@ -52,8 +52,9 @@ Plugin::Plugin() : name_("Plugin"), parent_(std::make_shared<Entity>()),
                    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
                    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
                    time_(std::make_shared<const Time>()),
-                   param_server_(std::make_shared<ParameterServer>()) {
-}
+                   param_server_(std::make_shared<ParameterServer>()),
+                   loop_rate_(0.0),
+                   loop_timer_(0.0) {}
 
 Plugin::~Plugin() {}
 
@@ -106,6 +107,17 @@ void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
 
 void Plugin::set_param_server(const ParameterServerPtr &param_server) {
     param_server_ = param_server;
+}
+
+bool Plugin::step_loop_timer(double dt) {
+    this->loop_timer_ -= dt;
+    if (this->loop_timer_ <= 0.0) {
+        this->loop_timer_ = this->loop_rate_ == 0 ?
+          -1.0 : 1.0 / this->loop_rate_ + this->loop_timer_;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void Plugin::close_plugin(const double &t) {

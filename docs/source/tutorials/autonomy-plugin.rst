@@ -37,7 +37,7 @@ Let's take a look at the header file
 
 .. code-block:: c++
    :linenos:
-                
+
     #ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
     #define INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
     #include <scrimmage/autonomy/Autonomy.h>
@@ -135,6 +135,44 @@ arbitrarly define tags in the Autonomy plugin's XML file. The ``sc::get``
 supports all standard C++ data types, such as ``int``, ``double``,
 ``std::string``, ``bool``, ``unsigned int``, etc.
 
+Set Loop Rate
+~~~~~~~~~~~~~
+
+Any plugin's loop rate (the frequency at which it steps) can be changed at any
+time. This is done by calling the plugin's ``loop_rate()`` method, which
+returns a reference to the plugin's loop rate in Hz. For example, to set the
+loop rate through a parameter passed in from the xml file, the previous
+example's ``init()`` function might look like this:
+
+.. code-block:: c++
+   :linenos:
+
+    void MyFollowBehavior::init(std::map<std::string, std::string> &params) {
+        this->loop_rate() = sc::get<double>("loop_rate", params, 0.0);
+        double initial_speed = sc::get<double>("initial_speed", params, 21);
+        desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+        desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+        vars_.output(desired_speed_idx_, initial_speed);
+        vars_.output(desired_alt_idx_, state_->pos()(2));
+        vars_.output(desired_heading_idx_, state_->quat().yaw());
+    }
+
+The only difference here is the first line of ``init()``, where
+``this->loop_rate() =`` was added. In this example, the loop rate will be set
+based on a parameter called ``loop_rate`` with a default value of 0. If the loop
+rate is set to 0 or a negative number, it will simply step every time the
+simulator steps. Any time this variable is changed via the loop_rate() method,
+scrimmage will automatically pick up the changes and run the plugin at the
+correct rate.
+
+A plugin cannot be stepped faster than the simulator itself. If the loop rate
+is set at a higher frequency than the simulator itself, it will be saturated
+and stepped at the simulator's rate instead. The simulator's rate is determined
+by the ``dt`` parameter in the mission file. NOTE: Loop rates only affect
+Autonomy, Controller, and Sensor plugins.
+
 Step Autonomy
 ~~~~~~~~~~~~~
 
@@ -215,7 +253,7 @@ distance between our entity and the contact. In lines 14 to 18, we determine if
 this is the small distance encountered so far and save the distance and ID of
 the contact if it is the closest distance.
 
-In the second ``if`` block, 
+In the second ``if`` block,
 we set the Autonomy's controller inputs using :ref:`variableio`.
 Line 28 ensures that the ID of the contact that we want to follow exists. Next,
 we get a pointer to the contact's ``scrimmage::State`` in line 30. Using basic
