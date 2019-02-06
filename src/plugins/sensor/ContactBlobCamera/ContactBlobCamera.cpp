@@ -73,6 +73,8 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
 
     gener_ = parent_->random()->gener();
 
+    show_image_ = sc::get<bool>("show_image", params, show_image_);
+
     // override default parameters
     std::map<std::string, double> plugin_params;
     plugin_params["senderId"] = parent_->id().id();
@@ -246,6 +248,11 @@ bool ContactBlobCamera::step() {
 
     frame_ = msg->data.frame;
     last_frame_t_ = time_->t();
+
+    if (show_image_) {
+        cv::imshow(name_.c_str(), msg->data.frame);
+        cv::waitKey(1);
+    }
 
     pub_->publish(msg);
     return true;

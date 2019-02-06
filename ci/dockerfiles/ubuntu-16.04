@@ -31,7 +31,7 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
  && rosdep init && rosdep update \
  && echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh \
- && pip install cpplint protobuf==3.3.0 grpcio==1.2.1 gym
+ && pip install cpplint protobuf==3.3.0 grpcio==1.2.1 gym==0.10.11
 
 # Install jekyll
 RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \

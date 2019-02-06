@@ -85,6 +85,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
     double last_frame_t_;
 
     PublisherPtr pub_;
+
+    bool show_image_ = false;
 };
 } // namespace sensor
 } // namespace scrimmage
