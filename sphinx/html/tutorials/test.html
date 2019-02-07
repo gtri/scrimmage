@@ -30,8 +30,12 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Useful Utilities" href="utilities.html"/>
         <link rel="prev" title="Multiple Runs with Open Grid Engine" href="open-grid.html"/> 
 
   
@@ -101,7 +105,8 @@
 <li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -140,7 +145,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/test.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/test.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -153,14 +158,14 @@
   <div class="section" id="create-a-scrimmage-test">
 <span id="scrimmage-test"></span><h1>Create a SCRIMMAGE Test<a class="headerlink" href="#create-a-scrimmage-test" title="Permalink to this headline">¶</a></h1>
 <p>Unit testing is often added to a project to ensure that new code works and
-doesn&#8217;t break existing functionality. A common library for adding tests is
+doesn’t break existing functionality. A common library for adding tests is
 <a class="reference external" href="https://github.com/google/googletest">googletest</a> where one can test
 individual functions or classes. However, it is often only when all of these
 functions and classes are combined together in a simulation that edge cases
 are found. Thus, SCRIMMAGE provides a high level testing framework to test
 mission level functionality. A sample can be found in
-<code class="docutils literal"><span class="pre">scrimmage/test/test_collisions.cpp</span></code>:</p>
-<div class="highlight-cpp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<code class="docutils literal notranslate"><span class="pre">scrimmage/test/test_collisions.cpp</span></code>:</p>
+<div class="highlight-cpp notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -214,13 +219,13 @@ mission level functionality. A sample can be found in
 </pre></div>
 </td></tr></table></div>
 <p>Here are links to <a class="reference external" href="https://github.com/google/googletest">gtest</a>, scrimmage
-<a class="reference internal" href="../overview/logging.html#csv-logging"><span>CSV File Logging</span></a>, and <a class="reference external" href="https://www.fluentcpp.com/2016/11/24/clearer-interfaces-with-optionalt">boost optional</a>. We
-now walk through what including <code class="docutils literal"><span class="pre">SimUtils.h</span></code> does. The following line
-specifies what mission file to run (it uses <code class="docutils literal"><span class="pre">find_mission</span></code> to find the file
-at <code class="docutils literal"><span class="pre">scrimmage/missions/straight.xml</span></code>) and then runs the mission.  The output
+<a class="reference internal" href="../overview/logging.html#csv-logging"><span class="std std-ref">CSV File Logging</span></a>, and <a class="reference external" href="https://www.fluentcpp.com/2016/11/24/clearer-interfaces-with-optionalt">boost optional</a>. We
+now walk through what including <code class="docutils literal notranslate"><span class="pre">SimUtils.h</span></code> does. The following line
+specifies what mission file to run (it uses <code class="docutils literal notranslate"><span class="pre">find_mission</span></code> to find the file
+at <code class="docutils literal notranslate"><span class="pre">scrimmage/missions/straight.xml</span></code>) and then runs the mission.  The output
 is a boost::optional that can be dereferenced to the output log directory if
 the mission was successful:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">mission</span> <span class="o">=</span> <span class="s">&quot;straight&quot;</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">mission</span> <span class="o">=</span> <span class="s">&quot;straight&quot;</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">log_dir</span> <span class="o">=</span> <span class="n">sc</span><span class="o">::</span><span class="n">run_test</span><span class="p">(</span><span class="n">mission</span><span class="p">);</span>
 <span class="kt">bool</span> <span class="n">success</span> <span class="o">=</span> <span class="n">log_dir</span> <span class="o">?</span> <span class="nb">true</span> <span class="o">:</span> <span class="nb">false</span><span class="p">;</span>
 <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">success</span><span class="p">);</span>
@@ -229,8 +234,8 @@ the mission was successful:</p>
 </div>
 <p>We now need to verify that the simulation passed our test. Here we are checking
 that there was at least one collision in the simulation by reading the
-<code class="docutils literal"><span class="pre">summary.csv</span></code> that is output by a metrics plugin (see <a class="reference internal" href="metrics-plugin.html#metrics-plugin"><span>Create a Metrics Plugin</span></a>):</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="n">sc</span><span class="o">::</span><span class="n">CSV</span> <span class="n">csv</span><span class="p">;</span>
+<code class="docutils literal notranslate"><span class="pre">summary.csv</span></code> that is output by a metrics plugin (see <a class="reference internal" href="metrics-plugin.html#metrics-plugin"><span class="std std-ref">Create a Metrics Plugin</span></a>):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span class="n">sc</span><span class="o">::</span><span class="n">CSV</span> <span class="n">csv</span><span class="p">;</span>
 <span class="kt">bool</span> <span class="n">summary_found</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="o">*</span><span class="n">log_dir</span> <span class="o">+</span> <span class="s">&quot;/summary.csv&quot;</span><span class="p">);</span>
 <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">summary_found</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">summary_found</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
@@ -248,6 +253,8 @@ that there was at least one collision in the simulation by reading the
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Useful Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="open-grid.html" class="btn btn-neutral" title="Multiple Runs with Open Grid Engine" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -290,6 +297,7 @@ that there was at least one collision in the simulation by reading the
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

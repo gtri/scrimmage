@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Multiple Runs on a Local Computer" href="multiple-local-runs.html"/>
@@ -85,7 +88,7 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">SCRIMMAGE Plugin / XML File Discovery</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SCRIMMAGE Plugin / XML File Discovery</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#finding-plugins">Finding Plugins</a></li>
 </ul>
 </li>
@@ -106,6 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -144,7 +148,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/xml-discovery.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/xml-discovery.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,50 +161,50 @@
   <div class="section" id="scrimmage-plugin-xml-file-discovery">
 <h1>SCRIMMAGE Plugin / XML File Discovery<a class="headerlink" href="#scrimmage-plugin-xml-file-discovery" title="Permalink to this headline">¶</a></h1>
 <p>This tutorial assumes you have completed the section
-<a class="reference internal" href="../overview/install.html#install-scrimmage"><span>Install SCRIMMAGE</span></a>.  Let&#8217;s start with the command we ran to run the
-<code class="docutils literal"><span class="pre">straight.xml</span></code> mission:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage
+<a class="reference internal" href="../overview/install.html#install-scrimmage"><span class="std std-ref">Install SCRIMMAGE</span></a>.  Let’s start with the command we ran to run the
+<code class="docutils literal notranslate"><span class="pre">straight.xml</span></code> mission:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage
 $ scrimmage ./missions/straight.xml
 </pre></div>
 </div>
 <p>When executing this line, scrimmage first reads in the mission file
-<code class="docutils literal"><span class="pre">straight.xml</span></code>. This file allows for quite a few customizations such as how
+<code class="docutils literal notranslate"><span class="pre">straight.xml</span></code>. This file allows for quite a few customizations such as how
 to visualize terrain and entities (aircraft in this case), how long we want the
 simulation to run, where it takes place, and quite a few other items. For our
-purposes though, the <code class="docutils literal"><span class="pre">entity</span></code> block is the one of interest. In the scenario,
+purposes though, the <code class="docutils literal notranslate"><span class="pre">entity</span></code> block is the one of interest. In the scenario,
 we have 2 teams each with fixed-wing aircraft. Thus, we have two entity blocks.
-The team is set with the <code class="docutils literal"><span class="pre">team_id</span></code> block and the entity type is set with the
-<code class="docutils literal"><span class="pre">autonomy</span></code> block. <a class="footnote-reference" href="#f1" id="id1">[1]</a> When <code class="docutils literal"><span class="pre">scrimmage</span></code> sees the <code class="docutils literal"><span class="pre">autonomy</span></code> block
-pointing to <code class="docutils literal"><span class="pre">Straight</span></code> it does the following:</p>
+The team is set with the <code class="docutils literal notranslate"><span class="pre">team_id</span></code> block and the entity type is set with the
+<code class="docutils literal notranslate"><span class="pre">autonomy</span></code> block. <a class="footnote-reference" href="#f1" id="id1">[1]</a> When <code class="docutils literal notranslate"><span class="pre">scrimmage</span></code> sees the <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> block
+pointing to <code class="docutils literal notranslate"><span class="pre">Straight</span></code> it does the following:</p>
 <ol class="arabic simple">
-<li>Looks for the file <code class="docutils literal"><span class="pre">Straight.xml</span></code> in your <code class="docutils literal"><span class="pre">SCRIMMAGE_PLUGIN_PATH</span></code> and
+<li>Looks for the file <code class="docutils literal notranslate"><span class="pre">Straight.xml</span></code> in your <code class="docutils literal notranslate"><span class="pre">SCRIMMAGE_PLUGIN_PATH</span></code> and
 loads it.</li>
-<li>Looks for the <code class="docutils literal"><span class="pre">params</span></code> xml tag in <code class="docutils literal"><span class="pre">Straight.xml</span></code>.</li>
-<li>It loads the custom autonomy specified by the <code class="docutils literal"><span class="pre">library</span></code> tag (we will
+<li>Looks for the <code class="docutils literal notranslate"><span class="pre">params</span></code> xml tag in <code class="docutils literal notranslate"><span class="pre">Straight.xml</span></code>.</li>
+<li>It loads the custom autonomy specified by the <code class="docutils literal notranslate"><span class="pre">library</span></code> tag (we will
 discuss how to create these libraries below)</li>
-<li>It saves all other items in the <code class="docutils literal"><span class="pre">params</span></code> block and passes these variables
-to the <code class="docutils literal"><span class="pre">init</span></code> method of the <code class="docutils literal"><span class="pre">library</span></code> as a map of strings pointing to
+<li>It saves all other items in the <code class="docutils literal notranslate"><span class="pre">params</span></code> block and passes these variables
+to the <code class="docutils literal notranslate"><span class="pre">init</span></code> method of the <code class="docutils literal notranslate"><span class="pre">library</span></code> as a map of strings pointing to
 strings (we will discuss this below as well).</li>
 </ol>
 <p>Later tutorials will discuss how to implement custom autonomy plugins.</p>
 <div class="section" id="finding-plugins">
 <h2>Finding Plugins<a class="headerlink" href="#finding-plugins" title="Permalink to this headline">¶</a></h2>
-<p>A command line utility called <code class="docutils literal"><span class="pre">scrimmage-plugin</span></code> can be used to find a plugin
-and print its properties. For example, to find the <code class="docutils literal"><span class="pre">Straight</span></code> autonomy
+<p>A command line utility called <code class="docutils literal notranslate"><span class="pre">scrimmage-plugin</span></code> can be used to find a plugin
+and print its properties. For example, to find the <code class="docutils literal notranslate"><span class="pre">Straight</span></code> autonomy
 plugin, type the following:</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ scrimmage-plugin Straight
+<div class="highlight-bash notranslate"><div class="highlight"><pre>$ scrimmage-plugin Straight
 </pre></div>
 </div>
 <p>This utility is useful for debugging file path problems.</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>We actually fully specify an entity with the <code class="docutils literal"><span class="pre">motion_model</span></code>,
-<code class="docutils literal"><span class="pre">visual_model</span></code>, <code class="docutils literal"><span class="pre">controller</span></code>, and <code class="docutils literal"><span class="pre">autonomy</span></code>. The first item
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>We actually fully specify an entity with the <code class="docutils literal notranslate"><span class="pre">motion_model</span></code>,
+<code class="docutils literal notranslate"><span class="pre">visual_model</span></code>, <code class="docutils literal notranslate"><span class="pre">controller</span></code>, and <code class="docutils literal notranslate"><span class="pre">autonomy</span></code>. The first item
 concerns how a vehicle moves. In the case of a fixed-wing vehicle it
-can only move forward, roll, and pitch so we specify <code class="docutils literal"><span class="pre">SimpleAircraft</span></code>
+can only move forward, roll, and pitch so we specify <code class="docutils literal notranslate"><span class="pre">SimpleAircraft</span></code>
 as the motion model. Quadrotors have more degrees of freedom so they
-have the <code class="docutils literal"><span class="pre">SimpleQuadrotor</span></code> motion model. As the names imply, there
+have the <code class="docutils literal notranslate"><span class="pre">SimpleQuadrotor</span></code> motion model. As the names imply, there
 are higher fidelity motion models available.</td></tr>
 </tbody>
 </table>
@@ -257,6 +261,7 @@ are higher fidelity motion models available.</td></tr>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

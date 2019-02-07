@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Create an Entity Interaction Plugin" href="entity-interaction-plugin.html"/>
@@ -92,7 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Create a Motion Model Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Create a Motion Model Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examine-motion-model-plugin">Examine Motion Model Plugin</a></li>
 </ul>
 </li>
@@ -106,6 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -144,7 +148,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/motion-model-plugin.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/motion-model-plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,27 +160,27 @@
             
   <div class="section" id="create-a-motion-model-plugin">
 <span id="motion-model-plugin"></span><h1>Create a Motion Model Plugin<a class="headerlink" href="#create-a-motion-model-plugin" title="Permalink to this headline">¶</a></h1>
-<p>A Motion Model plugin applies the controller&#8217;s inputs to the current vehicle&#8217;s
+<p>A Motion Model plugin applies the controller’s inputs to the current vehicle’s
 state to generate a new state. To create a motion model plugin, enter
 the following at the terminal:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
 $ ./generate-plugin.sh motion MyCarModel ~/scrimmage/my-scrimmage-plugins
 </pre></div>
 </div>
 <p>Build the motion model plugin:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
 $ cmake ..
 $ make
 </pre></div>
 </div>
 <div class="section" id="examine-motion-model-plugin">
 <h2>Examine Motion Model Plugin<a class="headerlink" href="#examine-motion-model-plugin" title="Permalink to this headline">¶</a></h2>
-<p>The Motion Model plugin implements the <code class="docutils literal"><span class="pre">init</span></code> method and is used to
-initialize the motion model&#8217;s state variables as well as the <code class="docutils literal"><span class="pre">state_</span></code>
+<p>The Motion Model plugin implements the <code class="docutils literal notranslate"><span class="pre">init</span></code> method and is used to
+initialize the motion model’s state variables as well as the <code class="docutils literal notranslate"><span class="pre">state_</span></code>
 instance used by the main SCRIMMAGE simulation controller. It is the job of the
-motion model to update the <code class="docutils literal"><span class="pre">state_</span></code> variable when the <code class="docutils literal"><span class="pre">step</span></code> method is
+motion model to update the <code class="docutils literal notranslate"><span class="pre">state_</span></code> variable when the <code class="docutils literal notranslate"><span class="pre">step</span></code> method is
 called and during initialization.</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -216,12 +220,12 @@ called and during initialization.</p>
 </pre></div>
 </td></tr></table></div>
 <p>This motion model plugin uses a simple car model that has a minimum turning
-radius. We will use boost&#8217;s ODE solver to numerically integrate the car model&#8217;s
+radius. We will use boost’s ODE solver to numerically integrate the car model’s
 differential state equations. To do this, the plugin has to implement the
-<code class="docutils literal"><span class="pre">model</span></code> method, which is called when <code class="docutils literal"><span class="pre">ode_step</span></code> is called in <code class="docutils literal"><span class="pre">step</span></code>. The
-<code class="docutils literal"><span class="pre">model</span></code> method retrieves the controller&#8217;s inputs, applies possible state
+<code class="docutils literal notranslate"><span class="pre">model</span></code> method, which is called when <code class="docutils literal notranslate"><span class="pre">ode_step</span></code> is called in <code class="docutils literal notranslate"><span class="pre">step</span></code>. The
+<code class="docutils literal notranslate"><span class="pre">model</span></code> method retrieves the controller’s inputs, applies possible state
 saturations, and implements the differential equations (dx/dt form).</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -264,8 +268,8 @@ saturations, and implements the differential equations (dx/dt form).</p>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
-<p>The <code class="docutils literal"><span class="pre">model</span></code> method is called when <code class="docutils literal"><span class="pre">ode_step</span></code> is called in <code class="docutils literal"><span class="pre">step.</span></code></p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>The <code class="docutils literal notranslate"><span class="pre">model</span></code> method is called when <code class="docutils literal notranslate"><span class="pre">ode_step</span></code> is called in <code class="docutils literal notranslate"><span class="pre">step.</span></code></p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -304,12 +308,12 @@ saturations, and implements the differential equations (dx/dt form).</p>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
-<p>It is the responsibility of the <code class="docutils literal"><span class="pre">step</span></code> method to run the numerical
-integration and update the <code class="docutils literal"><span class="pre">state_</span></code> variable, which is later used by the main
+<p>It is the responsibility of the <code class="docutils literal notranslate"><span class="pre">step</span></code> method to run the numerical
+integration and update the <code class="docutils literal notranslate"><span class="pre">state_</span></code> variable, which is later used by the main
 SCRIMMAGE simulation controller.</p>
-<p>The motion model is assigned to an entity by setting the <code class="docutils literal"><span class="pre">motion_model</span></code> XML
+<p>The motion model is assigned to an entity by setting the <code class="docutils literal notranslate"><span class="pre">motion_model</span></code> XML
 tag in the entity block:</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;entity&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;entity&gt;</span>
 ...
 <span class="nt">&lt;motion_model&gt;</span>MyCarModel<span class="nt">&lt;/motion_model&gt;</span>
 ...
@@ -369,6 +373,7 @@ tag in the entity block:</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

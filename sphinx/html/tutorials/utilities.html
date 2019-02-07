@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Create a SCRIMMAGE Plugins Project &mdash; scrimmage 0.2.0-dev documentation</title>
+  <title>Useful Utilities &mdash; scrimmage 0.2.0-dev documentation</title>
   
 
   
@@ -35,8 +35,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Create an Autonomy Plugin" href="autonomy-plugin.html"/>
-        <link rel="prev" title="Multiple Runs on a Local Computer" href="multiple-local-runs.html"/> 
+        <link rel="prev" title="Create a SCRIMMAGE Test" href="test.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -90,7 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
@@ -106,7 +105,13 @@
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Useful Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-package">Python Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#convert-frames-bin-to-csv-file">Convert frames.bin to CSV File</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -141,11 +146,11 @@
       
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
       
-    <li>Create a SCRIMMAGE Plugins Project</li>
+    <li>Useful Utilities</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/create-project.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/utilities.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -155,47 +160,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="create-a-scrimmage-plugins-project">
-<span id="create-project"></span><h1>Create a SCRIMMAGE Plugins Project<a class="headerlink" href="#create-a-scrimmage-plugins-project" title="Permalink to this headline">¶</a></h1>
-<p>The SCRIMMAGE core project provides a general purpose agent-based simulation
-framework. The SCRIMMAGE core project also provides example behaviors in the
-form of Autonomy plugins, motion model plugins, low-level controller plugin,
-metrics plugins, sensor plugins, and entity interaction plugins. While
-SCRIMMAGE core developers will make modifications to the SCRIMMAGE core
-project, most third-party developers will not modify the SCRIMMAGE core or its
-plugins. Instead, third-party developers will create their own SCRIMMAGE
-plugins project and develop their plugins in their third-party project. To
-facilitate setting up this third-party project, SCRIMMAGE provides a script
-that generates a template third-party project.  The user just has to provide a
-name for the project and the location to place the project.</p>
-<p>To create a SCRIMMAGE plugins project with the name “my-scrimmage-plugins” in
-the ~/scrimmage directory, run the following script:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
-$ mkdir ~/scrimmage
-$ ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage
+  <div class="section" id="useful-utilities">
+<span id="utilities"></span><h1>Useful Utilities<a class="headerlink" href="#useful-utilities" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python-package">
+<h2>Python Package<a class="headerlink" href="#python-package" title="Permalink to this headline">¶</a></h2>
+<p>The following utilities require that you have installed the scrimmage python
+package. See the <a class="reference external" href="https://github.com/gtri/scrimmage#install-scrimmage-python-bindings">instructions</a> in the main README.md to install a developer
+version of the scrimmage python bindings.</p>
+<div class="section" id="convert-frames-bin-to-csv-file">
+<h3>Convert frames.bin to CSV File<a class="headerlink" href="#convert-frames-bin-to-csv-file" title="Permalink to this headline">¶</a></h3>
+<p>You can create a CSV file (e.g., <code class="docutils literal notranslate"><span class="pre">frames.csv</span></code>) from a <code class="docutils literal notranslate"><span class="pre">frames.bin</span></code> file
+with the following code:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scrimmage.utils</span> <span class="kn">as</span> <span class="nn">su</span>
+<span class="n">su</span><span class="o">.</span><span class="n">frames2csv</span><span class="p">(</span><span class="s1">&#39;/home/youruser/.scrimmage/logs/latest/frames.bin&#39;</span><span class="p">)</span>
 </pre></div>
-</div>
-<p>Now build your project:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins
-$ mkdir build &amp;&amp; cd build
-$ cmake ..
-$ make
+</td></tr></table></div>
+<p>The frames can be downsampled with the <code class="docutils literal notranslate"><span class="pre">new_dt</span></code> argument and the output file
+name can be changed with the <code class="docutils literal notranslate"><span class="pre">out_filename</span></code> argument.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">su</span><span class="o">.</span><span class="n">frames2csv</span><span class="p">(</span><span class="s1">&#39;/home/youruser/.scrimmage/logs/latest/frames.bin&#39;</span><span class="p">,</span> <span class="n">new_dt</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">out_filename</span><span class="o">=</span><span class="s1">&#39;fewer_frames.bin&#39;</span><span class="p">)</span>
 </pre></div>
+</td></tr></table></div>
 </div>
-<p>Now to make sure scrimmage will find the new plugins:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ source ~/.scrimmage/setup.bash
-</pre></div>
 </div>
-<p>Running the <code class="docutils literal notranslate"><span class="pre">cmake</span></code> command will be successful if the SCRIMMAGE core project has
-already been built/installed on your system. The final output of the CMake
-command will look like the following if it was successful:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">--</span> <span class="n">Configuring</span> <span class="n">done</span>
-<span class="o">--</span> <span class="n">Generating</span> <span class="n">done</span>
-<span class="o">--</span> <span class="n">Build</span> <span class="n">files</span> <span class="n">have</span> <span class="n">been</span> <span class="n">written</span> <span class="n">to</span><span class="p">:</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">scrimmage</span><span class="o">-</span><span class="n">plugins</span><span class="o">/</span><span class="n">build</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">make</span></code> command should be succesful, but since we haven’t created any
-plugins yet, nothing will be built.</p>
 </div>
 
 
@@ -205,10 +192,8 @@ plugins yet, nothing will be built.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="autonomy-plugin.html" class="btn btn-neutral float-right" title="Create an Autonomy Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="multiple-local-runs.html" class="btn btn-neutral" title="Multiple Runs on a Local Computer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="test.html" class="btn btn-neutral" title="Create a SCRIMMAGE Test" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

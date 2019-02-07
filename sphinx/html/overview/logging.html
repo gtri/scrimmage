@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Overview" href="overview.html"/>
         <link rel="next" title="Mission XML Tag Definitions" href="xml-tags.html"/>
@@ -90,7 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="workflow.html">SCRIMMAGE Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environment-vars.html">SCRIMMAGE Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">SCRIMMAGE Logging</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SCRIMMAGE Logging</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#protocol-buffer-logging-visualization">Protocol Buffer Logging / Visualization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#csv-file-logging">CSV File Logging</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#csv-file-writing">CSV File Writing</a></li>
@@ -143,7 +146,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/overview/logging.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/overview/logging.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,15 +160,15 @@
 <h1>SCRIMMAGE Logging<a class="headerlink" href="#scrimmage-logging" title="Permalink to this headline">¶</a></h1>
 <p>SCRIMMAGE provides several tools for logging and playback of data from a
 simulation. A user can specify a SCRIMMAGE root logging directory in a
-SCRIMMAGE mission file with the <code class="docutils literal"><span class="pre">log_dir</span></code> XML tag. By default, the root
+SCRIMMAGE mission file with the <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> XML tag. By default, the root
 logging directory is set to ~/.scrimmage/logs. Every time a new simulation is
 run, a new directory is created under the root logging directory based on the
 current time stamp (e.g., YYYY-MM-DD_HH-MM-SS). A SCRIMMAGE plugin can gain
-access to the current simulation&#8217;s logging directory through the MissionParse
-class&#8217; <code class="docutils literal"><span class="pre">log_dir()</span></code> method and access to the root log directory though the
-<code class="docutils literal"><span class="pre">root_log_dir()</span></code> method. For example, from within a plugin, the log
+access to the current simulation’s logging directory through the MissionParse
+class’ <code class="docutils literal notranslate"><span class="pre">log_dir()</span></code> method and access to the root log directory though the
+<code class="docutils literal notranslate"><span class="pre">root_log_dir()</span></code> method. For example, from within a plugin, the log
 directories are accessed through the following statements:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -182,8 +185,8 @@ directories are accessed through the following statements:</p>
 <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">root_log_dir</span> <span class="o">=</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">mp</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">root_log_dir</span><span class="p">();</span>
 </pre></div>
 </td></tr></table></div>
-<p>The types of files written to the current simulation&#8217;s logging directory
-depends on the <code class="docutils literal"><span class="pre">output_type</span></code> XML tags defined in <a class="reference internal" href="xml-tags.html"><em>Mission XML Tag Definitions</em></a>. Generally,
+<p>The types of files written to the current simulation’s logging directory
+depends on the <code class="docutils literal notranslate"><span class="pre">output_type</span></code> XML tags defined in <a class="reference internal" href="xml-tags.html"><span class="doc">Mission XML Tag Definitions</span></a>. Generally,
 this consists of frames.bin (full state history of all entities in simulation),
 contact_visual.bin (entity visualization information: meshes, colors, etc.),
 utm_terrain.bin (which terrain was loaded), shapes.bin (which shapes were drawn
@@ -192,32 +195,32 @@ during the simulation), summary.csv (output from metrics plugins), log.txt
 was executed), and runtime_seconds.txt (the runtime for the simulation).</p>
 <div class="section" id="protocol-buffer-logging-visualization">
 <h2>Protocol Buffer Logging / Visualization<a class="headerlink" href="#protocol-buffer-logging-visualization" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">plot_3d_fr.py</span></code> python script can be used to plot 2D and 3D trajectories
+<p>The <code class="docutils literal notranslate"><span class="pre">plot_3d_fr.py</span></code> python script can be used to plot 2D and 3D trajectories
 on entities from simulations. Plot the 3D trajectories by pointing to a
 directory containing a frames.bin file.</p>
-<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./plot_3d_fr.py ~/.scrimmage/logs/latest
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./plot_3d_fr.py ~/.scrimmage/logs/latest
 </pre></div>
 </td></tr></table></div>
-<p>The 2D trajectories can be plotted with the <code class="docutils literal"><span class="pre">--2d</span></code> flag.</p>
-<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./plot_3d_fr.py ~/.scrimmage/logs/latest --2d
+<p>The 2D trajectories can be plotted with the <code class="docutils literal notranslate"><span class="pre">--2d</span></code> flag.</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./plot_3d_fr.py ~/.scrimmage/logs/latest --2d
 </pre></div>
 </td></tr></table></div>
 </div>
 <div class="section" id="csv-file-logging">
 <span id="csv-logging"></span><h2>CSV File Logging<a class="headerlink" href="#csv-file-logging" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">CSV</span></code> class can be used in any plugin to log custom data in a comma
-separated format. The <code class="docutils literal"><span class="pre">CSV</span></code> class can also be used to read data from a comma
-separated file. For a full example of using the <code class="docutils literal"><span class="pre">CSV</span></code> class, see the
-<code class="docutils literal"><span class="pre">TrajectoryRecordPlayback</span></code> autonomy plugin. The following code examples
-briefly describe the <code class="docutils literal"><span class="pre">CSV</span></code> classes API.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class can be used in any plugin to log custom data in a comma
+separated format. The <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class can also be used to read data from a comma
+separated file. For a full example of using the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class, see the
+<code class="docutils literal notranslate"><span class="pre">TrajectoryRecordPlayback</span></code> autonomy plugin. The following code examples
+briefly describe the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> classes API.</p>
 <div class="section" id="csv-file-writing">
 <h3>CSV File Writing<a class="headerlink" href="#csv-file-writing" title="Permalink to this headline">¶</a></h3>
-<p>Include the <code class="docutils literal"><span class="pre">CSV</span></code> class:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;scrimmage/common/CSV.h&gt;</span><span class="cp"></span>
+<p>Include the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;scrimmage/common/CSV.h&gt;</span><span class="cp"></span>
 </pre></div>
 </td></tr></table></div>
 <p>Create a file to write comma separated data:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -237,11 +240,11 @@ briefly describe the <code class="docutils literal"><span class="pre">CSV</span>
 </pre></div>
 </td></tr></table></div>
 <p>Specify the names for the column headers (t, x, y, z):</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">set_column_headers</span><span class="p">(</span><span class="s">&quot;t, x, y, z&quot;</span><span class="p">)</span>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">set_column_headers</span><span class="p">(</span><span class="s">&quot;t, x, y, z&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Write data to the csv file:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -253,17 +256,17 @@ briefly describe the <code class="docutils literal"><span class="pre">CSV</span>
 </pre></div>
 </td></tr></table></div>
 <p>Close the output file when you are done writing data:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">close_output</span><span class="p">();</span>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">csv</span><span class="p">.</span><span class="n">close_output</span><span class="p">();</span>
 </pre></div>
 </td></tr></table></div>
 </div>
 <div class="section" id="csv-file-reading">
 <h3>CSV File Reading<a class="headerlink" href="#csv-file-reading" title="Permalink to this headline">¶</a></h3>
-<p>When reading in a CSV file, the <code class="docutils literal"><span class="pre">CSV</span></code> class will use the header column names
-for indexing columns. If the CSV file doesn&#8217;t have header columns, the CSV file
+<p>When reading in a CSV file, the <code class="docutils literal notranslate"><span class="pre">CSV</span></code> class will use the header column names
+for indexing columns. If the CSV file doesn’t have header columns, the CSV file
 can be indexed with integers.</p>
 <p>First, read the CSV file:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">csv</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="p">{</span>
@@ -273,7 +276,7 @@ can be indexed with integers.</p>
 </pre></div>
 </td></tr></table></div>
 <p>Print out the data from the CSV file:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -289,38 +292,38 @@ can be indexed with integers.</p>
 </div>
 <div class="section" id="real-time-plotting-from-csv">
 <h3>Real-time Plotting from CSV<a class="headerlink" href="#real-time-plotting-from-csv" title="Permalink to this headline">¶</a></h3>
-<p>You can plot data from CSV files with the <code class="docutils literal"><span class="pre">csv-plot</span></code> script in the
-<code class="docutils literal"><span class="pre">scrimmage/scripts</span></code> directory. <code class="docutils literal"><span class="pre">csv-plot</span></code> can plot previously created CSV
+<p>You can plot data from CSV files with the <code class="docutils literal notranslate"><span class="pre">csv-plot</span></code> script in the
+<code class="docutils literal notranslate"><span class="pre">scrimmage/scripts</span></code> directory. <code class="docutils literal notranslate"><span class="pre">csv-plot</span></code> can plot previously created CSV
 files or it can create real-time plots while SCRIMMAGE is running. For example,
 to plot the pitch, pitch_rate, yaw, and yaw_rate columns from a CSV file called
-<code class="docutils literal"><span class="pre">my.csv</span></code>, run the following command:</p>
-<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./csv-plot.py -c my.csv -y pitch pitch_rate
+<code class="docutils literal notranslate"><span class="pre">my.csv</span></code>, run the following command:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./csv-plot.py -c my.csv -y pitch pitch_rate
 </pre></div>
 </td></tr></table></div>
-<p>To create a 3D plot, use the <code class="docutils literal"><span class="pre">-x</span></code>, <code class="docutils literal"><span class="pre">-y</span></code>, and <code class="docutils literal"><span class="pre">-z</span></code> flags:</p>
-<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./csv-plot.py -c my.csv -x x -y y -z z -e
+<p>To create a 3D plot, use the <code class="docutils literal notranslate"><span class="pre">-x</span></code>, <code class="docutils literal notranslate"><span class="pre">-y</span></code>, and <code class="docutils literal notranslate"><span class="pre">-z</span></code> flags:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ ./csv-plot.py -c my.csv -x x -y y -z z -e
 </pre></div>
 </td></tr></table></div>
-<p>The <code class="docutils literal"><span class="pre">-e</span></code> flag tells the plotter to ensure that the x, y, and z axes have
+<p>The <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag tells the plotter to ensure that the x, y, and z axes have
 equal scales.</p>
 <p>By default, the script looks for the CSV file located in the
-~/.scrimmage/logs/latest directory, but the <code class="docutils literal"><span class="pre">-l</span></code> flag can be used to change
-the directory. The <code class="docutils literal"><span class="pre">csv-plot.py</span></code> script can also detect when SCRIMMAGE links
-the <code class="docutils literal"><span class="pre">latest</span></code> directory to the newest log directory and it will automatically
+~/.scrimmage/logs/latest directory, but the <code class="docutils literal notranslate"><span class="pre">-l</span></code> flag can be used to change
+the directory. The <code class="docutils literal notranslate"><span class="pre">csv-plot.py</span></code> script can also detect when SCRIMMAGE links
+the <code class="docutils literal notranslate"><span class="pre">latest</span></code> directory to the newest log directory and it will automatically
 start plotting data from the newest CSV file. Thus, during development, the
-plugin developer can leave the <code class="docutils literal"><span class="pre">csv-plot.py</span></code> script constantly running, while
+plugin developer can leave the <code class="docutils literal notranslate"><span class="pre">csv-plot.py</span></code> script constantly running, while
 restarting SCRIMMAGE.</p>
 </div>
 </div>
 <div class="section" id="tips-for-naming-csv-files">
 <h2>Tips for Naming CSV Files<a class="headerlink" href="#tips-for-naming-csv-files" title="Permalink to this headline">¶</a></h2>
 <p>Since your simulation may consist of multiple entities running the same
-plugins, which in turn, could be writing CSV files, it&#8217;s important to ensure
+plugins, which in turn, could be writing CSV files, it’s important to ensure
 that each entity writes to a uniquely named CSV file. It is advised the plugin
-developer includes the entity&#8217;s ID in the filename. For example, to create a
-CSV file that contains the entity&#8217;s ID and is written to the current
-simulation&#8217;s log directory, use the following code:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+developer includes the entity’s ID in the filename. For example, to create a
+CSV file that contains the entity’s ID and is written to the current
+simulation’s log directory, use the following code:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">csv_filename</span> <span class="o">=</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">mp</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">log_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span>
                            <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">parent_</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">().</span><span class="n">id</span><span class="p">())</span>
@@ -380,6 +383,7 @@ simulation&#8217;s log directory, use the following code:</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

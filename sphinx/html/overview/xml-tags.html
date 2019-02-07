@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Overview" href="overview.html"/>
         <link rel="next" title="Variable IO" href="variableio.html"/>
@@ -91,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="environment-vars.html">SCRIMMAGE Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">SCRIMMAGE Logging</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Mission XML Tag Definitions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mission XML Tag Definitions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="variableio.html">Variable IO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
 </ul>
@@ -133,7 +136,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/overview/xml-tags.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/overview/xml-tags.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -145,46 +148,46 @@
             
   <div class="section" id="mission-xml-tag-definitions">
 <span id="scrimmage-xml"></span><h1>Mission XML Tag Definitions<a class="headerlink" href="#mission-xml-tag-definitions" title="Permalink to this headline">¶</a></h1>
-<p>Either the <code class="docutils literal"><span class="pre">latitude</span></code>, <code class="docutils literal"><span class="pre">longitude</span></code>, and <code class="docutils literal"><span class="pre">altitude</span></code> tags must be used
-together or the <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, and <code class="docutils literal"><span class="pre">z</span></code> tags must be used together. Do not mix
+<p>Either the <code class="docutils literal notranslate"><span class="pre">latitude</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, and <code class="docutils literal notranslate"><span class="pre">altitude</span></code> tags must be used
+together or the <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code> tags must be used together. Do not mix
 and match between the two paradigms for a single entity.</p>
 <ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">run</span></code> : Defines timing parameters for simulation</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">run</span></code> : Defines timing parameters for simulation</p>
 <p>attributes:</p>
 <ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">start</span></code>: The start time, should usually be set to 0.0.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">start</span></code>: The start time, should usually be set to 0.0.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">end</span></code>: Final time of simulation, in seconds.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">end</span></code>: Final time of simulation, in seconds.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">dt</span></code> : Change in simulation time for each time step, in seconds.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">dt</span></code> : Change in simulation time for each time step, in seconds.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">time_warp</span></code> : Specifies how much slower or faster than real-time that the
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">time_warp</span></code> : Specifies how much slower or faster than real-time that the
 simulation should run. If set to 1, the simulation runs in real-time. If
 set to 0, the simulation runs as fast as possible. If set to x, it runs x
 times faster than real-time. For example, if set to 10, the simulation will
 run 10 times as fast as real-time. If set to 0.5, the simulation will run
 half as fast as real-time. It should be noted that this parameter only
-defines a &#8220;best effort.&#8221; The autonomy logic can and will slow down the
+defines a “best effort.” The autonomy logic can and will slow down the
 simulation, but the simulation is guaranteed to run deterministically with
-respect to the <code class="docutils literal"><span class="pre">seed</span></code> XML tag, even if it runs slower than real-time.</p>
+respect to the <code class="docutils literal notranslate"><span class="pre">seed</span></code> XML tag, even if it runs slower than real-time.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">enable_gui</span></code> : If set to <code class="docutils literal"><span class="pre">true</span></code>, the SCRIMMAGE gui will run in parallel
-with the SCRIMMAGE simulation. If <code class="docutils literal"><span class="pre">false</span></code>, the gui will not run during
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">enable_gui</span></code> : If set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, the SCRIMMAGE gui will run in parallel
+with the SCRIMMAGE simulation. If <code class="docutils literal notranslate"><span class="pre">false</span></code>, the gui will not run during
 the simulation.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">network_gui</span></code> : If set to <code class="docutils literal"><span class="pre">true</span></code>, the SCRIMMAGE simulation controller
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">network_gui</span></code> : If set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, the SCRIMMAGE simulation controller
 will attempt to connect to a network-based (GRPC) SCRIMMAGE viewer. If
-<code class="docutils literal"><span class="pre">network_gui</span></code> is set to <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">enable_gui</span></code> should be set to
-<code class="docutils literal"><span class="pre">false</span></code>, so that the shared memory version of the SCRIMMAGE viewer isn&#8217;t
+<code class="docutils literal notranslate"><span class="pre">network_gui</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">enable_gui</span></code> should be set to
+<code class="docutils literal notranslate"><span class="pre">false</span></code>, so that the shared memory version of the SCRIMMAGE viewer isn’t
 initialized.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">start_paused</span></code> : If <code class="docutils literal"><span class="pre">true</span></code>, the simulation will not start until the
-user types <code class="docutils literal"><span class="pre">b</span></code> into the gui. This allows the user to ensure that the
-simulation&#8217;s initial conditions are correct before running simulation since
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">start_paused</span></code> : If <code class="docutils literal notranslate"><span class="pre">true</span></code>, the simulation will not start until the
+user types <code class="docutils literal notranslate"><span class="pre">b</span></code> into the gui. This allows the user to ensure that the
+simulation’s initial conditions are correct before running simulation since
 the gui can launch after the actual simulation begins execution.</p>
 </li>
 <li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">motion_multiplier</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">set to an integer greater than or equal to 1.</span></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">motion_multiplier</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">set to an integer greater than or equal to 1.</span></dt>
 <dd><p class="first last">If not 1, scrimmage will run controller and motion plugins
 multiple times for each timestep.</p>
 </dd>
@@ -192,278 +195,278 @@ multiple times for each timestep.</p>
 </li>
 </ul>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">stream_port</span></code> : When <code class="docutils literal"><span class="pre">network_gui</span></code> is enabled, GRPC messages of the
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">stream_port</span></code> : When <code class="docutils literal notranslate"><span class="pre">network_gui</span></code> is enabled, GRPC messages of the
 positions and orientations of SCRIMMAGE entities will be streamed to this
 port.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">stream_ip</span></code> : When <code class="docutils literal"><span class="pre">network_gui</span></code> is enabled, GRPC messages of the
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">stream_ip</span></code> : When <code class="docutils literal notranslate"><span class="pre">network_gui</span></code> is enabled, GRPC messages of the
 positions and orientations of SCRIMMAGE entities will be streamed to this
 network address (e.g., localhost, 192.168.1.49, etc.)</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">seed</span></code> : Used to seed SCRIMMAGE&#8217;s random number generator. If not specified
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">seed</span></code> : Used to seed SCRIMMAGE’s random number generator. If not specified
 or commented out, the current computer time will be used to seed the
 simulation. In some cases a user will want the scenario to begin deterministically
 and then proceed randomly. This can be achieved by setting a seed but
-adding an attribute <code class="docutils literal"><span class="pre">reseed_time</span></code> for the time in the simulation
+adding an attribute <code class="docutils literal notranslate"><span class="pre">reseed_time</span></code> for the time in the simulation
 when the seed should be set to something random. Additionally,
-if you want the reseed to be deterministic you can set it with the <code class="docutils literal"><span class="pre">reseed</span></code>
+if you want the reseed to be deterministic you can set it with the <code class="docutils literal notranslate"><span class="pre">reseed</span></code>
 tag.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">end_condition</span></code> : Specifies the conditions for ending the simulation. The
-possible end conditions are <code class="docutils literal"><span class="pre">time</span></code>, <code class="docutils literal"><span class="pre">one_team</span></code>, <code class="docutils literal"><span class="pre">all_dead</span></code>, and
-<code class="docutils literal"><span class="pre">none</span></code>. If <code class="docutils literal"><span class="pre">time</span></code> is set, the simulation will automatically end when the
-time reaches the <code class="docutils literal"><span class="pre">end</span></code> attribute defined in the <code class="docutils literal"><span class="pre">run</span></code> tag. If
-<code class="docutils literal"><span class="pre">one_team</span></code> is set, the simulation will end when all entities remaining
-belong to the same team ID. If <code class="docutils literal"><span class="pre">all_dead</span></code> is set, the simulation will end
-when there are no more remaining entities. If <code class="docutils literal"><span class="pre">none</span></code> is set, the simulation
-will only end when the user closes the gui or if the user &#8220;kills&#8221; the
-simulation by typing <code class="docutils literal"><span class="pre">CTRL</span> <span class="pre">+</span> <span class="pre">c</span></code> in the terminal that launched
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">end_condition</span></code> : Specifies the conditions for ending the simulation. The
+possible end conditions are <code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">one_team</span></code>, <code class="docutils literal notranslate"><span class="pre">all_dead</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">none</span></code>. If <code class="docutils literal notranslate"><span class="pre">time</span></code> is set, the simulation will automatically end when the
+time reaches the <code class="docutils literal notranslate"><span class="pre">end</span></code> attribute defined in the <code class="docutils literal notranslate"><span class="pre">run</span></code> tag. If
+<code class="docutils literal notranslate"><span class="pre">one_team</span></code> is set, the simulation will end when all entities remaining
+belong to the same team ID. If <code class="docutils literal notranslate"><span class="pre">all_dead</span></code> is set, the simulation will end
+when there are no more remaining entities. If <code class="docutils literal notranslate"><span class="pre">none</span></code> is set, the simulation
+will only end when the user closes the gui or if the user “kills” the
+simulation by typing <code class="docutils literal notranslate"><span class="pre">CTRL</span> <span class="pre">+</span> <span class="pre">c</span></code> in the terminal that launched
 scrimmage. The end conditions can be OR-ed together by separating the end
-conditions with commas. For example, if the <code class="docutils literal"><span class="pre">end_condition</span></code> is set to
-&#8220;time, one_team&#8221; the simulation will end if the <code class="docutils literal"><span class="pre">end</span></code> time is reached or if
+conditions with commas. For example, if the <code class="docutils literal notranslate"><span class="pre">end_condition</span></code> is set to
+“time, one_team” the simulation will end if the <code class="docutils literal notranslate"><span class="pre">end</span></code> time is reached or if
 only a single team is remaining.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">terrain</span></code> : Defines the name of the folder that holds the terrain polygon
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">terrain</span></code> : Defines the name of the folder that holds the terrain polygon
 and texture data. This is typically located at:
-<code class="docutils literal"><span class="pre">$SCRIMMAGE_DATA_PATH/gui/terrain</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">$SCRIMMAGE_DATA_PATH/gui/terrain</span></code>.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">grid_spacing</span></code> : Defines the distance in meters between grid lines when not
-using the <code class="docutils literal"><span class="pre">terrain</span></code> tag.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">grid_spacing</span></code> : Defines the distance in meters between grid lines when not
+using the <code class="docutils literal notranslate"><span class="pre">terrain</span></code> tag.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">grid_size</span></code> : Defines the length in meters of the square grid when not
-using the <code class="docutils literal"><span class="pre">terrain</span></code> tag.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">grid_size</span></code> : Defines the length in meters of the square grid when not
+using the <code class="docutils literal notranslate"><span class="pre">terrain</span></code> tag.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">background_color</span></code> : The visualization background color defined in RED,
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">background_color</span></code> : The visualization background color defined in RED,
 GREEN, BLUE order.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">gui_update_period</span></code> : The gui update period in milliseconds. Providing a
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">gui_update_period</span></code> : The gui update period in milliseconds. Providing a
 small number increases the gui update rate, but can slow the simulation due
 to system resources.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">plot_tracks</span></code> : If <code class="docutils literal"><span class="pre">true</span></code>, it will launch the <code class="docutils literal"><span class="pre">plot-sim</span></code> tool
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">plot_tracks</span></code> : If <code class="docutils literal notranslate"><span class="pre">true</span></code>, it will launch the <code class="docutils literal notranslate"><span class="pre">plot-sim</span></code> tool
 immediately after the simulation is complete.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">output_type</span></code> : Specifies what artifacts are generated by a simulation
-run. If set to <code class="docutils literal"><span class="pre">frames</span></code> only the frames.bin file will be created. If set to
-<code class="docutils literal"><span class="pre">summary</span></code>, a CSV file of the mission metrics will be created. If set to
-<code class="docutils literal"><span class="pre">git_commits</span></code>, a hash of the current git project will be created. If set to
-<code class="docutils literal"><span class="pre">all</span></code>, all the possible artifacts will be created. If set to nothing no
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">output_type</span></code> : Specifies what artifacts are generated by a simulation
+run. If set to <code class="docutils literal notranslate"><span class="pre">frames</span></code> only the frames.bin file will be created. If set to
+<code class="docutils literal notranslate"><span class="pre">summary</span></code>, a CSV file of the mission metrics will be created. If set to
+<code class="docutils literal notranslate"><span class="pre">git_commits</span></code>, a hash of the current git project will be created. If set to
+<code class="docutils literal notranslate"><span class="pre">all</span></code>, all the possible artifacts will be created. If set to nothing no
 output will be created.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">show_plugins</span></code> : If <code class="docutils literal"><span class="pre">true</span></code>, SCRIMMAGE will print the plugins that were
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">show_plugins</span></code> : If <code class="docutils literal notranslate"><span class="pre">true</span></code>, SCRIMMAGE will print the plugins that were
 discovered on the SCRIMMAGE_PLUGIN_PATH at simulation start-up. The plugins
 will be grouped into similar plugin types (e.g. autonomy plugins, motion
 plugins, interaction plugins, sensors, controllers, etc.)</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">log_dir</span></code> : The log directory is the folder where scrimmage will save all
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">log_dir</span></code> : The log directory is the folder where scrimmage will save all
 log information from the simulation. This includes entity trajectory data,
 event data, and the random seed that was used during the simulation.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">create_latest_dir</span></code> : If <code class="docutils literal"><span class="pre">true</span></code>, a symbolically linked directory named
-<code class="docutils literal"><span class="pre">latest</span></code> will be created that links to the most recent <code class="docutils literal"><span class="pre">log_dir</span></code>. This
-tag is <code class="docutils literal"><span class="pre">true</span></code> by default. When executing parallel runs, the user should set
-this to <code class="docutils literal"><span class="pre">false</span></code>, so that multiple instances of SCRIMMAGE do not try to
-create the same <code class="docutils literal"><span class="pre">latest</span></code> directory.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">create_latest_dir</span></code> : If <code class="docutils literal notranslate"><span class="pre">true</span></code>, a symbolically linked directory named
+<code class="docutils literal notranslate"><span class="pre">latest</span></code> will be created that links to the most recent <code class="docutils literal notranslate"><span class="pre">log_dir</span></code>. This
+tag is <code class="docutils literal notranslate"><span class="pre">true</span></code> by default. When executing parallel runs, the user should set
+this to <code class="docutils literal notranslate"><span class="pre">false</span></code>, so that multiple instances of SCRIMMAGE do not try to
+create the same <code class="docutils literal notranslate"><span class="pre">latest</span></code> directory.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">latitude_origin</span></code> : This is the latitude (decimal degrees) at which the
-simulation&#8217;s cartesian coordinate system&#8217;s origin is centered. (e.g.,
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">latitude_origin</span></code> : This is the latitude (decimal degrees) at which the
+simulation’s cartesian coordinate system’s origin is centered. (e.g.,
 35.721025)</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">longitude_origin</span></code> : This is the longitude (decimal degrees) at which the
-simulation&#8217;s cartesian coordinate system&#8217;s origin is centered. (e.g.,
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">longitude_origin</span></code> : This is the longitude (decimal degrees) at which the
+simulation’s cartesian coordinate system’s origin is centered. (e.g.,
 -120.767925)</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">altitude_origin</span></code> : This is the altitude in meters above sea level at which
-the simulation&#8217;s cartesian coordinate system&#8217;s origin is centered.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">altitude_origin</span></code> : This is the altitude in meters above sea level at which
+the simulation’s cartesian coordinate system’s origin is centered.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">show_origin</span></code> : If set to <code class="docutils literal"><span class="pre">true</span></code>, a three axis coordinate system will be
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">show_origin</span></code> : If set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, a three axis coordinate system will be
 drawn at the origin of the simulation. This is help for debugging the
 latitude, longitude, and altitude origin values.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">display_progress</span></code> : whether to show a progress bar on the command line</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">display_progress</span></code> : whether to show a progress bar on the command line</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">origin_length</span></code> : Specifies the length of the origin axes in meters when
-<code class="docutils literal"><span class="pre">show_origin</span></code> is enabled.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">origin_length</span></code> : Specifies the length of the origin axes in meters when
+<code class="docutils literal notranslate"><span class="pre">show_origin</span></code> is enabled.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">metrics</span></code> : This tag loads metrics plugins and executes them during the
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">metrics</span></code> : This tag loads metrics plugins and executes them during the
 mission. Metrics plugins are executed in the order in which they appear in
-the mission file. A metrics plugin counts &#8220;events&#8221; in the simulation and
+the mission file. A metrics plugin counts “events” in the simulation and
 outputs the counts to the summary CSV file.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">entity_interaction</span></code> : This tag loads a plugin that computes interactions
-between entities during the simulation. For example, the <code class="docutils literal"><span class="pre">SimpleCollision</span></code>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">entity_interaction</span></code> : This tag loads a plugin that computes interactions
+between entities during the simulation. For example, the <code class="docutils literal notranslate"><span class="pre">SimpleCollision</span></code>
 entity interaction plugin computes the distance between all entities and if
 the distance between any two entities is below a given threshold, the
-entities are removed from the simulation. The <code class="docutils literal"><span class="pre">GroundCollision</span></code> entity
+entities are removed from the simulation. The <code class="docutils literal notranslate"><span class="pre">GroundCollision</span></code> entity
 interaction plugin removes entities from the simulation that are within a
 given distance from the ground. Entity interaction plugins are executed in
 the order in which they appear in the mission file.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">network</span></code> : This tag loads a plugin that simulates network
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">network</span></code> : This tag loads a plugin that simulates network
 communications. This can be used to simulate dropped packets. By default,
-every SCRIMMAGE simulation initializes a &#8220;GlobalNetwork,&#8221; which is used to
-transfer simulation data, such as &#8220;EntityGenerated&#8221; messages. The
-&#8220;LocalNetwork&#8221; only allows transmission of messages between plugins that are
-attached to the same entity. The &#8220;SphereNetwork&#8221; is a probabilistic
+every SCRIMMAGE simulation initializes a “GlobalNetwork,” which is used to
+transfer simulation data, such as “EntityGenerated” messages. The
+“LocalNetwork” only allows transmission of messages between plugins that are
+attached to the same entity. The “SphereNetwork” is a probabilistic
 transmission model that is parameterized by communication range. (perfect
 comms within range or probabilistic comms within a range). Multiple network
 tags can be specified in a single mission file.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">entity</span></code> : The entity tag is used to initialize a single entity or a swarm
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">entity</span></code> : The entity tag is used to initialize a single entity or a swarm
 of homogeneous entities. The following XML tags should be used within the
-<code class="docutils literal"><span class="pre">entity</span></code> tag:</p>
+<code class="docutils literal notranslate"><span class="pre">entity</span></code> tag:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">name</span></code> : A human-readable name for this entity block. This name can be
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code> : A human-readable name for this entity block. This name can be
 used to reference this block later. When running SCRIMMAGE within another
 system, such as ROS or MOOS, this name is used to reference this entity
 block.</li>
-<li><code class="docutils literal"><span class="pre">team_id</span></code> : The team identification number for this entity group. If
+<li><code class="docutils literal notranslate"><span class="pre">team_id</span></code> : The team identification number for this entity group. If
 multiple entity tags are used to initialize a team of heterogeneous
-entities, as long as the <code class="docutils literal"><span class="pre">team_id</span></code> is the same, the entities will be on
+entities, as long as the <code class="docutils literal notranslate"><span class="pre">team_id</span></code> is the same, the entities will be on
 the same team.</li>
-<li><code class="docutils literal"><span class="pre">color</span></code> : This is a team color that affects vehicle trail colors and home
+<li><code class="docutils literal notranslate"><span class="pre">color</span></code> : This is a team color that affects vehicle trail colors and home
 base colors.</li>
-<li><code class="docutils literal"><span class="pre">count</span></code> : The number of entities to create.</li>
-<li><code class="docutils literal"><span class="pre">generate_rate</span></code> : The rate (in Hz) at which new entities will be
-generated. For example &#8220;1 / 2&#8221; will generate new entities every two
+<li><code class="docutils literal notranslate"><span class="pre">count</span></code> : The number of entities to create.</li>
+<li><code class="docutils literal notranslate"><span class="pre">generate_rate</span></code> : The rate (in Hz) at which new entities will be
+generated. For example “1 / 2” will generate new entities every two
 seconds.</li>
-<li><code class="docutils literal"><span class="pre">generate_count</span></code> : The number of entities that are generated at each time
-interval. If set to <code class="docutils literal"><span class="pre">2</span></code>, two entities will be generated every generation
+<li><code class="docutils literal notranslate"><span class="pre">generate_count</span></code> : The number of entities that are generated at each time
+interval. If set to <code class="docutils literal notranslate"><span class="pre">2</span></code>, two entities will be generated every generation
 interval.</li>
-<li><code class="docutils literal"><span class="pre">generate_start_time</span></code> : The simulation time at which new entities should
+<li><code class="docutils literal notranslate"><span class="pre">generate_start_time</span></code> : The simulation time at which new entities should
 start to be generated.</li>
-<li><code class="docutils literal"><span class="pre">generate_time_variance</span></code> : This tag is used to add &#8220;noise&#8221; to the
+<li><code class="docutils literal notranslate"><span class="pre">generate_time_variance</span></code> : This tag is used to add “noise” to the
 generation interval. The time between launches is modeled to be distributed
 according to the Gaussian Distribution. All four generate tags have to be
 defined, otherwise, the generate feature will not work properly. See the
 sasc.xml mission for an example configuration.</li>
-<li><code class="docutils literal"><span class="pre">autonomy</span></code> : This tag assigns an autonomy plugin for each entity in the
+<li><code class="docutils literal notranslate"><span class="pre">autonomy</span></code> : This tag assigns an autonomy plugin for each entity in the
 entity group. Scrimmage searches the SCRIMMAGE_PLUGIN_PATH for an XML file
-with the autonomy tag&#8217;s name. Multiple autonomy plugins can run in serial
+with the autonomy tag’s name. Multiple autonomy plugins can run in serial
 on a single entity. Autonomy plugins are executed in the order in which
 they appear in the mission file.</li>
-<li><code class="docutils literal"><span class="pre">health</span></code> : The initial health points for this entity. The entity
+<li><code class="docutils literal notranslate"><span class="pre">health</span></code> : The initial health points for this entity. The entity
 interaction plugin can affect the health points of each entity depending on
 entity messages and the world state. When the health points decrement to
 zero, the entity is usually removed by the entity interaction plugin.</li>
-<li><code class="docutils literal"><span class="pre">variance_x</span></code> : The first entity in an entity group is, by default,
-initialized at the position determined by the the <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, and
-<code class="docutils literal"><span class="pre">altitude</span></code> tags. Since it can be tedious to specifically initialize large
+<li><code class="docutils literal notranslate"><span class="pre">variance_x</span></code> : The first entity in an entity group is, by default,
+initialized at the position determined by the the <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">altitude</span></code> tags. Since it can be tedious to specifically initialize large
 numbers of entities, scrimmage has the ability to randomly initialize an
-entity group&#8217;s starting positions. The <code class="docutils literal"><span class="pre">variance_x</span></code>, <code class="docutils literal"><span class="pre">variance_y</span></code>, and
-<code class="docutils literal"><span class="pre">variance_z</span></code> tags bound the possible starting locations to a cube around
-the <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, and <code class="docutils literal"><span class="pre">altitude</span></code> tag position.</li>
-<li><code class="docutils literal"><span class="pre">variance_y</span></code> : The y-distance around the entity&#8217;s initial position for
+entity group’s starting positions. The <code class="docutils literal notranslate"><span class="pre">variance_x</span></code>, <code class="docutils literal notranslate"><span class="pre">variance_y</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">variance_z</span></code> tags bound the possible starting locations to a cube around
+the <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">altitude</span></code> tag position.</li>
+<li><code class="docutils literal notranslate"><span class="pre">variance_y</span></code> : The y-distance around the entity’s initial position for
 generating entities.</li>
-<li><code class="docutils literal"><span class="pre">variance_z</span></code> : The z-distance around the entity&#8217;s initial position for
+<li><code class="docutils literal notranslate"><span class="pre">variance_z</span></code> : The z-distance around the entity’s initial position for
 generating entities.</li>
-<li><code class="docutils literal"><span class="pre">use_variance_all_ents</span></code> : Defaults to <code class="docutils literal"><span class="pre">false</span></code>. This tag, if set to
-<code class="docutils literal"><span class="pre">true</span></code>, causes the first entity in an entity group to be placed randomly
-according to the same variances and about the same <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>,
-<code class="docutils literal"><span class="pre">altitude</span></code> point as the rest of the entity group.</li>
-<li><code class="docutils literal"><span class="pre">x</span></code> : The entity&#8217;s initial x-position. The first entity in the entity
+<li><code class="docutils literal notranslate"><span class="pre">use_variance_all_ents</span></code> : Defaults to <code class="docutils literal notranslate"><span class="pre">false</span></code>. This tag, if set to
+<code class="docutils literal notranslate"><span class="pre">true</span></code>, causes the first entity in an entity group to be placed randomly
+according to the same variances and about the same <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>,
+<code class="docutils literal notranslate"><span class="pre">altitude</span></code> point as the rest of the entity group.</li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code> : The entity’s initial x-position. The first entity in the entity
 group is initialized at this x-position, but other entities in the same
 group are randomly placed around this starting position.</li>
-<li><code class="docutils literal"><span class="pre">y</span></code> : The entity&#8217;s initial y-position.</li>
-<li><code class="docutils literal"><span class="pre">z</span></code> : The entity&#8217;s initial z-position.</li>
-<li><code class="docutils literal"><span class="pre">latitude</span></code> : The entity&#8217;s initial latitude.</li>
-<li><code class="docutils literal"><span class="pre">longitude</span></code> : The entity&#8217;s initial longitude.</li>
-<li><code class="docutils literal"><span class="pre">altitude</span></code> : The entity&#8217;s initial altitude.</li>
-<li><code class="docutils literal"><span class="pre">heading</span></code> : The entity&#8217;s initial heading. Zero-degrees is in the x-axis
+<li><code class="docutils literal notranslate"><span class="pre">y</span></code> : The entity’s initial y-position.</li>
+<li><code class="docutils literal notranslate"><span class="pre">z</span></code> : The entity’s initial z-position.</li>
+<li><code class="docutils literal notranslate"><span class="pre">latitude</span></code> : The entity’s initial latitude.</li>
+<li><code class="docutils literal notranslate"><span class="pre">longitude</span></code> : The entity’s initial longitude.</li>
+<li><code class="docutils literal notranslate"><span class="pre">altitude</span></code> : The entity’s initial altitude.</li>
+<li><code class="docutils literal notranslate"><span class="pre">heading</span></code> : The entity’s initial heading. Zero-degrees is in the x-axis
 direction. The heading angle increases in a counter-clockwise
 direction. This is different from GPS heading, which increases in a
 clockwise heading. Scrimmage has utilities for easily translating between
 GPS and cartesian coordinate systems.</li>
-<li><code class="docutils literal"><span class="pre">motion_model</span></code> : The motion model or &#8220;physics&#8221; model that describes the
-entity&#8217;s movement. Scrimmage ships with the following motion models:<ul>
-<li><code class="docutils literal"><span class="pre">SimpleAircraft</span></code> : An efficient aircraft model that does not allow
+<li><code class="docutils literal notranslate"><span class="pre">motion_model</span></code> : The motion model or “physics” model that describes the
+entity’s movement. Scrimmage ships with the following motion models:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">SimpleAircraft</span></code> : An efficient aircraft model that does not allow
 inverted flight.</li>
-<li><code class="docutils literal"><span class="pre">SimpleQuadrotor</span></code> : An efficient quadrotor model that does not allow
+<li><code class="docutils literal notranslate"><span class="pre">SimpleQuadrotor</span></code> : An efficient quadrotor model that does not allow
 inverted flight.</li>
-<li><code class="docutils literal"><span class="pre">JSBSimModel</span></code> : A high-fidelity aircraft model that allows inverted
+<li><code class="docutils literal notranslate"><span class="pre">JSBSimModel</span></code> : A high-fidelity aircraft model that allows inverted
 flight. This plugin ships with an autopilot defined in JSBSim that
 attempts to prevent inverted flight.</li>
-<li><code class="docutils literal"><span class="pre">JSBSimControl</span></code> : A high-fidelity aircraft model that allows direct
+<li><code class="docutils literal notranslate"><span class="pre">JSBSimControl</span></code> : A high-fidelity aircraft model that allows direct
 control of the actuators on the aircraft. This is the model that allows
 for experimenting with the control of inverted aircraft with realistic
 physics.</li>
-<li><code class="docutils literal"><span class="pre">SimpleCar</span></code> : A simple car model</li>
-<li><code class="docutils literal"><span class="pre">SingleIntegrator</span></code> : A single integrator model for experimenting with
+<li><code class="docutils literal notranslate"><span class="pre">SimpleCar</span></code> : A simple car model</li>
+<li><code class="docutils literal notranslate"><span class="pre">SingleIntegrator</span></code> : A single integrator model for experimenting with
 motion planning.</li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">visual_model</span></code> : Loads an XML file that specifies the appearance of the
+<li><code class="docutils literal notranslate"><span class="pre">visual_model</span></code> : Loads an XML file that specifies the appearance of the
 entity. Examples: zephyr-blue, zephyr-red, iris, sea-angler, volkswagen.</li>
-<li><code class="docutils literal"><span class="pre">controller</span></code> : Loads a low-level controller plugin. Each entity can only
+<li><code class="docutils literal notranslate"><span class="pre">controller</span></code> : Loads a low-level controller plugin. Each entity can only
 have a single controller.</li>
-<li><code class="docutils literal"><span class="pre">sensor</span></code> : Loads a sensor plugin. Multiple sensor plugins can run in
+<li><code class="docutils literal notranslate"><span class="pre">sensor</span></code> : Loads a sensor plugin. Multiple sensor plugins can run in
 serial on a single entity.</li>
-<li><code class="docutils literal"><span class="pre">base</span></code> : Used to define a &#8220;home base&#8221; for the entity. Only one home base
+<li><code class="docutils literal notranslate"><span class="pre">base</span></code> : Used to define a “home base” for the entity. Only one home base
 per team should be specified. Entity groups that share a team ID will share
-a home base defined in only one entity group. The <code class="docutils literal"><span class="pre">base</span></code> tag has the
+a home base defined in only one entity group. The <code class="docutils literal notranslate"><span class="pre">base</span></code> tag has the
 following tags:<ul>
-<li><code class="docutils literal"><span class="pre">x</span></code> : The base&#8217;s x-position</li>
-<li><code class="docutils literal"><span class="pre">y</span></code> : The base&#8217;s y-position</li>
-<li><code class="docutils literal"><span class="pre">z</span></code> : The base&#8217;s z-position</li>
-<li><code class="docutils literal"><span class="pre">latitude</span></code> : The base&#8217;s latitude</li>
-<li><code class="docutils literal"><span class="pre">longitude</span></code> : The base&#8217;s longitude</li>
-<li><code class="docutils literal"><span class="pre">altitude</span></code> : The base&#8217;s altitude</li>
-<li><code class="docutils literal"><span class="pre">radius</span></code> : The base&#8217;s radius</li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code> : The base’s x-position</li>
+<li><code class="docutils literal notranslate"><span class="pre">y</span></code> : The base’s y-position</li>
+<li><code class="docutils literal notranslate"><span class="pre">z</span></code> : The base’s z-position</li>
+<li><code class="docutils literal notranslate"><span class="pre">latitude</span></code> : The base’s latitude</li>
+<li><code class="docutils literal notranslate"><span class="pre">longitude</span></code> : The base’s longitude</li>
+<li><code class="docutils literal notranslate"><span class="pre">altitude</span></code> : The base’s altitude</li>
+<li><code class="docutils literal notranslate"><span class="pre">radius</span></code> : The base’s radius</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">entity_common</span></code> : this is a way to share parameters across entity blocks.
-An <code class="docutils literal"><span class="pre">entity_common</span></code> block must have a <code class="docutils literal"><span class="pre">name</span></code> attribute
-and can have any entries that an <code class="docutils literal"><span class="pre">entity</span></code> block can have.
-For an <code class="docutils literal"><span class="pre">entity</span></code> block to use what is in the <code class="docutils literal"><span class="pre">entity_common</span></code> block,
-the entity must have an attribute <code class="docutils literal"><span class="pre">entity_common=&quot;name&quot;</span></code> where <code class="docutils literal"><span class="pre">name</span></code>
-matches what is in the attribute for the <code class="docutils literal"><span class="pre">entity_common</span></code> block.</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">entity_common</span></code> : this is a way to share parameters across entity blocks.
+An <code class="docutils literal notranslate"><span class="pre">entity_common</span></code> block must have a <code class="docutils literal notranslate"><span class="pre">name</span></code> attribute
+and can have any entries that an <code class="docutils literal notranslate"><span class="pre">entity</span></code> block can have.
+For an <code class="docutils literal notranslate"><span class="pre">entity</span></code> block to use what is in the <code class="docutils literal notranslate"><span class="pre">entity_common</span></code> block,
+the entity must have an attribute <code class="docutils literal notranslate"><span class="pre">entity_common=&quot;name&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">name</span></code>
+matches what is in the attribute for the <code class="docutils literal notranslate"><span class="pre">entity_common</span></code> block.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">param_common</span></code> : plugins have their own xml files but it can be
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">param_common</span></code> : plugins have their own xml files but it can be
 useful to override their attributes in the main mission file.
-For instance, one can override the parameter <code class="docutils literal"><span class="pre">foo</span></code> in the main mission file with
-<code class="docutils literal"><span class="pre">&lt;autonomy</span> <span class="pre">foo=&quot;bar&quot;&gt;MyAutonomyPlugin&lt;/autonomy&gt;</span></code>. Regardless of what
-is in <code class="docutils literal"><span class="pre">MyAutonomyPlugin.xml</span></code>, <code class="docutils literal"><span class="pre">foo</span></code> will have a value of <code class="docutils literal"><span class="pre">bar</span></code> when the
+For instance, one can override the parameter <code class="docutils literal notranslate"><span class="pre">foo</span></code> in the main mission file with
+<code class="docutils literal notranslate"><span class="pre">&lt;autonomy</span> <span class="pre">foo=&quot;bar&quot;&gt;MyAutonomyPlugin&lt;/autonomy&gt;</span></code>. Regardless of what
+is in <code class="docutils literal notranslate"><span class="pre">MyAutonomyPlugin.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">foo</span></code> will have a value of <code class="docutils literal notranslate"><span class="pre">bar</span></code> when the
 plugin is initialized. To abstract this further, plugins can share overriden
-values with a <code class="docutils literal"><span class="pre">param_common</span></code> block. A <code class="docutils literal"><span class="pre">param_common</span></code> block needs to have
-a <code class="docutils literal"><span class="pre">name</span></code> attribute (similar to <code class="docutils literal"><span class="pre">entity_common</span></code> blocks). The common block
+values with a <code class="docutils literal notranslate"><span class="pre">param_common</span></code> block. A <code class="docutils literal notranslate"><span class="pre">param_common</span></code> block needs to have
+a <code class="docutils literal notranslate"><span class="pre">name</span></code> attribute (similar to <code class="docutils literal notranslate"><span class="pre">entity_common</span></code> blocks). The common block
 can be referenced as
-<code class="docutils literal"><span class="pre">&lt;autonomy</span> <span class="pre">param_common=&quot;vehicle&quot;&gt;MyAutonomyPlugin&lt;/autonomy&gt;</span></code>
-where <code class="docutils literal"><span class="pre">vehicle</span></code> is the value given to the attribute <code class="docutils literal"><span class="pre">name</span></code> in the <code class="docutils literal"><span class="pre">param_common</span></code> block.</p>
+<code class="docutils literal notranslate"><span class="pre">&lt;autonomy</span> <span class="pre">param_common=&quot;vehicle&quot;&gt;MyAutonomyPlugin&lt;/autonomy&gt;</span></code>
+where <code class="docutils literal notranslate"><span class="pre">vehicle</span></code> is the value given to the attribute <code class="docutils literal notranslate"><span class="pre">name</span></code> in the <code class="docutils literal notranslate"><span class="pre">param_common</span></code> block.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">camera</span></code> : defines camera parameters</p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">camera</span></code> : defines camera parameters</p>
 <p>attributes:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">mode</span></code>: <code class="docutils literal"><span class="pre">follow</span></code>, <code class="docutils literal"><span class="pre">free</span></code>, or <code class="docutils literal"><span class="pre">offset</span></code></li>
-<li><code class="docutils literal"><span class="pre">follow_id</span></code>: the entity id for the camera to follow</li>
-<li><code class="docutils literal"><span class="pre">pos</span></code>: 3 entry comma separated list of where to put the camera
-(applicable to <code class="docutils literal"><span class="pre">free</span></code> mode only)</li>
-<li><code class="docutils literal"><span class="pre">focal_point</span></code>: 3 entry comma separated list of where to point the camera
-(applicable to <code class="docutils literal"><span class="pre">free</span></code> mode only)</li>
-<li><code class="docutils literal"><span class="pre">show_fps</span></code>: whether to show frames per second on the gui</li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: <code class="docutils literal notranslate"><span class="pre">follow</span></code>, <code class="docutils literal notranslate"><span class="pre">free</span></code>, or <code class="docutils literal notranslate"><span class="pre">offset</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">follow_id</span></code>: the entity id for the camera to follow</li>
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code>: 3 entry comma separated list of where to put the camera
+(applicable to <code class="docutils literal notranslate"><span class="pre">free</span></code> mode only)</li>
+<li><code class="docutils literal notranslate"><span class="pre">focal_point</span></code>: 3 entry comma separated list of where to point the camera
+(applicable to <code class="docutils literal notranslate"><span class="pre">free</span></code> mode only)</li>
+<li><code class="docutils literal notranslate"><span class="pre">show_fps</span></code>: whether to show frames per second on the gui</li>
 </ul>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">enable_screenshots</span></code>: if the tag is set to true, scrimmage will save
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">enable_screenshots</span></code>: if the tag is set to true, scrimmage will save
 screenshots at regular intervals.  This will slow down performance as the
 simulation loop will wait for the gui to save the screenshot before
-proceeding. Note that <code class="docutils literal"><span class="pre">enable_gui</span></code> must be true for this setting to be
-effective. The <code class="docutils literal"><span class="pre">min_period</span></code>, <code class="docutils literal"><span class="pre">start</span></code>, and <code class="docutils literal"><span class="pre">end</span></code> attributes are
+proceeding. Note that <code class="docutils literal notranslate"><span class="pre">enable_gui</span></code> must be true for this setting to be
+effective. The <code class="docutils literal notranslate"><span class="pre">min_period</span></code>, <code class="docutils literal notranslate"><span class="pre">start</span></code>, and <code class="docutils literal notranslate"><span class="pre">end</span></code> attributes are
 specified in seconds.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">min_period</span></code> : how often to save screenshots</li>
-<li><code class="docutils literal"><span class="pre">start</span></code>: when to start taking screenshots</li>
-<li><code class="docutils literal"><span class="pre">end</span></code>: when to stop taking screenshots.</li>
+<li><code class="docutils literal notranslate"><span class="pre">min_period</span></code> : how often to save screenshots</li>
+<li><code class="docutils literal notranslate"><span class="pre">start</span></code>: when to start taking screenshots</li>
+<li><code class="docutils literal notranslate"><span class="pre">end</span></code>: when to stop taking screenshots.</li>
 </ul>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">multi_threaded</span></code>: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">multi_threaded</span></code>: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
 The default is for scrimmage to run in a single thread. The attributes are:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">num_threads</span></code> : how many threads to use (<code class="docutils literal"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">1</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">autonomy</span></code> : whether to enable or disable running autonomy plugins in threads (<code class="docutils literal"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">controller</span></code> : whether to enable or disable running controller plugins in threads (<code class="docutils literal"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">motion</span></code> : whether to enable or disable running motion plugins in threads (<code class="docutils literal"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">sensor</span></code> : whether to enable or disable running sensor plugins in threads (<code class="docutils literal"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">num_threads</span></code> : how many threads to use (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">1</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">autonomy</span></code> : whether to enable or disable running autonomy plugins in threads (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">controller</span></code> : whether to enable or disable running controller plugins in threads (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">motion</span></code> : whether to enable or disable running motion plugins in threads (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">sensor</span></code> : whether to enable or disable running sensor plugins in threads (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</li>
 </ul>
 </li>
 </ul>
@@ -519,6 +522,7 @@ The default is for scrimmage to run in a single thread. The attributes are:</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

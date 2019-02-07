@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Create a Controller Plugin" href="controller-plugin.html"/>
@@ -90,7 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Create a Sensor Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Create a Sensor Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examine-sensor-plugin">Examine Sensor Plugin</a></li>
 </ul>
 </li>
@@ -106,6 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -144,7 +148,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/sensor-plugin.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/sensor-plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,26 +161,26 @@
   <div class="section" id="create-a-sensor-plugin">
 <span id="sensor-plugin"></span><h1>Create a Sensor Plugin<a class="headerlink" href="#create-a-sensor-plugin" title="Permalink to this headline">¶</a></h1>
 <p>The purpose of a Sensor plugin is to transform ground truth information in the
-simulation to altered or &#8220;noisy&#8221; sensor measurements. Engineers and developers
+simulation to altered or “noisy” sensor measurements. Engineers and developers
 can model their noise sources and simulate how noisy data will affect their
 autonomy, control, and tracking algorithms. To create a Sensor plugin, enter
 the following at the terminal:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
 $ ./generate-plugin.sh sensor MyNoisyState ~/scrimmage/my-scrimmage-plugins
 </pre></div>
 </div>
 <p>Build the sensor plugin:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
 $ cmake ..
 $ make
 </pre></div>
 </div>
 <div class="section" id="examine-sensor-plugin">
 <h2>Examine Sensor Plugin<a class="headerlink" href="#examine-sensor-plugin" title="Permalink to this headline">¶</a></h2>
-<p>Similar to an Autonomy plugin, a Sensor plugin has an <code class="docutils literal"><span class="pre">init</span></code> method that is
+<p>Similar to an Autonomy plugin, a Sensor plugin has an <code class="docutils literal notranslate"><span class="pre">init</span></code> method that is
 called during plugin initialization. In this plugin, we setup the Gaussian
-noise sources that will be used to add noise to our own state&#8217;s position.</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+noise sources that will be used to add noise to our own state’s position.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -217,10 +221,10 @@ noise sources that will be used to add noise to our own state&#8217;s position.<
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
-<p>A Sensor plugin must implement the <code class="docutils literal"><span class="pre">step</span></code> method, which is generally
+<p>A Sensor plugin must implement the <code class="docutils literal notranslate"><span class="pre">step</span></code> method, which is generally
 expected to publish some messages.
 It should return a boolean indicating if the function was successful.</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -255,15 +259,15 @@ It should return a boolean indicating if the function was successful.</p>
 </td></tr></table></div>
 <p>An Autonomy or Controller plugin can use this sensor by adding the sensor to
 the entity block in the mission file:</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;entity&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;entity&gt;</span>
 ...
 <span class="nt">&lt;sensor&gt;</span>MyNoiseState<span class="nt">&lt;/sensor&gt;</span>
 ...
 <span class="nt">&lt;/entity&gt;</span>
 </pre></div>
 </div>
-<p>and then &#8220;sampling&#8221; from the sensor by creating a subscriber:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<p>and then “sampling” from the sensor by creating a subscriber:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -329,6 +333,7 @@ the entity block in the mission file:</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

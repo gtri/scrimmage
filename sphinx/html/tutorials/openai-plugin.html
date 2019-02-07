@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Optimizing Parameters in SCRIMMAGE" href="optimize.html"/>
@@ -99,7 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Create an OpenAI Plugin</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Create an OpenAI Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#rewrite-the-autonomy-plugin">Rewrite the Autonomy Plugin</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#openai-autonomy-plugin-header-file">OpenAI Autonomy Plugin Header File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#openai-autonomy-plugin-source-file">OpenAI Autonomy Plugin Source File</a></li>
@@ -123,6 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -161,7 +165,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/openai-plugin.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/openai-plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -178,10 +182,10 @@ learning scenarios. OpenAI environments need to have a state space, action
 space, and a reward function. In this tutorial, we will go through a quick
 example of how to set up a scrimmage agent to interact with OpenAI by providing
 a state space, action space, and reward. We will use the plugins project we
-created in a previous tutorial (<a class="reference internal" href="create-project.html"><em>Create a SCRIMMAGE Plugins Project</em></a>) to build our new OpenAI
+created in a previous tutorial (<a class="reference internal" href="create-project.html"><span class="doc">Create a SCRIMMAGE Plugins Project</span></a>) to build our new OpenAI
 plugins. To start with, we will need to create an Autonomy and a Sensor plugin.
 Files similar to what is described below are located in the following places:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">scrimmage</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">RLSimple</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">scrimmage</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">RLSimple</span>
 <span class="n">scrimmage</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">RLSimple</span>
 <span class="n">scrimmage</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">sensor</span><span class="o">/</span><span class="n">RLSimpleSensor</span>
 <span class="n">scrimmage</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">sensor</span><span class="o">/</span><span class="n">RLSimpleSensor</span>
@@ -190,26 +194,26 @@ Files similar to what is described below are located in the following places:</p
 </pre></div>
 </div>
 <p>In addition, the interface between python and scrimmage is defined in
-<code class="docutils literal"><span class="pre">scrimmage/python/scrimmage/bindings/src/py_openai_env.h</span></code>.
+<code class="docutils literal notranslate"><span class="pre">scrimmage/python/scrimmage/bindings/src/py_openai_env.h</span></code>.
 We can use the script provided with SCRIMMAGE to create these plugins (we will
 call them something different in this tutorial). To do so,
 enter the following at the terminal:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /path/to/scrimmage/scripts
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="nb">cd</span> /path/to/scrimmage/scripts
 ./generate-plugin.sh autonomy SimpleLearner ~/scrimmage/my-scrimmage-plugins
 ./generate-plugin.sh sensor MyOpenAISensor ~/scrimmage/my-scrimmage-plugins
 </pre></div>
 </div>
-<p>Now, let&#8217;s build the plugins that was placed in the my-scrimmage-plugins
+<p>Now, let’s build the plugins that was placed in the my-scrimmage-plugins
 project:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/scrimmage/my-scrimmage-plugins/build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="nb">cd</span> ~/scrimmage/my-scrimmage-plugins/build
 cmake ..
 make
 <span class="nb">source</span> ~/.scrimmage/setup.bash <span class="c1"># you probably already did this step</span>
 </pre></div>
 </div>
 <p>If the plugin built successfuly, you will see the following output:</p>
-<div class="highlight-python"><div class="highlight"><pre>[ 50%] Built target MyOpenAISensor_plugin
-[100%] Built target SimpleLearner
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="p">[</span> <span class="mi">50</span><span class="o">%</span><span class="p">]</span> <span class="n">Built</span> <span class="n">target</span> <span class="n">MyOpenAISensor_plugin</span>
+<span class="p">[</span><span class="mi">100</span><span class="o">%</span><span class="p">]</span> <span class="n">Built</span> <span class="n">target</span> <span class="n">SimpleLearner</span>
 </pre></div>
 </div>
 <p>In general, the SCRIMMAGE openai interface allows you to customize the environment
@@ -222,10 +226,10 @@ centralized approaches where actions and observations for individual
 learning agents are combined into a single action. Alternatively,
 one can have multiple agents operate independently.</li>
 <li>Action/Observation space - this can be discrete, continuous, or combined
-(the latter would a a <code class="docutils literal"><span class="pre">TupleSpace</span></code> in openai).</li>
+(the latter would a a <code class="docutils literal notranslate"><span class="pre">TupleSpace</span></code> in openai).</li>
 </ul>
 </div></blockquote>
-<p>For a demonstration of these combinations, see <code class="docutils literal"><span class="pre">test/test_openai.py</span></code>.
+<p>For a demonstration of these combinations, see <code class="docutils literal notranslate"><span class="pre">test/test_openai.py</span></code>.
 For this tutorial, we will only be investigating how to develop a discrete
 action space and a continuous observation space.</p>
 <div class="section" id="rewrite-the-autonomy-plugin">
@@ -233,37 +237,37 @@ action space and a continuous observation space.</p>
 <div class="section" id="openai-autonomy-plugin-header-file">
 <h3>OpenAI Autonomy Plugin Header File<a class="headerlink" href="#openai-autonomy-plugin-header-file" title="Permalink to this headline">¶</a></h3>
 <p>In this tutorial, we are going to take the autonomy plugin and rewrite for use
-with OpenAI. Let&#8217;s start with the header file located at
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h</span></code>.</p>
+with OpenAI. Let’s start with the header file located at
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/SimpleLearner/SimpleLearner.h</span></code>.</p>
 <p>Normal autonomy plugins extend the Autonomy class. For the OpenAI autonomy
-plugin, we will instead extend the <code class="docutils literal"><span class="pre">ScrimmageOpenAIAutonomy</span></code> autonomy plugin.
-In this case, the <code class="docutils literal"><span class="pre">init</span></code> and <code class="docutils literal"><span class="pre">step_autonomy</span></code> functions become <code class="docutils literal"><span class="pre">init_helper</span></code>
-and <code class="docutils literal"><span class="pre">step_helper</span></code> (the base class will handle the <code class="docutils literal"><span class="pre">init</span></code> and <code class="docutils literal"><span class="pre">step_autonomy</span></code>
+plugin, we will instead extend the <code class="docutils literal notranslate"><span class="pre">ScrimmageOpenAIAutonomy</span></code> autonomy plugin.
+In this case, the <code class="docutils literal notranslate"><span class="pre">init</span></code> and <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> functions become <code class="docutils literal notranslate"><span class="pre">init_helper</span></code>
+and <code class="docutils literal notranslate"><span class="pre">step_helper</span></code> (the base class will handle the <code class="docutils literal notranslate"><span class="pre">init</span></code> and <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code>
 functions and will call these methods). These methods can be treated similarly
-to <code class="docutils literal"><span class="pre">init</span></code> and <code class="docutils literal"><span class="pre">step_autonomy</span></code> and exist so that the user can switch
+to <code class="docutils literal notranslate"><span class="pre">init</span></code> and <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> and exist so that the user can switch
 between a learning and non-learning mode seamlessly. In addition,
-<code class="docutils literal"><span class="pre">ScrimmageOpenAIAutonomy</span></code> defines some extra components:</p>
+<code class="docutils literal notranslate"><span class="pre">ScrimmageOpenAIAutonomy</span></code> defines some extra components:</p>
 <blockquote>
 <div><ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">reward_range</span></code> - this setting maps directly to an openai environment&#8217;s
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">reward_range</span></code> - this setting maps directly to an openai environment’s
 reward_range.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">action_space</span></code> - this is a struct containing a vector of <code class="docutils literal"><span class="pre">discrete_counts</span></code>
-and <code class="docutils literal"><span class="pre">continuous_extrema</span></code>. For each discrete action you want your autonomy
-to have, add an element to <code class="docutils literal"><span class="pre">action_space.discrete_counts</span></code> with the number
-of discrete actions (this will result in a <code class="docutils literal"><span class="pre">Discrete</span></code> or <code class="docutils literal"><span class="pre">MultiDiscrete</span></code>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">action_space</span></code> - this is a struct containing a vector of <code class="docutils literal notranslate"><span class="pre">discrete_counts</span></code>
+and <code class="docutils literal notranslate"><span class="pre">continuous_extrema</span></code>. For each discrete action you want your autonomy
+to have, add an element to <code class="docutils literal notranslate"><span class="pre">action_space.discrete_counts</span></code> with the number
+of discrete actions (this will result in a <code class="docutils literal notranslate"><span class="pre">Discrete</span></code> or <code class="docutils literal notranslate"><span class="pre">MultiDiscrete</span></code>
 openai space, depending on whether there is one or multiple elements
-in <code class="docutils literal"><span class="pre">action_space.discrete_counts</span></code>). Similarly, if you want continuous actions,
-set <code class="docutils literal"><span class="pre">action_space.continuous_extrema</span></code> with the low and high values
-(this will result in a <code class="docutils literal"><span class="pre">Box</span></code> space). If both <code class="docutils literal"><span class="pre">discrete_counts</span></code>
-and <code class="docutils literal"><span class="pre">continuous_extrema</span></code> have elements then the resulting space will
-be an openai <code class="docutils literal"><span class="pre">TupleSpace</span></code>.</p>
+in <code class="docutils literal notranslate"><span class="pre">action_space.discrete_counts</span></code>). Similarly, if you want continuous actions,
+set <code class="docutils literal notranslate"><span class="pre">action_space.continuous_extrema</span></code> with the low and high values
+(this will result in a <code class="docutils literal notranslate"><span class="pre">Box</span></code> space). If both <code class="docutils literal notranslate"><span class="pre">discrete_counts</span></code>
+and <code class="docutils literal notranslate"><span class="pre">continuous_extrema</span></code> have elements then the resulting space will
+be an openai <code class="docutils literal notranslate"><span class="pre">TupleSpace</span></code>.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">set_environment</span></code> - a virtual method that will be called after
-all agents have been generated. This is meant to set <code class="docutils literal"><span class="pre">reward_range</span></code>
-and <code class="docutils literal"><span class="pre">action_space</span></code></p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">set_environment</span></code> - a virtual method that will be called after
+all agents have been generated. This is meant to set <code class="docutils literal notranslate"><span class="pre">reward_range</span></code>
+and <code class="docutils literal notranslate"><span class="pre">action_space</span></code></p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">calc_reward</span></code> - called every timestep, this function returns
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">calc_reward</span></code> - called every timestep, this function returns
 a tuple with the following order:</p>
 <blockquote>
 <div><ul class="simple">
@@ -271,16 +275,16 @@ a tuple with the following order:</p>
 <li>reward: what the reward for that step is.</li>
 <li>info: a <a class="reference external" href="https://pybind11.readthedocs.io/en/stable">pybind11</a> dict
 object that can be used for debugging. Examples of use will be given below.
-To return an empty dict (the typical case), just use <code class="docutils literal"><span class="pre">pybind11::dict()</span></code></li>
+To return an empty dict (the typical case), just use <code class="docutils literal notranslate"><span class="pre">pybind11::dict()</span></code></li>
 </ul>
 </div></blockquote>
 </li>
 </ul>
 </div></blockquote>
-<p>In python, when you call <code class="docutils literal"><span class="pre">env.step(action)</span></code>, the action will be copied
-to your autonomy&#8217;s <code class="docutils literal"><span class="pre">action</span></code> member (defined in <code class="docutils literal"><span class="pre">ScrimmageOpenAIAutonomy</span></code>.
-Here is the include file for <code class="docutils literal"><span class="pre">SimpleLearner</span></code>:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>In python, when you call <code class="docutils literal notranslate"><span class="pre">env.step(action)</span></code>, the action will be copied
+to your autonomy’s <code class="docutils literal notranslate"><span class="pre">action</span></code> member (defined in <code class="docutils literal notranslate"><span class="pre">ScrimmageOpenAIAutonomy</span></code>.
+Here is the include file for <code class="docutils literal notranslate"><span class="pre">SimpleLearner</span></code>:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -327,15 +331,15 @@ Here is the include file for <code class="docutils literal"><span class="pre">Si
 <span class="cp">#endif </span><span class="c1">// INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_SIMPLELEARNER_SIMPLELEARNER_H_</span>
 </pre></div>
 </td></tr></table></div>
-<p>Note that we are overriding four virtual functions: <code class="docutils literal"><span class="pre">init_helper</span></code>,
-<code class="docutils literal"><span class="pre">step_helper</span></code>, <code class="docutils literal"><span class="pre">set_environment</span></code>, and <code class="docutils literal"><span class="pre">calc_reward</span></code>.</p>
+<p>Note that we are overriding four virtual functions: <code class="docutils literal notranslate"><span class="pre">init_helper</span></code>,
+<code class="docutils literal notranslate"><span class="pre">step_helper</span></code>, <code class="docutils literal notranslate"><span class="pre">set_environment</span></code>, and <code class="docutils literal notranslate"><span class="pre">calc_reward</span></code>.</p>
 </div>
 <div class="section" id="openai-autonomy-plugin-source-file">
 <h3>OpenAI Autonomy Plugin Source File<a class="headerlink" href="#openai-autonomy-plugin-source-file" title="Permalink to this headline">¶</a></h3>
-<p>Now let&#8217;s open our source file located at
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/SimpleLearner.cpp</span></code>.</p>
+<p>Now let’s open our source file located at
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/SimpleLearner.cpp</span></code>.</p>
 <p>We will first change the includes at the top of the file to be:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -350,8 +354,8 @@ Here is the include file for <code class="docutils literal"><span class="pre">Si
 <span class="n">REGISTER_PLUGIN</span><span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Autonomy</span><span class="p">,</span> <span class="n">SimpleLearner</span><span class="p">,</span> <span class="n">SimpleLearner_plugin</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>Next, let us look at the <code class="docutils literal"><span class="pre">init</span></code>:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>Next, let us look at the <code class="docutils literal notranslate"><span class="pre">init</span></code>:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -381,7 +385,7 @@ Here is the include file for <code class="docutils literal"><span class="pre">Si
 </pre></div>
 </td></tr></table></div>
 <p>We now define the environment:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="n">SimpleLearner</span><span class="o">::</span><span class="n">set_environment</span><span class="p">()</span> <span class="p">{</span>
@@ -392,8 +396,8 @@ Here is the include file for <code class="docutils literal"><span class="pre">Si
 </td></tr></table></div>
 <p>This says that the reward range will be between 0 and 1
 and we will have a single discrete action that can take values of 0 or 1.
-We now define the <code class="docutils literal"><span class="pre">calc_reward</span></code> function:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+We now define the <code class="docutils literal notranslate"><span class="pre">calc_reward</span></code> function:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -417,10 +421,10 @@ We now define the <code class="docutils literal"><span class="pre">calc_reward</
 </pre></div>
 </td></tr></table></div>
 <p>This says that the autonomy is never going to end the simulation and gives
-a reward for being within the <code class="docutils literal"><span class="pre">radius</span></code> of the origin. We now define <code class="docutils literal"><span class="pre">step_helper</span></code>
+a reward for being within the <code class="docutils literal notranslate"><span class="pre">radius</span></code> of the origin. We now define <code class="docutils literal notranslate"><span class="pre">step_helper</span></code>
 to handle actions given from python. It will have positive x-velocity
 when the action is 1 and negative x-velocity when the action is 0:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -434,11 +438,11 @@ when the action is 1 and negative x-velocity when the action is 0:</p>
 </div>
 <div class="section" id="rewrite-cmakelists-txt-for-openai-autonomy">
 <h3>Rewrite CMakeLists.txt for OpenAI Autonomy<a class="headerlink" href="#rewrite-cmakelists-txt-for-openai-autonomy" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal"><span class="pre">SimpleLearner</span></code> C++ code is now finished. Before we can build it though,
-we do need to make a small edit to the <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code>. Open up
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/CMakeLists.txt</span></code>
+<p>The <code class="docutils literal notranslate"><span class="pre">SimpleLearner</span></code> C++ code is now finished. Before we can build it though,
+we do need to make a small edit to the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>. Open up
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/CMakeLists.txt</span></code>
 and change line 15 from</p>
-<div class="highlight-cmake"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-cmake notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">TARGET_LINK_LIBRARIES</span><span class="p">(</span><span class="o">${</span><span class="nv">LIBRARY_NAME</span><span class="o">}</span>
@@ -451,8 +455,8 @@ and change line 15 from</p>
 </div>
 <div class="section" id="plugin-parameter-file">
 <h3>Plugin Parameter File<a class="headerlink" href="#plugin-parameter-file" title="Permalink to this headline">¶</a></h3>
-<p>The following is the parameter file for <code class="docutils literal"><span class="pre">SimpleLearner</span></code>:</p>
-<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<p>The following is the parameter file for <code class="docutils literal notranslate"><span class="pre">SimpleLearner</span></code>:</p>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -469,13 +473,13 @@ and change line 15 from</p>
 <span class="nt">&lt;/params&gt;</span>
 </pre></div>
 </td></tr></table></div>
-<p><code class="docutils literal"><span class="pre">module</span></code> and <code class="docutils literal"><span class="pre">actor_init_func</span></code> exist so that we can
+<p><code class="docutils literal notranslate"><span class="pre">module</span></code> and <code class="docutils literal notranslate"><span class="pre">actor_init_func</span></code> exist so that we can
 call our learner outside the OpenAI environment. This is useful
 in case we want to train using python and then do a lot of runs
 to test/verify what has been learned.
-We will discuss this later in <a class="reference internal" href="#non-learning-mode"><span>Run In Non-learning Mode (for non-Tensorflow-based code)</span></a>.</p>
+We will discuss this later in <a class="reference internal" href="#non-learning-mode"><span class="std std-ref">Run In Non-learning Mode (for non-Tensorflow-based code)</span></a>.</p>
 <p>From here, we can now build the project:</p>
-<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">cd</span> ~/scrimmage/my-scrimmage-plugins/build
 cmake ..
@@ -489,30 +493,30 @@ make
 <div class="section" id="openai-sensor-plugin-header-file">
 <h3>OpenAI Sensor Plugin Header File<a class="headerlink" href="#openai-sensor-plugin-header-file" title="Permalink to this headline">¶</a></h3>
 <p>The sensor plugin is very similar to the autonomy plugin. It inherits
-from <code class="docutils literal"><span class="pre">ScrimmageOpenAISensor</span></code> which provides
+from <code class="docutils literal notranslate"><span class="pre">ScrimmageOpenAISensor</span></code> which provides
 the following:</p>
 <blockquote>
 <div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">observation_space</span></code> - this has the same effect as <code class="docutils literal"><span class="pre">action_space</span></code> above
-but will determine the environment&#8217;s observation space.</li>
-<li><code class="docutils literal"><span class="pre">set_observation_space</span></code> - this is similar to <code class="docutils literal"><span class="pre">set_environment</span></code> above
-but is designed to set the variable <code class="docutils literal"><span class="pre">observation_space</span></code> after all entities
+<li><code class="docutils literal notranslate"><span class="pre">observation_space</span></code> - this has the same effect as <code class="docutils literal notranslate"><span class="pre">action_space</span></code> above
+but will determine the environment’s observation space.</li>
+<li><code class="docutils literal notranslate"><span class="pre">set_observation_space</span></code> - this is similar to <code class="docutils literal notranslate"><span class="pre">set_environment</span></code> above
+but is designed to set the variable <code class="docutils literal notranslate"><span class="pre">observation_space</span></code> after all entities
 have been generates.</li>
-<li><code class="docutils literal"><span class="pre">get_observation</span></code> - there are two versions of this virtual function:
+<li><code class="docutils literal notranslate"><span class="pre">get_observation</span></code> - there are two versions of this virtual function:
 one for discrete observations and another for continuous observations.
 Note that because observations can sometimes be high dimensional,
 these functions directly edit the underlying python buffers.
 This avoids a needless copy.</li>
 </ul>
 </div></blockquote>
-<p>Now let&#8217;s move on to defining the observation space. We shall do this with through a
+<p>Now let’s move on to defining the observation space. We shall do this with through a
 sensor plugin to OpenAI. We shall start by rewriting the header file for the
 sensor plugin we created above. You can find it at
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h</span></code>.</p>
-<p>First up, we shall rewrite the includes in <code class="docutils literal"><span class="pre">MyOpenAISensor.h</span></code> to be the
-following. The main thing to note is that it inherits from <code class="docutils literal"><span class="pre">ScrimmageOpenAISensor</span></code>
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/sensor/MyOpenAISensor/MyOpenAISensor.h</span></code>.</p>
+<p>First up, we shall rewrite the includes in <code class="docutils literal notranslate"><span class="pre">MyOpenAISensor.h</span></code> to be the
+following. The main thing to note is that it inherits from <code class="docutils literal notranslate"><span class="pre">ScrimmageOpenAISensor</span></code>
 and overrides two virtual methods:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -549,9 +553,9 @@ and overrides two virtual methods:</p>
 <div class="section" id="openai-sensor-plugin-source-file">
 <h3>OpenAI Sensor Plugin Source File<a class="headerlink" href="#openai-sensor-plugin-source-file" title="Permalink to this headline">¶</a></h3>
 <p>From here, we can now look at the implementation of these methods in
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/sensor/MyOpenAISensor/MyOpenAISensor.cpp</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/sensor/MyOpenAISensor/MyOpenAISensor.cpp</span></code>.</p>
 <p>In this source file, we need to add the following includes:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -587,7 +591,7 @@ and overrides two virtual methods:</p>
 </div>
 <div class="section" id="id1">
 <h3>Plugin Parameter File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -601,11 +605,11 @@ and overrides two virtual methods:</p>
 </div>
 <div class="section" id="rewrite-cmakelists-txt-for-openai-sensor">
 <h3>Rewrite CMakeLists.txt for OpenAI Sensor<a class="headerlink" href="#rewrite-cmakelists-txt-for-openai-sensor" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal"><span class="pre">MyOpenAISensor</span></code> C++ code is now finished. Before we can build it though,
-we do need to make a small edit to the <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code>. Open up
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/CMakeLists.txt</span></code>
+<p>The <code class="docutils literal notranslate"><span class="pre">MyOpenAISensor</span></code> C++ code is now finished. Before we can build it though,
+we do need to make a small edit to the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>. Open up
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/SimpleLearner/CMakeLists.txt</span></code>
 and change line 15 from</p>
-<div class="highlight-cmake"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-cmake notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">TARGET_LINK_LIBRARIES</span><span class="p">(</span><span class="o">${</span><span class="nv">LIBRARY_NAME</span><span class="o">}</span>
@@ -620,11 +624,11 @@ and change line 15 from</p>
 <h2>OpenAI Mission XML File<a class="headerlink" href="#openai-mission-xml-file" title="Permalink to this headline">¶</a></h2>
 <p>Now that our code for SCRIMMGAE has been compiled, we can then create a simple
 mission xml file for it. We will save this xml at:
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/missions/openai_mission.xml</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/missions/openai_mission.xml</span></code>.</p>
 <p>To create the environment as we described above, the mission xml would need the
 following blocks (More detail on creating mission files is located at
-<a class="reference internal" href="../overview/xml-tags.html#scrimmage-xml"><span>Mission XML Tag Definitions</span></a> ):</p>
-<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<a class="reference internal" href="../overview/xml-tags.html#scrimmage-xml"><span class="std std-ref">Mission XML Tag Definitions</span></a> ):</p>
+<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -732,8 +736,8 @@ through the environment and keeping track of the observations. It also sends
 a straight ahead action for the first 100 timesteps and afterwards sends a turn
 right action. At the end, it closes the environment and prints out the total
 reward. We will save this python file at
-<code class="docutils literal"><span class="pre">~/scrimmage/my-scrimmage-plugins/my_openai.py</span></code>.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/my_openai.py</span></code>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -838,46 +842,46 @@ reward. We will save this python file at
     <span class="n">test_openai</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>If you haven&#8217;t done
-so already, source the environment setup file. Otherwise it won&#8217;t find
+<p>If you haven’t done
+so already, source the environment setup file. Otherwise it won’t find
 the mission below:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.scrimmage/setup.bash <span class="c1"># you probably already did this step</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span class="nb">source</span> ~/.scrimmage/setup.bash <span class="c1"># you probably already did this step</span>
 </pre></div>
 </div>
 <p>Now that we have completed all of the code, we can simply type the following
 into the terminal to see it run!</p>
-<div class="highlight-python"><div class="highlight"><pre>$ python my_openai.py
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ python my_openai.py
 </pre></div>
 </div>
 </div>
 <div class="section" id="run-in-non-learning-mode-for-non-tensorflow-based-code">
 <span id="non-learning-mode"></span><h2>Run In Non-learning Mode (for non-Tensorflow-based code)<a class="headerlink" href="#run-in-non-learning-mode-for-non-tensorflow-based-code" title="Permalink to this headline">¶</a></h2>
-<p>In <a class="reference internal" href="#learning-mode"><span>Running The OpenAI Environment</span></a> we ran an OpenAI environment using
+<p>In <a class="reference internal" href="#learning-mode"><span class="std std-ref">Running The OpenAI Environment</span></a> we ran an OpenAI environment using
 the newly defined environments from SCRIMMAGE. If <cite>my_openai.py</cite>
 had done something with the data from the environment,
 it may have learned something useful and you may want
 to now test/validate what has been learned
-using for instance <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span>Multiple Runs on a Local Computer</span></a>.
+using for instance <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span class="std std-ref">Multiple Runs on a Local Computer</span></a>.
 In other words, we want to be able to run this line:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
 </pre></div>
 </div>
 <p>as well as</p>
-<div class="highlight-python"><div class="highlight"><pre>$ python my_openai.py
+<div class="highlight-default notranslate"><div class="highlight"><pre>$ python my_openai.py
 </pre></div>
 </div>
-<p>Because you set the <code class="docutils literal"><span class="pre">module</span></code> as &#8220;my_openai&#8221; and <code class="docutils literal"><span class="pre">actor_init_func</span></code> as
-&#8220;return_action_func&#8221; in your <code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code> file, SCRIMMAGE knows where to find
-what it needs. <code class="docutils literal"><span class="pre">actor_init_func</span></code> is a function that will take in the action
+<p>Because you set the <code class="docutils literal notranslate"><span class="pre">module</span></code> as “my_openai” and <code class="docutils literal notranslate"><span class="pre">actor_init_func</span></code> as
+“return_action_func” in your <code class="docutils literal notranslate"><span class="pre">SimpleLearner.xml</span></code> file, SCRIMMAGE knows where to find
+what it needs. <code class="docutils literal notranslate"><span class="pre">actor_init_func</span></code> is a function that will take in the action
 space, observation space, and parameters from SCRIMMAGE in order to return a
 function that will then be used during non-training mode. This setup is
 useful in cases where there is some initialization needed before being able to return actions. For example, there might a directory pointing to some saved
-model that needs to be loaded first. By adding a directory parameter to the <code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code> file, it will then be passed down to the function named in <code class="docutils literal"><span class="pre">actor_init_func</span></code>. The function returned from <code class="docutils literal"><span class="pre">actor_init_func</span></code> should take in a
+model that needs to be loaded first. By adding a directory parameter to the <code class="docutils literal notranslate"><span class="pre">SimpleLearner.xml</span></code> file, it will then be passed down to the function named in <code class="docutils literal notranslate"><span class="pre">actor_init_func</span></code>. The function returned from <code class="docutils literal notranslate"><span class="pre">actor_init_func</span></code> should take in a
 observation and return an action.</p>
-<p>To use non-learning mode, <code class="docutils literal"><span class="pre">nonlearning_mode_openai_plugin</span></code> should be set to true in your mission or
+<p>To use non-learning mode, <code class="docutils literal notranslate"><span class="pre">nonlearning_mode_openai_plugin</span></code> should be set to true in your mission or
 plugin parameter file. Note, if your action method uses tensorflow, you will
-need to use <a class="reference internal" href="#non-learning-mode-grpc"><span>Run In Non-learning Mode using gRPC (for Tensorflow-based code)</span></a>.</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
+need to use <a class="reference internal" href="#non-learning-mode-grpc"><span class="std std-ref">Run In Non-learning Mode using gRPC (for Tensorflow-based code)</span></a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
 <span class="o">[</span>&gt;                                                                     <span class="o">]</span> <span class="m">0</span> %
 <span class="o">================================================================================</span>
 <span class="nv">OpenAIRewards</span>
@@ -889,9 +893,9 @@ Simulation Complete
 </div>
 <div class="section" id="run-in-non-learning-mode-using-grpc-for-tensorflow-based-code">
 <span id="non-learning-mode-grpc"></span><h2>Run In Non-learning Mode using gRPC (for Tensorflow-based code)<a class="headerlink" href="#run-in-non-learning-mode-using-grpc-for-tensorflow-based-code" title="Permalink to this headline">¶</a></h2>
-<p>In <a class="reference internal" href="#non-learning-mode"><span>Run In Non-learning Mode (for non-Tensorflow-based code)</span></a>, we could start up a trained agent directly inside of SCRIMMAGE. However if your training code uses tensorflow, that method won&#8217;t work. What you will need to do instead is use the gRPC mode for non-learning mode. This creates a gRPC server in python that will then run the agent and send the action back across to SCRIMMAGE. To use this mode, <code class="docutils literal"><span class="pre">module</span></code> and <code class="docutils literal"><span class="pre">actor_init_func</span></code> will need to be set as before. Then, <code class="docutils literal"><span class="pre">grpc_mode</span></code> will also need to be set to &#8220;true&#8221; in <code class="docutils literal"><span class="pre">SimpleLearner.xml</span></code>. Additional arguments such as <code class="docutils literal"><span class="pre">grpc_address</span></code> or <code class="docutils literal"><span class="pre">port</span></code> can also be changed to move what address and port number the gRPC server will located at but the defaults should work fine for most users (localhost on port 50051).</p>
+<p>In <a class="reference internal" href="#non-learning-mode"><span class="std std-ref">Run In Non-learning Mode (for non-Tensorflow-based code)</span></a>, we could start up a trained agent directly inside of SCRIMMAGE. However if your training code uses tensorflow, that method won’t work. What you will need to do instead is use the gRPC mode for non-learning mode. This creates a gRPC server in python that will then run the agent and send the action back across to SCRIMMAGE. To use this mode, <code class="docutils literal notranslate"><span class="pre">module</span></code> and <code class="docutils literal notranslate"><span class="pre">actor_init_func</span></code> will need to be set as before. Then, <code class="docutils literal notranslate"><span class="pre">grpc_mode</span></code> will also need to be set to “true” in <code class="docutils literal notranslate"><span class="pre">SimpleLearner.xml</span></code>. Additional arguments such as <code class="docutils literal notranslate"><span class="pre">grpc_address</span></code> or <code class="docutils literal notranslate"><span class="pre">port</span></code> can also be changed to move what address and port number the gRPC server will located at but the defaults should work fine for most users (localhost on port 50051).</p>
 <p>Once the parameters are set, you should be able to run this line:</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
+<div class="highlight-bash notranslate"><div class="highlight"><pre>$ scrimmage missions/openai_mission.xml
 PYTHON: GRPC Server Started
 Connecting to gRPC Server attempt: 1/ <span class="nv">10</span>
 <span class="o">================================================================================</span>
@@ -954,6 +958,7 @@ Simulation Complete
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

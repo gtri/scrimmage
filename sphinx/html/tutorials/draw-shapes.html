@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="tutorials.html"/>
         <link rel="next" title="Create a Sensor Plugin" href="sensor-plugin.html"/>
@@ -89,7 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Draw Shapes in the Viewer</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Draw Shapes in the Viewer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#removing-a-shape">Removing a Shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shape-persistence-and-ttl">Shape Persistence and TTL</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-examples">Additional Examples</a><ul>
@@ -112,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -150,7 +154,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/tutorials/draw-shapes.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/draw-shapes.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -163,8 +167,8 @@
   <div class="section" id="draw-shapes-in-the-viewer">
 <span id="draw-shapes"></span><h1>Draw Shapes in the Viewer<a class="headerlink" href="#draw-shapes-in-the-viewer" title="Permalink to this headline">¶</a></h1>
 <p>You can draw shapes in the SCRIMMAGE Viewer from any plugin. For example, you
-could draw the text, &#8220;Hello, SCRIMMAGE!&#8221;, with the following code in a plugin:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+could draw the text, “Hello, SCRIMMAGE!”, with the following code in a plugin:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Include the Shape header and some protobuf helper functions</span>
 <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/proto/Shape.pb.h&gt;         // scrimmage_proto::Shape</span><span class="cp"></span>
@@ -172,7 +176,7 @@ could draw the text, &#8220;Hello, SCRIMMAGE!&#8221;, with the following code in
 </pre></div>
 </td></tr></table></div>
 <p>Later in the init() or step() functions you can create a shape:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -217,31 +221,31 @@ could draw the text, &#8220;Hello, SCRIMMAGE!&#8221;, with the following code in
 <span class="n">draw_shape</span><span class="p">(</span><span class="n">text_shape</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-<p>The scrimmage_proto::Shape protocol buffer class makes use of protobuf&#8217;s
+<p>The scrimmage_proto::Shape protocol buffer class makes use of protobuf’s
 <a class="reference external" href="https://developers.google.com/protocol-buffers/docs/proto#oneof">oneof</a> feature. See the <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/proto/scrimmage/proto/Shape.proto">Shape.proto</a> file for the types of shapes that can
 be drawn. Note, you can only set the parameters for a single shape within the
 oneof_type block in Shape.proto, otherwise, previous parameters will be
 cleared.</p>
 <div class="section" id="removing-a-shape">
 <h2>Removing a Shape<a class="headerlink" href="#removing-a-shape" title="Permalink to this headline">¶</a></h2>
-<p>To remove a shape after drawing it with the <code class="docutils literal"><span class="pre">draw_shape()</span></code> function, just set
-the shape&#8217;s persistence to false and call the <code class="docutils literal"><span class="pre">draw_shape()</span></code> function again:</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<p>To remove a shape after drawing it with the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function, just set
+the shape’s persistence to false and call the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function again:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">text_shape_</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
 <span class="n">draw_shape</span><span class="p">(</span><span class="n">text_shape</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-<p>You can also change the shape&#8217;s color, opacity, and ttl after it has been
-drawn by changing the value and calling <code class="docutils literal"><span class="pre">draw_shape()</span></code> again.</p>
+<p>You can also change the shape’s color, opacity, and ttl after it has been
+drawn by changing the value and calling <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> again.</p>
 </div>
 <div class="section" id="shape-persistence-and-ttl">
 <h2>Shape Persistence and TTL<a class="headerlink" href="#shape-persistence-and-ttl" title="Permalink to this headline">¶</a></h2>
 <p>If you know that you want a shape to be visible for a specific number of frames
-and then have it removed automatically, you can use the shape&#8217;s peristence and
-ttl (time-to-live, measured in simulation steps) parameters. Let&#8217;s create a
+and then have it removed automatically, you can use the shape’s peristence and
+ttl (time-to-live, measured in simulation steps) parameters. Let’s create a
 cuboid that will only exist for five frames before it is removed from the
 viewer.</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -293,8 +297,8 @@ viewer.</p>
 </pre></div>
 </td></tr></table></div>
 <p>We know which parameters to specify for the cube because they are explicitly
-listed in <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/proto/scrimmage/proto/Shape.proto">Shape.proto</a> in the <code class="docutils literal"><span class="pre">Cube</span></code> protobuf message:</p>
-<div class="highlight-c++"><div class="highlight"><pre><span class="n">message</span> <span class="n">Cube</span> <span class="p">{</span>
+listed in <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/proto/scrimmage/proto/Shape.proto">Shape.proto</a> in the <code class="docutils literal notranslate"><span class="pre">Cube</span></code> protobuf message:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="n">message</span> <span class="n">Cube</span> <span class="p">{</span>
    <span class="kt">double</span> <span class="n">x_length</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
    <span class="kt">double</span> <span class="n">y_length</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
    <span class="kt">double</span> <span class="n">z_length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
@@ -310,7 +314,7 @@ listed in <a class="reference external" href="https://github.com/gtri/scrimmage/
 <h3>Draw a Sphere<a class="headerlink" href="#draw-a-sphere" title="Permalink to this headline">¶</a></h3>
 <p>The following will draw a persistent blue sphere with an opacity of 0.25, a
 radius of 5 meters, at the position (1, 2, 3):</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -331,7 +335,7 @@ radius of 5 meters, at the position (1, 2, 3):</p>
 <div class="section" id="draw-a-line">
 <h3>Draw a Line<a class="headerlink" href="#draw-a-line" title="Permalink to this headline">¶</a></h3>
 <p>The following will draw a red line from (0, 0, 0) to (10, 10, 10).</p>
-<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
@@ -398,6 +402,7 @@ radius of 5 meters, at the position (1, 2, 3):</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 
