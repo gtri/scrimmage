@@ -62,6 +62,9 @@ class SimpleINS : public scrimmage::Autonomy {
 
     Eigen::MatrixXd m_;
     bool init_m_ = true;
+
+    double surface_timer_ = 0;
+    double prev_time_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

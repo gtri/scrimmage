@@ -78,6 +78,8 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sm::GPSStatus>("GlobalNetwork", "GPSStatus", gps_cb);
 
+    surface_timer_ = sc::get<double>("surface_timer", params, 10);
+
     // VariableIO information
     using Type = VariableIO::Type;
     using Dir = VariableIO::Direction;
@@ -128,14 +130,11 @@ bool SimpleINS::step_autonomy(double t, double dt) {
         m_(0, 0) += (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
         m_(1, 1) += (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
 
+        prev_time_ = t;
     } else {
-        // GPS fix on - reduce covariance
-        if (m_(0, 0) > 1) {
-            m_(0, 0) -= (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
-        }
-
-        if (m_(1, 1) > 1) {
-            m_(1, 1) -= (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
+        // GPS fix on - wait on surface timer and snap back to an identity matrix
+        if (t - prev_time_ > surface_timer_) {
+           m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
         }
     }
 
