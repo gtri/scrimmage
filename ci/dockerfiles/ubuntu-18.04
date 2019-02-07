@@ -55,7 +55,7 @@ RUN apt-get update \
  && pip install cpplint \
     protobuf==3.3.0 \
     grpcio==1.2.1 \
-    gym \
+    gym==0.10.11 \
     sphinx-git
 
 # Install jekyll
