@@ -42,6 +42,7 @@ try:
 except ImportError:
     pass
 
+from scrimmage.bindings import frames2pandas
 
 def find_mission(fname):
     """Return the filename with path of a given mission file.
@@ -249,3 +250,19 @@ def make_dirs_recursive(path):
     for j in range(idx, len(components) + 1):
         os.mkdir(os.sep.join(components[:j]))
 
+def downsample_frames(frames_file, new_dt=None):
+    df = frames2pandas(frames_file)
+    if new_dt is not None:
+        try:
+            dt = float(df['time'][1] - df['time'][0])
+            print("Inferred dt from frames file: %f" % dt)
+        except:
+            print("Warning: failed to infer dt")
+            dt = 1.0
+        return df.iloc[0::int(new_dt/dt), :]
+    else:
+        return df
+
+def frames2csv(frames_file, new_dt=None, out_filename='./frames.csv'):
+    df = downsample_frames(frames_file, new_dt)
+    df.to_csv(out_filename)
