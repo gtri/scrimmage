@@ -43,6 +43,7 @@ class Battery {
     bool is_full();
     bool has_charge();
     const double &current_charge();
+    double charge_percentage();
 
  protected:
     double min_charge_ = 0;

@@ -75,6 +75,9 @@ class MotionBattery : public scrimmage::Controller {
     // Key: variable name
     // Value: VarLimit class unique_ptr with properties
     std::map<std::string, std::unique_ptr<VarLimit>> io_map_;
+
+    bool publish_charge_ = false;
+    PublisherPtr pub_charge_percentage_;
 };
 } // namespace controller
 } // namespace scrimmage
