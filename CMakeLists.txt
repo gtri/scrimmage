@@ -187,7 +187,15 @@ endif()
 ########################################################
 # Find VTK
 ########################################################
-find_package(VTK QUIET NO_MODULE COMPONENTS
+
+find_package(VTK QUIET NO_MODULE)
+if (${VTK_MAJOR_VERSION} LESS 7)
+    set(OPENGL_MODULE vtkRenderingOpenGL)
+else()
+    set(OPENGL_MODULE vtkRenderingOpenGL2)
+endif()
+
+set(VTK_MODULES 
     vtkFiltersSources
     vtkFiltersTexture
     vtkInteractionStyle
@@ -196,8 +204,9 @@ find_package(VTK QUIET NO_MODULE COMPONENTS
     vtkIOLegacy
     vtkRenderingAnnotation
     vtkRenderingCore
-    vtkRenderingOpenGL
-    )
+    ${OPENGL_MODULE})
+
+find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
