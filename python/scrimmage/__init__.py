@@ -28,4 +28,3 @@
 # @section DESCRIPTION
 # A Long description goes here.
 #
-from .proto_utils import read_frames
