@@ -39,6 +39,7 @@
 #include <scrimmage/common/Time.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/msgs/Battery.pb.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <iostream>
 #include <limits>
@@ -108,9 +109,17 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
     // Service call to get battery charge
     parent_->services()["get_battery_charge"] =
         std::bind(&MotionBattery::get_battery_charge, this, pl::_1, pl::_2);
+
+    publish_charge_ = sc::get<bool>("publish_charge", params, publish_charge_);
+    pub_charge_percentage_ = advertise("LocalNetwork", "ChargePercentage");
 }
 
 bool MotionBattery::step(double t, double dt) {
+    if (publish_charge_) {
+        auto msg = std::make_shared<sc::Message<double>>(battery_.charge_percentage());
+        pub_charge_percentage_->publish(msg);
+    }
+
     // Loop over all variables in the io_map_, apply charge calculation, and
     // limit output if required
     for (auto &kv : io_map_) {

@@ -73,4 +73,8 @@ bool Battery::has_charge() {
 const double & Battery::current_charge() {
     return current_charge_;
 }
+
+double Battery::charge_percentage() {
+    return 100.0 * (current_charge_ - min_charge_) / (max_charge_ - min_charge_);
+}
 } // namespace scrimmage
