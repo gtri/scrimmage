@@ -182,6 +182,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             }
         }
     }
+    #if ENABLE_GRPC
     if (grpc_mode_) {
         // Kill grpc server if we are on the last timestep
         double last_time = parent_->mp()->tend() - parent_->mp()->dt();
@@ -189,11 +190,19 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             kill_grpc_server();
         }
     }
+    #endif
     return step_helper();
 }
 
 #if ENABLE_GRPC
 void ScrimmageOpenAIAutonomy::kill_grpc_server() {
+    // Check if python_cmd_ is too short. This case occurs mostly
+    // when python_cmd_ is unitialized but if it less than three characters,
+    // the following substring command will return "" which will cause the
+    // pkill command to kill every process id
+    if (python_cmd_.size() < 3) {
+        return;
+    }
     // Kill grpc server. Removes the " &" at the end to find it
     auto py_cmd_ = python_cmd_.substr(0, python_cmd_.size() - 2);
     std::string kill_cmd = std::string("pkill -f \"")
