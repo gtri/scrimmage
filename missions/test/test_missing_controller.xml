@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           name="Straight flying">
+
+  <run start="0.0" end="10" dt="0.1"
+       time_warp="0"
+       enable_gui="false"
+       network_gui="false"
+       start_paused="false"/>
+
+  <multi_threaded num_threads="8">false</multi_threaded>
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+  <create_latest_dir>true</create_latest_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>2147483648</seed>
+
+  <!-- Single autonomy, missing controller, single motion model -->
+  <entity>
+    <name>uav_entity</name>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>${count=1}</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>0</x>
+    <y>0</y>
+    <z>100</z>
+    <heading>0</heading>
+
+    <autonomy>MotorSchemas</autonomy>
+    <!--<controller>SimpleAircraftControllerPID</controller>-->
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-blue</visual_model>
+  </entity>
+
+</runscript>

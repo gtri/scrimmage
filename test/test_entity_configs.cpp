@@ -32,27 +32,32 @@
 
 #include <gtest/gtest.h>
 
-#include <scrimmage/common/CSV.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
 #include <boost/optional.hpp>
 
 namespace sc = scrimmage;
 
-TEST(test_collisions, collisions) {
-    const std::string mission = "straight";
-    auto log_dir = sc::run_test(mission);
+TEST(test_entity_configs, valid_entity_configs) {
+    const std::string mission = "test_valid_entity_configs";
+    auto log_dir = sc::run_test(mission, true, false);
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);
-    if (!log_dir) return;
+}
 
-    sc::CSV csv;
-    bool summary_found = csv.read_csv(*log_dir + "/summary.csv");
-    EXPECT_TRUE(summary_found);
-    if (!summary_found) return;
+TEST(test_entity_configs, missing_autonomy) {
+    const std::string mission = "test_missing_autonomy";
+    auto log_dir = sc::run_test(mission, false, false);
 
-    const int row = csv.rows() - 1;
-    double collisions = csv.at(row, "team_coll");
-    EXPECT_GT(collisions, 0); // expect collisions
+    bool success = log_dir ? true : false;
+    EXPECT_FALSE(success);
+}
+
+TEST(test_entity_configs, missing_controller) {
+    const std::string mission = "test_missing_controller";
+    auto log_dir = sc::run_test(mission, false, true);
+
+    bool success = log_dir ? true : false;
+    EXPECT_FALSE(success);
 }

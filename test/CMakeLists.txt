@@ -1,4 +1,3 @@
-FILE(GLOB test_files test_*.cpp test_*.cc)
 set(test_files
     test_algorithms.cpp
     test_angles.cpp
@@ -13,7 +12,9 @@ set(test_files
     test_simple.cpp
     test_state.cpp
     test_utilities.cpp
-    test_openai.cpp)
+    test_entity_configs.cpp
+    test_openai.cpp
+    )
 
 if (NOT ENABLE_PYTHON_BINDINGS)
     LIST(REMOVE_ITEM test_files "test_openai.cpp")
