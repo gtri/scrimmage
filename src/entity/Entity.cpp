@@ -345,7 +345,8 @@ bool Entity::init(AttributeMap &overrides,
         std::cout << "If you want to directly pass the outputs from the "
                   << "autonomy to the motion_model, see the DirectController "
                   << "controller plugin." << std::endl;
-        return false; }
+        return false;
+    }
 
     ////////////////////////////////////////////////////////////
     // autonomy

@@ -81,10 +81,11 @@ void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src);
 void set(scrimmage_proto::Color *dst, const scrimmage::Color_t &src);
 void set(scrimmage_proto::Color *color, int r, int g, int b);
 void set(scrimmage_proto::Color *color, int grayscale);
-void set(scrimmage_proto::Quaternion *dst, Quaternion &src);
+void set(scrimmage_proto::Quaternion *dst, const Quaternion &src);
 void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x,
          const double &y, const double &z);
 void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state);
+void set(scrimmage_proto::State *dst, const scrimmage::State &state);
 void set(scrimmage::State &dst, const scrimmage_proto::State &state);
 void set(scrimmage::Quaternion &dst, const scrimmage_proto::Quaternion &quat);
 
