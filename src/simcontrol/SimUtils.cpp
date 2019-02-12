@@ -216,7 +216,9 @@ std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) { shutdown_handler(signal); }
 } // namespace
 
-boost::optional<std::string> run_test(std::string mission, bool init_python) {
+boost::optional<std::string> run_test(const std::string &mission,
+                                      const bool &init_python,
+                                      const bool &finalize_python) {
 
     auto found_mission = FileSearch().find_mission(mission);
     if (!found_mission) {
@@ -238,13 +240,12 @@ boost::optional<std::string> run_test(std::string mission, bool init_python) {
         sigaction(SIGTERM, &sa, NULL);
 
         auto mp = std::make_shared<MissionParse>();
-        mp->set_time_warp(-1);
-        mp->set_enable_gui(false);
-
         if (!mp->parse(*found_mission)) {
             std::cout << "Failed to parse file: " << *found_mission << std::endl;
             return boost::none;
         }
+        mp->set_time_warp(-1);
+        mp->set_enable_gui(false);
 
 #if ENABLE_PYTHON_BINDINGS == 1
         if (init_python) Py_Initialize();
@@ -254,12 +255,14 @@ boost::optional<std::string> run_test(std::string mission, bool init_python) {
             return boost::none;
         }
         simcontrol.pause(false);
-        simcontrol.run();
+        if (not simcontrol.run()) {
+            return boost::none;
+        }
 
         auto out = postprocess_scrimmage(mp, simcontrol, log);
 
 #if ENABLE_PYTHON_BINDINGS == 1
-        if (init_python) Py_Finalize();
+        if (finalize_python) Py_Finalize();
 #endif
         return out;
     }

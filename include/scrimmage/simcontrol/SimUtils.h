@@ -88,7 +88,9 @@ void print_io_error(const std::string &in_name, VariableIO &v);
 
 bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
 
-boost::optional<std::string> run_test(std::string mission, bool init_python = true);
+boost::optional<std::string> run_test(const std::string &mission,
+                                      const bool &init_python = true,
+                                      const bool &finalize_python = true);
 
 bool logging_logic(MissionParsePtr mp, std::string s);
 

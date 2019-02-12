@@ -67,7 +67,7 @@ class SimControl {
     bool init();
     void start();
     void display_progress(bool enable);
-    void run();
+    bool run();
     bool run_single_step(int loop_number);
     void cleanup();
     bool wait_for_ready();
