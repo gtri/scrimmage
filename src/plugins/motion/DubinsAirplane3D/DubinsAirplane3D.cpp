@@ -78,8 +78,8 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
 
     // Directly set speed, pitch, and roll
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
-    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
+    desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch, VariableIO::Direction::In);
+    desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
@@ -119,26 +119,24 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     if (write_csv_) {
         csv_.open_output(parent_->mp()->log_dir() + "/"
                          + std::to_string(parent_->id().id())
-                         + "-unicycle-states.csv");
+                         + "-dubins-airplane3d-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
                         "x", "y", "z",
                         "U", "V", "W",
                         "P", "Q", "R",
                         "roll", "pitch", "yaw",
-                        "roll_rate", "pitch_rate", "yaw_rate",
                         "speed",
                         "Uw", "Vw", "Ww"});
     }
-
     return true;
 }
 
 bool DubinsAirplane3D::step(double t, double dt) {
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
-    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), pitch_rate_min_, pitch_rate_max_);
-    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), roll_rate_min_, roll_rate_max_);
+    pitch_ = vars_.input(desired_pitch_idx_);
+    roll_ = vars_.input(desired_roll_idx_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -148,7 +146,8 @@ bool DubinsAirplane3D::step(double t, double dt) {
     x_[Yw] = state_->pos()(1);
     x_[Zw] = state_->pos()(2);
 
-    state_->quat().normalize();
+    // state_->quat().normalize();
+    state_->quat().set(roll_, pitch_, state_->quat().yaw());
     quat_local_ = state_->quat() * quat_world_inverse_;
     quat_local_.normalize();
     x_[q0] = quat_local_.w();
@@ -165,9 +164,14 @@ bool DubinsAirplane3D::step(double t, double dt) {
     x_[V] = force_body(1) / mass_;
     x_[W] = force_body(2) / mass_;
 
-    x_[P] = ext_moment_body(0) / mass_ + roll_rate_;
-    x_[Q] = ext_moment_body(1) / mass_ + pitch_rate_;
-    x_[R] = ext_moment_body(2) / mass_;
+    double turn_rate = 0;
+    if (std::abs(speed_) >= std::numeric_limits<double>::epsilon()) {
+        turn_rate = -g_ / speed_ * tan(roll_);
+    }
+
+    x_[P] = ext_moment_body(0) / mass_;
+    x_[Q] = ext_moment_body(1) / mass_;
+    x_[R] = ext_moment_body(2) / mass_ + turn_rate;
 
     ode_step(dt);
 
@@ -209,9 +213,6 @@ bool DubinsAirplane3D::step(double t, double dt) {
                 {"roll", state_->quat().roll()},
                 {"pitch", state_->quat().pitch()},
                 {"yaw", state_->quat().yaw()},
-                {"roll_rate", roll_rate_},
-                {"pitch_rate", pitch_rate_},
-                {"yaw_rate", 0.0},
                 {"speed", speed_},
                 {"Uw", state_->vel()(0)},
                 {"Vw", state_->vel()(1)},

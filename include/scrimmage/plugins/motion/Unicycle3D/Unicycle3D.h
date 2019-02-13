@@ -41,6 +41,7 @@
 
 #include <map>
 #include <string>
+#include <limits>
 
 namespace scrimmage {
 namespace motion {

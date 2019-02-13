@@ -56,6 +56,7 @@
     <heading>0</heading>
 
 
+    <controller>DirectController</controller>
 
     <autonomy print_raw_joystick_values="false" axis_map=
               "[ speed      2 -32767 +32767 -100 +100   -1 ]
@@ -63,22 +64,22 @@
                [ roll_rate  0 -32767 +32767 -100 +100 +1 ]
                [ turn_rate  3 -32767 +32767 -100 +100 +1 ]"
                >JoystickAutonomy</autonomy>
-    <controller>DirectController</controller>
     <motion_model speed_max="30"
                   roll_rate_max="5"
                   turn_rate_max="0.2"
                   pitch_rate_max="-2.5"
                   pitch_rate_min="1.0">Unicycle3D</motion_model>
 
-    <!-- DubinsAirplane -->
+    <!-- DubinsAirplane3D -->
     <!--
     <autonomy print_raw_joystick_values="false" axis_map=
               "[ desired_speed 2 -32767 +32767 -10 +10 -1 ]
                [ desired_pitch 1 -32767 +32767 -3.14159 +3.14159 -1 ]
                [ desired_roll  0 -32767 +32767 -3.14159 +3.14159 +1 ]"
                >JoystickAutonomy</autonomy>
-    <motion_model>DubinsAirplane</motion_model>
+    <motion_model>DubinsAirplane3D</motion_model>
     -->
+
     <visual_model>cessna</visual_model>
   </entity>
 

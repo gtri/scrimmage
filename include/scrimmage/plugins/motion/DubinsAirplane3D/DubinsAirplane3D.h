@@ -41,6 +41,7 @@
 
 #include <map>
 #include <string>
+#include <limits>
 
 namespace scrimmage {
 namespace motion {
@@ -54,10 +55,6 @@ class DubinsAirplane3D : public scrimmage::MotionModel {
  protected:
     double speed_max_ = +std::numeric_limits<double>::infinity();
     double speed_min_ = -std::numeric_limits<double>::infinity();
-    double pitch_rate_max_ = +std::numeric_limits<double>::infinity();
-    double pitch_rate_min_ = -std::numeric_limits<double>::infinity();
-    double roll_rate_max_ = +std::numeric_limits<double>::infinity();
-    double roll_rate_min_ = -std::numeric_limits<double>::infinity();
 
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_world_inverse_;
@@ -67,12 +64,12 @@ class DubinsAirplane3D : public scrimmage::MotionModel {
     CSV csv_;
 
     int desired_speed_idx_ = 0;
-    int pitch_rate_idx_ = 0;
-    int roll_rate_idx_ = 0;
+    int desired_pitch_idx_ = 0;
+    int desired_roll_idx_ = 0;
 
     double speed_ = 0;
-    double pitch_rate_ = 0;
-    double roll_rate_ = 0;
+    double pitch_ = 0;
+    double roll_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage
