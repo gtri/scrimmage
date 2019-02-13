@@ -1381,6 +1381,19 @@ bool SimControl::run_entities() {
         temp_t += motion_dt;
     }
 
+    // Check if any entity has NaN in its state
+    for (EntityPtr &ent : ents_) {
+        if (ent->state()->pos().hasNaN()) {
+            cout << "WARNING: Entity with motion model, "
+                 << ent->motion()->name() << ", contains a NaN value." << endl
+                 << "Check your time step values and for NaN values coming "
+                 << "from Autonomy and Controller plugins."
+                 << endl;
+            cout << "Removing entity ID: " << ent->id().id() << endl;
+            ent->collision();
+        }
+    }
+
     for (EntityPtr &ent : ents_) {
         ent->setup_desired_state();
     }
