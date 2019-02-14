@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/MotionModel.h>
@@ -45,7 +45,7 @@
 
 namespace scrimmage {
 namespace motion {
-class Unicycle3D : public scrimmage::MotionModel {
+class DubinsAirplane3D : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string> &info,
               std::map<std::string, std::string> &params) override;
@@ -53,16 +53,8 @@ class Unicycle3D : public scrimmage::MotionModel {
     void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
-    double accel_max_ = -1.0;
-    double accel_min_ = -std::numeric_limits<double>::infinity();
     double speed_max_ = +std::numeric_limits<double>::infinity();
     double speed_min_ = -std::numeric_limits<double>::infinity();
-    double pitch_rate_max_ = +std::numeric_limits<double>::infinity();
-    double pitch_rate_min_ = -std::numeric_limits<double>::infinity();
-    double roll_rate_max_ = +std::numeric_limits<double>::infinity();
-    double roll_rate_min_ = -std::numeric_limits<double>::infinity();
-    double turn_rate_max_ = +std::numeric_limits<double>::infinity();
-    double turn_rate_min_ = -std::numeric_limits<double>::infinity();
 
     scrimmage::Quaternion quat_world_;
     scrimmage::Quaternion quat_world_inverse_;
@@ -71,20 +63,14 @@ class Unicycle3D : public scrimmage::MotionModel {
     bool write_csv_;
     CSV csv_;
 
-    bool use_accel_input_;
-
-    int speed_idx_ = 0;
-    int accel_idx_ = 0;
-    int turn_rate_idx_ = 0;
-    int pitch_rate_idx_ = 0;
-    int roll_rate_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_pitch_idx_ = 0;
+    int desired_roll_idx_ = 0;
 
     double speed_ = 0;
-    double acceleration_ = 0;
-    double turn_rate_ = 0;
-    double pitch_rate_ = 0;
-    double roll_rate_ = 0;
+    double pitch_ = 0;
+    double roll_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE3D_UNICYCLE3D_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_

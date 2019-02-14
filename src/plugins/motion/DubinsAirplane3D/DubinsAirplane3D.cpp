@@ -30,7 +30,7 @@
  *
  */
 
-#include <scrimmage/plugins/motion/Unicycle3D/Unicycle3D.h>
+#include <scrimmage/plugins/motion/DubinsAirplane3D/DubinsAirplane3D.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
@@ -39,7 +39,7 @@
 #include <scrimmage/math/State.h>
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle3D, Unicycle3D_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane3D, DubinsAirplane3D_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -68,41 +68,19 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-bool Unicycle3D::init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) {
+bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
+                            std::map<std::string, std::string> &params) {
+    write_csv_ = sc::get<bool>("write_csv", params, false);
 
-    auto get_max_min = [&params] (const std::string &str, double &max,
-                                  double &min) {
-        max = sc::get<double>(str + "_max", params, max);
-        min = sc::get<double>(str + "_min", params, -max);
-        if (max < min) {
-            std::swap(max, min);
-        }
-    };
+    // Model limits
+    speed_max_ = sc::get<double>("speed_max", params, speed_max_);
+    speed_min_ = sc::get<double>("speed_min", params, speed_min_);
 
-    get_max_min("speed", speed_max_, speed_min_);
-    get_max_min("pitch_rate", pitch_rate_max_, pitch_rate_min_);
-    get_max_min("roll_rate", roll_rate_max_, roll_rate_min_);
-    get_max_min("turn_rate", turn_rate_max_, turn_rate_min_);
+    // Directly set speed, pitch, and roll
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch, VariableIO::Direction::In);
+    desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
 
-    accel_max_ = sc::get<double>("accel_max", params, -1);
-    accel_min_ = sc::get<double>("accel_max", params, -accel_max_);
-
-    // If the acceleration max is less than zero, directly use speed
-    // input. Otherwise, use acceleration input.
-    if (accel_max_ < 0) {
-        speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-    } else {
-        accel_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::In);
-        use_accel_input_ = true;
-    }
-
-    // Setup turn_rate, pitch_rate, and roll_rate inputs
-    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
-    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
-    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
-
-    // Setup model size and quaternions
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
@@ -138,11 +116,10 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     x_[q2] = quat_local_.y();
     x_[q3] = quat_local_.z();
 
-    write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
         csv_.open_output(parent_->mp()->log_dir() + "/"
                          + std::to_string(parent_->id().id())
-                         + "-unicycle-states.csv");
+                         + "-dubins-airplane3d-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
                         "x", "y", "z",
@@ -150,17 +127,16 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
                         "P", "Q", "R",
                         "roll", "pitch", "yaw",
                         "speed",
-                        "turn_rate", "pitch_rate", "roll_rate",
                         "Uw", "Vw", "Ww"});
     }
     return true;
 }
 
-bool Unicycle3D::step(double t, double dt) {
+bool DubinsAirplane3D::step(double t, double dt) {
     // Get inputs and saturate
-    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), turn_rate_min_, turn_rate_max_);
-    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), pitch_rate_min_, pitch_rate_max_);
-    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), roll_rate_min_, roll_rate_max_);
+    speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
+    pitch_ = vars_.input(desired_pitch_idx_);
+    roll_ = vars_.input(desired_roll_idx_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -170,7 +146,8 @@ bool Unicycle3D::step(double t, double dt) {
     x_[Yw] = state_->pos()(1);
     x_[Zw] = state_->pos()(2);
 
-    state_->quat().normalize();
+    // state_->quat().normalize();
+    state_->quat().set(roll_, pitch_, state_->quat().yaw());
     quat_local_ = state_->quat() * quat_world_inverse_;
     quat_local_.normalize();
     x_[q0] = quat_local_.w();
@@ -183,22 +160,18 @@ bool Unicycle3D::step(double t, double dt) {
     ext_force_ = Eigen::Vector3d::Zero();
     ext_moment_ = Eigen::Vector3d::Zero();
 
-    if (use_accel_input_) {
-        // Enforce acceleration input limits
-        acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), accel_min_, accel_max_);
-        x_[U] += force_body(0) / mass_;
-    } else {
-        // Enforce velocity input limits
-        speed_ = boost::algorithm::clamp(vars_.input(speed_idx_), speed_min_, speed_max_);
-        x_[U] = speed_ + force_body(0) / mass_;
-    }
-
+    x_[U] = speed_ + force_body(0) / mass_;
     x_[V] = force_body(1) / mass_;
     x_[W] = force_body(2) / mass_;
 
-    x_[P] = ext_moment_body(0) / mass_ + roll_rate_;
-    x_[Q] = ext_moment_body(1) / mass_ + pitch_rate_;
-    x_[R] = ext_moment_body(2) / mass_ + turn_rate_;
+    double turn_rate = 0;
+    if (std::abs(speed_) >= std::numeric_limits<double>::epsilon()) {
+        turn_rate = -g_ / speed_ * tan(roll_);
+    }
+
+    x_[P] = ext_moment_body(0) / mass_;
+    x_[Q] = ext_moment_body(1) / mass_;
+    x_[R] = ext_moment_body(2) / mass_ + turn_rate;
 
     ode_step(dt);
 
@@ -241,18 +214,16 @@ bool Unicycle3D::step(double t, double dt) {
                 {"pitch", state_->quat().pitch()},
                 {"yaw", state_->quat().yaw()},
                 {"speed", speed_},
-                {"turn_rate", turn_rate_},
-                {"pitch_rate", pitch_rate_},
-                {"roll_rate", roll_rate_},
                 {"Uw", state_->vel()(0)},
                 {"Vw", state_->vel()(1)},
                 {"Ww", state_->vel()(2)}});
     }
+
     return true;
 }
 
-void Unicycle3D::model(const vector_t &x , vector_t &dxdt , double t) {
-    dxdt[U] = acceleration_;
+void DubinsAirplane3D::model(const vector_t &x , vector_t &dxdt , double t) {
+    dxdt[U] = 0;
     dxdt[V] = 0;
     dxdt[W] = 0;
 
