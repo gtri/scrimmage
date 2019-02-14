@@ -51,7 +51,7 @@
     <heading>0</heading>
 
     <autonomy>Boids</autonomy>
-    <!-- <motion_model vel_max="30">Unicycle</motion_model> -->
+    <!-- <motion_model speed_max="30">Unicycle</motion_model> -->
     <!-- <controller>DirectController</controller> -->
     <!-- <motion_model vel_max="30">SingleIntegrator</motion_model> -->
     <!-- <controller>SingleIntegratorControllerSimple</controller> -->
