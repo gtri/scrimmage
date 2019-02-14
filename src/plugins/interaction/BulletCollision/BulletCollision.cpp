@@ -302,7 +302,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
         printf("BulletCollision: Loaded terrain data with %u triangles\n", (unsigned int)triangularData->GetNumberOfCells());
 
         // Get the results
-        btTriangleMesh triangles;
+        btTriangleMesh* triangles = new btTriangleMesh();
         for (vtkIdType index = 0; index < triangularData->GetNumberOfCells(); index++) {
             vtkCell* cell = triangularData->GetCell(index);
 
@@ -314,13 +314,14 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
             triangle->GetPoints()->GetPoint(1, p1);
             triangle->GetPoints()->GetPoint(2, p2);
             // Create the new triangle
-            triangles.addTriangle(btVector3(p0[0], p0[1], p0[2]), btVector3(p1[0], p1[1], p1[2]), btVector3(p2[0], p2[1], p2[2]));
+            triangles->addTriangle(btVector3(p0[0], p0[1], p0[2]), btVector3(p1[0], p1[1], p1[2]), btVector3(p2[0], p2[1], p2[2]));
         }
-        btBvhTriangleMeshShape* mesh = new btBvhTriangleMeshShape(&triangles, true, true);
-        btCollisionObject* terrain_object = new btCollisionObject();
-        terrain_object->setUserIndex(0);
-        terrain_object->setCollisionShape(mesh);
-        bt_collision_world->addCollisionObject(terrain_object);
+        btCollisionShape* mesh = new btBvhTriangleMeshShape(triangles, true, true);
+        btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+        btRigidBody::btRigidBodyConstructionInfo rigidBodyConstructionInfo(0.0f, motionState, mesh, btVector3(0, 0, 0));
+        btRigidBody* rigidBodyTerrain = new btRigidBody(rigidBodyConstructionInfo);
+        rigidBodyTerrain->setFriction(btScalar(0.9));
+        bt_collision_world->addCollisionObject(rigidBodyTerrain);
     }
 #endif
 

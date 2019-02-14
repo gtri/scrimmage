@@ -122,7 +122,7 @@ bool LOSSensor::step() {
             };
             std::string topic_name = std::to_string(parent_->id().id()) + "/" + name() + "/pointcloud";
             subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", topic_name, pc_cb);
-            printf("Subscribing with topic name %s\n", topic_name.c_str());
+            printf("LOSSensor: Subscribing with topic name %s\n", topic_name.c_str());
         }
         if (new_data_ == false) {
             return retVal;
