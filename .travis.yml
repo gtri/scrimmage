@@ -42,3 +42,19 @@ notifications:
   email:
     on_success: change
     on_failure: always
+
+before_install:
+  # Load cached docker images
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+
+# before_cache is executed before the cache is saved to the server
+before_cache:
+  # Find all docker images that were successfully built and save them to the cache directory
+  - >
+    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+
+# Setup the docker cache directory
+cache:
+  directories:
+    - $HOME/docker
