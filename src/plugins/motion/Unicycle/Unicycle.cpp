@@ -106,7 +106,7 @@ bool Unicycle::step(double t, double dt) {
     if (enable_roll_ && turn_rate_ != 0) {
         // see https://en.wikipedia.org/wiki/Standard_rate_turn
         const double radius = velocity_ / turn_rate_;
-        roll = atan2(pow(velocity_, 2) / radius, g_);
+        roll = -atan2(pow(velocity_, 2) / radius, g_);
     }
     state_->quat().set(roll, -x_[PITCH], x_[YAW]);
 

@@ -39,7 +39,7 @@
 
 namespace sc = scrimmage;
 
-TEST(test_angles, rotation) {
+TEST(test_collisions, collisions) {
     const std::string mission = "straight";
     auto log_dir = sc::run_test(mission);
 

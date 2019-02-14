@@ -30,42 +30,47 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEINS_SIMPLEINS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEINS_SIMPLEINS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/MotionModel.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/common/PID.h>
+#include <scrimmage/common/CSV.h>
 
 #include <map>
 #include <string>
-#include <vector>
+#include <limits>
 
 namespace scrimmage {
-
-namespace autonomy {
-class SimpleINS : public scrimmage::Autonomy {
+namespace motion {
+class DubinsAirplane : public scrimmage::MotionModel {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    bool init(std::map<std::string, std::string> &info,
+              std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
+    void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
-    bool gps_fix_;
+    double speed_max_ = +std::numeric_limits<double>::infinity();
+    double speed_min_ = -std::numeric_limits<double>::infinity();
+    double pitch_max_ = +90;
+    double pitch_min_ = -90;
+    double roll_max_  = +90;
+    double roll_min_  = -90;
 
-    PublisherPtr pub_;
+    bool write_csv_ = false;
+    CSV csv_;
 
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
-
-    int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
-    int desired_heading_idx_ = 0;
+    int desired_pitch_idx_ = 0;
+    int desired_roll_idx_ = 0;
 
-    Eigen::MatrixXd m_;
-    bool init_m_ = true;
-
-    double surface_timer_ = 0;
-    double prev_time_ = 0;
+    double speed_ = 0;
+    double pitch_ = 0;
+    double roll_ = 0;
 };
-} // namespace autonomy
+} // namespace motion
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEINS_SIMPLEINS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_

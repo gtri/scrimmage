@@ -31,7 +31,11 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
  && rosdep init && rosdep update \
  && echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh \
- && pip install cpplint protobuf==3.3.0 grpcio==1.2.1 gym
+ && pip install cpplint \
+    protobuf==3.3.0 \
+    grpcio==1.2.1 \
+    gym==0.10.11 \
+    sphinx-git
 
 # Install jekyll
 RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
@@ -90,19 +94,6 @@ RUN source ~/.scrimmage/setup.bash && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
-
-# # build with clang
-# RUN rm * -rf \
-#  && export CC=/usr/bin/clang \
-#  && export CXX=/usr/bin/clang++ \
-#  && source ~/.scrimmage/setup.bash \
-#  && cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
-#  && ninja \
-#  && ninja docs website-docs \
-#  && source ~/.scrimmage/setup.bash \
-#  && export PYTHONPATH=$PYTHONPATH:$PWD/../test \
-#  && export CTEST_OUTPUT_ON_FAILURE=1 \
-#  && ninja test
 
 # Test scrimmage_ros package integration
 RUN mkdir -p /root/catkin_ws/src \

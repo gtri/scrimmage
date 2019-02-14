@@ -813,30 +813,34 @@ bool SimControl::run_single_step(int loop_number) {
     return !exit_loop;
 }
 
-void SimControl::run() {
+bool SimControl::run() {
     start_overall_timer();
 
     // Simulate over the time range
     int loop_number = 0;
     set_time(t0_ - dt_);
 
-    bool success = true;
+    bool gen_success = true;
     if (!generate_entities(t0_ - dt_)) {
         cout << "Failed to generate entity" << endl;
-        success = false;
+        gen_success = false;
     }
 
+    bool interaction_success = true;
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
-        success = false;
+        interaction_success = false;
     }
 
     set_time(t0_);
-    while (success &&
+    while (gen_success &&
+           interaction_success &&
            run_single_step(loop_number++) &&
            !end_condition_reached()) {}
     cleanup();
+
+    return gen_success;
 }
 
 void SimControl::cleanup() {
@@ -1375,6 +1379,19 @@ bool SimControl::run_entities() {
         step_all(Task::Type::MOTION, [&](auto ent){return ent->motion();});
 
         temp_t += motion_dt;
+    }
+
+    // Check if any entity has NaN in its state
+    for (EntityPtr &ent : ents_) {
+        if (ent->state()->pos().hasNaN()) {
+            cout << "WARNING: Entity with motion model, "
+                 << ent->motion()->name() << ", contains a NaN value." << endl
+                 << "Check your time step values and for NaN values coming "
+                 << "from Autonomy and Controller plugins."
+                 << endl;
+            cout << "Removing entity ID: " << ent->id().id() << endl;
+            ent->collision();
+        }
     }
 
     for (EntityPtr &ent : ents_) {

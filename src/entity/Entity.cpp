@@ -154,6 +154,8 @@ bool Entity::init(AttributeMap &overrides,
         if (status.status == PluginStatus<MotionModel>::cast_failed) {
             cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
             return false;
+        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
+            return false;
         } else if (status.status == PluginStatus<MotionModel>::loaded) {
             // We have created a valid motion model
             init_empty_motion_model = false;
@@ -201,6 +203,8 @@ bool Entity::init(AttributeMap &overrides,
         if (status.status == PluginStatus<Sensor>::cast_failed) {
             std::cout << "Failed to open sensor plugin: " << sensor_name
                       << std::endl;
+            return false;
+        } else if (status.status == PluginStatus<Sensor>::parse_failed) {
             return false;
         } else if (status.status == PluginStatus<Sensor>::loaded) {
             SensorPtr sensor = status.plugin;
@@ -271,6 +275,8 @@ bool Entity::init(AttributeMap &overrides,
             std::cout << "Failed to open controller plugin: "
                       << controller_name << std::endl;
             return false;
+        } else if (status.status == PluginStatus<Controller>::parse_failed) {
+            return false;
         } else if (status.status == PluginStatus<Controller>::loaded) {
             ControllerPtr controller = status.plugin;
             controller->set_state(state_);
@@ -288,7 +294,6 @@ bool Entity::init(AttributeMap &overrides,
             // controller.
             bool connect_to_motion_model = (controllers_.size() == 0);
             if (connect_to_motion_model) {
-                if (init_empty_motion_model) continue;
                 connect(controller->vars(), motion_model_->vars());
             } else {
                 connect(controller->vars(), controllers_.back()->vars());
@@ -302,13 +307,13 @@ bool Entity::init(AttributeMap &overrides,
                 if (!verify_io_connection(controller->vars(), motion_model_->vars())) {
                     std::cout << "VariableIO Error: "
                               << std::quoted(controller->name())
-                              << " does not provide inputs required by next controller "
+                              << " does not provide inputs required by motion model "
                               << std::quoted(motion_model_->name())
                               << ": ";
                     print_io_error(motion_model_->name(), motion_model_->vars());
                     return false;
                 }
-            } else {
+            } else if (not connect_to_motion_model) {
                 if (!verify_io_connection(controller->vars(), controllers_.back()->vars())) {
                     std::cout << "VariableIO Error: "
                               << std::quoted(controller->name())
@@ -319,6 +324,7 @@ bool Entity::init(AttributeMap &overrides,
                     return false;
                 }
             }
+
             // Save this controller instance
             controllers_.push_back(controller);
         }
@@ -328,6 +334,19 @@ bool Entity::init(AttributeMap &overrides,
     // need to reverse it to ensure that the controllers are executed in the
     // correct order
     std::reverse(controllers_.begin(), controllers_.end());
+
+    // If there is a valid motion model and no controllers, this is a
+    // VariableIO error.
+    if (not init_empty_motion_model && controllers_.size() == 0) {
+        std::cout << "VariableIO Error: There are not any controllers that "
+                  << "provide the inputs required by "
+                  << std::quoted(motion_model_->name()) << std::endl;
+        print_io_error(motion_model_->name(), motion_model_->vars());
+        std::cout << "If you want to directly pass the outputs from the "
+                  << "autonomy to the motion_model, see the DirectController "
+                  << "controller plugin." << std::endl;
+        return false;
+    }
 
     ////////////////////////////////////////////////////////////
     // autonomy
@@ -346,6 +365,8 @@ bool Entity::init(AttributeMap &overrides,
                                                   plugin_tags);
         if (status.status == PluginStatus<Autonomy>::cast_failed) {
             cout << "Failed to open autonomy plugin: " << info[autonomy_name] << endl;
+            return false;
+        } else if (status.status == PluginStatus<Autonomy>::parse_failed) {
             return false;
         } else if (status.status == PluginStatus<Autonomy>::loaded) {
             AutonomyPtr autonomy = status.plugin;

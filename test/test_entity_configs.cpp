@@ -30,25 +30,34 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_COMMON_BATTERY_H_
-#define INCLUDE_SCRIMMAGE_COMMON_BATTERY_H_
+#include <gtest/gtest.h>
 
-namespace scrimmage {
-class Battery {
- public:
-    Battery() {}
-    Battery(const double &min, const double &max, const double &current);
-    void add_charge(const double &amount);
-    bool deplete(const double &amount);
-    bool is_full();
-    bool has_charge();
-    const double &current_charge();
-    double charge_percentage();
+#include <scrimmage/simcontrol/SimUtils.h>
 
- protected:
-    double min_charge_ = 0;
-    double max_charge_ = 1;
-    double current_charge_ = 1;
-};
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_BATTERY_H_
+#include <boost/optional.hpp>
+
+namespace sc = scrimmage;
+
+TEST(test_entity_configs, valid_entity_configs) {
+    const std::string mission = "test_valid_entity_configs";
+    auto log_dir = sc::run_test(mission, true, false);
+
+    bool success = log_dir ? true : false;
+    EXPECT_TRUE(success);
+}
+
+TEST(test_entity_configs, missing_autonomy) {
+    const std::string mission = "test_missing_autonomy";
+    auto log_dir = sc::run_test(mission, false, false);
+
+    bool success = log_dir ? true : false;
+    EXPECT_FALSE(success);
+}
+
+TEST(test_entity_configs, missing_controller) {
+    const std::string mission = "test_missing_controller";
+    auto log_dir = sc::run_test(mission, false, true);
+
+    bool success = log_dir ? true : false;
+    EXPECT_FALSE(success);
+}

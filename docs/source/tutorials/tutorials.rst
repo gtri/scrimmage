@@ -12,12 +12,12 @@ swarm behaviors.
 
    xml-discovery.rst
    multiple-local-runs.rst
-   create-project.rst      
+   create-project.rst
    autonomy-plugin.rst
    draw-shapes.rst
    sensor-plugin.rst
    controller-plugin.rst
-   motion-model-plugin.rst   
+   motion-model-plugin.rst
    entity-interaction-plugin.rst
    metrics-plugin.rst
    parameters.rst
@@ -28,4 +28,4 @@ swarm behaviors.
    optimize.rst
    open-grid.rst
    test.rst
-              
+   utilities.rst

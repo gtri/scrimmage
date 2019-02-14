@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>DubinsAirplane_plugin</library>
+
+  <!--
+      The DubinsAirplane equations of motion are from the following paper:
+      Owen, Mark, Randal W. Beard, and Timothy W. McLain. "Implementing dubins
+      airplane paths on fixed-wing uavs." Handbook of unmanned aerial
+      vehicles. Springer, Dordrecht, 2015. 1677-1701.
+  -->
+
+  <write_csv>false</write_csv>
+
+  <speed_max>30</speed_max>
+  <speed_min>-30</speed_min>
+  <pitch_max>90</pitch_max>
+  <pitch_min>-90</pitch_min>
+  <roll_max>90</roll_max>
+  <roll_min>-90</roll_min>
+
+</params>

@@ -57,7 +57,7 @@ void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
         "num_actors"_a = num_actors, "grpc_mode"_a = grpc_mode, "end"_a = 1000);
 
     const std::string mission = ".rlsimple";
-    auto log_dir = sc::run_test(mission, false);
+    auto log_dir = sc::run_test(mission, false, false);
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);
