@@ -1,7 +1,7 @@
 ###############################################################################
 # Dockerfile to build SCRIMMAGE
 ###############################################################################
-FROM ubuntu:16.04
+FROM ubuntu:16.04 as dependencies
 
 MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
@@ -48,6 +48,8 @@ RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
 COPY ./setup/install-binaries.sh /root/install-binaries.sh
 RUN /root/install-binaries.sh -e 0 -p 3 \
  && rm -rf /var/lib/apt/lists/*
+
+FROM dependencies as builder
 
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
