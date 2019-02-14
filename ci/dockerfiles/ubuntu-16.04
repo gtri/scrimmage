@@ -44,6 +44,11 @@ RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
  && gem update --system \
  && gem install jekyll bundler
 
+# Copy install binaries script into image and run
+COPY ./setup/install-binaries.sh /root/install-binaries.sh
+RUN /root/install-binaries.sh -e 0 -p 3 \
+ && rm -rf /var/lib/apt/lists/*
+
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
@@ -53,11 +58,6 @@ WORKDIR /root/scrimmage/scrimmage
 RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv \
  && py.test test/test_cppcheck.py \
  && python test/test_cpplint.py
-
-# Install dependencies through script
-WORKDIR /root/scrimmage/scrimmage
-RUN ./setup/install-binaries.sh -e 0 -p 3 \
- && rm -rf /var/lib/apt/lists/*
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
