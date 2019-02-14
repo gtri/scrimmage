@@ -20,9 +20,13 @@ services:
 jobs:
   include:
     - stage: "Build Docker Images"
+      env: CACHE_NAME=1604
       name: "Build on Ubuntu 16.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
+      - if [ -f $HOME/docker-ubuntu-16.04/scrimmage-16.04.tar.gz ]; then
+            zcat $HOME/docker-ubuntu-16.04/scrimmage-16.04.tar.gz | docker load;
+        fi
       - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - |
@@ -33,28 +37,30 @@ jobs:
             docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
             bash ./ci/scripts/deploy-docs.sh;
             docker push $REPO;
+            docker save $REPO:$TAG | gzip -2 > $HOME/docker-ubuntu-16.04/scrimmage-16.04.tar.gz;
         fi
     - name: "Build on Ubuntu 18.04"
+      env: CACHE_NAME=1804
       script:
-      - docker build -t $DOCKER_USERNAME/scrimmage:${TRAVIS_BUILD_NUMBER}_ubuntu1804 -f ./ci/dockerfiles/ubuntu-18.04 .
+      - export REPO=$DOCKER_USERNAME/scrimmage1804
+      - if [ -f $HOME/docker-ubuntu-18.04/scrimmage-18.04.tar.gz ]; then
+            zcat $HOME/docker-ubuntu-18.04/scrimmage-18.04.tar.gz | docker load;
+        fi
+      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - |
+        if [[ "$TAG" == "latest" ]]; then
+            docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG;
+            docker save $REPO:$TAG | gzip -2 > $HOME/docker-ubuntu-18.04/scrimmage-18.04.tar.gz;
+        fi
 
 notifications:
   email:
     on_success: change
     on_failure: always
 
-before_install:
-  # Load cached docker images
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
-
-# before_cache is executed before the cache is saved to the server
-before_cache:
-  # Find all docker images that were successfully built and save them to the cache directory
-  - >
-    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
-
-# Setup the docker cache directory
+# Setup the docker cache directories
 cache:
   directories:
-    - $HOME/docker
+    - $HOME/docker-ubuntu-16.04
+    - $HOME/docker-ubuntu-18.04
