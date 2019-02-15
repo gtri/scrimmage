@@ -32,7 +32,7 @@ jobs:
             USE_CACHE="--cache-from ${DEPENDENCIES}";
         fi
       - docker build ${USE_CACHE} --target dependencies -t ${DEPENDENCIES} -f ./ci/dockerfiles/ubuntu-16.04 .
-      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
+      - docker build ${USE_CACHE} -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - |
         if [[ "$TAG" == "latest" ]]; then
@@ -56,7 +56,7 @@ jobs:
             USE_CACHE="--cache-from ${DEPENDENCIES}";
         fi
       - docker build ${USE_CACHE} --target dependencies -t ${DEPENDENCIES} -f ./ci/dockerfiles/ubuntu-18.04 .
-      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
+      - docker build ${USE_CACHE} -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - |
         if [[ "$TAG" == "latest" ]]; then
