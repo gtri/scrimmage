@@ -78,7 +78,7 @@ class LOSSensor : public RayTrace {
     std::default_random_engine generator_;
 
     // The output
-    PublisherPtr pub_;
+    PublisherPtr los_pub_;
 };
 }  // namespace sensor
 }  // namespace scrimmage

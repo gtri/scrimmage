@@ -95,7 +95,7 @@ void LOSSensor::init(std::map<std::string, std::string> &params) {
 
     // Create the response
     std::string topic_name = "LOSRange" + std::to_string(sensor_id_);
-    pub_ = advertise("LocalNetwork", topic_name);
+    los_pub_ = advertise("LocalNetwork", topic_name);
     return;
 }
 
@@ -210,7 +210,7 @@ bool LOSSensor::step() {
     }
 
     // Publish the message and return all good
-    pub_->publish(msg);
+    los_pub_->publish(msg);
     return retVal;
 }
 }  // namespace sensor
