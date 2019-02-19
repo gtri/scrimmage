@@ -5,4 +5,6 @@
   <show_rays>true</show_rays>
   <enable_collision_detection>true</enable_collision_detection>
   <enable_ray_tracing>true</enable_ray_tracing>
+  <publish_on_local_networks>false</publish_on_local_networks>
+  <terrain>mcmillan</terrain>
 </params>

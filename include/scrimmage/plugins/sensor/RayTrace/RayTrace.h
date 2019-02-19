@@ -46,17 +46,19 @@ class RayTrace : public scrimmage::Sensor {
  public:
     class PCPoint {
      public:
-        PCPoint() : point(Eigen::Vector3d(0, 0, 0)), intensity(0) {}
-        explicit PCPoint(Eigen::Vector3d p) : point(p), intensity(0) {}
-        PCPoint(Eigen::Vector3d p, double i) : point(p), intensity(i) {}
+        PCPoint() : point(Eigen::Vector3d(0, 0, 0)), intensity(0), oor(false) {}
+        explicit PCPoint(Eigen::Vector3d p) : point(p), intensity(0), oor(false) {}
+        PCPoint(Eigen::Vector3d p, double i, bool o) : point(p), intensity(i), oor(o) {}
         Eigen::Vector3d point;
         double intensity;
+        bool oor;  // Out of range
     };
 
     class PointCloud {
      public:
         PointCloud() : max_range(0), min_range(0), num_rays_vert(0),
-            num_rays_horiz(0), angle_res_vert(0), angle_res_horiz(0) {}
+            num_rays_horiz(0), angle_res_vert(0), angle_res_horiz(0),
+            max_sample_rate(0) {}
 
         std::vector<PCPoint> points;
         double max_range;
@@ -65,6 +67,7 @@ class RayTrace : public scrimmage::Sensor {
         double num_rays_horiz;
         double angle_res_vert;
         double angle_res_horiz;
+        double max_sample_rate;
     };
 
     RayTrace();
@@ -96,6 +99,6 @@ class RayTrace : public scrimmage::Sensor {
 
     PublisherPtr pub_;
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_

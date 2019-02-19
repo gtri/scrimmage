@@ -20,12 +20,22 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
   )
 
 
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME}  
-    scrimmage-core
-  scrimmage-msgs
-  RayTrace_plugin
-  ${BULLET_LIBRARIES}
-  )
+if(VTK_LIBRARIES)
+  TARGET_LINK_LIBRARIES(${LIBRARY_NAME}  
+      scrimmage-core
+    scrimmage-msgs
+    RayTrace_plugin
+    ${BULLET_LIBRARIES}
+    ${VTK_LIBRARIES}
+    )
+else()
+  TARGET_LINK_LIBRARIES(${LIBRARY_NAME}  
+      scrimmage-core
+    scrimmage-msgs
+    RayTrace_plugin
+    ${BULLET_LIBRARIES}
+    )
+endif()
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
