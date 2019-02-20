@@ -37,13 +37,13 @@
 #include <scrimmage/common/Visibility.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
 
 #include <pybind11/pybind11.h>
 
 #if ENABLE_GRPC
 #include <grpc++/grpc++.h>
 #include <scrimmage/network/ScrimmageServiceImpl.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
 #include <scrimmage/proto/OpenAI.grpc.pb.h>
 #endif
 
@@ -95,9 +95,9 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     void kill_grpc_server();
     bool send_env();
 
-    std::map<std::string, std::string> params_;
     std::string python_cmd_;
 #endif
+    std::map<std::string, std::string> params_;
     pybind11::object tuple_space_, box_space_;
     bool first_step_ = true;
     PublisherPtr pub_reward_ = nullptr;
