@@ -169,9 +169,11 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             py::dict info;
             std::tie(done, reward, info) = calc_reward();
             if (done) {
+#if ENABLE_GRPC
                 if (grpc_mode_) {
                     kill_grpc_server();
                 }
+#endif
                 return false;
             }
             if (reward != 0) {
