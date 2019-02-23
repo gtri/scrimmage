@@ -48,16 +48,18 @@ void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
 
     x_idx_in_ = vars_.declare(Type::position_x, Dir::In);
     y_idx_in_ = vars_.declare(Type::position_y, Dir::In);
+    z_idx_in_ = vars_.declare(Type::position_z, Dir::In);
 
     speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);
     turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);
     pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);
+    altitude_rate_idx_out_ = vars_.declare(Type::altitude_rate, Dir::Out);
 }
 
 bool UnicycleControllerPoint::step(double t, double dt) {
-    Eigen::Vector2d des_pos(vars_.input(x_idx_in_), vars_.input(y_idx_in_));
-    Eigen::Vector2d pos = state_->pos().head<2>();
-    Eigen::Vector2d des_vel = gain_ * (des_pos - pos);
+    Eigen::Vector2d des_pos_xy(vars_.input(x_idx_in_), vars_.input(y_idx_in_));
+    Eigen::Vector2d pos_xy = state_->pos().head<2>();
+    Eigen::Vector2d des_vel = gain_ * (des_pos_xy - pos_xy);
 
     double th = state_->quat().yaw();
 
@@ -68,6 +70,10 @@ bool UnicycleControllerPoint::step(double t, double dt) {
     vars_.output(speed_idx_out_, u_2d(0));
     vars_.output(turn_rate_idx_out_, u_2d(1));
     vars_.output(pitch_rate_idx_out_, 0);
+
+    const double des_z = vars_.input(z_idx_in_);
+    const double z = state_->pos()(2);
+    vars_.output(altitude_rate_idx_out_, gain_ * (des_z - z));
     return true;
 }
 } // namespace controller

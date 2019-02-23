@@ -57,6 +57,7 @@ std::map<VariableIO::Type, std::string>VariableIO::type_map_ = {
     {VariableIO::Type::turn_rate, "turn_rate"},
     {VariableIO::Type::pitch_rate, "pitch_rate"},
     {VariableIO::Type::roll_rate, "roll_rate"},
+    {VariableIO::Type::altitude_rate, "altitude_rate"},
     {VariableIO::Type::velocity_x, "velocity_x"},
     {VariableIO::Type::velocity_y, "velocity_y"},
     {VariableIO::Type::velocity_z, "velocity_z"},

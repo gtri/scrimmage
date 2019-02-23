@@ -64,6 +64,7 @@ class VariableIO {
         turn_rate,
         pitch_rate,
         roll_rate,
+        altitude_rate,
         velocity_x,
         velocity_y,
         velocity_z,
