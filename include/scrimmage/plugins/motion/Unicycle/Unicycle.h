@@ -52,16 +52,20 @@ class Unicycle : public scrimmage::MotionModel {
  protected:
     double turn_rate_max_;
     double pitch_rate_max_;
+    double velocity_z_max_;
     double vel_max_;
     bool enable_roll_;
+    bool use_pitch_ = true;
 
-    int speed_idx_ = 0;
-    int turn_rate_idx_ = 0;
-    int pitch_rate_idx_ = 0;
+    uint8_t speed_idx_ = 0;
+    uint8_t turn_rate_idx_ = 0;
+    uint8_t pitch_rate_idx_ = 0;
+    uint8_t velocity_z_idx_ = 0;
 
     double velocity_ = 0;
     double turn_rate_ = 0;
     double pitch_rate_ = 0;
+    double velocity_z_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage
