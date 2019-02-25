@@ -1973,6 +1973,11 @@ bool Updater::draw_circle(const bool &new_shape,
 
     polygonSource->SetRadius(c.radius());
     actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
+
+    Quaternion quat = proto_2_quat(c.quat());
+    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
+                          sc::Angles::rad2deg(quat.pitch()),
+                          sc::Angles::rad2deg(quat.yaw()));
     return true;
 }
 
