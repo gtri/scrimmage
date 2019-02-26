@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Generate Entities at Run-Time &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="Create a ROS Node" href="ros-plugin.html"/>
+        <link rel="prev" title="Publishers and Subscribers" href="pub-sub.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generate Entities at Run-Time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mission-file-setup">Mission File Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-the-generateentity-message">Create the GenerateEntity Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modify-entity-block-properties">Modify Entity Block Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modify-plugin-parameters">Modify Plugin Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scrimmage</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>Generate Entities at Run-Time</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/gen-entities.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generate-entities-at-run-time">
+<span id="gen-entities"></span><h1>Generate Entities at Run-Time<a class="headerlink" href="#generate-entities-at-run-time" title="Permalink to this headline">¶</a></h1>
+<p>There are two options for generating entities during run-time:</p>
+<ol class="arabic simple">
+<li>Make use of the <code class="docutils literal notranslate"><span class="pre">generate_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">generate_count</span></code>,
+<code class="docutils literal notranslate"><span class="pre">generate_start_time</span></code>, and <code class="docutils literal notranslate"><span class="pre">generate_time_variance</span></code> XML tags defined in
+<a class="reference internal" href="../overview/xml-tags.html#scrimmage-xml"><span class="std std-ref">Mission XML Tag Definitions</span></a>.</li>
+<li>Create a plugin that publishes the <code class="docutils literal notranslate"><span class="pre">scrimmage_msgs::GenerateEntity</span></code>
+message on the “GenerateEntity” topic.</li>
+</ol>
+<p>This document describes how to accomplish the second option.</p>
+<div class="section" id="mission-file-setup">
+<h2>Mission File Setup<a class="headerlink" href="#mission-file-setup" title="Permalink to this headline">¶</a></h2>
+<p>The first step is to create a valid entity block in your mission XML file with
+an entity <code class="docutils literal notranslate"><span class="pre">tag</span></code> and a <code class="docutils literal notranslate"><span class="pre">count</span></code> of zero. For example, the start of the
+following entity block has a <code class="docutils literal notranslate"><span class="pre">tag</span></code> of “gen_straight” and a <code class="docutils literal notranslate"><span class="pre">count</span></code> of zero,
+which prevents it from being generated at the start of the simulation.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="c">&lt;!-- Entity that is generated during runtime by other plugins --&gt;</span>
+<span class="nt">&lt;entity</span> <span class="na">tag=</span><span class="s">&quot;gen_straight&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;count&gt;</span>0<span class="nt">&lt;/count&gt;</span>
+  ...
+<span class="nt">&lt;/entity&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-generateentity-message">
+<h2>Create the GenerateEntity Message<a class="headerlink" href="#create-the-generateentity-message" title="Permalink to this headline">¶</a></h2>
+<p>The second step is to publish a <code class="docutils literal notranslate"><span class="pre">scrimmage_msgs::GenerateEntity</span></code> message on
+the “GenerateEntity” topic (GlobalNetwork) in a plugin (any type of plugin).</p>
+<p>Your plugin should include the appropriate protobuf header files:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;scrimmage/pubsub/Publisher.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/proto/State.pb.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/msgs/Event.pb.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/proto/ProtoConversions.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>In the plugin’s <code class="docutils literal notranslate"><span class="pre">init()</span></code> function, create the publisher:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="c1">// PublisherPtr pub_gen_ents_; is declared in the header file</span>
+<span class="n">pub_gen_ents_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;GenerateEntity&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When you want to generate an entity during the simulation, you refer to the
+entity’s XML <code class="docutils literal notranslate"><span class="pre">tag</span></code> and create a state for this entity when constructing the
+<code class="docutils literal notranslate"><span class="pre">GenerateEntity</span></code> message.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="c1">// Create a state for the entity and place it at position (10, 10, 100) with</span>
+<span class="c1">// a roll, pitch, and yaw of (0 deg, 45 deg, 45 deg).</span>
+<span class="n">State</span> <span class="n">s</span><span class="p">;</span>
+<span class="n">s</span><span class="p">.</span><span class="n">pos</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">;</span>
+<span class="n">s</span><span class="p">.</span><span class="n">quat</span><span class="p">()</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">::</span><span class="n">Quaternion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">M_PI</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">M_PI</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">);</span>
+
+<span class="c1">// Create the GenerateEntity message</span>
+<span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Message</span><span class="o">&lt;</span><span class="n">scrimmage_msgs</span><span class="o">::</span><span class="n">GenerateEntity</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// Copy the new state into the message</span>
+<span class="n">sc</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">mutable_state</span><span class="p">(),</span> <span class="n">s</span><span class="p">);</span>
+
+<span class="c1">// Set the entity_tag that references the entity to be generated in the</span>
+<span class="c1">// mission XML file.</span>
+<span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">set_entity_tag</span><span class="p">(</span><span class="s">&quot;gen_straight&quot;</span><span class="p">);</span>
+
+<span class="c1">// Publish the GenerateEntity message</span>
+<span class="n">pub_gen_ents_</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modify-entity-block-properties">
+<h2>Modify Entity Block Properties<a class="headerlink" href="#modify-entity-block-properties" title="Permalink to this headline">¶</a></h2>
+<p>Before publishing the message, you can modify other properties of the entity
+block, such as the <code class="docutils literal notranslate"><span class="pre">autonomy</span></code>, <code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">health</span></code>, <code class="docutils literal notranslate"><span class="pre">visual_model</span></code>, etc.,
+by adding an entity block key-value pair to the <code class="docutils literal notranslate"><span class="pre">GenerateEntity</span></code> message:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="c1">// Modify the entity&#39;s color</span>
+<span class="k">auto</span> <span class="n">kv_color</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">add_entity_param</span><span class="p">();</span>
+<span class="n">kv_color</span><span class="o">-&gt;</span><span class="n">set_key</span><span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">);</span>
+<span class="n">kv_color</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="s">&quot;255, 255, 0&quot;</span><span class="p">);</span>
+
+<span class="c1">// Modify the entity&#39;s visual model</span>
+<span class="k">auto</span> <span class="n">kv_visual</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">add_entity_param</span><span class="p">();</span>
+<span class="n">kv_visual</span><span class="o">-&gt;</span><span class="n">set_key</span><span class="p">(</span><span class="s">&quot;visual_model&quot;</span><span class="p">);</span>
+<span class="n">kv_visual</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="s">&quot;sphere&quot;</span><span class="p">);</span>
+
+<span class="c1">// Publish the GenerateEntity message</span>
+<span class="n">pub_gen_ents_</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modify-plugin-parameters">
+<h2>Modify Plugin Parameters<a class="headerlink" href="#modify-plugin-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Currently, this entity generation interface doesn’t allow you to modify the XML
+attributes of specific plugins. If you need to generate entities with different
+plugin parameters you can either use multiple entity blocks with different
+entity <code class="docutils literal notranslate"><span class="pre">tags</span></code> or you can create new plugin XML files that have differently
+configured default parameters. For example, you could copy and rename the
+<code class="docutils literal notranslate"><span class="pre">Straight.xml</span></code> file to <code class="docutils literal notranslate"><span class="pre">MyStraight.xml</span></code> and then modify the plugin
+parameters in <code class="docutils literal notranslate"><span class="pre">MyStraight.xml</span></code>. In your entity, you can load the
+<code class="docutils literal notranslate"><span class="pre">MyStraight</span></code> autonomy plugin by referencing it directly as long as it is in
+your <code class="docutils literal notranslate"><span class="pre">SCRIMMAGE_PLUGIN_PATH</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;entity</span> <span class="na">tag=</span><span class="s">&quot;gen_my_straight&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;count&gt;</span>0<span class="nt">&lt;/count&gt;</span>
+  ...
+  <span class="nt">&lt;autonomy&gt;</span>MyStraight<span class="nt">&lt;/autonomy&gt;</span>
+  ...
+<span class="nt">&lt;/entity&gt;</span>
+</pre></div>
+</div>
+<p>In your entity generation plugin, you can modify the <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> tag before
+publishing the <code class="docutils literal notranslate"><span class="pre">GenerateEntity</span></code> message:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="k">auto</span> <span class="n">kv_autonomy</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">add_entity_param</span><span class="p">();</span>
+<span class="n">kv_autonomy</span><span class="o">-&gt;</span><span class="n">set_key</span><span class="p">(</span><span class="s">&quot;autonomy&quot;</span><span class="p">);</span>
+<span class="n">kv_autonomy</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="s">&quot;MyStraight2&quot;</span><span class="p">);</span> <span class="c1">// Load parameters from MyStraight2.xml</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ros-plugin.html" class="btn btn-neutral float-right" title="Create a ROS Node" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pub-sub.html" class="btn btn-neutral" title="Publishers and Subscribers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.2.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
