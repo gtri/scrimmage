@@ -71,6 +71,7 @@ message PointCloud {
 message Circle {
         Vector3d center = 1;
         double radius = 2;
+        Quaternion quat = 3;
 }
 
 message Sphere {
