@@ -441,10 +441,17 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
                           *file_search_, overrides, visual_,
                           mesh_found, texture_found);
 
-    set(visual_->mutable_color(), mp->team_info()[id_.team_id()].color);
+    // Set the entity color. Use the team color by default
+    std::vector<int> color;
+    auto it_color = info.find("color");
+    if (it_color != info.end() and
+        str2container(it_color->second, ", ", color, 3)) {
+    } else {
+        set(color, mp->team_info()[id_.team_id()].color);
+    }
+    set(visual_->mutable_color(), color[0], color[1], color[2]);
 
     std::string visual_model = boost::to_upper_copy(info["visual_model"]);
-
     if (mesh_found) {
         type_ = Contact::Type::MESH;
         visual_->set_visual_mode(texture_found ? scrimmage_proto::ContactVisual::TEXTURE : scrimmage_proto::ContactVisual::COLOR);

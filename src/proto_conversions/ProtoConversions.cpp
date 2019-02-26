@@ -56,6 +56,10 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_z(z);
 }
 
+void set(std::vector<int> &dst, const scrimmage_proto::Color &src) {
+    dst = {src.r(), src.g(), src.b()};
+}
+
 void set(scrimmage_proto::Color *dst, const std::vector<int> &src) {
     dst->set_r(src[0]);
     dst->set_g(src[1]);

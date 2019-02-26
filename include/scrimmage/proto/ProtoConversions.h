@@ -72,6 +72,7 @@ using ContactMapPtr = std::shared_ptr<ContactMap>;
 void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src);
 void set(scrimmage_proto::Vector3d *dst, double x, double y, double z);
 void set(scrimmage_proto::Color *dst, const std::vector<int> &src);
+void set(std::vector<int> &dst, const scrimmage_proto::Color &src);
 void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src);
 void set(Eigen::Vector3d &dst, const scrimmage_proto::Vector3d *src);
 void set(scrimmage_proto::Color &dst, scrimmage_proto::Color &src);

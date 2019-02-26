@@ -43,8 +43,10 @@
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/sensor/Sensor.h>
 
 #if ENABLE_OPENCV == 1
@@ -186,12 +188,53 @@ void Straight::init(std::map<std::string, std::string> &params) {
     subscribe<sc::sensor::ContactBlobCameraType>("LocalNetwork", "ContactBlobCamera", blob_cb);
 #endif
 
+    gen_ents_ = sc::get("generate_entities", params, gen_ents_);
+    if (gen_ents_) {
+        pub_gen_ents_ = advertise("GlobalNetwork", "GenerateEntity");
+    }
+
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+    if (gen_ents_) {
+        if (time_->t() > (prev_gen_time_ + 2.0)) {
+            prev_gen_time_ = time_->t();
+
+            // Create a state for the new entity
+            State s(*state_);
+
+            // Rotate the heading of the new entity by 90 degrees and offset
+            // the initial position to the left of our current position to
+            // avoid collisions.
+            Eigen::AngleAxisd rot_90_z(M_PI/2.0, Eigen::Vector3d::UnitZ());
+            s.pos() = s.pos() + s.quat() * rot_90_z * (Eigen::Vector3d::UnitX() * 10);
+            s.quat() = rot_90_z * s.quat();
+
+            // Create the GenerateEntity message
+            auto msg = std::make_shared<Message<scrimmage_msgs::GenerateEntity>>();
+            sc::set(msg->data.mutable_state(), s); // Copy the new state
+
+            // The entity_tag must match the "tag" XML attribute of the entity
+            // to be generated in the mission file.
+            msg->data.set_entity_tag("gen_straight");
+
+            // Modify the entity's color
+            auto kv_color = msg->data.add_entity_param();
+            kv_color->set_key("color");
+            kv_color->set_value("255, 255, 0");
+
+            // Modify the entity's visual model
+            auto kv_visual = msg->data.add_entity_param();
+            kv_visual->set_key("visual_model");
+            kv_visual->set_value("sphere");
+
+            pub_gen_ents_->publish(msg); // Publish the GenerateEntity message
+        }
+    }
+
     if (show_text_label_) {
         // An example of changing a shape's property
         if (t > 1.0 && t < (1.0 + dt)) {
