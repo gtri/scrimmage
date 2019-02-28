@@ -102,6 +102,19 @@ void fpsCallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId
     fps = 1.0/timeInSeconds;
 }
 
+void Updater::set_quat(const scrimmage_proto::Quaternion &quat,
+                       vtkSmartPointer<vtkActor> &actor) {
+    set_quat(proto_2_quat(quat), actor);
+}
+
+void Updater::set_quat(const scrimmage::Quaternion &quat,
+                       vtkSmartPointer<vtkActor> &actor) {
+    Eigen::AngleAxisd aa(quat);
+    actor->SetOrientation(0, 0, 0); // Reset to zero rotation
+    actor->RotateWXYZ(sc::Angles::rad2deg(aa.angle()), aa.axis()(0),
+                      aa.axis()(1), aa.axis()(2));
+}
+
 Updater::Updater() :
         frame_time_(-1.0), update_count(0), inc_follow_(true),
         dec_follow_(false), view_mode_(ViewMode::FOLLOW), view_mode_prev_(ViewMode::FREE),
@@ -1922,12 +1935,8 @@ bool Updater::draw_cube(const bool &new_shape,
     cubeSource->SetYLength(c.y_length());
     cubeSource->SetZLength(c.z_length());
 
-    Quaternion quat = proto_2_quat(c.quat());
-
     actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
-    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
-                          sc::Angles::rad2deg(quat.pitch()),
-                          sc::Angles::rad2deg(quat.yaw()));
+    set_quat(c.quat(), actor);
 
     return true;
 }
@@ -1973,11 +1982,7 @@ bool Updater::draw_circle(const bool &new_shape,
 
     polygonSource->SetRadius(c.radius());
     actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
-
-    Quaternion quat = proto_2_quat(c.quat());
-    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
-                          sc::Angles::rad2deg(quat.pitch()),
-                          sc::Angles::rad2deg(quat.yaw()));
+    set_quat(c.quat(), actor);
     return true;
 }
 
@@ -1999,12 +2004,8 @@ bool Updater::draw_ellipse(const bool &new_shape,
         polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
     }
 
-    Quaternion quat = proto_2_quat(elp.quat());
-
     actor->SetPosition(elp.center().x(), elp.center().y(), elp.center().z());
-    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
-                          sc::Angles::rad2deg(quat.pitch()),
-                          sc::Angles::rad2deg(quat.yaw()));
+    set_quat(elp.quat(), actor);
     actor->SetScale(elp.x_radius(), elp.y_radius(), 0);
 
     return true;
@@ -2149,11 +2150,8 @@ bool Updater::draw_mesh(const bool &new_shape,
         transformFilter = vtkTransformPolyDataFilter::SafeDownCast(source);
     }
 
-    Quaternion quat = proto_2_quat(m.quat());
     actor->SetPosition(m.center().x(), m.center().y(), m.center().z());
-    actor->SetOrientation(sc::Angles::rad2deg(quat.roll()),
-                          sc::Angles::rad2deg(quat.pitch()),
-                          sc::Angles::rad2deg(quat.yaw()));
+    set_quat(m.quat(), actor);
     auto scale = m.scale() * scale_;
     actor->SetScale(scale, scale, scale);
 
