@@ -102,6 +102,11 @@ class Updater : public vtkCommand {
 
     Updater();
 
+    static void set_quat(const scrimmage_proto::Quaternion &quat,
+                         vtkSmartPointer<vtkActor> &actor);
+    static void set_quat(const scrimmage::Quaternion &quat,
+                         vtkSmartPointer<vtkActor> &actor);
+
     void Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
                  void * vtkNotUsed(callData));
 
