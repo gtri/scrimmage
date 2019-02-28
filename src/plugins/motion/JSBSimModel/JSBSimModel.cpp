@@ -66,15 +66,6 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     angles_from_jsbsim_ = Angles(0, Angles::Type::GPS, Angles::Type::EUCLIDEAN);
     angles_to_jsbsim_ = Angles(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS);
 
-    use_pitch_ = str2bool(params.at("use_pitch"));
-    std::string z_name =  use_pitch_ ?
-        vars_.type_map().at(VariableIO::Type::desired_pitch) :
-        vars_.type_map().at(VariableIO::Type::desired_altitude);
-
-    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
-    alt_or_pitch_idx_ = vars_.declare(z_name, VariableIO::Direction::In);
-
     JSBSim::FGJSBBase base;
     base.debug_lvl = 0;
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
@@ -99,6 +90,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     exec_->SetEnginePath("/engine");
     exec_->SetSystemsPath("/systems");
 
+    std::cout << "script name is " << info["script_name"] << std::endl;
     exec_->LoadScript("/scripts/"+info["script_name"]);
 
     exec_->SetRootDir(parent_->mp()->log_dir());
@@ -160,6 +152,11 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 
     // desired_heading_node_ = mgr->GetNode("guidance/specified-heading-rad");
     desired_altitude_node_ = mgr->GetNode("ap/altitude_setpoint");
+    ctrl_altitude_dot_ = false;
+    if (desired_altitude_node_ == nullptr) {
+        desired_altitude_node_ = mgr->GetNode("ap/hdot_setpoint");
+        ctrl_altitude_dot_ = true;
+    }
     desired_velocity_node_ = mgr->GetNode("ap/airspeed_setpoint");
     bank_setpoint_node_ = mgr->GetNode("ap/bank_setpoint");
     fcs_elevator_cmd_node_ = mgr->GetNode("fcs/elevator-cmd-norm");
@@ -198,6 +195,14 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
                          q_node_->getDoubleValue(),
                          p_node_->getDoubleValue();
 
+    std::string z_name =  ctrl_altitude_dot_ ?
+        vars_.type_map().at(VariableIO::Type::velocity_z) :
+        vars_.type_map().at(VariableIO::Type::desired_altitude);
+
+    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
+    alt_idx_ = vars_.declare(z_name, VariableIO::Direction::In);
+
     return true;
 }
 
@@ -207,25 +212,20 @@ bool JSBSimModel::step(double time, double dt) {
 
     // + : roll right, - : roll left
     bank_setpoint_node_->setDoubleValue(roll_cmd);
-    if (use_pitch_) {
-        double elevator_cmd = vars_.input(alt_or_pitch_idx_);
 
-        // Negate altitude PID from the elevator control
-        elevator_cmd -= exec_->GetPropertyValue("ap/elevator_cmd");
-        fcs_elevator_cmd_node_->setDoubleValue(elevator_cmd);
+    const double alt_cmd = vars_.input(alt_idx_);
 
-        // Try to remove altitude control by putting setpoint to current altitude
-        desired_altitude_node_->setDoubleValue(state_->pos()(2) * meters2feet);
+    if (ctrl_altitude_dot_) {
+        desired_altitude_node_->setDoubleValue(alt_cmd * meters2feet);
     } else {
-        double desired_alt = vars_.input(alt_or_pitch_idx_);
         // Set desired altitude (we just need the desired altitude, use the current
         // x,y as placeholders).
         double lat_curr, lon_curr, alt_result;
-        parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), desired_alt,
+        parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), alt_cmd,
                                        lat_curr, lon_curr, alt_result);
-
         desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
     }
+
     // set desired velocity
     desired_velocity_node_->setDoubleValue(desired_velocity * mps2knts);
 

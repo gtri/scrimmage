@@ -70,8 +70,6 @@ class JSBSimModel : public MotionModel {
 
     virtual void teleport(StatePtr &state);
 
-    bool use_pitch() { return use_pitch_; }
-
  protected:
 #if ENABLE_JSBSIM == 1
     FGFDMExecPtr exec_;
@@ -113,12 +111,11 @@ class JSBSimModel : public MotionModel {
     bool heading_lag_initialized_;
 
     double dt_;
+    bool ctrl_altitude_dot_;
 #endif
-    bool use_pitch_ = false;
-
     int speed_idx_ = 0;
     int roll_idx_ = 0;
-    int alt_or_pitch_idx_ = 0;
+    int alt_idx_ = 0;
 
     bool fg_out_enable_ = false;
 };
