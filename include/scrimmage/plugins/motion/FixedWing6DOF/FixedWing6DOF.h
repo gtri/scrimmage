@@ -180,7 +180,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
 
     double launch_accel_ = 200;
     double launch_speed_ = 20;
-    double launch_start_t_;
+    double launch_start_t_ = 0;
     double launch_time_ = 30;
     LaunchState launch_state_ = POSTLAUNCH;
     Eigen::Vector3d launch_dir_NED_;
