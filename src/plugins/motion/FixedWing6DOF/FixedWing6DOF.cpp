@@ -122,6 +122,14 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     x_[Q_dot] = 0;
     x_[R_dot] = 0;
 
+    // catapault parameters
+    launch_accel_ = sc::get<double>("launch_accel", params, launch_accel_);
+    launch_speed_ = sc::get<double>("launch_speed", params, launch_speed_);
+    launch_time_  = sc::get<double>("launch_time",  params, launch_time_);
+    bool use_launcher = sc::get<bool>("use_launcher", params, false);
+    if (true == use_launcher)
+        launch_state_ = PRELAUNCH;
+
     // Parse XML parameters
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
     mass_ = sc::get<double>("mass", params, 1.2);
@@ -264,13 +272,17 @@ bool FixedWing6DOF::step(double time, double dt) {
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
 
+
+
+
 #if 0
     int prec = 5;
     cout<< "*************************" << endl;
-    cout<< std::setprecision(prec) << "thrust_:         " << thrust_ << endl;
-    cout<< std::setprecision(prec) << "delta_elevator_: " << delta_elevator_ << endl;
-    cout<< std::setprecision(prec) << "delta_aileron_:  " << delta_aileron_ << endl;
-    cout<< std::setprecision(prec) << "delta_rudder_:   " << delta_rudder_ << endl;
+    cout<< std::setprecision(prec) << "launch_command_:         " << launch_command_ << endl;
+    cout<< std::setprecision(prec) << "launch_state_:         " << launch_state_ << endl;
+    cout << "roll: " << quat_body_.roll();
+    cout << ", pitch: " << quat_body_.pitch();
+    cout << ", yaw: " << quat_body_.yaw() << endl;
 #endif
 
     quat_body_ = rot_180_x_axis_ * state_->quat();
@@ -316,15 +328,42 @@ bool FixedWing6DOF::step(double time, double dt) {
     Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
-    // Apply any external forces (todo)
-    force_ext_body_ = quat_body_.rotate_reverse(ext_force_);
-    ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
-
     alpha_ = atan2(x_[W], x_[U]); // angle of attack
     // TODO: Need to compute alpha_dot without using alpha_prev_
     alpha_dot_ = 0;
     // alpha_dot_ = (alpha_ - alpha_prev_) / dt;
     // alpha_prev_ = alpha_;
+
+    if (time > launch_time_)
+        launch_command_ = 1;
+
+    // Eigen::Vector3d F_catapult_NED(0, 0, 0);
+    Eigen::Vector3d F_catapult(0, 0, 0);
+
+    double launch_duration = launch_speed_/launch_accel_;
+    switch (launch_state_) {
+    case PRELAUNCH:
+        if (launch_command_) {
+            launch_state_ = LAUNCH;
+            launch_start_t_ = time;
+        }
+        break;
+    case LAUNCH:
+        F_catapult(0) = launch_accel_ * mass_;
+        if (launch_duration < time - launch_start_t_) {
+            launch_state_ = POSTLAUNCH;
+        }
+        break;
+    case POSTLAUNCH:
+        // normal operation
+        break;
+    }
+
+    // Apply any external forces (todo)
+    // force_ext_body_ = quat_body_.rotate_reverse(ext_force_);
+    // ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
+    force_ext_body_ = F_catapult;
+
 
     ode_step(dt);
 
@@ -469,17 +508,9 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
         F_total += F_ground;
     }
 
-#if 0
-    int prec = 5;
-    cout<< "*************************" << endl;
-    cout<< std::setprecision(prec) << "alpha:    " << alpha_ << endl;
-    cout<< std::setprecision(prec) << "lift:     " << lift << endl;
-    cout<< std::setprecision(prec) << "drag:     " << drag << endl;
-    cout<< std::setprecision(prec) << "F_ground: " << F_ground[0] << " " << F_ground[1] << " " << F_ground[2] << " " << endl;
-    cout<< std::setprecision(prec) << "F_weight: " << F_weight[0] << " " << F_weight[1] << " " << F_weight[2] << " " << endl;
-    cout<< std::setprecision(prec) << "thrust_:  " << thrust_ << endl;
-    cout<< std::setprecision(prec) << "F_total:  " << F_total[0] << " " << F_total[1] << " " << F_total[2] << " " << endl;
-#endif
+    if (POSTLAUNCH != launch_state_) {
+        F_total = force_ext_body_;
+    }
 
     // Calculate body frame linear velocities
     dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
@@ -495,9 +526,14 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     Eigen::Vector3d Moments_aero((C_L_beta_*beta + C_LP_*x_[P]*b_/(2*V_tau) + C_LR_*x_[R]*b_/(2*V_tau) + C_L_delta_aileron_*delta_aileron_ + C_L_delta_rudder_*delta_rudder_) * pVtS*b_,
                                  (C_M0_ + C_M_alpha_*alpha_ + C_MQ_*x_[Q]*c_/(2*V_tau) + C_M_alpha_dot_*alpha_dot_*c_/(2*V_tau) + C_M_delta_elevator_*delta_elevator_) * pVtS*c_,
                                  (C_N_beta_*beta + C_NP_*x_[P]*b_/(2*V_tau) + C_NR_*x_[R]*b_/(2*V_tau) + C_N_delta_aileron_*delta_aileron_ + C_N_delta_rudder_*delta_rudder_) * pVtS*b_);
+
     // Sum moments
     Eigen::Vector3d Moments_total = Moments_aero + Moments_thrust +
         Moments_torque + Moments_gyro;
+
+    if (POSTLAUNCH != launch_state_) {
+        Moments_total == Eigen::Vector3d::Zero();
+    }
 
     // Calculate rotational velocites
     Eigen::Vector3d pqr(x_[P], x_[Q], x_[R]);
