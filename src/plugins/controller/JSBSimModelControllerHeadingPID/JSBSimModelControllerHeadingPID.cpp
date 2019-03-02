@@ -30,6 +30,7 @@
  *
  */
 
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.h>
@@ -72,6 +73,7 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
 
     output_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     output_bank_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::Out);
+    output_turn_rate_idx_ = vars_.declare(VariableIO::Type::desired_turn_rate, VariableIO::Direction::Out);
     output_alt_idx_ = vars_.declare(z_name, VariableIO::Direction::Out);
 }
 
@@ -110,9 +112,12 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     bank_cmd = ang::angle_pi(bank_cmd);
     bank_cmd = boost::algorithm::clamp(bank_cmd, -max_bank_, max_bank_);
 
+    const double turn_rate_cmd = -9.81 * tan(bank_cmd) / parent_->state()->vel().norm();
+
     // save what was used as the input
     vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));
     vars_.output(output_bank_idx_, bank_cmd);
+    vars_.output(output_turn_rate_idx_, turn_rate_cmd);
     vars_.output(output_alt_idx_, vars_.input(input_alt_idx_));
 
     return true;

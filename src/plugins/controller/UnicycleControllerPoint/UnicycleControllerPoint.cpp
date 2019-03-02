@@ -50,8 +50,8 @@ void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
     y_idx_in_ = vars_.declare(Type::position_y, Dir::In);
     z_idx_in_ = vars_.declare(Type::position_z, Dir::In);
 
-    speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);
-    turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);
+    speed_idx_out_ = vars_.declare(Type::desired_speed, Dir::Out);
+    turn_rate_idx_out_ = vars_.declare(Type::desired_turn_rate, Dir::Out);
     pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);
     velocity_z_idx_out_ = vars_.declare(Type::velocity_z, Dir::Out);
 }

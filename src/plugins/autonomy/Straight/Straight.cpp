@@ -86,7 +86,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
     show_text_label_ = scrimmage::get<bool>("show_text_label", params, false);
 
     // Set the desired_z to our initial position.
-    desired_z_ = state_->pos()(2) + 100;
+    desired_z_ = state_->pos()(2);
 
     // Register the desired_z parameter with the parameter server
     auto param_cb = [&](const double &desired_z) {
@@ -193,7 +193,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
         pub_gen_ents_ = advertise("GlobalNetwork", "GenerateEntity");
     }
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
@@ -272,7 +272,7 @@ bool Straight::step_autonomy(double t, double dt) {
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
-    vars_.output(desired_alt_idx_, 1);
+    vars_.output(desired_alt_idx_, desired_z_);
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
 

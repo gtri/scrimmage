@@ -61,8 +61,8 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
     // Declare variables for controllers
     use_pitch_ = get<bool>("use_pitch", params, use_pitch_);
 
-    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::desired_turn_rate, VariableIO::Direction::In);
 
     if (use_pitch_) {
         pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);

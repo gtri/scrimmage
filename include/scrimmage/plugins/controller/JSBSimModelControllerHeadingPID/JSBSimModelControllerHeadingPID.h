@@ -63,6 +63,7 @@ class JSBSimModelControllerHeadingPID : public Controller {
 
     int output_vel_idx_ = 0;
     int output_bank_idx_ = 0;
+    int output_turn_rate_idx_ = 0;
     int output_alt_idx_ = 0;
 };
 } // namespace controller

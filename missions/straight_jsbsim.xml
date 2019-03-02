@@ -60,7 +60,7 @@
     
     <motion_model>JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
-    <script_name>rascal_piedmont_dalt.xml</script_name>
+    <script_name>rascal_piedmont.xml</script_name>
     
     <visual_model>zephyr-blue</visual_model>
     

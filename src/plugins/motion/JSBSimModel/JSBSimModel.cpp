@@ -90,7 +90,6 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     exec_->SetEnginePath("/engine");
     exec_->SetSystemsPath("/systems");
 
-    std::cout << "script name is " << info["script_name"] << std::endl;
     exec_->LoadScript("/scripts/"+info["script_name"]);
 
     exec_->SetRootDir(parent_->mp()->log_dir());
