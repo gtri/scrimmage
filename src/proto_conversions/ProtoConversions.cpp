@@ -219,7 +219,7 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     set(state.pos(), proto_state.position());
     set(state.vel(), proto_state.linear_velocity());
     set(state.ang_vel(), proto_state.angular_velocity());
-    state.set_quat(proto_2_quat(proto_state.orientation()));
+    state.quat() = proto_2_quat(proto_state.orientation());
     return std::make_shared<State>(state);
 }
 

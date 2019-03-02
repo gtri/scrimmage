@@ -119,7 +119,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
 
             // Find all entities within capture range of this entity
             std::vector<ID> rtree_neighbors;
-            parent_->rtree()->neighbors_in_range(ent->state()->pos_const(),
+            parent_->rtree()->neighbors_in_range(ent->state()->pos(),
                                                  rtree_neighbors,
                                                  capture_range_,
                                                  ent->id().id());
