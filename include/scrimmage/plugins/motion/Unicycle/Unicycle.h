@@ -50,11 +50,11 @@ class Unicycle : public scrimmage::MotionModel {
     void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
-    double turn_rate_max_;
-    double pitch_rate_max_;
-    double velocity_z_max_;
-    double vel_max_;
-    bool enable_roll_;
+    double turn_rate_max_ = 1.0;
+    double pitch_rate_max_ = 1.0;
+    double velocity_z_max_ = 0.0;
+    double vel_max_ = 1.0;
+    bool enable_roll_ = false;
     bool use_pitch_ = true;
 
     uint8_t speed_idx_ = 0;

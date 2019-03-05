@@ -59,7 +59,7 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
 
     // Declare variables for controllers
-    use_pitch_ = str2bool(params.at("use_pitch"));
+    use_pitch_ = get<bool>("use_pitch", params, use_pitch_);
 
     speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
@@ -78,13 +78,13 @@ bool Unicycle::init(std::map<std::string, std::string> &info,
     x_[PITCH] = state_->quat().pitch();
 
     if (use_pitch_) {
-        pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
+        pitch_rate_max_ = get<double>("pitch_rate_max", params, pitch_rate_max_);
     } else {
-        velocity_z_max_ = std::stod(params.at("velocity_z_max"));
+        velocity_z_max_ = get<double>("velocity_z_max", params, velocity_z_max_);
     }
 
-    turn_rate_max_ = std::stod(params.at("turn_rate_max"));
-    vel_max_ = std::stod(params.at("vel_max"));
+    turn_rate_max_ = get<double>("turn_rate_max", params, turn_rate_max_);
+    vel_max_ = get<double>("vel_max", params, vel_max_);
     enable_roll_ = get<bool>("enable_roll", params, false);
 
     return true;
