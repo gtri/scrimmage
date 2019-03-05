@@ -41,6 +41,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
+#include <vector>
 #include <list>
 #include <map>
 #include <string>
@@ -70,7 +71,6 @@ class BulletCollision : public scrimmage::EntityInteraction {
     btBroadphaseInterface* bt_broadphase;
     btCollisionWorld* bt_collision_world;
 
-    InterfacePtr incoming_interface_;
     sc::PublisherPtr team_collision_pub_;
     sc::PublisherPtr non_team_collision_pub_;
 
@@ -79,19 +79,27 @@ class BulletCollision : public scrimmage::EntityInteraction {
 
     std::map<int, btCollisionObject*> objects_;
 
+    struct PointCloudDescription {
+        sensor::RayTrace::PointCloud point_cloud;
+        double last_update_time;
+        sc::PublisherPtr pub;
+        std::vector<scrimmage_proto::ShapePtr> shapes;
+    };
+
     // Key 1: Entity ID
     // Value 2: map
     // Key 2: Sensor Name (sensor0)
-    // Value 2: Point Cloud
-    std::map<int, std::map<std::string, sensor::RayTrace::PointCloud>> pcls_;
-    std::map<int, std::map<std::string, double>> pcl_last_update_time_;
-    std::map<int, std::map<std::string, sc::PublisherPtr>> pcl_pubs_;
+    // Value 2: PointCloudDescription
+    std::map<int, std::map<std::string, std::unique_ptr<PointCloudDescription>>> pc_descs_;
 
     bool show_rays_ = false;
     bool enable_collision_detection_ = true;
     bool enable_ray_tracing_ = true;
-    // Whether to publish on the local network per entity instead of the global network
-    bool publish_on_local_networks_ = false;
+
+    std::string pcl_network_name_ = "LocalNetwork";
+    std::string pcl_topic_name_ = "pointcloud";
+    bool prepend_pcl_topic_with_id_ = false;
+    bool publish_on_local_networks_ = true;
 };
 }  // namespace interaction
 }  // namespace scrimmage
