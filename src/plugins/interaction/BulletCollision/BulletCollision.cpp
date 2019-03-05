@@ -33,6 +33,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -113,9 +114,15 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
     show_rays_ = sc::get<bool>("show_rays", plugin_params, false);
     enable_collision_detection_ = sc::get<bool>("enable_collision_detection", plugin_params, true);
     enable_ray_tracing_ = sc::get<bool>("enable_ray_tracing", plugin_params, true);
-    publish_on_local_networks_ = sc::get<bool>("publish_on_local_networks", plugin_params, false);
+
+    publish_on_local_networks_ = get("publish_on_local_networks", plugin_params, publish_on_local_networks_);
+    pcl_network_name_ = get("pcl_network_name", plugin_params, pcl_network_name_);
+    pcl_topic_name_ = get("pcl_topic_name", plugin_params, pcl_topic_name_);
+    prepend_pcl_topic_with_id_ = get("prepend_pcl_topic_with_id", plugin_params, false);
 
     auto ent_gen_cb = [&] (scrimmage::MessagePtr<sm::EntityGenerated> msg) {
+        auto pc_desc = std::make_unique<PointCloudDescription>();
+
         int id = msg->data.entity_id();
 
         sc::EntityPtr &ent = (*id_to_ent_map_)[id];
@@ -136,28 +143,23 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
             // What types of sensors need to be attached to this entity?
             for (auto &kv : ent->sensors()) {
                 if (kv.second->type() == "Ray") {
-                    if (publish_on_local_networks_ == false) {
-                        // Create a publisher for this sensor
-                        // "entity_id/RayTrace0/pointcloud"
-                        std::string topic_name = std::to_string(id) + "/"
-                                                 + kv.second->name()  + "/pointcloud";
-                        pcl_pubs_[id][kv.first] =
-                            advertise("GlobalNetwork", topic_name, 10);
-                    } else {
+                    std::string topic = kv.second->name() + "/" + pcl_topic_name_;
+                    if (prepend_pcl_topic_with_id_) {
+                        topic = std::to_string(id) + "/" + topic;
+                    }
+                    if (publish_on_local_networks_) {
                         // Create a plugin that can publish on the local network
                         AutonomyPtr plugin = std::make_shared<Autonomy>();
                         plugin->set_parent(ent);
                         plugin->set_pubsub(plugin->parent()->pubsub());
 
                         // Create a publisher for this sensor
-                        // "entity_id/RayTrace0/pointcloud"
-                        std::string topic_name = std::to_string(id) + "/"
-                                                 + kv.second->name()  + "/pointcloud";
-                        pcl_pubs_[id][kv.first] =
-                            plugin->advertise("LocalNetwork", topic_name, 10);
+                        pc_desc->pub = plugin->advertise(pcl_network_name_, topic, 10);
 
                         // Add the empty plugin to the entity's autonomies list
                         ent->autonomies().push_back(plugin);
+                    } else {
+                        pc_desc->pub = advertise(pcl_network_name_, topic, 10);
                     }
 
                     std::shared_ptr<RayTrace> rs =
@@ -193,8 +195,25 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
                             }
                             angle_vert += rs->angle_res_vert();
                         }
-                        pcls_[id][kv.first] = pcl;
-                        pcl_last_update_time_[id][kv.first] = 0.0;
+                        pc_desc->point_cloud = pcl;
+                        pc_desc->last_update_time = time_->t();
+
+                        if (show_rays_) {
+                            // Construct the ray shapes, but don't draw them
+                            // yet.
+                            for (unsigned int i = 0;
+                                 i < pc_desc->point_cloud.points.size(); i++) {
+                                std::shared_ptr<sp::Shape> line(new sp::Shape);
+                                sc::set(line->mutable_color(), 255, 0, 0);
+                                line->set_opacity(1.0);
+                                sc::set(line->mutable_line()->mutable_start(), Eigen::Vector3d(0, 0, 0));
+                                sc::set(line->mutable_line()->mutable_end(), Eigen::Vector3d(0, 0, 0));
+                                pc_desc->shapes.push_back(line);
+                            }
+                        }
+
+                        // Move the description into the map
+                        pc_descs_[id][kv.first] = std::move(pc_desc);
                     }
                 }
             }
@@ -339,23 +358,24 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     }
 
     // For each entity's ray-based sensors, compute point clouds
-    for (auto &kv : pcls_) {
+    for (auto &kv : pc_descs_) {
         sc::EntityPtr &own_ent = (*id_to_ent_map_)[kv.first];
         Eigen::Vector3d own_pos = own_ent->state()->pos();
 
         // For each ray sensor on a single entity
-        for (auto kv2 : kv.second) {
-            if (t > (kv2.second.max_sample_rate + pcl_last_update_time_[kv.first][kv2.first])) {
-                // Can update
-                pcl_last_update_time_[kv.first][kv2.first] = t;
+        for (auto &kv2 : kv.second) {
+            sensor::RayTrace::PointCloud &pc = kv2.second->point_cloud;
+
+            if (t > (pc.max_sample_rate + kv2.second->last_update_time)) {
+                kv2.second->last_update_time = time_->t();
 
                 auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
-                msg->data.max_range = kv2.second.max_range;
-                msg->data.min_range = kv2.second.min_range;
-                msg->data.num_rays_vert = kv2.second.num_rays_vert;
-                msg->data.num_rays_horiz = kv2.second.num_rays_horiz;
-                msg->data.angle_res_vert = kv2.second.angle_res_vert;
-                msg->data.angle_res_horiz = kv2.second.angle_res_horiz;
+                msg->data.max_range = pc.max_range;
+                msg->data.min_range = pc.min_range;
+                msg->data.num_rays_vert = pc.num_rays_vert;
+                msg->data.num_rays_horiz = pc.num_rays_horiz;
+                msg->data.angle_res_vert = pc.angle_res_vert;
+                msg->data.angle_res_horiz = pc.angle_res_horiz;
 
                 // Compute transformation matrix from entity's frame to sensor's
                 // frame.
@@ -364,7 +384,8 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                        sensor->transform()->tf_matrix();
 
                 // For each ray in the sensor
-                for (RayTrace::PCPoint &pcpoint : kv2.second.points) {
+                unsigned int i = 0;
+                for (RayTrace::PCPoint &pcpoint : pc.points) {
                     Eigen::Vector3d original_ray = pcpoint.point;
                     // Transform sensor's origin to world coordinates
                     Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
@@ -389,6 +410,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     // the LIDAR sensor's coordinate frame. Use original ray's
                     // direction, shorten to length of detection ray, if a
                     // collision occurred.
+                    Eigen::Vector3d ray_end;
                     if (res.hasHit()) {
                         Eigen::Vector3d hit_point(res.m_hitPointWorld.x(),
                                                   res.m_hitPointWorld.y(),
@@ -399,28 +421,28 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                             RayTrace::PCPoint(return_vec, 255,
                                               ((return_vec.norm() > msg->data.max_range) ||
                                                (return_vec.norm() < msg->data.min_range))));
-
-                        if (show_rays_) {
-                            std::shared_ptr<sp::Shape> line(new sp::Shape);
-                            sc::set(line->mutable_color(), 255, 0, 0);
-                            line->set_opacity(1.0);
-                            sc::set(line->mutable_line()->mutable_start(), sensor_pos_w);
-                            sc::set(line->mutable_line()->mutable_end(), hit_point);
-                            draw_shape(line);
-                        }
+                        ray_end = hit_point;
                     } else {
                         msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255, true));
-                        if (show_rays_) {
-                            std::shared_ptr<sp::Shape> line(new sp::Shape);
-                            sc::set(line->mutable_color(), 0, 0, 255);
-                            line->set_opacity(0.5);
-                            sc::set(line->mutable_line()->mutable_start(), sensor_pos_w);
-                            sc::set(line->mutable_line()->mutable_end(), ray_w);
-                            draw_shape(line);
-                        }
+                        ray_end = ray_w;
                     }
+
+                    if (show_rays_) {
+                        std::unique_ptr<PointCloudDescription> &pc_desc = kv2.second;
+                        if (res.hasHit()) {
+                            sc::set(pc_desc->shapes[i]->mutable_color(), 255, 0, 0);
+                            pc_desc->shapes[i]->set_opacity(1.0);
+                        } else {
+                            sc::set(pc_desc->shapes[i]->mutable_color(), 0, 0, 255);
+                            pc_desc->shapes[i]->set_opacity(0.5);
+                        }
+                        sc::set(pc_desc->shapes[i]->mutable_line()->mutable_start(), sensor_pos_w);
+                        sc::set(pc_desc->shapes[i]->mutable_line()->mutable_end(), ray_end);
+                        draw_shape(pc_desc->shapes[i]);
+                    }
+                    i++;
                 }
-                pcl_pubs_[kv.first][kv2.first]->publish(msg);
+                kv2.second->pub->publish(msg);
             }
         }
     }
