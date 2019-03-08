@@ -40,6 +40,7 @@ message Cone {
 message Line {
         Vector3d start = 1;
         Vector3d end = 2;
+        double width = 3;
 }
 
 message Polygon {
