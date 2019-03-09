@@ -49,7 +49,9 @@ namespace sp = scrimmage_proto;
 
 namespace scrimmage {
 namespace interaction {
-void draw_graph(
+
+std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap>
+draw_graph(
         scrimmage_msgs::Graph &graph,
         const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
         DrawNodeLabels draw_node_labels,
@@ -59,8 +61,11 @@ void draw_graph(
     const std::vector<int> white {255, 255, 255};
     const std::vector<int> blue {0, 0, 255};
 
+    NodePairShapeMap edge_shapes;
+
     for (auto &e : graph.edges()) {
         auto edge_shape = std::make_shared<sp::Shape>();
+
         set(edge_shape->mutable_color(), black);
         edge_shape->set_opacity(1.0);
         edge_shape->set_persistent(true);
@@ -71,6 +76,8 @@ void draw_graph(
         set(edge_shape->mutable_line()->mutable_start(), p1.x(), p1.y(), p1.z());
         set(edge_shape->mutable_line()->mutable_end(), p2.x(), p2.y(), p2.z());
         plugin->draw_shape(edge_shape);
+
+        edge_shapes[{e.start_node_id(), e.end_node_id()}] = edge_shape;
     }
 
     auto node_shape = std::make_shared<sp::Shape>();
@@ -83,6 +90,8 @@ void draw_graph(
     node_shape->mutable_pointcloud()->set_size(6);
     plugin->draw_shape(node_shape);
 
+    NodeShapeMap text_shapes;
+
     for (const auto &node : graph.nodes()) {
         auto text_shape = std::make_shared<sp::Shape>();
         text_shape->set_persistent(true);
@@ -93,12 +102,14 @@ void draw_graph(
             Eigen::Vector3d pos(node.point().x(), node.point().y(), node.point().z());
             pos(0) += 5;
             set(text_shape->mutable_text()->mutable_center(), pos);
-            text_shape->mutable_text()->set_scale(20);
+            text_shape->mutable_text()->set_scale(200);
 
             text_shape->mutable_text()->set_text(std::to_string(node.id()));
             plugin->draw_shape(text_shape);
+            text_shapes[node.id()] = text_shape;
         }
     }
+    return std::make_tuple(node_shape, edge_shapes, text_shapes);
 }
 
 std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
