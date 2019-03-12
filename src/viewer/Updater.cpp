@@ -1667,7 +1667,8 @@ bool Updater::draw_line(const bool &new_shape,
         source = lineSource;
         mapper->SetInputConnection(lineSource->GetOutputPort());
         actor->SetMapper(mapper);
-        actor->GetProperty()->SetLineWidth(2);
+        const double width = l.width() <= 0 ? 2 : l.width();
+        actor->GetProperty()->SetLineWidth(width);
     } else {
         lineSource = vtkLineSource::SafeDownCast(source);
     }
