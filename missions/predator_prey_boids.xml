@@ -73,12 +73,9 @@
     <x>1000</x>
     <y>0</y>
     <z>200</z>
-
     <heading>180</heading>
 
-
-
-    <motion_model pitch_rate_max="1.5" turn_rate_max="2" vel_max="35">Unicycle</motion_model>
+    <motion_model use_pitch="true" pitch_rate_max="1.5" turn_rate_max="2" vel_max="35">Unicycle</motion_model>
     <controller>DirectController</controller>
     <visual_model>zephyr-red</visual_model>
   </entity_common>

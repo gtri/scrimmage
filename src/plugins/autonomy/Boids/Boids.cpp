@@ -258,7 +258,7 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
     vars_.output(io_pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
 
     vars_.output(io_heading_idx_, desired_heading);
-    vars_.output(io_altitude_idx_, v(2));
+    vars_.output(io_altitude_idx_, state_->pos()(2) + state_->vel().norm() * v(2));
     vars_.output(io_desired_speed_idx_, max_speed_);
 
     double norm = v.norm();
