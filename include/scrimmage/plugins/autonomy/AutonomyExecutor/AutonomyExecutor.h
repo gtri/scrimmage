@@ -59,7 +59,6 @@ class AutonomyExecutor : public scrimmage::Autonomy {
     std::list<scrimmage::AutonomyPtr> default_autonomies_;
 
     std::map<std::string, sc::ConfigParse> autonomies_config_;
-    std::string autonomy_cache_;
 
     // Key : Output variable index determined by controller
     // Value: Input variable index
