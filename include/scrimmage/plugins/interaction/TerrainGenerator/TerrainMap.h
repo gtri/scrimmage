@@ -42,6 +42,7 @@
 #include <string>
 #include <limits>
 #include <random>
+#include <memory>
 
 #include <boost/optional.hpp>
 

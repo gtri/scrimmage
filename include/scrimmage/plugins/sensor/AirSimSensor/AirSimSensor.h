@@ -41,6 +41,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <opencv2/core/core.hpp>
 

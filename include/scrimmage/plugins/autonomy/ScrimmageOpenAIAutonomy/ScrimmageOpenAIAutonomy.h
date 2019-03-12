@@ -52,6 +52,7 @@
 #include <string>
 #include <utility>
 #include <tuple>
+#include <memory>
 
 namespace scrimmage {
 

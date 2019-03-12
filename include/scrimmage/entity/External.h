@@ -53,6 +53,8 @@
 #include <string>
 #include <mutex> // NOLINT
 #include <queue>
+#include <unordered_map>
+#include <memory>
 
 #include <iostream>
 

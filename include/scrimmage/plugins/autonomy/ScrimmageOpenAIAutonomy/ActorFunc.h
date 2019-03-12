@@ -38,6 +38,7 @@
 #include <vector>
 #include <string>
 #include <tuple>
+#include <memory>
 
 namespace pybind11 {
 class object;
