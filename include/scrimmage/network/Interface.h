@@ -48,6 +48,7 @@
 #include <list>
 #include <mutex> // NOLINT
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 class Interface {

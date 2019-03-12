@@ -38,6 +38,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {

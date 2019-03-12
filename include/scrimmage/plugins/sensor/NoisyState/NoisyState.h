@@ -38,6 +38,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
 namespace sensor {

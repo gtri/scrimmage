@@ -42,6 +42,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <memory>
 
 #include <opencv2/core/core.hpp>
 

@@ -54,6 +54,7 @@
 #include <list>
 #include <mutex> // NOLINT
 #include <condition_variable> // NOLINT
+#include <unordered_map>
 
 namespace scrimmage {
 

@@ -37,6 +37,8 @@
 
 #include <Eigen/Dense>
 
+#include <memory>
+
 namespace scrimmage {
 namespace motion {
 

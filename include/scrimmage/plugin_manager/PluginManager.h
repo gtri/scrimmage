@@ -45,6 +45,7 @@
 #include <unordered_set>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #ifdef __APPLE__
 #define LIB_EXT ".dylib"

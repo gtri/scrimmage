@@ -44,6 +44,7 @@
 #include <map>
 #include <string>
 #include <list>
+#include <memory>
 
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>

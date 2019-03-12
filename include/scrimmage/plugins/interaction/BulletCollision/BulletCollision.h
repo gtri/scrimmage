@@ -45,6 +45,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <memory>
 
 namespace sc = scrimmage;
 class Interface;

@@ -39,6 +39,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 

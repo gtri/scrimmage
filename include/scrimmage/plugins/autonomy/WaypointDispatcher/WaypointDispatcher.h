@@ -39,6 +39,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {

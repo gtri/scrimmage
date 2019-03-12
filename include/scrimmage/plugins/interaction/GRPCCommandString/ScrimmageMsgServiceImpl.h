@@ -38,6 +38,7 @@
 #include <scrimmage/msgs/Command.grpc.pb.h>
 
 #include <queue>
+#include <memory>
 
 namespace scrimmage {
 class ScrimmageMsgServiceImpl final : public scrimmage_msgs::ScrimmageMsgService::Service {

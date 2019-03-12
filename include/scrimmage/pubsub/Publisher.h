@@ -37,6 +37,7 @@
 
 #include <functional>
 #include <string>
+#include <memory>
 
 #include <boost/type_index.hpp>
 
