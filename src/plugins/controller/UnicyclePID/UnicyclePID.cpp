@@ -104,9 +104,15 @@ bool UnicyclePID::step(double t, double dt) {
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
     Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_)-state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
+    if (vel.hasNaN()) {
+        vel = Eigen::Vector3d::Zero();
+    }
 
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
+    if (std::isnan(desired_pitch)) {
+        desired_pitch = 0;
+    }
     pitch_pid_.set_setpoint(desired_pitch);
     vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
 
@@ -128,7 +134,11 @@ bool UnicyclePID::step(double t, double dt) {
     double desired_speed = vars_.input(desired_speed_idx_);
     if (use_accel_) {
         speed_pid_.set_setpoint(desired_speed);
-        desired_speed = speed_pid_.step(time_->dt(), state_->vel().norm());
+        double vel_norm = state_->vel().norm();
+        if (std::isnan(vel_norm)) {
+            vel_norm = 0;
+        }
+        desired_speed = speed_pid_.step(time_->dt(), vel_norm);
     }
     vars_.output(speed_idx_, desired_speed);
 

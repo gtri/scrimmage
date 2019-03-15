@@ -59,10 +59,10 @@ def main():
             args.time_warp = "8"
             args.finalize_script = "./clean.sh"
         elif args.mission_default == 's1_alpha':
-            args.scrimmage_mission_file = '../missions/moos-ex1.xml'
+            args.scrimmage_mission_file = '../missions/moos-ex3.xml'
             args.moos_launch_script = './launch.sh'
             args.moos_mission_dir = '../data/moos/missions/s1_alpha'
-            args.time_warp = "8"
+            args.time_warp = "1"
             args.finalize_script = "./clean.sh"
         else:
             print('Invalid mission default.')

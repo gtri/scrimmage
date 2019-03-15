@@ -35,9 +35,15 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/common/Utilities.h>
 
 #include <scrimmage/plugins/autonomy/MOOSAutonomy/MOOSAutonomy.h>
 #include <scrimmage/plugins/autonomy/MOOSAutonomy/MOOSNode.h>
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
 
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
@@ -66,13 +72,31 @@ void MOOSAutonomy::init(std::map<std::string, std::string> &params) {
     moos_script_ = sc::expand_user(sc::get<std::string>("moos_script", params, "launch.sh"));
     moos_mission_file_ = sc::expand_user(sc::get<std::string>("moos_mission_file", params, "alpha.moos"));
 
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
-    desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    enable_actuator_control_ = sc::get<bool>("enable_actuator_control", params, enable_actuator_control_);
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    if (enable_actuator_control_) {
+        throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+        elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+        rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+
+        vars_.output(throttle_idx_, 0);
+        vars_.output(elevator_idx_, 0);
+        vars_.output(rudder_idx_, 0);
+
+    } else {
+        desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+        desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+        double speed = state_->vel().norm();
+        if (std::isnan(speed)) {
+            speed = 0;
+        }
+
+        vars_.output(desired_alt_idx_, state_->pos()(2));
+        vars_.output(desired_speed_idx_, speed);
+        vars_.output(desired_heading_idx_, state_->quat().yaw());
+    }
 
     // Kick off moos node thread
     moos_node_.set_time_warp(parent_->mp()->time_warp());
@@ -107,22 +131,30 @@ bool MOOSAutonomy::step_autonomy(double t, double dt) {
                                      t, "0");
     }
 
-    // Get desired state from moos
-    sc::State s = moos_node_.desired_state();
+    if (enable_actuator_control_) {
+        MOOSNode::ActuatorControl a_ctrl = moos_node_.actuator_control();
 
-    // Convert heading to local cartesian
-    angles_from_moos_.set_angle(ang::rad2deg(s.quat().yaw()));
-    s.quat().set(s.quat().roll(), s.quat().pitch(),
-                 ang::deg2rad(angles_from_moos_.angle()));
+        double throttle = scale<double>(a_ctrl.throttle, -100, 100, -1.0, 1.0);
+        double elevator = scale<double>(a_ctrl.elevator, -100, 100, -1.0, 1.0);
+        double rudder = scale<double>(a_ctrl.rudder, -100, 100, -1.0, 1.0);
 
-    desired_state_->vel() = s.vel();
-    desired_state_->quat() = s.quat();
-    desired_state_->pos() = s.pos();
+        vars_.output(throttle_idx_, throttle);
+        vars_.output(elevator_idx_, elevator);
+        vars_.output(rudder_idx_, rudder);
+    } else {
+        // Get desired state from moos
+        sc::State s = moos_node_.desired_state();
 
-    // Set the VariableIO output for controller
-    vars_.output(desired_alt_idx_, desired_state_->pos()(2));
-    vars_.output(desired_speed_idx_, desired_state_->vel()(0));
-    vars_.output(desired_heading_idx_, desired_state_->quat().yaw());
+        // Convert heading to local cartesian
+        angles_from_moos_.set_angle(ang::rad2deg(s.quat().yaw()));
+        s.quat().set(s.quat().roll(), s.quat().pitch(),
+                     ang::deg2rad(angles_from_moos_.angle()));
+
+        // Set the VariableIO output for controller
+        vars_.output(desired_alt_idx_, s.pos()(2));
+        vars_.output(desired_speed_idx_, s.vel()(0));
+        vars_.output(desired_heading_idx_, s.quat().yaw());
+    }
 
     return true;
 }

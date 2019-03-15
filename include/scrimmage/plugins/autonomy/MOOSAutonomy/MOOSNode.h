@@ -58,6 +58,16 @@ class MOOSNode : public CMOOSApp {
         SENSOR_CONTACT
     } NodeReportType_t;
 
+    struct ActuatorControl {
+        double throttle = 0;
+        double rudder = 0;
+        double elevator = 0;
+    };
+
+    ActuatorControl actuator_control() {
+        return actuator_control_;
+    }
+
     void set_time_warp(double warp);
 
     bool PublishNodeReport(NodeReportType_t report_type, std::string id,
@@ -91,6 +101,8 @@ class MOOSNode : public CMOOSApp {
 
     std::mutex desired_mutex_;
     scrimmage::State desired_;
+    ActuatorControl actuator_control_;
+
 };
 } // namespace autonomy
 } // namespace scrimmage

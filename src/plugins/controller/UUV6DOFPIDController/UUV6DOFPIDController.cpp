@@ -76,7 +76,6 @@ void UUV6DOFPIDController::init(std::map<std::string, std::string> &params) {
 }
 
 bool UUV6DOFPIDController::step(double t, double dt) {
-
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
     double u_rudder = heading_pid_.step(time_->dt(), state_->quat().yaw());
 

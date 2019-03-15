@@ -68,6 +68,12 @@ class MOOSAutonomy : public scrimmage::Autonomy {
     int desired_heading_idx_ = 0;
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
+
+    int throttle_idx_ = 0;
+    int elevator_idx_ = 0;
+    int rudder_idx_ = 0;
+
+    bool enable_actuator_control_ = false;
 };
 } // namespace autonomy
 } // namespace scrimmage

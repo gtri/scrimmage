@@ -5,9 +5,11 @@
   <moos_app_name>scrimmage</moos_app_name>
 
   <moos_mission_file>~/scrimmage/scrimmage/data/moos/missions/s1_alpha/alpha.moos</moos_mission_file>
-  
+
+  <enable_actuator_control>false</enable_actuator_control>
+
   <!--
-  <autonomy_moos_name>alpha</autonomy_moos_name>  
+  <autonomy_moos_name>alpha</autonomy_moos_name>
   <moos_mission_file>~/repos/3rd-party/moos-ivp/ivp/missions/s1_alpha/alpha.moos</moos_mission_file>
   -->
 </params>

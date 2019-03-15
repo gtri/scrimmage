@@ -87,7 +87,7 @@ bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
             desired_mutex_.lock();
             desired_.pos() = -Eigen::Vector3d::UnitZ()*dval;
             desired_mutex_.unlock();
-        }  else if (key == "IVPHELM_STATE") {
+        } else if (key == "IVPHELM_STATE") {
             if (!deployed_) {
                 Notify("DEPLOY", "true");
                 Notify("RETURN", "false");
@@ -96,6 +96,18 @@ bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
                 deployed_ = true;
                 deployed_mutex_.unlock();
             }
+        } else if (key == "DESIRED_RUDDER") {
+            desired_mutex_.lock();
+            actuator_control_.rudder = dval;
+            desired_mutex_.unlock();
+        } else if (key == "DESIRED_ELEVATOR") {
+            desired_mutex_.lock();
+            actuator_control_.elevator = dval;
+            desired_mutex_.unlock();
+        } else if (key == "DESIRED_THRUST") {
+            desired_mutex_.lock();
+            actuator_control_.throttle = dval;
+            desired_mutex_.unlock();
         }
     }
     return(true);
@@ -150,6 +162,10 @@ void MOOSNode::DoRegistrations() {
     Register("DESIRED_SPEED", 0.0);
     Register("DESIRED_DEPTH", 0.0);
     Register("IVPHELM_STATE", 0.0);
+
+    Register("DESIRED_RUDDER", 0);
+    Register("DESIRED_ELEVATOR", 0);
+    Register("DESIRED_THRUST", 0);
 }
 
 bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
