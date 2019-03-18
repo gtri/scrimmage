@@ -199,6 +199,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+  std::cout << "Straight: time: " << t << std::endl;
     if (gen_ents_) {
         if (time_->t() > (prev_gen_time_ + 2.0)) {
             prev_gen_time_ = time_->t();

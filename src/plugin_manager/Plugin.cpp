@@ -110,10 +110,10 @@ void Plugin::set_param_server(const ParameterServerPtr &param_server) {
 }
 
 bool Plugin::step_loop_timer(double dt) {
-    this->loop_timer_ -= dt;
-    if (this->loop_timer_ <= 0.0) {
-        this->loop_timer_ = this->loop_rate_ == 0 ?
-          -1.0 : 1.0 / this->loop_rate_ + this->loop_timer_;
+    loop_timer_ -= dt;
+    if (loop_timer_ <= 0.0) {
+        loop_timer_ = loop_rate_ == 0 ?
+          -1.0 : loop_timer_ + (1.0 / loop_rate_);
         return true;
     } else {
         return false;
