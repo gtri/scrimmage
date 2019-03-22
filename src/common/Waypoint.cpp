@@ -34,17 +34,30 @@
 #include <iomanip>
 #include <limits>
 
+#include <GeographicLib/LocalCartesian.hpp>
+
 namespace scrimmage {
 namespace autonomy {
 
-Waypoint::Waypoint(double latitude, double longitude, double altitude)
+Waypoint::Waypoint(const double& latitude, const double& longitude,
+                   const double& altitude)
     : latitude_(latitude), longitude_(longitude), altitude_(altitude) {}
 
-void Waypoint::set_position_tolerance(double pos_tol) {
+Waypoint::Waypoint(const double &x, const double& y, const double& z,
+                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    proj->Reverse(x, y, z, latitude_, longitude_, altitude_);
+}
+
+Waypoint::Waypoint(const Eigen::Vector3d &xyz,
+                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    proj->Reverse(xyz(0), xyz(1), xyz(2), latitude_, longitude_, altitude_);
+}
+
+void Waypoint::set_position_tolerance(const double& pos_tol) {
     position_tolerance_ = pos_tol >= 0 ? pos_tol : std::numeric_limits<double>::max();
 }
 
-void Waypoint::set_quat_tolerance(double quat_tol) {
+void Waypoint::set_quat_tolerance(const double& quat_tol) {
     quat_tolerance_ = quat_tol >= 0 ? quat_tol : std::numeric_limits<double>::max();
 }
 
@@ -64,6 +77,13 @@ bool operator==(const Waypoint &lhs, const Waypoint &rhs) {
     return !far(lhs.altitude(), rhs.latitude()) &&
            !far(lhs.longitude(), rhs.longitude()) &&
            !far(lhs.altitude(), rhs.altitude());
+}
+
+Eigen::Vector3d Waypoint::xyz(
+    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    Eigen::Vector3d p;
+    proj->Forward(latitude_, longitude_, altitude_, p(0), p(1), p(2));
+    return p;
 }
 
 } // namespace autonomy

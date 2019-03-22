@@ -100,10 +100,10 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
 
             Waypoint wp(lat, lon, alt);
             wp.set_time(std::stod(vec[1]));
-            wp.quat().set(sc::Angles::deg2rad(std::stod(vec[5])),
-                          sc::Angles::deg2rad(std::stod(vec[6])),
-                          sc::Angles::deg2rad(std::stod(vec[7])));
-
+            scrimmage::Quaternion quat(sc::Angles::deg2rad(std::stod(vec[5])),
+                                       sc::Angles::deg2rad(std::stod(vec[6])),
+                                       sc::Angles::deg2rad(std::stod(vec[7])));
+            wp.set_quat(quat);
             wp.set_position_tolerance(std::stod(vec[8]));
             wp.set_quat_tolerance(std::stod(vec[9]));
 

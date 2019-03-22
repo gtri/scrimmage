@@ -69,6 +69,7 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
     lead_distance_ = sc::get<double>("lead_distance", params, lead_distance_);
     filter_dist_ = sc::get<double>("filter_dist", params, filter_dist_);
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
+    tolerance_in_2d_ = sc::get<bool>("tolerance_in_2d", params, tolerance_in_2d_);
 
     std::string waypointlist_network = get<std::string>(
         "waypointlist_network", params, "GlobalNetwork");
@@ -162,7 +163,10 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
     wp_pub_->publish(wp_msg);
 
     // check if within waypoint tolerance
-    if ((state_->pos() - wp).norm() <= curr_wp_lla.position_tolerance()) {
+    double dist = tolerance_in_2d_ ?
+            (state_->pos().head<2>() - wp.head<2>()).norm() :
+            (state_->pos() - wp).norm();
+    if (dist <= curr_wp_lla.position_tolerance()) {
 
         bool done = false;
         switch (wp_list_.mode()) {

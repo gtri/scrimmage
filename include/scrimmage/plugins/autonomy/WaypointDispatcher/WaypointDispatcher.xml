@@ -6,4 +6,7 @@
   <waypoint_network>LocalNetwork</waypoint_network>
   <lead_distance>50</lead_distance>
   <show_shapes>false</show_shapes>
+
+  <!-- If true, don't include altitude (z) in tolerance check-->
+  <tolerance_in_2d>false</tolerance_in_2d>
 </params>

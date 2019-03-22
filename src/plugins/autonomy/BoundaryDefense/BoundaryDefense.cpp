@@ -127,7 +127,7 @@ void BoundaryDefense::publish_waypoint(const Eigen::Vector3d &point) {
 
     Waypoint wp(lat, lon, alt);
     wp.set_time(0);
-    wp.quat().set(0, 0, 0);
+    wp.set_quat(scrimmage::Quaternion(0, 0, 0));
     wp.set_position_tolerance(80);
     path_msg->data.waypoints().push_back(wp);
 
