@@ -3,6 +3,9 @@
 <params>
   <library>TerrainGenerator_plugin</library>
 
+  <!-- RANDOM_WALK or LINEAR -->
+  <technique>RANDOM_WALK</technique>
+
   <x_length>500</x_length> <!-- meters -->
   <y_length>500</y_length> <!-- meters -->
   <x_resolution>1.0</x_resolution>
@@ -10,5 +13,8 @@
   <z_std>1.0</z_std>
   <center>0, 0, 0</center>
   <color>0, 255, 0</color>
+
+  <!-- if less than 0, use simulation's top-level seed -->
+  <seed>-1</seed>
 
 </params>

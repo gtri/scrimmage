@@ -86,7 +86,7 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
 
     wp_ = Waypoint(lat, lon, alt);
     wp_.set_time(0);
-    wp_.quat().set(0, 0, 0);
+    wp_.set_quat(scrimmage::Quaternion(0, 0, 0));
     wp_.set_position_tolerance(1);
     wp_.set_quat_tolerance(1);
 
