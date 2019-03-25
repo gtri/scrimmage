@@ -52,7 +52,8 @@ OpenAIObservations::OpenAIObservations() :
     tuple_space_(get_gym_space("Tuple")),
     box_space_(get_gym_space("Box")) {}
 
-pybind11::object OpenAIObservations::update_observation(size_t num_entities) {
+pybind11::object OpenAIObservations::update_observation(size_t num_entities,
+                                                        bool static_obs_space) {
 
     auto call_get_obs = [&](auto *data, uint32_t &beg_idx, auto sensor, int obs_size) {
         uint32_t end_idx = beg_idx + obs_size;
@@ -80,8 +81,7 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities) {
 
     py::array_t<int> disc_obs;
     py::array_t<double> cont_obs;
-    if (num_entities == 1 || combine_actors_) {
-
+    if (static_obs_space && (num_entities == 1 || combine_actors_)) {
         std::tie(disc_obs, cont_obs) = init_arrays(observation_space, observation);
         uint32_t disc_beg_idx = 0;
         uint32_t cont_beg_idx = 0;
@@ -107,6 +107,17 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities) {
         py::list observation_space_list =
             observation_space.attr("spaces").cast<py::list>();
         py::list observation_list = observation.cast<py::list>();
+
+        // Get python len() function
+        py::object len_ = py::module::import("builtins").attr("len");
+
+        // Number of entities has shrunk
+        while (len_(observation_list).cast<size_t>() > ext_sensor_vec_.size()) {
+            // Shrink observation_list to the number of sensors
+            for (size_t i = len_(observation_list).cast<size_t>(); i > ext_sensor_vec_.size(); i--) {
+                observation_list.attr("pop")(-1);
+            }
+        }
 
         for (size_t i = 0; i < ext_sensor_vec_.size(); i++) {
             py::object indiv_space = observation_space_list[i];

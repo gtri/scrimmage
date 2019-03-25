@@ -96,11 +96,13 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
         bool enable_gui,
         bool combine_actors,
         bool global_sensor,
+        bool static_obs_space,
         double timestep) :
     spec(py::none()),
     metadata(py::dict()),
     mission_file_(mission_file),
-    enable_gui_(enable_gui) {
+    enable_gui_(enable_gui),
+    static_obs_space_(static_obs_space) {
 
     observations_.set_global_sensor(global_sensor);
     observations_.set_combine_actors(combine_actors);
@@ -173,7 +175,8 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     sigaction(SIGTERM, &sa, NULL);
 
     reset_scrimmage(enable_gui_);
-    observations_.update_observation(actions_.ext_ctrl_vec().size());
+    observations_.update_observation(actions_.ext_ctrl_vec().size(),
+                                     static_obs_space_);
     return observations_.observation;
 }
 
@@ -355,6 +358,33 @@ void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
     seed_ = _seed.cast<int>();
 }
 
+void ScrimmageOpenAIEnv::filter_ext_ctrl_vec(){
+    for (auto it = actions_.ext_ctrl_vec().begin();
+              it != actions_.ext_ctrl_vec().end();) {
+        auto autonomy_ptr = *it;
+        auto parent_ptr = autonomy_ptr->parent();
+        if (parent_ptr == nullptr) {
+            it = actions_.ext_ctrl_vec().erase(it);
+        } else {
+            it++;
+        }
+    }
+}
+
+void ScrimmageOpenAIEnv::filter_ext_sensor_vec(){
+    for (auto it = observations_.ext_sensor_vec().begin();
+              it != observations_.ext_sensor_vec().end();) {
+        // Each item is the vector of sensors an entity has
+        auto sensor_ptr = (*it)[0];
+        auto parent_ptr = sensor_ptr->parent();
+        if (parent_ptr == nullptr) {
+            it = observations_.ext_sensor_vec().erase(it);
+        } else {
+            it++;
+        }
+    }
+}
+
 pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
 
     actions_.distribute_action(action, observations_.get_combine_actors());
@@ -366,8 +396,10 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
         done = !simcontrol_->run_single_step(loop_number_++) ||
         simcontrol_->end_condition_reached();
     }
-
-    observations_.update_observation(actions_.ext_ctrl_vec().size());
+    filter_ext_ctrl_vec();
+    filter_ext_sensor_vec();
+    observations_.update_observation(actions_.ext_ctrl_vec().size(),
+                                     static_obs_space_);
 
     py::float_ py_reward;
     py::bool_ py_done;
@@ -441,7 +473,7 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
 
 void add_openai_env(pybind11::module &m) {
     py::class_<ScrimmageOpenAIEnv>(m, "ScrimmageOpenAIEnv")
-        .def(py::init<std::string&, bool, bool, bool, double>(),
+        .def(py::init<std::string&, bool, bool, bool, bool, double>(),
             R"(Scrimmage Open AI Environment Constructor.
 
 Parameters
@@ -469,6 +501,11 @@ global_sensor : bool
     set to False. It is designed to be used when
     agents all have the same information.
 
+static_obs_space : bool
+    whether the observation space will remain static or change. An
+    example of when the observation space will change is when
+    entities can be arbitrarily added or removed.
+
 timestep : float
     run scrimmage for multiple timesteps before outputting
     the observation and reward on env.step().
@@ -477,6 +514,7 @@ timestep : float
             py::arg("enable_gui") = false,
             py::arg("combine_actors") = false,
             py::arg("global_sensor") = false,
+            py::arg("static_obs_space") = true,
             py::arg("timestep") = -1)
         .def("step", &ScrimmageOpenAIEnv::step,
             R"(Run scrimmage for one step.
