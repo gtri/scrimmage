@@ -94,6 +94,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Create an Autonomy Plugin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examine-autonomy-plugin">Examine Autonomy Plugin</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#autonomy-plugin-initialization">Autonomy Plugin Initialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-loop-rate">Set Loop Rate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-autonomy">Step Autonomy</a></li>
 </ul>
 </li>
@@ -261,10 +262,7 @@ favorite text editor to open the file at
 11
 12
 13
-14
-15
-16
-17</pre></div></td><td class="code"><div class="highlight"><pre> <span class="cp">#include</span> <span class="cpf">&lt;my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h&gt;</span><span class="cp"></span>
+14</pre></div></td><td class="code"><div class="highlight"><pre> <span class="cp">#include</span> <span class="cpf">&lt;my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h&gt;</span><span class="cp"></span>
 
  <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/plugin_manager/RegisterPlugin.h&gt;</span><span class="cp"></span>
  <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/entity/Entity.h&gt;</span><span class="cp"></span>
@@ -278,9 +276,6 @@ favorite text editor to open the file at
  <span class="n">REGISTER_PLUGIN</span><span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Autonomy</span><span class="p">,</span>
                  <span class="n">scrimmage</span><span class="o">::</span><span class="n">autonomy</span><span class="o">::</span><span class="n">MyFollowBehavior</span><span class="p">,</span>
                  <span class="n">MyFollowBehavior_plugin</span><span class="p">)</span>
-
- <span class="k">namespace</span> <span class="n">scrimmage</span> <span class="p">{</span>
- <span class="k">namespace</span> <span class="n">autonomy</span> <span class="p">{</span>
 </pre></div>
 </td></tr></table></div>
 <p>After the relevant header files are included, there is a <code class="docutils literal notranslate"><span class="pre">REGISTER_PLUGIN</span></code>
@@ -330,6 +325,23 @@ from scrimmage:</p>
 arbitrarly define tags in the Autonomy plugin’s XML file. The <code class="docutils literal notranslate"><span class="pre">sc::get</span></code>
 supports all standard C++ data types, such as <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>,
 <code class="docutils literal notranslate"><span class="pre">std::string</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>, etc.</p>
+</div>
+<div class="section" id="set-loop-rate">
+<h3>Set Loop Rate<a class="headerlink" href="#set-loop-rate" title="Permalink to this headline">¶</a></h3>
+<p>Normally, the loop rate for a plugin should be set with the <code class="docutils literal notranslate"><span class="pre">loop_rate</span></code>
+xml tag inside the plugin’s block of the mission file. Using this API the
+user doesn’t have to write any code to set the loop rate. However, it’s also
+possible to change the loop rate for a plugin dynamically during a simulation.
+This is done by calling the plugin’s <code class="docutils literal notranslate"><span class="pre">set_loop_rate()</span></code> method, which
+sets the plugin’s loop rate in Hz:</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">update_loop_rate</span><span class="p">(</span><span class="kt">double</span> <span class="n">new_loop_rate</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">set_loop_rate</span><span class="p">(</span><span class="n">new_loop_rate</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The current loop rate can also be accessed with the <code class="docutils literal notranslate"><span class="pre">loop_rate()</span></code> function.</p>
 </div>
 <div class="section" id="step-autonomy">
 <h3>Step Autonomy<a class="headerlink" href="#step-autonomy" title="Permalink to this headline">¶</a></h3>

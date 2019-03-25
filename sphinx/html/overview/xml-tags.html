@@ -344,7 +344,14 @@ sasc.xml mission for an example configuration.</li>
 entity group. Scrimmage searches the SCRIMMAGE_PLUGIN_PATH for an XML file
 with the autonomy tag’s name. Multiple autonomy plugins can run in serial
 on a single entity. Autonomy plugins are executed in the order in which
-they appear in the mission file.</li>
+they appear in the mission file.<ul>
+<li><code class="docutils literal notranslate"><span class="pre">loop_rate</span></code> : This tag sets the autonomy plugin’s loop_rate in Hz.
+Scrimmage will attempt to step the plugin at this rate, but cannot
+step a plugin faster than the simulation itself. If the loop_rate is set
+faster than the sim, or is set to 0 or a negative number, it will step
+every time the simulator steps.</li>
+</ul>
+</li>
 <li><code class="docutils literal notranslate"><span class="pre">health</span></code> : The initial health points for this entity. The entity
 interaction plugin can affect the health points of each entity depending on
 entity messages and the world state. When the health points decrement to
@@ -398,9 +405,17 @@ motion planning.</li>
 <li><code class="docutils literal notranslate"><span class="pre">visual_model</span></code> : Loads an XML file that specifies the appearance of the
 entity. Examples: zephyr-blue, zephyr-red, iris, sea-angler, volkswagen.</li>
 <li><code class="docutils literal notranslate"><span class="pre">controller</span></code> : Loads a low-level controller plugin. Each entity can only
-have a single controller.</li>
+have a single controller.<ul>
+<li><code class="docutils literal notranslate"><span class="pre">loop_rate</span></code> : This tag sets the controller plugin’s loop_rate in Hz.
+See autonomy tag for details.</li>
+</ul>
+</li>
 <li><code class="docutils literal notranslate"><span class="pre">sensor</span></code> : Loads a sensor plugin. Multiple sensor plugins can run in
-serial on a single entity.</li>
+serial on a single entity.<ul>
+<li><code class="docutils literal notranslate"><span class="pre">loop_rate</span></code> : This tag sets the sensor plugin’s loop_rate in Hz.
+See autonomy tag for details.</li>
+</ul>
+</li>
 <li><code class="docutils literal notranslate"><span class="pre">base</span></code> : Used to define a “home base” for the entity. Only one home base
 per team should be specified. Entity groups that share a team ID will share
 a home base defined in only one entity group. The <code class="docutils literal notranslate"><span class="pre">base</span></code> tag has the
