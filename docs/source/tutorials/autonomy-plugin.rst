@@ -37,7 +37,7 @@ Let's take a look at the header file
 
 .. code-block:: c++
    :linenos:
-                
+
     #ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
     #define INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_
     #include <scrimmage/autonomy/Autonomy.h>
@@ -91,10 +91,6 @@ favorite text editor to open the file at
                     scrimmage::autonomy::MyFollowBehavior,
                     MyFollowBehavior_plugin)
 
-    namespace scrimmage {
-    namespace autonomy {
-
-
 After the relevant header files are included, there is a ``REGISTER_PLUGIN``
 macro that adds information to your source file so scrimmage can dynamically load it
 at runtime. The plugin's ``init`` function is pasted below:
@@ -134,6 +130,25 @@ the ``sc::get<double>()`` function can convert the string value of
 arbitrarly define tags in the Autonomy plugin's XML file. The ``sc::get``
 supports all standard C++ data types, such as ``int``, ``double``,
 ``std::string``, ``bool``, ``unsigned int``, etc.
+
+Set Loop Rate
+~~~~~~~~~~~~~
+
+Normally, the loop rate for a plugin should be set with the ``loop_rate``
+xml tag inside the plugin's block of the mission file. Using this API the
+user doesn't have to write any code to set the loop rate. However, it's also
+possible to change the loop rate for a plugin dynamically during a simulation.
+This is done by calling the plugin's ``set_loop_rate()`` method, which
+sets the plugin's loop rate in Hz:
+
+.. code-block:: c++
+   :linenos:
+
+    void MyFollowBehavior::update_loop_rate(double new_loop_rate) {
+        set_loop_rate(new_loop_rate);
+    }
+
+The current loop rate can also be accessed with the ``loop_rate()`` function.
 
 Step Autonomy
 ~~~~~~~~~~~~~
@@ -215,7 +230,7 @@ distance between our entity and the contact. In lines 14 to 18, we determine if
 this is the small distance encountered so far and save the distance and ID of
 the contact if it is the closest distance.
 
-In the second ``if`` block, 
+In the second ``if`` block,
 we set the Autonomy's controller inputs using :ref:`variableio`.
 Line 28 ensures that the ID of the contact that we want to follow exists. Next,
 we get a pointer to the contact's ``scrimmage::State`` in line 30. Using basic

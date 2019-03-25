@@ -189,6 +189,13 @@ and match between the two paradigms for a single entity.
     with the autonomy tag's name. Multiple autonomy plugins can run in serial
     on a single entity. Autonomy plugins are executed in the order in which
     they appear in the mission file.
+
+    - ``loop_rate`` : This tag sets the autonomy plugin's loop_rate in Hz.
+      Scrimmage will attempt to step the plugin at this rate, but cannot
+      step a plugin faster than the simulation itself. If the loop_rate is set
+      faster than the sim, or is set to 0 or a negative number, it will step
+      every time the simulator steps.
+
   - ``health`` : The initial health points for this entity. The entity
     interaction plugin can affect the health points of each entity depending on
     entity messages and the world state. When the health points decrement to
@@ -245,8 +252,14 @@ and match between the two paradigms for a single entity.
   - ``controller`` : Loads a low-level controller plugin. Each entity can only
     have a single controller.
 
+    - ``loop_rate`` : This tag sets the controller plugin's loop_rate in Hz.
+      See autonomy tag for details.
+
   - ``sensor`` : Loads a sensor plugin. Multiple sensor plugins can run in
     serial on a single entity.
+
+    - ``loop_rate`` : This tag sets the sensor plugin's loop_rate in Hz.
+      See autonomy tag for details.
 
   - ``base`` : Used to define a "home base" for the entity. Only one home base
     per team should be specified. Entity groups that share a team ID will share
@@ -305,7 +318,7 @@ and match between the two paradigms for a single entity.
 
 - ``multi_threaded``: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
   The default is for scrimmage to run in a single thread. The attributes are:
-  
+
   - ``num_threads`` : how many threads to use (``default = 1``)
   - ``autonomy`` : whether to enable or disable running autonomy plugins in threads (``default = true``)
   - ``controller`` : whether to enable or disable running controller plugins in threads (``default = true``)
