@@ -10,10 +10,51 @@ import "scrimmage/proto/Quaternion.proto";
 import "scrimmage/proto/Color.proto";
 import "scrimmage/proto/ID.proto";
 
-message Triangle {
-        Vector3d point0 = 1;
-        Vector3d point1 = 2;
-        Vector3d point2 = 3;
+message Arrow {
+        Vector3d tail = 1;
+        Vector3d head = 2;
+}
+
+message Circle {
+        Vector3d center = 1;
+        double radius = 2;
+        Quaternion quat = 3;
+        bool solid = 4;
+}
+
+message Cone {
+        Vector3d direction = 1;
+        Vector3d apex = 2;
+        double height = 3;
+        double base_radius = 4;
+}
+
+message Cuboid {
+        double x_length = 1;
+        double y_length = 2;
+        double z_length = 3;
+        Vector3d center = 4;
+        Quaternion quat = 5;
+}
+
+message Ellipse {
+        Vector3d center = 1;
+        double x_radius = 2;
+        double y_radius = 3;
+        Quaternion quat = 4;
+}
+
+message Line {
+        Vector3d start = 1;
+        Vector3d end = 2;
+        double width = 3;
+}
+
+message Mesh {
+        string name = 1;
+        Vector3d center = 2;
+        Quaternion quat = 3;
+        double scale = 4;
 }
 
 message Plane {
@@ -25,29 +66,17 @@ message Plane {
         bool diffuse_lighting = 6;
 }
 
-message Arrow {
-        Vector3d tail = 1;
-        Vector3d head = 2;
-}
-
-message Cone {
-        Vector3d direction = 1;
-        Vector3d apex = 2;
-        double height = 3;
-        double base_radius = 4;
-}
-
-message Line {
-        Vector3d start = 1;
-        Vector3d end = 2;
-        double width = 3;
-}
-
-message Polygon {
+message PointCloud {
         repeated Vector3d point = 1;
+        repeated Color color = 2;
+        double size = 3;
 }
 
 message Polydata {
+        repeated Vector3d point = 1;
+}
+
+message Polygon {
         repeated Vector3d point = 1;
 }
 
@@ -55,36 +84,13 @@ message Polyhedron {
         repeated Vector3d point = 1;
 }
 
-message Cuboid {
-        double x_length = 1;
-        double y_length = 2;
-        double z_length = 3;
-        Vector3d center = 4;
-        Quaternion quat = 5;
-}
-
-message PointCloud {
-        repeated Vector3d point = 1;
-        repeated Color color = 2;
-        double size = 3;
-}
-
-message Circle {
-        Vector3d center = 1;
-        double radius = 2;
-        Quaternion quat = 3;
-}
-
 message Sphere {
         Vector3d center = 1;
         double radius = 2;
 }
 
-message Ellipse {
-        Vector3d center = 1;
-        double x_radius = 2;
-        double y_radius = 3;
-        Quaternion quat = 4;
+message Spline {
+        repeated Vector3d point = 1;
 }
 
 message Text {
@@ -93,15 +99,10 @@ message Text {
         double scale = 3;
 }
 
-message Mesh {
-        string name = 1;
-        Vector3d center = 2;
-        Quaternion quat = 3;
-        double scale = 4;
-}
-
-message Spline {
-        repeated Vector3d point = 1;
+message Triangle {
+        Vector3d point0 = 1;
+        Vector3d point1 = 2;
+        Vector3d point2 = 3;
 }
 
 message Shape {
@@ -118,22 +119,22 @@ message Shape {
     }
     bool persistent = 10;
     oneof oneof_type {
-          Triangle triangle = 11;
-          Plane plane = 12;
-          Arrow arrow = 13;
-          Cone cone = 14;
-          Line line = 15;
-          Polygon polygon = 16;
-          Polydata polydata = 17;
-          Cuboid cuboid = 18;
+          Arrow arrow           = 11;
+          Circle circle         = 12;
+          Cone cone             = 13;
+          Cuboid cuboid         = 14;
+          Ellipse ellipse       = 15;
+          Line line             = 16;
+          Mesh mesh             = 17;
+          Plane plane           = 18;
           PointCloud pointcloud = 19;
-          Circle circle = 20;
-          Sphere sphere = 21;
-          Text text = 22;
-          Polyhedron polyhedron = 23;
-          Ellipse ellipse = 24;
-          Mesh mesh = 25;
-          Spline spline = 26;
+          Polydata polydata     = 20;
+          Polygon polygon       = 21;
+          Polyhedron polyhedron = 22;
+          Sphere sphere         = 23;
+          Spline spline         = 24;
+          Text text             = 25;
+          Triangle triangle     = 26;
     }
 }
 
