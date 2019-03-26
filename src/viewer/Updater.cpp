@@ -66,6 +66,7 @@
 #include <vtkRegularPolygonSource.h>
 #include <vtkWindowToImageFilter.h>
 #include <vtkPNGWriter.h>
+#include <vtkArcSource.h>
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
@@ -422,6 +423,9 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
 
         bool shape_status = false;
         switch (shape.oneof_type_case()) {
+        case sp::Shape::kArc:
+            shape_status = draw_arc(new_shape, shape.arc(), actor, source, mapper);
+            break;
         case sp::Shape::kArrow:
             shape_status = draw_arrow(new_shape, shape.arrow(), actor, source, mapper);
             break;
@@ -1508,6 +1512,47 @@ void Updater::quat_2_transform(const sc::Quaternion &q,
     transform->RotateX(sc::Angles::rad2deg(q.roll()));
     transform->RotateY(sc::Angles::rad2deg(q.pitch()));
     transform->RotateZ(sc::Angles::rad2deg(q.yaw()));
+}
+
+bool Updater::draw_arc(const bool &new_shape,
+                       const scrimmage_proto::Arc &a,
+                       vtkSmartPointer<vtkActor> &actor,
+                       vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                       vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    vtkSmartPointer<vtkArcSource> arcSource;
+    if (new_shape) {
+        arcSource = vtkSmartPointer<vtkArcSource>::New();
+        source = arcSource;
+        mapper->SetInputConnection(arcSource->GetOutputPort());
+        actor->SetMapper(mapper);
+    } else {
+        arcSource = vtkArcSource::SafeDownCast(source);
+    }
+    arcSource->SetResolution(32);
+    arcSource->NegativeOff();
+    arcSource->UseNormalAndAngleOn();
+
+    // get polar vector and normal vector
+    Eigen::Vector3d normal = Eigen::Vector3d::UnitZ();
+    Eigen::Vector3d polar = Eigen::Vector3d::UnitX() * a.circle().radius();
+    scrimmage::Quaternion quat(a.circle().quat().w(),
+                               a.circle().quat().x(),
+                               a.circle().quat().y(),
+                               a.circle().quat().z());
+    normal = quat.rotate(normal);
+    polar = quat.rotate(polar);
+
+    // set values for arc
+    // NOTE: do not set rotation and normal for the actor if
+    // they're being set for the ArcSource itself
+    arcSource->SetAngle(sc::Angles::rad2deg(a.angle()));
+    arcSource->SetCenter(a.circle().center().x(),
+                         a.circle().center().y(),
+                         a.circle().center().z());
+    arcSource->SetNormal(normal.data());
+    arcSource->SetPolarVector(polar.data());
+
+    return true;
 }
 
 bool Updater::draw_arrow(const bool &new_shape,

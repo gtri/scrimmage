@@ -191,6 +191,11 @@ class Updater : public vtkCommand {
     void quat_2_transform(const Quaternion &quat,
                           vtkSmartPointer<vtkTransform> transform);
 
+    bool draw_arc(const bool &new_shape,
+                  const scrimmage_proto::Arc &a,
+                  vtkSmartPointer<vtkActor> &actor,
+                  vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                  vtkSmartPointer<vtkPolyDataMapper> &mapper);
     bool draw_arrow(const bool &new_shape,
                     const scrimmage_proto::Arrow &a,
                     vtkSmartPointer<vtkActor> &actor,

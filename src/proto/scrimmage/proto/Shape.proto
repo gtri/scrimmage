@@ -10,6 +10,11 @@ import "scrimmage/proto/Quaternion.proto";
 import "scrimmage/proto/Color.proto";
 import "scrimmage/proto/ID.proto";
 
+message Arc {
+        Circle circle = 1;
+        double angle = 2;
+}
+
 message Arrow {
         Vector3d tail = 1;
         Vector3d head = 2;
@@ -119,22 +124,23 @@ message Shape {
     }
     bool persistent = 10;
     oneof oneof_type {
-          Arrow arrow           = 11;
-          Circle circle         = 12;
-          Cone cone             = 13;
-          Cuboid cuboid         = 14;
-          Ellipse ellipse       = 15;
-          Line line             = 16;
-          Mesh mesh             = 17;
-          Plane plane           = 18;
-          PointCloud pointcloud = 19;
-          Polydata polydata     = 20;
-          Polygon polygon       = 21;
-          Polyhedron polyhedron = 22;
-          Sphere sphere         = 23;
-          Spline spline         = 24;
-          Text text             = 25;
-          Triangle triangle     = 26;
+          Arc arc               = 11;
+          Arrow arrow           = 12;
+          Circle circle         = 13;
+          Cone cone             = 14;
+          Cuboid cuboid         = 15;
+          Ellipse ellipse       = 16;
+          Line line             = 17;
+          Mesh mesh             = 18;
+          Plane plane           = 19;
+          PointCloud pointcloud = 20;
+          Polydata polydata     = 21;
+          Polygon polygon       = 22;
+          Polyhedron polyhedron = 23;
+          Sphere sphere         = 24;
+          Spline spline         = 25;
+          Text text             = 26;
+          Triangle triangle     = 27;
     }
 }
 
