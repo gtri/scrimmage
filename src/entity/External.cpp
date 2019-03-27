@@ -318,6 +318,7 @@ bool External::step(double t) {
 
     br::for_each(entity_->autonomies(), add_clear_shapes);
     br::for_each(entity_->controllers(), add_clear_shapes);
+    br::for_each(entity_->sensors() | ba::map_values, add_clear_shapes);
     br::for_each(ent_inters_, add_clear_shapes);
     br::for_each(metrics_, add_clear_shapes);
 
