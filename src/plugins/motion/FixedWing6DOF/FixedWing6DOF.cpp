@@ -272,19 +272,6 @@ bool FixedWing6DOF::step(double time, double dt) {
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
 
-
-
-
-#if 0
-    int prec = 5;
-    cout<< "*************************" << endl;
-    cout<< std::setprecision(prec) << "launch_command_:         " << launch_command_ << endl;
-    cout<< std::setprecision(prec) << "launch_state_:         " << launch_state_ << endl;
-    cout << "roll: " << quat_body_.roll();
-    cout << ", pitch: " << quat_body_.pitch();
-    cout << ", yaw: " << quat_body_.yaw() << endl;
-#endif
-
     quat_body_ = rot_180_x_axis_ * state_->quat();
     quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
                    quat_body_.pitch(), quat_body_.yaw());
@@ -363,7 +350,6 @@ bool FixedWing6DOF::step(double time, double dt) {
     // force_ext_body_ = quat_body_.rotate_reverse(ext_force_);
     // ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
     force_ext_body_ = F_catapult;
-
 
     ode_step(dt);
 
@@ -567,5 +553,10 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Vw] = -acc_world(1); // Due to rotated frame
     dxdt[Ww] = -acc_world(2); // Due to rotated frame
 }
+
+void FixedWing6DOF::teleport(StatePtr &state) {
+    state_ = state;
+}
+
 } // namespace motion
 } // namespace scrimmage
