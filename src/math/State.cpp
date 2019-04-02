@@ -97,29 +97,19 @@ double State::rel_az(const Eigen::Vector3d &other) const {
 }
 
 Eigen::Matrix4d State::tf_matrix(bool enable_translate) {
-    Eigen::Matrix4d m;
+    // Construct 4x4 matrix of the form:
+    // |rot|rot|rot| sx |
+    // |rot|rot|rot| sy |
+    // |rot|rot|rot| sz |
+    // | x | y | z |  1 |
+    // scales are zero (sx, sy, sz)
+    Eigen::Matrix4d mat4 = Eigen::Matrix4d::Identity();
+    mat4.block(0, 0, 3, 3) = quat_.toRotationMatrix();
 
-    double d = pos_(2); // translate by di along zi-axis
-    double theta = quat_.yaw(); // rotate cw by theta about zi-axis
-    double a = pos_(0); // translate by a_i_1 along the x_i_1 axis
-    double alpha = quat_.roll(); // rotate cw by alpha_i_1 about x_i_1 axis
-
-    if (!enable_translate) {
-        d = 0;
-        a = 0;
+    if (enable_translate) {
+        mat4.block(3, 0, 1, 3) = pos_;
     }
-
-    double ct = cos(theta);
-    double st = sin(theta);
-    double ca = cos(alpha);
-    double sa = sin(alpha);
-
-    m << ct, -st, 0, a,
-        st*ca, ct*ca, -sa, -sa*d,
-        st*sa, ct*sa, ca, ca*d,
-        0, 0, 0, 1;
-
-    return m;
+    return mat4;
 }
 
 std::ostream& operator<<(std::ostream& os, const State& s) {
