@@ -439,7 +439,7 @@ void ScrimmageOpenAIEnv::reset_learning_mode() {
 std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv::calc_reward() {
 
     py::dict info;
-    py::list done_list, reward_list, info_list;
+    py::list done_list, reward_list, info_list, ent_list;
 
     double reward = 0;
     bool done = false;
@@ -456,16 +456,19 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
         reward_list.append(temp_reward);
         done_list.append(temp_done);
         info_list.append(temp_info);
+        ent_list.append(a->parent()->id().id());
     }
 
     if (actions_.ext_ctrl_vec().size() == 1 || observations_.get_combine_actors()) {
         info = info_list[0].cast<py::dict>();
         info["reward"] = reward_list[0];
         info["done"] = done_list[0];
+        info["entities"] = ent_list[0];
     } else {
         info["info"] = info_list;
         info["reward"] = reward_list;
         info["done"] = done_list;
+        info["entities"] = ent_list;
     }
 
     return std::make_tuple(py::float_(reward), py::bool_(done), info);
