@@ -76,6 +76,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     show_image_ = sc::get<bool>("show_image", params, show_image_);
     show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
+    window_name_ = sc::get<std::string>("window_name", params, window_name_);
 
     // override default parameters
     std::map<std::string, double> plugin_params;
@@ -176,11 +177,11 @@ void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
 bool ContactBlobCamera::step() {
     if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
 
-    sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera" + std::to_string(camera_id_)];
-
     sc::State sensor_frame;
-    sensor_frame.quat() = static_cast<sc::Quaternion>(parent_->state()->quat() * sensor->transform()->quat());;
-    sensor_frame.pos() = sensor->transform()->pos() + parent_->state()->pos();
+    sensor_frame.quat() =
+            static_cast<sc::Quaternion>(parent_->state()->quat() *
+                                        this->transform()->quat());
+    sensor_frame.pos() = this->transform()->pos() + parent_->state()->pos();
 
     if (show_frustum_) {
         draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
@@ -295,7 +296,7 @@ bool ContactBlobCamera::step() {
     last_frame_t_ = time_->t();
 
     if (show_image_) {
-        cv::imshow(name_.c_str(), msg->data.frame);
+        cv::imshow(window_name_.c_str(), msg->data.frame);
         cv::waitKey(1);
     }
 

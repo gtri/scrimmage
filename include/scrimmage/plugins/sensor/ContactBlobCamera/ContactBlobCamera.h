@@ -91,8 +91,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     bool show_image_ = false;
     bool show_frustum_ = false;
-
     bool log_detections_ = false;
+    std::string window_name_ = "ContactBlobCamera";
 };
 } // namespace sensor
 } // namespace scrimmage
