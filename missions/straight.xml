@@ -78,8 +78,10 @@
 
     <sensor>NoisyState</sensor>
     <sensor>NoisyContacts</sensor>
-    <sensor rpy="0, 0, 0" show_image="true" window_name="Cam0">ContactBlobCamera</sensor>
-    <sensor rpy="0, 0, 45" show_image="true" window_name="Cam1">ContactBlobCamera</sensor>
+    <!--
+    <sensor rpy="0, 0, 0" show_image="true" camera_id="0">ContactBlobCamera</sensor>
+    <sensor rpy="0, 0, 45" show_image="true" camera_id="1">ContactBlobCamera</sensor>
+    -->
 
     <autonomy show_text_label="true"
               generate_entities="false"

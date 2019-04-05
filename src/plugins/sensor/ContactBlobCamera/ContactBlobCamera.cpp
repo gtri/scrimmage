@@ -76,12 +76,11 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     show_image_ = sc::get<bool>("show_image", params, show_image_);
     show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
-    window_name_ = sc::get<std::string>("window_name", params, window_name_);
 
     // override default parameters
     std::map<std::string, double> plugin_params;
     plugin_params["senderId"] = parent_->id().id();
-    plugin_params["camera_id"] = sc::get<int>("camera_id", params, 0);
+    plugin_params["camera_id"] = sc::get<int>("camera_id", params, camera_id_);
     plugin_params["img_width"] = sc::get<int>("img_width", params, 800);
     plugin_params["img_height"] = sc::get<int>("img_height", params, 600);
     plugin_params["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
@@ -296,7 +295,9 @@ bool ContactBlobCamera::step() {
     last_frame_t_ = time_->t();
 
     if (show_image_) {
-        cv::imshow(window_name_.c_str(), msg->data.frame);
+        std::string window_name = "ContactBlobCamera" +
+                std::to_string(camera_id_);
+        cv::imshow(window_name.c_str(), msg->data.frame);
         cv::waitKey(1);
     }
 
