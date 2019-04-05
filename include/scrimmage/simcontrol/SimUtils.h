@@ -84,10 +84,6 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
 
 void run_callbacks(PluginPtr plugin);
 
-void print_io_error(const std::string &in_name, VariableIO &v);
-
-bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
-
 boost::optional<std::string> run_test(const std::string &mission,
                                       const bool &init_python = true,
                                       const bool &finalize_python = true);
