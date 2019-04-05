@@ -68,7 +68,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     void draw_frustum(double x_rot, double y_rot, double z_rot);
 
     // plugin parameters
-    int camera_id_;
+    int camera_id_ = 0;
     int img_width_;
     int img_height_;
     double max_detect_range_;
@@ -91,7 +91,6 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     bool show_image_ = false;
     bool show_frustum_ = false;
-
     bool log_detections_ = false;
 };
 } // namespace sensor

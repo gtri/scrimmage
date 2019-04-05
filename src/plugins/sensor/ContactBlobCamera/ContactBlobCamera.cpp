@@ -80,7 +80,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     // override default parameters
     std::map<std::string, double> plugin_params;
     plugin_params["senderId"] = parent_->id().id();
-    plugin_params["camera_id"] = sc::get<int>("camera_id", params, 0);
+    plugin_params["camera_id"] = sc::get<int>("camera_id", params, camera_id_);
     plugin_params["img_width"] = sc::get<int>("img_width", params, 800);
     plugin_params["img_height"] = sc::get<int>("img_height", params, 600);
     plugin_params["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
@@ -176,11 +176,11 @@ void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
 bool ContactBlobCamera::step() {
     if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
 
-    sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera" + std::to_string(camera_id_)];
-
     sc::State sensor_frame;
-    sensor_frame.quat() = static_cast<sc::Quaternion>(parent_->state()->quat() * sensor->transform()->quat());;
-    sensor_frame.pos() = sensor->transform()->pos() + parent_->state()->pos();
+    sensor_frame.quat() =
+            static_cast<sc::Quaternion>(parent_->state()->quat() *
+                                        this->transform()->quat());
+    sensor_frame.pos() = this->transform()->pos() + parent_->state()->pos();
 
     if (show_frustum_) {
         draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
@@ -295,7 +295,9 @@ bool ContactBlobCamera::step() {
     last_frame_t_ = time_->t();
 
     if (show_image_) {
-        cv::imshow(name_.c_str(), msg->data.frame);
+        std::string window_name = "ContactBlobCamera" +
+                std::to_string(camera_id_);
+        cv::imshow(window_name.c_str(), msg->data.frame);
         cv::waitKey(1);
     }
 

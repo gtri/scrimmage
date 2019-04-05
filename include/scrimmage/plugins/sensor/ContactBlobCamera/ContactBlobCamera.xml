@@ -29,8 +29,8 @@
 
   <show_image>false</show_image>
   <show_frustum>false</show_frustum>
-
   <log_detections>false</log_detections>
+  <window_name>ContactBlobCamera</window_name>
 
   <!-- not used -->
   <!-- <pos_noise_2>0.0 1.0</pos_noise_2> --> <!-- z position noise -->
