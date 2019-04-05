@@ -74,10 +74,13 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
 
     show_image_ = sc::get<bool>("show_image", params, show_image_);
+    show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
+    log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
 
     // override default parameters
     std::map<std::string, double> plugin_params;
     plugin_params["senderId"] = parent_->id().id();
+    plugin_params["camera_id"] = sc::get<int>("camera_id", params, 0);
     plugin_params["img_width"] = sc::get<int>("img_width", params, 800);
     plugin_params["img_height"] = sc::get<int>("img_height", params, 600);
     plugin_params["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
@@ -92,6 +95,10 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     plugin_params["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
 
     set_plugin_params(plugin_params);
+
+    if (log_detections_) {
+        detections_file_.open(parent_->mp()->log_dir() + "/blob_sensor_detections_" + std::to_string(camera_id_) + ".txt");
+    }
 
     srand(time(NULL));
 
@@ -127,19 +134,57 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     pub_ = advertise("LocalNetwork", "ContactBlobCamera");
 }
 
+void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
+    double sensor_footprint_height = max_detect_range_ * tan(el_thresh_ / 2) * 2;
+    double sensor_footprint_width = max_detect_range_ * tan(az_thresh_ / 2) * 2;
+    Eigen::Vector3d sensor_UL(max_detect_range_,  sensor_footprint_width / 2, -sensor_footprint_height / 2);
+    Eigen::Vector3d sensor_UR(max_detect_range_,  sensor_footprint_width / 2,  sensor_footprint_height / 2);
+    Eigen::Vector3d sensor_LR(max_detect_range_, -sensor_footprint_width / 2,  sensor_footprint_height / 2);
+    Eigen::Vector3d sensor_LL(max_detect_range_, -sensor_footprint_width / 2, -sensor_footprint_height / 2);
+    std::vector<Eigen::Vector3d> sensor_scene_bb = {sensor_UL, sensor_UR, sensor_LR, sensor_LL, sensor_UL};
+
+    // Rotate into sensor frame
+    auto x_rotation = Eigen::AngleAxisd(x_rot, Eigen::Vector3d::UnitX());
+    auto y_rotation = Eigen::AngleAxisd(y_rot, Eigen::Vector3d::UnitY());
+    auto z_rotation = Eigen::AngleAxisd(z_rot, Eigen::Vector3d::UnitZ());
+    auto A = Eigen::Translation3d(parent_->state()->pos()) * z_rotation * y_rotation * x_rotation;
+    for (size_t i = 0; i < sensor_scene_bb.size(); i++) {
+        sensor_scene_bb[i] = A * sensor_scene_bb[i];
+    }
+
+    // Draw scene box
+    auto scene_bb_line = std::make_shared<sp::Shape>();
+    scene_bb_line->set_opacity(1.0);
+    scene_bb_line->set_persistent(false);
+    scene_bb_line->set_persist_duration(0.0);
+    sc::set(scene_bb_line->mutable_color(), 0, 255, 0);
+    sc::path_to_lines(sensor_scene_bb, scene_bb_line, shared_from_this());
+
+    // Draw lines from scene box to the point of view
+    for (unsigned int iter = 0; iter < sensor_scene_bb.size() - 1; iter++) {
+        auto line = std::make_shared<scrimmage_proto::Shape>();
+        sc::set(line->mutable_color(), 0, 255, 0);
+        line->set_opacity(1.0);
+        line->set_persistent(false);
+        line->set_persist_duration(0.0);
+        sc::set(line->mutable_line()->mutable_start(), parent_->state()->pos());
+        sc::set(line->mutable_line()->mutable_end(), sensor_scene_bb[iter]);
+        draw_shape(line);
+    }
+}
+
 bool ContactBlobCamera::step() {
     if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
 
-    sc::State sensor_frame;
-    sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera0"];
-    sc::Quaternion sensor_quat =
-      static_cast<sc::Quaternion>(parent_->state()->quat() *
-          sensor->transform()->quat());
-    Eigen::Vector3d sensor_pos = sensor->transform()->pos() +
-      parent_->state()->pos();
+    sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera" + std::to_string(camera_id_)];
 
-    sensor_frame.quat() = sensor_quat;
-    sensor_frame.pos() = sensor_pos;
+    sc::State sensor_frame;
+    sensor_frame.quat() = static_cast<sc::Quaternion>(parent_->state()->quat() * sensor->transform()->quat());;
+    sensor_frame.pos() = sensor->transform()->pos() + parent_->state()->pos();
+
+    if (show_frustum_) {
+        draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
+    }
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
@@ -254,6 +299,15 @@ bool ContactBlobCamera::step() {
         cv::waitKey(1);
     }
 
+    // Log any detections
+    if (log_detections_) {
+        detections_file_ << time_->t();
+        for (auto elem : msg->data.bounding_boxes) {
+            detections_file_ << ", " << elem.first;
+        }
+        detections_file_ << std::endl;
+    }
+
     pub_->publish(msg);
     return true;
 }
@@ -306,6 +360,8 @@ void ContactBlobCamera::draw_object_with_bounding_box(cv::Mat frame, cv::Rect re
 
 void ContactBlobCamera::set_plugin_params(std::map<std::string, double> params) {
     if (params["senderId"] != parent_->id().id()) { return; }
+
+    camera_id_ = static_cast<int>(params["camera_id"]);
 
     img_width_ = static_cast<int>(params["img_width"]);
     img_height_ = static_cast<int>(params["img_height"]);

@@ -3,6 +3,8 @@
 <params>
   <library>ContactBlobCamera_plugin</library>
 
+  <camera_id>0</camera_id>
+
   <img_width>800</img_width>
   <img_height>600</img_height>
 
@@ -26,6 +28,9 @@
   <pos_noise_1>0.0 1.0</pos_noise_1> <!-- y position noise (2D image)-->
 
   <show_image>false</show_image>
+  <show_frustum>false</show_frustum>
+
+  <log_detections>false</log_detections>
 
   <!-- not used -->
   <!-- <pos_noise_2>0.0 1.0</pos_noise_2> --> <!-- z position noise -->
