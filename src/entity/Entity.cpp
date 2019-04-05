@@ -350,9 +350,10 @@ bool Entity::init(AttributeMap &overrides,
     // correct order
     std::reverse(controllers_.begin(), controllers_.end());
 
-    // If there is a valid motion model and no controllers, this is a
-    // VariableIO error.
-    if (not init_empty_motion_model && controllers_.size() == 0) {
+    // If the motion model requires any inputs and there are no controllers,
+    // this is a VariableIO error.
+    if (motion_model_->vars().input_variable_index().size() > 0 &&
+        controllers_.size() == 0) {
         std::cout << "VariableIO Error: There are not any controllers that "
                   << "provide the inputs required by "
                   << std::quoted(motion_model_->name()) << std::endl;
@@ -419,8 +420,13 @@ bool Entity::init(AttributeMap &overrides,
         connect_entity = boost::lexical_cast<bool>(info["connect_entity"]);
     }
 
-    if (connect_entity && not controllers_.empty()) {
-        auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controllers_.front()->vars());};
+    // Verify that at least one autonomy provides the inputs to the first
+    // controller if the first controller requires some VariableIO input.
+    if (connect_entity && not controllers_.empty() &&
+        controllers_.front()->vars().input_variable_index().size() > 0) {
+        auto verify_io = [&](auto &autonomy) {
+            return verify_io_connection(autonomy->vars(),
+                                        controllers_.front()->vars());};
         if (boost::algorithm::none_of(autonomies_, verify_io)) {
             auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
             std::cout << "VariableIO Error: "
