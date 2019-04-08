@@ -89,10 +89,10 @@ bool AltitudeAboveTerrain::step() {
     // Wait until we have received a valid terrain map
     if (map_ == nullptr) return true;
 
-    boost::optional<double> height = map_->height_at(parent_->state()->pos()(0),
-                                                     parent_->state()->pos()(1));
+    boost::optional<double> height = map_->height_at(parent_->state_truth()->pos()(0),
+                                                     parent_->state_truth()->pos()(1));
     if (height) {
-        double alt = parent_->state()->pos()(2) - *height;
+        double alt = parent_->state_truth()->pos()(2) - *height;
 
         // Create and send the true altitude
         auto msg_true = std::make_shared<sc::Message<double>>();
