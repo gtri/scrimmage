@@ -81,7 +81,7 @@ bool SimpleCapture::init(std::map<std::string, std::string> &mission_params,
         if (capture_result.second) {
             sc::EntityPtr &src = (*id_to_ent_map_)[source_id];
             sc::EntityPtr &dst = (*id_to_ent_map_)[target_id];
-            if ((src->state()->pos() - dst->state()->pos()).norm() <=
+            if ((src->state_truth()->pos() - dst->state_truth()->pos()).norm() <=
                 capture_range_) {
                 if (enable_team_captures_ &&
                     src->id().team_id() == dst->id().team_id()) {

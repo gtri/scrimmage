@@ -99,7 +99,7 @@ bool FlagCaptureInteraction::step_entity_interaction(std::list<sc::EntityPtr> &e
     if (!flag_taken_) {
         for (sc::EntityPtr ent : ents) {
             if (ent->id().team_id() != flag_boundary_shape_.id().team_id() &&
-                flag_boundary_->contains(ent->state()->pos())) {
+                flag_boundary_->contains(ent->state_truth()->pos())) {
                 flag_taken_ = true;
                 entity_with_flag_ = ent->id();
 
@@ -117,8 +117,8 @@ bool FlagCaptureInteraction::step_entity_interaction(std::list<sc::EntityPtr> &e
     } else if (!flag_captured_) {
         auto it = id_to_ent_map_->find(entity_with_flag_.id());
         if (it != id_to_ent_map_->end() &&
-            it->second != nullptr && it->second->state() != nullptr) {
-            if (capture_boundary_->contains(it->second->state()->pos())) {
+            it->second != nullptr && it->second->state_truth() != nullptr) {
+            if (capture_boundary_->contains(it->second->state_truth()->pos())) {
                 flag_captured_ = true;
 
                 auto msg =

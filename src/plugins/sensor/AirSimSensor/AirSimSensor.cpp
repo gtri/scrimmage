@@ -226,7 +226,7 @@ bool AirSimSensor::step() {
     ///////////////////////////////////////////////////////////////////////////
 
     // Setup state information for AirSim
-    sc::StatePtr &state = parent_->state();
+    sc::StatePtr &state = parent_->state_truth();
     // convert from ENU to NED frame
     ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
 

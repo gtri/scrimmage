@@ -30,10 +30,10 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEINS_SIMPLEINS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEINS_SIMPLEINS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/sensor/Sensor.h>
 
 #include <map>
 #include <string>
@@ -42,11 +42,11 @@
 
 namespace scrimmage {
 
-namespace autonomy {
-class SimpleINS : public scrimmage::Autonomy {
+namespace sensor {
+class SimpleINS : public scrimmage::Sensor {
  public:
     void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+    bool step() override;
 
  protected:
     bool gps_fix_;
@@ -57,9 +57,7 @@ class SimpleINS : public scrimmage::Autonomy {
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
 
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
-    int desired_heading_idx_ = 0;
+    Eigen::Vector3d pos_error_accum_ = Eigen::Vector3d::Zero();
 
     Eigen::MatrixXd m_;
     bool init_m_ = true;
@@ -67,6 +65,6 @@ class SimpleINS : public scrimmage::Autonomy {
     double surface_timer_ = 0;
     double prev_time_ = 0;
 };
-} // namespace autonomy
+} // namespace sensor
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEINS_SIMPLEINS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_

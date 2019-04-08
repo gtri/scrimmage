@@ -147,7 +147,7 @@ void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
     auto x_rotation = Eigen::AngleAxisd(x_rot, Eigen::Vector3d::UnitX());
     auto y_rotation = Eigen::AngleAxisd(y_rot, Eigen::Vector3d::UnitY());
     auto z_rotation = Eigen::AngleAxisd(z_rot, Eigen::Vector3d::UnitZ());
-    auto A = Eigen::Translation3d(parent_->state()->pos()) * z_rotation * y_rotation * x_rotation;
+    auto A = Eigen::Translation3d(parent_->state_truth()->pos()) * z_rotation * y_rotation * x_rotation;
     for (size_t i = 0; i < sensor_scene_bb.size(); i++) {
         sensor_scene_bb[i] = A * sensor_scene_bb[i];
     }
@@ -167,7 +167,7 @@ void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
         line->set_opacity(1.0);
         line->set_persistent(false);
         line->set_persist_duration(0.0);
-        sc::set(line->mutable_line()->mutable_start(), parent_->state()->pos());
+        sc::set(line->mutable_line()->mutable_start(), parent_->state_truth()->pos());
         sc::set(line->mutable_line()->mutable_end(), sensor_scene_bb[iter]);
         draw_shape(line);
     }
@@ -178,9 +178,9 @@ bool ContactBlobCamera::step() {
 
     sc::State sensor_frame;
     sensor_frame.quat() =
-            static_cast<sc::Quaternion>(parent_->state()->quat() *
+            static_cast<sc::Quaternion>(parent_->state_truth()->quat() *
                                         this->transform()->quat());
-    sensor_frame.pos() = this->transform()->pos() + parent_->state()->pos();
+    sensor_frame.pos() = this->transform()->pos() + parent_->state_truth()->pos();
 
     if (show_frustum_) {
         draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());

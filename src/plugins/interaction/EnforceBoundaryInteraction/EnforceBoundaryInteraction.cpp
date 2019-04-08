@@ -95,7 +95,7 @@ bool EnforceBoundaryInteraction::step_entity_interaction(std::list<sc::EntityPtr
     for (sc::EntityPtr ent : ents) {
         bool within_a_boundary = false;
         for (std::shared_ptr<sci::BoundaryBase> boundary : boundaries_) {
-            if (boundary->contains(ent->state()->pos())) {
+            if (boundary->contains(ent->state_truth()->pos())) {
                 within_a_boundary = true;
             }
         }
