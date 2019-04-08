@@ -607,7 +607,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     rtree_->add(ent->state()->pos(), ent->id());
     contacts_mutex_.lock();
     (*contacts_)[ent->id().id()] =
-            Contact(ent->id(), ent->radius(), ent->state(),
+            Contact(ent->id(), ent->radius(), ent->state_truth(),
                     ent->type(), ent->contact_visual(), ent->properties());
     contacts_mutex_.unlock();
 

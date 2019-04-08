@@ -109,6 +109,7 @@ bool Entity::init(AttributeMap &overrides,
     // set state
     ////////////////////////////////////////////////////////////
     state_ = std::make_shared<State>();
+    state_truth_ = state_;
 
     double x = get("x", info, 0.0);
     double y = get("y", info, 0.0);
@@ -137,50 +138,6 @@ bool Entity::init(AttributeMap &overrides,
     // Save entity specific params in mp reference for later use
     mp_->entity_params()[id] = info;
     mp_->ent_id_to_block_id()[id] = ent_desc_id;
-
-    ////////////////////////////////////////////////////////////
-    // motion model
-    ////////////////////////////////////////////////////////////
-    bool init_empty_motion_model = true;
-    if (info.count("motion_model") > 0) {
-        ConfigParse config_parse;
-        PluginStatus<MotionModel> status =
-            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel",
-                                                     info["motion_model"],
-                                                     *file_search,
-                                                     config_parse,
-                                                     overrides["motion_model"],
-                                                     plugin_tags);
-        if (status.status == PluginStatus<MotionModel>::cast_failed) {
-            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
-            return false;
-        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
-            return false;
-        } else if (status.status == PluginStatus<MotionModel>::loaded) {
-            // We have created a valid motion model
-            init_empty_motion_model = false;
-
-            motion_model_ = status.plugin;
-            motion_model_->set_state(state_);
-            motion_model_->set_parent(parent);
-            motion_model_->set_pubsub(pubsub);
-            motion_model_->set_time(time);
-            motion_model_->set_param_server(param_server);
-            motion_model_->set_name(info["motion_model"]);
-            param_override_func(config_parse.params());
-            motion_model_->init(info, config_parse.params());
-        }
-    }
-
-    if (init_empty_motion_model) {
-        motion_model_ = std::make_shared<MotionModel>();
-        motion_model_->set_state(state_);
-        motion_model_->set_parent(parent);
-        motion_model_->set_pubsub(pubsub);
-        motion_model_->set_param_server(param_server);
-        motion_model_->set_time(time);
-        motion_model_->set_name("BLANK");
-    }
 
     ////////////////////////////////////////////////////////////
     // sensor
@@ -245,6 +202,50 @@ bool Entity::init(AttributeMap &overrides,
             sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
         }
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
+    }
+
+    ////////////////////////////////////////////////////////////
+    // motion model
+    ////////////////////////////////////////////////////////////
+    bool init_empty_motion_model = true;
+    if (info.count("motion_model") > 0) {
+        ConfigParse config_parse;
+        PluginStatus<MotionModel> status =
+            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel",
+                                                     info["motion_model"],
+                                                     *file_search,
+                                                     config_parse,
+                                                     overrides["motion_model"],
+                                                     plugin_tags);
+        if (status.status == PluginStatus<MotionModel>::cast_failed) {
+            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::loaded) {
+            // We have created a valid motion model
+            init_empty_motion_model = false;
+
+            motion_model_ = status.plugin;
+            motion_model_->set_state(state_truth_);
+            motion_model_->set_parent(parent);
+            motion_model_->set_pubsub(pubsub);
+            motion_model_->set_time(time);
+            motion_model_->set_param_server(param_server);
+            motion_model_->set_name(info["motion_model"]);
+            param_override_func(config_parse.params());
+            motion_model_->init(info, config_parse.params());
+        }
+    }
+
+    if (init_empty_motion_model) {
+        motion_model_ = std::make_shared<MotionModel>();
+        motion_model_->set_state(state_truth_);
+        motion_model_->set_parent(parent);
+        motion_model_->set_pubsub(pubsub);
+        motion_model_->set_param_server(param_server);
+        motion_model_->set_time(time);
+        motion_model_->set_name("BLANK");
     }
 
     ////////////////////////////////////////////////////////////
@@ -396,7 +397,7 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_pubsub(pubsub);
             autonomy->set_time(time);
             autonomy->set_param_server(param_server);
-            autonomy->set_state(motion_model_->state());
+            autonomy->set_state(state_);
             autonomy->set_contacts(contacts);
             autonomy->set_is_controlling(true);
             autonomy->set_name(info[autonomy_name]);
@@ -515,6 +516,7 @@ bool Entity::ready() {
 }
 
 StatePtr &Entity::state() {return state_;}
+StatePtr &Entity::state_truth() {return state_truth_;}
 
 std::vector<AutonomyPtr> &Entity::autonomies() {return autonomies_;}
 
@@ -659,6 +661,7 @@ void Entity::close(double t) {
     proj_ = nullptr;
     random_ = nullptr;
     state_ = nullptr;
+    state_truth_ = nullptr;
     properties_.clear();
     sensors_.clear();
     services_.clear();
