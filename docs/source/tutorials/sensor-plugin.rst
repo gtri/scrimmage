@@ -49,7 +49,7 @@ noise sources that will be used to add noise to our own state's position.
        pub_ = advertise("LocalNetwork", "NoisyState");
    }
 
- 
+
 A Sensor plugin must implement the ``step`` method, which is generally
 expected to publish some messages.
 It should return a boolean indicating if the function was successful.
@@ -59,21 +59,21 @@ It should return a boolean indicating if the function was successful.
 
    bool MyNoisyState::step() {
        // Make a copy of the current state
-       sc::State ns = *(parent_->state());
-   
+       sc::State ns = *(parent_->state_truth());
+
        // Create a message to hold the modified state
        auto msg = std::make_shared<sc::Message<sc::State>>();
-   
+
        // Add noise to the three scalars in the 3D position vector.
        for (int i = 0; i < 3; i++) {
            msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener_);
        }
-   
+
        // Return the sensor message.
        pub_->publish(msg);
        return true;
    }
-     
+
 An Autonomy or Controller plugin can use this sensor by adding the sensor to
 the entity block in the mission file:
 
@@ -88,7 +88,7 @@ the entity block in the mission file:
 and then "sampling" from the sensor by creating a subscriber:
 
 .. code-block:: c++
-   :linenos:  
+   :linenos:
 
    void Straight::init(std::map<std::string, std::string> &params) {
        auto state_cb = [&](auto &msg) {

@@ -129,9 +129,10 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
 
         btCollisionObject* coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
-        coll_object->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
-                (btScalar) ent->state()->pos()(1),
-                (btScalar) ent->state()->pos()(2)));
+        coll_object->getWorldTransform().setOrigin(btVector3(
+            (btScalar) ent->state_truth()->pos()(0),
+            (btScalar) ent->state_truth()->pos()(1),
+            (btScalar) ent->state_truth()->pos()(2)));
 
         btSphereShape * sphere_shape = new btSphereShape(ent->radius()); // TODO: memory management
         coll_object->setCollisionShape(sphere_shape);
@@ -352,15 +353,16 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     // Update positions of all objects
     for (auto &kv : objects_) {
         sc::EntityPtr &ent = (*id_to_ent_map_)[kv.first];
-        kv.second->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
-                (btScalar) ent->state()->pos()(1),
-                (btScalar) ent->state()->pos()(2)));
+        kv.second->getWorldTransform().setOrigin(btVector3(
+            (btScalar) ent->state_truth()->pos()(0),
+            (btScalar) ent->state_truth()->pos()(1),
+            (btScalar) ent->state_truth()->pos()(2)));
     }
 
     // For each entity's ray-based sensors, compute point clouds
     for (auto &kv : pc_descs_) {
         sc::EntityPtr &own_ent = (*id_to_ent_map_)[kv.first];
-        Eigen::Vector3d own_pos = own_ent->state()->pos();
+        Eigen::Vector3d own_pos = own_ent->state_truth()->pos();
 
         // For each ray sensor on a single entity
         for (auto &kv2 : kv.second) {
@@ -380,7 +382,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 // Compute transformation matrix from entity's frame to sensor's
                 // frame.
                 sc::SensorPtr &sensor = own_ent->sensors()[kv2.first];
-                Eigen::Matrix4d tf_m = own_ent->state()->tf_matrix(false) *
+                Eigen::Matrix4d tf_m = own_ent->state_truth()->tf_matrix(false) *
                                        sensor->transform()->tf_matrix();
 
                 // For each ray in the sensor

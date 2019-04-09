@@ -100,8 +100,8 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
 
     // No reachability mapping exists. Find all entity IDs that are reachable.
     std::vector<sc::ID> neigh;
-    rtree_->neighbors_in_range(pub_plugin->parent()->state()->pos(), neigh,
-                               range_);
+    rtree_->neighbors_in_range(pub_plugin->parent()->state_truth()->pos(),
+                               neigh, range_);
 
     // Add the entity IDs to the publisher's reachability set
     // Look for the subscriber ID
@@ -117,8 +117,9 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
         if (not filter_comms_plane_) {
             reachable_map_[pub_id][id.id()] = true;
             reachable_map_[id.id()][pub_id] = true;
-        } else if (within_planar_boundary(pub_plugin->parent()->state()->pos()[2],
-                                          ent_neighbor->second->state()->pos()[2])) {
+        } else if (within_planar_boundary(
+            pub_plugin->parent()->state_truth()->pos()[2],
+            ent_neighbor->second->state_truth()->pos()[2])) {
             reachable_map_[pub_id][id.id()] = true;
             reachable_map_[id.id()][pub_id] = true;
         }

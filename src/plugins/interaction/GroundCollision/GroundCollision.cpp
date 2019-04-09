@@ -90,7 +90,7 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             continue;
         }
 
-        if (ent->is_alive() && ent->state()->pos()(2) <= ground_collision_z_) {
+        if (ent->is_alive() && ent->state_truth()->pos()(2) <= ground_collision_z_) {
             if (remove_on_collision_) {
                 ent->collision();
             } else {
@@ -98,7 +98,7 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 // of gravity.
                 double force = ent->motion()->mass() * ent->motion()->gravity_magnitude();
                 ent->motion()->set_external_force(Eigen::Vector3d(0, 0, force));
-                // StatePtr &s = ent->state();
+                // StatePtr &s = ent->state_truth();
                 // s->pos()(2) = ground_collision_z_;
                 // s->vel() << 0, 0, 0;
                 // ent->motion()->teleport(s);
