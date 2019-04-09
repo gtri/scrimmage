@@ -111,7 +111,8 @@
     <motion_model tags="SIL"
                   write_csv="true">UUV6DOF</motion_model>
 
-    <visual_model>submarine</visual_model>
+    <!-- <visual_model>submarine</visual_model> -->
+    <visual_model>sea-angler</visual_model>
   </entity>
 
 </runscript>
