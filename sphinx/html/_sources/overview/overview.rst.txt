@@ -14,4 +14,5 @@ Overview
    logging
    xml-tags
    variableio
+   design-principles
    changelog

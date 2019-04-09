@@ -242,7 +242,7 @@ It should return a boolean indicating if the function was successful.</p>
 15
 16</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">MyNoisyState</span><span class="o">::</span><span class="n">step</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// Make a copy of the current state</span>
-    <span class="n">sc</span><span class="o">::</span><span class="n">State</span> <span class="n">ns</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">parent_</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">());</span>
+    <span class="n">sc</span><span class="o">::</span><span class="n">State</span> <span class="n">ns</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">parent_</span><span class="o">-&gt;</span><span class="n">state_truth</span><span class="p">());</span>
 
     <span class="c1">// Create a message to hold the modified state</span>
     <span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">sc</span><span class="o">::</span><span class="n">Message</span><span class="o">&lt;</span><span class="n">sc</span><span class="o">::</span><span class="n">State</span><span class="o">&gt;&gt;</span><span class="p">();</span>
