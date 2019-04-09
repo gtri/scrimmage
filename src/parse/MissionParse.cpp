@@ -668,6 +668,13 @@ bool MissionParse::parse(const std::string &filename) {
 }
 
 bool MissionParse::create_log_dir() {
+    // Create the root_log_dir_ if it doesn't exist:
+    if (not fs::exists(fs::path(root_log_dir_)) &&
+        not fs::create_directories(fs::path(root_log_dir_))) {
+        cout << "Failed to create the root_log_dir: " << root_log_dir_ << endl;
+        return false;
+    }
+
     bool log_dir_created = false;
     std::string log_dir_original = log_dir_;
     int attempts = 0;
