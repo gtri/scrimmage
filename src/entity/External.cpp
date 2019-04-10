@@ -105,7 +105,10 @@ bool External::create_entity(const std::string &mission_file,
                              const std::string &entity_tag,
                              const std::string &plugin_tags_str,
                              int entity_id,
-                             int max_entities, const std::string &log_dir,
+                             int max_entities,
+                             double init_time,
+                             double init_dt,
+                             const std::string &log_dir,
                              std::function<void(std::map<std::string, std::string>&)> param_override_func) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
@@ -138,6 +141,8 @@ bool External::create_entity(const std::string &mission_file,
     if (mp_->network_names().size() == 0) {
         mp_->network_names().push_back("GlobalNetwork");
     }
+
+    set_time(init_time, init_dt);
 
     std::map<std::string, std::string> info =
         mp_->entity_descriptions()[it_name_id->second];

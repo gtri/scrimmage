@@ -76,6 +76,8 @@ class External {
                        const std::string &plugin_tags_str,
                        int entity_id,
                        int max_entities,
+                       double init_time,
+                       double init_dt,
                        const std::string &log_dir,
                        std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>&){});
     void close();
@@ -118,7 +120,6 @@ class External {
     TimePtr time_;
     ParameterServerPtr param_server_;
     MissionParsePtr mp_;
-
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
     std::list<EntityPtr> ents_;
@@ -188,11 +189,10 @@ class External {
             }
 
             using ScType = decltype(ros2sc(*ros_msg));
-            call_update_contacts(ros::Time::now().toSec());
+            call_update_contacts(time_->t());
             mutex.lock();
 
-            // dt will remain unset until the step function is called
-            time_->set_t(ros::Time::now().toSec());
+
             auto sc_msg = std::make_shared<Message<ScType>>(ros2sc(*ros_msg));
 
             for (auto sub : *curr_subs) {
@@ -228,13 +228,12 @@ class External {
            Sc2RosResFunc sc2ros_response_func) {
 
         return [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
-
-            call_update_contacts(ros::Time::now().toSec());
-
             auto err_msg = [&](const std::string &preface) {
                 std::cout << preface << " in advertised_service \""
                     << service_name << "\"" << std::endl;
             };
+
+            call_update_contacts(time_->t());
 
             using ScReqType = decltype(ros2sc_request_func(ros_req));
             auto sc_req = std::make_shared<Message<ScReqType>>(ros2sc_request_func(ros_req));
