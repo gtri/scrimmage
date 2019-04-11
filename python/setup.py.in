@@ -4,14 +4,31 @@ import sys, os.path
 setup(
     name="scrimmage",
     version="${PROJECT_VERSION}",
-    packages=["scrimmage", "scrimmage.bindings", "scrimmage.proto"],
+    author='Kevin DeMarco',
+    author_email='kevin.demarco@gmail.com',
+    url='https://www.scrimmagesim.org',
+    classifiers=[
+        'Environment :: Console',
+        'License :: OSI Approved :: GNU Lesser General Public License v3.0',
+    ],
+    packages=["scrimmage", "scrimmage.command", "scrimmage.bindings", "scrimmage.proto"],
+    extras_require={
+        'completion': ['argcomplete'],
+    },
     install_requires=[
         "pandas",
         "protobuf==${PROTOBUF_VERSION}",
+        "argcomplete",
+    ],
+    data_files=[
+        ('share/scrimmage/env', [
+            'completion/scrimmage-argcomplete.bash',
+        ]),
     ],
     entry_points={
           'console_scripts': [
-              'openai_grpc_link.py = scrimmage.openai_grpc_link:main'
+              'openai_grpc_link.py = scrimmage.openai_grpc_link:main',
+              'scrimpy = scrimmage.scrimpy:main',
           ]
       },
     package_data={"scrimmage.bindings": ["*.so"]},
