@@ -386,7 +386,6 @@ void ScrimmageOpenAIEnv::filter_ext_sensor_vec(){
 }
 
 pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
-
     actions_.distribute_action(action, observations_.get_combine_actors());
 
     delayed_task_.update(simcontrol_->t());
@@ -396,8 +395,7 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
         done = !simcontrol_->run_single_step(loop_number_++) ||
         simcontrol_->end_condition_reached();
     }
-    filter_ext_ctrl_vec();
-    filter_ext_sensor_vec();
+
     observations_.update_observation(actions_.ext_ctrl_vec().size(),
                                      static_obs_space_);
 
@@ -406,7 +404,12 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
     py::dict py_info;
     std::tie(py_reward, py_done, py_info) = calc_reward();
 
+    filter_ext_ctrl_vec();
+    filter_ext_sensor_vec();
+
     done |= py_done.cast<bool>();
+    // If there aren't any RL entities left, we are done
+    done |= actions_.ext_ctrl_vec().size() == 0;
     py_done = py::bool_(done);
 
     if (done) {
@@ -456,7 +459,7 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
         reward_list.append(temp_reward);
         done_list.append(temp_done);
         info_list.append(temp_info);
-        ent_list.append(a->parent()->id().id());
+        ent_list.append(a->self_id());
     }
 
     if (actions_.ext_ctrl_vec().size() == 1 || observations_.get_combine_actors()) {

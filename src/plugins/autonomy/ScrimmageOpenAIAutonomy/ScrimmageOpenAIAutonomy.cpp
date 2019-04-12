@@ -73,7 +73,7 @@ ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy() :
 void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     init_helper(params);
     nonlearning_mode_ = get("nonlearning_mode_openai_plugin", params, true);
-
+    self_id_ = parent_->id().id();
     #if ENABLE_GRPC
     int port_ = get("port", params, 50050);
     // In case we have multiple agents, add the id to the port number
