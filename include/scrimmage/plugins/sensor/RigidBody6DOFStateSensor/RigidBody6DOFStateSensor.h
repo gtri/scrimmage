@@ -56,7 +56,7 @@ class RigidBody6DOFStateSensor : public scrimmage::Sensor {
  protected:
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-    std::shared_ptr<scrimmage::motion::RigidBody6DOFBase> motion_;
+    std::shared_ptr<scrimmage::motion::RigidBody6DOFBase> motion_ = nullptr;
 
     PublisherPtr pub_;
 
