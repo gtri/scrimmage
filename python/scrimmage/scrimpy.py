@@ -3,15 +3,6 @@
 
 import sys
 import argparse, argcomplete
-from command import run, viz, playback, plugin, util
-
-CMD_DISPATCHER = {
-    'run': run.main,
-    'viz': viz.main,
-    'playback': playback.main,
-    'plugin': plugin.main,
-    'env': util.env,
-}
 
 def parse_commands():
     # Create top-level parser
@@ -63,12 +54,24 @@ def parse_commands():
     # for tab completion
     argcomplete.autocomplete(parser, exclude=['-h', '--help'])
     args = parser.parse_args()
+    return args
 
-    # dispatch to specific commands
+def dispatch(args):
+    from command import run, viz, playback, plugin, util
+    CMD_DISPATCHER = {
+        'run': run.main,
+        'viz': viz.main,
+        'playback': playback.main,
+        'plugin': plugin.main,
+        'env': util.env,
+    }
+
+    # run command
     CMD_DISPATCHER[args.command](args)
 
 def main(script_name='scrimpy'):
-    parse_commands()
+    args = parse_commands()
+    dispatch(args);
 
 if __name__ == '__main__':
     sys.exit(main())
