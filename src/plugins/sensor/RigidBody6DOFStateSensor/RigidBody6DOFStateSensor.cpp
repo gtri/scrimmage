@@ -76,20 +76,22 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
         }
     }
 
-    motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
-    // motion_ = std::dynamic_pointer_cast<scrimmage::motion::Multirotor>(parent_->motion());
-    if (motion_ == nullptr) {
-        cout << "WARNING: Failed to get motion model. Currently only "
-             << "scrimmage::motion::RigidBody6DOFBase and subclasses "
-             << "are supported by RigidBody6DOFStateSensor" << endl;
-    }
-
     pub_ = advertise("LocalNetwork", "RigidBody6DOFState");
 
     return;
 }
 
 bool RigidBody6DOFStateSensor::step() {
+    if (motion_ == nullptr) {
+        motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
+        if (motion_ == nullptr) {
+            cout << "WARNING: Failed to get motion model. Currently only "
+                 << "scrimmage::motion::RigidBody6DOFBase and subclasses "
+                 << "are supported by RigidBody6DOFStateSensor" << endl;
+            return false;
+        }
+    }
+
     auto msg = std::make_shared<Message<motion::RigidBody6DOFState>>();
 
     // Copy elements from scrimmage::State
