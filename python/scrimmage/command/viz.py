@@ -2,7 +2,7 @@
 
 import subprocess
 
-def run(args):
+def main(args):
     fwd_args = ["scrimmage-viz"]
 
     # FIXME find a more elegant solution here

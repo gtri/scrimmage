@@ -2,5 +2,5 @@
 
 import subprocess
 
-def run(args):
+def main(args):
     subprocess.call(["scrimmage-plugin", args.plugin])
