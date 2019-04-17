@@ -459,6 +459,9 @@ bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
         case sp::Shape::kPolygon:
             shape_status = draw_polygon(new_shape, shape.polygon(), actor, source, mapper);
             break;
+        case sp::Shape::kPolyline:
+            shape_status = draw_polyline(new_shape, shape.polyline(), actor, source, mapper);
+            break;
         case sp::Shape::kSphere:
             shape_status = draw_sphere(new_shape, shape.sphere(), actor, source, mapper);
             break;
@@ -2054,6 +2057,18 @@ bool Updater::draw_polygon(const bool &new_shape,
 
         actor->SetMapper(mapper);
         actor->GetProperty()->SetLineWidth(1);
+    }
+    return true;
+}
+
+bool Updater::draw_polyline(const bool &new_shape,
+                            const scrimmage_proto::Polyline &pl,
+                            vtkSmartPointer<vtkActor> &actor,
+                            vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                            vtkSmartPointer<vtkPolyDataMapper> &mapper) {
+    const auto ptr_field = pl.line();
+    for (auto it = ptr_field.begin(); it != ptr_field.end(); ++it) {
+      draw_line(new_shape, *it, actor, source, mapper);
     }
     return true;
 }
