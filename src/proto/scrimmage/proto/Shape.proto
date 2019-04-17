@@ -89,6 +89,10 @@ message Polyhedron {
         repeated Vector3d point = 1;
 }
 
+message Polyline {
+        repeated Line line = 1;
+}
+
 message Sphere {
         Vector3d center = 1;
         double radius = 2;
@@ -141,6 +145,7 @@ message Shape {
           Spline spline         = 25;
           Text text             = 26;
           Triangle triangle     = 27;
+          Polyline polyline     = 28;
     }
 }
 
