@@ -251,6 +251,11 @@ class Updater : public vtkCommand {
                       vtkSmartPointer<vtkActor> &actor,
                       vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_polyline(const bool &new_shape,
+                       const scrimmage_proto::Polyline &pl,
+                       vtkSmartPointer<vtkActor> &actor,
+                       vtkSmartPointer<vtkPolyDataAlgorithm> &source,
+                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
     bool draw_sphere(const bool &new_shape,
                      const scrimmage_proto::Sphere &s,
                      vtkSmartPointer<vtkActor> &actor,
