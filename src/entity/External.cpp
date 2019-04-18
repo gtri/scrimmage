@@ -414,7 +414,7 @@ void External::update_ents() {
         ID &id = kv.second.id();
         (*id_to_team_map_)[id.id()] = id.team_id();
 
-        auto ent = std::make_shared<Entity>();
+        auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();
         ent->id() = id;
         ent->state() = kv.second.state();
         ents_.push_back(ent);
