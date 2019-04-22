@@ -416,7 +416,11 @@ void External::update_ents() {
 
         auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();
         ent->id() = id;
-        ent->state() = kv.second.state();
+        if (ent->state()) {
+            *ent->state() = *kv.second.state();
+        } else {
+            ent->state() = kv.second.state();
+        }
         ents_.push_back(ent);
 
         (*id_to_ent_map_)[id.id()] = ent;
