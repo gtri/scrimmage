@@ -108,13 +108,10 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
             observation_space.attr("spaces").cast<py::list>();
         py::list observation_list = observation.cast<py::list>();
 
-        // Get python len() function
-        py::object len_ = py::module::import("builtins").attr("len");
-
         // Number of entities has shrunk
-        while (len_(observation_list).cast<size_t>() > ext_sensor_vec_.size()) {
+        while (py::len(observation_list) > ext_sensor_vec_.size()) {
             // Shrink observation_list to the number of sensors
-            for (size_t i = len_(observation_list).cast<size_t>(); i > ext_sensor_vec_.size(); i--) {
+            for (size_t i = py::len(observation_list); i > ext_sensor_vec_.size(); i--) {
                 observation_list.attr("pop")(-1);
             }
         }

@@ -359,30 +359,19 @@ void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
 }
 
 void ScrimmageOpenAIEnv::filter_ext_ctrl_vec(){
-    for (auto it = actions_.ext_ctrl_vec().begin();
-              it != actions_.ext_ctrl_vec().end();) {
-        auto autonomy_ptr = *it;
-        auto parent_ptr = autonomy_ptr->parent();
-        if (parent_ptr == nullptr) {
-            it = actions_.ext_ctrl_vec().erase(it);
-        } else {
-            it++;
-        }
-    }
+    auto no_parent = [&](auto &p){return p->parent() == nullptr;};
+    actions_.ext_ctrl_vec().erase(std::remove_if(actions_.ext_ctrl_vec().begin(),
+                                                 actions_.ext_ctrl_vec().end(),
+                                                 no_parent),
+                                  actions_.ext_ctrl_vec().end());
 }
 
 void ScrimmageOpenAIEnv::filter_ext_sensor_vec(){
-    for (auto it = observations_.ext_sensor_vec().begin();
-              it != observations_.ext_sensor_vec().end();) {
-        // Each item is the vector of sensors an entity has
-        auto sensor_ptr = (*it)[0];
-        auto parent_ptr = sensor_ptr->parent();
-        if (parent_ptr == nullptr) {
-            it = observations_.ext_sensor_vec().erase(it);
-        } else {
-            it++;
-        }
-    }
+    auto no_parent = [&](auto &p){return p[0]->parent() == nullptr;};
+    observations_.ext_sensor_vec().erase(std::remove_if(observations_.ext_sensor_vec().begin(),
+                                                        observations_.ext_sensor_vec().end(),
+                                                        no_parent),
+                                         observations_.ext_sensor_vec().end());
 }
 
 pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
