@@ -85,6 +85,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     std::pair<double, double> reward_range;
     EnvParams action_space;
     EnvValues action;
+    int self_id() {return self_id_;};
 
  protected:
 #if ENABLE_GRPC
@@ -100,6 +101,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
 #endif
     std::map<std::string, std::string> params_;
     pybind11::object tuple_space_, box_space_;
+    int self_id_ = 0;
     bool first_step_ = true;
     PublisherPtr pub_reward_ = nullptr;
     pybind11::object actor_func_ = pybind11::none();
