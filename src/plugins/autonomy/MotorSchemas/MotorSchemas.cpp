@@ -190,6 +190,10 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
@@ -263,6 +267,10 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
     vars_.output(desired_speed_idx_, vel_result.norm());
     vars_.output(desired_heading_idx_, heading);
+
+    vars_.output(output_vel_x_idx_, vel_result(0));
+    vars_.output(output_vel_y_idx_, vel_result(1));
+    vars_.output(output_vel_z_idx_, vel_result(2));
 
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
