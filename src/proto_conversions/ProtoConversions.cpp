@@ -78,6 +78,10 @@ void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src) {
     dst.set_b(src.b());
 }
 
+void set(scrimmage_proto::Color *dst, const Eigen::Vector3d &color) {
+     set(dst, color(0), color(1), color(2));
+}
+
 void set(scrimmage_proto::Color &dst, scrimmage_proto::Color &src) {
     dst.set_r(src.r());
     dst.set_g(src.g());
