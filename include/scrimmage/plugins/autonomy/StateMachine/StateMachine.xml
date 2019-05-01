@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>StateMachine_plugin</library>
+
+  <state_topic_name>State</state_topic_name>
+  <event_topic_name>Event</event_topic_name>
+  <network_name>LocalNetwork</network_name>
+
+  <fsm>
+
+  </fsm>
+
+  <generate_fsm_pdf>false</generate_fsm_pdf>
+  <print_current_state>false</print_current_state>
+
+</params>
