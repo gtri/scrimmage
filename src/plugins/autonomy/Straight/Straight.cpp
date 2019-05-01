@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -41,8 +42,6 @@
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/proto/State.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Subscriber.h>
@@ -127,18 +126,10 @@ void Straight::init(std::map<std::string, std::string> &params) {
     frame_number_ = 0;
 
     if (show_text_label_) {
-        // Draw a text label 30 meters in front of vehicle:
+        // Draw a text label (white text) 30 meters in front of vehicle:
         Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
-
-        // Create the shape and set generic shape properties
-        text_shape_ = std::make_shared<sp::Shape>();
-        text_shape_->set_persistent(true);
-        text_shape_->set_opacity(1.0);
-        sc::set(text_shape_->mutable_color(), 255, 255, 255);
-
-        // Set the text shape's specific properties
-        sc::set(text_shape_->mutable_text()->mutable_center(), in_front);
-        text_shape_->mutable_text()->set_text("Hello, SCRIMMAGE!");
+        text_shape_ = sc::shape::make_text("Hello, SCRIMMAGE!", in_front,
+                                           Eigen::Vector3d(255, 255, 255));
 
         // Draw the shape in the 3D viewer
         draw_shape(text_shape_);
