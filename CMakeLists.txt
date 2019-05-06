@@ -196,7 +196,7 @@ if (${VTK_FOUND})
         set(OPENGL_MODULE vtkRenderingOpenGL2)
     endif()
 
-    set(VTK_MODULES 
+    set(VTK_MODULES
         vtkFiltersSources
         vtkFiltersTexture
         vtkInteractionStyle
@@ -208,7 +208,7 @@ if (${VTK_FOUND})
         ${OPENGL_MODULE})
 
     find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
-endif() 
+endif()
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
@@ -248,7 +248,7 @@ endif()
 ########################################################
 #set(Boost_DEBUG ON)
 find_package(Boost 1.55 COMPONENTS thread date_time iostreams program_options regex
-  filesystem system graph REQUIRED)
+  filesystem system graph serialization REQUIRED)
 add_library(scrimmage-boost INTERFACE)
 target_include_directories(scrimmage-boost INTERFACE ${Boost_INCLUDE_DIRS})
 target_link_libraries(scrimmage-boost INTERFACE ${Boost_LIBRARIES})
