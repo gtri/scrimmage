@@ -33,6 +33,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugin_manager/PluginManager.h>
 
 #include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h>
 
@@ -44,11 +45,14 @@ namespace scrimmage {
 namespace motion {
 
 bool SingleIntegrator::init(std::map<std::string, std::string> &info,
-                            std::map<std::string, std::string> &/*params*/) {
+                            std::map<std::string, std::string> &params) {
+
+    override_heading_ = scrimmage::get<bool>("override_heading", params, false);
 
     vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);
     vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);
     vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     auto get = [&](auto s) {return std::stod(info.at(s));};
     state_->pos() << get("x"), get("y"), get("z");
@@ -66,7 +70,7 @@ bool SingleIntegrator::step(double /*t*/, double dt) {
     vel << vars_.input(vel_x_idx_), vars_.input(vel_y_idx_), vars_.input(vel_z_idx_);
     state_->pos() = state_->pos() + vel * dt;
 
-    double yaw = atan2(vel(1), vel(0));
+    double yaw = override_heading_ ? vars_.input(desired_heading_idx_) : atan2(vel(1), vel(0));
     double pitch = atan2(vel(2), vel.head<2>().norm());
     state_->quat().set(0, pitch, yaw);
 

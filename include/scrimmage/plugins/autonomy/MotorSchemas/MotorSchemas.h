@@ -51,6 +51,7 @@ class MotorSchemas : public scrimmage::Autonomy {
 
  protected:
     bool show_shapes_;
+    bool pub_vel_vec_;
     double max_speed_;
 
     int desired_heading_idx_ = 0;
