@@ -35,7 +35,8 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     protobuf==3.3.0 \
     grpcio==1.2.1 \
     gym==0.10.11 \
-    sphinx-git
+    sphinx-git \
+    sphinx_rtd_theme
 
 # Install jekyll
 RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
