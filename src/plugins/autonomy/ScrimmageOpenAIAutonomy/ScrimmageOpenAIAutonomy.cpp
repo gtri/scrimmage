@@ -70,6 +70,30 @@ ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy() :
     box_space_(get_gym_space("Box")),
     nonlearning_mode_(false) {}
 
+bool ScrimmageOpenAIAutonomy::is_port_in_use(std::string address, int port) {
+    py::module socket_ = py::module::import("socket");
+    py::module errno_ = py::module::import("errno");
+    py::object py_args = py::make_tuple(py::cast(address), py::cast(port));
+    py::object s = socket_.attr("socket")(socket_.attr("AF_INET"), socket_.attr("SOCK_STREAM"));
+    try {
+        s.attr("bind")(py_args);
+    } catch (py::error_already_set &e) {
+        std::string err_string = std::string(e.what());
+        std::string in_use_error_code = std::to_string(py::cast<int>(errno_.attr("EADDRINUSE")));
+
+        // Check to see if we have the address in use error
+        std::size_t found = err_string.find(in_use_error_code);
+        if (found != std::string::npos) {
+            s.attr("close")();
+            return true;
+        } else { // Unknown error
+            py::print(e.what());
+        }
+    }
+    s.attr("close")();
+    return false;
+}
+
 void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     init_helper(params);
     nonlearning_mode_ = get("nonlearning_mode_openai_plugin", params, true);
@@ -84,19 +108,25 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     grpc_mode_ = get("grpc_mode", params, grpc_mode_);
 
     std::string address_ = grpc_address_ + ":" + port_str;
+    port_in_use = is_port_in_use(grpc_address_, stoi(port_str));
+
     if (grpc_mode_ && nonlearning_mode_) {
-        python_cmd_ = std::string("openai_grpc_link.py")
-                    + " --port " + port_str
-                    + " --actor " + module + ":" + actor_func_str
-                    + " --ip " + grpc_address_
-                    + " &";
-        int result = system(python_cmd_.c_str());
-        if (result) {
-            std::cout << "Error occurred in running python script.\n"
-            << "Make sure SCRIMMAGE python bindings are up to date" << std::endl;
+        if (!port_in_use) {
+            python_cmd_ = std::string("openai_grpc_link.py")
+                        + " --port " + port_str
+                        + " --actor " + module + ":" + actor_func_str
+                        + " --ip " + grpc_address_
+                        + " &";
+            int result = system(python_cmd_.c_str());
+            if (result) {
+                std::cout << "Error occurred in running python script.\n"
+                << "Make sure SCRIMMAGE python bindings are up to date" << std::endl;
+            }
+            // Wait for GRPC server to start up
+            std::this_thread::sleep_for(std::chrono::seconds(4));
+        } else {
+            std::cout << "Port " << port_str << " is already in use." << std::endl;
         }
-        // Wait for GRPC server to start up
-        std::this_thread::sleep_for(std::chrono::seconds(4));
         auto channel = grpc::CreateChannel(address_, grpc::InsecureChannelCredentials());
         openai_stub_ = sp::OpenAI::NewStub(channel);
     }
@@ -136,7 +166,6 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
         }
         const size_t num_entities = 1;
         observations_.update_observation(num_entities);
-
         py::object temp_action;
         if (grpc_mode_) {
             #if ENABLE_GRPC
@@ -169,11 +198,11 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             py::dict info;
             std::tie(done, reward, info) = calc_reward();
             if (done) {
-#if ENABLE_GRPC
+                #if ENABLE_GRPC
                 if (grpc_mode_) {
                     kill_grpc_server();
                 }
-#endif
+                #endif
                 return false;
             }
             if (reward != 0) {
@@ -202,7 +231,7 @@ void ScrimmageOpenAIAutonomy::kill_grpc_server() {
     // when python_cmd_ is unitialized but if it less than three characters,
     // the following substring command will return "" which will cause the
     // pkill command to kill every process id
-    if (python_cmd_.size() < 3) {
+    if (python_cmd_.size() < 3 || port_in_use) {
         return;
     }
     // Kill grpc server. Removes the " &" at the end to find it
@@ -339,6 +368,15 @@ pybind11::object ScrimmageOpenAIAutonomy::convert_proto_action(const sp::Action 
 
 std::tuple<bool, double, pybind11::dict> ScrimmageOpenAIAutonomy::calc_reward() {
     return std::make_tuple(false, 0.0, pybind11::dict());
+}
+
+void ScrimmageOpenAIAutonomy::close(double t) {
+    #if ENABLE_GRPC
+    if (grpc_mode_) {
+        kill_grpc_server();
+    }
+    #endif
+    Autonomy::close(t);
 }
 
 } // namespace autonomy

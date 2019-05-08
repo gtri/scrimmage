@@ -13,6 +13,25 @@ import sys
 
 from concurrent import futures
 from scrimmage.proto import OpenAI_pb2, OpenAI_pb2_grpc
+import socket, errno
+
+def is_port_in_use(address):
+    port_index = address.rfind(":")
+    ip_ = address[:port_index]
+    port = int(address[port_index+1:])
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    try:
+        s.bind((ip_, port))
+    except socket.error as e:
+        if e.errno == errno.EADDRINUSE:
+            s.close()
+            return True
+        else:
+            # something else raised the socket.error exception
+            print(e)
+    s.close()
+    return False
 
 class ServerThread(threading.Thread):
     """Start SCRIMMAGE OpenAI GRPC Service."""
@@ -148,6 +167,10 @@ def main():
     # queue_names = ["env", "action", "action_response"]
 
     address = ip_address + ":" + str(port)
+    if is_port_in_use(address):
+        print("Port is already in use. Exiting...")
+
+        exit()
     # connections = {s: queue.Queue() for s in queue_names}
     server_thread = ServerThread(address, args.actor)
     server_thread.start()

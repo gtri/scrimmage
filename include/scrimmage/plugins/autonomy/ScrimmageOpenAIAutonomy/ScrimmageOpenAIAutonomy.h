@@ -75,6 +75,8 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     // normal overrides
     void init(std::map<std::string, std::string> &params) final;
     bool step_autonomy(double t, double dt) final;
+    void close(double t) override;
+    bool is_port_in_use(std::string address, int port);
 
     // new overrides
     virtual void init_helper(std::map<std::string, std::string> &/*params*/) {}
@@ -96,6 +98,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     scrimmage_proto::Obs obs_to_proto();
     void kill_grpc_server();
     bool send_env();
+    bool port_in_use = false;
 
     std::string python_cmd_;
 #endif
