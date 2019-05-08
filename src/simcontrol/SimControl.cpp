@@ -71,6 +71,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <chrono> // NOLINT
 #include <future> // NOLINT
 
 #if ENABLE_PYTHON_BINDINGS == 1
@@ -818,6 +819,8 @@ bool SimControl::run_single_step(int loop_number) {
         info.set_actual_warp(this->actual_time_warp());
         info.set_shutting_down(false);
         outgoing_interface_->send_sim_info(info);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     } while (paused() && !exit_loop);
 
     if (!wait_for_ready()) {

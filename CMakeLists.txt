@@ -196,7 +196,7 @@ if (${VTK_FOUND})
         set(OPENGL_MODULE vtkRenderingOpenGL2)
     endif()
 
-    set(VTK_MODULES 
+    set(VTK_MODULES
         vtkFiltersSources
         vtkFiltersTexture
         vtkInteractionStyle
@@ -208,7 +208,7 @@ if (${VTK_FOUND})
         ${OPENGL_MODULE})
 
     find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
-endif() 
+endif()
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
@@ -262,6 +262,7 @@ if (OpenCV_FOUND)
   add_library(scrimmage-opencv INTERFACE)
   target_include_directories(scrimmage-opencv INTERFACE ${OpenCV_INCLUDE_DIRS})
   target_compile_definitions(scrimmage-opencv INTERFACE -DENABLE_OPENCV=1)
+  target_link_libraries(scrimmage-opencv INTERFACE ${OpenCV_LIBRARIES})
   install(TARGETS scrimmage-opencv EXPORT ${PROJECT_NAME}-targets)
 else()
   add_definitions(-DENABLE_OPENCV=0)
