@@ -234,7 +234,7 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     // Body frame linear acceleration FRU
     if (mavproxy_mode_) {
-        Eigen::Vector3d specific_force_body = state.linear_accel_body() 
+        Eigen::Vector3d specific_force_body = state.linear_accel_body()
                     - state.quat().rotate_reverse(Eigen::Vector3d(0, 0, -9.81));
         fdm_pkt.xAccel = specific_force_body(0);
         fdm_pkt.yAccel = -specific_force_body(1);
