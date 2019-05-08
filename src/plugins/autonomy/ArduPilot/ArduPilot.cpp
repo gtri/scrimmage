@@ -110,9 +110,12 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
         }
     }
 
+    mavproxy_mode_ = sc::get<bool>("mavproxy_mode", params, false);
+
     // Get parameters for transmit socket (to ardupilot)
     to_ardupilot_ip_ = sc::get<std::string>("to_ardupilot_ip", params, "127.0.0.1");
     to_ardupilot_port_ = sc::get<std::string>("to_ardupilot_port", params, "5003");
+    printf("ArduPilot: sending to udp:%s:%s\n", to_ardupilot_ip_.c_str(), to_ardupilot_port_.c_str());
 
     // Setup transmit socket
     tx_socket_ = std::make_shared<ba::ip::udp::socket>(tx_io_service_,
@@ -130,6 +133,7 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
                                                          ba::ip::udp::endpoint(
                                                              ba::ip::udp::v4(),
                                                              from_ardupilot_port_));
+    printf("ArduPilot: listening to udp:%s:%d\n", to_ardupilot_ip_.c_str(), from_ardupilot_port_);
     start_receive();
 
     state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
@@ -180,7 +184,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
 
 void ArduPilot::handle_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
-#if 0
+#if 1
     cout << "--------------------------------------------------------" << endl;
     cout << "  Servo packets received from ArduPilot" << endl;
     cout << "--------------------------------------------------------" << endl;
@@ -195,7 +199,7 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
             servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
-#if 0
+#if 1
             int prec = 9;
             cout << std::setprecision(prec) << "servo"<< i << ": " << servo_pkt_.servos[i] << endl;
 #endif
@@ -229,19 +233,43 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
     fdm_pkt.speedD = -state.vel()(2);
 
     // Body frame linear acceleration FRU
-    fdm_pkt.xAccel = state.linear_accel_body()(0);
-    fdm_pkt.yAccel = -state.linear_accel_body()(1);
-    fdm_pkt.zAccel = -state.linear_accel_body()(2);
-
-    // Body frame rotational velocities FRU
-    fdm_pkt.rollRate = state.ang_vel_body()(0);
-    fdm_pkt.pitchRate = -state.ang_vel_body()(1);
-    fdm_pkt.yawRate = -state.ang_vel_body()(2);
+    if (mavproxy_mode_) {
+        Eigen::Vector3d specific_force_body = state.linear_accel_body() 
+                    - state.quat().rotate_reverse(Eigen::Vector3d(0, 0, -9.81));
+        fdm_pkt.xAccel = specific_force_body(0);
+        fdm_pkt.yAccel = -specific_force_body(1);
+        fdm_pkt.zAccel = -specific_force_body(2);
+    } else {
+        fdm_pkt.xAccel = state.linear_accel_body()(0);
+        fdm_pkt.yAccel = -state.linear_accel_body()(1);
+        fdm_pkt.zAccel = -state.linear_accel_body()(2);
+    }
 
     // Global frame, roll, pitch, yaw from NED to FRU
     fdm_pkt.roll = state.quat().roll();
     fdm_pkt.pitch = -state.quat().pitch();
     fdm_pkt.yaw = fdm_pkt.heading;
+
+    if (mavproxy_mode_) {
+        // world frame rotational velocities
+        double p =  state.ang_vel_body()(0);
+        double q = -state.ang_vel_body()(1);
+        double r = -state.ang_vel_body()(2);
+        double sphi = sin(fdm_pkt.roll);
+        double cphi = cos(fdm_pkt.roll);
+        double tth = tan(fdm_pkt.pitch);
+        double cth = std::max(.00001, cos(fdm_pkt.pitch));
+        fdm_pkt.rollRate  = p +  tth*sphi*q + tth*cphi*r;
+        fdm_pkt.pitchRate =          cphi*q -     sphi*r;
+        fdm_pkt.yawRate   =     sphi/cth *q + cphi/cth*r;
+    } else {
+        // Body frame rotational velocities FRU
+        fdm_pkt.rollRate  = state.ang_vel_body()(0);
+        fdm_pkt.pitchRate = -state.ang_vel_body()(1);
+        fdm_pkt.yawRate   = -state.ang_vel_body()(2);
+    }
+
+
 
     // Airspeed is magnitude of velocity vector for now
     fdm_pkt.airspeed = state.vel().norm();
