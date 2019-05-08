@@ -85,7 +85,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     std::pair<double, double> reward_range;
     EnvParams action_space;
     EnvValues action;
-    int self_id() {return self_id_;};
+    int self_id() {return self_id_;}
 
  protected:
 #if ENABLE_GRPC
