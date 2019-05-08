@@ -52,7 +52,10 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
     vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);
     vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);
     vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+
+    if (override_heading_) {
+        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    }
 
     auto get = [&](auto s) {return std::stod(info.at(s));};
     state_->pos() << get("x"), get("y"), get("z");
