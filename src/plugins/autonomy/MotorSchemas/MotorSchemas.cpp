@@ -72,6 +72,7 @@ namespace autonomy {
 
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
+    pub_vel_vec_ = sc::get("pub_vel_vec", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
     auto max_speed_cb = [&] (const double &max_speed) {
@@ -260,17 +261,19 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    // Publish the resultant velocity vector or
     // Convert resultant vector into heading / speed / altitude command:
     ///////////////////////////////////////////////////////////////////////////
-
-    double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
-    vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
-    vars_.output(desired_speed_idx_, vel_result.norm());
-    vars_.output(desired_heading_idx_, heading);
-
-    vars_.output(output_vel_x_idx_, vel_result(0));
-    vars_.output(output_vel_y_idx_, vel_result(1));
-    vars_.output(output_vel_z_idx_, vel_result(2));
+    if (pub_vel_vec_) {
+        vars_.output(output_vel_x_idx_, vel_result(0));
+        vars_.output(output_vel_y_idx_, vel_result(1));
+        vars_.output(output_vel_z_idx_, vel_result(2));
+    } else {
+        double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
+        vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
+        vars_.output(desired_speed_idx_, vel_result.norm());
+        vars_.output(desired_heading_idx_, heading);
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
