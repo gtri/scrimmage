@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="AirSimSensor Plugin Setup" href="airsim-plugin.html"/>
-        <link rel="prev" title="Generate Entities at Run-Time" href="gen-entities.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="AirSimSensor Plugin Setup" href="airsim-plugin.html" />
+    <link rel="prev" title="Generate Entities at Run-Time" href="gen-entities.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -124,36 +123,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Create a ROS Node</li>
+        
+      <li>Create a ROS Node</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/ros-plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -165,7 +184,7 @@
 process is complete users can easily wrap their working code for implementation
 on in a ROS system. In this tutorial we will look at how to do this for the
 <code class="docutils literal notranslate"><span class="pre">AuctionAssign</span></code> plugin. You can run this plugin in SCRIMMAGE with the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage missions/auction_assign.xml
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ scrimmage missions/auction_assign.xml
 
 Agent (1) starting auction
 -----------------------------
@@ -201,7 +220,7 @@ would like to place this into a ROS system with minimal effort. First, note
 that on embedded systems we may want only a minimal installation of SCRIMMAGE
 and its dependencies (e.g., no gui or simulation loop is needed) so one could
 have done:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre># we don&#39;t need to do this step for the tutorial
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># we don&#39;t need to do this step for the tutorial
 # only run this if you are space constrained on an embedded system
 $ sudo ./setup/install-binaries.sh -e 0
 $ cmake .. -DEXTERNAL=1
@@ -210,7 +229,7 @@ $ cmake .. -DEXTERNAL=1
 <p>Let’s build and run the wrapped ROS node available from the <a class="reference external" href="https://github.com/SyllogismRXS/scrimmage_ros">scrimmage_ros</a> ROS
 package. Follow the instructions in that repo’s README to setup your catkin
 workspace. Once it is installed we can run the <code class="docutils literal notranslate"><span class="pre">auctioneer</span></code> node as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd catkin_ws
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd catkin_ws
 $ catkin_make
 $ source devel/setup.bash # or source devel/setup.zsh
 $ roslaunch scrimmage_ros auction.launch
@@ -277,13 +296,13 @@ log file: /home/syllogismrxs/.ros/log/d001a062-2233-11e8-9392-484d7ed51daf/entit
 </pre></div>
 </div>
 <p>Note that this output is very similar to when we ran it in the SCRIMMAGE
-simulation. This is because it is running the exactly same code <a class="footnote-reference" href="#f1" id="id1">[1]</a>.  The goal of
+simulation. This is because it is running the exactly same code <a class="footnote-reference brackets" href="#f1" id="id1">1</a>.  The goal of
 the design is to have as much code as possible run through simulation so that
 bugs are caught relatively cheaply and quickly in front of a computer rather
 than in front of an actual robot where debugging can take significantly
 longer. Let’s now examine how to wrap the <code class="docutils literal notranslate"><span class="pre">AuctionAssign</span></code> plugin. The
 SCRIMMAGE plugin code can be found in the following locations:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">AuctionAssign</span><span class="o">/</span><span class="n">AuctionAssign</span><span class="o">.</span><span class="n">h</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="o">/</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">AuctionAssign</span><span class="o">/</span><span class="n">AuctionAssign</span><span class="o">.</span><span class="n">h</span>
 <span class="n">src</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">autonomy</span><span class="o">/</span><span class="n">AuctionAssign</span><span class="o">/</span><span class="n">AuctionAssign</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
@@ -291,9 +310,9 @@ SCRIMMAGE plugin code can be found in the following locations:</p>
 <p>The most important aspect of the SCRIMMAGE plugin files is that they have
 publishers and subscribers on topics <code class="docutils literal notranslate"><span class="pre">StartAuction</span></code> and <code class="docutils literal notranslate"><span class="pre">BidAuction</span></code> that
 we want to get into ROS. To do this the user must do is convert between ROS
-and SCRIMMAGE messaging formats <a class="footnote-reference" href="#f2" id="id2">[2]</a> . The rest is handled by the
+and SCRIMMAGE messaging formats <a class="footnote-reference brackets" href="#f2" id="id2">2</a> . The rest is handled by the
 <code class="docutils literal notranslate"><span class="pre">External</span></code> class provided by SCRIMMAGE. We start by initializing a ROS node as usual:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">//</span> <span class="n">Initialize</span> <span class="n">the</span> <span class="n">ROS</span> <span class="n">node</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Initialize</span> <span class="n">the</span> <span class="n">ROS</span> <span class="n">node</span>
 <span class="n">ros</span><span class="p">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="s2">&quot;auctioneer&quot;</span><span class="p">);</span>
 <span class="n">ros</span><span class="p">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
 
@@ -305,7 +324,7 @@ and SCRIMMAGE messaging formats <a class="footnote-reference" href="#f2" id="id2
 description. We also need to specify the entity ID for the ROS environment, the
 entity name, and the maximum number of contacts. We use ROS’ parameter server
 API to load the parameters from <a class="reference external" href="https://github.com/SyllogismRXS/scrimmage_ros/blob/master/launch/auction.launch/">auction.launch</a>.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">//</span> <span class="n">Get</span> <span class="n">the</span> <span class="n">mission</span> <span class="n">file</span><span class="p">,</span> <span class="n">which</span> <span class="n">holds</span> <span class="n">overrides</span> <span class="k">for</span> <span class="n">plugin</span> <span class="n">parameters</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Get</span> <span class="n">the</span> <span class="n">mission</span> <span class="n">file</span><span class="p">,</span> <span class="n">which</span> <span class="n">holds</span> <span class="n">overrides</span> <span class="k">for</span> <span class="n">plugin</span> <span class="n">parameters</span>
 <span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">mission_file</span><span class="p">;</span>
 <span class="n">private_nh</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;mission_file&quot;</span><span class="p">,</span> <span class="n">mission_file</span><span class="p">,</span> <span class="n">std</span><span class="p">::</span><span class="n">string</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">));</span>
 
@@ -330,7 +349,7 @@ file, the entity block needs to define the <code class="docutils literal notrans
 <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/missions/auction_assign.xml">auction_assign.xml</a>
 mission file, we set the name to “agent” (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;agent&lt;/name&gt;</span></code>).</p>
 <p>We can now create the entity:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">sc</span><span class="p">::</span><span class="n">External</span> <span class="n">external</span><span class="p">;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="p">::</span><span class="n">External</span> <span class="n">external</span><span class="p">;</span>
 <span class="n">external</span><span class="o">.</span><span class="n">create_entity</span><span class="p">(</span><span class="n">mission_file</span><span class="p">,</span> <span class="n">max_contacts</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">entity_name</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -340,7 +359,7 @@ SCRIMMAGE auction plugins publish and subscribe to the “StartAuction” topic 
 they publish and subscribe on the “BidAuction” topic. Thus, we need to setup
 ROS publishers and subscribers for both of these topics. Let’s setup a ROS
 publisher for the “StartAuction” topic.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">using</span> <span class="n">scrimmage_ros</span><span class="p">::</span><span class="n">RosBidAuction</span><span class="p">;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">scrimmage_ros</span><span class="p">::</span><span class="n">RosBidAuction</span><span class="p">;</span>
 <span class="n">using</span> <span class="n">scrimmage_ros</span><span class="p">::</span><span class="n">RosStartAuction</span><span class="p">;</span>
 
 <span class="n">ros</span><span class="p">::</span><span class="n">Publisher</span> <span class="n">pub_start_auction</span> <span class="o">=</span>
@@ -349,7 +368,7 @@ publisher for the “StartAuction” topic.:</p>
 </div>
 <p>Now, we need to link the SCRIMMAGE publisher on the “StartAuction” topic to
 this ROS publisher:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">external</span><span class="o">.</span><span class="n">pub_cb</span><span class="o">&lt;</span><span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;SphereNetwork&quot;</span><span class="p">,</span> <span class="s2">&quot;StartAuction&quot;</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">external</span><span class="o">.</span><span class="n">pub_cb</span><span class="o">&lt;</span><span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;SphereNetwork&quot;</span><span class="p">,</span> <span class="s2">&quot;StartAuction&quot;</span><span class="p">,</span>
                                        <span class="n">sc2ros_start_auction</span><span class="p">,</span> <span class="n">pub_start_auction</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -359,7 +378,7 @@ the SCRIMMAGE publisher that is on the “SphereNetwork” and using topic
 to the <code class="docutils literal notranslate"><span class="pre">pub_cb</span></code> method. The <code class="docutils literal notranslate"><span class="pre">sc2ros_start_auction</span></code> variable is a function
 that converts a SCRIMMAGE message type to a ROS message type. We have to define
 this function before the <code class="docutils literal notranslate"><span class="pre">pub_cb</span></code> line::</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">RosStartAuction</span> <span class="n">sc2ros_start_auction</span><span class="p">(</span><span class="n">const</span> <span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span> <span class="o">&amp;</span><span class="n">sc_msg</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RosStartAuction</span> <span class="n">sc2ros_start_auction</span><span class="p">(</span><span class="n">const</span> <span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span> <span class="o">&amp;</span><span class="n">sc_msg</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">RosStartAuction</span> <span class="n">ros_msg</span><span class="p">;</span>
     <span class="n">ros_msg</span><span class="o">.</span><span class="n">sender_id</span> <span class="o">=</span> <span class="n">sc_msg</span><span class="o">.</span><span class="n">sender_id</span><span class="p">();</span>
     <span class="k">return</span> <span class="n">ros_msg</span><span class="p">;</span>
@@ -369,7 +388,7 @@ this function before the <code class="docutils literal notranslate"><span class=
 <p>A similar publisher is setup for the “BidAuction” topic. Let’s setup a
 subscriber for the “StartAuction” topic. First, we need to define the function
 that will convert from a ROS message type to a SCRIMMAGE message type::</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span> <span class="n">ros2sc_start_auction</span><span class="p">(</span><span class="n">const</span> <span class="n">RosStartAuction</span> <span class="o">&amp;</span><span class="n">ros_msg</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span> <span class="n">ros2sc_start_auction</span><span class="p">(</span><span class="n">const</span> <span class="n">RosStartAuction</span> <span class="o">&amp;</span><span class="n">ros_msg</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">auction</span><span class="p">::</span><span class="n">StartAuction</span> <span class="n">sc_msg</span><span class="p">;</span>
     <span class="n">sc_msg</span><span class="o">.</span><span class="n">set_sender_id</span><span class="p">(</span><span class="n">ros_msg</span><span class="o">.</span><span class="n">sender_id</span><span class="p">);</span>
     <span class="k">return</span> <span class="n">sc_msg</span><span class="p">;</span>
@@ -377,7 +396,7 @@ that will convert from a ROS message type to a SCRIMMAGE message type::</p>
 </pre></div>
 </div>
 <p>Now, let’s setup a ROS subscriber::</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">ros</span><span class="p">::</span><span class="n">Subscriber</span> <span class="n">sub_start_auction</span> <span class="o">=</span> <span class="n">nh</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;StartAuction&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros</span><span class="p">::</span><span class="n">Subscriber</span> <span class="n">sub_start_auction</span> <span class="o">=</span> <span class="n">nh</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;StartAuction&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span>
       <span class="n">external</span><span class="o">.</span><span class="n">sub_cb</span><span class="o">&lt;</span><span class="n">RosStartAuction</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;SphereNetwork&quot;</span><span class="p">,</span> <span class="s2">&quot;StartAuction&quot;</span><span class="p">,</span>
       <span class="n">ros2sc_start_auction</span><span class="p">));</span>
 </pre></div>
@@ -387,7 +406,7 @@ write one ourselves. In <code class="docutils literal notranslate"><span class="
 type and the parameters are the SCRIMMAGE network name (“SphereNetwork”), the
 topic name (“StartAuction”), and the ROS to SCRIMMAGE conversion function.</p>
 <p>We can then enter the main loop as with a normal ROS node:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">while</span> <span class="p">(</span><span class="n">ros</span><span class="p">::</span><span class="n">ok</span><span class="p">())</span> <span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="n">ros</span><span class="p">::</span><span class="n">ok</span><span class="p">())</span> <span class="p">{</span>
     <span class="n">external</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">ros</span><span class="p">::</span><span class="n">Time</span><span class="p">::</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">toSec</span><span class="p">());</span>
     <span class="n">loop_rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">();</span>
     <span class="n">ros</span><span class="p">::</span><span class="n">spinOnce</span><span class="p">();</span>
@@ -403,42 +422,39 @@ ROS system. Callbacks are handled as messages are received.</p>
 are not addressed in this tutorial.</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><code class="docutils literal notranslate"><span class="pre">update_contacts</span></code> - Often entities need to know that state of their
+<li><p><code class="docutils literal notranslate"><span class="pre">update_contacts</span></code> - Often entities need to know that state of their
 neighbors. If this is the case, <code class="docutils literal notranslate"><span class="pre">update_contacts</span></code> is a callback
 called in the <code class="docutils literal notranslate"><span class="pre">External::step</span></code> that will set the
-<code class="docutils literal notranslate"><span class="pre">External::entity()-&gt;contacts()</span></code> variable.</li>
-<li>Services - SCRIMMAGE allows multiple autonomies to exist on a single
+<code class="docutils literal notranslate"><span class="pre">External::entity()-&gt;contacts()</span></code> variable.</p></li>
+<li><p>Services - SCRIMMAGE allows multiple autonomies to exist on a single
 entity similar to decoupled ROS nodes. In particular, these autonomies
 can provide services to each other and <code class="docutils literal notranslate"><span class="pre">External</span></code> provides wrapping
-similar to <code class="docutils literal notranslate"><span class="pre">sub_cb</span></code> and <code class="docutils literal notranslate"><span class="pre">pub_cb</span></code> for wrapping these service calls.</li>
+similar to <code class="docutils literal notranslate"><span class="pre">sub_cb</span></code> and <code class="docutils literal notranslate"><span class="pre">pub_cb</span></code> for wrapping these service calls.</p></li>
 </ol>
 </div></blockquote>
-<table class="docutils footnote" frame="void" id="f1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>the random seed is different in the ROS simulation which causes the bids to be different.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="f2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>A user can use ROS messages within SCRIMMAGE. In this case the conversions are trivial.</td></tr>
-</tbody>
-</table>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>the random seed is different in the ROS simulation which causes the bids to be different.</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>A user can use ROS messages within SCRIMMAGE. In this case the conversions are trivial.</p>
+</dd>
+</dl>
 </div>
 </div>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="airsim-plugin.html" class="btn btn-neutral float-right" title="AirSimSensor Plugin Setup" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="airsim-plugin.html" class="btn btn-neutral float-right" title="AirSimSensor Plugin Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="gen-entities.html" class="btn btn-neutral" title="Generate Entities at Run-Time" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="gen-entities.html" class="btn btn-neutral float-left" title="Generate Entities at Run-Time" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -447,11 +463,11 @@ similar to <code class="docutils literal notranslate"><span class="pre">sub_cb</
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -464,36 +480,15 @@ similar to <code class="docutils literal notranslate"><span class="pre">sub_cb</
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

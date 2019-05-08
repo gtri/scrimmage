@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Overview" href="overview.html"/>
-        <link rel="next" title="Core Plugins" href="core-plugins.html"/>
-        <link rel="prev" title="SCRIMMAGE Workflow" href="workflow.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Core Plugins" href="core-plugins.html" />
+    <link rel="prev" title="SCRIMMAGE Workflow" href="workflow.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="intro.html">SCRIMMAGE Description</a></li>
 <li class="toctree-l2"><a class="reference internal" href="install.html">Install SCRIMMAGE</a></li>
@@ -117,36 +116,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="overview.html">Overview</a> &raquo;</li>
-      
-    <li>SCRIMMAGE Environment</li>
+        
+      <li>SCRIMMAGE Environment</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/overview/environment-vars.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -160,11 +179,11 @@
 3D mesh files, binary data files, and configuration files. The following is a
 description of SCRIMMAGE’s environment variables.</p>
 <ul>
-<li><p class="first"><strong>SCRIMMAGE_PLUGIN_PATH</strong> : SCRIMMAGE searches directories on the
+<li><p><strong>SCRIMMAGE_PLUGIN_PATH</strong> : SCRIMMAGE searches directories on the
 SCRIMMAGE_PLUGIN_PATH for a plugin’s XML file and its shared library binary
 file. For example, when a user specifies the name “Straight” for an entity’s
 <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> tag in a SCRIMMAGE XML mission file:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;autonomy&gt;</span>Straight<span class="nt">&lt;/autonomy&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;autonomy&gt;</span>Straight<span class="nt">&lt;/autonomy&gt;</span>
 </pre></div>
 </div>
 <p>SCRIMMAGE searches for the file <code class="docutils literal notranslate"><span class="pre">Straight.xml</span></code> by recursively iterating
@@ -175,11 +194,10 @@ SCRIMMAGE_PLUGIN_PATH: <code class="docutils literal notranslate"><span class="p
 directory contains the shared library files and the include directory
 contains the plugin XML files.</p>
 </li>
-<li><p class="first"><strong>SCRIMMAGE_DATA_PATH</strong> : SCRIMMAGE searches the data path for XML files that
+<li><p><strong>SCRIMMAGE_DATA_PATH</strong> : SCRIMMAGE searches the data path for XML files that
 load terrain data, 3D meshes, and images. In a standard SCRIMMAGE project,
 the following directory is appended to the SCRIMMAGE_DATA_PATH:
-<code class="docutils literal notranslate"><span class="pre">/path/to/scrimmage-project/scrimmage/data</span></code>.</p>
-</li>
+<code class="docutils literal notranslate"><span class="pre">/path/to/scrimmage-project/scrimmage/data</span></code>.</p></li>
 </ul>
 </div>
 <div class="section" id="environment-management">
@@ -201,16 +219,16 @@ installation instructions suggest that the user manually sources
 <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> in their <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file. As per the README
 instructions, the user can add the sourcing of the SCRIMMAGE environment to the
 <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> by running the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ echo &quot;source ~/.scrimmage/setup.bash&quot; &gt;&gt; ~/.bashrc
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ echo &quot;source ~/.scrimmage/setup.bash&quot; &gt;&gt; ~/.bashrc
 </pre></div>
 </div>
 <p>Thus, SCRIMMAGE environment variable files are typically sourced in the
 following order:</p>
 <ol class="arabic simple">
-<li><code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/env/scrimmage-deps-setenv</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/env/scrimmage-setenv</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/env/&lt;PROJECT_NAME&gt;-setenv</span></code></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/env/scrimmage-deps-setenv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/env/scrimmage-setenv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.scrimmage/setup.bash</span></code> points to <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/env/&lt;PROJECT_NAME&gt;-setenv</span></code></p></li>
 </ol>
 </div>
 <div class="section" id="scrimmage-log-files">
@@ -223,15 +241,16 @@ SCRIMMAGE mission XML file.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="core-plugins.html" class="btn btn-neutral float-right" title="Core Plugins" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="core-plugins.html" class="btn btn-neutral float-right" title="Core Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="workflow.html" class="btn btn-neutral" title="SCRIMMAGE Workflow" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="workflow.html" class="btn btn-neutral float-left" title="SCRIMMAGE Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -240,11 +259,11 @@ SCRIMMAGE mission XML file.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -257,36 +276,15 @@ SCRIMMAGE mission XML file.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

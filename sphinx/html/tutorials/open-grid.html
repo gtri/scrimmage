@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Create a SCRIMMAGE Test" href="test.html"/>
-        <link rel="prev" title="Optimizing Parameters in SCRIMMAGE" href="optimize.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create a SCRIMMAGE Test" href="test.html" />
+    <link rel="prev" title="Optimizing Parameters in SCRIMMAGE" href="optimize.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -121,36 +120,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Multiple Runs with Open Grid Engine</li>
+        
+      <li>Multiple Runs with Open Grid Engine</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/open-grid.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -159,8 +178,8 @@
   <div class="section" id="multiple-runs-with-open-grid-engine">
 <span id="open-grid-engine"></span><h1>Multiple Runs with Open Grid Engine<a class="headerlink" href="#multiple-runs-with-open-grid-engine" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This tutorial is old and hasn’t been updated in a while. While the
+<p class="admonition-title">Warning</p>
+<p>This tutorial is old and hasn’t been updated in a while. While the
 general process is accurate, the program names and arguments may have
 changed. It is recommended that you understand how to run multiple scenarios
 on your local computer first. Please refer to <a class="reference internal" href="multiple-local-runs.html"><span class="doc">Multiple Runs on a Local Computer</span></a>
@@ -172,34 +191,34 @@ you will need to generate hundreds or thousands of runs. Luckily, Scrimmage
 ships with scripts that enable it to run on a cluster or a single computer
 running Open Grid Engine.</p>
 <ol class="arabic">
-<li><p class="first">Install dependencies on Ubuntu:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ sudo apt-get install python-pip python-scipy python-pandas
+<li><p>Install dependencies on Ubuntu:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python-pip python-scipy python-pandas
 </pre></div>
 </div>
 <p>Install Python Pandas:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ sudo pip install pyDOE
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo pip install pyDOE
 </pre></div>
 </div>
 </li>
-<li><p class="first">Now you need to configure Open Grid Engine (OGE) to run on your local
+<li><p>Now you need to configure Open Grid Engine (OGE) to run on your local
 machine. Follow the instructions at the following website to configure Open
 Grid Engine for a single computer:
 <a class="reference external" href="https://scidom.wordpress.com/2012/01/18/sge-on-single-pc/">https://scidom.wordpress.com/2012/01/18/sge-on-single-pc/</a> . Start at “Part
 1: Installation of SGE” and you can finish before “Part 3: Elementary Test
 Runs on SGE.”</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>When you run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">qmon</span></code> the GUIs icons may not appear. To fix
 this problem, execute the follow commands in a terminal:</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre>$ mkdir -p $HOME/icons/Qmon
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir -p $HOME/icons/Qmon
 $ cd $HOME/icons/Qmon
 $ for f in /usr/share/gridengine/pixmaps/*; do ln -sf $f $(basename ${f%.xpm}); done
 </pre></div>
 </div>
 </div>
 </li>
-<li><p class="first">Submit 10 simulations to Open Grid Engine:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage
+<li><p>Submit 10 simulations to Open Grid Engine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ~/scrimmage
 
 $ python scrimmage/scripts/generate_scenarios.py \
    --ranges scrimmage/ranges/test-1.xml \
@@ -215,23 +234,23 @@ varying parameters found in the <cite>test-1.xml</cite> file. The mission files 
 text output from each mission will be saved in <code class="docutils literal notranslate"><span class="pre">doe_cache_dir</span></code>. The ranges
 file is optional.</p>
 <ol class="arabic" start="4">
-<li><p class="first">You can observe the status of the submitted jobs:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ qstat
+<li><p>You can observe the status of the submitted jobs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qstat
 </pre></div>
 </div>
 <p>You can delete a running job:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ qdel &lt;job-ID&gt;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qdel &lt;job-ID&gt;
 </pre></div>
 </div>
 <p>Also, you can use the <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">qmon</span></code> GUI to monitor and delete jobs in the
 “Job Control” section.</p>
 </li>
-<li><p class="first">The simulation results are stored in the <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> location. After the
+<li><p>The simulation results are stored in the <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> location. After the
 simulation is complete, you can use a number of tools to process the
 simulation results. Run the <code class="docutils literal notranslate"><span class="pre">aggregate-runs</span></code> program to count the number
 of victories between the teams in the simulations based on the score weights
 defined in an XML file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ aggregate-runs -d ~/swarm-log \
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ aggregate-runs -d ~/swarm-log \
 -w ~/scrimmage/scrimmage-sasc-plugins/config/weights/sasc.xml
 </pre></div>
 </div>
@@ -240,13 +259,13 @@ defined in an XML file:</p>
 <code class="docutils literal notranslate"><span class="pre">~/swarm-log/aggregate/wins</span></code> that specify the scenarios in which each team
 won.</p>
 </li>
-<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> program reads the generated text files and allows for
+<li><p>The <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> program reads the generated text files and allows for
 easy playback of each type of scenario.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ filter-runs ~/swarm-log
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ filter-runs ~/swarm-log
 </pre></div>
 </div>
 <p>Running <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> will print output similar to the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">====================================================</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">====================================================</span>
 <span class="n">Choose</span> <span class="n">an</span> <span class="n">outcome</span> <span class="n">number</span><span class="p">:</span>
 <span class="o">----------------------------------------------------</span>
 <span class="n">Number</span>             <span class="n">Name</span>            <span class="n">Win</span> <span class="n">Count</span>
@@ -272,7 +291,7 @@ and maximum values for each parameter. An example can be helpful. If we look at
 the test-1.xml ranges file located at <code class="docutils literal notranslate"><span class="pre">~/scrimmage/scrimmage/ranges/</span></code>, we see
 several XML tags that have related values in a base scenario file. For example,
 we see:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">x</span> <span class="n">low</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">high</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="o">/&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">x</span> <span class="n">low</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">high</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="o">/&gt;</span>
 </pre></div>
 </div>
 <p>This line tells the LHS algorithm that the <code class="docutils literal notranslate"><span class="pre">x</span></code> tag in the base mission file
@@ -282,15 +301,16 @@ parameters in the base mission file can be varied in a similar way.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="test.html" class="btn btn-neutral float-right" title="Create a SCRIMMAGE Test" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="test.html" class="btn btn-neutral float-right" title="Create a SCRIMMAGE Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="optimize.html" class="btn btn-neutral" title="Optimizing Parameters in SCRIMMAGE" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="optimize.html" class="btn btn-neutral float-left" title="Optimizing Parameters in SCRIMMAGE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -299,11 +319,11 @@ parameters in the base mission file can be varied in a similar way.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -316,36 +336,15 @@ parameters in the base mission file can be varied in a similar way.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

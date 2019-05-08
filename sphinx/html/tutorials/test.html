@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Useful Utilities" href="utilities.html"/>
-        <link rel="prev" title="Multiple Runs with Open Grid Engine" href="open-grid.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Useful Utilities" href="utilities.html" />
+    <link rel="prev" title="Multiple Runs with Open Grid Engine" href="open-grid.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -121,36 +120,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Create a SCRIMMAGE Test</li>
+        
+      <li>Create a SCRIMMAGE Test</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/test.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -191,7 +210,7 @@ mission level functionality. A sample can be found in
 23
 24
 25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;gtest/gtest.h&gt;</span><span class="cp"></span>
+26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;gtest/gtest.h&gt;</span><span class="cp"></span>
 
 <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/common/CSV.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/simcontrol/SimUtils.h&gt;</span><span class="cp"></span>
@@ -226,7 +245,7 @@ specifies what mission file to run (it uses <code class="docutils literal notran
 at <code class="docutils literal notranslate"><span class="pre">scrimmage/missions/straight.xml</span></code>) and then runs the mission.  The output
 is a boost::optional that can be dereferenced to the output log directory if
 the mission was successful:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">mission</span> <span class="o">=</span> <span class="s">&quot;straight&quot;</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">mission</span> <span class="o">=</span> <span class="s">&quot;straight&quot;</span><span class="p">;</span>
 <span class="k">auto</span> <span class="n">log_dir</span> <span class="o">=</span> <span class="n">sc</span><span class="o">::</span><span class="n">run_test</span><span class="p">(</span><span class="n">mission</span><span class="p">);</span>
 <span class="kt">bool</span> <span class="n">success</span> <span class="o">=</span> <span class="n">log_dir</span> <span class="o">?</span> <span class="nb">true</span> <span class="o">:</span> <span class="nb">false</span><span class="p">;</span>
 <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">success</span><span class="p">);</span>
@@ -236,7 +255,7 @@ the mission was successful:</p>
 <p>We now need to verify that the simulation passed our test. Here we are checking
 that there was at least one collision in the simulation by reading the
 <code class="docutils literal notranslate"><span class="pre">summary.csv</span></code> that is output by a metrics plugin (see <a class="reference internal" href="metrics-plugin.html#metrics-plugin"><span class="std std-ref">Create a Metrics Plugin</span></a>):</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span class="n">sc</span><span class="o">::</span><span class="n">CSV</span> <span class="n">csv</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">::</span><span class="n">CSV</span> <span class="n">csv</span><span class="p">;</span>
 <span class="kt">bool</span> <span class="n">summary_found</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="o">*</span><span class="n">log_dir</span> <span class="o">+</span> <span class="s">&quot;/summary.csv&quot;</span><span class="p">);</span>
 <span class="n">EXPECT_TRUE</span><span class="p">(</span><span class="n">summary_found</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">summary_found</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
@@ -250,15 +269,16 @@ that there was at least one collision in the simulation by reading the
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="utilities.html" class="btn btn-neutral float-right" title="Useful Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Useful Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="open-grid.html" class="btn btn-neutral" title="Multiple Runs with Open Grid Engine" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="open-grid.html" class="btn btn-neutral float-left" title="Multiple Runs with Open Grid Engine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -267,11 +287,11 @@ that there was at least one collision in the simulation by reading the
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -284,36 +304,15 @@ that there was at least one collision in the simulation by reading the
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

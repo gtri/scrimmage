@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Create a SCRIMMAGE Plugins Project" href="create-project.html"/>
-        <link rel="prev" title="SCRIMMAGE Plugin / XML File Discovery" href="xml-discovery.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create a SCRIMMAGE Plugins Project" href="create-project.html" />
+    <link rel="prev" title="SCRIMMAGE Plugin / XML File Discovery" href="xml-discovery.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -130,36 +129,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Multiple Runs on a Local Computer</li>
+        
+      <li>Multiple Runs on a Local Computer</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/multiple-local-runs.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -196,7 +215,7 @@ group, so that they do not interact.</p>
 <p>This SCRIMMAGE mission is provided by the <code class="docutils literal notranslate"><span class="pre">straight-vs-motorschemas.xml</span></code>
 mission, which is located in the SCRIMMAGE core missions directory. Let’s take
 a look at the important aspects of this mission.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="c">&lt;!-- ========================== TEAM 1 ========================= --&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="c">&lt;!-- ========================== TEAM 1 ========================= --&gt;</span>
 <span class="c">&lt;!--                   No Collision Avoidance                    --&gt;</span>
 <span class="nt">&lt;entity&gt;</span>
   <span class="nt">&lt;team_id&gt;</span>1<span class="nt">&lt;/team_id&gt;</span>
@@ -238,7 +257,7 @@ simulators. Also, note that the team #2 <code class="docutils literal notranslat
 <code class="docutils literal notranslate"><span class="pre">sphere_of_influence</span></code> tag to 50. This allows a higher-level mission file to
 override sub-XML file parameters. If you open up the MotorSchemas.xml file in
 the SCRIMMAGE core project, you will find:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;sphere_of_influence&gt;</span>10<span class="nt">&lt;/sphere_of_influence&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;sphere_of_influence&gt;</span>10<span class="nt">&lt;/sphere_of_influence&gt;</span>
 </pre></div>
 </div>
 <p>By setting the <code class="docutils literal notranslate"><span class="pre">sphere_of_influence</span></code> in the <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> tag’s attribute, we
@@ -250,7 +269,7 @@ parameters in SCRIMMAGE XML files.</p>
 <p>Let’s execute a single simulation run to ensure that our initial conditions are
 correct. We can run the <code class="docutils literal notranslate"><span class="pre">scrimmage</span></code> executable from anywhere on the system as
 long as we provide a relative or absolute path to the mission file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ~/scrimmage/scrimmage
 $ scrimmage ./missions/straight-vs-motorschemas.xml
 </pre></div>
 </div>
@@ -262,7 +281,7 @@ environment. Type ‘b’ to start the simulation. After the simulation is
 complete, the SimpleCollisionMetrics will print out a report of the events it
 recorded and the weighted score. For example, the following output may be
 generated:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">================================================================================</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">================================================================================</span>
 <span class="n">SimpleCollisionMetrics</span>
 <span class="o">================================================================================</span>
 <span class="n">Team</span> <span class="n">ID</span><span class="p">:</span> <span class="mi">1</span>    <span class="p">(</span><span class="n">Survived</span> <span class="nb">round</span><span class="p">)</span>
@@ -300,7 +319,7 @@ avoidance) had six team collisions and that team #2 (the team with collision
 avoidance) had zero team collisions. The SimpleCollisionMetrics plugin uses the
 weights defined in SimpleCollisionMetrics.xml to compute the final score. Thus,
 with the weights:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>&lt;!-- weights for scoring function --&gt;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- weights for scoring function --&gt;
 &lt;flight_time_w&gt;0.0&lt;/flight_time_w&gt;
 &lt;team_collisions_w&gt;-1.0&lt;/team_collisions_w&gt;
 &lt;non_team_collisions_w&gt;-1.0&lt;/non_team_collisions_w&gt;
@@ -316,13 +335,13 @@ output log directory. In this case, the file can be found at:
 <h2>Multiple Runs in Parallel<a class="headerlink" href="#multiple-runs-in-parallel" title="Permalink to this headline">¶</a></h2>
 <p>Before running multiple scenarios in parallel, you will need to install some
 Python packages:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ sudo apt-get install python-pip python-scipy python-pandas parallel
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python-pip python-scipy python-pandas parallel
 $ sudo pip install pyDOE
 </pre></div>
 </div>
 <p>We will now use one of SCRIMMAGE’s tools, <code class="docutils literal notranslate"><span class="pre">run_experiments.py</span></code>, to execute
 100 simulation runs of this same scenario (7 instances allowed in parallel)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage/scripts
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ~/scrimmage/scrimmage/scripts
 $ ./run_experiments.py -t 100 -m ../missions/straight-vs-motorschemas.xml -p 7
 </pre></div>
 </div>
@@ -334,11 +353,11 @@ and an additional 100 timestamped log folders under that.  The
 directory, tally the wins for each team, and display the results. Let’s
 aggregate the results by providing the directory that holds all the results to
 the <code class="docutils literal notranslate"><span class="pre">aggregate-runs</span></code> program:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ aggregate-runs ~/.scrimmage/experiments/{new_timestamped_folder}
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ aggregate-runs ~/.scrimmage/experiments/{new_timestamped_folder}
 </pre></div>
 </div>
 <p>This should produce a terminal output that looks something like this</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Aggregating</span> <span class="mi">100</span> <span class="n">runs</span><span class="o">.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Aggregating</span> <span class="mi">100</span> <span class="n">runs</span><span class="o">.</span>
 <span class="p">[</span><span class="o">======================================================================</span><span class="p">]</span> <span class="mi">100</span> <span class="o">%</span>
 <span class="n">Total</span> <span class="n">time</span> <span class="n">to</span> <span class="n">process</span> <span class="n">log</span> <span class="n">files</span><span class="p">:</span> <span class="mf">0.002509</span>
 <span class="o">-----------------------------------------------------</span>
@@ -356,11 +375,11 @@ closer. For example, what if there was a mission where team #1 outperformed
 team #2? You could use the <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> program to playback the scenario
 that contains the outlier. Execute <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> by providing it with the log
 directory:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ filter-runs ~/.scrimmage/experiments/{new_timestamped_folder}
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ filter-runs ~/.scrimmage/experiments/{new_timestamped_folder}
 </pre></div>
 </div>
 <p>Now you can select the type of outcome to playback:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">====================================================</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">====================================================</span>
 <span class="n">Choose</span> <span class="n">an</span> <span class="n">outcome</span> <span class="n">number</span><span class="p">:</span>
 <span class="o">----------------------------------------------------</span>
 <span class="n">Number</span>          <span class="n">Name</span>            <span class="n">Count</span>
@@ -374,7 +393,7 @@ playback the scenarios where team #2 won by entering <code class="docutils liter
 <code class="docutils literal notranslate"><span class="pre">[ENTER]</span></code>. This will open the SCRIMMAGE viewer and playback the
 simulation. Also, some information about the simulation is displayed to the
 screen:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Playing</span> <span class="n">back</span><span class="p">:</span> <span class="n">team_2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Playing</span> <span class="n">back</span><span class="p">:</span> <span class="n">team_2</span>
 <span class="n">Mission</span><span class="p">:</span> <span class="o">~/.</span><span class="n">scrimmage</span><span class="o">/</span><span class="n">experiments</span><span class="o">/</span><span class="p">{</span><span class="n">new_timestamped_folder</span><span class="p">}</span><span class="o">/</span><span class="p">{</span><span class="n">timestamp</span><span class="p">}</span><span class="n">_job_0_task_50</span>
 <span class="n">Frames</span> <span class="n">parsed</span><span class="p">:</span> <span class="mi">502</span>
 <span class="n">Playback</span> <span class="n">Complete</span>
@@ -389,7 +408,7 @@ screen:</p>
 scenario, move to the next scenario, or quit the <code class="docutils literal notranslate"><span class="pre">filter-runs</span></code> program,
 respectively. The user can also playback specific scenarios by providing the
 log directory of a specific scenario to the <code class="docutils literal notranslate"><span class="pre">scrimmage-playback</span></code> program:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ scrimmage-playback ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ scrimmage-playback ~/.scrimmage/experiments/{new_timestamped_folder}/{timestamp}_job_0_task_50
 </pre></div>
 </div>
 </div>
@@ -398,7 +417,7 @@ log directory of a specific scenario to the <code class="docutils literal notran
 <p>SCRIMMAGE also has the ability to vary initial conditions in the SCRIMMAGE
 mission file with the use of a “ranges” file. Let’s take a look at the example
 mission file located at <code class="docutils literal notranslate"><span class="pre">/path/to/scrimmage/missions/batch-example-mission.xml</span></code>.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;autonomy</span> <span class="na">show_shapes=</span><span class="s">&quot;true&quot;</span> <span class="na">max_speed=</span><span class="s">&quot;${max_speed=25}&quot;</span> <span class="na">behaviors=</span><span class="s">&quot;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;autonomy</span> <span class="na">show_shapes=</span><span class="s">&quot;true&quot;</span> <span class="na">max_speed=</span><span class="s">&quot;${max_speed=25}&quot;</span> <span class="na">behaviors=</span><span class="s">&quot;</span>
 <span class="s">  [ AvoidEntityMS show_shapes=&#39;true&#39; gain=&#39;${MS_gain=1.0}&#39; sphere_of_influence=&#39;10&#39; minimum_range=&#39;2&#39; ]</span>
 <span class="s">   [ MoveToGoalMS gain=&#39;1.0&#39; show_shapes=&#39;true&#39; use_initial_heading=&#39;true&#39; goal=&#39;200,200,-100&#39;]&quot;</span>
           <span class="nt">&gt;</span>MotorSchemas<span class="nt">&lt;/autonomy&gt;</span>
@@ -412,7 +431,7 @@ example, the default max_speed is 25, and the default gain is 1.0. Everything
 from the $ to the } will become that variables value, so be sure to enclose the
 expression in the proper quotations.  Let’s now take a look at the ranges file,
 <code class="docutils literal notranslate"><span class="pre">/path/to/scrimmage/config/ranges/batch-ranges.xml</span></code>.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;</span>
 <span class="nt">&lt;ranges</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
     <span class="na">name=</span><span class="s">&quot;BatchExample&quot;</span><span class="nt">&gt;</span>
@@ -427,7 +446,7 @@ based on the <code class="docutils literal notranslate"><span class="pre">low</s
 <p>Let’s execute 100 simulations again,
 but we’ll vary the initial conditions with the ranges file this time. Lets also
 name the mission this time:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/scrimmage/scripts
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ~/scrimmage/scrimmage/scripts
 $ ./run_experiments.py -t 100 -m ../missions/batch-example-mission.xml \
   -p 7 -r ../config/ranges/batch-ranges.xml -n my_first_parameter_varying
 </pre></div>
@@ -465,15 +484,16 @@ following the instructions on their github page:
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="create-project.html" class="btn btn-neutral float-right" title="Create a SCRIMMAGE Plugins Project" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="create-project.html" class="btn btn-neutral float-right" title="Create a SCRIMMAGE Plugins Project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="xml-discovery.html" class="btn btn-neutral" title="SCRIMMAGE Plugin / XML File Discovery" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="xml-discovery.html" class="btn btn-neutral float-left" title="SCRIMMAGE Plugin / XML File Discovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -482,11 +502,11 @@ following the instructions on their github page:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -499,36 +519,15 @@ following the instructions on their github page:
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

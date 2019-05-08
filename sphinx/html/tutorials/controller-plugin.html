@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Create a Motion Model Plugin" href="motion-model-plugin.html"/>
-        <link rel="prev" title="Create a Sensor Plugin" href="sensor-plugin.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create a Motion Model Plugin" href="motion-model-plugin.html" />
+    <link rel="prev" title="Create a Sensor Plugin" href="sensor-plugin.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -124,36 +123,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Create a Controller Plugin</li>
+        
+      <li>Create a Controller Plugin</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/controller-plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -206,7 +225,7 @@ with the help of a helper function, <code class="docutils literal notranslate"><
 26
 27
 28
-29</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">set_pid</span><span class="p">(</span><span class="n">sc</span><span class="o">::</span><span class="n">PID</span> <span class="o">&amp;</span><span class="n">pid</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">is_angle</span><span class="p">)</span> <span class="p">{</span>
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">set_pid</span><span class="p">(</span><span class="n">sc</span><span class="o">::</span><span class="n">PID</span> <span class="o">&amp;</span><span class="n">pid</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">is_angle</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str_vals</span><span class="p">;</span>
     <span class="n">boost</span><span class="o">::</span><span class="n">split</span><span class="p">(</span><span class="n">str_vals</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">boost</span><span class="o">::</span><span class="n">is_any_of</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">));</span>
 
@@ -238,7 +257,7 @@ with the help of a helper function, <code class="docutils literal notranslate"><
 </pre></div>
 </td></tr></table></div>
 <p>The plugin’s XML file contains the actual PID gain values:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span class="nt">&lt;params&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;params&gt;</span>
 
 ...
 
@@ -272,7 +291,7 @@ later by the Motion Model plugin when it runs.</p>
 14
 15
 16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">SimpleAircraftControllerPID</span><span class="o">::</span><span class="n">step</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">SimpleAircraftControllerPID</span><span class="o">::</span><span class="n">step</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">double</span> <span class="n">desired_yaw</span> <span class="o">=</span> <span class="n">desired_state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">();</span>
 
     <span class="n">heading_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">desired_yaw</span><span class="p">);</span>
@@ -296,15 +315,16 @@ later by the Motion Model plugin when it runs.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="motion-model-plugin.html" class="btn btn-neutral float-right" title="Create a Motion Model Plugin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="motion-model-plugin.html" class="btn btn-neutral float-right" title="Create a Motion Model Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="sensor-plugin.html" class="btn btn-neutral" title="Create a Sensor Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sensor-plugin.html" class="btn btn-neutral float-left" title="Create a Sensor Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -313,11 +333,11 @@ later by the Motion Model plugin when it runs.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -330,36 +350,15 @@ later by the Motion Model plugin when it runs.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

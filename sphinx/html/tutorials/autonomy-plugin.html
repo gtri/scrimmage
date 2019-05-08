@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Draw Shapes in the Viewer" href="draw-shapes.html"/>
-        <link rel="prev" title="Create a SCRIMMAGE Plugins Project" href="create-project.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Draw Shapes in the Viewer" href="draw-shapes.html" />
+    <link rel="prev" title="Create a SCRIMMAGE Plugins Project" href="create-project.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -130,36 +129,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Create an Autonomy Plugin</li>
+        
+      <li>Create an Autonomy Plugin</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/autonomy-plugin.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -173,19 +192,19 @@ directory of your SCRIMMAGE plugins project. We will use the plugins project we
 created in the previous tutorial ( <a class="reference internal" href="create-project.html"><span class="doc">Create a SCRIMMAGE Plugins Project</span></a> ) to build our new
 Autonomy plugin.</p>
 <p>To create an Autonomy plugin, enter the following at the terminal:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd /path/to/scrimmage/scripts
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd /path/to/scrimmage/scripts
 $ ./generate-plugin.sh autonomy MyFollowBehavior ~/scrimmage/my-scrimmage-plugins
 </pre></div>
 </div>
 <p>Now, let’s build the plugin that was placed in the my-scrimmage-plugins
 project:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre>$ cd ~/scrimmage/my-scrimmage-plugins/build
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd ~/scrimmage/my-scrimmage-plugins/build
 $ cmake ..
 $ make
 </pre></div>
 </div>
 <p>If the plugin built successfuly, you will see the following output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="p">[</span><span class="mi">100</span><span class="o">%</span><span class="p">]</span> <span class="n">Built</span> <span class="n">target</span> <span class="n">MyFollowBehavior_plugin</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">100</span><span class="o">%</span><span class="p">]</span> <span class="n">Built</span> <span class="n">target</span> <span class="n">MyFollowBehavior_plugin</span>
 </pre></div>
 </div>
 <div class="section" id="examine-autonomy-plugin">
@@ -215,7 +234,7 @@ $ make
 19
 20
 21
-22</pre></div></td><td class="code"><div class="highlight"><pre> <span class="cp">#ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
  <span class="cp">#define INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
  <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/autonomy/Autonomy.h&gt;</span><span class="cp"></span>
 
@@ -262,7 +281,7 @@ favorite text editor to open the file at
 11
 12
 13
-14</pre></div></td><td class="code"><div class="highlight"><pre> <span class="cp">#include</span> <span class="cpf">&lt;my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h&gt;</span><span class="cp"></span>
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#include</span> <span class="cpf">&lt;my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h&gt;</span><span class="cp"></span>
 
  <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/plugin_manager/RegisterPlugin.h&gt;</span><span class="cp"></span>
  <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/entity/Entity.h&gt;</span><span class="cp"></span>
@@ -290,7 +309,7 @@ at runtime. The plugin’s <code class="docutils literal notranslate"><span clas
  7
  8
  9
-10</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">params</span><span class="p">)</span> <span class="p">{</span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">params</span><span class="p">)</span> <span class="p">{</span>
      <span class="kt">double</span> <span class="n">initial_speed</span> <span class="o">=</span> <span class="n">sc</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;initial_speed&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="mi">21</span><span class="p">);</span>
      <span class="n">desired_alt_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_altitude</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
      <span class="n">desired_speed_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_speed</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
@@ -312,7 +331,7 @@ from scrimmage:</p>
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;</span>
 <span class="nt">&lt;params&gt;</span>
    <span class="nt">&lt;library&gt;</span>MyFollowBehavior_plugin<span class="nt">&lt;/library&gt;</span>
@@ -336,7 +355,7 @@ This is done by calling the plugin’s <code class="docutils literal notranslate
 sets the plugin’s loop rate in Hz:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">update_loop_rate</span><span class="p">(</span><span class="kt">double</span> <span class="n">new_loop_rate</span><span class="p">)</span> <span class="p">{</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">update_loop_rate</span><span class="p">(</span><span class="kt">double</span> <span class="n">new_loop_rate</span><span class="p">)</span> <span class="p">{</span>
      <span class="n">set_loop_rate</span><span class="p">(</span><span class="n">new_loop_rate</span><span class="p">);</span>
  <span class="p">}</span>
 </pre></div>
@@ -347,7 +366,7 @@ sets the plugin’s loop rate in Hz:</p>
 <h3>Step Autonomy<a class="headerlink" href="#step-autonomy" title="Permalink to this headline">¶</a></h3>
 <p>The real work of the Autonomy plugin is typically implemented in the
 <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> method.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> method takes the current simulation time, <code class="docutils literal notranslate"><span class="pre">t</span></code>, and the
@@ -357,9 +376,9 @@ simulation controller, but typically, <code class="docutils literal notranslate"
 method finishes execution. The example Autonomy plugin that was generated
 implements the following simple behavior:</p>
 <ol class="arabic simple">
-<li>Calculate the distance to each contact in the simulation.</li>
-<li>Find the the closest contact that is not on my team.</li>
-<li>Head in the direction of the closest contact.</li>
+<li><p>Calculate the distance to each contact in the simulation.</p></li>
+<li><p>Find the the closest contact that is not on my team.</p></li>
+<li><p>Head in the direction of the closest contact.</p></li>
 </ol>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -404,7 +423,7 @@ implements the following simple behavior:</p>
 41
 42
 43
-44</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
+44</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
      <span class="c1">// Find nearest entity on other team. Loop through each contact, calculate</span>
      <span class="c1">// distance to entity, save the ID of the entity that is closest.</span>
      <span class="kt">int</span> <span class="n">follow_id_</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
@@ -516,7 +535,7 @@ Change <code class="docutils literal notranslate"><span class="pre">count</span>
 32
 33
 34
-35</pre></div></td><td class="code"><div class="highlight"><pre> <span class="nt">&lt;entity&gt;</span>
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="nt">&lt;entity&gt;</span>
    <span class="nt">&lt;team_id&gt;</span>2<span class="nt">&lt;/team_id&gt;</span>
    <span class="nt">&lt;color&gt;</span>255 0 0<span class="nt">&lt;/color&gt;</span>
    <span class="nt">&lt;count&gt;</span>1<span class="nt">&lt;/count&gt;</span>
@@ -554,7 +573,7 @@ Change <code class="docutils literal notranslate"><span class="pre">count</span>
 </pre></div>
 </td></tr></table></div>
 <p>Now we can run the simulation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre>scrimmage missions/example.xml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scrimmage missions/example.xml
 </pre></div>
 </div>
 <p>You can change the viewer by pressing <code class="docutils literal notranslate"><span class="pre">a</span></code> once, scrolling out and moving the picture
@@ -565,15 +584,16 @@ are larger. You should see two vehicles approach each other and circle.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="draw-shapes.html" class="btn btn-neutral float-right" title="Draw Shapes in the Viewer" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="draw-shapes.html" class="btn btn-neutral float-right" title="Draw Shapes in the Viewer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="create-project.html" class="btn btn-neutral" title="Create a SCRIMMAGE Plugins Project" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="create-project.html" class="btn btn-neutral float-left" title="Create a SCRIMMAGE Plugins Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -582,11 +602,11 @@ are larger. You should see two vehicles approach each other and circle.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -599,36 +619,15 @@ are larger. You should see two vehicles approach each other and circle.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

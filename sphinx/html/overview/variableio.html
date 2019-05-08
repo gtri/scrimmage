@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Overview" href="overview.html"/>
-        <link rel="next" title="Design Principles" href="design-principles.html"/>
-        <link rel="prev" title="Mission XML Tag Definitions" href="xml-tags.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Design Principles" href="design-principles.html" />
+    <link rel="prev" title="Mission XML Tag Definitions" href="xml-tags.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="intro.html">SCRIMMAGE Description</a></li>
 <li class="toctree-l2"><a class="reference internal" href="install.html">Install SCRIMMAGE</a></li>
@@ -112,36 +111,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="overview.html">Overview</a> &raquo;</li>
-      
-    <li>Variable IO</li>
+        
+      <li>Variable IO</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/overview/variableio.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -163,7 +182,7 @@ only needs inputs (it always outputs an updated state), this
 may look something like (example for a <code class="docutils literal notranslate"><span class="pre">SingleIntegrator</span></code>):</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">vel_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">velocity_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">vel_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">velocity_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">velocity_y</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_z_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">velocity_z</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 </pre></div>
@@ -177,7 +196,7 @@ if a type is not available (see the list in <code class="docutils literal notran
 a user can also specify a string:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">vel_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_x&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">vel_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_x&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_y&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">vel_z_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="s">&quot;velocity_z&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 </pre></div>
@@ -193,7 +212,7 @@ motion model, so in its <code class="docutils literal notranslate"><span class="
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">input_pos_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">input_pos_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">input_pos_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_y</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 <span class="n">input_pos_z_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_z</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">In</span><span class="p">);</span>
 
@@ -207,7 +226,7 @@ from <code class="docutils literal notranslate"><span class="pre">SingleIntegrat
 Finally, an autonomy will provide the desired position:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">output_pos_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">output_pos_x_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_x</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
 <span class="n">output_pos_y_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_y</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
 <span class="n">output_pos_z_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">position_z</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
 </pre></div>
@@ -217,7 +236,7 @@ If the autonomy wants to go to position <code class="docutils literal notranslat
 it will execute the following:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_x_idx_</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_x_idx_</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
 <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_y_idx_</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pos_z_idx_</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </pre></div>
@@ -228,7 +247,7 @@ lines exist in the controller.</p>
 needs an input not provided by a controller or autonomy, respectively.
 In particular, if you get the following message, all you need to
 do is follow the prompts:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">VariableIO</span> <span class="n">Error</span><span class="p">:</span> <span class="n">no</span> <span class="n">autonomies</span> <span class="n">provide</span> <span class="n">inputs</span> <span class="n">required</span> <span class="n">by</span> <span class="n">Controller</span> <span class="s2">&quot;SimpleAircraftControllerPID&quot;</span><span class="o">.</span> <span class="n">Add</span> <span class="n">VariableIO</span> <span class="n">output</span> <span class="n">declarations</span> <span class="ow">in</span> <span class="n">Straight</span><span class="p">,</span> <span class="k">as</span> <span class="n">follows</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VariableIO</span> <span class="n">Error</span><span class="p">:</span> <span class="n">no</span> <span class="n">autonomies</span> <span class="n">provide</span> <span class="n">inputs</span> <span class="n">required</span> <span class="n">by</span> <span class="n">Controller</span> <span class="s2">&quot;SimpleAircraftControllerPID&quot;</span><span class="o">.</span> <span class="n">Add</span> <span class="n">VariableIO</span> <span class="n">output</span> <span class="n">declarations</span> <span class="ow">in</span> <span class="n">Straight</span><span class="p">,</span> <span class="k">as</span> <span class="n">follows</span>
 <span class="n">First</span><span class="p">,</span> <span class="n">place</span> <span class="n">the</span> <span class="n">following</span> <span class="ow">in</span> <span class="n">its</span> <span class="n">initializer</span><span class="p">:</span>
     <span class="n">altitude_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="p">::</span><span class="n">Direction</span><span class="p">::</span><span class="n">Out</span><span class="p">);</span>
     <span class="n">heading_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;heading&quot;</span><span class="p">,</span> <span class="n">VariableIO</span><span class="p">::</span><span class="n">Direction</span><span class="p">::</span><span class="n">Out</span><span class="p">);</span>
@@ -250,15 +269,16 @@ do is follow the prompts:</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="design-principles.html" class="btn btn-neutral float-right" title="Design Principles" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="design-principles.html" class="btn btn-neutral float-right" title="Design Principles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="xml-tags.html" class="btn btn-neutral" title="Mission XML Tag Definitions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="xml-tags.html" class="btn btn-neutral float-left" title="Mission XML Tag Definitions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -267,11 +287,11 @@ do is follow the prompts:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -284,36 +304,15 @@ do is follow the prompts:</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

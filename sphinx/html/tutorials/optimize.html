@@ -13,44 +13,40 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="scrimmage 0.2.0-dev documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="tutorials.html"/>
-        <link rel="next" title="Multiple Runs with Open Grid Engine" href="open-grid.html"/>
-        <link rel="prev" title="Create an OpenAI Plugin" href="openai-plugin.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multiple Runs with Open Grid Engine" href="open-grid.html" />
+    <link rel="prev" title="Create an OpenAI Plugin" href="openai-plugin.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +81,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
@@ -124,36 +123,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">scrimmage</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      
-    <li>Optimizing Parameters in SCRIMMAGE</li>
+        
+      <li>Optimizing Parameters in SCRIMMAGE</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/tutorials/optimize.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -166,26 +185,26 @@
 <p>Here we investigate a predator-prey scenario and discuss how to use SCRIMMAGE
 to optimize model parameters. There are many ways to do this but here
 we focus on optimization using Gaussian Processes.
-For background on Gaussian Processes see <a class="reference internal" href="#rasmussen" id="id1">[Rasmussen]</a>. For a similar
+For background on Gaussian Processes see <a class="reference internal" href="#rasmussen" id="id1"><span>[Rasmussen]</span></a>. For a similar
 discussion on surrogate modeling with an additional discussion of sampling plans
-see <a class="reference internal" href="#forrester" id="id2">[Forrester]</a>. When the parameter space is larger than the
+see <a class="reference internal" href="#forrester" id="id2"><span>[Forrester]</span></a>. When the parameter space is larger than the
 current application it is recommended to start
 with a latin hypercube sampling technique. We do not discuss this here
 but note that it is available elsewhere in SCRIMMAGE (see <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span class="std std-ref">Multiple Runs on a Local Computer</span></a>
 for details).</p>
 <p>First let’s run the scenario:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">scrimmage</span> <span class="n">missions</span><span class="o">/</span><span class="n">predator_prey_boids</span><span class="o">.</span><span class="n">xml</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scrimmage</span> <span class="n">missions</span><span class="o">/</span><span class="n">predator_prey_boids</span><span class="o">.</span><span class="n">xml</span>
 </pre></div>
 </div>
 <p>The code for the optimization can be found in <code class="docutils literal notranslate"><span class="pre">scripts/optimization_tutorial.py</span></code>.
 To run it you will need to install the python dependences:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">sklearn</span> <span class="n">python3</span><span class="o">-</span><span class="n">pandas</span> <span class="n">python</span><span class="o">-</span><span class="n">numpy</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">sklearn</span> <span class="n">python3</span><span class="o">-</span><span class="n">pandas</span> <span class="n">python</span><span class="o">-</span><span class="n">numpy</span>
 <span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">bayesian</span><span class="o">-</span><span class="n">optimization</span>
 </pre></div>
 </div>
 <p>You should see about 50 blue vehicles (the prey) and 1 red vehicle (the
 predator). The blue vehicles are running a version of the Reynolds-Boids model
-<a class="reference internal" href="#boids" id="id3">[Boids]</a>. The predators attempt to get close enough to the prey to capture
+<a class="reference internal" href="#boids" id="id3"><span>[Boids]</span></a>. The predators attempt to get close enough to the prey to capture
 them and in the process get points. There are a couple of parameters
 that affect the efficacy of a predator, namely speed and capture radius.
 Both factors generally yield better performance when they are larger.
@@ -207,7 +226,7 @@ by adding a constant to the correlation matrix. We could go with
 this approach since we can estimate the variance of an output
 given the repeated runs. However, it is simpler to just let
 the library handle this for us. This is the purpose of the WhiteKernel below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">repeats</span> <span class="o">=</span> <span class="mi">100</span>
     <span class="n">cores</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="n">mission</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">.</span><span class="n">find_mission</span><span class="p">(</span><span class="s1">&#39;predator_prey_boids.xml&#39;</span><span class="p">)</span>
@@ -237,14 +256,14 @@ the library handle this for us. This is the purpose of the WhiteKernel below:</p
                 <span class="n">kappa</span><span class="o">=</span><span class="n">kappa</span><span class="p">,</span> <span class="o">**</span><span class="n">gp_params</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This code essentially provides the function to optimize <code class="docutils literal notranslate"><span class="pre">_run</span></code> to
 the Gaussian Process. <code class="docutils literal notranslate"><span class="pre">_run</span></code> captures some variables so that it is
 only a function of the optimization variable and calls <code class="docutils literal notranslate"><span class="pre">run</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span>
         <span class="n">nominal_capture_range</span><span class="p">,</span> <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">):</span>
 
     <span class="n">out_dir</span><span class="p">,</span> <span class="n">out_mission</span> <span class="o">=</span> \
@@ -271,14 +290,14 @@ only a function of the optimization variable and calls <code class="docutils lit
 the constraint is satisfied. In particular, it sets the <code class="docutils literal notranslate"><span class="pre">max_speed</span></code>
 for the predator and makes the corresponding adjustment to <code class="docutils literal notranslate"><span class="pre">capture_radius</span></code>.
 It then calls a helper function <code class="docutils literal notranslate"><span class="pre">parallel</span></code> that runs
-SCRIMMAGE instances locally (see <a class="reference internal" href="#parallel" id="id4">[Parallel]</a> and <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span class="std std-ref">Multiple Runs on a Local Computer</span></a> for
+SCRIMMAGE instances locally (see <a class="reference internal" href="#parallel" id="id4"><span>[Parallel]</span></a> and <a class="reference internal" href="multiple-local-runs.html#multiple-local-runs"><span class="std std-ref">Multiple Runs on a Local Computer</span></a> for
 more details). For larger problems where grid engine is available for a cluster,
 batch jobs can instead call the <code class="docutils literal notranslate"><span class="pre">scrimmage.qsub</span></code> and <code class="docutils literal notranslate"><span class="pre">scrimmage.wait_for_job</span></code>
 functions. Here is the <code class="docutils literal notranslate"><span class="pre">create_mission</span></code> function:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an xml node.&quot;&quot;&quot;</span>
     <span class="n">el</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-    <span class="n">el</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{:.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">el</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">el</span>
 
 
@@ -315,7 +334,7 @@ functions. Here is the <code class="docutils literal notranslate"><span class="p
 </pre></div>
 </div>
 <p>We can now run this file and get the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Initialization</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Initialization</span>
 <span class="o">-------------------------------------------</span>
  <span class="n">Step</span> <span class="o">|</span>   <span class="n">Time</span> <span class="o">|</span>      <span class="n">Value</span> <span class="o">|</span>   <span class="n">max_speed</span> <span class="o">|</span>
     <span class="mi">1</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">0.00000</span> <span class="o">|</span>     <span class="mf">10.0000</span> <span class="o">|</span>
@@ -347,44 +366,35 @@ functions. Here is the <code class="docutils literal notranslate"><span class="p
 exploration by setting <code class="docutils literal notranslate"><span class="pre">kappa</span></code> to something higher). We can either continue
 the search process with more or use a function minimizer to minimize the
 Gaussian Process to get a final estimate of optimal value.</p>
-<table class="docutils citation" frame="void" id="boids" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[Boids]</a></td><td>Reynolds, Craig W. “Flocks, herds and schools: A distributed behavioral model.” ACM SIGGRAPH computer graphics. Vol. 21. No. 4. ACM, 1987.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="rasmussen" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[Rasmussen]</a></td><td>Rasmussen, Carl Edward. “Gaussian processes in machine learning.” Advanced lectures on machine learning. Springer, Berlin, Heidelberg, 2004. 63-71.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="forrester" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[Forrester]</a></td><td>Forrester, Alexander, and Andy Keane. Engineering design via surrogate modelling: a practical guide. John Wiley &amp; Sons, 2008.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="parallel" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[Parallel]</a></td><td>Tange, Ole. “Gnu parallel-the command-line power tool.” The USENIX Magazine 36.1 (2011): 42-47.</td></tr>
-</tbody>
-</table>
+<dl class="citation">
+<dt class="label" id="boids"><span class="brackets"><a class="fn-backref" href="#id3">Boids</a></span></dt>
+<dd><p>Reynolds, Craig W. “Flocks, herds and schools: A distributed behavioral model.” ACM SIGGRAPH computer graphics. Vol. 21. No. 4. ACM, 1987.</p>
+</dd>
+<dt class="label" id="rasmussen"><span class="brackets"><a class="fn-backref" href="#id1">Rasmussen</a></span></dt>
+<dd><p>Rasmussen, Carl Edward. “Gaussian processes in machine learning.” Advanced lectures on machine learning. Springer, Berlin, Heidelberg, 2004. 63-71.</p>
+</dd>
+<dt class="label" id="forrester"><span class="brackets"><a class="fn-backref" href="#id2">Forrester</a></span></dt>
+<dd><p>Forrester, Alexander, and Andy Keane. Engineering design via surrogate modelling: a practical guide. John Wiley &amp; Sons, 2008.</p>
+</dd>
+<dt class="label" id="parallel"><span class="brackets"><a class="fn-backref" href="#id4">Parallel</a></span></dt>
+<dd><p>Tange, Ole. “Gnu parallel-the command-line power tool.” The USENIX Magazine 36.1 (2011): 42-47.</p>
+</dd>
+</dl>
 </div>
 </div>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="open-grid.html" class="btn btn-neutral float-right" title="Multiple Runs with Open Grid Engine" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="open-grid.html" class="btn btn-neutral float-right" title="Multiple Runs with Open Grid Engine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="openai-plugin.html" class="btn btn-neutral" title="Create an OpenAI Plugin" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="openai-plugin.html" class="btn btn-neutral float-left" title="Create an OpenAI Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -393,11 +403,11 @@ Gaussian Process to get a final estimate of optimal value.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Kevin DeMarco.
+        &copy; Copyright 2017, Kevin DeMarco
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -410,36 +420,15 @@ Gaussian Process to get a final estimate of optimal value.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.2.0-dev',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>
