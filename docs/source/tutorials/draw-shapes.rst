@@ -3,6 +3,41 @@
 Draw Shapes in the Viewer
 =========================
 
+High-Level Shape API
+~~~~~~~~~~~~~~~~~~~~
+
+The high-level Shape API provides helper functions for generating shapes with
+sensible default values. Helper functions for drawing spheres, text, circles,
+cones, cubes, point clouds, etc. are defined in ``scrimmage/common/Shape.h``
+. In a plugin, the following code will draw the white text, "Hello,
+SCRIMMAGE!", at the location (10, 0, 0).
+
+.. code-block:: c++
+
+   // include the Shape.h header
+   #include <scrimmage/common/Shape.h>
+
+   ...
+
+   // Generate the persistent shape object
+   auto text_shape = scrimmage::shape::make_text("Hello, SCRIMMAGE!",
+                                                 Eigen::Vector3d(10, 0, 0),       // Position
+                                                 Eigen::Vector3d(255, 255, 255)); // Color
+
+   // Draw the shape in the viewer
+   draw_shape(text_shape);
+
+
+Low-Level Shape API
+~~~~~~~~~~~~~~~~~~~
+
+The high-level Shape API provides access to most of the shape drawing
+functionality. However, you may want to directly construct a shape object or
+modify specific shape properties that are not modifiable through the high-level
+Shape API. In this case, the low-level Shape API should be used. The low-level
+Shape API requires the developer to directly use the Shape Protobuf class'
+accessors and getters.
+
 You can draw shapes in the SCRIMMAGE Viewer from any plugin. For example, you
 could draw the text, "Hello, SCRIMMAGE!", with the following code in a plugin:
 
@@ -55,7 +90,7 @@ the shape's persistence to false and call the ``draw_shape()`` function again:
 
 .. code-block:: c++
    :linenos:
-   
+
    text_shape_->set_persistent(false);
    draw_shape(text_shape);
 
@@ -97,7 +132,7 @@ viewer.
    sc::Quaternion quat(0, 0, 0); // roll, pitch, yaw (radians)
    sc::set(wall->mutable_cube()->mutable_quat(), quat);
 
-   // Draw the shape in the viewer   
+   // Draw the shape in the viewer
    draw_shape(wall);
 
 We know which parameters to specify for the cube because they are explicitly
@@ -112,7 +147,7 @@ listed in `Shape.proto`_ in the ``Cube`` protobuf message:
       Vector3d center = 4;
       Quaternion quat = 5;
    }
-   
+
 Additional Examples
 -------------------
 
@@ -124,18 +159,18 @@ radius of 5 meters, at the position (1, 2, 3):
 
 .. code-block:: c++
    :linenos:
-   
+
    auto sphere = std::make_shared<scrimmage_proto::Shape>();
    sphere->set_opacity(0.25);
    sphere->set_persistent(true);
    sc::set(sphere->mutable_color(), 0, 0, 255); // r, g, b
-   
+
    sphere->mutable_sphere()->set_radius(5);
    sc::set(sphere->mutable_sphere()->mutable_center(), 1, 2, 3);
    draw_shape(sphere);
 
 Draw a Line
-~~~~~~~~~~~   
+~~~~~~~~~~~
 
 The following will draw a red line from (0, 0, 0) to (10, 10, 10).
 
@@ -149,6 +184,6 @@ The following will draw a red line from (0, 0, 0) to (10, 10, 10).
    sc::set(line->mutable_line()->mutable_end(), Eigen::Vector3d(10, 10, 10));
    draw_shape(line);
 
-   
+
 .. _oneof: https://developers.google.com/protocol-buffers/docs/proto#oneof
 .. _Shape.proto: https://github.com/gtri/scrimmage/blob/master/src/proto/scrimmage/proto/Shape.proto
