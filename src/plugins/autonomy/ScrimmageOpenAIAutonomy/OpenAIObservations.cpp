@@ -81,8 +81,7 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
 
     py::array_t<int> disc_obs;
     py::array_t<double> cont_obs;
-    bool is_tuple_space = py::isinstance(observation_space, get_gym_space("Tuple"));
-    if (!is_tuple_space || (static_obs_space && (num_entities == 1 || combine_actors_))) {
+    if (static_obs_space && (num_entities == 1 || combine_actors_)) {
         std::tie(disc_obs, cont_obs) = init_arrays(observation_space, observation);
         uint32_t disc_beg_idx = 0;
         uint32_t cont_beg_idx = 0;
