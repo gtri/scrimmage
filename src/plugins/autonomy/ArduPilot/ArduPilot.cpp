@@ -115,7 +115,7 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
     // Get parameters for transmit socket (to ardupilot)
     to_ardupilot_ip_ = sc::get<std::string>("to_ardupilot_ip", params, "127.0.0.1");
     to_ardupilot_port_ = sc::get<std::string>("to_ardupilot_port", params, "5003");
-    printf("ArduPilot: sending to udp:%s:%s\n", to_ardupilot_ip_.c_str(), to_ardupilot_port_.c_str());
+    cout << "ArduPilot: sending to udp: " << to_ardupilot_ip_ << ":" << to_ardupilot_port_ << endl;
 
     // Setup transmit socket
     tx_socket_ = std::make_shared<ba::ip::udp::socket>(tx_io_service_,
@@ -133,7 +133,7 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
                                                          ba::ip::udp::endpoint(
                                                              ba::ip::udp::v4(),
                                                              from_ardupilot_port_));
-    printf("ArduPilot: listening to udp:%s:%d\n", to_ardupilot_ip_.c_str(), from_ardupilot_port_);
+    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip_ << ":" << from_ardupilot_port_ << endl;
     start_receive();
 
     state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
@@ -184,7 +184,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
 
 void ArduPilot::handle_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
-#if 1
+#if 0
     cout << "--------------------------------------------------------" << endl;
     cout << "  Servo packets received from ArduPilot" << endl;
     cout << "--------------------------------------------------------" << endl;
@@ -199,7 +199,7 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
             servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
-#if 1
+#if 0
             int prec = 9;
             cout << std::setprecision(prec) << "servo"<< i << ": " << servo_pkt_.servos[i] << endl;
 #endif
