@@ -77,6 +77,7 @@ void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src);
 void set(Eigen::Vector3d &dst, const scrimmage_proto::Vector3d *src);
 void set(scrimmage_proto::Color &dst, scrimmage_proto::Color &src);
 void set(scrimmage_proto::Color &dst, int r, int g, int b);
+void set(scrimmage_proto::Color *dst, const Eigen::Vector3d &color);
 void set(scrimmage_proto::Color *dst, scrimmage_proto::Color *src);
 void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src);
 void set(scrimmage_proto::Color *dst, const scrimmage::Color_t &src);

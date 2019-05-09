@@ -115,41 +115,41 @@ message Triangle {
 }
 
 message Shape {
-    uint64 hash = 1;
-    bool hash_set = 2;
-    ID id = 3;
-    string name = 4;
-    Color color = 5;
-    double opacity = 6;
-    oneof oneof_ttl {
-          int32 ttl = 7;
-          double persist_duration = 8;
-          double persist_until = 9;
-    }
-    bool persistent = 10;
-    oneof oneof_type {
-          Arc arc               = 11;
-          Arrow arrow           = 12;
-          Circle circle         = 13;
-          Cone cone             = 14;
-          Cuboid cuboid         = 15;
-          Ellipse ellipse       = 16;
-          Line line             = 17;
-          Mesh mesh             = 18;
-          Plane plane           = 19;
-          PointCloud pointcloud = 20;
-          Polydata polydata     = 21;
-          Polygon polygon       = 22;
-          Polyhedron polyhedron = 23;
-          Sphere sphere         = 24;
-          Spline spline         = 25;
-          Text text             = 26;
-          Triangle triangle     = 27;
-          Polyline polyline     = 28;
-    }
+        uint64 hash = 1;
+        bool hash_set = 2;
+        ID id = 3;
+        string name = 4;
+        Color color = 5;
+        double opacity = 6;
+        oneof oneof_ttl {
+              int32 ttl = 7;
+              double persist_duration = 8;
+              double persist_until = 9;
+        }
+        bool persistent = 10;
+        oneof oneof_type {
+              Arc arc               = 11;
+          	  Arrow arrow           = 12;
+          	  Circle circle         = 13;
+          	  Cone cone             = 14;
+          	  Cuboid cuboid         = 15;
+              Ellipse ellipse       = 16;
+          	  Line line             = 17;
+          	  Mesh mesh             = 18;
+          	  Plane plane           = 19;
+          	  PointCloud pointcloud = 20;
+          	  Polydata polydata     = 21;
+          	  Polygon polygon       = 22;
+          	  Polyhedron polyhedron = 23;
+          	  Sphere sphere         = 24;
+          	  Spline spline         = 25;
+          	  Text text             = 26;
+          	  Triangle triangle     = 27;
+          	  Polyline polyline     = 28;
+        }
 }
 
 message Shapes {
-double time = 1;
-repeated Shape shape = 2;
+        double time = 1;
+        repeated Shape shape = 2;
 }
