@@ -92,13 +92,15 @@
 <li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Draw Shapes in the Viewer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#removing-a-shape">Removing a Shape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#shape-persistence-and-ttl">Shape Persistence and TTL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#additional-examples">Additional Examples</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#draw-a-sphere">Draw a Sphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#draw-a-line">Draw a Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-level-shape-api">High-Level Shape API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#low-level-shape-api">Low-Level Shape API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#removing-a-shape">Removing a Shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shape-persistence-and-ttl">Shape Persistence and TTL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-examples">Additional Examples</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#draw-a-sphere">Draw a Sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#draw-a-line">Draw a Line</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
@@ -186,6 +188,36 @@
             
   <div class="section" id="draw-shapes-in-the-viewer">
 <span id="draw-shapes"></span><h1>Draw Shapes in the Viewer<a class="headerlink" href="#draw-shapes-in-the-viewer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="high-level-shape-api">
+<h2>High-Level Shape API<a class="headerlink" href="#high-level-shape-api" title="Permalink to this headline">¶</a></h2>
+<p>The high-level Shape API provides helper functions for generating shapes with
+sensible default values. Helper functions for drawing spheres, text, circles,
+cones, cubes, point clouds, etc. are defined in <code class="docutils literal notranslate"><span class="pre">scrimmage/common/Shape.h</span></code>
+. In a plugin, the following code will draw the white text, “Hello,
+SCRIMMAGE!”, at the location (10, 0, 0).</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// include the Shape.h header</span>
+<span class="cp">#include</span> <span class="cpf">&lt;scrimmage/common/Shape.h&gt;</span><span class="cp"></span>
+
+<span class="p">...</span>
+
+<span class="c1">// Generate the persistent shape object</span>
+<span class="k">auto</span> <span class="n">text_shape</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">::</span><span class="n">shape</span><span class="o">::</span><span class="n">make_text</span><span class="p">(</span><span class="s">&quot;Hello, SCRIMMAGE!&quot;</span><span class="p">,</span>
+                                              <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>       <span class="c1">// Position</span>
+                                              <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">));</span> <span class="c1">// Color</span>
+
+<span class="c1">// Draw the shape in the viewer</span>
+<span class="n">draw_shape</span><span class="p">(</span><span class="n">text_shape</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="low-level-shape-api">
+<h2>Low-Level Shape API<a class="headerlink" href="#low-level-shape-api" title="Permalink to this headline">¶</a></h2>
+<p>The high-level Shape API provides access to most of the shape drawing
+functionality. However, you may want to directly construct a shape object or
+modify specific shape properties that are not modifiable through the high-level
+Shape API. In this case, the low-level Shape API should be used. The low-level
+Shape API requires the developer to directly use the Shape Protobuf class’
+accessors and getters.</p>
 <p>You can draw shapes in the SCRIMMAGE Viewer from any plugin. For example, you
 could draw the text, “Hello, SCRIMMAGE!”, with the following code in a plugin:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -247,7 +279,7 @@ be drawn. Note, you can only set the parameters for a single shape within the
 oneof_type block in Shape.proto, otherwise, previous parameters will be
 cleared.</p>
 <div class="section" id="removing-a-shape">
-<h2>Removing a Shape<a class="headerlink" href="#removing-a-shape" title="Permalink to this headline">¶</a></h2>
+<h3>Removing a Shape<a class="headerlink" href="#removing-a-shape" title="Permalink to this headline">¶</a></h3>
 <p>To remove a shape after drawing it with the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function, just set
 the shape’s persistence to false and call the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function again:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -259,7 +291,7 @@ the shape’s persistence to false and call the <code class="docutils literal no
 drawn by changing the value and calling <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> again.</p>
 </div>
 <div class="section" id="shape-persistence-and-ttl">
-<h2>Shape Persistence and TTL<a class="headerlink" href="#shape-persistence-and-ttl" title="Permalink to this headline">¶</a></h2>
+<h3>Shape Persistence and TTL<a class="headerlink" href="#shape-persistence-and-ttl" title="Permalink to this headline">¶</a></h3>
 <p>If you know that you want a shape to be visible for a specific number of frames
 and then have it removed automatically, you can use the shape’s peristence and
 ttl (time-to-live, measured in simulation steps) parameters. Let’s create a
@@ -329,9 +361,11 @@ listed in <a class="reference external" href="https://github.com/gtri/scrimmage/
 </div>
 </div>
 <div class="section" id="additional-examples">
-<h2>Additional Examples<a class="headerlink" href="#additional-examples" title="Permalink to this headline">¶</a></h2>
+<h3>Additional Examples<a class="headerlink" href="#additional-examples" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
 <div class="section" id="draw-a-sphere">
-<h3>Draw a Sphere<a class="headerlink" href="#draw-a-sphere" title="Permalink to this headline">¶</a></h3>
+<h2>Draw a Sphere<a class="headerlink" href="#draw-a-sphere" title="Permalink to this headline">¶</a></h2>
 <p>The following will draw a persistent blue sphere with an opacity of 0.25, a
 radius of 5 meters, at the position (1, 2, 3):</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -353,7 +387,7 @@ radius of 5 meters, at the position (1, 2, 3):</p>
 </td></tr></table></div>
 </div>
 <div class="section" id="draw-a-line">
-<h3>Draw a Line<a class="headerlink" href="#draw-a-line" title="Permalink to this headline">¶</a></h3>
+<h2>Draw a Line<a class="headerlink" href="#draw-a-line" title="Permalink to this headline">¶</a></h2>
 <p>The following will draw a red line from (0, 0, 0) to (10, 10, 10).</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -368,7 +402,6 @@ radius of 5 meters, at the position (1, 2, 3):</p>
 <span class="n">draw_shape</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
-</div>
 </div>
 </div>
 
