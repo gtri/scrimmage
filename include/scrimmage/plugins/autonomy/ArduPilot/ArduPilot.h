@@ -87,6 +87,7 @@ class ArduPilot : public scrimmage::Autonomy {
  protected:
     std::string to_ardupilot_ip_;
     std::string to_ardupilot_port_;
+    bool mavproxy_mode_ = false;
 
     boost::asio::io_service tx_io_service_;
     std::shared_ptr<boost::asio::ip::udp::socket> tx_socket_;
