@@ -273,8 +273,8 @@ with the help of a helper function, <code class="docutils literal notranslate"><
 <p>The Controller’s <code class="docutils literal notranslate"><span class="pre">step</span></code> method merely assigns the new setpoints coming from
 the Autonomy plugin to each PID controller, tells each PID the current value of
 the state variable being tracked, and tells each PID to update itself. The PID
-output values are assigned to the <code class="docutils literal notranslate"><span class="pre">u_</span></code> member variable, which is retrieved
-later by the Motion Model plugin when it runs.</p>
+output values are assigned to the <code class="docutils literal notranslate"><span class="pre">vars_</span></code> variable available to all SCRIMMAGE
+plugins, which is retrieved later by the Motion Model plugin when it runs.</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -292,20 +292,20 @@ later by the Motion Model plugin when it runs.</p>
 15
 16
 17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">SimpleAircraftControllerPID</span><span class="o">::</span><span class="n">step</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">double</span> <span class="n">desired_yaw</span> <span class="o">=</span> <span class="n">desired_state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">();</span>
+    <span class="n">heading_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">vars_</span><span class="p">.</span><span class="n">input</span><span class="p">(</span><span class="n">input_roll_or_heading_idx_</span><span class="p">));</span>
+    <span class="kt">double</span> <span class="n">u_roll_rate</span> <span class="o">=</span> <span class="n">use_roll_</span> <span class="o">?</span>
+        <span class="o">-</span><span class="n">heading_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">roll</span><span class="p">())</span> <span class="o">:</span>
+        <span class="n">heading_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">());</span>
 
-    <span class="n">heading_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">desired_yaw</span><span class="p">);</span>
-    <span class="kt">double</span> <span class="n">u_heading</span> <span class="o">=</span> <span class="n">heading_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">());</span>
-    <span class="kt">double</span> <span class="n">roll_error</span> <span class="o">=</span> <span class="n">u_heading</span> <span class="o">+</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">roll</span><span class="p">();</span>
+    <span class="n">alt_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">vars_</span><span class="p">.</span><span class="n">input</span><span class="p">(</span><span class="n">input_altitude_idx_</span><span class="p">));</span>
+    <span class="kt">double</span> <span class="n">u_pitch_rate</span> <span class="o">=</span> <span class="o">-</span><span class="n">alt_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
 
-    <span class="n">alt_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">desired_state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
-    <span class="kt">double</span> <span class="n">u_alt</span> <span class="o">=</span> <span class="n">alt_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
-    <span class="kt">double</span> <span class="n">pitch_error</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">u_alt</span> <span class="o">-</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">pitch</span><span class="p">());</span>
+    <span class="n">vel_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">vars_</span><span class="p">.</span><span class="n">input</span><span class="p">(</span><span class="n">input_velocity_idx_</span><span class="p">));</span>
+    <span class="kt">double</span> <span class="n">u_throttle</span> <span class="o">=</span> <span class="n">vel_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">vel</span><span class="p">().</span><span class="n">norm</span><span class="p">());</span>
 
-    <span class="n">vel_pid_</span><span class="p">.</span><span class="n">set_setpoint</span><span class="p">(</span><span class="n">desired_state_</span><span class="o">-&gt;</span><span class="n">vel</span><span class="p">()(</span><span class="mi">0</span><span class="p">));</span>
-    <span class="kt">double</span> <span class="n">u_thrust</span> <span class="o">=</span> <span class="n">vel_pid_</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">vel</span><span class="p">().</span><span class="n">norm</span><span class="p">());</span>
-
-    <span class="p">(</span><span class="o">*</span><span class="n">u_</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">u_thrust</span><span class="p">,</span> <span class="n">roll_error</span><span class="p">,</span> <span class="n">pitch_error</span><span class="p">;</span>
+    <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_roll_rate_idx_</span><span class="p">,</span> <span class="n">u_roll_rate</span><span class="p">);</span>
+    <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_pitch_rate_idx_</span><span class="p">,</span> <span class="n">u_pitch_rate</span><span class="p">);</span>
+    <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">output_throttle_idx_</span><span class="p">,</span> <span class="n">u_throttle</span><span class="p">);</span>
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
