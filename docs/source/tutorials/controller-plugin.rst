@@ -75,26 +75,26 @@ The plugin's XML file contains the actual PID gain values:
 The Controller's ``step`` method merely assigns the new setpoints coming from
 the Autonomy plugin to each PID controller, tells each PID the current value of
 the state variable being tracked, and tells each PID to update itself. The PID
-output values are assigned to the ``u_`` member variable, which is retrieved
-later by the Motion Model plugin when it runs.
+output values are assigned to the ``vars_`` variable available to all SCRIMMAGE 
+plugins, which is retrieved later by the Motion Model plugin when it runs.
 
 .. code-block:: c++
    :linenos:
    
    bool SimpleAircraftControllerPID::step(double t, double dt) {
-       double desired_yaw = desired_state_->quat().yaw();                    
-        
-       heading_pid_.set_setpoint(desired_yaw);
-       double u_heading = heading_pid_.step(dt, state_->quat().yaw());     
-       double roll_error = u_heading + state_->quat().roll();               
-        
-       alt_pid_.set_setpoint(desired_state_->pos()(2));
-       double u_alt = alt_pid_.step(dt, state_->pos()(2));
-       double pitch_error = (-u_alt - state_->quat().pitch());     
-           
-       vel_pid_.set_setpoint(desired_state_->vel()(0));
-       double u_thrust = vel_pid_.step(dt, state_->vel().norm());     
-       
-       (*u_) << u_thrust, roll_error, pitch_error;
+       heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
+       double u_roll_rate = use_roll_ ?
+           -heading_pid_.step(dt, state_->quat().roll()) :
+           heading_pid_.step(dt, state_->quat().yaw());
+
+       alt_pid_.set_setpoint(vars_.input(input_altitude_idx_));
+       double u_pitch_rate = -alt_pid_.step(dt, state_->pos()(2));
+
+       vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
+       double u_throttle = vel_pid_.step(dt, state_->vel().norm());
+
+       vars_.output(output_roll_rate_idx_, u_roll_rate);
+       vars_.output(output_pitch_rate_idx_, u_pitch_rate);
+       vars_.output(output_throttle_idx_, u_throttle);
        return true;
    }
