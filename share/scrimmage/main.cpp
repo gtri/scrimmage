@@ -52,7 +52,7 @@
 #include <string>
 #include <ostream>
 #include <memory>
-#if ENABLE_VIEWER == 1
+#if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
 #endif
 
@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-#if ENABLE_VIEWER == 0
+#if ENABLE_VTK == 0
     simcontrol.pause(false);
     simcontrol.run();
 #else

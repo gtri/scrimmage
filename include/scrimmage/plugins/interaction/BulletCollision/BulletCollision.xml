@@ -5,11 +5,19 @@
   <show_rays>true</show_rays>
   <enable_collision_detection>true</enable_collision_detection>
   <enable_ray_tracing>true</enable_ray_tracing>
-  <terrain>mcmillan</terrain>
 
   <publish_on_local_networks>true</publish_on_local_networks>
   <pcl_network_name>LocalNetwork</pcl_network_name>
   <pcl_topic_name>pointcloud</pcl_topic_name>
   <prepend_pcl_topic_with_id>false</prepend_pcl_topic_with_id>
+
+  <remove_on_collision>false</remove_on_collision>
+  <show_collision_shapes>false</show_collision_shapes>
+  <enable_ground_plane>false</enable_ground_plane>
+  <enable_terrain>false</enable_terrain>
+  <ground_plane_height>0</ground_plane_height>
+
+  <enable_team_collisions>false</enable_team_collisions>
+  <enable_non_team_collisions>false</enable_non_team_collisions>
 
 </params>

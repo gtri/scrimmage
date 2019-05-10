@@ -210,15 +210,13 @@ if (${VTK_FOUND})
     find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
 endif()
 
-if (NOT EXTERNAL AND ${VTK_FOUND})
+if (${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
   include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
   include(${VTK_USE_FILE})
-  add_definitions(-DENABLE_VIEWER=1)
-  add_definitions(-DENABLE_TERRAIN=1)
+  add_definitions(-DENABLE_VTK=1)
 else()
-  add_definitions(-DENABLE_VIEWER=0)
-  add_definitions(-DENABLE_TERRAIN=0)
+  add_definitions(-DENABLE_VTK=0)
 endif()
 
 ########################################################

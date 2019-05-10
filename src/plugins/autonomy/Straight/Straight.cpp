@@ -84,15 +84,21 @@ void Straight::init(std::map<std::string, std::string> &params) {
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);
     show_text_label_ = scrimmage::get<bool>("show_text_label", params, false);
 
+    // Project goal in front...
+    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
+    Eigen::Vector3d unit_vector = rel_pos.normalized();
+    unit_vector = state_->quat().rotate(unit_vector);
+    goal_ = state_->pos() + unit_vector * rel_pos.norm();
+
     // Set the desired_z to our initial position.
-    desired_z_ = state_->pos()(2);
+    // desired_z_ = state_->pos()(2);
 
     // Register the desired_z parameter with the parameter server
     auto param_cb = [&](const double &desired_z) {
         std::cout << "desired_z param changed at: " << time_->t()
         << ", with value: " << desired_z << endl;
     };
-    register_param<double>("desired_z", desired_z_, param_cb);
+    register_param<double>("desired_z", goal_(2), param_cb);
 
     if (save_camera_images_) {
         /////////////////////////////////////////////////////////
@@ -116,12 +122,6 @@ void Straight::init(std::map<std::string, std::string> &params) {
         }
         /////////////////////////////////////////////////////////
     }
-
-    // Project goal in front...
-    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
-    Eigen::Vector3d unit_vector = rel_pos.normalized();
-    unit_vector = state_->quat().rotate(unit_vector);
-    goal_ = state_->pos() + unit_vector * rel_pos.norm();
 
     frame_number_ = 0;
 
@@ -263,7 +263,7 @@ bool Straight::step_autonomy(double t, double dt) {
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
-    vars_.output(desired_alt_idx_, desired_z_);
+    vars_.output(desired_alt_idx_, goal_(2));
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
 

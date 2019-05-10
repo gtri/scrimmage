@@ -49,6 +49,7 @@ ShapePtr make_shape(const Eigen::Vector3d &color,
     sc::set(shape->mutable_color(), color);
     shape->set_opacity(opacity);
     shape->set_persistent(true);
+    shape->set_ttl(0);
     return shape;
 }
 

@@ -32,7 +32,7 @@
 #include <signal.h>
 
 #include <scrimmage/network/Interface.h>
-#if ENABLE_VIEWER == 1
+#if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
 #endif
 
