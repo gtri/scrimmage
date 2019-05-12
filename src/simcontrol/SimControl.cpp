@@ -761,6 +761,17 @@ void SimControl::run_remove_inactive() {
             contacts_mutex_.lock();
             contacts_->erase(id);
             contacts_mutex_.unlock();
+
+            // Remove the entity from the ID to entity map. Don't remove the
+            // entity from the id_to_team_map.
+            auto it_id_ent = id_to_ent_map_->find(id);
+            if (it_id_ent == id_to_ent_map_->end()) {
+                cout << "WARNING: Failed to remove entity ID ("
+                     << id << ") from id_to_ent_map" << endl;
+            } else {
+                id_to_ent_map_->erase(it_id_ent);
+            }
+
         } else {
             ++it;
         }

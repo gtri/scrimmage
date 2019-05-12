@@ -46,6 +46,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <utility>
 
 namespace sc = scrimmage;
 class Interface;
@@ -67,18 +68,24 @@ class BulletCollision : public scrimmage::EntityInteraction {
                                   Eigen::Vector3d &p) override;
 
  protected:
+    std::pair<bool, scrimmage::EntityPtr> get_entity(const int &id);
+    void remove_entity_object(const int &id);
+    void entity_collision(const int &id);
+    void remove_object(const int &id);
+
     btCollisionConfiguration* bt_collision_configuration;
     btCollisionDispatcher* bt_dispatcher;
     btBroadphaseInterface* bt_broadphase;
     btCollisionWorld* bt_collision_world;
 
-    sc::PublisherPtr team_collision_pub_;
-    sc::PublisherPtr non_team_collision_pub_;
-
     double scene_size_;
     unsigned int max_objects_;
 
-    std::map<int, btCollisionObject*> objects_;
+    struct SceneObject {
+        btCollisionObject* object = nullptr;
+        scrimmage::ShapePtr shape = nullptr;
+    };
+    std::map<int, SceneObject> objects_;
 
     struct PointCloudDescription {
         sensor::RayTrace::PointCloud point_cloud;
@@ -101,6 +108,18 @@ class BulletCollision : public scrimmage::EntityInteraction {
     std::string pcl_topic_name_ = "pointcloud";
     bool prepend_pcl_topic_with_id_ = false;
     bool publish_on_local_networks_ = true;
+
+    scrimmage::PublisherPtr collision_pub_;
+    scrimmage::PublisherPtr team_collision_pub_;
+    scrimmage::PublisherPtr non_team_collision_pub_;
+    bool enable_team_collisions_ = true;
+    bool enable_non_team_collisions_ = true;
+
+    bool remove_on_collision_ = false;
+    bool show_collision_shapes_ = false;
+    bool enable_ground_plane_ = false;
+    bool enable_terrain_ = false;
+    double ground_plane_height_ = 0;
 };
 }  // namespace interaction
 }  // namespace scrimmage
