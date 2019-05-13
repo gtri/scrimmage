@@ -30,11 +30,17 @@
  *
  */
 #include <scrimmage/common/Waypoint.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 #include <iomanip>
 #include <limits>
+#include <iostream>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
+namespace sc = scrimmage;
+namespace sc_msgs = scrimmage_msgs;
 
 namespace scrimmage {
 namespace autonomy {
@@ -51,6 +57,49 @@ Waypoint::Waypoint(const double &x, const double& y, const double& z,
 Waypoint::Waypoint(const Eigen::Vector3d &xyz,
                    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj->Reverse(xyz(0), xyz(1), xyz(2), latitude_, longitude_, altitude_);
+}
+
+Waypoint::Waypoint(const scrimmage_msgs::Waypoint &wp)
+        : id_(wp.id()), time_(wp.time()),
+          position_tolerance_(wp.position_tolerance()),
+          quat_tolerance_(wp.quat_tolerance()),
+          tolerance_in_2d_(wp.tolerance_in_2d()) {
+    sc::set(quat_, wp.quat());
+
+    auto get_alt = [] (const sc_msgs::PositionLLA &lla) {
+        double alt = 0;
+        if (lla.alt_oneof_case() == sc_msgs::PositionLLA::kAltMsl) {
+            alt = lla.alt_msl();
+        } else {
+            std::cout << "Waypoints only support alt_msl()!" << std::endl;
+        }
+        return alt;
+    };
+
+    if (wp.pos_oneof_case() == sc_msgs::Waypoint::kLla) {
+        latitude_ = wp.lla().latitude();
+        longitude_ = wp.lla().longitude();
+        altitude_ = get_alt(wp.lla());
+    } else if (wp.pos_oneof_case() == sc_msgs::Waypoint::kXyz) {
+        // Convert to lat/lon/alt given origin
+        GeographicLib::LocalCartesian proj(wp.xyz().origin().latitude(),
+                                           wp.xyz().origin().longitude(),
+                                           get_alt(wp.xyz().origin()));
+        proj.Reverse(wp.xyz().xyz().x(), wp.xyz().xyz().y(), wp.xyz().xyz().z(),
+                     latitude_, longitude_, altitude_);
+    }
+}
+
+bool Waypoint::is_within_tolerance(
+    const scrimmage::StatePtr &state,
+    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+
+    Eigen::Vector3d pos;
+    proj->Forward(latitude_, longitude_, altitude_, pos(0), pos(1), pos(2));
+    double dist = tolerance_in_2d_ ?
+            (state->pos().head<2>() - pos.head<2>()).norm() :
+            (state->pos() - pos).norm();
+    return dist <= position_tolerance_;
 }
 
 void Waypoint::set_position_tolerance(const double& pos_tol) {
