@@ -105,8 +105,8 @@ Write data to the csv file:
 
    csv.append(sc::CSV::Pairs{
       {"t", t},
-      {"x", state_->pos()(0)}
-      {"y", state_->pos()(1)}
+      {"x", state_->pos()(0)},
+      {"y", state_->pos()(1)},
       {"z", state_->pos()(2)}});
 
 
