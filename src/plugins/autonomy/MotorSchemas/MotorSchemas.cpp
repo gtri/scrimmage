@@ -33,6 +33,7 @@
 #include <Eigen/Geometry>
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
@@ -280,9 +281,11 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     ///////////////////////////////////////////////////////////////////////////
     if (show_shapes_) {
         // Draw resultant vector:
-        line_shape_->set_persistent(true);
-        sc::set(line_shape_->mutable_color(), 255, 255, 0);
-        line_shape_->set_opacity(0.75);
+        if (line_shape_ == nullptr) {
+            line_shape_ = sc::shape::make_line(
+                state_->pos(), vel_result + state_->pos(),
+                Eigen::Vector3d(255, 255, 0), 0.75);
+        }
         sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
         sc::set(line_shape_->mutable_line()->mutable_end(), vel_result + state_->pos());
         draw_shape(line_shape_);

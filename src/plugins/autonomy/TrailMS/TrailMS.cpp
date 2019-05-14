@@ -35,6 +35,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
@@ -109,12 +110,12 @@ bool TrailMS::step_autonomy(double t, double dt) {
     }
 
     if (show_track_point_) {
-        sc::ShapePtr sphere(new sp::Shape());
-        sphere->set_opacity(1.0);
-        sc::set(sphere->mutable_color(), 0, 0, 255);
-        sc::set(sphere->mutable_sphere()->mutable_center(), trail_point);
-        sphere->mutable_sphere()->set_radius(0.5);
-        draw_shape(sphere);
+        if (sphere_shape_ == nullptr) {
+            sphere_shape_ = sc::shape::make_sphere(trail_point, 0.5,
+                                                   Eigen::Vector3d(0, 0, 255));
+        }
+        sc::set(sphere_shape_->mutable_sphere()->mutable_center(), trail_point);
+        draw_shape(sphere_shape_);
     }
 
     return true;

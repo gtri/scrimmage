@@ -88,6 +88,7 @@ ShapePtr make_circle(const Eigen::Vector3d &center,
     sc::set(shape->mutable_circle()->mutable_center(), center);
     sc::set(shape->mutable_circle()->mutable_quat(), quat);
     shape->mutable_circle()->set_radius(radius);
+    shape->mutable_circle()->set_solid(true);
     return shape;
 }
 

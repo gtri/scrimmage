@@ -51,6 +51,8 @@ class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
 
     Eigen::AngleAxisd aa_angle_az_;
     Eigen::AngleAxisd aa_angle_elev_;
+
+    scrimmage_proto::ShapePtr sphere_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage
