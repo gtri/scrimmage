@@ -90,6 +90,20 @@ Waypoint::Waypoint(const scrimmage_msgs::Waypoint &wp)
     }
 }
 
+scrimmage_msgs::Waypoint Waypoint::lla_proto() {
+    scrimmage_msgs::Waypoint wp;
+    wp.set_id(id_);
+    wp.set_time(time_);
+    sc::set(wp.mutable_quat(), quat_);
+    wp.mutable_lla()->set_latitude(latitude_);
+    wp.mutable_lla()->set_longitude(longitude_);
+    wp.mutable_lla()->set_alt_msl(altitude_);
+    wp.set_position_tolerance(position_tolerance_);
+    wp.set_quat_tolerance(quat_tolerance_);
+    wp.set_tolerance_in_2d(tolerance_in_2d_);
+    return wp;
+}
+
 bool Waypoint::is_within_tolerance(
     const scrimmage::StatePtr &state,
     const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {

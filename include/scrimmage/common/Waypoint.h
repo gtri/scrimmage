@@ -67,6 +67,8 @@ class Waypoint {
     void set_position_tolerance(const double& pos_tol);
     void set_quat_tolerance(const double& quat_tol);
 
+    scrimmage_msgs::Waypoint lla_proto();
+
     const size_t& id() const { return id_; }
     const double& time() const { return time_; }
     const double& latitude() const { return latitude_; }

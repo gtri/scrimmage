@@ -43,7 +43,8 @@ message WaypointList {
              BACK_AND_FORTH = 1;
              LOITER = 2;
              LOOP = 3;
-        }        
-        repeated Waypoint waypoints = 1;
-        int32 cycles = 2;
+        }
+        Mode mode = 1;
+        repeated Waypoint waypoints = 2;
+        int32 cycles = 3;
 }
