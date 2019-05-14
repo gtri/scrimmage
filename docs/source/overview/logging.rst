@@ -22,8 +22,8 @@ directories are accessed through the following statements:
    std::string mission_log_dir = parent_->mp()->log_dir();
 
    // Get the root log directory
-   std::string root_log_dir = parent_->mp()->root_log_dir();   
-   
+   std::string root_log_dir = parent_->mp()->root_log_dir();
+
 The types of files written to the current simulation's logging directory
 depends on the ``output_type`` XML tags defined in :doc:`xml-tags`. Generally,
 this consists of frames.bin (full state history of all entities in simulation),
@@ -31,9 +31,9 @@ contact_visual.bin (entity visualization information: meshes, colors, etc.),
 utm_terrain.bin (which terrain was loaded), shapes.bin (which shapes were drawn
 during the simulation), summary.csv (output from metrics plugins), log.txt
 (contains mission pseudorandom seed value), mission.xml (the mission file that
-was executed), and runtime_seconds.txt (the runtime for the simulation). 
+was executed), and runtime_seconds.txt (the runtime for the simulation).
 
-   
+
 Protocol Buffer Logging / Visualization
 =======================================
 
@@ -51,8 +51,8 @@ The 2D trajectories can be plotted with the ``--2d`` flag.
 .. code-block:: bash
    :linenos:
 
-   $ ./plot_3d_fr.py ~/.scrimmage/logs/latest --2d  
-   
+   $ ./plot_3d_fr.py ~/.scrimmage/logs/latest --2d
+
 
 .. _csv_logging:
 
@@ -75,14 +75,14 @@ Include the ``CSV`` class:
 
    #include <scrimmage/common/CSV.h>
 
-   
+
 Create a file to write comma separated data:
 
 .. code-block:: c++
    :linenos:
 
    scrimmage::CSV csv;
-      
+
    // Write the CSV file to the root log directory
    std::string filename = parent_->mp()->root_log_dir() + "/my.csv";
 
@@ -97,18 +97,18 @@ Specify the names for the column headers (t, x, y, z):
    :linenos:
 
    csv.set_column_headers("t, x, y, z")
-   
+
 Write data to the csv file:
 
 .. code-block:: c++
    :linenos:
-   
+
    csv.append(sc::CSV::Pairs{
       {"t", t},
       {"x", state_->pos()(0)}
       {"y", state_->pos()(1)}
       {"z", state_->pos()(2)}});
-   
+
 
 Close the output file when you are done writing data:
 
@@ -147,7 +147,7 @@ Print out the data from the CSV file:
    }
 
 Real-time Plotting from CSV
-~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can plot data from CSV files with the ``csv-plot`` script in the
 ``scrimmage/scripts`` directory. ``csv-plot`` can plot previously created CSV
@@ -168,8 +168,8 @@ To create a 3D plot, use the ``-x``, ``-y``, and ``-z`` flags:
    $ ./csv-plot.py -c my.csv -x x -y y -z z -e
 
 The ``-e`` flag tells the plotter to ensure that the x, y, and z axes have
-equal scales.  
-   
+equal scales.
+
 By default, the script looks for the CSV file located in the
 ~/.scrimmage/logs/latest directory, but the ``-l`` flag can be used to change
 the directory. The ``csv-plot.py`` script can also detect when SCRIMMAGE links
