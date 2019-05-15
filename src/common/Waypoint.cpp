@@ -143,7 +143,7 @@ bool operator==(const Waypoint &lhs, const Waypoint &rhs) {
 }
 
 Eigen::Vector3d Waypoint::xyz(
-    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) const {
     Eigen::Vector3d p;
     proj->Forward(latitude_, longitude_, altitude_, p(0), p(1), p(2));
     return p;

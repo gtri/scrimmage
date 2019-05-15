@@ -83,7 +83,7 @@ class Waypoint {
     friend bool operator==(const Waypoint &lhs, const Waypoint &rhs);
 
     Eigen::Vector3d xyz(
-        const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj) const;
 
     bool is_within_tolerance(
         const scrimmage::StatePtr &state,
