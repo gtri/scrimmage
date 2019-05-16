@@ -246,7 +246,7 @@ endif()
 ########################################################
 #set(Boost_DEBUG ON)
 find_package(Boost 1.55 COMPONENTS thread date_time iostreams program_options regex
-  filesystem system graph REQUIRED)
+  filesystem system graph serialization REQUIRED)
 add_library(scrimmage-boost INTERFACE)
 target_include_directories(scrimmage-boost INTERFACE ${Boost_INCLUDE_DIRS})
 target_link_libraries(scrimmage-boost INTERFACE ${Boost_LIBRARIES})
