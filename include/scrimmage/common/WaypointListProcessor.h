@@ -40,6 +40,8 @@
 #include <list>
 #include <memory>
 
+#include <boost/optional.hpp>
+
 namespace scrimmage {
 
 namespace autonomy {
@@ -49,19 +51,24 @@ class WaypointListProcessor {
     void set_waypoint_list(const scrimmage_msgs::WaypointList &wp_list);
     Status process(const scrimmage::StatePtr &state,
                    const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
-    const Waypoint& previous_waypoint();
-    const Waypoint& current_waypoint();
-    const Waypoint& next_waypoint();
+
+    boost::optional<const Waypoint&> previous_waypoint();
+    boost::optional<const Waypoint&> current_waypoint();
+    boost::optional<const Waypoint&> next_waypoint();
 
  protected:
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
     std::list<Waypoint> wp_list_;
-    std::list<Waypoint>::iterator prev_wp_it_ = wp_list_.begin();
-    std::list<Waypoint>::iterator curr_wp_it_ = wp_list_.begin();
-    std::list<Waypoint>::iterator next_wp_it_ = wp_list_.begin();
+
+    std::list<Waypoint>::iterator prev_wp_it_ = wp_list_.end();
+    std::list<Waypoint>::iterator curr_wp_it_ = wp_list_.end();
+    std::list<Waypoint>::iterator next_wp_it_ = wp_list_.end();
     scrimmage_msgs::WaypointList proto_wp_list_;
     scrimmage_msgs::WaypointList::Mode mode_;
     bool returning_stage_ = false;
+
+    std::list<Waypoint>::iterator
+    next_waypoint(const std::list<Waypoint>::iterator &it_wp);
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -63,9 +63,9 @@ void WaypointListProcessor::set_waypoint_list(
     wp_list_.unique(wps_are_close);
 
     // Set the wp iterator to point to the beginning of the list
-    prev_wp_it_ = wp_list_.begin();
+    // prev_wp_it_ = wp_list_.begin();
     curr_wp_it_ = wp_list_.begin();
-    next_wp_it_ = ++(wp_list_.begin());
+    next_wp_it_ = next_waypoint(curr_wp_it_);
 }
 
 WaypointListProcessor::Status
@@ -83,26 +83,28 @@ WaypointListProcessor::process(
         return Status::Unchanged;
     }
 
-    // bool done = false;
+    prev_wp_it_ = curr_wp_it_;
+    curr_wp_it_ = next_waypoint(curr_wp_it_);
+    next_wp_it_ = next_waypoint(curr_wp_it_);
+
+    return Status::Changed;
+}
+
+std::list<Waypoint>::iterator WaypointListProcessor::
+next_waypoint(const std::list<Waypoint>::iterator &it_wp) {
+    std::list<Waypoint>::iterator it_next;
     switch (mode_) {
         case scrimmage_msgs::WaypointList::FOLLOW_ONCE:
-            prev_wp_it_ = curr_wp_it_;
-            ++curr_wp_it_;
-
-            if (curr_wp_it_ == wp_list_.end()) {
-                curr_wp_it_ = prev_wp_it_;
-                // done = true;
-            }
+            it_next = std::next(it_wp);
             break;
 
         case scrimmage_msgs::WaypointList::BACK_AND_FORTH:
-            prev_wp_it_ = curr_wp_it_;
-            curr_wp_it_ = returning_stage_ ? --curr_wp_it_ : ++curr_wp_it_;
+            it_next = returning_stage_ ? std::prev(it_wp): std::next(it_wp);
 
-            if (curr_wp_it_ == wp_list_.begin()) {
+            if (it_next == wp_list_.begin()) {
                 returning_stage_ = false;
-            } else if (curr_wp_it_ == wp_list_.end()) {
-                curr_wp_it_ = prev_wp_it_;
+            } else if (it_next == wp_list_.end()) {
+                it_next = it_wp;
                 returning_stage_ = true;
             }
             break;
@@ -113,11 +115,10 @@ WaypointListProcessor::process(
 
         case scrimmage_msgs::WaypointList::LOOP:
             // Continuous repeat of waypoints
-            prev_wp_it_ = curr_wp_it_;
-            ++curr_wp_it_;
+            it_next = std::next(curr_wp_it_);
 
-            if (curr_wp_it_ == wp_list_.end()) {
-                curr_wp_it_ = wp_list_.begin();
+            if (it_next == wp_list_.end()) {
+                it_next = wp_list_.begin();
             }
             break;
 
@@ -125,19 +126,28 @@ WaypointListProcessor::process(
             std::string msg = "Waypoint mode not defined yet.";
             throw std::runtime_error(msg);
     }
-    return Status::Changed;
+    return it_next;
 }
 
-const Waypoint & WaypointListProcessor::previous_waypoint() {
-    return *prev_wp_it_;
+boost::optional<const Waypoint&>
+WaypointListProcessor::previous_waypoint() {
+    return prev_wp_it_ != wp_list_.end() ?
+            boost::optional<const Waypoint&>{*prev_wp_it_} :
+            boost::optional<const Waypoint&>{};
 }
 
-const Waypoint & WaypointListProcessor::current_waypoint() {
-    return *curr_wp_it_;
+boost::optional<const Waypoint&>
+WaypointListProcessor::current_waypoint() {
+    return curr_wp_it_ != wp_list_.end() ?
+            boost::optional<const Waypoint&>{*curr_wp_it_} :
+            boost::optional<const Waypoint&>{};
 }
 
-const Waypoint & WaypointListProcessor::next_waypoint() {
-    return *next_wp_it_;
+boost::optional<const Waypoint&>
+WaypointListProcessor::next_waypoint() {
+    return next_wp_it_ != wp_list_.end() ?
+            boost::optional<const Waypoint&>{*next_wp_it_} :
+            boost::optional<const Waypoint&>{};
 }
 } // namespace autonomy
 } // namespace scrimmage
