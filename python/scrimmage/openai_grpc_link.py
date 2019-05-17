@@ -61,10 +61,6 @@ class ServerThread(threading.Thread):
         server.stop(0)
         exit()
 
-    def msg_stop(self, signum, stack):
-        """Callback function to stop server"""
-        self.stop = True
-
 def create_space(space):
     """Converts space params into a Gym space """
     # Get discrete components
@@ -147,6 +143,7 @@ class OpenAIControl(OpenAI_pb2_grpc.OpenAIServicer):
 
         return action_proto
 
+
 def main():
     parser = argparse.ArgumentParser(description="OpenAI GRPC Connection")
     parser.add_argument('--actor', type=str, required=True,
@@ -169,13 +166,12 @@ def main():
     address = ip_address + ":" + str(port)
     if is_port_in_use(address):
         print("Port is already in use. Exiting...")
-
         exit()
+
     # connections = {s: queue.Queue() for s in queue_names}
     server_thread = ServerThread(address, args.actor)
     server_thread.start()
 
-    signal.signal(signal.SIGINT, server_thread.msg_stop)
 
 
 if __name__ == "__main__":

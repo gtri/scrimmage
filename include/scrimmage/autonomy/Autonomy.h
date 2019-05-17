@@ -53,7 +53,7 @@ class Autonomy : public Plugin {
     virtual void init();
     bool ready() override { return true; }
     virtual void init(std::map<std::string, std::string> &params);
-    virtual void close(double t);
+    void close(double t) override;
     bool need_reset();
 
     // getters/setters

@@ -99,32 +99,26 @@ int main(int argc, char** argv) {
 
 TEST(TestOpenAI, one_dim_discrete) {
     runner(true, false, true, false, 1, {{1, 4}});
-    runner(true, false, true, true, 1, {{1, 4}});
 }
 
 TEST(TestOpenAI, two_dim_discrete) {
     runner(true, true, true, false, 1, {{1, 4}});
-    runner(true, true, true, true, 1, {{1, 4}});
 }
 
 TEST(TestOpenAI, one_dim_continuous) {
     runner(false, false, true, false, 1, {{1, 4}});
-    runner(false, false, true, true, 1, {{1, 4}});
 }
 
 TEST(TestOpenAI, two_dim_continuous) {
     runner(false, true, false, false, 1, {{1, 4}});
-    runner(false, true, false, true, 1, {{1, 4}});
 }
 
 TEST(TestOpenAI, two_dim_tuple) {
     runner(false, true, true, false, 1, {{1, 4}});
-    runner(false, true, true, true, 1, {{1, 4}});
 }
 
 TEST(TestOpenAI, combined_one_dim_discrete) {
     // when there are multiple vehicles we need to specify an action
     // that is specific to an entity
     runner(true, false, true, false, 2, {{1, 4}, {2, 4}});
-    runner(true, false, true, true, 2, {{1, 4}, {2, 4}});
 }
