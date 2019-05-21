@@ -6,7 +6,7 @@ import os
 
 def test_cppcheck():
     """Code static analysis using cppcheck."""
-    root_dir = os.path.join(os.path.dirname(__file__), '..')
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     dirs = [os.path.join(root_dir, d)
             for d in ['include', 'share', 'src', 'tools', 'plugins']]
     enabled_checks = \
