@@ -33,7 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_WAYPOINT_H_
 #define INCLUDE_SCRIMMAGE_COMMON_WAYPOINT_H_
 
-#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Waypoint.pb.h>
 
 #include <string>
 #include <map>
@@ -55,6 +56,7 @@ class Waypoint {
              const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
     Waypoint(const Eigen::Vector3d &xyz,
              const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    explicit Waypoint(const scrimmage_msgs::Waypoint &wp);
 
     void set_id(const size_t& id) {id_ = id;}
     void set_time(const double& time) { time_ = time; }
@@ -64,6 +66,8 @@ class Waypoint {
     void set_quat(const scrimmage::Quaternion& quat) { quat_ = quat; }
     void set_position_tolerance(const double& pos_tol);
     void set_quat_tolerance(const double& quat_tol);
+
+    scrimmage_msgs::Waypoint lla_proto();
 
     const size_t& id() const { return id_; }
     const double& time() const { return time_; }
@@ -79,6 +83,10 @@ class Waypoint {
     friend bool operator==(const Waypoint &lhs, const Waypoint &rhs);
 
     Eigen::Vector3d xyz(
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj) const;
+
+    bool is_within_tolerance(
+        const scrimmage::StatePtr &state,
         const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
  protected:
@@ -91,6 +99,8 @@ class Waypoint {
 
     double position_tolerance_ = 100.0;
     double quat_tolerance_ = 100.0;
+
+    bool tolerance_in_2d_ = false;
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -33,6 +33,7 @@ set(SRCS
     common/ExponentialFilter.cpp
     common/ParameterServer.cpp
     common/Waypoint.cpp
+    common/WaypointListProcessor.cpp
 )
 
 ADD_LIBRARY( ${LIBRARY_NAME} SHARED
