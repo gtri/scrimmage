@@ -15,6 +15,7 @@ set(test_files
     test_entity_configs.cpp
     test_openai.cpp
     test_shape.cpp
+    test_pose.cpp
     )
 
 if (NOT ENABLE_PYTHON_BINDINGS)
