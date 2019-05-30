@@ -36,6 +36,7 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/common/Pose.h>
 
 #include <memory>
 #include <iosfwd>
@@ -118,10 +119,9 @@ class State {
     }
 
  protected:
-    Eigen::Vector3d pos_;
+    scrimmage::Pose pose_;
     Eigen::Vector3d vel_;
     Eigen::Vector3d ang_vel_;
-    Quaternion quat_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
