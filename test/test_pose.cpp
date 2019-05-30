@@ -33,6 +33,8 @@
 #include <gtest/gtest.h>
 #include <scrimmage/common/Pose.h>
 #include <scrimmage/common/PoseStamped.h>
+#include <scrimmage/common/Twist.h>
+#include <scrimmage/common/TwistStamped.h>
 #include <Eigen/Dense>
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -70,9 +72,9 @@ TEST(pose, constructor) {
     EXPECT_FLOAT_EQ(pose3.quat().vec()[2],  0.96771109);
 
     scrimmage::Pose pose4(pos2, quat3);
-    EXPECT_FLOAT_EQ(pose2.pos()[0], -2.3);
-    EXPECT_FLOAT_EQ(pose2.pos()[1], 1);
-    EXPECT_FLOAT_EQ(pose2.pos()[2], 0);
+    EXPECT_FLOAT_EQ(pose4.pos()[0], -2.3);
+    EXPECT_FLOAT_EQ(pose4.pos()[1], 1);
+    EXPECT_FLOAT_EQ(pose4.pos()[2], 0);
     EXPECT_FLOAT_EQ(pose4.quat().w(), -0.011594434);
     EXPECT_FLOAT_EQ(pose4.quat().vec()[0], -0.048622191);
     EXPECT_FLOAT_EQ(pose4.quat().vec()[1], -0.24705613);
@@ -182,6 +184,145 @@ TEST(pose, polymorphism) {
 
     // free memory
     for (auto it = pose_vec.begin(); it != pose_vec.end(); ++it) {
+        delete *it;
+    }
+}
+
+TEST(twist, constructor) {
+    scrimmage::Twist twist1;
+    EXPECT_FLOAT_EQ(twist1.vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist1.vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist1.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist1.ang_vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist1.ang_vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist1.ang_vel()[2], 0);
+
+    Eigen::Vector3d vel2(-2.3, 1, 0.00);
+    scrimmage::Twist twist2(vel2);
+    EXPECT_FLOAT_EQ(twist2.vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist2.vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist2.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist2.ang_vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist2.ang_vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist2.ang_vel()[2], 0);
+
+    Eigen::Vector3d vel3(0, 0, 0);
+    Eigen::Vector3d ang_vel3(-.5, .1, 3.14);
+    scrimmage::Twist twist3(vel3, ang_vel3);
+    EXPECT_FLOAT_EQ(twist3.vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist3.vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist3.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist3.ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist3.ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist3.ang_vel()[2], 3.14);
+
+    scrimmage::Twist twist4(vel2, ang_vel3);
+    EXPECT_FLOAT_EQ(twist4.vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist4.vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist4.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist4.ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist4.ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist4.ang_vel()[2], 3.14);
+}
+
+
+TEST(twist_stamped, constructor) {
+    scrimmage::TwistStamped twist1;
+    EXPECT_FLOAT_EQ(twist1.vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist1.vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist1.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist1.ang_vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist1.ang_vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist1.ang_vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist1.time(), 0);
+
+    Eigen::Vector3d vel2(-2.3, 1, 0.00);
+    scrimmage::TwistStamped twist2(vel2);
+    EXPECT_FLOAT_EQ(twist2.vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist2.vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist2.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist2.ang_vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist2.ang_vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist2.ang_vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist2.time(), 0);
+
+    Eigen::Vector3d vel3(0, 0, 0);
+    Eigen::Vector3d ang_vel3(-.5, .1, 3.14);
+    scrimmage::TwistStamped twist3(vel3, ang_vel3);
+    EXPECT_FLOAT_EQ(twist3.vel()[0], 0);
+    EXPECT_FLOAT_EQ(twist3.vel()[1], 0);
+    EXPECT_FLOAT_EQ(twist3.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist3.ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist3.ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist3.ang_vel()[2], 3.14);
+    EXPECT_FLOAT_EQ(twist3.time(), 0);
+
+    scrimmage::TwistStamped twist4(vel2, ang_vel3);
+    EXPECT_FLOAT_EQ(twist4.vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist4.vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist4.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist4.ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist4.ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist4.ang_vel()[2], 3.14);
+    EXPECT_FLOAT_EQ(twist4.time(), 0);
+}
+
+TEST(twist, ostream) {
+    scrimmage::Twist twist;
+    std::stringstream ss;
+    std::string ans = "Twist {\n  vel: 0, 0, 0\n  ang_vel: 0, 0, 0\n}";
+    ss << twist;
+    EXPECT_STREQ(ss.str().c_str(), ans.c_str());
+}
+
+TEST(twist_stamped, const_access) {
+    const Eigen::Vector3d vel(-2.3, 1, 0.00);
+    const Eigen::Vector3d ang_vel(-.5, .1, 3.14);
+    const scrimmage::TwistStamped twist(vel, ang_vel);
+
+    EXPECT_FLOAT_EQ(twist.vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist.vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist.vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist.ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist.ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist.ang_vel()[2], 3.14);
+    EXPECT_FLOAT_EQ(twist.time(), 0);
+}
+
+TEST(twist_stamped, ostream) {
+    scrimmage::TwistStamped twist;
+    std::stringstream ss;
+    std::string ans = "TwistStamped {\n  time: 0\n  vel: 0, 0, 0\n  ang_vel: 0, 0, 0\n}";
+    ss << twist;
+    EXPECT_STREQ(ss.str().c_str(), ans.c_str());
+}
+
+TEST(twist, polymorphism) {
+    const Eigen::Vector3d vel(-2.3, 1, 0.00);
+    const Eigen::Vector3d ang_vel(-.5, .1, 3.14);
+
+    std::vector<scrimmage::Twist *> twist_vec(2);
+    twist_vec[0] = new scrimmage::Twist(vel, ang_vel);
+    twist_vec[1] = new scrimmage::TwistStamped(vel, ang_vel);
+
+    // Twist
+    EXPECT_FLOAT_EQ(twist_vec[0]->vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist_vec[0]->vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist_vec[0]->vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist_vec[0]->ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist_vec[0]->ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist_vec[0]->ang_vel()[2], 3.14);
+
+    // TwistStamped
+    EXPECT_FLOAT_EQ(twist_vec[1]->vel()[0], -2.3);
+    EXPECT_FLOAT_EQ(twist_vec[1]->vel()[1], 1);
+    EXPECT_FLOAT_EQ(twist_vec[1]->vel()[2], 0);
+    EXPECT_FLOAT_EQ(twist_vec[1]->ang_vel()[0], -.5);
+    EXPECT_FLOAT_EQ(twist_vec[1]->ang_vel()[1], .1);
+    EXPECT_FLOAT_EQ(twist_vec[1]->ang_vel()[2], 3.14);
+
+    // free memory
+    for (auto it = twist_vec.begin(); it != twist_vec.end(); ++it) {
         delete *it;
     }
 }

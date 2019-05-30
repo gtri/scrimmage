@@ -53,7 +53,7 @@ PoseStamped:: PoseStamped(const Eigen::Vector3d &pos,
     : Pose(pos, quat),
       time_(0) {}
 
-void PoseStamped::to_ostream(std::ostream& os) const {
+void PoseStamped::to_ostream(std::ostream &os) const {
     os << "PoseStamped {\n"
        << "  time: " << this->time() << "\n"
        << "  pos: " << this->pos()[0] << ", "

@@ -45,11 +45,11 @@ class PoseStamped : public Pose {
     explicit PoseStamped(const Eigen::Vector3d &pos,
                          const scrimmage::Quaternion &quat);
 
-    double& time() { return time_; }
-    const double& time() const { return time_; }
+    double &time() { return time_; }
+    const double &time() const { return time_; }
 
  protected:
-    void to_ostream(std::ostream& os) const override;
+    void to_ostream(std::ostream &os) const override;
     double time_;
 };
 

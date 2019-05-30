@@ -51,17 +51,17 @@ class Pose {
     Eigen::Vector3d& pos() { return pos_; }
     scrimmage::Quaternion &quat() { return quat_; }
 
-    const Eigen::Vector3d& pos() const { return pos_; }
+    const Eigen::Vector3d &pos() const { return pos_; }
     const scrimmage::Quaternion &quat() const { return quat_; }
 
-    friend std::ostream& operator<<(std::ostream& os, Pose& wp);
+    friend std::ostream &operator<<(std::ostream &os, Pose &wp);
 
  protected:
     Eigen::Vector3d pos_;
     scrimmage::Quaternion quat_;
 
     // indirection for polymorphism of << operator
-    virtual void to_ostream(std::ostream& os) const;
+    virtual void to_ostream(std::ostream &os) const;
 };
 
 }  // namespace scrimmage

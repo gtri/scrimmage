@@ -28,7 +28,7 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/common/Pose.h>
+#include <scrimmage/common/TwistStamped.h>
 
 #include <iomanip>
 #include <limits>
@@ -36,38 +36,29 @@
 
 namespace scrimmage {
 
-Pose::Pose()
-    : pos_(0, 0, 0),
-      quat_(0, 0, 0) {}
+TwistStamped::TwistStamped()
+    : Twist(),
+      time_(0) {}
 
-Pose::Pose(const Eigen::Vector3d &pos)
-    : pos_(pos),
-      quat_(0, 0, 0) {}
+TwistStamped:: TwistStamped(const Eigen::Vector3d &vel)
+    : Twist(vel),
+      time_(0) {}
 
-Pose::Pose(const scrimmage::Quaternion &quat)
-    : pos_(0, 0, 0),
-      quat_(quat) {}
+TwistStamped:: TwistStamped(const Eigen::Vector3d &vel,
+                            const Eigen::Vector3d &ang_vel)
+    : Twist(vel, ang_vel),
+      time_(0) {}
 
-Pose::Pose(const Eigen::Vector3d &pos,
-              const scrimmage::Quaternion &quat)
-    : pos_(pos),
-      quat_(quat) {}
-
-Pose::~Pose() {}
-
-
-void Pose::to_ostream(std::ostream &os) const {
-    os << "Pose {\n"
-       << "  pos: " << this->pos()[0] << ", "
-                    << this->pos()[1] << ", "
-                    << this->pos()[2] << "\n"
-       << "  quat: " << this->quat() << "\n"
+void TwistStamped::to_ostream(std::ostream& os) const {
+    os << "TwistStamped {\n"
+       << "  time: " << this->time() << "\n"
+       << "  vel: " << this->vel()[0] << ", "
+                    << this->vel()[1] << ", "
+                    << this->vel()[2] << "\n"
+       << "  ang_vel: " << this->ang_vel()[0] << ", "
+                        << this->ang_vel()[1] << ", "
+                        << this->ang_vel()[2] << "\n"
        << "}";
-}
-
-std::ostream &operator<<(std::ostream &os, Pose &wp) {
-    wp.to_ostream(os);
-    return os;
 }
 
 }  // namespace scrimmage

@@ -39,31 +39,31 @@
 
 namespace scrimmage {
 
-State::State() : pose_(), vel_(0, 0, 0), ang_vel_(0, 0, 0) {}
+State::State() : pose_(), twist_() {}
 
 State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
              Eigen::Vector3d _ang_vel, Quaternion _quat) :
-    pose_(_pos, _quat), vel_(_vel), ang_vel_(_ang_vel) {}
+    pose_(_pos, _quat), twist_(_vel, _ang_vel) {}
 
 State::~State() {}
 
 Eigen::Vector3d &State::pos() {return pose_.pos();}
-Eigen::Vector3d &State::vel() {return vel_;}
-Eigen::Vector3d &State::ang_vel() {return ang_vel_;}
+Eigen::Vector3d &State::vel() {return twist_.vel();}
+Eigen::Vector3d &State::ang_vel() {return twist_.ang_vel();}
 Quaternion &State::quat() {return pose_.quat();}
 const Eigen::Vector3d &State::pos() const {return pose_.pos();}
-const Eigen::Vector3d &State::vel() const {return vel_;}
-const Eigen::Vector3d &State::ang_vel() const {return ang_vel_;}
+const Eigen::Vector3d &State::vel() const {return twist_.vel();}
+const Eigen::Vector3d &State::ang_vel() const {return twist_.ang_vel();}
 const Quaternion &State::quat() const {return pose_.quat();}
 
 // for backwards compatibility
 const Eigen::Vector3d &State::pos_const() const {return pose_.pos();}
-const Eigen::Vector3d &State::vel_const() const {return vel_;}
-const Eigen::Vector3d &State::ang_vel_const() const {return ang_vel_;}
+const Eigen::Vector3d &State::vel_const() const {return twist_.vel();}
+const Eigen::Vector3d &State::ang_vel_const() const {return twist_.ang_vel();}
 const Quaternion &State::quat_const() const {return pose_.quat();}
 void State::set_pos(const Eigen::Vector3d &pos) {pose_.pos() = pos;}
-void State::set_vel(const Eigen::Vector3d &vel) {vel_ = vel;}
-void State::set_ang_vel(const Eigen::Vector3d &ang_vel) {ang_vel_ = ang_vel;}
+void State::set_vel(const Eigen::Vector3d &vel) {twist_.vel() = vel;}
+void State::set_ang_vel(const Eigen::Vector3d &ang_vel) {twist_.ang_vel() = ang_vel;}
 void State::set_quat(const Quaternion &quat) {pose_.quat() = quat;}
 
 bool State::InFieldOfView(State &other, double fov_width, double fov_height) const {
@@ -80,7 +80,7 @@ Eigen::Vector3d State::rel_pos_local_frame(Eigen::Vector3d &other) const {
 
 Eigen::Vector3d State::pos_offset(double distance, bool offset_with_velocity) const {
     if (offset_with_velocity) {
-        return pose_.pos() + vel_.normalized() * distance;
+        return pose_.pos() + twist_.vel().normalized() * distance;
     } else {
         return pose_.pos() + orient_global_frame() * distance;
     }
@@ -116,8 +116,8 @@ std::ostream& operator<<(std::ostream& os, const State& s) {
     const Quaternion &q = s.quat();
 
     os << "(" << eigen_str(s.pose_.pos(), s.output_precision)
-        << "), (" << eigen_str(s.vel_, s.output_precision)
-        << "), (" << eigen_str(s.ang_vel_, s.output_precision)
+        << "), (" << eigen_str(s.twist_.vel(), s.output_precision)
+        << "), (" << eigen_str(s.twist_.ang_vel(), s.output_precision)
         << "), ("
         << std::setprecision(s.output_precision) << q.roll() << ", "
         << std::setprecision(s.output_precision) << q.pitch() << ", "

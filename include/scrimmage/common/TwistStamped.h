@@ -14,7 +14,7 @@
  *
  *   SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT
  *   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+ *   FITNESS FOR A PARTICULAR PURTWISTSTAMPED.  See the GNU Lesser General Public
  *   License for more details.
  *
  *   You should have received a copy of the GNU Lesser General Public License
@@ -28,46 +28,29 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/common/Pose.h>
 
-#include <iomanip>
-#include <limits>
-#include <iostream>
+#ifndef INCLUDE_SCRIMMAGE_COMMON_TWISTSTAMPED_H_
+#define INCLUDE_SCRIMMAGE_COMMON_TWISTSTAMPED_H_
+
+#include <scrimmage/common/Twist.h>
+#include <Eigen/Dense>
 
 namespace scrimmage {
 
-Pose::Pose()
-    : pos_(0, 0, 0),
-      quat_(0, 0, 0) {}
+class TwistStamped : public Twist {
+ public:
+    TwistStamped();
+    explicit TwistStamped(const Eigen::Vector3d &vel);
+    explicit TwistStamped(const Eigen::Vector3d &vel,
+                          const Eigen::Vector3d &ang_vel);
 
-Pose::Pose(const Eigen::Vector3d &pos)
-    : pos_(pos),
-      quat_(0, 0, 0) {}
+    double &time() { return time_; }
+    const double &time() const { return time_; }
 
-Pose::Pose(const scrimmage::Quaternion &quat)
-    : pos_(0, 0, 0),
-      quat_(quat) {}
-
-Pose::Pose(const Eigen::Vector3d &pos,
-              const scrimmage::Quaternion &quat)
-    : pos_(pos),
-      quat_(quat) {}
-
-Pose::~Pose() {}
-
-
-void Pose::to_ostream(std::ostream &os) const {
-    os << "Pose {\n"
-       << "  pos: " << this->pos()[0] << ", "
-                    << this->pos()[1] << ", "
-                    << this->pos()[2] << "\n"
-       << "  quat: " << this->quat() << "\n"
-       << "}";
-}
-
-std::ostream &operator<<(std::ostream &os, Pose &wp) {
-    wp.to_ostream(os);
-    return os;
-}
+ protected:
+    void to_ostream(std::ostream &os) const override;
+    double time_;
+};
 
 }  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_TWISTSTAMPED_H_

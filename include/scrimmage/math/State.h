@@ -37,6 +37,7 @@
 
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/common/Pose.h>
+#include <scrimmage/common/Twist.h>
 
 #include <memory>
 #include <iosfwd>
@@ -120,8 +121,7 @@ class State {
 
  protected:
     scrimmage::Pose pose_;
-    Eigen::Vector3d vel_;
-    Eigen::Vector3d ang_vel_;
+    scrimmage::Twist twist_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

@@ -14,6 +14,7 @@ set(SRCS
     common/VariableIO.cpp
     common/Battery.cpp
     common/Pose.cpp common/PoseStamped.cpp
+    common/Twist.cpp common/TwistStamped.cpp
     common/Shape.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     log/FrameUpdateClient.cpp log/Log.cpp
