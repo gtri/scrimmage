@@ -37,6 +37,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <sstream>
+#include <memory>
 
 TEST(pose, constructor) {
     scrimmage::Pose pose1;
@@ -120,14 +121,29 @@ TEST(pose_stamped, constructor) {
     EXPECT_FLOAT_EQ(pose3.time(), 0);
 
     scrimmage::PoseStamped pose4(pos2, quat3);
-    EXPECT_FLOAT_EQ(pose2.pos()[0], -2.3);
-    EXPECT_FLOAT_EQ(pose2.pos()[1], 1);
-    EXPECT_FLOAT_EQ(pose2.pos()[2], 0);
+    EXPECT_FLOAT_EQ(pose4.pos()[0], -2.3);
+    EXPECT_FLOAT_EQ(pose4.pos()[1], 1);
+    EXPECT_FLOAT_EQ(pose4.pos()[2], 0);
     EXPECT_FLOAT_EQ(pose4.quat().w(), -0.011594434);
     EXPECT_FLOAT_EQ(pose4.quat().vec()[0], -0.048622191);
     EXPECT_FLOAT_EQ(pose4.quat().vec()[1], -0.24705613);
     EXPECT_FLOAT_EQ(pose4.quat().vec()[2],  0.96771109);
     EXPECT_FLOAT_EQ(pose4.time(), 0);
+}
+
+TEST(pose_stamped, const_access) {
+    const Eigen::Vector3d pos(-2.3, 1, 0.00);
+    const scrimmage::Quaternion quat(-.5, .1, 3.14);
+    const scrimmage::PoseStamped pose(pos, quat);
+
+    EXPECT_FLOAT_EQ(pose.pos()[0], -2.3);
+    EXPECT_FLOAT_EQ(pose.pos()[1], 1);
+    EXPECT_FLOAT_EQ(pose.pos()[2], 0);
+    EXPECT_FLOAT_EQ(pose.quat().w(), -0.011594434);
+    EXPECT_FLOAT_EQ(pose.quat().vec()[0], -0.048622191);
+    EXPECT_FLOAT_EQ(pose.quat().vec()[1], -0.24705613);
+    EXPECT_FLOAT_EQ(pose.quat().vec()[2],  0.96771109);
+    EXPECT_FLOAT_EQ(pose.time(), 0);
 }
 
 TEST(pose_stamped, ostream) {
@@ -136,4 +152,36 @@ TEST(pose_stamped, ostream) {
     std::string ans = "PoseStamped {\n  time: 0\n  pos: 0, 0, 0\n  quat: w: 1, x: 0, y: 0, z: 0\n}";
     ss << pose;
     EXPECT_STREQ(ss.str().c_str(), ans.c_str());
+}
+
+TEST(pose, polymorphism) {
+    const Eigen::Vector3d pos(-2.3, 1, 0.00);
+    const scrimmage::Quaternion quat(-.5, .1, 3.14);
+
+    std::vector<scrimmage::Pose *> pose_vec(2);
+    pose_vec[0] = new scrimmage::Pose(pos, quat);
+    pose_vec[1] = new scrimmage::PoseStamped(pos, quat);
+
+    // Pose
+    EXPECT_FLOAT_EQ(pose_vec[0]->pos()[0], -2.3);
+    EXPECT_FLOAT_EQ(pose_vec[0]->pos()[1], 1);
+    EXPECT_FLOAT_EQ(pose_vec[0]->pos()[2], 0);
+    EXPECT_FLOAT_EQ(pose_vec[0]->quat().w(), -0.011594434);
+    EXPECT_FLOAT_EQ(pose_vec[0]->quat().vec()[0], -0.048622191);
+    EXPECT_FLOAT_EQ(pose_vec[0]->quat().vec()[1], -0.24705613);
+    EXPECT_FLOAT_EQ(pose_vec[0]->quat().vec()[2],  0.96771109);
+
+    // PoseStamped
+    EXPECT_FLOAT_EQ(pose_vec[1]->pos()[0], -2.3);
+    EXPECT_FLOAT_EQ(pose_vec[1]->pos()[1], 1);
+    EXPECT_FLOAT_EQ(pose_vec[1]->pos()[2], 0);
+    EXPECT_FLOAT_EQ(pose_vec[1]->quat().w(), -0.011594434);
+    EXPECT_FLOAT_EQ(pose_vec[1]->quat().vec()[0], -0.048622191);
+    EXPECT_FLOAT_EQ(pose_vec[1]->quat().vec()[1], -0.24705613);
+    EXPECT_FLOAT_EQ(pose_vec[1]->quat().vec()[2],  0.96771109);
+
+    // free memory
+    for (auto it = pose_vec.begin(); it != pose_vec.end(); ++it) {
+        delete *it;
+    }
 }

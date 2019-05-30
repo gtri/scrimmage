@@ -42,6 +42,7 @@ namespace scrimmage {
 class Pose {
  public:
     Pose();
+    virtual ~Pose();
     explicit Pose(const Eigen::Vector3d &pos);
     explicit Pose(const scrimmage::Quaternion &quat);
     explicit Pose(const Eigen::Vector3d &pos,

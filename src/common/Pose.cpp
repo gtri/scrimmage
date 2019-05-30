@@ -53,6 +53,8 @@ Pose::Pose(const Eigen::Vector3d &pos,
     : pos_(pos),
       quat_(quat) {}
 
+Pose::~Pose() {}
+
 
 void Pose::to_ostream(std::ostream& os) const {
     os << "Pose {\n"
