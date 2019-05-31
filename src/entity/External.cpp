@@ -164,6 +164,7 @@ bool External::create_entity(const std::string &mission_file,
     sim_info.rtree = rtree;
     sim_info.pubsub = pubsub_;
     sim_info.time = time_;
+    sim_info.param_server = param_server_;
     sim_info.random = random;
     sim_info.id_to_team_map = id_to_team_map_;
     sim_info.id_to_ent_map = id_to_ent_map_;
