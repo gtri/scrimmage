@@ -171,6 +171,18 @@ command:
 The ``:X`` after the column header name specifies which subplot to use.
 If no subplot is given, the data is plotted on the first subplot.
 
+The y-axis label of each subplot can be set by prefacing the column header name
+with the name of the subplot and an equal sign. For example to add a name to our
+example plots we would use:
+
+.. code-block:: bash
+   :linenos:
+
+   $ ./csv-plot.py -c my.csv -y "pitch (deg)"=pitch "pitch rate (deg/s)"=pitch_rate:1
+
+If no y-axis label is provided for a subplot, the default will be a list of the column
+headers used to generate that subplot.
+
 Additionally, python expressions can be used to perform operations on the
 data before plotting. For example, to plot the error between measured pitch
 and actual pitch, run the following command:
