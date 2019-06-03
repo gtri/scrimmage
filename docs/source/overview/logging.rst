@@ -160,6 +160,26 @@ to plot the pitch, pitch_rate, yaw, and yaw_rate columns from a CSV file called
 
    $ ./csv-plot.py -c my.csv -y pitch pitch_rate
 
+The column headers can be assigned to different subplots by running the following
+command:
+
+.. code-block:: bash
+   :linenos:
+
+   $ ./csv-plot.py -c my.csv -y pitch pitch_rate:1
+
+The ``:X`` after the column header name specifies which subplot to use.
+If no subplot is given, the data is plotted on the first subplot.
+
+Additionally, python expressions can be used to perform operations on the
+data before plotting. For example, to plot the error between measured pitch
+and actual pitch, run the following command:
+
+.. code-block:: bash
+   :linenos:
+
+   $ ./csv-plot.py -c my.csv -y {measured_pitch - pitch}
+
 To create a 3D plot, use the ``-x``, ``-y``, and ``-z`` flags:
 
 .. code-block:: bash
