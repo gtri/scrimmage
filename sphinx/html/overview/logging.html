@@ -320,6 +320,19 @@ to plot the pitch, pitch_rate, yaw, and yaw_rate columns from a CSV file called
 <div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ ./csv-plot.py -c my.csv -y pitch pitch_rate
 </pre></div>
 </td></tr></table></div>
+<p>The column headers can be assigned to different subplots by running the following
+command:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ ./csv-plot.py -c my.csv -y pitch pitch_rate:1
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">:X</span></code> after the column header name specifies which subplot to use.
+If no subplot is given, the data is plotted on the first subplot.</p>
+<p>Additionally, python expressions can be used to perform operations on the
+data before plotting. For example, to plot the error between measured pitch
+and actual pitch, run the following command:</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ ./csv-plot.py -c my.csv -y <span class="o">{</span>measured_pitch - pitch<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
 <p>To create a 3D plot, use the <code class="docutils literal notranslate"><span class="pre">-x</span></code>, <code class="docutils literal notranslate"><span class="pre">-y</span></code>, and <code class="docutils literal notranslate"><span class="pre">-z</span></code> flags:</p>
 <div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ ./csv-plot.py -c my.csv -x x -y y -z z -e
 </pre></div>
