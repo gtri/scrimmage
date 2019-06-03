@@ -56,6 +56,7 @@ class TerrainGenerator : public scrimmage::EntityInteraction {
     TerrainMap map_;
     bool terrain_published_ = false;
     scrimmage::PublisherPtr terrain_pub_;
+    RandomPtr random_;
 
  private:
 };

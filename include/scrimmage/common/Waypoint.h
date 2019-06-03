@@ -33,10 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_WAYPOINT_H_
 #define INCLUDE_SCRIMMAGE_COMMON_WAYPOINT_H_
 
-#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Waypoint.pb.h>
 
 #include <string>
 #include <map>
+#include <memory>
+
+namespace GeographicLib {
+class LocalCartesian;
+}
 
 namespace scrimmage {
 namespace autonomy {
@@ -44,29 +50,44 @@ namespace autonomy {
 class Waypoint {
  public:
     Waypoint() = default;
-    Waypoint(double latitude, double longitude, double altitude);
+    Waypoint(const double& latitude, const double& longitude,
+             const double& altitude);
+    Waypoint(const double &x, const double& y, const double& z,
+             const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    Waypoint(const Eigen::Vector3d &xyz,
+             const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    explicit Waypoint(const scrimmage_msgs::Waypoint &wp);
 
-    void set_id(size_t id) {id_ = id;}
-    void set_time(double time) { time_ = time; }
-    void set_latitude(double latitude) { latitude_ = latitude; }
-    void set_longitude(double longitude) { longitude_ = longitude; }
-    void set_altitude(double altitude) { altitude_ = altitude; }
-    void set_quat(scrimmage::Quaternion &quat) { quat_ = quat; }
-    void set_position_tolerance(double pos_tol);
-    void set_quat_tolerance(double quat_tol);
+    void set_id(const size_t& id) {id_ = id;}
+    void set_time(const double& time) { time_ = time; }
+    void set_latitude(const double& latitude) { latitude_ = latitude; }
+    void set_longitude(const double& longitude) { longitude_ = longitude; }
+    void set_altitude(const double& altitude) { altitude_ = altitude; }
+    void set_quat(const scrimmage::Quaternion& quat) { quat_ = quat; }
+    void set_position_tolerance(const double& pos_tol);
+    void set_quat_tolerance(const double& quat_tol);
 
-    double id() const { return id_; }
-    double time() const { return time_; }
-    double latitude() const { return latitude_; }
-    double longitude() const { return longitude_; }
-    double altitude() const { return altitude_; }
-    scrimmage::Quaternion &quat() { return quat_; }
-    double position_tolerance() const { return position_tolerance_; }
-    double quat_tolerance() const { return quat_tolerance_; }
+    scrimmage_msgs::Waypoint lla_proto();
+
+    const size_t& id() const { return id_; }
+    const double& time() const { return time_; }
+    const double& latitude() const { return latitude_; }
+    const double& longitude() const { return longitude_; }
+    const double& altitude() const { return altitude_; }
+    const scrimmage::Quaternion &quat() const { return quat_; }
+    const double& position_tolerance() const { return position_tolerance_; }
+    const double& quat_tolerance() const { return quat_tolerance_; }
 
     friend std::ostream& operator<<(std::ostream& os, Waypoint& wp);
 
     friend bool operator==(const Waypoint &lhs, const Waypoint &rhs);
+
+    Eigen::Vector3d xyz(
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj) const;
+
+    bool is_within_tolerance(
+        const scrimmage::StatePtr &state,
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
  protected:
     size_t id_ = 0;
@@ -78,6 +99,8 @@ class Waypoint {
 
     double position_tolerance_ = 100.0;
     double quat_tolerance_ = 100.0;
+
+    bool tolerance_in_2d_ = false;
 };
 } // namespace autonomy
 } // namespace scrimmage

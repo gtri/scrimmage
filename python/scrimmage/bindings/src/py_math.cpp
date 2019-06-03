@@ -69,10 +69,14 @@ void add_math(pybind11::module &m) {
         .def(py::init<Eigen::Vector3d, Eigen::Vector3d, Eigen::Vector3d,
              sc::Quaternion>(), py::arg("position"), py::arg("velocity"),
              py::arg("angular_velocity"), py::arg("orientation"))
-        .def_property("pos", &sc::State::pos, &sc::State::set_pos)
-        .def_property("vel", &sc::State::vel, &sc::State::set_vel)
-        .def_property("ang_vel", &sc::State::ang_vel, &sc::State::set_ang_vel)
-        .def_property("quat", &sc::State::quat, &sc::State::set_quat)
+        .def("pos_mutable", py::overload_cast<>(&sc::State::pos))
+        .def("vel_mutable", py::overload_cast<>(&sc::State::vel))
+        .def("ang_vel_mutable", py::overload_cast<>(&sc::State::ang_vel))
+        .def("quat_mutable", py::overload_cast<>(&sc::State::quat))
+        .def("pos_const", py::overload_cast<>(&sc::State::pos, py::const_))
+        .def("vel_const", py::overload_cast<>(&sc::State::vel, py::const_))
+        .def("ang_vel_const", py::overload_cast<>(&sc::State::ang_vel, py::const_))
+        .def("quat_const", py::overload_cast<>(&sc::State::quat, py::const_))
         .def("in_field_of_view", &sc::State::InFieldOfView)
         .def("rel_pos_local_frame", &sc::State::rel_pos_local_frame)
         .def("orient_global_frame", &sc::State::orient_global_frame);

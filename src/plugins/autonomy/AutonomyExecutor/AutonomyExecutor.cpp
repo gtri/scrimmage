@@ -75,14 +75,28 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
     std::string network_name = sc::get<std::string>("network_name", params, "LocalNetwork");
 
     auto state_callback = [&] (scrimmage::MessagePtr<std::string> msg) {
+        // If the state didn't change, return immediately.
+        if (current_state_ == msg->data) {
+            return;
+        }
+
         current_state_ = msg->data;
 
-        // Get the currently running autonomies
+        // Get the list of autonomies that run in this new state
         auto autonomy_list = autonomies_.find(current_state_);
         if (autonomy_list != autonomies_.end()) {
             running_autonomies_ = autonomy_list->second;
         } else {
             running_autonomies_ = default_autonomies_;
+        }
+
+        // Call each autonomy's init method to let it know that it is now
+        // running.
+        for (sc::AutonomyPtr autonomy : running_autonomies_) {
+            if (!call_init(autonomy->name(), autonomy)) {
+                cout << "AutonomyExecutor: Failed to reload init for "
+                     << autonomy->name() << endl;
+            }
         }
     };
     subscribe<std::string>(network_name, state_topic_name, state_callback);
@@ -189,13 +203,6 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
             for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
                 sub->accept(msg);
             }
-        }
-
-        if (autonomy_cache_ != autonomy->name()) {
-            if (!call_init(autonomy->name(), autonomy)) {
-                cout << "AutonomyExecutor: Failed to reload init for " << autonomy->name() << endl;
-            }
-            autonomy_cache_ = autonomy->name();
         }
 
         if (!autonomy->step_autonomy(time_->t(), time_->dt())) {

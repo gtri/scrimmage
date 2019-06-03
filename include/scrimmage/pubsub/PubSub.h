@@ -38,6 +38,7 @@
 #include <map>
 #include <list>
 #include <string>
+#include <memory>
 
 namespace boost {
 template <class T> class optional;

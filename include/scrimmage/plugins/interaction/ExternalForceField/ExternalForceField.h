@@ -41,6 +41,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <memory>
 
 namespace scrimmage {
 namespace interaction {

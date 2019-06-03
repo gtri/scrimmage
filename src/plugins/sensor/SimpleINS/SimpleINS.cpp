@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
@@ -38,7 +39,7 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/SimpleINS/SimpleINS.h>
+#include <scrimmage/plugins/sensor/SimpleINS/SimpleINS.h>
 #include <scrimmage/math/StateWithCovariance.h>
 #include <scrimmage/msgs/GPS.pb.h>
 
@@ -47,11 +48,10 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::SimpleINS, SimpleINS_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::SimpleINS, SimpleINS_plugin)
 
 namespace scrimmage {
-namespace autonomy {
+namespace sensor {
 
 void SimpleINS::init(std::map<std::string, std::string> &params) {
     // Noise params information
@@ -80,29 +80,16 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
 
     surface_timer_ = sc::get<double>("surface_timer", params, 10);
 
-    // VariableIO information
-    using Type = VariableIO::Type;
-    using Dir = VariableIO::Direction;
-
-    uint8_t output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
-    uint8_t output_vel_y_idx_ = vars_.declare(Type::velocity_y, Dir::Out);
-    uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
-
-    vars_.output(output_vel_x_idx_, 0);
-    vars_.output(output_vel_y_idx_, 0);
-    vars_.output(output_vel_z_idx, 0);
-
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    parent_->state() = std::make_shared<State>();
+    *(parent_->state()) = *(parent_->state_truth());
 }
 
 
-bool SimpleINS::step_autonomy(double t, double dt) {
+bool SimpleINS::step() {
     auto gener = parent_->random()->gener();
 
     // Make a copy of the current state
-    StateWithCovariance ns(*(parent_->state()));
+    StateWithCovariance ns(*(parent_->state_truth()));
 
     auto msg = std::make_shared<Message<StateWithCovariance>>();
 
@@ -111,39 +98,46 @@ bool SimpleINS::step_autonomy(double t, double dt) {
         init_m_ = false;
     }
 
-    // Create noise position to send back.
+    // Use gen in order to create a growing covariance
+    double pos_noise_0 = (*pos_noise_[0])(*gener);
+    double pos_noise_1 = (*pos_noise_[1])(*gener);
+    if (!gps_fix_) {
+        m_(0, 0) += (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
+        m_(1, 1) += (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
+
+        prev_time_ = time_->t();
+    } else {
+        // GPS fix on - wait on surface timer and snap back to an identity matrix
+        if (time_->t() - prev_time_ > surface_timer_) {
+            m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
+
+            // Reset the position error accumulator
+            pos_error_accum_ = Eigen::Vector3d::Zero();
+        }
+    }
+
+    // Create noisy position / velocity
     for (int i = 0; i < 3; i++) {
-        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);
+        pos_error_accum_(i) += (*pos_noise_[i])(*gener);
         msg->data.vel()(i) = ns.vel()(i) + (*vel_noise_[i])(*gener);
     }
+    msg->data.pos() = ns.pos() + pos_error_accum_;
 
     msg->data.quat() = ns.quat()
     * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
     * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
     * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
-    // Use gen in order to create a growing covariance
-    double pos_noise_0 = (*pos_noise_[0])(*gener);
-    double pos_noise_1 = (*pos_noise_[1])(*gener);
-
-    if (!gps_fix_) {
-        m_(0, 0) += (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
-        m_(1, 1) += (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
-
-        prev_time_ = t;
-    } else {
-        // GPS fix on - wait on surface timer and snap back to an identity matrix
-        if (t - prev_time_ > surface_timer_) {
-           m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
-        }
-    }
-
     msg->data.set_covariance(m_);
 
     // Publish StateWCovariance msg
     pub_->publish(msg);
+
+    // Update the entity's state.
+    *(parent_->state()) = static_cast<sc::State>(msg->data);
+
     return true;
 }
 
-} // namespace autonomy
+} // namespace sensor
 } // namespace scrimmage

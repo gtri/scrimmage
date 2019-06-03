@@ -36,7 +36,7 @@ import sys
 import time
 import logging
 import os
-
+import re
 import argparse
 
 from watchdog.observers import Observer
@@ -73,8 +73,20 @@ class CSVPlot (FileSystemEventHandler):
 
         self.csv_filename = args.csv_filename
 
-
         self.watch(args.log_dir + '/' + args.dir)
+
+        self.y_plot_dict = {0:[]}
+        self.subplot_num = 1
+        for col_name in args.y_axis:
+            start = col_name.find(':')
+            if start == -1:
+                subplot = 0
+                start = len(col_name)
+            else:
+                subplot = int(col_name[start+1:start+2])
+                if subplot >= self.subplot_num:
+                    self.subplot_num = subplot+1
+            self.y_plot_dict.setdefault(subplot, []).append(col_name[0:start])
 
     def on_any_event(self, event):
         #if event.is_directory:
@@ -112,22 +124,37 @@ class CSVPlot (FileSystemEventHandler):
     def plot(self,i):
         df = pd.read_csv(self.full_path + '/' + self.csv_filename)
 
+        locals().update(df)
+
         if df.shape[0] == 0:
             # If there are no rows in the dataframe, just return
             return
 
-        for i in range(len(self.y_axis_vars)):
+        for i in range(0,self.subplot_num):
             self.axarr[i].clear()
+            if i in self.y_plot_dict:
+                for var in self.y_plot_dict[i]:
+                    if self.z_axis_vars is not None:
+                        z = re.match(r'\{(.*)\}', var)
+                        if z != None:
+                            exec('new_var = ' + z.group(1))
+                            self.axarr[i].plot(df[self.x_axis_vars].values,
+                                       new_var)
+                        else:
+                            self.axarr[i].plot(df[self.x_axis_vars].values,
+                                               df[var].values,
+                                               df[self.z_axis_vars].values)
+                    else:
+                        z = re.match(r'\{(.*)\}', var)
+                        if z != None:
+                            exec('new_var = ' + z.group(1))
+                            self.axarr[i].plot(df[self.x_axis_vars].values,
+                                       new_var)
+                        else:
+                            self.axarr[i].plot(df[self.x_axis_vars].values,
+                                               df[var].values)
 
-            if self.z_axis_vars is not None:
-                self.axarr[i].plot(df[self.x_axis_vars].values,
-                                   df[self.y_axis_vars[i]].values,
-                                   df[self.z_axis_vars[i]].values)
-            else:
-                self.axarr[i].plot(df[self.x_axis_vars].values,
-                                   df[self.y_axis_vars[i]].values)
-
-            self.axarr[i].set_ylabel(self.y_axis_vars[i])
+                self.axarr[i].set_ylabel(self.y_plot_dict[i])
 
         self.axarr[len(self.axarr)-1].set_xlabel(self.x_axis_vars)
         self.axarr[0].set_title(self.plot_title)
@@ -142,9 +169,8 @@ class CSVPlot (FileSystemEventHandler):
         if self.z_axis_vars is not None:
             plot_prj = '3d'
 
-        self.axarr = [self.fig.add_subplot(len(self.y_axis_vars), 1, i+1,
-                                           projection=plot_prj)
-                      for i in range(len(self.y_axis_vars))]
+        self.axarr = [self.fig.add_subplot(self.subplot_num, 1, i+1,
+                                           projection=plot_prj) for i in range(self.subplot_num)]
 
         self.ani = animation.FuncAnimation(self.fig, self.plot,
                                            interval=25)

@@ -33,7 +33,10 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/proto/Shape.pb.h>
 
 #include <scrimmage/math/State.h>
@@ -47,11 +50,27 @@
 #include <scrimmage/sensor/Sensor.h>
 
 #include <scrimmage/motion/MotionModel.h>
-
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/plugins/interaction/BulletCollision/BulletCollision.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 #include <memory>
+
+#if ENABLE_VTK == 1
+#include <vtkSmartPointer.h>
+#include <vtkBYUReader.h>
+#include <vtkOBJReader.h>
+#include <vtkPLYReader.h>
+#include <vtkTriangle.h>
+#include <vtkPolyDataReader.h>
+#include <vtkSTLReader.h>
+#include <vtkXMLPolyDataReader.h>
+#include <vtkSphereSource.h>
+#include <vtkTriangleFilter.h>
+#include <vtkTransform.h>
+#include <vtkTransformPolyDataFilter.h>
+#include <vtksys/SystemTools.hxx>
+#endif
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -80,7 +99,7 @@ BulletCollision::BulletCollision() {
                                           max_objects_, 0, true);
 
     bt_collision_world = new btCollisionWorld(bt_dispatcher, bt_broadphase,
-                                              bt_collision_configuration);
+            bt_collision_configuration);
 }
 
 BulletCollision::~BulletCollision() {
@@ -96,33 +115,80 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
     enable_collision_detection_ = sc::get<bool>("enable_collision_detection", plugin_params, true);
     enable_ray_tracing_ = sc::get<bool>("enable_ray_tracing", plugin_params, true);
 
+    remove_on_collision_ = sc::get<bool>("remove_on_collision", plugin_params,
+                                         remove_on_collision_);
+    show_collision_shapes_ = sc::get<bool>("show_collision_shapes", plugin_params,
+                                           show_collision_shapes_);
+    enable_ground_plane_ = sc::get<bool>("enable_ground_plane", plugin_params,
+                                         enable_ground_plane_);
+    ground_plane_height_ = sc::get<double>("ground_plane_height", plugin_params,
+                                           ground_plane_height_);
+    enable_terrain_ = sc::get<bool>("enable_terrain", plugin_params,
+                                    enable_terrain_);
+
+    enable_team_collisions_ = get<bool>("enable_team_collisions",
+                                        plugin_params, enable_team_collisions_);
+    enable_non_team_collisions_ = get<bool>("enable_non_team_collisions",
+                                            plugin_params, enable_non_team_collisions_);
+
+    collision_pub_ = advertise("GlobalNetwork", "GroundCollision");
+    team_collision_pub_ = advertise("GlobalNetwork", "TeamCollision");
+    non_team_collision_pub_ = advertise("GlobalNetwork", "NonTeamCollision");
+
+    publish_on_local_networks_ = get("publish_on_local_networks", plugin_params, publish_on_local_networks_);
+    pcl_network_name_ = get("pcl_network_name", plugin_params, pcl_network_name_);
+    pcl_topic_name_ = get("pcl_topic_name", plugin_params, pcl_topic_name_);
+    prepend_pcl_topic_with_id_ = get("prepend_pcl_topic_with_id", plugin_params, false);
+
     auto ent_gen_cb = [&] (scrimmage::MessagePtr<sm::EntityGenerated> msg) {
+        auto pc_desc = std::make_unique<PointCloudDescription>();
+
         int id = msg->data.entity_id();
 
         sc::EntityPtr &ent = (*id_to_ent_map_)[id];
 
         btCollisionObject* coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
-        coll_object->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
-                                                             (btScalar) ent->state()->pos()(1),
-                                                             (btScalar) ent->state()->pos()(2)));
+        coll_object->getWorldTransform().setOrigin(btVector3(
+            (btScalar) ent->state_truth()->pos()(0),
+            (btScalar) ent->state_truth()->pos()(1),
+            (btScalar) ent->state_truth()->pos()(2)));
 
         btSphereShape * sphere_shape = new btSphereShape(ent->radius()); // TODO: memory management
         coll_object->setCollisionShape(sphere_shape);
         bt_collision_world->addCollisionObject(coll_object);
 
-        objects_[id] = coll_object;
+        objects_[id].object = coll_object;
+
+        if (show_collision_shapes_) {
+            objects_[id].shape = sc::shape::make_sphere(
+                ent->state_truth()->pos(), ent->radius(),
+                Eigen::Vector3d(0, 0, 255), 0.30);
+            draw_shape(objects_[id].shape);
+        }
 
         if (enable_ray_tracing_) {
             // What types of sensors need to be attached to this entity?
             for (auto &kv : ent->sensors()) {
                 if (kv.second->type() == "Ray") {
-                    // Create a publisher for this sensor
-                    // "entity_id/RayTrace0/pointcloud"
-                    std::string topic_name = std::to_string(id) + "/"
-                        + kv.first  + "/pointcloud";
-                    pcl_pubs_[id][kv.first] =
-                        advertise("GlobalNetwork", topic_name, 10);
+                    std::string topic = kv.second->name() + "/" + pcl_topic_name_;
+                    if (prepend_pcl_topic_with_id_) {
+                        topic = std::to_string(id) + "/" + topic;
+                    }
+                    if (publish_on_local_networks_) {
+                        // Create a plugin that can publish on the local network
+                        AutonomyPtr plugin = std::make_shared<Autonomy>();
+                        plugin->set_parent(ent);
+                        plugin->set_pubsub(plugin->parent()->pubsub());
+
+                        // Create a publisher for this sensor
+                        pc_desc->pub = plugin->advertise(pcl_network_name_, topic, 10);
+
+                        // Add the empty plugin to the entity's autonomies list
+                        ent->autonomies().push_back(plugin);
+                    } else {
+                        pc_desc->pub = advertise(pcl_network_name_, topic, 10);
+                    }
 
                     std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
@@ -134,9 +200,10 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
                         pcl.num_rays_horiz = rs->num_rays_horiz();
                         pcl.angle_res_vert = rs->angle_res_vert();
                         pcl.angle_res_horiz = rs->angle_res_horiz();
+                        pcl.max_sample_rate = rs->max_sample_rate();
 
-                        double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz()-1);
-                        double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert()-1);
+                        double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz() - 1);
+                        double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert() - 1);
                         double start_angle_horiz = -fov_horiz / 2.0;
                         double start_angle_vert = -fov_vert / 2.0;
 
@@ -156,7 +223,25 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
                             }
                             angle_vert += rs->angle_res_vert();
                         }
-                        pcls_[id][kv.first]= pcl;
+                        pc_desc->point_cloud = pcl;
+                        pc_desc->last_update_time = time_->t();
+
+                        if (show_rays_) {
+                            // Construct the ray shapes, but don't draw them
+                            // yet.
+                            for (unsigned int i = 0;
+                                 i < pc_desc->point_cloud.points.size(); i++) {
+                                std::shared_ptr<sp::Shape> line(new sp::Shape);
+                                sc::set(line->mutable_color(), 255, 0, 0);
+                                line->set_opacity(1.0);
+                                sc::set(line->mutable_line()->mutable_start(), Eigen::Vector3d(0, 0, 0));
+                                sc::set(line->mutable_line()->mutable_end(), Eigen::Vector3d(0, 0, 0));
+                                pc_desc->shapes.push_back(line);
+                            }
+                        }
+
+                        // Move the description into the map
+                        pc_descs_[id][kv.first] = std::move(pc_desc);
                     }
                 }
             }
@@ -167,124 +252,247 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
     auto shape_gen_cb = [&] (scrimmage::MessagePtr<sp::Shapes> msg) {
         for (int i = 0; i < msg->data.shape_size(); i++) {
             if (msg->data.shape(i).oneof_type_case() == sp::Shape::kCuboid) {
-                btVector3 xyz(btScalar(msg->data.shape(i).cuboid().x_length()/2.0),
-                              btScalar(msg->data.shape(i).cuboid().y_length()/2.0),
-                              btScalar(msg->data.shape(i).cuboid().z_length()/2.0));
+                btVector3 xyz(btScalar(msg->data.shape(i).cuboid().x_length() / 2.0),
+                              btScalar(msg->data.shape(i).cuboid().y_length() / 2.0),
+                              btScalar(msg->data.shape(i).cuboid().z_length() / 2.0));
 
                 btBoxShape *wall = new btBoxShape(xyz);
 
                 btCollisionObject* coll_object = new btCollisionObject();
                 coll_object->setCollisionShape(wall);
                 coll_object->getWorldTransform().setOrigin(btVector3((btScalar) msg->data.shape(i).cuboid().center().x(),
-                                                                     (btScalar) msg->data.shape(i).cuboid().center().y(),
-                                                                     (btScalar) msg->data.shape(i).cuboid().center().z()));
+                        (btScalar) msg->data.shape(i).cuboid().center().y(),
+                        (btScalar) msg->data.shape(i).cuboid().center().z()));
                 bt_collision_world->addCollisionObject(coll_object);
             }
         }
     };
     subscribe<sp::Shapes>("GlobalNetwork", "ShapeGenerated", shape_gen_cb);
 
-    btCollisionObject* coll_object = new btCollisionObject();
-    btCollisionShape* ground_shape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
+    if (enable_ground_plane_) {
+        btCollisionObject* coll_object = new btCollisionObject();
+        btCollisionShape* ground_shape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
 
-    coll_object->setUserIndex(0);
-    coll_object->setCollisionShape(ground_shape);
-    coll_object->getWorldTransform().setOrigin(btVector3((btScalar) 0,
-                                                         (btScalar) 0,
-                                                         (btScalar) 0));
+        coll_object->setUserIndex(0);
+        coll_object->setCollisionShape(ground_shape);
+        coll_object->getWorldTransform().setOrigin(
+            btVector3((btScalar) 0, (btScalar) 0,
+                      (btScalar) ground_plane_height_));
+        bt_collision_world->addCollisionObject(coll_object);
+    }
 
-    bt_collision_world->addCollisionObject(coll_object);
+#if ENABLE_VTK == 1
+    if (enable_terrain_) {
+        std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain = parent_->mp()->utm_terrain();
+        if (utm_terrain->enable_terrain() == true) {
+            // Read the terrain mesh file
+            vtkSmartPointer<vtkPolyData> polyData;
+            std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(utm_terrain->poly_data_file().c_str()));
+            if (extension == ".ply") {
+                vtkSmartPointer<vtkPLYReader> reader =
+                        vtkSmartPointer<vtkPLYReader>::New();
+                reader->SetFileName(utm_terrain->poly_data_file().c_str());
+                reader->Update();
+                polyData = reader->GetOutput();
+            } else if (extension == ".vtp") {
+                vtkSmartPointer<vtkXMLPolyDataReader> reader =
+                        vtkSmartPointer<vtkXMLPolyDataReader>::New();
+                reader->SetFileName(utm_terrain->poly_data_file().c_str());
+                reader->Update();
+                polyData = reader->GetOutput();
+            } else if (extension == ".obj") {
+                vtkSmartPointer<vtkOBJReader> reader =
+                        vtkSmartPointer<vtkOBJReader>::New();
+                reader->SetFileName(utm_terrain->poly_data_file().c_str());
+                reader->Update();
+                polyData = reader->GetOutput();
+            } else if (extension == ".stl") {
+                vtkSmartPointer<vtkSTLReader> reader =
+                        vtkSmartPointer<vtkSTLReader>::New();
+                reader->SetFileName(utm_terrain->poly_data_file().c_str());
+                reader->Update();
+                polyData = reader->GetOutput();
+            } else if (extension == ".vtk") {
+                vtkSmartPointer<vtkPolyDataReader> reader =
+                        vtkSmartPointer<vtkPolyDataReader>::New();
+                reader->SetFileName(utm_terrain->poly_data_file().c_str());
+                reader->Update();
+                polyData = reader->GetOutput();
+            } else if (extension == ".g") {
+                vtkSmartPointer<vtkBYUReader> reader =
+                        vtkSmartPointer<vtkBYUReader>::New();
+                reader->SetGeometryFileName(utm_terrain->poly_data_file().c_str());
+                reader->Update();
+                polyData = reader->GetOutput();
+            } else {
+                vtkSmartPointer<vtkSphereSource> source =
+                        vtkSmartPointer<vtkSphereSource>::New();
+                source->Update();
+                polyData = source->GetOutput();
+            }
+            // Update the location
+            vtkSmartPointer<vtkTransform> translation =
+                    vtkSmartPointer<vtkTransform>::New();
+            translation->Translate(-utm_terrain->x_translate(),
+                                   -utm_terrain->y_translate(),
+                                   -utm_terrain->z_translate());
 
+            vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
+                    vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+            transformFilter->SetInputData(polyData);
+            transformFilter->SetTransform(translation);
+            transformFilter->Update();
+            vtkSmartPointer<vtkPolyData> transformedData = transformFilter->GetOutput();
+
+            // Next, convert it to a triangular mesh
+            vtkSmartPointer<vtkTriangleFilter> triFilter = vtkSmartPointer<vtkTriangleFilter>::New();
+            triFilter->SetInputData(transformedData);
+            triFilter->Update();
+            vtkSmartPointer<vtkPolyData> triangularData = triFilter->GetOutput();
+
+            // Get the results
+            btTriangleMesh* triangles = new btTriangleMesh();
+            for (vtkIdType index = 0; index < triangularData->GetNumberOfCells(); index++) {
+                vtkCell* cell = triangularData->GetCell(index);
+
+                vtkTriangle* triangle = dynamic_cast<vtkTriangle*>(cell);
+                double p0[3];
+                double p1[3];
+                double p2[3];
+                triangle->GetPoints()->GetPoint(0, p0);
+                triangle->GetPoints()->GetPoint(1, p1);
+                triangle->GetPoints()->GetPoint(2, p2);
+                // Create the new triangle
+                triangles->addTriangle(btVector3(p0[0], p0[1], p0[2]), btVector3(p1[0], p1[1], p1[2]), btVector3(p2[0], p2[1], p2[2]));
+            }
+            btCollisionShape* mesh = new btBvhTriangleMeshShape(triangles, true, true);
+            btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+            btRigidBody::btRigidBodyConstructionInfo rigidBodyConstructionInfo(0.0f, motionState, mesh, btVector3(0, 0, 0));
+            btRigidBody* rigidBodyTerrain = new btRigidBody(rigidBodyConstructionInfo);
+            rigidBodyTerrain->setFriction(btScalar(0.9));
+            bt_collision_world->addCollisionObject(rigidBodyTerrain);
+        }
+    }
+#endif
     return true;
 }
 
 bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                               double t, double dt) {
     // Update positions of all objects
+    for (auto &kv : *id_to_ent_map_) {
+        auto it_object = objects_.find(kv.first);
+        if (it_object != objects_.end()) {
+            sc::EntityPtr &ent = kv.second;
+            it_object->second.object->getWorldTransform().setOrigin(btVector3(
+                (btScalar) ent->state_truth()->pos()(0),
+                (btScalar) ent->state_truth()->pos()(1),
+                (btScalar) ent->state_truth()->pos()(2)));
+
+            if (show_collision_shapes_) {
+                sc::set(it_object->second.shape->mutable_sphere()->mutable_center(),
+                        ent->state_truth()->pos());
+                draw_shape(objects_[kv.first].shape);
+            }
+        }
+    }
+
+    // If an entity no longer exists in the ent map, remove it's shape from the
+    // bullet environment
     for (auto &kv : objects_) {
-        sc::EntityPtr &ent = (*id_to_ent_map_)[kv.first];
-        kv.second->getWorldTransform().setOrigin(btVector3((btScalar) ent->state()->pos()(0),
-                                                           (btScalar) ent->state()->pos()(1),
-                                                           (btScalar) ent->state()->pos()(2)));
+        auto it_ent = id_to_ent_map_->find(kv.first);
+        if (it_ent == id_to_ent_map_->end()) {
+            remove_object(kv.first);
+        }
     }
 
     // For each entity's ray-based sensors, compute point clouds
-    for (auto &kv : pcls_) {
+    for (auto &kv : pc_descs_) {
         sc::EntityPtr &own_ent = (*id_to_ent_map_)[kv.first];
-        Eigen::Vector3d own_pos = own_ent->state()->pos();
+        Eigen::Vector3d own_pos = own_ent->state_truth()->pos();
 
         // For each ray sensor on a single entity
-        for (auto kv2 : kv.second) {
-            auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
-            msg->data.max_range = kv2.second.max_range;
-            msg->data.min_range = kv2.second.min_range;
-            msg->data.num_rays_vert = kv2.second.num_rays_vert;
-            msg->data.num_rays_horiz = kv2.second.num_rays_horiz;
-            msg->data.angle_res_vert = kv2.second.angle_res_vert;
-            msg->data.angle_res_horiz = kv2.second.angle_res_horiz;
+        for (auto &kv2 : kv.second) {
+            sensor::RayTrace::PointCloud &pc = kv2.second->point_cloud;
 
-            // Compute transformation matrix from entity's frame to sensor's
-            // frame.
-            sc::SensorPtr &sensor = own_ent->sensors()[kv2.first];
-            Eigen::Matrix4d tf_m = own_ent->state()->tf_matrix(false) *
-                sensor->transform()->tf_matrix();
+            if (t > (pc.max_sample_rate + kv2.second->last_update_time)) {
+                kv2.second->last_update_time = time_->t();
 
-            // For each ray in the sensor
-            for (RayTrace::PCPoint &pcpoint : kv2.second.points) {
-                Eigen::Vector3d original_ray = pcpoint.point;
-                // Transform sensor's origin to world coordinates
-                Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
-                Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
+                auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
+                msg->data.max_range = pc.max_range;
+                msg->data.min_range = pc.min_range;
+                msg->data.num_rays_vert = pc.num_rays_vert;
+                msg->data.num_rays_horiz = pc.num_rays_horiz;
+                msg->data.angle_res_vert = pc.angle_res_vert;
+                msg->data.angle_res_horiz = pc.angle_res_horiz;
 
-                // Transform ray's end point to world coordinates
-                Eigen::Vector4d ray = tf_m * Eigen::Vector4d(original_ray(0),
-                                                             original_ray(1),
-                                                             original_ray(2),
-                                                             1);
-                Eigen::Vector3d ray_w = ray.head<3>() + own_pos;
+                // Compute transformation matrix from entity's frame to sensor's
+                // frame.
+                sc::SensorPtr &sensor = own_ent->sensors()[kv2.first];
+                Eigen::Matrix4d tf_m = own_ent->state_truth()->tf_matrix(false) *
+                                       sensor->transform()->tf_matrix();
 
-                // Create bullet vectors
-                btVector3 btFrom(sensor_pos_w(0), sensor_pos_w(1), sensor_pos_w(2));
-                btVector3 btTo(ray_w(0), ray_w(1), ray_w(2));
+                // For each ray in the sensor
+                unsigned int i = 0;
+                for (RayTrace::PCPoint &pcpoint : pc.points) {
+                    Eigen::Vector3d original_ray = pcpoint.point;
+                    // Transform sensor's origin to world coordinates
+                    Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
+                    Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
 
-                // Perform ray casting
-                btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
-                bt_collision_world->rayTest(btFrom, btTo, res);
+                    // Transform ray's end point to world coordinates
+                    Eigen::Vector4d ray = tf_m * Eigen::Vector4d(original_ray(0),
+                                          original_ray(1),
+                                          original_ray(2),
+                                          1);
+                    Eigen::Vector3d ray_w = ray.head<3>() + own_pos;
 
-                // Points in the RayTrace message are defined with respect to
-                // the LIDAR sensor's coordinate frame. Use original ray's
-                // direction, shorten to length of detection ray, if a
-                // collision occurred.
-                if (res.hasHit()) {
-                    Eigen::Vector3d hit_point(res.m_hitPointWorld.x(),
-                                              res.m_hitPointWorld.y(),
-                                              res.m_hitPointWorld.z());
+                    // Create bullet vectors
+                    btVector3 btFrom(sensor_pos_w(0), sensor_pos_w(1), sensor_pos_w(2));
+                    btVector3 btTo(ray_w(0), ray_w(1), ray_w(2));
 
-                    msg->data.points.push_back(
-                        RayTrace::PCPoint(original_ray.normalized() *
-                                          (hit_point-sensor_pos_w).norm(), 255));
+                    // Perform ray casting
+                    btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+                    bt_collision_world->rayTest(btFrom, btTo, res);
+
+                    // Points in the RayTrace message are defined with respect to
+                    // the LIDAR sensor's coordinate frame. Use original ray's
+                    // direction, shorten to length of detection ray, if a
+                    // collision occurred.
+                    Eigen::Vector3d ray_end;
+                    if (res.hasHit()) {
+                        Eigen::Vector3d hit_point(res.m_hitPointWorld.x(),
+                                                  res.m_hitPointWorld.y(),
+                                                  res.m_hitPointWorld.z());
+                        Eigen::Vector3d return_vec = original_ray.normalized() *
+                                                     (hit_point - sensor_pos_w).norm();
+                        msg->data.points.push_back(
+                            RayTrace::PCPoint(return_vec, 255,
+                                              ((return_vec.norm() > msg->data.max_range) ||
+                                               (return_vec.norm() < msg->data.min_range))));
+                        ray_end = hit_point;
+                    } else {
+                        msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255, true));
+                        ray_end = ray_w;
+                    }
 
                     if (show_rays_) {
-                        std::shared_ptr<sp::Shape> line(new sp::Shape);
-                        sc::set(line->mutable_color(), 255, 0, 0);
-                        line->set_opacity(1.0);
-                        sc::set(line->mutable_line()->mutable_start(), sensor_pos_w);
-                        sc::set(line->mutable_line()->mutable_end(), hit_point);
-                        draw_shape(line);
+                        std::unique_ptr<PointCloudDescription> &pc_desc = kv2.second;
+                        if (res.hasHit()) {
+                            sc::set(pc_desc->shapes[i]->mutable_color(), 255, 0, 0);
+                            pc_desc->shapes[i]->set_opacity(1.0);
+                        } else {
+                            sc::set(pc_desc->shapes[i]->mutable_color(), 0, 0, 255);
+                            pc_desc->shapes[i]->set_opacity(0.5);
+                        }
+                        sc::set(pc_desc->shapes[i]->mutable_line()->mutable_start(), sensor_pos_w);
+                        sc::set(pc_desc->shapes[i]->mutable_line()->mutable_end(), ray_end);
+                        draw_shape(pc_desc->shapes[i]);
                     }
-                } else {
-                    msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255));
-                    if (show_rays_) {
-                        std::shared_ptr<sp::Shape> line(new sp::Shape);
-                        sc::set(line->mutable_color(), 0, 0, 255);
-                        line->set_opacity(0.5);
-                        sc::set(line->mutable_line()->mutable_start(), sensor_pos_w);
-                        sc::set(line->mutable_line()->mutable_end(), ray_w);
-                        draw_shape(line);
-                    }
+                    i++;
                 }
+                kv2.second->pub->publish(msg);
             }
-            pcl_pubs_[kv.first][kv2.first]->publish(msg);
         }
     }
 
@@ -303,7 +511,6 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
             // For each contact point in that manifold
             for (int j = 0; j < numContacts; j++) {
-
                 // Get the contact information
                 btManifoldPoint& pt = contactManifold->getContactPoint(j);
 
@@ -318,10 +525,106 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                     (*id_to_ent_map_)[obA->getUserIndex()]->motion()->set_external_force(normal_B);
                 }
             }
+
+            if (remove_on_collision_ && numContacts > 0) {
+                bool ob_a_is_ent, ob_b_is_ent;
+                int obj_a_id = obA->getUserIndex();
+                int obj_b_id = obB->getUserIndex();
+
+                sc::EntityPtr ent_a, ent_b;
+                std::tie(ob_a_is_ent, ent_a) = get_entity(obj_a_id);
+                std::tie(ob_b_is_ent, ent_b) = get_entity(obj_b_id);
+
+                // We need to determine if a collision occured because two
+                // entities collided or if the entity collided with a
+                // non-entity (terrain, shape obstacle, etc.). If both objects
+                // were removed, two entities collided with each other. If only
+                // one object was removed, it collided with the terrain or
+                // another static obstacle.
+                if (ob_a_is_ent && ob_b_is_ent) {
+                    bool same_team = ent_a->id().team_id() == ent_b->id().team_id();
+                    if (enable_team_collisions_ && same_team) {
+                        // Construct the TeamCollision message
+                        auto msg = std::make_shared<Message<sm::TeamCollision>>();
+                        msg->data.set_entity_id_1(ent_a->id().id());
+                        msg->data.set_entity_id_2(ent_b->id().id());
+                        team_collision_pub_->publish(msg);
+
+                        // Remove the entities
+                        remove_entity_object(obj_a_id);
+                        remove_entity_object(obj_b_id);
+
+                    } else if (enable_non_team_collisions_ && not same_team) {
+                        // Construct the NonTeamCollision message
+                        auto msg = std::make_shared<Message<sm::NonTeamCollision>>();
+                        msg->data.set_entity_id_1(ent_a->id().id());
+                        msg->data.set_entity_id_2(ent_b->id().id());
+                        non_team_collision_pub_->publish(msg);
+
+                        // Remove the entities
+                        remove_entity_object(obj_a_id);
+                        remove_entity_object(obj_b_id);
+                    }
+
+                } else if (ob_a_is_ent && ent_a->is_alive()) {
+                    // Construct the GroundCollision message for entity A
+                    auto msg = std::make_shared<sc::Message<sm::GroundCollision>>();
+                    msg->data.set_entity_id(ent_a->id().id());
+                    collision_pub_->publish(msg);
+
+                    remove_entity_object(obj_a_id);
+
+                } else if (ob_b_is_ent && ent_b->is_alive()) {
+                    // Construct the GroundCollision message for entity B
+                    auto msg = std::make_shared<sc::Message<sm::GroundCollision>>();
+                    msg->data.set_entity_id(ent_b->id().id());
+                    collision_pub_->publish(msg);
+
+                    remove_entity_object(obj_b_id);
+                }
+            }
         }
     }
-
     return true;
+}
+
+std::pair<bool, scrimmage::EntityPtr> BulletCollision::get_entity(const int &id) {
+    auto it_ent = id_to_ent_map_->find(id);
+    if (it_ent != id_to_ent_map_->end()) {
+        return std::make_pair(true, it_ent->second);
+    } else {
+        return std::make_pair(false, nullptr);
+    }
+}
+
+void BulletCollision::remove_entity_object(const int &id) {
+    entity_collision(id);
+    remove_object(id);
+}
+
+void BulletCollision::entity_collision(const int &id) {
+    // Call the collision() function to remove entity
+    auto it_ent = id_to_ent_map_->find(id);
+    if (it_ent != id_to_ent_map_->end()) {
+        it_ent->second->collision();
+    }
+}
+
+void BulletCollision::remove_object(const int &id) {
+    auto it_object = objects_.find(id);
+    if (it_object != objects_.end()) {
+        // Remove the object shape if it exists
+        if (it_object->second.shape != nullptr) {
+            it_object->second.shape->set_persistent(false);
+            sc::set(it_object->second.shape->mutable_color(), Eigen::Vector3d(0, 0, 0));
+            draw_shape(it_object->second.shape);
+        }
+
+        // Remove the bullet object from the scene
+        bt_collision_world->removeCollisionObject(it_object->second.object);
+        // Erase the Bullet Object from the map
+        objects_.erase(it_object);
+    }
 }
 
 bool BulletCollision::collision_exists(std::list<sc::EntityPtr> &ents,

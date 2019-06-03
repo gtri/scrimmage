@@ -39,6 +39,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 
@@ -77,6 +78,10 @@ class Straight : public scrimmage::Autonomy{
     ContactMap noisy_contacts_;
 
     double desired_z_ = 0;
+
+    PublisherPtr pub_gen_ents_;
+    bool gen_ents_ = false;
+    double prev_gen_time_ = -1.0;
 };
 } // namespace autonomy
 } // namespace scrimmage

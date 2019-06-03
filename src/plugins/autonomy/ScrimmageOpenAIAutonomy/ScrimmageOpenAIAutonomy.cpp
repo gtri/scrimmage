@@ -73,38 +73,29 @@ ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy() :
 void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     init_helper(params);
     nonlearning_mode_ = get("nonlearning_mode_openai_plugin", params, true);
-
+    self_id_ = parent_->id().id();
     #if ENABLE_GRPC
-    int port_ = get("port", params, 50050);
     // In case we have multiple agents, add the id to the port number
-    std::string port_str = std::to_string(port_ + parent_->id().id());
-    std::string grpc_address_ = get("grpc_address", params, "127.0.0.1");
+    grpc_mode_ = get("grpc_mode", params, grpc_mode_);
     std::string module = get("module", params, "my_module");
     std::string actor_func_str = get("actor_init_func", params, "my_func");
-    grpc_mode_ = get("grpc_mode", params, grpc_mode_);
 
-    std::string address_ = grpc_address_ + ":" + port_str;
-    if (grpc_mode_ && nonlearning_mode_) {
-        python_cmd_ = std::string("openai_grpc_link.py")
-                    + " --port " + port_str
-                    + " --actor " + module + ":" + actor_func_str
-                    + " --ip " + grpc_address_
-                    + " &";
-        int result = system(python_cmd_.c_str());
-        if (result) {
-            std::cout << "Error occurred in running python script.\n"
-            << "Make sure SCRIMMAGE python bindings are up to date" << std::endl;
-        }
-        // Wait for GRPC server to start up
-        std::this_thread::sleep_for(std::chrono::seconds(4));
-        auto channel = grpc::CreateChannel(address_, grpc::InsecureChannelCredentials());
+    if (grpc_mode_) {
+        const size_t port = get("port", params, 50050);
+        const std::string grpc_address_ = get("grpc_address", params, "127.0.0.1");
+
+        const std::string port_str = std::to_string(port + parent_->id().id());
+        const std::string address = grpc_address_ + ":" + port_str;
+
+        python_cmd_ = std::string("openai_grpc_link.py") + " --port " + port_str
+            + " --actor " + module + ":" + actor_func_str
+            + " --ip " + grpc_address_;
+        auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
         openai_stub_ = sp::OpenAI::NewStub(channel);
     }
     #endif
     params_ = params;
 }
-
-
 
 bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
     if (nonlearning_mode_) {
@@ -121,22 +112,24 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
                 int attempts = 0;
                 bool done = false;
                 while (attempts++ < 10 && !done) {
-                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/ 10" << std::endl;
+                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/10" << std::endl;
                     done = send_env();
                 }
                 // Return an exception saying we could not connect to grpc
                 if (!done) {
-                    std::cout << "Didn't connect to the grpc server. Make sure"
-                              << " the grpc client is running and your python"
-                              << " bindings are up to date." << std::endl;
-                    return false;
+                    const std::string err_msg =
+                        std::string("Didn't connect to the grpc server. Make sure")
+                        + " the grpc client is running and your python"
+                        + " bindings are up to date."
+                        + "You can start a grpc server with the followning command: "
+                        + python_cmd_;
+                    throw std::runtime_error(err_msg);
                 }
             }
             #endif
         }
         const size_t num_entities = 1;
         observations_.update_observation(num_entities);
-
         py::object temp_action;
         if (grpc_mode_) {
             #if ENABLE_GRPC
@@ -169,9 +162,6 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             py::dict info;
             std::tie(done, reward, info) = calc_reward();
             if (done) {
-                if (grpc_mode_) {
-                    kill_grpc_server();
-                }
                 return false;
             }
             if (reward != 0) {
@@ -182,39 +172,10 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             }
         }
     }
-    #if ENABLE_GRPC
-    if (grpc_mode_) {
-        // Kill grpc server if we are on the last timestep
-        double last_time = parent_->mp()->tend() - parent_->mp()->dt();
-        if (t >= last_time) {
-            kill_grpc_server();
-        }
-    }
-    #endif
     return step_helper();
 }
 
 #if ENABLE_GRPC
-void ScrimmageOpenAIAutonomy::kill_grpc_server() {
-    // Check if python_cmd_ is too short. This case occurs mostly
-    // when python_cmd_ is unitialized but if it less than three characters,
-    // the following substring command will return "" which will cause the
-    // pkill command to kill every process id
-    if (python_cmd_.size() < 3) {
-        return;
-    }
-    // Kill grpc server. Removes the " &" at the end to find it
-    auto py_cmd_ = python_cmd_.substr(0, python_cmd_.size() - 2);
-    std::string kill_cmd = std::string("pkill -f \"")
-                         + py_cmd_
-                         + "\"";
-    int result = system(kill_cmd.c_str());
-    if (!result) {
-        std::cout << "Killing grpc failed. "
-                  << "It is still running!" << std::endl;
-    }
-}
-
 boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(sp::Obs &observation) {
     if (!openai_stub_) return boost::none;
 

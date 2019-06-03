@@ -54,10 +54,12 @@ class UnicycleControllerPoint : public Controller {
 
     uint8_t x_idx_in_ = 0;
     uint8_t y_idx_in_ = 0;
+    uint8_t z_idx_in_ = 0;
 
     uint8_t speed_idx_out_ = 0;
     uint8_t turn_rate_idx_out_ = 0;
     uint8_t pitch_rate_idx_out_ = 0;
+    uint8_t velocity_z_idx_out_ = 0;
 };
 } // namespace controller
 } // namespace scrimmage

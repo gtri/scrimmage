@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
@@ -41,10 +42,10 @@
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
 #include <scrimmage/proto/State.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/sensor/Sensor.h>
 
 #if ENABLE_OPENCV == 1
@@ -83,15 +84,21 @@ void Straight::init(std::map<std::string, std::string> &params) {
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);
     show_text_label_ = scrimmage::get<bool>("show_text_label", params, false);
 
+    // Project goal in front...
+    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
+    Eigen::Vector3d unit_vector = rel_pos.normalized();
+    unit_vector = state_->quat().rotate(unit_vector);
+    goal_ = state_->pos() + unit_vector * rel_pos.norm();
+
     // Set the desired_z to our initial position.
-    desired_z_ = state_->pos()(2);
+    // desired_z_ = state_->pos()(2);
 
     // Register the desired_z parameter with the parameter server
     auto param_cb = [&](const double &desired_z) {
         std::cout << "desired_z param changed at: " << time_->t()
         << ", with value: " << desired_z << endl;
     };
-    register_param<double>("desired_z", desired_z_, param_cb);
+    register_param<double>("desired_z", goal_(2), param_cb);
 
     if (save_camera_images_) {
         /////////////////////////////////////////////////////////
@@ -116,27 +123,13 @@ void Straight::init(std::map<std::string, std::string> &params) {
         /////////////////////////////////////////////////////////
     }
 
-    // Project goal in front...
-    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
-    Eigen::Vector3d unit_vector = rel_pos.normalized();
-    unit_vector = state_->quat().rotate(unit_vector);
-    goal_ = state_->pos() + unit_vector * rel_pos.norm();
-
     frame_number_ = 0;
 
     if (show_text_label_) {
-        // Draw a text label 30 meters in front of vehicle:
+        // Draw a text label (white text) 30 meters in front of vehicle:
         Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
-
-        // Create the shape and set generic shape properties
-        text_shape_ = std::make_shared<sp::Shape>();
-        text_shape_->set_persistent(true);
-        text_shape_->set_opacity(1.0);
-        sc::set(text_shape_->mutable_color(), 255, 255, 255);
-
-        // Set the text shape's specific properties
-        sc::set(text_shape_->mutable_text()->mutable_center(), in_front);
-        text_shape_->mutable_text()->set_text("Hello, SCRIMMAGE!");
+        text_shape_ = sc::shape::make_text("Hello, SCRIMMAGE!", in_front,
+                                           Eigen::Vector3d(255, 255, 255));
 
         // Draw the shape in the 3D viewer
         draw_shape(text_shape_);
@@ -186,12 +179,53 @@ void Straight::init(std::map<std::string, std::string> &params) {
     subscribe<sc::sensor::ContactBlobCameraType>("LocalNetwork", "ContactBlobCamera", blob_cb);
 #endif
 
+    gen_ents_ = sc::get("generate_entities", params, gen_ents_);
+    if (gen_ents_) {
+        pub_gen_ents_ = advertise("GlobalNetwork", "GenerateEntity");
+    }
+
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+    if (gen_ents_) {
+        if (time_->t() > (prev_gen_time_ + 2.0)) {
+            prev_gen_time_ = time_->t();
+
+            // Create a state for the new entity
+            State s(*state_);
+
+            // Rotate the heading of the new entity by 90 degrees and offset
+            // the initial position to the left of our current position to
+            // avoid collisions.
+            Eigen::AngleAxisd rot_90_z(M_PI/2.0, Eigen::Vector3d::UnitZ());
+            s.pos() = s.pos() + s.quat() * rot_90_z * (Eigen::Vector3d::UnitX() * 10);
+            s.quat() = rot_90_z * s.quat();
+
+            // Create the GenerateEntity message
+            auto msg = std::make_shared<Message<scrimmage_msgs::GenerateEntity>>();
+            sc::set(msg->data.mutable_state(), s); // Copy the new state
+
+            // The entity_tag must match the "tag" XML attribute of the entity
+            // to be generated in the mission file.
+            msg->data.set_entity_tag("gen_straight");
+
+            // Modify the entity's color
+            auto kv_color = msg->data.add_entity_param();
+            kv_color->set_key("color");
+            kv_color->set_value("255, 255, 0");
+
+            // Modify the entity's visual model
+            auto kv_visual = msg->data.add_entity_param();
+            kv_visual->set_key("visual_model");
+            kv_visual->set_value("sphere");
+
+            pub_gen_ents_->publish(msg); // Publish the GenerateEntity message
+        }
+    }
+
     if (show_text_label_) {
         // An example of changing a shape's property
         if (t > 1.0 && t < (1.0 + dt)) {
@@ -229,7 +263,7 @@ bool Straight::step_autonomy(double t, double dt) {
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
-    vars_.output(desired_alt_idx_, desired_z_);
+    vars_.output(desired_alt_idx_, goal_(2));
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
 

@@ -79,6 +79,13 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
         }
     }
 
+    // Initialize PID controller class
+    speed_pid_.set_parameters(sc::get("p_gain", params, 0.5),
+                              sc::get("i_gain", params, 0.0),
+                              sc::get("d_gain", params, 0.0));
+    speed_pid_.set_integral_band(sc::get("integral_band", params, 0.0));
+    speed_pid_.set_setpoint(0.0);
+
     // Convert XYZ goal to lat/lon/alt
     double lat, lon, alt;
     parent_->projection()->Reverse(wp_local_(0), wp_local_(1),
@@ -86,7 +93,7 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
 
     wp_ = Waypoint(lat, lon, alt);
     wp_.set_time(0);
-    wp_.quat().set(0, 0, 0);
+    wp_.set_quat(scrimmage::Quaternion(0, 0, 0));
     wp_.set_position_tolerance(1);
     wp_.set_quat_tolerance(1);
 
@@ -101,7 +108,9 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
 }
 
 bool MoveToGoalMS::step_autonomy(double t, double dt) {
-    desired_vector_ = (wp_local_ - state_->pos());
+    double measurement = -(wp_local_ - state_->pos()).norm();
+    double speed_factor = speed_pid_.step(dt, measurement);
+    desired_vector_ = (wp_local_ - state_->pos()).normalized() * speed_factor;
     return true;
 }
 } // namespace motor_schemas

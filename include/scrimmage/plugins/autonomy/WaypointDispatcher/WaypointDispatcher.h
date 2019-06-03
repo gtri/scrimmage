@@ -39,6 +39,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {
@@ -65,6 +66,8 @@ class WaypointDispatcher : public scrimmage::Autonomy {
 
     scrimmage::PublisherPtr wp_pub_;
     scrimmage::PublisherPtr wp_pub_status_;
+
+    bool tolerance_in_2d_ = false;
 };
 } // namespace autonomy
 } // namespace scrimmage

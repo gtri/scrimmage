@@ -157,6 +157,13 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
         return param_server_->unregister_param<T>(name, shared_from_this());
     }
 
+    // loop rate control
+    const double &loop_rate() const { return loop_rate_; }
+    const double &loop_timer() const { return loop_timer_; }
+    void set_loop_rate(const double &loop_rate) { loop_rate_ = loop_rate; }
+    void set_loop_timer(const double &loop_timer) { loop_timer_ = loop_timer; }
+    bool step_loop_timer(double dt);
+
  protected:
     std::string name_;
     EntityPtr parent_;
@@ -175,6 +182,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
  private:
     std::list<scrimmage_proto::ShapePtr> shapes_;
     ParameterServerPtr param_server_;
+    double loop_rate_;
+    double loop_timer_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

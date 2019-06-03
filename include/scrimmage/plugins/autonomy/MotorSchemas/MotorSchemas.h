@@ -40,6 +40,7 @@
 #include <map>
 #include <string>
 #include <list>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {
@@ -50,11 +51,16 @@ class MotorSchemas : public scrimmage::Autonomy {
 
  protected:
     bool show_shapes_;
+    bool pub_vel_vec_;
     double max_speed_;
 
     int desired_heading_idx_ = 0;
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
+
+    int output_vel_x_idx_ = 0;
+    int output_vel_y_idx_ = 0;
+    int output_vel_z_idx_ = 0;
 
     std::string current_state_ = "UNDEFINED_NO_STATE";
 
@@ -62,7 +68,7 @@ class MotorSchemas : public scrimmage::Autonomy {
     std::list<motor_schemas::BehaviorBasePtr> default_behaviors_;
     std::list<motor_schemas::BehaviorBasePtr> current_behaviors_;
 
-    scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    scrimmage_proto::ShapePtr line_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage

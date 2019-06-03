@@ -109,6 +109,7 @@ bool Entity::init(AttributeMap &overrides,
     // set state
     ////////////////////////////////////////////////////////////
     state_ = std::make_shared<State>();
+    state_truth_ = state_;
 
     double x = get("x", info, 0.0);
     double y = get("y", info, 0.0);
@@ -137,50 +138,6 @@ bool Entity::init(AttributeMap &overrides,
     // Save entity specific params in mp reference for later use
     mp_->entity_params()[id] = info;
     mp_->ent_id_to_block_id()[id] = ent_desc_id;
-
-    ////////////////////////////////////////////////////////////
-    // motion model
-    ////////////////////////////////////////////////////////////
-    bool init_empty_motion_model = true;
-    if (info.count("motion_model") > 0) {
-        ConfigParse config_parse;
-        PluginStatus<MotionModel> status =
-            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel",
-                                                     info["motion_model"],
-                                                     *file_search,
-                                                     config_parse,
-                                                     overrides["motion_model"],
-                                                     plugin_tags);
-        if (status.status == PluginStatus<MotionModel>::cast_failed) {
-            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
-            return false;
-        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
-            return false;
-        } else if (status.status == PluginStatus<MotionModel>::loaded) {
-            // We have created a valid motion model
-            init_empty_motion_model = false;
-
-            motion_model_ = status.plugin;
-            motion_model_->set_state(state_);
-            motion_model_->set_parent(parent);
-            motion_model_->set_pubsub(pubsub);
-            motion_model_->set_time(time);
-            motion_model_->set_param_server(param_server);
-            motion_model_->set_name(info["motion_model"]);
-            param_override_func(config_parse.params());
-            motion_model_->init(info, config_parse.params());
-        }
-    }
-
-    if (init_empty_motion_model) {
-        motion_model_ = std::make_shared<MotionModel>();
-        motion_model_->set_state(state_);
-        motion_model_->set_parent(parent);
-        motion_model_->set_pubsub(pubsub);
-        motion_model_->set_param_server(param_server);
-        motion_model_->set_time(time);
-        motion_model_->set_name("BLANK");
-    }
 
     ////////////////////////////////////////////////////////////
     // sensor
@@ -233,10 +190,62 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_param_server(param_server);
             sensor->set_name(sensor_name);
             param_override_func(config_parse.params());
+
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              sensor->set_loop_rate(loop_rate);
+            }
+
             sensor->init(config_parse.params());
             sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
         }
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
+    }
+
+    ////////////////////////////////////////////////////////////
+    // motion model
+    ////////////////////////////////////////////////////////////
+    bool init_empty_motion_model = true;
+    if (info.count("motion_model") > 0) {
+        ConfigParse config_parse;
+        PluginStatus<MotionModel> status =
+            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel",
+                                                     info["motion_model"],
+                                                     *file_search,
+                                                     config_parse,
+                                                     overrides["motion_model"],
+                                                     plugin_tags);
+        if (status.status == PluginStatus<MotionModel>::cast_failed) {
+            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::loaded) {
+            // We have created a valid motion model
+            init_empty_motion_model = false;
+
+            motion_model_ = status.plugin;
+            motion_model_->set_state(state_truth_);
+            motion_model_->set_parent(parent);
+            motion_model_->set_pubsub(pubsub);
+            motion_model_->set_time(time);
+            motion_model_->set_param_server(param_server);
+            motion_model_->set_name(info["motion_model"]);
+            param_override_func(config_parse.params());
+            motion_model_->init(info, config_parse.params());
+        }
+    }
+
+    if (init_empty_motion_model) {
+        motion_model_ = std::make_shared<MotionModel>();
+        motion_model_->set_state(state_truth_);
+        motion_model_->set_parent(parent);
+        motion_model_->set_pubsub(pubsub);
+        motion_model_->set_param_server(param_server);
+        motion_model_->set_time(time);
+        motion_model_->set_name("BLANK");
     }
 
     ////////////////////////////////////////////////////////////
@@ -288,6 +297,13 @@ bool Entity::init(AttributeMap &overrides,
             controller->set_name(info[controller_name]);
             param_override_func(config_parse.params());
 
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              controller->set_loop_rate(loop_rate);
+            }
+
             // Connect this controller to the motion model if it is the last
             // controller in XML top-down order (i.e., first in the reverse
             // list). If it is not the last controller, connect it to the next
@@ -335,9 +351,10 @@ bool Entity::init(AttributeMap &overrides,
     // correct order
     std::reverse(controllers_.begin(), controllers_.end());
 
-    // If there is a valid motion model and no controllers, this is a
-    // VariableIO error.
-    if (not init_empty_motion_model && controllers_.size() == 0) {
+    // If the motion model requires any inputs and there are no controllers,
+    // this is a VariableIO error.
+    if (motion_model_->vars().input_variable_index().size() > 0 &&
+        controllers_.size() == 0) {
         std::cout << "VariableIO Error: There are not any controllers that "
                   << "provide the inputs required by "
                   << std::quoted(motion_model_->name()) << std::endl;
@@ -380,12 +397,19 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_pubsub(pubsub);
             autonomy->set_time(time);
             autonomy->set_param_server(param_server);
-            autonomy->set_state(motion_model_->state());
+            autonomy->set_state(state_);
             autonomy->set_contacts(contacts);
             autonomy->set_is_controlling(true);
             autonomy->set_name(info[autonomy_name]);
             param_override_func(config_parse.params());
             autonomy->init(config_parse.params());
+
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              autonomy->set_loop_rate(loop_rate);
+            }
 
             autonomies_.push_back(autonomy);
         }
@@ -397,8 +421,13 @@ bool Entity::init(AttributeMap &overrides,
         connect_entity = boost::lexical_cast<bool>(info["connect_entity"]);
     }
 
-    if (connect_entity && not controllers_.empty()) {
-        auto verify_io = [&](auto &p) {return verify_io_connection(p->vars(), controllers_.front()->vars());};
+    // Verify that at least one autonomy provides the inputs to the first
+    // controller if the first controller requires some VariableIO input.
+    if (connect_entity && not controllers_.empty() &&
+        controllers_.front()->vars().input_variable_index().size() > 0) {
+        auto verify_io = [&](auto &autonomy) {
+            return verify_io_connection(autonomy->vars(),
+                                        controllers_.front()->vars());};
         if (boost::algorithm::none_of(autonomies_, verify_io)) {
             auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
             std::cout << "VariableIO Error: "
@@ -441,10 +470,17 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
                           *file_search_, overrides, visual_,
                           mesh_found, texture_found);
 
-    set(visual_->mutable_color(), mp->team_info()[id_.team_id()].color);
+    // Set the entity color. Use the team color by default
+    std::vector<int> color;
+    auto it_color = info.find("color");
+    if (it_color != info.end() and
+        str2container(it_color->second, ", ", color, 3)) {
+    } else {
+        set(color, mp->team_info()[id_.team_id()].color);
+    }
+    set(visual_->mutable_color(), color[0], color[1], color[2]);
 
     std::string visual_model = boost::to_upper_copy(info["visual_model"]);
-
     if (mesh_found) {
         type_ = Contact::Type::MESH;
         visual_->set_visual_mode(texture_found ? scrimmage_proto::ContactVisual::TEXTURE : scrimmage_proto::ContactVisual::COLOR);
@@ -480,6 +516,7 @@ bool Entity::ready() {
 }
 
 StatePtr &Entity::state() {return state_;}
+StatePtr &Entity::state_truth() {return state_truth_;}
 
 std::vector<AutonomyPtr> &Entity::autonomies() {return autonomies_;}
 
@@ -624,6 +661,7 @@ void Entity::close(double t) {
     proj_ = nullptr;
     random_ = nullptr;
     state_ = nullptr;
+    state_truth_ = nullptr;
     properties_.clear();
     sensors_.clear();
     services_.clear();

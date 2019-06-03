@@ -62,8 +62,19 @@ AircraftPIDController::AircraftPIDController() {
 }
 
 void AircraftPIDController::init(std::map<std::string, std::string> &params) {
+    use_roll_control_ = sc::get<bool>("use_roll_control", params, use_roll_control_);
+
     // Setup input variables
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    if (use_roll_control_) {
+        desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
+    } else {
+        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+
+        // Outer loop heading PID
+        if (!heading_pid_.init(params["heading_pid"], true)) {
+            std::cout << "Failed to set heading PID" << std::endl;
+        }
+    }
     desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
@@ -74,9 +85,6 @@ void AircraftPIDController::init(std::map<std::string, std::string> &params) {
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
     // Outer loop PIDs
-    if (!heading_pid_.init(params["heading_pid"], true)) {
-        std::cout << "Failed to set heading PID" << std::endl;
-    }
     if (!altitude_pid_.init(params["altitude_pid"], false)) {
         std::cout << "Failed to set altitude PID" << std::endl;
     }
@@ -107,9 +115,14 @@ bool AircraftPIDController::step(double t, double dt) {
     double elevator = clamp(pitch_pid_.step(time_->dt(), state_->quat().pitch()), -1.0, 1.0);
     vars_.output(elevator_idx_, elevator);
 
-    // Desired heading to desired roll
-    heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    double desired_roll = -heading_pid_.step(time_->dt(), state_->quat().yaw());
+    double desired_roll;
+    if (use_roll_control_) {
+        desired_roll = vars_.input(desired_roll_idx_);
+    } else {
+        // Desired heading to desired roll
+        heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
+        desired_roll = -heading_pid_.step(time_->dt(), state_->quat().yaw());
+    }
     desired_roll = clamp(desired_roll, -max_roll_, max_roll_);
 
     // Desired roll to aileron

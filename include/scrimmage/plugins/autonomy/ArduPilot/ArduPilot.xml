@@ -3,12 +3,15 @@
 <params>
   <library>ArduPilot_plugin</library>
 
-  <!-- Transmit Socket: State information from SCRIMMAGE to ArduPilot -->
+  <!-- Socket: State information between SCRIMMAGE and ArduPilot in SITL-->
   <to_ardupilot_ip>127.0.0.1</to_ardupilot_ip>
   <to_ardupilot_port>5003</to_ardupilot_port>
-
-  <!-- Receive Socket: PWM commands from ArduPilot -->
   <from_ardupilot_port>5002</from_ardupilot_port>
+
+  <!-- Socket: State information from SCRIMMAGE to Mavproxy in HIL-->
+  <!-- <to_ardupilot_port>5501</to_ardupilot_port> -->
+  <!-- <from_ardupilot_port>5502</from_ardupilot_port> -->
+  <!-- <mavproxy_mode>true</mavproxy_mode> -->
 
   <!-- servo mapping for plane -->
   <servo_map>

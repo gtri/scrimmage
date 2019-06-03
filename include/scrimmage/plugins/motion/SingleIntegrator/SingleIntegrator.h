@@ -47,9 +47,12 @@ class SingleIntegrator : public scrimmage::MotionModel {
     bool step(double t, double dt) override;
 
  protected:
+    bool override_heading_;
+
     uint8_t vel_x_idx_ = 0;
     uint8_t vel_y_idx_ = 0;
     uint8_t vel_z_idx_ = 0;
+    uint8_t desired_heading_idx_ = 0;
 };
 } // namespace motion
 } // namespace scrimmage

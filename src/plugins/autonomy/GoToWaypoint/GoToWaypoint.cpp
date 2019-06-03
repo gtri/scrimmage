@@ -80,10 +80,10 @@ bool GoToWaypoint::step_autonomy(double t, double dt) {
 
         Waypoint wp(lat, lon, alt);
         wp.set_time(std::stod(waypoint_[1]));
-        wp.quat().set(sc::Angles::deg2rad(std::stod(waypoint_[5])),
-                      sc::Angles::deg2rad(std::stod(waypoint_[6])),
-                      sc::Angles::deg2rad(std::stod(waypoint_[7])));
-
+        scrimmage::Quaternion quat(sc::Angles::deg2rad(std::stod(waypoint_[5])),
+                                   sc::Angles::deg2rad(std::stod(waypoint_[6])),
+                                   sc::Angles::deg2rad(std::stod(waypoint_[7])));
+        wp.set_quat(quat);
         wp.set_position_tolerance(std::stod(waypoint_[8]));
         wp.set_quat_tolerance(std::stod(waypoint_[9]));
 

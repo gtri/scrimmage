@@ -67,14 +67,20 @@ void NoisyState::init(std::map<std::string, std::string> &params) {
     add_noise("orient_noise", orient_noise_);
 
     pub_ = advertise("LocalNetwork", "StateWithCovariance");
+
+    // Move the enity's state pointer to use the state instance provided by
+    // this plugin.
+    parent_->state() = std::make_shared<State>();
+    *(parent_->state()) = *(parent_->state_truth());
+
     return;
 }
 
 bool NoisyState::step() {
     auto gener = parent_->random()->gener();
 
-    // Make a copy of the current state
-    StateWithCovariance ns(*(parent_->state()));
+    // Make a copy of the current ground truth state
+    StateWithCovariance ns(*(parent_->state_truth()));
 
     auto msg = std::make_shared<Message<StateWithCovariance>>();
 
@@ -91,6 +97,10 @@ bool NoisyState::step() {
         * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
     pub_->publish(msg);
+
+    // Update the entity's state.
+    *(parent_->state()) = static_cast<sc::State>(msg->data);
+
     return true;
 }
 } // namespace sensor

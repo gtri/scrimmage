@@ -46,6 +46,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {

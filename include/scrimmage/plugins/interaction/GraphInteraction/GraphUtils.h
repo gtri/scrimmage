@@ -35,10 +35,19 @@
 
 #include <memory>
 #include <unordered_map>
+#include <vector>
+#include <tuple>
+#include <utility>
+
+#include <boost/functional/hash.hpp>
 
 namespace scrimmage_msgs {
 class Graph;
 } // namespace scrimmage_msgs
+
+namespace scrimmage_proto {
+class Shape;
+} // namespace scrimmage_proto
 
 namespace scrimmage_proto {
 class Vector3d;
@@ -49,8 +58,15 @@ namespace scrimmage {
 class Plugin;
 
 namespace interaction {
+
 enum class DrawNodeLabels {NO, YES};
-void draw_graph(
+using NodePair = std::pair<uint64_t, uint64_t>;
+using NodePairColorMap = std::unordered_map<NodePair, std::vector<int>, boost::hash<NodePair>>;
+using NodePairShapeMap = std::unordered_map<NodePair, std::shared_ptr<scrimmage_proto::Shape>, boost::hash<NodePair>>;
+using NodeShapeMap = std::unordered_map<uint64_t, std::shared_ptr<scrimmage_proto::Shape>>;
+
+std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap>
+draw_graph(
     scrimmage_msgs::Graph &graph,
     const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
     DrawNodeLabels draw_node_labels,

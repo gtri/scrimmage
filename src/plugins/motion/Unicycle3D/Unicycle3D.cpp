@@ -68,31 +68,41 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-Unicycle3D::Unicycle3D() : turn_rate_max_(1), pitch_rate_max_(1),
-                           roll_rate_max_(1), vel_max_(1),
-                           accel_max_(-1.0), enable_roll_(false),
-                           write_csv_(false), use_accel_input_(false) {
-}
-
-Unicycle3D::~Unicycle3D() {
-}
-
 bool Unicycle3D::init(std::map<std::string, std::string> &info,
                       std::map<std::string, std::string> &params) {
 
-    accel_max_ = sc::get("accel_max", params, -1);
+    auto get_max_min = [&params] (const std::string &str, double &max,
+                                  double &min) {
+        max = sc::get<double>(str + "_max", params, max);
+        min = sc::get<double>(str + "_min", params, -max);
+        if (max < min) {
+            std::swap(max, min);
+        }
+    };
 
-    // Declare variables for controllers
+    get_max_min("speed", speed_max_, speed_min_);
+    get_max_min("pitch_rate", pitch_rate_max_, pitch_rate_min_);
+    get_max_min("roll_rate", roll_rate_max_, roll_rate_min_);
+    get_max_min("turn_rate", turn_rate_max_, turn_rate_min_);
+
+    accel_max_ = sc::get<double>("accel_max", params, -1);
+    accel_min_ = sc::get<double>("accel_max", params, -accel_max_);
+
+    // If the acceleration max is less than zero, directly use speed
+    // input. Otherwise, use acceleration input.
     if (accel_max_ < 0) {
         speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     } else {
         accel_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::In);
         use_accel_input_ = true;
     }
+
+    // Setup turn_rate, pitch_rate, and roll_rate inputs
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
     pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
     roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
 
+    // Setup model size and quaternions
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
@@ -100,13 +110,6 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
     quat_world_inverse_ = quat_world_.inverse();
     quat_world_inverse_.normalize();
-
-    turn_rate_max_ = std::stod(params.at("turn_rate_max"));
-    pitch_rate_max_ = std::stod(params.at("pitch_rate_max"));
-    roll_rate_max_ = std::stod(params.at("roll_rate_max"));
-    vel_max_ = std::stod(params.at("vel_max"));
-    enable_roll_ = sc::get<bool>("enable_roll", params, false);
-    write_csv_ = sc::get<bool>("write_csv", params, false);
 
     x_[U] = 0;
     x_[V] = 0;
@@ -135,29 +138,29 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     x_[q2] = quat_local_.y();
     x_[q3] = quat_local_.z();
 
+    write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
         csv_.open_output(parent_->mp()->log_dir() + "/"
                          + std::to_string(parent_->id().id())
                          + "-unicycle-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
-                    "x", "y", "z",
-                    "U", "V", "W",
-                    "P", "Q", "R",
-                    "roll", "pitch", "yaw",
-                    "vel", "turn_rate", "pitch_rate", "roll_rate",
-                    "Uw", "Vw", "Ww",
-                    "Xw", "Yw", "Zw"});
+                        "x", "y", "z",
+                        "U", "V", "W",
+                        "P", "Q", "R",
+                        "roll", "pitch", "yaw",
+                        "speed",
+                        "turn_rate", "pitch_rate", "roll_rate",
+                        "Uw", "Vw", "Ww"});
     }
-
     return true;
 }
 
 bool Unicycle3D::step(double t, double dt) {
     // Get inputs and saturate
-    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
-    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
-    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), -roll_rate_max_, roll_rate_max_);
+    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), turn_rate_min_, turn_rate_max_);
+    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), pitch_rate_min_, pitch_rate_max_);
+    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), roll_rate_min_, roll_rate_max_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -182,12 +185,12 @@ bool Unicycle3D::step(double t, double dt) {
 
     if (use_accel_input_) {
         // Enforce acceleration input limits
-        acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), -accel_max_, accel_max_);
+        acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), accel_min_, accel_max_);
         x_[U] += force_body(0) / mass_;
     } else {
         // Enforce velocity input limits
-        velocity_ = boost::algorithm::clamp(vars_.input(speed_idx_), -vel_max_, vel_max_);
-        x_[U] = velocity_ + force_body(0) / mass_;
+        speed_ = boost::algorithm::clamp(vars_.input(speed_idx_), speed_min_, speed_max_);
+        x_[U] = speed_ + force_body(0) / mass_;
     }
 
     x_[V] = force_body(1) / mass_;
@@ -219,7 +222,7 @@ bool Unicycle3D::step(double t, double dt) {
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << state_->quat().toRotationMatrix() * vel_local;
 
-    velocity_ = vel_local(0);
+    speed_ = vel_local.norm();
 
     if (write_csv_) {
         // Log state to CSV
@@ -237,18 +240,14 @@ bool Unicycle3D::step(double t, double dt) {
                 {"roll", state_->quat().roll()},
                 {"pitch", state_->quat().pitch()},
                 {"yaw", state_->quat().yaw()},
-                {"vel", velocity_},
+                {"speed", speed_},
                 {"turn_rate", turn_rate_},
                 {"pitch_rate", pitch_rate_},
                 {"roll_rate", roll_rate_},
                 {"Uw", state_->vel()(0)},
                 {"Vw", state_->vel()(1)},
-                {"Ww", state_->vel()(2)},
-                {"Xw", x_[Xw]},
-                {"Yw", x_[Yw]},
-                {"Zw", x_[Zw]}});
+                {"Ww", state_->vel()(2)}});
     }
-
     return true;
 }
 

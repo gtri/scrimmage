@@ -45,6 +45,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {
@@ -83,6 +84,7 @@ class ROSAutonomy : public scrimmage::Autonomy {
     int speed_idx_ = 0;
     int turn_rate_idx_ = 0;
     int pitch_rate_idx_ = 0;
+    int velocity_z_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

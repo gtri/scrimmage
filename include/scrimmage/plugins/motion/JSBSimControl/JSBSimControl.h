@@ -54,6 +54,7 @@ typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #include <map>
 #include <string>
 #include <tuple>
+#include <memory>
 
 namespace scrimmage {
 namespace motion {

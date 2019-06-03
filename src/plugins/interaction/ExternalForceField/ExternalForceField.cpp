@@ -142,9 +142,9 @@ bool ExternalForceField::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         ent->motion()->set_external_force(force_);
 
         // Only apply moment force within z-boundary. Scale magnitude.
-        if (ent->state()->pos()(2) >= moment_enable_min_z_ &&
-            ent->state()->pos()(2) <= moment_enable_max_z_) {
-            double scale = (ent->state()->pos()(2) - moment_enable_min_z_) /
+        if (ent->state_truth()->pos()(2) >= moment_enable_min_z_ &&
+            ent->state_truth()->pos()(2) <= moment_enable_max_z_) {
+            double scale = (ent->state_truth()->pos()(2) - moment_enable_min_z_) /
                 (moment_enable_max_z_ - moment_enable_min_z_);
             ent->motion()->set_external_moment(moment_ * scale);
         }

@@ -62,10 +62,19 @@ dependencies).
 ### Install Custom Built Binary Dependencies
 
 Some of SCRIMMAGE's dependencies have to be custom built from source. We
-provide deb package binaries via the SCRIMMAGE PPA on Launchpad for these
-custom built packages. First, add the PPA to your apt-get sources:
+provide debian package binaries for both Ubuntu 16.04 (xenial) and 18.04
+(bionic) via the SCRIMMAGE PPA on Launchpad for these custom built
+packages. For Ubuntu 16.04 (xenial), add the following PPA to your apt-get
+sources:
 
     $ sudo add-apt-repository ppa:kevin-demarco/scrimmage
+
+For Ubuntu 18.04 (bionic), add the following PPA:
+
+    $ sudo add-apt-repository ppa:kevin-demarco/scrimmage-bionic
+
+For both distributions, update your sources list:
+
     $ sudo apt-get update
 
 Now, install the SCRIMMAGE custom built binary dependencies:
@@ -135,8 +144,8 @@ your mouse.
 
 ## Building on macOS
 
-Refer [here](https://github.com/crichardson332/homebrew-crich_brews) for instructions on installing dependencies and running
-SCRIMMAGE on macOS.
+Refer [here](https://github.com/crichardson332/homebrew-crich_brews) for
+instructions on installing dependencies and running SCRIMMAGE on macOS.
 
 ## Python Bindings
 
@@ -427,4 +436,3 @@ interface with internet access from the commands:
 Restart docker:
 
     $ sudo service docker restart
-

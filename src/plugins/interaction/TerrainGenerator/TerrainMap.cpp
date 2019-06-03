@@ -50,12 +50,14 @@ TerrainMap::TerrainMap() {}
 
 TerrainMap::TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
                        std::shared_ptr<std::default_random_engine> gener,
+                       const Technique &technique,
                        const Eigen::Vector3d &center,
                        const double &x_length, const double &y_length,
                        const double &x_resolution, const double &y_resolution,
                        const double &z_min, const double &z_max,
                        const Eigen::Vector3d &color) :
-        rng_(rng), gener_(gener), center_(center), x_length_(x_length),
+        rng_(rng), gener_(gener), technique_(technique), center_(center),
+        x_length_(x_length),
         y_length_(y_length),
         x_resolution_(x_resolution),
         y_resolution_(y_resolution), z_min_(z_min), z_max_(z_max),
@@ -91,6 +93,34 @@ bool TerrainMap::generate() {
         return false;
     }
 
+    if (technique_ == Technique::LINEAR) {
+        return generate_linear();
+    }
+    return generate_random_walk();
+}
+
+bool TerrainMap::generate_linear() {
+    // Force the altitude center to be at the midpoint between z_max and z_min
+    center_(2) = (z_max_ + z_min_) / 2.0;
+
+    // Initialize the map, such that row 0 is at z_min and the last row is at
+    // z_max, with a linear interpolation across the rows. Also, add noise to
+    // each height value.
+    double z_step = (z_max_ - z_min_) / num_y_rows_;
+
+    for (unsigned int row = 0; row < num_y_rows_; ++row) {
+        double height = z_step * row;
+        for (unsigned int col = 0; col < num_x_cols_; ++col) {
+            grid_[row][col].height = height + (*rng_)(*gener_);
+            grid_[row][col].is_set = true;
+        }
+    }
+    center_height_adjust();
+    clamp_height();
+    return true;
+}
+
+bool TerrainMap::generate_random_walk() {
     for (unsigned int row = 0; row < num_y_rows_; ++row) {
         for (unsigned int col = 0; col < num_x_cols_; ++col) {
             // If this node is already set, skip (continue)
@@ -99,20 +129,32 @@ bool TerrainMap::generate() {
             }
             // Get the average of the neighbors that are already set
             double height_avg = get_neighbor_avg(row, col);
-            grid_[row][col].height = clamp(height_avg + (*rng_)(*gener_), z_min_, z_max_);
+            grid_[row][col].height = height_avg + (*rng_)(*gener_);
             grid_[row][col].is_set = true;
         }
     }
+    center_height_adjust();
+    clamp_height();
+    return true;
+}
 
+void TerrainMap::center_height_adjust() {
     // Make sure the grid's center is located at the appropriate height.
-    double offset = center_(2) -grid_[std::round(num_y_rows_/2.0)][std::round(num_x_cols_/2.0)].height;
+    double offset = center_(2) - grid_[std::round(num_y_rows_/2.0)][std::round(num_x_cols_/2.0)].height;
     for (unsigned int row = 0; row < num_y_rows_; ++row) {
         for (unsigned int col = 0; col < num_x_cols_; ++col) {
             grid_[row][col].height += offset;
         }
     }
+}
 
-    return true;
+void TerrainMap::clamp_height() {
+    // Ensure all height values fall within z_min and z_max
+    for (unsigned int row = 0; row < num_y_rows_; ++row) {
+        for (unsigned int col = 0; col < num_x_cols_; ++col) {
+            grid_[row][col].height = clamp(grid_[row][col].height, z_min_, z_max_);
+        }
+    }
 }
 
 double TerrainMap::get_neighbor_avg(const int &row, const int &col) {

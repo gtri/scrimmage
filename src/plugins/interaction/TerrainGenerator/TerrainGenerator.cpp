@@ -71,6 +71,29 @@ bool TerrainGenerator::init(std::map<std::string, std::string> &mission_params,
     double z_max = sc::get<double>("z_max", plugin_params, +std::numeric_limits<double>::infinity());
     double z_std = sc::get<double>("z_std", plugin_params, 1.0);
 
+    std::string technique_str = sc::get("technique", plugin_params,
+                                        "RANDOM_WALK");
+    TerrainMap::Technique technique;
+    if (technique_str == "RANDOM_WALK") {
+        technique = TerrainMap::Technique::RANDOM_WALK;
+    } else if (technique_str == "LINEAR") {
+        technique = TerrainMap::Technique::LINEAR;
+    } else {
+        cout << "WARNING: Invalid terrain generation technique" << endl;
+        technique = TerrainMap::Technique::RANDOM_WALK;
+    }
+
+    // If the seed defined in the plugin parameters is greater than 0,
+    // construct a new random pointer based on the provided seed. Otherwise,
+    // use the parent's random instance.
+    int seed = sc::get<int>("seed", plugin_params, -1);
+    if (seed > 0) {
+        random_ = std::make_shared<Random>();
+        random_->seed(seed);
+    } else {
+        random_ = parent_->random();
+    }
+
     std::vector<double> center_vec;
     Eigen::Vector3d center_point(0, 0, 0);
     if (str2container(sc::get<std::string>("center", plugin_params, "0, 0, 0"),
@@ -85,8 +108,9 @@ bool TerrainGenerator::init(std::map<std::string, std::string> &mission_params,
         color = vec2eigen(color_vec);
     }
 
-    map_ = TerrainMap(parent_->random()->make_rng_normal(0.0, z_std),
-                      parent_->random()->gener(), center_point,
+    map_ = TerrainMap(random_->make_rng_normal(0.0, z_std),
+                      random_->gener(), technique,
+                      center_point,
                       x_length, y_length, x_resolution, y_resolution,
                       z_min, z_max, color);
 

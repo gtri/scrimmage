@@ -86,9 +86,9 @@ bool CPA::step_metrics(double t, double dt) {
     for (auto &kv : *id_to_ent_map_) {
         for (auto &kv2 : *id_to_ent_map_) {
             if (kv != kv2) {
-                if (kv.second->state() && kv2.second->state()) {
-                    double cur_distance = (kv.second->state()->pos() -
-                            kv2.second->state()->pos()).norm();
+                if (kv.second->state_truth() && kv2.second->state_truth()) {
+                    double cur_distance = (kv.second->state_truth()->pos() -
+                            kv2.second->state_truth()->pos()).norm();
                     if (cur_distance < cpa_map_[kv.first].distance()) {
                         cpa_map_[kv.first].set_distance(cur_distance);
                         cpa_map_[kv.first].set_closest_entity(kv2.first);

@@ -20,10 +20,19 @@ services:
 jobs:
   include:
     - stage: "Build Docker Images"
+      env: CACHE_NAME=ubuntu1604
       name: "Build on Ubuntu 16.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
-      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
+      - export DEPENDENCIES=$DOCKER_USERNAME/scrimmage-dependencies:latest
+      - export IMG_CACHE=$HOME/docker/scrimmage-dependencies-16.04.tar.gz
+      - export USE_CACHE=""
+      - if [ -f ${IMG_CACHE} ]; then
+            zcat ${IMG_CACHE} | docker load;
+            USE_CACHE="--cache-from ${DEPENDENCIES}";
+        fi
+      - docker build ${USE_CACHE} --target dependencies -t ${DEPENDENCIES} -f ./ci/dockerfiles/ubuntu-16.04 .
+      - docker build ${USE_CACHE} -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - |
         if [[ "$TAG" == "latest" ]]; then
@@ -33,12 +42,33 @@ jobs:
             docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
             bash ./ci/scripts/deploy-docs.sh;
             docker push $REPO;
+            docker save ${DEPENDENCIES} | gzip -2 > ${IMG_CACHE};
         fi
     - name: "Build on Ubuntu 18.04"
+      env: CACHE_NAME=ubuntu1804
       script:
-      - docker build -t $DOCKER_USERNAME/scrimmage:${TRAVIS_BUILD_NUMBER}_ubuntu1804 -f ./ci/dockerfiles/ubuntu-18.04 .
+      - export REPO=$DOCKER_USERNAME/scrimmage
+      - export DEPENDENCIES=$DOCKER_USERNAME/scrimmage-dependencies:18.04
+      - export IMG_CACHE=$HOME/docker/scrimmage-dependencies-18.04.tar.gz
+      - export USE_CACHE=""
+      - if [ -f ${IMG_CACHE} ]; then
+            zcat ${IMG_CACHE} | docker load;
+            USE_CACHE="--cache-from ${DEPENDENCIES}";
+        fi
+      - docker build ${USE_CACHE} --target dependencies -t ${DEPENDENCIES} -f ./ci/dockerfiles/ubuntu-18.04 .
+      - docker build ${USE_CACHE} -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - |
+        if [[ "$TAG" == "latest" ]]; then
+            docker save ${DEPENDENCIES} | gzip -2 > ${IMG_CACHE};
+        fi
 
 notifications:
   email:
     on_success: change
     on_failure: always
+
+# Setup the docker cache directories
+cache:
+  directories:
+    - $HOME/docker

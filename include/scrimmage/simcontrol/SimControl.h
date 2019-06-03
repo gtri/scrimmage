@@ -54,6 +54,7 @@
 #include <list>
 #include <mutex> // NOLINT
 #include <condition_variable> // NOLINT
+#include <unordered_map>
 
 namespace scrimmage {
 
@@ -85,6 +86,9 @@ class SimControl {
     void set_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals);
 
     bool generate_entities(double t);
+    bool generate_entity(const int &ent_desc_id);
+    bool generate_entity(const int &ent_desc_id,
+                         std::map<std::string, std::string> &params);
 
     void set_mission_parse(MissionParsePtr mp);
     MissionParsePtr mp();

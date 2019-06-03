@@ -38,6 +38,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
 namespace autonomy {
@@ -53,8 +54,8 @@ class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
     double minimum_range_;
     bool avoid_non_team_;
 
-    scrimmage_proto::ShapePtr circle_shape_ = std::make_shared<scrimmage_proto::Shape>();
-    scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    scrimmage_proto::ShapePtr circle_shape_;
+    scrimmage_proto::ShapePtr line_shape_ = nullptr;
 
     bool show_shapes_ = false;
 

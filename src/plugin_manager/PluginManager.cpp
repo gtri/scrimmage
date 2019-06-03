@@ -54,7 +54,8 @@ int PluginManager::check_library(std::string lib_path) {
     lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 #endif
     if (!lib_handle) {
-        fputs(dlerror(), stderr);
+        std::cout << "Trying to open " << lib_path;
+        fprintf(stdout, ", dlopen failed: %s\n", dlerror());
         std::cout << std::endl;
         return -1;
     }

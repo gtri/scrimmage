@@ -56,6 +56,10 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_z(z);
 }
 
+void set(std::vector<int> &dst, const scrimmage_proto::Color &src) {
+    dst = {src.r(), src.g(), src.b()};
+}
+
 void set(scrimmage_proto::Color *dst, const std::vector<int> &src) {
     dst->set_r(src[0]);
     dst->set_g(src[1]);
@@ -72,6 +76,10 @@ void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src) {
     dst.set_r(src.r());
     dst.set_g(src.g());
     dst.set_b(src.b());
+}
+
+void set(scrimmage_proto::Color *dst, const Eigen::Vector3d &color) {
+     set(dst, color(0), color(1), color(2));
 }
 
 void set(scrimmage_proto::Color &dst, scrimmage_proto::Color &src) {
@@ -215,7 +223,7 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     set(state.pos(), proto_state.position());
     set(state.vel(), proto_state.linear_velocity());
     set(state.ang_vel(), proto_state.angular_velocity());
-    state.set_quat(proto_2_quat(proto_state.orientation()));
+    state.quat() = proto_2_quat(proto_state.orientation());
     return std::make_shared<State>(state);
 }
 

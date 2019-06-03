@@ -34,7 +34,9 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_
 
 #include <scrimmage/pubsub/MessageBase.h>
+
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 

@@ -55,15 +55,19 @@ class State {
     Eigen::Vector3d &pos();
     Eigen::Vector3d &vel();
     Eigen::Vector3d &ang_vel();
+    const Eigen::Vector3d &pos() const;
+    const Eigen::Vector3d &vel() const;
+    const Eigen::Vector3d &ang_vel() const;
 
     // Converts between local level (East/North/Up) and body (Nose/Left/Up)
     Quaternion &quat();
+    const Quaternion &quat() const;
 
+    // for backwards compatibility
     const Eigen::Vector3d &pos_const() const;
     const Eigen::Vector3d &vel_const() const;
     const Eigen::Vector3d &ang_vel_const() const;
     const Quaternion &quat_const() const;
-
     void set_pos(const Eigen::Vector3d &pos);
     void set_vel(const Eigen::Vector3d &vel);
     void set_ang_vel(const Eigen::Vector3d &ang_vel);

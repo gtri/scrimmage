@@ -44,6 +44,9 @@
 
 #include <iostream>
 
+using std::cout;
+using std::endl;
+
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAutonomy, ROSAutonomy_plugin)
@@ -64,6 +67,7 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
     pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    velocity_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -102,13 +106,12 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     auto pc_cb = [&] (scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) {
         pcl_ = msg->data;
     };
-    subscribe<sc::sensor::RayTrace::PointCloud>(
-        "GlobalNetwork",
-        std::to_string(parent_->id().id()) + "/RayTrace0/pointcloud", pc_cb);
+    subscribe<sc::sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
 
     vars_.output(speed_idx_, 0);
     vars_.output(turn_rate_idx_, 0);
     vars_.output(pitch_rate_idx_, 0);
+    vars_.output(velocity_z_idx_, 0);
 }
 
 bool ROSAutonomy::step_autonomy(double t, double dt) {
@@ -181,6 +184,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     vars_.output(speed_idx_, cmd_vel_.linear.x);
     vars_.output(turn_rate_idx_, cmd_vel_.angular.z);
     vars_.output(pitch_rate_idx_, 0);
+    vars_.output(velocity_z_idx_, 0);
 
     return true;
 }

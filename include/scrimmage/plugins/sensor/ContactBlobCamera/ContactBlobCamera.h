@@ -42,6 +42,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <memory>
 
 #include <opencv2/core/core.hpp>
 
@@ -53,7 +54,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool step() override;
 
  protected:
-    std::ofstream parameters_file_;
+    std::ofstream parameters_file_, detections_file_;
 
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
@@ -64,8 +65,10 @@ class ContactBlobCamera : public scrimmage::Sensor {
     void draw_object_with_bounding_box(cv::Mat frame, cv::Rect rect,
                                        Eigen::Vector2d center, double radius);
     void set_plugin_params(std::map<std::string, double> params);
+    void draw_frustum(double x_rot, double y_rot, double z_rot);
 
     // plugin parameters
+    int camera_id_ = 0;
     int img_width_;
     int img_height_;
     double max_detect_range_;
@@ -87,6 +90,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
     PublisherPtr pub_;
 
     bool show_image_ = false;
+    bool show_frustum_ = false;
+    bool log_detections_ = false;
 };
 } // namespace sensor
 } // namespace scrimmage

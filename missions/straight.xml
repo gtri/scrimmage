@@ -45,6 +45,29 @@
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction>GroundCollision</entity_interaction>
 
+  <!--
+       The following is an example configuration of the BulletCollision plugin
+       that uses the terrain to determine ground and entity collisions. Note
+       that the SimpleCollision plugin is configured to only check for startup
+       collisions. This helps the entity initializer to place the entities in
+       unique locations. (You will want to remove the above SimpleCollision and
+       GroundCollision plugins.)
+  -->
+  <!--
+  <entity_interaction startup_collisions_only="true"
+                      startup_collision_range="5"
+                      >SimpleCollision</entity_interaction>
+  <entity_interaction enable_collision_detection="true"
+                      remove_on_collision="true"
+                      enable_team_collisions="true"
+                      enable_non_team_collisions="true"
+                      show_collision_shapes="false"
+                      enable_terrain="true"
+                      enable_ground_plane="false"
+                      ground_plane_height="0"
+                      >BulletCollision</entity_interaction>
+  -->
+
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 
   <network>GlobalNetwork</network>
@@ -69,18 +92,26 @@
     <x>-900</x>
     <y>0</y>
     <z>195</z>
+
+    <!-- The vehicle's initial heading, roll, and pitch can be specified -->
     <heading>0</heading>
+    <!--<roll>45</roll>-->
+    <!--<pitch>45</pitch>-->
 
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
 
     <visual_model>zephyr-blue</visual_model>
 
-    <sensor>NoisyState</sensor>
-    <sensor>NoisyContacts</sensor>
-    <!--<sensor>ContactBlobCamera</sensor>-->
+    <!--<sensor>NoisyState</sensor>-->
+    <!--<sensor>NoisyContacts</sensor>-->
+    <!--
+    <sensor rpy="0, 0, 0" show_image="true" camera_id="0">ContactBlobCamera</sensor>
+    <sensor rpy="0, 0, 45" show_image="true" camera_id="1">ContactBlobCamera</sensor>
+    -->
 
     <autonomy show_text_label="true"
+              generate_entities="false"
               enable_boundary_control="true">Straight</autonomy>
 
     <base>
@@ -119,6 +150,28 @@
       <altitude>300</altitude>
       <radius>25</radius>
     </base>
+  </entity>
+
+  <!-- Entity that is generated during runtime by other plugins -->
+  <entity tag="gen_straight">
+    <count>0</count>
+    <team_id>1</team_id>
+    <health>1</health>
+    <radius>1</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+    <heading>0</heading>
+
+    <autonomy>Straight</autonomy>
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-blue</visual_model>
   </entity>
 
 </runscript>

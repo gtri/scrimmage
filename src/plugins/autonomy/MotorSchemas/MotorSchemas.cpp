@@ -33,6 +33,7 @@
 #include <Eigen/Geometry>
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
@@ -72,6 +73,7 @@ namespace autonomy {
 
 void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
+    pub_vel_vec_ = sc::get("pub_vel_vec", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
     auto max_speed_cb = [&] (const double &max_speed) {
@@ -190,6 +192,10 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
@@ -256,22 +262,30 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    // Publish the resultant velocity vector or
     // Convert resultant vector into heading / speed / altitude command:
     ///////////////////////////////////////////////////////////////////////////
-
-    double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
-    vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
-    vars_.output(desired_speed_idx_, vel_result.norm());
-    vars_.output(desired_heading_idx_, heading);
+    if (pub_vel_vec_) {
+        vars_.output(output_vel_x_idx_, vel_result(0));
+        vars_.output(output_vel_y_idx_, vel_result(1));
+        vars_.output(output_vel_z_idx_, vel_result(2));
+    } else {
+        double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
+        vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
+        vars_.output(desired_speed_idx_, vel_result.norm());
+        vars_.output(desired_heading_idx_, heading);
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Draw important shapes
     ///////////////////////////////////////////////////////////////////////////
     if (show_shapes_) {
         // Draw resultant vector:
-        line_shape_->set_persistent(true);
-        sc::set(line_shape_->mutable_color(), 255, 255, 0);
-        line_shape_->set_opacity(0.75);
+        if (line_shape_ == nullptr) {
+            line_shape_ = sc::shape::make_line(
+                state_->pos(), vel_result + state_->pos(),
+                Eigen::Vector3d(255, 255, 0), 0.75);
+        }
         sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
         sc::set(line_shape_->mutable_line()->mutable_end(), vel_result + state_->pos());
         draw_shape(line_shape_);

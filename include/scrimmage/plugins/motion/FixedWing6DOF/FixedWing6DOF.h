@@ -82,7 +82,15 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
                       std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
 
+    void teleport(StatePtr &state) override;
+
     void model(const vector_t &x , vector_t &dxdt , double t) override;
+
+    enum LaunchState {
+        PRELAUNCH = 0,
+        LAUNCH,
+        POSTLAUNCH
+    };
 
  protected:
     int throttle_idx_ = 0;
@@ -115,6 +123,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double delta_elevator_ = 0;
     double delta_aileron_ = 0;
     double delta_rudder_ = 0;
+    double launch_command_ = 0;
 
     double alpha_ = 0; // angle of attack
     // double alpha_prev_ = 0;
@@ -170,6 +179,13 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double C_NR_ = -0.35;
     double C_N_delta_aileron_ = 0.06;
     double C_N_delta_rudder_ = 0.032;
+
+    double launch_accel_ = 200;
+    double launch_speed_ = 20;
+    double launch_start_t_ = 0;
+    double launch_time_ = 30;
+    LaunchState launch_state_ = POSTLAUNCH;
+    Eigen::Vector3d launch_dir_NED_;
 
     Eigen::Quaterniond rot_180_x_axis_;
 };
