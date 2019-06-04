@@ -210,6 +210,9 @@ start plotting data from the newest CSV file. Thus, during development, the
 plugin developer can leave the ``csv-plot.py`` script constantly running, while
 restarting SCRIMMAGE.
 
+The script can be passed a ``-s`` or ``--static`` flag to disable automatic
+plotting of new data. 
+
 Tips for Naming CSV Files
 =========================
 

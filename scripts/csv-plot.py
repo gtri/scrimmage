@@ -61,11 +61,13 @@ class CSVPlot (FileSystemEventHandler):
         add('-e', '--equal_axes', action="store_true", help='Ensure that x and y axes are equal scale')
         add('-t', '--title', default='Variables', help='Title for plot')
         add('-d', '--dir', default='latest', help='Directory containing CSV file. (e.g., "latest" ')
+        add('-s', '--static', action="store_true", help='Stops plots from updating when new data is recieved')
 
         args = parser.parse_args()
 
         self.plot_title = args.title
         self.equal_axes = args.equal_axes
+        self.static = args.static
 
         self.x_axis_vars = args.x_axis
         self.z_axis_vars = args.z_axis
@@ -185,8 +187,10 @@ class CSVPlot (FileSystemEventHandler):
         self.axarr = [self.fig.add_subplot(self.subplot_num, 1, i+1,
                                            projection=plot_prj) for i in range(self.subplot_num)]
 
-        self.ani = animation.FuncAnimation(self.fig, self.plot,
-                                           interval=25)
+        if self.static:
+            self.plot(0)
+        else:
+            self.ani = animation.FuncAnimation(self.fig, self.plot)
 
         if self.equal_axes:
             plt.axis('equal')
