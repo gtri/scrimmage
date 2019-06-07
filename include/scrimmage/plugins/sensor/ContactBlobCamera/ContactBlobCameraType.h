@@ -43,6 +43,7 @@ class ContactBlobCameraType {
  public:
     cv::Mat frame;
     std::map<int, std::vector<cv::Rect>> bounding_boxes;
+    std::map<std::string, double> params;
 };
 } // namespace sensor
 } // namespace scrimmage

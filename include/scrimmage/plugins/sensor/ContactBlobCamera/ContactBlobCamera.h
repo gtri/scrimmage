@@ -68,6 +68,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     void draw_frustum(double x_rot, double y_rot, double z_rot);
 
     // plugin parameters
+    std::map<std::string, double> plugin_params_;
     int camera_id_ = 0;
     int img_width_;
     int img_height_;
