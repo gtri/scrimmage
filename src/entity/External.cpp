@@ -190,6 +190,13 @@ bool External::create_entity(const std::string &mission_file,
 
     entity_ = std::make_shared<Entity>();
     entity_->set_random(random);
+    entity_->contacts() = contacts;
+    entity_->rtree() = rtree;
+
+    call_update_contacts(time_->t());
+    for (auto &kv : *entity_->contacts()) {
+        mp_->entity_descriptions()[kv.first]["team_id"] = std::to_string(kv.second.id().team_id());
+    }
 
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
     bool ent_success =
