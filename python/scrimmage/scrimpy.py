@@ -51,6 +51,11 @@ def parse_commands():
     parser_viz.add_argument('--focal-point', type=float,
         help='camera focal point')
 
+    # print help if no arguments given
+    if len(sys.argv)==1:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+
     # for tab completion
     argcomplete.autocomplete(parser, exclude=['-h', '--help'])
     args = parser.parse_args()
