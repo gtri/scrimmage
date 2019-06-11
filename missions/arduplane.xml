@@ -63,7 +63,8 @@
     <sensor>RigidBody6DOFStateSensor</sensor>
 
     <!-- Use this settings in SITL -->
-    <autonomy>ArduPilot</autonomy>
+    <autonomy to_ardupilot_port="${to_ardupilot_port=5501}"
+              from_ardupilot_port="${from_ardupilot_port=5502}">ArduPilot</autonomy>
     <!-- Use this settings in HIL through mavproxy -->
     <!-- <autonomy to_ardupilot_port="5501" from_ardupilot_port="5502" mavproxy_mode="true">ArduPilot</autonomy> -->
 
