@@ -187,7 +187,17 @@ bool ContactBlobCamera::step() {
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
-    msg->data.params = plugin_params_;
+    msg->data.camera_id = camera_id_;
+    msg->data.img_width = img_width_;
+    msg->data.img_height = img_height_;
+    msg->data.max_detect_range = max_detect_range_;
+    msg->data.focal_length = focal_length_;
+    msg->data.fps = fps_;
+    msg->data.az_thresh = az_thresh_;
+    msg->data.el_thresh = el_thresh_;
+    msg->data.fn_prob = fn_prob_;
+    msg->data.fp_prob = fp_prob_;
+    msg->data.max_false_positives = max_false_positives_;
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
 
