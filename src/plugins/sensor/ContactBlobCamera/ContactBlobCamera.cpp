@@ -78,23 +78,22 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
 
     // override default parameters
-    std::map<std::string, double> plugin_params;
-    plugin_params["senderId"] = parent_->id().id();
-    plugin_params["camera_id"] = sc::get<int>("camera_id", params, camera_id_);
-    plugin_params["img_width"] = sc::get<int>("img_width", params, 800);
-    plugin_params["img_height"] = sc::get<int>("img_height", params, 600);
-    plugin_params["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
-    plugin_params["focal_length"] = sc::get<double>("focal_length", params, 1.0);
-    plugin_params["fps"] = sc::get<double>("frames_per_second", params, 10);
-    plugin_params["az_thresh"] = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
-    plugin_params["el_thresh"] = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
-    plugin_params["fn_prob"] = sc::get<double>("false_negative_probability", params, 0.1);
-    plugin_params["fp_prob"] = sc::get<double>("false_positive_probability", params, 0.1);
-    plugin_params["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
-    plugin_params["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
-    plugin_params["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
+    plugin_params_["senderId"] = parent_->id().id();
+    plugin_params_["camera_id"] = sc::get<int>("camera_id", params, camera_id_);
+    plugin_params_["img_width"] = sc::get<int>("img_width", params, 800);
+    plugin_params_["img_height"] = sc::get<int>("img_height", params, 600);
+    plugin_params_["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
+    plugin_params_["focal_length"] = sc::get<double>("focal_length", params, 1.0);
+    plugin_params_["fps"] = sc::get<double>("frames_per_second", params, 10);
+    plugin_params_["az_thresh"] = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
+    plugin_params_["el_thresh"] = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
+    plugin_params_["fn_prob"] = sc::get<double>("false_negative_probability", params, 0.1);
+    plugin_params_["fp_prob"] = sc::get<double>("false_positive_probability", params, 0.1);
+    plugin_params_["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
+    plugin_params_["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
+    plugin_params_["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
 
-    set_plugin_params(plugin_params);
+    set_plugin_params(plugin_params_);
 
     if (log_detections_) {
         detections_file_.open(parent_->mp()->log_dir() + "/blob_sensor_detections_" + std::to_string(camera_id_) + ".txt");
@@ -185,6 +184,18 @@ bool ContactBlobCamera::step() {
     }
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
+
+    msg->data.camera_id = camera_id_;
+    msg->data.img_width = img_width_;
+    msg->data.img_height = img_height_;
+    msg->data.max_detect_range = max_detect_range_;
+    msg->data.focal_length = focal_length_;
+    msg->data.fps = fps_;
+    msg->data.az_thresh = az_thresh_;
+    msg->data.el_thresh = el_thresh_;
+    msg->data.fn_prob = fn_prob_;
+    msg->data.fp_prob = fp_prob_;
+    msg->data.max_false_positives = max_false_positives_;
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
 
