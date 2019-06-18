@@ -112,7 +112,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     std::string filename = map_parse.params()["XML_DIR"] + "/" +
         map_parse.params()["filename"];
 
-    map_img_ = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
+    map_img_ = cv::imread(filename, cv::IMREAD_COLOR);
     if (!map_img_.data) {
         cout << "Failed to open file: " << filename << endl;
         return false;
@@ -177,7 +177,7 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
     // Make sure image is gray and apply threshold
     cv::Mat gray;
-    cv::cvtColor(img, gray, CV_BGR2GRAY);
+    cv::cvtColor(img, gray, cv::COLOR_BGRA2GRAY);
 
     cv::Mat thresh;
     cv::threshold(gray, thresh, std::floor(threshold*255), 255,
