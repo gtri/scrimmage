@@ -36,6 +36,7 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/entity/Contact.h>
 
 #include <random>
 #include <map>
@@ -47,7 +48,10 @@
 #include <opencv2/core/core.hpp>
 
 namespace scrimmage {
+
 namespace sensor {
+class ContactBlobCameraType;
+
 class ContactBlobCamera : public scrimmage::Sensor {
  public:
     void init(std::map<std::string, std::string> &params) override;
@@ -60,10 +64,20 @@ class ContactBlobCamera : public scrimmage::Sensor {
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
 
+    void contacts_to_bounding_boxes(
+        const scrimmage::State &sensor_frame,
+        scrimmage::ContactMap &contacts,
+        std::shared_ptr<scrimmage::Message<ContactBlobCameraType>> &msg);
+
+    void add_false_positives(
+        std::shared_ptr<scrimmage::Message<ContactBlobCameraType>> &msg);
+
     Eigen::Vector2d project_rel_3d_to_2d(Eigen::Vector3d rel_pos);
     bool in_field_of_view(Eigen::Vector3d rel_pos);
-    void draw_object_with_bounding_box(cv::Mat frame, cv::Rect rect,
-                                       Eigen::Vector2d center, double radius);
+    void draw_object_with_bounding_box(cv::Mat &frame, const int &id,
+                                       const cv::Rect &rect,
+                                       const Eigen::Vector2d &center,
+                                       const double &radius);
     void set_plugin_params(std::map<std::string, double> params);
     void draw_frustum(double x_rot, double y_rot, double z_rot);
 
@@ -93,6 +107,10 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool show_image_ = false;
     bool show_frustum_ = false;
     bool log_detections_ = false;
+
+    std::string window_name_ = "ContactBlobCamera";
+
+    scrimmage::ContactMap sim_contacts_;
 };
 } // namespace sensor
 } // namespace scrimmage
