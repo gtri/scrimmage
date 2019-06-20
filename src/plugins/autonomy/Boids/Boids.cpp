@@ -98,7 +98,7 @@ void Boids::init(std::map<std::string, std::string> &params) {
 bool Boids::step_autonomy(double t, double dt) {
     // Find neighbors that are within field-of-view and within comms range
     std::vector<ID> rtree_neighbors;
-    rtree_->neighbors_in_range(state_->pos_const(), rtree_neighbors, comms_range_);
+    rtree_->neighbors_in_range(state_->pos(), rtree_neighbors, comms_range_);
 
     // Remove neighbors that are not within field of view
     for (auto it = rtree_neighbors.begin(); it != rtree_neighbors.end();

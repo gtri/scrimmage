@@ -3,6 +3,8 @@
 <params>
   <library>ContactBlobCamera_plugin</library>
 
+  <camera_id>0</camera_id>
+
   <img_width>800</img_width>
   <img_height>600</img_height>
 
@@ -26,6 +28,23 @@
   <pos_noise_1>0.0 1.0</pos_noise_1> <!-- y position noise (2D image)-->
 
   <show_image>false</show_image>
+  <show_frustum>false</show_frustum>
+  <log_detections>false</log_detections>
+  <window_name>ContactBlobCamera</window_name>
+
+  <!-- Additional simulated detections can be defined in XYZ or GPS
+       [ XYZ id radius x y z roll pitch yaw ]
+       [ GPS id radius latitude longitude altitude roll pitch yaw ]
+  -->
+  <!-- Empty by default -->
+  <simulated_detections></simulated_detections>
+  <!--
+  <simulated_detections>
+    [ XYZ 100 1.0 1000 100 200 0 0 0 ]
+    [ XYZ 101 2.0 1000 100 300 0 0 0 ]
+    [ GPS 102 1.0 34.458281 -84.180209 900 0 0 0 ]
+  </simulated_detections>
+  -->
 
   <!-- not used -->
   <!-- <pos_noise_2>0.0 1.0</pos_noise_2> --> <!-- z position noise -->

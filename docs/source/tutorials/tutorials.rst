@@ -22,6 +22,7 @@ swarm behaviors.
    metrics-plugin.rst
    parameters.rst
    pub-sub.rst
+   gen-entities.rst
    ros-plugin.rst
    airsim-plugin.rst
    openai-plugin.rst

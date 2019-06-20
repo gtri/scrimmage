@@ -42,6 +42,8 @@
 #include <map>
 #include <list>
 #include <string>
+#include <memory>
+#include <unordered_set>
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;

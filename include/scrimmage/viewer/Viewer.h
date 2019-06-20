@@ -43,6 +43,7 @@
 #include <map>
 #include <string>
 #include <thread> // NOLINT
+#include <memory>
 
 namespace scrimmage {
 

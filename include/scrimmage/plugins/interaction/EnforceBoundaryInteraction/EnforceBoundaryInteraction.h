@@ -43,6 +43,7 @@
 #include <list>
 #include <string>
 #include <set>
+#include <memory>
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;

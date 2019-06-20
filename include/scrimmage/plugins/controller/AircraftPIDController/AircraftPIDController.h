@@ -52,6 +52,7 @@ class AircraftPIDController : public scrimmage::Controller {
 
  protected:
     // Input variables
+    uint8_t desired_roll_idx_ = 0;
     uint8_t desired_heading_idx_ = 0;
     uint8_t desired_altitude_idx_ = 0;
     uint8_t desired_speed_idx_ = 0;
@@ -71,6 +72,8 @@ class AircraftPIDController : public scrimmage::Controller {
 
     double max_pitch_ = 45.0;
     double max_roll_ = 45.0;
+
+    bool use_roll_control_ = false;
 };
 } // namespace controller
 } // namespace scrimmage

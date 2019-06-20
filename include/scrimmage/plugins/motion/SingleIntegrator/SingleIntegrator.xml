@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
-  <library>SingleIntegrator_plugin</library>  
+  <library>SingleIntegrator_plugin</library>
+  <override_heading>false</override_heading>
 </params>

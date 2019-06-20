@@ -34,7 +34,9 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_
 
 #include <scrimmage/pubsub/NetworkDevice.h>
+
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 class SubscriberBase : public NetworkDevice {

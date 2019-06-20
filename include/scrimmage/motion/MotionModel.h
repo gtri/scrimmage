@@ -41,6 +41,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 

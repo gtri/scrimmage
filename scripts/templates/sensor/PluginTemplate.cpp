@@ -83,7 +83,7 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
 
 bool (>>>PLUGIN_NAME<<<)::step() {
     // Make a copy of the current state
-    sc::State ns = *(parent_->state());
+    sc::State ns = *(parent_->state_truth());
 
     // Create a message to hold the modified state
     auto msg = std::make_shared<sc::Message<sc::State>>();

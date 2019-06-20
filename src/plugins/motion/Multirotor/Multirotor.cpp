@@ -160,9 +160,9 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
                                      std::stod(vec[2]),
                                      std::stod(vec[3])));
 
-        r.set_quat(sc::Quaternion(sc::Angles::deg2rad(std::stod(vec[4])),
+        r.quat() = sc::Quaternion(sc::Angles::deg2rad(std::stod(vec[4])),
                                   sc::Angles::deg2rad(std::stod(vec[5])),
-                                  sc::Angles::deg2rad(std::stod(vec[6]))));
+                                  sc::Angles::deg2rad(std::stod(vec[6])));
         rotors_.push_back(r);
     }
 
@@ -240,7 +240,7 @@ bool Multirotor::step(double time, double dt) {
     // Convert local coordinates to world coordinates
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];
-    state_->set_ang_vel(state_->quat().rotate(angular_vel));
+    state_->ang_vel() = state_->quat().rotate(angular_vel);
     linear_accel_body_ = linear_acc;
     ang_accel_body_ = angular_acc;
 

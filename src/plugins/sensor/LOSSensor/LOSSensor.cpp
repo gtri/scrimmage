@@ -141,11 +141,11 @@ bool LOSSensor::step() {
     double range = 0.0;
     if (use_flat_earth_ == true) {
         // Get appropriate conversion
-        Eigen::Matrix4d tf_m = parent_->state()->tf_matrix(false) *
+        Eigen::Matrix4d tf_m = parent_->state_truth()->tf_matrix(false) *
                                transform()->tf_matrix();
         // Transform sensor's origin to world coordinates
         Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
-        Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + parent_->state()->pos();
+        Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + parent_->state_truth()->pos();
 
         // Transform ray's end point to world coordinates
         Eigen::Vector4d ray = tf_m * Eigen::Vector4d(1.0, 0.0, 0.0, 1.0);

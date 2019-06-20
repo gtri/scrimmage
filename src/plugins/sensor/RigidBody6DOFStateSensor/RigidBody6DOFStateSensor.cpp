@@ -76,30 +76,32 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
         }
     }
 
-    motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
-    // motion_ = std::dynamic_pointer_cast<scrimmage::motion::Multirotor>(parent_->motion());
-    if (motion_ == nullptr) {
-        cout << "WARNING: Failed to get motion model. Currently only "
-             << "scrimmage::motion::RigidBody6DOFBase and subclasses "
-             << "are supported by RigidBody6DOFStateSensor" << endl;
-    }
-
     pub_ = advertise("LocalNetwork", "RigidBody6DOFState");
 
     return;
 }
 
 bool RigidBody6DOFStateSensor::step() {
+    if (motion_ == nullptr) {
+        motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
+        if (motion_ == nullptr) {
+            cout << "WARNING: Failed to get motion model. Currently only "
+                 << "scrimmage::motion::RigidBody6DOFBase and subclasses "
+                 << "are supported by RigidBody6DOFStateSensor" << endl;
+            return false;
+        }
+    }
+
     auto msg = std::make_shared<Message<motion::RigidBody6DOFState>>();
 
     // Copy elements from scrimmage::State
-    msg->data.pos() = parent_->state()->pos();
-    msg->data.vel() = parent_->state()->vel();
-    msg->data.ang_vel() = parent_->state()->ang_vel();
-    msg->data.quat() = parent_->state()->quat();
+    msg->data.pos() = parent_->state_truth()->pos();
+    msg->data.vel() = parent_->state_truth()->vel();
+    msg->data.ang_vel() = parent_->state_truth()->ang_vel();
+    msg->data.quat() = parent_->state_truth()->quat();
 
-    msg->data.linear_vel_body() = parent_->state()->quat().rotate_reverse(parent_->state()->vel());
-    msg->data.ang_vel_body()    = parent_->state()->quat().rotate_reverse(parent_->state()->ang_vel());
+    msg->data.linear_vel_body() = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->vel());
+    msg->data.ang_vel_body()    = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->ang_vel());
 
     msg->data.linear_accel_body() = motion_->linear_accel_body();
     msg->data.ang_accel_body() = motion_->ang_accel_body();

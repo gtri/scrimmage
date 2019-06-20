@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
-  <library>MoveToGoalMS_plugin</library>  
+  <library>MoveToGoalMS_plugin</library>
+
+  <!-- PID gains -->
+  <p_gain>0.5</p_gain>
+  <i_gain>0.0</i_gain>
+  <d_gain>0.0</d_gain>
+  <integral_band>0.0</integral_band>
 </params>

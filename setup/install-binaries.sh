@@ -88,7 +88,6 @@ if ( [ "$1" != "--external" ] ) && ( [ "$3" != "--external" ] ); then
         ccache
         parallel
         libbullet-dev
-        sphinx-rtd-theme-common
         graphviz
         doxygen
         libopencv-dev
@@ -111,7 +110,6 @@ if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
         python-numpy
         python-dev
         python-pip
-        python-sphinx
         python-wxmpl
         python-matplotlib
         python-pandas
@@ -126,7 +124,6 @@ if [[ "$PYTHON_VERSION" -eq "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
         python3-numpy
         python3-dev
         python3-pip
-        python3-sphinx
         python3-matplotlib
         python3-pandas
     )
@@ -256,9 +253,9 @@ fi
 # Install Pip Packages
 ########################
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip install sphinx-git pydoe tqdm
+    pip install sphinx-git sphinx_rtd_theme pydoe tqdm
 fi 
 
 if [[ "$PYTHON_VERSION" = "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip3 install sphinx-git pydoe tqdm
+    pip3 install sphinx-git sphinx_rtd_theme pydoe tqdm
 fi 

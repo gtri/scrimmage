@@ -54,6 +54,8 @@
 #include <list>
 #include <utility>
 
+#include <GeographicLib/LocalCartesian.hpp>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -73,27 +75,64 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
 
     gener_ = parent_->random()->gener();
 
+    window_name_ = sc::get<std::string>("window_name", params, window_name_);
     show_image_ = sc::get<bool>("show_image", params, show_image_);
+    show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
+    log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
+
+    // Parse the simulated detections
+    std::string sim_det_str = sc::get<std::string>("simulated_detections", params, "");
+    std::vector<std::vector<std::string>> vecs;
+    if (get_vec_of_vecs(sim_det_str, vecs, ", ")) {
+        for (auto &vec : vecs) {
+            // First, assume the description is in XYZ
+            int id = std::stoi(vec[1]);
+            double radius = std::stod(vec[2]);
+            double x = std::stod(vec[3]);
+            double y = std::stod(vec[4]);
+            double z = std::stod(vec[5]);
+
+            if (vec[0] == "GPS") {
+                // If the description is in GPS, convert to local cartesian
+                parent_->projection()->Forward(x, y, z, x, y, z);
+            }
+
+            sc::Quaternion quat(std::stod(vec[6]), std::stod(vec[7]),
+                                std::stod(vec[8]));
+
+            sc::StatePtr cnt_state = std::make_shared<sc::State>(
+                Eigen::Vector3d(x, y, z), Eigen::Vector3d(0, 0, 0),
+                Eigen::Vector3d(0, 0, 0), quat);
+
+            sc::Contact cnt(sc::ID(id, 0, 0), cnt_state);
+            cnt.set_type(sc::Contact::Type::MESH);
+            cnt.set_radius(radius);
+            cnt.set_active(true);
+            sim_contacts_[id] = cnt;
+        }
+    }
 
     // override default parameters
-    std::map<std::string, double> plugin_params;
-    plugin_params["senderId"] = parent_->id().id();
-    plugin_params["img_width"] = sc::get<int>("img_width", params, 800);
-    plugin_params["img_height"] = sc::get<int>("img_height", params, 600);
-    plugin_params["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
-    plugin_params["focal_length"] = sc::get<double>("focal_length", params, 1.0);
-    plugin_params["fps"] = sc::get<double>("frames_per_second", params, 10);
-    plugin_params["az_thresh"] = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
-    plugin_params["el_thresh"] = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
-    plugin_params["fn_prob"] = sc::get<double>("false_negative_probability", params, 0.1);
-    plugin_params["fp_prob"] = sc::get<double>("false_positive_probability", params, 0.1);
-    plugin_params["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
-    plugin_params["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
-    plugin_params["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
+    plugin_params_["senderId"] = parent_->id().id();
+    plugin_params_["camera_id"] = sc::get<int>("camera_id", params, camera_id_);
+    plugin_params_["img_width"] = sc::get<int>("img_width", params, 800);
+    plugin_params_["img_height"] = sc::get<int>("img_height", params, 600);
+    plugin_params_["max_detect_range"] = sc::get<double>("max_detect_range", params, 1000);
+    plugin_params_["focal_length"] = sc::get<double>("focal_length", params, 1.0);
+    plugin_params_["fps"] = sc::get<double>("frames_per_second", params, 10);
+    plugin_params_["az_thresh"] = sc::Angles::deg2rad(sc::get<double>("azimuth_fov", params, 360));
+    plugin_params_["el_thresh"] = sc::Angles::deg2rad(sc::get<double>("elevation_fov", params, 360));
+    plugin_params_["fn_prob"] = sc::get<double>("false_negative_probability", params, 0.1);
+    plugin_params_["fp_prob"] = sc::get<double>("false_positive_probability", params, 0.1);
+    plugin_params_["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
+    plugin_params_["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
+    plugin_params_["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
 
-    set_plugin_params(plugin_params);
+    set_plugin_params(plugin_params_);
 
-    srand(time(NULL));
+    if (log_detections_) {
+        detections_file_.open(parent_->mp()->log_dir() + "/blob_sensor_detections_" + std::to_string(camera_id_) + ".txt");
+    }
 
     for (int i = 0; i < 3; i++) {
         std::string tag_name = "pos_noise_" + std::to_string(i);
@@ -127,25 +166,51 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     pub_ = advertise("LocalNetwork", "ContactBlobCamera");
 }
 
-bool ContactBlobCamera::step() {
-    if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
+void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
+    double sensor_footprint_height = max_detect_range_ * tan(el_thresh_ / 2) * 2;
+    double sensor_footprint_width = max_detect_range_ * tan(az_thresh_ / 2) * 2;
+    Eigen::Vector3d sensor_UL(max_detect_range_,  sensor_footprint_width / 2, -sensor_footprint_height / 2);
+    Eigen::Vector3d sensor_UR(max_detect_range_,  sensor_footprint_width / 2,  sensor_footprint_height / 2);
+    Eigen::Vector3d sensor_LR(max_detect_range_, -sensor_footprint_width / 2,  sensor_footprint_height / 2);
+    Eigen::Vector3d sensor_LL(max_detect_range_, -sensor_footprint_width / 2, -sensor_footprint_height / 2);
+    std::vector<Eigen::Vector3d> sensor_scene_bb = {sensor_UL, sensor_UR, sensor_LR, sensor_LL, sensor_UL};
 
-    sc::State sensor_frame;
-    sc::SensorPtr &sensor = parent_->sensors()["ContactBlobCamera0"];
-    sc::Quaternion sensor_quat =
-      static_cast<sc::Quaternion>(parent_->state()->quat() *
-          sensor->transform()->quat());
-    Eigen::Vector3d sensor_pos = sensor->transform()->pos() +
-      parent_->state()->pos();
+    // Rotate into sensor frame
+    auto x_rotation = Eigen::AngleAxisd(x_rot, Eigen::Vector3d::UnitX());
+    auto y_rotation = Eigen::AngleAxisd(y_rot, Eigen::Vector3d::UnitY());
+    auto z_rotation = Eigen::AngleAxisd(z_rot, Eigen::Vector3d::UnitZ());
+    auto A = Eigen::Translation3d(parent_->state_truth()->pos()) * z_rotation * y_rotation * x_rotation;
+    for (size_t i = 0; i < sensor_scene_bb.size(); i++) {
+        sensor_scene_bb[i] = A * sensor_scene_bb[i];
+    }
 
-    sensor_frame.set_quat(sensor_quat);
-    sensor_frame.set_pos(sensor_pos);
+    // Draw scene box
+    auto scene_bb_line = std::make_shared<sp::Shape>();
+    scene_bb_line->set_opacity(1.0);
+    scene_bb_line->set_persistent(false);
+    scene_bb_line->set_persist_duration(0.0);
+    sc::set(scene_bb_line->mutable_color(), 0, 255, 0);
+    sc::path_to_lines(sensor_scene_bb, scene_bb_line, shared_from_this());
 
-    auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
+    // Draw lines from scene box to the point of view
+    for (unsigned int iter = 0; iter < sensor_scene_bb.size() - 1; iter++) {
+        auto line = std::make_shared<scrimmage_proto::Shape>();
+        sc::set(line->mutable_color(), 0, 255, 0);
+        line->set_opacity(1.0);
+        line->set_persistent(false);
+        line->set_persist_duration(0.0);
+        sc::set(line->mutable_line()->mutable_start(), parent_->state_truth()->pos());
+        sc::set(line->mutable_line()->mutable_end(), sensor_scene_bb[iter]);
+        draw_shape(line);
+    }
+}
 
-    msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
+void ContactBlobCamera::contacts_to_bounding_boxes(
+    const scrimmage::State &sensor_frame,
+    scrimmage::ContactMap &contacts,
+    std::shared_ptr<sc::Message<ContactBlobCameraType>> &msg) {
 
-    for (auto &kv : *(parent_->contacts())) {
+    for (auto &kv : contacts) {
         // Filter out (skip) own contact
         if (kv.second.id().id() == parent_->id().id()) continue;
 
@@ -157,12 +222,11 @@ bool ContactBlobCamera::step() {
         }
 
         // Don't "detect" current contact relative to false negative probability
-        double r = static_cast<double>(rand()) / RAND_MAX;
-        if (r <= fn_prob_) continue;
+        double r = parent_->random()->rng_uniform(0.0, 1.0);
+        if (r < fn_prob_) continue;
 
         // Transform contact into "camera" coordinate system
         Eigen::Vector3d rel_pos = sensor_frame.rel_pos_local_frame(kv.second.state()->pos());
-
 
         if (!in_field_of_view(rel_pos)) continue;
 
@@ -214,44 +278,103 @@ bool ContactBlobCamera::step() {
                       std::floor(object_img_radius*2) + 1,
                       std::floor(object_img_radius*2) + 1);
 
-        std::vector<cv::Rect> bounding_boxes;
-        bounding_boxes.push_back(rect);
-
         if (object_img_radius > 0) {
-            draw_object_with_bounding_box(msg->data.frame, rect, raster_center, object_img_radius);
-        }
-
-        // Add false positives
-        for (int i = 0; i <= max_false_positives_; i++) {
-            double r = static_cast<double>(rand()) / RAND_MAX;
-            if (r > fp_prob_) continue;
-
-            // TODO: use the input standard deviation to add tracks in a smarter manner
-            // Generate random position in frame
-            int h = rand() % img_height_;
-            int w = rand() % img_width_;
-
-            rect = cv::Rect(h - object_img_radius, w - object_img_radius,
-                            std::floor(object_img_radius*2) + 1,
-                            std::floor(object_img_radius*2) + 1);
-
-            if (object_img_radius > 0) {
-                draw_object_with_bounding_box(msg->data.frame, rect, Eigen::Vector2d(h, w), object_img_radius);
-            }
-
-            bounding_boxes.push_back(rect);
+            draw_object_with_bounding_box(msg->data.frame, kv.second.id().id(),
+                                          rect, raster_center, object_img_radius);
         }
 
         // Collect all bounding boxes for current detected object
-        msg->data.bounding_boxes[kv.second.id().id()] = bounding_boxes;
+        msg->data.bounding_boxes[kv.second.id().id()].push_back(rect);
     }
+}
+
+void ContactBlobCamera::add_false_positives(
+    std::shared_ptr<scrimmage::Message<ContactBlobCameraType>> &msg) {
+
+    for (int i = 0; i < max_false_positives_; i++) {
+        double r = parent_->random()->rng_uniform(0.0, 1.0);
+        if (r > fp_prob_) continue;
+
+        // Generate random center position in frame
+        Eigen::Vector2d raster_center(
+            parent_->random()->rng_uniform_int(0, img_width_),
+            parent_->random()->rng_uniform_int(0, img_height_));
+
+        double object_img_radius = parent_->random()->rng_uniform(0.1, 20.0);
+
+        // Add bounding box to frame around object
+        cv::Rect rect(std::floor(raster_center(0))-std::floor(object_img_radius),
+                      std::floor(raster_center(1))-std::floor(object_img_radius),
+                      std::floor(object_img_radius*2) + 1,
+                      std::floor(object_img_radius*2) + 1);
+
+        // Generate a random ID
+        int id = parent_->random()->rng_uniform_int(1, 100);
+
+        if (object_img_radius > 0) {
+            draw_object_with_bounding_box(msg->data.frame, id, rect,
+                                          raster_center, object_img_radius);
+        }
+        msg->data.bounding_boxes[id].push_back(rect);
+    }
+}
+
+bool ContactBlobCamera::step() {
+    if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
+
+    sc::State sensor_frame;
+    sensor_frame.quat() =
+            static_cast<sc::Quaternion>(parent_->state_truth()->quat() *
+                                        this->transform()->quat());
+    sensor_frame.pos() = this->transform()->pos() + parent_->state_truth()->pos();
+
+    if (show_frustum_) {
+        draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
+    }
+
+    auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
+
+    msg->data.camera_id = camera_id_;
+    msg->data.img_width = img_width_;
+    msg->data.img_height = img_height_;
+    msg->data.max_detect_range = max_detect_range_;
+    msg->data.focal_length = focal_length_;
+    msg->data.fps = fps_;
+    msg->data.az_thresh = az_thresh_;
+    msg->data.el_thresh = el_thresh_;
+    msg->data.fn_prob = fn_prob_;
+    msg->data.fp_prob = fp_prob_;
+    msg->data.max_false_positives = max_false_positives_;
+
+    msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
+
+    // Compute bounding boxes for real contacts
+    contacts_to_bounding_boxes(sensor_frame, *(parent_->contacts()), msg);
+
+    // Compute bounding boxes for added "simulated" contacts
+    contacts_to_bounding_boxes(sensor_frame, sim_contacts_, msg);
+
+    // Add false positives
+    add_false_positives(msg);
 
     frame_ = msg->data.frame;
     last_frame_t_ = time_->t();
 
     if (show_image_) {
-        cv::imshow(name_.c_str(), msg->data.frame);
+        std::string window_name = window_name_ + "-" +
+                std::to_string(parent_->id().id()) + "-" +
+                std::to_string(camera_id_);
+        cv::imshow(window_name.c_str(), msg->data.frame);
         cv::waitKey(1);
+    }
+
+    // Log any detections
+    if (log_detections_) {
+        detections_file_ << time_->t();
+        for (auto elem : msg->data.bounding_boxes) {
+            detections_file_ << ", " << elem.first;
+        }
+        detections_file_ << std::endl;
     }
 
     pub_->publish(msg);
@@ -291,9 +414,10 @@ bool ContactBlobCamera::in_field_of_view(Eigen::Vector3d rel_pos) {
     return true;
 }
 
-void ContactBlobCamera::draw_object_with_bounding_box(cv::Mat frame, cv::Rect rect,
-                                                      Eigen::Vector2d center,
-                                                      double radius) {
+void ContactBlobCamera::draw_object_with_bounding_box(
+    cv::Mat &frame, const int &id, const cv::Rect &rect,
+    const Eigen::Vector2d &center, const double &radius) {
+
     Eigen::Vector2i c(std::floor(center(0)),
                       std::floor(center(1)));
 
@@ -302,10 +426,16 @@ void ContactBlobCamera::draw_object_with_bounding_box(cv::Mat frame, cv::Rect re
                -1, 8, 0);
 
     cv::rectangle(frame, rect, cv::Scalar(0, 0, 255), 1, 8, 0);
+
+    cv::Point top_left(rect.x + rect.width, rect.y + rect.height);
+    cv::putText(frame, std::to_string(id), top_left,  cv::FONT_HERSHEY_SIMPLEX,
+                1.0, cv::Scalar(8, 100, 22), 1, 8, false);
 }
 
 void ContactBlobCamera::set_plugin_params(std::map<std::string, double> params) {
     if (params["senderId"] != parent_->id().id()) { return; }
+
+    camera_id_ = static_cast<int>(params["camera_id"]);
 
     img_width_ = static_cast<int>(params["img_width"]);
     img_height_ = static_cast<int>(params["img_height"]);

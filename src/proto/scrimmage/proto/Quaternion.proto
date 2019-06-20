@@ -6,8 +6,8 @@ option java_package = "com.syllo.scrimmage";
 package scrimmage_proto;
 
 message Quaternion {
-double x = 1;
-double y = 2;
-double z = 3;
-double w = 4;
+        double w = 1;
+        double x = 2;
+        double y = 3;
+        double z = 4;
 }

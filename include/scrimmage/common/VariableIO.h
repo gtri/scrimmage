@@ -117,6 +117,10 @@ class VariableIO {
     std::set<std::string> declared_output_variables_;
     static std::map<Type, std::string> type_map_;
 };
+
+void print_io_error(const std::string &in_name, VariableIO &v);
+bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
+
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_

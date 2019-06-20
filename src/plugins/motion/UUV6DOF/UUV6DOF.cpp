@@ -303,7 +303,7 @@ bool UUV6DOF::step(double time, double dt) {
     Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate(angular_vel);
     Eigen::Vector3d angvel_b_e_ENU;
     angvel_b_e_ENU << angvel_b_e_bodyRef[0], -angvel_b_e_bodyRef[1], -angvel_b_e_bodyRef[2];
-    state_->set_ang_vel(angvel_b_e_ENU);
+    state_->ang_vel() = angvel_b_e_ENU;
 
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
     state_->vel() << x_[Uw], x_[Vw], x_[Ww];

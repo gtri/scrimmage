@@ -34,6 +34,7 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/proto/Shape.pb.h>
@@ -125,16 +126,19 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
 
     if (show_shapes_) {
         // Draw the sphere of influence
-        circle_shape_->set_persistent(true);
-        circle_shape_->set_opacity(0.2);
-        sc::set(circle_shape_->mutable_color(), 0, 255, 0);
-        circle_shape_->mutable_circle()->set_radius(sphere_of_influence_);
+        if (circle_shape_ == nullptr) {
+            circle_shape_ = sc::shape::make_circle(
+                state_->pos(), state_->quat(), sphere_of_influence_,
+                Eigen::Vector3d(0, 255, 0), 0.2);
+        }
         sc::set(circle_shape_->mutable_circle()->mutable_center(), state_->pos());
         draw_shape(circle_shape_);
 
-        line_shape_->set_persistent(true);
-        sc::set(line_shape_->mutable_color(), 255, 0, 0);
-        line_shape_->set_opacity(0.75);
+        if (line_shape_ == nullptr) {
+            line_shape_ = sc::shape::make_line(
+                state_->pos(), desired_vector_ + state_->pos(),
+                Eigen::Vector3d(0, 0, 0), 0.75);
+        }
         sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
         sc::set(line_shape_->mutable_line()->mutable_end(), desired_vector_ + state_->pos());
         draw_shape(line_shape_);

@@ -40,6 +40,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <flightgear/MultiPlayer/mpmessages.hxx>

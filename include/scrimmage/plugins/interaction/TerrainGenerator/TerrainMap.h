@@ -42,6 +42,7 @@
 #include <string>
 #include <limits>
 #include <random>
+#include <memory>
 
 #include <boost/optional.hpp>
 
@@ -50,23 +51,32 @@ namespace interaction {
 
 class TerrainMap {
  public:
+    enum class Technique { RANDOM_WALK, LINEAR };
+
     TerrainMap();
     TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
                std::shared_ptr<std::default_random_engine> gener,
+               const Technique &technique,
                const Eigen::Vector3d &center,
                const double &x_length, const double &y_length,
                const double &x_resolution, const double &y_resolution,
                const double &z_min, const double &z_max,
                const Eigen::Vector3d &color);
     explicit TerrainMap(const scrimmage_msgs::Terrain &terrain);
-    bool generate();
     scrimmage::ShapePtr shape();
     scrimmage_msgs::Terrain proto();
     boost::optional<double> height_at(const double &x, const double &y);
 
  protected:
+    bool generate();
+    bool generate_random_walk();
+    bool generate_linear();
+    void center_height_adjust();
+    void clamp_height();
+
     std::shared_ptr<std::normal_distribution<double>> rng_;
     std::shared_ptr<std::default_random_engine> gener_;
+    Technique technique_ = Technique::RANDOM_WALK;
 
     Eigen::Vector3d center_ = Eigen::Vector3d::Zero();
     double x_length_ = 10;

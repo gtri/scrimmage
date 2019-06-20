@@ -128,6 +128,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     /*! \name getters/setters */
     ///@{
     StatePtr &state();
+    StatePtr &state_truth();
     std::vector<AutonomyPtr> &autonomies();
     MotionModelPtr &motion();
     std::vector<ControllerPtr> &controllers();
@@ -206,6 +207,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     RandomPtr random_;
 
     StatePtr state_;
+    StatePtr state_truth_;
     std::unordered_map<std::string, MessageBasePtr> properties_;
     std::unordered_map<std::string, SensorPtr> sensors_;
 

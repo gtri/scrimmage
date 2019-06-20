@@ -85,7 +85,7 @@ bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
 
     // Account for entities "colliding"
     for (EntityPtr ent1 : ents) {
-        Eigen::Vector3d p1 = ent1->state()->pos();
+        Eigen::Vector3d p1 = ent1->state_truth()->pos();
         for (EntityPtr ent2 : ents) {
             // ignore distance between itself
             if (ent1->id().id() == ent2->id().id()) continue;
@@ -93,7 +93,7 @@ bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
             // ignore collisions that have already occurred this time-step
             if (!ent1->is_alive() || !ent2->is_alive()) continue;
 
-            Eigen::Vector3d p2 = ent2->state()->pos();
+            Eigen::Vector3d p2 = ent2->state_truth()->pos();
 
             double dist = (p1 - p2).norm();
             if (dist < collision_range_) {
@@ -131,7 +131,7 @@ bool SimpleCollision::collision_exists(std::list<EntityPtr> &ents,
     } else {
         if (init_alt_deconflict_) {
             for (EntityPtr ent : ents) {
-                if (std::abs(p(2) - ent->state()->pos()(2)) <=
+                if (std::abs(p(2) - ent->state_truth()->pos()(2)) <=
                     startup_collision_range_) {
                     return true;
                 }

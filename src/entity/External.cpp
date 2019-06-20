@@ -105,7 +105,10 @@ bool External::create_entity(const std::string &mission_file,
                              const std::string &entity_tag,
                              const std::string &plugin_tags_str,
                              int entity_id,
-                             int max_entities, const std::string &log_dir,
+                             int max_entities,
+                             double init_time,
+                             double init_dt,
+                             const std::string &log_dir,
                              std::function<void(std::map<std::string, std::string>&)> param_override_func) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
@@ -139,8 +142,7 @@ bool External::create_entity(const std::string &mission_file,
         mp_->network_names().push_back("GlobalNetwork");
     }
 
-    std::map<std::string, std::string> info =
-        mp_->entity_descriptions()[it_name_id->second];
+    set_time(init_time, init_dt);
 
     ContactMapPtr contacts = std::make_shared<ContactMap>();
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
@@ -185,6 +187,18 @@ bool External::create_entity(const std::string &mission_file,
 
     entity_ = std::make_shared<Entity>();
     entity_->set_random(random);
+    entity_->contacts() = contacts;
+    entity_->rtree() = rtree;
+    entity_->state() = std::make_shared<State>();
+
+    call_update_contacts(time_->t());
+    auto it = entity_->contacts()->find(entity_id);
+    if (it != entity_->contacts()->end()) {
+        mp_->entity_descriptions()[it_name_id->second]["team_id"] = std::to_string(it->second.id().team_id());
+    }
+
+    std::map<std::string, std::string> info =
+        mp_->entity_descriptions()[it_name_id->second];
 
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
     bool ent_success =
@@ -318,6 +332,7 @@ bool External::step(double t) {
 
     br::for_each(entity_->autonomies(), add_clear_shapes);
     br::for_each(entity_->controllers(), add_clear_shapes);
+    br::for_each(entity_->sensors() | ba::map_values, add_clear_shapes);
     br::for_each(ent_inters_, add_clear_shapes);
     br::for_each(metrics_, add_clear_shapes);
 
@@ -408,9 +423,13 @@ void External::update_ents() {
         ID &id = kv.second.id();
         (*id_to_team_map_)[id.id()] = id.team_id();
 
-        auto ent = std::make_shared<Entity>();
+        auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();
         ent->id() = id;
-        ent->state() = kv.second.state();
+        if (ent->state()) {
+            *ent->state() = *kv.second.state();
+        } else {
+            ent->state() = kv.second.state();
+        }
         ents_.push_back(ent);
 
         (*id_to_ent_map_)[id.id()] = ent;

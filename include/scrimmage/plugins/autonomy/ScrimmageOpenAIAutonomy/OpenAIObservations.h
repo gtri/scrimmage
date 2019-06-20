@@ -40,6 +40,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 namespace scrimmage {
 
@@ -57,7 +58,7 @@ class DLL_PUBLIC OpenAIObservations {
     OpenAIObservations();
 
     void create_observation_space(size_t num_entities);
-    pybind11::object update_observation(size_t num_entities);
+    pybind11::object update_observation(size_t num_entities, bool static_obs_space = true);
 
     std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>> &ext_sensor_vec() {return ext_sensor_vec_;}
 

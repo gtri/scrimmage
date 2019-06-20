@@ -6,7 +6,7 @@ import os
 
 def test_cpplint():
     """Code style analysis using cpplint."""
-    scrimmage_root = os.path.join(os.path.dirname(__file__), '..')
+    scrimmage_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     dirs = [os.path.join(scrimmage_root, d)
             for d in ['include', 'share', 'src', 'tools', 'plugins']]
 

@@ -82,7 +82,7 @@ void GPS::init(std::map<std::string, std::string> &params) {
 
 bool GPS::step() {
     // Obtain current state information
-    sc::State ns = *(parent_->state());
+    sc::State ns = *(parent_->state_truth());
 
     auto msg = std::make_shared<Message<sm::GPSStatus>>();
 

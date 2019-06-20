@@ -587,9 +587,7 @@ bool MissionParse::parse(const std::string &filename) {
             color_status = str2container(script_info["color"], " ", temp_color, 3);
         }
 
-        if (!color_status) {
-            cout << "Error parsing entity color:" <<  script_info["color"] << endl;
-        } else {
+        if (color_status) {
             team_info_[team_id].color.set_r(temp_color[0]);
             team_info_[team_id].color.set_g(temp_color[1]);
             team_info_[team_id].color.set_b(temp_color[2]);
@@ -670,6 +668,13 @@ bool MissionParse::parse(const std::string &filename) {
 }
 
 bool MissionParse::create_log_dir() {
+    // Create the root_log_dir_ if it doesn't exist:
+    if (not fs::exists(fs::path(root_log_dir_)) &&
+        not fs::create_directories(fs::path(root_log_dir_))) {
+        cout << "Failed to create the root_log_dir: " << root_log_dir_ << endl;
+        return false;
+    }
+
     bool log_dir_created = false;
     std::string log_dir_original = log_dir_;
     int attempts = 0;

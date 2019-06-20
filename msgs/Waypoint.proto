@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.gtri.scrimmage";
+
+package scrimmage_msgs;
+
+import 'scrimmage/proto/Vector3d.proto';
+import 'scrimmage/proto/Quaternion.proto';
+
+message PositionLLA {
+        double latitude = 1;
+        double longitude = 2;
+        oneof alt_oneof {
+              double alt_msl = 3;
+              double alt_agl = 4;
+              double depth_msl = 5;
+              double depth_surface = 6;
+        }
+}
+
+message PositionXYZ {
+        scrimmage_proto.Vector3d xyz = 1;
+        PositionLLA origin = 2;
+}
+
+message Waypoint {
+        int32 id = 1;
+        double time = 2;
+        scrimmage_proto.Quaternion quat = 3;
+        oneof pos_oneof {
+              PositionLLA lla = 4;
+              PositionXYZ xyz = 5;
+        }
+        double position_tolerance = 6;
+        double quat_tolerance = 7;
+        bool tolerance_in_2d = 8;
+}
+
+message WaypointList {
+        enum Mode {
+             FOLLOW_ONCE = 0;
+             BACK_AND_FORTH = 1;
+             LOITER = 2;
+             LOOP = 3;
+        }
+        Mode mode = 1;
+        repeated Waypoint waypoints = 2;
+        int32 cycles = 3;
+}

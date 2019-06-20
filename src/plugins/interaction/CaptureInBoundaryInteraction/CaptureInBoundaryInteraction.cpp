@@ -115,11 +115,11 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
 
         if (cool_down_expired &&
             ent->id().team_id() == boundary_shape_.id().team_id() &&
-            boundary_->contains(ent->state()->pos())) {
+            boundary_->contains(ent->state_truth()->pos())) {
 
             // Find all entities within capture range of this entity
             std::vector<ID> rtree_neighbors;
-            parent_->rtree()->neighbors_in_range(ent->state()->pos_const(),
+            parent_->rtree()->neighbors_in_range(ent->state_truth()->pos(),
                                                  rtree_neighbors,
                                                  capture_range_,
                                                  ent->id().id());
@@ -142,7 +142,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
             // If the entity hasn't been captured yet and it's within the
             // boundary, it is captured
             if (already_captured_.count(it->first) == 0 &&
-                boundary_->contains(ent->state()->pos())) {
+                boundary_->contains(ent->state_truth()->pos())) {
                 ent->collision();
 
                 // Keep track of all captured entities

@@ -62,6 +62,7 @@ class ScrimmageOpenAIEnv {
                        bool enable_gui = false,
                        bool combine_actors = false,
                        bool global_sensor = false,
+                       bool static_obs_space = true,
                        double timestep = -1);
 
     pybind11::tuple step(pybind11::object action);
@@ -100,6 +101,7 @@ class ScrimmageOpenAIEnv {
 
     std::string mission_file_ = "";
     bool enable_gui_ = false;
+    bool static_obs_space_ = true;
     scrimmage::DelayedTask delayed_task_;
 
     std::thread thread_;
@@ -121,6 +123,8 @@ class ScrimmageOpenAIEnv {
     void reset_scrimmage(bool enable_gui);
     void scrimmage_memory_cleanup();
     void reset_learning_mode();
+    void filter_ext_sensor_vec();
+    void filter_ext_ctrl_vec();
     int loop_number_ = 0;
 
     bool is_gym_instance(pybind11::object &obj, const std::string &type);
