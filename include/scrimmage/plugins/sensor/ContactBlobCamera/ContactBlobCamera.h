@@ -104,6 +104,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     PublisherPtr pub_;
 
+    bool ignore_real_entities_ = false;
     bool show_image_ = false;
     bool show_frustum_ = false;
     bool log_detections_ = false;

@@ -76,6 +76,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
 
     window_name_ = sc::get<std::string>("window_name", params, window_name_);
+    ignore_real_entities_ = sc::get<bool>("ignore_real_entities", params, ignore_real_entities_);
     show_image_ = sc::get<bool>("show_image", params, show_image_);
     show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
@@ -348,8 +349,10 @@ bool ContactBlobCamera::step() {
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
 
-    // Compute bounding boxes for real contacts
-    contacts_to_bounding_boxes(sensor_frame, *(parent_->contacts()), msg);
+    if (not ignore_real_entities_) {
+        // Compute bounding boxes for real contacts
+        contacts_to_bounding_boxes(sensor_frame, *(parent_->contacts()), msg);
+    }
 
     // Compute bounding boxes for added "simulated" contacts
     contacts_to_bounding_boxes(sensor_frame, sim_contacts_, msg);
