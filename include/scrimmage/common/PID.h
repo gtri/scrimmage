@@ -39,12 +39,25 @@ namespace scrimmage {
 class PID {
  public:
     PID();
-    void set_parameters(double kp, double ki, double kd);
-    void set_setpoint(double setpoint);
-    double step(double dt, double measurement);
-    void set_integral_band(double integral_band);
-    void set_is_angle(bool is_angle);
+    void set_parameters(const double &kp, const double &ki, const double &kd);
+    void set_setpoint(const double &setpoint);
+    void set_integral_band(const double &integral_band);
+    void set_is_angle(const bool &is_angle);
+    void set_output_limits(const double &min, const double &max,
+                           const double &enable);
+
+    const double &setpoint();
+    const double &kp();
+    const double &ki();
+    const double &kd();
+    const double &integral_band();
+    const double &integral();
+    const double &error();
+    const double &previous_error();
+    const double &derivative();
+
     bool init(const std::string &str, const bool &is_angle);
+    double step(const double &dt, const double &measurement);
 
  protected:
     double kp_;
@@ -58,6 +71,12 @@ class PID {
 
     double integral_band_;
     bool is_angle_;
+    double derivative_;
+    double error_;
+
+    double output_min_;
+    double output_max_;
+    bool enable_output_limits_;
 };
 } // namespace scrimmage
 

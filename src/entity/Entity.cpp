@@ -108,7 +108,9 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // set state
     ////////////////////////////////////////////////////////////
-    state_ = std::make_shared<State>();
+    if (!state_) {
+        state_ = std::make_shared<State>();
+    }
     state_truth_ = state_;
 
     double x = get("x", info, 0.0);

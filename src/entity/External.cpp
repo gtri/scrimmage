@@ -144,9 +144,6 @@ bool External::create_entity(const std::string &mission_file,
 
     set_time(init_time, init_dt);
 
-    std::map<std::string, std::string> info =
-        mp_->entity_descriptions()[it_name_id->second];
-
     ContactMapPtr contacts = std::make_shared<ContactMap>();
     std::shared_ptr<RTree> rtree = std::make_shared<RTree>();
     rtree->init(max_entities);
@@ -190,6 +187,18 @@ bool External::create_entity(const std::string &mission_file,
 
     entity_ = std::make_shared<Entity>();
     entity_->set_random(random);
+    entity_->contacts() = contacts;
+    entity_->rtree() = rtree;
+    entity_->state() = std::make_shared<State>();
+
+    call_update_contacts(time_->t());
+    auto it = entity_->contacts()->find(entity_id);
+    if (it != entity_->contacts()->end()) {
+        mp_->entity_descriptions()[it_name_id->second]["team_id"] = std::to_string(it->second.id().team_id());
+    }
+
+    std::map<std::string, std::string> info =
+        mp_->entity_descriptions()[it_name_id->second];
 
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
     bool ent_success =

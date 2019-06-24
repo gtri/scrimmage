@@ -61,11 +61,13 @@ class CSVPlot (FileSystemEventHandler):
         add('-e', '--equal_axes', action="store_true", help='Ensure that x and y axes are equal scale')
         add('-t', '--title', default='Variables', help='Title for plot')
         add('-d', '--dir', default='latest', help='Directory containing CSV file. (e.g., "latest" ')
+        add('-s', '--static', action="store_true", help='Stops plots from updating when new data is recieved')
 
         args = parser.parse_args()
 
         self.plot_title = args.title
         self.equal_axes = args.equal_axes
+        self.static = args.static
 
         self.x_axis_vars = args.x_axis
         self.z_axis_vars = args.z_axis
@@ -77,16 +79,27 @@ class CSVPlot (FileSystemEventHandler):
 
         self.y_plot_dict = {0:[]}
         self.subplot_num = 1
-        for col_name in args.y_axis:
-            start = col_name.find(':')
-            if start == -1:
+        self.plot_names = {}
+        for i in range(len(self.y_axis_vars)):
+            col_name = self.y_axis_vars[i]
+            colon_loc = col_name.find(':')
+            if colon_loc == -1:
                 subplot = 0
-                start = len(col_name)
+                colon_loc = len(col_name)
             else:
-                subplot = int(col_name[start+1:start+2])
+                subplot = int(col_name[colon_loc+1:colon_loc+2])
                 if subplot >= self.subplot_num:
                     self.subplot_num = subplot+1
-            self.y_plot_dict.setdefault(subplot, []).append(col_name[0:start])
+            
+            equal_loc = col_name.find('=')
+            if equal_loc == -1:
+                if subplot not in self.plot_names:
+                    self.plot_names[subplot] = ''
+            else:
+                self.plot_names[subplot]=col_name[0:equal_loc]
+            col_name = col_name.split('=', 1)[-1]
+            col_name = col_name.split(':', 1)[0]
+            self.y_plot_dict.setdefault(subplot, []).append(col_name[0:colon_loc])
 
     def on_any_event(self, event):
         #if event.is_directory:
@@ -153,8 +166,10 @@ class CSVPlot (FileSystemEventHandler):
                         else:
                             self.axarr[i].plot(df[self.x_axis_vars].values,
                                                df[var].values)
-
-                self.axarr[i].set_ylabel(self.y_plot_dict[i])
+                if self.plot_names[i] == '':
+                    self.axarr[i].set_ylabel(self.y_plot_dict[i])
+                else:
+                    self.axarr[i].set_ylabel(self.plot_names[i])
 
         self.axarr[len(self.axarr)-1].set_xlabel(self.x_axis_vars)
         self.axarr[0].set_title(self.plot_title)
@@ -172,8 +187,10 @@ class CSVPlot (FileSystemEventHandler):
         self.axarr = [self.fig.add_subplot(self.subplot_num, 1, i+1,
                                            projection=plot_prj) for i in range(self.subplot_num)]
 
-        self.ani = animation.FuncAnimation(self.fig, self.plot,
-                                           interval=25)
+        if self.static:
+            self.plot(0)
+        else:
+            self.ani = animation.FuncAnimation(self.fig, self.plot)
 
         if self.equal_axes:
             plt.axis('equal')
