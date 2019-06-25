@@ -59,13 +59,19 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
         std::cout << "Failed to set velocity PID" << std::endl;
     }
     use_roll_ = sc::str2bool(params.at("use_roll"));
+    use_glide_slope_ = sc::str2bool(params.at("use_glide_slope"));
 
+    // Set up to use either roll or heading
     std::string ctrl_name = use_roll_ ?
         vars_.type_map().at(VariableIO::Type::desired_roll) :
         vars_.type_map().at(VariableIO::Type::desired_heading);
+    // Set up to use either altitude or glide slope (z_vel / sqrt(x_vel^2 + y_vel^2))
+    std::string alt_ctrl_name = use_glide_slope_ ?
+        vars_.type_map().at(VariableIO::Type::desired_glide_slope) :
+        vars_.type_map().at(VariableIO::Type::desired_altitude);
 
     input_roll_or_heading_idx_ = vars_.declare(ctrl_name, VariableIO::Direction::In);
-    input_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    input_altitude_or_glide_slope_idx_ = vars_.declare(alt_ctrl_name, VariableIO::Direction::In);
     input_velocity_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
     output_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
@@ -79,8 +85,10 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
         -heading_pid_.step(dt, state_->quat().roll()) :
         heading_pid_.step(dt, state_->quat().yaw());
 
-    alt_pid_.set_setpoint(vars_.input(input_altitude_idx_));
-    double u_pitch_rate = -alt_pid_.step(dt, state_->pos()(2));
+    alt_pid_.set_setpoint(vars_.input(input_altitude_or_glide_slope_idx_));
+    double u_pitch_rate = use_glide_slope_ ?
+        alt_pid_.step(dt, state_->vel()(2) / sqrt(state_->vel()(0) * state_->vel()(0) + state_->vel()(1) * state_->vel()(1))) :
+        -alt_pid_.step(dt, state_->pos()(2));
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
     double u_throttle = vel_pid_.step(dt, state_->vel().norm());
@@ -90,5 +98,5 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
     vars_.output(output_throttle_idx_, u_throttle);
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage
