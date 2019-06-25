@@ -85,6 +85,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     std::string sim_det_str = sc::get<std::string>("simulated_detections", params, "");
     std::vector<std::vector<std::string>> vecs;
     if (get_vec_of_vecs(sim_det_str, vecs, ", ")) {
+        int i = 0;
         for (auto &vec : vecs) {
             // First, assume the description is in XYZ
             int id = std::stoi(vec[1]);
@@ -109,7 +110,9 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
             cnt.set_type(sc::Contact::Type::MESH);
             cnt.set_radius(radius);
             cnt.set_active(true);
-            sim_contacts_[id] = cnt;
+
+            // Allow multiple simulated contacts to have the same ID
+            sim_contacts_[i++] = cnt;
         }
     }
 
