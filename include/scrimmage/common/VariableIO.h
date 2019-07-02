@@ -56,6 +56,7 @@ class VariableIO {
         desired_turn_rate,
         desired_pitch_rate,
         desired_roll_rate,
+        desired_glide_slope,  // Usually tan(z_vel / (sqrt(x_vel^2 + y_vel^2)))
         speed,
         throttle,
         elevator,
