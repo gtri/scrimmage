@@ -6,4 +6,5 @@
   <alt_pid>1, 0, 0.8, 1</alt_pid>
   <vel_pid>1, 0.1, 0, 1</vel_pid>
   <use_roll>false</use_roll>
+  <use_glide_slope>false</use_glide_slope>
 </params>
