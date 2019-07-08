@@ -119,6 +119,7 @@ ExternalProject_Add (
         make
             HAS_SYSTEM_PROTOBUF=true
             PROTOC=${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/protoc
+            CFLAGS=-Wno-error
   DEPENDS protobuf
   GIT_REPOSITORY ${GRPC_GIT_REPOSITORY}
   GIT_TAG ${GRPC_VERSION}
