@@ -12,12 +12,20 @@ binaries (for PPA), and local builds for the required dependencies.
 
 This is the old process for installing SCRIMMAGE's dependencies, but it will be
 maintained for system flexibility. After running the following commands, the
-dependencies will be installed under ~/.local :
+dependencies will be installed under `~/.local`:
 
     $ cd /path/to/3rd-party
     $ mkdir -p build && cd build
     $ cmake ..
     $ source ~/.scrimmage/setup.bash
+    $ make
+
+After building these libraries, you can make use of them by adding them to the
+`LD_LIBRARY_PATH` and then following the standard build process:
+
+    $ export LD_LIBRARY_PATH="$HOME/.local/lib/"
+    $ cd build
+    $ cmake .. -DCMAKE_PREFIX_PATH="$HOME/.local"
     $ make
 
 ## Build deb packages
