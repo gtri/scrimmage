@@ -135,7 +135,7 @@ ExternalProject_Add (
   GIT_TAG ${GRPC_VERSION}
   UPDATE_COMMAND ""
   PATCH_COMMAND
-    ${PATCH_SCRIPT} ${PATCH_DIR}/grpc-0001-Fix-build-with-local-protobuf.patch
+    ${PATCH_SCRIPT} ${PATCH_DIR}/grpc-0001-Include-lib-dir-in-link-flags.patch
     COMMAND
     ${PATCH_SCRIPT} ${PATCH_DIR}/grpc-0002-Fix-build-with-more-recent-openssl.patch
     COMMAND
