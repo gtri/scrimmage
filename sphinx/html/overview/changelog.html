@@ -175,6 +175,23 @@
 <div class="section" id="git-change-log">
 <h2>git change log<a class="headerlink" href="#git-change-log" title="Permalink to this headline">¶</a></h2>
 <ul>
+<li><strong>Merge pull request #343 from flaviut/fix-build-gcc-9</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-07-17 13:28:39</em><p>Get 3rd-party deps building on my machine</p>
+</li>
+<li><strong>Remove redundant patches</strong><span> by </span><em>Flaviu Tamas</em><span> at </span><em>2019-07-16 16:07:18</em></li>
+<li><strong>Add instructions on using third-party depndencies</strong><span> by </span><em>Flaviu Tamas</em><span> at </span><em>2019-07-15 16:54:19</em></li>
+<li><strong>Fix additional issues with building grpc</strong><span> by </span><em>Flaviu Tamas</em><span> at </span><em>2019-07-09 16:52:24</em><p>1) but that prevents compilation with newer versions of openssl
+2) issue where the wrong version of protobuf was potentially used by the
+grpc build
+3) issue where the grpc build failed to link against the protobuf
+compiler.
+4) parallel compilation for GRPC</p>
+</li>
+<li><strong>Fix grpc build with GCC 9+</strong><span> by </span><em>Flaviu Tamas</em><span> at </span><em>2019-07-08 16:34:49</em><p>Disable treating the new warning as an error. Ideally we’d solve this
+problem by upgrading grpc, but unfortunately that also runs into another
+error: https://github.com/grpc/grpc/issues/19570</p>
+</li>
+<li><strong>Build gRPC with newly built protobufs</strong><span> by </span><em>Flaviu Tamas</em><span> at </span><em>2019-07-08 16:33:21</em><p>Before, gRPC would have been built against the system’s protobuf library</p>
+</li>
 <li><strong>Merge pull request #341 from flaviut/reformat-3rdparty-readme</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-07-06 16:44:14</em><p>Improve 3rd-party/readme</p>
 </li>
 <li><strong>Improve 3rd-party readme</strong><span> by </span><em>Flaviu Tamas</em><span> at </span><em>2019-07-05 19:01:18</em><p>Break it up into paragraphs so it is easier to scan over &amp; use code
@@ -184,15 +201,6 @@ formatting where appropriate</p>
 </li>
 <li><strong>remove python-test</strong><span> by </span><em>esquires</em><span> at </span><em>2019-07-04 10:39:58</em><p>It is an old file. See rlsimple.xml instead.</p>
 </li>
-<li><strong>Merge pull request #338 from gtri/blob-sensor-updates</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-07-03 19:01:36</em><p>Blob sensor updates</p>
-</li>
-<li><strong>Merge remote-tracking branch ‘origin/master’ into blob-sensor-updates</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-07-03 15:44:27</em></li>
-<li><strong>Allow simulated contacts in blob sensor to have same ID</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-06-25 20:37:41</em></li>
-<li><strong>Merge pull request #336 from chacalnoir/glide_slope</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-06-25 15:52:39</em><p>Glide slope</p>
-</li>
-<li><strong>Merge pull request #337 from chacalnoir/centos7_docker</strong><span> by </span><em>Kevin DeMarco</em><span> at </span><em>2019-06-25 15:50:41</em><p>Centos7 docker</p>
-</li>
-<li><strong>Added a dockerfile for centos7</strong><span> by </span><em>Joel Dunham</em><span> at </span><em>2019-06-24 20:33:25</em></li>
 </ul>
 </div>
 </div>
