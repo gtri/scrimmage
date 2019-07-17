@@ -24,6 +24,14 @@ dependencies will be installed under `~/.local`:
     $ source ~/.scrimmage/setup.bash
     $ make
 
+After building these libraries, you can make use of them by adding them to the
+`LD_LIBRARY_PATH` and then following the standard build process:
+
+    $ export LD_LIBRARY_PATH="$HOME/.local/lib/"
+    $ cd build
+    $ cmake .. -DCMAKE_PREFIX_PATH="$HOME/.local"
+    $ make
+
 ## Build deb packages
 
 deb packages for the dependencies can be built by running the following

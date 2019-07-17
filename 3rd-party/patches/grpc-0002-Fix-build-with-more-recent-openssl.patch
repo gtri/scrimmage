@@ -1,0 +1,44 @@
+From adefe3d4f50e87cf1f7e84b9480520135c8bb6d8 Mon Sep 17 00:00:00 2001
+From: Flaviu Tamas <Flaviu.Tamas@gtri.gatech.edu>
+Date: Tue, 9 Jul 2019 12:40:03 -0400
+Subject: [PATCH 2/2] Fix build with more recent openssl
+
+See https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes#Compatibility_Layer
+---
+ .../lib/security/credentials/jwt/jwt_verifier.c     | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/src/core/lib/security/credentials/jwt/jwt_verifier.c b/src/core/lib/security/credentials/jwt/jwt_verifier.c
+index 5c59cf0f4a..598c1af3cc 100644
+--- a/src/core/lib/security/credentials/jwt/jwt_verifier.c
++++ b/src/core/lib/security/credentials/jwt/jwt_verifier.c
+@@ -493,18 +493,21 @@ static EVP_PKEY *pkey_from_jwk(grpc_exec_ctx *exec_ctx, const grpc_json *json,
+     gpr_log(GPR_ERROR, "Could not create rsa key.");
+     goto end;
+   }
++  const BIGNUM *rsan;
++  const BIGNUM *rsae;
++  RSA_get0_key(rsa, &rsan, &rsae, NULL);
+   for (key_prop = json->child; key_prop != NULL; key_prop = key_prop->next) {
+     if (strcmp(key_prop->key, "n") == 0) {
+-      rsa->n =
++      rsan =
+           bignum_from_base64(exec_ctx, validate_string_field(key_prop, "n"));
+-      if (rsa->n == NULL) goto end;
++      if (rsan == NULL) goto end;
+     } else if (strcmp(key_prop->key, "e") == 0) {
+-      rsa->e =
++      rsae =
+           bignum_from_base64(exec_ctx, validate_string_field(key_prop, "e"));
+-      if (rsa->e == NULL) goto end;
++      if (rsae == NULL) goto end;
+     }
+   }
+-  if (rsa->e == NULL || rsa->n == NULL) {
++  if (rsae == NULL || rsan == NULL) {
+     gpr_log(GPR_ERROR, "Missing RSA public key field.");
+     goto end;
+   }
+-- 
+2.22.0
+
