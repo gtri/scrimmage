@@ -16,6 +16,7 @@ setup(
         'completion': ['argcomplete'],
     },
     install_requires=[
+        "numpy==1.16.4",
         "pandas==0.17.1",
         "protobuf==${PROTOBUF_VERSION}",
         "argcomplete==1.10.0",
