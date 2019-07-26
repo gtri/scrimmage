@@ -307,7 +307,7 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
 
     for (unsigned int i = 0; i < rotors_.size(); i++) {
         rotor_thrust(i) =  c_T_ * omega_sq(i);
-        if (omega[i] == wmin_) { //if minimum throttle, servo is off
+        if (std::abs(omega[i] - wmin_) < std::numeric_limits<double>::epsilon()) { //if minimum throttle, servo is off
             rotor_thrust[i] = 0.0;
         }
         rotor_torque(i) = rotors_[i].direction() * c_Q_ * omega_sq(i);
