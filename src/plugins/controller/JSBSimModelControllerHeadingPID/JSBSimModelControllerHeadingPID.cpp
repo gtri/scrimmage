@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.h>
 
@@ -54,9 +55,8 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
     angles_to_jsbsim_.set_output_clock_direction(ang::Rotate::CW);
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
-    heading_pid_.set_parameters(1, 0.50, 0.0); // P, I, D
-    heading_pid_.set_integral_band(M_PI/40.0);
-    heading_pid_.set_is_angle(true);
+    std::string pid_gains_ = scrimmage::get("heading_pid", params, "1.0, 0.5, 0.0, 4.5");
+    heading_pid_.init(pid_gains_, true);
 
     heading_lag_initialized_ = false;
 
@@ -109,7 +109,7 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
 
     heading_pid_.set_setpoint(desired_yaw_lag);
     double bank_cmd = heading_pid_.step(dt, yaw);
-    bank_cmd = ang::angle_pi(bank_cmd);
+
     bank_cmd = boost::algorithm::clamp(bank_cmd, -max_bank_, max_bank_);
 
     // save what was used as the input
