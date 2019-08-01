@@ -1,0 +1,79 @@
+From 51ff8daa890ff11ba599a77f7c3c0b961c1ef1c2 Mon Sep 17 00:00:00 2001
+From: Flaviu Tamas <Flaviu.Tamas@gtri.gatech.edu>
+Date: Mon, 15 Jul 2019 11:59:04 -0400
+Subject: [PATCH] Fix incorrect linker commands in grpc
+
+---
+ Makefile | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 5655ae3685..5acd43a110 100644
+--- a/Makefile
++++ b/Makefile
+@@ -13811,7 +13811,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_cpp_plugin: $(PROTOBUF_DEP) $(GRPC_CPP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_CPP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_cpp_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_CPP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_cpp_plugin
+ 
+ endif
+ 
+@@ -13842,7 +13842,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_csharp_plugin: $(PROTOBUF_DEP) $(GRPC_CSHARP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_CSHARP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_csharp_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_CSHARP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_csharp_plugin
+ 
+ endif
+ 
+@@ -13873,7 +13873,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_node_plugin: $(PROTOBUF_DEP) $(GRPC_NODE_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_NODE_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_node_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_NODE_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_node_plugin
+ 
+ endif
+ 
+@@ -13904,7 +13904,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_objective_c_plugin: $(PROTOBUF_DEP) $(GRPC_OBJECTIVE_C_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_OBJECTIVE_C_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_objective_c_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_OBJECTIVE_C_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_objective_c_plugin
+ 
+ endif
+ 
+@@ -13935,7 +13935,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_php_plugin: $(PROTOBUF_DEP) $(GRPC_PHP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_PHP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_php_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_PHP_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_php_plugin
+ 
+ endif
+ 
+@@ -13966,7 +13966,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_python_plugin: $(PROTOBUF_DEP) $(GRPC_PYTHON_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_PYTHON_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_python_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_PYTHON_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_python_plugin
+ 
+ endif
+ 
+@@ -13997,7 +13997,7 @@ else
+ $(BINDIR)/$(CONFIG)/grpc_ruby_plugin: $(PROTOBUF_DEP) $(GRPC_RUBY_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a
+ 	$(E) "[HOSTLD]  Linking $@"
+ 	$(Q) mkdir -p `dirname $@`
+-	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_RUBY_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) $(HOST_LDLIBS_PROTOC) -o $(BINDIR)/$(CONFIG)/grpc_ruby_plugin
++	$(Q) $(HOST_LDXX) $(HOST_LDFLAGS) $(GRPC_RUBY_PLUGIN_OBJS) $(LIBDIR)/$(CONFIG)/libgrpc_plugin_support.a $(HOST_LDLIBSXX) $(LDLIBS_PROTOBUF) $(HOST_LDLIBS_PROTOC) $(HOST_LDLIBS) -o $(BINDIR)/$(CONFIG)/grpc_ruby_plugin
+ 
+ endif
+ 
+-- 
+2.22.0
+

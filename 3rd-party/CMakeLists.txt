@@ -9,6 +9,13 @@ set(PATCH_SCRIPT "${SETUP_DIR}/apply-patch.sh")
 option(BUILD_BINARY_PACKAGES "Build deb packages for dependencies." OFF)
 option(BUILD_SOURCE_PACKAGES "Build sources packages for dependencies." OFF)
 
+include(ProcessorCount)
+ProcessorCount(N)
+if(NOT N EQUAL 0)
+  set(CTEST_BUILD_FLAGS -j${N})
+  set(ctest_test_args ${ctest_test_args} PARALLEL_LEVEL ${N})
+endif()
+
 if (BUILD_BINARY_PACKAGES AND BUILD_SOURCE_PACKAGES)
   message(FATAL_ERROR "You can only build source or binary packages, not both at one time.")
 endif()
@@ -104,27 +111,36 @@ ExternalProject_Add (
 ########################################################
 # Download and build grpc
 ########################################################
-configure_file(${PATCH_DIR}/grpc.patch.in ${PATCH_DIR}/grpc.patch)
 set(GRPC_VERSION_NUM 1.2.1)
 set(GRPC_VERSION v${GRPC_VERSION_NUM})
 set(GRPC_GIT_REPOSITORY https://github.com/grpc/grpc)
+
+
 ExternalProject_Add (
   grpc
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND make HAS_SYSTEM_PROTOBUF=true PROTOC=${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/protoc
+  BUILD_COMMAND
+    ${CMAKE_COMMAND} -E env
+        LD_LIBRARY_PATH=${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/
+        PKG_CONFIG_PATH=${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/
+        make
+            HAS_SYSTEM_PROTOBUF=true
+            PROTOC=${PROTOBUF_DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/protoc
+            CFLAGS=-Wno-error
+            ${CTEST_BUILD_FLAGS}
   DEPENDS protobuf
   GIT_REPOSITORY ${GRPC_GIT_REPOSITORY}
   GIT_TAG ${GRPC_VERSION}
   UPDATE_COMMAND ""
-  PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/grpc.patch
+  PATCH_COMMAND
+    ${PATCH_SCRIPT} ${PATCH_DIR}/grpc-0001-Include-lib-dir-in-link-flags.patch
+    COMMAND
+    ${PATCH_SCRIPT} ${PATCH_DIR}/grpc-0002-Fix-build-with-more-recent-openssl.patch
+    COMMAND
+    ${PATCH_SCRIPT} ${PATCH_DIR}/grpc-0003-Fix-incorrect-linker-commands-in-grpc.patch
   INSTALL_COMMAND make install prefix=${GRPC_INSTALL_PREFIX}
-  #  CMAKE_ARGS
-  #    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-  #    -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
-  #    -DgRPC_PROTOBUF_PROVIDER="package"
-  #    -DgRPC_SSL_PROVIDER="package"
   )
 
 ########################################################
