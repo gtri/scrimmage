@@ -79,7 +79,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
                                        const Eigen::Vector2d &center,
                                        const double &radius);
     void set_plugin_params(std::map<std::string, double> params);
-    void draw_frustum(double x_rot, double y_rot, double z_rot);
+    void draw_frustum(const std::vector<scrimmage_proto::ShapePtr>& frustum, double x_rot, double y_rot, double z_rot);
 
     // plugin parameters
     std::map<std::string, double> plugin_params_;
@@ -110,6 +110,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool log_detections_ = false;
 
     std::string window_name_ = "ContactBlobCamera";
+    std::vector<scrimmage_proto::ShapePtr> frustum_shapes_;
 
     scrimmage::ContactMap sim_contacts_;
 };
