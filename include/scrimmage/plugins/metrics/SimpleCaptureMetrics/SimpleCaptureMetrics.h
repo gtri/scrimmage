@@ -112,7 +112,6 @@ class Score {
 
 class SimpleCaptureMetrics : public scrimmage::Metrics {
  public:
-    std::string name() override { return std::string("SimpleCaptureMetrics"); }
     void init(std::map<std::string, std::string> &params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;

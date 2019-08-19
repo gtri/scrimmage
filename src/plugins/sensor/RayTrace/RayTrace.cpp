@@ -50,9 +50,16 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RayTrace, RayTrace_plugin)
 namespace scrimmage {
 namespace sensor {
 
-RayTrace::RayTrace() : angle_res_vert_(0), angle_res_horiz_(0),
-    num_rays_vert_(0), num_rays_horiz_(0), max_range_(0), min_range_(0),
-    max_sample_rate_(0) {}
+std::vector<RayTrace::PCRay> RayTrace::PointCloud::get_rays() {
+    std::vector<RayTrace::PCRay> return_rays;
+    for (auto &ray : rays) {
+        // Make a copy so can be used cleanly
+        return_rays.push_back(RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
+    }
+    return return_rays;
+}
+
+RayTrace::RayTrace() : max_range_(0), min_range_(0), max_sample_rate_(0) {}
 
 void RayTrace::init(std::map<std::string, std::string> &params) {
     // Use the same generator as the parent so that the simulation is
@@ -72,20 +79,51 @@ void RayTrace::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    angle_res_vert_ = sc::Angles::deg2rad(sc::get<double>("angle_res_vert", params, 1));
-    angle_res_horiz_ = sc::Angles::deg2rad(sc::get<double>("angle_res_horiz", params, 1));
-    num_rays_vert_ = sc::get<int>("num_rays_vert", params, 1);
-    num_rays_horiz_ = sc::get<int>("num_rays_horiz", params, 1);
     max_range_ = sc::get<double>("max_range", params, 1);
     min_range_ = sc::get<double>("min_range", params, 1);
     max_sample_rate_ = sc::get<double>("max_sample_rate", params, 1);
+    auto_ray_tracing_ = sc::get<bool>("auto_ray_tracing", params, true);
 
+    // Create the ray definitions
+    double angle_res_vert = sc::Angles::deg2rad(sc::get<double>("angle_res_vert", params, 1));
+    double angle_res_horiz = sc::Angles::deg2rad(sc::get<double>("angle_res_horiz", params, 1));
+    int num_rays_vert = sc::get<int>("num_rays_vert", params, 1);
+    int num_rays_horiz = sc::get<int>("num_rays_horiz", params, 1);
+    rays_.clear();
+
+    double fov_horiz = angle_res_horiz * (num_rays_horiz - 1);
+    double fov_vert = angle_res_vert * (num_rays_vert - 1);
+    double start_angle_horiz = -fov_horiz / 2.0;
+    double start_angle_vert = -fov_vert / 2.0;
+
+    double angle_vert = start_angle_vert;
+    for (int v = 0; v < num_rays_vert; v++) {
+        double angle_horiz = start_angle_horiz;
+        for (int h = 0; h < num_rays_horiz; h++) {
+            rays_.push_back(PCRay(angle_horiz, angle_vert));
+
+            angle_horiz += angle_res_horiz;
+        }
+        angle_vert += angle_res_vert;
+    }
+
+    // Create the publisher
     pub_ = advertise("LocalNetwork", "RayTrace");
 }
 
 bool RayTrace::step() {
-    pub_->publish(std::make_shared<MessageBase>());
+    // pub_->publish(std::make_shared<MessageBase>());
     return true;
 }
-} // namespace sensor
-} // namespace scrimmage
+
+std::vector<RayTrace::PCRay> RayTrace::rays() {
+    std::vector<RayTrace::PCRay> return_rays;
+    for (auto &ray : rays_) {
+        // Make a copy so can be used cleanly
+        return_rays.push_back(RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
+    }
+    return return_rays;
+}
+
+}  // namespace sensor
+}  // namespace scrimmage

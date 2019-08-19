@@ -44,7 +44,6 @@ namespace metrics {
 class OpenAIRewards : public scrimmage::Metrics {
  public:
     OpenAIRewards();
-    std::string name() override {return std::string("OpenAIRewards");}
     void init(std::map<std::string, std::string> &params) override;
     bool step_metrics(double /*t*/, double /*dt*/) override {return true;}
     void print_team_summaries() override;

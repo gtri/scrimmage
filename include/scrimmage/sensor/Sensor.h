@@ -47,7 +47,6 @@ class Sensor : public Plugin {
  public:
     virtual void init(std::map<std::string, std::string> &params);
 
-    std::string name() override;
     std::string type() override;
 
     virtual bool step() {return true;}

@@ -60,9 +60,9 @@ bool create_ent_inters(const SimUtilsInfo &info,
                        ContactMapPtr contacts,
                        std::list<scrimmage_proto::ShapePtr> &shapes,
                        std::list<EntityInteractionPtr> &ent_inters,
+                       const GlobalServicePtr global_services,
                        const std::set<std::string> &plugin_tags,
                        std::function<void(std::map<std::string, std::string>&)> param_override_func) {
-
     for (std::string ent_inter_name : info.mp->entity_interactions()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =
@@ -89,6 +89,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->parent()->set_projection(info.mp->projection());
             ent_inter->parent()->rtree() = info.rtree;
             ent_inter->parent()->contacts() = contacts;
+            ent_inter->parent()->set_global_services(global_services);
 
             // Plugin specific members
             ent_inter->set_name(name);

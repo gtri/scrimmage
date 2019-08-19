@@ -84,7 +84,6 @@ class Score {
 class FlagCaptureMetrics : public scrimmage::Metrics {
  public:
     FlagCaptureMetrics();
-    std::string name() override { return std::string("FlagCaptureMetrics"); }
     void init(std::map<std::string, std::string> &params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;

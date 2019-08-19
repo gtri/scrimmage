@@ -67,6 +67,9 @@ namespace scrimmage {
 class ParameterServer;
 using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 
+class GlobalService;
+using GlobalServicePtr = std::shared_ptr<GlobalService>;
+
 class External {
  public:
     External();
@@ -119,6 +122,7 @@ class External {
     PubSubPtr pubsub_;
     TimePtr time_;
     ParameterServerPtr param_server_;
+    GlobalServicePtr global_services_;
     MissionParsePtr mp_;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
