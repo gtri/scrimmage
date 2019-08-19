@@ -57,7 +57,7 @@ std::map<VariableIO::Type, std::string>VariableIO::type_map_ = {
     {VariableIO::Type::desired_turn_rate, "desired_turn_rate"},
     {VariableIO::Type::desired_pitch_rate, "desired_pitch_rate"},
     {VariableIO::Type::desired_roll_rate, "desired_roll_rate"},
-    {VariableIO::Type::desired_roll_rate, "desired_glide_slope"},
+    {VariableIO::Type::desired_glide_slope, "desired_glide_slope"},
     {VariableIO::Type::speed, "speed"},
     {VariableIO::Type::throttle, "throttle"},
     {VariableIO::Type::elevator, "elevator"},
