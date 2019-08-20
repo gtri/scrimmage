@@ -43,7 +43,7 @@
 
 namespace scrimmage {
 
-class Sensor : public Plugin {
+class Sensor : public EntityPlugin {
  public:
     virtual void init(std::map<std::string, std::string> &params);
 

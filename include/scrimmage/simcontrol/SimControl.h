@@ -259,7 +259,7 @@ class SimControl {
 
     bool send_shutdown_msg_ = true;
 
-    PluginPtr sim_plugin_;
+    EntityPluginPtr sim_plugin_;
     PublisherPtr pub_end_time_;
     PublisherPtr pub_ent_gen_;
     PublisherPtr pub_ent_rm_;

@@ -45,7 +45,7 @@
 
 namespace scrimmage {
 
-class EntityInteraction : public Plugin {
+class EntityInteraction : public EntityPlugin {
 
  public:
     inline virtual bool init(std::map<std::string, std::string> &/*mission_params*/,

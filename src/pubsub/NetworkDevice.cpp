@@ -38,10 +38,10 @@
 
 namespace scrimmage {
 
-NetworkDevice::NetworkDevice() : plugin_(std::make_shared<Plugin>()) {}
+NetworkDevice::NetworkDevice() : plugin_(std::make_shared<EntityPlugin>()) {}
 
 NetworkDevice::NetworkDevice(const std::string &topic, unsigned int &max_queue_size,
-                             bool enable_queue_size, PluginPtr plugin) :
+                             bool enable_queue_size, EntityPluginPtr plugin) :
     topic_(topic), max_queue_size_(max_queue_size),
     enable_queue_size_(enable_queue_size), plugin_(plugin) {
 }
@@ -117,7 +117,7 @@ void NetworkDevice::print_str(const std::string &msg) {
     std::cout << msg << std::endl;
 }
 
-PluginPtr & NetworkDevice::plugin() {
+EntityPluginPtr & NetworkDevice::plugin() {
     return plugin_;
 }
 

@@ -83,7 +83,7 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
                      std::function<void(std::map<std::string, std::string>&)>
                      param_override_func = [](std::map<std::string, std::string>&){});
 
-void run_callbacks(PluginPtr plugin);
+void run_callbacks(EntityPluginPtr plugin);
 
 boost::optional<std::string> run_test(const std::string &mission,
                                       const bool &init_python = true,

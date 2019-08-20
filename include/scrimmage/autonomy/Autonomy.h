@@ -43,7 +43,7 @@
 
 namespace scrimmage {
 
-class Autonomy : public Plugin {
+class Autonomy : public EntityPlugin {
  public:
     Autonomy();
 

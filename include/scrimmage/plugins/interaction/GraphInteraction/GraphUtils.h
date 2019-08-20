@@ -55,7 +55,8 @@ class Vector3d;
 
 namespace scrimmage {
 
-class Plugin;
+class EntityPlugin;
+using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 namespace interaction {
 
@@ -70,7 +71,7 @@ draw_graph(
     scrimmage_msgs::Graph &graph,
     const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
     DrawNodeLabels draw_node_labels,
-    std::shared_ptr<Plugin> plugin);
+    EntityPluginPtr plugin);
 
 std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
     const scrimmage_msgs::Graph &graph);

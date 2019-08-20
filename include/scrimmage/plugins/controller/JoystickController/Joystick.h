@@ -59,7 +59,7 @@ class Joystick {
     ~Joystick();
 
     void init(std::map<std::string, std::string> &params, VariableIO &vars,
-              PluginPtr plugin);
+              EntityPluginPtr plugin);
     bool step(double t, double dt, VariableIO &vars);
 
  protected:

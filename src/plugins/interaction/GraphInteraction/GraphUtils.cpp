@@ -55,7 +55,7 @@ draw_graph(
         scrimmage_msgs::Graph &graph,
         const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
         DrawNodeLabels draw_node_labels,
-        std::shared_ptr<Plugin> plugin) {
+        EntityPluginPtr plugin) {
 
     const std::vector<int> black {0, 0, 0};
     const std::vector<int> white {255, 255, 255};

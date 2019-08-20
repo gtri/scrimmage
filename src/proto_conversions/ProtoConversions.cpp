@@ -229,7 +229,7 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
 
 void path_to_lines(std::vector<Eigen::Vector3d> &path,
                    std::shared_ptr<scrimmage_proto::Shape> sample_line,
-                   std::shared_ptr<Plugin> p) {
+                   std::shared_ptr<EntityPlugin> p) {
     for (size_t i = 0; i < path.size() - 1; i++) {
         auto ln = std::make_shared<scrimmage_proto::Shape>();
         ln->CopyFrom(*sample_line);

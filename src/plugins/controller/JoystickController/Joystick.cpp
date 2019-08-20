@@ -54,7 +54,7 @@ Joystick::~Joystick() {
 }
 
 void Joystick::init(std::map<std::string, std::string> &params,
-                    VariableIO &vars, PluginPtr plugin) {
+                    VariableIO &vars, EntityPluginPtr plugin) {
     print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");

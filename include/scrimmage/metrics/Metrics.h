@@ -41,7 +41,7 @@
 
 namespace scrimmage {
 
-class Metrics : public Plugin{
+class Metrics : public EntityPlugin {
  public:
     Metrics();
     virtual ~Metrics();

@@ -46,7 +46,7 @@
 
 namespace scrimmage {
 
-Network::Network() : Plugin(), rtree_(std::make_shared<RTree>()) {}
+Network::Network() : EntityPlugin(), rtree_(std::make_shared<RTree>()) {}
 
 bool Network::init(std::map<std::string, std::string> &mission_params,
                    std::map<std::string, std::string> &plugin_params) {
@@ -232,13 +232,13 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
 }
 
 
-bool Network::is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                           const scrimmage::PluginPtr &sub_plugin) {
+bool Network::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                           const scrimmage::EntityPluginPtr &sub_plugin) {
     return false;
 }
 
-bool Network::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                         const scrimmage::PluginPtr &sub_plugin) {
+bool Network::is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                         const scrimmage::EntityPluginPtr &sub_plugin) {
     return false;
 }
 

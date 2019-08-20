@@ -54,7 +54,8 @@ namespace scrimmage {
 namespace autonomy {
 
 void JoystickAutonomy::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_, shared_from_this());
+    joystick_.init(params, vars_,
+                   std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
 bool JoystickAutonomy::step_autonomy(double t, double dt) {

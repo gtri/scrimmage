@@ -208,7 +208,9 @@ void ContactBlobCamera::draw_frustum(const std::vector<scrimmage_proto::ShapePtr
     scene_bb_line->set_persistent(false);
     scene_bb_line->set_persist_duration(0.0);
     sc::set(scene_bb_line->mutable_color(), 0, 255, 0);
-    sc::path_to_lines(sensor_scene_bb, scene_bb_line, shared_from_this());
+
+    sc::path_to_lines(sensor_scene_bb, scene_bb_line,
+                      std::static_pointer_cast<EntityPlugin>(shared_from_this()));
     // draw 8 lines for the 4 points
     const Eigen::Vector3d fov_edge_start = parent_->state_truth()->pos();
     for (int idx_bb = 0; idx_bb != 4; ++idx_bb) {

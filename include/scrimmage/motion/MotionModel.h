@@ -45,7 +45,7 @@
 
 namespace scrimmage {
 
-class MotionModel : public Plugin {
+class MotionModel : public EntityPlugin {
  public:
     typedef std::vector<double> vector_t;
 

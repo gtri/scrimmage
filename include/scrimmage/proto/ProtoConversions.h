@@ -60,7 +60,7 @@ struct Color_t;
 class ID;
 class Quaternion;
 class Frame;
-class Plugin;
+class EntityPlugin;
 
 class State;
 using StatePtr = std::shared_ptr<State>;
@@ -109,7 +109,7 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state);
 
 void path_to_lines(std::vector<Eigen::Vector3d> &path,
                    std::shared_ptr<scrimmage_proto::Shape> sample_line,
-                   std::shared_ptr<Plugin> p);
+                   std::shared_ptr<EntityPlugin> p);
 
 Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact);
 

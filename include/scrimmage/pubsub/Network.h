@@ -46,7 +46,7 @@
 
 namespace scrimmage {
 
-class Network : public Plugin {
+class Network : public EntityPlugin {
  public:
     Network();
 
@@ -83,11 +83,11 @@ class Network : public Plugin {
     // Value : Whether the publisher can reach the subscriber with a message
     std::unordered_map<int, std::unordered_map<int, bool>> reachable_map_;
 
-    virtual bool is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                              const scrimmage::PluginPtr &sub_plugin);
+    virtual bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                              const scrimmage::EntityPluginPtr &sub_plugin);
 
-    virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                            const scrimmage::PluginPtr &sub_plugin);
+    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                            const scrimmage::EntityPluginPtr &sub_plugin);
 
     virtual double get_transmission_delay();
 

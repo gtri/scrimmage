@@ -47,64 +47,67 @@
 
 namespace scrimmage {
 
-Plugin::Plugin() : parent_(std::make_shared<Entity>()), transform_(std::make_shared<State>()),
-                   id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
-                   id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
-                   time_(std::make_shared<const Time>()),
-                   name_("Plugin"),
-                   param_server_(std::make_shared<ParameterServer>()),
-                   loop_rate_(0.0),
-                   loop_timer_(0.0) {}
-
+Plugin::Plugin() : name_("Plugin") {}
 Plugin::~Plugin() {}
-
 std::string Plugin::name() { return name_; }
-
-void Plugin::set_name(std::string name) {
-  if (name_set_ == true) {
-    std::cout << "WARNING: Plugin name " << name << " being reset. Should only be set once." << std::endl;
-  }
-  name_ = name;
-  name_set_ = true;  // Set only once before warning.
-}
-
 std::string Plugin::type() { return std::string("Plugin"); }
 
-void Plugin::set_parent(EntityPtr parent) {parent_ = parent;}
+void Plugin::set_name(std::string name) {
+    if (name_set_ == true) {
+        std::cout << "WARNING: Plugin name, " << name << ", being reset. "
+                  << "Should only be set once." << std::endl;
+    }
+    name_ = name;
+    name_set_ = true;  // Set only once before warning.
+}
 
-EntityPtr Plugin::parent() { return parent_; }
+EntityPlugin::EntityPlugin() : parent_(std::make_shared<Entity>()),
+                               transform_(std::make_shared<State>()),
+                               id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
+                               id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
+                               time_(std::make_shared<const Time>()),
+                               name_("Plugin"),
+                               param_server_(std::make_shared<ParameterServer>()),
+                               loop_rate_(0.0),
+                               loop_timer_(0.0) {}
 
-void Plugin::set_scoped_property(const std::string &property_name, const MessageBasePtr &property) {
+EntityPlugin::~EntityPlugin() {}
+
+void EntityPlugin::set_parent(EntityPtr parent) {parent_ = parent;}
+
+EntityPtr EntityPlugin::parent() { return parent_; }
+
+void EntityPlugin::set_scoped_property(const std::string &property_name, const MessageBasePtr &property) {
     parent_->properties()[name() + "/" + property_name] = property;
 }
 
-MessageBasePtr Plugin::get_scoped_property_helper(const std::string &property_name) {
+MessageBasePtr EntityPlugin::get_scoped_property_helper(const std::string &property_name) {
     auto it = parent_->properties().find(name() + "/" + property_name);
     return it == parent_->properties().end() ? nullptr : it->second;
 }
 
-std::list<scrimmage_proto::ShapePtr> &Plugin::shapes() {
+std::list<scrimmage_proto::ShapePtr> &EntityPlugin::shapes() {
     return shapes_;
 }
 
-PublisherPtr Plugin::advertise(std::string network_name, std::string topic,
-                               unsigned int max_queue_size) {
+PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic,
+                                     unsigned int max_queue_size) {
     return pubsub_->advertise(network_name, topic, max_queue_size, true,
-                              shared_from_this());
+                              std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
-PublisherPtr Plugin::advertise(std::string network_name, std::string topic) {
+PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic) {
     return pubsub_->advertise(network_name, topic, 0, false,
-                              shared_from_this());
+                              std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
-void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
+void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
     if (!s->hash_set()) {
         // Hash function uses entity ID, current simulation time, plugin name,
         // and a random number.
         std::string str = this->name() + std::to_string(parent_->id().id())
-            + std::to_string(time_->t())
-            + std::to_string(parent_->random()->rng_uniform());
+                + std::to_string(time_->t())
+                + std::to_string(parent_->random()->rng_uniform());
 
         std::size_t hash_id = std::hash<std::string>{}(str);
         s->set_hash(hash_id);
@@ -113,25 +116,25 @@ void Plugin::draw_shape(scrimmage_proto::ShapePtr s) {
     shapes_.push_back(s);
 }
 
-void Plugin::set_param_server(const ParameterServerPtr &param_server) {
+void EntityPlugin::set_param_server(const ParameterServerPtr &param_server) {
     param_server_ = param_server;
 }
 
-bool Plugin::step_loop_timer(double dt) {
+bool EntityPlugin::step_loop_timer(double dt) {
     loop_timer_ -= dt;
     if (loop_timer_ <= 0.0) {
         loop_timer_ = loop_rate_ == 0 ?
-          -1.0 : loop_timer_ + (1.0 / loop_rate_);
+                -1.0 : loop_timer_ + (1.0 / loop_rate_);
         return true;
     } else {
         return false;
     }
 }
 
-void Plugin::close_plugin(const double &t) {
+void EntityPlugin::close_plugin(const double &t) {
     close(t); // allow subclass to close()
 
-    param_server_->unregister_params(shared_from_this());
+    param_server_->unregister_params(std::static_pointer_cast<EntityPlugin>(shared_from_this()));
     parent_ = nullptr;
     transform_ = nullptr;
     id_to_ent_map_ = nullptr;

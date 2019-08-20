@@ -45,10 +45,10 @@ TEST(test_params, single_set_get) {
     std::shared_ptr<sc::ParameterServer> param_server
         = std::make_shared<sc::ParameterServer>();
 
-    std::shared_ptr<sc::Plugin> one = std::make_shared<sc::Plugin>();
+    std::shared_ptr<sc::EntityPlugin> one = std::make_shared<sc::EntityPlugin>();
     one->set_param_server(param_server);
 
-    std::shared_ptr<sc::Plugin> two = std::make_shared<sc::Plugin>();
+    std::shared_ptr<sc::EntityPlugin> two = std::make_shared<sc::EntityPlugin>();
     two->set_param_server(param_server);
 
     std::string param_name = "one_param";
@@ -83,8 +83,8 @@ TEST(test_params, multiple_sets) {
         = std::make_shared<sc::ParameterServer>();
 
     int num_plugins = 10;
-    std::vector<std::shared_ptr<sc::Plugin>> plugins(
-        num_plugins, std::make_shared<sc::Plugin>());
+    std::vector<std::shared_ptr<sc::EntityPlugin>> plugins(
+        num_plugins, std::make_shared<sc::EntityPlugin>());
 
     std::string param_name = "my_param";
     double value = 0;
