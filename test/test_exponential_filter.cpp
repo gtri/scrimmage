@@ -37,7 +37,7 @@
 
 namespace sc = scrimmage;
 
-TEST(test_quaternion, rotation) {
+TEST(test_exponential_filter, filter) {
     const std::vector<double> tau_vec {0.1, 1, 10};
     const double dt = 0.001;
 

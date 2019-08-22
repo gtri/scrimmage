@@ -1,3 +1,6 @@
+set(test_list "")
+include(CodeCoverage)
+APPEND_COVERAGE_COMPILER_FLAGS()
 set(test_files
     test_algorithms.cpp
     test_angles.cpp
@@ -33,6 +36,7 @@ endif()
 foreach(test_file ${test_files})
   get_filename_component(test_name ${test_file} NAME_WE)
   add_executable(${test_name} ${test_file})
+
   AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
   add_dependencies(${test_name} scrimmage-core)
   target_link_libraries(${test_name}
@@ -44,4 +48,25 @@ foreach(test_file ${test_files})
   endif()
 
   add_test(NAME ${test_name} COMMAND ${test_name})
+  list(APPEND test_list "${test_name}")
 endforeach()
+
+# Add test executable for all tests for coverage
+add_executable(test_all
+    ${test_files}
+)
+add_dependencies(test_all ${test_list} scrimmage-core)
+AddExternalTarget(test_all EXTERNAL_PROJECT_GTEST)
+target_link_libraries(test_all
+  gtest_main
+  scrimmage-core
+)
+if (ENABLE_PYTHON_BINDINGS)
+  target_link_libraries(test_all scrimmage-python)
+endif()
+
+SETUP_TARGET_FOR_COVERAGE_LCOV(
+  NAME test_coverage                        # New target name
+  EXECUTABLE test_all -j ${PROCESSOR_COUNT} # Executable in PROJECT_BINARY_DIR
+  DEPENDENCIES test_all scrimmage-core      # Dependencies to build first
+)

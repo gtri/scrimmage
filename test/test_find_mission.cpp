@@ -37,7 +37,7 @@
 
 namespace sc = scrimmage;
 
-TEST(test_angles, rotation) {
+TEST(test_find_mission, straight) {
     const std::string mission = "straight";
     auto res = sc::FileSearch().find_mission(mission, true);
     bool success = res ? true : false;
