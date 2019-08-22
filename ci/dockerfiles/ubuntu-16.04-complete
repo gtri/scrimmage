@@ -12,11 +12,11 @@ COPY ./ /root/scrimmage/
 WORKDIR /root
 
 # this is for openai gym
-# not installed as part of 3rd-party building 
+# not installed as part of 3rd-party building
 # so as not to confuse python environments
 # see here for installation commands:
 # https://github.com/openai/gym#installing-everything
-RUN apt-get update && apt-get install -y python3-pip python3-numpy python3-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python3-opengl libboost-all-dev libsdl2-dev swig
+RUN apt-get update && apt-get install -y python3-pip python3-numpy python3-dev cmake lcov zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python3-opengl libboost-all-dev libsdl2-dev swig
 RUN apt-get update && apt-get install -y git ninja-build
 RUN git clone https://github.com/openai/gym
 WORKDIR /root/gym
@@ -40,7 +40,7 @@ RUN mkdir -p ./3rd-party/build && \
 RUN cd /root/scrimmage/3rd-party/build/src/protobuf/python && \
     python3 setup.py build && python3 setup.py install
 
-# build 3rd party python grpc 
+# build 3rd party python grpc
 RUN cd /root/scrimmage/3rd-party/build/src/grpc && \
     pip3 install -rrequirements.txt && \
     GRPC_PYTHON_BUILD_WITH_CYTHON=1 python3 setup.py install
