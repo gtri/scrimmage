@@ -168,9 +168,23 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
 
     // Publish the resulting bounding boxes
     pub_ = advertise("LocalNetwork", "ContactBlobCamera");
+
+    // Initialize frustum shapes
+    frustum_shapes_.resize(8);
+    for (auto&& shape : frustum_shapes_) {
+        shape = std::make_shared<scrimmage_proto::Shape>();
+        sc::set(shape->mutable_color(), 0, 255, 0);
+        shape->set_opacity(1.0);
+        shape->set_persistent(false);
+        shape->set_persist_duration(0.0);
+    }
 }
 
-void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
+void ContactBlobCamera::draw_frustum(const std::vector<scrimmage_proto::ShapePtr>& frustum_shapes, double x_rot, double y_rot, double z_rot) {
+    if (frustum_shapes.size() != 8) {
+        std::cerr << "ContactBlobCamera::draw_frustum: ERROR: input shape vector must be size 8" << std::endl;
+        return;
+    }
     double sensor_footprint_height = max_detect_range_ * tan(el_thresh_ / 2) * 2;
     double sensor_footprint_width = max_detect_range_ * tan(az_thresh_ / 2) * 2;
     Eigen::Vector3d sensor_UL(max_detect_range_,  sensor_footprint_width / 2, -sensor_footprint_height / 2);
@@ -195,17 +209,30 @@ void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
     scene_bb_line->set_persist_duration(0.0);
     sc::set(scene_bb_line->mutable_color(), 0, 255, 0);
     sc::path_to_lines(sensor_scene_bb, scene_bb_line, shared_from_this());
+    // draw 8 lines for the 4 points
+    const Eigen::Vector3d fov_edge_start = parent_->state_truth()->pos();
+    for (int idx_bb = 0; idx_bb != 4; ++idx_bb) {
+        // box edges are idx 0-3 in frustum, fov edges are 4-7
+        const size_t idx_fov_edge = idx_bb + 4;
 
-    // Draw lines from scene box to the point of view
-    for (unsigned int iter = 0; iter < sensor_scene_bb.size() - 1; iter++) {
-        auto line = std::make_shared<scrimmage_proto::Shape>();
-        sc::set(line->mutable_color(), 0, 255, 0);
-        line->set_opacity(1.0);
-        line->set_persistent(false);
-        line->set_persist_duration(0.0);
-        sc::set(line->mutable_line()->mutable_start(), parent_->state_truth()->pos());
-        sc::set(line->mutable_line()->mutable_end(), sensor_scene_bb[iter]);
-        draw_shape(line);
+        // set box line
+        Eigen::Vector3d box_edge_start;
+        const Eigen::Vector3d box_edge_end = sensor_scene_bb.at(idx_bb);
+        if (idx_bb == 0) {
+            box_edge_start = sensor_scene_bb.back();
+        } else {
+            box_edge_start = sensor_scene_bb.at(idx_bb-1);
+        }
+        scrimmage::set(frustum_shapes.at(idx_bb)->mutable_line()->mutable_start(), box_edge_start);
+        scrimmage::set(frustum_shapes.at(idx_bb)->mutable_line()->mutable_end(), box_edge_end);
+
+        // set fov line
+        scrimmage::set(frustum_shapes.at(idx_fov_edge)->mutable_line()->mutable_start(), fov_edge_start);
+        scrimmage::set(frustum_shapes.at(idx_fov_edge)->mutable_line()->mutable_end(), box_edge_end);
+    }
+    // draw all lines
+    for (auto&& shape : frustum_shapes) {
+        draw_shape(shape);
     }
 }
 
@@ -333,7 +360,7 @@ bool ContactBlobCamera::step() {
     sensor_frame.pos() = this->transform()->pos() + parent_->state_truth()->pos();
 
     if (show_frustum_) {
-        draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
+        draw_frustum(frustum_shapes_, sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
     }
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
