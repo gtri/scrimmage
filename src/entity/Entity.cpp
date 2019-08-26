@@ -252,7 +252,6 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_param_server(param_server);
         motion_model_->set_time(time);
         motion_model_->set_name("BLANK");
-        motion_model_->set_given_name("BLANK");
     }
 
     ////////////////////////////////////////////////////////////
@@ -302,7 +301,6 @@ bool Entity::init(AttributeMap &overrides,
             controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
-            controller->set_given_name(info[controller_name]);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -409,7 +407,6 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_contacts(contacts);
             autonomy->set_is_controlling(true);
             autonomy->set_name(info[autonomy_name]);
-            autonomy->set_given_name(info[autonomy_name]);
             param_override_func(config_parse.params());
             autonomy->init(config_parse.params());
 
