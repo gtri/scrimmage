@@ -56,6 +56,10 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_z(z);
 }
 
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Color src) {
+    dst << src.r(), src.g(), src.b();
+}
+
 void set(std::vector<int> &dst, const scrimmage_proto::Color &src) {
     dst = {src.r(), src.g(), src.b()};
 }
@@ -238,6 +242,23 @@ void path_to_lines(std::vector<Eigen::Vector3d> &path,
         p->draw_shape(ln);
     }
 }
+
+std::list<scrimmage_proto::Line> points_to_lines(
+    const std::list<Eigen::Vector3d> &points) {
+
+    // Stop one item before the end of the points list
+    auto stop = std::prev(points.end());
+
+    std::list<scrimmage_proto::Line> lines;
+    for (auto it = points.begin(); it != stop; ++it) {
+        scrimmage_proto::Line line;
+        set(line.mutable_start(), *it);
+        set(line.mutable_end(), *std::next(it));
+        lines.push_back(line);
+    }
+    return lines;
+}
+
 
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     Frame frame;
