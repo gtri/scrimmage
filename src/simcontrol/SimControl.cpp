@@ -43,6 +43,7 @@
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/ParameterServer.h>
+#include <scrimmage/common/GlobalService.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/motion/Controller.h>
@@ -103,6 +104,7 @@ SimControl::SimControl() :
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
     time_(std::make_shared<Time>()),
     param_server_(std::make_shared<ParameterServer>()),
+    global_services_(std::make_shared<GlobalService>()),
     timer_(Timer()),
     random_(std::make_shared<Random>()),
     plugin_manager_(std::make_shared<PluginManager>()),
@@ -111,7 +113,6 @@ SimControl::SimControl() :
     file_search_(std::make_shared<FileSearch>()),
     sim_plugin_(std::make_shared<Plugin>()),
     limited_verbosity_(false) {
-
     pause(false);
     prev_paused_ = false;
     single_step(false);
@@ -290,7 +291,7 @@ bool SimControl::init() {
     networks_ = std::make_shared<NetworkMap>();
     if (!create_networks(info, *networks_)) return false;
     if (!create_metrics(info, contacts_, metrics_)) return false;
-    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_)) return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, global_services_)) return false;
 
     // Setup simcontrol's pubsub plugin
     pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
@@ -579,7 +580,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     bool ent_status = ent->init(attr_map, params,
                                 contacts_, mp_, proj_, next_id_, ent_desc_id,
                                 plugin_manager_, file_search_, rtree_, pubsub_, time_,
-                                param_server_,
+                                param_server_, global_services_,
                                 std::set<std::string>{},
                                 [](std::map<std::string, std::string>&){});
     contacts_mutex_.unlock();

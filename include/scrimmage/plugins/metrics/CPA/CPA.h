@@ -65,7 +65,6 @@ class CPAData {
 class CPA : public scrimmage::Metrics {
  public:
     CPA();
-    std::string name() override { return std::string("CPA"); }
     void init(std::map<std::string, std::string> &params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;

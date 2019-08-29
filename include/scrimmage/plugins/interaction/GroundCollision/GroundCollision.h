@@ -46,9 +46,6 @@ class GroundCollision : public scrimmage::EntityInteraction {
  public:
     GroundCollision();
 
-    std::string name() override
-    { return std::string("GroundCollision"); }
-
     bool init(std::map<std::string, std::string> &mission_params,
                       std::map<std::string, std::string> &plugin_params) override;
 

@@ -181,6 +181,7 @@ class SimControl {
 
     TimePtr time_;
     ParameterServerPtr param_server_;
+    GlobalServicePtr global_services_;
 
     double t0_ = 0;
     double tend_ = 0;

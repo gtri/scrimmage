@@ -59,7 +59,6 @@ using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::Messag
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
 class Entity : public std::enable_shared_from_this<Entity> {
-
  public:
     /*! \name utilities */
     ///@{
@@ -76,9 +75,9 @@ class Entity : public std::enable_shared_from_this<Entity> {
               PubSubPtr &pubsub,
               TimePtr &time,
               const ParameterServerPtr &param_server,
+              const GlobalServicePtr &global_services,
               const std::set<std::string> &plugin_tags,
-              std::function<void(std::map<std::string, std::string>&)> param_override_func
-        );
+              std::function<void(std::map<std::string, std::string>&)> param_override_func);
 
     void print_plugins(std::ostream &out) const;
 
@@ -159,7 +158,12 @@ class Entity : public std::enable_shared_from_this<Entity> {
     std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
     SensorPtr sensor(const std::string &sensor_name);
 
+    // Enables creating services at the entity level
     std::unordered_map<std::string, Service> &services();
+    // Enables creating services at the global level (especially for entity interactions, etc.)
+    std::unordered_map<std::string, Service> &global_services();
+    // Enables setting these for entity interactions
+    void set_global_services(const GlobalServicePtr &global_services);
 
     std::unordered_map<std::string, MessageBasePtr> &properties();
 
@@ -224,6 +228,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     PluginManagerPtr plugin_manager_;
     FileSearchPtr file_search_;
     PubSubPtr pubsub_;
+    GlobalServicePtr global_services_;
     TimePtr time_;
 };
 

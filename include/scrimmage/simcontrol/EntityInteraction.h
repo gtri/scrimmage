@@ -52,9 +52,6 @@ class EntityInteraction : public Plugin {
                       std::map<std::string, std::string> &/*plugin_params*/)
     { return true;}
 
-    inline std::string name() override
-    { return std::string("EntityInteraction"); }
-
     inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
                                                 double /*t*/, double /*dt*/)
     { return false; }

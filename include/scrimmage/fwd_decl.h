@@ -85,6 +85,9 @@ using ParameterBasePtr = std::shared_ptr<ParameterBase>;
 class ParameterServer;
 using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 
+class GlobalService;
+using GlobalServicePtr = std::shared_ptr<GlobalService>;
+
 class Network;
 using NetworkPtr = std::shared_ptr<Network>;
 using NetworkMap = std::map<std::string, NetworkPtr>;

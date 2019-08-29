@@ -36,6 +36,7 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/GlobalService.h>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
@@ -79,6 +80,7 @@ External::External() :
     pubsub_(std::make_shared<PubSub>()),
     time_(std::make_shared<Time>()),
     param_server_(std::make_shared<ParameterServer>()),
+    global_services_(std::make_shared<GlobalService>()),
     mp_(std::make_shared<MissionParse>()),
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
@@ -180,7 +182,7 @@ bool External::create_entity(const std::string &mission_file,
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, plugin_tags, param_override_func)) {
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, global_services_, plugin_tags, param_override_func)) {
         std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }
@@ -205,7 +207,7 @@ bool External::create_entity(const std::string &mission_file,
         entity_->init(
             attr_map, info, contacts, mp_, mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_, param_server_, plugin_tags, param_override_func);
+            time_, param_server_, global_services_, plugin_tags, param_override_func);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;

@@ -246,10 +246,6 @@ double Network::get_transmission_delay() {
     return comm_delay_;
 }
 
-std::string Network::name() {
-    return name_;
-}
-
 std::string Network::type() {
     return std::string("Network");
 }

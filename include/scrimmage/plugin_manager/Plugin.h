@@ -71,8 +71,9 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     Plugin();
     virtual ~Plugin();
 
-    virtual void set_name(std::string name) { name_ = name; }
-    virtual std::string name();
+    void set_name(std::string name);  // Cannot be overridden
+    std::string name();  // Cannot be overridden
+
     virtual std::string type();
     virtual bool ready() { return true; }
 
@@ -165,7 +166,6 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     bool step_loop_timer(double dt);
 
  protected:
-    std::string name_;
     EntityPtr parent_;
 
     StatePtr transform_;
@@ -180,6 +180,9 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     std::shared_ptr<const Time> time_;
 
  private:
+    // This name should only be set by the creator so it matches what is in the parent's list.
+    std::string name_;
+    bool name_set_{false};  // For warning information
     std::list<scrimmage_proto::ShapePtr> shapes_;
     ParameterServerPtr param_server_;
     double loop_rate_;
@@ -190,5 +193,5 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
 };
 
 using PluginPtr = std::shared_ptr<Plugin>;
-} // namespace scrimmage
+}  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_

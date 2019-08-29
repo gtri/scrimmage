@@ -55,33 +55,49 @@ class RayTrace : public scrimmage::Sensor {
         bool oor;  // Out of range
     };
 
+    /**
+     * Defines a single ray for the point cloud in terms of azimuth and elevation angles from center
+     */
+    class PCRay {
+     public:
+        PCRay() : azimuth_rad(0.0), elevation_rad(0.0) {}
+        PCRay(double in_az_rad, double in_el_rad) : azimuth_rad(in_az_rad), elevation_rad(in_el_rad) {}
+        double azimuth_rad;
+        double elevation_rad;
+    };
+
     class PointCloud {
      public:
-        PointCloud() : max_range(0), min_range(0), num_rays_vert(0),
-            num_rays_horiz(0), angle_res_vert(0), angle_res_horiz(0),
-            max_sample_rate(0) {}
+        PointCloud() : max_range(0), min_range(0), max_sample_rate(0) {}
+
+        std::vector<PCRay> get_rays();
 
         std::vector<PCPoint> points;
+        std::vector<PCRay> rays;
         double max_range;
         double min_range;
-        double num_rays_vert;
-        double num_rays_horiz;
-        double angle_res_vert;
-        double angle_res_horiz;
         double max_sample_rate;
+    };
+
+    class PointCloudWithId : public PointCloud {
+     public:
+        PointCloudWithId() :  PointCloud(), sensor_name("unknown"), entity_id(0) {}
+
+        std::string sensor_name;
+        int entity_id;
     };
 
     RayTrace();
 
-    std::string name() override { return "RayTrace"; }
     std::string type() override { return "Ray"; }
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
 
-    double angle_res_vert() { return angle_res_vert_; }
-    double angle_res_horiz() { return angle_res_horiz_; }
-    int num_rays_vert() { return num_rays_vert_; }
-    int num_rays_horiz() { return num_rays_horiz_; }
+    /** Whether to have the bullet collision plugin automatically run ray tracing for this sensor and send associated messages */
+    bool automatic_ray_tracing() { return auto_ray_tracing_; }
+    /** Returns a copy of the rays*/
+    std::vector<PCRay> rays();
+    /** Sensor ranges and update rates */
     double max_range() { return max_range_; }
     double min_range() { return min_range_; }
     double max_sample_rate() { return max_sample_rate_; }
@@ -90,13 +106,16 @@ class RayTrace : public scrimmage::Sensor {
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
 
-    double angle_res_vert_;
-    double angle_res_horiz_;
-    int num_rays_vert_;
-    int num_rays_horiz_;
+    // Define all rays instead of max and min angle sweeps with resolution
+    std::vector<PCRay> rays_;
+    uint32_t ray_id_counter_{0};
+    // Ranges used to cap the ray search for entities and ground
     double max_range_;
     double min_range_;
+    // Sample rate used for update rate in collision models
     double max_sample_rate_;
+    // Configuration item of whether to do automatic ray tracing - default true for backwards compatibility
+    bool auto_ray_tracing_{true};
 
     PublisherPtr pub_;
 };
