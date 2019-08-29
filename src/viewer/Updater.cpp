@@ -52,6 +52,7 @@
 #include <vtkPointData.h>
 #include <vtkPoints.h>
 #include <vtkPolygon.h>
+#include <vtkPolyLine.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
 #include <vtkCallbackCommand.h>
@@ -2066,9 +2067,40 @@ bool Updater::draw_polyline(const bool &new_shape,
                             vtkSmartPointer<vtkActor> &actor,
                             vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    const auto ptr_field = pl.line();
-    for (auto it = ptr_field.begin(); it != ptr_field.end(); ++it) {
-      draw_line(new_shape, *it, actor, source, mapper);
+    if (new_shape) {
+        vtkSmartPointer<vtkPoints> points =
+                vtkSmartPointer<vtkPoints>::New();
+
+        for (int i = 0; i < pl.point_size(); i++) {
+            points->InsertNextPoint(pl.point(i).x(), pl.point(i).y(),
+                                    pl.point(i).z());
+        }
+
+        vtkSmartPointer<vtkPolyLine> polyLine =
+                vtkSmartPointer<vtkPolyLine>::New();
+        polyLine->GetPointIds()->SetNumberOfIds(pl.point_size());
+        for(int i = 0; i < pl.point_size(); i++) {
+            polyLine->GetPointIds()->SetId(i, i);
+        }
+
+        // Create a cell array to store the lines in and add the lines to it
+        vtkSmartPointer<vtkCellArray> cells =
+                vtkSmartPointer<vtkCellArray>::New();
+        cells->InsertNextCell(polyLine);
+
+        // Create a polydata to store everything in
+        vtkSmartPointer<vtkPolyData> polyData =
+                vtkSmartPointer<vtkPolyData>::New();
+
+        // Add the points to the dataset
+        polyData->SetPoints(points);
+
+        // Add the lines to the dataset
+        polyData->SetLines(cells);
+
+        // source = polyLine; // Not inherited from source
+        mapper->SetInputData(polyData);
+        actor->SetMapper(mapper);
     }
     return true;
 }

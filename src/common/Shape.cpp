@@ -225,13 +225,13 @@ ShapePtr make_polyhedron(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_polyline(const std::list<scrimmage_proto::Line> &lines,
+ShapePtr make_polyline(const std::list<Eigen::Vector3d> &points,
                        const Eigen::Vector3d &color,
                        const double &opacity) {
     auto shape = make_shape(color, opacity);
-    for (auto &line : lines) {
-        auto l = shape->mutable_polyline()->add_line();
-        l->CopyFrom(line);
+    for (auto &point : points) {
+        auto p = shape->mutable_polyline()->add_point();
+        sc::set(p, point);
     }
     return shape;
 }
