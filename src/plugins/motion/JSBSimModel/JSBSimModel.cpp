@@ -94,15 +94,14 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     }
 
     exec_->SetDebugLevel(0);
-    exec_->SetRootDir(info["JSBSIM_ROOT"]);
-    exec_->SetAircraftPath("/aircraft");
-    exec_->SetEnginePath("/engine");
-    exec_->SetSystemsPath("/systems");
+    exec_->SetRootDir(SGPath(info["JSBSIM_ROOT"]));
+    exec_->SetAircraftPath(SGPath(info["JSBSIM_ROOT"] + "/aircraft"));
+    exec_->SetEnginePath(SGPath("/engine"));
+    exec_->SetSystemsPath(SGPath("/systems"));
 
-    exec_->LoadScript("/scripts/"+info["script_name"]);
+    exec_->LoadScript(SGPath(info["JSBSIM_ROOT"] + "/scripts/"+info["script_name"]));
 
-    exec_->SetRootDir(parent_->mp()->log_dir());
-    exec_->SetRootDir(info["JSBSIM_ROOT"]);
+    exec_->SetRootDir(SGPath(info["JSBSIM_ROOT"]));
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();
     if (info.count("latitude") > 0) {
