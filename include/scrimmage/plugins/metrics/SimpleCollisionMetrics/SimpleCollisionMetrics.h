@@ -46,7 +46,6 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
     SimpleCollisionMetrics();
 
-    std::string name() override { return std::string("SimpleCollisionMetrics"); }
     void init(std::map<std::string, std::string> &params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;

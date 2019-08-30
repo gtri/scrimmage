@@ -32,6 +32,7 @@ set(SRCS
     common/DelayedTask.cpp
     common/ExponentialFilter.cpp
     common/ParameterServer.cpp
+    common/GlobalService.cpp
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
 )

@@ -75,6 +75,7 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 namespace sp = scrimmage_proto;
+namespace pl = std::placeholders;
 using scrimmage::sensor::RayTrace;
 
 REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::BulletCollision, BulletCollision_plugin)
@@ -140,6 +141,12 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
     pcl_topic_name_ = get("pcl_topic_name", plugin_params, pcl_topic_name_);
     prepend_pcl_topic_with_id_ = get("prepend_pcl_topic_with_id", plugin_params, false);
 
+    // Define the service call for ray tracing
+    parent_->global_services()["get_ray_tracing"] =
+        std::bind(&BulletCollision::get_ray_tracing, this, pl::_1, pl::_2);
+
+    // Enable the service interface for ray tracing
+
     auto ent_gen_cb = [&] (scrimmage::MessagePtr<sm::EntityGenerated> msg) {
         auto pc_desc = std::make_unique<PointCloudDescription>();
 
@@ -154,7 +161,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
             (btScalar) ent->state_truth()->pos()(1),
             (btScalar) ent->state_truth()->pos()(2)));
 
-        btSphereShape * sphere_shape = new btSphereShape(ent->radius()); // TODO: memory management
+        btSphereShape * sphere_shape = new btSphereShape(ent->radius());  // TODO: memory management
         coll_object->setCollisionShape(sphere_shape);
         bt_collision_world->addCollisionObject(coll_object);
 
@@ -171,77 +178,69 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
             // What types of sensors need to be attached to this entity?
             for (auto &kv : ent->sensors()) {
                 if (kv.second->type() == "Ray") {
-                    std::string topic = kv.second->name() + "/" + pcl_topic_name_;
-                    if (prepend_pcl_topic_with_id_) {
-                        topic = std::to_string(id) + "/" + topic;
-                    }
-                    if (publish_on_local_networks_) {
-                        // Create a plugin that can publish on the local network
-                        AutonomyPtr plugin = std::make_shared<Autonomy>();
-                        plugin->set_parent(ent);
-                        plugin->set_pubsub(plugin->parent()->pubsub());
-
-                        // Create a publisher for this sensor
-                        pc_desc->pub = plugin->advertise(pcl_network_name_, topic, 10);
-
-                        // Add the empty plugin to the entity's autonomies list
-                        ent->autonomies().push_back(plugin);
-                    } else {
-                        pc_desc->pub = advertise(pcl_network_name_, topic, 10);
-                    }
-
                     std::shared_ptr<RayTrace> rs =
                         std::dynamic_pointer_cast<RayTrace>(kv.second);
-                    if (rs) {
-                        RayTrace::PointCloud pcl;
-                        pcl.max_range = rs->max_range();
-                        pcl.min_range = rs->min_range();
-                        pcl.num_rays_vert = rs->num_rays_vert();
-                        pcl.num_rays_horiz = rs->num_rays_horiz();
-                        pcl.angle_res_vert = rs->angle_res_vert();
-                        pcl.angle_res_horiz = rs->angle_res_horiz();
-                        pcl.max_sample_rate = rs->max_sample_rate();
+                    // Check whether automatic ray tracing should be done
+                    if (rs->automatic_ray_tracing() == true) {
+                        std::string topic = kv.second->name() + "/" + pcl_topic_name_;
+                        if (prepend_pcl_topic_with_id_) {
+                            topic = std::to_string(id) + "/" + topic;
+                        }
+                        if (publish_on_local_networks_) {
+                            // Create a plugin that can publish on the local network
+                            AutonomyPtr plugin = std::make_shared<Autonomy>();
+                            plugin->set_parent(ent);
+                            plugin->set_pubsub(plugin->parent()->pubsub());
 
-                        double fov_horiz = rs->angle_res_horiz() * (rs->num_rays_horiz() - 1);
-                        double fov_vert = rs->angle_res_vert() * (rs->num_rays_vert() - 1);
-                        double start_angle_horiz = -fov_horiz / 2.0;
-                        double start_angle_vert = -fov_vert / 2.0;
+                            // Create a publisher for this sensor
+                            pc_desc->pub = plugin->advertise(pcl_network_name_, topic, 10);
 
-                        double angle_vert = start_angle_vert;
-                        for (int v = 0; v < rs->num_rays_vert(); v++) {
-                            double angle_horiz = start_angle_horiz;
-                            for (int h = 0; h < rs->num_rays_horiz(); h++) {
+                            // Add the empty plugin to the entity's autonomies list
+                            ent->autonomies().push_back(plugin);
+                        } else {
+                            pc_desc->pub = advertise(pcl_network_name_, topic, 10);
+                        }
+
+                        std::shared_ptr<RayTrace> rs =
+                            std::dynamic_pointer_cast<RayTrace>(kv.second);
+                        if (rs) {
+                            RayTrace::PointCloud pcl;
+                            pcl.max_range = rs->max_range();
+                            pcl.min_range = rs->min_range();
+                            pcl.max_sample_rate = rs->max_sample_rate();
+                            // Get the rays (copied internally, so can just assign here), using the model name
+                            //  so the dirty flag can be checked later.
+                            pcl.rays = rs->rays();
+                            for (auto &ray : pcl.rays) {
                                 Eigen::Vector3d r(rs->max_range(), 0, 0);
-                                sc::Quaternion rot_vert(Eigen::Vector3d(0, 1, 0), angle_vert);
+                                sc::Quaternion rot_vert(Eigen::Vector3d(0, 1, 0), ray.elevation_rad);
                                 r = rot_vert.rotate(r);
 
-                                sc::Quaternion rot_horiz(Eigen::Vector3d(0, 0, 1), angle_horiz);
+                                sc::Quaternion rot_horiz(Eigen::Vector3d(0, 0, 1), ray.azimuth_rad);
                                 r = rot_horiz.rotate(r);
 
                                 pcl.points.push_back(RayTrace::PCPoint(r));
-                                angle_horiz += rs->angle_res_horiz();
                             }
-                            angle_vert += rs->angle_res_vert();
-                        }
-                        pc_desc->point_cloud = pcl;
-                        pc_desc->last_update_time = time_->t();
+                            pc_desc->point_cloud = pcl;
+                            pc_desc->last_update_time = time_->t();
 
-                        if (show_rays_) {
-                            // Construct the ray shapes, but don't draw them
-                            // yet.
-                            for (unsigned int i = 0;
-                                 i < pc_desc->point_cloud.points.size(); i++) {
-                                std::shared_ptr<sp::Shape> line(new sp::Shape);
-                                sc::set(line->mutable_color(), 255, 0, 0);
-                                line->set_opacity(1.0);
-                                sc::set(line->mutable_line()->mutable_start(), Eigen::Vector3d(0, 0, 0));
-                                sc::set(line->mutable_line()->mutable_end(), Eigen::Vector3d(0, 0, 0));
-                                pc_desc->shapes.push_back(line);
+                            if (show_rays_) {
+                                // Construct the ray shapes, but don't draw them
+                                // yet.
+                                for (unsigned int i = 0;
+                                     i < pc_desc->point_cloud.points.size(); i++) {
+                                    std::shared_ptr<sp::Shape> line(new sp::Shape);
+                                    sc::set(line->mutable_color(), 255, 0, 0);
+                                    line->set_opacity(1.0);
+                                    sc::set(line->mutable_line()->mutable_start(), Eigen::Vector3d(0, 0, 0));
+                                    sc::set(line->mutable_line()->mutable_end(), Eigen::Vector3d(0, 0, 0));
+                                    pc_desc->shapes.push_back(line);
+                                }
                             }
-                        }
 
-                        // Move the description into the map
-                        pc_descs_[id][kv.first] = std::move(pc_desc);
+                            // Move the description into the map
+                            pc_descs_[id][kv.first] = std::move(pc_desc);
+                        }
                     }
                 }
             }
@@ -421,10 +420,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                 auto msg = std::make_shared<sc::Message<RayTrace::PointCloud>>();
                 msg->data.max_range = pc.max_range;
                 msg->data.min_range = pc.min_range;
-                msg->data.num_rays_vert = pc.num_rays_vert;
-                msg->data.num_rays_horiz = pc.num_rays_horiz;
-                msg->data.angle_res_vert = pc.angle_res_vert;
-                msg->data.angle_res_horiz = pc.angle_res_horiz;
+                msg->data.rays = pc.get_rays();
 
                 // Compute transformation matrix from entity's frame to sensor's
                 // frame.
@@ -554,7 +550,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                         remove_entity_object(obj_a_id);
                         remove_entity_object(obj_b_id);
 
-                    } else if (enable_non_team_collisions_ && not same_team) {
+                    } else if (enable_non_team_collisions_ && !same_team) {
                         // Construct the NonTeamCollision message
                         auto msg = std::make_shared<Message<sm::NonTeamCollision>>();
                         msg->data.set_entity_id_1(ent_a->id().id());
@@ -585,6 +581,91 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             }
         }
     }
+    return true;
+}
+
+bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
+                                      scrimmage::MessageBasePtr &response) {
+    auto request_cast = std::dynamic_pointer_cast<sc::Message<RayTrace::PointCloudWithId>>(request);
+
+    if (request_cast == nullptr) {
+        std::cout << "Could not cast to sc::Message<RayTrace::PointCloudId> request" << std::endl;
+        return false;
+    }
+
+    int entity_id = request_cast->data.entity_id;
+    std::string sensor_name = request_cast->data.sensor_name;
+    sc::EntityPtr &own_ent = (*id_to_ent_map_)[entity_id];
+    Eigen::Vector3d own_pos = own_ent->state_truth()->pos();
+    // Compute transformation matrix from entity's frame to sensor's
+    // frame.
+    sc::SensorPtr &sensor = own_ent->sensors()[sensor_name];
+    Eigen::Matrix4d tf_m = own_ent->state_truth()->tf_matrix(false) *
+                           sensor->transform()->tf_matrix();
+    auto response_cast = std::make_shared<sc::Message<RayTrace::PointCloud>>();
+    response_cast->data.max_range = request_cast->data.max_range;
+    response_cast->data.min_range = request_cast->data.min_range;
+    response_cast->data.rays = request_cast->data.get_rays();
+
+    // Create the points from the rays
+    for (auto &ray : response_cast->data.rays) {
+        Eigen::Vector3d r(response_cast->data.max_range, 0, 0);
+        sc::Quaternion rot_vert(Eigen::Vector3d(0, 1, 0), ray.elevation_rad);
+        r = rot_vert.rotate(r);
+
+        sc::Quaternion rot_horiz(Eigen::Vector3d(0, 0, 1), ray.azimuth_rad);
+        r = rot_horiz.rotate(r);
+
+        request_cast->data.points.push_back(RayTrace::PCPoint(r));
+    }
+
+    // For each ray in the sensor
+    for (RayTrace::PCPoint &pcpoint : request_cast->data.points) {
+        Eigen::Vector3d original_ray = pcpoint.point;
+        // Transform sensor's origin to world coordinates
+        Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
+        Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
+
+        // Transform ray's end point to world coordinates
+        Eigen::Vector4d ray = tf_m * Eigen::Vector4d(original_ray(0),
+                              original_ray(1),
+                              original_ray(2),
+                              1);
+        Eigen::Vector3d ray_w = ray.head<3>() + own_pos;
+
+        // Create bullet vectors
+        btVector3 btFrom(sensor_pos_w(0), sensor_pos_w(1), sensor_pos_w(2));
+        btVector3 btTo(ray_w(0), ray_w(1), ray_w(2));
+
+        // Perform ray casting
+        btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+        bt_collision_world->rayTest(btFrom, btTo, res);
+
+        // Points in the RayTrace message are defined with respect to
+        // the LIDAR sensor's coordinate frame. Use original ray's
+        // direction, shorten to length of detection ray, if a
+        // collision occurred.
+        Eigen::Vector3d ray_end;
+        if (res.hasHit()) {
+            Eigen::Vector3d hit_point(res.m_hitPointWorld.x(),
+                                      res.m_hitPointWorld.y(),
+                                      res.m_hitPointWorld.z());
+            Eigen::Vector3d return_vec = original_ray.normalized() *
+                                         (hit_point - sensor_pos_w).norm();
+            response_cast->data.points.push_back(
+                RayTrace::PCPoint(return_vec, 255,
+                                  ((return_vec.norm() > response_cast->data.max_range) ||
+                                   (return_vec.norm() < response_cast->data.min_range))));
+            ray_end = hit_point;
+        } else {
+            response_cast->data.points.push_back(RayTrace::PCPoint(original_ray, 255, true));
+            ray_end = ray_w;
+        }
+    }
+    // Save the response
+    response = response_cast;
+
+    // Success
     return true;
 }
 
@@ -631,5 +712,5 @@ bool BulletCollision::collision_exists(std::list<sc::EntityPtr> &ents,
                                        Eigen::Vector3d &p) {
     return false;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

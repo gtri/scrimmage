@@ -32,6 +32,7 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/GlobalService.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -77,10 +78,11 @@ bool Entity::init(AttributeMap &overrides,
                   PubSubPtr &pubsub,
                   TimePtr &time,
                   const ParameterServerPtr &param_server,
+                  const GlobalServicePtr &global_services,
                   const std::set<std::string> &plugin_tags,
                   std::function<void(std::map<std::string, std::string>&)> param_override_func) {
-
     pubsub_ = pubsub;
+    global_services_ = global_services;
     time_ = time;
     file_search_ = file_search;
     plugin_manager_ = plugin_manager;
@@ -190,7 +192,6 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_pubsub(pubsub);
             sensor->set_time(time);
             sensor->set_param_server(param_server);
-            sensor->set_name(sensor_name);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -200,8 +201,11 @@ bool Entity::init(AttributeMap &overrides,
               sensor->set_loop_rate(loop_rate);
             }
 
+            std::string given_name = sensor_name + std::to_string(sensor_ct);
+            sensor->set_name(given_name);
+
             sensor->init(config_parse.params());
-            sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
+            sensors_[given_name] = sensor;
         }
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
     }
@@ -607,21 +611,33 @@ void Entity::setup_desired_state() {
 }
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
+std::unordered_map<std::string, Service> &Entity::global_services() {
+    return global_services_->services();
+}
+
+void Entity::set_global_services(const GlobalServicePtr &global_services) {
+    global_services_ = global_services;
+}
 
 bool Entity::call_service(scrimmage::MessageBasePtr req,
         scrimmage::MessageBasePtr &res, const std::string &service_name) {
-
     auto it = services_.find(service_name);
     if (it == services_.end()) {
-        std::cout << "request for service ("
-            << service_name
-            << ") that does not exist" << std::endl;
-        std::cout << "services are: ";
-        for (auto &kv : services_) {
-            std::cout << kv.first << ", ";
+        // First check for a global service of this name
+        bool found = global_services_->call_service(req, res, service_name);
+        if (!found) {
+            std::cout << "request for service ("
+                << service_name
+                << ") that does not exist" << std::endl;
+            std::cout << "services are: ";
+            for (auto &kv : services_) {
+                std::cout << kv.first << ", ";
+            }
+            std::cout << std::endl;
+            return false;
+        } else {
+            return true;
         }
-        std::cout << std::endl;
-        return false;
     }
 
     Service &service = it->second;
@@ -648,7 +664,7 @@ void Entity::close(double t) {
         kv.second->close_plugin(t);
     }
 
-    for (ControllerPtr controller: controllers_) {
+    for (ControllerPtr controller : controllers_) {
         controller->close_plugin(t);
     }
 
@@ -672,6 +688,7 @@ void Entity::close(double t) {
     plugin_manager_ = nullptr;
     file_search_ = nullptr;
     pubsub_ = nullptr;
+    global_services_ = nullptr;
     time_ = nullptr;
 }
 
@@ -704,4 +721,4 @@ void Entity::print_plugins(std::ostream &out) const {
         out << motion_model_->name() << endl;
     }
 }
-} // namespace scrimmage
+}  // namespace scrimmage

@@ -47,11 +47,11 @@
 
 namespace scrimmage {
 
-Plugin::Plugin() : name_("Plugin"), parent_(std::make_shared<Entity>()),
-                   transform_(std::make_shared<State>()),
+Plugin::Plugin() : parent_(std::make_shared<Entity>()), transform_(std::make_shared<State>()),
                    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
                    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
                    time_(std::make_shared<const Time>()),
+                   name_("Plugin"),
                    param_server_(std::make_shared<ParameterServer>()),
                    loop_rate_(0.0),
                    loop_timer_(0.0) {}
@@ -59,6 +59,14 @@ Plugin::Plugin() : name_("Plugin"), parent_(std::make_shared<Entity>()),
 Plugin::~Plugin() {}
 
 std::string Plugin::name() { return name_; }
+
+void Plugin::set_name(std::string name) {
+  if (name_set_ == true) {
+    std::cout << "WARNING: Plugin name " << name << " being reset. Should only be set once." << std::endl;
+  }
+  name_ = name;
+  name_set_ = true;  // Set only once before warning.
+}
 
 std::string Plugin::type() { return std::string("Plugin"); }
 
