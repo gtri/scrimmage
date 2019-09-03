@@ -70,15 +70,15 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
     add_noise("vel_noise", vel_noise_);
     add_noise("orient_noise", orient_noise_);
 
-    
+
 
     pub_ = advertise("LocalNetwork", "StateWithCovariance");
     pub_cep_ = advertise("LocalNetwork", "INS_CEP");
     pub_seastate_ = advertise("LocalNetwork", "INS_SS");
-    
+
     // get xml info
     sea_state_gps_ = sc::get<double>("sea_state_gps", params, 99);
-    
+
     // GPS information
     auto gps_cb = [&](auto &msg) {
         gps_fix_ = msg->data.fixed();
@@ -109,23 +109,23 @@ bool SimpleINS::step() {
         init_m_ = false;
     }
 
-    
+
       // Acceleration
         accel_ = ns.vel() - vel_Nminus1;
         vel_Nminus1 = ns.vel();
-    for (int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
         accel_(i) = abs(accel_(i) / .01);
-        if (accel_(i) > 1) { 
+        if (accel_(i) > 1) {
             accel_(i) = 1;
             }
-    }  
-    
-    
+    }
+
+
     // Use gen in order to create a growing covariance
     double pos_noise_0 = (*pos_noise_[0])(*gener) * (accel_(0));
     double pos_noise_1 = (*pos_noise_[1])(*gener) * (accel_(1));
     const int arrayNum[4] = {15, 30, 45, 60};
-    
+
     if (!gps_fix_) {
         m_(0, 0) += (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
         m_(1, 1) += (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
@@ -165,16 +165,16 @@ bool SimpleINS::step() {
     * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
     msg->data.set_covariance(m_);
-    
+
     double sig_L;
     double sig_S;
 
-    if (m_(0,0) < m_(1,1)) {
-        sig_L = sqrt(m_(1,1));
-        sig_S = sqrt(m_(0,0));
+    if (m_(0, 0) < m_(1, 1)) {
+        sig_L = sqrt(m_(1, 1));
+        sig_S = sqrt(m_(0, 0));
     } else {
-        sig_L = sqrt(m_(0,0));
-        sig_S = sqrt(m_(1,1));
+        sig_L = sqrt(m_(0, 0));
+        sig_S = sqrt(m_(1, 1));
     }
     double sig_w = sig_S / sig_L;
     double CEP;

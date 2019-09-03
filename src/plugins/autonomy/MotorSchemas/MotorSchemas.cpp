@@ -75,7 +75,7 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
     pub_vel_vec_ = sc::get("pub_vel_vec", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
-    
+
     // Get Max Current Speed and adjust autonomy to be able to go 110% of Max Current
     // ("GlobalNetwork", "Force_Field")
     // auto msg_force = std::make_shared<sc::Message<Eigen::Vector3d>>();

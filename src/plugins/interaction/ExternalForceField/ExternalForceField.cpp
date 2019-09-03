@@ -77,7 +77,7 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
 
         if (str2container(sc::get("constant_force", plugin_params, "0, 0, 0"),
                           ", ", force_vec, 3)) {
-            if (force_vec[0] == 99){
+            if (force_vec[0] == 99) {
                 mag_ = sc::get("constant_mag", plugin_params, mag_);
                 ang_ = sc::get("constant_dir", plugin_params, ang_);
                 ang_ *= M_PI / 180;
@@ -85,7 +85,7 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
                 force_vec[0] = mag_ * cos(ang_);
                 force_vec[1] = mag_ * sin(ang_);
                 force_vec[2] = 0;
-            } 
+            }
             // std::cout << "Force is [0]: " << force_vec[0] << ", [1]: " << force_vec[1] << std::endl;
             force_ << force_vec[0], force_vec[1], force_vec[2];
         }

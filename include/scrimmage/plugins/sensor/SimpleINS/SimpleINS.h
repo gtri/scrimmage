@@ -70,7 +70,6 @@ class SimpleINS : public scrimmage::Sensor {
     double prev_time_ = 0;
     double sea_state_gps_;
     double SeaState_;
-
 };
 } // namespace sensor
 } // namespace scrimmage
