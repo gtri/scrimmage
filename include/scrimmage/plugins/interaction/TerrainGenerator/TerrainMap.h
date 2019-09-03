@@ -51,7 +51,7 @@ namespace interaction {
 
 class TerrainMap {
  public:
-    enum class Technique { RANDOM_WALK, LINEAR };
+    enum class Technique { RANDOM_WALK, LINEAR, LINEAR_WALK };
 
     TerrainMap();
     TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
@@ -71,6 +71,7 @@ class TerrainMap {
     bool generate();
     bool generate_random_walk();
     bool generate_linear();
+    bool generate_linear_walk();
     void center_height_adjust();
     void clamp_height();
 

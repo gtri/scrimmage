@@ -78,6 +78,8 @@ bool TerrainGenerator::init(std::map<std::string, std::string> &mission_params,
         technique = TerrainMap::Technique::RANDOM_WALK;
     } else if (technique_str == "LINEAR") {
         technique = TerrainMap::Technique::LINEAR;
+    } else if (technique_str == "LINEAR_WALK") {
+        technique = TerrainMap::Technique::LINEAR_WALK;
     } else {
         cout << "WARNING: Invalid terrain generation technique" << endl;
         technique = TerrainMap::Technique::RANDOM_WALK;

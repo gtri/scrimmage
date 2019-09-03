@@ -127,6 +127,7 @@ bool MotionBattery::step(double t, double dt) {
         double depletion = kv.second->calc_depletion(value, time_->dt());
         if (!battery_.deplete(depletion)) {
             // If deplete() returns false, the battery is depleted.
+            parent()->collision();
             if (kv.second->limit_when_depleted) {
                 // Limit the output value if specified
                 value = kv.second->value_when_depleted;

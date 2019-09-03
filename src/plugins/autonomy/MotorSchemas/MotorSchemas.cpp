@@ -75,6 +75,16 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get("show_shapes", params, false);
     pub_vel_vec_ = sc::get("pub_vel_vec", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
+    
+    // Get Max Current Speed and adjust autonomy to be able to go 110% of Max Current
+    // ("GlobalNetwork", "Force_Field")
+    // auto msg_force = std::make_shared<sc::Message<Eigen::Vector3d>>();
+    // sc::sensor::SideScanSonarSensorType SSS_msg_;
+
+    auto callback_force = [&] (auto &msg) {
+            Force_ = msg->data;
+        };
+    subscribe<Eigen::Vector3d>( "GlobalNetwork", "Force_Field", callback_force);
 
     auto max_speed_cb = [&] (const double &max_speed) {
         cout << "MotorSchemas Max speed set: " << max_speed << endl;
@@ -217,6 +227,12 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         }
         if (!behavior->step_autonomy(time_->t(), time_->dt())) {
             cout << "MotorSchemas: behavior error" << endl;
+        }
+
+        // Adjust Autonomy to match Current Magnitude
+        double mag_ = Force_.norm();
+        if ((mag_*1.15) > max_speed_) {
+            max_speed_ = mag_ * 1.15;
         }
 
         // Grab the desired vector and normalize to max_speed if too large
