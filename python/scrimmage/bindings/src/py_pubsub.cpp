@@ -32,7 +32,7 @@
 
 
 #include <pybind11/pybind11.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/SubscriberBase.h>
 #include <scrimmage/pubsub/Subscriber.h>

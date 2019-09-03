@@ -32,7 +32,7 @@
 
 #include <gtest/gtest.h>
 
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/common/ParameterServer.h>
 
 #include <memory>

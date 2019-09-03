@@ -35,7 +35,7 @@
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
@@ -56,7 +56,7 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_z(z);
 }
 
-void set(Eigen::Vector3d &dst, const scrimmage_proto::Color src) {
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Color &src) {
     dst << src.r(), src.g(), src.b();
 }
 

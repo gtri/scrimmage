@@ -34,7 +34,7 @@
 #define INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <list>
 #include <map>

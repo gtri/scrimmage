@@ -31,7 +31,7 @@
  */
 
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/pubsub/SubscriberBase.h>
 
 #include <iostream>

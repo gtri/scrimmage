@@ -2079,7 +2079,7 @@ bool Updater::draw_polyline(const bool &new_shape,
         vtkSmartPointer<vtkPolyLine> polyLine =
                 vtkSmartPointer<vtkPolyLine>::New();
         polyLine->GetPointIds()->SetNumberOfIds(pl.point_size());
-        for(int i = 0; i < pl.point_size(); i++) {
+        for (int i = 0; i < pl.point_size(); i++) {
             polyLine->GetPointIds()->SetId(i, i);
         }
 

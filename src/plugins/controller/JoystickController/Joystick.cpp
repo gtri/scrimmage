@@ -32,7 +32,7 @@
 
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/controller/JoystickController/Joystick.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <iostream>
 #include <algorithm>

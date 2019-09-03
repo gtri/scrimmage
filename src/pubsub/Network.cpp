@@ -250,8 +250,7 @@ std::string Network::type() {
     return std::string("Network");
 }
 
-// cppcheck-suppress passedByValue
-void Network::set_rtree(RTreePtr rtree) {
+void Network::set_rtree(const RTreePtr &rtree) {
     rtree_ = rtree;
 }
 

@@ -1,7 +1,7 @@
 Change Log
 =================
 
-None yet.
+- Separate EntityPlugin class from Plugin class.
 
 git change log
 --------------

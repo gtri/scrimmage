@@ -32,7 +32,7 @@
 
 #include <scrimmage/pubsub/NetworkDevice.h>
 #include <scrimmage/pubsub/MessageBase.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <iostream>
 

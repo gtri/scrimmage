@@ -33,7 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_SCRIMMAGEMSGSERVICEIMPL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_SCRIMMAGEMSGSERVICEIMPL_H_
 
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
 #include <scrimmage/msgs/Command.grpc.pb.h>
 

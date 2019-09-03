@@ -32,7 +32,7 @@
 
 #include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
 
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/msgs/Graph.pb.h>

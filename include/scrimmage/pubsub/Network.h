@@ -34,7 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/common/CSV.h>
 
 #include <map>
@@ -56,7 +56,7 @@ class Network : public EntityPlugin {
                       std::map<std::string, std::list<NetworkDevicePtr>> &subs);
     std::string type() override;
 
-    void set_rtree(RTreePtr rtree);
+    void set_rtree(const RTreePtr &rtree);
 
     void set_random(RandomPtr random);
 

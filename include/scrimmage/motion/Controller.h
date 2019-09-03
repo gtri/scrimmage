@@ -33,7 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <memory>
 #include <map>

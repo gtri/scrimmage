@@ -30,7 +30,7 @@
  *
  */
 
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Publisher.h>
 
