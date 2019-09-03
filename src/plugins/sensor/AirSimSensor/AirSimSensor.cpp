@@ -164,7 +164,8 @@ void AirSimSensor::request_images() {
             cv::Mat img(c.height, c.width, CV_8UC4);
 
             // get uncompressed rgba array bytes
-            const int cam_forw = c.number;
+            const int cam_forw = c.number; // AirSim v1.1.8
+            // const std::string& cam_forw = c.name; // AirSim v1.2.0
             std::vector<ma::ImageCaptureBase::ImageRequest> request = {
                 ma::ImageCaptureBase::ImageRequest(
                     cam_forw, c.img_type, false, false
@@ -215,7 +216,9 @@ bool AirSimSensor::step() {
             ma::RpcLibClientBase::ConnectionState::Connected) {
             client_connected_ = false;
             cout << "Warning: not connected to AirSim." << endl;
-            return std::make_shared<sc::MessageBase>();
+
+            // return std::make_shared<sc::MessageBase>();
+            return true;
         }
         client_connected_ = true;
         sim_client_->enableApiControl(true);
@@ -249,6 +252,8 @@ bool AirSimSensor::step() {
     img_msg_mutex_.unlock();
 
     pub_->publish(msg);
+
+    return true;
 }
 
 void AirSimSensor::close(double t) {
