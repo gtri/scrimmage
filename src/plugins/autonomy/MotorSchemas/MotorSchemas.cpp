@@ -76,6 +76,9 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     pub_vel_vec_ = sc::get("pub_vel_vec", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
+    add_lower_bound_to_vz_ = sc::get("add_lower_bound_to_vz", params, false);
+    vz_lower_bound_ = sc::get<double>("vz_lower_bound", params, -1.0);
+
     auto max_speed_cb = [&] (const double &max_speed) {
         cout << "MotorSchemas Max speed set: " << max_speed << endl;
     };
@@ -266,6 +269,10 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Convert resultant vector into heading / speed / altitude command:
     ///////////////////////////////////////////////////////////////////////////
     if (pub_vel_vec_) {
+        // Add a lower bound on the z-component of the resulting velocity vector
+        if (add_lower_bound_to_vz_) {
+            vel_result(2) = std::max(vz_lower_bound_, vel_result(2));
+        }
         vars_.output(output_vel_x_idx_, vel_result(0));
         vars_.output(output_vel_y_idx_, vel_result(1));
         vars_.output(output_vel_z_idx_, vel_result(2));
