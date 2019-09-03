@@ -49,8 +49,8 @@ namespace scrimmage {
 class Publisher;
 using PublisherPtr = std::shared_ptr<Publisher>;
 
-class Plugin;
-using PluginPtr = std::shared_ptr<Plugin>;
+class EntityPlugin;
+using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 class PubSub {
  public:
@@ -81,7 +81,7 @@ class PubSub {
                                 const std::string &topic,
                                 CallbackFunc callback,
                                 unsigned int max_queue_size,
-                                bool enable_queue_size, PluginPtr plugin) {
+                                bool enable_queue_size, EntityPluginPtr plugin) {
         if (sub_map_.count(network_name) == 0) {
             print_str(std::string("WARNING: Subscriber unable to connect to network (")
                 + network_name + ") on topic (" + topic + ")");
@@ -96,7 +96,7 @@ class PubSub {
 
     PublisherPtr advertise(std::string &network_name, const std::string &topic,
                            unsigned int max_queue_size,
-                           bool enable_queue_size, PluginPtr plugin);
+                           bool enable_queue_size, EntityPluginPtr plugin);
 
  protected:
     TopicMap pub_map_;

@@ -699,7 +699,7 @@ std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
 void Entity::set_time_ptr(TimePtr t) {time_ = t;}
 
 // cppcheck-suppress passedByValue
-void Entity::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
+void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj_ = proj;
 }
 

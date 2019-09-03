@@ -45,7 +45,6 @@ namespace scrimmage {
 namespace interaction {
 class SimpleCollision : public scrimmage::EntityInteraction {
  public:
-
     bool init(std::map<std::string, std::string> &mission_params,
                       std::map<std::string, std::string> &plugin_params) override;
 

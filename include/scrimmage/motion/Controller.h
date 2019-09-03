@@ -33,7 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_MOTION_CONTROLLER_H_
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <memory>
 #include <map>
@@ -41,7 +41,7 @@
 
 namespace scrimmage {
 
-class Controller : public Plugin {
+class Controller : public EntityPlugin {
  public:
     virtual void init(std::map<std::string, std::string> &/*params*/) {}
     virtual bool step(double /*t*/, double /*dt*/) {return true;}

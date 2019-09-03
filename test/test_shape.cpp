@@ -89,7 +89,7 @@ TEST(test_shape, defaults) {
     auto polyhedron = sc::shape::make_polyhedron(std::list<Eigen::Vector3d>{});
     shape_defaults(polyhedron);
 
-    auto polyline = sc::shape::make_polyline(std::list<scrimmage_proto::Line>{});
+    auto polyline = sc::shape::make_polyline(std::list<Eigen::Vector3d>{});
     shape_defaults(polyline);
 
     auto sphere = sc::shape::make_sphere();
