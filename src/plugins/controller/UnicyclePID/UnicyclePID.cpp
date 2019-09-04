@@ -94,39 +94,34 @@ void UnicyclePID::init(std::map<std::string, std::string> &params) {
     if (!speed_pid_.init(params["speed_pid"], false)) {
         std::cout << "Failed to set speed PID" << std::endl;
     }
-
-    parent_->state() = std::make_shared<State>();
-    *(parent_->state()) = *(parent_->state_truth());
 }
 
 bool UnicyclePID::step(double t, double dt) {
-    // Make a copy of the current state
-    StateWithCovariance ns(*(parent_->state()));
 
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), ns.quat().yaw()));
+    vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), state_->quat().yaw()));
 
     // Reconstruct original velocity vector (close, but not exact
     double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_)-ns.pos()(2));
+    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_) - state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
-    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -ns.quat().pitch()));
+    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), - state_->quat().pitch()));
 
     // Track zero roll
     roll_pid_.set_setpoint(0);
-    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), -ns.quat().roll()));
+    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), - state_->quat().roll()));
 
     if (show_shapes_) {
         line_shape_->set_persistent(true);
         sc::set(line_shape_->mutable_color(), 255, 0, 0);
         line_shape_->set_opacity(1.0);
-        sc::set(line_shape_->mutable_line()->mutable_start(), ns.pos());
-        sc::set(line_shape_->mutable_line()->mutable_end(), vel + ns.pos());
+        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), vel + state_->pos());
         draw_shape(line_shape_);
     }
 
@@ -135,7 +130,7 @@ bool UnicyclePID::step(double t, double dt) {
     double desired_speed = vars_.input(desired_speed_idx_);
     if (use_accel_) {
         speed_pid_.set_setpoint(desired_speed);
-        desired_speed = speed_pid_.step(time_->dt(), ns.vel().norm());
+        desired_speed = speed_pid_.step(time_->dt(), state_->vel().norm());
     }
     vars_.output(speed_idx_, desired_speed);
 
