@@ -32,7 +32,7 @@
 #ifndef INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
 #define INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
 
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/pubsub/Message.h>
 
 #include <map>
@@ -43,7 +43,7 @@
 
 namespace scrimmage {
 
-class Sensor : public Plugin {
+class Sensor : public EntityPlugin {
  public:
     virtual void init(std::map<std::string, std::string> &params);
 

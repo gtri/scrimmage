@@ -37,7 +37,7 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <iostream>
 #include <set>
@@ -108,10 +108,13 @@ int PluginManager::check_library(std::string lib_path) {
 
 PluginManager::PluginManager() : reload_(false) {}
 
-void PluginManager::print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search) {
+void PluginManager::print_plugins(const std::string &plugin_type,
+                                  const std::string &title,
+                                  FileSearch &file_search,
+                                  const std::string &env_var_name) {
     // make sure all files are loaded
     if (!files_checked_) {
-        file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files_);
+        file_search.find_files(env_var_name, LIB_EXT, so_files_);
         files_checked_ = true;
     }
 

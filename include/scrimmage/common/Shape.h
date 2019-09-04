@@ -131,7 +131,7 @@ ShapePtr make_polyhedron(const std::list<Eigen::Vector3d> &points,
                          const Eigen::Vector3d &color = Eigen::Vector3d(0, 0, 255),
                          const double &opacity = 1.0);
 
-ShapePtr make_polyline(const std::list<scrimmage_proto::Line> &lines,
+ShapePtr make_polyline(const std::list<Eigen::Vector3d> &points,
                        const Eigen::Vector3d &color = Eigen::Vector3d(0, 0, 255),
                        const double &opacity = 1.0);
 

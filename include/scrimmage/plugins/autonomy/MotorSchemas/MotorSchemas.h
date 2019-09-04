@@ -54,6 +54,9 @@ class MotorSchemas : public scrimmage::Autonomy {
     bool pub_vel_vec_;
     double max_speed_;
 
+    bool add_lower_bound_to_vz_;
+    double vz_lower_bound_;
+
     int desired_heading_idx_ = 0;
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;

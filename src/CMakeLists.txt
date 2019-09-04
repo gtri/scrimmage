@@ -15,6 +15,7 @@ set(SRCS
     common/Battery.cpp
     common/Shape.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
+    entity/EntityPlugin.cpp
     log/FrameUpdateClient.cpp log/Log.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp
     math/StateWithCovariance.cpp
