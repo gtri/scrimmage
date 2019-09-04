@@ -65,8 +65,6 @@ class MotorSchemas : public scrimmage::Autonomy {
     int output_vel_y_idx_ = 0;
     int output_vel_z_idx_ = 0;
 
-    Eigen::Vector3d Force_ = Eigen::Vector3d::Zero();
-
     std::string current_state_ = "UNDEFINED_NO_STATE";
 
     std::map<std::string, std::list<motor_schemas::BehaviorBasePtr>> behaviors_;
