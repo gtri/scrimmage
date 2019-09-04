@@ -35,8 +35,6 @@
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
 
 #include <map>
 #include <list>
