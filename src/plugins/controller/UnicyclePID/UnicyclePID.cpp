@@ -96,7 +96,6 @@ void UnicyclePID::init(std::map<std::string, std::string> &params) {
 }
 
 bool UnicyclePID::step(double t, double dt) {
-
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
     vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), state_->quat().yaw()));
 
