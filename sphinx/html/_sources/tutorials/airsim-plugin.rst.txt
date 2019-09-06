@@ -74,7 +74,8 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
 
    .. code-block:: bash
 
-      cd /path/to/scrimmage/build
+      cd /path/to/scrimmage
+      rm -rf build && mkdir build && cd build
       cmake .. -DAIRSIM_ROOT_SEARCH=/path/to/AirSim
       make
 
@@ -164,19 +165,179 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
    You should see camera images open in OpenCV windows when the SCRIMMAGE
    simulation begins (hit 'b' to unpause, if necessary).
 
+
+---------------------
 Windows / Linux Setup
 ---------------------
 
 You can run the Unreal Engine on a Windows computer and SCRIMMAGE on a Linux
-computer. You will need to build the libstdc++ version of AirSim on your Linux
-computer (see above: "Build the libstdc++ version of AirSim") and build the
-AirSim SCRIMMAGE plugin (see above "Build SCRIMMAGE's AirSimSensor Plugin") on
-your Linux computer.
-
-See AirSim's documentation for either downloading the binaries for Windows or
-building it on Windows. Make sure you that you use the same version of AirSim
+computer. Make sure you that you use the same version of AirSim
 across your systems. For example, at the time that this tutorial was written,
-we used AirSim version v1.1.8.
+we used AirSim version v1.1.8 and Unreal Engine 4.18. If using a different version
+of AirSim please check AirSim's Github Docs (https://microsoft.github.io/AirSim/docs/build_windows/)
+for which version of Unreal Engine to use.
+
+Linux
+*****
+
+If you haven't already installed scrimmage on your Linux machine, do so by following directions here: (https://github.com/gtri/scrimmage).
+You will need to pull the code for AirSim v1.1.8 and build the libstdc++ version of AirSim on your Linux
+computer. Then build SCRIMMAGE with the AirSim SCRIMMAGE plugin.
+
+#. **Build the libstdc++ version of AirSim (which will be loaded into SCRIMMAGE)**
+
+   .. code-block:: bash
+
+      # go to folder where you clone GitHub projects
+      git clone https://github.com/Microsoft/AirSim.git
+      cd AirSim
+      git checkout v1.1.8
+      git apply /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch
+      ./setup.sh
+      cd cmake
+      chmod +x gcc_build.sh
+      ./gcc_build.sh
+
+#. **Build SCRIMMAGE's AirSimSensor Plugin**
+
+   Make sure you have OpenCV installed on your system and that you have
+   successfully built the AirSim libraries (using libstdc++) in step 1. Go to
+   your scrimmage build directory and provide the location of the AirSim
+   libraries to cmake.
+
+   .. code-block:: bash
+
+      cd /path/to/scrimmage
+      rm -rf build && mkdir build && cd build
+      cmake .. -DAIRSIM_ROOT_SEARCH=/path/to/AirSim
+      make
+
+   Ensure that the ``AirSimSensor_plugin`` target built successfully.
+
+Windows
+*******
+
+You will need to install Unreal Engine on Windows and build AirSim.
+
+#. **Install VS17 and Unreal Engine**
+
+   * Install Unreal Engine 4.18 by following the directions for "Install Unreal Engine" here: (https://microsoft.github.io/AirSim/docs/build_windows/). Make sure to install Unreal 4.18 using the Epic Games launcher.
+
+   * Make Sure Visual Studio 2017 is installed with **VC++** and **Windows SDK 8.1** packages.
+
+#. **Fetch AirSim**
+
+   Start the windows program **x64 Native Tools Command Prompt for VS 2017** -- it MUST be used for running all batch files.
+   Clone the AirSim repo into or close to the *c:/ directory*, else you will receive warnings during installation for file
+   names being too long, and checkout branch v1.1.8.
+
+   .. code-block:: bash
+
+      # In "x64 Native Tools Command Prompt for VS 2017" NOT GitBash
+      cd c:\
+      git clone https://github.com/Microsoft/AirSim.git
+      cd AirSim && git checkout v1.1.8
+
+#. **Edit AirSim Build File**
+
+   The batch file *build.cmd* has a few errors and inconveniences so we will edit the file and fix them before we build.
+
+   .. code-block:: bash
+
+      # Open build.cmd in Notepad or your favorite text editor.
+      # There is an issue where the script tries to download the files for an SUV object and fails which then causes
+      # the script to skip a lot of important installation steps once the directory is not found. We will stop the
+      # script from deleting the directory each time it is run by commenting out some lines and download and place the
+      # SUV files is the correct directory before running the script. Finally we will add a pause to the end of the file
+      # because else the script will exit very quickly after finishing, even if there are errors. Adding this pause will
+      # will allow you to check that AirSim built successfully.
+
+      # 1. Comment lines: 89, 90, 96, 98 and 141 with an "REM //" like below:
+      REM // IF EXIST suv_download_tmp rmdir suv_download_tmp /q /s
+      REM // mkdir suv_download_tmp
+      REM // rmdir /S /Q Unreal\Plugins\AirSim\Content\VehicleAdv\SUV
+      REM // rmdir suv_download_tmp /q /s
+      REM // exit /b 0
+
+      # 2. Download the SUV files by copying (https://github.com/Microsoft/AirSim/releases/download/v1.1.7/car_assets.zip)
+      # into your web browser. It will automatically begin download. Unzip and place the SUV directory inside in
+      # AirSim's directory structure as shown below:
+      # C:\AirSim\Unreal\Plugins\AirSim\Content\VehicleAdv\SUV
+
+      # 3. Add pause to end of file.
+      # Replace this code block from lines 141 to 152:
+      ################################################### (Don't copy these ###'s into the file)
+      REM //---------- done building ----------
+      exit /b 0
+
+      :buildfailed
+      echo(
+      echo #### Build failed - see messages above. 1>&2
+
+      :buildfailed_nomsg
+      chdir /d %ROOT_DIR%
+      exit /b 1
+      ##################################################
+
+      # With this code block:
+      ##################################################
+      REM //---------- done building ----------
+      REM // exit /b 0
+      goto :done
+
+      :buildfailed
+      chdir /d %ROOT_DIR%
+      echo(
+      echo #### Build failed - see messages above. 1>&2
+      pause
+      exit /b 1
+
+      :done
+      pause
+      ###################################################
+
+#. **Build AirSim**
+
+   Start the windows program **x64 Native Tools Command Prompt for VS 2017** and build AirSim:
+
+   .. code-block:: bash
+
+      cd C:\AirSim
+      build.cmd
+
+#. **SetUp Blocks Environment**
+
+   We will follow the Windows instructions here to setup the Blocks environment: (https://microsoft.github.io/AirSim/docs/unreal_blocks/).
+   However before we run **update_from_git.bat** we will make one edit the Block's clean.bat file to avoid an error.
+
+   .. code-block:: bash
+
+      # Open clean.bat in Notepad or your favorite text editor and comment out line 4 like shown below:
+      REM //rd /s/q Saved
+
+      # Save and close the file and complete the instructions at (https://microsoft.github.io/AirSim/docs/unreal_blocks/).
+      # Press play, choose quadcopter, and leave it running.
+
+Start Scrimmage on Linux and Connect to AirSim/Unreal on Windows
+****************************************************************
+
+Find the IP of the Windows machine that you are running AirSim/Unreal on windows and place it in the mission file
+in scrimmage on your Linux machine. Run the mission in scrimmage, watch AirSim connect, and hit 'b' to start the
+simulation.
+
+#. **Edit Mission and Start Scrimmage on Linux Machine**
+
+   .. code-block:: bash
+
+      # Open "quad-airsim-ex1.xml" in /scrimmage/missions directory
+      cd /path/to/scrimmage/missions
+      # change line 60 to your IP
+      <sensor airsim_ip="YOUR_IP">AirSimSensor</sensor>
+      # Save and start run the mission
+      scrimmage ./quad-airsim-ex1.xml
+      # Should connect successfully
+      # hit 'b' to start simulation
+      # for directions on how to control scrimmage see scrimmage github: (https://github.com/gtri/scrimmage)
 
 
 .. _Epic Games: https://docs.unrealengine.com/latest/INT/Platforms/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/1/index.html
