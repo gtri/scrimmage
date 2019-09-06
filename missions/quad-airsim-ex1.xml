@@ -39,6 +39,8 @@
 
   <entity_interaction>SimpleCollision</entity_interaction>
 
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 
@@ -52,10 +54,11 @@
 
     <x>0</x>
     <y>0</y>
-    <z>10</z>
+    <z>100</z>
     <heading>0</heading>
++
+    <sensor airsim_ip="10.108.21.246">AirSimSensor</sensor>
 
-    <sensor airsim_ip="10.57.1.2">AirSimSensor</sensor>
     <autonomy show_camera_images="true">Straight</autonomy>
 
     <motion_model motion_model_sets_yaw="false"
