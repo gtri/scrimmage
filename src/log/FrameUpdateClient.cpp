@@ -119,8 +119,7 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
     return true;
 }
 
-// cppcheck-suppress passedByValue
-void FrameUpdateClient::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
+void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj_ = proj;
 }
 } // namespace scrimmage

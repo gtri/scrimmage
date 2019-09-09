@@ -18,4 +18,6 @@
   <orient_noise_1>0.0 5.0</orient_noise_1> <!-- y orient noise -->
   <orient_noise_2>0.0 1.0</orient_noise_2> <!-- z orient noise -->
 
+  <sea_state_gps>5.0</sea_state_gps> <!-- SeaState Condition for GPS Fix -->
+
 </params>

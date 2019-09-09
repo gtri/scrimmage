@@ -160,7 +160,7 @@ bool create_metrics(const SimUtilsInfo &info,
     return true;
 }
 
-void run_callbacks(PluginPtr plugin) {
+void run_callbacks(EntityPluginPtr plugin) {
     for (auto &sub : plugin->subs()) {
         for (auto msg : sub->pop_msgs<MessageBase>()) {
             sub->accept(msg);

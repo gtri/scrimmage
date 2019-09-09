@@ -12,6 +12,11 @@
   <!-- Publish velocity vector instead of desired speed, altitude, and heading -->
   <pub_vel_vec>false</pub_vel_vec>
 
+  <!-- Add a lower bound on the z-component of the resulting velocity vector -->
+  <!-- to control the rate at which the vehicle approaches the ground. -->
+  <add_lower_bound_to_vz>false</add_lower_bound_to_vz>
+  <vz_lower_bound>-1.0</vz_lower_bound>
+
   <behaviors>
     [ AvoidEntityMS gain='1.0' contacts='truth' show_shapes='true' sphere_of_influence='10' minimum_range='2' ]
     [ MoveToGoalMS gain='1.0' show_shapes='true' use_initial_heading='false' goal='100,0,0' ]

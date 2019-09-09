@@ -36,7 +36,7 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <map>
 #include <vector>
@@ -45,7 +45,7 @@
 
 namespace scrimmage {
 
-class MotionModel : public Plugin {
+class MotionModel : public EntityPlugin {
  public:
     typedef std::vector<double> vector_t;
 

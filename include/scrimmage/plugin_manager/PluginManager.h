@@ -84,7 +84,8 @@ class PluginManager {
 
     void print_plugins(const std::string &plugin_type,
                        const std::string &title,
-                       FileSearch &file_search);
+                       FileSearch &file_search,
+                       const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH");
     void print_returned_plugins();
 
     void find_matching_plugins(
@@ -98,7 +99,8 @@ class PluginManager {
                                 FileSearch &file_search,
                                 ConfigParse &config_parse,
                                 const std::map<std::string, std::string> &overrides,
-                                const std::set<std::string> &plugin_tags) {
+                                const std::set<std::string> &plugin_tags,
+                                const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH") {
         PluginStatus<T> status;
         std::string plugin_name = plugin_name_xml;
         auto it_orig_plugin_name = overrides.find("ORIGINAL_PLUGIN_NAME");
@@ -107,10 +109,10 @@ class PluginManager {
         }
 
         config_parse.set_required("library");
-        if (!config_parse.parse(overrides, plugin_name, "SCRIMMAGE_PLUGIN_PATH", file_search)) {
+        if (!config_parse.parse(overrides, plugin_name, env_var_name, file_search)) {
             std::cout << "Failed to parse: " << plugin_name << ".xml for type " << plugin_type << std::endl;
             std::cout << "Check that you have sourced ~/.scrimmage/setup.bash "
-                      << "(this sets the environment variable SCRIMMAGE_PLUGIN_PATH to a directory including "
+                      << "(this sets the environment variable " << env_var_name << " to a directory including "
                       << plugin_name << ".xml)" << std::endl;
             status.status = PluginStatus<T>::parse_failed;
             return status;
@@ -153,7 +155,7 @@ class PluginManager {
         }
 
         if (!files_checked_ && so_files_.empty()) {
-            file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files_);
+            file_search.find_files(env_var_name, LIB_EXT, so_files_);
             files_checked_ = true;
         }
 

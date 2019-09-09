@@ -44,8 +44,8 @@
 
 namespace scrimmage {
 
-class Plugin;
-using PluginPtr = std::shared_ptr<Plugin>;
+class EntityPlugin;
+using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 class NetworkDevice {
  public:
@@ -56,7 +56,7 @@ class NetworkDevice {
     virtual ~NetworkDevice() = default; // Make NetworkDevice Polymorphic
 
     NetworkDevice(const std::string &topic, unsigned int &max_queue_size,
-                  bool enable_queue_size, PluginPtr plugin);
+                  bool enable_queue_size, EntityPluginPtr plugin);
 
     std::string get_topic() const;
     void set_topic(const std::string &topic);
@@ -170,13 +170,13 @@ class NetworkDevice {
         return msg_list_cast;
     }
 
-    PluginPtr & plugin();
+    EntityPluginPtr & plugin();
 
  protected:
     std::string topic_ = "";
     unsigned int max_queue_size_ = 1;
     bool enable_queue_size_ = false;
-    PluginPtr plugin_;
+    EntityPluginPtr plugin_;
     void print_str(const std::string &msg);
     std::list<MessageBasePtr> msg_list_;
     std::mutex mutex_;

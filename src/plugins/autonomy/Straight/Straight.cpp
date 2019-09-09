@@ -160,7 +160,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
             }
         }
     };
-    subscribe<sensor::AirSimSensorType>>("LocalNetwork", "AirSim", airsim_cb);
+    subscribe<std::vector<sensor::AirSimSensorType>>("LocalNetwork", "AirSim", airsim_cb);
 #endif
 
 #if ENABLE_OPENCV == 1

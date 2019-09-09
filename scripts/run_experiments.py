@@ -66,11 +66,12 @@ parser = argparse.ArgumentParser(
         description="Run batch SCRIMMAGE experiments",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
         )
-parser.add_argument('-m', '--mission', help='Mission file')
+parser.add_argument('-m', '--mission', help='Mission file',
+                    default= "./scrimmage/scrimmage/missions/batch-example-mission.xml")
 parser.add_argument('-r', '--ranges', help='Ranges file for generating new'
-                    ' scenarios')
+                    ' scenarios', default= "./scrimmage/scrimmage/config/ranges/batch-ranges.xml")
 parser.add_argument('-p', '--parallel', help='Maximum number of parallel runs',
-                    default=1, type=int)
+                    default=7, type=int)
 parser.add_argument('-n', '--experiment-name', help='Name of the batch '
                     'experiment',
                     default=datetime.datetime.now().strftime(
@@ -82,7 +83,7 @@ parser.add_argument('-s', '--num-repeats', help='Num repeats per set of params',
 parser.add_argument('-d', '--method', help='Method of sampling, grid or lhs',
                     default='lhs', type=str)
 parser.add_argument('-t', '--tasks', help='Number of simulation runs',
-                    type=int)
+                    default=100, type=int)
 
 args = parser.parse_args()
 

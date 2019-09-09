@@ -110,6 +110,7 @@ class AirSimSensor : public scrimmage::Sensor {
     int airsim_timeout_ms_;
     std::list<CameraConfig> cam_configs_;
     scrimmage::Angles enu_to_ned_yaw_;
+    PublisherPtr pub_;
 
  private:
 };

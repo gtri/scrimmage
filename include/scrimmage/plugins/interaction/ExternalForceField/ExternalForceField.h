@@ -59,6 +59,7 @@ class ExternalForceField : public scrimmage::EntityInteraction {
                                  double t, double dt) override;
 
  protected:
+    PublisherPtr pub_;
     ForceType force_type_ = Constant;
     Eigen::Vector3d force_ = Eigen::Vector3d::Zero();
 
@@ -76,6 +77,8 @@ class ExternalForceField : public scrimmage::EntityInteraction {
     double roll_amp_ = 0.0;
     double pitch_amp_ = 0.0;
     double yaw_amp_ = 0.0;
+    double mag_ = 0.0;
+    double ang_ = 0.0;
     Eigen::Vector3d moment_ = Eigen::Vector3d::Zero();
 
  private:

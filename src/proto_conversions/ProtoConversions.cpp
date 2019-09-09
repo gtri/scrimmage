@@ -35,7 +35,7 @@
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
@@ -54,6 +54,10 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_x(x);
     dst->set_y(y);
     dst->set_z(z);
+}
+
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Color &src) {
+    dst << src.r(), src.g(), src.b();
 }
 
 void set(std::vector<int> &dst, const scrimmage_proto::Color &src) {
@@ -229,7 +233,7 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
 
 void path_to_lines(std::vector<Eigen::Vector3d> &path,
                    std::shared_ptr<scrimmage_proto::Shape> sample_line,
-                   std::shared_ptr<Plugin> p) {
+                   std::shared_ptr<EntityPlugin> p) {
     for (size_t i = 0; i < path.size() - 1; i++) {
         auto ln = std::make_shared<scrimmage_proto::Shape>();
         ln->CopyFrom(*sample_line);
@@ -238,6 +242,23 @@ void path_to_lines(std::vector<Eigen::Vector3d> &path,
         p->draw_shape(ln);
     }
 }
+
+std::list<scrimmage_proto::Line> points_to_lines(
+    const std::list<Eigen::Vector3d> &points) {
+
+    // Stop one item before the end of the points list
+    auto stop = std::prev(points.end());
+
+    std::list<scrimmage_proto::Line> lines;
+    for (auto it = points.begin(); it != stop; ++it) {
+        scrimmage_proto::Line line;
+        set(line.mutable_start(), *it);
+        set(line.mutable_end(), *std::next(it));
+        lines.push_back(line);
+    }
+    return lines;
+}
+
 
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     Frame frame;

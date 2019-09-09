@@ -32,7 +32,7 @@
 
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/controller/JoystickController/Joystick.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <iostream>
 #include <algorithm>
@@ -54,7 +54,7 @@ Joystick::~Joystick() {
 }
 
 void Joystick::init(std::map<std::string, std::string> &params,
-                    VariableIO &vars, PluginPtr plugin) {
+                    VariableIO &vars, EntityPluginPtr plugin) {
     print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");
