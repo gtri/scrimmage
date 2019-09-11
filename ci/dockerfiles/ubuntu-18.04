@@ -45,6 +45,7 @@ RUN apt-get update \
     libpython3.7-dev \
     doxygen python-sphinx \
     sphinx-rtd-theme-common \
+    lcov \
  && add-apt-repository ppa:kevin-demarco/scrimmage-bionic \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \
