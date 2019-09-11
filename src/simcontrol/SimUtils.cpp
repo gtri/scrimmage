@@ -54,6 +54,9 @@
 #include <pybind11/pybind11.h>
 #endif
 
+using std::cout;
+using std::endl;
+
 namespace scrimmage {
 
 bool create_ent_inters(const SimUtilsInfo &info,
@@ -62,7 +65,8 @@ bool create_ent_inters(const SimUtilsInfo &info,
                        std::list<EntityInteractionPtr> &ent_inters,
                        const GlobalServicePtr global_services,
                        const std::set<std::string> &plugin_tags,
-                       std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                       std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                       const int& debug_level) {
     for (std::string ent_inter_name : info.mp->entity_interactions()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =
@@ -75,8 +79,8 @@ bool create_ent_inters(const SimUtilsInfo &info,
                 config_parse, overrides, plugin_tags);
 
         if (status.status == PluginStatus<EntityInteraction>::cast_failed) {
-            std::cout << "Failed to load entity interaction plugin: "
-                      << ent_inter_name << std::endl;
+            cout << "Failed to load entity interaction plugin: "
+                      << ent_inter_name << endl;
         } else if (status.status == PluginStatus<EntityInteraction>::loaded) {
             EntityInteractionPtr ent_inter = status.plugin;
 
@@ -100,6 +104,12 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->set_id_to_ent_map(info.id_to_ent_map);
 
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Entity interaction plugin params: " << name << endl;
+                cout << config_parse;
+            }
             ent_inter->init(info.mp->params(), config_parse.params());
 
             // Get shapes from plugin
@@ -118,7 +128,8 @@ bool create_metrics(const SimUtilsInfo &info,
                     ContactMapPtr contacts,
                     std::list<MetricsPtr> &metrics_list,
                     const std::set<std::string> &plugin_tags,
-                    std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                    std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                    const int& debug_level) {
 
     for (std::string metrics_name : info.mp->metrics()) {
         ConfigParse config_parse;
@@ -132,7 +143,7 @@ bool create_metrics(const SimUtilsInfo &info,
                 plugin_tags);
 
         if (status.status == PluginStatus<Metrics>::cast_failed) {
-            std::cout << "Failed to load metrics: " << metrics_name << std::endl;
+            cout << "Failed to load metrics: " << metrics_name << endl;
             return false;
         } else if (status.status == PluginStatus<Metrics>::loaded) {
             MetricsPtr metrics = status.plugin;
@@ -152,6 +163,12 @@ bool create_metrics(const SimUtilsInfo &info,
             metrics->set_id_to_ent_map(info.id_to_ent_map);
 
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Metrics plugin params: " << metrics_name << endl;
+                cout << config_parse;
+            }
             metrics->init(config_parse.params());
             metrics_list.push_back(metrics);
         }
@@ -180,7 +197,7 @@ boost::optional<std::string> run_test(const std::string &mission,
 
     auto found_mission = FileSearch().find_mission(mission);
     if (!found_mission) {
-        std::cout << "scrimmage::run_test could not find " << mission << std::endl;
+        cout << "scrimmage::run_test could not find " << mission << endl;
         return boost::none;
     } else {
         SimControl simcontrol;
@@ -189,7 +206,7 @@ boost::optional<std::string> run_test(const std::string &mission,
         struct sigaction sa;
         memset( &sa, 0, sizeof(sa) );
         shutdown_handler = [&](int /*s*/){
-            std::cout << std::endl << "Exiting gracefully" << std::endl;
+            cout << endl << "Exiting gracefully" << endl;
             simcontrol.force_exit();
         };
         sa.sa_handler = signal_handler;
@@ -199,7 +216,7 @@ boost::optional<std::string> run_test(const std::string &mission,
 
         auto mp = std::make_shared<MissionParse>();
         if (!mp->parse(*found_mission)) {
-            std::cout << "Failed to parse file: " << *found_mission << std::endl;
+            cout << "Failed to parse file: " << *found_mission << endl;
             return boost::none;
         }
         mp->set_time_warp(-1);
@@ -265,7 +282,7 @@ std::shared_ptr<Log> preprocess_scrimmage(
 
     simcontrol.set_mission_parse(mp);
     if (!simcontrol.init()) {
-        std::cout << "SimControl init() failed." << std::endl;
+        cout << "SimControl init() failed." << endl;
         return nullptr;
     }
 
@@ -314,8 +331,8 @@ boost::optional<std::string> postprocess_scrimmage(
         std::string plot_cmd = "plot_3d_fr.py " + log->frames_filename();
         int result = std::system(plot_cmd.c_str());
         if (result != 0) {
-            std::cout << "plot_tracks failed with return code: "
-                 << result << std::endl;
+            cout << "plot_tracks failed with return code: "
+                 << result << endl;
         }
     }
 
@@ -323,7 +340,7 @@ boost::optional<std::string> postprocess_scrimmage(
     log->close_log();
 
     if (!output_nothing) {
-        std::cout << "Simulation Complete" << std::endl;
+        cout << "Simulation Complete" << endl;
     }
 
     simcontrol.close();
@@ -350,7 +367,8 @@ std::shared_ptr<Log> setup_logging(MissionParsePtr mp) {
 
 bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
                      const std::set<std::string> &plugin_tags,
-                     std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                     std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                     const int& debug_level) {
 
     for (std::string network_name : info.mp->network_names()) {
         ConfigParse config_parse;
@@ -363,8 +381,8 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
                 config_parse, overrides, plugin_tags);
 
         if (status.status == PluginStatus<Network>::cast_failed) {
-            std::cout << "Failed to load network plugin: "
-                << network_name << std::endl;
+            cout << "Failed to load network plugin: "
+                << network_name << endl;
             return false;
         } else if (status.status == PluginStatus<Network>::loaded) {
             NetworkPtr network = status.plugin;
@@ -384,6 +402,13 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
             // Seed the pubsub with network names
             info.pubsub->add_network_name(name);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Network plugin params: " << name << endl;
+                cout << config_parse;
+            }
+
             network->init(info.mp->params(), config_parse.params());
             networks[name] = network;
         }

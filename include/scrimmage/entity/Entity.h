@@ -77,7 +77,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
               const ParameterServerPtr &param_server,
               const GlobalServicePtr &global_services,
               const std::set<std::string> &plugin_tags,
-              std::function<void(std::map<std::string, std::string>&)> param_override_func);
+              std::function<void(std::map<std::string, std::string>&)> param_override_func,
+              const int& debug_level = 0);
 
     void print_plugins(std::ostream &out) const;
 

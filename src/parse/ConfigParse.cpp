@@ -188,4 +188,11 @@ void ConfigParse::print_params() {
         cout << kv.first << "=" << kv.second << endl;
     }
 }
+
+std::ostream& operator<<(std::ostream& os, ConfigParse& cp) {
+    for (auto &kv : cp.params()) {
+        os << kv.first << "=" << kv.second << endl;
+    }
+    return os;
+}
 } // namespace scrimmage

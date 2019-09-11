@@ -59,6 +59,8 @@ class ConfigParse {
     std::string stem();
     void print_params();
 
+    friend std::ostream& operator<<(std::ostream& os, ConfigParse& cp);
+
  protected:
     std::map<std::string, std::string> params_;
     std::vector<std::string> required_;
