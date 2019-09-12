@@ -111,7 +111,8 @@ bool External::create_entity(const std::string &mission_file,
                              double init_time,
                              double init_dt,
                              const std::string &log_dir,
-                             std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                             std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                             const int& debug_level) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
     if (not found_mission_file) {
@@ -207,7 +208,8 @@ bool External::create_entity(const std::string &mission_file,
         entity_->init(
             attr_map, info, contacts, mp_, mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_, param_server_, global_services_, plugin_tags, param_override_func);
+            time_, param_server_, global_services_, plugin_tags,
+            param_override_func, debug_level);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;

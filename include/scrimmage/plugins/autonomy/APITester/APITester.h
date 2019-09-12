@@ -30,46 +30,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
-#define INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/CSV.h>
 
-#include <map>
-#include <vector>
 #include <string>
-
-namespace rapidxml {
-template <class T> class xml_node;
-}
+#include <map>
 
 namespace scrimmage {
-
-class FileSearch;
-
-class ConfigParse {
+namespace autonomy {
+class APITester : public scrimmage::Autonomy {
  public:
-    ConfigParse();
-    void set_required(std::string node_name);
-    bool parse(const std::map<std::string, std::string> &overrides,
-        std::string filename, std::string env_var, FileSearch &file_search,
-        bool verbose = false);
-    std::map<std::string, std::string> & params();
-    std::string filename();
-    std::string directory();
-    std::string extension();
-    std::string stem();
-    void print_params();
-
-    friend std::ostream& operator<<(std::ostream& os, ConfigParse& cp);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-    std::map<std::string, std::string> params_;
-    std::vector<std::string> required_;
-    std::string filename_;
+    bool my_test_bool_ = false;
+    int my_test_int_ = 1;
+    float my_test_float_ = 1.2345;
+    double my_test_double_ = 9.87654321;
 
-    void recursive_params(rapidxml::xml_node<char> *root,
-        const std::map<std::string, std::string> &overrides,
-        std::map<std::string, std::string> &params,
-        const std::string &prev);
+    uint8_t desired_heading_idx_ = 0;
+    uint8_t desired_alt_idx_ = 0;
+    uint8_t desired_speed_idx_ = 0;
+
+    CSV csv_;
+
+    void write_my_test_values();
 };
+} // namespace autonomy
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_

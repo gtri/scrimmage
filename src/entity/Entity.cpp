@@ -80,7 +80,8 @@ bool Entity::init(AttributeMap &overrides,
                   const ParameterServerPtr &param_server,
                   const GlobalServicePtr &global_services,
                   const std::set<std::string> &plugin_tags,
-                  std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                  std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                  const int& debug_level) {
     pubsub_ = pubsub;
     global_services_ = global_services;
     time_ = time;
@@ -204,6 +205,11 @@ bool Entity::init(AttributeMap &overrides,
             std::string given_name = sensor_name + std::to_string(sensor_ct);
             sensor->set_name(given_name);
 
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Sensor plugin params: " << given_name << endl;
+                cout << config_parse;
+            }
             sensor->init(config_parse.params());
             sensors_[given_name] = sensor;
         }
@@ -240,6 +246,12 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_->set_param_server(param_server);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Motion plugin params: " << info["motion_model"] << endl;
+                cout << config_parse;
+            }
             motion_model_->init(info, config_parse.params());
         }
     }
@@ -322,6 +334,11 @@ bool Entity::init(AttributeMap &overrides,
             }
 
             // Initialize this controller.
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Controller plugin params: " << info[controller_name] << endl;
+                cout << config_parse;
+            }
             controller->init(config_parse.params());
 
             // Verify the VariableIO connection
@@ -408,6 +425,12 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_is_controlling(true);
             autonomy->set_name(info[autonomy_name]);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Autonomy plugin params: " << info[autonomy_name] << endl;
+                cout << config_parse;
+            }
             autonomy->init(config_parse.params());
 
             // get loop rate from plugin's params

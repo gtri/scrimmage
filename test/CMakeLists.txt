@@ -1,4 +1,5 @@
 set(test_files
+    test_csv.cpp
     test_algorithms.cpp
     test_angles.cpp
     test_collisions.cpp
