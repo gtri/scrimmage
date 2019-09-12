@@ -65,20 +65,28 @@ class CSV {
 
     bool to_csv(const std::string &filename);
 
-    bool read_csv(const std::string &filename, bool contains_header = true);
+    bool read_csv(const std::string &filename, const bool& contains_header = true);
+
+    bool read_csv_from_string(const std::string &str, const bool& contains_header = true);
 
     void set_no_value_string(const std::string &str);
+
+    std::string to_string() const;
 
     size_t rows();
 
     double at(int row, const std::string &header);
+
+    friend std::ostream& operator<<(std::ostream& os, const CSV& csv);
+
+    bool equals(const CSV& other);
 
  protected:
     std::list<std::string> get_csv_line_elements(const std::string &str);
 
     void write_headers();
 
-    void write_row(int row);
+    void write_row(const int& row);
 
     // Key   : column header (name)
     // Value : column index
@@ -91,9 +99,12 @@ class CSV {
     int next_row_ = 0;
 
     std::ofstream file_out_;
-    std::ifstream file_in_;
-
     std::string no_value_str_ = "NaN";
+
+ private:
+    std::string headers_to_string() const;
+    std::string rows_to_string() const;
+    std::string row_to_string(const int& i) const;
 };
 } // namespace scrimmage
 
