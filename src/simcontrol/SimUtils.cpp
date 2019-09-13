@@ -194,175 +194,48 @@ void signal_handler(int signal) { shutdown_handler(signal); }
 boost::optional<std::string> run_test(const std::string &mission,
                                       const bool &init_python,
                                       const bool &finalize_python) {
+#if ENABLE_PYTHON_BINDINGS == 1
+    if (init_python) Py_Initialize();
+#endif
 
-    auto found_mission = FileSearch().find_mission(mission);
-    if (!found_mission) {
-        cout << "scrimmage::run_test could not find " << mission << endl;
+    SimControl simcontrol;
+    if (not simcontrol.init(mission)) {
+        cout << "Failed to initialize SimControl." << endl;
         return boost::none;
-    } else {
-        SimControl simcontrol;
+    }
 
-        // Handle kill signals
-        struct sigaction sa;
-        memset( &sa, 0, sizeof(sa) );
-        shutdown_handler = [&](int /*s*/){
-            cout << endl << "Exiting gracefully" << endl;
-            simcontrol.force_exit();
-        };
-        sa.sa_handler = signal_handler;
-        sigfillset(&sa.sa_mask);
-        sigaction(SIGINT, &sa, NULL);
-        sigaction(SIGTERM, &sa, NULL);
+    // Handle kill signals
+    struct sigaction sa;
+    memset( &sa, 0, sizeof(sa) );
+    shutdown_handler = [&](int /*s*/){
+        cout << endl << "Exiting gracefully" << endl;
+        simcontrol.force_exit();
+    };
+    sa.sa_handler = signal_handler;
+    sigfillset(&sa.sa_mask);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
 
-        auto mp = std::make_shared<MissionParse>();
-        if (!mp->parse(*found_mission)) {
-            cout << "Failed to parse file: " << *found_mission << endl;
-            return boost::none;
-        }
-        mp->set_time_warp(-1);
-        mp->set_enable_gui(false);
+    simcontrol.mp()->set_time_warp(-1);
+    simcontrol.mp()->set_enable_gui(false);
+
+    simcontrol.pause(false);
+    if (not simcontrol.run()) {
+        return boost::none;
+    }
+
+    // Extract the log directory
+    auto out = boost::optional<std::string>{simcontrol.mp()->log_dir()};
+
+    // Shutdown SimControl
+    if (not simcontrol.shutdown()) {
+        return boost::none;
+    }
 
 #if ENABLE_PYTHON_BINDINGS == 1
-        if (init_python) Py_Initialize();
+    if (finalize_python) Py_Finalize();
 #endif
-        auto log = preprocess_scrimmage(mp, simcontrol);
-        if (log == nullptr) {
-            return boost::none;
-        }
-        simcontrol.pause(false);
-        if (not simcontrol.run()) {
-            return boost::none;
-        }
-
-        auto out = postprocess_scrimmage(mp, simcontrol, log);
-
-#if ENABLE_PYTHON_BINDINGS == 1
-        if (finalize_python) Py_Finalize();
-#endif
-        return out;
-    }
-}
-
-bool logging_logic(MissionParsePtr mp, std::string s) {
-    std::string output_type = get("output_type", mp->params(), std::string("frames"));
-    bool output_all = output_type.find("all") != std::string::npos;
-    return output_all || output_type.find(s) != std::string::npos;
-}
-
-std::shared_ptr<Log> preprocess_scrimmage(
-        MissionParsePtr mp,
-        SimControl &simcontrol) {
-
-    bool output_all = logging_logic(mp, "all");
-    bool output_frames = logging_logic(mp, "frames");
-    bool output_summary = logging_logic(mp, "summary");
-    bool output_git = logging_logic(mp, "git_commits");
-    bool output_mission = logging_logic(mp, "mission");
-    bool output_seed = logging_logic(mp, "seed");
-    bool output_nothing =
-        !output_all && !output_frames && !output_summary &&
-        !output_git && !output_mission && !output_seed;
-
-    simcontrol.set_limited_verbosity(output_nothing);
-
-    if (!output_nothing) {
-        mp->create_log_dir();
-    }
-
-    auto log = setup_logging(mp);
-
-    // Overwrite the seed if it's set
-    simcontrol.set_log(log);
-
-    InterfacePtr to_gui_interface = std::make_shared<Interface>();
-    InterfacePtr from_gui_interface = std::make_shared<Interface>();
-
-    simcontrol.set_incoming_interface(from_gui_interface);
-    simcontrol.set_outgoing_interface(to_gui_interface);
-
-    simcontrol.set_mission_parse(mp);
-    if (!simcontrol.init()) {
-        cout << "SimControl init() failed." << endl;
-        return nullptr;
-    }
-
-    bool display_progress = get("display_progress", mp->params(), true);
-    simcontrol.display_progress(display_progress);
-    return log;
-}
-
-boost::optional<std::string> postprocess_scrimmage(
-      MissionParsePtr mp, SimControl &simcontrol, std::shared_ptr<Log> &log) {
-
-    simcontrol.output_runtime();
-
-    // summary
-    bool output_all = logging_logic(mp, "all");
-    bool output_frames = logging_logic(mp, "frames");
-    bool output_summary = logging_logic(mp, "summary");
-    bool output_git = logging_logic(mp, "git_commits");
-    bool output_mission = logging_logic(mp, "mission");
-    bool output_seed = logging_logic(mp, "seed");
-    bool output_nothing =
-        !output_all && !output_frames && !output_summary &&
-        !output_git && !output_mission && !output_seed;
-    if (output_summary && !simcontrol.output_summary()) return boost::none;
-
-    if (output_git) {
-        std::map<std::string, std::unordered_set<std::string>> commits =
-            simcontrol.plugin_manager()->get_commits();
-        std::string scrimmage_version = get_version();
-
-        if (scrimmage_version != "") {
-            commits[scrimmage_version].insert("scrimmage");
-        }
-
-        for (auto &kv : commits) {
-            std::string output = kv.first + ":";
-            for (const std::string &plugin_name : kv.second) {
-                output += plugin_name + ",";
-            }
-            output.pop_back();
-            log->write_ascii(output);
-        }
-    }
-
-    if (get("plot_tracks", mp->params(), false)) {
-        std::string plot_cmd = "plot_3d_fr.py " + log->frames_filename();
-        int result = std::system(plot_cmd.c_str());
-        if (result != 0) {
-            cout << "plot_tracks failed with return code: "
-                 << result << endl;
-        }
-    }
-
-    // Close the log file
-    log->close_log();
-
-    if (!output_nothing) {
-        cout << "Simulation Complete" << endl;
-    }
-
-    simcontrol.close();
-    return mp->log_dir();
-}
-
-bool check_output(std::string output_type, std::string desired_output) {
-    return output_type.find("all") != std::string::npos ||
-           output_type.find(desired_output) != std::string::npos;
-}
-
-std::shared_ptr<Log> setup_logging(MissionParsePtr mp) {
-    std::string output_type = get("output_type", mp->params(), std::string("frames"));
-    auto log = std::make_shared<Log>();
-    if (check_output(output_type, "frames")) {
-        log->set_enable_log(true);
-        log->init(mp->log_dir(), Log::WRITE);
-    } else {
-        log->set_enable_log(false);
-        log->init(mp->log_dir(), Log::NONE);
-    }
-    return log;
+    return out;
 }
 
 bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,

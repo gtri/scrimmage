@@ -92,16 +92,9 @@ boost::optional<std::string> run_test(const std::string &mission,
                                       const bool &init_python = true,
                                       const bool &finalize_python = true);
 
-bool logging_logic(MissionParsePtr mp, std::string s);
-
-std::shared_ptr<Log> preprocess_scrimmage(MissionParsePtr mp, SimControl &simcontrol);
-
 boost::optional<std::string> postprocess_scrimmage(
       MissionParsePtr mp, SimControl &simcontrol, std::shared_ptr<Log> &log);
 
-bool check_output(std::string output_type, std::string desired_output);
-
-std::shared_ptr<Log> setup_logging(MissionParsePtr mp);
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_

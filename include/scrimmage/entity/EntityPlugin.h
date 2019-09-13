@@ -124,6 +124,7 @@ class EntityPlugin : public Plugin {
                            unsigned int max_queue_size);
 
     void set_pubsub(PubSubPtr pubsub) { pubsub_ = pubsub; }
+    PubSubPtr pubsub() { return pubsub_; }
 
     std::list<SubscriberBasePtr> subs() { return subs_; }
 

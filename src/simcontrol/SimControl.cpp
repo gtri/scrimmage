@@ -102,10 +102,14 @@ namespace scrimmage {
 SimControl::SimControl() :
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
+    incoming_interface_(std::make_shared<Interface>()),
+    outgoing_interface_(std::make_shared<Interface>()),
+    mp_(std::make_shared<MissionParse>()),
     time_(std::make_shared<Time>()),
     param_server_(std::make_shared<ParameterServer>()),
     global_services_(std::make_shared<GlobalService>()),
     timer_(Timer()),
+    log_(std::make_shared<Log>()),
     random_(std::make_shared<Random>()),
     plugin_manager_(std::make_shared<PluginManager>()),
     networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
@@ -129,7 +133,22 @@ void SimControl::send_terrain() {
     log_->save_utm_terrain(mp_->utm_terrain());
 }
 
-bool SimControl::init() {
+bool SimControl::setup_logging() {
+    limited_verbosity_ = mp_->output_required();
+
+    // Setup the log directory if it is required
+    if (mp_->output_required()) {
+        mp_->create_log_dir();
+        log_->set_enable_log(true);
+        log_->init(mp_->log_dir(), Log::WRITE);
+    } else {
+        log_->set_enable_log(false);
+        log_->init(mp_->log_dir(), Log::NONE);
+    }
+    return true;
+}
+
+bool SimControl::init(const std::string& mission_file) {
     ents_.clear();
     ent_inters_.clear();
     metrics_.clear();
@@ -140,10 +159,21 @@ bool SimControl::init() {
     pubsub_->pubs().clear();
     pubsub_->subs().clear();
 
-    if (mp_ == NULL) {
-        cout << "Mission Parse hasn't been set yet." << endl;
+    if (!mp_->parse(mission_file)) {
+        cout << "Failed to parse file: " << mission_file << endl;
         return false;
     }
+
+    // Set the time parameters based on the mission file input
+    t0_ = mp_->t0();
+    tend_ = mp_->tend();
+    dt_ = mp_->dt();
+
+    time_->set_t(t0_);
+    time_->set_dt(dt_);
+    time_->set_time_warp(mp_->time_warp());
+
+    display_progress_ = get("display_progress", mp_->params(), true);
 
     proj_ = mp_->projection(); // get projection (origin) from mission
 
@@ -164,14 +194,6 @@ bool SimControl::init() {
         cout << "Missing JSBSIM_ROOT env variable, using ./" << endl;
     }
 #endif
-
-    t0_ = mp_->t0();
-    tend_ = mp_->tend();
-    dt_ = mp_->dt();
-
-    time_->set_t(t0_);
-    time_->set_dt(dt_);
-    time_->set_time_warp(mp_->time_warp());
 
     // Setup random seed
     if (mp_->params().count("seed") > 0) {
@@ -220,8 +242,6 @@ bool SimControl::init() {
     if (mp_->start_paused()) {
         pause(true);
     }
-
-    setup_timer(1.0 / dt_, mp_->time_warp());
 
     if (mp_->params().count("stream_port") > 0 &&
         mp_->params().count("stream_ip") > 0) {
@@ -445,7 +465,7 @@ void SimControl::request_screenshot() {
     outgoing_interface_->push_gui_msg(gui_msg);
 }
 
-bool SimControl::generate_entities(double t) {
+bool SimControl::generate_entities(const double& t) {
     // Construct a list of entities to generate based on the time and generate
     // rate properties. pair consists of entity description ID and
     // first_in_group.
@@ -622,21 +642,15 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     return true;
 }
 
-void SimControl::set_mission_parse(MissionParsePtr mp) { mp_ = mp; }
-
 MissionParsePtr SimControl::mp() { return mp_; }
-
-void SimControl::set_log(std::shared_ptr<Log> &log) { log_ = log; }
 
 bool SimControl::enable_gui() {
     return mp_->enable_gui();
 }
 
-void SimControl::start() {
-    thread_ = std::thread(&SimControl::run, this);
+void SimControl::display_progress(const bool& enable) {
+    display_progress_ = enable;
 }
-
-void SimControl::display_progress(bool enable) { display_progress_ = enable; }
 
 void SimControl::join() {
     thread_.join();
@@ -779,7 +793,7 @@ void SimControl::run_remove_inactive() {
     }
 }
 
-bool SimControl::run_single_step(int loop_number) {
+bool SimControl::run_single_step(const int& loop_number) {
     double t = this->t();
     reseed_task_.update(t);
     start_loop_timer();
@@ -837,7 +851,6 @@ bool SimControl::run_single_step(int loop_number) {
     } while (paused() && !exit_loop);
 
     if (!wait_for_ready()) {
-        cleanup();
         return false;
     }
 
@@ -894,40 +907,54 @@ bool SimControl::run_single_step(int loop_number) {
     set_time(t + dt_);
     prev_paused_ = paused_;
 
-    return !exit_loop;
+    return not (end_condition_reached() || exit_loop);
 }
 
-bool SimControl::run() {
+void SimControl::run_threaded() {
+    thread_ = std::thread(&SimControl::run, this);
+}
+
+bool SimControl::start() {
+    setup_logging();
+
+    setup_timer(1.0 / dt_, mp_->time_warp());
     start_overall_timer();
 
     // Simulate over the time range
-    int loop_number = 0;
     set_time(t0_ - dt_);
 
-    bool gen_success = true;
+    // Initialize entities before simulation begings
     if (!generate_entities(t0_ - dt_)) {
         cout << "Failed to generate entity" << endl;
-        gen_success = false;
+        return false;
     }
 
-    bool interaction_success = true;
+    // Run the interaction plugins before the simulation begins
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
-        interaction_success = false;
+        return false;
     }
-
     set_time(t0_);
-    while (gen_success &&
-           interaction_success &&
-           run_single_step(loop_number++) &&
-           !end_condition_reached()) {}
-    cleanup();
-
-    return gen_success;
+    return true;
 }
 
-void SimControl::cleanup() {
+bool SimControl::run() {
+    if (not start()) {
+        return false;
+    }
+    int loop_number = 0;
+    while (run_single_step(loop_number++)) {}
+    return finalize();
+}
+
+bool SimControl::finalize() {
+    // Finalize can only be called once per instance
+    if (finalized_called_) {
+        return true;
+    }
+    finalized_called_ = true;
+
     if (!entity_thread_types_.empty()) {
         entity_pool_stop_ = true;
         entity_pool_condition_var_.notify_all();
@@ -944,6 +971,43 @@ void SimControl::cleanup() {
         auto msg = std::make_shared<Message<sm::EntityPresentAtEnd>>();
         msg->data.set_entity_id(ent->id().id());
         pub_ent_pres_end_->publish(msg);
+    }
+
+    run_logging();
+
+    if (display_progress_) cout << endl;
+
+    // Tell the visualizers that the simulation is complete
+    set_finished(true);
+
+    if (mp_->output_required()) {
+        output_runtime();
+    }
+
+    if (mp_->output_type_required("summary")) {
+        if (not output_summary()) {
+            cout << "Failed to write Metrics summary" << endl;
+        }
+    }
+
+    if (mp_->output_type_required("git_commits")) {
+        output_git_summary();
+    }
+
+    // Close the log file
+    log_->close_log();
+
+    if (not limited_verbosity_) {
+        cout << "Simulation Complete" << endl;
+    }
+    return true;
+}
+
+bool SimControl::shutdown() {
+    finalize();
+
+    // Close all plugins
+    for (EntityPtr &ent : ents_) {
         ent->close(t());
     }
 
@@ -955,14 +1019,10 @@ void SimControl::cleanup() {
         kv.second->close_plugin(t());
     }
 
-    run_logging();
-
-    if (display_progress_) cout << endl;
-
-    set_finished(true);
+    return reset_pointers();
 }
 
-void SimControl::close() {
+bool SimControl::reset_pointers() {
     id_to_ent_map_ = nullptr;
     incoming_interface_ = nullptr;
     outgoing_interface_ = nullptr;
@@ -997,6 +1057,8 @@ void SimControl::close() {
     pub_world_point_clicked_ = nullptr;
     pub_custom_key_ = nullptr;
     not_ready_.clear();
+
+    return true;
 }
 
 bool SimControl::wait_for_ready() {
@@ -1082,12 +1144,6 @@ bool SimControl::take_step() {
     return value;
 }
 
-void SimControl::step_taken() {
-    take_step_mutex_.lock();
-    take_step_ = false;
-    take_step_mutex_.unlock();
-}
-
 void SimControl::set_incoming_interface(InterfacePtr &incoming_interface)
 { incoming_interface_ = incoming_interface; }
 
@@ -1151,14 +1207,6 @@ void SimControl::force_exit() {
     exit_mutex_.unlock();
 }
 
-bool SimControl::external_exit() {
-    bool exit;
-    exit_mutex_.lock();
-    exit = exit_;
-    exit_mutex_.unlock();
-    return exit;
-}
-
 void SimControl::set_finished(bool finished) {
     scrimmage_proto::SimInfo info;
     info.set_time(this->t());
@@ -1174,15 +1222,6 @@ void SimControl::set_finished(bool finished) {
     finished_mutex_.unlock();
 }
 
-bool SimControl::finished() {
-    bool status;
-    finished_mutex_.lock();
-    status = finished_;
-    finished_mutex_.unlock();
-
-    return status;
-}
-
 void SimControl::get_contacts(std::unordered_map<int, Contact> &contacts) {
     // The Viewer GUI also looks at the contacts
     contacts_mutex_.lock();
@@ -1194,18 +1233,8 @@ void SimControl::get_contacts(std::unordered_map<int, Contact> &contacts) {
     contacts_mutex_.unlock();
 }
 
-void SimControl::set_contacts(ContactMapPtr &contacts) {
-    contacts_mutex_.lock();
-    contacts_ = contacts;
-    contacts_mutex_.unlock();
-}
-
 void SimControl::get_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals) {
     contact_visuals = contact_visuals_;
-}
-
-void SimControl::set_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals) {
-    contact_visuals_ = contact_visuals;
 }
 
 void SimControl::inc_warp() {
@@ -1220,7 +1249,7 @@ void SimControl::dec_warp() {
     timer_mutex_.unlock();
 }
 
-void SimControl::pause(bool pause) {
+void SimControl::pause(const bool& pause) {
     paused_mutex_.lock();
     paused_ = pause;
     paused_mutex_.unlock();
@@ -1244,7 +1273,7 @@ double SimControl::time_warp() {
 
 double SimControl::actual_time_warp() { return -1; }
 
-void SimControl::set_time(double t) {
+void SimControl::set_time(const double& t) {
     time_mutex_.lock();
     t_ = t;
     time_->set_t(t_);
@@ -1286,7 +1315,7 @@ void SimControl::loop_wait() {
     timer_mutex_.unlock();
 }
 
-void SimControl::single_step(bool value) {
+void SimControl::single_step(const bool& value) {
     single_step_mutex_.lock();
     single_step_ = value;
     single_step_mutex_.unlock();
@@ -1554,6 +1583,26 @@ bool SimControl::output_runtime() {
     return true;
 }
 
+bool SimControl::output_git_summary() {
+    std::map<std::string, std::unordered_set<std::string>> commits =
+            plugin_manager_->get_commits();
+    std::string scrimmage_version = get_version();
+
+    if (scrimmage_version != "") {
+        commits[scrimmage_version].insert("scrimmage");
+    }
+
+    for (auto &kv : commits) {
+        std::string output = kv.first + ":";
+        for (const std::string &plugin_name : kv.second) {
+            output += plugin_name + ",";
+        }
+        output.pop_back();
+        log_->write_ascii(output);
+    }
+    return true;
+}
+
 bool SimControl::output_summary() {
     std::map<int, double> team_scores;
     std::map<int, std::map<std::string, double>> team_metrics;
@@ -1643,15 +1692,27 @@ bool SimControl::output_summary() {
             cout << sc::generate_chars("-", 80) << endl;
         }
     }
-
     return true;
 }
 
-void SimControl::set_limited_verbosity(bool limited_verbosity) {
-    limited_verbosity_ = limited_verbosity;
+InterfacePtr SimControl::incoming_interface() {
+    return incoming_interface_;
 }
 
-InterfacePtr SimControl::incoming_interface() {return incoming_interface_;}
-InterfacePtr SimControl::outgoing_interface() {return outgoing_interface_;}
-std::list<EntityPtr> &SimControl::ents() {return ents_;}
+InterfacePtr SimControl::outgoing_interface() {
+    return outgoing_interface_;
+}
+
+std::list<EntityPtr> &SimControl::ents() {
+    return ents_;
+}
+
+EntityPluginPtr SimControl::plugin() {
+    return sim_plugin_;
+}
+
+std::shared_ptr<std::unordered_map<int, EntityPtr>>
+SimControl::id_to_entity_map() {
+    return id_to_ent_map_;
+}
 } // namespace scrimmage

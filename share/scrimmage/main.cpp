@@ -136,38 +136,33 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    std::string mission_file = argv[optind];
-    auto mp = std::make_shared<sc::MissionParse>();
-    if (task_id != -1) mp->set_task_number(task_id);
-    if (job_id != -1) mp->set_job_number(job_id);
-
-    mp->set_overrides(overrides);
-
-    if (!mp->parse(mission_file)) {
-        std::cout << "Failed to parse file: " << mission_file << std::endl;
-        return -1;
-    }
-
-    if (seed_set) mp->params()["seed"] = seed;
-
 #if ENABLE_PYTHON_BINDINGS == 1
     Py_Initialize();
 #endif
 
-    auto log = sc::preprocess_scrimmage(mp, simcontrol);
+    // Load in the mission file and parse mission parameters
+    std::string mission_file = argv[optind];
+    if (not simcontrol.init(mission_file)) {
+        cout << "Failed to initialize SimControl with mission file: "
+             << mission_file << endl;
+    }
+
+    // Overwrite mission parameters from command line
+    if (task_id != -1) simcontrol.mp()->set_task_number(task_id);
+    if (job_id != -1) simcontrol.mp()->set_job_number(job_id);
+    simcontrol.mp()->set_overrides(overrides);
+    if (seed_set) simcontrol.mp()->params()["seed"] = seed;
+
     simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
-
-    if (log == nullptr) {
-        return -1;
-    }
 
 #if ENABLE_VTK == 0
     simcontrol.pause(false);
     simcontrol.run();
 #else
     if (simcontrol.enable_gui()) {
-        simcontrol.start();
+        simcontrol.run_threaded();
+
         scrimmage::Viewer viewer;
 
         auto outgoing = simcontrol.outgoing_interface();
@@ -176,7 +171,8 @@ int main(int argc, char *argv[]) {
         viewer.set_incoming_interface(outgoing);
         viewer.set_outgoing_interface(incoming);
         viewer.set_enable_network(false);
-        viewer.init(mp->attributes()["camera"], mp->log_dir(), mp->dt());
+        viewer.init(simcontrol.mp()->attributes()["camera"],
+                    simcontrol.mp()->log_dir(), simcontrol.mp()->dt());
         viewer.run();
 
         // When the viewer finishes, tell simcontrol to exit
@@ -188,7 +184,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
-    if (sc::postprocess_scrimmage(mp, simcontrol, log)) {
+    if (simcontrol.shutdown()) {
         return 0;
     } else {
         return -1;
