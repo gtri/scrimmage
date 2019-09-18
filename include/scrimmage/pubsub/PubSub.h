@@ -94,9 +94,9 @@ class PubSub {
         return sub;
     }
 
-    PublisherPtr advertise(std::string &network_name, const std::string &topic,
-                           unsigned int max_queue_size,
-                           bool enable_queue_size, EntityPluginPtr plugin);
+    PublisherPtr advertise(const std::string &network_name, const std::string &topic,
+                           const unsigned int& max_queue_size,
+                           const bool& enable_queue_size, EntityPluginPtr plugin);
 
  protected:
     TopicMap pub_map_;

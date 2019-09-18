@@ -30,3 +30,4 @@ swarm behaviors.
    open-grid.rst
    test.rst
    utilities.rst
+   simcontrol.rst
