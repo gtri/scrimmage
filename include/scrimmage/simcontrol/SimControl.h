@@ -64,9 +64,7 @@ enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
 
 class SimControl {
  public:
-    /**
-     * @brief SimControl default constructor
-     */
+    /// @brief SimControl default constructor
     SimControl();
 
     /**
@@ -159,11 +157,8 @@ class SimControl {
      */
     void force_exit();
 
-    /**
-     * @brief Waits for the threaded simulation to exit.
-     */
+    /// @brief Waits for the threaded simulation to exit.
     void join();
-
 
     /*
     * @brief Provides access to the SimControl's entity plugin.
@@ -176,8 +171,19 @@ class SimControl {
     */
     EntityPluginPtr plugin();
 
+    /**
+     * @brief Provides access to the simulated contacts.
+     *
+     * The contact map is indexed by contact ID.
+     */
     void get_contacts(std::unordered_map<int, Contact> &contacts);
 
+    /**
+     * @brief Provides access to the simulated contacts visualization
+     * information.
+     *
+     * The contact visuals map is indexed by contact ID.
+     */
     void get_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals);
 
     /**
@@ -190,9 +196,7 @@ class SimControl {
      */
     bool generate_entities(const double& t);
 
-    /**
-     * @brief Generate an entity given the entity description ID.
-     */
+    /// @brief Generate an entity given the entity description ID.
     bool generate_entity(const int &ent_desc_id);
 
     /**
@@ -202,10 +206,7 @@ class SimControl {
     bool generate_entity(const int &ent_desc_id,
                          std::map<std::string, std::string> &params);
 
-    /**
-     * @brief Get the pointer to the MissionParser instance.
-     *
-     */
+    /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
 
     /**
@@ -215,14 +216,10 @@ class SimControl {
      */
     void set_time(const double &t);
 
-    /**
-     * @brief Get the current simulation time.
-     */
+    /// @brief Get the current simulation time.
     double t();
 
-    /**
-     * @brief Pause (true) or unpause (false) the simulation.
-     */
+    /// @brief Pause (true) or unpause (false) the simulation.
     void pause(const bool& pause);
 
     /**
@@ -231,9 +228,7 @@ class SimControl {
      */
     bool paused();
 
-    /**
-     * @brief Get the desired time warp of the simulation.
-     */
+    /// @brief Get the desired time warp of the simulation.
     double time_warp();
 
     /**
@@ -245,34 +240,22 @@ class SimControl {
      */
     double actual_time_warp();
 
-    /**
-     * @brief Returns true if mission file requests a GUI.
-     */
+    /// @brief Returns true if mission file requests a GUI.
     bool enable_gui();
 
-    /**
-     * @brief Returns true if a simulation end condition has been met.
-     */
+    /// @brief Returns true if a simulation end condition has been met.
     bool end_condition_reached();
 
-    /**
-     * @brief Access the simulation timer instance.
-     */
+    /// @brief Access the simulation timer instance.
     Timer &timer();
 
-    /**
-     * @brief Access the metrics plugins.
-     */
+    /// @brief Access the metrics plugins.
     std::list<MetricsPtr> & metrics();
 
-    /**
-     * @brief Access the PluginManager instance.
-     */
+    /// @brief Access the PluginManager instance.
     PluginManagerPtr &plugin_manager();
 
-    /**
-     * @brief Access the FileSearch instance.
-     */
+    /// @brief Access the FileSearch instance.
     FileSearchPtr &file_search();
 
     struct Task {
@@ -295,9 +278,7 @@ class SimControl {
      */
     void set_incoming_interface(InterfacePtr &incoming_interface);
 
-    /**
-     * @brief Get the incoming interface.
-     */
+    /// @brief Get the incoming interface.
     InterfacePtr incoming_interface();
 
     /**
@@ -306,29 +287,19 @@ class SimControl {
      */
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
 
-    /**
-     * @brief Get the outgoing interface.
-     */
+    /// @brief Get the outgoing interface.
     InterfacePtr outgoing_interface();
 
-    /**
-     * @brief Access the entities in the simulation.
-     */
+    /// @brief Access the entities in the simulation.
     std::list<EntityPtr> &ents();
 
-    /**
-     * @brief Sends terrain to visualizers and log files.
-     */
+    /// @brief Sends terrain to visualizers and log files.
     void send_terrain();
 
-    /**
-     * @brief Sends simulation shapes to visualizers and log files.
-     */
+    /// @brief Sends simulation shapes to visualizers and log files.
     void run_send_shapes();
 
-    /**
-     * @brief Enables/disable displaying the current progress in the terminal.
-     */
+    /// @brief Enables/disable displaying the current progress in the terminal.
     void display_progress(const bool& enable);
 
     /*
