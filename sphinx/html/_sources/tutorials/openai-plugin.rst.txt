@@ -56,7 +56,7 @@ in the following ways:
       one can have multiple agents operate independently.
 
     * Action/Observation space - this can be discrete, continuous, or combined
-      (the latter would a a ``TupleSpace`` in openai).
+      (the latter would a ``TupleSpace`` in openai).
 
 For a demonstration of these combinations, see ``test/test_openai.py``.
 For this tutorial, we will only be investigating how to develop a discrete
@@ -199,7 +199,7 @@ We now define the ``calc_reward`` function:
 .. code-block:: c++
    :linenos:
 
-   std::pair<bool, double> SimpleLearner::calc_reward() {
+   std::tuple<bool, double, pybind11::dict> SimpleLearner::calc_reward() {
        const bool done = false;
        const double x = state_->pos()(0);
        const bool within_radius = std::round(std::abs(x)) < radius_;
@@ -420,7 +420,7 @@ following blocks (More detail on creating mission files is located at
      <gui_update_period>10</gui_update_period> <!-- milliseconds -->
 
      <output_type>summary</output_type>
-     <metrics order="0">OpenAIRewards</metrics>
+     <metrics">OpenAIRewards</metrics>
 
      <background_color>191 191 191</background_color> <!-- Red Green Blue -->
      <log_dir>~/.scrimmage/logs</log_dir>
@@ -434,7 +434,7 @@ following blocks (More detail on creating mission files is located at
           <visual_model>Sphere</visual_model>
           <motion_model>SingleIntegrator</motion_model>
           <controller>SingleIntegratorControllerSimple</controller>
-          <sensor order="0">MyOpenAISensor</sensor>
+          <sensor>MyOpenAISensor</sensor>
           <autonomy>SimpleLearner</autonomy>
           <y>0</y>
           <z>0</z>

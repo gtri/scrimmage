@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SimControl API &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Useful Utilities" href="utilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gen-entities.html">Generate Entities at Run-Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SimControl API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#threaded-execution-of-simcontrol">Threaded Execution of SimControl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-threaded-execution-of-simcontrol">Non-Threaded Execution of SimControl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual-stepping-of-simcontrol">Manual Stepping of SimControl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>SimControl API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorials/simcontrol.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="simcontrol-api">
+<span id="id1"></span><h1>SimControl API<a class="headerlink" href="#simcontrol-api" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">scrimmage</span></code> executable is a light-weight wrapper around the primary C++
+class used to manage the simulation engine: <code class="docutils literal notranslate"><span class="pre">SimControl</span></code>. The <code class="docutils literal notranslate"><span class="pre">SimControl</span></code>
+class can be used in three contexts: executing <code class="docutils literal notranslate"><span class="pre">SimControl</span></code> in its own
+thread, executing <code class="docutils literal notranslate"><span class="pre">SimControl</span></code> in the current thread, and executing
+<code class="docutils literal notranslate"><span class="pre">SimControl</span></code> in the current thread with manual stepping of the simulation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The return values of the <code class="docutils literal notranslate"><span class="pre">SimControl</span></code> API call should be checked in
+production code (often just a boolean check). The checks are left out
+of the following code samples to improve readability.</p>
+</div>
+<div class="section" id="threaded-execution-of-simcontrol">
+<h2>Threaded Execution of SimControl<a class="headerlink" href="#threaded-execution-of-simcontrol" title="Permalink to this headline">¶</a></h2>
+<p>The following code sample demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">SimControl</span></code> class in
+non-blocking threaded execution. This is how the simulation is executed when
+running with the scrimmage visualization engine because the VTK window needs to
+be executed in the primary thread.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="c1">// Create an instance of the SimControl class.</span>
+  <span class="n">SimControl</span> <span class="n">simcontrol</span><span class="p">;</span>
+
+  <span class="c1">// Initialize the simulation with the straight.xml mission file.</span>
+  <span class="c1">// SimControl will search on the SCRIMMAGE_MISSION_PATH environment</span>
+  <span class="c1">// variable for the mission file.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="s">&quot;straight&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Run the simulation in its own thread. The run_threaded() function  is</span>
+  <span class="c1">// non-blocking.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">run_threaded</span><span class="p">();</span>
+
+  <span class="c1">// ... Do other work in the current thread ...</span>
+
+  <span class="c1">// Tell the simulation to end execution.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">force_exit</span><span class="p">();</span>
+
+  <span class="c1">// Wait for the simulation to stop running internal threads.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+
+  <span class="c1">// Clean up any resources allocated during the simulation.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="non-threaded-execution-of-simcontrol">
+<h2>Non-Threaded Execution of SimControl<a class="headerlink" href="#non-threaded-execution-of-simcontrol" title="Permalink to this headline">¶</a></h2>
+<p>The following code sample demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">SimControl</span></code> class in
+blocking non-threaded execution. This is how the simulation is executed when
+the scrimmage GUI is not enabled.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="c1">// Create an instance of the SimControl class.</span>
+  <span class="n">SimControl</span> <span class="n">simcontrol</span><span class="p">;</span>
+
+  <span class="c1">// Initialize the simulation with the straight.xml mission file.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="s">&quot;straight&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Run the simulation in the current thread. The run() function is</span>
+  <span class="c1">// blocking.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+
+  <span class="c1">// Clean up any resources allocated during the simulation.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="manual-stepping-of-simcontrol">
+<h2>Manual Stepping of SimControl<a class="headerlink" href="#manual-stepping-of-simcontrol" title="Permalink to this headline">¶</a></h2>
+<p>The following code sample demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">SimControl</span></code> class in a
+manual simulation stepping context. This context is helpful for writing unit
+tests that need to check the state of the simulation at each time step.</p>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="c1">// Create an instance of the SimControl class.</span>
+  <span class="n">SimControl</span> <span class="n">simcontrol</span><span class="p">;</span>
+
+  <span class="c1">// Initialize the simulation with the straight.xml mission file.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="s">&quot;straight&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Start the simulation timers, setup log directories, etc. The start()</span>
+  <span class="c1">// function has to be manually called in this case. In the previous</span>
+  <span class="c1">// examples, the run() function automatically called the start()</span>
+  <span class="c1">// function.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
+
+  <span class="c1">// Step the simulation 100 times.</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">simcontrol</span><span class="p">.</span><span class="n">run_single_step</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Clean up any resources allocated during the simulation.</span>
+  <span class="n">simcontrol</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="utilities.html" class="btn btn-neutral float-left" title="Useful Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

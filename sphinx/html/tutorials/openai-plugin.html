@@ -127,6 +127,7 @@
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simcontrol.html">SimControl API</a></li>
 </ul>
 </li>
 </ul>
@@ -246,7 +247,7 @@ centralized approaches where actions and observations for individual
 learning agents are combined into a single action. Alternatively,
 one can have multiple agents operate independently.</p></li>
 <li><p>Action/Observation space - this can be discrete, continuous, or combined
-(the latter would a a <code class="docutils literal notranslate"><span class="pre">TupleSpace</span></code> in openai).</p></li>
+(the latter would a <code class="docutils literal notranslate"><span class="pre">TupleSpace</span></code> in openai).</p></li>
 </ul>
 </div></blockquote>
 <p>For a demonstration of these combinations, see <code class="docutils literal notranslate"><span class="pre">test/test_openai.py</span></code>.
@@ -424,7 +425,7 @@ We now define the <code class="docutils literal notranslate"><span class="pre">c
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span> <span class="n">SimpleLearner</span><span class="o">::</span><span class="n">calc_reward</span><span class="p">()</span> <span class="p">{</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">double</span><span class="p">,</span> <span class="n">pybind11</span><span class="o">::</span><span class="n">dict</span><span class="o">&gt;</span> <span class="n">SimpleLearner</span><span class="o">::</span><span class="n">calc_reward</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">const</span> <span class="kt">bool</span> <span class="n">done</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
     <span class="k">const</span> <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">0</span><span class="p">);</span>
     <span class="k">const</span> <span class="kt">bool</span> <span class="n">within_radius</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">round</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">radius_</span><span class="p">;</span>
@@ -692,54 +693,54 @@ following blocks (More detail on creating mission files is located at
 45
 46
 47
-48</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;</span>
-<span class="nt">&lt;runscript</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-    <span class="na">name=</span><span class="s">&quot;Straight flying&quot;</span><span class="nt">&gt;</span>
+48</pre></div></td><td class="code"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;
+&lt;runscript xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    name=&quot;Straight flying&quot;&gt;
 
-  <span class="nt">&lt;run</span> <span class="na">start=</span><span class="s">&quot;0.0&quot;</span> <span class="na">end=</span><span class="s">&quot;100&quot;</span> <span class="na">dt=</span><span class="s">&quot;1&quot;</span>
-       <span class="na">time_warp=</span><span class="s">&quot;10&quot;</span>
-       <span class="na">enable_gui=</span><span class="s">&quot;true&quot;</span>
-       <span class="na">network_gui=</span><span class="s">&quot;false&quot;</span>
-       <span class="na">start_paused=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  &lt;run start=&quot;0.0&quot; end=&quot;100&quot; dt=&quot;1&quot;
+       time_warp=&quot;10&quot;
+       enable_gui=&quot;true&quot;
+       network_gui=&quot;false&quot;
+       start_paused=&quot;true&quot;/&gt;
 
-  <span class="nt">&lt;stream_port&gt;</span>50051<span class="nt">&lt;/stream_port&gt;</span>
-  <span class="nt">&lt;stream_ip&gt;</span>localhost<span class="nt">&lt;/stream_ip&gt;</span>
+  &lt;stream_port&gt;50051&lt;/stream_port&gt;
+  &lt;stream_ip&gt;localhost&lt;/stream_ip&gt;
 
-  <span class="nt">&lt;end_condition&gt;</span>time<span class="nt">&lt;/end_condition&gt;</span> <span class="c">&lt;!-- time, one_team, none--&gt;</span>
+  &lt;end_condition&gt;time&lt;/end_condition&gt; &lt;!-- time, one_team, none--&gt;
 
-  <span class="nt">&lt;grid_spacing&gt;</span>1<span class="nt">&lt;/grid_spacing&gt;</span>
-  <span class="nt">&lt;grid_size&gt;</span>1000<span class="nt">&lt;/grid_size&gt;</span>
+  &lt;grid_spacing&gt;1&lt;/grid_spacing&gt;
+  &lt;grid_size&gt;1000&lt;/grid_size&gt;
 
-  <span class="nt">&lt;gui_update_period&gt;</span>10<span class="nt">&lt;/gui_update_period&gt;</span> <span class="c">&lt;!-- milliseconds --&gt;</span>
+  &lt;gui_update_period&gt;10&lt;/gui_update_period&gt; &lt;!-- milliseconds --&gt;
 
-  <span class="nt">&lt;output_type&gt;</span>summary<span class="nt">&lt;/output_type&gt;</span>
-  <span class="nt">&lt;metrics</span> <span class="na">order=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>OpenAIRewards<span class="nt">&lt;/metrics&gt;</span>
+  &lt;output_type&gt;summary&lt;/output_type&gt;
+  &lt;metrics&quot;&gt;OpenAIRewards&lt;/metrics&gt;
 
-  <span class="nt">&lt;background_color&gt;</span>191 191 191<span class="nt">&lt;/background_color&gt;</span> <span class="c">&lt;!-- Red Green Blue --&gt;</span>
-  <span class="nt">&lt;log_dir&gt;</span>~/.scrimmage/logs<span class="nt">&lt;/log_dir&gt;</span>
+  &lt;background_color&gt;191 191 191&lt;/background_color&gt; &lt;!-- Red Green Blue --&gt;
+  &lt;log_dir&gt;~/.scrimmage/logs&lt;/log_dir&gt;
 
-  <span class="nt">&lt;entity_common</span> <span class="na">name=</span><span class="s">&quot;all&quot;</span><span class="nt">&gt;</span>
-       <span class="nt">&lt;count&gt;</span>1<span class="nt">&lt;/count&gt;</span>
-       <span class="nt">&lt;health&gt;</span>1<span class="nt">&lt;/health&gt;</span>
-       <span class="nt">&lt;radius&gt;</span>1<span class="nt">&lt;/radius&gt;</span>
+  &lt;entity_common name=&quot;all&quot;&gt;
+       &lt;count&gt;1&lt;/count&gt;
+       &lt;health&gt;1&lt;/health&gt;
+       &lt;radius&gt;1&lt;/radius&gt;
 
-       <span class="nt">&lt;team_id&gt;</span>1<span class="nt">&lt;/team_id&gt;</span>
-       <span class="nt">&lt;visual_model&gt;</span>Sphere<span class="nt">&lt;/visual_model&gt;</span>
-       <span class="nt">&lt;motion_model&gt;</span>SingleIntegrator<span class="nt">&lt;/motion_model&gt;</span>
-       <span class="nt">&lt;controller&gt;</span>SingleIntegratorControllerSimple<span class="nt">&lt;/controller&gt;</span>
-       <span class="nt">&lt;sensor</span> <span class="na">order=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>MyOpenAISensor<span class="nt">&lt;/sensor&gt;</span>
-       <span class="nt">&lt;autonomy&gt;</span>SimpleLearner<span class="nt">&lt;/autonomy&gt;</span>
-       <span class="nt">&lt;y&gt;</span>0<span class="nt">&lt;/y&gt;</span>
-       <span class="nt">&lt;z&gt;</span>0<span class="nt">&lt;/z&gt;</span>
-   <span class="nt">&lt;/entity_common&gt;</span>
+       &lt;team_id&gt;1&lt;/team_id&gt;
+       &lt;visual_model&gt;Sphere&lt;/visual_model&gt;
+       &lt;motion_model&gt;SingleIntegrator&lt;/motion_model&gt;
+       &lt;controller&gt;SingleIntegratorControllerSimple&lt;/controller&gt;
+       &lt;sensor&gt;MyOpenAISensor&lt;/sensor&gt;
+       &lt;autonomy&gt;SimpleLearner&lt;/autonomy&gt;
+       &lt;y&gt;0&lt;/y&gt;
+       &lt;z&gt;0&lt;/z&gt;
+   &lt;/entity_common&gt;
 
-   <span class="nt">&lt;entity</span> <span class="na">entity_common=</span><span class="s">&quot;all&quot;</span><span class="nt">&gt;</span>
-     <span class="nt">&lt;x&gt;</span>0<span class="nt">&lt;/x&gt;</span>
-     <span class="nt">&lt;color&gt;</span>77 77 255<span class="nt">&lt;/color&gt;</span>
-   <span class="nt">&lt;/entity&gt;</span>
+   &lt;entity entity_common=&quot;all&quot;&gt;
+     &lt;x&gt;0&lt;/x&gt;
+     &lt;color&gt;77 77 255&lt;/color&gt;
+   &lt;/entity&gt;
 
-<span class="nt">&lt;/runscript&gt;</span>
+&lt;/runscript&gt;
 </pre></div>
 </td></tr></table></div>
 <p>Now we have completed our work on the SCRIMMAGE side. Now all that is left is to
