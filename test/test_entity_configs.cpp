@@ -32,6 +32,9 @@
 
 #include <gtest/gtest.h>
 
+#include <pybind11/pybind11.h>
+#include <pybind11/embed.h>
+
 #include <scrimmage/simcontrol/SimUtils.h>
 
 #include <boost/optional.hpp>
@@ -40,7 +43,7 @@ namespace sc = scrimmage;
 
 TEST(test_entity_configs, valid_entity_configs) {
     const std::string mission = "test_valid_entity_configs";
-    auto log_dir = sc::run_test(mission, true, false);
+    auto log_dir = sc::run_test(mission, false, false);
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);
@@ -56,8 +59,27 @@ TEST(test_entity_configs, missing_autonomy) {
 
 TEST(test_entity_configs, missing_controller) {
     const std::string mission = "test_missing_controller";
-    auto log_dir = sc::run_test(mission, false, true);
+    auto log_dir = sc::run_test(mission, false, false);
 
     bool success = log_dir ? true : false;
     EXPECT_FALSE(success);
+}
+
+class PyTestEnv : public ::testing::Environment {
+public:
+    virtual ~PyTestEnv() {}
+
+    virtual void SetUp() {
+        Py_Initialize();
+    }
+
+    virtual void TearDown() {
+        Py_Finalize();
+    }
+};
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    ::testing::AddGlobalTestEnvironment(new PyTestEnv);
+    return RUN_ALL_TESTS();
 }

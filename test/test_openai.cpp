@@ -47,8 +47,7 @@ namespace py = pybind11;
 using namespace pybind11::literals; // NOLINT
 
 void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
-            size_t num_actors, const std::map<int, double> &expected_rewards,
-            const bool& init_python, const bool& shutdown_python) {
+            size_t num_actors, const std::map<int, double> &expected_rewards) {
 
     py::object test_open_ai_module = py::module::import("test_openai");
     py::object write_temp_mission = test_open_ai_module.attr("_write_temp_mission");
@@ -58,7 +57,7 @@ void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
         "num_actors"_a = num_actors, "grpc_mode"_a = grpc_mode, "end"_a = 1000);
 
     const std::string mission = ".rlsimple";
-    auto log_dir = sc::run_test(mission, init_python, shutdown_python);
+    auto log_dir = sc::run_test(mission, false, false);
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);
@@ -74,6 +73,32 @@ void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
         double actual_reward = csv.at(row, "reward");
         EXPECT_EQ(actual_reward, expected_rewards.at(id));
     }
+}
+
+TEST(TestOpenAI, one_dim_discrete) {
+    runner(true, false, true, false, 1, {{1, 4}});
+}
+
+TEST(TestOpenAI, two_dim_discrete) {
+    runner(true, true, true, false, 1, {{1, 4}});
+}
+
+TEST(TestOpenAI, one_dim_continuous) {
+    runner(false, false, true, false, 1, {{1, 4}});
+}
+
+TEST(TestOpenAI, two_dim_continuous) {
+    runner(false, true, false, false, 1, {{1, 4}});
+}
+
+TEST(TestOpenAI, two_dim_tuple) {
+    runner(false, true, true, false, 1, {{1, 4}});
+}
+
+TEST(TestOpenAI, combined_one_dim_discrete) {
+    // when there are multiple vehicles we need to specify an action
+    // that is specific to an entity
+    runner(true, false, true, false, 2, {{1, 4}, {2, 4}});
 }
 
 // Setting up testing environment according to gtest documentation
@@ -95,31 +120,4 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::AddGlobalTestEnvironment(new TestOpenAIEnvironment);
     return RUN_ALL_TESTS();
-}
-
-
-TEST(TestOpenAI, one_dim_discrete) {
-    runner(true, false, true, false, 1, {{1, 4}}, false, false);
-}
-
-TEST(TestOpenAI, two_dim_discrete) {
-    runner(true, true, true, false, 1, {{1, 4}}, false, false);
-}
-
-TEST(TestOpenAI, one_dim_continuous) {
-    runner(false, false, true, false, 1, {{1, 4}}, false, false);
-}
-
-TEST(TestOpenAI, two_dim_continuous) {
-    runner(false, true, false, false, 1, {{1, 4}}, false, false);
-}
-
-TEST(TestOpenAI, two_dim_tuple) {
-    runner(false, true, true, false, 1, {{1, 4}}, false, false);
-}
-
-TEST(TestOpenAI, combined_one_dim_discrete) {
-    // when there are multiple vehicles we need to specify an action
-    // that is specific to an entity
-    runner(true, false, true, false, 2, {{1, 4}, {2, 4}}, false, false);
 }

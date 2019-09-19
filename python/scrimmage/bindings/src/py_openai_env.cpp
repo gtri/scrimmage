@@ -248,7 +248,7 @@ void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
 void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     scrimmage_memory_cleanup();
     simcontrol_ = std::make_shared<sc::SimControl>();
-    if (not simcontrol_->init(mission_file_)) {
+    if (not simcontrol_->init(mission_file_, false)) {
         std::cout << "Failed to parse file: " << mission_file_ << std::endl;
     }
     if (seed_set_) simcontrol_->mp()->params()["seed"] = std::to_string(seed_);
@@ -339,7 +339,7 @@ void ScrimmageOpenAIEnv::close_viewer() {
 }
 
 void ScrimmageOpenAIEnv::close() {
-    simcontrol_->shutdown();
+    simcontrol_->shutdown(false);
     close_viewer();
 }
 
