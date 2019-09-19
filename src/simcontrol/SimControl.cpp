@@ -77,6 +77,15 @@
 
 #if ENABLE_PYTHON_BINDINGS == 1
 #include <pybind11/pybind11.h>
+#ifdef __clang__
+_Pragma("clang diagnostic push")
+_Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
+_Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
+#endif
+#include <Python.h>
+#ifdef __clang__
+_Pragma("clang diagnostic pop")
+#endif
 #endif
 
 #include <GeographicLib/LocalCartesian.hpp>
@@ -148,7 +157,14 @@ bool SimControl::setup_logging() {
     return true;
 }
 
-bool SimControl::init(const std::string& mission_file) {
+bool SimControl::init(const std::string& mission_file,
+                      const bool& init_python) {
+#if ENABLE_PYTHON_BINDINGS == 1
+    if (init_python) {
+        Py_Initialize();
+    }
+#endif
+
     ents_.clear();
     ent_inters_.clear();
     metrics_.clear();
@@ -164,26 +180,10 @@ bool SimControl::init(const std::string& mission_file) {
         return false;
     }
 
-    // Set the time parameters based on the mission file input
-    t0_ = mp_->t0();
-    tend_ = mp_->tend();
-    dt_ = mp_->dt();
-
-    time_->set_t(t0_);
-    time_->set_dt(dt_);
-    time_->set_time_warp(mp_->time_warp());
-
-    display_progress_ = get("display_progress", mp_->params(), true);
-
-    proj_ = mp_->projection(); // get projection (origin) from mission
-
-    if (get("show_plugins", mp_->params(), false)) {
-        plugin_manager_->print_plugins("scrimmage::Autonomy", "Autonomy Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::MotionModel", "Motion Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
+    // Start with the simulation paused? Can be overriden by
+    // SimControl::pause()
+    if (mp_->start_paused()) {
+        pause(true);
     }
 
 #if ENABLE_JSBSIM == 1
@@ -194,265 +194,6 @@ bool SimControl::init(const std::string& mission_file) {
         cout << "Missing JSBSIM_ROOT env variable, using ./" << endl;
     }
 #endif
-
-    // Setup random seed
-    if (mp_->params().count("seed") > 0) {
-        auto seed = std::stoul(mp_->params()["seed"]);
-        random_->seed(seed);
-#if ENABLE_PYTHON_BINDINGS == 1
-        pybind11::module::import("random").attr("seed")(seed);
-        try {
-            pybind11::module::import("numpy.random").attr("seed")(seed);
-        } catch (pybind11::error_already_set) {
-            // ignore. numpy not installed
-        }
-#endif
-    } else {
-        random_->seed();
-    }
-    log_->write_ascii("Seed: " + std::to_string(random_->get_seed()));
-
-    auto get_count = [&](auto &kv) {return kv.second.total_count;};
-    int max_num_entities =
-        boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
-
-    rtree_ = std::make_shared<scrimmage::RTree>();
-    rtree_->init(max_num_entities);
-
-    // What is the end condition?
-    if (mp_->params().count("end_condition") > 0) {
-        std::string cond = mp_->params()["end_condition"];
-
-        auto add_cond = [&](auto nm, auto flag) {
-            if (cond.find(nm) != std::string::npos) {
-                end_conditions_.insert(flag);
-            }
-        };
-
-        add_cond("time", EndConditionFlags::TIME);
-        add_cond("one_team", EndConditionFlags::ONE_TEAM);
-        add_cond("none", EndConditionFlags::NONE);
-        add_cond("all_dead", EndConditionFlags::ALL_DEAD);
-
-    } else {
-        end_conditions_.insert(EndConditionFlags::TIME);
-    }
-
-    // Start with the simulation paused?
-    if (mp_->start_paused()) {
-        pause(true);
-    }
-
-    if (mp_->params().count("stream_port") > 0 &&
-        mp_->params().count("stream_ip") > 0) {
-
-        if (mp_->network_gui()) {
-            outgoing_interface_->init_network(Interface::client,
-                                              mp_->params()["stream_ip"],
-                                              std::stoi(mp_->params()["stream_port"]));
-
-            network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_),
-                                          Interface::server,
-                                          "localhost",
-                                          std::stoi(mp_->params()["stream_port"])+1);
-            network_thread_.detach();
-        } else {
-            outgoing_interface_->set_mode(Interface::shared);
-            incoming_interface_->set_mode(Interface::shared);
-        }
-
-    } else {
-        outgoing_interface_->set_mode(Interface::shared);
-        incoming_interface_->set_mode(Interface::shared);
-    }
-
-    // If the GlobalNetwork doesn't exist, add it.
-    auto it_global_network = std::find(mp_->network_names().begin(),
-                                       mp_->network_names().end(),
-                                       "GlobalNetwork");
-    if (it_global_network == mp_->network_names().end()) {
-        mp_->network_names().push_back("GlobalNetwork");
-    }
-
-    // setup sim_plugin
-    sim_plugin_->parent()->set_random(random_);
-    sim_plugin_->set_time(time_);
-    sim_plugin_->set_pubsub(pubsub_);
-
-    // Create base shape objects
-    for (auto &kv : mp_->team_info()) {
-        int i = 0;
-        for (Eigen::Vector3d &base_pos : kv.second.bases) {
-            auto base = std::make_shared<scrimmage_proto::Shape>();
-            base->mutable_sphere()->set_radius(kv.second.radii[i]);
-            sc::set(base->mutable_sphere()->mutable_center(), base_pos);
-
-            base->set_opacity(kv.second.opacities[i]);
-            sc::set(base->mutable_color(), kv.second.color);
-            base->set_persistent(true);
-            sim_plugin_->draw_shape(base);
-            i++;
-        }
-    }
-
-    // Get the list of "metrics" plugins
-    SimUtilsInfo info;
-    info.mp = mp_;
-    info.plugin_manager = plugin_manager_;
-    info.file_search = file_search_;
-    info.rtree = rtree_;
-    info.pubsub = pubsub_;
-    info.time = time_;
-    info.param_server = param_server_;
-    info.random = random_;
-    info.id_to_team_map = id_to_team_map_;
-    info.id_to_ent_map = id_to_ent_map_;
-
-    networks_ = std::make_shared<NetworkMap>();
-    if (!create_networks(info, *networks_)) return false;
-    if (!create_metrics(info, contacts_, metrics_)) return false;
-    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, global_services_)) return false;
-
-    // Setup simcontrol's pubsub plugin
-    pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
-    pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
-    pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
-    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
-    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
-    pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
-    pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
-    pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
-    pub_custom_key_ = sim_plugin_->advertise("GlobalNetwork", "CustomKeyPress");
-
-    // Set subscriber / callback that allows plugins to generate entities
-    auto gen_ent_cb = [&] (auto &msg) {
-        auto it_ent_desc_id = mp_->entity_tag_to_id().find(msg->data.entity_tag());
-        if (it_ent_desc_id == mp_->entity_tag_to_id().end()) {
-            cout << "ERROR: Failed to find entity_tag, "
-                 << msg->data.entity_tag() << ", in mission file." << endl;
-            return;
-        }
-        // Get the vehicle's params block:
-        auto it_params = mp_->entity_descriptions().find(it_ent_desc_id->second);
-        if (it_params == mp_->entity_descriptions().end()) {
-            cout << "ERROR: Failed to find entity block id, "
-                 << it_ent_desc_id->second << ", for entity_tag: "
-                 << msg->data.entity_tag() << ", in mission file." << endl;
-            return;
-        }
-
-        // Overwrite the vehicle's state in the "params" block
-        std::map<std::string, std::string> params = it_params->second;
-        params["x0"] = std::to_string(msg->data.state().position().x());
-        params["y0"] = std::to_string(msg->data.state().position().y());
-        params["z0"] = std::to_string(msg->data.state().position().z());
-        params["vx"] = std::to_string(msg->data.state().linear_velocity().x());
-        params["vy"] = std::to_string(msg->data.state().linear_velocity().y());
-        params["vz"] = std::to_string(msg->data.state().linear_velocity().z());
-
-        sc::Quaternion quat;
-        sc::set(quat, msg->data.state().orientation());
-        params["roll"] = std::to_string(sc::Angles::rad2deg(quat.roll()));
-        params["pitch"] = std::to_string(sc::Angles::rad2deg(quat.pitch()));
-        params["heading"] = std::to_string(sc::Angles::rad2deg(quat.yaw()));
-
-        // Override any manually specified entity_params
-        for (int i = 0; i < msg->data.entity_param().size(); i++) {
-            params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
-        }
-
-        if (not this->generate_entity(it_ent_desc_id->second, params)) {
-            cout << "Failed to generate entity with tag: "
-                 << msg->data.entity_tag() << endl;
-            return;
-        }
-    };
-    sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork",
-                                               "GenerateEntity", gen_ent_cb);
-    contacts_mutex_.lock();
-    contacts_->reserve(max_num_entities+1);
-    contacts_mutex_.unlock();
-
-    if (get("show_plugins", mp_->params(), false)) {
-        plugin_manager_->print_returned_plugins();
-    }
-
-    if (get("multi_threaded", mp_->params(), false)) {
-        auto it = mp_->attributes().find("multi_threaded");
-        if (it != mp_->attributes().end()) {
-            auto &attr_map = it->second;
-            auto add = [&](auto attr_str, auto attr_type) {
-                if (str2bool(get(attr_str, attr_map, "true"))) {
-                    entity_thread_types_.insert(attr_type);
-                }
-            };
-            add("autonomy", Task::Type::AUTONOMY);
-            add("controller", Task::Type::CONTROLLER);
-            add("motion", Task::Type::MOTION);
-            add("sensor", Task::Type::SENSOR);
-        }
-
-        if (!entity_thread_types_.empty()) {
-            entity_pool_stop_ = false;
-            num_entity_threads_ = get("num_threads", mp_->attributes()["multi_threaded"], 1);
-            entity_worker_threads_.clear();
-            entity_worker_threads_.reserve(num_entity_threads_);
-            for (int i = 0; i < num_entity_threads_; i++) {
-                entity_worker_threads_.push_back(std::thread(&SimControl::worker, this));
-            }
-        }
-    }
-
-    // screenshots
-    if (enable_gui() && get<bool>("enable_screenshots", mp_->params(), false) && mp_) {
-        auto it = mp_->attributes().find("enable_screenshots");
-        std::map<std::string, std::string> attr;
-        if (it != mp_->attributes().end()) {
-            attr = it->second;
-        }
-
-        screenshot_task_.disable = false;
-
-        screenshot_task_.delay = get<double>("min_period", attr, 0.0);
-        screenshot_task_.set_repeat_infinitely(true);
-        screenshot_task_.last_updated_time =
-            get<double>("start", attr, 0.0) - screenshot_task_.delay;
-        screenshot_task_.end_time =
-            get<double>("end", attr, std::numeric_limits<double>::infinity());
-        screenshot_task_.eps = dt_ / 4;
-
-        if (screenshot_task_.update(t_).first) {
-            request_screenshot();
-        }
-    } else {
-        screenshot_task_.disable = true;
-    }
-    prev_paused_ = paused();
-
-    // reseeding
-    auto it = mp_->attributes().find("seed");
-    if (it != mp_->attributes().end()) {
-        auto it2 = it->second.find("reseed_time");
-        if (it2 != it->second.end()) {
-            auto it3 = it->second.find("reseed");
-            uint32_t reseed = 0;
-            bool has_reseed = it3 != it->second.end();
-            if (has_reseed) {
-                reseed = std::stoul(it3->second);
-            }
-            reseed_task_ = DelayedTask(std::stod(it2->second), 0);
-            reseed_task_.last_updated_time = 0;
-            reseed_task_.task = [&, has_reseed, reseed](double t) {
-                if (has_reseed) {
-                    random_->seed(reseed);
-                } else {
-                    random_->seed();
-                }
-                log_->write_ascii("ReSeed: " + std::to_string(random_->get_seed()));
-                return true;
-            };
-        }
-    }
     return true;
 }
 
@@ -911,11 +652,288 @@ bool SimControl::run_single_step(const int& loop_number) {
 }
 
 void SimControl::run_threaded() {
+    running_in_thread_ = true;
     thread_ = std::thread(&SimControl::run, this);
 }
 
 bool SimControl::start() {
     setup_logging();
+
+    // Set the time parameters based on the mission file input
+    t0_ = mp_->t0();
+    tend_ = mp_->tend();
+    dt_ = mp_->dt();
+
+    time_->set_t(t0_);
+    time_->set_dt(dt_);
+    time_->set_time_warp(mp_->time_warp());
+
+    display_progress_ = get("display_progress", mp_->params(), true);
+
+    proj_ = mp_->projection(); // get projection (origin) from mission
+
+    if (get("show_plugins", mp_->params(), false)) {
+        plugin_manager_->print_plugins("scrimmage::Autonomy", "Autonomy Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::MotionModel", "Motion Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
+    }
+
+        // Setup random seed
+    if (mp_->params().count("seed") > 0) {
+        auto seed = std::stoul(mp_->params()["seed"]);
+        random_->seed(seed);
+#if ENABLE_PYTHON_BINDINGS == 1
+        pybind11::module::import("random").attr("seed")(seed);
+        try {
+            pybind11::module::import("numpy.random").attr("seed")(seed);
+        } catch (pybind11::error_already_set) {
+            // ignore. numpy not installed
+        }
+#endif
+    } else {
+        random_->seed();
+    }
+    log_->write_ascii("Seed: " + std::to_string(random_->get_seed()));
+
+    auto get_count = [&](auto &kv) {return kv.second.total_count;};
+    int max_num_entities =
+        boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
+
+    rtree_ = std::make_shared<scrimmage::RTree>();
+    rtree_->init(max_num_entities);
+
+    // What is the end condition?
+    if (mp_->params().count("end_condition") > 0) {
+        std::string cond = mp_->params()["end_condition"];
+
+        auto add_cond = [&](auto nm, auto flag) {
+            if (cond.find(nm) != std::string::npos) {
+                end_conditions_.insert(flag);
+            }
+        };
+
+        add_cond("time", EndConditionFlags::TIME);
+        add_cond("one_team", EndConditionFlags::ONE_TEAM);
+        add_cond("none", EndConditionFlags::NONE);
+        add_cond("all_dead", EndConditionFlags::ALL_DEAD);
+
+    } else {
+        end_conditions_.insert(EndConditionFlags::TIME);
+    }
+
+    if (mp_->params().count("stream_port") > 0 &&
+        mp_->params().count("stream_ip") > 0) {
+
+        if (mp_->network_gui()) {
+            outgoing_interface_->init_network(Interface::client,
+                                              mp_->params()["stream_ip"],
+                                              std::stoi(mp_->params()["stream_port"]));
+
+            network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_),
+                                          Interface::server,
+                                          "localhost",
+                                          std::stoi(mp_->params()["stream_port"])+1);
+            network_thread_.detach();
+        } else {
+            outgoing_interface_->set_mode(Interface::shared);
+            incoming_interface_->set_mode(Interface::shared);
+        }
+
+    } else {
+        outgoing_interface_->set_mode(Interface::shared);
+        incoming_interface_->set_mode(Interface::shared);
+    }
+
+    // If the GlobalNetwork doesn't exist, add it.
+    auto it_global_network = std::find(mp_->network_names().begin(),
+                                       mp_->network_names().end(),
+                                       "GlobalNetwork");
+    if (it_global_network == mp_->network_names().end()) {
+        mp_->network_names().push_back("GlobalNetwork");
+    }
+
+    // setup sim_plugin
+    sim_plugin_->parent()->set_random(random_);
+    sim_plugin_->set_time(time_);
+    sim_plugin_->set_pubsub(pubsub_);
+
+    // Create base shape objects
+    for (auto &kv : mp_->team_info()) {
+        int i = 0;
+        for (Eigen::Vector3d &base_pos : kv.second.bases) {
+            auto base = std::make_shared<scrimmage_proto::Shape>();
+            base->mutable_sphere()->set_radius(kv.second.radii[i]);
+            sc::set(base->mutable_sphere()->mutable_center(), base_pos);
+
+            base->set_opacity(kv.second.opacities[i]);
+            sc::set(base->mutable_color(), kv.second.color);
+            base->set_persistent(true);
+            sim_plugin_->draw_shape(base);
+            i++;
+        }
+    }
+
+    // Get the list of "metrics" plugins
+    SimUtilsInfo info;
+    info.mp = mp_;
+    info.plugin_manager = plugin_manager_;
+    info.file_search = file_search_;
+    info.rtree = rtree_;
+    info.pubsub = pubsub_;
+    info.time = time_;
+    info.param_server = param_server_;
+    info.random = random_;
+    info.id_to_team_map = id_to_team_map_;
+    info.id_to_ent_map = id_to_ent_map_;
+
+    networks_ = std::make_shared<NetworkMap>();
+    if (!create_networks(info, *networks_)) return false;
+    if (!create_metrics(info, contacts_, metrics_)) return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, global_services_)) return false;
+
+    // Setup simcontrol's pubsub plugin
+    pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
+    pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
+    pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
+    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
+    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
+    pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
+    pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
+    pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
+    pub_custom_key_ = sim_plugin_->advertise("GlobalNetwork", "CustomKeyPress");
+
+    // Set subscriber / callback that allows plugins to generate entities
+    auto gen_ent_cb = [&] (auto &msg) {
+        auto it_ent_desc_id = mp_->entity_tag_to_id().find(msg->data.entity_tag());
+        if (it_ent_desc_id == mp_->entity_tag_to_id().end()) {
+            cout << "ERROR: Failed to find entity_tag, "
+                 << msg->data.entity_tag() << ", in mission file." << endl;
+            return;
+        }
+        // Get the vehicle's params block:
+        auto it_params = mp_->entity_descriptions().find(it_ent_desc_id->second);
+        if (it_params == mp_->entity_descriptions().end()) {
+            cout << "ERROR: Failed to find entity block id, "
+                 << it_ent_desc_id->second << ", for entity_tag: "
+                 << msg->data.entity_tag() << ", in mission file." << endl;
+            return;
+        }
+
+        // Overwrite the vehicle's state in the "params" block
+        std::map<std::string, std::string> params = it_params->second;
+        params["x0"] = std::to_string(msg->data.state().position().x());
+        params["y0"] = std::to_string(msg->data.state().position().y());
+        params["z0"] = std::to_string(msg->data.state().position().z());
+        params["vx"] = std::to_string(msg->data.state().linear_velocity().x());
+        params["vy"] = std::to_string(msg->data.state().linear_velocity().y());
+        params["vz"] = std::to_string(msg->data.state().linear_velocity().z());
+
+        sc::Quaternion quat;
+        sc::set(quat, msg->data.state().orientation());
+        params["roll"] = std::to_string(sc::Angles::rad2deg(quat.roll()));
+        params["pitch"] = std::to_string(sc::Angles::rad2deg(quat.pitch()));
+        params["heading"] = std::to_string(sc::Angles::rad2deg(quat.yaw()));
+
+        // Override any manually specified entity_params
+        for (int i = 0; i < msg->data.entity_param().size(); i++) {
+            params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
+        }
+
+        if (not this->generate_entity(it_ent_desc_id->second, params)) {
+            cout << "Failed to generate entity with tag: "
+                 << msg->data.entity_tag() << endl;
+            return;
+        }
+    };
+    sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork",
+                                               "GenerateEntity", gen_ent_cb);
+    contacts_mutex_.lock();
+    contacts_->reserve(max_num_entities+1);
+    contacts_mutex_.unlock();
+
+    if (get("show_plugins", mp_->params(), false)) {
+        plugin_manager_->print_returned_plugins();
+    }
+
+    if (get("multi_threaded", mp_->params(), false)) {
+        auto it = mp_->attributes().find("multi_threaded");
+        if (it != mp_->attributes().end()) {
+            auto &attr_map = it->second;
+            auto add = [&](auto attr_str, auto attr_type) {
+                if (str2bool(get(attr_str, attr_map, "true"))) {
+                    entity_thread_types_.insert(attr_type);
+                }
+            };
+            add("autonomy", Task::Type::AUTONOMY);
+            add("controller", Task::Type::CONTROLLER);
+            add("motion", Task::Type::MOTION);
+            add("sensor", Task::Type::SENSOR);
+        }
+
+        if (!entity_thread_types_.empty()) {
+            entity_pool_stop_ = false;
+            num_entity_threads_ = get("num_threads", mp_->attributes()["multi_threaded"], 1);
+            entity_worker_threads_.clear();
+            entity_worker_threads_.reserve(num_entity_threads_);
+            for (int i = 0; i < num_entity_threads_; i++) {
+                entity_worker_threads_.push_back(std::thread(&SimControl::worker, this));
+            }
+        }
+    }
+
+    // screenshots
+    if (enable_gui() && get<bool>("enable_screenshots", mp_->params(), false) && mp_) {
+        auto it = mp_->attributes().find("enable_screenshots");
+        std::map<std::string, std::string> attr;
+        if (it != mp_->attributes().end()) {
+            attr = it->second;
+        }
+
+        screenshot_task_.disable = false;
+
+        screenshot_task_.delay = get<double>("min_period", attr, 0.0);
+        screenshot_task_.set_repeat_infinitely(true);
+        screenshot_task_.last_updated_time =
+            get<double>("start", attr, 0.0) - screenshot_task_.delay;
+        screenshot_task_.end_time =
+            get<double>("end", attr, std::numeric_limits<double>::infinity());
+        screenshot_task_.eps = dt_ / 4;
+
+        if (screenshot_task_.update(t_).first) {
+            request_screenshot();
+        }
+    } else {
+        screenshot_task_.disable = true;
+    }
+    prev_paused_ = paused();
+
+    // reseeding
+    auto it = mp_->attributes().find("seed");
+    if (it != mp_->attributes().end()) {
+        auto it2 = it->second.find("reseed_time");
+        if (it2 != it->second.end()) {
+            auto it3 = it->second.find("reseed");
+            uint32_t reseed = 0;
+            bool has_reseed = it3 != it->second.end();
+            if (has_reseed) {
+                reseed = std::stoul(it3->second);
+            }
+            reseed_task_ = DelayedTask(std::stod(it2->second), 0);
+            reseed_task_.last_updated_time = 0;
+            reseed_task_.task = [&, has_reseed, reseed](double t) {
+                if (has_reseed) {
+                    random_->seed(reseed);
+                } else {
+                    random_->seed();
+                }
+                log_->write_ascii("ReSeed: " + std::to_string(random_->get_seed()));
+                return true;
+            };
+        }
+    }
 
     setup_timer(1.0 / dt_, mp_->time_warp());
     start_overall_timer();
@@ -1003,7 +1021,7 @@ bool SimControl::finalize() {
     return true;
 }
 
-bool SimControl::shutdown() {
+bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
 
     // Close all plugins
@@ -1019,7 +1037,22 @@ bool SimControl::shutdown() {
         kv.second->close_plugin(t());
     }
 
-    return reset_pointers();
+    bool status = reset_pointers();
+
+#if ENABLE_PYTHON_BINDINGS == 1
+    // When running the GUI in a separate thread, Python throws the following
+    // exception during the Py_Finalize call:
+    //
+    // Exception KeyError: KeyError(140466908776576,) in <module 'threading'
+    // from '/usr/lib/python2.7/threading.pyc'> ignored
+    //
+    // To disable this warning, dont call Py_Finalize if running in a thread.
+    if (not running_in_thread_ && shutdown_python) {
+        Py_Finalize();
+    }
+#endif
+
+    return status;
 }
 
 bool SimControl::reset_pointers() {

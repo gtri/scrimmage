@@ -74,6 +74,10 @@ class SimControl {
      * simulation. The mission_file can be a relative path, absolute path, or a
      * scrimmage mission file that is already on the SCRIMMAGE_MISSION_PATH.
      *
+     * @param [in] init_python If true, will call Py_Initialize() and
+     * initialize the Python interface. Py_Initialize() should only be called
+     * once per process.
+     *
      * When using SimControl to run a scrimmage mission, this init() function
      * must always be called with a mission_file to properly initialize the
      * simulation. After calling init(), the API supports running scrimmage in
@@ -81,7 +85,7 @@ class SimControl {
      * controlling program can step the simulation manually (e.g., using the
      * run_single_step() function).
      */
-    bool init(const std::string& mission_file);
+    bool init(const std::string& mission_file, const bool& init_python = true);
 
     /**
      * @brief Starts the mission by generating entities and setting up logging.
@@ -144,10 +148,14 @@ class SimControl {
     /**
      * @brief Finalizes the simulation, closes logs, closes plugins.
      *
+     * @param [in] shutdown_python If true, will call Py_Finalize() and
+     * shutdown the Python interface. Py_Finalize() should only be called once
+     * per process and after Py_Initialize() was called.
+     *
      * The shutdown() function should be called after the simulation is
      * complete.
      */
-    bool shutdown();
+    bool shutdown(const bool& shutdown_python = true);
 
     /**
      * @brief Force a threaded simulation to exit.
@@ -460,6 +468,7 @@ class SimControl {
     bool reset_pointers();
 
     bool finalized_called_ = false;
+    bool running_in_thread_ = false;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
