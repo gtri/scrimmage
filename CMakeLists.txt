@@ -250,6 +250,7 @@ find_package(Boost 1.55 COMPONENTS thread date_time iostreams program_options re
 add_library(scrimmage-boost INTERFACE)
 target_include_directories(scrimmage-boost INTERFACE ${Boost_INCLUDE_DIRS})
 target_link_libraries(scrimmage-boost INTERFACE ${Boost_LIBRARIES})
+target_compile_options(scrimmage-boost INTERFACE -fext-numeric-literals)
 install(TARGETS scrimmage-boost EXPORT ${PROJECT_NAME}-targets)
 
 ########################################################
