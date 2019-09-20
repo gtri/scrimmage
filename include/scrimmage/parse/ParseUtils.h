@@ -76,7 +76,7 @@ template <> inline const char* convert<const char *>(const std::string &str) {re
 template <> inline std::string convert<std::string>(const std::string &str) {return str;}
 
 template <class T1, class T2 = T1>
-    T2 get(const std::string &key, std::map<std::string, std::string> &map, T1 default_val) {
+    T2 get(const std::string &key, const std::map<std::string, std::string> &map, T1 default_val) {
     auto it = map.find(key);
     return it == map.end() ? default_val : convert<T2>(it->second);
 }
