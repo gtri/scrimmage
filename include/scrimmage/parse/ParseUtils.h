@@ -39,6 +39,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include<list>
 
 namespace scrimmage_proto {
 class UTMTerrain;
@@ -188,6 +189,18 @@ bool get_vec_of_vecs(const std::string &str,
 
 bool set_pid_gains(PID &pid, std::string str,
                    bool is_angle = false);
+
+struct PluginOverrides {
+    std::string name;
+    std::map<std::string, std::string> overrides;
+    PluginOverrides(const std::string& n,
+                    std::map<std::string, std::string> &o)
+            : name(n), overrides(o) { }
+};
+
+unsigned int parse_plugin_vector(const std::string& key,
+                                 std::map<std::string, std::string> &params,
+                                 std::list<PluginOverrides> &plugin_overrides_list);
 
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_

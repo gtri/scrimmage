@@ -316,4 +316,54 @@ bool set_pid_gains(sc::PID &pid, std::string str, bool is_angle) {
     return true;
 }
 
+unsigned int parse_plugin_vector(const std::string& key,
+                                 std::map<std::string, std::string> &params,
+                                 std::list<PluginOverrides> &plugin_overrides_list) {
+    // Parse the behavior plugins
+    std::string plugins_str = sc::get<std::string>(key, params, "");
+    std::vector<std::vector<std::string>> vecs_of_vecs;
+    sc::get_vec_of_vecs(plugins_str, vecs_of_vecs, " ");
+    for (std::vector<std::string> vecs : vecs_of_vecs) {
+        if (vecs.size() < 1) {
+            std::cout << "Plugin name missing." << std::endl;
+            continue;
+        }
+
+        std::string plugin_name = "";
+        std::map<std::string, std::string> plugin_overrides;
+        int i = 0;
+        for (std::string str : vecs) {
+            if (i == 0) {
+                plugin_name = str;
+            } else {
+                // Parse the plugin parameters (e.g., param_name="value")
+                // Split the param_name and value, with equals sign in betweenn
+                std::vector<std::string> tokens;
+                boost::split(tokens, str, boost::is_any_of("="));
+                if (tokens.size() == 2) {
+                    // Remove the quotes from the value
+                    tokens[1].erase(
+                        std::remove_if(tokens[1].begin(),
+                                       tokens[1].end(),
+                                       [](unsigned char x){
+                                           return (x == '\"') || (x == '\'');
+                                       }),
+                        tokens[1].end());
+                    plugin_overrides[tokens[0]] = tokens[1];
+                }
+            }
+            ++i;
+        }
+        plugin_overrides_list.push_back(PluginOverrides(plugin_name, plugin_overrides));
+    }
+
+    // for (auto &plugin_override : plugin_overrides_list) {
+    //     cout << "Plugin name: " << plugin_override.name << endl;
+    //     for (auto &kv : plugin_override.overrides) {
+    //         cout << "\t" << kv.first << "=" << kv.second << endl;
+    //     }
+    // }
+
+    return plugin_overrides_list.size();
+}
 } // namespace scrimmage
