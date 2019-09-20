@@ -88,13 +88,9 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
 
 void run_callbacks(EntityPluginPtr plugin);
 
-boost::optional<std::string> run_test(const std::string &mission,
-                                      const bool &init_python = true,
-                                      const bool &finalize_python = true);
-
-boost::optional<std::string> postprocess_scrimmage(
-      MissionParsePtr mp, SimControl &simcontrol, std::shared_ptr<Log> &log);
-
+boost::optional<std::string> run_test(const std::string& mission,
+                                      const bool& init_python = true,
+                                      const bool& shutdown_python = true);
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_

@@ -58,18 +58,6 @@
 
 #include <scrimmage/log/Log.h>
 
-#if ENABLE_PYTHON_BINDINGS == 1
-#ifdef __clang__
-_Pragma("clang diagnostic push")
-_Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
-_Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
-#endif
-#include <Python.h>
-#ifdef __clang__
-_Pragma("clang diagnostic pop")
-#endif
-#endif
-
 #include <boost/optional.hpp>
 
 using std::cout;
@@ -77,19 +65,24 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-sc::SimControl simcontrol;
-
-// Handle kill signal
-void HandleSignal(int s) {
-    cout << endl << "Exiting gracefully" << endl;
-    simcontrol.force_exit();
-}
+// Callback function for shutdown
+namespace {
+// https://stackoverflow.com/a/48164204
+std::function<void(int)> shutdown_handler;
+void signal_handler(int signal) { shutdown_handler(signal); }
+} // namespace
 
 int main(int argc, char *argv[]) {
+    sc::SimControl simcontrol;
+
     // Handle kill signals
     struct sigaction sa;
     memset( &sa, 0, sizeof(sa) );
-    sa.sa_handler = HandleSignal;
+    shutdown_handler = [&](int /*s*/){
+        cout << endl << "Exiting gracefully" << endl;
+        simcontrol.force_exit();
+    };
+    sa.sa_handler = signal_handler;
     sigfillset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
@@ -136,15 +129,12 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-#if ENABLE_PYTHON_BINDINGS == 1
-    Py_Initialize();
-#endif
-
     // Load in the mission file and parse mission parameters
     std::string mission_file = argv[optind];
     if (not simcontrol.init(mission_file)) {
         cout << "Failed to initialize SimControl with mission file: "
              << mission_file << endl;
+        return -1;
     }
 
     // Overwrite mission parameters from command line
@@ -158,7 +148,10 @@ int main(int argc, char *argv[]) {
 
 #if ENABLE_VTK == 0
     simcontrol.pause(false);
-    simcontrol.run();
+    if (not simcontrol.run()) {
+        cout << "SimControl::run() failed without VTK installed." << endl;
+        return -1;
+    }
 #else
     if (simcontrol.enable_gui()) {
         simcontrol.run_threaded();
@@ -180,17 +173,16 @@ int main(int argc, char *argv[]) {
         simcontrol.join();
     } else {
         simcontrol.pause(false);
-        simcontrol.run();
+        if (not simcontrol.run()) {
+            cout << "SimControl::run() failed with GUI disabled." << endl;
+            return -1;
+        }
     }
 #endif
 
-    if (simcontrol.shutdown()) {
-        return 0;
-    } else {
+    if (not simcontrol.shutdown()) {
+        cout << "Failed to shutdown properly." << endl;
         return -1;
     }
-
-#if ENABLE_PYTHON_BINDINGS == 1
-    Py_Finalize();
-#endif
+    return 0;
 }

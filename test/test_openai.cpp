@@ -75,28 +75,6 @@ void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
     }
 }
 
-// Setting up testing environment according to gtest documentation
-// https://github.com/google/googletest/blob/master/googletest/docs/advanced.md
-class TestOpenAIEnvironment : public ::testing::Environment {
-public:
-    virtual ~TestOpenAIEnvironment() {}
-
-    virtual void SetUp() {
-        Py_Initialize();
-    }
-
-    virtual void TearDown() {
-        Py_Finalize();
-    }
-};
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    ::testing::AddGlobalTestEnvironment(new TestOpenAIEnvironment);
-    return RUN_ALL_TESTS();
-}
-
-
 TEST(TestOpenAI, one_dim_discrete) {
     runner(true, false, true, false, 1, {{1, 4}});
 }
@@ -121,4 +99,25 @@ TEST(TestOpenAI, combined_one_dim_discrete) {
     // when there are multiple vehicles we need to specify an action
     // that is specific to an entity
     runner(true, false, true, false, 2, {{1, 4}, {2, 4}});
+}
+
+// Setting up testing environment according to gtest documentation
+// https://github.com/google/googletest/blob/master/googletest/docs/advanced.md
+class TestOpenAIEnvironment : public ::testing::Environment {
+public:
+    virtual ~TestOpenAIEnvironment() {}
+
+    virtual void SetUp() {
+        Py_Initialize();
+    }
+
+    virtual void TearDown() {
+        Py_Finalize();
+    }
+};
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    ::testing::AddGlobalTestEnvironment(new TestOpenAIEnvironment);
+    return RUN_ALL_TESTS();
 }

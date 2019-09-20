@@ -50,10 +50,6 @@
 
 #include <iostream>
 
-#if ENABLE_PYTHON_BINDINGS == 1
-#include <pybind11/pybind11.h>
-#endif
-
 using std::cout;
 using std::endl;
 
@@ -191,15 +187,11 @@ std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) { shutdown_handler(signal); }
 } // namespace
 
-boost::optional<std::string> run_test(const std::string &mission,
-                                      const bool &init_python,
-                                      const bool &finalize_python) {
-#if ENABLE_PYTHON_BINDINGS == 1
-    if (init_python) Py_Initialize();
-#endif
-
+boost::optional<std::string> run_test(const std::string& mission,
+                                      const bool& init_python,
+                                      const bool& shutdown_python) {
     SimControl simcontrol;
-    if (not simcontrol.init(mission)) {
+    if (not simcontrol.init(mission, init_python)) {
         cout << "Failed to initialize SimControl." << endl;
         return boost::none;
     }
@@ -228,13 +220,9 @@ boost::optional<std::string> run_test(const std::string &mission,
     auto out = boost::optional<std::string>{simcontrol.mp()->log_dir()};
 
     // Shutdown SimControl
-    if (not simcontrol.shutdown()) {
+    if (not simcontrol.shutdown(shutdown_python)) {
         return boost::none;
     }
-
-#if ENABLE_PYTHON_BINDINGS == 1
-    if (finalize_python) Py_Finalize();
-#endif
     return out;
 }
 
