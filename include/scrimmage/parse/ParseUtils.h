@@ -202,5 +202,8 @@ unsigned int parse_plugin_vector(const std::string& key,
                                  std::map<std::string, std::string> &params,
                                  std::list<PluginOverrides> &plugin_overrides_list);
 
+void remove_leading_spaces(std::string &s);
+void remove_trailing_spaces(std::string &s);
+
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
