@@ -65,6 +65,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
+              std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
               ContactMapPtr &contacts,
               MissionParsePtr mp,
               const std::shared_ptr<GeographicLib::LocalCartesian> &proj,

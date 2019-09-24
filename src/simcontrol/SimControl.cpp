@@ -338,7 +338,8 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     contacts_mutex_.lock();
     AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
-    bool ent_status = ent->init(attr_map, params,
+    bool ent_status = ent->init(attr_map, params, id_to_team_map_,
+                                id_to_ent_map_,
                                 contacts_, mp_, proj_, next_id_, ent_desc_id,
                                 plugin_manager_, file_search_, rtree_, pubsub_, time_,
                                 param_server_, global_services_,

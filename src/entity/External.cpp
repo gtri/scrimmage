@@ -206,7 +206,8 @@ bool External::create_entity(const std::string &mission_file,
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
     bool ent_success =
         entity_->init(
-            attr_map, info, contacts, mp_, mp_->projection(), entity_id,
+            attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
+            mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
             time_, param_server_, global_services_, plugin_tags,
             param_override_func, debug_level);
