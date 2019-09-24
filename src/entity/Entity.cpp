@@ -68,6 +68,8 @@ namespace scrimmage {
 
 bool Entity::init(AttributeMap &overrides,
                   std::map<std::string, std::string> &info,
+                  std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+                  std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
                   ContactMapPtr &contacts,
                   MissionParsePtr mp,
                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
@@ -192,6 +194,8 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_parent(parent);
             sensor->set_pubsub(pubsub);
             sensor->set_time(time);
+            sensor->set_id_to_team_map(id_to_team_map);
+            sensor->set_id_to_ent_map(id_to_ent_map);
             sensor->set_param_server(param_server);
             param_override_func(config_parse.params());
 
@@ -243,6 +247,8 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_->set_parent(parent);
             motion_model_->set_pubsub(pubsub);
             motion_model_->set_time(time);
+            motion_model_->set_id_to_team_map(id_to_team_map);
+            motion_model_->set_id_to_ent_map(id_to_ent_map);
             motion_model_->set_param_server(param_server);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
@@ -263,6 +269,8 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_pubsub(pubsub);
         motion_model_->set_param_server(param_server);
         motion_model_->set_time(time);
+        motion_model_->set_id_to_team_map(id_to_team_map);
+        motion_model_->set_id_to_ent_map(id_to_ent_map);
         motion_model_->set_name("BLANK");
     }
 
@@ -310,6 +318,8 @@ bool Entity::init(AttributeMap &overrides,
 
             controller->set_parent(shared_from_this());
             controller->set_time(time_);
+            controller->set_id_to_team_map(id_to_team_map);
+            controller->set_id_to_ent_map(id_to_ent_map);
             controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
@@ -419,6 +429,8 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_projection(proj_);
             autonomy->set_pubsub(pubsub);
             autonomy->set_time(time);
+            autonomy->set_id_to_team_map(id_to_team_map);
+            autonomy->set_id_to_ent_map(id_to_ent_map);
             autonomy->set_param_server(param_server);
             autonomy->set_state(state_);
             autonomy->set_contacts(contacts);
