@@ -51,9 +51,11 @@ void PubSub::add_network_name(const std::string &network_name) {
     sub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
 }
 
-PublisherPtr PubSub::advertise(std::string &network_name, const std::string &topic,
-                               unsigned int max_queue_size,
-                               bool enable_queue_size, EntityPluginPtr plugin) {
+PublisherPtr PubSub::advertise(const std::string &network_name,
+                               const std::string &topic,
+                               const unsigned int& max_queue_size,
+                               const bool& enable_queue_size,
+                               EntityPluginPtr plugin) {
     if (pub_map_.count(network_name) == 0) {
         cout << "WARNING: " << plugin->name()
              << " - Publisher unable to connect to network ("

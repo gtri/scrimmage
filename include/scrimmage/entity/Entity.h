@@ -65,6 +65,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
+              std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
               ContactMapPtr &contacts,
               MissionParsePtr mp,
               const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
@@ -77,7 +79,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
               const ParameterServerPtr &param_server,
               const GlobalServicePtr &global_services,
               const std::set<std::string> &plugin_tags,
-              std::function<void(std::map<std::string, std::string>&)> param_override_func);
+              std::function<void(std::map<std::string, std::string>&)> param_override_func,
+              const int& debug_level = 0);
 
     void print_plugins(std::ostream &out) const;
 

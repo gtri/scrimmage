@@ -50,9 +50,8 @@
 
 #include <iostream>
 
-#if ENABLE_PYTHON_BINDINGS == 1
-#include <pybind11/pybind11.h>
-#endif
+using std::cout;
+using std::endl;
 
 namespace scrimmage {
 
@@ -62,7 +61,8 @@ bool create_ent_inters(const SimUtilsInfo &info,
                        std::list<EntityInteractionPtr> &ent_inters,
                        const GlobalServicePtr global_services,
                        const std::set<std::string> &plugin_tags,
-                       std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                       std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                       const int& debug_level) {
     for (std::string ent_inter_name : info.mp->entity_interactions()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides =
@@ -75,8 +75,8 @@ bool create_ent_inters(const SimUtilsInfo &info,
                 config_parse, overrides, plugin_tags);
 
         if (status.status == PluginStatus<EntityInteraction>::cast_failed) {
-            std::cout << "Failed to load entity interaction plugin: "
-                      << ent_inter_name << std::endl;
+            cout << "Failed to load entity interaction plugin: "
+                      << ent_inter_name << endl;
         } else if (status.status == PluginStatus<EntityInteraction>::loaded) {
             EntityInteractionPtr ent_inter = status.plugin;
 
@@ -100,6 +100,12 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->set_id_to_ent_map(info.id_to_ent_map);
 
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Entity interaction plugin params: " << name << endl;
+                cout << config_parse;
+            }
             ent_inter->init(info.mp->params(), config_parse.params());
 
             // Get shapes from plugin
@@ -118,7 +124,8 @@ bool create_metrics(const SimUtilsInfo &info,
                     ContactMapPtr contacts,
                     std::list<MetricsPtr> &metrics_list,
                     const std::set<std::string> &plugin_tags,
-                    std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                    std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                    const int& debug_level) {
 
     for (std::string metrics_name : info.mp->metrics()) {
         ConfigParse config_parse;
@@ -132,7 +139,7 @@ bool create_metrics(const SimUtilsInfo &info,
                 plugin_tags);
 
         if (status.status == PluginStatus<Metrics>::cast_failed) {
-            std::cout << "Failed to load metrics: " << metrics_name << std::endl;
+            cout << "Failed to load metrics: " << metrics_name << endl;
             return false;
         } else if (status.status == PluginStatus<Metrics>::loaded) {
             MetricsPtr metrics = status.plugin;
@@ -152,6 +159,12 @@ bool create_metrics(const SimUtilsInfo &info,
             metrics->set_id_to_ent_map(info.id_to_ent_map);
 
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Metrics plugin params: " << metrics_name << endl;
+                cout << config_parse;
+            }
             metrics->init(config_parse.params());
             metrics_list.push_back(metrics);
         }
@@ -174,183 +187,49 @@ std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) { shutdown_handler(signal); }
 } // namespace
 
-boost::optional<std::string> run_test(const std::string &mission,
-                                      const bool &init_python,
-                                      const bool &finalize_python) {
-
-    auto found_mission = FileSearch().find_mission(mission);
-    if (!found_mission) {
-        std::cout << "scrimmage::run_test could not find " << mission << std::endl;
+boost::optional<std::string> run_test(const std::string& mission,
+                                      const bool& init_python,
+                                      const bool& shutdown_python) {
+    SimControl simcontrol;
+    if (not simcontrol.init(mission, init_python)) {
+        cout << "Failed to initialize SimControl." << endl;
         return boost::none;
-    } else {
-        SimControl simcontrol;
-
-        // Handle kill signals
-        struct sigaction sa;
-        memset( &sa, 0, sizeof(sa) );
-        shutdown_handler = [&](int /*s*/){
-            std::cout << std::endl << "Exiting gracefully" << std::endl;
-            simcontrol.force_exit();
-        };
-        sa.sa_handler = signal_handler;
-        sigfillset(&sa.sa_mask);
-        sigaction(SIGINT, &sa, NULL);
-        sigaction(SIGTERM, &sa, NULL);
-
-        auto mp = std::make_shared<MissionParse>();
-        if (!mp->parse(*found_mission)) {
-            std::cout << "Failed to parse file: " << *found_mission << std::endl;
-            return boost::none;
-        }
-        mp->set_time_warp(-1);
-        mp->set_enable_gui(false);
-
-#if ENABLE_PYTHON_BINDINGS == 1
-        if (init_python) Py_Initialize();
-#endif
-        auto log = preprocess_scrimmage(mp, simcontrol);
-        if (log == nullptr) {
-            return boost::none;
-        }
-        simcontrol.pause(false);
-        if (not simcontrol.run()) {
-            return boost::none;
-        }
-
-        auto out = postprocess_scrimmage(mp, simcontrol, log);
-
-#if ENABLE_PYTHON_BINDINGS == 1
-        if (finalize_python) Py_Finalize();
-#endif
-        return out;
-    }
-}
-
-bool logging_logic(MissionParsePtr mp, std::string s) {
-    std::string output_type = get("output_type", mp->params(), std::string("frames"));
-    bool output_all = output_type.find("all") != std::string::npos;
-    return output_all || output_type.find(s) != std::string::npos;
-}
-
-std::shared_ptr<Log> preprocess_scrimmage(
-        MissionParsePtr mp,
-        SimControl &simcontrol) {
-
-    bool output_all = logging_logic(mp, "all");
-    bool output_frames = logging_logic(mp, "frames");
-    bool output_summary = logging_logic(mp, "summary");
-    bool output_git = logging_logic(mp, "git_commits");
-    bool output_mission = logging_logic(mp, "mission");
-    bool output_seed = logging_logic(mp, "seed");
-    bool output_nothing =
-        !output_all && !output_frames && !output_summary &&
-        !output_git && !output_mission && !output_seed;
-
-    simcontrol.set_limited_verbosity(output_nothing);
-
-    if (!output_nothing) {
-        mp->create_log_dir();
     }
 
-    auto log = setup_logging(mp);
+    // Handle kill signals
+    struct sigaction sa;
+    memset( &sa, 0, sizeof(sa) );
+    shutdown_handler = [&](int /*s*/){
+        cout << endl << "Exiting gracefully" << endl;
+        simcontrol.force_exit();
+    };
+    sa.sa_handler = signal_handler;
+    sigfillset(&sa.sa_mask);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
 
-    // Overwrite the seed if it's set
-    simcontrol.set_log(log);
+    simcontrol.mp()->set_time_warp(-1);
+    simcontrol.mp()->set_enable_gui(false);
 
-    InterfacePtr to_gui_interface = std::make_shared<Interface>();
-    InterfacePtr from_gui_interface = std::make_shared<Interface>();
-
-    simcontrol.set_incoming_interface(from_gui_interface);
-    simcontrol.set_outgoing_interface(to_gui_interface);
-
-    simcontrol.set_mission_parse(mp);
-    if (!simcontrol.init()) {
-        std::cout << "SimControl init() failed." << std::endl;
-        return nullptr;
+    simcontrol.pause(false);
+    if (not simcontrol.run()) {
+        return boost::none;
     }
 
-    bool display_progress = get("display_progress", mp->params(), true);
-    simcontrol.display_progress(display_progress);
-    return log;
-}
+    // Extract the log directory
+    auto out = boost::optional<std::string>{simcontrol.mp()->log_dir()};
 
-boost::optional<std::string> postprocess_scrimmage(
-      MissionParsePtr mp, SimControl &simcontrol, std::shared_ptr<Log> &log) {
-
-    simcontrol.output_runtime();
-
-    // summary
-    bool output_all = logging_logic(mp, "all");
-    bool output_frames = logging_logic(mp, "frames");
-    bool output_summary = logging_logic(mp, "summary");
-    bool output_git = logging_logic(mp, "git_commits");
-    bool output_mission = logging_logic(mp, "mission");
-    bool output_seed = logging_logic(mp, "seed");
-    bool output_nothing =
-        !output_all && !output_frames && !output_summary &&
-        !output_git && !output_mission && !output_seed;
-    if (output_summary && !simcontrol.output_summary()) return boost::none;
-
-    if (output_git) {
-        std::map<std::string, std::unordered_set<std::string>> commits =
-            simcontrol.plugin_manager()->get_commits();
-        std::string scrimmage_version = get_version();
-
-        if (scrimmage_version != "") {
-            commits[scrimmage_version].insert("scrimmage");
-        }
-
-        for (auto &kv : commits) {
-            std::string output = kv.first + ":";
-            for (const std::string &plugin_name : kv.second) {
-                output += plugin_name + ",";
-            }
-            output.pop_back();
-            log->write_ascii(output);
-        }
+    // Shutdown SimControl
+    if (not simcontrol.shutdown(shutdown_python)) {
+        return boost::none;
     }
-
-    if (get("plot_tracks", mp->params(), false)) {
-        std::string plot_cmd = "plot_3d_fr.py " + log->frames_filename();
-        int result = std::system(plot_cmd.c_str());
-        if (result != 0) {
-            std::cout << "plot_tracks failed with return code: "
-                 << result << std::endl;
-        }
-    }
-
-    // Close the log file
-    log->close_log();
-
-    if (!output_nothing) {
-        std::cout << "Simulation Complete" << std::endl;
-    }
-
-    simcontrol.close();
-    return mp->log_dir();
-}
-
-bool check_output(std::string output_type, std::string desired_output) {
-    return output_type.find("all") != std::string::npos ||
-           output_type.find(desired_output) != std::string::npos;
-}
-
-std::shared_ptr<Log> setup_logging(MissionParsePtr mp) {
-    std::string output_type = get("output_type", mp->params(), std::string("frames"));
-    auto log = std::make_shared<Log>();
-    if (check_output(output_type, "frames")) {
-        log->set_enable_log(true);
-        log->init(mp->log_dir(), Log::WRITE);
-    } else {
-        log->set_enable_log(false);
-        log->init(mp->log_dir(), Log::NONE);
-    }
-    return log;
+    return out;
 }
 
 bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
                      const std::set<std::string> &plugin_tags,
-                     std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                     std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                     const int& debug_level) {
 
     for (std::string network_name : info.mp->network_names()) {
         ConfigParse config_parse;
@@ -363,8 +242,8 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
                 config_parse, overrides, plugin_tags);
 
         if (status.status == PluginStatus<Network>::cast_failed) {
-            std::cout << "Failed to load network plugin: "
-                << network_name << std::endl;
+            cout << "Failed to load network plugin: "
+                << network_name << endl;
             return false;
         } else if (status.status == PluginStatus<Network>::loaded) {
             NetworkPtr network = status.plugin;
@@ -384,6 +263,13 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
             // Seed the pubsub with network names
             info.pubsub->add_network_name(name);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Network plugin params: " << name << endl;
+                cout << config_parse;
+            }
+
             network->init(info.mp->params(), config_parse.params());
             networks[name] = network;
         }

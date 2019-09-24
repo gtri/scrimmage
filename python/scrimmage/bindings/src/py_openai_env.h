@@ -43,11 +43,8 @@
 #include <tuple>
 
 namespace scrimmage {
-class MissionParse;
-using MissionParsePtr = std::shared_ptr<MissionParse>;
 
 class SimControl;
-class Log;
 
 namespace autonomy {
 class ScrimmageOpenAIAutonomy;
@@ -107,8 +104,6 @@ class ScrimmageOpenAIEnv {
     std::thread thread_;
 
     std::shared_ptr<scrimmage::SimControl> simcontrol_;
-    std::shared_ptr<scrimmage::Log> log_;
-    scrimmage::MissionParsePtr mp_;
     bool seed_set_ = false;
     int seed_;
 

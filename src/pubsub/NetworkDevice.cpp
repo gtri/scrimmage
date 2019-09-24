@@ -40,8 +40,8 @@ namespace scrimmage {
 
 NetworkDevice::NetworkDevice() : plugin_(std::make_shared<EntityPlugin>()) {}
 
-NetworkDevice::NetworkDevice(const std::string &topic, unsigned int &max_queue_size,
-                             bool enable_queue_size, EntityPluginPtr plugin) :
+NetworkDevice::NetworkDevice(const std::string &topic, const unsigned int& max_queue_size,
+                             const bool& enable_queue_size, EntityPluginPtr plugin) :
     topic_(topic), max_queue_size_(max_queue_size),
     enable_queue_size_(enable_queue_size), plugin_(plugin) {
 }
@@ -67,7 +67,7 @@ void NetworkDevice::set_msg_list(const std::list<MessageBasePtr> &msg_list) {
     mutex_.unlock();
 }
 
-void NetworkDevice::set_max_queue_size(unsigned int size) {
+void NetworkDevice::set_max_queue_size(const unsigned int& size) {
     max_queue_size_ = size;
 }
 
@@ -75,7 +75,7 @@ unsigned int NetworkDevice::max_queue_size() {
     return max_queue_size_;
 }
 
-void NetworkDevice::enable_queue_size(bool enforce) {
+void NetworkDevice::enable_queue_size(const bool& enforce) {
     enable_queue_size_ = enforce;
 }
 
@@ -123,7 +123,7 @@ EntityPluginPtr & NetworkDevice::plugin() {
 
 
 /* added for delay handling */
-void NetworkDevice::add_undelivered_msg(MessageBasePtr msg, bool is_stochastic_delay) {
+void NetworkDevice::add_undelivered_msg(MessageBasePtr msg, const bool& is_stochastic_delay) {
     mutex_.lock();
     if (!is_stochastic_delay) {
         // in case of a single, deterministic delay, just add msg to end of queue
@@ -153,7 +153,7 @@ auto NetworkDevice::deliver_undelivered_msg(std::list<MessageBasePtr>::iterator 
 }
 
 
-int NetworkDevice::deliver_undelivered_msg(double time_now, bool is_stochastic_delay) {
+int NetworkDevice::deliver_undelivered_msg(const double& time_now, const bool& is_stochastic_delay) {
     // number of messages delivered
     int n_delivered = 0;
 

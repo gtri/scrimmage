@@ -30,23 +30,35 @@
  *
  */
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/Publisher.h>
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/CSV.h>
+
+#include <string>
+#include <map>
 
 namespace scrimmage {
+namespace autonomy {
+class APITester : public scrimmage::Autonomy {
+ public:
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
-Publisher::Publisher() {
-}
+ protected:
+    bool my_test_bool_ = false;
+    int my_test_int_ = 1;
+    float my_test_float_ = 1.2345;
+    double my_test_double_ = 9.87654321;
 
-Publisher::Publisher(const std::string &topic, const unsigned int& max_queue_size,
-                     const bool& enable_queue_size, EntityPluginPtr plugin) :
-    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
+    uint8_t desired_heading_idx_ = 0;
+    uint8_t desired_alt_idx_ = 0;
+    uint8_t desired_speed_idx_ = 0;
 
-void Publisher::set_debug_info(MessageBasePtr msg, const std::string &type) {
-      msg->debug_info = std::string("  publisher:  ")
-        + "type (" + type
-        + "), plugin (" + plugin_->name() + ")"
-        + "), id (" + std::to_string(plugin_->parent()->id().id()) + ")";
-}
+    CSV csv_;
+
+    void write_my_test_values();
+};
+} // namespace autonomy
 } // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_

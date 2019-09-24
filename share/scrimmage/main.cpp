@@ -58,18 +58,6 @@
 
 #include <scrimmage/log/Log.h>
 
-#if ENABLE_PYTHON_BINDINGS == 1
-#ifdef __clang__
-_Pragma("clang diagnostic push")
-_Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
-_Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
-#endif
-#include <Python.h>
-#ifdef __clang__
-_Pragma("clang diagnostic pop")
-#endif
-#endif
-
 #include <boost/optional.hpp>
 
 using std::cout;
@@ -77,19 +65,24 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-sc::SimControl simcontrol;
-
-// Handle kill signal
-void HandleSignal(int s) {
-    cout << endl << "Exiting gracefully" << endl;
-    simcontrol.force_exit();
-}
+// Callback function for shutdown
+namespace {
+// https://stackoverflow.com/a/48164204
+std::function<void(int)> shutdown_handler;
+void signal_handler(int signal) { shutdown_handler(signal); }
+} // namespace
 
 int main(int argc, char *argv[]) {
+    sc::SimControl simcontrol;
+
     // Handle kill signals
     struct sigaction sa;
     memset( &sa, 0, sizeof(sa) );
-    sa.sa_handler = HandleSignal;
+    shutdown_handler = [&](int /*s*/){
+        cout << endl << "Exiting gracefully" << endl;
+        simcontrol.force_exit();
+    };
+    sa.sa_handler = signal_handler;
     sigfillset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
@@ -136,38 +129,33 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    // Load in the mission file and parse mission parameters
     std::string mission_file = argv[optind];
-    auto mp = std::make_shared<sc::MissionParse>();
-    if (task_id != -1) mp->set_task_number(task_id);
-    if (job_id != -1) mp->set_job_number(job_id);
-
-    mp->set_overrides(overrides);
-
-    if (!mp->parse(mission_file)) {
-        std::cout << "Failed to parse file: " << mission_file << std::endl;
+    if (not simcontrol.init(mission_file)) {
+        cout << "Failed to initialize SimControl with mission file: "
+             << mission_file << endl;
         return -1;
     }
 
-    if (seed_set) mp->params()["seed"] = seed;
+    // Overwrite mission parameters from command line
+    if (task_id != -1) simcontrol.mp()->set_task_number(task_id);
+    if (job_id != -1) simcontrol.mp()->set_job_number(job_id);
+    simcontrol.mp()->set_overrides(overrides);
+    if (seed_set) simcontrol.mp()->params()["seed"] = seed;
 
-#if ENABLE_PYTHON_BINDINGS == 1
-    Py_Initialize();
-#endif
-
-    auto log = sc::preprocess_scrimmage(mp, simcontrol);
     simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
 
-    if (log == nullptr) {
-        return -1;
-    }
-
 #if ENABLE_VTK == 0
     simcontrol.pause(false);
-    simcontrol.run();
+    if (not simcontrol.run()) {
+        cout << "SimControl::run() failed without VTK installed." << endl;
+        return -1;
+    }
 #else
     if (simcontrol.enable_gui()) {
-        simcontrol.start();
+        simcontrol.run_threaded();
+
         scrimmage::Viewer viewer;
 
         auto outgoing = simcontrol.outgoing_interface();
@@ -176,7 +164,8 @@ int main(int argc, char *argv[]) {
         viewer.set_incoming_interface(outgoing);
         viewer.set_outgoing_interface(incoming);
         viewer.set_enable_network(false);
-        viewer.init(mp->attributes()["camera"], mp->log_dir(), mp->dt());
+        viewer.init(simcontrol.mp()->attributes()["camera"],
+                    simcontrol.mp()->log_dir(), simcontrol.mp()->dt());
         viewer.run();
 
         // When the viewer finishes, tell simcontrol to exit
@@ -184,17 +173,16 @@ int main(int argc, char *argv[]) {
         simcontrol.join();
     } else {
         simcontrol.pause(false);
-        simcontrol.run();
+        if (not simcontrol.run()) {
+            cout << "SimControl::run() failed with GUI disabled." << endl;
+            return -1;
+        }
     }
 #endif
 
-    if (sc::postprocess_scrimmage(mp, simcontrol, log)) {
-        return 0;
-    } else {
+    if (not simcontrol.shutdown()) {
+        cout << "Failed to shutdown properly." << endl;
         return -1;
     }
-
-#if ENABLE_PYTHON_BINDINGS == 1
-    Py_Finalize();
-#endif
+    return 0;
 }

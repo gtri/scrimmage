@@ -68,6 +68,8 @@ namespace scrimmage {
 
 bool Entity::init(AttributeMap &overrides,
                   std::map<std::string, std::string> &info,
+                  std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+                  std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
                   ContactMapPtr &contacts,
                   MissionParsePtr mp,
                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
@@ -80,7 +82,8 @@ bool Entity::init(AttributeMap &overrides,
                   const ParameterServerPtr &param_server,
                   const GlobalServicePtr &global_services,
                   const std::set<std::string> &plugin_tags,
-                  std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                  std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                  const int& debug_level) {
     pubsub_ = pubsub;
     global_services_ = global_services;
     time_ = time;
@@ -191,6 +194,8 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_parent(parent);
             sensor->set_pubsub(pubsub);
             sensor->set_time(time);
+            sensor->set_id_to_team_map(id_to_team_map);
+            sensor->set_id_to_ent_map(id_to_ent_map);
             sensor->set_param_server(param_server);
             param_override_func(config_parse.params());
 
@@ -204,6 +209,11 @@ bool Entity::init(AttributeMap &overrides,
             std::string given_name = sensor_name + std::to_string(sensor_ct);
             sensor->set_name(given_name);
 
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Sensor plugin params: " << given_name << endl;
+                cout << config_parse;
+            }
             sensor->init(config_parse.params());
             sensors_[given_name] = sensor;
         }
@@ -237,9 +247,17 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_->set_parent(parent);
             motion_model_->set_pubsub(pubsub);
             motion_model_->set_time(time);
+            motion_model_->set_id_to_team_map(id_to_team_map);
+            motion_model_->set_id_to_ent_map(id_to_ent_map);
             motion_model_->set_param_server(param_server);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Motion plugin params: " << info["motion_model"] << endl;
+                cout << config_parse;
+            }
             motion_model_->init(info, config_parse.params());
         }
     }
@@ -251,6 +269,8 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_pubsub(pubsub);
         motion_model_->set_param_server(param_server);
         motion_model_->set_time(time);
+        motion_model_->set_id_to_team_map(id_to_team_map);
+        motion_model_->set_id_to_ent_map(id_to_ent_map);
         motion_model_->set_name("BLANK");
     }
 
@@ -298,6 +318,8 @@ bool Entity::init(AttributeMap &overrides,
 
             controller->set_parent(shared_from_this());
             controller->set_time(time_);
+            controller->set_id_to_team_map(id_to_team_map);
+            controller->set_id_to_ent_map(id_to_ent_map);
             controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
@@ -322,6 +344,11 @@ bool Entity::init(AttributeMap &overrides,
             }
 
             // Initialize this controller.
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Controller plugin params: " << info[controller_name] << endl;
+                cout << config_parse;
+            }
             controller->init(config_parse.params());
 
             // Verify the VariableIO connection
@@ -402,12 +429,20 @@ bool Entity::init(AttributeMap &overrides,
             autonomy->set_projection(proj_);
             autonomy->set_pubsub(pubsub);
             autonomy->set_time(time);
+            autonomy->set_id_to_team_map(id_to_team_map);
+            autonomy->set_id_to_ent_map(id_to_ent_map);
             autonomy->set_param_server(param_server);
             autonomy->set_state(state_);
             autonomy->set_contacts(contacts);
             autonomy->set_is_controlling(true);
             autonomy->set_name(info[autonomy_name]);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Autonomy plugin params: " << info[autonomy_name] << endl;
+                cout << config_parse;
+            }
             autonomy->init(config_parse.params());
 
             // get loop rate from plugin's params

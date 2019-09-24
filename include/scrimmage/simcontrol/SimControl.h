@@ -64,64 +64,206 @@ enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
 
 class SimControl {
  public:
+    /// @brief SimControl default constructor
     SimControl();
-    bool init();
-    void start();
-    void display_progress(bool enable);
+
+    /**
+     * @brief Initialize a scrimmage simulation.
+     *
+     * @param [in] mission_file The scrimmage mission file for the
+     * simulation. The mission_file can be a relative path, absolute path, or a
+     * scrimmage mission file that is already on the SCRIMMAGE_MISSION_PATH.
+     *
+     * @param [in] init_python If true, will call Py_Initialize() and
+     * initialize the Python interface. Py_Initialize() should only be called
+     * once per process.
+     *
+     * When using SimControl to run a scrimmage mission, this init() function
+     * must always be called with a mission_file to properly initialize the
+     * simulation. After calling init(), the API supports running scrimmage in
+     * its own thread (e.g., using the run_threaded() function) or the
+     * controlling program can step the simulation manually (e.g., using the
+     * run_single_step() function).
+     */
+    bool init(const std::string& mission_file, const bool& init_python = true);
+
+    /**
+     * @brief Starts the mission by generating entities and setting up logging.
+     *
+     * Initializes entities, sets up logging, initializes the time.
+     */
+    bool start();
+
+    /**
+     * @brief Runs the scrimmage simulation in the current thread.
+     *
+     * Example API usage:
+     *
+     *  \code{.cpp}
+     *  SimControl simcontrol;
+     *  simcontrol.init("./missions/straight.xml");
+     *  simcontrol.run();
+     *  simcontrol.shutdown();
+     *  \endcode
+     */
     bool run();
-    bool run_single_step(int loop_number);
-    void cleanup();
-    bool wait_for_ready();
+
+    /**
+     * @brief Runs the scrimmage simulation in a separate thread
+     *
+     * Example API usage:
+     *
+     *  \code{.cpp}
+     *  SimControl simcontrol;
+     *  simcontrol.init("./missions/straight.xml");
+     *  simcontrol.run_threaded();
+     *
+     *  ... Do other work ...
+     *
+     *  simcontrol.force_exit();
+     *  simcontrol.join();
+     *  simcontrol.shutdown();
+     *  \endcode
+     */
+    void run_threaded();
+
+    /**
+     * @brief Runs the scrimmage simulation by a single time step
+     *
+     * Example API usage:
+     *
+     *  \code{.cpp}
+     *  SimControl simcontrol;
+     *  simcontrol.init("./missions/straight.xml");
+     *  simcontrol.start();
+     *
+     *  for (int i = 0; i < 100; i++) {
+     *      simcontrol.run_single_step(i);
+     *  }
+     *  simcontrol.shutdown();
+     *  \endcode
+     */
+    bool run_single_step(const int& loop_number);
+
+    /**
+     * @brief Finalizes the simulation, closes logs, closes plugins.
+     *
+     * @param [in] shutdown_python If true, will call Py_Finalize() and
+     * shutdown the Python interface. Py_Finalize() should only be called once
+     * per process and after Py_Initialize() was called.
+     *
+     * The shutdown() function should be called after the simulation is
+     * complete.
+     */
+    bool shutdown(const bool& shutdown_python = true);
+
+    /**
+     * @brief Force a threaded simulation to exit.
+     *
+     * When running the simulation in a separate thread, this function sends a
+     * signal to the main simulation loop to exit.
+     */
     void force_exit();
-    bool external_exit();
+
+    /// @brief Waits for the threaded simulation to exit.
     void join();
 
-    bool finished();
-    void set_finished(bool finished);
+    /*
+    * @brief Provides access to the SimControl's entity plugin.
+    *
+    * After SimControl has been initialized with the init() function, this
+    * function provides access to the entity plugin owned by SimControl. This
+    * entity plugin can be used to access the publish/subscribe bus used during
+    * the simulation. For example, when used during a test, the test can
+    * publish and subscribe to messages used by plugins under test.
+    */
+    EntityPluginPtr plugin();
 
+    /**
+     * @brief Provides access to the simulated contacts.
+     *
+     * The contact map is indexed by contact ID.
+     */
     void get_contacts(std::unordered_map<int, Contact> &contacts);
-    void set_contacts(ContactMapPtr &contacts);
 
+    /**
+     * @brief Provides access to the simulated contacts visualization
+     * information.
+     *
+     * The contact visuals map is indexed by contact ID.
+     */
     void get_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals);
-    void set_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals);
 
-    bool generate_entities(double t);
+    /**
+     * @brief Generate entities based on the current time.
+     *
+     * @param [in] t Current simulation time.
+     *
+     * Determines the entities that should be generated at the given time and
+     * generates the entities.
+     */
+    bool generate_entities(const double& t);
+
+    /// @brief Generate an entity given the entity description ID.
     bool generate_entity(const int &ent_desc_id);
+
+    /**
+     * @brief Generate an entity given the entity description ID and
+     * parameters.
+     */
     bool generate_entity(const int &ent_desc_id,
                          std::map<std::string, std::string> &params);
 
-    void set_mission_parse(MissionParsePtr mp);
+    /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
-    void set_log(std::shared_ptr<Log> &log);
 
-    bool enable_gui();
+    /**
+     * @brief Set the simulation time
+     *
+     * @param [in] t The simulation time
+     */
+    void set_time(const double &t);
 
-    void set_time(double t);
+    /// @brief Get the current simulation time.
     double t();
 
-    bool output_summary();
-    bool output_runtime();
-    void setup_timer(double rate, double time_warp);
-    void start_overall_timer();
-    void start_loop_timer();
-    void loop_wait();
-    void inc_warp();
-    void dec_warp();
-    void pause(bool pause);
+    /// @brief Pause (true) or unpause (false) the simulation.
+    void pause(const bool& pause);
+
+    /**
+     * @brief Get the paused (true) or unpaused (false) state of the
+     * simulation.
+     */
     bool paused();
+
+    /// @brief Get the desired time warp of the simulation.
     double time_warp();
+
+    /**
+     * @brief Get the actual time warp of the simulation.
+     *
+     * The simulator will attempt to achieve the desired time warp provided by
+     * the time_warp() function. This function returns the actual time warp
+     * being used. (WARNING: Not implemented yet. For future use).
+     */
     double actual_time_warp();
-    void close();
 
-    void single_step(bool value);
-    bool single_step();
+    /// @brief Returns true if mission file requests a GUI.
+    bool enable_gui();
 
+    /// @brief Returns true if a simulation end condition has been met.
     bool end_condition_reached();
 
+    /// @brief Access the simulation timer instance.
     Timer &timer();
 
+    /// @brief Access the metrics plugins.
     std::list<MetricsPtr> & metrics();
+
+    /// @brief Access the PluginManager instance.
     PluginManagerPtr &plugin_manager();
+
+    /// @brief Access the FileSearch instance.
     FileSearchPtr &file_search();
 
     struct Task {
@@ -138,20 +280,43 @@ class SimControl {
         std::promise<bool> prom;
     };
 
-    bool take_step();
-
-    void step_taken();
-
+    /**
+     * @brief Set the incoming interface for communication from external
+     * visualizers.
+     */
     void set_incoming_interface(InterfacePtr &incoming_interface);
+
+    /// @brief Get the incoming interface.
     InterfacePtr incoming_interface();
 
+    /**
+     * @brief Set the outgoing interface for communication to external
+     * visualizers.
+     */
     void set_outgoing_interface(InterfacePtr &outgoing_interface);
+
+    /// @brief Get the outgoing interface.
     InterfacePtr outgoing_interface();
 
-    void set_limited_verbosity(bool limited_verbosity);
+    /// @brief Access the entities in the simulation.
     std::list<EntityPtr> &ents();
+
+    /// @brief Sends terrain to visualizers and log files.
     void send_terrain();
+
+    /// @brief Sends simulation shapes to visualizers and log files.
     void run_send_shapes();
+
+    /// @brief Enables/disable displaying the current progress in the terminal.
+    void display_progress(const bool& enable);
+
+    /*
+     * @brief Provides access to the simulated entities.
+     *
+     * Provies access to the simulated entities, where the map is indexed by
+     * the entity.
+     */
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_entity_map();
 
  protected:
     // Key: Entity ID
@@ -276,6 +441,34 @@ class SimControl {
 
     DelayedTask reseed_task_;
     bool limited_verbosity_;
+
+ private:
+    bool take_step();
+    void single_step(const bool& value);
+    bool single_step();
+    void set_finished(bool finished);
+    bool output_summary();
+    bool output_runtime();
+    bool output_git_summary();
+    void setup_timer(double rate, double time_warp);
+    void start_overall_timer();
+    void start_loop_timer();
+    void loop_wait();
+    void inc_warp();
+    void dec_warp();
+
+    bool wait_for_ready();
+    bool check_output(const std::string& output_type,
+                      const std::string& desired_output);
+    bool setup_logging();
+    bool logging_logic(const std::string &s);
+    void end_of_simulation();
+    void cleanup();
+    bool finalize();
+    bool reset_pointers();
+
+    bool finalized_called_ = false;
+    bool running_in_thread_ = false;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

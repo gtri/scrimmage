@@ -664,6 +664,17 @@ bool MissionParse::parse(const std::string &filename) {
 
     parse_terrain();
 
+    // Parse the output_type
+    auto it_output_type = params_.find("output_type");
+    if (it_output_type != params_.end()) {
+        output_types_ = str2container<std::set<std::string>>(it_output_type->second,
+                                                             ", ");
+    }
+    // If "all" is a possible output_type, include all output_types
+    if (output_types_.find("all") != output_types_.end()) {
+        output_types_ = possible_output_types_;
+    }
+
     return true;
 }
 
@@ -747,7 +758,6 @@ bool MissionParse::create_log_dir() {
             print_error();
         }
     }
-
     return true;
 }
 
@@ -939,4 +949,14 @@ void MissionParse::set_time_warp(double warp) {time_warp_ = warp;}
 void MissionParse::set_network_gui(bool enable) {network_gui_ = enable;}
 
 void MissionParse::set_start_paused(bool paused) {start_paused_ = paused;}
+
+bool MissionParse::output_required() {
+    // If the output_types set is empty, no output is required
+    return output_types_.size() != static_cast<unsigned int>(0);
+}
+
+bool MissionParse::output_type_required(const std::string& output_type) {
+    return output_types_.find(output_type) != output_types_.end();
+}
+
 } // namespace scrimmage

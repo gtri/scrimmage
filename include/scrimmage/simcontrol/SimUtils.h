@@ -70,35 +70,27 @@ bool create_ent_inters(const SimUtilsInfo &info,
                        const GlobalServicePtr global_services,
                        const std::set<std::string> &plugin_tags = {},
                        std::function<void(std::map<std::string, std::string>&)>
-                       param_override_func = [](std::map<std::string, std::string>&){});
+                       param_override_func = [](std::map<std::string, std::string>&){},
+                       const int& debug_level = 0);
 
 bool create_metrics(const SimUtilsInfo &info, ContactMapPtr contacts,
                     std::list<MetricsPtr> &metrics_list,
                     const std::set<std::string> &plugin_tags = {},
                     std::function<void(std::map<std::string, std::string>&)>
-                    param_override_func = [](std::map<std::string, std::string>&){});
+                    param_override_func = [](std::map<std::string, std::string>&){},
+                    const int& debug_level = 0);
 
 bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
                      const std::set<std::string> &plugin_tags = {},
                      std::function<void(std::map<std::string, std::string>&)>
-                     param_override_func = [](std::map<std::string, std::string>&){});
+                     param_override_func = [](std::map<std::string, std::string>&){},
+                     const int& debug_level = 0);
 
 void run_callbacks(EntityPluginPtr plugin);
 
-boost::optional<std::string> run_test(const std::string &mission,
-                                      const bool &init_python = true,
-                                      const bool &finalize_python = true);
-
-bool logging_logic(MissionParsePtr mp, std::string s);
-
-std::shared_ptr<Log> preprocess_scrimmage(MissionParsePtr mp, SimControl &simcontrol);
-
-boost::optional<std::string> postprocess_scrimmage(
-      MissionParsePtr mp, SimControl &simcontrol, std::shared_ptr<Log> &log);
-
-bool check_output(std::string output_type, std::string desired_output);
-
-std::shared_ptr<Log> setup_logging(MissionParsePtr mp);
+boost::optional<std::string> run_test(const std::string& mission,
+                                      const bool& init_python = true,
+                                      const bool& shutdown_python = true);
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_
