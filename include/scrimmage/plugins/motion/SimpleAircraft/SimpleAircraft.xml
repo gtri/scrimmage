@@ -6,4 +6,7 @@
   <min_velocity>15</min_velocity>
   <max_velocity>40</max_velocity>
   <max_roll>30</max_roll> <!-- degrees -->
+  <max_pitch>30</max_pitch> <!-- degrees -->
+  <max_roll_rate>57.3</max_roll_rate> <!-- degrees/second (=1rad/s) -->
+  <max_pitch_rate>57.3</max_pitch_rate> <!-- degrees/second (=1rad/s) -->
 </params>

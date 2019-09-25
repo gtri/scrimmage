@@ -79,6 +79,9 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     max_velocity_ = get("max_velocity", params, 40.0);
     max_roll_ = Angles::deg2rad(get("max_roll", params, 30.0));
     max_pitch_ = Angles::deg2rad(get("max_pitch", params, 30.0));
+    max_pitch_rate_ = Angles::deg2rad(get("max_pitch_rate", params, 57.3));
+    max_roll_rate_ = Angles::deg2rad(get("max_roll_rate", params, 57.3));
+
 
     x_[X] = pos(0);
     x_[Y] = pos(1);
@@ -130,8 +133,8 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
 
     // Saturate control inputs
     throttle = clamp(throttle, -100.0, 100.0);
-    roll_rate = clamp(roll_rate, -1, 1.0);
-    pitch_rate = clamp(pitch_rate, -1.0, 1.0);
+    roll_rate = clamp(roll_rate, -max_roll_rate_, max_roll_rate_);
+    pitch_rate = clamp(pitch_rate, -max_pitch_rate_, max_pitch_rate_);
 
     double xy_speed = x[SPEED] * cos(x[PITCH]);
     dxdt[X] = xy_speed*cos(x[YAW]);
