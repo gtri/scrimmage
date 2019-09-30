@@ -114,7 +114,7 @@ bool SimpleAircraft::step(double time, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
-    state_->vel() << x_[SPEED] * cos(x_[YAW]), x_[SPEED] * sin(x_[YAW]), 0;
+    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
 
     return true;
 }
