@@ -37,8 +37,6 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h>
 
-#include <iostream>
-
 #include <boost/algorithm/string.hpp>
 
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleAircraftControllerPID, SimpleAircraftControllerPID_plugin)
@@ -87,7 +85,7 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_or_glide_slope_idx_));
     double u_pitch_rate = use_glide_slope_ ?
-        alt_pid_.step(dt, state_->vel()(2) / sqrt(state_->vel()(0) * state_->vel()(0) + state_->vel()(1) * state_->vel()(1))) :
+        alt_pid_.step(dt, atan(state_->vel()(2) / sqrt(state_->vel()(0) * state_->vel()(0) + state_->vel()(1) * state_->vel()(1)))) :
         -alt_pid_.step(dt, state_->pos()(2));
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
