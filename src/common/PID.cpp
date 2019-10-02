@@ -94,6 +94,12 @@ void PID::set_integral_band(const double &integral_band) {
     integral_band_ = integral_band;
 }
 
+void PID::reset() {
+    integral_ = 0.0;
+    prev_error_ = 0.0;
+    derivative_ = 0.0;
+}
+
 void PID::set_is_angle(const bool &is_angle) { is_angle_ = is_angle; }
 
 const double & PID::setpoint() { return setpoint_; }
