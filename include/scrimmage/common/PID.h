@@ -45,6 +45,7 @@ class PID {
     void set_is_angle(const bool &is_angle);
     void set_output_limits(const double &min, const double &max,
                            const double &enable);
+    void reset();
 
     const double &setpoint();
     const double &kp();

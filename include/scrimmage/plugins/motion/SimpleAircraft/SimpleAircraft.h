@@ -66,7 +66,10 @@ class SimpleAircraft : public scrimmage::MotionModel{
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 
-    double length_;
+    double length_{50.0};  // Turning radius
+    double speedTarget_{50.0};  // The speed at which a full turn will result in the turning radius being met
+    // The slope at which the turning radius is adjusted based on speed.  Positive means larger turning radius at higher speeds.
+    double lengthSlopePerSpeed_{0.0};
 
     double min_velocity_{15.0};
     double max_velocity_{40.0};
