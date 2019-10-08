@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <run start="0.0" end="1000" dt="0.01"
+       time_warp="1"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+  <camera
+       pos="0,0,50"
+       focal_point="0,0,0"
+       mode="free"/>
+
+  <multi_threaded num_threads="8">false</multi_threaded>
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+  <create_latest_dir>true</create_latest_dir>
+
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>2147483648</seed>
+
+  <entity>
+    <name>oscillator</name>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>0</x>
+    <y>0</y>
+    <z>10</z>
+    <heading>0</heading>
+
+    <visual_model>sphere</visual_model>
+
+    <controller
+        acceleration_z="-100"
+        >HarmonicOscillatorConstController</controller>
+    <motion_model
+        natural_frequency="5"
+        damping_ratio="0.1"
+        >HarmonicOscillator</motion_model>
+  </entity>
+</runscript>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>HarmonicOscillator_plugin</library>
+  <damping_ratio>0.707</damping_ratio>
+  <natural_frequency>1</natural_frequency>
+</params>
