@@ -48,6 +48,8 @@
 #include <functional>
 #include <memory>
 
+#include <boost/optional.hpp>
+
 namespace scrimmage_proto {
 using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 }
@@ -188,8 +190,13 @@ class Entity : public std::enable_shared_from_this<Entity> {
         return pubsub_;
     }
 
+    const ParameterServerPtr& param_server() {
+        return param_server_;
+    }
+
     double radius() { return radius_; }
     void set_time_ptr(TimePtr t);
+
     ///@}
 
  protected:
@@ -232,6 +239,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     FileSearchPtr file_search_;
     PubSubPtr pubsub_;
     GlobalServicePtr global_services_;
+    ParameterServerPtr param_server_;
     TimePtr time_;
 };
 

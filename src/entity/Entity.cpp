@@ -45,6 +45,7 @@
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/simcontrol/SimUtils.h>
+#include <scrimmage/entity/EntityPluginHelper.h>
 
 #include <iostream>
 #include <iomanip>
@@ -92,6 +93,7 @@ bool Entity::init(AttributeMap &overrides,
     contacts_ = contacts;
     rtree_ = rtree;
     proj_ = proj;
+    param_server_ = param_server;
 
     id_.set_id(id);
     id_.set_sub_swarm_id(ent_desc_id);
@@ -401,60 +403,26 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // autonomy
     ////////////////////////////////////////////////////////////
+    // Create a list of autonomy names
+    std::list<std::string> autonomy_names;
     int autonomy_ct = 0;
     std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
-
     while (info.count(autonomy_name) > 0) {
-        ConfigParse config_parse;
-        PluginStatus<Autonomy> status =
-            plugin_manager->make_plugin<Autonomy>("scrimmage::Autonomy",
-                                                  info[autonomy_name],
-                                                  *file_search,
-                                                  config_parse,
-                                                  overrides[autonomy_name],
-                                                  plugin_tags);
-        if (status.status == PluginStatus<Autonomy>::cast_failed) {
-            cout << "Failed to open autonomy plugin: " << info[autonomy_name] << endl;
-            return false;
-        } else if (status.status == PluginStatus<Autonomy>::parse_failed) {
-            return false;
-        } else if (status.status == PluginStatus<Autonomy>::loaded) {
-            AutonomyPtr autonomy = status.plugin;
-            // Connect the autonomy to the first controller
-            if (not controllers_.empty()) {
-                connect(autonomy->vars(), controllers_.front()->vars());
-            }
-            autonomy->set_rtree(rtree);
-            autonomy->set_parent(parent);
-            autonomy->set_projection(proj_);
-            autonomy->set_pubsub(pubsub);
-            autonomy->set_time(time);
-            autonomy->set_id_to_team_map(id_to_team_map);
-            autonomy->set_id_to_ent_map(id_to_ent_map);
-            autonomy->set_param_server(param_server);
-            autonomy->set_state(state_);
-            autonomy->set_contacts(contacts);
-            autonomy->set_is_controlling(true);
-            autonomy->set_name(info[autonomy_name]);
-            param_override_func(config_parse.params());
-
-            if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Autonomy plugin params: " << info[autonomy_name] << endl;
-                cout << config_parse;
-            }
-            autonomy->init(config_parse.params());
-
-            // get loop rate from plugin's params
-            auto it_loop_rate = config_parse.params().find("loop_rate");
-            if (it_loop_rate != config_parse.params().end()) {
-              const double loop_rate = std::stod(it_loop_rate->second);
-              autonomy->set_loop_rate(loop_rate);
-            }
-
-            autonomies_.push_back(autonomy);
-        }
+        autonomy_names.push_back(autonomy_name);
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
+    }
+
+    // Create the autonomy plugins from the autonomy_names list.
+    for (auto autonomy_name : autonomy_names) {
+        auto autonomy = make_autonomy<Autonomy>(
+            info[autonomy_name], plugin_manager, overrides[autonomy_name],
+            parent, state_, proj_, contacts, file_search, rtree, pubsub, time,
+            param_server, plugin_tags, param_override_func, controllers_,
+            debug_level);
+
+        if (autonomy) {
+            autonomies_.push_back(*autonomy);
+        }
     }
 
     bool connect_entity = true;

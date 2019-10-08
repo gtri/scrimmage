@@ -257,33 +257,79 @@ bool get_vec_of_vecs(const std::string &str,
     // [h i j k]
     out.clear();
 
-    std::vector<std::string> tokens_1;
-    boost::split(tokens_1, str, boost::is_any_of("[]"));
-    for (std::string &t_1 : tokens_1) {
-        if (t_1.length() > 0) {
-            // Split based on space or comma
-            std::vector<std::string> tokens_2;
-            boost::algorithm::split(tokens_2, t_1, boost::is_any_of(delims),
-                                    boost::token_compress_on);
+    std::string str_copy(str);
+    remove_leading_spaces(str_copy);
+    remove_trailing_spaces(str_copy);
 
-            std::vector<std::string> temp;
-            for (std::string token : tokens_2) {
-                // Remove whitespace
-                token.erase(
-                    std::remove_if(token.begin(),
-                                   token.end(),
-                                   [](unsigned char x){return std::isspace(x);}),
-                    token.end());
+    // First split based on user defined delimiters (typically ", ")
+    std::vector<std::string> tokens;
+    boost::algorithm::split(tokens, str_copy, boost::is_any_of(delims),
+                            boost::token_compress_on);
 
-                if (token.size() > 0) {
-                    temp.push_back(token);
+    // The tokens vector consists of the delimited items. Break up each vector
+    // based on the start "[" and stop "]" delimiters. However, we will allow
+    // one-level of nested start and stop delimiters.
+    std::vector<std::string> items;
+    int open_bracket_count = 0;
+    std::string item = "";
+    for (std::string token : tokens) {
+
+        // Remove whitespace
+        token.erase(
+            std::remove_if(token.begin(),
+                           token.end(),
+                           [](unsigned char x){return std::isspace(x);}),
+            token.end());
+
+        // cout << token << endl;
+
+        for (unsigned int i = 0; i < token.size(); i++) {
+            if (token[i] == '[') {
+                if (open_bracket_count > 0) {
+                    item += "[";
                 }
-            }
-            if (temp.size() > 0) {
-                out.push_back(temp);
+                ++open_bracket_count;
+            } else if (token[i] == ']') {
+                if (open_bracket_count > 1) {
+                    item += "]";
+                }
+                --open_bracket_count;
+
+                if (open_bracket_count == 0) {
+                    items.push_back(item);
+                    out.push_back(items);
+                    items.clear();
+                    item = "";
+                }
+            } else if (open_bracket_count == 2) {
+                item += std::string(1, token[i]);
+            } else if (open_bracket_count > 0) {
+                item += std::string(1, token[i]);
             }
         }
+
+        if (open_bracket_count == 1) {
+            items.push_back(item);
+            item.clear();
+        } else if (open_bracket_count == 0) {
+            out.push_back(items);
+            item.clear();
+            items.clear();
+        }
     }
+
+    // Remove any empty strings from the individual vectors
+    for (auto &vec : out) {
+        vec.erase(std::remove_if(vec.begin(), vec.end(), [] (auto &str) {
+            return str.empty();
+        }), vec.end());
+    }
+
+    // Remove any empty vectors from the out vector of vectors
+    out.erase(std::remove_if(out.begin(), out.end(), [] (auto &vec) {
+        return vec.empty();
+    }), out.end());
+
     return true;
 }
 
@@ -314,6 +360,76 @@ bool set_pid_gains(sc::PID &pid, std::string str, bool is_angle) {
         }
     }
     return true;
+}
+
+unsigned int parse_plugin_vector(const std::string& key,
+                                 std::map<std::string, std::string> &params,
+                                 std::list<PluginOverrides> &plugin_overrides_list) {
+    // Parse the behavior plugins
+    std::string plugins_str = sc::get<std::string>(key, params, "");
+    std::vector<std::vector<std::string>> vecs_of_vecs;
+    if (not sc::get_vec_of_vecs(plugins_str, vecs_of_vecs, " ")) {
+        cout << "Failed to parse vector of vectors" << endl;
+        return 0;
+    }
+    for (std::vector<std::string> vecs : vecs_of_vecs) {
+        if (vecs.size() < 1) {
+            std::cout << "Plugin name missing." << std::endl;
+            continue;
+        }
+
+        std::string plugin_name = "";
+        std::map<std::string, std::string> plugin_overrides;
+        int i = 0;
+        for (std::string str : vecs) {
+            if (i == 0) {
+                plugin_name = str;
+            } else {
+                // Parse the plugin parameters (e.g., param_name="value")
+                // Split the param_name and value, with equals sign in betweenn
+                std::vector<std::string> tokens;
+                boost::split(tokens, str, boost::is_any_of("="));
+                if (tokens.size() == 2) {
+                    // Remove the quotes from the value
+                    tokens[1].erase(
+                        std::remove_if(tokens[1].begin(),
+                                       tokens[1].end(),
+                                       [](unsigned char x){
+                                           return (x == '\"') || (x == '\'');
+                                       }),
+                        tokens[1].end());
+                    plugin_overrides[tokens[0]] = tokens[1];
+                }
+            }
+            ++i;
+        }
+        plugin_overrides_list.push_back(PluginOverrides(plugin_name, plugin_overrides));
+    }
+
+    // for (auto &plugin_override : plugin_overrides_list) {
+    //     cout << "Plugin name: " << plugin_override.name << endl;
+    //     for (auto &kv : plugin_override.overrides) {
+    //         cout << "\t" << kv.first << "=" << kv.second << endl;
+    //     }
+    // }
+
+    return plugin_overrides_list.size();
+}
+
+void remove_leading_spaces(std::string &s) {
+    auto it = std::find_if(s.begin(), s.end(),
+                           [](char c) {
+                               return !std::isspace<char>(c, std::locale::classic());
+                           });
+	s.erase(s.begin(), it);
+}
+
+void remove_trailing_spaces(std::string &s) {
+    auto it = std::find_if(s.rbegin(), s.rend(),
+                           [](char c) {
+                               return !std::isspace<char>(c, std::locale::classic());
+                           });
+	s.erase(it.base(), s.end());
 }
 
 } // namespace scrimmage

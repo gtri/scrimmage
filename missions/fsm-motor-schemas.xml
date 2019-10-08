@@ -23,7 +23,7 @@
 
   <plot_tracks>false</plot_tracks>
   <output_type>all</output_type>
-  <show_plugins>false</show_plugins>  
+  <show_plugins>false</show_plugins>
 
   <log_dir>~/.scrimmage/logs</log_dir>
 
@@ -38,8 +38,8 @@
   <metrics>SimpleCollisionMetrics</metrics>
 
   <network>GlobalNetwork</network>
-  <network>LocalNetwork</network>  
-  
+  <network>LocalNetwork</network>
+
   <!-- uncomment "seed" and use integer for deterministic results -->
   <!--<seed>2147483648</seed>-->
 
@@ -47,10 +47,10 @@
     <name>robot</name>
     <team_id>1</team_id>
     <count>1</count>
-    <color>255 0 0</color>    
+    <color>255 0 0</color>
     <health>1</health>
     <radius>1</radius>
-    
+
     <x>0</x>
     <y>0</y>
     <z>0</z>
@@ -65,17 +65,17 @@
                   flightgear_port="5600">JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
     <script_name>rascal_piedmont.xml</script_name>
-    
+
   </entity>
 
-  
+
   <entity>
     <team_id>1</team_id>
     <count>1</count>
-    <color>255 0 0</color>    
+    <color>255 0 0</color>
     <health>1</health>
     <radius>1</radius>
-    
+
     <variance_x>10</variance_x>
     <variance_y>10</variance_y>
     <variance_z>10</variance_z>
@@ -86,10 +86,10 @@
     <heading>0</heading>
 
     <autonomy server_ip="10.108.21.229" callsign="wingman">FlightGearMultiplayer</autonomy>
-    
+
     <autonomy>GraphvizFSM</autonomy>
     <autonomy behaviors="
-       [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]       
+       [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
        [ TrailMS gain='1.0' trail_id='1' trail_range='15' trail_angle='180' show_track_point='true' ]"
               >MotorSchemas</autonomy>
     <!--<autonomy>AutonomyExecutor</autonomy>-->
@@ -98,7 +98,7 @@
     <motion_model>JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
     <script_name>rascal_piedmont.xml</script_name>
-    
+
   </entity>
 
 </runscript>
