@@ -83,7 +83,11 @@ bool load_plugins(const std::list<PluginOverrides>& plugin_names_overrides,
             cout << "Failed to parse: " << parent_class_name  << ": " << plugin.name << endl;
             all_loaded = false;
         } else if (status.status == PluginStatus<T>::loaded) {
-            plugins_and_configs[plugin.name] = PluginAndConfig<T>(status.plugin, config_parse);
+            auto it_name = config_parse.params().find("name");
+            std::string plugin_name = it_name == config_parse.params().end() ?
+                    plugin.name : it_name->second;
+
+            plugins_and_configs[plugin_name] = PluginAndConfig<T>(status.plugin, config_parse);
         }
         all_loaded &= (status.status == PluginStatus<T>::loaded);
     }
