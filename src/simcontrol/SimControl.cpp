@@ -162,6 +162,7 @@ bool SimControl::init(const std::string& mission_file,
 #if ENABLE_PYTHON_BINDINGS == 1
     if (init_python) {
         Py_Initialize();
+        python_enabled_ = true;
     }
 #endif
 
@@ -687,11 +688,13 @@ bool SimControl::start() {
         auto seed = std::stoul(mp_->params()["seed"]);
         random_->seed(seed);
 #if ENABLE_PYTHON_BINDINGS == 1
-        pybind11::module::import("random").attr("seed")(seed);
-        try {
-            pybind11::module::import("numpy.random").attr("seed")(seed);
-        } catch (pybind11::error_already_set) {
-            // ignore. numpy not installed
+        if (python_enabled_) {
+            pybind11::module::import("random").attr("seed")(seed);
+            try {
+                pybind11::module::import("numpy.random").attr("seed")(seed);
+            } catch (pybind11::error_already_set) {
+                // ignore. numpy not installed
+            }
         }
 #endif
     } else {
@@ -1050,6 +1053,7 @@ bool SimControl::shutdown(const bool& shutdown_python) {
     // To disable this warning, dont call Py_Finalize if running in a thread.
     if (not running_in_thread_ && shutdown_python) {
         Py_Finalize();
+        python_enabled_ = false;
     }
 #endif
 

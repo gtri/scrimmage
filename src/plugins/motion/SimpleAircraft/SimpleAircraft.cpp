@@ -92,6 +92,8 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
 
     length_ = get("turning_radius", params, 50.0);
+    speedTarget_ = get("speed_target", params, 50.0);  // The "0" speed for adjusting the turning radius
+    lengthSlopePerSpeed_ = get("radius_slope_per_speed", params, 0.0);  // Enables adjusting the turning radius based on speed
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
@@ -142,7 +144,9 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Z] = -sin(x[PITCH])*x[SPEED];
     dxdt[ROLL] = roll_rate;
     dxdt[PITCH] = pitch_rate;
-    dxdt[YAW] = x[SPEED]/length_*tan(x[ROLL]);
+    // Adjust the length based on the speed
+    double currentLength = length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
+    dxdt[YAW] = x[SPEED]/currentLength*tan(x[ROLL]);
 
     dxdt[SPEED] = throttle/5;
 }
@@ -156,5 +160,5 @@ void SimpleAircraft::teleport(StatePtr &state) {
     x_[YAW] = state->quat().yaw();
     x_[SPEED] = state->vel()[0];
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

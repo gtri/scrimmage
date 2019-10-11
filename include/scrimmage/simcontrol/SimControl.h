@@ -469,6 +469,8 @@ class SimControl {
 
     bool finalized_called_ = false;
     bool running_in_thread_ = false;
+
+    bool python_enabled_ = false;
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
