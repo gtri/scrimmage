@@ -633,7 +633,7 @@ bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
                                   original_ray(1),
                                   original_ray(2),
                                   1);
-            Eigen::Vector3d ray_w = ray.head<3>() + own_pos;
+            ray_w = ray.head<3>() + own_pos;
         } else {
             // Already in world frame
             ray_w = original_ray;
