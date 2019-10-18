@@ -130,6 +130,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     if (true == use_launcher)
         launch_state_ = PRELAUNCH;
 
+    use_ground_model_ = sc::get<double>("use_ground_model", params, true);
+
     // Parse XML parameters
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
     mass_ = sc::get<double>("mass", params, 1.2);
@@ -479,7 +481,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     // simple ground contact model
     Eigen::Vector3d F_ground_W(0, 0, 0);
     Eigen::Vector3d F_ground(0, 0, 0);
-    if (x_[Zw] < 0) {
+    if (x_[Zw] < 0 && use_ground_model_) {
         double wn = 20;
         double Kp = wn*wn*mass_;
         double Kd = 2*wn;
