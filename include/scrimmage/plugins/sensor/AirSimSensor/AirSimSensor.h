@@ -35,6 +35,7 @@
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/common/CSV.h>
 
 #include <random>
 #include <list>
@@ -70,6 +71,7 @@ class CameraConfig {
         int number = 0;
         int height = 144;
         int width = 256;
+        std::string img_type_name = "none";
 
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
@@ -77,6 +79,7 @@ class CameraConfig {
             os << ", Number=" << c.number;
             os << ", Height=" << c.height;
             os << ", Width=" << c.width;
+            os << ", Image_Type=" << c.img_type_name;
             return os;
         }
 };
@@ -111,6 +114,12 @@ class AirSimSensor : public scrimmage::Sensor {
     std::list<CameraConfig> cam_configs_;
     scrimmage::Angles enu_to_ned_yaw_;
     PublisherPtr pub_;
+
+    bool save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, StatePtr& state);
+
+    bool save_airsim_data_; // should be set to false by default but xml isn't working
+    int airsim_frame_num_ = 0;
+    scrimmage::CSV csv;
 
  private:
 };

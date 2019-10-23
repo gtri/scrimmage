@@ -18,6 +18,7 @@
   <camera_config>
     [SceneForward Scene 0 256 144]
     [Segmentation Segmentation 0 256 144]
+    [DepthPerspective DepthPerspective 0 256 144]
   </camera_config>
 
   <!--
@@ -32,5 +33,6 @@
     [SurfaceNormals SurfaceNormals 0 256 144]
     </camera_config>
     -->
+  <save_airsim_data>false</save_airsim_data>
 
 </params>

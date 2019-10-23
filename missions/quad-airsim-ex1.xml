@@ -56,8 +56,9 @@
     <y>0</y>
     <z>100</z>
     <heading>0</heading>
-+
-    <sensor airsim_ip="10.108.21.246">AirSimSensor</sensor>
+
+    <sensor airsim_ip="10.108.21.246"
+            save_airsim_data="true">AirSimSensor</sensor>
 
     <autonomy show_camera_images="true">Straight</autonomy>
 

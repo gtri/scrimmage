@@ -36,10 +36,14 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
+#include <scrimmage/common/CSV.h>
+#include <scrimmage/common/Time.h>
+
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
 
@@ -56,6 +60,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp> // for boost::split
+#include <boost/filesystem.hpp>
 
 using std::cout;
 using std::endl;
@@ -83,6 +88,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
     airsim_port_ = sc::get<int>("airsim_port", params, 41451);
     airsim_timeout_ms_ = sc::get<int>("airsim_timeout_ms", params, 60000);
+    save_airsim_data_ = sc::get<int>("save_airsim_data", params, save_airsim_data_);
 
     // Parse the camera config string.
     // The string is a list of camera configs of the form:
@@ -103,23 +109,32 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
                     c.width = std::stoi(tokens_2[3]);
                     c.height = std::stoi(tokens_2[4]);
 
+                    // Select ImageType
                     if (tokens_2[1] == "Scene") {
                         c.img_type = ma::ImageCaptureBase::ImageType::Scene;
+                        c.img_type_name = "Scene";
                     } else if (tokens_2[1] == "DepthPlanner") {
                         c.img_type = ma::ImageCaptureBase::ImageType::DepthPlanner;
+                        c.img_type_name = "DepthPlanner";
                     } else if (tokens_2[1] == "DepthPerspective") {
                         c.img_type = ma::ImageCaptureBase::ImageType::DepthPerspective;
+                        c.img_type_name = "DepthPerspective";
                     } else if (tokens_2[1] == "DepthVis") {
                         c.img_type = ma::ImageCaptureBase::ImageType::DepthVis;
+                        c.img_type_name = "DepthVis";
                     } else if (tokens_2[1] == "DisparityNormalized") {
                         c.img_type = ma::ImageCaptureBase::ImageType::DisparityNormalized;
+                        c.img_type_name = "DisparityNormalized";
                     } else if (tokens_2[1] == "Segmentation") {
                         c.img_type = ma::ImageCaptureBase::ImageType::Segmentation;
+                        c.img_type_name = "Segmentation";
                     } else if (tokens_2[1] == "SurfaceNormals") {
                         c.img_type = ma::ImageCaptureBase::ImageType::SurfaceNormals;
+                        c.img_type_name = "SurfaceNormals";
                     } else {
                         cout << "Error: Unknown image type: " << tokens_2[1] << endl;
                         c.img_type = ma::ImageCaptureBase::ImageType::Scene;
+                        c.img_type_name = "Scene";
                     }
                     cout << "Adding Camera: " << c << endl;
                     cam_configs_.push_back(c);
@@ -129,6 +144,12 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
             }
         }
     }
+
+    // Open airsim_data CSV for append (app) and set column headers
+    std::string csv_filename = parent_->mp()->log_dir() + "/airsim_data.csv";
+    if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
+    if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
+    csv.set_column_headers("frame, t, x, y, z, roll, pitch, yaw");
 
     // Start the image request thread
     request_images_thread_ = std::thread(&AirSimSensor::request_images, this);
@@ -251,12 +272,58 @@ bool AirSimSensor::step() {
     msg = img_msg_;
     img_msg_mutex_.unlock();
 
+    //if(save_airsim_data_){
+    //    AirSimSensor::save_images(msg, state);
+    //}
+
+    // save option in XML is not currently working, right now always saving images
+    AirSimSensor::save_images(msg, state);
+
     pub_->publish(msg);
 
     return true;
 }
 
+bool AirSimSensor::save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, sc::StatePtr& state) {
+    // Get timestamp
+    double time_now = time_->t();  // dt()
+
+    // TODO: Saving 3 images + a csv makes the simulation run slow, need to thread
+    for(AirSimSensorType d : msg->data){
+
+        // Create Image type directory and image file name
+        std::string img_type_dir = parent_->mp()->log_dir() + "/" + d.camera_config.img_type_name + "/";
+        boost::filesystem::create_directory(img_type_dir);
+        std::string img_filename = img_type_dir + std::to_string(airsim_frame_num_) + ".png";
+
+        // write image
+        std::vector<int> compression_params;
+        compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+        compression_params.push_back(9);
+        cv::imwrite(img_filename, d.img, compression_params);
+    }
+
+    // Write the CSV file to the root log directory file name = airsim_data.csv
+    if (!csv.output_is_open()) {
+            cout << "File isn't open. Can't append to CSV" << endl;
+            }
+    csv.append(sc::CSV::Pairs{
+    {"frame", airsim_frame_num_},
+    {"t", time_now},
+    {"x", state->pos()(0)},
+    {"y", state->pos()(1)},
+    {"z", state->pos()(2)},
+    {"roll", state->quat().roll()},
+    {"pitch", state->quat().pitch()},
+    {"yaw", state->quat().yaw()}}, true, true);
+
+    airsim_frame_num_++;
+    return true;
+}
+
 void AirSimSensor::close(double t) {
+    csv.close_output();
+
     // Safely join with the image client thread
     running_mutex_.lock();
     running_ = false;
