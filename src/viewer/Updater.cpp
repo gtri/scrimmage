@@ -30,6 +30,20 @@
  *
  */
 
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/network/Interface.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/OriginAxes.h>
+#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/viewer/Grid.h>
+
+#include <iostream>
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
@@ -70,20 +84,6 @@
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
 #include <vtksys/SystemTools.hxx>
-
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/viewer/OriginAxes.h>
-#include <scrimmage/viewer/Updater.h>
-#include <scrimmage/viewer/Grid.h>
-
-#include <iostream>
 
 #include <boost/filesystem.hpp>
 

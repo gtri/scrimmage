@@ -125,6 +125,9 @@ class MissionParse {
     double latitude_origin();
     double altitude_origin();
 
+    void set_lat_lon_alt_origin(const double& lat, const double& lon,
+                                const double& alt);
+
     std::map<int, TeamInfo> & team_info();
 
     void set_task_number(int task_num);
