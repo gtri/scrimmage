@@ -83,6 +83,7 @@ class External {
                        double init_dt,
                        const std::string &log_dir,
                        std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>&){},
+                       const std::string& mission_file_overrides = "",
                        const int& debug_level = 0);
     void close();
     bool create_interactions();

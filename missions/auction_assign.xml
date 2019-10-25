@@ -21,9 +21,10 @@
 
   <log_dir>~/.scrimmage/logs</log_dir>
 
-  <latitude_origin>35.721025</latitude_origin>
-  <longitude_origin>-120.767925</longitude_origin>
-  <altitude_origin>300</altitude_origin>
+  <latitude_origin>${latitude_origin=35.721025}</latitude_origin>
+  <longitude_origin>${longitude_origin=-120.767925}</longitude_origin>
+  <altitude_origin>${altitude_origin=300}</altitude_origin>
+
   <show_origin>false</show_origin>
 
   <network tags="REAL, SIL">GlobalNetwork</network>
