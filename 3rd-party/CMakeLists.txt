@@ -7,7 +7,7 @@ set(SETUP_DIR "${CMAKE_SOURCE_DIR}/setup")
 set(PATCH_SCRIPT "${SETUP_DIR}/apply-patch.sh")
 
 option(BUILD_BINARY_PACKAGES "Build deb packages for dependencies." OFF)
-option(BUILD_SOURCE_PACKAGES "Build sources packages for dependencies." OFF)
+option(BUILD_SOURCE_PACKAGES "Build sources packages for dependencies." ON)
 
 include(ProcessorCount)
 ProcessorCount(N)
@@ -75,8 +75,8 @@ execute_process(COMMAND bash "-c" "${SETUP_DIR}/edit-config.sh ${SCRIMMAGE_LOCAL
 
 include(ExternalProject)
 
-set(JSBSIM_GIT_REPOSITORY git://git.code.sf.net/p/jsbsim/code)
-set(JSBSIM_GIT_TAG 36de9ac63c959cef5d7b2c56fb49c1a57fd46369)
+set(JSBSIM_GIT_REPOSITORY https://github.com/JSBSim-Team/jsbsim.git)
+set(JSBSIM_GIT_TAG 4840a621dafe1ce64970990ddaec3e86a1c7e082)
 ExternalProject_Add (
   jsbsim
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}
@@ -202,7 +202,7 @@ if (BUILD_SOURCE_PACKAGES)
   find_package(CMakeDebSrc)
   SET(PPA "ppa:kevin-demarco/scrimmage" CACHE STRING "Launchpad PPA for dput.")
   SET(GPG_KEY_ID "3951DA01" CACHE STRING "GPG Key ID on local system.")
-  SET(DISTRIBUTIONS "xenial jessie" CACHE STRING "Target Linux distributions.")
+  SET(DISTRIBUTIONS "xenial bionic jessie" CACHE STRING "Target Linux distributions.")
   SET(ARCHITECTURES "amd64 i386 armhf arm64" CACHE STRING "Possible build architectures.")
 
   BuildDebSrcFromRepo(
@@ -260,12 +260,12 @@ if (BUILD_SOURCE_PACKAGES)
     PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
     GIT_REPOSITORY ${JSBSIM_GIT_REPOSITORY}
     GIT_TAG ${JSBSIM_GIT_TAG}
-    SOURCE_VERSION 0.1
-    PPA_VERSION_NUMBER 6
+    SOURCE_VERSION 0.2
+    PPA_VERSION_NUMBER 0
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""
-    PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch && ${SETUP_DIR}/install-aircraft.sh -c "${CMAKE_CURRENT_BINARY_DIR}/src/scrimmage-jsbsim-xenial-deb-src"
+    PATCH_COMMAND ${PATCH_SCRIPT} ${PATCH_DIR}/jsbsim.patch && ${SETUP_DIR}/install-aircraft.sh -c "${CMAKE_CURRENT_BINARY_DIR}/src/scrimmage-jsbsim-*-deb-src"
     CONFIGURE_COMMAND ""
     )
 

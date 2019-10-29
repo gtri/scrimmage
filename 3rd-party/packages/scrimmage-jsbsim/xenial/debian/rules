@@ -5,7 +5,7 @@ BUILDDIR = build_dir
 # secondly called by launchpad
 build:
 	mkdir $(BUILDDIR);
-	cd $(BUILDDIR); cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DINSTALL_JSBSIM_EXEC=ON -DCMAKE_INSTALL_PREFIX=../debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH} ..
+	cd $(BUILDDIR); cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_PYTHON_MODULE=OFF -DCMAKE_INSTALL_PREFIX=../debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH} ..
 	make -C $(BUILDDIR)
 
 # thirdly called by launchpad
