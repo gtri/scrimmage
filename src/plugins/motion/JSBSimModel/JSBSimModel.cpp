@@ -30,18 +30,26 @@
  *
  */
 
+#include <scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h>
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
+
 #include <scrimmage/common/VariableIO.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
 
-#include <initialization/FGTrim.h>
-#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
+// c system
+#include <JSBSim/initialization/FGTrim.h>
+
+// c++ system
+// <none>
+
+// other
+#include <JSBSim/simgear/misc/sg_path.hxx>
 #include <GeographicLib/LocalCartesian.hpp>
 
 #define meters2feet 3.28084

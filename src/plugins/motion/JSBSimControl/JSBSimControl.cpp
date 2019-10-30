@@ -31,8 +31,7 @@
  */
 
 #include <scrimmage/plugins/motion/JSBSimControl/JSBSimControl.h>
-
-#include <initialization/FGTrim.h>
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
@@ -44,14 +43,17 @@
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
-#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
+// c system
+#include <JSBSim/initialization/FGTrim.h>
 
+// c++ system
 #include <iomanip>
 #include <iostream>
 
-#include <boost/algorithm/clamp.hpp>
+// other
+#include <JSBSim/simgear/misc/sg_path.hxx>
 #include <GeographicLib/LocalCartesian.hpp>
-
+#include <boost/algorithm/clamp.hpp>
 
 using std::cout;
 using std::cerr;
