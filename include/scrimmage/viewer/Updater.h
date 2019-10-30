@@ -50,6 +50,8 @@
 #include <vtkFollower.h>
 #include <vtkTextActor.h>
 #include <vtkPolyDataAlgorithm.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkRenderWindowInteractor.h>
 
 #include <tuple>
 #include <memory>

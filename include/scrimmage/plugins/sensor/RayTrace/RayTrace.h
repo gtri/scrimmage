@@ -81,10 +81,11 @@ class RayTrace : public scrimmage::Sensor {
 
     class PointCloudWithId : public PointCloud {
      public:
-        PointCloudWithId() :  PointCloud(), sensor_name("unknown"), entity_id(0) {}
+        PointCloudWithId() :  PointCloud(), sensor_name("unknown"), entity_id(0), world_frame(false) {}
 
         std::string sensor_name;
         int entity_id;
+        bool world_frame;  // Whether the point cloud is in the world frame (true) or sensor frame (false)
     };
 
     RayTrace();

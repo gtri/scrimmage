@@ -30,12 +30,27 @@
  *
  */
 
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/network/Interface.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/OriginAxes.h>
+#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/viewer/Grid.h>
+
+#include <iostream>
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkDataSetMapper.h>
 #include <vtkPNGReader.h>
 #include <vtkOBJReader.h>
+#include <vtkSTLReader.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 #include <vtkTriangle.h>
@@ -68,20 +83,7 @@
 #include <vtkWindowToImageFilter.h>
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
-
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/viewer/OriginAxes.h>
-#include <scrimmage/viewer/Updater.h>
-#include <scrimmage/viewer/Grid.h>
-
-#include <iostream>
+#include <vtksys/SystemTools.hxx>
 
 #include <boost/filesystem.hpp>
 
@@ -1079,11 +1081,6 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 actor->SetTexture(colorTexture);
             }
 
-            vtkSmartPointer<vtkOBJReader> reader =
-                vtkSmartPointer<vtkOBJReader>::New();
-            reader->SetFileName(cv->model_file().c_str());
-            reader->Update();
-
             vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
 
             // transform->RotateWXYZ(cv->rotate(0), cv->rotate(1),
@@ -1096,7 +1093,20 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 vtkSmartPointer<vtkTransformPolyDataFilter>::New();
 
             transformFilter->SetTransform(transform);
-            transformFilter->SetInputConnection(reader->GetOutputPort());
+            std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(cv->model_file().c_str()));
+            if (extension == ".obj") {
+                vtkSmartPointer<vtkOBJReader> reader =
+                    vtkSmartPointer<vtkOBJReader>::New();
+                reader->SetFileName(cv->model_file().c_str());
+                reader->Update();
+                transformFilter->SetInputConnection(reader->GetOutputPort());
+            } else if (extension == ".stl") {
+                vtkSmartPointer<vtkSTLReader> reader =
+                        vtkSmartPointer<vtkSTLReader>::New();
+                reader->SetFileName(cv->model_file().c_str());
+                reader->Update();
+                transformFilter->SetInputConnection(reader->GetOutputPort());
+            }
             transformFilter->Update();
 
             mapper->SetInputConnection(transformFilter->GetOutputPort());
@@ -1795,10 +1805,6 @@ bool Updater::draw_mesh(const bool &new_shape,
             actor->SetTexture(colorTexture);
         }
 
-        auto reader = vtkSmartPointer<vtkOBJReader>::New();
-        reader->SetFileName(model_file.c_str());
-        reader->Update();
-
         // add transform from model coordinates to normal aircraft rpy and scale
         // based on the rpy and scale in the model config file
         transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
@@ -1808,7 +1814,18 @@ bool Updater::draw_mesh(const bool &new_shape,
         transformFilter->SetTransform(transform);
 
         // connect transform filter
-        transformFilter->SetInputConnection(reader->GetOutputPort());
+        std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(model_file.c_str()));
+        if (extension == ".obj") {
+            auto reader = vtkSmartPointer<vtkOBJReader>::New();
+            reader->SetFileName(model_file.c_str());
+            reader->Update();
+            transformFilter->SetInputConnection(reader->GetOutputPort());
+        } else if (extension == ".stl") {
+            auto reader = vtkSmartPointer<vtkSTLReader>::New();
+            reader->SetFileName(model_file.c_str());
+            reader->Update();
+            transformFilter->SetInputConnection(reader->GetOutputPort());
+        }
         transformFilter->Update();
         source = transformFilter;
 

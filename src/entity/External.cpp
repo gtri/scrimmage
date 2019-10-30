@@ -112,6 +112,7 @@ bool External::create_entity(const std::string &mission_file,
                              double init_dt,
                              const std::string &log_dir,
                              std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                             const std::string& mission_file_overrides,
                              const int& debug_level) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
@@ -122,6 +123,7 @@ bool External::create_entity(const std::string &mission_file,
 
     // Parse the mission file
     mp_ = std::make_shared<MissionParse>();
+    mp_->set_overrides(mission_file_overrides);
     if (not mp_->parse(*found_mission_file)) {
         cout << "Failed to parse mission file: " << *found_mission_file << endl;
         return false;

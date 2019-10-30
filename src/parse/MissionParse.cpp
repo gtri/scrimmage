@@ -293,9 +293,8 @@ bool MissionParse::parse(const std::string &filename) {
         altitude_origin_ = std::stod(params_["altitude_origin"]);
     }
 
-    proj_ =
-      std::make_shared<GeographicLib::LocalCartesian>(latitude_origin_,
-        longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
+    set_lat_lon_alt_origin(latitude_origin_, longitude_origin_,
+                           altitude_origin_);
 
     // Handle log directory
     root_log_dir_ = expand_user("~/.scrimmage/logs");
@@ -909,6 +908,18 @@ double MissionParse::longitude_origin() { return longitude_origin_; }
 double MissionParse::latitude_origin() { return latitude_origin_; }
 
 double MissionParse::altitude_origin() { return altitude_origin_; }
+
+void MissionParse::set_lat_lon_alt_origin(const double& latitude_origin,
+                                          const double& longitude_origin,
+                                          const double& altitude_origin) {
+    latitude_origin_ = latitude_origin;
+    longitude_origin_ = longitude_origin;
+    altitude_origin_ = altitude_origin;
+
+    proj_ =
+      std::make_shared<GeographicLib::LocalCartesian>(latitude_origin_,
+        longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
+}
 
 std::map<int, TeamInfo> &MissionParse::team_info() { return team_info_; }
 
