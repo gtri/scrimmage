@@ -64,14 +64,10 @@ dependencies).
 Some of SCRIMMAGE's dependencies have to be custom built from source. We
 provide debian package binaries for both Ubuntu 16.04 (xenial) and 18.04
 (bionic) via the SCRIMMAGE PPA on Launchpad for these custom built
-packages. For Ubuntu 16.04 (xenial), add the following PPA to your apt-get
-sources:
+packages. For Ubuntu 16.04 (xenial) and 18.04 (bionic), add the following PPA
+to your apt-get sources:
 
     $ sudo add-apt-repository ppa:kevin-demarco/scrimmage
-
-For Ubuntu 18.04 (bionic), add the following PPA:
-
-    $ sudo add-apt-repository ppa:kevin-demarco/scrimmage-bionic
 
 For both distributions, update your sources list:
 
