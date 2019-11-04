@@ -274,6 +274,10 @@ bool JSBSimControl::step(double time, double dt) {
     exec_->Setdt(dt);
     exec_->Run();
 
+    if (fg_out_enable_) {
+        output_fg_->Print();
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Save state
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
