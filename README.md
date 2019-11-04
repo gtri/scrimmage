@@ -243,7 +243,7 @@ The FGMS plugin interacts with SCRIMMAGE to receive the state variables of each
 entity. To build FGMS, you have to provide SCRIMMAGE's CMake project the path
 to the FGMS root source:
 
-    $ cmake .. -DFGMS_SOURCE_TREE_BASE=/path/to/fgms
+    $ cmake .. -DFGMS_ROOT_SEARCH=/path/to/fgms
 
 ## Running SCRIMMAGE inside of Docker
 
