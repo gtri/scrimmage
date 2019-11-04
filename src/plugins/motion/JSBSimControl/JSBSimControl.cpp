@@ -90,9 +90,9 @@ std::tuple<int, int, int> JSBSimControl::version() {
 
 bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          std::map<std::string, std::string> &params) {
-    draw_vel_ = sc::get<double>("drawVel", params, 1.0);
-    draw_ang_vel_ = sc::get<double>("drawAngVel", params, 10.0);
-    draw_acc_ = sc::get<double>("drawAcc", params, 1.0);
+    draw_vel_ = sc::get<bool>("draw_vel", params, draw_vel_);
+    draw_ang_vel_ = sc::get<bool>("draw_ang_vel", params, draw_ang_vel_);
+    draw_acc_ = sc::get<bool>("draw_acc", params, draw_acc_);
 
     // Setup variable index for controllers
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
@@ -204,6 +204,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     ap_elevator_cmd_node_ = mgr->GetNode("fcs/elevator-cmd-norm");
     ap_rudder_cmd_node_ = mgr->GetNode("fcs/rudder-cmd-norm");
     ap_throttle_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm");
+    ap_throttle_1_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm[1]");
 
     vel_north_node_ = mgr->GetNode("velocities/v-north-fps");
     vel_east_node_ = mgr->GetNode("velocities/v-east-fps");
@@ -253,11 +254,10 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 }
 
 bool JSBSimControl::step(double time, double dt) {
-
-    throttle_       = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
-    delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
-    delta_aileron_  = ba::clamp(vars_.input(aileron_idx_),  -1.0, 1.0);
-    delta_rudder_   = ba::clamp(vars_.input(rudder_idx_),   -1.0, 1.0);
+    throttle_       = vars_.input(throttle_idx_);
+    delta_elevator_ = vars_.input(elevator_idx_);
+    delta_aileron_  = vars_.input(aileron_idx_);
+    delta_rudder_   = vars_.input(rudder_idx_);
 
     // TODO: for some reason, jsb sim does not like it when there is an immediate thottle input
     if (time < .05)
@@ -267,12 +267,12 @@ bool JSBSimControl::step(double time, double dt) {
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
     ap_rudder_cmd_node_->setDoubleValue(delta_rudder_);
     ap_throttle_cmd_node_->setDoubleValue(throttle_);
+    if (ap_throttle_1_cmd_node_ != nullptr) {
+        ap_throttle_1_cmd_node_->setDoubleValue(throttle_);
+    }
 
     exec_->Setdt(dt);
     exec_->Run();
-
-
-
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
@@ -346,23 +346,28 @@ bool JSBSimControl::step(double time, double dt) {
     cout << "--------------------------------------------------------" << endl;
     int prec = 5;
     // std::cout << "processing time, ms: " << ((double)time_diff.total_microseconds())/1000 << std::endl;
-    cout << std::setprecision(prec) << "dt: " << dt << endl;
-    cout << std::setprecision(prec) << "time: " << time << endl;
-    cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
+    // cout << std::setprecision(prec) << "dt: " << dt << endl;
+    // cout << std::setprecision(prec) << "time: " << time << endl;
+    // cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
     // cout << std::setprecision(prec) << "WOW[0]: " << mgr->GetNode("gear/unit/WOW")->getDoubleValue() << endl;
     // cout << std::setprecision(prec) << "WOW[1]: " << mgr->GetNode("gear/unit[1]/WOW")->getDoubleValue() << endl;
     // cout << std::setprecision(prec) << "WOW[2]: " << mgr->GetNode("gear/unit[2]/WOW")->getDoubleValue() << endl;
+    cout << "Speed: " << state_->vel().norm() << endl;
     cout << std::setprecision(prec) << "xAccel: " << linear_accel_body_(0) << endl;
     cout << std::setprecision(prec) << "yAccel: " << linear_accel_body_(1) << endl;
     cout << std::setprecision(prec) << "zAccel: " << linear_accel_body_(2) << endl;
-    cout << std::setprecision(prec) << "aileron cmd: " << delta_aileron_ << endl;
-    cout << std::setprecision(prec) << "elevator cmd: " << delta_elevator_ << endl;
-    cout << std::setprecision(prec) << "rudder cmd: " << delta_rudder_ << endl;
-    cout << std::setprecision(prec) << "throttle cmd: " << throttle_ << endl;
+    cout << std::setprecision(prec) << "desired aileron cmd: " << delta_aileron_ << endl;
+    cout << std::setprecision(prec) << "desired elevator cmd: " << delta_elevator_ << endl;
+    cout << std::setprecision(prec) << "desired rudder cmd: " << delta_rudder_ << endl;
+    cout << std::setprecision(prec) << "desired throttle cmd: " << throttle_ << endl;
     cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-rad")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-rad")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-rad")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "throttle jsb: " << mgr->GetNode("fcs/throttle-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/throttle-cmd-norm: " << mgr->GetNode("fcs/throttle-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/aileron-cmd-norm: " << mgr->GetNode("fcs/aileron-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/elevator-cmd-norm: " << mgr->GetNode("fcs/elevator-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/rudder-cmd-norm: " << mgr->GetNode("fcs/rudder-cmd-norm")->getDoubleValue() << endl;
+
     cout << std::setprecision(prec) << "thrust (N): " << mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue()*4.44 << endl;
     cout << std::setprecision(prec) << "alpha: " << mgr->GetNode("aero/alpha-rad")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "drag: " << mgr->GetNode("forces/fwx-aero-lbs")->getDoubleValue() << endl;

@@ -85,6 +85,7 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      JSBSim::FGPropertyNode *ap_elevator_cmd_node_ = nullptr;
      JSBSim::FGPropertyNode *ap_rudder_cmd_node_ = nullptr;
      JSBSim::FGPropertyNode *ap_throttle_cmd_node_ = nullptr;
+     JSBSim::FGPropertyNode *ap_throttle_1_cmd_node_ = nullptr;
 
      JSBSim::FGPropertyNode *vel_north_node_ = nullptr;
      JSBSim::FGPropertyNode *vel_east_node_ = nullptr;
@@ -115,9 +116,9 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      double delta_aileron_ = 0;
      double delta_rudder_ = 0;
 
-     double draw_vel_ = 0;
-     double draw_ang_vel_ = 0;
-     double draw_acc_ = 0;
+     bool draw_vel_ = false;
+     bool draw_ang_vel_ = false;
+     bool draw_acc_ = false;
 #endif
 };
 } // namespace motion
