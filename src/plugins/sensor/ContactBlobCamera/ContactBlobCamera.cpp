@@ -391,7 +391,7 @@ bool ContactBlobCamera::step() {
     contacts_to_bounding_boxes(sensor_frame, sim_contacts_, msg);
 
     if (show_sim_contacts_ &&
-        time_->t() > lastTargetSendTime_ + targetSendDt_) {
+        time_->t() > last_contact_send_time_ + contact_send_dt_) {
         // draw_sim_contacts(sim_contacts_);
         for (auto &kv : sim_contacts_) {
             // Draw a sphere at the expected commanded state
@@ -407,7 +407,7 @@ bool ContactBlobCamera::step() {
             draw_shape(sim_tgt_sphere_);
         }
 
-        lastTargetSendTime_ = time_->t();
+        last_contact_send_time_ = time_->t();
     }
 
     // Add false positives

@@ -110,8 +110,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool log_detections_ = false;
     bool show_sim_contacts_ = false;
 
-    double lastTargetSendTime_ = 0.0;
-    double targetSendDt_ = 1.0; // seconds
+    double last_contact_send_time_ = 0.0;
+    double contact_send_dt_ = 1.0; // seconds
 
     std::string window_name_ = "ContactBlobCamera";
     std::vector<scrimmage_proto::ShapePtr> frustum_shapes_;
