@@ -80,6 +80,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     show_image_ = sc::get<bool>("show_image", params, show_image_);
     show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
+    show_sim_contacts_ = sc::get<bool>("show_sim_contacts", params, true);
 
     // Parse the simulated detections
     std::string sim_det_str = sc::get<std::string>("simulated_detections", params, "");
@@ -388,6 +389,26 @@ bool ContactBlobCamera::step() {
 
     // Compute bounding boxes for added "simulated" contacts
     contacts_to_bounding_boxes(sensor_frame, sim_contacts_, msg);
+
+    if (show_sim_contacts_ &&
+        time_->t() > lastTargetSendTime_ + targetSendDt_) {
+        // draw_sim_contacts(sim_contacts_);
+        for (auto &kv : sim_contacts_) {
+            // Draw a sphere at the expected commanded state
+            Eigen::Vector3d sphere_center(kv.second.state()->pos().x(),
+                                          kv.second.state()->pos().y(),
+                                          kv.second.state()->pos().z());
+
+            sc::set(sim_tgt_sphere_->mutable_sphere()->mutable_center(), sphere_center);
+            sc::set(sim_tgt_sphere_->mutable_color(), 0, 255, 255);
+            sim_tgt_sphere_->mutable_sphere()->set_radius(kv.second.radius());
+            sim_tgt_sphere_->set_opacity(0.7);
+            sim_tgt_sphere_->set_persistent(false);
+            draw_shape(sim_tgt_sphere_);
+        }
+
+        lastTargetSendTime_ = time_->t();
+    }
 
     // Add false positives
     add_false_positives(msg);
