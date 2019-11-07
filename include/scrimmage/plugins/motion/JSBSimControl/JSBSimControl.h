@@ -67,6 +67,10 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      bool init(std::map<std::string, std::string> &info,
                        std::map<std::string, std::string> &params) override;
      bool step(double time, double dt) override;
+     void teleport(StatePtr &state) override;
+
+     void set_jsbsim_initial_state(const scrimmage::State& state);
+     void set_jsbsim_state(const scrimmage::State& state);
 
  protected:
 #if ENABLE_JSBSIM == 1
@@ -119,6 +123,16 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      bool draw_vel_ = false;
      bool draw_ang_vel_ = false;
      bool draw_acc_ = false;
+
+     double jsbsim_dt_ = 0.0083333;
+     std::string jsbsim_script_path_ = "";
+
+     bool init_values_cached_ = false;
+     double init_thrust_ = 0;
+     double init_fuel_rate_gph_ = 0;
+     double init_fuel_used_lbs_ = 0;
+     double init_total_fuel_lbs_ = 0;
+
 #endif
 };
 } // namespace motion
