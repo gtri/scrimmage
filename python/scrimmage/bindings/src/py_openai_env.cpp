@@ -112,7 +112,6 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
     py::module warnings_module = py::module::import("warnings");
     warning_function_ = warnings_module.attr("warn");
 
-    mp_ = std::make_shared<sc::MissionParse>();
     reset_scrimmage(false);
 
     tuple_space_ = sc_auto::get_gym_space("Tuple");
@@ -248,51 +247,42 @@ void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
 
 void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     scrimmage_memory_cleanup();
-    mp_ = std::make_shared<sc::MissionParse>();
     simcontrol_ = std::make_shared<sc::SimControl>();
-    if (!mp_->parse(mission_file_)) {
+    if (not simcontrol_->init(mission_file_, false)) {
         std::cout << "Failed to parse file: " << mission_file_ << std::endl;
     }
-    if (seed_set_) {
-        mp_->params()["seed"] = std::to_string(seed_);
-    }
+    if (seed_set_) simcontrol_->mp()->params()["seed"] = std::to_string(seed_);
     if (enable_gui) {
-        mp_->set_network_gui(true);
-        mp_->set_enable_gui(false);
+        simcontrol_->mp()->set_network_gui(true);
+        simcontrol_->mp()->set_enable_gui(false);
     } else {
-        mp_->set_time_warp(0);
+        simcontrol_->mp()->set_time_warp(0);
     }
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
     reset_learning_mode();
 
-
-    log_ = sc::preprocess_scrimmage(mp_, *simcontrol_);
-    simcontrol_->start_overall_timer();
-    simcontrol_->set_time(mp_->t0());
+    simcontrol_->start();
     if (enable_gui) {
-        simcontrol_->pause(mp_->start_paused());
+        simcontrol_->pause(simcontrol_->mp()->start_paused());
     } else {
         simcontrol_->pause(false);
     }
     delayed_task_.last_updated_time = -std::numeric_limits<double>::infinity();
-    if (log_ == nullptr) {
-        py::print("scrimmage initialization unsuccessful");
-    }
 
     if (enable_gui) {
         std::string cmd = "scrimmage-viz ";
 
-        auto it = mp_->attributes().find("camera");
-        if (it != mp_->attributes().end()) {
+        auto it = simcontrol_->mp()->attributes().find("camera");
+        if (it != simcontrol_->mp()->attributes().end()) {
             auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
             auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
             cmd += "--pos " + camera_pos_str
                 + " --focal_point " + camera_focal_pos_str;
         }
 
-        std::string stream_ip = sc::get<std::string>("stream_ip", mp_->params(), "localhost");
-        size_t stream_port = sc::get<size_t>("stream_port", mp_->params(), 50051);
+        std::string stream_ip = sc::get<std::string>("stream_ip", simcontrol_->mp()->params(), "localhost");
+        size_t stream_port = sc::get<size_t>("stream_port", simcontrol_->mp()->params(), 50051);
 
         cmd += std::string(" --local_ip localhost")
             + " --local_port " + std::to_string(stream_port)
@@ -349,7 +339,7 @@ void ScrimmageOpenAIEnv::close_viewer() {
 }
 
 void ScrimmageOpenAIEnv::close() {
-    postprocess_scrimmage(mp_, *simcontrol_, log_);
+    simcontrol_->shutdown(false);
     close_viewer();
 }
 
@@ -411,10 +401,10 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
 void ScrimmageOpenAIEnv::reset_learning_mode() {
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
-    for (auto &kv : mp_->entity_descriptions()) {
+    for (auto &kv : simcontrol_->mp()->entity_descriptions()) {
         int id = kv.first;
         auto &desc_map = kv.second;
-        auto &attrs = mp_->entity_attributes()[id];
+        auto &attrs = simcontrol_->mp()->entity_attributes()[id];
 
         size_t autonomy_ct = 0;
         auto autonomy_str = [&](int ct){return std::string("autonomy") + std::to_string(ct);};

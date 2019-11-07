@@ -77,8 +77,8 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                                 const scrimmage::PluginPtr &sub_plugin) {
+bool SphereNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                                 const scrimmage::EntityPluginPtr &sub_plugin) {
     // Never reachable if plugin's entity was destroyed
     if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr) return false;
     // If the publisher and subscriber have the same parent, it is reachable
@@ -127,8 +127,8 @@ bool SphereNetwork::is_reachable(const scrimmage::PluginPtr &pub_plugin,
     return reachable_map_[pub_id][sub_id];
 }
 
-bool SphereNetwork::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                               const scrimmage::PluginPtr &sub_plugin) {
+bool SphereNetwork::is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                               const scrimmage::EntityPluginPtr &sub_plugin) {
     return (random_->rng_uniform(0, 1) <= prob_transmit_);
 }
 

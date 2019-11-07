@@ -45,7 +45,7 @@ RUN apt-get update \
     libpython3.7-dev \
     doxygen python-sphinx \
     sphinx-rtd-theme-common \
- && add-apt-repository ppa:kevin-demarco/scrimmage-bionic \
+ && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \
  && rm -rf /var/lib/apt/lists/* \
@@ -63,7 +63,7 @@ RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
  && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
  && source ~/.bashrc \
  && gem update --system \
- && gem install jekyll bundler
+ && gem install bundler
 
 # Copy install binaries script into image and run
 COPY ./setup/install-binaries.sh /root/install-binaries.sh

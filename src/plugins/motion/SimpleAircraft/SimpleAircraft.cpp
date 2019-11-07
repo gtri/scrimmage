@@ -79,6 +79,9 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     max_velocity_ = get("max_velocity", params, 40.0);
     max_roll_ = Angles::deg2rad(get("max_roll", params, 30.0));
     max_pitch_ = Angles::deg2rad(get("max_pitch", params, 30.0));
+    max_pitch_rate_ = Angles::deg2rad(get("max_pitch_rate", params, 57.3));
+    max_roll_rate_ = Angles::deg2rad(get("max_roll_rate", params, 57.3));
+
 
     x_[X] = pos(0);
     x_[Y] = pos(1);
@@ -89,6 +92,8 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
 
     length_ = get("turning_radius", params, 50.0);
+    speedTarget_ = get("speed_target", params, 50.0);  // The "0" speed for adjusting the turning radius
+    lengthSlopePerSpeed_ = get("radius_slope_per_speed", params, 0.0);  // Enables adjusting the turning radius based on speed
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
@@ -111,7 +116,7 @@ bool SimpleAircraft::step(double time, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
-    state_->vel() << x_[SPEED] * cos(x_[YAW]), x_[SPEED] * sin(x_[YAW]), 0;
+    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
 
     return true;
 }
@@ -130,8 +135,8 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
 
     // Saturate control inputs
     throttle = clamp(throttle, -100.0, 100.0);
-    roll_rate = clamp(roll_rate, -1, 1.0);
-    pitch_rate = clamp(pitch_rate, -1.0, 1.0);
+    roll_rate = clamp(roll_rate, -max_roll_rate_, max_roll_rate_);
+    pitch_rate = clamp(pitch_rate, -max_pitch_rate_, max_pitch_rate_);
 
     double xy_speed = x[SPEED] * cos(x[PITCH]);
     dxdt[X] = xy_speed*cos(x[YAW]);
@@ -139,7 +144,9 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Z] = -sin(x[PITCH])*x[SPEED];
     dxdt[ROLL] = roll_rate;
     dxdt[PITCH] = pitch_rate;
-    dxdt[YAW] = x[SPEED]/length_*tan(x[ROLL]);
+    // Adjust the length based on the speed
+    double currentLength = length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
+    dxdt[YAW] = x[SPEED]/currentLength*tan(x[ROLL]);
 
     dxdt[SPEED] = throttle/5;
 }
@@ -153,5 +160,5 @@ void SimpleAircraft::teleport(StatePtr &state) {
     x_[YAW] = state->quat().yaw();
     x_[SPEED] = state->vel()[0];
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

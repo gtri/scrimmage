@@ -31,8 +31,7 @@
  */
 
 #include <scrimmage/plugins/motion/JSBSimControl/JSBSimControl.h>
-
-#include <initialization/FGTrim.h>
+#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
@@ -44,14 +43,17 @@
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
-#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
+// c system
+#include <JSBSim/initialization/FGTrim.h>
 
+// c++ system
 #include <iomanip>
 #include <iostream>
 
-#include <boost/algorithm/clamp.hpp>
+// other
+#include <JSBSim/simgear/misc/sg_path.hxx>
 #include <GeographicLib/LocalCartesian.hpp>
-
+#include <boost/algorithm/clamp.hpp>
 
 using std::cout;
 using std::cerr;
@@ -115,15 +117,12 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     }
 
     exec_->SetDebugLevel(0);
-    exec_->SetRootDir(info["JSBSIM_ROOT"]);
-    exec_->SetAircraftPath("/aircraft");
-    exec_->SetEnginePath("/engine");
-    exec_->SetSystemsPath("/systems");
+    exec_->SetRootDir(SGPath(info["JSBSIM_ROOT"]));
+    exec_->SetAircraftPath(SGPath("aircraft"));
+    exec_->SetEnginePath(SGPath("engine"));
+    exec_->SetSystemsPath(SGPath("systems"));
 
-    exec_->LoadScript("/scripts/"+info["script_name"]);
-
-    exec_->SetRootDir(parent_->mp()->log_dir());
-    exec_->SetRootDir(info["JSBSIM_ROOT"]);
+    exec_->LoadScript(SGPath("scripts/"+info["script_name"]));
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();
 

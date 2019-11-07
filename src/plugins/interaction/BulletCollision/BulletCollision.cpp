@@ -626,12 +626,18 @@ bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
         Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
         Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + own_pos;
 
-        // Transform ray's end point to world coordinates
-        Eigen::Vector4d ray = tf_m * Eigen::Vector4d(original_ray(0),
-                              original_ray(1),
-                              original_ray(2),
-                              1);
-        Eigen::Vector3d ray_w = ray.head<3>() + own_pos;
+        Eigen::Vector3d ray_w;
+        if (request_cast->data.world_frame == false) {
+            // Transform ray's end point to world coordinates
+            Eigen::Vector4d ray = tf_m * Eigen::Vector4d(original_ray(0),
+                                  original_ray(1),
+                                  original_ray(2),
+                                  1);
+            ray_w = ray.head<3>() + own_pos;
+        } else {
+            // Already in world frame
+            ray_w = original_ray;
+        }
 
         // Create bullet vectors
         btVector3 btFrom(sensor_pos_w(0), sensor_pos_w(1), sensor_pos_w(2));

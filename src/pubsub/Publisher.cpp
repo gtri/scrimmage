@@ -31,7 +31,7 @@
  */
 
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/pubsub/Publisher.h>
 
 namespace scrimmage {
@@ -39,8 +39,8 @@ namespace scrimmage {
 Publisher::Publisher() {
 }
 
-Publisher::Publisher(const std::string &topic, unsigned int &max_queue_size,
-                     bool enable_queue_size, PluginPtr plugin) :
+Publisher::Publisher(const std::string &topic, const unsigned int& max_queue_size,
+                     const bool& enable_queue_size, EntityPluginPtr plugin) :
     NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
 
 void Publisher::set_debug_info(MessageBasePtr msg, const std::string &type) {

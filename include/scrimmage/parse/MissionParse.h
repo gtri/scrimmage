@@ -45,6 +45,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <set>
 
 namespace sp = scrimmage_proto;
 
@@ -124,6 +125,9 @@ class MissionParse {
     double latitude_origin();
     double altitude_origin();
 
+    void set_lat_lon_alt_origin(const double& lat, const double& lon,
+                                const double& alt);
+
     std::map<int, TeamInfo> & team_info();
 
     void set_task_number(int task_num);
@@ -143,6 +147,9 @@ class MissionParse {
     std::shared_ptr<scrimmage_proto::UTMTerrain> & utm_terrain();
 
     std::string get_mission_filename();
+
+    bool output_required();
+    bool output_type_required(const std::string& output_type);
 
  protected:
     std::string mission_filename_ = "";
@@ -204,6 +211,14 @@ class MissionParse {
     std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_;
 
     std::map<std::string, std::string> overrides_map_;
+
+ private:
+    // Holds output types specified in mission file
+    std::set<std::string> output_types_;
+
+    // Set of all possible output types
+    const std::set<std::string> possible_output_types_ = {
+        "frames", "summary", "git_commits", "mission", "seed", "runtime"};
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
 } // namespace scrimmage

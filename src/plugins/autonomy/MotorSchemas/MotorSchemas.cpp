@@ -37,6 +37,7 @@
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/entity/EntityPluginHelper.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ConfigParse.h>
@@ -76,6 +77,9 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     pub_vel_vec_ = sc::get("pub_vel_vec", params, false);
     max_speed_ = sc::get<double>("max_speed", params, 21);
 
+    add_lower_bound_to_vz_ = sc::get("add_lower_bound_to_vz", params, false);
+    vz_lower_bound_ = sc::get<double>("vz_lower_bound", params, -1.0);
+
     auto max_speed_cb = [&] (const double &max_speed) {
         cout << "MotorSchemas Max speed set: " << max_speed << endl;
     };
@@ -97,85 +101,33 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     };
     subscribe<std::string>(network_name, state_topic_name, state_callback);
 
-    // Parse the behavior plugins
-    std::string behaviors_str = sc::get<std::string>("behaviors", params, "");
-    std::vector<std::vector<std::string>> vecs_of_vecs;
-    sc::get_vec_of_vecs(behaviors_str, vecs_of_vecs, " ");
-    for (std::vector<std::string> vecs : vecs_of_vecs) {
-        if (vecs.size() < 1) {
-            std::cout << "Behavior name missing." << std::endl;
-            continue;
-        }
+    // Parse the autonomy vectors
+    std::list<PluginOverrides> plugin_overrides_list;
+    if (sc::parse_plugin_vector("behaviors", params, plugin_overrides_list) == static_cast<unsigned int>(0)) {
+        cout << "MotorSchemas: Failed to parse any behaviors." << endl;
+    }
 
-        std::string behavior_name = "";
-        std::map<std::string, std::string> behavior_params;
-        int i = 0;
-        for (std::string str : vecs) {
-            if (i == 0) {
-                behavior_name = str;
-            } else {
-                // Parse the behavior parameters (e.g., param_name="value")
-                // Split the param_name and value, with equals sign in between
-                std::vector<std::string> tokens;
-                boost::split(tokens, str, boost::is_any_of("="));
-                if (tokens.size() == 2) {
-                    // Remove the quotes from the value
-                    tokens[1].erase(
-                        std::remove_if(tokens[1].begin(),
-                                       tokens[1].end(),
-                                       [](unsigned char x){
-                                           return (x == '\"') || (x == '\'');
-                                       }),
-                        tokens[1].end());
-                    behavior_params[tokens[0]] = tokens[1];
-                }
-            }
-            ++i;
-        }
+    // Create the plugin for each autonomy/behavior
+    for (auto &plugin_override : plugin_overrides_list) {
+        auto behavior = make_autonomy<ms::BehaviorBase>(
+            plugin_override.name, parent_->plugin_manager(),
+            plugin_override.overrides, parent_, state_, proj_,
+            contacts_, parent_->file_search(), rtree_, parent_->pubsub(),
+            time_, parent_->param_server());
 
-        sc::ConfigParse config_parse;
-        PluginStatus<ms::BehaviorBase> status =
-            parent_->plugin_manager()->make_plugin<ms::BehaviorBase>(
-                "scrimmage::Autonomy",
-                behavior_name,
-                *(parent_->file_search()),
-                config_parse,
-                behavior_params,
-                std::set<std::string>{});
-        if (status.status == PluginStatus<ms::BehaviorBase>::cast_failed) {
-            cout << "Failed to load MotorSchemas behavior: " << behavior_name << endl;
-        } else if (status.status == PluginStatus<ms::BehaviorBase>::loaded) {
-            ms::BehaviorBasePtr behavior = status.plugin;
-            // Initialize the autonomy/behavior
-            behavior->set_rtree(rtree_);
-            behavior->set_parent(parent_);
-            behavior->set_projection(proj_);
-            behavior->set_pubsub(parent_->pubsub());
-            behavior->set_time(time_);
-            behavior->set_state(state_);
-            behavior->set_contacts(contacts_);
-            behavior->set_is_controlling(true);
-            behavior->set_name(behavior_name);
-            behavior->init(config_parse.params());
-
+        if (behavior) {
             // Extract the gain for this plugin and apply it
-            behavior->set_gain(sc::get<double>("gain", behavior_params, 1.0));
-            behavior->set_max_vector_length(max_speed_);
-
-            // cout << "Behavior: " << behavior->name() << endl;
+            (*behavior)->set_gain(sc::get<double>("gain", plugin_override.overrides, 1.0));
+            (*behavior)->set_max_vector_length(max_speed_);
 
             // Determine which states in which this behavior is active
             std::vector<std::string> states;
-            if (sc::get_vec("states", config_parse.params(), " ,", states)) {
-                // cout << "adding to... " << endl;
-                // This is a behavior that only runs in these states
+            if (sc::get_vec("states", plugin_override.overrides, " ,", states)) {
                 for (std::string state : states) {
-                    // cout << state << " ";
-                    behaviors_[state].push_back(behavior);
+                    behaviors_[state].push_back(*behavior);
                 }
-                // cout << endl;
             } else {
-                default_behaviors_.push_back(behavior);
+                default_behaviors_.push_back(*behavior);
             }
         }
     }
@@ -266,6 +218,10 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     // Convert resultant vector into heading / speed / altitude command:
     ///////////////////////////////////////////////////////////////////////////
     if (pub_vel_vec_) {
+        // Add a lower bound on the z-component of the resulting velocity vector
+        if (add_lower_bound_to_vz_) {
+            vel_result(2) = std::max(vz_lower_bound_, vel_result(2));
+        }
         vars_.output(output_vel_x_idx_, vel_result(0));
         vars_.output(output_vel_y_idx_, vel_result(1));
         vars_.output(output_vel_z_idx_, vel_result(2));

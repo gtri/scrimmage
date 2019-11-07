@@ -44,8 +44,8 @@
 
 namespace scrimmage {
 
-class Plugin;
-using PluginPtr = std::shared_ptr<Plugin>;
+class EntityPlugin;
+using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 class NetworkDevice {
  public:
@@ -55,8 +55,8 @@ class NetworkDevice {
 
     virtual ~NetworkDevice() = default; // Make NetworkDevice Polymorphic
 
-    NetworkDevice(const std::string &topic, unsigned int &max_queue_size,
-                  bool enable_queue_size, PluginPtr plugin);
+    NetworkDevice(const std::string &topic, const unsigned int& max_queue_size,
+                  const bool& enable_queue_size, EntityPluginPtr plugin);
 
     std::string get_topic() const;
     void set_topic(const std::string &topic);
@@ -73,9 +73,9 @@ class NetworkDevice {
     }
 
 
-    void set_max_queue_size(unsigned int size);
+    void set_max_queue_size(const unsigned int& size);
     unsigned int max_queue_size();
-    void enable_queue_size(bool enforce);
+    void enable_queue_size(const bool& enforce);
     bool enable_queue_size();
 
     void enforce_queue_size();
@@ -83,9 +83,10 @@ class NetworkDevice {
     void add_msg(MessageBasePtr msg);
 
     /* added for delay handling */
-    void add_undelivered_msg(MessageBasePtr msg, bool is_stochastic_delay = false);
+    void add_undelivered_msg(MessageBasePtr msg, const bool& is_stochastic_delay = false);
     auto deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it);
-    int deliver_undelivered_msg(double time_now, bool is_stochastic_delay = false);
+    int deliver_undelivered_msg(const double& time_now,
+                                const bool& is_stochastic_delay = false);
     /* end delay handling */
 
     template <class T = MessageBase,
@@ -170,13 +171,13 @@ class NetworkDevice {
         return msg_list_cast;
     }
 
-    PluginPtr & plugin();
+    EntityPluginPtr & plugin();
 
  protected:
     std::string topic_ = "";
     unsigned int max_queue_size_ = 1;
     bool enable_queue_size_ = false;
-    PluginPtr plugin_;
+    EntityPluginPtr plugin_;
     void print_str(const std::string &msg);
     std::list<MessageBasePtr> msg_list_;
     std::mutex mutex_;

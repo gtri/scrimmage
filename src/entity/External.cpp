@@ -111,7 +111,9 @@ bool External::create_entity(const std::string &mission_file,
                              double init_time,
                              double init_dt,
                              const std::string &log_dir,
-                             std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                             std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                             const std::string& mission_file_overrides,
+                             const int& debug_level) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
     if (not found_mission_file) {
@@ -121,6 +123,7 @@ bool External::create_entity(const std::string &mission_file,
 
     // Parse the mission file
     mp_ = std::make_shared<MissionParse>();
+    mp_->set_overrides(mission_file_overrides);
     if (not mp_->parse(*found_mission_file)) {
         cout << "Failed to parse mission file: " << *found_mission_file << endl;
         return false;
@@ -205,9 +208,11 @@ bool External::create_entity(const std::string &mission_file,
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
     bool ent_success =
         entity_->init(
-            attr_map, info, contacts, mp_, mp_->projection(), entity_id,
+            attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
+            mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_, param_server_, global_services_, plugin_tags, param_override_func);
+            time_, param_server_, global_services_, plugin_tags,
+            param_override_func, debug_level);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;

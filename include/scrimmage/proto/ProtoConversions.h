@@ -52,6 +52,7 @@ class ID;
 class Color;
 class State;
 class Frame;
+class Line;
 } // namespace scrimmage_proto
 
 namespace scrimmage {
@@ -60,7 +61,7 @@ struct Color_t;
 class ID;
 class Quaternion;
 class Frame;
-class Plugin;
+class EntityPlugin;
 
 class State;
 using StatePtr = std::shared_ptr<State>;
@@ -72,6 +73,7 @@ using ContactMapPtr = std::shared_ptr<ContactMap>;
 void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src);
 void set(scrimmage_proto::Vector3d *dst, double x, double y, double z);
 void set(scrimmage_proto::Color *dst, const std::vector<int> &src);
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Color &src);
 void set(std::vector<int> &dst, const scrimmage_proto::Color &src);
 void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src);
 void set(Eigen::Vector3d &dst, const scrimmage_proto::Vector3d *src);
@@ -109,7 +111,10 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state);
 
 void path_to_lines(std::vector<Eigen::Vector3d> &path,
                    std::shared_ptr<scrimmage_proto::Shape> sample_line,
-                   std::shared_ptr<Plugin> p);
+                   std::shared_ptr<EntityPlugin> p);
+
+std::list<scrimmage_proto::Line> points_to_lines(
+    const std::list<Eigen::Vector3d> &points);
 
 Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact);
 

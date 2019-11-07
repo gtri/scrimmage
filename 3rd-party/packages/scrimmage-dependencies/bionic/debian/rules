@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+BUILDDIR = build_dir
+
+CMAKE_FLAGS = \
+	-DDEB_HOST_MULTIARCH=${DEB_HOST_MULTIARCH} \
+	-DCMAKE_INSTALL_PREFIX=/opt/scrimmage/${DEB_HOST_MULTIARCH}
+
+export DH_VERBOSE=1
+
+%:
+	dh $@ --buildsystem=cmake
+
+override_dh_clean:
+	dh_clean -O--buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_FLAGS)
+
+override_dh_install:
+	dh_install -O--buildsystem=cmake --list-missing
+
+override_dh_fixperms-indep:
+	dh_fixperms

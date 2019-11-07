@@ -107,6 +107,8 @@ def ranges_file_to_dict(ranges_file):
             ranges_dict['type'] = cls
             if 'count' in child.attrib:
                 ranges_dict['count'], _ = convert(child.attrib['count'], 'int')
+            if 'vec' in child.attrib:
+                ranges_dict['vec'], cls = convert(child.attrib['vec'], 'str')                
         except (AttributeError, KeyError):
             print('missing type or low or high in element ', child.tag)
 
@@ -129,9 +131,16 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, root_log=None, en
         # Latin-Hypercube method
         xx = np.array(pyDOE.lhs(len(ranges), samples=num_runs), dtype=object)
 
-        for idx, (param, desc) in enumerate(ranges.items()):
-            diff = desc['high'] - desc['low']
-            xx[:, idx] = (xx[:, idx] * diff + desc['low']).astype(desc['type'])
+        for idx, (param, desc) in enumerate(ranges.items()):        
+            if 'vec' in desc:
+                vals = np.fromstring(desc['vec'],sep=',')
+                diff = len(vals)
+                xx[:, idx] = (xx[:, idx] * diff).astype(int)
+                for idx2 in range(len(xx[:,idx])):               
+                    xx[idx2, idx] = vals[xx[idx2,idx]]
+            else:
+                diff = desc['high'] - desc['low']
+                xx[:, idx] = (xx[:, idx] * diff + desc['low']).astype(desc['type'])
     elif method == "grid":
         # Dumb grid search, try every combination
         val_options = []

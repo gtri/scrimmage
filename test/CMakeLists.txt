@@ -1,4 +1,5 @@
 set(test_files
+    test_csv.cpp
     test_algorithms.cpp
     test_angles.cpp
     test_collisions.cpp
@@ -15,6 +16,7 @@ set(test_files
     test_entity_configs.cpp
     test_openai.cpp
     test_shape.cpp
+    test_parse_utils.cpp
     )
 
 if (NOT ENABLE_PYTHON_BINDINGS)

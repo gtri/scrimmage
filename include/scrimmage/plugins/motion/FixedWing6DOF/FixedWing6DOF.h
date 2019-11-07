@@ -187,6 +187,8 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     LaunchState launch_state_ = POSTLAUNCH;
     Eigen::Vector3d launch_dir_NED_;
 
+    bool use_ground_model_ = true;
+
     Eigen::Quaterniond rot_180_x_axis_;
 };
 } // namespace motion

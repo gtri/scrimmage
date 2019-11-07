@@ -80,6 +80,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     show_image_ = sc::get<bool>("show_image", params, show_image_);
     show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
+    show_sim_contacts_ = sc::get<bool>("show_sim_contacts", params, true);
 
     // Parse the simulated detections
     std::string sim_det_str = sc::get<std::string>("simulated_detections", params, "");
@@ -208,7 +209,9 @@ void ContactBlobCamera::draw_frustum(const std::vector<scrimmage_proto::ShapePtr
     scene_bb_line->set_persistent(false);
     scene_bb_line->set_persist_duration(0.0);
     sc::set(scene_bb_line->mutable_color(), 0, 255, 0);
-    sc::path_to_lines(sensor_scene_bb, scene_bb_line, shared_from_this());
+
+    sc::path_to_lines(sensor_scene_bb, scene_bb_line,
+                      std::static_pointer_cast<EntityPlugin>(shared_from_this()));
     // draw 8 lines for the 4 points
     const Eigen::Vector3d fov_edge_start = parent_->state_truth()->pos();
     for (int idx_bb = 0; idx_bb != 4; ++idx_bb) {
@@ -386,6 +389,26 @@ bool ContactBlobCamera::step() {
 
     // Compute bounding boxes for added "simulated" contacts
     contacts_to_bounding_boxes(sensor_frame, sim_contacts_, msg);
+
+    if (show_sim_contacts_ &&
+        time_->t() > last_contact_send_time_ + contact_send_dt_) {
+        // draw_sim_contacts(sim_contacts_);
+        for (auto &kv : sim_contacts_) {
+            // Draw a sphere at the expected commanded state
+            Eigen::Vector3d sphere_center(kv.second.state()->pos().x(),
+                                          kv.second.state()->pos().y(),
+                                          kv.second.state()->pos().z());
+
+            sc::set(sim_tgt_sphere_->mutable_sphere()->mutable_center(), sphere_center);
+            sc::set(sim_tgt_sphere_->mutable_color(), 0, 255, 255);
+            sim_tgt_sphere_->mutable_sphere()->set_radius(kv.second.radius());
+            sim_tgt_sphere_->set_opacity(0.7);
+            sim_tgt_sphere_->set_persistent(false);
+            draw_shape(sim_tgt_sphere_);
+        }
+
+        last_contact_send_time_ = time_->t();
+    }
 
     // Add false positives
     add_false_positives(msg);

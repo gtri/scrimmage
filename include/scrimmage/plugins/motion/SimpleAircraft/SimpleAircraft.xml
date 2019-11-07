@@ -2,8 +2,13 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>SimpleAircraft_plugin</library>
-  <turning_radius>13</turning_radius>
-  <min_velocity>15</min_velocity>
-  <max_velocity>40</max_velocity>
+  <turning_radius>13</turning_radius> <!-- m -->
+  <min_velocity>15</min_velocity> <!-- m/s -->
+  <max_velocity>40</max_velocity> <!-- m/s -->
   <max_roll>30</max_roll> <!-- degrees -->
+  <max_pitch>30</max_pitch> <!-- degrees -->
+  <max_roll_rate>57.3</max_roll_rate> <!-- degrees/second (=1rad/s) -->
+  <max_pitch_rate>57.3</max_pitch_rate> <!-- degrees/second (=1rad/s) -->
+  <speed_target>50</speed_target> <!-- m/s -->
+  <radius_slope_per_speed>0.0</radius_slope_per_speed> <!-- m/(m/s) -->
 </params>

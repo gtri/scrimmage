@@ -39,6 +39,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include<list>
 
 namespace scrimmage_proto {
 class UTMTerrain;
@@ -76,7 +77,7 @@ template <> inline const char* convert<const char *>(const std::string &str) {re
 template <> inline std::string convert<std::string>(const std::string &str) {return str;}
 
 template <class T1, class T2 = T1>
-    T2 get(const std::string &key, std::map<std::string, std::string> &map, T1 default_val) {
+    T2 get(const std::string &key, const std::map<std::string, std::string> &map, T1 default_val) {
     auto it = map.find(key);
     return it == map.end() ? default_val : convert<T2>(it->second);
 }
@@ -188,6 +189,21 @@ bool get_vec_of_vecs(const std::string &str,
 
 bool set_pid_gains(PID &pid, std::string str,
                    bool is_angle = false);
+
+struct PluginOverrides {
+    std::string name;
+    std::map<std::string, std::string> overrides;
+    PluginOverrides(const std::string& n,
+                    std::map<std::string, std::string> &o)
+            : name(n), overrides(o) { }
+};
+
+unsigned int parse_plugin_vector(const std::string& key,
+                                 std::map<std::string, std::string> &params,
+                                 std::list<PluginOverrides> &plugin_overrides_list);
+
+void remove_leading_spaces(std::string &s);
+void remove_trailing_spaces(std::string &s);
 
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_

@@ -77,6 +77,15 @@
 
 #if ENABLE_PYTHON_BINDINGS == 1
 #include <pybind11/pybind11.h>
+#ifdef __clang__
+_Pragma("clang diagnostic push")
+_Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
+_Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
+#endif
+#include <Python.h>
+#ifdef __clang__
+_Pragma("clang diagnostic pop")
+#endif
 #endif
 
 #include <GeographicLib/LocalCartesian.hpp>
@@ -102,16 +111,20 @@ namespace scrimmage {
 SimControl::SimControl() :
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
+    incoming_interface_(std::make_shared<Interface>()),
+    outgoing_interface_(std::make_shared<Interface>()),
+    mp_(std::make_shared<MissionParse>()),
     time_(std::make_shared<Time>()),
     param_server_(std::make_shared<ParameterServer>()),
     global_services_(std::make_shared<GlobalService>()),
     timer_(Timer()),
+    log_(std::make_shared<Log>()),
     random_(std::make_shared<Random>()),
     plugin_manager_(std::make_shared<PluginManager>()),
     networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
     pubsub_(std::make_shared<PubSub>()),
     file_search_(std::make_shared<FileSearch>()),
-    sim_plugin_(std::make_shared<Plugin>()),
+    sim_plugin_(std::make_shared<EntityPlugin>()),
     limited_verbosity_(false) {
     pause(false);
     prev_paused_ = false;
@@ -129,7 +142,30 @@ void SimControl::send_terrain() {
     log_->save_utm_terrain(mp_->utm_terrain());
 }
 
-bool SimControl::init() {
+bool SimControl::setup_logging() {
+    limited_verbosity_ = mp_->output_required();
+
+    // Setup the log directory if it is required
+    if (mp_->output_required()) {
+        mp_->create_log_dir();
+        log_->set_enable_log(true);
+        log_->init(mp_->log_dir(), Log::WRITE);
+    } else {
+        log_->set_enable_log(false);
+        log_->init(mp_->log_dir(), Log::NONE);
+    }
+    return true;
+}
+
+bool SimControl::init(const std::string& mission_file,
+                      const bool& init_python) {
+#if ENABLE_PYTHON_BINDINGS == 1
+    if (init_python) {
+        Py_Initialize();
+        python_enabled_ = true;
+    }
+#endif
+
     ents_.clear();
     ent_inters_.clear();
     metrics_.clear();
@@ -140,10 +176,501 @@ bool SimControl::init() {
     pubsub_->pubs().clear();
     pubsub_->subs().clear();
 
-    if (mp_ == NULL) {
-        cout << "Mission Parse hasn't been set yet." << endl;
+    if (!mp_->parse(mission_file)) {
+        cout << "Failed to parse file: " << mission_file << endl;
         return false;
     }
+
+    // Start with the simulation paused? Can be overriden by
+    // SimControl::pause()
+    if (mp_->start_paused()) {
+        pause(true);
+    }
+
+#if ENABLE_JSBSIM == 1
+    jsbsim_root_ = "./";
+    if (const char* env_p = std::getenv("JSBSIM_ROOT")) {
+        jsbsim_root_ = std::string(env_p);
+    } else {
+        cout << "Missing JSBSIM_ROOT env variable, using ./" << endl;
+    }
+#endif
+    return true;
+}
+
+void SimControl::request_screenshot() {
+    prev_paused_ = paused();
+    pause(true);
+    scrimmage_proto::GUIMsg gui_msg;
+    gui_msg.set_time(t_ + dt_);
+    gui_msg.set_single_step(true);
+    outgoing_interface_->push_gui_msg(gui_msg);
+}
+
+bool SimControl::generate_entities(const double& t) {
+    // Construct a list of entities to generate based on the time and generate
+    // rate properties. pair consists of entity description ID and
+    // first_in_group.
+    std::list<int> ents_to_gen;
+    for (auto &kv : mp_->entity_descriptions()) {
+        int ent_desc_id = kv.first;
+
+        // Skip this entity description if all of its entities have already
+        // been generated (i.e., it no longer has gen_info information)
+        if (mp_->gen_info().count(ent_desc_id) == 0) {
+            continue;
+        }
+
+        // Generate entities in this entity description block if time has been
+        // reached
+        int gen_count = 0;
+        for (double &gen_time : mp_->next_gen_times()[ent_desc_id]) {
+
+            GenerateInfo &gen_info = mp_->gen_info()[ent_desc_id];
+            if (t < gen_time || gen_info.total_count <= 0) {
+                continue;
+            }
+
+            // Add this entity ID to the list of entities to generate
+            ents_to_gen.push_back(ent_desc_id);
+            gen_info.total_count--;
+
+            // Is rate generation enabled?
+            if (gen_info.rate > 0) {
+                NormDistribution norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
+
+                // save next gen time to pointer to next gen time
+                gen_time = norm_dist(*random_->gener());
+                if (gen_time <= t) {
+                    cout << "Next generation time less than current time. "
+                         << "generate_time_variance is too large." << endl;
+                    gen_time = t + (1.0 / gen_info.rate);
+                }
+            }
+            // Break if we have reached the generate count
+            if (++gen_count >= gen_info.gen_count) {
+                break;
+            }
+        }
+    }
+    // Delete gen_info's that don't have ents remaining (count==0)
+    remove_if(mp_->gen_info(), [&](auto &kv) {return kv.second.total_count <= 0;});
+
+    // Call generate_entity on each entity description id.
+    auto gen_ent = [&] (const int &ent_desc_id) -> bool {
+        return generate_entity(ent_desc_id);
+    };
+    return std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
+}
+
+bool SimControl::generate_entity(const int &ent_desc_id) {
+    // Get the entity's params
+    auto it_params = mp_->entity_descriptions().find(ent_desc_id);
+    if (it_params == mp_->entity_descriptions().end()) {
+        return false;
+    }
+    return generate_entity(ent_desc_id, it_params->second);
+}
+
+bool SimControl::generate_entity(const int &ent_desc_id,
+                                 std::map<std::string, std::string> &params) {
+#if ENABLE_JSBSIM == 1
+    params["JSBSIM_ROOT"] = jsbsim_root_;
+#endif
+    params["dt"] = std::to_string(dt_);
+    params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
+
+    double x0 = scrimmage::get("x0", params, 0.0);
+    double y0 = scrimmage::get("y0", params, 0.0);
+    double z0 = scrimmage::get("z0", params, 0.0);
+    double heading = scrimmage::get("heading", params, 0.0);
+
+    Eigen::Vector3d pos(x0, y0, z0);
+
+    auto gener = random_->gener();
+    NormDistribution x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
+    NormDistribution y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
+    NormDistribution z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
+    NormDistribution heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
+    params["heading"] = std::to_string(heading_normal_dist(*gener));
+
+    bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
+
+    // Use variance if a collision exists (This happens when you place <entity>
+    // tags" at the same location). Or, if use_variance_all_ents is specified
+    // as true in the entity block.
+    if (collision_exists(pos) || use_variance_all_ents) {
+        // Use the uniform distribution to place aircraft
+        // within the x/y variance
+        int ct = 0;
+        const int max_ct = 1e6;
+        bool reselect_pos = collision_exists(pos) || use_variance_all_ents;
+        while (ct++ < max_ct && !exit_ && reselect_pos) {
+            pos(0) = x_normal_dist(*gener);
+            pos(1) = y_normal_dist(*gener);
+            pos(2) = z_normal_dist(*gener);
+            reselect_pos = collision_exists(pos);
+        }
+
+        if (ct >= max_ct) {
+            cout << "----------------------------------" << endl;
+            cout << "ERROR: Having difficulty finding collision-free location for entity at: "
+                 << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
+                 << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
+            return false;
+        } else if (exit_) {
+            return false;
+        }
+    }
+
+    params["x"] = std::to_string(pos(0));
+    params["y"] = std::to_string(pos(1));
+    params["z"] = std::to_string(pos(2));
+
+    // Fill in the ent's lat/lon/alt value
+    double lat, lon, alt;
+    proj_->Reverse(pos(0), pos(1), pos(2), lat, lon, alt);
+    params["latitude"] = std::to_string(lat);
+    params["longitude"] = std::to_string(lon);
+    params["altitude"] = std::to_string(alt);
+
+    std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+    ent->set_random(random_);
+
+    contacts_mutex_.lock();
+    AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
+    bool ent_status = ent->init(attr_map, params, id_to_team_map_,
+                                id_to_ent_map_,
+                                contacts_, mp_, proj_, next_id_, ent_desc_id,
+                                plugin_manager_, file_search_, rtree_, pubsub_, time_,
+                                param_server_, global_services_,
+                                std::set<std::string>{},
+                                [](std::map<std::string, std::string>&){});
+    contacts_mutex_.unlock();
+
+    if (!ent_status) {
+        cout << "Failed to parse entity at start position: "
+             << "x=" << x0 << ", y=" << y0 << endl;
+        return false;
+    }
+
+    (*id_to_team_map_)[ent->id().id()] = ent->id().team_id();
+    (*id_to_ent_map_)[ent->id().id()] = ent;
+
+    contact_visuals_[ent->id().id()] = ent->contact_visual();
+
+    // Send the visual information to the viewer
+    outgoing_interface_->send_contact_visual(ent->contact_visual());
+    log_->save_contact_visual(ent->contact_visual());
+
+    // Store pointer to entities that aren't ready yet
+    if (!ent->ready()) {
+        not_ready_.push_back(ent);
+    }
+
+    ents_.push_back(ent);
+    rtree_->add(ent->state()->pos(), ent->id());
+    contacts_mutex_.lock();
+    (*contacts_)[ent->id().id()] =
+            Contact(ent->id(), ent->radius(), ent->state_truth(),
+                    ent->type(), ent->contact_visual(), ent->properties());
+    contacts_mutex_.unlock();
+
+    auto msg = std::make_shared<Message<sm::EntityGenerated>>();
+    msg->data.set_entity_id(ent->id().id());
+    pub_ent_gen_->publish(msg);
+
+    next_id_++;
+
+    return true;
+}
+
+MissionParsePtr SimControl::mp() { return mp_; }
+
+bool SimControl::enable_gui() {
+    return mp_->enable_gui();
+}
+
+void SimControl::display_progress(const bool& enable) {
+    display_progress_ = enable;
+}
+
+void SimControl::join() {
+    thread_.join();
+}
+
+void SimControl::create_rtree() {
+    rtree_->clear();
+    for (EntityPtr &ent: ents_) {
+        rtree_->add(ent->state()->pos(), ent->id());
+    }
+}
+
+void SimControl::set_autonomy_contacts() {
+    std::map<std::string, AutonomyPtr> autonomy_map;
+    for (EntityPtr &ent : ents_) {
+        for (AutonomyPtr &autonomy : ent->autonomies()) {
+            if (autonomy->need_reset()) {
+                std::string type = autonomy->type();
+                auto it = autonomy_map.find(type);
+                if (it == autonomy_map.end()) {
+                    contacts_mutex_.lock();
+                    autonomy->set_contacts(contacts_);
+                    contacts_mutex_.unlock();
+                    autonomy_map[type] = autonomy;
+                } else {
+                    contacts_mutex_.lock();
+                    autonomy->set_contacts_from_plugin(it->second);
+                    contacts_mutex_.unlock();
+                }
+            }
+        }
+    }
+}
+
+bool SimControl::run_networks() {
+    bool all_true = true;
+    for (auto &kv : *networks_) {
+        bool result = kv.second->step(pubsub_->pubs()[kv.second->name()],
+                                      pubsub_->subs()[kv.second->name()]);
+        if (!result && kv.second->print_err_on_exit) {
+            cout << "Network requested simulation termination: "
+                 << kv.second->name() << endl;
+        }
+        all_true &= result;
+
+        shapes_[0].insert(shapes_[0].end(), kv.second->shapes().begin(),
+                          kv.second->shapes().end());
+        kv.second->shapes().clear();
+    }
+    return all_true;
+}
+
+bool SimControl::run_interaction_detection() {
+
+    auto run_interaction = [&](auto ent_inter) {
+        bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
+        if (!result && ent_inter->print_err_on_exit) {
+            cout << "Entity interaction requested simulation termination: "
+                 << ent_inter->name() << endl;
+        }
+        return result;
+    };
+
+    auto handle_shapes = [&](auto ent_inter) {
+        shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(),
+                          ent_inter->shapes().end());
+        ent_inter->shapes().clear();
+    };
+
+    br::for_each(ent_inters_, run_callbacks);
+    bool success = std::all_of(ent_inters_.begin(), ent_inters_.end(), run_interaction);
+    br::for_each(ent_inters_, handle_shapes);
+
+    // Determine if entities need to be removed
+    for (auto &ent : ents_) {
+        if (!ent->is_alive() && ent->posthumous(this->t())) {
+            int id = ent->id().id();
+
+            auto msg = std::make_shared<Message<sm::EntityRemoved>>();
+            msg->data.set_entity_id(id);
+            pub_ent_rm_->publish(msg);
+
+            // Set the entity and contact to inactive to remove from
+            // simulation
+            ent->set_active(false);
+            auto it_cnt = contacts_->find(id);
+            if (it_cnt != contacts_->end()) {
+                it_cnt->second.set_active(false);
+            } else {
+                cout << "Failed to find contact to set inactive." << endl;
+            }
+        }
+    }
+    return success;
+}
+
+bool SimControl::run_metrics() {
+    br::for_each(metrics_, run_callbacks);
+    auto run_metric = [&](auto &metric) {return metric->step_metrics(t_, dt_);};
+    return std::all_of(metrics_.begin(), metrics_.end(), run_metric);
+}
+
+bool SimControl::run_logging() {
+    contacts_mutex_.lock();
+
+    std::shared_ptr<scrimmage_proto::Frame> frame =
+        create_frame(t_ + dt_, contacts_);
+
+    outgoing_interface_->send_frame(frame);
+    log_->save_frame(frame);
+
+    contacts_mutex_.unlock();
+    return true;
+}
+
+void SimControl::run_remove_inactive() {
+    auto it = ents_.begin();
+    while (it != ents_.end()) {
+        if (!(*it)->active()) {
+            int id = (*it)->id().id();
+            (*it)->close(t());
+            it = ents_.erase(it);
+            contacts_mutex_.lock();
+            contacts_->erase(id);
+            contacts_mutex_.unlock();
+
+            // Remove the entity from the ID to entity map. Don't remove the
+            // entity from the id_to_team_map.
+            auto it_id_ent = id_to_ent_map_->find(id);
+            if (it_id_ent == id_to_ent_map_->end()) {
+                cout << "WARNING: Failed to remove entity ID ("
+                     << id << ") from id_to_ent_map" << endl;
+            } else {
+                id_to_ent_map_->erase(it_id_ent);
+            }
+
+        } else {
+            ++it;
+        }
+    }
+}
+
+bool SimControl::run_single_step(const int& loop_number) {
+    double t = this->t();
+    reseed_task_.update(t);
+    start_loop_timer();
+
+    if (!generate_entities(t)) {
+        cout << "Failed to generate entity" << endl;
+        return false;
+    }
+
+    run_callbacks(sim_plugin_);
+
+    if (screenshot_task_.update(t_).first) {
+        request_screenshot();
+    }
+
+    if (!run_logging()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to logging exception" << std::endl;
+        }
+        return false;
+    }
+
+    // Wait loop timer.
+    // Stay in loop if currently paused.
+    bool exit_loop = false;
+    do {
+
+        // Were we told to exit, externally?
+        exit_mutex_.lock();
+        if (exit_) {
+            exit_loop = true;
+        }
+        exit_mutex_.unlock();
+
+        if (single_step()) {
+            single_step(false);
+            take_step_mutex_.lock();
+            take_step_ = true;
+            take_step_mutex_.unlock();
+            pause(prev_paused_);
+            break;
+        }
+
+        run_check_network_msgs();
+
+        scrimmage_proto::SimInfo info;
+        info.set_time(this->t());
+        info.set_desired_warp(this->time_warp());
+        info.set_actual_warp(this->actual_time_warp());
+        info.set_shutting_down(false);
+        outgoing_interface_->send_sim_info(info);
+        if (paused()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    } while (paused() && !exit_loop);
+
+    if (!wait_for_ready()) {
+        return false;
+    }
+
+    create_rtree();
+    set_autonomy_contacts();
+    if (!run_entities()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to plugin request." << std::endl;
+        }
+        return false;
+    }
+
+    if (!run_sensors()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to plugin request." << std::endl;
+        }
+        return false;
+    }
+
+    if (!run_interaction_detection()) {
+        auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
+        pub_ent_int_exit_->publish(msg);
+        return false;
+    }
+
+    // The networks are run before the metrics, so that messages that are
+    // published on the final time stamp can be processed by the metrics.
+    if (!run_networks()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to network plugin request." << std::endl;
+        }
+        return false;
+    }
+
+    if (!run_metrics()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to metrics plugin exception" << std::endl;
+        }
+        return false;
+    }
+
+    run_remove_inactive();
+    run_send_shapes();
+    run_send_contact_visuals(); // send updated visuals
+
+    if (display_progress_) {
+        if (loop_number % 100 == 0) {
+            sc::display_progress((tend_ == 0) ? 1.0 : t / tend_);
+        }
+    }
+
+    // Increment time and loop counter
+    loop_wait();
+    set_time(t + dt_);
+    prev_paused_ = paused_;
+
+    return not (end_condition_reached() || exit_loop);
+}
+
+void SimControl::run_threaded() {
+    running_in_thread_ = true;
+    thread_ = std::thread(&SimControl::run, this);
+}
+
+bool SimControl::start() {
+    setup_logging();
+
+    // Set the time parameters based on the mission file input
+    t0_ = mp_->t0();
+    tend_ = mp_->tend();
+    dt_ = mp_->dt();
+
+    time_->set_t(t0_);
+    time_->set_dt(dt_);
+    time_->set_time_warp(mp_->time_warp());
+
+    display_progress_ = get("display_progress", mp_->params(), true);
 
     proj_ = mp_->projection(); // get projection (origin) from mission
 
@@ -156,33 +683,18 @@ bool SimControl::init() {
         plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
     }
 
-#if ENABLE_JSBSIM == 1
-    jsbsim_root_ = "./";
-    if (const char* env_p = std::getenv("JSBSIM_ROOT")) {
-        jsbsim_root_ = std::string(env_p);
-    } else {
-        cout << "Missing JSBSIM_ROOT env variable, using ./" << endl;
-    }
-#endif
-
-    t0_ = mp_->t0();
-    tend_ = mp_->tend();
-    dt_ = mp_->dt();
-
-    time_->set_t(t0_);
-    time_->set_dt(dt_);
-    time_->set_time_warp(mp_->time_warp());
-
-    // Setup random seed
+        // Setup random seed
     if (mp_->params().count("seed") > 0) {
         auto seed = std::stoul(mp_->params()["seed"]);
         random_->seed(seed);
 #if ENABLE_PYTHON_BINDINGS == 1
-        pybind11::module::import("random").attr("seed")(seed);
-        try {
-            pybind11::module::import("numpy.random").attr("seed")(seed);
-        } catch (pybind11::error_already_set) {
-            // ignore. numpy not installed
+        if (python_enabled_) {
+            pybind11::module::import("random").attr("seed")(seed);
+            try {
+                pybind11::module::import("numpy.random").attr("seed")(seed);
+            } catch (pybind11::error_already_set) {
+                // ignore. numpy not installed
+            }
         }
 #endif
     } else {
@@ -215,13 +727,6 @@ bool SimControl::init() {
     } else {
         end_conditions_.insert(EndConditionFlags::TIME);
     }
-
-    // Start with the simulation paused?
-    if (mp_->start_paused()) {
-        pause(true);
-    }
-
-    setup_timer(1.0 / dt_, mp_->time_warp());
 
     if (mp_->params().count("stream_port") > 0 &&
         mp_->params().count("stream_ip") > 0) {
@@ -433,501 +938,45 @@ bool SimControl::init() {
             };
         }
     }
-    return true;
-}
 
-void SimControl::request_screenshot() {
-    prev_paused_ = paused();
-    pause(true);
-    scrimmage_proto::GUIMsg gui_msg;
-    gui_msg.set_time(t_ + dt_);
-    gui_msg.set_single_step(true);
-    outgoing_interface_->push_gui_msg(gui_msg);
-}
-
-bool SimControl::generate_entities(double t) {
-    // Construct a list of entities to generate based on the time and generate
-    // rate properties. pair consists of entity description ID and
-    // first_in_group.
-    std::list<int> ents_to_gen;
-    for (auto &kv : mp_->entity_descriptions()) {
-        int ent_desc_id = kv.first;
-
-        // Skip this entity description if all of its entities have already
-        // been generated (i.e., it no longer has gen_info information)
-        if (mp_->gen_info().count(ent_desc_id) == 0) {
-            continue;
-        }
-
-        // Generate entities in this entity description block if time has been
-        // reached
-        int gen_count = 0;
-        for (double &gen_time : mp_->next_gen_times()[ent_desc_id]) {
-
-            GenerateInfo &gen_info = mp_->gen_info()[ent_desc_id];
-            if (t < gen_time || gen_info.total_count <= 0) {
-                continue;
-            }
-
-            // Add this entity ID to the list of entities to generate
-            ents_to_gen.push_back(ent_desc_id);
-            gen_info.total_count--;
-
-            // Is rate generation enabled?
-            if (gen_info.rate > 0) {
-                NormDistribution norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
-
-                // save next gen time to pointer to next gen time
-                gen_time = norm_dist(*random_->gener());
-                if (gen_time <= t) {
-                    cout << "Next generation time less than current time. "
-                         << "generate_time_variance is too large." << endl;
-                    gen_time = t + (1.0 / gen_info.rate);
-                }
-            }
-            // Break if we have reached the generate count
-            if (++gen_count >= gen_info.gen_count) {
-                break;
-            }
-        }
-    }
-    // Delete gen_info's that don't have ents remaining (count==0)
-    remove_if(mp_->gen_info(), [&](auto &kv) {return kv.second.total_count <= 0;});
-
-    // Call generate_entity on each entity description id.
-    auto gen_ent = [&] (const int &ent_desc_id) -> bool {
-        return generate_entity(ent_desc_id);
-    };
-    return std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
-}
-
-bool SimControl::generate_entity(const int &ent_desc_id) {
-    // Get the entity's params
-    auto it_params = mp_->entity_descriptions().find(ent_desc_id);
-    if (it_params == mp_->entity_descriptions().end()) {
-        return false;
-    }
-    return generate_entity(ent_desc_id, it_params->second);
-}
-
-bool SimControl::generate_entity(const int &ent_desc_id,
-                                 std::map<std::string, std::string> &params) {
-#if ENABLE_JSBSIM == 1
-    params["JSBSIM_ROOT"] = jsbsim_root_;
-#endif
-    params["dt"] = std::to_string(dt_);
-    params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
-
-    double x0 = scrimmage::get("x0", params, 0.0);
-    double y0 = scrimmage::get("y0", params, 0.0);
-    double z0 = scrimmage::get("z0", params, 0.0);
-    double heading = scrimmage::get("heading", params, 0.0);
-
-    Eigen::Vector3d pos(x0, y0, z0);
-
-    auto gener = random_->gener();
-    NormDistribution x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
-    NormDistribution y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
-    NormDistribution z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
-    NormDistribution heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
-    params["heading"] = std::to_string(heading_normal_dist(*gener));
-
-    bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
-
-    // Use variance if a collision exists (This happens when you place <entity>
-    // tags" at the same location). Or, if use_variance_all_ents is specified
-    // as true in the entity block.
-    if (collision_exists(pos) || use_variance_all_ents) {
-        // Use the uniform distribution to place aircraft
-        // within the x/y variance
-        int ct = 0;
-        const int max_ct = 1e6;
-        bool reselect_pos = collision_exists(pos) || use_variance_all_ents;
-        while (ct++ < max_ct && !exit_ && reselect_pos) {
-            pos(0) = x_normal_dist(*gener);
-            pos(1) = y_normal_dist(*gener);
-            pos(2) = z_normal_dist(*gener);
-            reselect_pos = collision_exists(pos);
-        }
-
-        if (ct >= max_ct) {
-            cout << "----------------------------------" << endl;
-            cout << "ERROR: Having difficulty finding collision-free location for entity at: "
-                 << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
-                 << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
-            return false;
-        } else if (exit_) {
-            return false;
-        }
-    }
-
-    params["x"] = std::to_string(pos(0));
-    params["y"] = std::to_string(pos(1));
-    params["z"] = std::to_string(pos(2));
-
-    // Fill in the ent's lat/lon/alt value
-    double lat, lon, alt;
-    proj_->Reverse(pos(0), pos(1), pos(2), lat, lon, alt);
-    params["latitude"] = std::to_string(lat);
-    params["longitude"] = std::to_string(lon);
-    params["altitude"] = std::to_string(alt);
-
-    std::shared_ptr<Entity> ent = std::make_shared<Entity>();
-    ent->set_random(random_);
-
-    contacts_mutex_.lock();
-    AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
-    bool ent_status = ent->init(attr_map, params,
-                                contacts_, mp_, proj_, next_id_, ent_desc_id,
-                                plugin_manager_, file_search_, rtree_, pubsub_, time_,
-                                param_server_, global_services_,
-                                std::set<std::string>{},
-                                [](std::map<std::string, std::string>&){});
-    contacts_mutex_.unlock();
-
-    if (!ent_status) {
-        cout << "Failed to parse entity at start position: "
-             << "x=" << x0 << ", y=" << y0 << endl;
-        return false;
-    }
-
-    (*id_to_team_map_)[ent->id().id()] = ent->id().team_id();
-    (*id_to_ent_map_)[ent->id().id()] = ent;
-
-    contact_visuals_[ent->id().id()] = ent->contact_visual();
-
-    // Send the visual information to the viewer
-    outgoing_interface_->send_contact_visual(ent->contact_visual());
-    log_->save_contact_visual(ent->contact_visual());
-
-    // Store pointer to entities that aren't ready yet
-    if (!ent->ready()) {
-        not_ready_.push_back(ent);
-    }
-
-    ents_.push_back(ent);
-    rtree_->add(ent->state()->pos(), ent->id());
-    contacts_mutex_.lock();
-    (*contacts_)[ent->id().id()] =
-            Contact(ent->id(), ent->radius(), ent->state_truth(),
-                    ent->type(), ent->contact_visual(), ent->properties());
-    contacts_mutex_.unlock();
-
-    auto msg = std::make_shared<Message<sm::EntityGenerated>>();
-    msg->data.set_entity_id(ent->id().id());
-    pub_ent_gen_->publish(msg);
-
-    next_id_++;
-
-    return true;
-}
-
-void SimControl::set_mission_parse(MissionParsePtr mp) { mp_ = mp; }
-
-MissionParsePtr SimControl::mp() { return mp_; }
-
-void SimControl::set_log(std::shared_ptr<Log> &log) { log_ = log; }
-
-bool SimControl::enable_gui() {
-    return mp_->enable_gui();
-}
-
-void SimControl::start() {
-    thread_ = std::thread(&SimControl::run, this);
-}
-
-void SimControl::display_progress(bool enable) { display_progress_ = enable; }
-
-void SimControl::join() {
-    thread_.join();
-}
-
-void SimControl::create_rtree() {
-    rtree_->clear();
-    for (EntityPtr &ent: ents_) {
-        rtree_->add(ent->state()->pos(), ent->id());
-    }
-}
-
-void SimControl::set_autonomy_contacts() {
-    std::map<std::string, AutonomyPtr> autonomy_map;
-    for (EntityPtr &ent : ents_) {
-        for (AutonomyPtr &autonomy : ent->autonomies()) {
-            if (autonomy->need_reset()) {
-                std::string type = autonomy->type();
-                auto it = autonomy_map.find(type);
-                if (it == autonomy_map.end()) {
-                    contacts_mutex_.lock();
-                    autonomy->set_contacts(contacts_);
-                    contacts_mutex_.unlock();
-                    autonomy_map[type] = autonomy;
-                } else {
-                    contacts_mutex_.lock();
-                    autonomy->set_contacts_from_plugin(it->second);
-                    contacts_mutex_.unlock();
-                }
-            }
-        }
-    }
-}
-
-bool SimControl::run_networks() {
-    bool all_true = true;
-    for (auto &kv : *networks_) {
-        bool result = kv.second->step(pubsub_->pubs()[kv.second->name()],
-                                      pubsub_->subs()[kv.second->name()]);
-        if (!result && kv.second->print_err_on_exit) {
-            cout << "Network requested simulation termination: "
-                 << kv.second->name() << endl;
-        }
-        all_true &= result;
-
-        shapes_[0].insert(shapes_[0].end(), kv.second->shapes().begin(),
-                          kv.second->shapes().end());
-        kv.second->shapes().clear();
-    }
-    return all_true;
-}
-
-bool SimControl::run_interaction_detection() {
-
-    auto run_interaction = [&](auto ent_inter) {
-        bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
-        if (!result && ent_inter->print_err_on_exit) {
-            cout << "Entity interaction requested simulation termination: "
-                 << ent_inter->name() << endl;
-        }
-        return result;
-    };
-
-    auto handle_shapes = [&](auto ent_inter) {
-        shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(),
-                          ent_inter->shapes().end());
-        ent_inter->shapes().clear();
-    };
-
-    br::for_each(ent_inters_, run_callbacks);
-    bool success = std::all_of(ent_inters_.begin(), ent_inters_.end(), run_interaction);
-    br::for_each(ent_inters_, handle_shapes);
-
-    // Determine if entities need to be removed
-    for (auto &ent : ents_) {
-        if (!ent->is_alive() && ent->posthumous(this->t())) {
-            int id = ent->id().id();
-
-            auto msg = std::make_shared<Message<sm::EntityRemoved>>();
-            msg->data.set_entity_id(id);
-            pub_ent_rm_->publish(msg);
-
-            // Set the entity and contact to inactive to remove from
-            // simulation
-            ent->set_active(false);
-            auto it_cnt = contacts_->find(id);
-            if (it_cnt != contacts_->end()) {
-                it_cnt->second.set_active(false);
-            } else {
-                cout << "Failed to find contact to set inactive." << endl;
-            }
-        }
-    }
-    return success;
-}
-
-bool SimControl::run_metrics() {
-    br::for_each(metrics_, run_callbacks);
-    auto run_metric = [&](auto &metric) {return metric->step_metrics(t_, dt_);};
-    return std::all_of(metrics_.begin(), metrics_.end(), run_metric);
-}
-
-bool SimControl::run_logging() {
-    contacts_mutex_.lock();
-
-    std::shared_ptr<scrimmage_proto::Frame> frame =
-        create_frame(t_ + dt_, contacts_);
-
-    outgoing_interface_->send_frame(frame);
-    log_->save_frame(frame);
-
-    contacts_mutex_.unlock();
-    return true;
-}
-
-void SimControl::run_remove_inactive() {
-    auto it = ents_.begin();
-    while (it != ents_.end()) {
-        if (!(*it)->active()) {
-            int id = (*it)->id().id();
-            (*it)->close(t());
-            it = ents_.erase(it);
-            contacts_mutex_.lock();
-            contacts_->erase(id);
-            contacts_mutex_.unlock();
-
-            // Remove the entity from the ID to entity map. Don't remove the
-            // entity from the id_to_team_map.
-            auto it_id_ent = id_to_ent_map_->find(id);
-            if (it_id_ent == id_to_ent_map_->end()) {
-                cout << "WARNING: Failed to remove entity ID ("
-                     << id << ") from id_to_ent_map" << endl;
-            } else {
-                id_to_ent_map_->erase(it_id_ent);
-            }
-
-        } else {
-            ++it;
-        }
-    }
-}
-
-bool SimControl::run_single_step(int loop_number) {
-    double t = this->t();
-    reseed_task_.update(t);
-    start_loop_timer();
-
-    if (!generate_entities(t)) {
-        cout << "Failed to generate entity" << endl;
-        return false;
-    }
-
-    run_callbacks(sim_plugin_);
-
-    if (screenshot_task_.update(t_).first) {
-        request_screenshot();
-    }
-
-    if (!run_logging()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to logging exception" << std::endl;
-        }
-        return false;
-    }
-
-    // Wait loop timer.
-    // Stay in loop if currently paused.
-    bool exit_loop = false;
-    do {
-
-        // Were we told to exit, externally?
-        exit_mutex_.lock();
-        if (exit_) {
-            exit_loop = true;
-        }
-        exit_mutex_.unlock();
-
-        if (single_step()) {
-            single_step(false);
-            take_step_mutex_.lock();
-            take_step_ = true;
-            take_step_mutex_.unlock();
-            pause(prev_paused_);
-            break;
-        }
-
-        run_check_network_msgs();
-
-        scrimmage_proto::SimInfo info;
-        info.set_time(this->t());
-        info.set_desired_warp(this->time_warp());
-        info.set_actual_warp(this->actual_time_warp());
-        info.set_shutting_down(false);
-        outgoing_interface_->send_sim_info(info);
-        if (paused()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        }
-    } while (paused() && !exit_loop);
-
-    if (!wait_for_ready()) {
-        cleanup();
-        return false;
-    }
-
-    create_rtree();
-    set_autonomy_contacts();
-    if (!run_entities()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to plugin request." << std::endl;
-        }
-        return false;
-    }
-
-    if (!run_sensors()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to plugin request." << std::endl;
-        }
-        return false;
-    }
-
-    if (!run_interaction_detection()) {
-        auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
-        pub_ent_int_exit_->publish(msg);
-        return false;
-    }
-
-    // The networks are run before the metrics, so that messages that are
-    // published on the final time stamp can be processed by the metrics.
-    if (!run_networks()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to network plugin request." << std::endl;
-        }
-        return false;
-    }
-
-    if (!run_metrics()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to metrics plugin exception" << std::endl;
-        }
-        return false;
-    }
-
-    run_remove_inactive();
-    run_send_shapes();
-    run_send_contact_visuals(); // send updated visuals
-
-    if (display_progress_) {
-        if (loop_number % 100 == 0) {
-            sc::display_progress((tend_ == 0) ? 1.0 : t / tend_);
-        }
-    }
-
-    // Increment time and loop counter
-    loop_wait();
-    set_time(t + dt_);
-    prev_paused_ = paused_;
-
-    return !exit_loop;
-}
-
-bool SimControl::run() {
+    setup_timer(1.0 / dt_, mp_->time_warp());
     start_overall_timer();
 
     // Simulate over the time range
-    int loop_number = 0;
     set_time(t0_ - dt_);
 
-    bool gen_success = true;
+    // Initialize entities before simulation begings
     if (!generate_entities(t0_ - dt_)) {
         cout << "Failed to generate entity" << endl;
-        gen_success = false;
+        return false;
     }
 
-    bool interaction_success = true;
+    // Run the interaction plugins before the simulation begins
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
-        interaction_success = false;
+        return false;
     }
-
     set_time(t0_);
-    while (gen_success &&
-           interaction_success &&
-           run_single_step(loop_number++) &&
-           !end_condition_reached()) {}
-    cleanup();
-
-    return gen_success;
+    return true;
 }
 
-void SimControl::cleanup() {
+bool SimControl::run() {
+    if (not start()) {
+        return false;
+    }
+    int loop_number = 0;
+    while (run_single_step(loop_number++)) {}
+    return finalize();
+}
+
+bool SimControl::finalize() {
+    // Finalize can only be called once per instance
+    if (finalized_called_) {
+        return true;
+    }
+    finalized_called_ = true;
+
     if (!entity_thread_types_.empty()) {
         entity_pool_stop_ = true;
         entity_pool_condition_var_.notify_all();
@@ -944,6 +993,43 @@ void SimControl::cleanup() {
         auto msg = std::make_shared<Message<sm::EntityPresentAtEnd>>();
         msg->data.set_entity_id(ent->id().id());
         pub_ent_pres_end_->publish(msg);
+    }
+
+    run_logging();
+
+    if (display_progress_) cout << endl;
+
+    // Tell the visualizers that the simulation is complete
+    set_finished(true);
+
+    if (mp_->output_required()) {
+        output_runtime();
+    }
+
+    if (mp_->output_type_required("summary")) {
+        if (not output_summary()) {
+            cout << "Failed to write Metrics summary" << endl;
+        }
+    }
+
+    if (mp_->output_type_required("git_commits")) {
+        output_git_summary();
+    }
+
+    // Close the log file
+    log_->close_log();
+
+    if (not limited_verbosity_) {
+        cout << "Simulation Complete" << endl;
+    }
+    return true;
+}
+
+bool SimControl::shutdown(const bool& shutdown_python) {
+    finalize();
+
+    // Close all plugins
+    for (EntityPtr &ent : ents_) {
         ent->close(t());
     }
 
@@ -955,14 +1041,26 @@ void SimControl::cleanup() {
         kv.second->close_plugin(t());
     }
 
-    run_logging();
+    bool status = reset_pointers();
 
-    if (display_progress_) cout << endl;
+#if ENABLE_PYTHON_BINDINGS == 1
+    // When running the GUI in a separate thread, Python throws the following
+    // exception during the Py_Finalize call:
+    //
+    // Exception KeyError: KeyError(140466908776576,) in <module 'threading'
+    // from '/usr/lib/python2.7/threading.pyc'> ignored
+    //
+    // To disable this warning, dont call Py_Finalize if running in a thread.
+    if (not running_in_thread_ && shutdown_python) {
+        Py_Finalize();
+        python_enabled_ = false;
+    }
+#endif
 
-    set_finished(true);
+    return status;
 }
 
-void SimControl::close() {
+bool SimControl::reset_pointers() {
     id_to_ent_map_ = nullptr;
     incoming_interface_ = nullptr;
     outgoing_interface_ = nullptr;
@@ -997,6 +1095,8 @@ void SimControl::close() {
     pub_world_point_clicked_ = nullptr;
     pub_custom_key_ = nullptr;
     not_ready_.clear();
+
+    return true;
 }
 
 bool SimControl::wait_for_ready() {
@@ -1082,12 +1182,6 @@ bool SimControl::take_step() {
     return value;
 }
 
-void SimControl::step_taken() {
-    take_step_mutex_.lock();
-    take_step_ = false;
-    take_step_mutex_.unlock();
-}
-
 void SimControl::set_incoming_interface(InterfacePtr &incoming_interface)
 { incoming_interface_ = incoming_interface; }
 
@@ -1151,14 +1245,6 @@ void SimControl::force_exit() {
     exit_mutex_.unlock();
 }
 
-bool SimControl::external_exit() {
-    bool exit;
-    exit_mutex_.lock();
-    exit = exit_;
-    exit_mutex_.unlock();
-    return exit;
-}
-
 void SimControl::set_finished(bool finished) {
     scrimmage_proto::SimInfo info;
     info.set_time(this->t());
@@ -1174,15 +1260,6 @@ void SimControl::set_finished(bool finished) {
     finished_mutex_.unlock();
 }
 
-bool SimControl::finished() {
-    bool status;
-    finished_mutex_.lock();
-    status = finished_;
-    finished_mutex_.unlock();
-
-    return status;
-}
-
 void SimControl::get_contacts(std::unordered_map<int, Contact> &contacts) {
     // The Viewer GUI also looks at the contacts
     contacts_mutex_.lock();
@@ -1194,18 +1271,8 @@ void SimControl::get_contacts(std::unordered_map<int, Contact> &contacts) {
     contacts_mutex_.unlock();
 }
 
-void SimControl::set_contacts(ContactMapPtr &contacts) {
-    contacts_mutex_.lock();
-    contacts_ = contacts;
-    contacts_mutex_.unlock();
-}
-
 void SimControl::get_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals) {
     contact_visuals = contact_visuals_;
-}
-
-void SimControl::set_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals) {
-    contact_visuals_ = contact_visuals;
 }
 
 void SimControl::inc_warp() {
@@ -1220,7 +1287,7 @@ void SimControl::dec_warp() {
     timer_mutex_.unlock();
 }
 
-void SimControl::pause(bool pause) {
+void SimControl::pause(const bool& pause) {
     paused_mutex_.lock();
     paused_ = pause;
     paused_mutex_.unlock();
@@ -1244,7 +1311,7 @@ double SimControl::time_warp() {
 
 double SimControl::actual_time_warp() { return -1; }
 
-void SimControl::set_time(double t) {
+void SimControl::set_time(const double& t) {
     time_mutex_.lock();
     t_ = t;
     time_->set_t(t_);
@@ -1286,7 +1353,7 @@ void SimControl::loop_wait() {
     timer_mutex_.unlock();
 }
 
-void SimControl::single_step(bool value) {
+void SimControl::single_step(const bool& value) {
     single_step_mutex_.lock();
     single_step_ = value;
     single_step_mutex_.unlock();
@@ -1356,7 +1423,7 @@ void SimControl::worker() {
     }
 }
 
-void print_err(PluginPtr p) {
+void print_err(EntityPluginPtr p) {
     if (p->print_err_on_exit) {
         std::cout << "failed to update entity " << p->parent()->id().id()
             << ", plugin type \"" << p->type() << "\""
@@ -1394,7 +1461,7 @@ bool SimControl::run_sensors() {
 
 bool SimControl::add_tasks(Task::Type type, double t, double dt) {
     // FIXME: this will be much simpler once there is a
-    // step function in Plugin.h
+    // step function in EntityPlugin.h
     // In particular, we can get rid of Task::Type and
     // more easily do entity_interaction/network plugins in multiple threads.
 
@@ -1554,6 +1621,26 @@ bool SimControl::output_runtime() {
     return true;
 }
 
+bool SimControl::output_git_summary() {
+    std::map<std::string, std::unordered_set<std::string>> commits =
+            plugin_manager_->get_commits();
+    std::string scrimmage_version = get_version();
+
+    if (scrimmage_version != "") {
+        commits[scrimmage_version].insert("scrimmage");
+    }
+
+    for (auto &kv : commits) {
+        std::string output = kv.first + ":";
+        for (const std::string &plugin_name : kv.second) {
+            output += plugin_name + ",";
+        }
+        output.pop_back();
+        log_->write_ascii(output);
+    }
+    return true;
+}
+
 bool SimControl::output_summary() {
     std::map<int, double> team_scores;
     std::map<int, std::map<std::string, double>> team_metrics;
@@ -1643,15 +1730,27 @@ bool SimControl::output_summary() {
             cout << sc::generate_chars("-", 80) << endl;
         }
     }
-
     return true;
 }
 
-void SimControl::set_limited_verbosity(bool limited_verbosity) {
-    limited_verbosity_ = limited_verbosity;
+InterfacePtr SimControl::incoming_interface() {
+    return incoming_interface_;
 }
 
-InterfacePtr SimControl::incoming_interface() {return incoming_interface_;}
-InterfacePtr SimControl::outgoing_interface() {return outgoing_interface_;}
-std::list<EntityPtr> &SimControl::ents() {return ents_;}
+InterfacePtr SimControl::outgoing_interface() {
+    return outgoing_interface_;
+}
+
+std::list<EntityPtr> &SimControl::ents() {
+    return ents_;
+}
+
+EntityPluginPtr SimControl::plugin() {
+    return sim_plugin_;
+}
+
+std::shared_ptr<std::unordered_map<int, EntityPtr>>
+SimControl::id_to_entity_map() {
+    return id_to_ent_map_;
+}
 } // namespace scrimmage

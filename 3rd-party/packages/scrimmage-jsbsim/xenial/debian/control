@@ -2,7 +2,9 @@ Source: scrimmage-jsbsim
 Section: devel
 Priority: optional
 Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
-Build-Depends: cmake, build-essential, python, python-dev, cython, libboost-all-dev
+Build-Depends: cmake,
+               build-essential,
+               libboost-all-dev
 Homepage: https://www.scrimmagesim.org
 
 Package: scrimmage-jsbsim

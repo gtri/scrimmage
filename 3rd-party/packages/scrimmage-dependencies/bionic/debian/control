@@ -1,0 +1,16 @@
+Source: scrimmage-dependencies
+Section: devel
+Priority: optional
+Maintainer: Kevin DeMarco <kevin.demarco@gmail.com>
+Build-Depends: debhelper (>= 9), cmake, build-essential
+Homepage: https://www.scrimmagesim.org
+
+Package: scrimmage-dependencies
+Depends: scrimmage-pybind11, 
+         scrimmage-jsbsim,
+         scrimmage-protobuf3,
+         scrimmage-grpc
+Architecture: any
+Multi-Arch: same
+Description: dependencies used by SCRIMMAGE
+ This is the version of dependencies used by SCRIMMAGE

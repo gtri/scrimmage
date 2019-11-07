@@ -30,12 +30,27 @@
  *
  */
 
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/network/Interface.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/OriginAxes.h>
+#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/viewer/Grid.h>
+
+#include <iostream>
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkDataSetMapper.h>
 #include <vtkPNGReader.h>
 #include <vtkOBJReader.h>
+#include <vtkSTLReader.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 #include <vtkTriangle.h>
@@ -52,6 +67,7 @@
 #include <vtkPointData.h>
 #include <vtkPoints.h>
 #include <vtkPolygon.h>
+#include <vtkPolyLine.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
 #include <vtkCallbackCommand.h>
@@ -67,20 +83,7 @@
 #include <vtkWindowToImageFilter.h>
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
-
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/viewer/OriginAxes.h>
-#include <scrimmage/viewer/Updater.h>
-#include <scrimmage/viewer/Grid.h>
-
-#include <iostream>
+#include <vtksys/SystemTools.hxx>
 
 #include <boost/filesystem.hpp>
 
@@ -1078,11 +1081,6 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 actor->SetTexture(colorTexture);
             }
 
-            vtkSmartPointer<vtkOBJReader> reader =
-                vtkSmartPointer<vtkOBJReader>::New();
-            reader->SetFileName(cv->model_file().c_str());
-            reader->Update();
-
             vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
 
             // transform->RotateWXYZ(cv->rotate(0), cv->rotate(1),
@@ -1095,7 +1093,20 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 vtkSmartPointer<vtkTransformPolyDataFilter>::New();
 
             transformFilter->SetTransform(transform);
-            transformFilter->SetInputConnection(reader->GetOutputPort());
+            std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(cv->model_file().c_str()));
+            if (extension == ".obj") {
+                vtkSmartPointer<vtkOBJReader> reader =
+                    vtkSmartPointer<vtkOBJReader>::New();
+                reader->SetFileName(cv->model_file().c_str());
+                reader->Update();
+                transformFilter->SetInputConnection(reader->GetOutputPort());
+            } else if (extension == ".stl") {
+                vtkSmartPointer<vtkSTLReader> reader =
+                        vtkSmartPointer<vtkSTLReader>::New();
+                reader->SetFileName(cv->model_file().c_str());
+                reader->Update();
+                transformFilter->SetInputConnection(reader->GetOutputPort());
+            }
             transformFilter->Update();
 
             mapper->SetInputConnection(transformFilter->GetOutputPort());
@@ -1794,10 +1805,6 @@ bool Updater::draw_mesh(const bool &new_shape,
             actor->SetTexture(colorTexture);
         }
 
-        auto reader = vtkSmartPointer<vtkOBJReader>::New();
-        reader->SetFileName(model_file.c_str());
-        reader->Update();
-
         // add transform from model coordinates to normal aircraft rpy and scale
         // based on the rpy and scale in the model config file
         transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
@@ -1807,7 +1814,18 @@ bool Updater::draw_mesh(const bool &new_shape,
         transformFilter->SetTransform(transform);
 
         // connect transform filter
-        transformFilter->SetInputConnection(reader->GetOutputPort());
+        std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(model_file.c_str()));
+        if (extension == ".obj") {
+            auto reader = vtkSmartPointer<vtkOBJReader>::New();
+            reader->SetFileName(model_file.c_str());
+            reader->Update();
+            transformFilter->SetInputConnection(reader->GetOutputPort());
+        } else if (extension == ".stl") {
+            auto reader = vtkSmartPointer<vtkSTLReader>::New();
+            reader->SetFileName(model_file.c_str());
+            reader->Update();
+            transformFilter->SetInputConnection(reader->GetOutputPort());
+        }
         transformFilter->Update();
         source = transformFilter;
 
@@ -2066,9 +2084,40 @@ bool Updater::draw_polyline(const bool &new_shape,
                             vtkSmartPointer<vtkActor> &actor,
                             vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    const auto ptr_field = pl.line();
-    for (auto it = ptr_field.begin(); it != ptr_field.end(); ++it) {
-      draw_line(new_shape, *it, actor, source, mapper);
+    if (new_shape) {
+        vtkSmartPointer<vtkPoints> points =
+                vtkSmartPointer<vtkPoints>::New();
+
+        for (int i = 0; i < pl.point_size(); i++) {
+            points->InsertNextPoint(pl.point(i).x(), pl.point(i).y(),
+                                    pl.point(i).z());
+        }
+
+        vtkSmartPointer<vtkPolyLine> polyLine =
+                vtkSmartPointer<vtkPolyLine>::New();
+        polyLine->GetPointIds()->SetNumberOfIds(pl.point_size());
+        for (int i = 0; i < pl.point_size(); i++) {
+            polyLine->GetPointIds()->SetId(i, i);
+        }
+
+        // Create a cell array to store the lines in and add the lines to it
+        vtkSmartPointer<vtkCellArray> cells =
+                vtkSmartPointer<vtkCellArray>::New();
+        cells->InsertNextCell(polyLine);
+
+        // Create a polydata to store everything in
+        vtkSmartPointer<vtkPolyData> polyData =
+                vtkSmartPointer<vtkPolyData>::New();
+
+        // Add the points to the dataset
+        polyData->SetPoints(points);
+
+        // Add the lines to the dataset
+        polyData->SetLines(cells);
+
+        // source = polyLine; // Not inherited from source
+        mapper->SetInputData(polyData);
+        actor->SetMapper(mapper);
     }
     return true;
 }

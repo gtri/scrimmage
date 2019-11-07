@@ -45,7 +45,7 @@ template <class T, class CallbackFunc>
 class Subscriber : public SubscriberBase {
  public:
     Subscriber(const std::string &topic, unsigned int &max_queue_size,
-               bool enable_queue_size, PluginPtr plugin,
+               bool enable_queue_size, EntityPluginPtr plugin,
                CallbackFunc callback)
         : SubscriberBase(topic, max_queue_size, enable_queue_size, plugin),
         callback_(callback) {

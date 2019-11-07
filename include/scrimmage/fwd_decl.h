@@ -122,6 +122,9 @@ using RTreePtr = std::shared_ptr<RTree>;
 class Plugin;
 using PluginPtr = std::shared_ptr<Plugin>;
 
+class EntityPlugin;
+using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
+
 class PluginManager;
 using PluginManagerPtr = std::shared_ptr<PluginManager>;
 

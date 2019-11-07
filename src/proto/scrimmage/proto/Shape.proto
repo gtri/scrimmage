@@ -90,7 +90,7 @@ message Polyhedron {
 }
 
 message Polyline {
-        repeated Line line = 1;
+        repeated Vector3d point = 1;
 }
 
 message Sphere {

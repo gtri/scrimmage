@@ -1,10 +1,10 @@
 ##############################################
 #          Library Creation                  #
 ##############################################
-SET (LIBRARY_NAME scrimmage-core)
-SET (LIB_MAJOR 0)
-SET (LIB_MINOR 0)
-SET (LIB_RELEASE 1)
+set(LIBRARY_NAME scrimmage-core)
+set(LIB_MAJOR 0)
+set(LIB_MINOR 0)
+set(LIB_RELEASE 1)
 
 set(SRCS
     autonomy/Autonomy.cpp
@@ -15,6 +15,7 @@ set(SRCS
     common/Battery.cpp
     common/Shape.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
+    entity/EntityPlugin.cpp
     log/FrameUpdateClient.cpp log/Log.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp
     math/StateWithCovariance.cpp
@@ -37,21 +38,19 @@ set(SRCS
     common/WaypointListProcessor.cpp
 )
 
-ADD_LIBRARY( ${LIBRARY_NAME} SHARED
+add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
-  )
+)
 
 add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen
-  )
+)
 
 if (GRPC_FOUND)
   target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
 else()
   target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
 endif()
-
-#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
@@ -68,7 +67,7 @@ target_link_libraries(${LIBRARY_NAME}
     Boost::thread
 )
 
-if (ENABLE_PYTHON_BINDINGS)
+if(ENABLE_PYTHON_BINDINGS)
   # compile definitions need to be public
   # but the rest can be private
   get_target_property(python_def scrimmage-python INTERFACE_COMPILE_DEFINITIONS)
@@ -77,14 +76,14 @@ if (ENABLE_PYTHON_BINDINGS)
     ${LIBRARY_NAME} PRIVATE scrimmage-python)
 endif()
 
-SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
+set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
 set_target_properties(
   ${LIBRARY_NAME}
   PROPERTIES
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
-  )
+)
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
@@ -108,15 +107,14 @@ add_subdirectory(proto)
 add_subdirectory(plugins)
 
 # Ensure every plugin depends on scrimmage, scrimmage-msgs, and scrimmage-proto
-foreach (plugin ${PROJECT_PLUGINS})
+foreach(plugin ${PROJECT_PLUGINS})
   add_dependencies(${plugin} scrimmage-core scrimmage-msgs scrimmage-proto-gen)
 endforeach()
 
 # Build visualizer is VTK is found
-if (NOT EXTERNAL AND ${VTK_FOUND})
+if(NOT EXTERNAL AND ${VTK_FOUND})
   add_subdirectory(viewer)
 endif()
 
-# Push up the SCRIMMAGE_LIBS variable
-set(PROJECT_LIBS ${PROJECT_LIBS} ${LIBRARY_NAME} PARENT_SCOPE)
+# Push up the SCRIMMAGE_PLUGINS variable
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)
