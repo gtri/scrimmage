@@ -117,7 +117,7 @@ class AirSimSensor : public scrimmage::Sensor {
 
     bool save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, StatePtr& state);
 
-    bool save_airsim_data_; // should be set to false by default but xml isn't working
+    bool save_airsim_data_ = false; // should be set to false by default but xml isn't working
     int airsim_frame_num_ = 0;
     scrimmage::CSV csv;
 

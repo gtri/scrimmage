@@ -185,8 +185,8 @@ void AirSimSensor::request_images() {
             cv::Mat img(c.height, c.width, CV_8UC4);
 
             // get uncompressed rgba array bytes
-            const int cam_forw = c.number; // AirSim v1.1.8
-            // const std::string& cam_forw = c.name; // AirSim v1.2.0
+            // const int cam_forw = c.number; // AirSim v1.1.8
+            const std::string& cam_forw = c.name; // AirSim v1.2.2
             std::vector<ma::ImageCaptureBase::ImageRequest> request = {
                 ma::ImageCaptureBase::ImageRequest(
                     cam_forw, c.img_type, false, false
@@ -205,7 +205,7 @@ void AirSimSensor::request_images() {
 
                 AirSimSensorType a;
                 a.camera_config = c;
-                cv::cvtColor(img, a.img, CV_RGBA2BGR, 3);
+                cv::cvtColor(img, a.img, cv::COLOR_RGBA2BGR, 3);
                 msg->data.push_back(a);
             }
         }
@@ -264,7 +264,8 @@ bool AirSimSensor::step() {
                                                       airsim_yaw_rad);
 
     // Send state information to AirSim
-    sim_client_->simSetPose(ma::Pose(pos, qd), true);
+    // sim_client_->simSetPose(ma::Pose(pos, qd), true);
+    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true);
 
     // Get the camera images from the other thread
     sc::MessagePtr<std::vector<AirSimSensorType>> msg;
@@ -298,7 +299,7 @@ bool AirSimSensor::save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, s
 
         // write image
         std::vector<int> compression_params;
-        compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+        compression_params.push_back(cv::IMWRITE_PNG_COMPRESSION);
         compression_params.push_back(9);
         cv::imwrite(img_filename, d.img, compression_params);
     }

@@ -189,6 +189,12 @@ computer. Then build SCRIMMAGE with the AirSim SCRIMMAGE plugin.
 
    .. code-block:: bash
 
+      # If using Ubuntu 16.04, you may need to update to CMake 3.10
+      # https://microsoft.github.io/AirSim/docs/cmake_linux/
+      # Only do this if the AirSim build fails and requests it because it can
+      # interfere with your ROS kinetic installation, read more here:
+      # https://askubuntu.com/questions/829310/how-to-upgrade-cmake-in-ubuntu
+
       # go to folder where you clone GitHub projects
       git clone https://github.com/Microsoft/AirSim.git
       cd AirSim
