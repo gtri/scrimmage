@@ -36,19 +36,19 @@ def create_mission(mission, num, nominal_capture_range, nominal_speed, max_speed
     out_dir = os.path.join(log_dir_node.text, 'optimize' + str(num))
     log_dir_node.text = out_dir
 
+    capture_range = nominal_capture_range * ratio / 5.0
+
     for entity_node in root.findall('entity'):
         autonomy_node = entity_node.find('autonomy')
         if autonomy_node.text == 'Predator':
             ratio = nominal_speed / max_speed
 
             autonomy_node.attrib['max_speed'] = str(max_speed)
-            autonomy_node.attrib['capture_range'] = \
-                str(nominal_capture_range * ratio / 5.0)
+            autonomy_node.attrib['capture_range'] = str(capture_range)
 
     for interaction_node in root.findall('entity_interaction'):
         if interaction_node.text == 'SimpleCapture':
-            interaction_node.attrib['capture_range'] = \
-                str(nominal_capture_range * ratio / 5.0)
+            interaction_node.attrib['capture_range'] = str(capture_range)
 
     out_mission = '.optimize' + str(num) + '.xml'
     tree.write(out_mission)

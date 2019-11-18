@@ -25,7 +25,7 @@ The code for the optimization can be found in ``scripts/optimization_tutorial.py
 To run it you will need to install the python dependences::
 
     sudo apt install python3-sklearn python3-pandas python-numpy
-    sudo pip3 install bayesian-optimization
+    sudo pip3 install bayesian-optimization==0.6.0
 
 You should see about 50 blue vehicles (the prey) and 1 red vehicle (the
 predator). The blue vehicles are running a version of the Reynolds-Boids model
@@ -57,12 +57,12 @@ the library handle this for us. This is the purpose of the WhiteKernel below::
     def main():
         repeats = 100
         cores = 8
-        mission = scrimmage.find_mission('predator_prey_boids.xml')
+        mission = find_mission('predator_prey_boids.xml')
         nominal_capture_range = 5
         nominal_speed = 35
         kappa = 5       # higher is more exploration, less exploitation
 
-        num_samples = 50
+        num_samples = 20
         low_speed = 10
         high_speed = 200
         num_explore_points = 10
@@ -98,15 +98,17 @@ only a function of the optimization variable and calls ``run``::
             create_mission(mission, num, nominal_capture_range,
                            nominal_speed, max_speed)
 
-        scrimmage.parallel(repeats, out_mission, cores)
+        parallel(repeats, out_mission, cores)
 
-        files = [os.path.join(out_dir, d, 'summary.csv')
+        files = [os.path.expanduser(os.path.join(out_dir, d, 'summary.csv'))
                  for d in os.listdir(os.path.expanduser(out_dir))]
 
         scores = []
         for f in files:
             try:
-                scores.append(pd.read_csv(f)['score'].iloc[0])
+                if not os.path.exists(f):
+                    print("{} does not exists".format(f))
+                scores.append(pd.read_csv(f)['score'].sum())
             except (OSError, IndexError):
                 scores.append(0)
         score = np.array(scores).mean()
@@ -146,14 +148,19 @@ functions. Here is the ``create_mission`` function::
         out_dir = os.path.join(log_dir_node.text, 'optimize' + str(num))
         log_dir_node.text = out_dir
 
+        capture_range = nominal_capture_range * ratio / 5.0
+
         for entity_node in root.findall('entity'):
             autonomy_node = entity_node.find('autonomy')
             if autonomy_node.text == 'Predator':
                 ratio = nominal_speed / max_speed
 
                 autonomy_node.attrib['max_speed'] = str(max_speed)
-                autonomy_node.attrib['capture_range'] = \
-                    str(nominal_capture_range * ratio)
+                autonomy_node.attrib['capture_range'] = str(capture_range)
+
+        for interaction_node in root.findall('entity_interaction'):
+            if interaction_node.text == 'SimpleCapture':
+                interaction_node.attrib['capture_range'] = str(capture_range)
 
         out_mission = '.optimize' + str(num) + '.xml'
         tree.write(out_mission)
