@@ -337,7 +337,7 @@ if (BUILD_SOURCE_PACKAGES)
     GIT_REPOSITORY https://github.com/SyllogismRXS/scrimmage-extra-data.git
     GIT_TAG master
     SOURCE_VERSION 0.1
-    PPA_VERSION_NUMBER 6
+    PPA_VERSION_NUMBER 7
     PPA ${PPA}
     GPG_KEY_ID ${GPG_KEY_ID}
     UPDATE_COMMAND ""

@@ -41,6 +41,8 @@
 #include <iostream>
 #include <limits>
 
+#include <boost/algorithm/string/replace.hpp>
+
 using std::cout;
 using std::endl;
 
@@ -59,6 +61,10 @@ GraphvizFSM::GraphvizFSM() {
 void GraphvizFSM::init(std::map<std::string, std::string> &params) {
     print_current_state_ = sc::get<bool>("print_current_state", params, print_current_state_);
     std::string graph_str = sc::get<std::string>("graphviz_fsm", params, "");
+
+    // Replace any ' with " characters. This allows the graphviz_fsm string to
+    // include single quotes instead of having to use &quot;
+    boost::replace_all(graph_str, "'", "\"");
 
     boost::dynamic_properties dp(boost::ignore_other_properties);
 
