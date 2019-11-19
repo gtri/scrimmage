@@ -25,7 +25,7 @@ def create_mission(mission, num, nominal_capture_range, nominal_speed, max_speed
     root = tree.getroot()
 
     seed_node = root.find('seed')
-    if seed_node:
+    if seed_node != None:
         root.remove(seed_node)
 
     run_node = root.find('run')
@@ -37,7 +37,7 @@ def create_mission(mission, num, nominal_capture_range, nominal_speed, max_speed
     log_dir_node.text = out_dir
 
     ratio = nominal_speed / max_speed
-    capture_range = nominal_capture_range * ratio / 5.0
+    capture_range = nominal_capture_range * ratio
 
     for entity_node in root.findall('entity'):
         autonomy_node = entity_node.find('autonomy')
@@ -75,13 +75,14 @@ def run(repeats, cores, mission, num,
             scores.append(pd.read_csv(f)['score'].sum())
         except (OSError, IndexError):
             scores.append(0)
+    # print(scores)
     score = np.array(scores).mean()
 
     return score
 
 
 def main():
-    repeats = 100
+    repeats = 16
     cores = 8
     mission = find_mission('predator_prey_boids.xml')
     nominal_capture_range = 5

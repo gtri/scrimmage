@@ -35,7 +35,7 @@
 
 
 
-  <seed>1</seed>
+  <!-- <seed>1</seed> -->
   <entity>
     <team_id>1</team_id>
     <color>0 0 255</color>
@@ -66,9 +66,6 @@
 
   <entity_common name="predator">
     <health>5</health>
-    <variance_x>40000</variance_x>
-    <variance_y>40000</variance_y>
-    <variance_z>1000</variance_z>
 
     <x>1000</x>
     <y>0</y>

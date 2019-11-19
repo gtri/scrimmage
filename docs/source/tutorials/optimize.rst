@@ -55,7 +55,7 @@ given the repeated runs. However, it is simpler to just let
 the library handle this for us. This is the purpose of the WhiteKernel below::
 
     def main():
-        repeats = 100
+        repeats = 4
         cores = 8
         mission = find_mission('predator_prey_boids.xml')
         nominal_capture_range = 5
@@ -137,7 +137,7 @@ functions. Here is the ``create_mission`` function::
         root = tree.getroot()
 
         seed_node = root.find('seed')
-        if seed_node:
+        if seed_node != None:
             root.remove(seed_node)
 
         run_node = root.find('run')
@@ -149,7 +149,7 @@ functions. Here is the ``create_mission`` function::
         log_dir_node.text = out_dir
 
         ratio = nominal_speed / max_speed
-        capture_range = nominal_capture_range * ratio / 5.0
+        capture_range = nominal_capture_range * ratio
 
         for entity_node in root.findall('entity'):
             autonomy_node = entity_node.find('autonomy')
@@ -171,29 +171,30 @@ We can now run this file and get the following::
     Initialization
     -------------------------------------------
      Step |   Time |      Value |   max_speed | 
-        1 | 00m34s |    0.00000 |     10.0000 | 
-        2 | 00m34s |    1.68317 |     31.1111 | 
-        3 | 00m28s |    7.65347 |     52.2222 | 
-        4 | 00m32s |    7.67327 |     73.3333 | 
-        5 | 00m31s |    6.08911 |     94.4444 | 
-        6 | 00m31s |    4.94059 |    115.5556 | 
-        7 | 00m29s |    3.59406 |    136.6667 | 
-        8 | 00m31s |    2.56436 |    157.7778 | 
-        9 | 00m32s |    2.29703 |    178.8889 | 
-       10 | 00m35s |    2.07921 |    200.0000 | 
-       11 | 00m32s |    0.00000 |     18.4934 | 
+        1 | 05m05s |    0.52941 |     10.0000 | 
+        2 | 04m15s |    1.50000 |     31.1111 | 
+        3 | 04m04s |    6.88235 |     52.2222 | 
+        4 | 04m09s |    6.20000 |     73.3333 | 
+        5 | 04m06s |    6.11765 |     94.4444 | 
+        6 | 04m11s |    5.52941 |    115.5556 | 
+        7 | 04m08s |    6.29412 |    136.6667 | 
+        8 | 04m06s |    5.11765 |    157.7778 | 
+        9 | 04m06s |    6.05882 |    178.8889 | 
+       10 | 04m10s |    4.17647 |    200.0000 | 
+       11 | 04m07s |    5.88235 |     36.7489 | 
     Bayesian Optimization
     -------------------------------------------
      Step |   Time |      Value |   max_speed | 
-       12 | 00m32s |    7.55446 |     62.8933 | 
-       13 | 00m32s |    7.61386 |     68.0475 | 
-       14 | 00m35s |    8.17822 |     65.6019 | 
-       15 | 00m35s |    7.87129 |     64.1568 | 
-       16 | 00m33s |    7.79208 |     63.3237 | 
-       17 | 00m35s |    8.00000 |     63.1199 | 
-       18 | 00m33s |    7.99010 |     62.5929 | 
-       19 | 00m34s |    7.47525 |     62.2671 | 
-       20 | 00m34s |    7.87129 |     63.8412 |
+       12 | 04m08s |    6.62500 |    114.1056 | 
+       13 | 04m09s |    5.81250 |    111.5516 | 
+       14 | 04m08s |    6.64706 |    110.5069 | 
+       15 | 04m06s |    7.76471 |     82.7220 | 
+       16 | 04m08s |    7.35294 |     79.4004 | 
+       17 | 04m09s |    6.41176 |     78.4301 | 
+       18 | 04m07s |    6.11765 |     79.6248 | 
+       19 | 04m08s |    7.05882 |     81.1437 | 
+       20 | 04m06s |    6.58824 |     80.4494 | 
+       21 | 04m09s |    6.35294 |     80.4652 |
 
 The best speed found so far is 65.6019 (note that we could have had more
 exploration by setting ``kappa`` to something higher). We can either continue
