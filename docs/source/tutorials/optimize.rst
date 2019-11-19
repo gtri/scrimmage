@@ -55,7 +55,7 @@ given the repeated runs. However, it is simpler to just let
 the library handle this for us. This is the purpose of the WhiteKernel below::
 
     def main():
-        repeats = 4
+        repeats = 16
         cores = 8
         mission = find_mission('predator_prey_boids.xml')
         nominal_capture_range = 5
