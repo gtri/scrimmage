@@ -20,10 +20,11 @@ def create_node(tag, text):
 
 
 def create_mission(mission, num, nominal_capture_range, nominal_speed, max_speed):
-
+    """Modify the mission xml with custom parameters"""
     tree = ET.parse(mission)
     root = tree.getroot()
 
+    # Removes the seed for each run
     seed_node = root.find('seed')
     if seed_node != None:
         root.remove(seed_node)
@@ -39,6 +40,7 @@ def create_mission(mission, num, nominal_capture_range, nominal_speed, max_speed
     ratio = nominal_speed / max_speed
     capture_range = nominal_capture_range * ratio
 
+    # Applies the max_speed and capture_range attributes to the Predator and SimpleCapture
     for entity_node in root.findall('entity'):
         autonomy_node = entity_node.find('autonomy')
         if autonomy_node.text == 'Predator':
@@ -57,13 +59,14 @@ def create_mission(mission, num, nominal_capture_range, nominal_speed, max_speed
 
 def run(repeats, cores, mission, num,
         nominal_capture_range, nominal_speed, max_speed):
-
+    """Runs the missions and aggragate the data from each summary.csv"""
     out_dir, out_mission = \
         create_mission(mission, num, nominal_capture_range,
                        nominal_speed, max_speed)
 
     parallel(repeats, out_mission, cores)
 
+    # Finds and aggragates the score
     files = [os.path.expanduser(os.path.join(out_dir, d, 'summary.csv'))
              for d in os.listdir(os.path.expanduser(out_dir))]
 
@@ -75,7 +78,6 @@ def run(repeats, cores, mission, num,
             scores.append(pd.read_csv(f)['score'].sum())
         except (OSError, IndexError):
             scores.append(0)
-    # print(scores)
     score = np.array(scores).mean()
 
     return score
