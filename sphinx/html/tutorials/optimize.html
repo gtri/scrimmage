@@ -200,7 +200,7 @@ for details).</p>
 <p>The code for the optimization can be found in <code class="docutils literal notranslate"><span class="pre">scripts/optimization_tutorial.py</span></code>.
 To run it you will need to install the python dependences:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">sklearn</span> <span class="n">python3</span><span class="o">-</span><span class="n">pandas</span> <span class="n">python</span><span class="o">-</span><span class="n">numpy</span>
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">bayesian</span><span class="o">-</span><span class="n">optimization</span>
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">bayesian</span><span class="o">-</span><span class="n">optimization</span><span class="o">==</span><span class="mf">0.6</span><span class="o">.</span><span class="mi">0</span>
 </pre></div>
 </div>
 <p>You should see about 50 blue vehicles (the prey) and 1 red vehicle (the
@@ -228,14 +228,14 @@ this approach since we can estimate the variance of an output
 given the repeated runs. However, it is simpler to just let
 the library handle this for us. This is the purpose of the WhiteKernel below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">repeats</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">repeats</span> <span class="o">=</span> <span class="mi">16</span>
     <span class="n">cores</span> <span class="o">=</span> <span class="mi">8</span>
-    <span class="n">mission</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">.</span><span class="n">find_mission</span><span class="p">(</span><span class="s1">&#39;predator_prey_boids.xml&#39;</span><span class="p">)</span>
+    <span class="n">mission</span> <span class="o">=</span> <span class="n">find_mission</span><span class="p">(</span><span class="s1">&#39;predator_prey_boids.xml&#39;</span><span class="p">)</span>
     <span class="n">nominal_capture_range</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">nominal_speed</span> <span class="o">=</span> <span class="mi">35</span>
     <span class="n">kappa</span> <span class="o">=</span> <span class="mi">5</span>       <span class="c1"># higher is more exploration, less exploitation</span>
 
-    <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">low_speed</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">high_speed</span> <span class="o">=</span> <span class="mi">200</span>
     <span class="n">num_explore_points</span> <span class="o">=</span> <span class="mi">10</span>
@@ -266,20 +266,23 @@ the Gaussian Process. <code class="docutils literal notranslate"><span class="pr
 only a function of the optimization variable and calls <code class="docutils literal notranslate"><span class="pre">run</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span>
         <span class="n">nominal_capture_range</span><span class="p">,</span> <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">):</span>
-
+    <span class="sd">&quot;&quot;&quot;Runs the missions and aggragate the data from each summary.csv&quot;&quot;&quot;</span>
     <span class="n">out_dir</span><span class="p">,</span> <span class="n">out_mission</span> <span class="o">=</span> \
         <span class="n">create_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">nominal_capture_range</span><span class="p">,</span>
                        <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">)</span>
 
-    <span class="n">scrimmage</span><span class="o">.</span><span class="n">parallel</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">out_mission</span><span class="p">,</span> <span class="n">cores</span><span class="p">)</span>
+    <span class="n">parallel</span><span class="p">(</span><span class="n">repeats</span><span class="p">,</span> <span class="n">out_mission</span><span class="p">,</span> <span class="n">cores</span><span class="p">)</span>
 
-    <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;summary.csv&#39;</span><span class="p">)</span>
+    <span class="c1"># Finds and aggragates the score</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;summary.csv&#39;</span><span class="p">))</span>
              <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">out_dir</span><span class="p">))]</span>
 
     <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> does not exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
             <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -303,12 +306,13 @@ functions. Here is the <code class="docutils literal notranslate"><span class="p
 
 
 <span class="k">def</span> <span class="nf">create_mission</span><span class="p">(</span><span class="n">mission</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">nominal_capture_range</span><span class="p">,</span> <span class="n">nominal_speed</span><span class="p">,</span> <span class="n">max_speed</span><span class="p">):</span>
-
+    <span class="sd">&quot;&quot;&quot;Modify the mission xml with custom parameters&quot;&quot;&quot;</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">mission</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
 
+    <span class="c1"># Removes the seed for each run</span>
     <span class="n">seed_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">seed_node</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">seed_node</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">root</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">seed_node</span><span class="p">)</span>
 
     <span class="n">run_node</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)</span>
@@ -319,14 +323,19 @@ functions. Here is the <code class="docutils literal notranslate"><span class="p
     <span class="n">out_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir_node</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;optimize&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
     <span class="n">log_dir_node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">out_dir</span>
 
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">nominal_speed</span> <span class="o">/</span> <span class="n">max_speed</span>
+    <span class="n">capture_range</span> <span class="o">=</span> <span class="n">nominal_capture_range</span> <span class="o">*</span> <span class="n">ratio</span>
+
+    <span class="c1"># Applies the max_speed and capture_range attributes to the Predator and SimpleCapture</span>
     <span class="k">for</span> <span class="n">entity_node</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">):</span>
         <span class="n">autonomy_node</span> <span class="o">=</span> <span class="n">entity_node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;autonomy&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">autonomy_node</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;Predator&#39;</span><span class="p">:</span>
-            <span class="n">ratio</span> <span class="o">=</span> <span class="n">nominal_speed</span> <span class="o">/</span> <span class="n">max_speed</span>
-
             <span class="n">autonomy_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;max_speed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_speed</span><span class="p">)</span>
-            <span class="n">autonomy_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;capture_range&#39;</span><span class="p">]</span> <span class="o">=</span> \
-                <span class="nb">str</span><span class="p">(</span><span class="n">nominal_capture_range</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
+            <span class="n">autonomy_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;capture_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">capture_range</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">interaction_node</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;entity_interaction&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">interaction_node</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;SimpleCapture&#39;</span><span class="p">:</span>
+            <span class="n">interaction_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;capture_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">capture_range</span><span class="p">)</span>
 
     <span class="n">out_mission</span> <span class="o">=</span> <span class="s1">&#39;.optimize&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span>
     <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out_mission</span><span class="p">)</span>
@@ -338,29 +347,30 @@ functions. Here is the <code class="docutils literal notranslate"><span class="p
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Initialization</span>
 <span class="o">-------------------------------------------</span>
  <span class="n">Step</span> <span class="o">|</span>   <span class="n">Time</span> <span class="o">|</span>      <span class="n">Value</span> <span class="o">|</span>   <span class="n">max_speed</span> <span class="o">|</span>
-    <span class="mi">1</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">0.00000</span> <span class="o">|</span>     <span class="mf">10.0000</span> <span class="o">|</span>
-    <span class="mi">2</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">1.68317</span> <span class="o">|</span>     <span class="mf">31.1111</span> <span class="o">|</span>
-    <span class="mi">3</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m28s</span> <span class="o">|</span>    <span class="mf">7.65347</span> <span class="o">|</span>     <span class="mf">52.2222</span> <span class="o">|</span>
-    <span class="mi">4</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">7.67327</span> <span class="o">|</span>     <span class="mf">73.3333</span> <span class="o">|</span>
-    <span class="mi">5</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m31s</span> <span class="o">|</span>    <span class="mf">6.08911</span> <span class="o">|</span>     <span class="mf">94.4444</span> <span class="o">|</span>
-    <span class="mi">6</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m31s</span> <span class="o">|</span>    <span class="mf">4.94059</span> <span class="o">|</span>    <span class="mf">115.5556</span> <span class="o">|</span>
-    <span class="mi">7</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m29s</span> <span class="o">|</span>    <span class="mf">3.59406</span> <span class="o">|</span>    <span class="mf">136.6667</span> <span class="o">|</span>
-    <span class="mi">8</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m31s</span> <span class="o">|</span>    <span class="mf">2.56436</span> <span class="o">|</span>    <span class="mf">157.7778</span> <span class="o">|</span>
-    <span class="mi">9</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">2.29703</span> <span class="o">|</span>    <span class="mf">178.8889</span> <span class="o">|</span>
-   <span class="mi">10</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">2.07921</span> <span class="o">|</span>    <span class="mf">200.0000</span> <span class="o">|</span>
-   <span class="mi">11</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">0.00000</span> <span class="o">|</span>     <span class="mf">18.4934</span> <span class="o">|</span>
+    <span class="mi">1</span> <span class="o">|</span> <span class="mi">05</span><span class="n">m05s</span> <span class="o">|</span>    <span class="mf">0.52941</span> <span class="o">|</span>     <span class="mf">10.0000</span> <span class="o">|</span>
+    <span class="mi">2</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m15s</span> <span class="o">|</span>    <span class="mf">1.50000</span> <span class="o">|</span>     <span class="mf">31.1111</span> <span class="o">|</span>
+    <span class="mi">3</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m04s</span> <span class="o">|</span>    <span class="mf">6.88235</span> <span class="o">|</span>     <span class="mf">52.2222</span> <span class="o">|</span>
+    <span class="mi">4</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m09s</span> <span class="o">|</span>    <span class="mf">6.20000</span> <span class="o">|</span>     <span class="mf">73.3333</span> <span class="o">|</span>
+    <span class="mi">5</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m06s</span> <span class="o">|</span>    <span class="mf">6.11765</span> <span class="o">|</span>     <span class="mf">94.4444</span> <span class="o">|</span>
+    <span class="mi">6</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m11s</span> <span class="o">|</span>    <span class="mf">5.52941</span> <span class="o">|</span>    <span class="mf">115.5556</span> <span class="o">|</span>
+    <span class="mi">7</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m08s</span> <span class="o">|</span>    <span class="mf">6.29412</span> <span class="o">|</span>    <span class="mf">136.6667</span> <span class="o">|</span>
+    <span class="mi">8</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m06s</span> <span class="o">|</span>    <span class="mf">5.11765</span> <span class="o">|</span>    <span class="mf">157.7778</span> <span class="o">|</span>
+    <span class="mi">9</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m06s</span> <span class="o">|</span>    <span class="mf">6.05882</span> <span class="o">|</span>    <span class="mf">178.8889</span> <span class="o">|</span>
+   <span class="mi">10</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m10s</span> <span class="o">|</span>    <span class="mf">4.17647</span> <span class="o">|</span>    <span class="mf">200.0000</span> <span class="o">|</span>
+   <span class="mi">11</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m07s</span> <span class="o">|</span>    <span class="mf">5.88235</span> <span class="o">|</span>     <span class="mf">36.7489</span> <span class="o">|</span>
 <span class="n">Bayesian</span> <span class="n">Optimization</span>
 <span class="o">-------------------------------------------</span>
  <span class="n">Step</span> <span class="o">|</span>   <span class="n">Time</span> <span class="o">|</span>      <span class="n">Value</span> <span class="o">|</span>   <span class="n">max_speed</span> <span class="o">|</span>
-   <span class="mi">12</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">7.55446</span> <span class="o">|</span>     <span class="mf">62.8933</span> <span class="o">|</span>
-   <span class="mi">13</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m32s</span> <span class="o">|</span>    <span class="mf">7.61386</span> <span class="o">|</span>     <span class="mf">68.0475</span> <span class="o">|</span>
-   <span class="mi">14</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">8.17822</span> <span class="o">|</span>     <span class="mf">65.6019</span> <span class="o">|</span>
-   <span class="mi">15</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">7.87129</span> <span class="o">|</span>     <span class="mf">64.1568</span> <span class="o">|</span>
-   <span class="mi">16</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m33s</span> <span class="o">|</span>    <span class="mf">7.79208</span> <span class="o">|</span>     <span class="mf">63.3237</span> <span class="o">|</span>
-   <span class="mi">17</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m35s</span> <span class="o">|</span>    <span class="mf">8.00000</span> <span class="o">|</span>     <span class="mf">63.1199</span> <span class="o">|</span>
-   <span class="mi">18</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m33s</span> <span class="o">|</span>    <span class="mf">7.99010</span> <span class="o">|</span>     <span class="mf">62.5929</span> <span class="o">|</span>
-   <span class="mi">19</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">7.47525</span> <span class="o">|</span>     <span class="mf">62.2671</span> <span class="o">|</span>
-   <span class="mi">20</span> <span class="o">|</span> <span class="mi">00</span><span class="n">m34s</span> <span class="o">|</span>    <span class="mf">7.87129</span> <span class="o">|</span>     <span class="mf">63.8412</span> <span class="o">|</span>
+   <span class="mi">12</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m08s</span> <span class="o">|</span>    <span class="mf">6.62500</span> <span class="o">|</span>    <span class="mf">114.1056</span> <span class="o">|</span>
+   <span class="mi">13</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m09s</span> <span class="o">|</span>    <span class="mf">5.81250</span> <span class="o">|</span>    <span class="mf">111.5516</span> <span class="o">|</span>
+   <span class="mi">14</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m08s</span> <span class="o">|</span>    <span class="mf">6.64706</span> <span class="o">|</span>    <span class="mf">110.5069</span> <span class="o">|</span>
+   <span class="mi">15</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m06s</span> <span class="o">|</span>    <span class="mf">7.76471</span> <span class="o">|</span>     <span class="mf">82.7220</span> <span class="o">|</span>
+   <span class="mi">16</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m08s</span> <span class="o">|</span>    <span class="mf">7.35294</span> <span class="o">|</span>     <span class="mf">79.4004</span> <span class="o">|</span>
+   <span class="mi">17</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m09s</span> <span class="o">|</span>    <span class="mf">6.41176</span> <span class="o">|</span>     <span class="mf">78.4301</span> <span class="o">|</span>
+   <span class="mi">18</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m07s</span> <span class="o">|</span>    <span class="mf">6.11765</span> <span class="o">|</span>     <span class="mf">79.6248</span> <span class="o">|</span>
+   <span class="mi">19</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m08s</span> <span class="o">|</span>    <span class="mf">7.05882</span> <span class="o">|</span>     <span class="mf">81.1437</span> <span class="o">|</span>
+   <span class="mi">20</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m06s</span> <span class="o">|</span>    <span class="mf">6.58824</span> <span class="o">|</span>     <span class="mf">80.4494</span> <span class="o">|</span>
+   <span class="mi">21</span> <span class="o">|</span> <span class="mi">04</span><span class="n">m09s</span> <span class="o">|</span>    <span class="mf">6.35294</span> <span class="o">|</span>     <span class="mf">80.4652</span> <span class="o">|</span>
 </pre></div>
 </div>
 <p>The best speed found so far is 65.6019 (note that we could have had more
