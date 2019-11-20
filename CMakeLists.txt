@@ -273,7 +273,7 @@ option(BUILD_ROS_PLUGINS "BUILD_ROS_PLUGINS" OFF)
 if (BUILD_ROS_PLUGINS)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/kinetic)
   find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs std_msgs
-    geometry_msgs nav_msgs tf)
+    geometry_msgs nav_msgs tf image_transport cv_bridge)
   if (catkin_FOUND)
     include_directories(${catkin_INCLUDE_DIRS})
   endif()
