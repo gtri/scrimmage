@@ -52,7 +52,7 @@ void DLL_PUBLIC to_continuous(
         pybind11::list &minima,
         pybind11::list &maxima);
 
-void DLL_PUBLIC to_discrete(std::vector<double> &p, pybind11::list &maxima);
+void DLL_PUBLIC to_discrete(std::vector<int> &p, pybind11::list &maxima);
 
 pybind11::object DLL_PUBLIC create_space(
         pybind11::list discrete_maxima,
