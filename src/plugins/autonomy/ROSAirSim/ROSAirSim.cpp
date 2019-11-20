@@ -32,21 +32,17 @@
 
 #include <scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h>
 
+#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
-#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
-
-#include <cv_bridge/cv_bridge.h>
-
 #include <iostream>
 #include <limits>
+
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 using std::cout;
 using std::endl;
@@ -105,8 +101,6 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         }
     };
     subscribe<std::vector<sensor::AirSimSensorType>>("LocalNetwork", "AirSim", airsim_cb);
-
-
 }
 
 bool ROSAirSim::step_autonomy(double t, double dt) {
