@@ -270,8 +270,9 @@ endif()
 # Find ROS
 ########################################################
 option(BUILD_ROS_PLUGINS "BUILD_ROS_PLUGINS" OFF)
+set(ROS_VERSION "kinetic" CACHE STRING "The ROS distribution version.")
 if (BUILD_ROS_PLUGINS)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/kinetic)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/${ROS_VERSION}/)
   find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs std_msgs
     geometry_msgs nav_msgs tf image_transport cv_bridge)
   if (catkin_FOUND)
