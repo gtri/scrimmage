@@ -6,4 +6,6 @@
   <my_test_int>0</my_test_int>
   <my_test_float>1.0</my_test_float>
   <my_test_double>100.0</my_test_double>
+
+  <csv_file_name>api_tester.csv</csv_file_name>
 </params>
