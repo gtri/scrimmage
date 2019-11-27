@@ -102,7 +102,14 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
     }
 
     exec_->SetDebugLevel(0);
-    exec_->SetRootDir(SGPath(info["JSBSIM_ROOT"]));
+
+    std::string jsbsim_root_dir = get<std::string>("jsbsim_root", params, info["JSBSIM_ROOT"]);
+    if (jsbsim_root_dir == "") {
+        exec_->SetRootDir(SGPath(info["JSBSIM_ROOT"]));
+    } else {
+        exec_->SetRootDir(SGPath(jsbsim_root_dir));
+    }
+
     exec_->SetAircraftPath(SGPath("aircraft"));
     exec_->SetEnginePath(SGPath("engine"));
     exec_->SetSystemsPath(SGPath("systems"));
