@@ -15,6 +15,8 @@
   <yaw_ki>0.5</yaw_ki>
   <yaw_kd>0</yaw_kd>
 
+  <jsbsim_root></jsbsim_root>
+
   <flightgear_output_enable>false</flightgear_output_enable>
   <flightgear_ip>localhost</flightgear_ip>
   <flightgear_port>5600</flightgear_port>

@@ -74,8 +74,10 @@ void APITester::init(std::map<std::string, std::string> &params) {
     my_test_float_ = sc::get<float>("my_test_float", params, my_test_float_);
     my_test_double_ = sc::get<double>("my_test_double", params, my_test_double_);
 
+    std::string csv_file_name = sc::get<std::string>("csv_file_name", params, "api_tester.csv");
+
     // Create the csv for saving the variable values
-    if (!csv_.open_output(parent_->mp()->log_dir() + "/api_tester.csv")) {
+    if (!csv_.open_output(parent_->mp()->log_dir() + "/" + csv_file_name)) {
         std::cout << "APITest: Couldn't create output file" << endl;
     }
     csv_.set_column_headers("my_test_bool, my_test_int, my_test_float, my_test_double");
