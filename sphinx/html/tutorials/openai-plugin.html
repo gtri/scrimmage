@@ -830,7 +830,7 @@ reward. We will save this python file at
             <span class="n">entry_point</span><span class="o">=</span><span class="s1">&#39;scrimmage.bindings:ScrimmageOpenAIEnv&#39;</span><span class="p">,</span>
             <span class="n">max_episode_steps</span><span class="o">=</span><span class="mf">1e9</span><span class="p">,</span>
             <span class="n">reward_threshold</span><span class="o">=</span><span class="mf">1e9</span><span class="p">,</span>
-            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;enable_gui&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;enable_gui&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                     <span class="s2">&quot;mission_file&quot;</span><span class="p">:</span> <span class="n">mission_file</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;scrimmage-v0&#39;</span><span class="p">)</span>
@@ -854,7 +854,7 @@ reward. We will save this python file at
             <span class="k">break</span>
 
     <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total Reward: </span><span class="si">%2.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">total_reward</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total Reward: </span><span class="si">%2.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">total_reward</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">test_openai</span><span class="p">()</span>
