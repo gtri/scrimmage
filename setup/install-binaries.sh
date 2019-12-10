@@ -59,6 +59,8 @@ EOF
 # Add new dependencies here.
 ###################################################################
 # Dependencies only for Ubuntu
+UBUNTU_VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -d '=' -f 2)
+
 DEPS_DPKG=(
     sudo
     git
@@ -92,8 +94,12 @@ if ( [ "$1" != "--external" ] ) && ( [ "$3" != "--external" ] ); then
         doxygen
         libopencv-dev
         libvtk6-dev
-        tcl-vtk
     )
+    if [ "18.04" == ${UBUNTU_VERSION} ]; then
+        DEPS_DPKG+=(tcl-vtk7)
+    else
+        DEPS_DPKG+=tcl-vtk
+    fi
 fi
 
 PYTHON_VERSION="a"
@@ -143,10 +149,11 @@ fi
 # Ubuntu
 if which apt-get &> /dev/null; then
     DEPENDENCIES=("${DEPS_COMMON[@]}" "${DEPS_DPKG[@]}")
-    UBUNTU_VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -d '=' -f 2)
     if [ "14.04" == ${UBUNTU_VERSION} ]; then
         DEPENDENCIES+=(python-wxgtk2.8)
     elif [ "16.04" == ${UBUNTU_VERSION} ]; then
+        DEPENDENCIES+=(python-wxgtk3.0)
+    elif [ "18.04" == ${UBUNTU_VERSION} ]; then
         DEPENDENCIES+=(python-wxgtk3.0)
     fi
     echo "This is Ubuntu. Using dpkg."
