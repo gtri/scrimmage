@@ -20,4 +20,6 @@ else()
   set(AIRSIM_INCLUDE_DIRS ${AIRSIM_SOURCE_ROOT}/AirLib/include ${AIRSIM_SOURCE_ROOT}/external/rpclib/rpclib-2.2.1/include)
   set(AIRSIM_LIBRARIES "${AIRSIM_SOURCE_ROOT}/AirLib/lib/libAirLib.a"
     "${AIRSIM_SOURCE_ROOT}/AirLib/deps/rpclib/lib/librpc.a")
+  # set(AIRSIM_LIBRARIES "${AIRSIM_SOURCE_ROOT}/cmake/output/lib/libAirLib.a"
+  #   "${AIRSIM_SOURCE_ROOT}/cmake/output/lib/librpc.a")
 endif()

@@ -54,7 +54,7 @@
 
     <x>0</x>
     <y>0</y>
-    <z>100</z>
+    <z>10</z> <!-- LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
     <heading>0</heading>
 
     <sensor airsim_ip="10.108.21.246"

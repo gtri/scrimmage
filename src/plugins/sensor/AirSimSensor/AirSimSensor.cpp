@@ -76,7 +76,7 @@ namespace scrimmage {
 namespace sensor {
 
 AirSimSensor::AirSimSensor() : client_connected_(false),
-    airsim_ip_("localhost"), airsim_port_(41451), airsim_timeout_ms_(60000) {
+    airsim_ip_("localhost"), airsim_port_(41451), airsim_timeout_s_(60) {
 
     enu_to_ned_yaw_.set_input_clock_direction(ang::Rotate::CCW);
     enu_to_ned_yaw_.set_input_zero_axis(ang::HeadingZero::Pos_X);
@@ -87,7 +87,7 @@ AirSimSensor::AirSimSensor() : client_connected_(false),
 void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
     airsim_port_ = sc::get<int>("airsim_port", params, 41451);
-    airsim_timeout_ms_ = sc::get<int>("airsim_timeout_ms", params, 60000);
+    airsim_timeout_s_ = sc::get<int>("airsim_timeout_ms", params, 60);
     save_airsim_data_ = sc::get<int>("save_airsim_data", params, save_airsim_data_);
 
     // Parse the camera config string.
@@ -159,10 +159,10 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
 }
 
 void AirSimSensor::request_images() {
-    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> img_client =
+    std::shared_ptr<ma::RpcLibClientBase> img_client =
         std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                      airsim_port_,
-                                                     airsim_timeout_ms_);
+                                                     airsim_timeout_s_);
     bool connected = false;
     while (!connected) {
         img_client->confirmConnection();
@@ -179,35 +179,69 @@ void AirSimSensor::request_images() {
     running_mutex_.lock();
     bool running = running_;
     running_mutex_.unlock();
+
+    typedef ma::ImageCaptureBase::ImageRequest ImageRequest;
+    typedef ma::ImageCaptureBase::ImageResponse ImageResponse;
+    typedef ma::ImageCaptureBase::ImageType ImageType;
+
+    // Need to figure out how to pull vehicle names from settings.json file
+    //const std::string& vehicle_name = "Drone1";
+
     while (running) {
         auto msg = std::make_shared<sc::Message<std::vector<AirSimSensorType>>>();
         for (CameraConfig c : cam_configs_) {
-            cv::Mat img(c.height, c.width, CV_8UC4);
+            // cv::Mat img(c.height, c.width, CV_8UC3);
 
             // get uncompressed rgba array bytes
             // const int cam_forw = c.number; // AirSim v1.1.8
             const std::string& cam_forw = c.name; // AirSim v1.2.2
-            std::vector<ma::ImageCaptureBase::ImageRequest> request = {
-                ma::ImageCaptureBase::ImageRequest(
-                    cam_forw, c.img_type, false, false
-                    )
-            };
+            cout << cam_forw << endl;
 
-            const std::vector<ma::ImageCaptureBase::ImageResponse>& response
-                = img_client->simGetImages(request);
+            // Depth Images (Depth Perspective and Depth Plannar) need to come in as float
+            std::vector<ImageRequest> request;
+            if (c.img_type_name == "DepthPerspective") {
+                request = {ImageRequest(cam_forw, c.img_type, true, false)};
+                cout << "Here 2: DepthPerspective" << endl;
+            }
+            else {
+                request = {ImageRequest(cam_forw, c.img_type, false, false)};
+                cout << "Here 3: Scene, etc." << endl;
+            }
+
+            //const std::vector<ImageResponse>& response  = img_client->simGetImages(request, vehicle_name);
+            const std::vector<ImageResponse>& response  = img_client->simGetImages(request);
+            cout << "response size:" << response.size() << endl;
 
             if (response.size() > 0) {
-                auto& im_vec = response[0].image_data_uint8;
-
-                // todo, no memcpy, just set image ptr to underlying data then do conversion
-                // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
-                memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
-
                 AirSimSensorType a;
                 a.camera_config = c;
-                cv::cvtColor(img, a.img, cv::COLOR_RGBA2BGR, 3);
+                if (c.img_type_name == "DepthPerspective") {
+                    cv::Mat img(c.height, c.width, CV_32FC1);
+                    auto& im_vec = response.at(0).image_data_float;
+                    cout << "response[0] size:" << im_vec.size() << endl;
+                    // todo, no memcpy, just set image ptr to underlying data then do conversion
+                    // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
+                    memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
+                    cv::cvtColor(img, a.img, cv::COLOR_GRAY2RGB, 3);
+                }
+                else {
+                    cv::Mat img(c.height, c.width, CV_8UC3);
+                    auto& im_vec = response.at(0).image_data_uint8;
+                    cout << "response[0] size:" << im_vec.size() << endl;
+
+                    // todo, no memcpy, just set image ptr to underlying data then do conversion
+                    // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
+                    memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
+                    a.img = img;
+                }
+
+                //AirSimSensorType a;
+                //a.camera_config = c;
+                //cv::cvtColor(img, a.img, cv::COLOR_RGB2BGR, 3); // AirSim v1.1.8
+                //a.img = img;
                 msg->data.push_back(a);
             }
+
         }
         img_msg_mutex_.lock();
         img_msg_ = msg;
@@ -226,11 +260,14 @@ bool AirSimSensor::step() {
 
     // If we aren't connected to AirSim, try to connect.
     if (!client_connected_) {
-        cout << "Connecting to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << endl;
+        cout << "Connecting to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << ", timeout " << airsim_timeout_s_ << endl;
         sim_client_ = std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                                    airsim_port_,
-                                                                   airsim_timeout_ms_);
+                                                                   airsim_timeout_s_);
+        //cout << "Here 2" << endl;
+
         sim_client_->confirmConnection();
+        //cout << "Here 3" << endl;
 
         // If we haven't been able to connect to AirSim, warn the user and return.
         if (sim_client_->getConnectionState() !=
@@ -264,8 +301,8 @@ bool AirSimSensor::step() {
                                                       airsim_yaw_rad);
 
     // Send state information to AirSim
-    // sim_client_->simSetPose(ma::Pose(pos, qd), true);
-    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true);
+    // sim_client_->simSetPose(ma::Pose(pos, qd), true);   // AirSim v1.1.8
+    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true);  // AirSim v1.2.2
 
     // Get the camera images from the other thread
     sc::MessagePtr<std::vector<AirSimSensorType>> msg;

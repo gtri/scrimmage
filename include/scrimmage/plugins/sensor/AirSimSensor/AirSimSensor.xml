@@ -5,20 +5,20 @@
 
   <airsim_ip>127.0.0.1</airsim_ip>
   <airsim_port>41451</airsim_port>
-  <airsim_timeout_ms>60000</airsim_timeout_ms>
+  <airsim_timeout_s>60</airsim_timeout_s>
 
   <!--
-      [CameraName ImageType CameraNumber Width Height]
+      [CameraID=forward=0 ImageType CameraNumber=ImageTypeValue Width Height]
 
       AirSim Image Types:
       Scene, DepthPlanner, DepthPerspective, DepthVis, DisparityNormalized,
       Segmentation, SurfaceNormals
-      Example: [Forward Scene 0 256 144] [Downward Scene 3 256 144]
+      Example: [Forward=0 Scene 0 256 144] [Downward Scene 3 256 144]
   -->
   <camera_config>
-    [SceneForward Scene 0 256 144]
-    [Segmentation Segmentation 0 256 144]
-    [DepthPerspective DepthPerspective 0 256 144]
+    [0 Scene 0 256 144]
+    [0 DepthPerspective 2 256 144]
+    [0 Segmentation 5 256 144]
   </camera_config>
 
   <!--

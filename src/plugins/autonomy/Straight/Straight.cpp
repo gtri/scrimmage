@@ -155,7 +155,9 @@ void Straight::init(std::map<std::string, std::string> &params) {
     auto airsim_cb = [&](auto &msg) {
         for (sc::sensor::AirSimSensorType a : msg->data) {
             if (show_camera_images_) {
-                cv::imshow(a.camera_config.name.c_str(), a.img);
+                // std::string window_name = a.camera_config.name + a.camera_config.img_type_name;
+                // cv::imshow(window_name, a.img);
+                cv::imshow(a.camera_config.img_type_name.c_str(), a.img);
                 cv::waitKey(1);
             }
         }

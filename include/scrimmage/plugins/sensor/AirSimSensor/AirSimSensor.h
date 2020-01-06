@@ -69,8 +69,8 @@ class CameraConfig {
 
         std::string name = "none";
         int number = 0;
-        int height = 144;
-        int width = 256;
+        int height = 144; //144 //288
+        int width = 256; //256 //512
         std::string img_type_name = "none";
 
         friend std::ostream& operator<<(std::ostream& os,
@@ -106,11 +106,12 @@ class AirSimSensor : public scrimmage::Sensor {
     bool running_ = true;
     std::mutex running_mutex_;
 
-    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
+//    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
+    std::shared_ptr<msr::airlib::RpcLibClientBase> sim_client_;
     bool client_connected_;
     std::string airsim_ip_;
-    int airsim_port_;
-    int airsim_timeout_ms_;
+    uint16_t airsim_port_;
+    float airsim_timeout_s_;
     std::list<CameraConfig> cam_configs_;
     scrimmage::Angles enu_to_ned_yaw_;
     PublisherPtr pub_;
