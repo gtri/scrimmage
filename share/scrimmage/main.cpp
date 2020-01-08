@@ -129,6 +129,11 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    // Overwrite mission parameters from command line
+    if (task_id != -1) simcontrol.mp()->set_task_number(task_id);
+    if (job_id != -1) simcontrol.mp()->set_job_number(job_id);
+    simcontrol.mp()->set_overrides(overrides);
+
     // Load in the mission file and parse mission parameters
     std::string mission_file = argv[optind];
     if (not simcontrol.init(mission_file)) {
@@ -137,10 +142,6 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    // Overwrite mission parameters from command line
-    if (task_id != -1) simcontrol.mp()->set_task_number(task_id);
-    if (job_id != -1) simcontrol.mp()->set_job_number(job_id);
-    simcontrol.mp()->set_overrides(overrides);
     if (seed_set) simcontrol.mp()->params()["seed"] = seed;
 
     simcontrol.send_terrain();

@@ -122,11 +122,11 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     ros::spinOnce(); // check for new ROS messages
 
     // Convert scrimmage point cloud into ROS laser scan message
-    double fov_half = pcl_.num_rays_horiz * pcl_.angle_res_horiz / 2.0;
+    // double fov_half = pcl_.num_rays_horiz * pcl_.angle_res_horiz / 2.0;
     sensor_msgs::LaserScan laser_msg;
-    laser_msg.angle_min = -fov_half;
-    laser_msg.angle_max = fov_half;
-    laser_msg.angle_increment = pcl_.angle_res_horiz;
+    // laser_msg.angle_min = -fov_half;
+    // laser_msg.angle_max = fov_half;
+    // laser_msg.angle_increment = pcl_.angle_res_horiz;
     laser_msg.time_increment = 0;
     laser_msg.scan_time = 0;
     laser_msg.range_min = pcl_.min_range;
