@@ -69,8 +69,8 @@ class CameraConfig {
 
         std::string name = "none";
         int number = 0;
-        int height = 144; //144 //288
-        int width = 256; //256 //512
+        int height = 144; // 288
+        int width = 256;  // 512
         std::string img_type_name = "none";
 
         friend std::ostream& operator<<(std::ostream& os,
@@ -118,7 +118,8 @@ class AirSimSensor : public scrimmage::Sensor {
 
     bool save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, StatePtr& state);
 
-    bool save_airsim_data_ = false; // should be set to false by default but xml isn't working
+    bool save_airsim_data_ = false;
+    bool get_lidar_data_ = false;
     int airsim_frame_num_ = 0;
     scrimmage::CSV csv;
 
