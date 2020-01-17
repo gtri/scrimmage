@@ -102,8 +102,13 @@
 <li class="toctree-l2"><a class="reference internal" href="gen-entities.html">Generate Entities at Run-Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">AirSimSensor Plugin Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#linux-system-setup">Linux System Setup</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#windows-linux-setup">Windows / Linux Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux-system-setup">Linux System Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-linux-setup">Windows / Linux Setup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-scrimmage-on-linux-and-connect-to-airsim-unreal-on-windows">Start Scrimmage on Linux and Connect to AirSim/Unreal on Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#save-images-and-get-lidar-data">Save Images and Get LIDAR data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-asset-environments">Add “Asset” Environments</a></li>
 </ul>
 </li>
 </ul>
@@ -327,31 +332,42 @@ images.</p>
 simulation begins (hit ‘b’ to unpause, if necessary).</p>
 </li>
 </ol>
+</div>
 <div class="section" id="windows-linux-setup">
-<h3>Windows / Linux Setup<a class="headerlink" href="#windows-linux-setup" title="Permalink to this headline">¶</a></h3>
+<h2>Windows / Linux Setup<a class="headerlink" href="#windows-linux-setup" title="Permalink to this headline">¶</a></h2>
 <p>You can run the Unreal Engine on a Windows computer and SCRIMMAGE on a Linux
 computer. Make sure that you use the same version of AirSim
 across your systems. For example, at the time that this tutorial was written
-we used AirSim version v1.1.8 and Unreal Engine 4.18. If using a different version
+we used AirSim version v1.2.2 and Unreal Engine 4.18.3. If using a different version
 of AirSim please check AirSim’s Github Docs (<a class="reference external" href="https://microsoft.github.io/AirSim/docs/build_windows/">https://microsoft.github.io/AirSim/docs/build_windows/</a>)
 for which version of Unreal Engine to use.</p>
 <div class="section" id="linux">
-<h4>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h4>
-<p>If you haven’t already installed SCRIMMAGE on your Linux machine, do so by following directions here:
-(<a class="reference external" href="https://github.com/gtri/scrimmage">https://github.com/gtri/scrimmage</a>). Also make sure that OpenCV is installed on your system. You will
-need to pull the code for AirSim v1.1.8 and build the libstdc++ version of AirSim on your Linux
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>Ubuntu 18.04 is recommended. If you haven’t already installed SCRIMMAGE on your Linux machine, do so by following
+directions here:(https://github.com/gtri/scrimmage). Also make sure that OpenCV is installed on your system. You will
+need to pull the code for AirSim v1.2.2 and build the libstdc++ version of AirSim on your Linux
 computer. Then build SCRIMMAGE with the AirSim SCRIMMAGE plugin.</p>
 <ol class="arabic">
 <li><p><strong>Build the libstdc++ version of AirSim (which will be loaded into SCRIMMAGE)</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to folder where you clone GitHub projects</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If using Ubuntu 16.04, you may need to update to CMake 3.10</span>
+<span class="c1"># https://microsoft.github.io/AirSim/docs/cmake_linux/</span>
+<span class="c1"># Only do this if the AirSim build fails and requests it because it can</span>
+<span class="c1"># interfere with your ROS kinetic installation, read more here:</span>
+<span class="c1"># https://askubuntu.com/questions/829310/how-to-upgrade-cmake-in-ubuntu</span>
+
+<span class="c1"># go to folder where you clone GitHub projects</span>
 git clone https://github.com/Microsoft/AirSim.git
 <span class="nb">cd</span> AirSim
-git checkout v1.1.8
-git apply /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch
+git checkout 1b10a49b004bf56195897813b6d3b4394b906f88
+
+<span class="c1"># Select libstdc++ version build</span>
+<span class="c1"># Open both ./setup.sh and ./build.sh and change &quot;gccBuild=false&quot; to &quot;gccBuild=true&quot;</span>
+nano ./setup.sh
+nano ./build.sh
+
+<span class="c1"># Build</span>
 ./setup.sh
-<span class="nb">cd</span> cmake
-chmod +x gcc_build.sh
-./gcc_build.sh
+./build.sh
 </pre></div>
 </div>
 </li>
@@ -369,7 +385,7 @@ make
 </ol>
 </div>
 <div class="section" id="windows">
-<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>You will need to install Unreal Engine on Windows and build AirSim. Make sure that Visual Studio 2017 is also installed
 with the packages mentioned below.</p>
 <ol class="arabic">
@@ -382,41 +398,21 @@ with the packages mentioned below.</p>
 <li><p><strong>Fetch AirSim</strong></p>
 <p>Start the windows program <strong>x64 Native Tools Command Prompt for VS 2017</strong> – it MUST be used for running all batch files.
 Clone the AirSim repo into or close to the <em>c:/ directory</em>, else you will receive errors during installation for file
-names being too long, and checkout branch v1.1.8.</p>
+names being too long.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># In &quot;x64 Native Tools Command Prompt for VS 2017&quot; NOT GitBash</span>
 <span class="nb">cd</span> c:<span class="se">\</span>
 git clone https://github.com/Microsoft/AirSim.git
-<span class="nb">cd</span> AirSim <span class="o">&amp;&amp;</span> git checkout v1.1.8
+<span class="nb">cd</span> AirSim <span class="o">&amp;&amp;</span> git checkout 1b10a49b004bf56195897813b6d3b4394b906f88
 </pre></div>
 </div>
 </li>
 <li><p><strong>Edit AirSim Build File</strong></p>
-<p>The batch file <em>build.cmd</em> has a few errors and inconveniences so we will edit the file and fix them before we build.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Open build.cmd in Notepad or your favorite text editor.</span>
-<span class="c1"># There is an issue where the script tries to download the files for an SUV object and fails</span>
-<span class="c1"># which then causes the script to skip a lot of important installation steps once the</span>
-<span class="c1"># directory is not found. We will stop the script from deleting the directory each time it</span>
-<span class="c1"># is run by commenting out some lines. Then we will download and place the SUV files in the</span>
-<span class="c1"># correct directory before running the script. Finally we will add a pause to the end of the</span>
-<span class="c1"># file because else the script will exit, closing the window, very quickly after finishing</span>
-<span class="c1"># even if there are errors. Adding this pause will allow you to check that AirSim built</span>
-<span class="c1"># successfully.</span>
+<p>The batch file <em>build.cmd</em> has an error so we will edit the file and fix it before we build.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># We will add a pause to the end of the file because else the script will exit,</span>
+<span class="c1"># closing the window, very quickly after finishing even if there are build errors.</span>
+<span class="c1"># Adding this pause will allow you to check that AirSim built successfully.</span>
 
-<span class="c1"># 1. Comment lines: 89, 90, 96, 98 and 141 with an &quot;REM //&quot; like below:</span>
-REM // IF EXIST suv_download_tmp rmdir suv_download_tmp /q /s
-REM // mkdir suv_download_tmp
-REM // rmdir /S /Q Unreal<span class="se">\P</span>lugins<span class="se">\A</span>irSim<span class="se">\C</span>ontent<span class="se">\V</span>ehicleAdv<span class="se">\S</span>UV
-REM // rmdir suv_download_tmp /q /s
-REM // <span class="nb">exit</span> /b <span class="m">0</span>
-
-<span class="c1"># 2. Download the SUV files by copying this URL into your web browser:</span>
-<span class="c1"># (https://github.com/Microsoft/AirSim/releases/download/v1.1.7/car_assets.zip)</span>
-<span class="c1"># It will automatically begin download. Unzip and place the SUV directory inside in</span>
-<span class="c1"># AirSim&#39;s directory structure as shown below:</span>
-<span class="c1"># C:\AirSim\Unreal\Plugins\AirSim\Content\VehicleAdv\SUV</span>
-
-<span class="c1"># 3. Add pause to end of file.</span>
-<span class="c1"># Replace this code block from lines 141 to 152:</span>
+<span class="c1"># Replace this code block from lines 185 to 194:</span>
 <span class="c1">################################################### (Don&#39;t copy these ###&#39;s into the file)</span>
 REM //---------- <span class="k">done</span> building ----------
 <span class="nb">exit</span> /b <span class="m">0</span>
@@ -457,24 +453,17 @@ build.cmd
 </div>
 </li>
 <li><p><strong>SetUp Blocks Environment</strong></p>
-<p>We will follow the Windows instructions here to setup the Blocks environment: (<a class="reference external" href="https://microsoft.github.io/AirSim/docs/unreal_blocks/">https://microsoft.github.io/AirSim/docs/unreal_blocks/</a>).
-However before we run <strong>update_from_git.bat</strong> we will make one edit to the Blocks project’s clean.bat file to avoid an error.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find clean.bat in the Blocks Project directory</span>
-<span class="nb">cd</span> C:<span class="se">\A</span>irSim<span class="se">\U</span>nreal<span class="se">\E</span>nvironments<span class="se">\B</span>locks
-
-<span class="c1"># Open clean.bat in Notepad or any text editor and comment out line 4 using &quot;REM //&quot; like shown below:</span>
-REM //rd /s/q Saved
-
-<span class="c1"># Save and close the file and complete the instructions at</span>
-<span class="c1"># (https://microsoft.github.io/AirSim/docs/unreal_blocks/).</span>
-<span class="c1"># Press play, choose quadcopter, and leave it running.</span>
-</pre></div>
-</div>
+<p>We will follow the Windows instructions here to setup the Blocks environment:
+(<a class="reference external" href="https://microsoft.github.io/AirSim/docs/unreal_blocks/">https://microsoft.github.io/AirSim/docs/unreal_blocks/</a>).</p>
+<p>Once you can run the AirSim simulation in Unreal, replace the settings.json in Windows:DocumentsAirSim
+with the settings.json file in:
+(https://github.com/gtri/scrimmage/blob/master/include/scrimmage/plugins/sensor/AirSimSensor/settings.json)
+Now rebuild Blocks.sln which will launch Unreal, press play, if required choose quadcopter, and leave running.</p>
 </li>
 </ol>
 </div>
 <div class="section" id="start-scrimmage-on-linux-and-connect-to-airsim-unreal-on-windows">
-<h4>Start Scrimmage on Linux and Connect to AirSim/Unreal on Windows<a class="headerlink" href="#start-scrimmage-on-linux-and-connect-to-airsim-unreal-on-windows" title="Permalink to this headline">¶</a></h4>
+<h3>Start Scrimmage on Linux and Connect to AirSim/Unreal on Windows<a class="headerlink" href="#start-scrimmage-on-linux-and-connect-to-airsim-unreal-on-windows" title="Permalink to this headline">¶</a></h3>
 <p>Find the IP of the Windows machine that you are running AirSim/Unreal Engine and place it in the mission file
 in scrimmage on your Linux machine. Run the mission in scrimmage, watch AirSim connect, and hit ‘b’ to start the
 simulation.</p>
@@ -488,7 +477,7 @@ simulation.</p>
 scrimmage ./quad-airsim-ex1.xml
 <span class="c1"># Should connect successfully</span>
 <span class="c1"># hit &#39;b&#39; key to start simulation</span>
-<span class="c1"># You should see 2 image streams appear in separate windows from the scrimmage window.</span>
+<span class="c1"># You should see 3 image streams appear in separate windows from the scrimmage window.</span>
 <span class="c1"># for directions on how to control scrimmage see scrimmage github:</span>
 <span class="c1"># (https://github.com/gtri/scrimmage)</span>
 </pre></div>
@@ -496,18 +485,32 @@ scrimmage ./quad-airsim-ex1.xml
 </li>
 </ol>
 </div>
+<div class="section" id="save-images-and-get-lidar-data">
+<h3>Save Images and Get LIDAR data<a class="headerlink" href="#save-images-and-get-lidar-data" title="Permalink to this headline">¶</a></h3>
+<p>To save the images and quaternion pose CSV from the simulation for later processing into the SCRIMMAGE logs directory
+set save_airsim_data=”true” in the scrimmage mission file quad-airsim-ex1.xml. The Scrimmage Logs directory should be
+located in ~/.scrimmage/logs on the Linux side.</p>
+<p>To retrieve LIDAR data from the simulation set get_lidar_data=”true” in the scrimmage mission file quad-airsim-ex1.xml.
+LIDAR settings can be changed in the settings.json file on the Windows side located in DocumentsAirSim.
+See (<a class="reference external" href="https://github.com/microsoft/AirSim/blob/master/docs/lidar.md">https://github.com/microsoft/AirSim/blob/master/docs/lidar.md</a>) for more details.
+Variable DrawDebugPoints in the settings.json file will show the LIDAR pointcloud in the simulation, but it will also
+appear in the saved images so by default it is set to false.</p>
+<a class="reference internal image-reference" href="../_images/LIDAR_DrawDebugPoints.png"><img alt="../_images/LIDAR_DrawDebugPoints.png" src="../_images/LIDAR_DrawDebugPoints.png" style="width: 600px;" /></a>
+</div>
 <div class="section" id="add-asset-environments">
-<h4>Add “Asset” Environments<a class="headerlink" href="#add-asset-environments" title="Permalink to this headline">¶</a></h4>
+<h3>Add “Asset” Environments<a class="headerlink" href="#add-asset-environments" title="Permalink to this headline">¶</a></h3>
 <p>AirSim offers different environments that can be played but not edited for every release version called <strong>“Assets”</strong>.
 They can be found here: (<a class="reference external" href="https://github.com/Microsoft/AirSim/releases">https://github.com/Microsoft/AirSim/releases</a>). Download one of the Asset ZIP files under your
-AirSim version (here we used LandscapeMountains under v1.1.8) onto the Windows machine and place in the
+AirSim version (here we used LandscapeMountains under v1.2.2) onto the Windows machine and place in the
 directory: c:/AirSim/Unreal/Environments/. Assets for newer versions of AirSim will not work with older versions of
 AirSim installed across your Linux/Windows machines. Use 7-Zip to extract by selecting “Extract to &lt;ASSET_NAME&gt;&quot;.
 Inside the folder you will find a &lt;ASSET_NAME&gt;.exe application. Double click the application file to start the
 environment, choose “no” for quadcopter. The environment will start in full-screen. Now start the scrimmage mission
 on your Linux machine using “scrimmage ./missions/quad-airsim-ex1.xml”. The scrimmage simulation will connect to
-AirSim and control the car/ quadcopter in the new Asset environment.</p>
-</div>
+AirSim and control the car/ quadcopter in the new Asset environment. To end the simulation you will need to enter
+the Task Manager by pressing CTRL+ALT+DELETE, select the Unreal process, and press “End Task”.</p>
+<a class="reference internal image-reference" href="../_images/Asset_LandscapeMountains_1.png"><img alt="../_images/Asset_LandscapeMountains_1.png" src="../_images/Asset_LandscapeMountains_1.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="../_images/Asset_LandscapeMountains_2.png"><img alt="../_images/Asset_LandscapeMountains_2.png" src="../_images/Asset_LandscapeMountains_2.png" style="width: 600px;" /></a>
 </div>
 </div>
 </div>
