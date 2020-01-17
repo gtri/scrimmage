@@ -57,12 +57,26 @@
     <z>10</z> <!-- LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
     <heading>0</heading>
 
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
     <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
     <sensor airsim_ip="10.108.21.246"
-            save_airsim_data="false"
-            get_lidar_data="false">AirSimSensor</sensor>
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true">AirSimSensor</sensor>
 
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <autonomy show_camera_images="true">Straight</autonomy>
 
     <motion_model motion_model_sets_yaw="false"

@@ -52,6 +52,7 @@
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #endif
 
 #if ENABLE_AIRSIM == 1
@@ -153,29 +154,17 @@ void Straight::init(std::map<std::string, std::string> &params) {
 
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
     auto airsim_cb = [&](auto &msg) {
-        for (sc::sensor::AirSimSensorType a : msg->data) {
+        for (sc::sensor::AirSimImageType a : msg->data) {
             if (show_camera_images_) {
                 // Get Camera Name
-                std::string window_name;
-                if (a.camera_config.name == "0") {
-                    window_name = "Front_Center_" + a.camera_config.img_type_name;
-                } else if (a.camera_config.name == "1") {
-                    window_name = "Front_Right_" + a.camera_config.img_type_name;
-                } else if (a.camera_config.name == "2") {
-                    window_name = "Front_Left_" + a.camera_config.img_type_name;
-                } else if (a.camera_config.name == "3") {
-                    window_name = "Bottom_Center_" + a.camera_config.img_type_name;
-                } else if (a.camera_config.name == "4") {
-                    window_name = "Back_Center_" + a.camera_config.img_type_name;
-                } else {
-                    cout << "Error: Unknown camera type: " << a.camera_config.name << endl;
-                    window_name = "Unknown_" + a.camera_config.img_type_name;
-                }
-
+                std::string window_name = a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
                 // for depth images CV imshow expects grayscale image values to be between 0 and 1.
                 if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
+                    // Worked before building with ROS
                     cv::Mat tempImage;
                     a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
+                    // cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);
+                    // cout << tempImage << endl;
                     cv::imshow(window_name, tempImage);
                 } else {
                     // other image types are int 0-255.
@@ -185,7 +174,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
             }
         }
     };
-    subscribe<std::vector<sensor::AirSimSensorType>>("LocalNetwork", "AirSim", airsim_cb);
+    subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_cb);
 #endif
 
 #if ENABLE_OPENCV == 1
