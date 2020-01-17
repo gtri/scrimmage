@@ -27,8 +27,8 @@
 
   <log_dir>~/.scrimmage/logs</log_dir>
 
-  <latitude_origin>35.721025</latitude_origin>
-  <longitude_origin>-120.767925</longitude_origin>
+  <latitude_origin>33.784887</latitude_origin>
+  <longitude_origin>-84.374431</longitude_origin>
   <altitude_origin>300</altitude_origin>
   <show_origin>true</show_origin>
   <origin_length>10</origin_length>
@@ -55,6 +55,8 @@
     <z>200</z>
     <heading>0</heading>
 
+    <vx>240</vx>
+
     <!-- JoystickAutonomy reads the joystick inputs from an autonomy plugin -->
     <autonomy print_raw_joystick_values="false" axis_map=
     "[ throttle 2 -32767 +32767 -1 +1 -1 ]
@@ -69,8 +71,9 @@
 
     <!-- The JSBSimControl motion model directlyl consumes throttle, elevator,
          aileron, and rudder -->
-    <motion_model>JSBSimControl</motion_model>
-    <script_name>rascal_no_autopilot.xml</script_name>
+    <motion_model flightgear_output_enable="true">JSBSimControl</motion_model>
+    <!-- <script_name>rascal_no_autopilot.xml</script_name> -->
+    <script_name>f16_scrimmage.xml</script_name>
     <visual_model>zephyr-blue</visual_model>
 
   </entity>

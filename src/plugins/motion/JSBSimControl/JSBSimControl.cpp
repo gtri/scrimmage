@@ -149,7 +149,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     ap_elevator_cmd_node_ = mgr->GetNode("fcs/elevator-cmd-norm");
     ap_rudder_cmd_node_ = mgr->GetNode("fcs/rudder-cmd-norm");
     ap_throttle_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm");
-    ap_throttle_1_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm[1]");
+    // ap_throttle_1_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm[1]");
 
     vel_north_node_ = mgr->GetNode("velocities/v-north-fps");
     vel_east_node_ = mgr->GetNode("velocities/v-east-fps");
@@ -169,20 +169,20 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
     set_jsbsim_initial_state(*state_);
 
-    //if (info.count("latitude") > 0) {
-    //    ic->SetLatitudeDegIC(std::stod(info["latitude"]));
-    //}
-    //if (info.count("longitude") > 0) {
-    //    ic->SetLongitudeDegIC(std::stod(info["longitude"]));
-    //}
-    //if (info.count("heading") > 0) {
-    //    angles_to_jsbsim_.set_angle(std::stod(info["heading"]));
-    //    ic->SetPsiDegIC(angles_to_jsbsim_.angle());
-    //}
-    //if (info.count("altitude") > 0) {
-    //    double alt_asl_meters = std::stod(info["altitude"]);
-    //    ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
-    //}
+    // if (info.count("latitude") > 0) {
+    //     ic->SetLatitudeDegIC(std::stod(info["latitude"]));
+    // }
+    // if (info.count("longitude") > 0) {
+    //     ic->SetLongitudeDegIC(std::stod(info["longitude"]));
+    // }
+    // if (info.count("heading") > 0) {
+    //     angles_to_jsbsim_.set_angle(std::stod(info["heading"]));
+    //     ic->SetPsiDegIC(angles_to_jsbsim_.angle());
+    // }
+    // if (info.count("altitude") > 0) {
+    //     double alt_asl_meters = std::stod(info["altitude"]);
+    //     ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
+    // }
 
     // Save state
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
@@ -210,8 +210,8 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          -az_pilot_node_->getDoubleValue());
     linear_accel_body_ = state_->quat().rotate(a_FLU);
 
-    //exec_->PrintPropertyCatalog();
-    //exec_->PrintSimulationConfiguration();
+    // exec_->PrintPropertyCatalog();
+    // exec_->PrintSimulationConfiguration();
 
     return true;
 }
@@ -230,9 +230,9 @@ bool JSBSimControl::step(double time, double dt) {
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
     ap_rudder_cmd_node_->setDoubleValue(delta_rudder_);
     ap_throttle_cmd_node_->setDoubleValue(throttle_);
-    if (ap_throttle_1_cmd_node_ != nullptr) {
-        ap_throttle_1_cmd_node_->setDoubleValue(throttle_);
-    }
+    // if (ap_throttle_1_cmd_node_ != nullptr) {
+    //     ap_throttle_1_cmd_node_->setDoubleValue(throttle_);
+    // }
 
     exec_->Setdt(dt);
     exec_->Run();
@@ -358,12 +358,12 @@ bool JSBSimControl::step(double time, double dt) {
 }
 
 void JSBSimControl::teleport(StatePtr &state) {
-    //set_jsbsim_state(*state);
+    // set_jsbsim_state(*state);
     set_jsbsim_initial_state(*state);
 }
 
 void JSBSimControl::set_jsbsim_initial_state(const scrimmage::State& state) {
-    //exec_->LoadScript(SGPath(jsbsim_script_path_));
+    // exec_->LoadScript(SGPath(jsbsim_script_path_));
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();
 
@@ -389,7 +389,7 @@ void JSBSimControl::set_jsbsim_initial_state(const scrimmage::State& state) {
     JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();
     mgr->GetNode("fcs/left-aileron-pos-rad")->setDoubleValue(0.0);
     mgr->GetNode("fcs/right-aileron-pos-rad")->setDoubleValue(0.0);
-    mgr->GetNode("fcs/aileron-pos-norm")->setDoubleValue(0.0);
+    // mgr->GetNode("fcs/aileron-pos-norm")->setDoubleValue(0.0);
 
     mgr->GetNode("fcs/elevator-pos-norm")->setDoubleValue(0.0);
     mgr->GetNode("fcs/rudder-pos-norm")->setDoubleValue(0.0);
@@ -411,7 +411,7 @@ void JSBSimControl::set_jsbsim_initial_state(const scrimmage::State& state) {
     ap_elevator_cmd_node_->setDoubleValue(0);
     ap_rudder_cmd_node_->setDoubleValue(0);
     ap_throttle_cmd_node_->setDoubleValue(0);
-    ap_throttle_1_cmd_node_->setDoubleValue(0);
+    // ap_throttle_1_cmd_node_->setDoubleValue(0);
 
 
     if (not init_values_cached_) {
@@ -424,7 +424,7 @@ void JSBSimControl::set_jsbsim_initial_state(const scrimmage::State& state) {
 
     }
     mgr->GetNode("propulsion/engine/thrust-lbs")->setDoubleValue(init_thrust_);
-    mgr->GetNode("propulsion/engine[1]/thrust-lbs")->setDoubleValue(init_thrust_);
+    // mgr->GetNode("propulsion/engine[1]/thrust-lbs")->setDoubleValue(init_thrust_);
 
     mgr->GetNode("propulsion/engine/fuel-flow-rate-gph")->setDoubleValue(init_fuel_rate_gph_);
     mgr->GetNode("propulsion/engine/fuel-used-lbs")->setDoubleValue(init_fuel_used_lbs_);
@@ -432,7 +432,7 @@ void JSBSimControl::set_jsbsim_initial_state(const scrimmage::State& state) {
 
     mgr->GetNode("velocities/h-dot-fps")->setDoubleValue(0);
 
-    //exec_->RunIC();
+    // exec_->RunIC();
     exec_->ResetToInitialConditions(0);
 
     exec_->Setdt(jsbsim_dt_);
