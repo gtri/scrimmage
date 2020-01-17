@@ -35,6 +35,7 @@
 
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/common/CSV.h>
 
 #include <random>
 #include <list>
@@ -67,8 +68,9 @@ class CameraConfig {
 
         std::string name = "none";
         int number = 0;
-        int height = 144;
-        int width = 256;
+        int height = 144; // 288
+        int width = 256;  // 512
+        std::string img_type_name = "none";
 
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
@@ -76,6 +78,7 @@ class CameraConfig {
             os << ", Number=" << c.number;
             os << ", Height=" << c.height;
             os << ", Width=" << c.width;
+            os << ", Image_Type=" << c.img_type_name;
             return os;
         }
 };
@@ -102,14 +105,22 @@ class AirSimSensor : public scrimmage::Sensor {
     bool running_ = true;
     std::mutex running_mutex_;
 
-    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
+//    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
+    std::shared_ptr<msr::airlib::RpcLibClientBase> sim_client_;
     bool client_connected_;
     std::string airsim_ip_;
-    int airsim_port_;
-    int airsim_timeout_ms_;
+    uint16_t airsim_port_;
+    float airsim_timeout_s_;
     std::list<CameraConfig> cam_configs_;
     scrimmage::Angles enu_to_ned_yaw_;
     PublisherPtr pub_;
+
+    bool save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, StatePtr& state);
+
+    bool save_airsim_data_ = false;
+    bool get_lidar_data_ = false;
+    int airsim_frame_num_ = 0;
+    scrimmage::CSV csv;
 
  private:
 };

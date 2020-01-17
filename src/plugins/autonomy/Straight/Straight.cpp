@@ -155,7 +155,32 @@ void Straight::init(std::map<std::string, std::string> &params) {
     auto airsim_cb = [&](auto &msg) {
         for (sc::sensor::AirSimSensorType a : msg->data) {
             if (show_camera_images_) {
-                cv::imshow(a.camera_config.name.c_str(), a.img);
+                // Get Camera Name
+                std::string window_name;
+                if (a.camera_config.name == "0") {
+                    window_name = "Front_Center_" + a.camera_config.img_type_name;
+                } else if (a.camera_config.name == "1") {
+                    window_name = "Front_Right_" + a.camera_config.img_type_name;
+                } else if (a.camera_config.name == "2") {
+                    window_name = "Front_Left_" + a.camera_config.img_type_name;
+                } else if (a.camera_config.name == "3") {
+                    window_name = "Bottom_Center_" + a.camera_config.img_type_name;
+                } else if (a.camera_config.name == "4") {
+                    window_name = "Back_Center_" + a.camera_config.img_type_name;
+                } else {
+                    cout << "Error: Unknown camera type: " << a.camera_config.name << endl;
+                    window_name = "Unknown_" + a.camera_config.img_type_name;
+                }
+
+                // for depth images CV imshow expects grayscale image values to be between 0 and 1.
+                if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
+                    cv::Mat tempImage;
+                    a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
+                    cv::imshow(window_name, tempImage);
+                } else {
+                    // other image types are int 0-255.
+                    cv::imshow(window_name, a.img);
+                }
                 cv::waitKey(1);
             }
         }
