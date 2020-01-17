@@ -1,15 +1,74 @@
-{ "SettingsVersion": 1,
-  "SimMode": "",
-  "LocalHostIp": "127.0.0.1",
-  "RpcEnabled": true,
-  "DefaultVehicleConfig": "SimpleFlight",
-  "SimpleFlight": {
-      "RemoteControlID": 0,
-      "RC": {
-          "AllowAPIWhenDisconnected": true,
-          "AllowAPIAlways": true
-      },
-      "ApiServerPort": 41451
+{
+  "SeeDocsAt": "https://github.com/Microsoft/AirSim/blob/master/docs/settings.md",
+  "SettingsVersion": 1.2,
+  "SimMode": "Multirotor",
+  "LogMessagesVisible": true,
+  "SpeedUnitFactor": 1.0,
+  "SpeedUnitLabel": "m/s",
+  "Recording": {
+    "RecordOnMove": false,
+    "RecordInterval": 0.05,
+    "Cameras": [
+		  { "CameraID": 0, "ImageType": 0, "PixelsAsFloat": false, "Compress": false },
+		  { "CameraID": 0, "ImageType": 2, "PixelsAsFloat": true, "Compress": false },
+		  { "CameraID": 0, "ImageType": 5, "PixelsAsFloat": false, "Compress": false }
+	  ]
   },
-  "SeeDocsAt": "https://github.com/Microsoft/AirSim/blob/master/docs/settings.md"
+  "CameraDefaults": {
+    "CaptureSettings": [
+      {
+        "ImageType": 0,
+        "Width": 256,
+        "Height": 144,
+        "FOV_Degrees": 90,
+        "AutoExposureSpeed": 100,
+        "AutoExposureBias": 0,
+        "AutoExposureMaxBrightness": 0.68,
+        "AutoExposureMinBrightness": 0.03
+      },
+	  {
+        "ImageType": 2,
+        "Width": 256,
+        "Height": 144,
+        "FOV_Degrees": 90,
+        "AutoExposureSpeed": 100,
+        "AutoExposureBias": 0,
+        "AutoExposureMaxBrightness": 0.68,
+        "AutoExposureMinBrightness": 0.03
+      },
+	  {
+        "ImageType": 5,
+        "Width": 256,
+        "Height": 144,
+        "FOV_Degrees": 90,
+        "AutoExposureSpeed": 100,
+        "AutoExposureBias": 0,
+        "AutoExposureMaxBrightness": 0.68,
+        "AutoExposureMinBrightness": 0.03
+      }
+    ]  
+  },
+  "Vehicles": {
+	"Drone1": {
+			"VehicleType": "simpleflight",
+			"AutoCreate": true,
+			"Sensors": {
+			    "Lidar1": { 
+					"SensorType": 6,
+					"Enabled" : true,
+					"NumberOfChannels": 16,
+					"RotationsPerSecond": 10,
+					"PointsPerSecond": 100000,
+					"X": 0, "Y": 0, "Z": -1,
+					"Roll": 0, "Pitch": 0, "Yaw" : 0,
+					"VerticalFOVUpper": -15,
+					"VerticalFOVLower": -25,
+					"HorizontalFOVStart": -20,
+					"HorizontalFOVEnd": 20,
+					"DrawDebugPoints": false,
+					"DataFrame": "SensorLocalFrame"
+				}
+			}
+	}
+  }
 }
