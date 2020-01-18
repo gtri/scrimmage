@@ -140,8 +140,11 @@ your mouse.
 
 ## Building on macOS
 
-Refer [here](https://github.com/crichardson332/homebrew-crich_brews) for
-instructions on installing dependencies and running SCRIMMAGE on macOS.
+Support for macOS has been deprecated. Refer [here](https://github.com/crichardson332/homebrew-crich_brews)
+for legacy homebrew instructions, but this is not guaranteed to build
+without intervention from the user. Any user wishing to develop on
+macOS is free to do so and make pull requests for patches, but the
+platform is no longer supported by SCRIMMAGE core developers.
 
 ## Python Bindings
 
