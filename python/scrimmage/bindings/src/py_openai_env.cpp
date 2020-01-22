@@ -256,7 +256,7 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
         simcontrol_->mp()->set_network_gui(true);
         simcontrol_->mp()->set_enable_gui(false);
     } else {
-        simcontrol_->mp()->set_time_warp(0);
+        // simcontrol_->mp()->set_time_warp(0);
     }
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
