@@ -387,7 +387,7 @@ and change line 15 from
 OpenAI Mission XML File
 -----------------------
 
-Now that our code for SCRIMMGAE has been compiled, we can then create a simple
+Now that our code for SCRIMMAGE has been compiled, we can then create a simple
 mission xml file for it. We will save this xml at:
 ``~/scrimmage/my-scrimmage-plugins/missions/openai_mission.xml``.
 
@@ -420,7 +420,7 @@ following blocks (More detail on creating mission files is located at
      <gui_update_period>10</gui_update_period> <!-- milliseconds -->
 
      <output_type>summary</output_type>
-     <metrics">OpenAIRewards</metrics>
+     <metrics>OpenAIRewards</metrics>
 
      <background_color>191 191 191</background_color> <!-- Red Green Blue -->
      <log_dir>~/.scrimmage/logs</log_dir>
