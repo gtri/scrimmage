@@ -470,5 +470,10 @@ void JSBSimControl::set_jsbsim_state(const scrimmage::State& state) {
     q_node_->setDoubleValue(0);
     r_node_->setDoubleValue(0);
 }
+
+std::shared_ptr<JSBSim::FGFDMExec> JSBSimControl::jsbsim_exec() {
+    return exec_;
+}
+
 } // namespace motion
 } // namespace scrimmage

@@ -149,80 +149,6 @@ bool Entity::init(AttributeMap &overrides,
     mp_->ent_id_to_block_id()[id] = ent_desc_id;
 
     ////////////////////////////////////////////////////////////
-    // sensor
-    ////////////////////////////////////////////////////////////
-    // The MissionParser appends the order number to the sensor (e.g., sensor0,
-    // sensor1, etc.)
-    int sensor_ct = 0;
-    std::string sensor_order_name = std::string("sensor") +
-        std::to_string(sensor_ct);
-
-    while (info.count(sensor_order_name) > 0) {
-        ConfigParse config_parse;
-        std::string sensor_name = info[sensor_order_name];
-        PluginStatus<Sensor> status =
-            plugin_manager->make_plugin<Sensor>("scrimmage::Sensor",
-                                                sensor_name, *file_search,
-                                                config_parse,
-                                                overrides[sensor_order_name],
-                                                plugin_tags);
-        if (status.status == PluginStatus<Sensor>::cast_failed) {
-            std::cout << "Failed to open sensor plugin: " << sensor_name
-                      << std::endl;
-            return false;
-        } else if (status.status == PluginStatus<Sensor>::parse_failed) {
-            return false;
-        } else if (status.status == PluginStatus<Sensor>::loaded) {
-            SensorPtr sensor = status.plugin;
-
-            // Get sensor's offset from entity origin
-            std::vector<double> tf_xyz = {0.0, 0.0, 0.0};
-            auto it_xyz = overrides[sensor_order_name].find("xyz");
-            if (it_xyz != overrides[sensor_order_name].end()) {
-                str2container(it_xyz->second, " ", tf_xyz, 3);
-            }
-            sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
-
-            // Get sensor's orientation relative to entity's coordinate frame
-            std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
-            auto it_rpy = overrides[sensor_order_name].find("rpy");
-            if (it_rpy != overrides[sensor_order_name].end()) {
-                str2container(it_rpy->second, " ", tf_rpy, 3);
-            }
-            sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
-                                            Angles::deg2rad(tf_rpy[1]),
-                                            Angles::deg2rad(tf_rpy[2]));
-
-            sensor->set_parent(parent);
-            sensor->set_pubsub(pubsub);
-            sensor->set_time(time);
-            sensor->set_id_to_team_map(id_to_team_map);
-            sensor->set_id_to_ent_map(id_to_ent_map);
-            sensor->set_param_server(param_server);
-            param_override_func(config_parse.params());
-
-            // get loop rate from plugin's params
-            auto it_loop_rate = config_parse.params().find("loop_rate");
-            if (it_loop_rate != config_parse.params().end()) {
-              const double loop_rate = std::stod(it_loop_rate->second);
-              sensor->set_loop_rate(loop_rate);
-            }
-
-            std::string given_name = sensor_name + std::to_string(sensor_ct);
-            sensor->set_name(given_name);
-
-            if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Sensor plugin params: " << given_name << endl;
-                cout << config_parse;
-            }
-            sensor->init(config_parse.params());
-            sensors_[given_name] = sensor;
-        }
-        sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
-    }
-
-    ////////////////////////////////////////////////////////////
     // motion model
     ////////////////////////////////////////////////////////////
     bool init_empty_motion_model = true;
@@ -459,6 +385,81 @@ bool Entity::init(AttributeMap &overrides,
             controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
         }
     }
+
+    ////////////////////////////////////////////////////////////
+    // sensor
+    ////////////////////////////////////////////////////////////
+    // The MissionParser appends the order number to the sensor (e.g., sensor0,
+    // sensor1, etc.)
+    int sensor_ct = 0;
+    std::string sensor_order_name = std::string("sensor") +
+        std::to_string(sensor_ct);
+
+    while (info.count(sensor_order_name) > 0) {
+        ConfigParse config_parse;
+        std::string sensor_name = info[sensor_order_name];
+        PluginStatus<Sensor> status =
+            plugin_manager->make_plugin<Sensor>("scrimmage::Sensor",
+                                                sensor_name, *file_search,
+                                                config_parse,
+                                                overrides[sensor_order_name],
+                                                plugin_tags);
+        if (status.status == PluginStatus<Sensor>::cast_failed) {
+            std::cout << "Failed to open sensor plugin: " << sensor_name
+                      << std::endl;
+            return false;
+        } else if (status.status == PluginStatus<Sensor>::parse_failed) {
+            return false;
+        } else if (status.status == PluginStatus<Sensor>::loaded) {
+            SensorPtr sensor = status.plugin;
+
+            // Get sensor's offset from entity origin
+            std::vector<double> tf_xyz = {0.0, 0.0, 0.0};
+            auto it_xyz = overrides[sensor_order_name].find("xyz");
+            if (it_xyz != overrides[sensor_order_name].end()) {
+                str2container(it_xyz->second, " ", tf_xyz, 3);
+            }
+            sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
+
+            // Get sensor's orientation relative to entity's coordinate frame
+            std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
+            auto it_rpy = overrides[sensor_order_name].find("rpy");
+            if (it_rpy != overrides[sensor_order_name].end()) {
+                str2container(it_rpy->second, " ", tf_rpy, 3);
+            }
+            sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
+                                            Angles::deg2rad(tf_rpy[1]),
+                                            Angles::deg2rad(tf_rpy[2]));
+
+            sensor->set_parent(parent);
+            sensor->set_pubsub(pubsub);
+            sensor->set_time(time);
+            sensor->set_id_to_team_map(id_to_team_map);
+            sensor->set_id_to_ent_map(id_to_ent_map);
+            sensor->set_param_server(param_server);
+            param_override_func(config_parse.params());
+
+            // get loop rate from plugin's params
+            auto it_loop_rate = config_parse.params().find("loop_rate");
+            if (it_loop_rate != config_parse.params().end()) {
+              const double loop_rate = std::stod(it_loop_rate->second);
+              sensor->set_loop_rate(loop_rate);
+            }
+
+            std::string given_name = sensor_name + std::to_string(sensor_ct);
+            sensor->set_name(given_name);
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Sensor plugin params: " << given_name << endl;
+                cout << config_parse;
+            }
+            sensor->init(config_parse.params());
+            sensors_[given_name] = sensor;
+        }
+        sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
+    }
+
     return true;
 }
 

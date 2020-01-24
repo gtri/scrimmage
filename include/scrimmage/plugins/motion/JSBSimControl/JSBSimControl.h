@@ -72,6 +72,8 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
      void set_jsbsim_initial_state(const scrimmage::State& state);
      void set_jsbsim_state(const scrimmage::State& state);
 
+     std::shared_ptr<JSBSim::FGFDMExec> jsbsim_exec();
+
  protected:
 #if ENABLE_JSBSIM == 1
      FGFDMExecPtr exec_;
