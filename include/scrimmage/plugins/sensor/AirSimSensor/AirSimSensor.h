@@ -66,27 +66,37 @@ class CameraConfig {
         msr::airlib::ImageCaptureBase::ImageType img_type =
             msr::airlib::ImageCaptureBase::ImageType::Scene;
 
-        std::string name = "none";
-        int number = 0;
+        std::string cam_name = "none";
+        int cam_number = 0;
+        std::string img_type_name = "none";
+        int img_type_number = 0;
         int height = 144; // 288
         int width = 256;  // 512
-        std::string img_type_name = "none";
+
 
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
-            os << "Name=" << c.name;
-            os << ", Number=" << c.number;
+            os << "Camera_Number=" << c.cam_number;
+            os << ", Camera_Name=" << c.cam_name;
+            os << ", Image_Type_Num=" << c.img_type_number;
+            os << ", Image_Type_Name=" << c.img_type_name;
             os << ", Height=" << c.height;
             os << ", Width=" << c.width;
-            os << ", Image_Type=" << c.img_type_name;
             return os;
         }
 };
 
-class AirSimSensorType {
+class AirSimImageType {
  public:
     cv::Mat img;
     CameraConfig camera_config;
+    int frame_num = 0;
+};
+
+class AirSimLidarType {
+ public:
+    msr::airlib::LidarData lidar_data;
+    int frame_num = 0;
 };
 
 class AirSimSensor : public scrimmage::Sensor {
@@ -99,7 +109,8 @@ class AirSimSensor : public scrimmage::Sensor {
  protected:
     std::thread request_images_thread_;
     void request_images();
-    scrimmage::MessagePtr<std::vector<AirSimSensorType>> img_msg_ = nullptr;
+    scrimmage::MessagePtr<std::vector<AirSimImageType>> img_msg_ = nullptr;
+    scrimmage::MessagePtr<AirSimLidarType> lidar_msg_ = nullptr;
     std::mutex img_msg_mutex_;
 
     bool running_ = true;
@@ -113,12 +124,16 @@ class AirSimSensor : public scrimmage::Sensor {
     float airsim_timeout_s_;
     std::list<CameraConfig> cam_configs_;
     scrimmage::Angles enu_to_ned_yaw_;
-    PublisherPtr pub_;
 
-    bool save_images(MessagePtr<std::vector<AirSimSensorType>>& msg, StatePtr& state);
+    PublisherPtr img_pub_;
+    PublisherPtr lidar_pub_;
 
-    bool save_airsim_data_ = false;
-    bool get_lidar_data_ = false;
+    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state);
+
+    bool save_airsim_data_ = true;
+    bool get_image_data_ = true;
+    bool get_lidar_data_ = true;
+
     int airsim_frame_num_ = 0;
     scrimmage::CSV csv;
 
