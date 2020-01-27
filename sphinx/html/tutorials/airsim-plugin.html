@@ -108,6 +108,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#start-scrimmage-on-linux-and-connect-to-airsim-unreal-on-windows">Start Scrimmage on Linux and Connect to AirSim/Unreal on Windows</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#save-images-and-get-lidar-data">Save Images and Get LIDAR data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#publish-images-and-lidar-data-to-ros">Publish Images and LIDAR data to ROS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-with-multiple-quadcopters">Run with Multiple Quadcopters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#add-asset-environments">Add “Asset” Environments</a></li>
 </ul>
 </li>
@@ -344,9 +346,9 @@ for which version of Unreal Engine to use.</p>
 <div class="section" id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
 <p>Ubuntu 18.04 is recommended. If you haven’t already installed SCRIMMAGE on your Linux machine, do so by following
-directions here:(https://github.com/gtri/scrimmage). Also make sure that OpenCV is installed on your system. You will
-need to pull the code for AirSim v1.2.2 and build the libstdc++ version of AirSim on your Linux
-computer. Then build SCRIMMAGE with the AirSim SCRIMMAGE plugin.</p>
+directions here:(https://github.com/gtri/scrimmage). Also make sure that an OpenCV above version 3.0.0 is installed on
+your Linux system, version 3.4.0+ is recommended. You will need to pull the code for AirSim v1.2.2 and build the
+libstdc++ version of AirSim on your Linux computer. Then build SCRIMMAGE with the AirSim SCRIMMAGE plugin.</p>
 <ol class="arabic">
 <li><p><strong>Build the libstdc++ version of AirSim (which will be loaded into SCRIMMAGE)</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If using Ubuntu 16.04, you may need to update to CMake 3.10</span>
@@ -490,16 +492,49 @@ scrimmage ./quad-airsim-ex1.xml
 <p>To save the images and quaternion pose CSV from the simulation for later processing into the SCRIMMAGE logs directory
 set save_airsim_data=”true” in the scrimmage mission file quad-airsim-ex1.xml. The Scrimmage Logs directory should be
 located in ~/.scrimmage/logs on the Linux side.</p>
+<p>To retrieve Image data from the simulation set get_image_data=”true” in the scrimmage mission file quad-airsim-ex1.xml.
+Camera image types can be configured in scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml</p>
 <p>To retrieve LIDAR data from the simulation set get_lidar_data=”true” in the scrimmage mission file quad-airsim-ex1.xml.
-LIDAR settings can be changed in the settings.json file on the Windows side located in DocumentsAirSim.
+LIDAR and image settings can be changed in the settings.json file on the Windows side located in Documents\AirSim.
 See (<a class="reference external" href="https://github.com/microsoft/AirSim/blob/master/docs/lidar.md">https://github.com/microsoft/AirSim/blob/master/docs/lidar.md</a>) for more details.
-Variable DrawDebugPoints in the settings.json file will show the LIDAR pointcloud in the simulation, but it will also
-appear in the saved images so by default it is set to false.</p>
+Lidar variable DrawDebugPoints in the settings.json file will show the LIDAR pointcloud in the simulation as seen in the
+image below, however it will also appear in the saved images so by default it is set to false.</p>
 <a class="reference internal image-reference" href="../_images/LIDAR_DrawDebugPoints.png"><img alt="../_images/LIDAR_DrawDebugPoints.png" src="../_images/LIDAR_DrawDebugPoints.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="publish-images-and-lidar-data-to-ros">
+<h3>Publish Images and LIDAR data to ROS<a class="headerlink" href="#publish-images-and-lidar-data-to-ros" title="Permalink to this headline">¶</a></h3>
+<p>To publish AirSim data to ROS you must build scrimmage with -DBUILD_ROS_PLUGINS=ON, example below. Uncomment the
+“&lt;autonomy&gt;ROSAirSim&lt;/autonomy&gt;” tag in the scrimmage mission file quad-airsim-ex1.xml. To publish image or lidar data
+set “pub_image/lidar_data” to true within the ROSAirSim tag, however be sure to have “get_image/lidar_data” set to true
+in the AirSimSensor tag above in order to receive the data. Setting “show_camera_images” to true will display images
+from each camera type in OpenCV windows. By default images are shown using the “”&lt;autonomy&gt;Straight&lt;/autonomy&gt;” tag in
+quad-airsim-ex1.xml, this only needs to be specified once.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Go into Scrimmage</span>
+<span class="nb">cd</span> /path/to/scrimmage/
+<span class="c1"># Delete build directory</span>
+rm -rf build/ <span class="o">&amp;&amp;</span> mkdir build/ <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build/
+<span class="c1"># Config CMake to build SCRIMMAGE ROS Plugins</span>
+cmake .. -DAIRSIM_ROOT_SEARCH<span class="o">=</span>/home/nrakoski3/scrimmage/AirSim/ -DROS_VERSION<span class="o">=</span>melodic -DBUILD_ROS_PLUGINS<span class="o">=</span>ON
+<span class="c1"># Build</span>
+make -j7
+<span class="c1"># Open a second Terminal window and start ROS</span>
+roscore
+<span class="c1"># Run from original Terminal window</span>
+<span class="nb">cd</span> .. <span class="o">&amp;&amp;</span> scrimmage ./missions/quad-airsim-ex1.xml
+<span class="c1"># Start RVIZ in a third Terminal window to visualize LIDAR data</span>
+rviz ./scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim/lidar.rviz
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="run-with-multiple-quadcopters">
+<h3>Run with Multiple Quadcopters<a class="headerlink" href="#run-with-multiple-quadcopters" title="Permalink to this headline">¶</a></h3>
+<p>COMING SOON</p>
 </div>
 <div class="section" id="add-asset-environments">
 <h3>Add “Asset” Environments<a class="headerlink" href="#add-asset-environments" title="Permalink to this headline">¶</a></h3>
-<p>AirSim offers different environments that can be played but not edited for every release version called <strong>“Assets”</strong>.
+<p>AirSim offers photo-realistic environments that can be played(not edited) for every release version called <strong>“Assets”</strong>.
 They can be found here: (<a class="reference external" href="https://github.com/Microsoft/AirSim/releases">https://github.com/Microsoft/AirSim/releases</a>). Download one of the Asset ZIP files under your
 AirSim version (here we used LandscapeMountains under v1.2.2) onto the Windows machine and place in the
 directory: c:/AirSim/Unreal/Environments/. Assets for newer versions of AirSim will not work with older versions of
