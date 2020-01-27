@@ -24,6 +24,8 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     ruby-full \
     build-essential \
     zlib1g-dev \
+    ros-kinetic-opencv3 \
+    ros-kinetic-tf2 \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \

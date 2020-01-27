@@ -255,7 +255,7 @@ install(TARGETS scrimmage-boost EXPORT ${PROJECT_NAME}-targets)
 ########################################################
 # Find OpenCV
 ########################################################
-find_package(OpenCV QUIET)
+find_package(OpenCV 3.0.0)
 if (OpenCV_FOUND)
   add_library(scrimmage-opencv INTERFACE)
   target_include_directories(scrimmage-opencv INTERFACE ${OpenCV_INCLUDE_DIRS})
@@ -274,7 +274,7 @@ set(ROS_VERSION "kinetic" CACHE STRING "The ROS distribution version.")
 if (BUILD_ROS_PLUGINS)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/${ROS_VERSION}/)
   find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs std_msgs
-    geometry_msgs nav_msgs tf image_transport cv_bridge)
+    geometry_msgs nav_msgs tf image_transport cv_bridge tf2_ros tf2)
   if (catkin_FOUND)
     include_directories(${catkin_INCLUDE_DIRS})
   endif()
