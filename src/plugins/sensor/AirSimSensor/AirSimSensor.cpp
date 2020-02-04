@@ -70,6 +70,8 @@ using ang = scrimmage::Angles;
 namespace sc = scrimmage;
 namespace ma = msr::airlib;
 
+#define DBCOUT std::cout << "##AirSimSENSOR " << __LINE__ << std::endl
+
 REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::AirSimSensor, AirSimSensor_plugin)
 
 namespace scrimmage {
@@ -188,6 +190,8 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     img_pub_ = advertise("LocalNetwork", "AirSimImages");
     lidar_pub_ = advertise("LocalNetwork", "AirSimLidar");
 
+    DBCOUT << "finished AirSimSensor init.\n";
+
     return;
 }
 
@@ -199,7 +203,6 @@ void AirSimSensor::request_images() {
     bool connected = false;
     while (!connected) {
         img_client->confirmConnection();
-
         // If we haven't been able to connect to AirSim, warn the user
         if (img_client->getConnectionState() !=
             ma::RpcLibClientBase::ConnectionState::Connected) {
@@ -223,9 +226,6 @@ void AirSimSensor::request_images() {
     // TTimePoint prev_timestamp = 0;
 
     while (running) {
-
-        // cout << "getting an image" << endl;
-
         // Set up stream for each camera/ camera type sending images
         auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
         auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
@@ -310,6 +310,7 @@ void AirSimSensor::request_images() {
 
         std::this_thread::sleep_for(std::chrono::milliseconds(int(data_acquisition_period_*1000)));
     }
+
 }
 
 bool AirSimSensor::step() {
@@ -358,6 +359,7 @@ bool AirSimSensor::step() {
                                                       airsim_yaw_rad);
 
     // Send state information to AirSim
+    DBCOUT << "Current elevation: " << pos[2] << std::endl;
     sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true);
 
     // Get the camera images from the other thread

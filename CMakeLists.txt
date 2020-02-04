@@ -270,12 +270,14 @@ endif()
 # Find ROS
 ########################################################
 option(BUILD_ROS_PLUGINS "BUILD_ROS_PLUGINS" OFF)
-set(ROS_VERSION "kinetic" CACHE STRING "The ROS distribution version.")
+set(ROS_VERSION "melodic" CACHE STRING "The ROS distribution version.")
+message(STATUS "finding ROS in scrimmage")
 if (BUILD_ROS_PLUGINS)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/${ROS_VERSION}/)
   find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs std_msgs
     geometry_msgs nav_msgs tf image_transport cv_bridge tf2_ros tf2 tf2_geometry_msgs)
   if (catkin_FOUND)
+    message(STATUS "all scrimmage ROS packages found")
     include_directories(${catkin_INCLUDE_DIRS})
   endif()
 endif()

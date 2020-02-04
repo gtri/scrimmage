@@ -25,7 +25,7 @@
     [0 Segmentation 5 256 144]
     [0 Infrared 7 256 144]
   </camera_config>
-
+    
   <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs-->
   <save_airsim_data>true</save_airsim_data>
   <!-- get_image_data requests image data from AirSim -->

@@ -47,6 +47,8 @@
 using std::cout;
 using std::endl;
 
+#define DBCOUT std::cout << "##ROSAirSim " << __LINE__ << std::endl
+
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAirSim, ROSAirSim_plugin)
@@ -79,7 +81,9 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
     // Setup robot namespace
     ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
-    ros_namespace_ += std::to_string(parent_->id().id());
+    ros_namespace_ += std::to_string(parent_->id().id()); 
+
+    DBCOUT << "ros namespace is : " << ros_namespace_ << std::endl;
 
     // setup image transport node
     // image_transport::ImageTransport it(nh_);
@@ -87,6 +91,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
     // airsim lidar callback
     auto airsim_lidar_cb = [&](auto &msg) {
+        DBCOUT << "running lidar callback for some weird reason...\n";
         if (pub_lidar_data_) {
             ros::Time ros_time = ros::Time::now();
             // Get LIDAR data, lidar data corresponds to each group of image types requested
@@ -169,6 +174,9 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     };
     // airsim image callback
     auto airsim_image_cb = [&](auto &msg) {
+        if (msg->data.size() == 0) {
+            return;
+        }
         if (pub_image_data_) {
             // Create the ROSmsg header for the soon to be published messages
             std_msgs::Header header; // empty header
@@ -184,9 +192,11 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
                 std::string topic_name = "/" + ros_namespace_ + "/" + camera_name + "_" + image_type_name;
                 std::string topic_name_pub = ros_namespace_ + "/" + camera_name + "_" + image_type_name;
-                // cout << topic_name << endl;
-                // cout << "img size:" << a.img.size() << endl;
-                // cout << "img channels:" << a.img.channels() << endl;
+                // HACK FOR SPARKYDOG
+                if (topic_name == "/robot1/bottom_center_scene") {
+                    topic_name = "/nadir/camera";
+                    topic_name_pub = "nadir/camera";
+                }
 
                 // Check if topic publisher exists for each AirSim msg type, if so publish
                 bool published = false;
@@ -206,9 +216,6 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
                 // If it gets through the above for loop with published=false then the topic doesn't exist
                 if (published == false) {
-                    // cout << "Do this once." << endl;
-                    // cout << topic_name << endl;
-
                     // create new publisher for the new topic
                     img_publishers_.push_back(it_->advertise(topic_name_pub, 1));
 
@@ -250,6 +257,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     if (pub_image_data_) {
         subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
     }
+
+    DBCOUT << "done initializing ROSAirSim.\n";
 }
 
 bool ROSAirSim::step_autonomy(double t, double dt) {
