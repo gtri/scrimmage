@@ -39,8 +39,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/Image.h>
-// #include <tf/transform_broadcaster.h>
-// #include <tf/transform_datatypes.h>
+#include <rosgraph_msgs/Clock.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 #include <tf2_ros/transform_broadcaster.h>
@@ -68,6 +67,7 @@ class ROSAirSim : public scrimmage::Autonomy {
     bool show_camera_images_ = false;
     bool pub_image_data_ = true;
     bool pub_lidar_data_ = true;
+    bool pub_sim_time_ = false;
 
     std::shared_ptr<ros::NodeHandle> nh_;
     std::shared_ptr<image_transport::ImageTransport> it_;
@@ -77,6 +77,8 @@ class ROSAirSim : public scrimmage::Autonomy {
     std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
     std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
     geometry_msgs::TransformStamped laser_trans_;
+
+    ros::Publisher clock_pub_;
 
     std::string ros_namespace_;
 };

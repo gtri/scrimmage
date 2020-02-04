@@ -5,4 +5,5 @@
   <show_camera_images>false</show_camera_images>
   <pub_image_data>true</pub_image_data>
   <pub_lidar_data>true</pub_lidar_data>
+  <pub_sim_time>true</pub_sim_time>
 </params>
