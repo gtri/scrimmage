@@ -88,6 +88,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
     airsim_port_ = sc::get<int>("airsim_port", params, 41451);
     airsim_timeout_s_ = sc::get<int>("airsim_timeout_ms", params, 60);
+    data_acquisition_period_ = sc::get<double>("data_acquisition_period", params, .1);
 
     save_airsim_data_ = sc::get<bool>("save_airsim_data", params, "true");
     get_image_data_ = sc::get<bool>("get_image_data", params, "true");
@@ -217,11 +218,13 @@ void AirSimSensor::request_images() {
 
     // todo, Need to figure out how to pull vehicle/ lidar names from settings.json file
     // Right now we are running AirSim with only 1 Drone
-    const std::string& vehicle_name = "Drone1";
+    // const std::string& vehicle_name = "Drone1";
     const std::string& lidar_name = "Lidar1";
     // TTimePoint prev_timestamp = 0;
 
     while (running) {
+
+        // cout << "getting an image" << endl;
 
         // Set up stream for each camera/ camera type sending images
         auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
@@ -233,8 +236,10 @@ void AirSimSensor::request_images() {
         // Get Lidar Data
         if (get_lidar_data_) {
             AirSimLidarType l;
-            l.lidar_data = img_client->getLidarData(lidar_name, vehicle_name);
+            // l.lidar_data = img_client->getLidarData(lidar_name, vehicle_name);
+            l.lidar_data = img_client->getLidarData(lidar_name);
             lidar_msg->data = l;
+            new_lidar_ = true;
         }
         if (get_image_data_) {
             for (CameraConfig c : cam_configs_) {
@@ -252,11 +257,15 @@ void AirSimSensor::request_images() {
                 }
 
                 // Get Image
-                const std::vector<ImageResponse>& response  = img_client->simGetImages(request, vehicle_name);
+                // cout << "just before simGetImages" << endl;
+                // const std::vector<ImageResponse>& response  = img_client->simGetImages(request, vehicle_name);
+                const std::vector<ImageResponse>& response  = img_client->simGetImages(request);
+                // cout << "just after simGetImages" << endl;
 
                 if (response.size() > 0) {
                     AirSimImageType a;
                     a.camera_config = c;
+                    new_image_ = true;
 
                     // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
                     if (c.img_type_name == "DepthPerspective" || c.img_type_name == "DepthPlanner") {
@@ -298,6 +307,8 @@ void AirSimSensor::request_images() {
         running_mutex_.lock();
         running = running_;
         running_mutex_.unlock();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(int(data_acquisition_period_*1000)));
     }
 }
 
@@ -352,25 +363,37 @@ bool AirSimSensor::step() {
     // Get the camera images from the other thread
     sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
     sc::MessagePtr<AirSimLidarType> lidar_msg;
+    bool new_lidar = false;
+    bool new_image = false;
 
+    // TODO: this mutex doesn't protect anything, because we are 
+    // copying the pointer, not the underlying data.
     img_msg_mutex_.lock();
-    im_msg = img_msg_;
-    lidar_msg = lidar_msg_;
+        im_msg = img_msg_;
+        new_image = new_image_;
+        new_image_ = false;
+
+        lidar_msg = lidar_msg_;
+        new_lidar = new_lidar_;
+        new_lidar_ = false;
     img_msg_mutex_.unlock();
 
-    // Set frame # for all items in AirSim msg vector, assures frame number in saved images is same # as in ROS msgs
-    lidar_msg->data.frame_num = airsim_frame_num_;
-    // cout << "Lidar Frame Num" << lidar_msg->data.frame_num << endl;
-    for (int i = 0; i < im_msg->data.size(); i++) {
-        im_msg->data[i].frame_num = airsim_frame_num_;
+    if (new_image) {
+        for (int i = 0; i < im_msg->data.size(); i++) {
+            im_msg->data[i].frame_num = airsim_frame_num_;
+        }
+        if (save_airsim_data_) {
+            AirSimSensor::save_data(im_msg, state);
+        }
+        img_pub_->publish(im_msg);
     }
 
-    if (save_airsim_data_) {
-        AirSimSensor::save_data(im_msg, state);
+    if (new_lidar) {
+        // Set frame # for all items in AirSim msg vector, assures frame number in saved images is same # as in ROS msgs
+        lidar_msg->data.frame_num = airsim_frame_num_;
+        // cout << "Lidar Frame Num" << lidar_msg->data.frame_num << endl;
+        lidar_pub_->publish(lidar_msg);
     }
-
-    img_pub_->publish(im_msg);
-    lidar_pub_->publish(lidar_msg);
 
     airsim_frame_num_++;
 

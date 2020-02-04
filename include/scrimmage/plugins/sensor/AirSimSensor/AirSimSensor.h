@@ -134,6 +134,12 @@ class AirSimSensor : public scrimmage::Sensor {
     bool get_image_data_ = true;
     bool get_lidar_data_ = true;
 
+    bool new_lidar_ = false;
+    bool new_image_ = false;
+
+    // period at which the data acquisition is run [seconds]
+    double data_acquisition_period_ = .1;
+
     int airsim_frame_num_ = 0;
     scrimmage::CSV csv;
 

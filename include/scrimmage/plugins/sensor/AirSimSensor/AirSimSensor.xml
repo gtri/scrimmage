@@ -33,4 +33,7 @@
   <!-- get_lidar_data requests lidar data from AirSim -->
   <get_lidar_data>true</get_lidar_data>
 
+  <!-- get_lidar_data requests lidar data from AirSim -->
+  <data_acquisition_period>.1</data_acquisition_period>
+
 </params>
