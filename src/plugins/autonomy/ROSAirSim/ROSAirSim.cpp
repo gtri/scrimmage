@@ -58,6 +58,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, "false");
     pub_image_data_ = sc::get<bool>("pub_image_data", params, "true");
     pub_lidar_data_ = sc::get<bool>("pub_lidar_data", params, "true");
+    pub_sim_time_ = sc::get<bool>("pub_sim_time", params, pub_sim_time_);
     cout << " " << endl;
     if (pub_image_data_) {
         cout << "Publishing AirSim images to ROS." << endl;
@@ -84,6 +85,13 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     // setup image transport node
     // image_transport::ImageTransport it(nh_);
     it_ = std::make_shared<image_transport::ImageTransport>(*nh_);
+
+
+    // run clock
+    if (pub_sim_time_) {
+        clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("clock", 1);
+    }
+
 
     // airsim lidar callback
     auto airsim_lidar_cb = [&](auto &msg) {
@@ -255,6 +263,12 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 bool ROSAirSim::step_autonomy(double t, double dt) {
 
     ros::spinOnce(); // check for new ROS messages
+
+    if (pub_sim_time_) {
+        rosgraph_msgs::Clock clock;
+        clock.clock = ros::Time(t);
+        clock_pub_.publish(clock);
+    }
 
     return true;
 }
