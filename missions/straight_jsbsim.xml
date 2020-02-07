@@ -5,9 +5,9 @@
   
   <run start="0.0" end="100" dt="0.0083333" 
        time_warp="0" 
-       enable_gui="false"
+       enable_gui="true"
        network_gui="false"
-       start_paused="false"/>
+       start_paused="true"/>
   
   <stream_port>50051</stream_port>
   <stream_ip>localhost</stream_ip>
@@ -41,7 +41,8 @@
   
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>1714060370</seed>
-  
+
+
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
     <team_id>1</team_id> 
@@ -56,7 +57,11 @@
     <x>-1000</x>
     <y>0</y>
     <z>200</z>
-    <heading>0</heading>            
+    <heading>0</heading>
+
+    <sensor>ROSAltimeter</sensor>
+    <sensor>ROSCompass</sensor>
+    <sensor>ROSIMUSensor</sensor>
     
     <motion_model>JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
@@ -87,8 +92,11 @@
     <x>50</x>
     <y>0</y>
     <z>200</z>
-
     <heading>180</heading>
+
+    <sensor>ROSAltimeter</sensor>
+    <sensor>ROSCompass</sensor>
+    <sensor>ROSIMUSensor</sensor>
         
     <motion_model>JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
@@ -126,7 +134,11 @@
     <z>200</z>
     
     <heading>180</heading>        
-    <altitude>200</altitude>
+<!--    <altitude>200</altitude>-->
+
+    <sensor>ROSAltimeter</sensor>
+    <sensor>ROSCompass</sensor>
+    <sensor>ROSIMUSensor</sensor>
 
     <motion_model>JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
@@ -162,7 +174,11 @@
     <z>200</z>
     
     <heading>180</heading>        
-    <altitude>200</altitude>
+<!--    <altitude>200</altitude>-->
+
+    <sensor>ROSAltimeter</sensor>
+    <sensor>ROSCompass</sensor>
+    <sensor>ROSIMUSensor</sensor>
 
     <motion_model>JSBSimModel</motion_model>
     <controller>JSBSimModelControllerHeadingPID</controller>
