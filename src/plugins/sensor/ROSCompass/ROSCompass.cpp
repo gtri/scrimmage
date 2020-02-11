@@ -75,24 +75,25 @@ void ROSCompass::init(std::map<std::string, std::string> &params) {
 
 bool ROSCompass::step() {
     // Obtain current state information
-    scrimmage::Angles angles_to_gps;
     sc::StatePtr &state = parent_->state_truth();
 
-    // TODO: Logic and custom message not finished!
+    // Scrimmage is in ENU so all outputs are in ENU (East North Up).
 
-    angles_to_gps.set_angle(sc::Angles::rad2deg(state->quat().yaw()));
-    // cout << angles_to_gps.angle() << endl;
-    double airsim_yaw_rad = sc::Angles::deg2rad(angles_to_gps.angle());
-    // cout << airsim_yaw_rad << endl;
+    // Get rotation vector
+    // Rotate Reverse: Get rotation between orientation of the body and ENU orientation of the north pole (0, 1, 0)
+    Eigen::Vector3d rotation = state->quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));
 
-    // scrimmage::Angles enu_to_ned_yaw_;
-    // enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
-    // enu_to_ned_yaw_.set_angle(state->quat().yaw());
-    // double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
-
-    // Fill Compass Message
+    // Fill Compass Message. We're using the magnetic field message, but the info is the rotation vector.
     sensor_msgs::MagneticField compass_msg;
+    compass_msg.magnetic_field.x = rotation.x();
+    compass_msg.magnetic_field.y = rotation.y();
+    compass_msg.magnetic_field.z = rotation.z();
 
+    // Header
+    std_msgs::Header header; // empty header
+    // TODO: header.frame = ? // No system for ROS Frame ID's yet
+    header.stamp = ros::Time::now(); // time
+    compass_msg.header = header;
 
     // Publish Compass information
     compass_pub_.publish(compass_msg);
