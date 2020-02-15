@@ -91,6 +91,23 @@ void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr& msg) {
         shape->set_hash_set(true);
 
         draw_shape(shape);
+    } else if (msg->type == visualization_msgs::Marker::SPHERE &&
+               msg->action == 0 /* ADD an object */) {
+
+        Eigen::Vector3d point (msg->pose.position.x,
+                               msg->pose.position.y,
+                               msg->pose.position.z);
+
+        auto shape = shape::make_sphere(point,
+                                        msg->scale.x,
+                                        Eigen::Vector3d(0, 0, 0));
+        // Set the ID based on the message namespace and ID
+        std::string hash_str = msg->ns + std::to_string(msg->id);
+        std::size_t hash_id = std::hash<std::string>{}(hash_str);
+        shape->set_hash(hash_id);
+        shape->set_hash_set(true);
+
+        draw_shape(shape);
     }
 }
 
