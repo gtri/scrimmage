@@ -47,6 +47,8 @@
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
 
+#include "common/AirSimSettings.hpp"
+
 #include <iostream>
 #include <memory>
 #include <limits>
@@ -88,6 +90,11 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
     airsim_port_ = sc::get<int>("airsim_port", params, 41451);
     airsim_timeout_s_ = sc::get<int>("airsim_timeout_ms", params, 60);
+
+    vehicle_name_ = sc::get<std::string>("vehicle_name", params, "Drone1");
+    lidar_name_ = sc::get<std::string>("lidar_name", params, "Lidar1");
+    cout << "Vehicle Name: " << vehicle_name_ << endl;
+    cout << "Lidar Name: " << lidar_name_ << endl;
 
     save_airsim_data_ = sc::get<bool>("save_airsim_data", params, "true");
     get_image_data_ = sc::get<bool>("get_image_data", params, "true");
@@ -217,8 +224,8 @@ void AirSimSensor::request_images() {
 
     // todo, Need to figure out how to pull vehicle/ lidar names from settings.json file
     // Right now we are running AirSim with only 1 Drone
-    const std::string& vehicle_name = "Drone1";
-    const std::string& lidar_name = "Lidar1";
+    // const std::string& vehicle_name = vehicle_name_;
+    // const std::string& lidar_name = lidar_name_;
     // TTimePoint prev_timestamp = 0;
 
     while (running) {
@@ -233,7 +240,9 @@ void AirSimSensor::request_images() {
         // Get Lidar Data
         if (get_lidar_data_) {
             AirSimLidarType l;
-            l.lidar_data = img_client->getLidarData(lidar_name, vehicle_name);
+            l.vehicle_name = vehicle_name_;
+            l.lidar_name = lidar_name_;
+            l.lidar_data = img_client->getLidarData(lidar_name_, vehicle_name_);
             lidar_msg->data = l;
         }
         if (get_image_data_) {
@@ -252,10 +261,11 @@ void AirSimSensor::request_images() {
                 }
 
                 // Get Image
-                const std::vector<ImageResponse>& response  = img_client->simGetImages(request, vehicle_name);
+                const std::vector<ImageResponse>& response  = img_client->simGetImages(request, vehicle_name_);
 
                 if (response.size() > 0) {
                     AirSimImageType a;
+                    a.vehicle_name = vehicle_name_;
                     a.camera_config = c;
 
                     // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
@@ -328,6 +338,56 @@ bool AirSimSensor::step() {
         sim_client_->enableApiControl(true);
     }
 
+    // Get Vehicles and Camera Settings
+
+    // ma::AirSimSettings::VehicleSetting curr_vehicle_setting = AirSimSettings::singleton().vehicles[0]; //curr_vehicle_elem
+//    for (const auto& curr_vehicle_elem : AirSimSettings::singleton().vehicles) {
+//
+//        // You could also do myMap.begin()->first to get the key and myMap.begin()->second to get the value.
+//        // auto& vehicle_setting = curr_vehicle_elem.second;
+//        // auto curr_vehicle_name = curr_vehicle_elem.vehicle_setting.vehicle_name;
+//        auto& vehicle_setting = curr_vehicle_elem.second;
+//        auto curr_vehicle_name = curr_vehicle_elem.first;
+//        auto vehicle_setting_local = vehicle_setting.get();
+//
+//        cout << "Vehicle Name" << endl;
+//        cout << curr_vehicle_name << endl;
+//
+//        for (auto& curr_camera_elem : vehicle_setting->cameras) {
+//            auto& camera_setting = curr_camera_elem.second;
+//            auto& curr_camera_name = curr_camera_elem.first;
+//            auto camera_setting_local = camera_setting;
+//
+//            auto capture_settings_local = camera_setting_local.capture_settings;
+//            auto capture_size = capture_settings_local.size();
+//            // auto capture_width = capture_settings_local.width;
+//
+//            cout << "Capture Size" << endl;
+//            cout << capture_size << endl;
+//            // cout << "Camera Width" << endl;
+//            // cout << capture_width << endl;
+//
+//        }
+//
+//        for (auto& curr_sensor_elem : vehicle_setting->sensors) {
+//            auto& sensor_setting = curr_sensor_elem.second;
+//            auto& curr_sensor_name = curr_sensor_elem.first;
+//
+//            auto sensor_name = sensor_setting->sensor_name;
+//
+//            cout << "Sensor Name" << endl;
+//            cout << sensor_name << endl;
+//            // cout << "Camera Width" << endl;
+//            // cout << capture_width << endl;
+//
+//        }
+//
+//        cout << "*************" << endl;
+//    }
+
+    // auto quadcopter_setting = AirSimSettings::singleton().vehicles["simpleflight"];
+
+
     ///////////////////////////////////////////////////////////////////////////
     /// Set pose of vehicle in AirSim
     ///////////////////////////////////////////////////////////////////////////
@@ -347,7 +407,7 @@ bool AirSimSensor::step() {
                                                       airsim_yaw_rad);
 
     // Send state information to AirSim
-    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true);
+    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
 
     // Get the camera images from the other thread
     sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
@@ -385,8 +445,11 @@ bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, s
     // TODO: Saving 3 images + a csv makes the simulation run slower, maybe need to thread
     for (AirSimImageType d : im_msg->data) {
         frame_number = d.frame_num;
+        // Create Vehicle Directory
+        std::string vehicle_dir = parent_->mp()->log_dir() + "/" + vehicle_name_ + "/";
+        boost::filesystem::create_directory(vehicle_dir);
         // Create Image type directory and image file name
-        std::string img_type_dir = parent_->mp()->log_dir() + "/" + d.camera_config.img_type_name + "/";
+        std::string img_type_dir = vehicle_dir + d.camera_config.img_type_name + "/";
         boost::filesystem::create_directory(img_type_dir);
         std::string img_filename = img_type_dir + std::to_string(airsim_frame_num_) + ".png";
 

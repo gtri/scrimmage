@@ -91,12 +91,15 @@ class AirSimImageType {
     cv::Mat img;
     CameraConfig camera_config;
     int frame_num = 0;
+    std::string vehicle_name;
 };
 
 class AirSimLidarType {
  public:
     msr::airlib::LidarData lidar_data;
     int frame_num = 0;
+    std::string vehicle_name;
+    std::string lidar_name;
 };
 
 class AirSimSensor : public scrimmage::Sensor {
@@ -123,6 +126,10 @@ class AirSimSensor : public scrimmage::Sensor {
     uint16_t airsim_port_;
     float airsim_timeout_s_;
     std::list<CameraConfig> cam_configs_;
+
+    std::string vehicle_name_ = "Drone1";
+    std::string lidar_name_ = "Lidar1";
+
     scrimmage::Angles enu_to_ned_yaw_;
 
     PublisherPtr img_pub_;

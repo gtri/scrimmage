@@ -33,4 +33,7 @@
   <!-- get_lidar_data requests lidar data from AirSim -->
   <get_lidar_data>true</get_lidar_data>
 
+  <vehicle_name>"Drone1"</vehicle_name>
+  <lidar_name>"Lidar1"</lidar_name>
+
 </params>

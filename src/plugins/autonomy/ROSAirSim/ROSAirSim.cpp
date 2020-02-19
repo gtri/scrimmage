@@ -227,7 +227,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 }
                 // draw image
                 if (show_camera_images_) {
-                    std::string window_name = a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                    std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
                     if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
                         cv::Mat tempImage;
                         a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
