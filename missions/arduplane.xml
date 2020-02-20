@@ -61,21 +61,16 @@
     <heading>${heading=0}</heading>
 
     <sensor>RigidBody6DOFStateSensor</sensor>
-    <sensor airsim_ip="10.130.0.249"
+<!--     <sensor airsim_ip="10.130.0.249"
             save_airsim_data="false"
             get_image_data="true"
             get_lidar_data="false"
-            camera_config="[0 Scene 0 640 512]
-                           [0 DepthPerspective 2 256 144]
-                           [3 Scene 0 640 512]
-                           [0 Infrared 7 256 144]"
+            camera_config="[3 Scene 0 640 512]"
     >AirSimSensor</sensor>
     <autonomy show_camera_images="false"
               pub_image_data="true"
               pub_lidar_data="false"
-    >ROSAirSim</autonomy>
-
-           <!-- camera_config="[nadir/camera Scene 0 256 144]" -->
+    >ROSAirSim</autonomy> -->
  
     <!-- Use this settings in SITL -->
     <autonomy to_ardupilot_port="${to_ardupilot_port=5501}"
