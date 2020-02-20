@@ -308,9 +308,9 @@ void AirSimSensor::request_images() {
         running = running_;
         running_mutex_.unlock();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(int(data_acquisition_period_*1000)));
+        std::this_thread::sleep_for(std::chrono::milliseconds(
+            static_cast<int>(data_acquisition_period_*1000)));
     }
-
 }
 
 bool AirSimSensor::step() {
@@ -368,7 +368,7 @@ bool AirSimSensor::step() {
     bool new_lidar = false;
     bool new_image = false;
 
-    // TODO: this mutex doesn't protect anything, because we are 
+    // TODO: this mutex doesn't protect anything, because we are
     // copying the pointer, not the underlying data.
     img_msg_mutex_.lock();
         im_msg = img_msg_;

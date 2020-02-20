@@ -82,7 +82,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
     // Setup robot namespace
     ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
-    ros_namespace_ += std::to_string(parent_->id().id()); 
+    ros_namespace_ += std::to_string(parent_->id().id());
 
     DBCOUT << "ros namespace is : " << ros_namespace_ << std::endl;
 
@@ -105,7 +105,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         if (pub_lidar_data_) {
 
             ros::Time ros_time;
-            if (pub_sim_time_) { 
+            if (pub_sim_time_) {
                 ros_time = ros_time_;
             } else {
                 ros_time = ros::Time::now();
@@ -198,7 +198,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
             // Create the ROSmsg header for the soon to be published messages
             std_msgs::Header header; // empty header
             header.seq = msg->data[0].frame_num; // AirSim defined counter
-            if (pub_sim_time_) { 
+            if (pub_sim_time_) {
                 header.stamp = ros_time_;
             } else {
                 header.stamp = ros::Time::now();
