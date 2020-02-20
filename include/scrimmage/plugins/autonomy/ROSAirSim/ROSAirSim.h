@@ -79,6 +79,7 @@ class ROSAirSim : public scrimmage::Autonomy {
     geometry_msgs::TransformStamped laser_trans_;
 
     ros::Publisher clock_pub_;
+    ros::Time ros_time_;
 
     std::string ros_namespace_;
 };

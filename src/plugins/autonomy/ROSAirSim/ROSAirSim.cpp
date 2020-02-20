@@ -94,6 +94,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     // run clock
     if (pub_sim_time_) {
         clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("clock", 1);
+        ros_time_ = ros::Time(0);
+        ros::param::set("/use_sim_time", true);
     }
 
 
@@ -101,7 +103,14 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     auto airsim_lidar_cb = [&](auto &msg) {
         DBCOUT << "running lidar callback for some weird reason...\n";
         if (pub_lidar_data_) {
-            ros::Time ros_time = ros::Time::now();
+
+            ros::Time ros_time;
+            if (pub_sim_time_) { 
+                ros_time = ros_time_;
+            } else {
+                ros_time = ros::Time::now();
+            }
+
             // Get LIDAR data, lidar data corresponds to each group of image types requested
             std::string laser_topic_name = "/" + ros_namespace_ + "/base_scan";
             if (base_scan_pub_.getTopic() != laser_topic_name) {
@@ -189,7 +198,12 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
             // Create the ROSmsg header for the soon to be published messages
             std_msgs::Header header; // empty header
             header.seq = msg->data[0].frame_num; // AirSim defined counter
-            header.stamp = ros::Time::now(); // time
+            if (pub_sim_time_) { 
+                header.stamp = ros_time_;
+            } else {
+                header.stamp = ros::Time::now();
+            }
+            // cout << "header.stamp: " << header.stamp << endl;
 
             // For each AirSim msg of (camera_config, img) in msg vector
             for (sc::sensor::AirSimImageType a : msg->data) {
@@ -226,6 +240,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 if (published == false) {
                     // create new publisher for the new topic
                     img_publishers_.push_back(it_->advertise(topic_name_pub, 1));
+                    cout << "ROSAirSim: advertising on new topic " << topic_name_pub << endl;
 
                     // Publish message so we don't skip frame
                     if (topic_name == "/robot1/front_center_depthperspective" || topic_name == "/robot1/front_center_depthplanner") {
@@ -271,13 +286,15 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
 bool ROSAirSim::step_autonomy(double t, double dt) {
 
-    ros::spinOnce(); // check for new ROS messages
-
     if (pub_sim_time_) {
+        ros_time_ = ros::Time(t);
         rosgraph_msgs::Clock clock;
-        clock.clock = ros::Time(t);
+        clock.clock = ros_time_;
         clock_pub_.publish(clock);
+        // cout << "ros_time_: " << ros_time_ << endl;
     }
+
+    ros::spinOnce(); // check for new ROS messages
 
     return true;
 }
