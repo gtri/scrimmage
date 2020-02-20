@@ -78,9 +78,11 @@ RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
 WORKDIR /root/scrimmage/scrimmage
 RUN mkdir -p build \
  && cd build \
+ && source /opt/ros/kinetic/setup.bash \
  && source ~/.bashrc \
  && source ~/.scrimmage/setup.bash \
- && cmake .. -DPYTHON_MIN_VERSION=3 -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+ && cmake .. -DPYTHON_MIN_VERSION=3 -G Ninja \
+             -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
  && ninja \
  && ninja docs website-docs
 
