@@ -19,7 +19,6 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
 
 if (OpenCV_FOUND)
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
-    ${OpenCV_LIBRARIES}
     scrimmage-opencv
     )
 endif()
