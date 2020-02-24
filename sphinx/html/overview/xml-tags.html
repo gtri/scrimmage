@@ -307,6 +307,11 @@ of homogeneous entities. The following XML tags should be used within the
 used to reference this block later. When running SCRIMMAGE within another
 system, such as ROS or MOOS, this name is used to reference this entity
 block.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> : An optional tag that manually specifies the entity’s ID or the
+first ID of an entity block that generates more than a single agent. If two
+entity blocks specify the same <code class="docutils literal notranslate"><span class="pre">id</span></code>, the entity that is generated first
+is assigned the ID. If the ID is already in use by another agent, the ID is
+incremented until an available entity ID is found.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">team_id</span></code> : The team identification number for this entity group. If
 multiple entity tags are used to initialize a team of heterogeneous
 entities, as long as the <code class="docutils literal notranslate"><span class="pre">team_id</span></code> is the same, the entities will be on
