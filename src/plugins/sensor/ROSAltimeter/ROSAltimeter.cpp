@@ -90,9 +90,7 @@ void ROSAltimeter::init(std::map<std::string, std::string> &params) {
     sc::StatePtr &state = parent_->state_truth();
     double lat_init, lon_init, alt_init;
     parent_->projection()->Reverse(state->pos()(0), state->pos()(1), state->pos()(2), lat_init, lon_init, alt_init);
-    monotonic_ = (float) alt_init;
-    // float const& const_monotonic_ = monotonic_;
-    // alt_msg_.monotonic = const_monotonic_;
+    monotonic_ = static_cast<float>(alt_init);
 }
 
 bool ROSAltimeter::step() {
@@ -121,7 +119,7 @@ bool ROSAltimeter::step() {
     // events like GPS lock or when a new QNH value is set). It should be the altitude to which global altitude
     // waypoints are compared to. Note that it is *not* the GPS altitude, however, most GPS modules already
     // output MSL by default and not the WGS84 altitude.
-    alt_msg.amsl = (float) alt;
+    alt_msg.amsl = static_cast<float>(alt);
 
     // local = scrimmage z position of state
     ////// MavROS website on Local: //////
