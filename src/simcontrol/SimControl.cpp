@@ -339,9 +339,12 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     contacts_mutex_.lock();
     AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
+
+    int id = find_available_id(params);
+
     bool ent_status = ent->init(attr_map, params, id_to_team_map_,
                                 id_to_ent_map_,
-                                contacts_, mp_, proj_, next_id_, ent_desc_id,
+                                contacts_, mp_, proj_, id, ent_desc_id,
                                 plugin_manager_, file_search_, rtree_, pubsub_, time_,
                                 param_server_, global_services_,
                                 std::set<std::string>{},
@@ -379,8 +382,6 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     auto msg = std::make_shared<Message<sm::EntityGenerated>>();
     msg->data.set_entity_id(ent->id().id());
     pub_ent_gen_->publish(msg);
-
-    next_id_++;
 
     return true;
 }
@@ -840,6 +841,9 @@ bool SimControl::start() {
         params["roll"] = std::to_string(sc::Angles::rad2deg(quat.roll()));
         params["pitch"] = std::to_string(sc::Angles::rad2deg(quat.pitch()));
         params["heading"] = std::to_string(sc::Angles::rad2deg(quat.yaw()));
+
+        // Assign the ID based on the protobuf message
+        params["id"] = std::to_string(msg->data.entity_id());
 
         // Override any manually specified entity_params
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
@@ -1753,4 +1757,32 @@ std::shared_ptr<std::unordered_map<int, EntityPtr>>
 SimControl::id_to_entity_map() {
     return id_to_ent_map_;
 }
+
+int SimControl::find_available_id(
+    const std::map<std::string, std::string>& params) {
+
+    // Use the mission file specified ID, if it exists, otherwise, find the
+    // next available ID from the back of the ids_used_ std::set.
+    int id = 0;
+    auto it_id = params.find("id");
+    if (it_id != params.end()) {
+        try {
+            id = std::stoi(it_id->second);
+        } catch (...) {
+            cout << "Failed to convert the following <id> tag into an integer: "
+                 << it_id->second << endl;
+            id = 0;
+        }
+    }
+
+    std::pair<std::set<int>::const_iterator, bool> ret;
+    do {
+        ret = ids_used_.emplace(id);
+        if (not ret.second) {
+            id = *(ids_used_.rbegin()) + 1;
+        }
+    } while (not ret.second);
+    return id;
+}
+
 } // namespace scrimmage

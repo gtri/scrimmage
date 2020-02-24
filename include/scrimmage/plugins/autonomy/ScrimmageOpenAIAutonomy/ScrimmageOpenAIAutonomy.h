@@ -57,7 +57,7 @@
 namespace scrimmage {
 
 struct EnvParams {
-    std::vector<double> discrete_count;
+    std::vector<int> discrete_count;
     std::vector<std::pair<double, double>> continuous_extrema;
 };
 
