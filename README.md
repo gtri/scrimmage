@@ -430,6 +430,7 @@ interface with internet access from the commands:
     $ nmcli device show <interfacename> | grep IP4.DNS   # Ubuntu >= 15
 
 
+
 Restart docker:
 
     $ sudo service docker restart
