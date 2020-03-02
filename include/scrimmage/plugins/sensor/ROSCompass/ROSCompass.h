@@ -20,9 +20,8 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Natalie Rakoski <natalie.rakoski@gtri.gatech.edu>
+ * @date 27 January 2020
  * @version 0.1.0
  * @brief Brief file description.
  * @section DESCRIPTION
@@ -30,36 +29,35 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
 
-#include <pybind11/pybind11.h>
+#include <ros/ros.h>
+#include <sensor_msgs/MagneticField.h>
+#include <scrimmage/sensor/Sensor.h>
 
-#include <scrimmage/common/Visibility.h>
-
-#include <utility>
-#include <string>
+#include <random>
 #include <vector>
+#include <map>
+#include <string>
+#include <memory>
 
 namespace scrimmage {
+namespace sensor {
 
-namespace autonomy {
+class ROSCompass : public scrimmage::Sensor {
+ public:
+    ROSCompass();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
-pybind11::object DLL_PUBLIC get_gym_space(const std::string &type);
+ protected:
+    std::string ros_namespace_;
+    std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Publisher compass_pub_;
 
-void DLL_PUBLIC to_continuous(
-        std::vector<std::pair<double, double>> &p,
-        pybind11::list &minima,
-        pybind11::list &maxima);
-
-void DLL_PUBLIC to_discrete(std::vector<int> &p, pybind11::list &maxima);
-
-pybind11::object DLL_PUBLIC create_space(
-        pybind11::list discrete_maxima,
-        pybind11::list continuous_minima,
-        pybind11::list continuous_maxima);
-
-} // namespace autonomy
+ private:
+};
+} // namespace sensor
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_

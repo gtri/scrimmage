@@ -255,7 +255,7 @@ install(TARGETS scrimmage-boost EXPORT ${PROJECT_NAME}-targets)
 ########################################################
 # Find OpenCV
 ########################################################
-find_package(OpenCV 3.0.0 QUIET)
+find_package(OpenCV 3 QUIET)
 if (OpenCV_FOUND)
   add_library(scrimmage-opencv INTERFACE)
   target_include_directories(scrimmage-opencv INTERFACE ${OpenCV_INCLUDE_DIRS})

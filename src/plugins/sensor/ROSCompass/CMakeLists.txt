@@ -1,11 +1,11 @@
-if (NOT OpenCV_FOUND)
+if (NOT catkin_FOUND)
   return()
 endif()
 
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-SET (LIBRARY_NAME MapGen2D_plugin)
+SET (LIBRARY_NAME ROSCompass_plugin)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
@@ -19,7 +19,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
     scrimmage-core
-    scrimmage-opencv
+  ${catkin_LIBRARIES}
   )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
