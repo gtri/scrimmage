@@ -57,6 +57,10 @@
     <z>10</z> <!-- LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
     <heading>0</heading>
 
+    <sensor>ROSAltimeter</sensor>
+    <sensor>ROSCompass</sensor>
+    <sensor>ROSIMUSensor</sensor>
+
     <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
     <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
