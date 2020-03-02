@@ -35,7 +35,10 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
+#include <scrimmage/math/Quaternion.h>
+
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/common/CSV.h>
 
 #include <random>
 #include <vector>
@@ -44,11 +47,6 @@
 #include <memory>
 
 namespace scrimmage {
-
-namespace motion {
-class RigidBody6DOFState;
-}
-
 namespace sensor {
 
 class ROSIMUSensor : public scrimmage::Sensor {
@@ -56,12 +54,18 @@ class ROSIMUSensor : public scrimmage::Sensor {
     ROSIMUSensor();
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
+    void close(double t) override;
 
  protected:
     std::string ros_namespace_;
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Publisher imu_pub_;
-    std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
+
+    Eigen::Vector3d prev_vel_;
+    Quaternion prev_quat_;
+    double prev_time_;
+
+    scrimmage::CSV csv;
 
  private:
 };
