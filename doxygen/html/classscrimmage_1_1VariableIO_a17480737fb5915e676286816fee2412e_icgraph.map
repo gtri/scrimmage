@@ -1,0 +1,6 @@
+<map id="scrimmage::VariableIO::declare" name="scrimmage::VariableIO::declare">
+<area shape="rect" id="node2" href="$classscrimmage_1_1VariableIO.html#a535c2306be0bc8dfdf4c2111d1d9a927" title="scrimmage::VariableIO\l::declare" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1motion_1_1Unicycle.html#a1430ebdf1657ef8a5d916aa3955f97aa" title="scrimmage::motion::\lUnicycle::init" alt="" coords="226,71,381,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1motion_1_1DoubleIntegrator.html#abc7be5e9b5dd4f4f38a7638382905b5e" title="scrimmage::motion::\lDoubleIntegrator::init" alt="" coords="225,136,382,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1controller_1_1Joystick.html#a121ee888ab75b5cc0cde232a4f130fbf" title="scrimmage::controller\l::Joystick::init" alt="" coords="222,201,385,243"/>
+</map>

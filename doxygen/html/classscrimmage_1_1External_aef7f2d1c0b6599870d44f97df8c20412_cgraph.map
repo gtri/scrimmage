@@ -1,0 +1,6 @@
+<map id="scrimmage::External::pubsub" name="scrimmage::External::pubsub">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SubscriberBase.html#acdb3c78cb440dc7f3f1c21698eafc2b0" title="scrimmage::SubscriberBase\l::accept" alt="" coords="208,5,411,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title="scrimmage::External\l::call_update_contacts" alt="" coords="227,71,392,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3" title="scrimmage::External\l::send_messages" alt="" coords="232,136,387,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1External.html#a4708db478c95849239f3deab2d5ae2c0" title="scrimmage::External\l::update_time" alt="" coords="232,201,387,243"/>
+</map>

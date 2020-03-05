@@ -1,0 +1,4 @@
+<map id="scrimmage::NetworkDevice" name="scrimmage::NetworkDevice">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Publisher.html" title="{scrimmage::Publisher\n|+ callback\l|+ Publisher()\l+ Publisher()\l+ publish()\l# set_debug_info()\l}" alt="" coords="5,615,165,736"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SubscriberBase.html" title="{scrimmage::SubscriberBase\n||+ SubscriberBase()\l+ SubscriberBase()\l+ accept()\l# print_err()\l}" alt="" coords="189,615,392,736"/>
+</map>

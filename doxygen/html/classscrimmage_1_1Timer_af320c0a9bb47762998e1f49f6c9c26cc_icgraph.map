@@ -1,0 +1,4 @@
+<map id="scrimmage::Timer::time_warp" name="scrimmage::Timer::time_warp">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#a50e949171bfaf0093155d901353d71f7" title="scrimmage::Timer::set\l_time_warp" alt="" coords="269,5,435,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a30bc8fd66f50afb1f84517bc781f0545" title="Get the desired time warp of the simulation. " alt="" coords="265,71,439,112"/>
+</map>

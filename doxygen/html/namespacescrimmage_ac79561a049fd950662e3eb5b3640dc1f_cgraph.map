@@ -1,0 +1,7 @@
+<map id="scrimmage::proto_2_contact" name="scrimmage::proto_2_contact">
+<area shape="rect" id="node2" href="$classscrimmage_1_1ID.html#a267790607275f65ffe38da2e61101bf5" title="scrimmage::ID::id" alt="" coords="222,5,357,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92" title="scrimmage::Contact::id" alt="" coords="204,56,375,83"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="214,107,365,149"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Contact.html#ac7a0e6ccebd71ceb7e7a50c728c42ecc" title="scrimmage::Contact\l::set_state" alt="" coords="213,173,365,214"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Contact.html#af8d81d2b85f30d62c0cf65e3bfc1cb7b" title="scrimmage::Contact\l::set_type" alt="" coords="213,238,365,279"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Multirotor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Multirotor.h">
+<area shape="rect" id="node2" href="$Rotor_8h.html" title="Brief file description. " alt="" coords="5,109,197,151"/>
+<area shape="rect" id="node3" href="$RigidBody6DOFBase_8h.html" title="Brief file description. " alt="" coords="374,109,642,151"/>
+<area shape="rect" id="node4" href="$MotionModel_8h.html" title="Brief file description. " alt="" coords="323,199,563,225"/>
+<area shape="rect" id="node8" href="$State_8h.html" title="Brief file description. " alt="" coords="718,117,901,143"/>
+<area shape="rect" id="node9" href="$Controller_8h.html" title="Brief file description. " alt="" coords="811,199,1032,225"/>
+<area shape="rect" id="node10" href="$PID_8h.html" title="Brief file description. " alt="" coords="1056,199,1248,225"/>
+<area shape="rect" id="node11" href="$CSV_8h.html" title="Brief file description. " alt="" coords="587,199,786,225"/>
+</map>

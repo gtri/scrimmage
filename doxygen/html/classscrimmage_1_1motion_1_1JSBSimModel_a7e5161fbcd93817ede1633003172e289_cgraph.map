@@ -1,0 +1,5 @@
+<map id="scrimmage::motion::JSBSimModel::init" name="scrimmage::motion::JSBSimModel::init">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="209,5,362,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="209,71,362,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title="scrimmage::str2bool" alt="" coords="208,137,363,163"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="scrimmage::autonomy::to_continuous" name="scrimmage::autonomy::to_continuous">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#a541fc805e0fec4cb224af7dd93b1be6f" title="scrimmage::autonomy\l::OpenAIActions::create\l_action_space" alt="" coords="233,5,405,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e" title="scrimmage::autonomy\l::OpenAIObservations\l::create_observation_space" alt="" coords="220,85,419,141"/>
+</map>

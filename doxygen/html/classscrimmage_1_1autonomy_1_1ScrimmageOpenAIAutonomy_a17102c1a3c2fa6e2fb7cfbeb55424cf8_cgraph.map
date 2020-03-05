@@ -1,0 +1,9 @@
+<map id="scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy" name="scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="289,5,465,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a4cb5910aef50a2615b026b4a44720e17" title="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::calc_reward" alt="" coords="269,70,485,126"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#a16570470df4f0442dddb120fc17d774c" title="scrimmage::autonomy\l::OpenAIActions::distribute\l_action" alt="" coords="282,150,473,206"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#afcbbc76bbbbc42bc2c0192ec66cf3079" title="scrimmage::autonomy\l::OpenAIObservations\l::ext_sensor_vec" alt="" coords="294,230,461,286"/>
+<area shape="rect" id="node6" href="$namespacescrimmage_1_1autonomy.html#abfb21d8be2f6cfbb29b468c2755a512d" title="scrimmage::autonomy\l::init_actor_func" alt="" coords="294,309,461,351"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#ace53ec3cc8a1b5d577a3e379c58a5534" title="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::step_helper" alt="" coords="269,374,485,430"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a45c7a47fd44d86793a4b55ab41399e4f" title="scrimmage::autonomy\l::OpenAIObservations\l::update_observation" alt="" coords="294,454,461,510"/>
+</map>

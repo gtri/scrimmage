@@ -1,0 +1,5 @@
+<map id="scrimmage::motion::RigidBody6DOF::Controller" name="scrimmage::motion::RigidBody6DOF::Controller">
+<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html" title="{scrimmage::controller\l::RigidBody6DOFControllerPID\n|# u_\l# heading_pid_\l# alt_pid_\l# vel_pid_\l|+ init()\l+ step()\l+ u()\l}" alt="" coords="5,351,216,517"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html" title="{scrimmage::controller\l::RigidBody6DOFControllerROS\n|# u_\l# nh_\l# cmd_vel_sub_\l# cmd_vel_\l|+ init()\l+ step()\l+ u()\l# cmd_vel_cb()\l}" alt="" coords="240,344,456,524"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="147,5,311,156"/>
+</map>

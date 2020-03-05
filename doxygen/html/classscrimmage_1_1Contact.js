@@ -1,0 +1,35 @@
+var classscrimmage_1_1Contact =
+[
+    [ "Type", "classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abd", [
+      [ "AIRCRAFT", "classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda99b4a8bfcb7ebe3195f12cce2b9594bf", null ],
+      [ "QUADROTOR", "classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abdabb054dc5eabd9c9e008eb7804df0fcd1", null ],
+      [ "SPHERE", "classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda6f7cea7381e843e2ee0338b4a92b0d43", null ],
+      [ "MESH", "classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda5b65fe46c5dd90ebcec69c472c3be1d9", null ],
+      [ "UNKNOWN", "classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda696b031073e74bf2cb98e5ef201d4aa3", null ]
+    ] ],
+    [ "Contact", "classscrimmage_1_1Contact.html#ad3b3645f13234e1839c638e524811e05", null ],
+    [ "Contact", "classscrimmage_1_1Contact.html#a82bdb747b632ad8a1a04cb0089fe3928", null ],
+    [ "Contact", "classscrimmage_1_1Contact.html#ac1b35585c0ec2de01d9df0a8ef10f8cf", null ],
+    [ "get_properties", "classscrimmage_1_1Contact.html#a36f5ee3ff2775fe8194d4c76df8ff496", null ],
+    [ "properties", "classscrimmage_1_1Contact.html#a072f67511659ddff4be6489f4d81b48a", null ],
+    [ "set_id", "classscrimmage_1_1Contact.html#a2d4f297fc7946b87a3ef7919943f6dbf", null ],
+    [ "id", "classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92", null ],
+    [ "set_state", "classscrimmage_1_1Contact.html#ac7a0e6ccebd71ceb7e7a50c728c42ecc", null ],
+    [ "state", "classscrimmage_1_1Contact.html#a331dc861313314e0f3cf704ebdea9198", null ],
+    [ "state_const", "classscrimmage_1_1Contact.html#a72f25840bfababf4c8314b803bcf9868", null ],
+    [ "set_type", "classscrimmage_1_1Contact.html#af8d81d2b85f30d62c0cf65e3bfc1cb7b", null ],
+    [ "type", "classscrimmage_1_1Contact.html#a5a0679dfa9020d662094e5b275b1f5c5", null ],
+    [ "contact_visual", "classscrimmage_1_1Contact.html#a30e9d162e1bbe3833a336dd89ceaff17", null ],
+    [ "set_active", "classscrimmage_1_1Contact.html#a9d3bb2620a1c1963273b20645a2dc98b", null ],
+    [ "active", "classscrimmage_1_1Contact.html#af3b0544735e008c72a434f01579140c7", null ],
+    [ "set_radius", "classscrimmage_1_1Contact.html#a2ef13b5ef155f7e2a7db6470b0957c70", null ],
+    [ "radius", "classscrimmage_1_1Contact.html#a28a97de8612440819db2304dca5459cd", null ],
+    [ "operator<<", "classscrimmage_1_1Contact.html#af87e832bd0c9667d25df0dfec1c17c1b", null ],
+    [ "id_", "classscrimmage_1_1Contact.html#a7da1825a008916dd7e71c6676d0b36a6", null ],
+    [ "state_", "classscrimmage_1_1Contact.html#ab9ce3f9077bc5367559b2bbcdf119fbb", null ],
+    [ "type_", "classscrimmage_1_1Contact.html#aeb8eb5539b06eedcab4bdb016747a943", null ],
+    [ "contact_visual_", "classscrimmage_1_1Contact.html#a9a3ca22c97d39db6c5a3c76ea2ba21af", null ],
+    [ "active_", "classscrimmage_1_1Contact.html#a555ccd6a908fea6cb3959e0c312f36a5", null ],
+    [ "radius_", "classscrimmage_1_1Contact.html#ad434d9d3b6c9a8ce2af92c0db44ec876", null ],
+    [ "properties_", "classscrimmage_1_1Contact.html#a3f9949708d04ccdea80a5c15d65c7b77", null ]
+];

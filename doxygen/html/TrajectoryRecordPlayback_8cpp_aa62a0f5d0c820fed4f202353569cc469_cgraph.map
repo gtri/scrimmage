@@ -1,0 +1,5 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="node2" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="195,5,363,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="192,56,367,83"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title="scrimmage::State::vel" alt="" coords="198,107,361,133"/>
+</map>

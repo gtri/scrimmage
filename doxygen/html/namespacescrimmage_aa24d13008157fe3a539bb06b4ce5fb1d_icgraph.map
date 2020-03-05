@@ -1,0 +1,4 @@
+<map id="scrimmage::create_networks" name="scrimmage::create_networks">
+<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#a673bcb7974404e98eb0b02724f073063" title="scrimmage::External\l::create_entity" alt="" coords="269,5,424,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="260,71,433,112"/>
+</map>

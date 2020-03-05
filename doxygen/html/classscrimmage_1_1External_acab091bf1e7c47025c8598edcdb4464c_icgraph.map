@@ -1,0 +1,5 @@
+<map id="scrimmage::External::call_update_contacts" name="scrimmage::External::call_update_contacts">
+<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#a673bcb7974404e98eb0b02724f073063" title="scrimmage::External\l::create_entity" alt="" coords="219,5,373,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#aef7f2d1c0b6599870d44f97df8c20412" title="scrimmage::External\l::pubsub" alt="" coords="219,71,373,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1External.html#a8959fc9d4cba22e720fc0bedea38e765" title="scrimmage::External\l::step" alt="" coords="219,136,373,177"/>
+</map>

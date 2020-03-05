@@ -1,0 +1,4 @@
+<map id="scrimmage::Interface::push_world_point_clicked_msg" name="scrimmage::Interface::push_world_point_clicked_msg">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Interface.html#ab5b6df724eb14f0268b228147bdb1941" title="scrimmage::Interface\l::send_world_point_clicked_msg" alt="" coords="279,5,504,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a5c739acbcac3ed4ea5b18b05e915a4fd" title="scrimmage::Interface\l::set_port" alt="" coords="552,35,711,76"/>
+</map>

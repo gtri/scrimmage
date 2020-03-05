@@ -1,0 +1,7 @@
+<map id="scrimmage::External::step" name="scrimmage::External::step">
+<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title="scrimmage::External\l::call_update_contacts" alt="" coords="219,5,385,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title="scrimmage::External\l::update_ents" alt="" coords="444,35,599,76"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6" title="scrimmage::create_frame" alt="" coords="208,122,396,149"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3" title="scrimmage::External\l::send_messages" alt="" coords="225,173,379,215"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1External.html#a29e7e608f669a481aa9ba07b4e034524" title="scrimmage::External\l::shape_queue_max_size" alt="" coords="211,239,393,280"/>
+</map>

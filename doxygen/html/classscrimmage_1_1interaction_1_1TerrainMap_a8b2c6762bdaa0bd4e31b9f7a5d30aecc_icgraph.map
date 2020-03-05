@@ -1,0 +1,4 @@
+<map id="scrimmage::interaction::TerrainMap::get_neighbor_avg" name="scrimmage::interaction::TerrainMap::get_neighbor_avg">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a5700d93adb8862cf279d7deacaf9a098" title="scrimmage::interaction\l::TerrainMap::generate\l_linear_walk" alt="" coords="276,5,447,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a521ec57145e226042a1b97123a722a9d" title="scrimmage::interaction\l::TerrainMap::generate\l_random_walk" alt="" coords="276,85,447,141"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="scrimmage::autonomy::operator&lt;&lt;" name="scrimmage::autonomy::operator&lt;&lt;">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a06b03086c221467e241335ce6e8f233b" title="scrimmage::autonomy\l::Waypoint::altitude" alt="" coords="233,5,399,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a03d83369de096e189f3419acc9a47637" title="scrimmage::autonomy\l::Waypoint::latitude" alt="" coords="233,71,399,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#ae9c0ca7aef44cfb0e10f63ed6dc908e2" title="scrimmage::autonomy\l::Waypoint::longitude" alt="" coords="233,136,399,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a1c60745880789609adfccf1daaa15672" title="scrimmage::autonomy\l::Waypoint::position\l_tolerance" alt="" coords="233,201,399,257"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a0e65effb7f3882a8f8e4a931351e4853" title="scrimmage::autonomy\l::Waypoint::quat" alt="" coords="233,280,399,321"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a2c7b1a8c97799284ad11811b8d51b951" title="scrimmage::autonomy\l::Waypoint::quat_tolerance" alt="" coords="220,345,412,387"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a24a6b5f2b80a6c086d3092bdc410be93" title="scrimmage::autonomy\l::Waypoint::time" alt="" coords="233,411,399,452"/>
+</map>

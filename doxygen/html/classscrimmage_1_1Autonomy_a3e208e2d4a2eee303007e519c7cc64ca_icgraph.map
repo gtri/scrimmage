@@ -1,0 +1,5 @@
+<map id="scrimmage::Autonomy::state" name="scrimmage::Autonomy::state">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html#ab59d053c1174402139072bc090a76a7b" title="scrimmage::Autonomy\l::ready" alt="" coords="448,30,616,71"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1PyAutonomy.html#a6fec9afcd39e8118c081f120044e0d00" title="scrimmage::autonomy\l::PyAutonomy::set_state" alt="" coords="221,26,400,67"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Autonomy.html#a1424f06d0e86d26fc69aaa28ec399dfa" title="scrimmage::Autonomy\l::set_state" alt="" coords="227,91,395,133"/>
+</map>

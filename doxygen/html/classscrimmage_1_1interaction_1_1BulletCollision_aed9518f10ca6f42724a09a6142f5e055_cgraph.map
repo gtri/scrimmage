@@ -1,0 +1,7 @@
+<map id="scrimmage::interaction::BulletCollision::init" name="scrimmage::interaction::BulletCollision::init">
+<area shape="rect" id="node2" href="$namespacescrimmage_1_1shape.html#a972d50a168325053f1e778fd5221c12c" title="scrimmage::shape::make\l_sphere" alt="" coords="224,5,409,47"/>
+<area shape="rect" id="node3" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="457,42,580,69"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a67eb291726653160901347002699a7d8" title="scrimmage::sensor::\lRayTrace::max_range" alt="" coords="237,123,397,164"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title="scrimmage::Plugin::name" alt="" coords="224,189,409,215"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Quaternion.html#a9ec30ec0f7abcce4258d19100533010d" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="230,240,403,281"/>
+</map>

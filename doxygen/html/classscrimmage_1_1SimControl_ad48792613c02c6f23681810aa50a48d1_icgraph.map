@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::finalize" name="scrimmage::SimControl::finalize">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread. " alt="" coords="227,5,429,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a7097c426992e38b4ae878e824c9bcde6" title="Finalizes the simulation, closes logs, closes plugins. " alt="" coords="241,57,415,98"/>
+</map>

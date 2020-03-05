@@ -1,0 +1,5 @@
+<map id="scrimmage::motion::DoubleIntegrator::init" name="scrimmage::motion::DoubleIntegrator::init">
+<area shape="rect" id="node2" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title="scrimmage::VariableIO\l::declare" alt="" coords="211,5,377,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="217,71,371,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title="scrimmage::str2bool" alt="" coords="217,137,371,163"/>
+</map>

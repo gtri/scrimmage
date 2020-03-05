@@ -1,0 +1,6 @@
+<map id="scrimmage::PluginManager::make_plugin" name="scrimmage::PluginManager::make_plugin">
+<area shape="rect" id="node2" href="$classscrimmage_1_1FileSearch.html#ac4d4bc23721e01f4ff0ff1eaef0a63be" title="scrimmage::FileSearch\l::find_files" alt="" coords="255,5,423,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title="scrimmage::ConfigParse\l::params" alt="" coords="249,71,428,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title="scrimmage::ConfigParse\l::parse" alt="" coords="249,136,428,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3" title="scrimmage::ConfigParse\l::set_required" alt="" coords="249,201,428,243"/>
+</map>

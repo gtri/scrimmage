@@ -1,0 +1,7 @@
+<map id="scrimmage::Updater::set_view_mode" name="scrimmage::Updater::set_view_mode">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#af50da49dfda3ec5cbe7a218e91118b77" title="scrimmage::Updater\l::next_mode" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#ae45056f6ceaab618952e257d8cfc45d6" title="scrimmage::Updater\l::reset_view" alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#a388a8760bb6b4445a939b369a22f6605" title="scrimmage::Updater\l::set_renderer" alt="" coords="208,136,363,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#ac208b427f77deb6f99134f4109584e89" title="scrimmage::Updater\l::set_reset_camera" alt="" coords="208,201,363,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Updater.html#a694fd5e005fc053b4423427072900d97" title="scrimmage::Updater\l::update_camera" alt="" coords="208,267,363,308"/>
+</map>

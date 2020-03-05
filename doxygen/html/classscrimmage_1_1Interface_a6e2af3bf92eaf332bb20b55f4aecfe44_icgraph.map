@@ -1,0 +1,5 @@
+<map id="scrimmage::Interface::init_network" name="scrimmage::Interface::init_network">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Viewer.html#a59e743cccc26251586a3090c6adf8f0f" title="scrimmage::Viewer::run" alt="" coords="212,5,385,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a5c739acbcac3ed4ea5b18b05e915a4fd" title="scrimmage::Interface\l::set_port" alt="" coords="219,57,378,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="212,122,385,163"/>
+</map>

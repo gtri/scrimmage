@@ -1,0 +1,9 @@
+<map id="scrimmage::State::vel" name="scrimmage::State::vel">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a9d53818c75624fe3f3ee53e812dfacc7" title="scrimmage::autonomy\l::MOOSNode::OnNewMail" alt="" coords="220,5,403,47"/>
+<area shape="rect" id="node3" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="236,71,387,112"/>
+<area shape="rect" id="node4" href="$TrajectoryRecordPlayback_8cpp.html#aa62a0f5d0c820fed4f202353569cc469" title="REGISTER_PLUGIN" alt="" coords="242,137,381,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1State.html#ae46e70cf04699d1d2d1e0967a504b7ab" title="scrimmage::State::set_vel" alt="" coords="216,187,407,214"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1NoisyState.html#a0581360ca179f8826e5302c0e5907c95" title="scrimmage::sensor::\lNoisyState::step" alt="" coords="235,239,388,280"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#abb88dadf975c125f555df7f9193911c7" title="scrimmage::sensor::\lSimpleINS::step" alt="" coords="235,304,388,345"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="225,369,397,425"/>
+</map>

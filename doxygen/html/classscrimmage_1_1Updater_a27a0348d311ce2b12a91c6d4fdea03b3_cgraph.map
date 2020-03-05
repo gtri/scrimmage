@@ -1,0 +1,6 @@
+<map id="scrimmage::Updater::quat_2_transform" name="scrimmage::Updater::quat_2_transform">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="224,5,397,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="234,71,387,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="224,136,397,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="208,202,413,229"/>
+</map>

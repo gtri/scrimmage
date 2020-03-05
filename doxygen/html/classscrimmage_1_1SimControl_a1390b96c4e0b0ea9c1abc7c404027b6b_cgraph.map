@@ -1,0 +1,5 @@
+<map id="scrimmage::SimControl::setup_timer" name="scrimmage::SimControl::setup_timer">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#a58e06146f70f419098456beef9684d6c" title="scrimmage::Timer::set\l_iterate_rate" alt="" coords="239,5,405,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Timer.html#a50e949171bfaf0093155d901353d71f7" title="scrimmage::Timer::set\l_time_warp" alt="" coords="239,71,405,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Timer.html#a638afb23bc05dd7ba152c36701047068" title="scrimmage::Timer::update\l_time_config" alt="" coords="227,136,417,177"/>
+</map>

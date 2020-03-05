@@ -1,0 +1,4 @@
+<map id="scrimmage::autonomy::WaypointListProcessor::next_waypoint" name="scrimmage::autonomy::WaypointListProcessor::next_waypoint">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1WaypointListProcessor.html#a2914d0d6c8e1690a485952b582cd2fe5" title="scrimmage::autonomy\l::WaypointListProcessor\l::process" alt="" coords="227,5,400,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1WaypointListProcessor.html#a7b96eb611d55f68caaf2852a8c83286d" title="scrimmage::autonomy\l::WaypointListProcessor\l::set_waypoint_list" alt="" coords="227,85,400,141"/>
+</map>

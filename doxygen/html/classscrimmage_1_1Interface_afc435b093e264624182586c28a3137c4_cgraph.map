@@ -1,0 +1,5 @@
+<map id="scrimmage::Interface::shapes" name="scrimmage::Interface::shapes">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Interface.html#a5ad1ac7a6b60027203aae245b9e88408" title="scrimmage::Interface\l::check_ready" alt="" coords="212,5,371,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a8651916f13dfd212a4b8689def3b8d29" title="scrimmage::Interface\l::send_cached" alt="" coords="212,71,371,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Interface.html#a0d53a1d499d88305e8da6e2ce4bf70f9" title="scrimmage::Interface\l::start_server" alt="" coords="212,136,371,177"/>
+</map>

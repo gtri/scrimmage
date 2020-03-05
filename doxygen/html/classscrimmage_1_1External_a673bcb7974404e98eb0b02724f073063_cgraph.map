@@ -1,0 +1,14 @@
+<map id="scrimmage::External::create_entity" name="scrimmage::External::create_entity">
+<area shape="rect" id="node2" href="$classscrimmage_1_1VariableIO.html#a3bdaba914cd30bde518e6e5705e01b43" title="scrimmage::VariableIO\l::add_input_variable" alt="" coords="228,5,395,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title="scrimmage::External\l::call_update_contacts" alt="" coords="229,71,394,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647" title="scrimmage::connect" alt="" coords="235,137,388,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1VariableIO.html#aa6b12035fb51a9aa81ffe3615eea6217" title="scrimmage::VariableIO\l::input_variable_index" alt="" coords="463,180,629,221"/>
+<area shape="rect" id="node6" href="$namespacescrimmage.html#a5793c16ebb382bf91a7a83d536fe49a7" title="scrimmage::create_ent\l_inters" alt="" coords="226,239,397,280"/>
+<area shape="rect" id="node7" href="$namespacescrimmage.html#ab7ce57ecde5f7e0a5489f75fa840b57a" title="scrimmage::create_metrics" alt="" coords="212,305,411,331"/>
+<area shape="rect" id="node8" href="$namespacescrimmage.html#aa24d13008157fe3a539bb06b4ce5fb1d" title="scrimmage::create_networks" alt="" coords="208,355,415,382"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1FileSearch.html#a2f43920f05f0c385988681750cd81508" title="finds a mission file " alt="" coords="227,407,395,448"/>
+<area shape="rect" id="node10" href="$namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8" title="scrimmage::print_io\l_error" alt="" coords="237,472,386,513"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1External.html#a14f5a54a9c3757a3071590c03d096989" title="scrimmage::External\l::set_time" alt="" coords="234,537,389,579"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1External.html#a27d7c600b2343bdea6cfe21dc2d367b7" title="scrimmage::External\l::setup_logging" alt="" coords="234,603,389,644"/>
+<area shape="rect" id="node13" href="$namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee" title="scrimmage::verify_io\l_connection" alt="" coords="234,668,389,709"/>
+</map>

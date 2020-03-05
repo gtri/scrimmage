@@ -1,0 +1,8 @@
+<map id="scrimmage::sensor::LOSSensor::step" name="scrimmage::sensor::LOSSensor::step">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a67eb291726653160901347002699a7d8" title="scrimmage::sensor::\lRayTrace::max_range" alt="" coords="228,5,388,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a10a72371eb6a4018c0f76f1a67039517" title="scrimmage::sensor::\lRayTrace::max_sample_rate" alt="" coords="207,71,409,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a525ca0137ba9bb963380b332c8bc7e4f" title="scrimmage::sensor::\lRayTrace::min_range" alt="" coords="230,136,386,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title="scrimmage::Plugin::name" alt="" coords="215,202,401,229"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a47e7eba3305f789061a6f6e72b07d3b6" title="scrimmage::sensor::\lRayTrace::step" alt="" coords="231,253,385,295"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f" title="scrimmage::EntityPlugin\l::transform" alt="" coords="220,319,396,360"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="scrimmage::Sensor::sensor_msg" name="scrimmage::Sensor::sensor_msg">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Sensor.html#a70d20b14417892ae1b4a5cdf23695403" title="version when T = MessageBase (calls sensor_msg without casting) " alt="" coords="222,5,377,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Sensor.html#ab406f4625b89042961f6ae8d06cbc427" title="scrimmage::Sensor::step" alt="" coords="208,71,391,98"/>
+</map>

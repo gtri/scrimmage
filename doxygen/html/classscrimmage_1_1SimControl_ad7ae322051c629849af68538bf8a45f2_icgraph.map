@@ -1,0 +1,16 @@
+<map id="scrimmage::SimControl::t" name="scrimmage::SimControl::t">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ab8f35fc7c6d88211822c220c0bf1ec13" title="scrimmage::SimControl\l::add_tasks" alt="" coords="250,5,423,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a1b035a3be479ef4a2f9a32812dbce9c2" title="Returns true if a simulation end condition has been met. " alt="" coords="247,253,426,295"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step. " alt="" coords="481,224,655,265"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1SimControl.html#ad48792613c02c6f23681810aa50a48d1" title="scrimmage::SimControl\l::finalize" alt="" coords="481,567,655,608"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1SimControl.html#a7097c426992e38b4ae878e824c9bcde6" title="Finalizes the simulation, closes logs, closes plugins. " alt="" coords="703,668,876,709"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1SimControl.html#a406b73879359433ed3a28c30f08a83e4" title="scrimmage::SimControl\l::output_runtime" alt="" coords="250,501,423,543"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1SimControl.html#a044859c6f74d181cc82cb57533cef975" title="scrimmage::SimControl\l::reset_pointers" alt="" coords="481,668,655,709"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1SimControl.html#af0f4e3af5800a60a4002843489685545" title="scrimmage::SimControl\l::run_interaction_detection" alt="" coords="240,319,433,360"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="481,384,655,425"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1SimControl.html#aa1cff4f2252770f511ba2ee4918aba84" title="scrimmage::SimControl\l::run_remove_inactive" alt="" coords="250,71,423,112"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1SimControl.html#a972d59922baa24baae53b4b2badac6ce" title="Sends simulation shapes to visualizers and log files. " alt="" coords="250,136,423,177"/>
+<area shape="rect" id="node13" href="$classscrimmage_1_1SimControl.html#ab54f2aa79271eb44a876bf536b5c6eb8" title="Sends terrain to visualizers and log files. " alt="" coords="250,785,423,827"/>
+<area shape="rect" id="node14" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title="scrimmage::SimControl\l::set_finished" alt="" coords="250,567,423,608"/>
+<area shape="rect" id="node15" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time. " alt="" coords="250,384,423,425"/>
+</map>

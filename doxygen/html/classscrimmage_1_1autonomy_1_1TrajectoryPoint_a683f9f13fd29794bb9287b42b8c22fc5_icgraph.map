@@ -1,0 +1,4 @@
+<map id="scrimmage::autonomy::TrajectoryPoint::state" name="scrimmage::autonomy::TrajectoryPoint::state">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a574f304096b177f14b0b181b245f4fe5" title="scrimmage::autonomy\l::TrajectoryPoint::set\l_desired_state" alt="" coords="233,5,400,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#ae0a681d3cb580ebec27f92110d6fb233" title="scrimmage::autonomy\l::TrajectoryPoint::set_state" alt="" coords="220,85,413,126"/>
+</map>

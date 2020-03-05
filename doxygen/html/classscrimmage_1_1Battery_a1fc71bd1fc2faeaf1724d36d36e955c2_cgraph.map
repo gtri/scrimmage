@@ -1,0 +1,8 @@
+<map id="scrimmage::Battery::Battery" name="scrimmage::Battery::Battery">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d" title="scrimmage::Battery\l::add_charge" alt="" coords="205,5,355,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Battery.html#a99ec5890238122bd3bf946b3210e4d75" title="scrimmage::Battery\l::charge_percentage" alt="" coords="203,71,357,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Battery.html#a0c05d7c8f07376831bcc4d76a0819755" title="scrimmage::Battery\l::current_charge" alt="" coords="205,136,355,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd" title="scrimmage::Battery\l::deplete" alt="" coords="205,201,355,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Battery.html#ad4103cd3fb37653a24eaa6722ec4a2b7" title="scrimmage::Battery\l::has_charge" alt="" coords="205,267,355,308"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Battery.html#a772fb6a6f6e4492783ee8ec4e7b3b418" title="scrimmage::Battery\l::is_full" alt="" coords="205,332,355,373"/>
+</map>

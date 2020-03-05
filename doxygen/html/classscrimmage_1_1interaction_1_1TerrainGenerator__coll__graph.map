@@ -1,0 +1,4 @@
+<map id="scrimmage::interaction::TerrainGenerator" name="scrimmage::interaction::TerrainGenerator">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,174,212,281"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1TerrainMap.html" title="{scrimmage::interaction\l::TerrainMap\n|# rng_\l# gener_\l# technique_\l# center_\l# x_length_\l# y_length_\l# x_resolution_\l# y_resolution_\l# z_min_\l# z_max_\l# color_\l# num_x_cols_\l# num_y_rows_\l|+ TerrainMap()\l+ TerrainMap()\l+ TerrainMap()\l+ shape()\l+ proto()\l+ height_at()\l# generate()\l# generate_random_walk()\l# generate_linear()\l# generate_linear_walk()\l# center_height_adjust()\l# clamp_height()\l# get_neighbor_avg()\l}" alt="" coords="236,5,432,449"/>
+</map>

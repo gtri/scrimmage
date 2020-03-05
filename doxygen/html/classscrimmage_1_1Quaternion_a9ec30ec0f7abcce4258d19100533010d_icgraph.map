@@ -1,0 +1,9 @@
+<map id="scrimmage::Quaternion::rotate" name="scrimmage::Quaternion::rotate">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#a7bfbbe6a19aa840241f98633f58fbeb9" title="scrimmage::Updater\l::draw_arc" alt="" coords="241,5,395,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a854bb35b4b42d64ea553d196266eb9a1" title="scrimmage::Updater\l::draw_plane" alt="" coords="241,71,395,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#ac0bd399c534a893915d232b2b4d5446c" title="scrimmage::interaction\l::BulletCollision::get\l_ray_tracing" alt="" coords="233,135,403,191"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055" title="scrimmage::interaction\l::BulletCollision::init" alt="" coords="233,215,403,256"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#ad15005a38942cab6b3a6a72cb610cc48" title="scrimmage::motion::\lFixedWing6DOF::model" alt="" coords="234,280,402,321"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1State.html#ab5b21aa06dc45d0a006aebf15934aced" title="returns the vector extending forward " alt="" coords="227,345,409,387"/>
+<area shape="rect" id="node8" href="$Multirotor_8cpp.html#aa84d785e4bc85cd0d95c588dc56b1240" title="REGISTER_PLUGIN" alt="" coords="249,411,387,438"/>
+</map>

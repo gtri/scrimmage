@@ -1,0 +1,5 @@
+<map id="scrimmage::autonomy::get_gym_space" name="scrimmage::autonomy::get_gym_space">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#a541fc805e0fec4cb224af7dd93b1be6f" title="scrimmage::autonomy\l::OpenAIActions::create\l_action_space" alt="" coords="448,5,620,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e" title="scrimmage::autonomy\l::OpenAIObservations\l::create_observation_space" alt="" coords="435,95,633,151"/>
+<area shape="rect" id="node4" href="$namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86" title="scrimmage::autonomy\l::create_space" alt="" coords="220,62,387,103"/>
+</map>

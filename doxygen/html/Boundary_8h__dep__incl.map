@@ -1,0 +1,10 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Boundary.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Boundary.h">
+<area shape="rect" id="node2" href="$BoundaryDefense_8cpp.html" title="Brief file description. " alt="" coords="5,117,233,173"/>
+<area shape="rect" id="node3" href="$Straight_8cpp.html" title="Brief file description. " alt="" coords="258,117,477,173"/>
+<area shape="rect" id="node4" href="$TakeFlag_8cpp.html" title="Brief file description. " alt="" coords="501,117,724,173"/>
+<area shape="rect" id="node5" href="$Boundary_8cpp.html" title="Brief file description. " alt="" coords="748,117,952,173"/>
+<area shape="rect" id="node6" href="$CaptureInBoundaryInteraction_8cpp.html" title="Brief file description. " alt="" coords="976,109,1220,180"/>
+<area shape="rect" id="node7" href="$EnforceBoundaryInteraction_8cpp.html" title="Brief file description. " alt="" coords="1244,109,1475,180"/>
+<area shape="rect" id="node8" href="$FlagCaptureInteraction_8cpp.html" title="Brief file description. " alt="" coords="1499,109,1751,180"/>
+<area shape="rect" id="node9" href="$GPS_8cpp.html" title="Brief file description. " alt="" coords="1775,117,1979,173"/>
+</map>

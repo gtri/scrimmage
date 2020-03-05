@@ -1,0 +1,10 @@
+<map id="scrimmage::remove_if" name="scrimmage::remove_if">
+<area shape="rect" id="node2" href="$classscrimmage_1_1FileSearch.html#ac4d4bc23721e01f4ff0ff1eaef0a63be" title="scrimmage::FileSearch\l::find_files" alt="" coords="249,5,417,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time. " alt="" coords="247,71,420,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1CSV.html#a530aa1889d93e5c0dd4529be25314a8c" title="scrimmage::CSV::get\l_csv_line_elements" alt="" coords="254,136,413,177"/>
+<area shape="rect" id="node5" href="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c" title="scrimmage::get_vec\l_of_vecs" alt="" coords="257,201,409,243"/>
+<area shape="rect" id="node6" href="$namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201" title="scrimmage::parse_plugin\l_vector" alt="" coords="496,231,679,272"/>
+<area shape="rect" id="node7" href="$AutonomyExecutor_8cpp.html#ab7e242829b3aa3025778f519e989f77e" title="REGISTER_PLUGIN" alt="" coords="264,318,403,345"/>
+<area shape="rect" id="node8" href="$namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35" title="scrimmage::remove_whitespace" alt="" coords="219,369,448,395"/>
+<area shape="rect" id="node9" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title="scrimmage::str2bool" alt="" coords="256,419,411,446"/>
+</map>

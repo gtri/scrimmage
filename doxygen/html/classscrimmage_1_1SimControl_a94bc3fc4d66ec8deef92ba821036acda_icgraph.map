@@ -1,0 +1,8 @@
+<map id="scrimmage::SimControl::pause" name="scrimmage::SimControl::pause">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad717f0c430d2355c2284b38fa983f7cc" title="Initialize a scrimmage simulation. " alt="" coords="237,5,411,47"/>
+<area shape="rect" id="node3" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title="scrimmage::run_test" alt="" coords="479,42,633,69"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8" title="scrimmage::SimControl\l::request_screenshot" alt="" coords="237,123,411,164"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step. " alt="" coords="469,181,643,223"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title="scrimmage::SimControl\l::run_check_network_msgs" alt="" coords="227,240,421,281"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1SimControl.html#aed8d071b19385115edd0dd465efad98f" title="SimControl default constructor. " alt="" coords="237,305,411,347"/>
+</map>

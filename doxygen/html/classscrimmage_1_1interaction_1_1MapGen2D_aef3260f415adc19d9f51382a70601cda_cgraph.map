@@ -1,0 +1,5 @@
+<map id="scrimmage::interaction::MapGen2D::init" name="scrimmage::interaction::MapGen2D::init">
+<area shape="rect" id="node2" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="256,5,379,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3" title="scrimmage::ConfigParse\l::set_required" alt="" coords="228,57,407,98"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="224,123,411,149"/>
+</map>

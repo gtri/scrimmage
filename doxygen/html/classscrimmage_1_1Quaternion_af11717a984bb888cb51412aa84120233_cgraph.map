@@ -1,0 +1,5 @@
+<map id="scrimmage::Quaternion::Quaternion" name="scrimmage::Quaternion::Quaternion">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="243,5,416,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="243,71,416,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="227,137,432,163"/>
+</map>

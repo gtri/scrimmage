@@ -1,0 +1,25 @@
+var classscrimmage_1_1interaction_1_1Plane =
+[
+    [ "Plane", "classscrimmage_1_1interaction_1_1Plane.html#a554ba7c2156f5615c4481cef3edc5337", null ],
+    [ "Plane", "classscrimmage_1_1interaction_1_1Plane.html#a338165114bcdb3f746dbec8bc2d96e6a", null ],
+    [ "Plane", "classscrimmage_1_1interaction_1_1Plane.html#a0bc9c1294d5fbb0ed0711c81b5aa18f4", null ],
+    [ "compute_dots", "classscrimmage_1_1interaction_1_1Plane.html#a19ba250d4c4f9ba7f4d857e6b1069113", null ],
+    [ "contains", "classscrimmage_1_1interaction_1_1Plane.html#a03993b01fe07ef633d44dd543076f30b", null ],
+    [ "points", "classscrimmage_1_1interaction_1_1Plane.html#ab76138c9557a4c3020980cd62dc4e208", null ],
+    [ "set_points", "classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea", null ],
+    [ "set_visual", "classscrimmage_1_1interaction_1_1Plane.html#af7f50bcb0b63cd85c888b6135f72c321", null ],
+    [ "points_", "classscrimmage_1_1interaction_1_1Plane.html#a887770cbd48519478a03fb22c210d25c", null ],
+    [ "u", "classscrimmage_1_1interaction_1_1Plane.html#a054a808402878c2c973063d98ba62fa6", null ],
+    [ "w", "classscrimmage_1_1interaction_1_1Plane.html#a624f214c0d6a76ff7c75f7d23f8277d7", null ],
+    [ "v", "classscrimmage_1_1interaction_1_1Plane.html#a079e1cf926243f14697643d7329bd906", null ],
+    [ "s", "classscrimmage_1_1interaction_1_1Plane.html#a93bf240b0a072dbb6675d5bf767c1d36", null ],
+    [ "r", "classscrimmage_1_1interaction_1_1Plane.html#a72b9683f6e97f34e150618d4cf03b4d4", null ],
+    [ "normZ", "classscrimmage_1_1interaction_1_1Plane.html#a7bad70b2101ee62a464528450b65294e", null ],
+    [ "normY", "classscrimmage_1_1interaction_1_1Plane.html#a054f3c32fb1a6c37e017a4505cea9911", null ],
+    [ "normX", "classscrimmage_1_1interaction_1_1Plane.html#a7a1cf225673bdb03f39c2e2fc50f1107", null ],
+    [ "u_dot_P0", "classscrimmage_1_1interaction_1_1Plane.html#ac69c5d8e75f2218c65f60dd99e77950c", null ],
+    [ "w_dot_P0", "classscrimmage_1_1interaction_1_1Plane.html#a842b6a91fcc3e44331dda8ccf1f33124", null ],
+    [ "r_dot_P3", "classscrimmage_1_1interaction_1_1Plane.html#a9a672382620cc5b986a1f653444d584d", null ],
+    [ "v_dot_P2", "classscrimmage_1_1interaction_1_1Plane.html#a95c27c2ef536258989f1ca0a040d48e4", null ],
+    [ "s_dot_P1", "classscrimmage_1_1interaction_1_1Plane.html#a0c54dc3753c2efdc129f8cae52f94dc5", null ]
+];

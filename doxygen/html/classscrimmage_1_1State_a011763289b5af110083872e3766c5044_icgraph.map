@@ -1,0 +1,13 @@
+<map id="scrimmage::State::pos" name="scrimmage::State::pos">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51307da3206e61e10fa3dae982353696" title="scrimmage::sensor::\lContactBlobCamera::contacts\l_to_bounding_boxes" alt="" coords="221,5,436,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a513589a3f76019d379daf3c8807aa960" title="Returns true if other state is in field&#45;of&#45;view. " alt="" coords="236,85,421,126"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a9d53818c75624fe3f3ee53e812dfacc7" title="scrimmage::autonomy\l::MOOSNode::OnNewMail" alt="" coords="237,150,420,191"/>
+<area shape="rect" id="node5" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="253,215,404,257"/>
+<area shape="rect" id="node6" href="$GoToWaypoint_8cpp.html#a8a9ebd1bd6866785c7d5b72edab01a42" title="REGISTER_PLUGIN" alt="" coords="259,281,398,308"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1State.html#afc4754179ed04ab89a6a64ba9eef51a3" title="scrimmage::State::set_pos" alt="" coords="231,332,426,359"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1sensor_1_1NoisyState.html#a0581360ca179f8826e5302c0e5907c95" title="scrimmage::sensor::\lNoisyState::step" alt="" coords="252,383,405,425"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#abb88dadf975c125f555df7f9193911c7" title="scrimmage::sensor::\lSimpleINS::step" alt="" coords="252,449,405,490"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1sensor_1_1GPS.html#a3067958eee860eb920b06f9529c13f3e" title="scrimmage::sensor::\lGPS::step" alt="" coords="252,514,405,555"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="235,579,422,621"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="243,644,415,700"/>
+</map>

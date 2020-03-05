@@ -1,0 +1,4 @@
+<map id="scrimmage::interaction::BulletCollision" name="scrimmage::interaction::BulletCollision">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,27,212,134"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="456,42,543,119"/>
+</map>

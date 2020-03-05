@@ -1,0 +1,7 @@
+<map id="scrimmage::proto_2_state" name="scrimmage::proto_2_state">
+<area shape="rect" id="node2" href="$classscrimmage_1_1State.html#aee7e678fb7188751bf812eb2c793bd05" title="scrimmage::State::ang_vel" alt="" coords="204,5,399,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="217,56,385,83"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#abfa8ea0e50c30d7805dc374f73f03d69" title="scrimmage::proto_2_quat" alt="" coords="208,107,395,133"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="214,157,389,184"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title="scrimmage::State::vel" alt="" coords="220,208,383,235"/>
+</map>

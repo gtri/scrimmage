@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::worker" name="scrimmage::SimControl::worker">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread. " alt="" coords="227,5,429,32"/>
+<area shape="rect" id="node3" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title="scrimmage::run_callbacks" alt="" coords="234,56,422,83"/>
+</map>

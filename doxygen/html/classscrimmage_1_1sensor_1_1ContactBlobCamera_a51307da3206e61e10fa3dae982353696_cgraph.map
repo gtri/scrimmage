@@ -1,0 +1,4 @@
+<map id="scrimmage::sensor::ContactBlobCamera::contacts_to_bounding_boxes" name="scrimmage::sensor::ContactBlobCamera::contacts_to_bounding_boxes">
+<area shape="rect" id="node2" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="268,5,436,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#afe4c64cce057378c061d09ed3bfc8d03" title="convert the relative position to the local frame (the output vector will point to the other state) ..." alt="" coords="271,57,433,98"/>
+</map>

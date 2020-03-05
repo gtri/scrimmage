@@ -1,0 +1,4 @@
+<map id="scrimmage::controller::JoystickController" name="scrimmage::controller::JoystickController">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="5,71,169,222"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1Joystick.html" title="{scrimmage::controller\l::Joystick\n|# joy_fd_\l# axis_\l# num_of_axis_\l# num_of_buttons_\l# button_\l# js_\l# min_value\l# max_value\l# print_js_values_\l# publish_button_state_\l# pub_buttons_\l|+ Joystick()\l+ ~Joystick()\l+ init()\l+ step()\l}" alt="" coords="194,5,373,288"/>
+</map>

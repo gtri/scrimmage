@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::run_logging" name="scrimmage::SimControl::run_logging">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad48792613c02c6f23681810aa50a48d1" title="scrimmage::SimControl\l::finalize" alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step. " alt="" coords="227,71,400,112"/>
+</map>

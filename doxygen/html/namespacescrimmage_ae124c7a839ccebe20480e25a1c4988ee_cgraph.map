@@ -1,0 +1,5 @@
+<map id="scrimmage::verify_io_connection" name="scrimmage::verify_io_connection">
+<area shape="rect" id="node2" href="$classscrimmage_1_1VariableIO.html#a22b51b2aff1561d3d037da48aa5b0fff" title="scrimmage::VariableIO\l::declared_input_variables" alt="" coords="213,5,401,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1VariableIO.html#ac49067e635347f6569fa1a09a11b424d" title="scrimmage::VariableIO\l::declared_output_variables" alt="" coords="208,71,407,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#a21bffe027f103918365839b319b66b6f" title="Returns container1 minus container2. " alt="" coords="211,137,403,163"/>
+</map>

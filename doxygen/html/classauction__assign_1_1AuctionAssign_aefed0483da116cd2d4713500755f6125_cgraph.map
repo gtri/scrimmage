@@ -1,0 +1,4 @@
+<map id="auction_assign.AuctionAssign.step_autonomy" name="auction_assign.AuctionAssign.step_autonomy">
+<area shape="rect" id="node2" href="$classscrimmage_1_1PubSub.html#a3c9111108441358c50bf0ac79987997b" title="scrimmage::PubSub::pubs" alt="" coords="296,7,487,34"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1EntityPlugin.html#a8868803dc5a863aed93008c22ea31beb" title="scrimmage::EntityPlugin\l::subs" alt="" coords="303,59,479,100"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="scrimmage::interaction::Plane::Plane" name="scrimmage::interaction::Plane::Plane">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7bb36e48c52b85178e140781eeee286f" title="scrimmage::interaction\l::BoundaryBase::center" alt="" coords="224,5,396,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Plane.html#ab76138c9557a4c3020980cd62dc4e208" title="scrimmage::interaction\l::Plane::points" alt="" coords="444,93,615,135"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea" title="scrimmage::interaction\l::Plane::set_points" alt="" coords="225,123,395,164"/>
+</map>

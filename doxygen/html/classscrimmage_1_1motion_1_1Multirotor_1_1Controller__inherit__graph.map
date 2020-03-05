@@ -1,0 +1,4 @@
+<map id="scrimmage::motion::Multirotor::Controller" name="scrimmage::motion::Multirotor::Controller">
+<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1MultirotorControllerOmega.html" title="{scrimmage::controller\l::MultirotorControllerOmega\n|# u_\l# multirotor_\l# pwm_max_\l# pwm_min_\l|+ MultirotorControllerOmega()\l+ init()\l+ step()\l+ u()\l}" alt="" coords="5,344,223,524"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="32,5,196,156"/>
+</map>

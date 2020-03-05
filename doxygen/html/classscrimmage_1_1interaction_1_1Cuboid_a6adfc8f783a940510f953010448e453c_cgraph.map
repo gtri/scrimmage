@@ -1,0 +1,5 @@
+<map id="scrimmage::interaction::Cuboid::Cuboid" name="scrimmage::interaction::Cuboid::Cuboid">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7bb36e48c52b85178e140781eeee286f" title="scrimmage::interaction\l::BoundaryBase::center" alt="" coords="224,5,396,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Cuboid.html#ae2c1489e1f5e3a380fb9710b65315cb4" title="scrimmage::interaction\l::Cuboid::points" alt="" coords="444,93,615,135"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1Cuboid.html#a9693930076d4148ff2bb2d62c0560deb" title="scrimmage::interaction\l::Cuboid::set_points" alt="" coords="225,123,395,164"/>
+</map>

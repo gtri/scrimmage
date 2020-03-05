@@ -1,0 +1,7 @@
+<map id="scrimmage::External::param_server" name="scrimmage::External::param_server">
+<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#a9b0213011d5254342a8661ec58d7e7cf" title="scrimmage::External\l::disable_outgoing_interfaces" alt="" coords="208,5,416,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#ac1d3c34d43faf4b86fa70074f90d0bef" title="scrimmage::External\l::enable_outgoing_interface" alt="" coords="213,71,411,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1External.html#a14f5a54a9c3757a3071590c03d096989" title="scrimmage::External\l::set_time" alt="" coords="235,136,389,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1External.html#a27d7c600b2343bdea6cfe21dc2d367b7" title="scrimmage::External\l::setup_logging" alt="" coords="235,201,389,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title="scrimmage::External\l::update_ents" alt="" coords="235,267,389,308"/>
+</map>

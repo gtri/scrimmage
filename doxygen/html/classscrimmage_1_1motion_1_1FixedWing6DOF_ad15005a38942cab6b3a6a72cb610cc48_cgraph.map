@@ -1,0 +1,3 @@
+<map id="scrimmage::motion::FixedWing6DOF::model" name="scrimmage::motion::FixedWing6DOF::model">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a9ec30ec0f7abcce4258d19100533010d" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="221,5,395,47"/>
+</map>

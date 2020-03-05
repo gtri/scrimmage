@@ -1,0 +1,6 @@
+<map id="scrimmage::SimControl::paused" name="scrimmage::SimControl::paused">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8" title="scrimmage::SimControl\l::request_screenshot" alt="" coords="237,93,411,135"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step. " alt="" coords="469,28,643,69"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="469,123,643,164"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title="scrimmage::SimControl\l::run_check_network_msgs" alt="" coords="227,28,421,69"/>
+</map>

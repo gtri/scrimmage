@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::output_runtime" name="scrimmage::SimControl::output_runtime">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#a23ffd7e44c0376c4c5705838d122bb84" title="scrimmage::Timer::elapsed_time" alt="" coords="227,5,459,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="249,56,436,83"/>
+</map>

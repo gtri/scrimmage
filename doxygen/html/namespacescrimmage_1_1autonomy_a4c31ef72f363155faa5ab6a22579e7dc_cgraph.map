@@ -1,0 +1,5 @@
+<map id="scrimmage::autonomy::operator==" name="scrimmage::autonomy::operator==">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a06b03086c221467e241335ce6e8f233b" title="scrimmage::autonomy\l::Waypoint::altitude" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a03d83369de096e189f3419acc9a47637" title="scrimmage::autonomy\l::Waypoint::latitude" alt="" coords="220,71,387,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#ae9c0ca7aef44cfb0e10f63ed6dc908e2" title="scrimmage::autonomy\l::Waypoint::longitude" alt="" coords="220,136,387,177"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="scrimmage::sensor::AirSimSensor" name="scrimmage::sensor::AirSimSensor">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Sensor.html" title="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}" alt="" coords="5,285,152,435"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html" title="{scrimmage::CSV\n|# next_row_\l|+ ~CSV()\l+ set_column_headers()\l+ set_column_headers()\l+ append()\l+ open_output()\l+ output_is_open()\l+ close_output()\l+ to_csv()\l+ read_csv()\l+ read_csv_from_string()\l+ set_no_value_string()\l+ to_string()\l+ rows()\l+ at()\l+ equals()\l# get_csv_line_elements()\l# write_headers()\l# write_row()\l&#45; headers_to_string()\l&#45; rows_to_string()\l&#45; row_to_string()\l}" alt="" coords="304,175,496,545"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="217,5,303,83"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Angles.html" title="{scrimmage::Angles\n|# angle_\l# in_direction_\l# in_zero_\l# out_direction_\l# out_zero_\l|+ Angles()\l+ Angles()\l+ set_input_clock_direction()\l+ set_input_zero_axis()\l+ set_output_clock_direction()\l+ set_output_zero_axis()\l+ is_angle_360()\l+ set_angle()\l+ angle()\l+ deg2rad()\l+ rad2deg()\l+ angle_360()\l+ angle_2pi()\l+ angle_180()\l+ angle_pi()\l+ angle_diff()\l+ angle_diff_rad()\l+ angle_within()\l+ angle_within_rad()\l+ angle_avg()\l+ angle_avg_rad()\l}" alt="" coords="521,145,738,575"/>
+<area shape="rect" id="node7" title="STL class. " alt="" coords="974,321,1066,399"/>
+</map>

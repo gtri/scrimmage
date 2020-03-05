@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::MOOSNode::OnNewMail" name="scrimmage::autonomy::MOOSNode::OnNewMail">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="260,5,413,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="253,71,421,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="249,122,424,149"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title="scrimmage::Quaternion::set" alt="" coords="236,173,437,199"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title="scrimmage::State::vel" alt="" coords="255,223,418,250"/>
+</map>

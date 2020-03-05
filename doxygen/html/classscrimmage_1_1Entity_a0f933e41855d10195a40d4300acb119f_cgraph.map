@@ -1,0 +1,6 @@
+<map id="scrimmage::Entity::parse_visual" name="scrimmage::Entity::parse_visual">
+<area shape="rect" id="node2" href="$namespacescrimmage.html#ab5ed97526cc1923d14a1236ad0338f3d" title="scrimmage::find_model\l_properties" alt="" coords="201,5,373,47"/>
+<area shape="rect" id="node3" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="423,42,609,69"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1ID.html#a267790607275f65ffe38da2e61101bf5" title="scrimmage::ID::id" alt="" coords="220,122,355,149"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1ID.html#a1b30bd6ad973cf9b9df7a4fad807f12f" title="scrimmage::ID::team_id" alt="" coords="200,173,375,199"/>
+</map>

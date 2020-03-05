@@ -1,0 +1,5 @@
+<map id="scrimmage::Contact::state" name="scrimmage::Contact::state">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1PyAutonomy.html#a0cbcaedddcb9c0b0608833989688da0e" title="scrimmage::autonomy\l::PyAutonomy::contact2py" alt="" coords="205,5,396,47"/>
+<area shape="rect" id="node3" href="$BoundaryDefense_8cpp.html#a8090351de828ace29ce05d4ef29112fd" title="REGISTER_PLUGIN" alt="" coords="231,71,370,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Contact.html#ac7a0e6ccebd71ceb7e7a50c728c42ecc" title="scrimmage::Contact\l::set_state" alt="" coords="225,123,377,164"/>
+</map>

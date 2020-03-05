@@ -1,0 +1,3 @@
+<map id="scrimmage::controller::DoubleIntegratorControllerVelYaw" name="scrimmage::controller::DoubleIntegratorControllerVelYaw">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="23,5,187,156"/>
+</map>

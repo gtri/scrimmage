@@ -1,0 +1,3 @@
+<map id="scrimmage::controller::UUV6DOFPIDController" name="scrimmage::controller::UUV6DOFPIDController">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="21,5,185,156"/>
+</map>

@@ -1,0 +1,3 @@
+<map id="scrimmage::interaction::Cuboid" name="scrimmage::interaction::Cuboid">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html" title="{scrimmage::interaction\l::BoundaryBase\n|# shape_\l# shapes_\l# center_\l# extents_\l|+ BoundaryBase()\l+ ~BoundaryBase()\l+ BoundaryBase()\l+ contains()\l+ shape()\l+ set_shape()\l+ set_visual()\l+ center()\l+ extents()\l}" alt="" coords="5,5,176,259"/>
+</map>

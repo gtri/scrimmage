@@ -1,0 +1,5 @@
+<map id="scrimmage::sensor::ScrimmageOpenAISensor" name="scrimmage::sensor::ScrimmageOpenAISensor">
+<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1RLConsensusSensor.html" title="{scrimmage::sensor::\lRLConsensusSensor\n||+ RLConsensusSensor()\l+ set_observation_space()\l+ get_observation()\l}" alt="" coords="5,388,200,509"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1RLSimpleSensor.html" title="{scrimmage::sensor::\lRLSimpleSensor\n||+ set_observation_space()\l+ get_observation()\l}" alt="" coords="224,395,419,502"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1Sensor.html" title="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}" alt="" coords="139,5,285,156"/>
+</map>

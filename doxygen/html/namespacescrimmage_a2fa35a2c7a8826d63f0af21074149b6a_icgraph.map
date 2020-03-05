@@ -1,0 +1,5 @@
+<map id="scrimmage::set_pid_gains" name="scrimmage::set_pid_gains">
+<area shape="rect" id="node2" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title="scrimmage::get_vec" alt="" coords="225,5,377,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#af7b6c3d6dcb8a70014a22a31c001d9ae" title="scrimmage::controller\l::DoubleIntegratorController\lVelYaw::init" alt="" coords="201,56,401,112"/>
+<area shape="rect" id="node4" href="$MultirotorControllerPID_8cpp.html#ab727aa83e67a323de0affe0ad23eedd3" title="REGISTER_PLUGIN" alt="" coords="232,136,371,163"/>
+</map>

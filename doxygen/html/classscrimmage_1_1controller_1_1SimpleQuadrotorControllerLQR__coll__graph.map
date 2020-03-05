@@ -1,0 +1,4 @@
+<map id="scrimmage::controller::SimpleQuadrotorControllerLQR" name="scrimmage::controller::SimpleQuadrotorControllerLQR">
+<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1SimpleQuadrotor_1_1Controller.html" title="{scrimmage::motion::\lSimpleQuadrotor::Controller\n||+ u()\l}" alt="" coords="5,211,207,303"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="231,5,408,508"/>
+</map>

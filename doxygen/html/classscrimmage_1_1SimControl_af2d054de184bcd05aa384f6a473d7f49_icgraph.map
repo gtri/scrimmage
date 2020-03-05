@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::actual_time_warp" name="scrimmage::SimControl::actual_time_warp">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step. " alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title="scrimmage::SimControl\l::set_finished" alt="" coords="227,71,400,112"/>
+</map>

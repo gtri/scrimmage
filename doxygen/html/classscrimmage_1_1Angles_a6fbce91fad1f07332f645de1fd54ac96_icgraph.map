@@ -1,0 +1,6 @@
+<map id="scrimmage::Angles::angle_diff_rad" name="scrimmage::Angles::angle_diff_rad">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a4bd7cb4def305e8bb95ff0963ec6e19c" title="scrimmage::Angles::\langle_avg_rad" alt="" coords="231,5,384,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a604beb077f461f7a04eb973f7383bacb" title="returns whether ang is within the wedge between ang1 and ang2 where the wedge is less than PI radians..." alt="" coords="231,71,384,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#abf9c98bc172c599a9340fcd857145770" title="scrimmage::State::rel_az" alt="" coords="216,137,399,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b" title="scrimmage::controller\l::SimpleQuadrotorController\lLQR::step" alt="" coords="207,187,408,243"/>
+</map>

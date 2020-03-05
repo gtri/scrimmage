@@ -1,0 +1,6 @@
+<map id="scrimmage::sensor::AirSimSensor::AirSimSensor" name="scrimmage::sensor::AirSimSensor::AirSimSensor">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#ad1c0d42f03eb731813c4867305981f7b" title="scrimmage::Angles::\lset_input_clock_direction" alt="" coords="262,5,445,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a43ecfa690f4a6e665708afabd1cb7935" title="scrimmage::Angles::\lset_input_zero_axis" alt="" coords="277,71,430,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Angles.html#aa5aa6a60ec497a3dbc9d659291b8f396" title="scrimmage::Angles::\lset_output_clock_direction" alt="" coords="257,136,449,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Angles.html#a8385e5631901ca76c53d9f8783f83a62" title="scrimmage::Angles::\lset_output_zero_axis" alt="" coords="274,201,433,243"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="scrimmage::interaction::BoundaryBase::center" name="scrimmage::interaction::BoundaryBase::center">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Cuboid.html#a6adfc8f783a940510f953010448e453c" title="scrimmage::interaction\l::Cuboid::Cuboid" alt="" coords="230,5,401,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Plane.html#a338165114bcdb3f746dbec8bc2d96e6a" title="scrimmage::interaction\l::Plane::Plane" alt="" coords="230,71,401,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1Polyhedron.html#a4532bfe69f28e8cd3fbef9d914883dae" title="scrimmage::interaction\l::Polyhedron::Polyhedron" alt="" coords="225,136,405,177"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="scrimmage::Angles::set_angle" name="scrimmage::Angles::set_angle">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a0b9e5044fd6d73a0e2d569dcc5f9c5a2" title="scrimmage::Angles::\lAngles" alt="" coords="243,5,397,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title="scrimmage::FrameUpdateClient\l::send_frame" alt="" coords="207,71,433,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f" title="scrimmage::sensor::\lAirSimSensor::step" alt="" coords="243,136,397,177"/>
+</map>

@@ -1,0 +1,3 @@
+<map id="scrimmage::interaction::BulletCollision::PointCloudDescription" name="scrimmage::interaction::BulletCollision::PointCloudDescription">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title="{scrimmage::sensor::\lRayTrace::PointCloud\n|+ max_range\l+ min_range\l+ max_sample_rate\l|+ PointCloud()\l+ get_rays()\l}" alt="" coords="5,5,161,141"/>
+</map>

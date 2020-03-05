@@ -1,0 +1,6 @@
+<map id="scrimmage::PID::set_is_angle" name="scrimmage::PID::set_is_angle">
+<area shape="rect" id="node2" href="$classscrimmage_1_1PID.html#af0dfdaf6faa01780bec02a2f1605ce0c" title="scrimmage::PID::init" alt="" coords="210,5,361,32"/>
+<area shape="rect" id="node3" href="$FixedWing6DOFControllerPID_8cpp.html#aded4b6b935e53373fac6c686a11a9156" title="REGISTER_PLUGIN" alt="" coords="415,85,553,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648" title="scrimmage::controller\l::set_pid" alt="" coords="204,107,367,149"/>
+<area shape="rect" id="node5" href="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a" title="scrimmage::set_pid\l_gains" alt="" coords="211,173,359,214"/>
+</map>

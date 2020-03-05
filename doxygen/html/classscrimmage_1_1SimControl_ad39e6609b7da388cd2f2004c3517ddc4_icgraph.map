@@ -1,0 +1,5 @@
+<map id="scrimmage::SimControl::run" name="scrimmage::SimControl::run">
+<area shape="rect" id="node2" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title="scrimmage::run_test" alt="" coords="265,5,420,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#aa1df54240650f2d806514d67011886df" title="Runs the scrimmage simulation in a separate thread. " alt="" coords="256,57,429,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb" title="scrimmage::SimControl\l::worker" alt="" coords="256,122,429,163"/>
+</map>

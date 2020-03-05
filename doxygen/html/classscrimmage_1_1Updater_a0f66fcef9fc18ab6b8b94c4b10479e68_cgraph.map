@@ -1,0 +1,6 @@
+<map id="scrimmage::Updater::draw_mesh" name="scrimmage::Updater::draw_mesh">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#ab1f92a173b5bf65403dec94a57e7b17c" title="scrimmage::Updater\l::get_model_texture" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title="scrimmage::Updater\l::quat_2_transform" alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da" title="scrimmage::scale" alt="" coords="218,137,353,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#a2adb2ce6e987991388e5bae650e7547b" title="scrimmage::Updater\l::set_quat" alt="" coords="208,188,363,229"/>
+</map>

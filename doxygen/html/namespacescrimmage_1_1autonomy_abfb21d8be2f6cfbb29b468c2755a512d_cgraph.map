@@ -1,0 +1,8 @@
+<map id="scrimmage::autonomy::init_actor_func" name="scrimmage::autonomy::init_actor_func">
+<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a67fa145d338c998a59e6d6b374af0b8a" title="scrimmage::autonomy\l::OpenAIObservations\l::add_sensors" alt="" coords="236,5,403,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#a541fc805e0fec4cb224af7dd93b1be6f" title="scrimmage::autonomy\l::OpenAIActions::create\l_action_space" alt="" coords="233,85,405,141"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e" title="scrimmage::autonomy\l::OpenAIObservations\l::create_observation_space" alt="" coords="220,165,419,221"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#abf347a0e77cbe8f14d99ee76b75a5024" title="scrimmage::autonomy\l::OpenAIActions::ext\l_ctrl_vec" alt="" coords="236,245,403,301"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a9ece4613d0d81bd6d8bb84b4effdf6fb" title="scrimmage::autonomy\l::OpenAIObservations\l::set_combine_actors" alt="" coords="236,325,403,381"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#ad30b64d002ce779a0ef626e8a919d15f" title="scrimmage::autonomy\l::OpenAIObservations\l::set_global_sensor" alt="" coords="236,405,403,461"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="scrimmage::sensor::ScrimmageOpenAISensor" name="scrimmage::sensor::ScrimmageOpenAISensor">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Sensor.html" title="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}" alt="" coords="5,5,152,156"/>
+<area shape="rect" id="node3" href="$structscrimmage_1_1EnvParams.html" title="{scrimmage::EnvParams\n||}" alt="" coords="177,42,351,119"/>
+</map>

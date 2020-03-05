@@ -1,0 +1,11 @@
+<map id="scrimmage::Angles::angle_pi" name="scrimmage::Angles::angle_pi">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a4bd7cb4def305e8bb95ff0963ec6e19c" title="scrimmage::Angles::\langle_avg_rad" alt="" coords="516,15,669,56"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a6fbce91fad1f07332f645de1fd54ac96" title="shortest angle from ang2 to ang1 (radians) " alt="" coords="249,61,402,103"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b" title="scrimmage::controller\l::SimpleQuadrotorController\lLQR::step" alt="" coords="492,90,693,146"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#ae8f0b2c9cce1aed27b6dc7efba6ade9f" title="scrimmage::motion::\lFixedWing6DOF::init" alt="" coords="248,179,403,220"/>
+<area shape="rect" id="node6" href="$UUV6DOF_8cpp.html#ade72ba78ea3a4558c1a511db79fbb435" title="REGISTER_PLUGIN" alt="" coords="256,245,395,271"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a8111f6af651d500f112128d06bf2b0c5" title="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::step" alt="" coords="207,295,444,351"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a70769acf07b591b4a86cf53d387622e4" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::step" alt="" coords="211,375,440,431"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3" title="scrimmage::PID::step" alt="" coords="246,455,405,482"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88747115a8cec96099b6f47c54e6d46d" title="scrimmage::motion::\lFixedWing6DOF::step" alt="" coords="247,507,403,548"/>
+</map>

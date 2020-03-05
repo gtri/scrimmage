@@ -1,0 +1,7 @@
+<map id="scrimmage::FrameUpdateClient::send_frame" name="scrimmage::FrameUpdateClient::send_frame">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034" title="scrimmage::Angles::\langle" alt="" coords="306,5,459,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="306,71,459,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="306,136,459,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae" title="scrimmage::Angles::\lset_angle" alt="" coords="306,201,459,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="280,267,485,294"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="scrimmage::autonomy::MOOSAutonomy::step_autonomy" name="scrimmage::autonomy::MOOSAutonomy::step_autonomy">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="251,5,405,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="241,71,415,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="244,137,412,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="241,187,415,214"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="251,239,405,280"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="241,304,415,345"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title="scrimmage::Quaternion::set" alt="" coords="227,370,429,397"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title="scrimmage::State::vel" alt="" coords="247,421,409,447"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="225,471,431,498"/>
+</map>

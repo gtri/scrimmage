@@ -1,0 +1,25 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/math/Quaternion.h" name="/root/scrimmage/scrimmage/include/scrimmage/math/Quaternion.h">
+<area shape="rect" id="node2" href="$Shape_8h.html" title="Brief file description. " alt="" coords="5,228,213,284"/>
+<area shape="rect" id="node3" href="$State_8h.html" title="Brief file description. " alt="" coords="1427,117,1631,173"/>
+<area shape="rect" id="node4" href="$PyAutonomy_8cpp.html" title="Brief file description. " alt="" coords="237,228,485,284"/>
+<area shape="rect" id="node5" href="$ShapeDraw_8cpp.html" title="Brief file description. " alt="" coords="509,228,749,284"/>
+<area shape="rect" id="node6" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="773,228,1005,284"/>
+<area shape="rect" id="node7" href="$AltitudeAboveTerrain_8cpp.html" title="Brief file description. " alt="" coords="1029,228,1264,284"/>
+<area shape="rect" id="node8" href="$ContactBlobCamera_8cpp.html" title="Brief file description. " alt="" coords="1289,228,1522,284"/>
+<area shape="rect" id="node9" href="$LOSSensor_8cpp.html" title="Brief file description. " alt="" coords="1547,228,1763,284"/>
+<area shape="rect" id="node10" href="$NoisyContacts_8cpp.html" title="Brief file description. " alt="" coords="1787,228,2024,284"/>
+<area shape="rect" id="node11" href="$NoisyState_8cpp.html" title="Brief file description. " alt="" coords="2049,228,2263,284"/>
+<area shape="rect" id="node12" href="$RayTrace_8cpp.html" title="Brief file description. " alt="" coords="2287,228,2491,284"/>
+<area shape="rect" id="node13" href="$RigidBody6DOFStateSensor_8cpp.html" title="Brief file description. " alt="" coords="2515,228,2853,284"/>
+<area shape="rect" id="node14" href="$SimpleINS_8cpp.html" title="Brief file description. " alt="" coords="2877,228,3088,284"/>
+<area shape="rect" id="node15" href="$FlightGearMultiplayer_8h.html" title="Brief file description. " alt="" coords="1960,109,2189,180"/>
+<area shape="rect" id="node16" href="$Cuboid_8h.html" title="Brief file description. " alt="" coords="2213,117,2432,173"/>
+<area shape="rect" id="node17" href="$Plane_8h.html" title="Brief file description. " alt="" coords="2456,117,2667,173"/>
+<area shape="rect" id="node18" href="$Polyhedron_8h.html" title="Brief file description. " alt="" coords="2690,117,2937,173"/>
+<area shape="rect" id="node19" href="$Rotor_8h.html" title="Brief file description. " alt="" coords="2961,117,3165,173"/>
+<area shape="rect" id="node20" href="$ROSIMUSensor_8h.html" title="Brief file description. " alt="" coords="3189,117,3470,173"/>
+<area shape="rect" id="node21" href="$Updater_8h.html" title="Brief file description. " alt="" coords="3494,117,3698,173"/>
+<area shape="rect" id="node22" href="$Updater_8cpp.html" title="Brief file description. " alt="" coords="3563,235,3767,277"/>
+<area shape="rect" id="node23" href="$FrameUpdateClient_8cpp.html" title="Brief file description. " alt="" coords="3773,124,3995,165"/>
+<area shape="rect" id="node24" href="$Quaternion_8cpp.html" title="Brief file description. " alt="" coords="4019,124,4223,165"/>
+</map>

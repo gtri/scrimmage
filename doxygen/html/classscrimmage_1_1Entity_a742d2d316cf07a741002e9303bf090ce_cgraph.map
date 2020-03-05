@@ -1,0 +1,23 @@
+<map id="scrimmage::Entity::init" name="scrimmage::Entity::init">
+<area shape="rect" id="node2" href="$namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647" title="scrimmage::connect" alt="" coords="229,5,383,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Entity.html#a15d3ff43512d2c387464495464b784af" title="scrimmage::Entity::\lcontacts" alt="" coords="233,57,379,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="229,122,383,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Entity.html#a418a22dd9e88f347e59c45379309a7e1" title="scrimmage::Entity::\lfile_search" alt="" coords="233,187,379,229"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Entity.html#a56e830bcd9a84ba1c32ff48000e178b2" title="scrimmage::Entity::\lglobal_services" alt="" coords="233,253,379,294"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Entity.html#a7a364cceb809cd85528056f33b15be73" title="scrimmage::Entity::id" alt="" coords="227,319,385,345"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1Controller.html#a518884810dcdd498fda898378da406b4" title="scrimmage::Controller\l::init" alt="" coords="224,370,388,411"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1Sensor.html#a6916ce9ac4b1850735c6407b706eef42" title="scrimmage::Sensor::init" alt="" coords="219,436,393,463"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1Entity.html#a3f88dfbc5ff9a42fae837da0d48cf898" title="scrimmage::Entity::mp" alt="" coords="223,487,389,513"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1Entity.html#aba20087f34f68eab4b574084f25935c1" title="scrimmage::Entity::\lparam_server" alt="" coords="233,538,379,579"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1Entity.html#a0f933e41855d10195a40d4300acb119f" title="scrimmage::Entity::\lparse_visual" alt="" coords="233,603,379,645"/>
+<area shape="rect" id="node13" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="441,640,628,667"/>
+<area shape="rect" id="node14" href="$classscrimmage_1_1Entity.html#a82d54160b13134ef46eeef9e1419dea8" title="scrimmage::Entity::\lplugin_manager" alt="" coords="233,721,379,762"/>
+<area shape="rect" id="node15" href="$namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8" title="scrimmage::print_io\l_error" alt="" coords="231,786,381,827"/>
+<area shape="rect" id="node16" href="$classscrimmage_1_1Entity.html#ab587d12ed9d63612f84e88ec23be2ea3" title="scrimmage::Entity::\lpubsub" alt="" coords="233,851,379,893"/>
+<area shape="rect" id="node17" href="$classscrimmage_1_1Entity.html#a28ab84afb7fff848d0282c27e829eb3b" title="scrimmage::Entity::\lrtree" alt="" coords="233,917,379,958"/>
+<area shape="rect" id="node18" href="$classscrimmage_1_1Entity.html#aaf19d3313ee50a1e15b21a6552ad370a" title="scrimmage::Entity::\lsensor" alt="" coords="233,982,379,1023"/>
+<area shape="rect" id="node19" href="$classscrimmage_1_1ID.html#a9895adc7050c16c76f2a7064a886c91f" title="scrimmage::ID::set_id" alt="" coords="225,1048,387,1075"/>
+<area shape="rect" id="node20" href="$classscrimmage_1_1ID.html#a6d3c005538695640cd2d1be2495c6311" title="scrimmage::ID::set\l_sub_swarm_id" alt="" coords="235,1099,377,1141"/>
+<area shape="rect" id="node21" href="$classscrimmage_1_1ID.html#a78e83716223c905e7d747967a3b94c1d" title="scrimmage::ID::set\l_team_id" alt="" coords="235,1165,377,1206"/>
+<area shape="rect" id="node22" href="$namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee" title="scrimmage::verify_io\l_connection" alt="" coords="229,1230,383,1271"/>
+</map>

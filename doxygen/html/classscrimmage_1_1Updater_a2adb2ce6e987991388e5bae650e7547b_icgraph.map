@@ -1,0 +1,6 @@
+<map id="scrimmage::Updater::set_quat" name="scrimmage::Updater::set_quat">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#a9fd4fa629dc4a3aad9896aaf0df68698" title="scrimmage::Updater\l::draw_circle" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a3a534262403a4ea2f1da30acd476e8ba" title="scrimmage::Updater\l::draw_cube" alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#ac94d9b8f11e19665110d950fff09c3e1" title="scrimmage::Updater\l::draw_ellipse" alt="" coords="208,136,363,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68" title="scrimmage::Updater\l::draw_mesh" alt="" coords="208,201,363,243"/>
+</map>

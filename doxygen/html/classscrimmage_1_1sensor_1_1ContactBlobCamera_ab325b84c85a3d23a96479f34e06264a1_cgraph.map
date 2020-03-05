@@ -1,0 +1,8 @@
+<map id="scrimmage::sensor::ContactBlobCamera::step" name="scrimmage::sensor::ContactBlobCamera::step">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="256,5,429,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="259,71,427,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="255,122,430,149"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="256,173,429,215"/>
+<area shape="rect" id="node6" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="281,239,404,266"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="240,290,445,317"/>
+</map>

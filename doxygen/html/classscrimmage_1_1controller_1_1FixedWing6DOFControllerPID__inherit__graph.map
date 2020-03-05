@@ -1,0 +1,3 @@
+<map id="scrimmage::controller::FixedWing6DOFControllerPID" name="scrimmage::controller::FixedWing6DOFControllerPID">
+<area shape="rect" id="node3" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="220,5,384,156"/>
+</map>

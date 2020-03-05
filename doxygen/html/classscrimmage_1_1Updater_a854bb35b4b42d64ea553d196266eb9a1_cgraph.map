@@ -1,0 +1,6 @@
+<map id="scrimmage::Updater::draw_plane" name="scrimmage::Updater::draw_plane">
+<area shape="rect" id="node2" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title="scrimmage::ConfigParse\l::directory" alt="" coords="435,32,613,73"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title="scrimmage::ConfigParse\l::params" alt="" coords="208,28,387,69"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title="scrimmage::ConfigParse\l::parse" alt="" coords="208,93,387,135"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#a9ec30ec0f7abcce4258d19100533010d" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="211,159,384,200"/>
+</map>

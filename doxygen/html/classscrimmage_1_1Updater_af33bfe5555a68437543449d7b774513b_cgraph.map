@@ -1,0 +1,19 @@
+<map id="scrimmage::Updater::draw_shapes" name="scrimmage::Updater::draw_shapes">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#a7bfbbe6a19aa840241f98633f58fbeb9" title="scrimmage::Updater\l::draw_arc" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a48d6e922d565ff6ce599280ad0969179" title="scrimmage::Updater\l::draw_arrow" alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#a9fd4fa629dc4a3aad9896aaf0df68698" title="scrimmage::Updater\l::draw_circle" alt="" coords="208,136,363,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#ab8a81847c6c38654d56bc6b8b4754c81" title="scrimmage::Updater\l::draw_cone" alt="" coords="208,201,363,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Updater.html#a3a534262403a4ea2f1da30acd476e8ba" title="scrimmage::Updater\l::draw_cube" alt="" coords="208,267,363,308"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Updater.html#ac94d9b8f11e19665110d950fff09c3e1" title="scrimmage::Updater\l::draw_ellipse" alt="" coords="208,332,363,373"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1Updater.html#a7201d982bd52483c3e3105fcf463e562" title="scrimmage::Updater\l::draw_line" alt="" coords="208,397,363,439"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68" title="scrimmage::Updater\l::draw_mesh" alt="" coords="208,463,363,504"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1Updater.html#a854bb35b4b42d64ea553d196266eb9a1" title="scrimmage::Updater\l::draw_plane" alt="" coords="208,528,363,569"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1Updater.html#a31fcaad704a782579e133659205cb9f2" title="scrimmage::Updater\l::draw_pointcloud" alt="" coords="208,593,363,635"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1Updater.html#aac25b0c1713dd3ae89bece4dbbb0c565" title="scrimmage::Updater\l::draw_polydata" alt="" coords="208,659,363,700"/>
+<area shape="rect" id="node13" href="$classscrimmage_1_1Updater.html#a8915cfff4975d928057c1291329500fd" title="scrimmage::Updater\l::draw_polygon" alt="" coords="208,724,363,765"/>
+<area shape="rect" id="node14" href="$classscrimmage_1_1Updater.html#aad348c41e8791d004ab0037f0c65e3b2" title="scrimmage::Updater\l::draw_polyline" alt="" coords="208,789,363,831"/>
+<area shape="rect" id="node15" href="$classscrimmage_1_1Updater.html#a453b956a0fa1b1a076a63fe2d363d6a3" title="scrimmage::Updater\l::draw_sphere" alt="" coords="208,855,363,896"/>
+<area shape="rect" id="node16" href="$classscrimmage_1_1Updater.html#a8f4c4f76937943c0d2419bf03eb85357" title="scrimmage::Updater\l::draw_spline" alt="" coords="208,920,363,961"/>
+<area shape="rect" id="node17" href="$classscrimmage_1_1Updater.html#a4a5274a49b3ec47c60336e620672c9e9" title="scrimmage::Updater\l::draw_text" alt="" coords="208,985,363,1027"/>
+<area shape="rect" id="node18" href="$classscrimmage_1_1Updater.html#a99c6f8a3e7bfbaa1fe6e72405102c651" title="scrimmage::Updater\l::draw_triangle" alt="" coords="208,1051,363,1092"/>
+</map>

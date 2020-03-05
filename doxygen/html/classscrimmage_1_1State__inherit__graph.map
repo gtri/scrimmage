@@ -1,0 +1,6 @@
+<map id="scrimmage::State" name="scrimmage::State">
+<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1MultirotorState.html" title="{scrimmage::motion::\lMultirotorState\n|# prop_input_\l# input_type_\l|+ set_input_type()\l+ set_prop_input()\l+ input_type()\l+ prop_input()\l}" alt="" coords="5,607,160,758"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1motion_1_1PwmState.html" title="{scrimmage::motion::\lPwmState\n|# pwm_input_\l# pwm_min_\l# pwm_max_\l|+ set_pwm_input()\l+ pwm_input()\l+ set_pwm_min()\l+ set_pwm_max()\l+ pwm_min()\l+ pwm_max()\l}" alt="" coords="184,585,339,780"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1motion_1_1RigidBody6DOFState.html" title="{scrimmage::motion::\lRigidBody6DOFState\n|# linear_vel_body_\l# ang_vel_body_\l# linear_accel_body_\l# ang_accel_body_\l|+ RigidBody6DOFState()\l+ linear_vel_body()\l+ ang_vel_body()\l+ linear_accel_body()\l+ ang_accel_body()\l+ linear_vel_body_const()\l+ ang_vel_body_const()\l+ linear_accel_body_const()\l+ ang_accel_body_const()\l}" alt="" coords="363,556,565,809"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1StateWithCovariance.html" title="{scrimmage::StateWithCovariance\n|# covariance_\l|+ StateWithCovariance()\l+ StateWithCovariance()\l+ StateWithCovariance()\l+ set_covariance()\l+ covariance()\l}" alt="" coords="589,615,824,751"/>
+</map>

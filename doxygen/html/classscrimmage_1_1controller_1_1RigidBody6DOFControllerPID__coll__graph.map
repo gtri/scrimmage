@@ -1,0 +1,4 @@
+<map id="scrimmage::controller::RigidBody6DOFControllerPID" name="scrimmage::controller::RigidBody6DOFControllerPID">
+<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1RigidBody6DOF_1_1Controller.html" title="{scrimmage::motion::\lRigidBody6DOF::Controller\n||+ u()\l}" alt="" coords="5,211,195,303"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="219,5,397,508"/>
+</map>

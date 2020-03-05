@@ -1,0 +1,5 @@
+<map id="scrimmage::interaction::RandomAttrit" name="scrimmage::interaction::RandomAttrit">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,93,212,200"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Random.html" title="{scrimmage::Random\n|# seed_\l# gener_\l# rng_normal_\l# rng_uniform_\l|+ Random()\l+ get_seed()\l+ seed()\l+ seed()\l+ rng_uniform()\l+ rng_uniform()\l+ rng_normal()\l+ rng_normal()\l+ rng_uniform_int()\l+ make_rng_normal()\l+ rng_discrete_int()\l+ gener()\l}" alt="" coords="237,5,399,288"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="424,108,511,185"/>
+</map>

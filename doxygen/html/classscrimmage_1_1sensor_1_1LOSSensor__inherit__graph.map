@@ -1,0 +1,3 @@
+<map id="scrimmage::sensor::LOSSensor" name="scrimmage::sensor::LOSSensor">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1RayTrace.html" title="{scrimmage::sensor::\lRayTrace\n|# gener_\l# pos_noise_\l# rays_\l# ray_id_counter_\l# max_range_\l# min_range_\l# max_sample_rate_\l# auto_ray_tracing_\l# pub_\l|+ RayTrace()\l+ type()\l+ init()\l+ step()\l+ automatic_ray_tracing()\l+ rays()\l+ max_range()\l+ min_range()\l+ max_sample_rate()\l}" alt="" coords="5,5,196,332"/>
+</map>

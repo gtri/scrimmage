@@ -1,0 +1,4 @@
+<map id="scrimmage::EntityPlugin" name="scrimmage::EntityPlugin">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Plugin.html" title="{scrimmage::Plugin\n|# name_set_\l|+ Plugin()\l+ ~Plugin()\l+ set_name()\l+ name()\l+ type()\l}" alt="" coords="5,130,145,266"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1VariableIO.html" title="{scrimmage::VariableIO\n|# next_input_variable\l_index_\l# input_\l# output_\l|+ VariableIO()\l+ output_variable_index()\l+ input_variable_index()\l+ add_input_variable()\l+ add_output_variable()\l+ declare()\l+ declare()\l+ input()\l+ output()\l+ output()\l+ exists()\l+ exists()\l+ declared_input_variables()\l+ declared_output_variables()\l+ type_map()\l+ input()\l+ output()\l+ set_input()\l+ set_output()\l}" alt="" coords="349,5,564,391"/>
+</map>

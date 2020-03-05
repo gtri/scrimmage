@@ -1,0 +1,8 @@
+<map id="scrimmage::sensor::AirSimSensor::init" name="scrimmage::sensor::AirSimSensor::init">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="208,5,384,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title="scrimmage::CSV::open\l_output" alt="" coords="211,71,381,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title="scrimmage::CSV::output\l_is_open" alt="" coords="207,136,385,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ab2eb9276fe84581027d8ca971c691681" title="scrimmage::sensor::\lAirSimSensor::request\l_images" alt="" coords="213,201,379,257"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title="scrimmage::CSV::set\l_column_headers" alt="" coords="217,280,375,321"/>
+<area shape="rect" id="node7" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="232,346,360,373"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="node2" href="$namespacescrimmage_1_1interaction.html#a15212174b764dd7707dc47986cddac52" title="scrimmage::interaction\l::draw_graph" alt="" coords="230,5,401,47"/>
+<area shape="rect" id="node3" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title="scrimmage::get" alt="" coords="254,71,377,98"/>
+<area shape="rect" id="node4" href="$namespacescrimmage_1_1interaction.html#a5663761abe47fd207e1469bcf925fbcc" title="scrimmage::interaction\l::nodes_idxs_to_pos_map" alt="" coords="222,123,409,164"/>
+<area shape="rect" id="node5" href="$namespacescrimmage.html#a7462f2b4a0c25561b748f859aee112ca" title="scrimmage::parse_autonomy_data" alt="" coords="192,189,439,215"/>
+<area shape="rect" id="node6" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="254,239,377,266"/>
+</map>

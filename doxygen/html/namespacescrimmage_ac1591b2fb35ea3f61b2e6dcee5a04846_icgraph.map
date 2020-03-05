@@ -1,0 +1,46 @@
+<map id="scrimmage::set" name="scrimmage::set">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a54eb6469a983baf23ccb86ac7405482c" title="scrimmage::sensor::\lContactBlobCamera::draw\l_frustum" alt="" coords="430,27,619,83"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1MapGen2D.html#aef3260f415adc19d9f51382a70601cda" title="scrimmage::interaction\l::MapGen2D::init" alt="" coords="184,129,355,170"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title="scrimmage::sensor::\lContactBlobCamera::init" alt="" coords="180,194,359,235"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055" title="scrimmage::interaction\l::BulletCollision::init" alt="" coords="687,266,857,307"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#ada65813d1775c9404dbf2747d5472eca" title="scrimmage::autonomy\l::Waypoint::lla_proto" alt="" coords="186,1362,353,1403"/>
+<area shape="rect" id="node7" href="$namespacescrimmage_1_1shape.html#aa1e07ca4b08ca9974361c112f36c9df9" title="scrimmage::shape::make_arc" alt="" coords="419,412,631,439"/>
+<area shape="rect" id="node8" href="$namespacescrimmage_1_1shape.html#ab17b6e3a3527968017d2811a51919322" title="scrimmage::shape::make\l_arrow" alt="" coords="432,463,617,505"/>
+<area shape="rect" id="node9" href="$namespacescrimmage_1_1shape.html#a9b52864ead2155cfca7d16fa54b85338" title="scrimmage::shape::make\l_circle" alt="" coords="432,581,617,622"/>
+<area shape="rect" id="node10" href="$AvoidEntityMS_8cpp.html#ab6eb6549ce07519d29bc1f4a6c8193cf" title="REGISTER_PLUGIN" alt="" coords="703,529,841,556"/>
+<area shape="rect" id="node11" href="$namespacescrimmage_1_1shape.html#ae1a6f33cd0fdbb71bca2a199151df04c" title="scrimmage::shape::make_cone" alt="" coords="413,647,636,673"/>
+<area shape="rect" id="node12" href="$namespacescrimmage_1_1shape.html#abef395eca300e16366a48956010ddd84" title="scrimmage::shape::make\l_cuboid" alt="" coords="432,698,617,739"/>
+<area shape="rect" id="node13" href="$namespacescrimmage_1_1shape.html#ab84ccb97525c2ea4d989997baacdc104" title="scrimmage::shape::make\l_ellipse" alt="" coords="432,763,617,805"/>
+<area shape="rect" id="node14" href="$namespacescrimmage_1_1shape.html#a43bfaee741e0d9c0425e9558cfe251ad" title="scrimmage::shape::make_line" alt="" coords="417,529,632,556"/>
+<area shape="rect" id="node15" href="$namespacescrimmage_1_1shape.html#ab5b68269db6237c1c78987652acac4f3" title="scrimmage::shape::make_mesh" alt="" coords="411,829,639,856"/>
+<area shape="rect" id="node16" href="$namespacescrimmage_1_1shape.html#a6ce641b91894033940823db0a59ef62d" title="scrimmage::shape::make\l_plane" alt="" coords="432,881,617,922"/>
+<area shape="rect" id="node17" href="$namespacescrimmage_1_1shape.html#ac312ffaf0e67dcbe7b5af362e8a3a089" title="scrimmage::shape::make\l_pointcloud" alt="" coords="432,946,617,987"/>
+<area shape="rect" id="node18" href="$namespacescrimmage_1_1shape.html#ab52c51872a0922e0583514e6feb0b171" title="scrimmage::shape::make\l_polydata" alt="" coords="432,1011,617,1053"/>
+<area shape="rect" id="node19" href="$namespacescrimmage_1_1shape.html#add695ed4056e8de10f361e262700b714" title="scrimmage::shape::make\l_polygon" alt="" coords="432,1077,617,1118"/>
+<area shape="rect" id="node20" href="$namespacescrimmage_1_1shape.html#ac77f096028916001e4a851b3adfce448" title="scrimmage::shape::make\l_polyhedron" alt="" coords="432,1142,617,1183"/>
+<area shape="rect" id="node21" href="$namespacescrimmage_1_1shape.html#a8eced38442ab10f7bd59fa7ecaad4fe1" title="scrimmage::shape::make\l_polyline" alt="" coords="432,1207,617,1249"/>
+<area shape="rect" id="node22" href="$namespacescrimmage_1_1shape.html#a58ba0e6ff11d2e59f9aa3312c2d597a9" title="scrimmage::shape::make\l_shape" alt="" coords="177,839,362,881"/>
+<area shape="rect" id="node23" href="$namespacescrimmage_1_1shape.html#a972d50a168325053f1e778fd5221c12c" title="scrimmage::shape::make\l_sphere" alt="" coords="432,295,617,337"/>
+<area shape="rect" id="node24" href="$namespacescrimmage_1_1shape.html#a9a1205eb62b29f0072b891469ffc8d75" title="scrimmage::shape::make\l_spline" alt="" coords="432,1273,617,1314"/>
+<area shape="rect" id="node25" href="$namespacescrimmage_1_1shape.html#ae2d098704a545fcdc604474e56929ef0" title="scrimmage::shape::make_text" alt="" coords="416,1339,633,1365"/>
+<area shape="rect" id="node26" href="$namespacescrimmage_1_1shape.html#ad7a9d4fb2bb0fa631c4405ae794ef775" title="scrimmage::shape::make\l_triangle" alt="" coords="432,1390,617,1431"/>
+<area shape="rect" id="node27" href="$namespacescrimmage.html#a859b1ab7643002025a5c60083bbd5298" title="scrimmage::path_to\l_lines" alt="" coords="194,63,345,105"/>
+<area shape="rect" id="node28" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a6c1203ebbd6cce7521df931ed5b9a0a5" title="scrimmage::interaction\l::TerrainMap::proto" alt="" coords="184,1427,355,1469"/>
+<area shape="rect" id="node29" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#a1c888cd049959eb6d36a2c8e32fe0bec" title="scrimmage::interaction\l::BulletCollision::remove\l_object" alt="" coords="182,1492,357,1548"/>
+<area shape="rect" id="node30" href="$classscrimmage_1_1interaction_1_1Sphere.html#a566270d5ea26c84192505c0f1d38c30e" title="scrimmage::interaction\l::Sphere::set_visual" alt="" coords="184,1571,355,1613"/>
+<area shape="rect" id="node31" href="$classscrimmage_1_1interaction_1_1Polyhedron.html#ad7dccba681a10f780128d433a7c89021" title="scrimmage::interaction\l::Polyhedron::set_visual" alt="" coords="183,1637,355,1678"/>
+<area shape="rect" id="node32" href="$classscrimmage_1_1interaction_1_1Cuboid.html#ad223f8621b6f9a4a8ed4a136a6f2fa1b" title="scrimmage::interaction\l::Cuboid::set_visual" alt="" coords="184,1702,355,1743"/>
+<area shape="rect" id="node33" href="$classscrimmage_1_1interaction_1_1Plane.html#af7f50bcb0b63cd85c888b6135f72c321" title="scrimmage::interaction\l::Plane::set_visual" alt="" coords="184,1767,355,1809"/>
+<area shape="rect" id="node34" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#ac13bd8c7f6551605a39436ac4761cb0e" title="scrimmage::interaction\l::TerrainMap::shape" alt="" coords="184,1833,355,1874"/>
+<area shape="rect" id="node35" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="183,1898,356,1939"/>
+<area shape="rect" id="node36" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="176,1963,363,2005"/>
+<area shape="rect" id="node37" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a92a9eb114d1af3919df9b62193260a75" title="scrimmage::motion::\lJSBSimControl::step" alt="" coords="192,2029,347,2070"/>
+<area shape="rect" id="node38" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88747115a8cec96099b6f47c54e6d46d" title="scrimmage::motion::\lFixedWing6DOF::step" alt="" coords="191,2094,347,2135"/>
+<area shape="rect" id="node39" href="$classscrimmage_1_1autonomy_1_1Boids.html#a1ac49d36032f916f59bb3261ca7b9ea1" title="scrimmage::autonomy\l::Boids::step_autonomy" alt="" coords="183,2159,356,2201"/>
+<area shape="rect" id="node40" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#af4d01e28dac425a839b38397d282ab18" title="scrimmage::interaction\l::BulletCollision::step\l_entity_interaction" alt="" coords="184,2224,355,2280"/>
+<area shape="rect" id="node41" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#ab3596a3e3cda76a69e2cea0ef2268899" title="scrimmage::interaction\l::TerrainMap::TerrainMap" alt="" coords="179,2303,359,2345"/>
+<area shape="rect" id="node42" href="$classscrimmage_1_1Updater.html#ae38a0b019de32defb8c3aeea0608c50f" title="scrimmage::Updater\l::update_contact_visual" alt="" coords="183,2421,356,2462"/>
+<area shape="rect" id="node43" href="$classscrimmage_1_1Updater.html#ac2a24759fd298cd7b86ee0cb6609101c" title="scrimmage::Updater\l::update_contacts" alt="" coords="447,2391,602,2433"/>
+<area shape="rect" id="node44" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#adbca4f4b722f9852f153400c2d931f86" title="scrimmage::autonomy\l::Waypoint::Waypoint" alt="" coords="186,2486,353,2527"/>
+<area shape="rect" id="node45" href="$classscrimmage_1_1Updater.html#a3d8e5c678f1f8c7e276952faf00c5f9f" title="scrimmage::Updater\l::world_point_clicked" alt="" coords="192,2551,347,2593"/>
+</map>

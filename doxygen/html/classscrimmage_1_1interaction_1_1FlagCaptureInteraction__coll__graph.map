@@ -1,0 +1,4 @@
+<map id="scrimmage::interaction::FlagCaptureInteraction" name="scrimmage::interaction::FlagCaptureInteraction">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,71,212,178"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1ID.html" title="{scrimmage::ID\n|# id_\l# sub_swarm_id_\l# team_id_\l|+ ID()\l+ ID()\l+ set_id()\l+ set_sub_swarm_id()\l+ set_team_id()\l+ id()\l+ sub_swarm_id()\l+ team_id()\l+ operator==()\l+ operator\&lt;()\l}" alt="" coords="236,5,400,244"/>
+</map>

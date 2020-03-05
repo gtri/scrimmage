@@ -1,0 +1,8 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="403,5,556,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title="scrimmage::PID::set\l_integral_band" alt="" coords="404,71,555,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da" title="scrimmage::PID::set\l_is_angle" alt="" coords="404,137,555,179"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57" title="scrimmage::PID::set\l_parameters" alt="" coords="404,204,555,245"/>
+<area shape="rect" id="node6" href="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648" title="scrimmage::controller\l::set_pid" alt="" coords="192,113,355,155"/>
+<area shape="rect" id="node7" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="415,274,543,301"/>
+</map>

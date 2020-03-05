@@ -1,0 +1,5 @@
+<map id="scrimmage::SimControl::shutdown" name="scrimmage::SimControl::shutdown">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad48792613c02c6f23681810aa50a48d1" title="scrimmage::SimControl\l::finalize" alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="448,71,635,98"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#a044859c6f74d181cc82cb57533cef975" title="scrimmage::SimControl\l::reset_pointers" alt="" coords="227,123,400,164"/>
+</map>

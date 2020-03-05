@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::request_screenshot" name="scrimmage::SimControl::request_screenshot">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation. " alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation. " alt="" coords="227,71,400,112"/>
+</map>

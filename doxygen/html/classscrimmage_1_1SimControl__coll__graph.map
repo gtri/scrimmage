@@ -1,0 +1,6 @@
+<map id="scrimmage::SimControl" name="scrimmage::SimControl">
+<area shape="rect" id="node3" href="$classscrimmage_1_1DelayedTask.html" title="repeats a task after a delay and some condition (if set) are met. The task can be set to repeat a fin..." alt="" coords="236,175,419,457"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="500,5,592,83"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Timer.html" title="{scrimmage::Timer\n|# time_warp_\l# start_time_\l# actual_time_\l# actual_elapsed_time_\l# sim_time_\l# sim_elapsed_time_\l# loop_timer_\l# iterate_period_\l# iterate_rate_\l|+ start_overall_timer()\l+ elapsed_time()\l+ start_loop_timer()\l+ loop_wait()\l+ set_iterate_rate()\l+ set_time_warp()\l+ update_time_config()\l+ inc_warp()\l+ dec_warp()\l+ time_warp()\l+ getnanotime()\l}" alt="" coords="1037,145,1213,487"/>
+<area shape="rect" id="node11" title="STL class. " alt="" coords="1792,277,1879,355"/>
+</map>

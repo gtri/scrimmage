@@ -1,0 +1,19 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics">
+<area shape="rect" id="node2" href="dir_c17d39a59a30991998dd7a5f9ef5b16e.html" title="CPA" alt="" coords="37,63,109,111"/>
+<area shape="rect" id="node7" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html" title="common" alt="" coords="34,159,113,207"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000098_000005.html" title="1" alt="" coords="77,133,86,148"/>
+<area shape="rect" id="node9" href="dir_81ac6949c353a3d04cd403a175b36275.html" title="metrics" alt="" coords="368,159,440,207"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000098_000009.html" title="1" alt="" coords="345,165,354,180"/>
+<area shape="rect" id="node3" href="dir_163f453e43ffd3e2199ae508280a1e28.html" title="FlagCaptureMetrics" alt="" coords="655,63,801,111"/>
+<area shape="rect" id="node8" href="dir_6a6716f05b1e97ca5a8917dedbdea793.html" title="parse" alt="" coords="692,159,764,207"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000099_000012.html" title="1" alt="" coords="732,133,741,148"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000099_000009.html" title="1" alt="" coords="455,176,464,190"/>
+<area shape="rect" id="node4" href="dir_5c695a08d2a4234bf03963f8077ff8b7.html" title="OpenAIRewards" alt="" coords="510,63,631,111"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000100_000009.html" title="1" alt="" coords="455,155,465,169"/>
+<area shape="rect" id="node5" href="dir_15d2ea20807c333023107557269870ee.html" title="SimpleCaptureMetrics" alt="" coords="323,63,485,111"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000101_000009.html" title="1" alt="" coords="408,133,417,148"/>
+<area shape="rect" id="node6" href="dir_669c8e6f1e30993d5c26fc5532cb80ea.html" title="SimpleCollisionMetrics" alt="" coords="134,63,298,111"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000102_000009.html" title="1" alt="" coords="351,140,360,155"/>
+<area shape="rect" id="clust2" href="dir_086d5cad8b1adde5b1fcb87b546f7637.html" alt="" coords="27,52,908,121"/>
+<area shape="rect" id="clust1" href="dir_7370054b6647b017d0eee4f04ea2ba4f.html" title="plugins" alt="" coords="16,16,919,132"/>
+</map>

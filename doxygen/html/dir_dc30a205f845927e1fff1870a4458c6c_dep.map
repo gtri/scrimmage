@@ -1,0 +1,8 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/SimpleAircraft" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/SimpleAircraft">
+<area shape="rect" id="node1" href="dir_dc30a205f845927e1fff1870a4458c6c.html" title="SimpleAircraft" alt="" coords="38,52,150,100"/>
+<area shape="rect" id="node2" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html" title="common" alt="" coords="5,148,84,196"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000116_000005.html" title="1" alt="" coords="68,128,77,143"/>
+<area shape="rect" id="node3" href="dir_225ac9950e75cf8b57b2a00ffecc8137.html" title="motion" alt="" coords="109,148,181,196"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000116_000010.html" title="2" alt="" coords="126,121,136,135"/>
+<area shape="rect" id="clust1" href="dir_accb3fd3c749527533ae278fdffb4d13.html" title="motion" alt="" coords="27,16,161,111"/>
+</map>

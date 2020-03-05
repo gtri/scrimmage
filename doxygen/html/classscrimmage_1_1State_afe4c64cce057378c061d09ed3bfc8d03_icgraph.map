@@ -1,0 +1,4 @@
+<map id="scrimmage::State::rel_pos_local_frame" name="scrimmage::State::rel_pos_local_frame">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51307da3206e61e10fa3dae982353696" title="scrimmage::sensor::\lContactBlobCamera::contacts\l_to_bounding_boxes" alt="" coords="215,5,429,61"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a513589a3f76019d379daf3c8807aa960" title="Returns true if other state is in field&#45;of&#45;view. " alt="" coords="229,85,415,126"/>
+</map>

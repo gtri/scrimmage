@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::SimControl" name="scrimmage::SimControl::SimControl">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation. " alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a37204938bd08e3e2ee1196d04bbdead0" title="scrimmage::SimControl\l::single_step" alt="" coords="227,71,400,112"/>
+</map>

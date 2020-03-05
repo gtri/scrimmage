@@ -1,0 +1,6 @@
+<map id="scrimmage::Angles::set_input_clock_direction" name="scrimmage::Angles::set_input_clock_direction">
+<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a5a67e590a346d6703534c80b0bd20aa4" title="scrimmage::sensor::\lAirSimSensor::AirSimSensor" alt="" coords="253,5,457,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aa5f2d52117a52f704f4d2449bef1c65a" title="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::init" alt="" coords="236,70,473,126"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a8991c03b249a622aeeb525177b696e66" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::init" alt="" coords="240,150,469,206"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9e4dc86dfb36b20f5d93e0009dd4898e" title="scrimmage::motion::\lJSBSimControl::JSBSimControl" alt="" coords="247,229,462,271"/>
+</map>

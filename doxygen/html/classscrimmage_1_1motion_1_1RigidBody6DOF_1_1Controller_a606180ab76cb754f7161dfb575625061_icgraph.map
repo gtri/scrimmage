@@ -1,0 +1,4 @@
+<map id="scrimmage::motion::RigidBody6DOF::Controller::u" name="scrimmage::motion::RigidBody6DOF::Controller::u">
+<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1RigidBody6DOF.html#a09177a0f26382b06fc368c81065badc9" title="scrimmage::motion::\lRigidBody6DOF::set_u" alt="" coords="259,5,421,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1motion_1_1RigidBody6DOF.html#a698b1d55c7b9082e999efe4e36c5163e" title="scrimmage::motion::\lRigidBody6DOF::step" alt="" coords="263,71,417,112"/>
+</map>

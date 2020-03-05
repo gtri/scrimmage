@@ -1,0 +1,4 @@
+<map id="scrimmage::NetworkDevice::add_msg" name="scrimmage::NetworkDevice::add_msg">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Publisher.html#a640df6f51c7c94ab98ff8502232395ea" title="scrimmage::Publisher\l::publish" alt="" coords="269,5,429,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1NetworkDevice.html#ac5d5f783cda897daa1f02902b835d423" title="scrimmage::NetworkDevice\l::undelivered_msg_list_size" alt="" coords="251,71,448,112"/>
+</map>

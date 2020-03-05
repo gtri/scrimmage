@@ -1,0 +1,4 @@
+<map id="scrimmage::State::rel_az" name="scrimmage::State::rel_az">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a6fbce91fad1f07332f645de1fd54ac96" title="shortest angle from ang2 to ang1 (radians) " alt="" coords="262,5,415,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="236,71,441,98"/>
+</map>

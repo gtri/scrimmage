@@ -1,0 +1,4 @@
+<map id="scrimmage::External" name="scrimmage::External">
+<area shape="rect" id="node3" href="$classscrimmage_1_1DelayedTask.html" title="repeats a task after a delay and some condition (if set) are met. The task can be set to repeat a fin..." alt="" coords="201,57,384,339"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1VariableIO.html" title="{scrimmage::VariableIO\n|# next_input_variable\l_index_\l# input_\l# output_\l|+ VariableIO()\l+ output_variable_index()\l+ input_variable_index()\l+ add_input_variable()\l+ add_output_variable()\l+ declare()\l+ declare()\l+ input()\l+ output()\l+ output()\l+ exists()\l+ exists()\l+ declared_input_variables()\l+ declared_output_variables()\l+ type_map()\l+ input()\l+ output()\l+ set_input()\l+ set_output()\l}" alt="" coords="585,5,800,391"/>
+</map>

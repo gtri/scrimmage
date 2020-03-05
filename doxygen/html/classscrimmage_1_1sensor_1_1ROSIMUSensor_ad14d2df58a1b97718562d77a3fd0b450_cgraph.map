@@ -1,0 +1,6 @@
+<map id="scrimmage::sensor::ROSIMUSensor::step" name="scrimmage::sensor::ROSIMUSensor::step">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="224,5,397,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="224,71,397,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title="scrimmage::Quaternion::set" alt="" coords="210,137,411,163"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="208,187,413,214"/>
+</map>

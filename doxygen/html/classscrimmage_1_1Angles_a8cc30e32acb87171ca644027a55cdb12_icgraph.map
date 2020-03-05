@@ -1,0 +1,4 @@
+<map id="scrimmage::Angles::angle_diff" name="scrimmage::Angles::angle_diff">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#af27ca2bfd617f96ec528f432b4981279" title="scrimmage::Angles::\langle_avg" alt="" coords="207,5,360,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a699b0030787b7e21a0a26fa0c7351b40" title="returns whether ang is within the wedge between ang1 and ang2 where the wedge is less than 180 degree..." alt="" coords="207,71,360,112"/>
+</map>

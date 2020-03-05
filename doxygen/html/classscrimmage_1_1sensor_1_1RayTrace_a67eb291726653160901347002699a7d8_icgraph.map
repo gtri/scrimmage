@@ -1,0 +1,4 @@
+<map id="scrimmage::sensor::RayTrace::max_range" name="scrimmage::sensor::RayTrace::max_range">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055" title="scrimmage::interaction\l::BulletCollision::init" alt="" coords="213,5,384,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title="scrimmage::sensor::\lLOSSensor::step" alt="" coords="222,71,375,112"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="scrimmage::SimControl::finalize" name="scrimmage::SimControl::finalize">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a8cd3b0a233bd4f47c0e064d21240c707" title="scrimmage::SimControl\l::output_git_summary" alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a406b73879359433ed3a28c30f08a83e4" title="scrimmage::SimControl\l::output_runtime" alt="" coords="227,71,400,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="448,231,635,258"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1SimControl.html#a4b87dcb28c359d60a71c213a9790b0a1" title="scrimmage::SimControl\l::output_summary" alt="" coords="227,188,400,229"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title="scrimmage::SimControl\l::run_logging" alt="" coords="227,253,400,295"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title="scrimmage::SimControl\l::set_finished" alt="" coords="227,319,400,360"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time. " alt="" coords="227,384,400,425"/>
+</map>

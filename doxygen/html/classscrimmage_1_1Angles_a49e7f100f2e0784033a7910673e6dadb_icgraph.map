@@ -1,0 +1,25 @@
+<map id="scrimmage::Angles::deg2rad" name="scrimmage::Angles::deg2rad">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#ab1f92a173b5bf65403dec94a57e7b17c" title="scrimmage::Updater\l::get_model_texture" alt="" coords="248,5,403,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1motion_1_1SimpleQuadrotor.html#a46bdcdbd691701b0177d3e2d3884a515" title="scrimmage::motion::\lSimpleQuadrotor::init" alt="" coords="246,71,405,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a8991c03b249a622aeeb525177b696e66" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::init" alt="" coords="211,135,440,191"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1motion_1_1DubinsAirplane.html#afb612d35ca9b22bbccad92da1719fdb0" title="scrimmage::motion::\lDubinsAirplane::init" alt="" coords="248,215,403,256"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1motion_1_1RigidBody6DOF.html#ae813a8f4e98ffd378df9ca81c9588422" title="scrimmage::motion::\lRigidBody6DOF::init" alt="" coords="248,280,403,321"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1motion_1_1DoubleIntegrator.html#abc7be5e9b5dd4f4f38a7638382905b5e" title="scrimmage::motion::\lDoubleIntegrator::init" alt="" coords="247,345,404,387"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title="scrimmage::sensor::\lContactBlobCamera::init" alt="" coords="236,411,415,452"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1PID.html#af0dfdaf6faa01780bec02a2f1605ce0c" title="scrimmage::PID::init" alt="" coords="250,477,401,503"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289" title="scrimmage::motion::\lJSBSimModel::init" alt="" coords="248,528,403,569"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a" title="scrimmage::motion::\lJSBSimControl::init" alt="" coords="248,593,403,635"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1Entity.html#a742d2d316cf07a741002e9303bf090ce" title="scrimmage::Entity::init" alt="" coords="243,659,408,686"/>
+<area shape="rect" id="node13" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title="scrimmage::sensor::\lRayTrace::init" alt="" coords="249,711,402,752"/>
+<area shape="rect" id="node14" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a9d53818c75624fe3f3ee53e812dfacc7" title="scrimmage::autonomy\l::MOOSNode::OnNewMail" alt="" coords="234,776,417,817"/>
+<area shape="rect" id="node15" href="$ArduPilot_8cpp.html#aa26b41fb7b6c341c0408e5f8aa1836ee" title="REGISTER_PLUGIN" alt="" coords="256,842,395,869"/>
+<area shape="rect" id="node16" href="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title="scrimmage::FrameUpdateClient\l::send_frame" alt="" coords="212,893,439,935"/>
+<area shape="rect" id="node17" href="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648" title="scrimmage::controller\l::set_pid" alt="" coords="244,959,407,1000"/>
+<area shape="rect" id="node18" href="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a" title="scrimmage::set_pid\l_gains" alt="" coords="251,1024,399,1065"/>
+<area shape="rect" id="node19" href="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a8111f6af651d500f112128d06bf2b0c5" title="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::step" alt="" coords="207,1089,444,1145"/>
+<area shape="rect" id="node20" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a70769acf07b591b4a86cf53d387622e4" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::step" alt="" coords="211,1169,440,1225"/>
+<area shape="rect" id="node21" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a92a9eb114d1af3919df9b62193260a75" title="scrimmage::motion::\lJSBSimControl::step" alt="" coords="248,1248,403,1289"/>
+<area shape="rect" id="node22" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#aaec5e2e01ca96af4d8b800643545a0ea" title="scrimmage::motion::\lJSBSimModel::step" alt="" coords="248,1313,403,1355"/>
+<area shape="rect" id="node23" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f" title="scrimmage::sensor::\lAirSimSensor::step" alt="" coords="249,1379,402,1420"/>
+<area shape="rect" id="node24" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="239,1443,411,1499"/>
+</map>

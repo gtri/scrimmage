@@ -1,0 +1,19 @@
+<map id="scrimmage::Autonomy::ready" name="scrimmage::Autonomy::ready">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html#adc537d11be587ca48f4eb37b1eb14b80" title="scrimmage::Autonomy\l::close" alt="" coords="221,5,389,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c" title="scrimmage::Autonomy\l::desired_state" alt="" coords="437,296,605,337"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Autonomy.html#a733cbb1badf4c16e923b5f5bdd169899" title="scrimmage::Autonomy\l::get_contacts" alt="" coords="221,136,389,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Autonomy.html#a8136a1c2e538f377363c5c7790b5806d" title="scrimmage::Autonomy\l::get_contacts_raw" alt="" coords="221,201,389,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1Autonomy.html#aacb166e4c3503fca78f24f768bd27a7e" title="scrimmage::Autonomy\l::get_is_controlling" alt="" coords="221,267,389,308"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b" title="scrimmage::Autonomy\l::init" alt="" coords="221,332,389,373"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1Autonomy.html#a18e217f56f11c75c3a7834c366329b1d" title="scrimmage::Autonomy\l::logging_msg" alt="" coords="221,397,389,439"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1Autonomy.html#a730dce6bd57a7512210875c00cf8b0d9" title="scrimmage::Autonomy\l::need_reset" alt="" coords="221,463,389,504"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7" title="scrimmage::Autonomy\l::rtree" alt="" coords="437,812,605,853"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1Autonomy.html#ab9fca014107443070fdc69396c39d804" title="scrimmage::Autonomy\l::set_contacts" alt="" coords="221,580,389,621"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1Autonomy.html#a4de5da762de4e317d82eefeb83daee72" title="scrimmage::Autonomy\l::set_contacts_from\l_plugin" alt="" coords="221,645,389,701"/>
+<area shape="rect" id="node13" href="$classscrimmage_1_1Autonomy.html#a38bec77450b2ddb93c0d18f211f287c5" title="scrimmage::Autonomy\l::set_desired_state" alt="" coords="221,71,389,112"/>
+<area shape="rect" id="node14" href="$classscrimmage_1_1Autonomy.html#a147a520ef9b1ed577c28dd095dfa8e4c" title="scrimmage::Autonomy\l::set_is_controlling" alt="" coords="221,776,389,817"/>
+<area shape="rect" id="node15" href="$classscrimmage_1_1Autonomy.html#a26da3e6628d2016f6cbe25d77adc1c8f" title="scrimmage::Autonomy\l::set_projection" alt="" coords="221,841,389,883"/>
+<area shape="rect" id="node16" href="$classscrimmage_1_1Autonomy.html#a39eddf4df13b3d2c34aac597bbd97edf" title="scrimmage::Autonomy\l::set_rtree" alt="" coords="221,907,389,948"/>
+<area shape="rect" id="node17" href="$classscrimmage_1_1Autonomy.html#a1424f06d0e86d26fc69aaa28ec399dfa" title="scrimmage::Autonomy\l::set_state" alt="" coords="221,1024,389,1065"/>
+<area shape="rect" id="node18" href="$classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca" title="scrimmage::Autonomy\l::state" alt="" coords="437,995,605,1036"/>
+</map>

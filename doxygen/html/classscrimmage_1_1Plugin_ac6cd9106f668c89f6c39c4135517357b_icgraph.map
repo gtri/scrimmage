@@ -1,0 +1,8 @@
+<map id="scrimmage::Plugin::name" name="scrimmage::Plugin::name">
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title="scrimmage::EntityPlugin\l::draw_shape" alt="" coords="239,5,415,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1EntityPlugin.html#ac93564294b680be752b48dfb9547f7b0" title="scrimmage::EntityPlugin\l::get_scoped_property\l_helper" alt="" coords="239,70,415,126"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055" title="scrimmage::interaction\l::BulletCollision::init" alt="" coords="241,149,412,191"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1Plugin.html#a6f4056f3d481ba0805724c4724552d3b" title="scrimmage::Plugin::\lset_name" alt="" coords="253,215,401,256"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1EntityPlugin.html#a9355d0616a6ecde6d744651cc3175e5c" title="scrimmage::EntityPlugin\l::set_scoped_property" alt="" coords="239,280,415,321"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title="scrimmage::sensor::\lLOSSensor::step" alt="" coords="250,345,403,387"/>
+</map>

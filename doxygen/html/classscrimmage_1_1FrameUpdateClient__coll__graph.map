@@ -1,0 +1,3 @@
+<map id="scrimmage::FrameUpdateClient" name="scrimmage::FrameUpdateClient">
+<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html" title="{scrimmage::Angles\n|# angle_\l# in_direction_\l# in_zero_\l# out_direction_\l# out_zero_\l|+ Angles()\l+ Angles()\l+ set_input_clock_direction()\l+ set_input_zero_axis()\l+ set_output_clock_direction()\l+ set_output_zero_axis()\l+ is_angle_360()\l+ set_angle()\l+ angle()\l+ deg2rad()\l+ rad2deg()\l+ angle_360()\l+ angle_2pi()\l+ angle_180()\l+ angle_pi()\l+ angle_diff()\l+ angle_diff_rad()\l+ angle_within()\l+ angle_within_rad()\l+ angle_avg()\l+ angle_avg_rad()\l}" alt="" coords="10,5,227,435"/>
+</map>

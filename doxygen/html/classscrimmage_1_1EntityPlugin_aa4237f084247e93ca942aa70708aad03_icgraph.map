@@ -1,0 +1,8 @@
+<map id="scrimmage::EntityPlugin::advertise" name="scrimmage::EntityPlugin::advertise">
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1GroundCollision.html#a1d313c65cddca8c27931dec7182e615e" title="scrimmage::interaction\l::GroundCollision::init" alt="" coords="252,5,423,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a42b67e32373457df760950817de23b6d" title="scrimmage::sensor::\lLOSSensor::init" alt="" coords="493,127,647,168"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1GPS.html#a738750849af109cd7f3b20be407c1c8a" title="scrimmage::sensor::\lGPS::init" alt="" coords="261,123,414,164"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title="scrimmage::sensor::\lRayTrace::init" alt="" coords="261,188,414,229"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title="scrimmage::sensor::\lAirSimSensor::init" alt="" coords="261,253,414,295"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a17102c1a3c2fa6e2fb7cfbeb55424cf8" title="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::step_autonomy" alt="" coords="229,318,445,374"/>
+</map>

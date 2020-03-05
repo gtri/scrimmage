@@ -1,0 +1,9 @@
+<map id="scrimmage::NetworkDevice::undelivered_msg_list_size" name="scrimmage::NetworkDevice::undelivered_msg_list_size">
+<area shape="rect" id="node2" href="$classscrimmage_1_1NetworkDevice.html#a40a8c71a5c55cfb8e45b8ba65c456317" title="scrimmage::NetworkDevice\l::add_msg" alt="" coords="251,5,448,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1NetworkDevice.html#ac8fcd61ca6368bb4e0b1d262055fc52f" title="scrimmage::NetworkDevice\l::add_undelivered_msg" alt="" coords="251,71,448,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1NetworkDevice.html#a046ed54c035bb74ad7f1a878de2ec977" title="scrimmage::NetworkDevice\l::deliver_undelivered_msg" alt="" coords="251,136,448,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1NetworkDevice.html#a16d7985806298c116c0de2ad7e40f060" title="scrimmage::NetworkDevice\l::enable_queue_size" alt="" coords="251,201,448,243"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1NetworkDevice.html#a20de3d88b437ee7a1c784caedf3af01b" title="scrimmage::NetworkDevice\l::enforce_queue_size" alt="" coords="251,267,448,308"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1NetworkDevice.html#a8c6679e97dd060c0716dbc9d145dafb6" title="scrimmage::NetworkDevice\l::max_queue_size" alt="" coords="251,332,448,373"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1NetworkDevice.html#a3cb8db2447548332c35410d3e15da8b2" title="scrimmage::NetworkDevice\l::set_max_queue_size" alt="" coords="251,397,448,439"/>
+</map>

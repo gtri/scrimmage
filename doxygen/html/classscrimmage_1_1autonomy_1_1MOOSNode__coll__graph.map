@@ -1,0 +1,3 @@
+<map id="scrimmage::autonomy::MOOSNode" name="scrimmage::autonomy::MOOSNode">
+<area shape="rect" id="node3" href="$classscrimmage_1_1State.html" title="{scrimmage::State\n|+ output_precision\l# pos_\l# vel_\l# ang_vel_\l|+ State()\l+ State()\l+ ~State()\l+ pos()\l+ vel()\l+ ang_vel()\l+ pos()\l+ vel()\l+ ang_vel()\l+ quat()\l+ quat()\l+ pos_const()\l+ vel_const()\l+ ang_vel_const()\l+ quat_const()\l+ set_pos()\l+ set_vel()\l+ set_ang_vel()\l+ set_quat()\l+ InFieldOfView()\l+ rel_pos_local_frame()\l+ pos_offset()\l+ orient_global_frame()\l+ rel_az()\l+ tf_matrix()\l+ cast()\l}" alt="" coords="126,5,301,493"/>
+</map>
