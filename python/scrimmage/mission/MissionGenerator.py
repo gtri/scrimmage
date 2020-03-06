@@ -33,6 +33,8 @@ A Long description goes here.
 import os
 import yaml
 
+from jinja2 import FileSystemLoader, Environment
+
 class MissionGenerator():
     def __init__(self, mission_yaml_file):
 
@@ -51,9 +53,15 @@ class MissionGenerator():
 
         # Generate the mission file with the entity configuration
         mission_config = { "entities" : entities }
-        self.mission = self.render(self.mission_yaml['mission_file']['template'],
-                                   mission_config, self._env)
+        self.mission = self._render(self.mission_yaml['mission_file']['template'],
+                                    mission_config, self._env)
+
+    def entity_ids(self):
+        ids = []
+        for entity in self.mission_yaml['entities']:
+            ids.append(entity['config']['id'])
+        return ids
 
     def _render(self, template_name, config, env):
-        template = env.get_template(name)
+        template = env.get_template(template_name)
         return template.render(config = config)

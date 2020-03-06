@@ -1,3 +1,4 @@
+import os
 import unittest
 
 import scrimmage.mission.MissionGenerator as MG
@@ -9,9 +10,8 @@ class TestMissionGenerator(unittest.TestCase):
         mission_yaml_path = os.path.join(script_path, "templates/mission.yaml")
 
         mg = MG.MissionGenerator(mission_yaml_path)
-        print(mg.mission)
-        self.assertTrue(False)
-
+        self.assertTrue(mg.mission)
+        self.assertEqual(mg.entity_ids(), [1, 2])
 
 if __name__ == '__main__':
     unittest.main()
