@@ -10,11 +10,13 @@
 <area shape="rect" id="node10" href="$GRPCCommandString_8h.html" title="Brief file description. " alt="" coords="2071,109,2309,180"/>
 <area shape="rect" id="node11" href="$MapGen2D_8h.html" title="Brief file description. " alt="" coords="2334,117,2590,173"/>
 <area shape="rect" id="node12" href="$RandomAttrit_8h.html" title="Brief file description. " alt="" coords="2615,109,2819,180"/>
-<area shape="rect" id="node13" href="$SimpleCapture_8h.html" title="Brief file description. " alt="" coords="2843,109,3047,180"/>
-<area shape="rect" id="node14" href="$SimpleCollision_8h.html" title="Brief file description. " alt="" coords="3071,109,3275,180"/>
-<area shape="rect" id="node15" href="$TerrainGenerator_8h.html" title="Brief file description. " alt="" coords="3280,228,3487,299"/>
-<area shape="rect" id="node16" href="$TerrainMap_8h.html" title="Brief file description. " alt="" coords="3351,109,3557,180"/>
-<area shape="rect" id="node17" href="$External_8cpp.html" title="Brief file description. " alt="" coords="3581,124,3785,165"/>
-<area shape="rect" id="node18" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="3810,124,4029,165"/>
-<area shape="rect" id="node19" href="$SimUtils_8cpp.html" title="Brief file description. " alt="" coords="4053,124,4257,165"/>
+<area shape="rect" id="node13" href="$ROSClockServer_8h.html" title="Brief file description. " alt="" coords="2843,109,3047,180"/>
+<area shape="rect" id="node14" href="$ROSShapeViz_8h.html" title="Brief file description. " alt="" coords="3071,117,3359,173"/>
+<area shape="rect" id="node15" href="$SimpleCapture_8h.html" title="Brief file description. " alt="" coords="3384,109,3588,180"/>
+<area shape="rect" id="node16" href="$SimpleCollision_8h.html" title="Brief file description. " alt="" coords="3612,109,3816,180"/>
+<area shape="rect" id="node17" href="$TerrainGenerator_8h.html" title="Brief file description. " alt="" coords="3821,228,4028,299"/>
+<area shape="rect" id="node18" href="$TerrainMap_8h.html" title="Brief file description. " alt="" coords="3892,109,4099,180"/>
+<area shape="rect" id="node19" href="$External_8cpp.html" title="Brief file description. " alt="" coords="4123,124,4327,165"/>
+<area shape="rect" id="node20" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="4351,124,4570,165"/>
+<area shape="rect" id="node21" href="$SimUtils_8cpp.html" title="Brief file description. " alt="" coords="4595,124,4799,165"/>
 </map>

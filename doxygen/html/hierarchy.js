@@ -122,6 +122,8 @@ var hierarchy =
             [ "scrimmage::interaction::GRPCCommandString", "classscrimmage_1_1interaction_1_1GRPCCommandString.html", null ],
             [ "scrimmage::interaction::MapGen2D", "classscrimmage_1_1interaction_1_1MapGen2D.html", null ],
             [ "scrimmage::interaction::RandomAttrit", "classscrimmage_1_1interaction_1_1RandomAttrit.html", null ],
+            [ "scrimmage::interaction::ROSClockServer", "classscrimmage_1_1interaction_1_1ROSClockServer.html", null ],
+            [ "scrimmage::interaction::ROSShapeViz", "classscrimmage_1_1interaction_1_1ROSShapeViz.html", null ],
             [ "scrimmage::interaction::SimpleCapture", "classscrimmage_1_1interaction_1_1SimpleCapture.html", null ],
             [ "scrimmage::interaction::SimpleCollision", "classscrimmage_1_1interaction_1_1SimpleCollision.html", null ],
             [ "scrimmage::interaction::TerrainGenerator", "classscrimmage_1_1interaction_1_1TerrainGenerator.html", null ]
@@ -248,8 +250,8 @@ var hierarchy =
     ] ],
     [ "scrimmage::Random", "classscrimmage_1_1Random.html", null ],
     [ "scrimmage::motion::Rotor", "classscrimmage_1_1motion_1_1Rotor.html", null ],
-    [ "scrimmage::RTree", "classscrimmage_1_1RTree.html", null ],
     [ "boost::geometry::index::rtree< T1, T2, T3, T4, T5 >", "classboost_1_1geometry_1_1index_1_1rtree.html", null ],
+    [ "scrimmage::RTree", "classscrimmage_1_1RTree.html", null ],
     [ "scrimmage::interaction::BulletCollision::SceneObject", "structscrimmage_1_1interaction_1_1BulletCollision_1_1SceneObject.html", null ],
     [ "scrimmage::metrics::Score", "classscrimmage_1_1metrics_1_1Score.html", null ],
     [ "Service", null, [

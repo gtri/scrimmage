@@ -911,6 +911,8 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="Shape_8cpp_source.html#l00181">181</a> of file <a class="el" href="Shape_8cpp_source.html">Shape.cpp</a>.</p>
 
 <p>References <a class="el" href="Shape_8cpp_source.html#l00046">make_shape()</a>, and <a class="el" href="ProtoConversions_8cpp_source.html#l00047">scrimmage::set()</a>.</p>
+
+<p>Referenced by <a class="el" href="ROSShapeViz_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                                {</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keyword">auto</span> shape = <a class="code" href="namespacescrimmage_1_1shape.html#a58ba0e6ff11d2e59f9aa3312c2d597a9">make_shape</a>(color, opacity);</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    shape-&gt;mutable_pointcloud()-&gt;set_size(size);</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> Eigen::Vector3d &amp;p : points) {</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keyword">auto</span> *<a class="code" href="namespacescrimmage.html#ae678ed37ff7ba86bbec97c343bebbefc">point</a> = shape-&gt;mutable_pointcloud()-&gt;add_point();</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(<a class="code" href="namespacescrimmage.html#ae678ed37ff7ba86bbec97c343bebbefc">point</a>, p);</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    }</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">return</span> shape;</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;}</div><div class="ttc" id="namespacescrimmage_1_1shape_html_a58ba0e6ff11d2e59f9aa3312c2d597a9"><div class="ttname"><a href="namespacescrimmage_1_1shape.html#a58ba0e6ff11d2e59f9aa3312c2d597a9">scrimmage::shape::make_shape</a></div><div class="ttdeci">ShapePtr make_shape(const Eigen::Vector3d &amp;color=Eigen::Vector3d(0, 0, 255), const double &amp;opacity=1.0)</div><div class="ttdef"><b>Definition:</b> <a href="Shape_8cpp_source.html#l00046">Shape.cpp:46</a></div></div>
 <div class="ttc" id="namespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition:</b> <a href="ProtoConversions_8cpp_source.html#l00047">ProtoConversions.cpp:47</a></div></div>
 <div class="ttc" id="namespacescrimmage_html_ae678ed37ff7ba86bbec97c343bebbefc"><div class="ttname"><a href="namespacescrimmage.html#ae678ed37ff7ba86bbec97c343bebbefc">scrimmage::point</a></div><div class="ttdeci">boost::geometry::model::point&lt; double, 3, boost::geometry::cs::cartesian &gt; point</div><div class="ttdef"><b>Definition:</b> <a href="RTree_8h_source.html#l00060">RTree.h:60</a></div></div>
@@ -922,6 +924,16 @@ Here is the call graph for this function:</div>
 <map name="namespacescrimmage_1_1shape_ac312ffaf0e67dcbe7b5af362e8a3a089_cgraph" id="namespacescrimmage_1_1shape_ac312ffaf0e67dcbe7b5af362e8a3a089_cgraph">
 <area shape="rect" id="node2" href="namespacescrimmage_1_1shape.html#a58ba0e6ff11d2e59f9aa3312c2d597a9" title="scrimmage::shape::make\l_shape" alt="" coords="239,5,424,47"/>
 <area shape="rect" id="node3" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="472,42,595,69"/>
+</map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacescrimmage_1_1shape_ac312ffaf0e67dcbe7b5af362e8a3a089_icgraph.png" border="0" usemap="#namespacescrimmage_1_1shape_ac312ffaf0e67dcbe7b5af362e8a3a089_icgraph" alt=""/></div>
+<map name="namespacescrimmage_1_1shape_ac312ffaf0e67dcbe7b5af362e8a3a089_icgraph" id="namespacescrimmage_1_1shape_ac312ffaf0e67dcbe7b5af362e8a3a089_icgraph">
+<area shape="rect" id="node2" href="ROSShapeViz_8cpp.html#a2e7d9118fb8adf84f4f8ae736c91cd24" title="REGISTER_PLUGIN" alt="" coords="239,13,377,39"/>
 </map>
 </div>
 </p>
@@ -1380,7 +1392,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1shape.html">shape</a></li>
-    <li class="footer">Generated on Thu Mar 5 2020 19:44:48 for SCRIMMAGE by
+    <li class="footer">Generated on Fri Mar 6 2020 17:15:41 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

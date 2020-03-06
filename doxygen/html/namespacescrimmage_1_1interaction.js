@@ -16,6 +16,8 @@ var namespacescrimmage_1_1interaction =
     [ "Plane", "classscrimmage_1_1interaction_1_1Plane.html", "classscrimmage_1_1interaction_1_1Plane" ],
     [ "Polyhedron", "classscrimmage_1_1interaction_1_1Polyhedron.html", "classscrimmage_1_1interaction_1_1Polyhedron" ],
     [ "RandomAttrit", "classscrimmage_1_1interaction_1_1RandomAttrit.html", "classscrimmage_1_1interaction_1_1RandomAttrit" ],
+    [ "ROSClockServer", "classscrimmage_1_1interaction_1_1ROSClockServer.html", "classscrimmage_1_1interaction_1_1ROSClockServer" ],
+    [ "ROSShapeViz", "classscrimmage_1_1interaction_1_1ROSShapeViz.html", "classscrimmage_1_1interaction_1_1ROSShapeViz" ],
     [ "SimpleCapture", "classscrimmage_1_1interaction_1_1SimpleCapture.html", "classscrimmage_1_1interaction_1_1SimpleCapture" ],
     [ "SimpleCollision", "classscrimmage_1_1interaction_1_1SimpleCollision.html", "classscrimmage_1_1interaction_1_1SimpleCollision" ],
     [ "Sphere", "classscrimmage_1_1interaction_1_1Sphere.html", "classscrimmage_1_1interaction_1_1Sphere" ],

@@ -11,6 +11,8 @@ var dir_e780a5c579cb35e946684e8694642ace =
     [ "GRPCCommandString", "dir_b85b64a74c6caba31f6f0d288dd992f8.html", "dir_b85b64a74c6caba31f6f0d288dd992f8" ],
     [ "MapGen2D", "dir_c6ec2952f5099004014421530d440ee4.html", "dir_c6ec2952f5099004014421530d440ee4" ],
     [ "RandomAttrit", "dir_e1589e454559f4508d9a729436a65682.html", "dir_e1589e454559f4508d9a729436a65682" ],
+    [ "ROSClockServer", "dir_48dc645130e82fa5f8c6aa90b2af21ed.html", "dir_48dc645130e82fa5f8c6aa90b2af21ed" ],
+    [ "ROSShapeViz", "dir_3176c18fbff0c2a17c70d80cc5d154ec.html", "dir_3176c18fbff0c2a17c70d80cc5d154ec" ],
     [ "SimpleCapture", "dir_a4712ae0ebc37d9167bd4f380205ed03.html", "dir_a4712ae0ebc37d9167bd4f380205ed03" ],
     [ "SimpleCollision", "dir_41270310ecc3fea89dc85762873cc9ee.html", "dir_41270310ecc3fea89dc85762873cc9ee" ],
     [ "TerrainGenerator", "dir_c4e0d76f8bdb4ce2155e57088382637d.html", "dir_c4e0d76f8bdb4ce2155e57088382637d" ]
