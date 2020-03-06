@@ -65,7 +65,6 @@ bool ROSClockServer::init(std::map<std::string, std::string> &mission_params,
     // Store the current UNIX time at startup. We will add the simulation time
     // (which starts at 0 seconds), to this start time when publishing to the
     // ROS clock server.
-    //sim_start_time_ = boost::posix_time::microsec_clock::local_time();
     sim_start_time_  = std::chrono::system_clock::now();
 
     // initialize ros
@@ -97,7 +96,7 @@ void ROSClockServer::publish_clock_msg(const double& t) {
 
     // Extract the seconds and nanoseconds to construct the ros::Time message
     uint32_t sec = std::floor(sim_time);
-    uint32_t nsec = (sim_time - (double)sec) * 1e9;
+    uint32_t nsec = (sim_time - static_cast<double>(sec)) * 1e9;
 
     // Create the ros Clock message and publish it
     rosgraph_msgs::Clock clock_msg;

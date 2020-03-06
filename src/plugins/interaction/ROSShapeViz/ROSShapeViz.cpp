@@ -94,9 +94,9 @@ void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr& msg) {
     } else if (msg->type == visualization_msgs::Marker::SPHERE &&
                msg->action == 0 /* ADD an object */) {
 
-        Eigen::Vector3d point (msg->pose.position.x,
-                               msg->pose.position.y,
-                               msg->pose.position.z);
+        Eigen::Vector3d point(msg->pose.position.x,
+                              msg->pose.position.y,
+                              msg->pose.position.z);
 
         auto shape = shape::make_sphere(point,
                                         msg->scale.x,

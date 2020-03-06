@@ -42,6 +42,7 @@
 #include <map>
 #include <list>
 #include <string>
+#include <memory>
 
 namespace scrimmage {
 namespace interaction {

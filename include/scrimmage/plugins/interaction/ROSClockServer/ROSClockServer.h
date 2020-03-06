@@ -41,7 +41,8 @@
 #include <map>
 #include <list>
 #include <string>
-#include <chrono>
+#include <chrono> // NOLINT
+#include <memory>
 
 namespace scrimmage {
 namespace interaction {
