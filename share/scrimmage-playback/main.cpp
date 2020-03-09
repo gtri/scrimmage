@@ -31,6 +31,7 @@
  */
 #include <signal.h>
 
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/network/Interface.h>
 #if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
@@ -202,6 +203,9 @@ int main(int argc, char *argv[]) {
                          to_gui_interface);
     playback.detach(); // todo
 
+    auto mp = std::make_shared<sc::MissionParse>();
+    mp->set_log_dir("");
+
     sc::Viewer viewer;
     viewer.set_enable_network(false);
     viewer.set_incoming_interface(to_gui_interface);
@@ -215,7 +219,9 @@ int main(int argc, char *argv[]) {
     } else {
         dt = 1.0e-6;
     }
-    viewer.init({}, "", dt);
+    mp->set_dt(dt);
+
+    viewer.init(mp, {});
     viewer.run();
 
     cout << "Playback Complete" << endl;

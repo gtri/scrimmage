@@ -47,6 +47,7 @@
 
 namespace scrimmage {
 
+class MissionParse;
 class Interface;
 using InterfacePtr = std::shared_ptr<Interface>;
 
@@ -60,9 +61,8 @@ class Viewer {
 
     void set_enable_network(bool enable);
 
-    bool init(const std::map<std::string, std::string> &camera_attributes,
-              const std::string &log_dir,
-              double dt);
+    bool init(const std::shared_ptr<MissionParse>& mp,
+              const std::map<std::string, std::string>& camera_params);
     bool run();
     bool stop();
 
@@ -80,7 +80,7 @@ class Viewer {
 
     std::thread network_thread_;
 
-    std::map<std::string, std::string> params_;
+    std::map<std::string, std::string> camera_params_;
     std::string log_dir_;
     double dt_ = 0.1;
 
