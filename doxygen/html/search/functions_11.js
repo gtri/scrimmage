@@ -2,7 +2,7 @@ var searchData=
 [
   ['rad2deg',['rad2deg',['../classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d',1,'scrimmage::Angles']]],
   ['radius',['radius',['../classscrimmage_1_1Contact.html#a28a97de8612440819db2304dca5459cd',1,'scrimmage::Contact::radius()'],['../classscrimmage_1_1Entity.html#a872f8be2aff00c05e27698722274f5ec',1,'scrimmage::Entity::radius()'],['../classscrimmage_1_1interaction_1_1Sphere.html#a0961078dff672792b315047f3e398ec8',1,'scrimmage::interaction::Sphere::radius()']]],
-  ['random',['random',['../classscrimmage_1_1Entity.html#a5e6031c420fa6dda5512fd62b0bac276',1,'scrimmage::Entity::random()'],['../classscrimmage_1_1Random.html#a73866c1b29534e41fbc60c5e416328f2',1,'scrimmage::Random::Random()']]],
+  ['random',['Random',['../classscrimmage_1_1Random.html#a73866c1b29534e41fbc60c5e416328f2',1,'scrimmage::Random::Random()'],['../classscrimmage_1_1Entity.html#a5e6031c420fa6dda5512fd62b0bac276',1,'scrimmage::Entity::random()']]],
   ['randomattrit',['RandomAttrit',['../classscrimmage_1_1interaction_1_1RandomAttrit.html#a8f402640c6bfba1921d702ac177b5975',1,'scrimmage::interaction::RandomAttrit']]],
   ['rays',['rays',['../classscrimmage_1_1sensor_1_1RayTrace.html#a9f7ee4f8c3cb7613a9da8b44a2e82135',1,'scrimmage::sensor::RayTrace']]],
   ['raytrace',['RayTrace',['../classscrimmage_1_1sensor_1_1RayTrace.html#a82c78d0c9691e2ad66bb546bcd2469db',1,'scrimmage::sensor::RayTrace']]],

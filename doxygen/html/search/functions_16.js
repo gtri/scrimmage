@@ -5,6 +5,8 @@ var searchData=
   ['waypointgenerator',['WaypointGenerator',['../classscrimmage_1_1autonomy_1_1WaypointGenerator.html#ad83404e695115a0c7356baaccc3d8c02',1,'scrimmage::autonomy::WaypointGenerator']]],
   ['waypointlist',['WaypointList',['../classscrimmage_1_1autonomy_1_1WaypointList.html#a63c2e9639a3dcfefd0ebfa045dab76fc',1,'scrimmage::autonomy::WaypointList']]],
   ['waypoints',['waypoints',['../classscrimmage_1_1autonomy_1_1WaypointList.html#ae5c9166c31935ac13d0273d3c57a2b9a',1,'scrimmage::autonomy::WaypointList']]],
+  ['window_5fheight',['window_height',['../classscrimmage_1_1MissionParse.html#a1eb3709255552f84416254882db46625',1,'scrimmage::MissionParse']]],
+  ['window_5fwidth',['window_width',['../classscrimmage_1_1MissionParse.html#a89d42eb9d2adf9e783b80ca890cfe424',1,'scrimmage::MissionParse']]],
   ['within_5fplanar_5fboundary',['within_planar_boundary',['../classscrimmage_1_1network_1_1SphereNetwork.html#a19a3e38f79e0c13252cf4c7ba797b986',1,'scrimmage::network::SphereNetwork']]],
   ['worker',['worker',['../classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb',1,'scrimmage::SimControl']]],
   ['world_5fpoint_5fclicked',['world_point_clicked',['../classscrimmage_1_1Updater.html#a3d8e5c678f1f8c7e276952faf00c5f9f',1,'scrimmage::Updater']]],

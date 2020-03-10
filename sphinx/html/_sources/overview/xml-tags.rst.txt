@@ -38,6 +38,11 @@ and match between the two paradigms for a single entity.
   - ``motion_multiplier`` : set to an integer greater than or equal to 1.
       If not 1, scrimmage will run controller and motion plugins
       multiple times for each timestep.
+  - ``full_screen`` : If ``true``, display the SCRIMMAGE viewer in full screen.
+  - ``window_width`` : If ``full_screen`` is false, sets the SCRIMMAGE
+    viewer width. If not specified, defaults to 800.
+  - ``window_height`` : If ``full_screen`` is false, sets the SCRIMMAGE
+    viewer height. If not specified, defaults to 600.
 
 - ``stream_port`` : When ``network_gui`` is enabled, GRPC messages of the
   positions and orientations of SCRIMMAGE entities will be streamed to this

@@ -1,5 +1,12 @@
 var NAVTREEINDEX25 =
 {
+"structscrimmage_1_1CameraResetParams.html#a2419661084767fd679a7b8c3e0e959d6":[6,0,5,13,3],
+"structscrimmage_1_1CameraResetParams.html#a2be9c51f2131069443f5e5ddeb23fa95":[6,0,5,13,0],
+"structscrimmage_1_1CameraResetParams.html#a480489efeb257df210a5509042fdec01":[6,0,5,13,1],
+"structscrimmage_1_1CameraResetParams.html#a5d1c310584dca5333a218cc644b69f25":[6,0,5,13,2],
+"structscrimmage_1_1CameraResetParams.html#a88a57b17a4fcc7cc7b4bc0cfb864d5ca":[6,0,5,13,5],
+"structscrimmage_1_1CameraResetParams.html#ad6161ca9aa0ee9f22ac6d8a37cce0e7d":[6,0,5,13,4],
+"structscrimmage_1_1Color__t.html":[6,0,5,14],
 "structscrimmage_1_1Color__t.html#a27e99589e9cec0f4d6b7fdd9d15365b8":[6,0,5,14,0],
 "structscrimmage_1_1Color__t.html#a4d91cf3676ac4ab9a6ee356c1d3e0cd6":[6,0,5,14,2],
 "structscrimmage_1_1Color__t.html#a7db2bec8611c0a8bf87ce670fbddc2f8":[6,0,5,14,1],
