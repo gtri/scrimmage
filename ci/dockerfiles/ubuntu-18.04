@@ -18,15 +18,14 @@ RUN apt-get update \
     ros-melodic-desktop-full \
     software-properties-common \
     cppcheck \
-    python-pytest \
-    python-pip \
+    python3-pytest \
+    python3-pip \
     git \
     ninja-build \
     clang \
     ruby-full \
     build-essential \
     zlib1g-dev \
-    python3-pip \
     libgeographic-dev \
     libeigen3-dev \
     librapidxml-dev \
@@ -43,7 +42,7 @@ RUN apt-get update \
     libgeographic-dev \
     protobuf-compiler-grpc \
     libpython3.7-dev \
-    doxygen python-sphinx \
+    doxygen python3-sphinx \
     sphinx-rtd-theme-common \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
@@ -52,7 +51,7 @@ RUN apt-get update \
  && rosdep init && rosdep update \
  && echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh \
- && pip install cpplint \
+ && pip3 install cpplint \
     protobuf==3.3.0 \
     grpcio==1.2.1 \
     gym==0.10.11 \
@@ -67,7 +66,7 @@ RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
 
 # Copy install binaries script into image and run
 COPY ./setup/install-binaries.sh /root/install-binaries.sh
-RUN /root/install-binaries.sh -e 0 -p 3 \
+RUN /root/install-binaries.sh -e 0 --python 3 \
  && rm -rf /var/lib/apt/lists/*
 
 FROM dependencies as builder
@@ -79,7 +78,7 @@ COPY ./ /root/scrimmage/scrimmage
 # # Run static analysis tests
 # WORKDIR /root/scrimmage/scrimmage
 # RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv \
-#  && py.test test/test_cppcheck.py \
+#  && py.test-3 test/test_cppcheck.py \
 #  && python test/test_cpplint.py
 
 # Test Plugin Generation
@@ -99,19 +98,22 @@ RUN mkdir -p build \
  && cd build \
  && source ~/.bashrc \
  && source ~/.scrimmage/setup.bash \
- && cmake .. -G Ninja -DBUILD_TESTS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+ && cmake .. -G Ninja \
+             -DPYTHON_MIN_VERSION=3 \
+             -DBUILD_TESTS=ON \
+             -DCMAKE_CXX_FLAGS="-Werror" \
  && ninja
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
-RUN pip install -e .
+RUN pip3 install -e .
 
 # run tests
 WORKDIR /root/scrimmage/scrimmage/build
 RUN source ~/.scrimmage/setup.bash && \
     export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
     export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
-    py.test ../test/test_openai.py && \
+    py.test-3 ../test/test_openai.py && \
     export CTEST_OUTPUT_ON_FAILURE=1 && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
@@ -146,7 +148,7 @@ RUN mkdir -p /root/catkin_ws/src \
  && make test
 
 WORKDIR /root/scrimmage/scrimmage
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test python/tests"
+RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"
 
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
