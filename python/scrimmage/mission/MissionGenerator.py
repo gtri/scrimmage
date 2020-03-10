@@ -48,11 +48,17 @@ class MissionGenerator():
         self._env = Environment(loader=self._file_loader)
 
         # Generate the entity configurations
-        entities = [self._render(entity['template'], entity['config'], self._env)
-                    for entity in self.mission_yaml['entities']]
+        entities_xml = [self._render(entity['template'], entity['config'], self._env)
+                        for entity in self.mission_yaml['entities']]
 
         # Generate the mission file with the entity configuration
-        mission_config = { "entities" : entities }
+        try:
+            mission_config = self.mission_yaml['mission_file']['config']
+        except:
+            mission_config = dict()
+
+        mission_config['entities'] = entities_xml
+
         self.mission = self._render(self.mission_yaml['mission_file']['template'],
                                     mission_config, self._env)
 

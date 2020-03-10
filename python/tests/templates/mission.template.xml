@@ -3,11 +3,11 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="Straight flying">
 
-  <run start="0.0" end="1000" dt="0.008"
+  <run start="0.0" end="100" dt="0.008"
        time_warp="{{ config.time_warp }}"
-       enable_gui="true"
+       enable_gui="false"
        network_gui="false"
-       start_paused="true"/>
+       start_paused="false"/>
   <display_progress>false</display_progress>
 
   <multi_threaded num_threads="8">false</multi_threaded>

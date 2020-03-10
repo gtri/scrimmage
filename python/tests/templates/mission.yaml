@@ -8,7 +8,7 @@ template_directories:
 mission_file:
     template: mission.template.xml
     config:
-        time_warp: 2.0
+        time_warp: 0
         latitude_origin: 35.721025
         longitude_origin: -120.767925
         altitude_origin: 0.0

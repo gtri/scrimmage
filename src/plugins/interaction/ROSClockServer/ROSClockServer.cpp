@@ -76,6 +76,9 @@ bool ROSClockServer::init(std::map<std::string, std::string> &mission_params,
     nh_ = std::make_shared<ros::NodeHandle>();
     clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
 
+    // Tell other nodes to use the simulated time from "/clock"
+    ros::param::set("/use_sim_time", true);
+
     // Publish the first time message
     publish_clock_msg(time_->t());
 
