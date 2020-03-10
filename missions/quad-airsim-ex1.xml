@@ -7,7 +7,7 @@
        time_warp="1"
        enable_gui="true"
        network_gui="false"
-       start_paused="true"/>
+       start_paused="false"/>
 
   <display_progress>false</display_progress>
 
@@ -51,7 +51,7 @@
   sensor data under namespace from entity ID (team_id) e.g. robot1, robot2. Also images from each vehicle are saved
   in logs under a directory related to each vehicle name. -->
 
-  <!-- ========================== TEAM 1 ========================= -->
+  <!-- ========================== Quadcopter 1 ========================= -->
   <entity>
     <team_id>1</team_id>
     <color>77 77 255</color>
@@ -59,9 +59,13 @@
     <health>1</health>
     <radius>1</radius>
 
-    <x>0</x>
-    <y>0</y>
-    <z>10</z> <!-- LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>14.0</z>
     <heading>0</heading>
 
     <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
@@ -71,8 +75,8 @@
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
     <sensor airsim_ip="10.108.21.246"
-            vehicle_name="Drone1"
-            lidar_name="Lidar1"
+            vehicle_name="robot1"
+            lidar_name="lidar1"
             save_airsim_data="true"
             get_image_data="true"
             get_lidar_data="true">AirSimSensor</sensor>
@@ -105,7 +109,7 @@
 
   </entity>
 
-  <!-- ========================== TEAM 2 ========================= -->
+  <!-- ========================== Quadcopter 2 ========================= -->
   <entity>
     <team_id>2</team_id>
     <color>77 77 255</color>
@@ -113,9 +117,14 @@
     <health>1</health>
     <radius>1</radius>
 
-    <x>0</x>
-    <y>0</y>
-    <z>10</z> <!-- LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>4.0</x>
+    <y>0.0</y>
+    <z>10.0</z>
+
     <heading>0</heading>
 
     <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
@@ -125,8 +134,8 @@
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
     <sensor airsim_ip="10.108.21.246"
-            vehicle_name="Drone2"
-            lidar_name="Lidar2"
+            vehicle_name="robot2"
+            lidar_name="lidar1"
             save_airsim_data="true"
             get_image_data="true"
             get_lidar_data="true">AirSimSensor</sensor>

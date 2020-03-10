@@ -109,6 +109,11 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
         cout << "Retrieving LIDAR data within AirSimSensor::request_images() thread." << endl;
     }
 
+    MissionParsePtr mp_ = parent_->mp();
+    cout << "Longitude Origin: " << mp_->longitude_origin() << endl;
+    cout << "Latitude Origin: " << mp_->latitude_origin() << endl;
+    cout << "Altitude Origin: " << mp_->altitude_origin() << endl;
+
     // Parse the camera config string.
     // The string is a list of camera configs from AirSimSensor.xml of the form:
     // [CameraName=0 ImageTypeName=Scene ImageTypeNumber=0 Width=256 Height=144]
@@ -337,56 +342,6 @@ bool AirSimSensor::step() {
         client_connected_ = true;
         sim_client_->enableApiControl(true);
     }
-
-    // Get Vehicles and Camera Settings
-
-    // ma::AirSimSettings::VehicleSetting curr_vehicle_setting = AirSimSettings::singleton().vehicles[0]; //curr_vehicle_elem
-//    for (const auto& curr_vehicle_elem : AirSimSettings::singleton().vehicles) {
-//
-//        // You could also do myMap.begin()->first to get the key and myMap.begin()->second to get the value.
-//        // auto& vehicle_setting = curr_vehicle_elem.second;
-//        // auto curr_vehicle_name = curr_vehicle_elem.vehicle_setting.vehicle_name;
-//        auto& vehicle_setting = curr_vehicle_elem.second;
-//        auto curr_vehicle_name = curr_vehicle_elem.first;
-//        auto vehicle_setting_local = vehicle_setting.get();
-//
-//        cout << "Vehicle Name" << endl;
-//        cout << curr_vehicle_name << endl;
-//
-//        for (auto& curr_camera_elem : vehicle_setting->cameras) {
-//            auto& camera_setting = curr_camera_elem.second;
-//            auto& curr_camera_name = curr_camera_elem.first;
-//            auto camera_setting_local = camera_setting;
-//
-//            auto capture_settings_local = camera_setting_local.capture_settings;
-//            auto capture_size = capture_settings_local.size();
-//            // auto capture_width = capture_settings_local.width;
-//
-//            cout << "Capture Size" << endl;
-//            cout << capture_size << endl;
-//            // cout << "Camera Width" << endl;
-//            // cout << capture_width << endl;
-//
-//        }
-//
-//        for (auto& curr_sensor_elem : vehicle_setting->sensors) {
-//            auto& sensor_setting = curr_sensor_elem.second;
-//            auto& curr_sensor_name = curr_sensor_elem.first;
-//
-//            auto sensor_name = sensor_setting->sensor_name;
-//
-//            cout << "Sensor Name" << endl;
-//            cout << sensor_name << endl;
-//            // cout << "Camera Width" << endl;
-//            // cout << capture_width << endl;
-//
-//        }
-//
-//        cout << "*************" << endl;
-//    }
-
-    // auto quadcopter_setting = AirSimSettings::singleton().vehicles["simpleflight"];
-
 
     ///////////////////////////////////////////////////////////////////////////
     /// Set pose of vehicle in AirSim

@@ -74,6 +74,7 @@ class CameraConfig {
         int width = 256;  // 512
 
 
+
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
             os << "Camera_Number=" << c.cam_number;
@@ -143,6 +144,7 @@ class AirSimSensor : public scrimmage::Sensor {
 
     int airsim_frame_num_ = 0;
     scrimmage::CSV csv;
+    //MissionParse mp_;
 
  private:
 };

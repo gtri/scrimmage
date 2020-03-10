@@ -8,7 +8,7 @@
   <airsim_timeout_s>60</airsim_timeout_s>
 
   <!--
-      [CameraNumber=Forward=0 ImageTypeName=Scene ImageTypeNumber=0 Width=256 Height=144]
+      [CameraNumber=Front_Center=0 ImageTypeName=Scene ImageTypeNumber=0 Width=256 Height=144]
 
       AirSim Camera Types:
       Front_Center=0, Front_Right=1, Front_Left=2, Bottom_Center=3, Back_Center=4
@@ -25,6 +25,8 @@
     [0 Segmentation 5 256 144]
     [0 Infrared 7 256 144]
   </camera_config>
+
+  <!-- Edit the params below in the mission file, not here -->
 
   <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs-->
   <save_airsim_data>true</save_airsim_data>
