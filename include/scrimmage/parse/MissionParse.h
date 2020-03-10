@@ -93,6 +93,11 @@ class MissionParse {
     double time_warp();
     void set_time_warp(double warp);
     bool start_paused();
+    const bool& full_screen();
+    const unsigned& window_width();
+    const unsigned& window_height();
+
+    void set_dt(const double& dt);
 
     bool parse_terrain();
 
@@ -164,6 +169,9 @@ class MissionParse {
     bool enable_gui_ = true;
     bool network_gui_ = false;
     bool start_paused_ = false;
+    bool full_screen_ = false;
+    unsigned window_width_ = 800;
+    unsigned window_height_ = 600;
 
     AttributeMap attributes_;
     std::map<std::string, std::string> params_;
