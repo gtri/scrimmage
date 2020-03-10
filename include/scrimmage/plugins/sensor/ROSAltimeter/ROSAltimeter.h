@@ -36,25 +36,13 @@
 #include <mavros_msgs/Altitude.h>
 #include <scrimmage/sensor/Sensor.h>
 
-//// c system
-//#include <JSBSim/initialization/FGTrim.h>
-
-//#if ENABLE_JSBSIM == 1
-//#include <FGFDMExec.h>
-//#include <models/FGAircraft.h>
-//#include <input_output/FGPropertyManager.h>
-//#include <initialization/FGInitialCondition.h>
-//#include <models/FGOutput.h>
-//typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
-//#endif
-
-#include <GeographicLib/LocalCartesian.hpp>
-
 #include <random>
 #include <vector>
 #include <map>
 #include <string>
 #include <memory>
+
+#include <GeographicLib/LocalCartesian.hpp>
 
 namespace scrimmage {
 namespace sensor {
@@ -69,7 +57,7 @@ class ROSAltimeter : public scrimmage::Sensor {
     std::string ros_namespace_;
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Publisher altimeter_pub_;
-    float monotonic_;
+    float monotonic_ = 0.0;
 
  private:
 };

@@ -30,36 +30,36 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_
 
-#include <pybind11/pybind11.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/entity/Entity.h>
 
-#include <scrimmage/common/Visibility.h>
+#include <ros/ros.h>
+#include <visualization_msgs/Marker.h>
 
-#include <utility>
+#include <map>
+#include <list>
 #include <string>
-#include <vector>
+#include <memory>
 
 namespace scrimmage {
+namespace interaction {
 
-namespace autonomy {
-
-pybind11::object DLL_PUBLIC get_gym_space(const std::string &type);
-
-void DLL_PUBLIC to_continuous(
-        std::vector<std::pair<double, double>> &p,
-        pybind11::list &minima,
-        pybind11::list &maxima);
-
-void DLL_PUBLIC to_discrete(std::vector<int> &p, pybind11::list &maxima);
-
-pybind11::object DLL_PUBLIC create_space(
-        pybind11::list discrete_maxima,
-        pybind11::list continuous_minima,
-        pybind11::list continuous_maxima);
-
-} // namespace autonomy
+class ROSShapeViz : public scrimmage::EntityInteraction {
+ public:
+    ROSShapeViz();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
+ protected:
+ private:
+    void shapes_cb(const visualization_msgs::Marker::ConstPtr& msg);
+    std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Subscriber sub_shapes_;
+};
+} // namespace interaction
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_

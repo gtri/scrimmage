@@ -127,6 +127,10 @@
 
     <heading>0</heading>
 
+    <sensor>ROSAltimeter</sensor>
+    <sensor>ROSCompass</sensor>
+    <sensor>ROSIMUSensor</sensor>
+
     <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
     <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
     <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->

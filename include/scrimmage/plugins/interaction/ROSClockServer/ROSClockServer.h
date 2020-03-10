@@ -30,36 +30,40 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_
 
-#include <pybind11/pybind11.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/entity/Entity.h>
 
-#include <scrimmage/common/Visibility.h>
+#include <ros/ros.h>
 
-#include <utility>
+#include <map>
+#include <list>
 #include <string>
-#include <vector>
+#include <chrono> // NOLINT
+#include <memory>
 
 namespace scrimmage {
+namespace interaction {
 
-namespace autonomy {
+class ROSClockServer : public scrimmage::EntityInteraction {
+ public:
+    ROSClockServer();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
+ protected:
+    void publish_clock_msg(const double& t);
 
-pybind11::object DLL_PUBLIC get_gym_space(const std::string &type);
+ private:
+    std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Publisher clock_pub_;
 
-void DLL_PUBLIC to_continuous(
-        std::vector<std::pair<double, double>> &p,
-        pybind11::list &minima,
-        pybind11::list &maxima);
-
-void DLL_PUBLIC to_discrete(std::vector<int> &p, pybind11::list &maxima);
-
-pybind11::object DLL_PUBLIC create_space(
-        pybind11::list discrete_maxima,
-        pybind11::list continuous_minima,
-        pybind11::list continuous_maxima);
-
-} // namespace autonomy
+    std::chrono::time_point<std::chrono::system_clock,
+                            std::chrono::duration<double>> sim_start_time_;
+};
+} // namespace interaction
 } // namespace scrimmage
-
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_

@@ -161,6 +161,11 @@ and match between the two paradigms for a single entity.
     used to reference this block later. When running SCRIMMAGE within another
     system, such as ROS or MOOS, this name is used to reference this entity
     block.
+  - ``id`` : An optional tag that manually specifies the entity's ID or the
+    first ID of an entity block that generates more than a single agent. If two
+    entity blocks specify the same ``id``, the entity that is generated first
+    is assigned the ID. If the ID is already in use by another agent, the ID is
+    incremented until an available entity ID is found.
   - ``team_id`` : The team identification number for this entity group. If
     multiple entity tags are used to initialize a team of heterogeneous
     entities, as long as the ``team_id`` is the same, the entities will be on

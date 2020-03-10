@@ -257,6 +257,13 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/grpc \
     && rpm -ivh --force /root/installs/grpc/*.rpm
 
 ###############################################################################
+# Clone and Setup CMakeDebSrc
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/SyllogismRXS/CMakeDebSrc.git
+RUN cd CMakeDebSrc && mkdir build && cd build && cmake ..
+
+###############################################################################
 # Build JSBsim from scrimmage's 3rd-party
 ###############################################################################
 WORKDIR /root/3rd-party
