@@ -20,6 +20,8 @@ setup(
         "pandas==0.17.1",
         "protobuf==${PROTOBUF_VERSION}",
         "argcomplete==1.10.0",
+        "pyyaml",
+        "jinja2==2.11.1"
     ],
     data_files=[
         ('share/scrimmage/env', [

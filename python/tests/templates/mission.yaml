@@ -1,0 +1,34 @@
+version: "1.0"
+
+# Relative to current file
+template_directories:
+    - .
+
+# Configuration for overall mission file
+mission_file:
+    template: mission.template.xml
+    config:
+        time_warp: 0
+        latitude_origin: 35.721025
+        longitude_origin: -120.767925
+        altitude_origin: 0.0
+
+# Configuration for each entity that will be injected into the mission file
+entities:
+    - template: entity.template.xml
+      config: 
+          id: 1
+          x: -10
+          y: 10
+          z: -5
+          heading: 270
+          
+    - template: entity.template.xml
+      config: 
+          id: 2
+          x: 10
+          y: 10
+          z: -5
+          heading: 0
+
+    
