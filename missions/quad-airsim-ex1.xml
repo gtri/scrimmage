@@ -7,7 +7,7 @@
        time_warp="1"
        enable_gui="true"
        network_gui="false"
-       start_paused="false"/>
+       start_paused="true"/>
 
   <display_progress>false</display_progress>
 
@@ -38,6 +38,7 @@
   <origin_length>10</origin_length>
 
   <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>ROSClockServer</entity_interaction>
 
   <network>GlobalNetwork</network>
   <network>LocalNetwork</network>
@@ -74,12 +75,15 @@
     <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
     <sensor airsim_ip="10.108.21.246"
             vehicle_name="robot1"
             lidar_name="lidar1"
             save_airsim_data="true"
             get_image_data="true"
-            get_lidar_data="true">AirSimSensor</sensor>
+            get_lidar_data="true"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
 
     <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
     <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
@@ -96,7 +100,7 @@
 
     <motion_model motion_model_sets_yaw="false"
                   sim_copter_orientation="true"
-                  max_vel="12"
+                  max_vel="4"
                   max_acc="2"
                   max_yaw_vel="12"
                   max_yaw_acc="2">DoubleIntegrator</motion_model>
@@ -137,12 +141,15 @@
     <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
     <sensor airsim_ip="10.108.21.246"
             vehicle_name="robot2"
             lidar_name="lidar1"
             save_airsim_data="true"
             get_image_data="true"
-            get_lidar_data="true">AirSimSensor</sensor>
+            get_lidar_data="true"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
 
     <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
     <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
@@ -159,7 +166,7 @@
 
     <motion_model motion_model_sets_yaw="false"
                   sim_copter_orientation="true"
-                  max_vel="12"
+                  max_vel="4"
                   max_acc="2"
                   max_yaw_vel="12"
                   max_yaw_acc="2">DoubleIntegrator</motion_model>

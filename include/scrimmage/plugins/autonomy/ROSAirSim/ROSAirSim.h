@@ -76,15 +76,12 @@ class ROSAirSim : public scrimmage::Autonomy {
     msr::airlib::LidarData lidar_data_;
     ros::Publisher base_scan_pub_;
     std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
-    std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
+    // std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
     geometry_msgs::TransformStamped world_trans_;
     geometry_msgs::TransformStamped laser_trans_;
 
     std::string ros_name_;
     std::string ros_namespace_;
-
-    void publish_clock_msg(double t);
-    ros::Publisher clock_pub_;
 };
 } // namespace autonomy
 } // namespace scrimmage

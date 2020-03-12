@@ -45,6 +45,8 @@ RUN apt-get update \
     libpython3.7-dev \
     doxygen python-sphinx \
     sphinx-rtd-theme-common \
+    ros-melodic-tf2 \
+    ros-melodic-mavros-msgs \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \

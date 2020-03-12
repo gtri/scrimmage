@@ -387,7 +387,7 @@ a lag in the simulation as you add more and more quadcopters. You can add an add
 Entity with count=1 in the quad-airsim-ex1.xml mission file and adding a new vehicle to the Documents/AirSim/settings.json
 file on the Windows Side. Each new Entity you add must contain a "<sensor>AirSimSensor</sensor>" tag
 (and if you are using ROS an "<autonomy>ROSAirSim</autonomy>" tag). The vehicle_name and lidar_name variables in the
-quad-airsim-ex1.xml mission file under the "<sensor>AirSimSensor</sensor>" tag must match the Vehicle Name and Lidar Name
+quad-airsim-ex1.xml mission file under the "<sensor>AirSimSensor</sensor>" tag **MUST** match the Vehicle Name and Lidar Name
 variables used in the Documents/AirSim/settings.json file on the Windows Side under "Vehicles", by default these are
 "robot1":"lidar1" and "robot2":"lidar1".
 
