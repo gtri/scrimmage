@@ -26,6 +26,7 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     zlib1g-dev \
     ros-kinetic-opencv3 \
     ros-kinetic-tf2 \
+    ros-kinetic-mavros-msgs \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \

@@ -157,7 +157,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
         for (sc::sensor::AirSimImageType a : msg->data) {
             if (show_camera_images_) {
                 // Get Camera Name
-                std::string window_name = a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
                 // for depth images CV imshow expects grayscale image values to be between 0 and 1.
                 if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
                     // Worked before building with ROS
