@@ -29,8 +29,8 @@ var searchData=
   ['spherenetwork',['SphereNetwork',['../classscrimmage_1_1network_1_1SphereNetwork.html',1,'scrimmage::network']]],
   ['state',['State',['../classscrimmage_1_1State.html',1,'scrimmage']]],
   ['statewithcovariance',['StateWithCovariance',['../classscrimmage_1_1StateWithCovariance.html',1,'scrimmage']]],
-  ['straight',['Straight',['../classscrimmage_1_1autonomy_1_1Straight.html',1,'scrimmage::autonomy']]],
   ['straight',['Straight',['../classstraight_1_1Straight.html',1,'straight']]],
+  ['straight',['Straight',['../classscrimmage_1_1autonomy_1_1Straight.html',1,'scrimmage::autonomy']]],
   ['subscriber',['Subscriber',['../classscrimmage_1_1Subscriber.html',1,'scrimmage']]],
   ['subscriberbase',['SubscriberBase',['../classscrimmage_1_1SubscriberBase.html',1,'scrimmage']]]
 ];

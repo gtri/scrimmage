@@ -18,12 +18,17 @@ var classscrimmage_1_1sensor_1_1AirSimSensor =
     [ "airsim_port_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#ae450f534a2ba44a0716704b003d04a51", null ],
     [ "airsim_timeout_s_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a9a9322d440573f86d3800516f721e952", null ],
     [ "cam_configs_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a8f341daf3acf0b8b9cef3a8e883b932f", null ],
+    [ "vehicle_name_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#aee3753c35c9bfed334f85f169681babd", null ],
+    [ "lidar_name_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a26e8acaf16147b4dd1ab7d04372f1bcc", null ],
     [ "enu_to_ned_yaw_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#af960ffd5c20fe7c2ae84cb1d0b1cc3b7", null ],
     [ "img_pub_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a9862e8cb25c4502f66e601f6b9304764", null ],
     [ "lidar_pub_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#aaa0e804e00cfc286f82ce81e507cfda5", null ],
     [ "save_airsim_data_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a7438ccf68d2c28037cf029ecaea118de", null ],
     [ "get_image_data_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a8d5b78559a4209bb05cf5c11bcf4d263", null ],
     [ "get_lidar_data_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a4264739fc6174788bda672ff352a1662", null ],
+    [ "new_lidar_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#ac12f0bbc563cd3a152beef4423a3bb6f", null ],
+    [ "new_image_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a3fe9b372a544bd0e9ccd51fbf1e6ccfc", null ],
+    [ "data_acquisition_period_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a3f1db816c3939f011a0f8731dcf64ca9", null ],
     [ "airsim_frame_num_", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a8f415e5f921630020bb305cc37940d74", null ],
     [ "csv", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a87b5bcba083b23d8eb576e10c6474ed9", null ]
 ];

@@ -9,6 +9,8 @@ var searchData=
   ['vars',['vars',['../classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3',1,'scrimmage::External']]],
   ['vars_5f',['vars_',['../classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6',1,'scrimmage::EntityPlugin']]],
   ['vector_5findex_5f',['vector_index_',['../classscrimmage_1_1controller_1_1AxisScale.html#a1c8a4746bccb22d99f6c6bcb7e08b62b',1,'scrimmage::controller::AxisScale']]],
+  ['vehicle_5fname',['vehicle_name',['../classscrimmage_1_1sensor_1_1AirSimImageType.html#ac1004260269f35ea8026388eb12c10b0',1,'scrimmage::sensor::AirSimImageType::vehicle_name()'],['../classscrimmage_1_1sensor_1_1AirSimLidarType.html#a9ed04cf665604887907c7af75b58ecde',1,'scrimmage::sensor::AirSimLidarType::vehicle_name()']]],
+  ['vehicle_5fname_5f',['vehicle_name_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#aee3753c35c9bfed334f85f169681babd',1,'scrimmage::sensor::AirSimSensor']]],
   ['vel_5f',['vel_',['../classscrimmage_1_1State.html#a39dcb02974ab0e88fa02721fd1e930ad',1,'scrimmage::State']]],
   ['vel_5fmax_5f',['vel_max_',['../classscrimmage_1_1motion_1_1Unicycle.html#aa2fc639f583f851902a1ceb8fed8f37f',1,'scrimmage::motion::Unicycle']]],
   ['vel_5fnminus1',['vel_Nminus1',['../classscrimmage_1_1sensor_1_1SimpleINS.html#a1a90bc3d38f330dfae936b03bf6ec497',1,'scrimmage::sensor::SimpleINS']]],

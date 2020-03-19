@@ -11,6 +11,8 @@ var searchData=
   ['network_5fthread_5f',['network_thread_',['../classscrimmage_1_1interaction_1_1GRPCCommandString.html#a116f284b7e20cb2922bb1031f432e7b0',1,'scrimmage::interaction::GRPCCommandString::network_thread_()'],['../classscrimmage_1_1SimControl.html#a5e6a7f2cd934927825fd4fb633fcf4dd',1,'scrimmage::SimControl::network_thread_()'],['../classscrimmage_1_1Viewer.html#a8fe8f8f6f962f290ad7db144f571a052',1,'scrimmage::Viewer::network_thread_()']]],
   ['networks_5f',['networks_',['../classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027',1,'scrimmage::External::networks_()'],['../classscrimmage_1_1SimControl.html#a5e2b33124ab906a170d4afd4081f984c',1,'scrimmage::SimControl::networks_()']]],
   ['new_5fdata_5f',['new_data_',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a7a968b0970a362bec184eaaf69f0dc62',1,'scrimmage::sensor::LOSSensor']]],
+  ['new_5fimage_5f',['new_image_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#a3fe9b372a544bd0e9ccd51fbf1e6ccfc',1,'scrimmage::sensor::AirSimSensor']]],
+  ['new_5flidar_5f',['new_lidar_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#ac12f0bbc563cd3a152beef4423a3bb6f',1,'scrimmage::sensor::AirSimSensor']]],
   ['next_5fgen_5ftimes_5f',['next_gen_times_',['../classscrimmage_1_1MissionParse.html#a38c09714e4492c842e330505af9d8c45',1,'scrimmage::MissionParse']]],
   ['next_5finput_5fvariable_5findex_5f',['next_input_variable_index_',['../classscrimmage_1_1VariableIO.html#adb02a22b3735ac2faffa70f0df622ad5',1,'scrimmage::VariableIO']]],
   ['next_5frow_5f',['next_row_',['../classscrimmage_1_1CSV.html#a52d679bcb92cb55a2b4bdd7f7b55ab39',1,'scrimmage::CSV']]],

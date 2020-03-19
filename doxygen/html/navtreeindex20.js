@@ -1,5 +1,8 @@
 var NAVTREEINDEX20 =
 {
+"classscrimmage_1_1motion_1_1FixedWing6DOF.html#a5d86b65fa2b1f77c85a13f59620eab3a":[6,0,5,5,4,20],
+"classscrimmage_1_1motion_1_1FixedWing6DOF.html#a6340b130a6d653b8a5ecc9712f5ccf50":[6,0,5,5,4,71],
+"classscrimmage_1_1motion_1_1FixedWing6DOF.html#a6946d72c36fc3e957102c4b3c724d41b":[6,0,5,5,4,52],
 "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a69a8fcfb15ca5d06e916643a391e762b":[6,0,5,5,4,36],
 "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a6c25c049dda0683bc3a3fc105332f94b":[6,0,5,5,4,68],
 "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a6fc0154bbcf864975aef900267b8da8f":[6,0,5,5,4,50],
@@ -246,8 +249,5 @@ var NAVTREEINDEX20 =
 "classscrimmage_1_1motion_1_1SimpleAircraft.html#a887f053465094c21e3052f1009f43e27":[6,0,5,5,15,1],
 "classscrimmage_1_1motion_1_1SimpleAircraft.html#a8b93eb8e92fa061f742951e826b27493":[6,0,5,5,15,6],
 "classscrimmage_1_1motion_1_1SimpleAircraft.html#a983864282dbe733ce36dad3576549e10":[6,0,5,5,15,2],
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#aa8cb1ca5dfabc810ee2df36bdadedc77":[6,0,5,5,15,8],
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#ab37d2b93998b5a67e8e7697844d41402":[6,0,5,5,15,12],
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#ad76a5d68ca664d33cf27ab48490a9fb0":[6,0,5,5,15,11],
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#adc1d309e958b888e91775d2c7d053c1d":[6,0,5,5,15,5]
+"classscrimmage_1_1motion_1_1SimpleAircraft.html#aa8cb1ca5dfabc810ee2df36bdadedc77":[6,0,5,5,15,8]
 };
