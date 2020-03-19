@@ -76,7 +76,7 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
     imu_pub_ = nh_->advertise<sensor_msgs::Imu>(ros_namespace_ + "/imu", 1);
 
     // Open imu_data CSV for append (app) and set column headers
-    std::string csv_filename = parent_->mp()->log_dir() + "/imu_data.csv";
+    std::string csv_filename = parent_->mp()->log_dir() + "/imu_data_robot" + std::to_string(parent_->id().id()) + ".csv";
     if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
     if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
     csv.set_column_headers("time, dt, ENU_POSX, ENU_POSY, ENU_POSZ, ENU_VELX, ENU_VELY, ENU_VELZ, BodytoNED_roll, BodytoNED_pitch, BodytoNED_yaw");

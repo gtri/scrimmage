@@ -380,7 +380,16 @@ quad-airsim-ex1.xml, this only needs to be specified once.
 Run with Multiple Quadcopters
 *****************************
 
-COMING SOON
+The scrimmage mission file quad-airsim-ex1.xml and the settings.json file given in this tutorial are already setup
+to use 2 quadcopters. You will notice there are 2 Entities stated in the quad-airsim-ex1.xml mission file. You can add
+as many Entities/quadcopters as you need, however if you are saving images from each quadcopter you will eventually see
+a lag in the simulation as you add more and more quadcopters. You can add an additional quadcopter by adding a new
+Entity with count=1 in the quad-airsim-ex1.xml mission file and adding a new vehicle to the Documents/AirSim/settings.json
+file on the Windows Side. Each new Entity you add must contain a "<sensor>AirSimSensor</sensor>" tag
+(and if you are using ROS an "<autonomy>ROSAirSim</autonomy>" tag). The vehicle_name and lidar_name variables in the
+quad-airsim-ex1.xml mission file under the "<sensor>AirSimSensor</sensor>" tag **MUST** match the Vehicle Name and Lidar Name
+variables used in the Documents/AirSim/settings.json file on the Windows Side under "Vehicles", by default these are
+"robot1":"lidar1" and "robot2":"lidar1".
 
 Add "Asset" Environments
 **************************

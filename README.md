@@ -204,6 +204,7 @@ To build SCRIMMAGE's ROS plugins, you must have
 [ROS](http://wiki.ros.org/ROS/Installation) installed and the
 BUILD\_ROS\_PLUGINS cmake variable must be set:
 
+    $ sudo apt-get install ros-${ROS_VERSION}-mavros-msgs
     $ cmake .. -DBUILD_ROS_PLUGINS=ON
 
 An example of using SCRIMMAGE to simulate robots running the ROS 2D Navigation
