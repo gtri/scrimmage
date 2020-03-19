@@ -173,10 +173,6 @@
     <controller>DoubleIntegratorControllerVelYaw</controller>
     <visual_model>iris</visual_model>
 
-    <sensor>ROSAltimeter</sensor>
-    <sensor>ROSCompass</sensor>
-    <sensor>ROSIMUSensor</sensor>
-
   </entity>
 
 </runscript>
