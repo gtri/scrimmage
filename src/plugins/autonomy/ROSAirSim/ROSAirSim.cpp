@@ -36,6 +36,8 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 
+#include <rosgraph_msgs/Clock.h>
+
 #include <iostream>
 #include <limits>
 
@@ -53,6 +55,8 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAirSim, ROSAirSim_p
 
 namespace scrimmage {
 namespace autonomy {
+
+ROSAirSim::ROSAirSim() {}
 
 void ROSAirSim::init(std::map<std::string, std::string> &params) {
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, "false");
@@ -78,97 +82,76 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     nh_ = std::make_shared<ros::NodeHandle>();
 
     // Setup robot namespace
-    ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
-    ros_namespace_ += std::to_string(parent_->id().id());
+    ros_name_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
+    ros_namespace_ = ros_name_ + std::to_string(parent_->id().id());
 
     // setup image transport node
     // image_transport::ImageTransport it(nh_);
     it_ = std::make_shared<image_transport::ImageTransport>(*nh_);
 
+    // Setup Publishers
+    base_scan_pub_ = nh_->advertise<sensor_msgs::PointCloud2>(ros_namespace_ + "/base_scan", 1);
+
+    // Create TF: Transformation Broadcaster for LIDAR
+    //////////////////////////////////////////////////////////////////////
+    laser_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>();
+    // Create World Transform
+    sc::StatePtr &state = parent_->state_truth();
+    world_trans_.header.frame_id = "world";
+    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+    world_trans_.transform.translation.x = state->pos().x();
+    world_trans_.transform.translation.y = state->pos().y();
+    world_trans_.transform.translation.z = state->pos().z();
+    world_trans_.transform.rotation.x = state->quat().x();
+    world_trans_.transform.rotation.y = state->quat().y();
+    world_trans_.transform.rotation.z = state->quat().z();
+    world_trans_.transform.rotation.w = state->quat().w();
+    world_trans_.header.stamp = ros::Time::now();
+    // tf_msg_vec_.push_back(world_trans_);
+    laser_broadcaster_->sendTransform(world_trans_);
+
+    // Fill in Laser Settings
+    // TODO: Pull these values from the settings.json file on the windows side.
+    LidarSetting lidar_setting;
+    lidar_setting.position.x() = 0.0;
+    lidar_setting.position.y() = 0.0;
+    lidar_setting.position.z() = 0.0;
+    lidar_setting.rotation.roll = M_PI;
+    lidar_setting.rotation.pitch = 0.0;
+    lidar_setting.rotation.yaw = 0.0;
+
+    laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
+    laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
+    laser_trans_.transform.translation.x = lidar_setting.position.x();
+    laser_trans_.transform.translation.y = lidar_setting.position.y();
+    laser_trans_.transform.translation.z = lidar_setting.position.z();
+
+    tf2::Quaternion laser_quat;
+    laser_quat.setRPY(lidar_setting.rotation.roll, lidar_setting.rotation.pitch, lidar_setting.rotation.yaw);
+    laser_trans_.transform.rotation.x = laser_quat.x();
+    laser_trans_.transform.rotation.y = laser_quat.y();
+    laser_trans_.transform.rotation.z = laser_quat.z();
+    laser_trans_.transform.rotation.w = laser_quat.w();
+    // Send Transform
+    laser_trans_.header.stamp = ros::Time::now();
+    //  tf_msg_vec_.push_back(laser_trans_);
+    // laser_broadcaster_->sendTransform(tf_msg_vec_);
+    laser_broadcaster_->sendTransform(laser_trans_);
+    //////////////////////////////////////////////////////////////////////
+
     // airsim lidar callback
     auto airsim_lidar_cb = [&](auto &msg) {
-        if (pub_lidar_data_) {
-            ros::Time ros_time = ros::Time::now();
-            // Get LIDAR data, lidar data corresponds to each group of image types requested
-            std::string laser_topic_name = "/" + ros_namespace_ + "/base_scan";
-            if (base_scan_pub_.getTopic() != laser_topic_name) {
-                // cout << "Do this once." << endl;
-                base_scan_pub_ = nh_->advertise<sensor_msgs::PointCloud2>(ros_namespace_ + "/base_scan", 1);
-            }
-            auto lidar_data = msg->data.lidar_data;
-
-            // Create PointCloud2 message
-            //////////////////////////////////////////////////////////////////////
-            sensor_msgs::PointCloud2 lidar_msg;
-            lidar_msg.header.stamp = ros_time;
-            lidar_msg.header.frame_id = ros_namespace_ + "/base_laser";
-            if (lidar_data.point_cloud.size() > 3) {
-                lidar_msg.height = 1;
-                lidar_msg.width = lidar_data.point_cloud.size() / 3;
-
-                lidar_msg.fields.resize(3);
-                lidar_msg.fields[0].name = "x";
-                lidar_msg.fields[1].name = "y";
-                lidar_msg.fields[2].name = "z";
-                int offset = 0;
-
-                for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
-                    lidar_msg.fields[d].offset = offset;
-                    lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
-                    lidar_msg.fields[d].count  = 1;
-                }
-
-                lidar_msg.is_bigendian = false;
-                lidar_msg.point_step = offset; // 4 * num fields
-                lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
-
-                lidar_msg.is_dense = true;
-                std::vector<float> data_std = lidar_data.point_cloud;
-
-                const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
-                vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
-                lidar_msg.data = std::move(lidar_msg_data);
-            }
-            base_scan_pub_.publish(lidar_msg);
-            //////////////////////////////////////////////////////////////////////
-
-            // Create TF: Transformation Broadcaster for LIDAR
-            //////////////////////////////////////////////////////////////////////
-            laser_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>();
-
-            // TODO: Pull these values from the settings.json file on the windows side.
-            LidarSetting lidar_setting;
-            lidar_setting.position.x() = 0.0;
-            lidar_setting.position.y() = 0.0;
-            lidar_setting.position.z() = -1.0;
-            lidar_setting.rotation.roll = 0.0;
-            lidar_setting.rotation.pitch = 0.0;
-            lidar_setting.rotation.yaw = 0.0;
-
-            laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
-            laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
-            laser_trans_.transform.translation.x = lidar_setting.position.x();
-            laser_trans_.transform.translation.y = lidar_setting.position.y();
-            laser_trans_.transform.translation.z = lidar_setting.position.z();
-
-            // tf::Quaternion laser_quat;
-            // geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(lidar_setting.rotation.yaw);
-            tf2::Quaternion laser_quat;
-            laser_quat.setRPY(lidar_setting.rotation.roll, lidar_setting.rotation.pitch, lidar_setting.rotation.yaw);
-            // laser_trans_.transform.rotation = laser_quat;
-            laser_trans_.transform.rotation.x = laser_quat.x();
-            laser_trans_.transform.rotation.y = laser_quat.y();
-            laser_trans_.transform.rotation.z = laser_quat.z();
-            laser_trans_.transform.rotation.w = laser_quat.w();
-            // Send Transform
-            laser_trans_.header.stamp = ros_time;
-            tf_msg_vec_.push_back(laser_trans_);
-            laser_broadcaster_->sendTransform(tf_msg_vec_);
-            //////////////////////////////////////////////////////////////////////
+        if (msg->data.lidar_data.point_cloud.size() < 3) { // return if empty message
+            return;
         }
+        lidar_data_ = msg->data.lidar_data;
     };
+
     // airsim image callback
     auto airsim_image_cb = [&](auto &msg) {
+        if (msg->data.size() == 0) { // return if empty message
+            return;
+        }
         if (pub_image_data_) {
             // Create the ROSmsg header for the soon to be published messages
             std_msgs::Header header; // empty header
@@ -227,7 +210,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 }
                 // draw image
                 if (show_camera_images_) {
-                    std::string window_name = a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                    std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
                     if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
                         cv::Mat tempImage;
                         a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
@@ -250,11 +233,71 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     if (pub_image_data_) {
         subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
     }
+
+    // Setup Image Topics
 }
 
 bool ROSAirSim::step_autonomy(double t, double dt) {
-
     ros::spinOnce(); // check for new ROS messages
+
+    // Create PointCloud2 message
+    //////////////////////////////////////////////////////////////////////
+    if (pub_lidar_data_) {
+        sensor_msgs::PointCloud2 lidar_msg;
+        lidar_msg.header.stamp = ros::Time::now();
+        lidar_msg.header.frame_id = ros_namespace_ + "/base_laser";
+        if (lidar_data_.point_cloud.size() > 3) {
+            lidar_msg.height = 1;
+            lidar_msg.width = lidar_data_.point_cloud.size() / 3;
+
+            lidar_msg.fields.resize(3);
+            lidar_msg.fields[0].name = "x";
+            lidar_msg.fields[1].name = "y";
+            lidar_msg.fields[2].name = "z";
+            int offset = 0;
+
+            for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
+                lidar_msg.fields[d].offset = offset;
+                lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
+                lidar_msg.fields[d].count  = 1;
+            }
+
+            lidar_msg.is_bigendian = false;
+            lidar_msg.point_step = offset; // 4 * num fields
+            lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
+
+            lidar_msg.is_dense = true;
+            std::vector<float> data_std = lidar_data_.point_cloud;
+
+            const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
+            vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
+            lidar_msg.data = std::move(lidar_msg_data);
+        }
+        base_scan_pub_.publish(lidar_msg);
+    }
+    //////////////////////////////////////////////////////////////////////
+    // Publish Laser Transform
+    //////////////////////////////////////////////////////////////////////
+    // Update World Transform
+    sc::StatePtr &state = parent_->state_truth();
+    world_trans_.header.frame_id = "world";
+    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+    world_trans_.transform.translation.x = state->pos().x();
+    world_trans_.transform.translation.y = state->pos().y();
+    world_trans_.transform.translation.z = state->pos().z();
+    world_trans_.transform.rotation.x = state->quat().x();
+    world_trans_.transform.rotation.y = state->quat().y();
+    world_trans_.transform.rotation.z = state->quat().z();
+    world_trans_.transform.rotation.w = state->quat().w();
+    world_trans_.header.stamp = ros::Time::now();
+    // tf_msg_vec_.push_back(world_trans_);
+    laser_broadcaster_->sendTransform(world_trans_);
+
+    laser_trans_.header.stamp = ros::Time::now();
+    // tf_msg_vec_.push_back(laser_trans_);
+    // laser_broadcaster_->sendTransform(tf_msg_vec_);
+    laser_broadcaster_->sendTransform(laser_trans_);
+    //////////////////////////////////////////////////////////////////////
 
     return true;
 }

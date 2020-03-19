@@ -76,12 +76,11 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
   // Create Publisher
   imu_pub_ = nh_->advertise<sensor_msgs::Imu>(ros_namespace_ + "/imu", 1);
 
-  // Open imu_data CSV for append (app) and set column headers
-  std::string csv_filename = parent_->mp()->log_dir() + "/imu_data.csv";
-  if (!csv.open_output(csv_filename, std::ios_base::app))
-    std::cout << "Couldn't create csv file" << endl;
-  if (!csv.output_is_open())
-    cout << "File isn't open. Can't write to CSV" << endl;
+    // Open imu_data CSV for append (app) and set column headers
+    std::string csv_filename = parent_->mp()->log_dir() + "/imu_data_robot" + std::to_string(parent_->id().id()) + ".csv";
+    if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
+    if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
+
   csv.set_column_headers("time, dt, ECEF_POSX, ECEF_POSY, ECEF_POSZ, ECEF_VELX, ECEF_VELY, ECEF_VELZ, bodyToEcef_X, bodyToEcef_Y, bodyToEcef_Z, bodyToEcef_W, dV_X, dV_Y, dV_Z, dTheta_X, dTheta_Y, dTheta_Z");
 
   prev_time_ = time_->t();

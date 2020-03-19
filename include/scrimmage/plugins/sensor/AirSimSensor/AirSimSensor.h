@@ -74,6 +74,7 @@ class CameraConfig {
         int width = 256;  // 512
 
 
+
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
             os << "Camera_Number=" << c.cam_number;
@@ -91,12 +92,15 @@ class AirSimImageType {
     cv::Mat img;
     CameraConfig camera_config;
     int frame_num = 0;
+    std::string vehicle_name;
 };
 
 class AirSimLidarType {
  public:
     msr::airlib::LidarData lidar_data;
     int frame_num = 0;
+    std::string vehicle_name;
+    std::string lidar_name;
 };
 
 class AirSimSensor : public scrimmage::Sensor {
@@ -123,6 +127,10 @@ class AirSimSensor : public scrimmage::Sensor {
     uint16_t airsim_port_;
     float airsim_timeout_s_;
     std::list<CameraConfig> cam_configs_;
+
+    std::string vehicle_name_ = "robot1";
+    std::string lidar_name_ = "lidar1";
+
     scrimmage::Angles enu_to_ned_yaw_;
 
     PublisherPtr img_pub_;
@@ -133,6 +141,12 @@ class AirSimSensor : public scrimmage::Sensor {
     bool save_airsim_data_ = true;
     bool get_image_data_ = true;
     bool get_lidar_data_ = true;
+
+    bool new_lidar_ = false;
+    bool new_image_ = false;
+
+    // period at which the data acquisition is run [seconds]
+    double data_acquisition_period_ = .1;
 
     int airsim_frame_num_ = 0;
     scrimmage::CSV csv;
