@@ -24,6 +24,7 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     ruby-full \
     build-essential \
     zlib1g-dev \
+    python-rosdep \
     ros-kinetic-opencv3 \
     ros-kinetic-tf2 \
     ros-kinetic-mavros-msgs \
