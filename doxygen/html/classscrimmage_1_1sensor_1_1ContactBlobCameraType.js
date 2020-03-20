@@ -12,5 +12,8 @@ var classscrimmage_1_1sensor_1_1ContactBlobCameraType =
     [ "el_thresh", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#aba8c6dd1d5acb01bbe6e8b88d63986fe", null ],
     [ "fn_prob", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#ad85d6e1af8fff697d7d597055de4d7ae", null ],
     [ "fp_prob", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a3d4307c5080541d9ccf088e5049459ab", null ],
-    [ "max_false_positives", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#acc17b0a284abd8d3456a2b00bf9783ac", null ]
+    [ "max_false_positives", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#acc17b0a284abd8d3456a2b00bf9783ac", null ],
+    [ "roll", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#ab5c64208e57277a95845199fa773d5f1", null ],
+    [ "pitch", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a77d277f2b892ea86e6a87d6c6889d1c0", null ],
+    [ "yaw", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a39d1f4310954331e32795ae36bcffd73", null ]
 ];

@@ -46,7 +46,7 @@ var searchData=
   ['rng_5f',['rng_',['../classscrimmage_1_1interaction_1_1TerrainMap.html#a1ea2b7c61db0bceb7783c827b08d062a',1,'scrimmage::interaction::TerrainMap']]],
   ['rng_5fnormal_5f',['rng_normal_',['../classscrimmage_1_1Random.html#ad54d3398ae024a21fa8c4c49cdc096e7',1,'scrimmage::Random']]],
   ['rng_5funiform_5f',['rng_uniform_',['../classscrimmage_1_1Random.html#a7b7cb89927765ed723bea18e2307e677',1,'scrimmage::Random']]],
-  ['roll',['roll',['../structscrimmage_1_1autonomy_1_1ArduPilot_1_1fdm__packet.html#a36a366597d73744c5097c19c870a6479',1,'scrimmage::autonomy::ArduPilot::fdm_packet']]],
+  ['roll',['roll',['../structscrimmage_1_1autonomy_1_1ArduPilot_1_1fdm__packet.html#a36a366597d73744c5097c19c870a6479',1,'scrimmage::autonomy::ArduPilot::fdm_packet::roll()'],['../classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#ab5c64208e57277a95845199fa773d5f1',1,'scrimmage::sensor::ContactBlobCameraType::roll()']]],
   ['roll_5f',['roll_',['../classscrimmage_1_1motion_1_1DubinsAirplane.html#adcbddb3449521e1aba4a21a02fc674fb',1,'scrimmage::motion::DubinsAirplane::roll_()'],['../classscrimmage_1_1motion_1_1DubinsAirplane3D.html#ae0daa7be0ea4574ed7fbbd8b81615aea',1,'scrimmage::motion::DubinsAirplane3D::roll_()']]],
   ['roll_5famp_5f',['roll_amp_',['../classscrimmage_1_1interaction_1_1ExternalForceField.html#afbbf9d657a4f70d4dc7d1a6a3d79349b',1,'scrimmage::interaction::ExternalForceField']]],
   ['roll_5fidx_5f',['roll_idx_',['../classscrimmage_1_1motion_1_1JSBSimModel.html#a84572d9c7cb3d4806ea2351effddc03c',1,'scrimmage::motion::JSBSimModel']]],

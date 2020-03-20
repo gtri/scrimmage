@@ -9,10 +9,11 @@
 <area shape="rect" id="node9" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="239,449,412,491"/>
 <area shape="rect" id="node10" href="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a8111f6af651d500f112128d06bf2b0c5" title="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::step" alt="" coords="207,514,444,570"/>
 <area shape="rect" id="node11" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a70769acf07b591b4a86cf53d387622e4" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::step" alt="" coords="211,594,440,650"/>
-<area shape="rect" id="node12" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a92a9eb114d1af3919df9b62193260a75" title="scrimmage::motion::\lJSBSimControl::step" alt="" coords="248,673,403,715"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="232,673,419,715"/>
 <area shape="rect" id="node13" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#aaec5e2e01ca96af4d8b800643545a0ea" title="scrimmage::motion::\lJSBSimModel::step" alt="" coords="248,739,403,780"/>
-<area shape="rect" id="node14" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f" title="scrimmage::sensor::\lAirSimSensor::step" alt="" coords="249,804,402,845"/>
-<area shape="rect" id="node15" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="239,869,411,925"/>
-<area shape="rect" id="node16" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#a74260a468d7e2705b1f99c7a7e7f29e8" title="scrimmage::motion::\lJSBSimModel::teleport" alt="" coords="243,948,407,989"/>
-<area shape="rect" id="node17" href="$classscrimmage_1_1Updater.html#a15c578c9a497f8d1531abaa0f8657452" title="scrimmage::Updater\l::update_text_display" alt="" coords="246,1013,405,1055"/>
+<area shape="rect" id="node14" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a92a9eb114d1af3919df9b62193260a75" title="scrimmage::motion::\lJSBSimControl::step" alt="" coords="248,804,403,845"/>
+<area shape="rect" id="node15" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f" title="scrimmage::sensor::\lAirSimSensor::step" alt="" coords="249,869,402,911"/>
+<area shape="rect" id="node16" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="239,934,411,990"/>
+<area shape="rect" id="node17" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#a74260a468d7e2705b1f99c7a7e7f29e8" title="scrimmage::motion::\lJSBSimModel::teleport" alt="" coords="243,1013,407,1055"/>
+<area shape="rect" id="node18" href="$classscrimmage_1_1Updater.html#a15c578c9a497f8d1531abaa0f8657452" title="scrimmage::Updater\l::update_text_display" alt="" coords="246,1079,405,1120"/>
 </map>

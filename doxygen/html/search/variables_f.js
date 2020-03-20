@@ -13,7 +13,7 @@ var searchData=
   ['pcl_5fnetwork_5fname_5f',['pcl_network_name_',['../classscrimmage_1_1interaction_1_1BulletCollision.html#a44d8dcf4008f7a49eafafb77286a9a10',1,'scrimmage::interaction::BulletCollision']]],
   ['pcl_5ftopic_5fname_5f',['pcl_topic_name_',['../classscrimmage_1_1interaction_1_1BulletCollision.html#ae7dfa622fa5f24cab3c80b3633f502ae',1,'scrimmage::interaction::BulletCollision']]],
   ['pid_5f',['pid_',['../classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#a5dd2e147f5699c4e1e1937adb6e0bd60',1,'scrimmage::controller::SimpleCarControllerHeading']]],
-  ['pitch',['pitch',['../structscrimmage_1_1autonomy_1_1ArduPilot_1_1fdm__packet.html#a67bc00cd1be2a3ab2a447c7578148fca',1,'scrimmage::autonomy::ArduPilot::fdm_packet']]],
+  ['pitch',['pitch',['../structscrimmage_1_1autonomy_1_1ArduPilot_1_1fdm__packet.html#a67bc00cd1be2a3ab2a447c7578148fca',1,'scrimmage::autonomy::ArduPilot::fdm_packet::pitch()'],['../classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a77d277f2b892ea86e6a87d6c6889d1c0',1,'scrimmage::sensor::ContactBlobCameraType::pitch()']]],
   ['pitch_5f',['pitch_',['../classscrimmage_1_1motion_1_1DubinsAirplane.html#ad8f4a974f93b75d7a1ca8e33230222ae',1,'scrimmage::motion::DubinsAirplane::pitch_()'],['../classscrimmage_1_1motion_1_1DubinsAirplane3D.html#a37ec53d0efecc6a1d8c3c789dbac64fb',1,'scrimmage::motion::DubinsAirplane3D::pitch_()']]],
   ['pitch_5famp_5f',['pitch_amp_',['../classscrimmage_1_1interaction_1_1ExternalForceField.html#a6f2c858e36a6c10cf42002a453913f90',1,'scrimmage::interaction::ExternalForceField']]],
   ['pitch_5fmax_5f',['pitch_max_',['../classscrimmage_1_1motion_1_1DubinsAirplane.html#a228eb2e93f7732d9567684f625b0193b',1,'scrimmage::motion::DubinsAirplane']]],
