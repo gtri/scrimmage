@@ -36,9 +36,9 @@
 #include <sensor_msgs/Imu.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/math/Quaternion.h>
-
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/CSV.h>
+#include <GeographicLib/Geocentric.hpp>
 
 #include <random>
 #include <vector>
@@ -64,20 +64,22 @@ class ROSIMUSensor : public scrimmage::Sensor {
   scrimmage::CSV csv;
 
   // WGS84 constants
-  const double ecc = 8.1819190842621E-2;
-  const double earth_radius = 6378137;
-  const double flattening_inverse = 298.257223563;
-  const double e_prime = sqrt(1 - ecc * ecc);
-  const double ae_squared = earth_radius * ecc * ecc;
-  const double k1 = 1 - ecc * ecc;
-  const double earth_semiminor_axis = earth_radius * (1 - 1 / flattening_inverse); // aprox. 6356752.3142;
+  const double earth_radius = GeographicLib::Constants::WGS84_a();
+  const double flattening = GeographicLib::Constants::WGS84_f();
+  const double wgs84_grav = GeographicLib::Constants::WGS84_GM();
+  const double earth_rate = GeographicLib::Constants::WGS84_omega();
+  // derived
+  const double omega2 = earth_rate * earth_rate;
+  const double ecc2 = flattening * (2.0 - flattening);
+  const double flattening_inverse = 1.0 / flattening;
+  const double e_prime = sqrt(1.0 - ecc2);
+  const double ae_squared = earth_radius * ecc2;
+  const double k1 = 1 - ecc2;
+  const double earth_semiminor_axis = earth_radius * (1.0 - flattening);
   const double a2 = earth_radius * earth_radius;
   const double b2 = earth_semiminor_axis * earth_semiminor_axis;
-  const double e = 521854.0089737218;
-  const double e2 = 272331606681.94534;
-  const double wgs84_grav = 3986004.418e+08;
-  const double earth_rate = 7.2921151467e-5;
-  const double omega2 = earth_rate * earth_rate;
+  const double e2 = a2 - b2;
+  const double e = sqrt(e2); // linear eccentricity
 
   // storage variables for previous frame data
   Eigen::Vector3d vel_t1;
@@ -90,10 +92,9 @@ class ROSIMUSensor : public scrimmage::Sensor {
   bool first_sample_collected = false;
   Eigen::Vector3d lla_to_ecef(double lat, double lon, double alt);
   Eigen::Matrix3d enu_to_ecef_rotation(double lat, double lon);
-  Eigen::Matrix3d ned_to_ecef_rotation(double lat, double lon);
   Eigen::Vector3d get_deltaV(Eigen::Vector3d pos, Eigen::Vector3d vel, Eigen::Quaterniond bodyToEcef, double deltaT);
   Eigen::Vector3d ecef_to_lla(Eigen::Vector3d ecef);
-  Eigen::Matrix3d get_rotation_matrix_from_ecef_to_ned(double lat, double lon);
+  Eigen::Matrix3d ecef_to_ned_rotation(double lat, double lon);
   Eigen::Vector3d gravity_ned_from_lla(Eigen::Vector3d lla);
   Eigen::Matrix3d skew_sym(Eigen::Vector3d vector);
   Eigen::Vector3d get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Quaterniond qBodyToECEFt2, double inertialDeltaT);

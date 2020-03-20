@@ -50,6 +50,7 @@
 
 using std::cout;
 using std::endl;
+using namespace GeographicLib;
 
 namespace sc = scrimmage;
 
@@ -88,54 +89,31 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
 }
 
 Eigen::Vector3d ROSIMUSensor::lla_to_ecef(double lat, double lon, double alt) {
-  Eigen::Vector3d ecef;
+  Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());
+  double X, Y, Z;
+  earth.Forward(lat, lon, alt, X, Y, Z);
 
-  double factor = sin(lat);
-  factor = sqrt(1 - ecc * ecc * factor * factor);
-  ecef(0) = (earth_radius / factor + alt) * cos(lat) * cos(lon);
-  ecef(1) = (earth_radius / factor + alt) * cos(lat) * sin(lon);
-  ecef(2) = ((earth_radius * (1 - ecc * ecc)) / factor + alt) * sin(lat);
-
-  return ecef;
+  return Eigen::Vector3d(X, Y, Z);
 }
 
 Eigen::Vector3d ROSIMUSensor::ecef_to_lla(Eigen::Vector3d ecef) {
-  Eigen::Vector3d lla;
-  double p = sqrt(ecef(0) * ecef(0) + ecef(1) * ecef(1));
-  double zPrime = e_prime * ecef(2);
-  double T = ecef(2) / (e_prime * p);
-  // % Perform first iteration
-  double k2 = T * T;
-  double k3 = 1 + k2;
-  double k4 = sqrt(k3);
-  double k5 = ae_squared / (k4 * k3);
-  T = (zPrime + k5 * k2 * T) / (p - k5);
-  // % Perform second iteration now
-  k2 = T * T;
-  k3 = 1 + k2;
-  k4 = sqrt(k3);
-  k5 = ae_squared / (k4 * k3);
-  T = (zPrime + k5 * k2 * T) / (p - k5);
-  lla(0) = atan(T / e_prime);
-  k2 = T * T;
-  k3 = 1 + k2;
-  k4 = sqrt(k3);
-  if (p > ecef(2)) {
-    lla(2) = (sqrt(k1 + k2) / e_prime) * (p - earth_radius / k4);
-  } else {
-    lla(2) = (sqrt(k1 + k2)) * (ecef(2) / T - earth_radius / k4);
-  }
-  lla(1) = atan2(ecef(1), ecef(0));
-  return lla;
+  Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());
+  double lat, lon, alt;
+  earth.Reverse(ecef.x(), ecef.y(), ecef.z(), lat, lon, alt);
+
+  return Eigen::Vector3d(lat, lon, alt);
 }
 
 Eigen::Vector3d ROSIMUSensor::gravity_ned_from_lla(Eigen::Vector3d lla) {
   Eigen::Vector3d g;
 
+  lla(0) = Angles::deg2rad(lla(0));
+  lla(1) = Angles::deg2rad(lla(1));
+
   double sLat = sin(lla(0));
   double cLat = cos(lla(0));
 
-  double N = earth_radius / sqrt(1.0 - ecc * ecc * sLat * sLat);
+  double N = earth_radius / sqrt(1.0 - ecc2 * sLat * sLat);
   double x = (N + lla(2)) * cLat * cos(lla(1));
   double y = (N + lla(2)) * cLat * sin(lla(1));
   double z = ((b2 / a2) * N + lla(2)) * sLat;
@@ -178,25 +156,10 @@ Eigen::Vector3d ROSIMUSensor::gravity_ned_from_lla(Eigen::Vector3d lla) {
   return g;
 }
 
-Eigen::Matrix3d ROSIMUSensor::ned_to_ecef_rotation(double lat, double lon) {
-  double sLat = sin(lat);
-  double sLon = sin(lon);
-  double cLat = cos(lat);
-  double cLon = cos(lon);
-  Eigen::Matrix3d rotationMatrix;
-  rotationMatrix(0, 0) = -sLat * cLon;
-  rotationMatrix(0, 1) = -sLat * sLon;
-  rotationMatrix(0, 2) = cLat;
-  rotationMatrix(1, 0) = -sLon;
-  rotationMatrix(1, 1) = cLon;
-  rotationMatrix(1, 2) = 0.0;
-  rotationMatrix(2, 0) = -cLat * cLon;
-  rotationMatrix(2, 1) = -cLat * sLon;
-  rotationMatrix(2, 2) = -sLat;
-  return rotationMatrix;
-}
+Eigen::Matrix3d ROSIMUSensor::ecef_to_ned_rotation(double lat, double lon) {
+  lat = Angles::deg2rad(lat);
+  lon = Angles::deg2rad(lon);
 
-Eigen::Matrix3d ROSIMUSensor::get_rotation_matrix_from_ecef_to_ned(double lat, double lon) {
   double sLat = sin(lat);
   double sLon = sin(lon);
   double cLat = cos(lat);
@@ -247,7 +210,7 @@ Eigen::Matrix3d ROSIMUSensor::enu_to_ecef_rotation(double lat, double lon) {
   enuToNed << 0, 1, 0,
       1, 0, 0,
       0, 0, -1;
-  Eigen::Matrix3d rotationMatrix = get_rotation_matrix_from_ecef_to_ned(lat, lon);
+  Eigen::Matrix3d rotationMatrix = ecef_to_ned_rotation(lat, lon);
   // note don't use .transpose(), bad things happen https://eigen.tuxfamily.org/dox/group__TopicAliasing.html
   rotationMatrix.transposeInPlace();
   rotationMatrix = (rotationMatrix * enuToNed).eval();
@@ -317,7 +280,7 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
 
   Eigen::Vector3d Acct1 = (velECEF - vel_t1) / InertialDeltaT;
   Eigen::Vector3d PosLLAt1 = ecef_to_lla(pos_ECEF_t1);
-  c_ECEF_To_NED_t1 = get_rotation_matrix_from_ecef_to_ned(PosLLAt1(0), PosLLAt1(1));
+  c_ECEF_To_NED_t1 = ecef_to_ned_rotation(PosLLAt1(0), PosLLAt1(1));
   Eigen::Vector3d GravityNED = gravity_ned_from_lla(PosLLAt1);
 
   Eigen::Vector3d GravityECEF = c_ECEF_To_NED_t1.transpose() * GravityNED;
@@ -334,7 +297,7 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
   Eigen::Vector3d LLA = ecef_to_lla(p_hat);
   GravityNED = gravity_ned_from_lla(LLA);
 
-  Eigen::Matrix3d CECEFToNED = get_rotation_matrix_from_ecef_to_ned(LLA(0), LLA(1));
+  Eigen::Matrix3d CECEFToNED = ecef_to_ned_rotation(LLA(0), LLA(1));
   GravityECEF = CECEFToNED.transpose() * GravityNED;
 
   Eigen::Vector3d PErr = pos_ECEF_t1 - p_hat;
