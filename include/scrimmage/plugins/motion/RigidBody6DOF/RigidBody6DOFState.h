@@ -64,6 +64,10 @@ RigidBody6DOFState() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
         return ang_accel_body_;
     }
 
+    Eigen::Vector3d &wind() {
+        return wind_;
+    }
+
     const Eigen::Vector3d &linear_vel_body_const() const {
         return linear_vel_body_;
     }
@@ -80,12 +84,18 @@ RigidBody6DOFState() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
         return ang_accel_body_;
     }
 
+    const Eigen::Vector3d &wind() const {
+        return wind_;
+    }
+
 
  protected:
     Eigen::Vector3d linear_vel_body_;
     Eigen::Vector3d ang_vel_body_;
     Eigen::Vector3d linear_accel_body_;
     Eigen::Vector3d ang_accel_body_;
+
+    Eigen::Vector3d wind_;
 };
 
 using RigidBody6DOFStatePtr = std::shared_ptr<RigidBody6DOFState>;

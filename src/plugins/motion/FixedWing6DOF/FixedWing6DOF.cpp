@@ -204,6 +204,9 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     }
 
     rho_ = sc::get<double>("air_density", params, rho_); // air density
+    wind_(0) = sc::get<double>("wind_E", params, 0); // wind constant
+    wind_(1) = sc::get<double>("wind_N", params, 0); // wind constant
+    wind_(2) = sc::get<double>("wind_U", params, 0); // wind constant
 
     // thrust and dimensional specs
     throttle_input_min_ = sc::get<double>("throttle_input_min", params, throttle_input_min_);
@@ -314,10 +317,15 @@ bool FixedWing6DOF::step(double time, double dt) {
     x_[R_dot] = ang_accel_body_(2);
 
     // Cache values to calculate changes:
-    Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
+    Eigen::Vector3d prev_linear_vel_ENU(state_->vel());
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
-    alpha_ = atan2(x_[W], x_[U]); // angle of attack
+    // wind frame velocity
+    Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
+    wind_B = quat_body_.rotate_reverse(wind_B);
+    Eigen::Vector3d vel_rel_wind(x_[U]+wind_B(0), x_[V]+wind_B(1), x_[W]+wind_B(2));
+
+    alpha_ = atan2(vel_rel_wind(2), vel_rel_wind(0)); // angle of attack
     // TODO: Need to compute alpha_dot without using alpha_prev_
     alpha_dot_ = 0;
     // alpha_dot_ = (alpha_ - alpha_prev_) / dt;
@@ -442,13 +450,16 @@ bool FixedWing6DOF::step(double time, double dt) {
 
 void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     // Calculate velocity magnitude (handle zero velocity)
-    double V_tau = sqrt(pow(x_[U], 2) + pow(x_[V], 2) + pow(x_[W], 2));
+    Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
+    wind_B = quat_body_.rotate_reverse(wind_B);
+    Eigen::Vector3d vel_rel_wind(x_[U]+wind_B(0), x_[V]+wind_B(1), x_[W]+wind_B(2));
+    double V_tau = vel_rel_wind.norm();
     if (std::abs(V_tau) < std::numeric_limits<double>::epsilon()) {
         V_tau = 0.00001;
     }
 
     // Calculate commonly used quantities
-    double beta = atan2(x_[V], x_[U]); // side slip
+    double beta = asin(clamp(vel_rel_wind(1)/V_tau, -1.0, 1.0)); // side slip
     // double delta_Ve = 0.05*V_tau; // wind velocity across tail of aircraft (approximation)
     // double VtauVe = pow((V_tau + delta_Ve)/V_tau, 2);
     double pVtS = rho_ * pow(V_tau, 2) * S_ / 2.0;

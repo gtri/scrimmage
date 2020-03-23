@@ -272,7 +272,7 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
 
     // Airspeed is magnitude of velocity vector for now
-    fdm_pkt.airspeed = state.vel().norm();
+    fdm_pkt.airspeed = (state.vel() + state.wind()).norm();
 
 #if 0
     cout << "--------------------------------------------------------" << endl;
