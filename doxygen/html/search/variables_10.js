@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['qbody_5fto_5fecef_5fhat',['qBody_to_ECEF_hat',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a4d6e90c60a310505dfd822cb42673d61',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['quat_5f',['quat_',['../classscrimmage_1_1autonomy_1_1Waypoint.html#aa01ddde22642f9a0b9441bea373309bc',1,'scrimmage::autonomy::Waypoint::quat_()'],['../classscrimmage_1_1State.html#a61bd327b462c8932ee290c5b627ba630',1,'scrimmage::State::quat_()'],['../classscrimmage_1_1motion_1_1Rotor.html#a73b3499456db9d88d9cf1cb2846bc99b',1,'scrimmage::motion::Rotor::quat_()']]],
   ['quat_5fbody_5f',['quat_body_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a2502934255336ef5c82dbd3696e4b9e7',1,'scrimmage::motion::FixedWing6DOF::quat_body_()'],['../classscrimmage_1_1motion_1_1UUV6DOF.html#afb8b819f33b0af167cb0781878423297',1,'scrimmage::motion::UUV6DOF::quat_body_()']]],
   ['quat_5flocal_5f',['quat_local_',['../classscrimmage_1_1motion_1_1DubinsAirplane3D.html#ad3c7c1a9a575ee545fbb3c1016d4be5c',1,'scrimmage::motion::DubinsAirplane3D::quat_local_()'],['../classscrimmage_1_1motion_1_1RigidBody6DOF.html#aecdd9c3e0bf78a4283e3ef66fd1ba7e7',1,'scrimmage::motion::RigidBody6DOF::quat_local_()'],['../classscrimmage_1_1motion_1_1Unicycle3D.html#a54b1eb49ea2d024dbafbfd75ad4e7461',1,'scrimmage::motion::Unicycle3D::quat_local_()']]],

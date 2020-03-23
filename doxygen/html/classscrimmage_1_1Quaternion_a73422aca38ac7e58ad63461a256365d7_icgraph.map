@@ -3,7 +3,6 @@
 <area shape="rect" id="node3" href="$namespacescrimmage.html#a2ae5038921a0f419c633756c27bb521b" title="scrimmage::operator\&lt;\&lt;" alt="" coords="231,71,409,98"/>
 <area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title="scrimmage::Updater\l::quat_2_transform" alt="" coords="243,123,397,164"/>
 <area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233" title="set quaternion from euler angles " alt="" coords="233,188,407,229"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ad14d2df58a1b97718562d77a3fd0b450" title="scrimmage::sensor::\lROSIMUSensor::step" alt="" coords="243,253,397,295"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="227,319,413,360"/>
-<area shape="rect" id="node8" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="234,383,406,439"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="227,253,413,295"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="234,318,406,374"/>
 </map>

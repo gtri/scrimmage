@@ -6,6 +6,7 @@ var searchData=
   ['c_5fd_5f',['c_D_',['../classscrimmage_1_1motion_1_1Multirotor.html#af536667432e0c784f1bf57d297bd868f',1,'scrimmage::motion::Multirotor']]],
   ['c_5fd_5falpha_5f',['C_D_alpha_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a3413155374ca36f3e3d9db5ec57a3b35',1,'scrimmage::motion::FixedWing6DOF']]],
   ['c_5fd_5fdelta_5felevator_5f',['C_D_delta_elevator_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a6fc0154bbcf864975aef900267b8da8f',1,'scrimmage::motion::FixedWing6DOF']]],
+  ['c_5fecef_5fto_5fned_5ft1',['c_ECEF_To_NED_t1',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a48d8457cb59f84ebf34a859a17093f83',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['c_5fg_5f',['c_g_',['../classscrimmage_1_1motion_1_1UUV6DOF.html#ab5960340ba5065d03e70a3e671e387b5',1,'scrimmage::motion::UUV6DOF']]],
   ['c_5fl0_5f',['C_L0_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#ab95720ff3e991d69848edac988a4adf4',1,'scrimmage::motion::FixedWing6DOF']]],
   ['c_5fl_5falpha_5f',['C_L_alpha_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a6946d72c36fc3e957102c4b3c724d41b',1,'scrimmage::motion::FixedWing6DOF']]],

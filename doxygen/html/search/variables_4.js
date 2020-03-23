@@ -1,7 +1,14 @@
 var searchData=
 [
+  ['e',['e',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ae13c78d41a89b95e28e349b49370dd3b',1,'scrimmage::sensor::ROSIMUSensor']]],
+  ['e2',['e2',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a6c498421782738f52a344cf5c32e34e3',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['e_5f',['e_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a2a6cc4d78f57c9cdb5ac89cdd7858995',1,'scrimmage::motion::FixedWing6DOF']]],
+  ['e_5fprime',['e_prime',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a7ac929964cf9c60d9100402b947d68e5',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['earth_5f',['earth_',['../classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a96b1fd792021abc933b34635117e5192',1,'scrimmage::autonomy::FlightGearMultiplayer']]],
+  ['earth_5fradius',['earth_radius',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a37d2ffe3ec94b3ab821b3612ec41e65b',1,'scrimmage::sensor::ROSIMUSensor']]],
+  ['earth_5frate',['earth_rate',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a69fe04c2f6dcee91b8fee73ece0b37a8',1,'scrimmage::sensor::ROSIMUSensor']]],
+  ['earth_5fsemiminor_5faxis',['earth_semiminor_axis',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aca0501b6bf2a3204eced84175e9b2e85',1,'scrimmage::sensor::ROSIMUSensor']]],
+  ['ecc2',['ecc2',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a23a748915db14bb1e00077d6fa7f4082',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['el_5fthresh',['el_thresh',['../classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#aba8c6dd1d5acb01bbe6e8b88d63986fe',1,'scrimmage::sensor::ContactBlobCameraType']]],
   ['el_5fthresh_5f',['el_thresh_',['../classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a537e5e1a19e305279e0a35cb7cd16237',1,'scrimmage::sensor::ContactBlobCamera']]],
   ['elevation_5frad',['elevation_rad',['../classscrimmage_1_1sensor_1_1RayTrace_1_1PCRay.html#a93c92cc65ae1892b527262d05383d055',1,'scrimmage::sensor::RayTrace::PCRay']]],

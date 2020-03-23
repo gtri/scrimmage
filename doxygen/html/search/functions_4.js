@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['ecef_5fto_5flla',['ecef_to_lla',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#adf15bfb5a70f43e3028ac5ec8f5b828b',1,'scrimmage::sensor::ROSIMUSensor']]],
+  ['ecef_5fto_5fned_5frotation',['ecef_to_ned_rotation',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a20f98d4db2b2f08479ae795fcbad9b15',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['eigen',['eigen',['../namespacescrimmage.html#ab2d47d6fdf703fcba5c03add2b8555e8',1,'scrimmage']]],
   ['eigen_5fstr',['eigen_str',['../namespacescrimmage.html#a70be91d02cfa5c29630463176a03206a',1,'scrimmage']]],
   ['elapsed_5ftime',['elapsed_time',['../classscrimmage_1_1Timer.html#a23ffd7e44c0376c4c5705838d122bb84',1,'scrimmage::Timer']]],
@@ -23,6 +25,7 @@ var searchData=
   ['entity_5ftag_5fto_5fid',['entity_tag_to_id',['../classscrimmage_1_1MissionParse.html#a58308e0a585bfd96e2f0890ca26861d6',1,'scrimmage::MissionParse']]],
   ['entityplugin',['EntityPlugin',['../classscrimmage_1_1EntityPlugin.html#a8e580a45f4fe20875f1050bdd6ffb496',1,'scrimmage::EntityPlugin']]],
   ['ents',['ents',['../classscrimmage_1_1SimControl.html#ab94ba2a26930b50f7d765bb437532f51',1,'scrimmage::SimControl']]],
+  ['enu_5fto_5fecef_5frotation',['enu_to_ecef_rotation',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a3505a5eda56bd651579788c5d5d73338',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['equals',['equals',['../classscrimmage_1_1CSV.html#a4fd2f7d2ebcc68b734a4e38547227b27',1,'scrimmage::CSV']]],
   ['error',['error',['../classscrimmage_1_1PID.html#a3392e5c80cd8a1d549fd5b6ee3609563',1,'scrimmage::PID']]],
   ['execute',['Execute',['../classscrimmage_1_1Updater.html#a7486554b7c04ab6244b495332e44d4ea',1,'scrimmage::Updater']]],

@@ -160,6 +160,9 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 : <a class="el" href="classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa3daf9de0c640506c2c65249c9d502b3a2b186f81a85eb111c72078ea92031949">scrimmage::motion::FixedWing6DOF</a>
 , <a class="el" href="classscrimmage_1_1motion_1_1UUV6DOF.html#a084bf9c5333d74efb81c681ab72baefeaf950965f5dcd02a79d8a8e2aabf8e9fe">scrimmage::motion::UUV6DOF</a>
 </li>
+<li>p_hat
+: <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a4f07a15d1fd81e6cfe5457192b1f98f7">scrimmage::sensor::ROSIMUSensor</a>
+</li>
 <li>Pairs
 : <a class="el" href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">scrimmage::CSV</a>
 </li>
@@ -209,7 +212,7 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 </li>
 <li>parse()
 : <a class="el" href="classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6">scrimmage::ConfigParse</a>
-, <a class="el" href="classscrimmage_1_1Log.html#aec072204299494600ec8e7a4245b9f7a">scrimmage::Log</a>
+, <a class="el" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">scrimmage::Log</a>
 , <a class="el" href="classscrimmage_1_1MissionParse.html#ad4ba86faae352735bf806e9c7b1641d0">scrimmage::MissionParse</a>
 </li>
 <li>parse_contact_visual()
@@ -409,13 +412,16 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 , <a class="el" href="classscrimmage_1_1Interface.html#adc6fd8a894905036d69f8879e186520a">scrimmage::Interface</a>
 </li>
 <li>pos()
-: <a class="el" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State</a>
+: <a class="el" href="classscrimmage_1_1State.html#a194ead6adf197d1a123ba5d3d7924349">scrimmage::State</a>
 </li>
 <li>pos_
 : <a class="el" href="classscrimmage_1_1State.html#aa15a556183f82e0e60224a2dd6fd87c1">scrimmage::State</a>
 </li>
 <li>pos_const()
 : <a class="el" href="classscrimmage_1_1State.html#a109af0937081f9916fe9f0af057637b1">scrimmage::State</a>
+</li>
+<li>pos_ECEF_t1
+: <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a8c751a0b02325e365cb91ac7f0396d58">scrimmage::sensor::ROSIMUSensor</a>
 </li>
 <li>pos_error_accum_
 : <a class="el" href="classscrimmage_1_1sensor_1_1SimpleINS.html#a0bfd458f79a788681e324592aef199dc">scrimmage::sensor::SimpleINS</a>
@@ -494,8 +500,8 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 <li>prev_paused_
 : <a class="el" href="classscrimmage_1_1SimControl.html#a11bf351b77652a4d3a1daca2d109602c">scrimmage::SimControl</a>
 </li>
-<li>prev_quat_
-: <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aa263cd8751f79b7a1e29716bb14e1dfd">scrimmage::sensor::ROSIMUSensor</a>
+<li>prev_qBody_to_ECEF
+: <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a5426f798fed646997ba49db27b8926d8">scrimmage::sensor::ROSIMUSensor</a>
 </li>
 <li>prev_time
 : <a class="el" href="classscrimmage_1_1Updater.html#ab333697f8fc5d1413b7df36b01923ee5">scrimmage::Updater</a>
@@ -503,9 +509,6 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 <li>prev_time_
 : <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a8b57c8eccb479effc423efe7f316d981">scrimmage::sensor::ROSIMUSensor</a>
 , <a class="el" href="classscrimmage_1_1sensor_1_1SimpleINS.html#a76560b4094743e0d93ddfd43214a3bf9">scrimmage::sensor::SimpleINS</a>
-</li>
-<li>prev_vel_
-: <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ae960a40aceb20ffe326dd0a930157ea0">scrimmage::sensor::ROSIMUSensor</a>
 </li>
 <li>prev_wp_it_
 : <a class="el" href="classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#a71fa3ad2b6d183e8b97b080ba5c2b530">scrimmage::autonomy::WaypointDispatcher</a>
@@ -611,6 +614,9 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 </li>
 <li>prop_input_
 : <a class="el" href="classscrimmage_1_1motion_1_1MultirotorState.html#a84580fb180f89764de51f0d32e89f3f2">scrimmage::motion::MultirotorState</a>
+</li>
+<li>propagate_quaternion()
+: <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a98709dfae69e12159397e4c3723a0a29">scrimmage::sensor::ROSIMUSensor</a>
 </li>
 <li>properties()
 : <a class="el" href="classscrimmage_1_1Contact.html#a072f67511659ddff4be6489f4d81b48a">scrimmage::Contact</a>
@@ -861,7 +867,7 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 20 2020 18:11:03 for SCRIMMAGE by
+    <li class="footer">Generated on Mon Mar 23 2020 16:18:59 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

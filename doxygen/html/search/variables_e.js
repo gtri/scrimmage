@@ -13,6 +13,7 @@ var searchData=
   ['odom_5ftrans_5f',['odom_trans_',['../classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a9777b558363abbab191052a39324f214',1,'scrimmage::autonomy::ROSAutonomy']]],
   ['offset_5f',['offset_',['../classscrimmage_1_1motion_1_1Rotor.html#a0fbfade2c0bb920e064a0acca5d4f271',1,'scrimmage::motion::Rotor']]],
   ['offset_5flength_5f',['offset_length_',['../classscrimmage_1_1motion_1_1Rotor.html#a7cb4ac896acf91465fcfacd18c924326',1,'scrimmage::motion::Rotor']]],
+  ['omega2',['omega2',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ae7d51ff3ffa01c89034c7644577d7ff0',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['oor',['oor',['../classscrimmage_1_1sensor_1_1RayTrace_1_1PCPoint.html#a8154d81ff29c0a6dd8a65246e9fc1f8e',1,'scrimmage::sensor::RayTrace::PCPoint']]],
   ['oor_5f',['oor_',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a963413176810c5e80636bbb1ebc1ce5a',1,'scrimmage::sensor::LOSSensor']]],
   ['oor_5freturn_5f',['oor_return_',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a0c9ddfe9dc761948696d88727f61d86d',1,'scrimmage::sensor::LOSSensor']]],

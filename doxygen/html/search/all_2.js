@@ -1,6 +1,7 @@
 var searchData=
 [
   ['b',['b',['../structscrimmage_1_1Color__t.html#a4d91cf3676ac4ab9a6ee356c1d3e0cd6',1,'scrimmage::Color_t']]],
+  ['b2',['b2',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aa2e2d0f98009dec29a1000de96dccae2',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['b_5f',['b_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#ad875895572a6ab7a83280f732c3f1356',1,'scrimmage::motion::FixedWing6DOF']]],
   ['back_5fand_5fforth',['back_and_forth',['../classscrimmage_1_1autonomy_1_1WaypointList.html#ac527d988eef183a4fb99938dce784231ab7b7eda110565e1bf3855987c8cac1d7',1,'scrimmage::autonomy::WaypointList']]],
   ['background_5fcolor',['background_color',['../classscrimmage_1_1MissionParse.html#a560114e9fa92dd386b1b54af599112e2',1,'scrimmage::MissionParse']]],
@@ -40,8 +41,8 @@ var searchData=
   ['boundary_5fid_5f',['boundary_id_',['../classscrimmage_1_1autonomy_1_1BoundaryDefense.html#af980c5095d7e8c9170a3dd74500fd4f7',1,'scrimmage::autonomy::BoundaryDefense::boundary_id_()'],['../classscrimmage_1_1interaction_1_1CaptureInBoundaryInteraction.html#ae87861be0a4f5145b00e806082d5c258',1,'scrimmage::interaction::CaptureInBoundaryInteraction::boundary_id_()'],['../classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2',1,'scrimmage::sensor::GPS::boundary_id_()']]],
   ['boundary_5fpublished_5f',['boundary_published_',['../classscrimmage_1_1interaction_1_1Boundary.html#a83aaa61365077cba6801d2f27235fd3c',1,'scrimmage::interaction::Boundary']]],
   ['boundary_5fshape_5f',['boundary_shape_',['../classscrimmage_1_1interaction_1_1Boundary.html#a604bfebe5fc4c4f879b72fc6a3f5a2e3',1,'scrimmage::interaction::Boundary::boundary_shape_()'],['../classscrimmage_1_1interaction_1_1CaptureInBoundaryInteraction.html#ad922175c9a20fc24cfcfc716716d4c23',1,'scrimmage::interaction::CaptureInBoundaryInteraction::boundary_shape_()']]],
-  ['boundarybase',['BoundaryBase',['../classscrimmage_1_1interaction_1_1BoundaryBase.html',1,'scrimmage::interaction']]],
   ['boundarybase',['BoundaryBase',['../classscrimmage_1_1interaction_1_1BoundaryBase.html#add730b39dfb4a6e99d8416ad81161b73',1,'scrimmage::interaction::BoundaryBase::BoundaryBase()'],['../classscrimmage_1_1interaction_1_1BoundaryBase.html#aa4bf1d6f573f825902500714b59ed73f',1,'scrimmage::interaction::BoundaryBase::BoundaryBase(const Eigen::Vector3d &amp;center)']]],
+  ['boundarybase',['BoundaryBase',['../classscrimmage_1_1interaction_1_1BoundaryBase.html',1,'scrimmage::interaction']]],
   ['boundarybase_2eh',['BoundaryBase.h',['../BoundaryBase_8h.html',1,'']]],
   ['boundarydefense',['BoundaryDefense',['../classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a1cbd4a3c7846319870243d2750f32f11',1,'scrimmage::autonomy::BoundaryDefense']]],
   ['boundarydefense',['BoundaryDefense',['../classscrimmage_1_1autonomy_1_1BoundaryDefense.html',1,'scrimmage::autonomy']]],
@@ -54,8 +55,8 @@ var searchData=
   ['bt_5fcollision_5fconfiguration',['bt_collision_configuration',['../classscrimmage_1_1interaction_1_1BulletCollision.html#ae932bed1ceb40e9f6b76abf3206fba00',1,'scrimmage::interaction::BulletCollision']]],
   ['bt_5fcollision_5fworld',['bt_collision_world',['../classscrimmage_1_1interaction_1_1BulletCollision.html#a4a100ba0d36521e07837aeed4b8f7a00',1,'scrimmage::interaction::BulletCollision']]],
   ['bt_5fdispatcher',['bt_dispatcher',['../classscrimmage_1_1interaction_1_1BulletCollision.html#a3efc78cd0ced07cc1e22a1d212605d50',1,'scrimmage::interaction::BulletCollision']]],
-  ['bulletcollision',['BulletCollision',['../classscrimmage_1_1interaction_1_1BulletCollision.html',1,'scrimmage::interaction']]],
   ['bulletcollision',['BulletCollision',['../classscrimmage_1_1interaction_1_1BulletCollision.html#a0328abfc92c52f978f66b36edb3e42b8',1,'scrimmage::interaction::BulletCollision']]],
+  ['bulletcollision',['BulletCollision',['../classscrimmage_1_1interaction_1_1BulletCollision.html',1,'scrimmage::interaction']]],
   ['bulletcollision_2ecpp',['BulletCollision.cpp',['../BulletCollision_8cpp.html',1,'']]],
   ['bulletcollision_2eh',['BulletCollision.h',['../BulletCollision_8h.html',1,'']]],
   ['buoyancy_5f',['buoyancy_',['../classscrimmage_1_1motion_1_1UUV6DOF.html#a91ebf64b0477aff2f37c0dec4f1b41b9',1,'scrimmage::motion::UUV6DOF']]],

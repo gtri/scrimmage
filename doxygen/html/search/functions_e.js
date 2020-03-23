@@ -5,6 +5,7 @@ var searchData=
   ['offset_5flength',['offset_length',['../classscrimmage_1_1motion_1_1Rotor.html#a91118b5dd6397c1b74319adf216d927a',1,'scrimmage::motion::Rotor']]],
   ['omega_5fmax',['omega_max',['../classscrimmage_1_1motion_1_1Multirotor.html#aaf7c01b599fa71eda84719789877c203',1,'scrimmage::motion::Multirotor']]],
   ['omega_5fmin',['omega_min',['../classscrimmage_1_1motion_1_1Multirotor.html#ab3372b369a213af914ed5b4f17787910',1,'scrimmage::motion::Multirotor']]],
+  ['omega_5fto_5fq_5fdot',['omega_to_q_dot',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aefd86ae2d1c1775313480d4c0a2903bd',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['onconnecttoserver',['OnConnectToServer',['../classscrimmage_1_1autonomy_1_1MOOSNode.html#a2f3a08813bf78e78a1ee0cbca6b7b911',1,'scrimmage::autonomy::MOOSNode']]],
   ['onkeypress',['OnKeyPress',['../classscrimmage_1_1CameraInterface.html#ac75bd43061454da7983d2ea139ea312f',1,'scrimmage::CameraInterface']]],
   ['onleftbuttondown',['OnLeftButtonDown',['../classscrimmage_1_1CameraInterface.html#af87eddbe09df21e9caab90fb9a21c9df',1,'scrimmage::CameraInterface']]],

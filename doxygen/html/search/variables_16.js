@@ -19,6 +19,7 @@ var searchData=
   ['waypoints_5f',['waypoints_',['../classscrimmage_1_1autonomy_1_1WaypointList.html#aac333b0ed7a27582ccfd9eb1026b724a',1,'scrimmage::autonomy::WaypointList']]],
   ['weights_5f',['weights_',['../classscrimmage_1_1metrics_1_1Score.html#a8c33f3e24778639dba9b11d64910245f',1,'scrimmage::metrics::Score']]],
   ['weights_5ffile_5f',['weights_file_',['../classscrimmage_1_1Metrics.html#a7406c3269427c5cdd6778146e1204fa0',1,'scrimmage::Metrics']]],
+  ['wgs84_5fgrav',['wgs84_grav',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a8b1c8f3e18c8e4e6ea0be0114da235a6',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['width',['width',['../classscrimmage_1_1sensor_1_1CameraConfig.html#a3315175872533fd585a4ed8136d0d6d9',1,'scrimmage::sensor::CameraConfig']]],
   ['window_5fheight_5f',['window_height_',['../classscrimmage_1_1MissionParse.html#a049f7a737bd85962696e7890c3ddcee1',1,'scrimmage::MissionParse']]],
   ['window_5fname_5f',['window_name_',['../classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a844f32e20407ac1a2f3c6a7e21764c0e',1,'scrimmage::sensor::ContactBlobCamera']]],

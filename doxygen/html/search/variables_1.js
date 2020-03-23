@@ -1,6 +1,7 @@
 var searchData=
 [
   ['b',['b',['../structscrimmage_1_1Color__t.html#a4d91cf3676ac4ab9a6ee356c1d3e0cd6',1,'scrimmage::Color_t']]],
+  ['b2',['b2',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aa2e2d0f98009dec29a1000de96dccae2',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['b_5f',['b_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#ad875895572a6ab7a83280f732c3f1356',1,'scrimmage::motion::FixedWing6DOF']]],
   ['background_5fcolor_5f',['background_color_',['../classscrimmage_1_1MissionParse.html#acd300ccd5f2a3e620cf2b8f5f04cc15d',1,'scrimmage::MissionParse']]],
   ['base_5fpose_5ftruth_5fpub',['base_pose_truth_pub',['../classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a97347c31739d5e9bf26aa85c8c96545c',1,'scrimmage::autonomy::ROSAutonomy']]],

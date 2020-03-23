@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['a2',['a2',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a4a08cfdfd426fcc4e631d5d6d3331702',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['aa_5fangle_5faz_5f',['aa_angle_az_',['../classscrimmage_1_1autonomy_1_1TrailMS.html#a465e28f56b7cac08fe6c317835404a3b',1,'scrimmage::autonomy::TrailMS']]],
   ['aa_5fangle_5felev_5f',['aa_angle_elev_',['../classscrimmage_1_1autonomy_1_1TrailMS.html#acf06b30cb87e5636ab72f9d1363df432',1,'scrimmage::autonomy::TrailMS']]],
   ['acc_5fvec_5f',['acc_vec_',['../classscrimmage_1_1motion_1_1DoubleIntegrator.html#ae5c23e449ab67156658a85ba2e5f030f',1,'scrimmage::motion::DoubleIntegrator']]],
@@ -26,6 +27,7 @@ var searchData=
   ['actual_5ftime_5f',['actual_time_',['../classscrimmage_1_1Timer.html#a208e4821c378f7bc1db0655aeaa32866',1,'scrimmage::Timer']]],
   ['add_5flower_5fbound_5fto_5fvz_5f',['add_lower_bound_to_vz_',['../classscrimmage_1_1autonomy_1_1MotorSchemas.html#a29ba1f3cf464a9020b617dfec6386739',1,'scrimmage::autonomy::MotorSchemas']]],
   ['added_5fmass_5f',['added_mass_',['../classscrimmage_1_1motion_1_1UUV6DOF.html#af5f770ade53cdd0da4e875235e4598f3',1,'scrimmage::motion::UUV6DOF']]],
+  ['ae_5fsquared',['ae_squared',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a9b0eee687aa347f26fcf4c5c3f3d1d95',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['aileron_5fidx_5f',['aileron_idx_',['../classscrimmage_1_1controller_1_1AircraftPIDController.html#ae69d121eac706520f1473cec61422875',1,'scrimmage::controller::AircraftPIDController::aileron_idx_()'],['../classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a92ca95c0f0b9212e0c6ed5cb07199d7a',1,'scrimmage::controller::FixedWing6DOFControllerPID::aileron_idx_()'],['../classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a342be9b1cf9a191f6bfda052f9e4a1cc',1,'scrimmage::controller::FixedWing6DOFControllerROS::aileron_idx_()'],['../classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a1cc5c5690da134fbe2295014b7dfb53e',1,'scrimmage::controller::JSBSimControlControllerHeadingPID::aileron_idx_()'],['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa6392b478cfe9c07692f78a4c9d93749',1,'scrimmage::motion::FixedWing6DOF::aileron_idx_()']]],
   ['aircraft_5fmodel_5f',['aircraft_model_',['../classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a5af57e17a0605511dd0a9abe80701af6',1,'scrimmage::autonomy::FlightGearMultiplayer']]],
   ['airsim_5fframe_5fnum_5f',['airsim_frame_num_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#a8f415e5f921630020bb305cc37940d74',1,'scrimmage::sensor::AirSimSensor']]],

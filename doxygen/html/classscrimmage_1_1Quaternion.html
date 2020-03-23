@@ -476,7 +476,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00067">67</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="MOOSNode_8cpp_source.html#l00071">scrimmage::autonomy::MOOSNode::OnNewMail()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00089">scrimmage::sensor::ROSIMUSensor::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
+<p>Referenced by <a class="el" href="MOOSNode_8cpp_source.html#l00071">scrimmage::autonomy::MOOSNode::OnNewMail()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                                                   {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    w() = w_coeff;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    x() = x_coeff;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    y() = y_coeff;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    z() = z_coeff;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -484,8 +484,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="classscrimmage_1_1Quaternion_a3e320175db85299e28ff6752f510f80d_icgraph.png" border="0" usemap="#classscrimmage_1_1Quaternion_a3e320175db85299e28ff6752f510f80d_icgraph" alt=""/></div>
 <map name="classscrimmage_1_1Quaternion_a3e320175db85299e28ff6752f510f80d_icgraph" id="classscrimmage_1_1Quaternion_a3e320175db85299e28ff6752f510f80d_icgraph">
 <area shape="rect" id="node2" href="classscrimmage_1_1autonomy_1_1MOOSNode.html#a9d53818c75624fe3f3ee53e812dfacc7" title="scrimmage::autonomy\l::MOOSNode::OnNewMail" alt="" coords="255,5,437,47"/>
-<area shape="rect" id="node3" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ad14d2df58a1b97718562d77a3fd0b450" title="scrimmage::sensor::\lROSIMUSensor::step" alt="" coords="269,71,423,112"/>
-<area shape="rect" id="node4" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="260,135,432,191"/>
+<area shape="rect" id="node3" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="260,70,432,126"/>
 </map>
 </div>
 </p>
@@ -579,7 +578,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00096">96</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00089">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
+<p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                              {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">return</span> atan2(2 * (w() * x() + y() * z()),</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                 1 - 2 * (pow(x(), 2) + pow(y(), 2)));</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -590,9 +589,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="namespacescrimmage.html#a2ae5038921a0f419c633756c27bb521b" title="scrimmage::operator\&lt;\&lt;" alt="" coords="231,71,409,98"/>
 <area shape="rect" id="node4" href="classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title="scrimmage::Updater\l::quat_2_transform" alt="" coords="243,123,397,164"/>
 <area shape="rect" id="node5" href="classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233" title="set quaternion from euler angles " alt="" coords="233,188,407,229"/>
-<area shape="rect" id="node6" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ad14d2df58a1b97718562d77a3fd0b450" title="scrimmage::sensor::\lROSIMUSensor::step" alt="" coords="243,253,397,295"/>
-<area shape="rect" id="node7" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="227,319,413,360"/>
-<area shape="rect" id="node8" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="234,383,406,439"/>
+<area shape="rect" id="node6" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="227,253,413,295"/>
+<area shape="rect" id="node7" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="234,318,406,374"/>
 </map>
 </div>
 </p>
@@ -616,7 +614,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00101">101</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00089">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
+<p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                               {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">return</span> asin(2 * (w() * y() - z() * x()));</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -627,9 +625,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="namespacescrimmage.html#a2ae5038921a0f419c633756c27bb521b" title="scrimmage::operator\&lt;\&lt;" alt="" coords="231,71,409,98"/>
 <area shape="rect" id="node4" href="classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title="scrimmage::Updater\l::quat_2_transform" alt="" coords="243,123,397,164"/>
 <area shape="rect" id="node5" href="classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233" title="set quaternion from euler angles " alt="" coords="233,188,407,229"/>
-<area shape="rect" id="node6" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ad14d2df58a1b97718562d77a3fd0b450" title="scrimmage::sensor::\lROSIMUSensor::step" alt="" coords="243,253,397,295"/>
-<area shape="rect" id="node7" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="227,319,413,360"/>
-<area shape="rect" id="node8" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="234,383,406,439"/>
+<area shape="rect" id="node6" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="227,253,413,295"/>
+<area shape="rect" id="node7" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="234,318,406,374"/>
 </map>
 </div>
 </p>
@@ -653,7 +650,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00105">105</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="State_8cpp_source.html#l00093">scrimmage::State::rel_az()</a>, <a class="el" href="FrameUpdateClient_8cpp_source.html#l00063">scrimmage::FrameUpdateClient::send_frame()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00089">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
+<p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="State_8cpp_source.html#l00093">scrimmage::State::rel_az()</a>, <a class="el" href="FrameUpdateClient_8cpp_source.html#l00063">scrimmage::FrameUpdateClient::send_frame()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                             {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> atan2(2 * (w() * z() + x() * y()),</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                 1 - 2 * (pow(y(), 2) + pow(z(), 2)));</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -666,9 +663,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node5" href="classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233" title="set quaternion from euler angles " alt="" coords="285,188,459,229"/>
 <area shape="rect" id="node6" href="classscrimmage_1_1State.html#abf9c98bc172c599a9340fcd857145770" title="scrimmage::State::rel_az" alt="" coords="281,254,463,281"/>
 <area shape="rect" id="node7" href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title="scrimmage::FrameUpdateClient\l::send_frame" alt="" coords="259,305,485,347"/>
-<area shape="rect" id="node8" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ad14d2df58a1b97718562d77a3fd0b450" title="scrimmage::sensor::\lROSIMUSensor::step" alt="" coords="295,371,449,412"/>
-<area shape="rect" id="node9" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="279,436,465,477"/>
-<area shape="rect" id="node10" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="286,501,458,557"/>
+<area shape="rect" id="node8" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="279,371,465,412"/>
+<area shape="rect" id="node9" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="286,435,458,491"/>
 </map>
 </div>
 </p>
@@ -828,7 +824,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a></li>
-    <li class="footer">Generated on Fri Mar 20 2020 18:11:00 for SCRIMMAGE by
+    <li class="footer">Generated on Mon Mar 23 2020 16:18:57 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
