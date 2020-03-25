@@ -410,7 +410,7 @@ class SimControl {
     RTreePtr rtree_;
 
     void request_screenshot();
-    void create_rtree();
+    void create_rtree(const unsigned int& additional_size);
     void run_autonomy();
     void set_autonomy_contacts();
     void run_dynamics();
