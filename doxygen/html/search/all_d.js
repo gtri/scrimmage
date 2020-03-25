@@ -4,7 +4,7 @@ var searchData=
   ['mag_5f',['mag_',['../classscrimmage_1_1interaction_1_1ExternalForceField.html#a808ab2d756d8454492034cc5aef76aaa',1,'scrimmage::interaction::ExternalForceField']]],
   ['make_5farc',['make_arc',['../namespacescrimmage_1_1shape.html#aa1e07ca4b08ca9974361c112f36c9df9',1,'scrimmage::shape']]],
   ['make_5farrow',['make_arrow',['../namespacescrimmage_1_1shape.html#ab17b6e3a3527968017d2811a51919322',1,'scrimmage::shape']]],
-  ['make_5fautonomy',['make_autonomy',['../namespacescrimmage.html#af291a6e60598baf4acd1aaaa67a9e301',1,'scrimmage']]],
+  ['make_5fautonomy',['make_autonomy',['../namespacescrimmage.html#a99f0d341a6e7c6540b5f3e4d78db883e',1,'scrimmage']]],
   ['make_5fboundary',['make_boundary',['../classscrimmage_1_1interaction_1_1Boundary.html#a0a17bd11b5a7ee052e2deeec470e4386',1,'scrimmage::interaction::Boundary']]],
   ['make_5fcircle',['make_circle',['../namespacescrimmage_1_1shape.html#a9b52864ead2155cfca7d16fa54b85338',1,'scrimmage::shape']]],
   ['make_5fcone',['make_cone',['../namespacescrimmage_1_1shape.html#ae1a6f33cd0fdbb71bca2a199151df04c',1,'scrimmage::shape']]],
