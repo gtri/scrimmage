@@ -38,13 +38,14 @@
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/CSV.h>
-#include <GeographicLib/Geocentric.hpp>
 
 #include <random>
 #include <vector>
 #include <map>
 #include <string>
 #include <memory>
+
+#include <GeographicLib/Geocentric.hpp>
 
 namespace scrimmage {
 namespace sensor {

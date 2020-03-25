@@ -124,6 +124,7 @@ SimControl::SimControl() :
     networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
     pubsub_(std::make_shared<PubSub>()),
     file_search_(std::make_shared<FileSearch>()),
+    rtree_(std::make_shared<scrimmage::RTree>()),
     sim_plugin_(std::make_shared<EntityPlugin>()),
     limited_verbosity_(false) {
     pause(false);
@@ -256,11 +257,17 @@ bool SimControl::generate_entities(const double& t) {
     // Delete gen_info's that don't have ents remaining (count==0)
     remove_if(mp_->gen_info(), [&](auto &kv) {return kv.second.total_count <= 0;});
 
+    // Create a new rtree from the existing entity map and provide additional
+    // space in the rtree for the new entities that will be generated.
+    create_rtree(ents_to_gen.size());
+
     // Call generate_entity on each entity description id.
     auto gen_ent = [&] (const int &ent_desc_id) -> bool {
         return generate_entity(ent_desc_id);
     };
-    return std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
+    bool status = std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
+
+    return status;
 }
 
 bool SimControl::generate_entity(const int &ent_desc_id) {
@@ -400,8 +407,8 @@ void SimControl::join() {
     thread_.join();
 }
 
-void SimControl::create_rtree() {
-    rtree_->clear();
+void SimControl::create_rtree(const unsigned int& additional_size) {
+    rtree_->init(ents_.size() + additional_size);
     for (EntityPtr &ent: ents_) {
         rtree_->add(ent->state()->pos(), ent->id());
     }
@@ -598,7 +605,6 @@ bool SimControl::run_single_step(const int& loop_number) {
         return false;
     }
 
-    create_rtree();
     set_autonomy_contacts();
     if (!run_entities()) {
         if (!limited_verbosity_) {
@@ -706,9 +712,6 @@ bool SimControl::start() {
     auto get_count = [&](auto &kv) {return kv.second.total_count;};
     int max_num_entities =
         boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
-
-    rtree_ = std::make_shared<scrimmage::RTree>();
-    rtree_->init(max_num_entities);
 
     // What is the end condition?
     if (mp_->params().count("end_condition") > 0) {
@@ -849,6 +852,9 @@ bool SimControl::start() {
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
+
+        // Recreate the rtree with one additional size for this entity.
+        this->create_rtree(1);
 
         if (not this->generate_entity(it_ent_desc_id->second, params)) {
             cout << "Failed to generate entity with tag: "
