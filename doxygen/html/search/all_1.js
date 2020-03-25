@@ -35,7 +35,7 @@ var searchData=
   ['actual_5felapsed_5ftime_5f',['actual_elapsed_time_',['../classscrimmage_1_1Timer.html#a2cf081e219787f7d4e1d93b4d9bf426a',1,'scrimmage::Timer']]],
   ['actual_5ftime_5f',['actual_time_',['../classscrimmage_1_1Timer.html#a208e4821c378f7bc1db0655aeaa32866',1,'scrimmage::Timer']]],
   ['actual_5ftime_5fwarp',['actual_time_warp',['../classscrimmage_1_1SimControl.html#af2d054de184bcd05aa384f6a473d7f49',1,'scrimmage::SimControl']]],
-  ['add',['add',['../classscrimmage_1_1RTree.html#a75b88d6dd249490b10208e72cde35158',1,'scrimmage::RTree']]],
+  ['add',['add',['../classscrimmage_1_1RTree.html#ad0bc4349668d7b365f5a3d0b3af7b8f4',1,'scrimmage::RTree']]],
   ['add_5fcharge',['add_charge',['../classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d',1,'scrimmage::Battery']]],
   ['add_5fcount',['add_count',['../classscrimmage_1_1metrics_1_1Score.html#a9de1f94f9d5a68bed0070c625da3a5b7',1,'scrimmage::metrics::Score']]],
   ['add_5festimate',['add_estimate',['../classscrimmage_1_1ExponentialFilter.html#a7cbb77a18355e49538bd57dbb398d37e',1,'scrimmage::ExponentialFilter']]],

@@ -1,4 +1,5 @@
 <map id="scrimmage::SimControl::generate_entities" name="scrimmage::SimControl::generate_entities">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949" title="Generate an entity given the entity description ID. " alt="" coords="227,5,400,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412" title="std::remove_if does not work with associative containers. " alt="" coords="231,71,396,98"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc" title="scrimmage::SimControl\l::create_rtree" alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949" title="Generate an entity given the entity description ID. " alt="" coords="227,71,400,112"/>
+<area shape="rect" id="node4" href="$namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412" title="std::remove_if does not work with associative containers. " alt="" coords="231,137,396,163"/>
 </map>

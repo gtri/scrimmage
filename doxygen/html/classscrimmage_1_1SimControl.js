@@ -46,7 +46,7 @@ var classscrimmage_1_1SimControl =
     [ "reset_autonomies", "classscrimmage_1_1SimControl.html#a54ed564163214f9ee2cee100067d7fba", null ],
     [ "collision_exists", "classscrimmage_1_1SimControl.html#a77d5f4fd33b37fb3c314fdd4b27ddb21", null ],
     [ "request_screenshot", "classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8", null ],
-    [ "create_rtree", "classscrimmage_1_1SimControl.html#a28625b9355f5c8473d8975eafd9c09c1", null ],
+    [ "create_rtree", "classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc", null ],
     [ "run_autonomy", "classscrimmage_1_1SimControl.html#a4a46505e8e2256d0a81368695e98eff4", null ],
     [ "set_autonomy_contacts", "classscrimmage_1_1SimControl.html#a146c33d9af0d47719e06351eed067c45", null ],
     [ "run_dynamics", "classscrimmage_1_1SimControl.html#a0e823ea953c0fa9ff48a9c89c5ea42ac", null ],

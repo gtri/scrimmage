@@ -349,7 +349,7 @@ Here is the caller graph for this function:</div>
 
 <p>References <a class="el" href="DelayedTask_8h_source.html#l00064">repeat_infinitely_</a>, and <a class="el" href="DelayedTask_8h_source.html#l00065">repeats_left_</a>.</p>
 
-<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>.</p>
+<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                                              {</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="classscrimmage_1_1DelayedTask.html#a184f01ab5d69edb07927d3da293ed957">repeat_infinitely_</a> = repeat_infinitely;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="classscrimmage_1_1DelayedTask.html#a6b9ec0fd4320b4d18b5e6bb39032f10f">repeats_left_</a> = -1;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1DelayedTask_html_a184f01ab5d69edb07927d3da293ed957"><div class="ttname"><a href="classscrimmage_1_1DelayedTask.html#a184f01ab5d69edb07927d3da293ed957">scrimmage::DelayedTask::repeat_infinitely_</a></div><div class="ttdeci">bool repeat_infinitely_</div><div class="ttdef"><b>Definition:</b> <a href="DelayedTask_8h_source.html#l00064">DelayedTask.h:64</a></div></div>
 <div class="ttc" id="classscrimmage_1_1DelayedTask_html_a6b9ec0fd4320b4d18b5e6bb39032f10f"><div class="ttname"><a href="classscrimmage_1_1DelayedTask.html#a6b9ec0fd4320b4d18b5e6bb39032f10f">scrimmage::DelayedTask::repeats_left_</a></div><div class="ttdeci">int repeats_left_</div><div class="ttdef"><b>Definition:</b> <a href="DelayedTask_8h_source.html#l00065">DelayedTask.h:65</a></div></div>
 </div><!-- fragment -->
@@ -383,7 +383,7 @@ Here is the caller graph for this function:</div>
 
 <p>References <a class="el" href="DelayedTask_8h_source.html#l00060">condition</a>, <a class="el" href="DelayedTask_8h_source.html#l00056">delay</a>, <a class="el" href="DelayedTask_8h_source.html#l00055">disable</a>, <a class="el" href="DelayedTask_8cpp_source.html#l00077">done()</a>, <a class="el" href="DelayedTask_8h_source.html#l00058">end_time</a>, <a class="el" href="DelayedTask_8h_source.html#l00059">eps</a>, <a class="el" href="DelayedTask_8h_source.html#l00057">last_updated_time</a>, <a class="el" href="DelayedTask_8h_source.html#l00064">repeat_infinitely_</a>, <a class="el" href="DelayedTask_8h_source.html#l00065">repeats_left_</a>, and <a class="el" href="DelayedTask_8h_source.html#l00061">task</a>.</p>
 
-<p>Referenced by <a class="el" href="External_8cpp_source.html#l00401">scrimmage::External::call_update_contacts()</a>, <a class="el" href="SimControl_8cpp_source.html#l00540">scrimmage::SimControl::run_single_step()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>.</p>
+<p>Referenced by <a class="el" href="External_8cpp_source.html#l00401">scrimmage::External::call_update_contacts()</a>, <a class="el" href="SimControl_8cpp_source.html#l00547">scrimmage::SimControl::run_single_step()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                                {</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> updated = <span class="keyword">false</span>, task_success = <span class="keyword">true</span>;</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">bool</span> condition_satisfied = <a class="code" href="classscrimmage_1_1DelayedTask.html#a791f38dca184f5f88d9184e72bba4d78">condition</a> ? <a class="code" href="classscrimmage_1_1DelayedTask.html#a791f38dca184f5f88d9184e72bba4d78">condition</a>(t) : true;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">bool</span> time_good = t &gt;= <a class="code" href="classscrimmage_1_1DelayedTask.html#a00bbd24be5d56fef6a899b92694201da">last_updated_time</a> + <a class="code" href="classscrimmage_1_1DelayedTask.html#a6bfa4880be278c0c38e9c0e0a515f197">delay</a> - <a class="code" href="classscrimmage_1_1DelayedTask.html#a72d8c5926afd3700aaa95b59a7d20e6f">eps</a> &amp;&amp; t &lt;= <a class="code" href="classscrimmage_1_1DelayedTask.html#abd4a833e4b88c3ff514b4f51d0df75b4">end_time</a> + <a class="code" href="classscrimmage_1_1DelayedTask.html#a72d8c5926afd3700aaa95b59a7d20e6f">eps</a>;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="classscrimmage_1_1DelayedTask.html#a0281739bec9a330e301e4e169dbbcbe1">disable</a> &amp;&amp; !<a class="code" href="classscrimmage_1_1DelayedTask.html#a2de5006da2d9b114624a273716a46236">done</a>() &amp;&amp; condition_satisfied &amp;&amp; time_good) {</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="classscrimmage_1_1DelayedTask.html#a00bbd24be5d56fef6a899b92694201da">last_updated_time</a> = t;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classscrimmage_1_1DelayedTask.html#a3083fcf2e7c9a5a80c54aa844eb93700">task</a>) {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            task_success = <a class="code" href="classscrimmage_1_1DelayedTask.html#a3083fcf2e7c9a5a80c54aa844eb93700">task</a>(t);</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="classscrimmage_1_1DelayedTask.html#a184f01ab5d69edb07927d3da293ed957">repeat_infinitely_</a>) {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="classscrimmage_1_1DelayedTask.html#a6b9ec0fd4320b4d18b5e6bb39032f10f">repeats_left_</a>--;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        updated = <span class="keyword">true</span>;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> std::make_pair(updated, task_success);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1DelayedTask_html_a72d8c5926afd3700aaa95b59a7d20e6f"><div class="ttname"><a href="classscrimmage_1_1DelayedTask.html#a72d8c5926afd3700aaa95b59a7d20e6f">scrimmage::DelayedTask::eps</a></div><div class="ttdeci">double eps</div><div class="ttdef"><b>Definition:</b> <a href="DelayedTask_8h_source.html#l00059">DelayedTask.h:59</a></div></div>
 <div class="ttc" id="classscrimmage_1_1DelayedTask_html_a3083fcf2e7c9a5a80c54aa844eb93700"><div class="ttname"><a href="classscrimmage_1_1DelayedTask.html#a3083fcf2e7c9a5a80c54aa844eb93700">scrimmage::DelayedTask::task</a></div><div class="ttdeci">std::function&lt; bool(double)&gt; task</div><div class="ttdef"><b>Definition:</b> <a href="DelayedTask_8h_source.html#l00061">DelayedTask.h:61</a></div></div>
 <div class="ttc" id="classscrimmage_1_1DelayedTask_html_abd4a833e4b88c3ff514b4f51d0df75b4"><div class="ttname"><a href="classscrimmage_1_1DelayedTask.html#abd4a833e4b88c3ff514b4f51d0df75b4">scrimmage::DelayedTask::end_time</a></div><div class="ttdeci">double end_time</div><div class="ttdef"><b>Definition:</b> <a href="DelayedTask_8h_source.html#l00058">DelayedTask.h:58</a></div></div>
@@ -432,7 +432,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="DelayedTask_8h_source.html#l00055">55</a> of file <a class="el" href="DelayedTask_8h_source.html">DelayedTask.h</a>.</p>
 
-<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
+<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
 
 </div>
 </div>
@@ -448,7 +448,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="DelayedTask_8h_source.html#l00056">56</a> of file <a class="el" href="DelayedTask_8h_source.html">DelayedTask.h</a>.</p>
 
-<p>Referenced by <a class="el" href="DelayedTask_8cpp_source.html#l00054">set_delay_from_freq()</a>, <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
+<p>Referenced by <a class="el" href="DelayedTask_8cpp_source.html#l00054">set_delay_from_freq()</a>, <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
 
 </div>
 </div>
@@ -464,7 +464,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="DelayedTask_8h_source.html#l00057">57</a> of file <a class="el" href="DelayedTask_8h_source.html">DelayedTask.h</a>.</p>
 
-<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
+<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
 
 </div>
 </div>
@@ -480,7 +480,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="DelayedTask_8h_source.html#l00058">58</a> of file <a class="el" href="DelayedTask_8h_source.html">DelayedTask.h</a>.</p>
 
-<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
+<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
 
 </div>
 </div>
@@ -496,7 +496,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="DelayedTask_8h_source.html#l00059">59</a> of file <a class="el" href="DelayedTask_8h_source.html">DelayedTask.h</a>.</p>
 
-<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
+<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
 
 </div>
 </div>
@@ -528,7 +528,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="DelayedTask_8h_source.html#l00061">61</a> of file <a class="el" href="DelayedTask_8h_source.html">DelayedTask.h</a>.</p>
 
-<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00662">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
+<p>Referenced by <a class="el" href="SimControl_8cpp_source.html#l00668">scrimmage::SimControl::start()</a>, and <a class="el" href="DelayedTask_8cpp_source.html#l00058">update()</a>.</p>
 
 </div>
 </div>
@@ -590,7 +590,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1DelayedTask.html">DelayedTask</a></li>
-    <li class="footer">Generated on Wed Mar 25 2020 03:11:13 for SCRIMMAGE by
+    <li class="footer">Generated on Wed Mar 25 2020 17:49:26 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,0 +1,4 @@
+<map id="scrimmage::SimControl::create_rtree" name="scrimmage::SimControl::create_rtree">
+<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time. " alt="" coords="227,5,400,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="448,35,621,76"/>
+</map>
