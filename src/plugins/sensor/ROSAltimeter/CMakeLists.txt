@@ -1,7 +1,7 @@
 if (NOT catkin_FOUND)
   return()
 endif()
-find_package(catkin REQUIRED COMPONENTS mavros_msgs)
+find_package(catkin REQUIRED COMPONENTS roscpp mavros_msgs)
 
 #--------------------------------------------------------
 # Library Creation
