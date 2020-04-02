@@ -96,18 +96,26 @@ The purose of the ``EnforceBoundaryInteraction`` plugin is to remove agents
 from the game that leave the designated game play area. This plugin subscribes
 to the ``Boundary`` topic (thus, it has all information about the previously
 defined boundaries) and removes agents that are not in the space defined by the
-union of the ``active_boundary_ids`` plugin parameter. In this case, since the
-red and blue boundaries are defined by cuboid-shaped boundard IDs 1 and 3, the
-``active_boundary_ids`` parameter is set to ``1, 3`` as shown in the following
-XML:
+union of the ``active_boundary_ids`` plugin parameter. In this case, the
+``game_boundary`` is specified by the boundary with ID 5, which encompasses the
+red and blue boundaries. Thus, the ``active_boundary_ids`` is set to ``5``:
 
 .. code-block:: xml
 
-   <entity_interaction active_boundary_ids="1, 3">EnforceBoundaryInteraction</entity_interaction>
+   <entity_interaction active_boundary_ids="5">EnforceBoundaryInteraction</entity_interaction>
 
 At every simulation time-step, this plugin compares the position of each agent
 and removes it from the simulation if it doesn't fall within the boundaries
 specified by the ``active_boundary_ids`` parameter.
+
+Note: We could pass a list of boundaries to ``active_boundary_ids``, such as
+``1, 3``, which already encompasses the red and blue boundary areas. However,
+the ``Boundary`` class' ``contains()`` function only returns ``true`` if the
+agent is within the boundary. If the agent is on the edge of the boundary, it
+will return ``false``. In this mission, when the agent is directly on the plane
+between the red and blue boundaries it is technically not within either
+boundary. Thus, we use a ``game_boundary`` to enclose both red and blue
+boundaries.
 
 CaptureInBoundaryInteraction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -77,7 +77,17 @@
                       opacity="0.5"
                       >Boundary</entity_interaction>
 
-  <entity_interaction active_boundary_ids="1, 3">EnforceBoundaryInteraction</entity_interaction>
+  <entity_interaction name="game_boundary"
+                      id="5"
+                      team_id="3"
+                      type="cuboid"
+                      lengths="1000, 500, 500"
+                      center="0, 0, 250"
+                      color="0 255 0"
+                      show_boundary="false"
+                      >Boundary</entity_interaction>
+
+  <entity_interaction active_boundary_ids="5">EnforceBoundaryInteraction</entity_interaction>
 
   <entity_interaction name="BlueCaptureBoundary" boundary_id="1" capture_range="5">CaptureInBoundaryInteraction</entity_interaction>
   <entity_interaction name="RedCaptureBoundary"  boundary_id="3" capture_range="5">CaptureInBoundaryInteraction</entity_interaction>
@@ -99,7 +109,7 @@
   <seed>1017907566</seed>
 
   <!-- ====================== Blue Team (Team 1) ========================= -->
-  <!-- The blue team defend's it's flag -->
+  <!-- The blue team defensive agents -->
   <entity>
     <team_id>1</team_id>
     <color>77 77 255</color>
@@ -119,12 +129,36 @@
     <autonomy boundary_id="1">BoundaryDefense</autonomy>
 
     <controller>DirectController</controller>
-    <motion_model max_speed = "1">SingleIntegrator</motion_model>
+    <motion_model max_speed = "10">SingleIntegrator</motion_model>
+    <visual_model>sphere</visual_model>
+  </entity>
+
+  <!-- The blue team flag capture agents -->
+  <entity>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>400</x>
+    <y>200</y>
+    <z>200</z>
+    <heading>180</heading>
+
+    <autonomy flag_boundary_id="4" capture_boundary_id="1">TakeFlag</autonomy>
+
+    <controller>DirectController</controller>
+    <motion_model max_speed = "10">SingleIntegrator</motion_model>
     <visual_model>sphere</visual_model>
   </entity>
 
   <!-- ====================== Red Team (Team 2) ========================= -->
-  <!-- The red team tries to take the flag -->
+  <!-- The red team defensive agents -->
   <entity>
     <team_id>2</team_id>
     <color>255 0 0</color>
@@ -143,9 +177,35 @@
     <heading>0</heading>
     <altitude>200</altitude>
 
+    <autonomy boundary_id="3">BoundaryDefense</autonomy>
+    <controller>DirectController</controller>
+    <motion_model max_speed="10">SingleIntegrator</motion_model>
+    <visual_model>sphere</visual_model>
+
+  </entity>
+
+  <!-- The red team flag capture agents-->
+  <entity>
+    <team_id>2</team_id>
+    <color>255 0 0</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>2</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>20</variance_z>
+
+    <x>-400</x>
+    <y>-200</y>
+    <z>200</z>
+
+    <heading>0</heading>
+    <altitude>200</altitude>
+
     <autonomy flag_boundary_id='2' capture_boundary_id='3'>TakeFlag</autonomy>
     <controller>DirectController</controller>
-    <motion_model max_speed="1">SingleIntegrator</motion_model>
+    <motion_model max_speed="10">SingleIntegrator</motion_model>
     <visual_model>sphere</visual_model>
 
   </entity>
