@@ -48,6 +48,7 @@ class SingleIntegrator : public scrimmage::MotionModel {
 
  protected:
     bool override_heading_;
+    double max_speed_ = -1;
 
     uint8_t vel_x_idx_ = 0;
     uint8_t vel_y_idx_ = 0;

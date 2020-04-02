@@ -3,4 +3,5 @@
 <params>
   <library>SingleIntegrator_plugin</library>
   <override_heading>false</override_heading>
+  <max_speed>-1</max_speed>
 </params>
