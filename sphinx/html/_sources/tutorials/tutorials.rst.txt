@@ -31,3 +31,4 @@ swarm behaviors.
    test.rst
    utilities.rst
    simcontrol.rst
+   capture-the-flag.rst

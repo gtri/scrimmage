@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Capture the Flag Scenario &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="SimControl API" href="simcontrol.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xml-discovery.html">SCRIMMAGE Plugin / XML File Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-local-runs.html">Multiple Runs on a Local Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-project.html">Create a SCRIMMAGE Plugins Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autonomy-plugin.html">Create an Autonomy Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw-shapes.html">Draw Shapes in the Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensor-plugin.html">Create a Sensor Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller-plugin.html">Create a Controller Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion-model-plugin.html">Create a Motion Model Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entity-interaction-plugin.html">Create an Entity Interaction Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics-plugin.html">Create a Metrics Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gen-entities.html">Generate Entities at Run-Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">Create a SCRIMMAGE Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Useful Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simcontrol.html">SimControl API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Capture the Flag Scenario</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#entity-interaction-plugins">Entity Interaction Plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boundary">Boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enforceboundaryinteraction">EnforceBoundaryInteraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captureinboundaryinteraction">CaptureInBoundaryInteraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flagcaptureinteraction">FlagCaptureInteraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simplecollision">SimpleCollision</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#metrics-plugins">Metrics Plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flagcapturemetrics">FlagCaptureMetrics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simplecapturemetrics">SimpleCaptureMetrics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simplecollisionmetrics">SimpleCollisionMetrics</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#network-plugins">Network Plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#globalnetwork">GlobalNetwork</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#localnetwork">LocalNetwork</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spherenetwork">SphereNetwork</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#entity-configuration">Entity Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boundarydefense">BoundaryDefense</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#takeflag">TakeFlag</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Capture the Flag Scenario</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorials/capture-the-flag.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="capture-the-flag-scenario">
+<h1>Capture the Flag Scenario<a class="headerlink" href="#capture-the-flag-scenario" title="Permalink to this headline">¶</a></h1>
+<p>The purpose of this document is to discuss the ideas behind the design of the
+“Capture the Flag” scrimmage mission. The design concepts used in this scenario
+should serve as a guide for how to develop reusable plugins for other specific
+scenarios. scrimmage provides a framework for performing agent-based
+simulations, but it is typically up to the researcher/developer to implement
+scenario specific plugins.</p>
+<p>The game of Capture the Flag involves competing teams attempting to “capture”
+the flag of the opposing team and return the captured flag back to their own
+area of control. When an agent enters the opposing team’s area of control,
+agents on the opposing team can capture the intruding agent. When an agent is
+captured, it is removed from the game.</p>
+<p>There are a number of ways to “score” the game of Capture the Flag. For
+example, the score could be a weighted sum of flag captures and opposing agent
+captures. There are also a number of initial game configurations. For example,
+there could be multiple flags per team and there could even be multiple
+teams. The Capture the Flag scrimmage plugins were designed with this kind of
+flexibility in mind.</p>
+<p>Entity interaction, metrics, network, autonomy, controller, and motion model
+plugins are used in the scrimmage Capture the Flag scenario. The controller and
+motion model plugins are agnostic to the Capture the Flag game and can easily
+be replaced with different controller and motion model plugins. The core of the
+Capture the Flag rules are implemented as entity interaction plugins. The
+metrics plugins use the output of the entity interaction plugins to create an
+overall game score. The network plugins provide basic communication between
+agents and game-specific messages between rules and metrics plugins.</p>
+<p>The reader should follow along with the <a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/missions/capture-the-flag.xml">capture-the-flag.xml</a>
+scrimmage mission file in the <code class="docutils literal notranslate"><span class="pre">missions</span></code> directory while reading this
+document.</p>
+<div class="section" id="entity-interaction-plugins">
+<h2>Entity Interaction Plugins<a class="headerlink" href="#entity-interaction-plugins" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boundary">
+<h3>Boundary<a class="headerlink" href="#boundary" title="Permalink to this headline">¶</a></h3>
+<p>The Boundary plugin is an entity interaction plugin that is used to define
+abstract boundaries, areas, or zones. Each boundary consists of a geometry
+(e.g., a scrimmage shape) and an ID (which consists of a team ID and a boundary
+ID). At the beginning of the simulation, the Boundary plugin publishes its
+information on the “Boundary” topic over the “GlobalNetwork” network. If the
+Boundary plugin is initialized with the “show_boundary” parameter set to
+“true”, it will also draw its shape in the scrimmage viewer. There are two
+types of boundaries used in the Capture the Flag game: a team boundary and a
+team flag. The team boundary is a cuboid that defines the 3D space “controlled”
+by the team. For example, the following boundary defines the blue team’s
+boundary:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;entity_interaction</span> <span class="na">name=</span><span class="s">&quot;blue_boundary&quot;</span>
+                    <span class="na">type=</span><span class="s">&quot;cuboid&quot;</span>
+                    <span class="na">lengths=</span><span class="s">&quot;500, 500, 500&quot;</span>
+                    <span class="na">center=</span><span class="s">&quot;250, 0, 250&quot;</span>
+                    <span class="na">color=</span><span class="s">&quot;0 0 255&quot;</span>
+                    <span class="na">id=</span><span class="s">&quot;1&quot;</span>
+                    <span class="na">team_id=</span><span class="s">&quot;1&quot;</span>
+                    <span class="nt">&gt;</span>Boundary<span class="nt">&lt;/entity_interaction&gt;</span>
+</pre></div>
+</div>
+<p>This code block defines a cuboid-shaped boundary with the name
+<code class="docutils literal notranslate"><span class="pre">blue_boundary,</span></code> a team ID of 1, and a boundary ID 1. The <code class="docutils literal notranslate"><span class="pre">center</span></code> and
+<code class="docutils literal notranslate"><span class="pre">lengths</span></code> define the position and size of the cuboid.</p>
+<p>The blue team’s flag is defined with a sphere-shaped boundary:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;entity_interaction</span> <span class="na">name=</span><span class="s">&quot;blue_flag&quot;</span>
+                    <span class="na">id=</span><span class="s">&quot;2&quot;</span>
+                    <span class="na">team_id=</span><span class="s">&quot;1&quot;</span>
+                    <span class="na">type=</span><span class="s">&quot;sphere&quot;</span>
+                    <span class="na">radius=</span><span class="s">&quot;5&quot;</span>
+                    <span class="na">center=</span><span class="s">&quot;350, 0, 200&quot;</span>
+                    <span class="na">color=</span><span class="s">&quot;0 0 255&quot;</span>
+                    <span class="na">opacity=</span><span class="s">&quot;0.5&quot;</span>
+                    <span class="nt">&gt;</span>Boundary<span class="nt">&lt;/entity_interaction&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">blue_flag</span></code> boundary represents the area that the other team is
+attempting to enter in order to “capture” the flag. It is important to note
+that the <code class="docutils literal notranslate"><span class="pre">id</span></code> for each boundary is unique. Similar boundaries are created for
+the red team, where the <code class="docutils literal notranslate"><span class="pre">id</span></code> fields are unique and the <code class="docutils literal notranslate"><span class="pre">team_id</span></code> is
+different.</p>
+</div>
+<div class="section" id="enforceboundaryinteraction">
+<h3>EnforceBoundaryInteraction<a class="headerlink" href="#enforceboundaryinteraction" title="Permalink to this headline">¶</a></h3>
+<p>The purose of the <code class="docutils literal notranslate"><span class="pre">EnforceBoundaryInteraction</span></code> plugin is to remove agents
+from the game that leave the designated game play area. This plugin subscribes
+to the <code class="docutils literal notranslate"><span class="pre">Boundary</span></code> topic (thus, it has all information about the previously
+defined boundaries) and removes agents that are not in the space defined by the
+union of the <code class="docutils literal notranslate"><span class="pre">active_boundary_ids</span></code> plugin parameter. In this case, the
+<code class="docutils literal notranslate"><span class="pre">game_boundary</span></code> is specified by the boundary with ID 5, which encompasses the
+red and blue boundaries. Thus, the <code class="docutils literal notranslate"><span class="pre">active_boundary_ids</span></code> is set to <code class="docutils literal notranslate"><span class="pre">5</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;entity_interaction</span> <span class="na">active_boundary_ids=</span><span class="s">&quot;5&quot;</span><span class="nt">&gt;</span>EnforceBoundaryInteraction<span class="nt">&lt;/entity_interaction&gt;</span>
+</pre></div>
+</div>
+<p>At every simulation time-step, this plugin compares the position of each agent
+and removes it from the simulation if it doesn’t fall within the boundaries
+specified by the <code class="docutils literal notranslate"><span class="pre">active_boundary_ids</span></code> parameter.</p>
+<p>Note: We could pass a list of boundaries to <code class="docutils literal notranslate"><span class="pre">active_boundary_ids</span></code>, such as
+<code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">3</span></code>, which already encompasses the red and blue boundary areas. However,
+the <code class="docutils literal notranslate"><span class="pre">Boundary</span></code> class’ <code class="docutils literal notranslate"><span class="pre">contains()</span></code> function only returns <code class="docutils literal notranslate"><span class="pre">true</span></code> if the
+agent is within the boundary. If the agent is on the edge of the boundary, it
+will return <code class="docutils literal notranslate"><span class="pre">false</span></code>. In this mission, when the agent is directly on the plane
+between the red and blue boundaries it is technically not within either
+boundary. Thus, we use a <code class="docutils literal notranslate"><span class="pre">game_boundary</span></code> to enclose both red and blue
+boundaries.</p>
+</div>
+<div class="section" id="captureinboundaryinteraction">
+<h3>CaptureInBoundaryInteraction<a class="headerlink" href="#captureinboundaryinteraction" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of the <code class="docutils literal notranslate"><span class="pre">CaptureInBoundaryInteraction</span></code> plugin is to enforce the
+rule that agents can be “captured” (i.e., removed from the game) by agents on
+the opposing team when in the opposing team’s boundary. The following XML
+configures the plugin for the blue team’s boundary:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;entity_interaction</span> <span class="na">name=</span><span class="s">&quot;BlueCaptureBoundary&quot;</span>
+                    <span class="na">boundary_id=</span><span class="s">&quot;1&quot;</span>
+                    <span class="na">capture_range=</span><span class="s">&quot;5&quot;</span><span class="nt">&gt;</span>CaptureInBoundaryInteraction<span class="nt">&lt;/entity_interaction&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">boundary_id</span></code> is set to 1, which means that this plugin will enforce the
+agent capture rule only in this boundary. Another instantiation of the
+<code class="docutils literal notranslate"><span class="pre">CaptureInBoundaryInteraction</span></code> plugin is used to enforce the rule for the red
+team’s boundary. If the blue agent moves within the <code class="docutils literal notranslate"><span class="pre">capture_range</span></code> of a red
+agent in boundary 1, the red agent will be removed from the simulation. This
+plugin also has a <code class="docutils literal notranslate"><span class="pre">cool_down_period</span></code> parameter that can be used to limit the
+rate at which agents can be captured.</p>
+<p>This plugin publishes a message on the “NonTeamCapture” topic when an agent is
+captured. The message contains the ID of the agent being captured and the ID of
+the agent performing the capture.</p>
+</div>
+<div class="section" id="flagcaptureinteraction">
+<h3>FlagCaptureInteraction<a class="headerlink" href="#flagcaptureinteraction" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of this plugin is to determine when a flag has been captured and
+carried to the opposing team’s boundary. The <code class="docutils literal notranslate"><span class="pre">BlueFlagCapture</span></code> boundary is
+configured with the following XML:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;entity_interaction</span> <span class="na">name=</span><span class="s">&quot;BlueFlagCapture&quot;</span>
+                    <span class="na">flag_boundary_id=</span><span class="s">&quot;2&quot;</span>
+                    <span class="na">capture_boundary_id=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>FlagCaptureInteraction<span class="nt">&lt;/entity_interaction&gt;</span>
+</pre></div>
+</div>
+<p>The previous plugin is configured to detect when an agent from the red team
+enters the blue flag’s boundary (specified by boundary ID 2) and brings the
+flag to boundary ID 3 (which is the red team’s boundary). This plugin publishes
+separate messages to the “FlagTaken” and “FlagCaptured” events when the flag is
+taken by an agent and when the flag is carried to their team’s boundary,
+respectively.</p>
+</div>
+<div class="section" id="simplecollision">
+<h3>SimpleCollision<a class="headerlink" href="#simplecollision" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">SimpleCollision</span></code> plugin is used to remove agents from the simulation
+that are within a specified distance of each other, simulating a collision
+between two agents. The range at which a collision is detected is specified by
+the <code class="docutils literal notranslate"><span class="pre">collision_range</span></code> parameter. In the Capture the Flag scenario, this range
+should be less than the <code class="docutils literal notranslate"><span class="pre">capture_range</span></code> specified in the
+<code class="docutils literal notranslate"><span class="pre">CaptureInBoundaryInteraction</span></code> plugin to ensure that the agent capture
+occured before both agents collide. Thus, with this configuration, the
+<code class="docutils literal notranslate"><span class="pre">SimpleCollision</span></code> plugin will only detect collisions between agents on the
+same team.</p>
+</div>
+</div>
+<div class="section" id="metrics-plugins">
+<h2>Metrics Plugins<a class="headerlink" href="#metrics-plugins" title="Permalink to this headline">¶</a></h2>
+<p>Typically, the purpose of metrics plugins is to subscribe to topics, count
+events occuring during the simulation, and provide a structured report and/or
+score to the simulation engine.</p>
+<div class="section" id="flagcapturemetrics">
+<h3>FlagCaptureMetrics<a class="headerlink" href="#flagcapturemetrics" title="Permalink to this headline">¶</a></h3>
+<p>This plugin subscribes to the <code class="docutils literal notranslate"><span class="pre">FlagTaken</span></code> and <code class="docutils literal notranslate"><span class="pre">FlagCaptured</span></code> topics and
+counts the occurances of the received events/messages. At the end of the
+simulation, the events are recorded to the <code class="docutils literal notranslate"><span class="pre">summary.csv</span></code> file in the
+scrimmage log directory (e.g., <code class="docutils literal notranslate"><span class="pre">~/.scrimmage/logs/latest</span></code>) and printed to the
+screen.</p>
+</div>
+<div class="section" id="simplecapturemetrics">
+<h3>SimpleCaptureMetrics<a class="headerlink" href="#simplecapturemetrics" title="Permalink to this headline">¶</a></h3>
+<p>This plugin subscribes to the <code class="docutils literal notranslate"><span class="pre">TeamCapture</span></code> and <code class="docutils literal notranslate"><span class="pre">NonTeamCapture</span></code> topics and
+counts the occurances of the received events/messages. In the typical Capture
+the Flag scenario, there will not be any <code class="docutils literal notranslate"><span class="pre">TeamCapture</span></code> events, but the
+<code class="docutils literal notranslate"><span class="pre">CaptureInBoundaryInteraction</span></code> plugin will publish <code class="docutils literal notranslate"><span class="pre">NonTeamCapture</span></code>
+messages. At the end of the simulation, the events are recorded to the
+<code class="docutils literal notranslate"><span class="pre">summary.csv</span></code> file in the scrimmage log directory (e.g.,
+<code class="docutils literal notranslate"><span class="pre">~/.scrimmage/logs/latest</span></code>) and printed to the screen.</p>
+</div>
+<div class="section" id="simplecollisionmetrics">
+<h3>SimpleCollisionMetrics<a class="headerlink" href="#simplecollisionmetrics" title="Permalink to this headline">¶</a></h3>
+<p>This plugin subscribes to the following topics and counts the occurance of each
+event/message:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TeamCollision</span></code> : When two agents on the same team are within the range
+specified by <code class="docutils literal notranslate"><span class="pre">collision_range</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NonTeamCollision</span></code> : When two agents that are not on the same team are
+within the range specified by <code class="docutils literal notranslate"><span class="pre">collision_range</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GroundCollision</span></code> : When an agent is at or below the z-position specified
+by the <code class="docutils literal notranslate"><span class="pre">ground_collision_z</span></code> in the <code class="docutils literal notranslate"><span class="pre">GroundCollision</span></code> interaction
+plugin. In this case, the <code class="docutils literal notranslate"><span class="pre">GroundCollision</span></code> plugin is not being used, so
+there will not be any <code class="docutils literal notranslate"><span class="pre">GroundCollision</span></code> messages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EntityGenerated</span></code> : When an entity is instantiated in the simulation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EntityRemoved</span></code> : When an entity is removed from the simulation. For
+example, when it collides with another agent or it is captured by another
+agent.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EntityPresentAtEnd</span></code> : When an entity is still active in the simulation
+when the simulation ends.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="network-plugins">
+<h2>Network Plugins<a class="headerlink" href="#network-plugins" title="Permalink to this headline">¶</a></h2>
+<p>Network plugins allow other plugins to publish messages to each other. Every
+topic must be created on a specific network. Network plugins are used to
+simulate lossy communications networks, more reliable local ethernet networks,
+and simulation-specific networks that are completely reliable during.</p>
+<div class="section" id="globalnetwork">
+<h3>GlobalNetwork<a class="headerlink" href="#globalnetwork" title="Permalink to this headline">¶</a></h3>
+<p>Messages that are published on the <code class="docutils literal notranslate"><span class="pre">GlobalNetwork</span></code> are never dropped or
+delayed. Any agent that subscribes to a topic on a <code class="docutils literal notranslate"><span class="pre">GlobalNetwork</span></code> will
+receive messages that are published to that topic. This network is often used
+by the entity interaction plugins to publish event messages to the
+corresponding metrics plugin. The <code class="docutils literal notranslate"><span class="pre">Boundary</span></code> plugins publishes its
+information on the <code class="docutils literal notranslate"><span class="pre">GlobalNetwork</span></code> to make sure all other plugins have access
+to the simulation-specific boundary information.</p>
+</div>
+<div class="section" id="localnetwork">
+<h3>LocalNetwork<a class="headerlink" href="#localnetwork" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of the <code class="docutils literal notranslate"><span class="pre">LocalNetwork</span></code> is simulate a highly reliable local network
+connection on a single vehicle. This network is useful to add a local namespace
+around a topic that might have the same name across multiple
+agents/entities. For example, an agent might subscribe to the <code class="docutils literal notranslate"><span class="pre">imu</span></code> topic,
+but you don’t want to subscribe to the <code class="docutils literal notranslate"><span class="pre">imu</span></code> topic on a different platform,
+you only want your own vehicle’s <code class="docutils literal notranslate"><span class="pre">imu</span></code>. If you have multiple agents that use
+the <code class="docutils literal notranslate"><span class="pre">imu</span></code> topic then you will want to use the <code class="docutils literal notranslate"><span class="pre">LocalNetwork</span></code> to ensure that
+messages on the <code class="docutils literal notranslate"><span class="pre">imu</span></code> topic are kept local to the entity.</p>
+</div>
+<div class="section" id="spherenetwork">
+<h3>SphereNetwork<a class="headerlink" href="#spherenetwork" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">SphereNetwork</span></code> is used to simulate a lossy communications channel
+between agents.</p>
+</div>
+</div>
+<div class="section" id="entity-configuration">
+<h2>Entity Configuration<a class="headerlink" href="#entity-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The following autonomy plugins are specific to entities in the Capture the Flag
+game.</p>
+<div class="section" id="boundarydefense">
+<h3>BoundaryDefense<a class="headerlink" href="#boundarydefense" title="Permalink to this headline">¶</a></h3>
+<p>This autonomy plugin implements a simple boundary defense behavior. With this
+behavior, the agent finds the nearest entity on the opposing team within the
+boundary specified by the <code class="docutils literal notranslate"><span class="pre">boundary_id</span></code> parameter and moves towards the
+opponent. If there are no opponents in the boundary, the agent moves toward the
+center of the boundary.</p>
+</div>
+<div class="section" id="takeflag">
+<h3>TakeFlag<a class="headerlink" href="#takeflag" title="Permalink to this headline">¶</a></h3>
+<p>This autonomy plugin implements a simple capture flag behavior. If the agent
+doesn’t have the flag, it moves towards the flag boundary specified by the
+<code class="docutils literal notranslate"><span class="pre">flag_boundary_id</span></code> parameter. Once it has the flag, it moves towards the
+boundary specified by the <code class="docutils literal notranslate"><span class="pre">capture_boundary_id</span></code> parameter. This behavior
+doesn’t try to avoid team or non-team agents.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="simcontrol.html" class="btn btn-neutral float-left" title="SimControl API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin DeMarco
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

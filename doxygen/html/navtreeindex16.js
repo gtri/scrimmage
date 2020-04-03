@@ -1,5 +1,7 @@
 var NAVTREEINDEX16 =
 {
+"classscrimmage_1_1autonomy_1_1Waypoint.html#a03d83369de096e189f3419acc9a47637":[6,0,5,0,34,16],
+"classscrimmage_1_1autonomy_1_1Waypoint.html#a06b03086c221467e241335ce6e8f233b":[6,0,5,0,34,18],
 "classscrimmage_1_1autonomy_1_1Waypoint.html#a0e65effb7f3882a8f8e4a931351e4853":[6,0,5,0,34,19],
 "classscrimmage_1_1autonomy_1_1Waypoint.html#a19dcf8663ddf0446176f6c070cf8dbfd":[6,0,5,0,34,22],
 "classscrimmage_1_1autonomy_1_1Waypoint.html#a1c60745880789609adfccf1daaa15672":[6,0,5,0,34,20],
@@ -247,7 +249,5 @@ var NAVTREEINDEX16 =
 "classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aa5f2d52117a52f704f4d2449bef1c65a":[6,0,5,2,11,0],
 "classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aaffe8e971bd2ba55beb743bea621fcca":[6,0,5,2,11,2],
 "classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#ab8aaad2301f2c8b737a93fdefad89d09":[6,0,5,2,11,6],
-"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aba5deeaaa28b13301a261eb46ff28534":[6,0,5,2,11,13],
-"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#afbcad766a9303b088d524c512f829cf4":[6,0,5,2,11,11],
-"classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html":[6,0,5,2,12]
+"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aba5deeaaa28b13301a261eb46ff28534":[6,0,5,2,11,13]
 };

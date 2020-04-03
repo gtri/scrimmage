@@ -107,7 +107,6 @@ var searchData=
   ['pub_5ftrue_5f',['pub_true_',['../classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2',1,'scrimmage::sensor::AltitudeAboveTerrain']]],
   ['pub_5fvel_5fvec_5f',['pub_vel_vec_',['../classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad6faf0e61d39bc88e9547a7fc43ff316',1,'scrimmage::autonomy::MotorSchemas']]],
   ['pub_5fworld_5fpoint_5fclicked_5f',['pub_world_point_clicked_',['../classscrimmage_1_1SimControl.html#a06ffe1e3516580616d25b68204c6e13d',1,'scrimmage::SimControl']]],
-  ['pub_5fwp_5flist_5f',['pub_wp_list_',['../classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a9d959cc77056d276792657f9592de8f9',1,'scrimmage::autonomy::BoundaryDefense::pub_wp_list_()'],['../classscrimmage_1_1autonomy_1_1TakeFlag.html#aa247e8762a9a33c1907b51a90b94ff3d',1,'scrimmage::autonomy::TakeFlag::pub_wp_list_()']]],
   ['publish_5fbutton_5fstate_5f',['publish_button_state_',['../classscrimmage_1_1controller_1_1Joystick.html#a35f6a91a3a15472795778b698fde6c43',1,'scrimmage::controller::Joystick']]],
   ['publish_5fcharge_5f',['publish_charge_',['../classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009',1,'scrimmage::controller::MotionBattery']]],
   ['publish_5fon_5flocal_5fnetworks_5f',['publish_on_local_networks_',['../classscrimmage_1_1interaction_1_1BulletCollision.html#a7fd344156f45a5b802fb44a205f1db40',1,'scrimmage::interaction::BulletCollision']]],

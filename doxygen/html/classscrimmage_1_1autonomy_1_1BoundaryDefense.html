@@ -108,7 +108,6 @@ $(document).ready(function(){initNavTree('classscrimmage_1_1autonomy_1_1Boundary
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classscrimmage_1_1autonomy_1_1BoundaryDefense-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -263,19 +262,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac6cd9106f668c89f6c39c4135517357b inherit pub_methods_classscrimmage_1_1Plugin"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a> ()</td></tr>
 <tr class="separator:ac6cd9106f668c89f6c39c4135517357b inherit pub_methods_classscrimmage_1_1Plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3321ae7221f3c2a7c701f1be6db23634"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a3321ae7221f3c2a7c701f1be6db23634">publish_waypoint</a> (const Eigen::Vector3d &amp;<a class="el" href="namespacescrimmage.html#ae678ed37ff7ba86bbec97c343bebbefc">point</a>)</td></tr>
-<tr class="separator:a3321ae7221f3c2a7c701f1be6db23634"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:af980c5095d7e8c9170a3dd74500fd4f7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#af980c5095d7e8c9170a3dd74500fd4f7">boundary_id_</a> = -1</td></tr>
 <tr class="separator:af980c5095d7e8c9170a3dd74500fd4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a605faf7313c1f12cce6c6398f6759791"><td class="memItemLeft" align="right" valign="top">std::map&lt; int, std::pair&lt; scrimmage_proto::Shape, std::shared_ptr&lt; <a class="el" href="classscrimmage_1_1interaction_1_1BoundaryBase.html">interaction::BoundaryBase</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a605faf7313c1f12cce6c6398f6759791">boundaries_</a></td></tr>
 <tr class="separator:a605faf7313c1f12cce6c6398f6759791"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d959cc77056d276792657f9592de8f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">scrimmage::PublisherPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a9d959cc77056d276792657f9592de8f9">pub_wp_list_</a></td></tr>
-<tr class="separator:a9d959cc77056d276792657f9592de8f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b193f98ae74f0e8c8b4cdf89316df91"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a7b193f98ae74f0e8c8b4cdf89316df91">output_vel_x_idx_</a> = 0</td></tr>
+<tr class="separator:a7b193f98ae74f0e8c8b4cdf89316df91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab0ffd50c7104978a6205a9b5b58f31"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a1ab0ffd50c7104978a6205a9b5b58f31">output_vel_y_idx_</a> = 0</td></tr>
+<tr class="separator:a1ab0ffd50c7104978a6205a9b5b58f31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeced4001aaa0cfc3c1189c27738e323b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#aeced4001aaa0cfc3c1189c27738e323b">output_vel_z_idx_</a> = 0</td></tr>
+<tr class="separator:aeced4001aaa0cfc3c1189c27738e323b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classscrimmage_1_1Autonomy"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classscrimmage_1_1Autonomy')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classscrimmage_1_1Autonomy.html">scrimmage::Autonomy</a></td></tr>
 <tr class="memitem:a012b5eefb90d4194e6918de325c01968 inherit pro_attribs_classscrimmage_1_1Autonomy"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; GeographicLib::LocalCartesian &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a></td></tr>
 <tr class="separator:a012b5eefb90d4194e6918de325c01968 inherit pro_attribs_classscrimmage_1_1Autonomy"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -404,30 +402,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3321ae7221f3c2a7c701f1be6db23634"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void scrimmage::autonomy::BoundaryDefense::publish_waypoint </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
-          <td class="paramname"><em>point</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="af980c5095d7e8c9170a3dd74500fd4f7"></a>
 <div class="memitem">
@@ -473,7 +447,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9d959cc77056d276792657f9592de8f9"></a>
+<a class="anchor" id="a7b193f98ae74f0e8c8b4cdf89316df91"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -481,7 +455,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">scrimmage::PublisherPtr</a> scrimmage::autonomy::BoundaryDefense::pub_wp_list_</td>
+          <td class="memname">int scrimmage::autonomy::BoundaryDefense::output_vel_x_idx_ = 0</td>
         </tr>
       </table>
   </td>
@@ -491,7 +465,51 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="BoundaryDefense_8h_source.html#l00056">56</a> of file <a class="el" href="BoundaryDefense_8h_source.html">BoundaryDefense.h</a>.</p>
+<p>Definition at line <a class="el" href="BoundaryDefense_8h_source.html#l00057">57</a> of file <a class="el" href="BoundaryDefense_8h_source.html">BoundaryDefense.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ab0ffd50c7104978a6205a9b5b58f31"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int scrimmage::autonomy::BoundaryDefense::output_vel_y_idx_ = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="BoundaryDefense_8h_source.html#l00058">58</a> of file <a class="el" href="BoundaryDefense_8h_source.html">BoundaryDefense.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeced4001aaa0cfc3c1189c27738e323b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int scrimmage::autonomy::BoundaryDefense::output_vel_z_idx_ = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="BoundaryDefense_8h_source.html#l00059">59</a> of file <a class="el" href="BoundaryDefense_8h_source.html">BoundaryDefense.h</a>.</p>
 
 </div>
 </div>
@@ -504,7 +522,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html">BoundaryDefense</a></li>
-    <li class="footer">Generated on Mon Mar 30 2020 19:52:04 for SCRIMMAGE by
+    <li class="footer">Generated on Fri Apr 3 2020 01:26:54 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
