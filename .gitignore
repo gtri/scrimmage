@@ -37,3 +37,4 @@ tags*
 **.DS_Store
 **.ccls*
 .vscode
+env
