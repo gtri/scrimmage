@@ -15,7 +15,8 @@ Linux System Setup
 
 In order to run SCRIMMAGE and AirSim / Unreal on Linux, we will have to build
 Unreal and AirSim from source. Some of the following directions were taken from
-AirSim's build_linux.md documentation, but they are placed here for posterity.
+AirSim's build_linux.md documentation, but they are placed here for
+completeness.
 
 .. Note:: The Unreal Engine uses libc++ while SCRIMMAGE uses libstdc++. You
           cannot easily link binaries that are built from one library with
@@ -27,15 +28,13 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
    source code access for Unreal engine.**
 
 #. **Clone Unreal in your favorite folder and build it (this may take a
-   while!). Note: We only support Unreal 4.16 and newer.**
+   while!). Note: We only support Unreal 4.24 and newer.**
 
    .. code-block:: bash
 
       # go to folder where you clone GitHub projects
-      git clone -b 4.17 https://github.com/EpicGames/UnrealEngine.git
+      git clone -b 4.24 https://github.com/EpicGames/UnrealEngine.git
       cd UnrealEngine
-      # few times Epic folks broke the build so we will get commit that works
-      git checkout af96417313a908b20621a443175ba91683c238c8
       ./Setup.sh
       ./GenerateProjectFiles.sh
       make
@@ -45,38 +44,36 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
    .. code-block:: bash
 
       # go to folder where you clone GitHub projects
-      git clone https://github.com/Microsoft/AirSim.git
-      cd AirSim
-      git checkout v1.1.8
+      git clone https://github.com/Microsoft/AirSim.git AirSim-gcc
+      cd AirSim-gcc
+      git checkout 9e3aed1b020b46f9fb975b4ab343b06364bdd544
       git apply /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch
-      ./setup.sh
-      cd cmake
-      chmod +x gcc_build.sh
-      ./gcc_build.sh
+      ./setup.sh --gcc
+      ./build.sh --gcc
 
 #. **Build the libc++ version of AirSim (which will be loaded into Unreal)**
 
    .. code-block:: bash
 
       # go to folder where you clone GitHub projects
-      git clone https://github.com/Microsoft/AirSim.git AirSim-plugin
-      cd AirSim-plugin
-      git checkout v1.1.8
+      git clone https://github.com/Microsoft/AirSim.git AirSim-clang
+      cd AirSim-clang
+      git checkout 9e3aed1b020b46f9fb975b4ab343b06364bdd544
       ./setup.sh
       ./build.sh
 
 #. **Build SCRIMMAGE's AirSimSensor Plugin**
 
    Make sure you have OpenCV installed on your system and that you have
-   successfully built the AirSim libraries (using libstdc++) in step 3. Go to
-   your scrimmage build directory and provide the location of the AirSim
-   libraries (libstdc++ version) to cmake.
+   successfully built the AirSim libraries (using gcc/libstdc++) in step 3. Go
+   to your scrimmage build directory and provide the location of the AirSim
+   libraries (gcc version) to cmake.
 
    .. code-block:: bash
 
       cd /path/to/scrimmage
       rm -rf build && mkdir build && cd build
-      cmake .. -DAIRSIM_ROOT_SEARCH=/path/to/AirSim
+      cmake .. -DAIRSIM_ROOT_SEARCH=/path/to/AirSim-gcc
       make
 
    Ensure that the ``AirSimSensor_plugin`` target built successfully.
@@ -93,18 +90,11 @@ AirSim's build_linux.md documentation, but they are placed here for posterity.
 
    Use the UE4Editor to open the Blocks project (Blocks.uproject) in the
    /path/to/AirSim-plugin/Unreal/Environments/Blocks directory. You will
-   probably be prompted about updating the project version, say "Yes" to
-   update. Now we have to sync the AirSim plugin with this updated project
-   version. Close the project and UE4Editor and open a terminal.
+   probably be prompted about updating the project version. Convert the project
+   "in place."
 
-   .. code-block:: bash
-
-      cd /path/to/AirSim-plugin
-      rsync -t -r Unreal/Plugins ./Unreal/Environments/Blocks\ Blocks 4.17
-
-   Run the UE4Editor binary again and open the new Blocks 4.17 project. When
-   you hit the "Play" button in the project, you should see a quadrotor appear
-   on the screen and it may start flying around.
+   When you hit the "Play" button in the project, you should see a quadrotor
+   appear on the screen and it may start flying around.
 
 #. **Configure Settings**
 
