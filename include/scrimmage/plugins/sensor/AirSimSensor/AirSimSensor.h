@@ -72,8 +72,8 @@ class CameraConfig {
         int img_type_number = 0;
         int height = 144; // 288
         int width = 256;  // 512
-
-
+        std::vector<double>> cam_position{0.0, 0.0, 0.0};
+        std::vector<double>> cam_orientation{0.0, 0.0, 0.0};
 
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
