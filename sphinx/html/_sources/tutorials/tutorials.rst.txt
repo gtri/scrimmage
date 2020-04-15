@@ -23,6 +23,7 @@ swarm behaviors.
    parameters.rst
    pub-sub.rst
    gen-entities.rst
+   scrimmage-ros-integration.rst
    ros-plugin.rst
    airsim-plugin.rst
    openai-plugin.rst

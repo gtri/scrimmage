@@ -1,7 +1,5 @@
 var NAVTREEINDEX17 =
 {
-"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#afbcad766a9303b088d524c512f829cf4":[6,0,5,2,11,11],
-"classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html":[6,0,5,2,12],
 "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a00fb7d2c061bf28bf34977ff69f41815":[6,0,5,2,12,4],
 "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a01480611fd46e6d319f19566dbe9baae":[6,0,5,2,12,0],
 "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a382aa24d7facb5767be94cce508766cf":[6,0,5,2,12,2],
@@ -249,5 +247,7 @@ var NAVTREEINDEX17 =
 "classscrimmage_1_1interaction_1_1BulletCollision.html#a5eccccd7538f6252b64db0eddcd772ae":[6,0,5,3,2,19],
 "classscrimmage_1_1interaction_1_1BulletCollision.html#a72799e9b0b8ef59bb9207d08220cab20":[6,0,5,3,2,18],
 "classscrimmage_1_1interaction_1_1BulletCollision.html#a775fa0ecd51e3a7ff1663088badd03f6":[6,0,5,3,2,14],
-"classscrimmage_1_1interaction_1_1BulletCollision.html#a7fd344156f45a5b802fb44a205f1db40":[6,0,5,3,2,26]
+"classscrimmage_1_1interaction_1_1BulletCollision.html#a7fd344156f45a5b802fb44a205f1db40":[6,0,5,3,2,26],
+"classscrimmage_1_1interaction_1_1BulletCollision.html#a82301404f69ace14a1a95af3fb1c0bff":[6,0,5,3,2,36],
+"classscrimmage_1_1interaction_1_1BulletCollision.html#a8c68bb827a98ecd781f9728e221601fc":[6,0,5,3,2,22]
 };

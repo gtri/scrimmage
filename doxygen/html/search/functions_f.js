@@ -64,7 +64,7 @@ var searchData=
   ['proto_5f2_5fstate',['proto_2_state',['../namespacescrimmage.html#adca769e1c193154a44129cff2d419b50',1,'scrimmage']]],
   ['proto_5f2_5fvector3d',['proto_2_vector3d',['../namespacescrimmage.html#ac541aa4325679574f82a7fe64e08edf2',1,'scrimmage']]],
   ['publish',['publish',['../classscrimmage_1_1Publisher.html#a640df6f51c7c94ab98ff8502232395ea',1,'scrimmage::Publisher']]],
-  ['publish_5fclock_5fmsg',['publish_clock_msg',['../classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a7468cc729b480e0c0aebb3e733ada754',1,'scrimmage::autonomy::ROSAutonomy::publish_clock_msg()'],['../classscrimmage_1_1interaction_1_1ROSClockServer.html#a0724846bc5b18ad5d0b12ed5422887a2',1,'scrimmage::interaction::ROSClockServer::publish_clock_msg()']]],
+  ['publish_5fclock_5fmsg',['publish_clock_msg',['../classscrimmage_1_1interaction_1_1ROSClockServer.html#a0724846bc5b18ad5d0b12ed5422887a2',1,'scrimmage::interaction::ROSClockServer']]],
   ['publish_5fwaypoint',['publish_waypoint',['../classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a0d62d60b4848435fc3132cc5a49ef098',1,'scrimmage::autonomy::GoToWaypoint']]],
   ['publisher',['Publisher',['../classscrimmage_1_1Publisher.html#a3e162209873c39d6b386cb3ec64e5183',1,'scrimmage::Publisher::Publisher()'],['../classscrimmage_1_1Publisher.html#a5b85ed3e5ffedb263064a4717fbac192',1,'scrimmage::Publisher::Publisher(const std::string &amp;topic, const unsigned int &amp;max_queue_size, const bool &amp;enable_queue_size, EntityPluginPtr plugin)']]],
   ['publishnodereport',['PublishNodeReport',['../classscrimmage_1_1autonomy_1_1MOOSNode.html#aa5121c553502f7a221a06d17e7dc580b',1,'scrimmage::autonomy::MOOSNode']]],

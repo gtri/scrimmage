@@ -100,6 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="parameters.html">Plugin Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pub-sub.html">Publishers and Subscribers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gen-entities.html">Generate Entities at Run-Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrimmage-ros-integration.html">SCRIMMAGE / ROS Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">AirSimSensor Plugin Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#linux-system-setup">Linux System Setup</a></li>
@@ -202,7 +203,8 @@ Sensor is provided in the Straight Autonomy plugin in the Straight.cpp file.</p>
 <h2>Linux System Setup<a class="headerlink" href="#linux-system-setup" title="Permalink to this headline">¶</a></h2>
 <p>In order to run SCRIMMAGE and AirSim / Unreal on Linux, we will have to build
 Unreal and AirSim from source. Some of the following directions were taken from
-AirSim’s build_linux.md documentation, but they are placed here for posterity.</p>
+AirSim’s build_linux.md documentation, but they are placed here for
+completeness.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The Unreal Engine uses libc++ while SCRIMMAGE uses libstdc++. You
@@ -215,12 +217,10 @@ two different directories.</p>
 <li><p><strong>Make sure you are registered with</strong> <a class="reference external" href="https://docs.unrealengine.com/latest/INT/Platforms/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/1/index.html">Epic Games</a>. <strong>This is required to get
 source code access for Unreal engine.</strong></p></li>
 <li><p><strong>Clone Unreal in your favorite folder and build it (this may take a
-while!). Note: We only support Unreal 4.16 and newer.</strong></p>
+while!). Note: We only support Unreal 4.24 and newer.</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to folder where you clone GitHub projects</span>
-git clone -b <span class="m">4</span>.17 https://github.com/EpicGames/UnrealEngine.git
+git clone -b <span class="m">4</span>.24 https://github.com/EpicGames/UnrealEngine.git
 <span class="nb">cd</span> UnrealEngine
-<span class="c1"># few times Epic folks broke the build so we will get commit that works</span>
-git checkout af96417313a908b20621a443175ba91683c238c8
 ./Setup.sh
 ./GenerateProjectFiles.sh
 make
@@ -229,22 +229,20 @@ make
 </li>
 <li><p><strong>Build the libstdc++ version of AirSim (which will be loaded into SCRIMMAGE)</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to folder where you clone GitHub projects</span>
-git clone https://github.com/Microsoft/AirSim.git
-<span class="nb">cd</span> AirSim
-git checkout v1.1.8
+git clone https://github.com/Microsoft/AirSim.git AirSim-gcc
+<span class="nb">cd</span> AirSim-gcc
+git checkout 9e3aed1b020b46f9fb975b4ab343b06364bdd544
 git apply /path/to/scrimmage/3rd-party/patches/airsim_build_updates.patch
-./setup.sh
-<span class="nb">cd</span> cmake
-chmod +x gcc_build.sh
-./gcc_build.sh
+./setup.sh --gcc
+./build.sh --gcc
 </pre></div>
 </div>
 </li>
 <li><p><strong>Build the libc++ version of AirSim (which will be loaded into Unreal)</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to folder where you clone GitHub projects</span>
-git clone https://github.com/Microsoft/AirSim.git AirSim-plugin
-<span class="nb">cd</span> AirSim-plugin
-git checkout v1.1.8
+git clone https://github.com/Microsoft/AirSim.git AirSim-clang
+<span class="nb">cd</span> AirSim-clang
+git checkout 9e3aed1b020b46f9fb975b4ab343b06364bdd544
 ./setup.sh
 ./build.sh
 </pre></div>
@@ -252,12 +250,12 @@ git checkout v1.1.8
 </li>
 <li><p><strong>Build SCRIMMAGE’s AirSimSensor Plugin</strong></p>
 <p>Make sure you have OpenCV installed on your system and that you have
-successfully built the AirSim libraries (using libstdc++) in step 3. Go to
-your scrimmage build directory and provide the location of the AirSim
-libraries (libstdc++ version) to cmake.</p>
+successfully built the AirSim libraries (using gcc/libstdc++) in step 3. Go
+to your scrimmage build directory and provide the location of the AirSim
+libraries (gcc version) to cmake.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /path/to/scrimmage
 rm -rf build <span class="o">&amp;&amp;</span> mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
-cmake .. -DAIRSIM_ROOT_SEARCH<span class="o">=</span>/path/to/AirSim
+cmake .. -DAIRSIM_ROOT_SEARCH<span class="o">=</span>/path/to/AirSim-gcc
 make
 </pre></div>
 </div>
@@ -272,16 +270,10 @@ binary that was built.</p>
 </div>
 <p>Use the UE4Editor to open the Blocks project (Blocks.uproject) in the
 /path/to/AirSim-plugin/Unreal/Environments/Blocks directory. You will
-probably be prompted about updating the project version, say “Yes” to
-update. Now we have to sync the AirSim plugin with this updated project
-version. Close the project and UE4Editor and open a terminal.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /path/to/AirSim-plugin
-rsync -t -r Unreal/Plugins ./Unreal/Environments/Blocks<span class="se">\ </span>Blocks <span class="m">4</span>.17
-</pre></div>
-</div>
-<p>Run the UE4Editor binary again and open the new Blocks 4.17 project. When
-you hit the “Play” button in the project, you should see a quadrotor appear
-on the screen and it may start flying around.</p>
+probably be prompted about updating the project version. Convert the project
+“in place.”</p>
+<p>When you hit the “Play” button in the project, you should see a quadrotor
+appear on the screen and it may start flying around.</p>
 </li>
 <li><p><strong>Configure Settings</strong></p>
 <p>AirSim reads a json file located at ~/Documents/AirSim/settings.json to
