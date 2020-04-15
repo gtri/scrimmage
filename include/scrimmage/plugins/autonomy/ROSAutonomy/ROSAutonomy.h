@@ -67,8 +67,6 @@ class ROSAutonomy : public scrimmage::Autonomy {
     ros::Publisher base_scan_pub_;
     ros::Publisher base_pose_truth_pub;
 
-    ros::Publisher clock_pub_;
-
     std::shared_ptr<tf::TransformBroadcaster> odom_broadcaster_;
     geometry_msgs::TransformStamped odom_trans_;
 
@@ -76,8 +74,6 @@ class ROSAutonomy : public scrimmage::Autonomy {
     geometry_msgs::TransformStamped laser_trans_;
 
     std::string ros_namespace_;
-
-    void publish_clock_msg(double t);
 
     scrimmage::sensor::RayTrace::PointCloud pcl_;
 

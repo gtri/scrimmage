@@ -56,13 +56,6 @@ namespace autonomy {
 
 ROSAutonomy::ROSAutonomy() {}
 
-void ROSAutonomy::publish_clock_msg(double t) {
-    ros::Time time(t); // start at zero seconds
-    rosgraph_msgs::Clock clock_msg; // Message to hold time
-    clock_msg.clock = time;
-    clock_pub_.publish(clock_msg);
-}
-
 void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
@@ -76,12 +69,8 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     }
     nh_ = std::make_shared<ros::NodeHandle>();
 
-    // Setup clock server
-    clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
-    publish_clock_msg(0);
-
     // Setup robot namespace
-    ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
+    ros_namespace_ = sc::get<std::string>("namespace_prefix", params, "entity");
     ros_namespace_ += std::to_string(parent_->id().id());
 
     cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1, &ROSAutonomy::cmd_vel_cb, this);
@@ -116,8 +105,7 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
 
 bool ROSAutonomy::step_autonomy(double t, double dt) {
     // Update ROS time
-    publish_clock_msg(t);
-    ros::Time ros_time(t);
+    ros::Time ros_time = ros::Time::now();
 
     ros::spinOnce(); // check for new ROS messages
 
