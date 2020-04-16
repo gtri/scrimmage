@@ -14,7 +14,7 @@ controllers, and reinforcement learning.
 
 ### SCRIMMAGE Demonstration Video
 
-[![SCRIMMAGE Demo Video](./docs/source/images/demo-video.png)](https://youtu.be/NW37klOQ2xA)
+[![SCRIMMAGE Demo Video](./docs/source/images/demo-video.png)](https://youtu.be/NW37klOQ2xA) [![Join the chat at https://gitter.im/gtri-scrimmage/community](https://badges.gitter.im/gtri-scrimmage/community.svg)](https://gitter.im/gtri-scrimmage/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Online Documentation
 
