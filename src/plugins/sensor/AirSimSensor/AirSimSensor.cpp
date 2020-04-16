@@ -85,31 +85,7 @@ AirSimSensor::AirSimSensor() : client_connected_(false),
     enu_to_ned_yaw_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 }
 
-void AirSimSensor::init(std::map<std::string, std::string> &params) {
-    airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
-    airsim_port_ = sc::get<int>("airsim_port", params, 41451);
-    airsim_timeout_s_ = sc::get<int>("airsim_timeout_ms", params, 60);
-
-    data_acquisition_period_ = sc::get<double>("data_acquisition_period", params, 0.1);
-    vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
-    lidar_name_ = sc::get<std::string>("lidar_name", params, "lidar1");
-    cout << "Vehicle Name: " << vehicle_name_ << endl;
-    cout << "Lidar Name: " << lidar_name_ << endl;
-
-    save_airsim_data_ = sc::get<bool>("save_airsim_data", params, "true");
-    get_image_data_ = sc::get<bool>("get_image_data", params, "true");
-    get_lidar_data_ = sc::get<bool>("get_lidar_data", params, "true");
-    if (save_airsim_data_) {
-        cout << "Saving camera images and airsim_data.csv of pose to SCRIMMAGE Logs Directory." << endl;
-    }
-    if (get_image_data_) {
-        cout << "Retrieving image data within AirSimSensor::request_images() thread." << endl;
-    }
-    if (get_lidar_data_) {
-        cout << "Retrieving LIDAR data within AirSimSensor::request_images() thread." << endl;
-    }
-    cout << "Data Acquisition Period = " << data_acquisition_period_ << endl;
-
+void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &params) {
     // Parse the camera config string.
     // The string is a list of camera configs from AirSimSensor.xml of the form:
     // [CameraName=0 ImageTypeName=Scene ImageTypeNumber=0 Width=256 Height=144]
@@ -124,7 +100,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
             if (tokens_2.size() == 5) {
                 try {
                     CameraConfig c;
-                    // Get Camera Type
+                    // Get Camera Number Type
                     c.cam_number = boost::lexical_cast<int>(tokens_2[0]);
                     if (c.cam_number == 0) {
                         c.cam_name = "Front_Center";
@@ -140,11 +116,9 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
                         cout << "Error: Unknown camera number: " << c.cam_number << endl;
                         c.cam_name = "Unknown";
                     }
-                    c.img_type_number = boost::lexical_cast<int>(tokens_2[2]);
-                    c.width = std::stoi(tokens_2[3]);
-                    c.height = std::stoi(tokens_2[4]);
 
-                    // Get Image Type
+                    // Get Image Type Name and Number
+                    c.img_type_number = boost::lexical_cast<int>(tokens_2[2]);
                     if (tokens_2[1] == "Scene") {
                         c.img_type = ma::ImageCaptureBase::ImageType::Scene;
                         c.img_type_name = "Scene";
@@ -174,14 +148,60 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
                         c.img_type = ma::ImageCaptureBase::ImageType::Scene;
                         c.img_type_name = "Scene";
                     }
+
+                    // Get Image pixel width and height (integers)
+                    c.width = std::stoi(tokens_2[3]);
+                    c.height = std::stoi(tokens_2[4]);
+
+                    // Camera Position and Orientation (relative to vehicle body)
+                    // X Y Z
+                    c.cam_position[0] = boost::lexical_cast<double>(tokens_2[5]);
+                    c.cam_position[1] = boost::lexical_cast<double>(tokens_2[6]);
+                    c.cam_position[2] = boost::lexical_cast<double>(tokens_2[7]);
+                    // Roll Pitch Yaw
+                    c.cam_orientation[0] = boost::lexical_cast<double>(tokens_2[8]);
+                    c.cam_orientation[1] = boost::lexical_cast<double>(tokens_2[9]);
+                    c.cam_orientation[2] = boost::lexical_cast<double>(tokens_2[10]);
+
                     cout << "Adding Camera: " << c << endl;
                     cam_configs_.push_back(c);
+
                 } catch (boost::bad_lexical_cast) {
                     // Parsing whitespace and possibily malformed XML.
+                    cout << "Parse Error: Check camera_config's in AirSimSensor.xml" << endl;
                 }
             }
         }
     }
+}
+
+void AirSimSensor::init(std::map<std::string, std::string> &params) {
+    airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
+    airsim_port_ = sc::get<int>("airsim_port", params, 41451);
+    airsim_timeout_s_ = sc::get<int>("airsim_timeout_ms", params, 60);
+
+    data_acquisition_period_ = sc::get<double>("data_acquisition_period", params, 0.1);
+    vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
+    lidar_name_ = sc::get<std::string>("lidar_name", params, "lidar1");
+    cout << "Vehicle Name: " << vehicle_name_ << endl;
+    cout << "Lidar Name: " << lidar_name_ << endl;
+
+    save_airsim_data_ = sc::get<bool>("save_airsim_data", params, "true");
+    get_image_data_ = sc::get<bool>("get_image_data", params, "true");
+    get_lidar_data_ = sc::get<bool>("get_lidar_data", params, "true");
+    if (save_airsim_data_) {
+        cout << "Saving camera images and airsim_data.csv of pose to SCRIMMAGE Logs Directory." << endl;
+    }
+    if (get_image_data_) {
+        cout << "Retrieving image data within AirSimSensor::request_images() thread." << endl;
+    }
+    if (get_lidar_data_) {
+        cout << "Retrieving LIDAR data within AirSimSensor::request_images() thread." << endl;
+    }
+    cout << "Data Acquisition Period = " << data_acquisition_period_ << endl;
+
+    // Get camera configurations
+    AirSimSensor::parse_camera_configs();
 
     // Open airsim_data CSV for append (app) and set column headers
     std::string csv_filename = parent_->mp()->log_dir() + "/airsim_data_robot" + std::to_string(parent_->id().id()) + ".csv";
