@@ -75,7 +75,7 @@ For both distributions, update your sources list:
 
 Now, install the SCRIMMAGE custom built binary dependencies:
 
-    $ sudo apt-get install scrimmage-dependencies
+    $ sudo apt-get install scrimmage-dependencies scrimmage-jsbsim
 
 Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
 local system and sets up some environment variables:
