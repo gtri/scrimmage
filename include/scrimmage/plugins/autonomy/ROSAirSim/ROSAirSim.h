@@ -45,6 +45,7 @@
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <geometry_msgs/Twist.h>
+#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
 
 #include <string>
 #include <map>
@@ -73,12 +74,18 @@ class ROSAirSim : public scrimmage::Autonomy {
     std::shared_ptr<image_transport::ImageTransport> it_;
     std::vector<image_transport::Publisher> img_publishers_;
 
-    msr::airlib::LidarData lidar_data_;
+    bool img_topic_published_ = false;
+    std::mutex img_topic_published_mutex_;
+    std::vector<std::string> camera_names_;
+
+    // msr::airlib::LidarData lidar_data_;
+    scrimmage::sensor::AirSimLidarType lidar_data_;
     ros::Publisher base_scan_pub_;
     std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
-    // std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
+    // std::vector<geometry_msgs::TransformStamped> tf_image_vec_;
     geometry_msgs::TransformStamped world_trans_;
-    geometry_msgs::TransformStamped laser_trans_;
+    // geometry_msgs::TransformStamped image_trans_;
+    // geometry_msgs::TransformStamped laser_trans_;
 
     std::string ros_name_;
     std::string ros_namespace_;

@@ -315,36 +315,30 @@ Camera Settings
     to the Local Host IP (usually 127.0.0.1). These tags can also be set in the quad-airsim-ex1.xml
     mission file, ``airsim_ip`` is set there by default and overwrites the setting in AirSimSensor.xml.
 
-    Multiple simulated cameras can be configured through the ``camera_cosudo apt-get updatenfig`` example tag.
+    Multiple simulated cameras can be configured through the ``camera_config`` example tag.
     This tag takes a list of camera configurations, where each camera configuration is of the form:
 
-    ``[CameraName ImageType Width Height X Y Z Roll Pitch Yaw]``
-
-    X,Y,Z (NED, in meters) and Roll, Pitch, Yaw (NED, in degrees) are the camera position and orientation in
-    relation to the center of the vehicle body. NED coordinates correspond to the positive Y axis pointing
-    outward from the front, center of the quadcopter, positive X axis pointing left from the center of the quadcopter,
-    and the positive Z axis pointing down.
+    ``[CameraName ImageType Width Height]``
 
     The following shows example configurations for simulating multiple camera sensors:
 
     .. code-block:: xml
 
       <camera_config>
-        [Front_Center Scene 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-        [Front_Center DepthPlanner 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-        [Front_Center DepthPerspective 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-        [Front_Center DepthVis 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-        [Front_Right DisparityNormalized 256 144 -0.125 0.0 0.0 0.0 0.0 0.0]
-        [Front_Left Segmentation 256 144 0.125 0.0 0.0 0.0 0.0 0.0]
-        [Bottom_Center SurfaceNormals 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-        [Back_Center Infrared 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
+        [front_center Scene 256 144]
+        [front_center DepthPlanner 256 144]
+        [front_center DepthPerspective 256 144]
+        [front_center DepthVis 256 144]
+        [front_right DisparityNormalized 256 144]
+        [front_left Segmentation 256 144]
+        [bottom_center SurfaceNormals 256 144]
+        [back_center Infrared 256 144]
       </camera_config>
 
-    The ``CameraName`` corresponds to default camera positions/orientations on the vehicle defined by AirSim. The ``ImageType``
-    is a type defined by AirSim that specifies the type of camera (optical, depth, segmentation, etc.). The X,Y,Z and
-    Roll, Pitch, Yaw settings above correspond the the default position and orientation for each CameraName type. For
-    example the stereo cameras Front_Left and Front_Right are 25cm apart, both are 12.5cm from the center of the vehicle
-    body on the X axis. To learn more about the options available in AirSim see:
+    The ``CameraName`` corresponds  to the user chosen camera name set in settings.json file under "Cameras" for each
+    vehicle. The ``ImageType`` is a type defined by AirSim that specifies the type of camera (optical, depth,
+    segmentation, etc.). The ``Width`` and ``Height`` correspond to the pixel dimensions of the images we want to
+    receive in scrimmage from AirSim. To learn more about the options available in AirSim see:
     https://github.com/microsoft/AirSim/blob/master/docs/image_apis.md
 
 Save Images and Get LIDAR data

@@ -110,41 +110,12 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     // tf_msg_vec_.push_back(world_trans_);
     laser_broadcaster_->sendTransform(world_trans_);
 
-    // Fill in Laser Settings
-    // TODO: Pull these values from the settings.json file on the windows side.
-    LidarSetting lidar_setting;
-    lidar_setting.position.x() = 0.0;
-    lidar_setting.position.y() = 0.0;
-    lidar_setting.position.z() = 0.0;
-    lidar_setting.rotation.roll = M_PI;
-    lidar_setting.rotation.pitch = 0.0;
-    lidar_setting.rotation.yaw = 0.0;
-
-    laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
-    laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
-    laser_trans_.transform.translation.x = lidar_setting.position.x();
-    laser_trans_.transform.translation.y = lidar_setting.position.y();
-    laser_trans_.transform.translation.z = lidar_setting.position.z();
-
-    tf2::Quaternion laser_quat;
-    laser_quat.setRPY(lidar_setting.rotation.roll, lidar_setting.rotation.pitch, lidar_setting.rotation.yaw);
-    laser_trans_.transform.rotation.x = laser_quat.x();
-    laser_trans_.transform.rotation.y = laser_quat.y();
-    laser_trans_.transform.rotation.z = laser_quat.z();
-    laser_trans_.transform.rotation.w = laser_quat.w();
-    // Send Transform
-    laser_trans_.header.stamp = ros::Time::now();
-    //  tf_msg_vec_.push_back(laser_trans_);
-    // laser_broadcaster_->sendTransform(tf_msg_vec_);
-    laser_broadcaster_->sendTransform(laser_trans_);
-    //////////////////////////////////////////////////////////////////////
-
     // airsim lidar callback
     auto airsim_lidar_cb = [&](auto &msg) {
         if (msg->data.lidar_data.point_cloud.size() < 3) { // return if empty message
             return;
         }
-        lidar_data_ = msg->data.lidar_data;
+        lidar_data_ = msg->data;
     };
 
     // airsim image callback
@@ -152,79 +123,147 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         if (msg->data.size() == 0) { // return if empty message
             return;
         }
-        if (pub_image_data_) {
-            // Create the ROSmsg header for the soon to be published messages
-            std_msgs::Header header; // empty header
-            header.seq = msg->data[0].frame_num; // AirSim defined counter
-            header.stamp = ros::Time::now(); // time
 
-            // For each AirSim msg of (camera_config, img) in msg vector
+        img_topic_published_mutex_.lock();
+        bool img_topic_published = img_topic_published_;
+        img_topic_published_mutex_.unlock();
+
+        // If topics are not published create them
+        if(!img_topic_published) {
+            // for each image in the message
             for (sc::sensor::AirSimImageType a : msg->data) {
-                sensor_msgs::ImagePtr img_msg;
 
                 // Create the topic name
                 std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
                 std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
-                std::string topic_name = "/" + ros_namespace_ + "/" + camera_name + "_" + image_type_name;
-                std::string topic_name_pub = ros_namespace_ + "/" + camera_name + "_" + image_type_name;
-                // cout << topic_name << endl;
-                // cout << "img size:" << a.img.size() << endl;
-                // cout << "img channels:" << a.img.channels() << endl;
+                std::string topic_name = "/" + ros_namespace_ + "/" + camera_name + "/" + image_type_name;
+                img_publishers_.push_back(it_->advertise(topic_name, 1));
 
-                // Check if topic publisher exists for each AirSim msg type, if so publish
-                bool published = false;
-                for (auto pub : img_publishers_) {
-
-                    // If the topic publisher exists, publish to topic
-                    if (pub.getTopic() == topic_name) {
-                        published = true;
-                        if (topic_name == "/robot1/front_center_depthperspective" || topic_name == "/robot1/front_center_depthplanner") {
-                            img_msg = cv_bridge::CvImage(header, "", a.img).toImageMsg();
-                        } else {
-                            img_msg = cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
-                        }
-                        pub.publish(img_msg);
-                    }
+                // Publish current message so we don't miss any images
+                std_msgs::Header header; // empty header
+                header.stamp = ros::Time::now(); // time
+                header.frame_id = ros_namespace_ + "/" + camera_name + "/images";
+                sensor_msgs::ImagePtr img_msg;
+                // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
+                if (a.camera_config.pixels_as_float) {
+                    img_msg = cv_bridge::CvImage(header, "", a.img).toImageMsg();
+                } else {
+                    img_msg = cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
                 }
+                // Publish to the last publisher added to img_publishers_
+                img_publishers_.back().publish(img_msg);
 
-                // If it gets through the above for loop with published=false then the topic doesn't exist
-                if (published == false) {
-                    // cout << "Do this once." << endl;
-                    // cout << topic_name << endl;
+                //// publish a transform for each unique camera_name
+                // Note down camera names since each camera will need its own image transform
+                // old_cam_name=true if camera_name already exists
+                bool old_cam_name = false;
+                old_cam_name = std::any_of(camera_names_.begin(), camera_names_.end(), [camera_name](std::string str){return str==camera_name;});
+                // If still false, this is a new camera name, save and publish transform
+                if(!old_cam_name){
+                    // cout << "New camera found: " << camera_name << endl;
+                    camera_names_.push_back(camera_name);
 
-                    // create new publisher for the new topic
-                    img_publishers_.push_back(it_->advertise(topic_name_pub, 1));
+                    // cout << "publishing transform for: " << camera_name << endl;
+                    // Publish Image transform to broadcaster
+                    geometry_msgs::TransformStamped image_trans_;
+                    image_trans_.header.frame_id = "world";
+                    image_trans_.child_frame_id = ros_namespace_ + "/" + camera_name + "/pose";
+                    image_trans_.header.stamp = ros::Time::now();
 
-                    // Publish message so we don't skip frame
-                    if (topic_name == "/robot1/front_center_depthperspective" || topic_name == "/robot1/front_center_depthplanner") {
+                    // Pose in image_data.pose is in NED, but scrimmage is in ENU so use the conversion done in AirSimSensor
+                    // Position
+                    image_trans_.transform.translation.x = a.camera_config.cam_position_ENU.x();
+                    image_trans_.transform.translation.y = a.camera_config.cam_position_ENU.y();
+                    image_trans_.transform.translation.z = a.camera_config.cam_position_ENU.z();
+                    // Orientation
+                    image_trans_.transform.rotation.w = a.camera_config.cam_orientation_ENU.w();
+                    image_trans_.transform.rotation.x = a.camera_config.cam_orientation_ENU.x();
+                    image_trans_.transform.rotation.y = a.camera_config.cam_orientation_ENU.y();
+                    image_trans_.transform.rotation.z = a.camera_config.cam_orientation_ENU.z();;
+                    laser_broadcaster_->sendTransform(image_trans_);
+                } // end if new camera name to publish pose for
+
+            } // end for loop a : images in msg
+
+            img_topic_published_mutex_.lock();
+            img_topic_published_ = true;
+            img_topic_published_mutex_.unlock();
+
+            // return from this callback
+            return;
+        } // end if img_topic_published=false
+
+        // All image topics should be published
+        for (sc::sensor::AirSimImageType a : msg->data) {
+
+            // create string to match using topic name
+            std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
+            std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
+            std::string topic_name_match = "/" + ros_namespace_ + "/" + camera_name + "/" + image_type_name;
+            std_msgs::Header header; // empty header
+            header.stamp = ros::Time::now(); // time
+            header.frame_id = ros_namespace_ + "/" + camera_name + "/images";
+            sensor_msgs::ImagePtr img_msg;
+
+            // cout << "img_publishers_ length: " << img_publishers_.size() << endl;
+            for (auto pub : img_publishers_) {
+                // If the topic publisher exists, publish to topic
+                if (pub.getTopic() == topic_name_match) {
+                    // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
+                    if (a.camera_config.pixels_as_float) {
                         img_msg = cv_bridge::CvImage(header, "", a.img).toImageMsg();
                     } else {
                         img_msg = cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
                     }
-                    // publish using last publisher created
-                    img_publishers_.back().publish(img_msg);
+                    pub.publish(img_msg);
+                    break; // break publish for loop after image is published
+                } // end if topic name matches
+            } // end publishers for loop
 
-                    // topic name should print twice, checking that no weird threading error is occurring
-                    // cout << topic_name << endl;
-                    // cout << img_publishers_.back().getTopic() << endl;
+            // draw image
+            if (show_camera_images_) {
+                std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                if (a.camera_config.pixels_as_float) {
+                    cv::Mat tempImage;
+                    a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
+                    // cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);
+                    // cout << tempImage << endl;
+                    cv::imshow(window_name, tempImage);
+                } else {
+                    // other image types are int 0-255.
+                    cv::imshow(window_name, a.img);
                 }
-                // draw image
-                if (show_camera_images_) {
-                    std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
-                    if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
-                        cv::Mat tempImage;
-                        a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
-                        // cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);
-                        // cout << tempImage << endl;
-                        cv::imshow(window_name, tempImage);
-                    } else {
-                        // other image types are int 0-255.
-                        cv::imshow(window_name, a.img);
-                    }
-                    cv::waitKey(1);
+                cv::waitKey(1);
+            } // end draw image
+        } // end images in message for loop
+
+
+        // for each camera_name publish a transform
+        // cout << "camera_names length: " << camera_names_.size() << endl;
+        for (std::string cam_name : camera_names_) {
+            for (sc::sensor::AirSimImageType a : msg->data) {
+                if (a.camera_config.cam_name == cam_name) {
+                    // cout << "publishing transform for: " << cam_name << endl;
+                    // create and publish camera_name transform from image in msg
+                    geometry_msgs::TransformStamped image_trans_;
+                    image_trans_.header.frame_id = "world";
+                    image_trans_.child_frame_id = ros_namespace_ + "/" + cam_name + "/pose";
+                    image_trans_.header.stamp = ros::Time::now();
+
+                    // Pose in image_data.pose is in NED, but scrimmage is in ENU so use the conversion done in AirSimSensor
+                    // Position
+                    image_trans_.transform.translation.x = a.camera_config.cam_position_ENU.x();
+                    image_trans_.transform.translation.y = a.camera_config.cam_position_ENU.y();
+                    image_trans_.transform.translation.z = a.camera_config.cam_position_ENU.z();
+                    // Orientation
+                    image_trans_.transform.rotation.w = a.camera_config.cam_orientation_ENU.w();
+                    image_trans_.transform.rotation.x = a.camera_config.cam_orientation_ENU.x();
+                    image_trans_.transform.rotation.y = a.camera_config.cam_orientation_ENU.y();
+                    image_trans_.transform.rotation.z = a.camera_config.cam_orientation_ENU.z();;
+                    laser_broadcaster_->sendTransform(image_trans_);
+                    break; // break the image in msg for loop if camera_name is found and move to next camera_name
                 }
             }
-            // TODO: Odom transform broadcaster for camera position on drone.
         }
     };
     if (pub_lidar_data_) {
@@ -246,9 +285,9 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
         sensor_msgs::PointCloud2 lidar_msg;
         lidar_msg.header.stamp = ros::Time::now();
         lidar_msg.header.frame_id = ros_namespace_ + "/base_laser";
-        if (lidar_data_.point_cloud.size() > 3) {
+        if (lidar_data_.lidar_data.point_cloud.size() > 3) {
             lidar_msg.height = 1;
-            lidar_msg.width = lidar_data_.point_cloud.size() / 3;
+            lidar_msg.width = lidar_data_.lidar_data.point_cloud.size() / 3;
 
             lidar_msg.fields.resize(3);
             lidar_msg.fields[0].name = "x";
@@ -267,18 +306,39 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
 
             lidar_msg.is_dense = true;
-            std::vector<float> data_std = lidar_data_.point_cloud;
+            std::vector<float> data_std = lidar_data_.lidar_data.point_cloud;
 
             const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
             vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
             lidar_msg.data = std::move(lidar_msg_data);
         }
         base_scan_pub_.publish(lidar_msg);
+
+        //////////////////////////////////////////////////////////////////////
+        // Publish Laser Transform
+        //////////////////////////////////////////////////////////////////////
+        geometry_msgs::TransformStamped laser_trans_;
+        laser_trans_.header.frame_id = "world";
+        laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
+        laser_trans_.header.stamp = ros::Time::now();
+
+        // Pose in lidar_data.pose is in NED, but scrimmage is in ENU so use the conversion done in AirSimSensor
+        // Position
+        laser_trans_.transform.translation.x = lidar_data_.lidar_position_ENU.x();
+        laser_trans_.transform.translation.y = lidar_data_.lidar_position_ENU.y();
+        laser_trans_.transform.translation.z = lidar_data_.lidar_position_ENU.z();
+        // Orientation
+        laser_trans_.transform.rotation.w = lidar_data_.lidar_orientation_ENU.w();
+        laser_trans_.transform.rotation.x = lidar_data_.lidar_orientation_ENU.x();
+        laser_trans_.transform.rotation.y = lidar_data_.lidar_orientation_ENU.y();
+        laser_trans_.transform.rotation.z = lidar_data_.lidar_orientation_ENU.z();
+        // tf_msg_vec_.push_back(laser_trans_);
+        // laser_broadcaster_->sendTransform(tf_msg_vec_);
+        laser_broadcaster_->sendTransform(laser_trans_);
     }
     //////////////////////////////////////////////////////////////////////
-    // Publish Laser Transform
-    //////////////////////////////////////////////////////////////////////
     // Update World Transform
+    //////////////////////////////////////////////////////////////////////
     sc::StatePtr &state = parent_->state_truth();
     world_trans_.header.frame_id = "world";
     world_trans_.child_frame_id = ros_namespace_ + "/base_link";
@@ -292,11 +352,6 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
     world_trans_.header.stamp = ros::Time::now();
     // tf_msg_vec_.push_back(world_trans_);
     laser_broadcaster_->sendTransform(world_trans_);
-
-    laser_trans_.header.stamp = ros::Time::now();
-    // tf_msg_vec_.push_back(laser_trans_);
-    // laser_broadcaster_->sendTransform(tf_msg_vec_);
-    laser_broadcaster_->sendTransform(laser_trans_);
     //////////////////////////////////////////////////////////////////////
 
     return true;

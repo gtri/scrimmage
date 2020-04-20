@@ -67,22 +67,23 @@ class CameraConfig {
             msr::airlib::ImageCaptureBase::ImageType::Scene;
 
         std::string cam_name = "none";
-        int cam_number = 0;
         std::string img_type_name = "none";
         int img_type_number = 0;
         int height = 144; // 288
         int width = 256;  // 512
-        std::vector<double>> cam_position{0.0, 0.0, 0.0};
-        std::vector<double>> cam_orientation{0.0, 0.0, 0.0};
+        Eigen::Matrix<float, 3, 1> cam_position_ENU; // cam_position{0.0, 0.0, 0.0};
+        Eigen::Quaternion<float, 2> cam_orientation_ENU;
+        bool pixels_as_float = false;
 
         friend std::ostream& operator<<(std::ostream& os,
                                         const CameraConfig& c) {
-            os << "Camera_Number=" << c.cam_number;
             os << ", Camera_Name=" << c.cam_name;
             os << ", Image_Type_Num=" << c.img_type_number;
             os << ", Image_Type_Name=" << c.img_type_name;
             os << ", Height=" << c.height;
             os << ", Width=" << c.width;
+            os << ", Position= " << c.cam_position_ENU;
+            os << ", Orientation= " << c.cam_orientation_ENU;
             return os;
         }
 };
@@ -91,16 +92,16 @@ class AirSimImageType {
  public:
     cv::Mat img;
     CameraConfig camera_config;
-    int frame_num = 0;
     std::string vehicle_name;
 };
 
 class AirSimLidarType {
  public:
     msr::airlib::LidarData lidar_data;
-    int frame_num = 0;
     std::string vehicle_name;
     std::string lidar_name;
+    Eigen::Matrix<float, 3, 1> lidar_position_ENU{0.0, 0.0, 0.0};
+    Eigen::Quaternion<float, 2> lidar_orientation_ENU{0.0, 0.0, 0.0, 0.0};
 };
 
 class AirSimSensor : public scrimmage::Sensor {
@@ -112,10 +113,12 @@ class AirSimSensor : public scrimmage::Sensor {
 
  protected:
     std::thread request_images_thread_;
+    void parse_camera_configs(std::map<std::string, std::string> &params);
     void request_images();
     scrimmage::MessagePtr<std::vector<AirSimImageType>> img_msg_ = nullptr;
     scrimmage::MessagePtr<AirSimLidarType> lidar_msg_ = nullptr;
     std::mutex img_msg_mutex_;
+    std::mutex lidar_msg_mutex_;
 
     bool running_ = true;
     std::mutex running_mutex_;
@@ -136,14 +139,16 @@ class AirSimSensor : public scrimmage::Sensor {
     PublisherPtr img_pub_;
     PublisherPtr lidar_pub_;
 
-    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state);
+    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state, int frame_num);
 
     bool save_airsim_data_ = true;
     bool get_image_data_ = true;
     bool get_lidar_data_ = true;
 
     bool new_lidar_ = false;
+    std::mutex new_lidar_mutex_;
     bool new_image_ = false;
+    std::mutex new_image_mutex_;
 
     // period at which the data acquisition is run [seconds]
     double data_acquisition_period_ = .1;

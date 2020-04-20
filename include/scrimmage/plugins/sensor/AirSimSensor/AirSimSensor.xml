@@ -8,27 +8,22 @@
   <airsim_timeout_s>60</airsim_timeout_s>
 
   <!--
-      [CameraNumber=Front_Center=0 ImageTypeName=Scene ImageTypeNumber=0 Width=256 Height=144 X Y Z Roll Pitch Yaw]
+      [CameraName="front_center" ImageTypeName=Scene Width=256 Height=144]
 
-      AirSim Camera Types:
-      Front_Center=0, Front_Right=1, Front_Left=2, Bottom_Center=3, Back_Center=4
+      AirSim Camera Name: User chosen name set in settings.json file under "Cameras" for each vehicle
 
       AirSim ImageTypeName = ImageTypeNumber:
-      Scene=0, DepthPlanner=1, DepthPerspective=2, DepthVis=3, DisparityNormalized=4,
-      Segmentation=5, SurfaceNormals=6, Infrared=7
+      Scene, DepthPlanner, DepthPerspective, DepthVis, DisparityNormalized,
+      Segmentation, SurfaceNormals, Infrared
 
       Image Pixels = Width, Height
-
-      Camera Position relative to the Vehicle's Body
-      X(meters) Y(meters) Z(meters) Roll(degrees) Pitch(degrees) Yaw(degrees)
-
-      Example: [0 Scene 0 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
+]
   -->
   <camera_config>
-    [0 Scene 0 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-    [0 DepthPerspective 2 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-    [0 Segmentation 5 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
-    [0 Infrared 7 256 144 0.0 0.0 0.0 0.0 0.0 0.0]
+    [front_center Scene 256 144]
+    [front_center DepthPerspective 256 144]
+    [front_center Segmentation 256 144]
+    [front_center Infrared 256 144]
   </camera_config>
 
   <!-- Edit the params below in the mission file, not here -->

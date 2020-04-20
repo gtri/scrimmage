@@ -97,50 +97,48 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
             std::vector<std::string> tokens_2;
             boost::split(tokens_2, t_1, boost::is_any_of(" ,"));
 
-            if (tokens_2.size() == 5) {
+            if (tokens_2.size() == 4) {
                 try {
                     CameraConfig c;
                     // Get Camera Number Type
-                    c.cam_number = boost::lexical_cast<int>(tokens_2[0]);
-                    if (c.cam_number == 0) {
-                        c.cam_name = "Front_Center";
-                    } else if (c.cam_number == 1) {
-                        c.cam_name = "Front_Right";
-                    } else if (c.cam_number == 2) {
-                        c.cam_name = "Front_Left";
-                    } else if (c.cam_number == 3) {
-                        c.cam_name = "Bottom_Center";
-                    } else if (c.cam_number == 4) {
-                        c.cam_name = "Back_Center";
-                    } else {
-                        cout << "Error: Unknown camera number: " << c.cam_number << endl;
-                        c.cam_name = "Unknown";
-                    }
+                    // Front_Center=0, Front_Right=1, Front_Left=2, Bottom_Center=3, Back_Center=4
+                    // c.cam_number = boost::lexical_cast<int>(tokens_2[0]);
+                    c.cam_name = tokens_2[0];
 
                     // Get Image Type Name and Number
-                    c.img_type_number = boost::lexical_cast<int>(tokens_2[2]);
+                    // c.img_type_number = boost::lexical_cast<int>(tokens_2[2]);
+                    // Scene=0, DepthPlanner=1, DepthPerspective=2, DepthVis=3, DisparityNormalized=4,
+                    // Segmentation=5, SurfaceNormals=6, Infrared=7
                     if (tokens_2[1] == "Scene") {
+                        c.img_type_number = 0;
                         c.img_type = ma::ImageCaptureBase::ImageType::Scene;
                         c.img_type_name = "Scene";
                     } else if (tokens_2[1] == "DepthPlanner") {
+                        c.img_type_number = 1;
                         c.img_type = ma::ImageCaptureBase::ImageType::DepthPlanner;
                         c.img_type_name = "DepthPlanner";
                     } else if (tokens_2[1] == "DepthPerspective") {
+                        c.img_type_number = 2;
                         c.img_type = ma::ImageCaptureBase::ImageType::DepthPerspective;
                         c.img_type_name = "DepthPerspective";
                     } else if (tokens_2[1] == "DepthVis") {
+                        c.img_type_number = 3;
                         c.img_type = ma::ImageCaptureBase::ImageType::DepthVis;
                         c.img_type_name = "DepthVis";
                     } else if (tokens_2[1] == "DisparityNormalized") {
+                        c.img_type_number = 4;
                         c.img_type = ma::ImageCaptureBase::ImageType::DisparityNormalized;
                         c.img_type_name = "DisparityNormalized";
                     } else if (tokens_2[1] == "Segmentation") {
+                        c.img_type_number = 5;
                         c.img_type = ma::ImageCaptureBase::ImageType::Segmentation;
                         c.img_type_name = "Segmentation";
                     } else if (tokens_2[1] == "SurfaceNormals") {
+                        c.img_type_number = 6;
                         c.img_type = ma::ImageCaptureBase::ImageType::SurfaceNormals;
                         c.img_type_name = "SurfaceNormals";
                     } else if (tokens_2[1] == "Infrared") {
+                        c.img_type_number = 7;
                         c.img_type = ma::ImageCaptureBase::ImageType::Infrared;
                         c.img_type_name = "Infrared";
                     } else {
@@ -150,18 +148,25 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
                     }
 
                     // Get Image pixel width and height (integers)
-                    c.width = std::stoi(tokens_2[3]);
-                    c.height = std::stoi(tokens_2[4]);
+                    c.width = std::stoi(tokens_2[2]);
+                    c.height = std::stoi(tokens_2[3]);
 
                     // Camera Position and Orientation (relative to vehicle body)
                     // X Y Z
-                    c.cam_position[0] = boost::lexical_cast<double>(tokens_2[5]);
-                    c.cam_position[1] = boost::lexical_cast<double>(tokens_2[6]);
-                    c.cam_position[2] = boost::lexical_cast<double>(tokens_2[7]);
+                    // c.cam_position[0] = boost::lexical_cast<double>(tokens_2[4]);
+                    // c.cam_position[1] = boost::lexical_cast<double>(tokens_2[5]);
+                    // c.cam_position[2] = boost::lexical_cast<double>(tokens_2[6]);
                     // Roll Pitch Yaw
-                    c.cam_orientation[0] = boost::lexical_cast<double>(tokens_2[8]);
-                    c.cam_orientation[1] = boost::lexical_cast<double>(tokens_2[9]);
-                    c.cam_orientation[2] = boost::lexical_cast<double>(tokens_2[10]);
+                    // c.cam_orientation[0] = boost::lexical_cast<double>(tokens_2[7]);
+                    // c.cam_orientation[1] = boost::lexical_cast<double>(tokens_2[8]);
+                    // c.cam_orientation[2] = boost::lexical_cast<double>(tokens_2[9]);
+
+                    // Set Camera position for simulation
+                    // msr::airlib::CameraInfo cam_info = sim_client_->simGetCameraInfo(c.cam_name, vehicle_name_);
+
+                    // cout << "Camera Pose = " << cam_info.pose << endl;
+                    // cout << "Camera FOV = " << cam_info.fov << endl;
+                    // cout << "Camera Projection Matrix = " << cam_info.proj_mat << endl;
 
                     cout << "Adding Camera: " << c << endl;
                     cam_configs_.push_back(c);
@@ -169,11 +174,13 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
                 } catch (boost::bad_lexical_cast) {
                     // Parsing whitespace and possibily malformed XML.
                     cout << "Parse Error: Check camera_config's in AirSimSensor.xml" << endl;
-                }
-            }
-        }
-    }
-}
+                } // end try, catch
+            } else {
+                cout << "Parse Error: Check camera_config's in AirSimSensor.xml, number of variables incorrect." << endl;
+            } // end check token_2 size
+        } // end check token_1 size
+    } // end for loop: tokens_2 in token_1
+} // end parse_camera_configs
 
 void AirSimSensor::init(std::map<std::string, std::string> &params) {
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
@@ -200,8 +207,27 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     }
     cout << "Data Acquisition Period = " << data_acquisition_period_ << endl;
 
+    // Connect to AirSim Client
+    if (!client_connected_) {
+        cout << "Connecting to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << endl;
+        sim_client_ = std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
+                                                                   airsim_port_,
+                                                                   airsim_timeout_s_);
+
+        sim_client_->confirmConnection();
+
+        // If we haven't been able to connect to AirSim, warn the user and return.
+        if (sim_client_->getConnectionState() !=
+            ma::RpcLibClientBase::ConnectionState::Connected) {
+            client_connected_ = false;
+            cout << "Warning: not connected to AirSim." << endl;
+        }
+        client_connected_ = true;
+        sim_client_->enableApiControl(true, vehicle_name_);
+    }
+
     // Get camera configurations
-    AirSimSensor::parse_camera_configs();
+    AirSimSensor::parse_camera_configs(params);
 
     // Open airsim_data CSV for append (app) and set column headers
     std::string csv_filename = parent_->mp()->log_dir() + "/airsim_data_robot" + std::to_string(parent_->id().id()) + ".csv";
@@ -245,69 +271,132 @@ void AirSimSensor::request_images() {
 
     // todo, Need to figure out how to pull vehicle/ lidar names from settings.json file
     // Right now we are running AirSim with only 1 Drone
-    // const std::string& vehicle_name = vehicle_name_;
-    // const std::string& lidar_name = lidar_name_;
-    // TTimePoint prev_timestamp = 0;
 
     while (running) {
 
         // Set up stream for each camera/ camera type sending images
-        auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
-        auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
+        // auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
+        // auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
 
         // LIDAR data is the same for each corresponding image group requested
-        // todo, save LIDAR data, place LIDAR data request in separate thread?
         // You can also get segmented objects from lidar data in AirSim, see RpcLibClientBase::simGetLidarSegmentation
         // Get Lidar Data
         if (get_lidar_data_) {
             AirSimLidarType l;
             l.vehicle_name = vehicle_name_;
             l.lidar_name = lidar_name_;
+            // lidar_data contains point_cloud, timestamp, and pose (position and orientation)
+            // See AirLib::RpcAdaptorsBase
             l.lidar_data = img_client->getLidarData(lidar_name_, vehicle_name_);
-            lidar_msg->data = l;
+
+            // Pose in lidar_data_ is in NED, but scrimmage is in ENU so convert
+            // Switch X and Y and negate Z
+            l.lidar_position_ENU.x() = l.lidar_data.pose.position.y();
+            l.lidar_position_ENU.y() = l.lidar_data.pose.position.x();
+            l.lidar_position_ENU.z() = -1 * l.lidar_data.pose.position.z();
+
+            // Pose in lidar_data_ is in NED, but scrimmage is in ENU so convert
+            double xTo = -180 * (M_PI / 180); // -PI rotation about X
+            double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
+            Eigen::Quaternion<float> NED_quat = l.lidar_data.pose.orientation;
+            // Rotate, order matters
+            Eigen::Quaternion<float> ENU_quat;
+            ENU_quat = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat; // -PI rotation about X
+            ENU_quat = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * ENU_quat; // PI/2 rotation about Z (Up)
+            l.lidar_orientation_ENU.w() = ENU_quat.w();
+            l.lidar_orientation_ENU.x() = ENU_quat.x();
+            l.lidar_orientation_ENU.y() = ENU_quat.y();
+            l.lidar_orientation_ENU.z() = ENU_quat.z();
+
             if (l.lidar_data.point_cloud.size() > 3) {
+                auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
+                lidar_msg->data = l;
+
+                new_lidar_mutex_.lock();
                 new_lidar_ = true;
+                new_lidar_mutex_.unlock();
+
+                lidar_msg_mutex_.lock();
+                lidar_msg_ = lidar_msg;
+                lidar_msg_mutex_.unlock();
             }
         }
+
         if (get_image_data_) {
+            // Make the Requests Vector for getting images
+            vector<ImageRequest> requests;
             for (CameraConfig c : cam_configs_) {
-
-                // This is the Camera Number, need const string integer for request, "0"=Front_Center
-                const std::string& cam_num = std::to_string(c.cam_number);
-
                 // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
-                std::vector<ImageRequest> request;
+                ImageRequest request;
                 if (c.img_type_name == "DepthPerspective" || c.img_type_name == "DepthPlanner") {
-                    request = {ImageRequest(cam_num, c.img_type, true, false)};
+                    request = {ImageRequest(c.cam_name, c.img_type, true, false)};
                 } else {
                     // All Other Image types come in as RGB = 3 channel uint8 matrix
-                    request = {ImageRequest(cam_num, c.img_type, false, false)};
+                    request = {ImageRequest(c.cam_name, c.img_type, false, false)};
                 }
+                requests.push_back(request);
+            }
 
-                // Get Image
-                const std::vector<ImageResponse>& response  = img_client->simGetImages(request, vehicle_name_);
+            // Get Images
+            const std::vector<ImageResponse>& response_vector  = img_client->simGetImages(requests);
 
-                if (response.size() > 0) {
+            // If response vector contains new data, create img_msg, transfer data into message and publish
+            // cout << response_vector.size() << endl;
+            if (response_vector.size() > 0) {
+                auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
+
+                new_image_mutex_.lock();
+                new_image_ = true;
+                new_image_mutex_.unlock();
+
+                std::vector<AirSimImageType> image_type_vec;
+                for (ImageResponse response : response_vector) {
                     AirSimImageType a;
                     a.vehicle_name = vehicle_name_;
-                    a.camera_config = c;
-                    new_image_ = true;
+                    // Get Camera Config
+                    for (CameraConfig c : cam_configs_) {
+                        if (c.img_type == response.image_type && c.cam_name == response.camera_name) {
+                            a.camera_config = c;
+                            break;
+                        }
+                    }
+                    // AirSim gives camera pose is in respect the the world frame
+                    // Pose in response is in NED, but scrimmage is in ENU so convert
+                    // Switch X and Y and negate Z
+                    a.camera_config.cam_position_ENU.x() = response.camera_position.y();
+                    a.camera_config.cam_position_ENU.y() = response.camera_position.x();
+                    a.camera_config.cam_position_ENU.z() = -1 * response.camera_position.z();
+
+                    // Pose in lidar_data_ is in NED, but scrimmage is in ENU so convert
+                    double xTo = -180 * (M_PI / 180); // -PI rotation about X
+                    double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
+                    Eigen::Quaternion<float> NED_quat = response.camera_orientation;
+                    // Rotate, order matters
+                    Eigen::Quaternion<float> ENU_quat;
+                    ENU_quat = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat; // -PI rotation about X
+                    ENU_quat = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * ENU_quat; // PI/2 rotation about Z (Up)
+                    a.camera_config.cam_orientation_ENU.w() = ENU_quat.w();
+                    a.camera_config.cam_orientation_ENU.x() = ENU_quat.x();
+                    a.camera_config.cam_orientation_ENU.y() = ENU_quat.y();
+                    a.camera_config.cam_orientation_ENU.z() = ENU_quat.z();
 
                     // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
-                    if (c.img_type_name == "DepthPerspective" || c.img_type_name == "DepthPlanner") {
-                        // get uncompressed rgb array bytes
-                        auto& im_vec = response.at(0).image_data_float;
+                    a.camera_config.pixels_as_float = response.pixels_as_float;
+                    if (a.camera_config.pixels_as_float) {
+                        // get uncompressed 32FC1 array bytes
+                        auto& im_vec = response.image_data_float;
+                        // auto& im_vec = response.at(0).image_data_float;
                         // cout << "response[0] size:" << im_vec.size() << endl;
 
                         // todo, no memcpy, just set image ptr to underlying data
                         // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
-                        cv::Mat img(c.height, c.width, CV_32FC1);
+                        cv::Mat img(a.camera_config.height, a.camera_config.width, CV_32FC1);
                         memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
                         a.img = img;
                     } else {
                         // All Other Image types come in as RGB = 3 channel uint8 matrix
                         // get uncompressed rgb array bytes
-                        auto& im_vec = response.at(0).image_data_uint8;
+                        auto& im_vec = response.image_data_uint8;
                         // cout << "response[0] size:" << im_vec.size() << endl;
 
                         // todo, no memcpy, just set image ptr to underlying data, line below mixes image data from different image types
@@ -315,35 +404,40 @@ void AirSimSensor::request_images() {
                         // a.img = cv::Mat(c.height, c.width, CV_8UC3, const_cast<uint8_t*>(response.at(0).image_data_uint8.data()));
 
                         // cv::Mat img({c.height, c.width, 3}, CV_8UC3);
-                        cv::Mat img(c.height, c.width, CV_8UC3);
+                        cv::Mat img(a.camera_config.height, a.camera_config.width, CV_8UC3);
                         memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
                         a.img = img;
                         // cv::cvtColor(img, a.img, cv::COLOR_RGB2BGR, 3);
-                    }
-                    // Push into im_msg: vector of images/camera info
-                    im_msg->data.push_back(a);
-                }
-            }
-        }
-        img_msg_mutex_.lock();
-        img_msg_ = im_msg;
-        lidar_msg_ = lidar_msg;
-        img_msg_mutex_.unlock();
+
+                    } // end if pixels_as_float
+                    image_type_vec.push_back(a);
+                } // end ImageResponse for loop
+
+                // Place data inside img_msg
+                im_msg->data = image_type_vec;
+
+                // Submit message to be published
+                img_msg_mutex_.lock();
+                img_msg_ = im_msg;
+                img_msg_mutex_.unlock();
+
+            } // end response > 0
+
+        } // end if get_image_data
 
         running_mutex_.lock();
         running = running_;
         running_mutex_.unlock();
-
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(data_acquisition_period_*1000)));
-    }
-}
+    } // end while running
+} // end AirSimSensor::request_images
 
 bool AirSimSensor::step() {
     ///////////////////////////////////////////////////////////////////////////
     /// Client Connection / Disconnection Handling
     ///////////////////////////////////////////////////////////////////////////
 
-    // If we aren't connected to AirSim, try to connect.
+    // If we aren't connected to AirSim, re-establish connection.
     if (!client_connected_) {
         cout << "Connecting to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << endl;
         sim_client_ = std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
@@ -362,7 +456,7 @@ bool AirSimSensor::step() {
             return true;
         }
         client_connected_ = true;
-        sim_client_->enableApiControl(true);
+        sim_client_->enableApiControl(true, vehicle_name_);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -389,29 +483,33 @@ bool AirSimSensor::step() {
     // Get the camera images from the other thread
     sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
     sc::MessagePtr<AirSimLidarType> lidar_msg;
-    bool new_lidar;
-    bool new_image;
+    bool new_lidar = false;
+    bool new_image = false;
+
+    new_image_mutex_.lock();
+    new_image = new_image_;
+    new_image_ = false;
+    new_image_mutex_.unlock();
+
+    new_lidar_mutex_.lock();
+    new_lidar = new_lidar_;
+    new_lidar_ = false;
+    new_lidar_mutex_.unlock();
 
     img_msg_mutex_.lock();
     im_msg = img_msg_;
-    new_image = new_image_;
-    new_image_ = false;
-
     lidar_msg = lidar_msg_;
-    new_lidar = new_lidar_;
-    new_lidar_ = false;
-
     img_msg_mutex_.unlock();
 
     // If image is new, publish
     if (new_image) {
-        int im_msg_size = im_msg->data.size();
-        for (int i = 0; i < im_msg_size; i++) {
-            im_msg->data[i].frame_num = airsim_frame_num_;
-        }
+        // int im_msg_size = im_msg->data.size();
+        // for (int i = 0; i < im_msg_size; i++) {
+        //     im_msg->data[i].frame_num = airsim_frame_num_;
+        // }
 
         if (save_airsim_data_) {
-            AirSimSensor::save_data(im_msg, state);
+            AirSimSensor::save_data(im_msg, state, airsim_frame_num_);
         }
 
         img_pub_->publish(im_msg);
@@ -420,7 +518,7 @@ bool AirSimSensor::step() {
     // If lidar is new, publish
     if (new_lidar) {
         // Set frame # for all items in AirSim msg vector, assures frame number in saved images is same # as in ROS msgs
-        lidar_msg->data.frame_num = airsim_frame_num_;
+        // lidar_msg->data.frame_num = airsim_frame_num_;
         // cout << "Lidar Frame Num" << lidar_msg->data.frame_num << endl;
 
         lidar_pub_->publish(lidar_msg);
@@ -431,21 +529,21 @@ bool AirSimSensor::step() {
     return true;
 }
 
-bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, sc::StatePtr& state) {
+bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, sc::StatePtr& state, int frame_num) {
     // Get timestamp
     double time_now = time_->t();  // dt()
-    int frame_number;
+    // int frame_number;
 
     // TODO: Saving 3 images + a csv makes the simulation run slower, maybe need to thread
     for (AirSimImageType d : im_msg->data) {
-        frame_number = d.frame_num;
+        // frame_number = d.frame_num;
         // Create Vehicle Directory
         std::string vehicle_dir = parent_->mp()->log_dir() + "/" + vehicle_name_ + "/";
         boost::filesystem::create_directory(vehicle_dir);
         // Create Image type directory and image file name
         std::string img_type_dir = vehicle_dir + d.camera_config.img_type_name + "/";
         boost::filesystem::create_directory(img_type_dir);
-        std::string img_filename = img_type_dir + std::to_string(airsim_frame_num_) + ".png";
+        std::string img_filename = img_type_dir + std::to_string(frame_num) + ".png";
 
         // write image
         std::vector<int> compression_params;
@@ -455,16 +553,12 @@ bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, s
         cv::imwrite(img_filename, d.img, compression_params);
     }
 
-    // TODO: Save lidar data
-
-    // cout << "Save Frame Num" << frame_number << endl;
-
     // Write the CSV file to the root log directory file name = airsim_data.csv
     if (!csv.output_is_open()) {
             cout << "File isn't open. Can't append to CSV" << endl;
             }
     csv.append(sc::CSV::Pairs{
-    {"frame", frame_number},
+    {"frame", frame_num},
     {"t", time_now},
     {"x", state->pos()(0)},
     {"y", state->pos()(1)},
