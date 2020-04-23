@@ -335,7 +335,7 @@ Camera Settings
         [back_center Infrared 256 144]
       </camera_config>
 
-    The ``CameraName`` corresponds  to the user chosen camera name set in settings.json file under "Cameras" for each
+    The ``CameraName`` corresponds  to the user chosen camera name set in settings.json file under "Cameras{}" for each
     vehicle. The ``ImageType`` is a type defined by AirSim that specifies the type of camera (optical, depth,
     segmentation, etc.). The ``Width`` and ``Height`` correspond to the pixel dimensions of the images we want to
     receive in scrimmage from AirSim. To learn more about the options available in AirSim see:
@@ -344,7 +344,7 @@ Camera Settings
 Save Images and Get LIDAR data
 ******************************
 
-    To save the images and a CSV of position and orientation in the world from from the simulation for later processing
+    To save the images and a CSV of position and orientation in the world frame from the simulation for later processing
     into the SCRIMMAGE logs directory set save_airsim_data="true" in the scrimmage mission file quad-airsim-ex1.xml. The
     SCRIMMAGE Logs directory should be located in ~/.scrimmage/logs on the Linux side.
 

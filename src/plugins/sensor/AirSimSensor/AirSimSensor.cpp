@@ -151,23 +151,6 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
                     c.width = std::stoi(tokens_2[2]);
                     c.height = std::stoi(tokens_2[3]);
 
-                    // Camera Position and Orientation (relative to vehicle body)
-                    // X Y Z
-                    // c.cam_position[0] = boost::lexical_cast<double>(tokens_2[4]);
-                    // c.cam_position[1] = boost::lexical_cast<double>(tokens_2[5]);
-                    // c.cam_position[2] = boost::lexical_cast<double>(tokens_2[6]);
-                    // Roll Pitch Yaw
-                    // c.cam_orientation[0] = boost::lexical_cast<double>(tokens_2[7]);
-                    // c.cam_orientation[1] = boost::lexical_cast<double>(tokens_2[8]);
-                    // c.cam_orientation[2] = boost::lexical_cast<double>(tokens_2[9]);
-
-                    // Set Camera position for simulation
-                    // msr::airlib::CameraInfo cam_info = sim_client_->simGetCameraInfo(c.cam_name, vehicle_name_);
-
-                    // cout << "Camera Pose = " << cam_info.pose << endl;
-                    // cout << "Camera FOV = " << cam_info.fov << endl;
-                    // cout << "Camera Projection Matrix = " << cam_info.proj_mat << endl;
-
                     cout << "Adding Camera: " << c << endl;
                     cam_configs_.push_back(c);
 
@@ -175,9 +158,7 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
                     // Parsing whitespace and possibily malformed XML.
                     cout << "Parse Error: Check camera_config's in AirSimSensor.xml" << endl;
                 } // end try, catch
-            } else {
-                cout << "Parse Error: Check camera_config's in AirSimSensor.xml, number of variables incorrect." << endl;
-            } // end check token_2 size
+            }
         } // end check token_1 size
     } // end for loop: tokens_2 in token_1
 } // end parse_camera_configs
@@ -277,6 +258,7 @@ void AirSimSensor::request_images() {
         // Set up stream for each camera/ camera type sending images
         // auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
         // auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
+        
 
         // LIDAR data is the same for each corresponding image group requested
         // You can also get segmented objects from lidar data in AirSim, see RpcLibClientBase::simGetLidarSegmentation
@@ -289,6 +271,7 @@ void AirSimSensor::request_images() {
             // See AirLib::RpcAdaptorsBase
             l.lidar_data = img_client->getLidarData(lidar_name_, vehicle_name_);
 
+            // AirSim gives pose of lidar in relation to the world frame
             // Pose in lidar_data_ is in NED, but scrimmage is in ENU so convert
             // Switch X and Y and negate Z
             l.lidar_position_ENU.x() = l.lidar_data.pose.position.y();
@@ -338,7 +321,7 @@ void AirSimSensor::request_images() {
             }
 
             // Get Images
-            const std::vector<ImageResponse>& response_vector  = img_client->simGetImages(requests);
+            const std::vector<ImageResponse>& response_vector  = img_client->simGetImages(requests, vehicle_name_);
 
             // If response vector contains new data, create img_msg, transfer data into message and publish
             // cout << response_vector.size() << endl;
@@ -360,14 +343,14 @@ void AirSimSensor::request_images() {
                             break;
                         }
                     }
-                    // AirSim gives camera pose is in respect the the world frame
+                    // AirSim gives camera pose in respect the the world frame
                     // Pose in response is in NED, but scrimmage is in ENU so convert
                     // Switch X and Y and negate Z
                     a.camera_config.cam_position_ENU.x() = response.camera_position.y();
                     a.camera_config.cam_position_ENU.y() = response.camera_position.x();
                     a.camera_config.cam_position_ENU.z() = -1 * response.camera_position.z();
 
-                    // Pose in lidar_data_ is in NED, but scrimmage is in ENU so convert
+                    // Pose of camera is in NED, but scrimmage is in ENU so convert
                     double xTo = -180 * (M_PI / 180); // -PI rotation about X
                     double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
                     Eigen::Quaternion<float> NED_quat = response.camera_orientation;
@@ -392,7 +375,7 @@ void AirSimSensor::request_images() {
                         // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
                         cv::Mat img(a.camera_config.height, a.camera_config.width, CV_32FC1);
                         memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
-                        a.img = img;
+                        a.img = std::move(img);
                     } else {
                         // All Other Image types come in as RGB = 3 channel uint8 matrix
                         // get uncompressed rgb array bytes
@@ -406,11 +389,12 @@ void AirSimSensor::request_images() {
                         // cv::Mat img({c.height, c.width, 3}, CV_8UC3);
                         cv::Mat img(a.camera_config.height, a.camera_config.width, CV_8UC3);
                         memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
-                        a.img = img;
+                        a.img = std::move(img);
                         // cv::cvtColor(img, a.img, cv::COLOR_RGB2BGR, 3);
 
                     } // end if pixels_as_float
-                    image_type_vec.push_back(a);
+                    image_type_vec.push_back(std::move(a));
+                    im_msg->data = image_type_vec;
                 } // end ImageResponse for loop
 
                 // Place data inside img_msg
@@ -481,47 +465,94 @@ bool AirSimSensor::step() {
     sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
 
     // Get the camera images from the other thread
-    sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
-    sc::MessagePtr<AirSimLidarType> lidar_msg;
-    bool new_lidar = false;
-    bool new_image = false;
+    if (get_image_data_) {
+        sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
+        bool new_image = false;
 
-    new_image_mutex_.lock();
-    new_image = new_image_;
-    new_image_ = false;
-    new_image_mutex_.unlock();
+        new_image_mutex_.lock();
+        new_image = new_image_;
+        new_image_ = false;
+        new_image_mutex_.unlock();
 
-    new_lidar_mutex_.lock();
-    new_lidar = new_lidar_;
-    new_lidar_ = false;
-    new_lidar_mutex_.unlock();
+        img_msg_mutex_.lock();
+        im_msg = img_msg_;
+        img_msg_mutex_.unlock();
 
-    img_msg_mutex_.lock();
-    im_msg = img_msg_;
-    lidar_msg = lidar_msg_;
-    img_msg_mutex_.unlock();
+        // If image is new, publish
+        if (new_image) {
 
-    // If image is new, publish
-    if (new_image) {
-        // int im_msg_size = im_msg->data.size();
-        // for (int i = 0; i < im_msg_size; i++) {
-        //     im_msg->data[i].frame_num = airsim_frame_num_;
-        // }
+            // Get camera position
+            int im_msg_size = im_msg->data.size();
+            for (int i = 0; i < im_msg_size; i++) {
 
-        if (save_airsim_data_) {
-            AirSimSensor::save_data(im_msg, state, airsim_frame_num_);
+                // Get camera position relative to vehicle body frame
+                // Get pose of camera in world frame using Eigen
+                Eigen::Translation3f translation_trans_camera(im_msg->data[i].camera_config.cam_position_ENU);
+                Eigen::Quaternionf rotation_quat_camera(im_msg->data[i].camera_config.cam_orientation_ENU);
+                Eigen::Isometry3f tf_world_camera(translation_trans_camera * rotation_quat_camera);
+                // Get pose of vehicle in world frame using Eigen
+                Eigen::Translation3f translation_trans_vehicle(static_cast<float>(state->pos()(0)),
+                                                               static_cast<float>(state->pos()(1)),
+                                                               static_cast<float>(state->pos()(2)));
+                Eigen::Quaternionf rotation_quat_vehicle(static_cast<float>(state->quat().w()),
+                                                         static_cast<float>(state->quat().x()),
+                                                         static_cast<float>(state->quat().y()),
+                                                         static_cast<float>(state->quat().z()));
+                Eigen::Isometry3f tf_world_vehicle(translation_trans_vehicle * rotation_quat_vehicle);
+                // Get pose of camera in vehicle frame using Eigen
+                Eigen::Isometry3f tf_vehicle_camera(tf_world_vehicle.inverse() * tf_world_camera);
+                // Write back to camera message
+                im_msg->data[i].camera_config.cam_position_ENU = tf_vehicle_camera.translation();
+                im_msg->data[i].camera_config.cam_orientation_ENU = tf_vehicle_camera.rotation();
+                // im_msg->data[i].vehicle_pose = tf_world_vehicle;
+            }
+
+            if (save_airsim_data_) {
+                AirSimSensor::save_data(im_msg, state, airsim_frame_num_);
+            }
+
+            img_pub_->publish(im_msg);
         }
-
-        img_pub_->publish(im_msg);
     }
 
-    // If lidar is new, publish
-    if (new_lidar) {
-        // Set frame # for all items in AirSim msg vector, assures frame number in saved images is same # as in ROS msgs
-        // lidar_msg->data.frame_num = airsim_frame_num_;
-        // cout << "Lidar Frame Num" << lidar_msg->data.frame_num << endl;
+    if (get_lidar_data_) {
+        sc::MessagePtr<AirSimLidarType> lidar_msg;
+        bool new_lidar = false;
 
-        lidar_pub_->publish(lidar_msg);
+        new_lidar_mutex_.lock();
+        new_lidar = new_lidar_;
+        new_lidar_ = false;
+        new_lidar_mutex_.unlock();
+
+        lidar_msg_mutex_.lock();
+        lidar_msg = lidar_msg_;
+        lidar_msg_mutex_.unlock();
+
+        // Get lidar position relative to vehicle body frame
+        // Get pose of lidar in world frame using Eigen
+        Eigen::Translation3f translation_trans_lidar(lidar_msg->data.lidar_position_ENU);
+        Eigen::Quaternionf rotation_quat_lidar(lidar_msg->data.lidar_orientation_ENU);
+        Eigen::Isometry3f tf_world_lidar(translation_trans_lidar * rotation_quat_lidar);
+        // Get pose of vehicle in world frame in Eigen
+        Eigen::Translation3f translation_trans_vehicle(static_cast<float>(state->pos()(0)),
+                                                       static_cast<float>(state->pos()(1)),
+                                                       static_cast<float>(state->pos()(2)));
+        Eigen::Quaternionf rotation_quat_vehicle(static_cast<float>(state->quat().w()),
+                                                 static_cast<float>(state->quat().x()),
+                                                 static_cast<float>(state->quat().y()),
+                                                 static_cast<float>(state->quat().z()));
+        Eigen::Isometry3f tf_world_vehicle(translation_trans_vehicle * rotation_quat_vehicle);
+        // Get pose of lidar in vehicle frame using Eigen
+        Eigen::Isometry3f tf_vehicle_lidar(tf_world_vehicle.inverse() * tf_world_lidar);
+        // Write back to camera message
+        lidar_msg->data.lidar_position_ENU = tf_vehicle_lidar.translation();
+        lidar_msg->data.lidar_orientation_ENU = tf_vehicle_lidar.rotation();
+        lidar_msg->data.vehicle_pose = tf_world_vehicle;
+
+        // If lidar is new, publish
+        if (new_lidar) {
+            lidar_pub_->publish(lidar_msg);
+        }
     }
 
     airsim_frame_num_++;

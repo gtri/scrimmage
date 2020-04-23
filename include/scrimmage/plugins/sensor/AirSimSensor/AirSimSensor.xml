@@ -17,7 +17,6 @@
       Segmentation, SurfaceNormals, Infrared
 
       Image Pixels = Width, Height
-]
   -->
   <camera_config>
     [front_center Scene 256 144]

@@ -120,7 +120,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
     // airsim image callback
     auto airsim_image_cb = [&](auto &msg) {
-        if (msg->data.size() == 0) { // return if empty message
+        image_data_ = msg->data;
+        if (image_data_.size() == 0) { // return if empty message
             return;
         }
 
@@ -131,7 +132,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         // If topics are not published create them
         if(!img_topic_published) {
             // for each image in the message
-            for (sc::sensor::AirSimImageType a : msg->data) {
+            for (sc::sensor::AirSimImageType a : image_data_) {
 
                 // Create the topic name
                 std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
@@ -166,7 +167,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     // cout << "publishing transform for: " << camera_name << endl;
                     // Publish Image transform to broadcaster
                     geometry_msgs::TransformStamped image_trans_;
-                    image_trans_.header.frame_id = "world";
+                    image_trans_.header.frame_id = ros_namespace_ + "/base_link";
                     image_trans_.child_frame_id = ros_namespace_ + "/" + camera_name + "/pose";
                     image_trans_.header.stamp = ros::Time::now();
 
@@ -179,7 +180,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     image_trans_.transform.rotation.w = a.camera_config.cam_orientation_ENU.w();
                     image_trans_.transform.rotation.x = a.camera_config.cam_orientation_ENU.x();
                     image_trans_.transform.rotation.y = a.camera_config.cam_orientation_ENU.y();
-                    image_trans_.transform.rotation.z = a.camera_config.cam_orientation_ENU.z();;
+                    image_trans_.transform.rotation.z = a.camera_config.cam_orientation_ENU.z();
                     laser_broadcaster_->sendTransform(image_trans_);
                 } // end if new camera name to publish pose for
 
@@ -189,12 +190,88 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
             img_topic_published_ = true;
             img_topic_published_mutex_.unlock();
 
-            // return from this callback
-            return;
         } // end if img_topic_published=false
+    };
 
-        // All image topics should be published
-        for (sc::sensor::AirSimImageType a : msg->data) {
+    if (pub_lidar_data_) {
+        subscribe<sensor::AirSimLidarType>("LocalNetwork", "AirSimLidar", airsim_lidar_cb);
+    }
+    if (pub_image_data_) {
+        subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
+    }
+}
+
+bool ROSAirSim::step_autonomy(double t, double dt) {
+    ros::spinOnce(); // check for new ROS messages
+    std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
+    tf_msg_vec_.clear();
+
+    // Create LIDAR PointCloud2 ROS message
+    //////////////////////////////////////////////////////////////////////
+    if (pub_lidar_data_) {
+        sensor_msgs::PointCloud2 lidar_msg;
+        lidar_msg.header.stamp = ros::Time::now();
+        lidar_msg.header.frame_id = ros_namespace_ + "/base_laser";
+        if (lidar_data_.lidar_data.point_cloud.size() > 3) {
+            lidar_msg.height = 1;
+            lidar_msg.width = lidar_data_.lidar_data.point_cloud.size() / 3;
+
+            lidar_msg.fields.resize(3);
+            lidar_msg.fields[0].name = "x";
+            lidar_msg.fields[1].name = "y";
+            lidar_msg.fields[2].name = "z";
+            int offset = 0;
+
+            for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
+                lidar_msg.fields[d].offset = offset;
+                lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
+                lidar_msg.fields[d].count  = 1;
+            }
+
+            lidar_msg.is_bigendian = false;
+            lidar_msg.point_step = offset; // 4 * num fields
+            lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
+
+            lidar_msg.is_dense = true;
+            std::vector<float> data_std = lidar_data_.lidar_data.point_cloud;
+
+            const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
+            vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
+            lidar_msg.data = std::move(lidar_msg_data);
+        }
+        base_scan_pub_.publish(lidar_msg);
+
+        //////////////////////////////////////////////////////////////////////
+        // Publish Laser Transform
+        //////////////////////////////////////////////////////////////////////
+        geometry_msgs::TransformStamped laser_trans_;
+        laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
+        laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
+        laser_trans_.header.stamp = ros::Time::now();
+
+        // Pose in lidar_data.pose is in NED, but scrimmage is in ENU so use the conversion done in AirSimSensor
+        // Position
+        laser_trans_.transform.translation.x = lidar_data_.lidar_position_ENU.x();
+        laser_trans_.transform.translation.y = lidar_data_.lidar_position_ENU.y();
+        laser_trans_.transform.translation.z = lidar_data_.lidar_position_ENU.z();
+        // Orientation
+        laser_trans_.transform.rotation.w = lidar_data_.lidar_orientation_ENU.w();
+        laser_trans_.transform.rotation.x = lidar_data_.lidar_orientation_ENU.x();
+        laser_trans_.transform.rotation.y = lidar_data_.lidar_orientation_ENU.y();
+        laser_trans_.transform.rotation.z = lidar_data_.lidar_orientation_ENU.z();
+        tf_msg_vec_.push_back(laser_trans_);
+        // laser_broadcaster_->sendTransform(tf_msg_vec_);
+        // laser_broadcaster_->sendTransform(laser_trans_);
+    }
+
+    // Update Images
+    //////////////////////////////////////////////////////////////////////
+    img_topic_published_mutex_.lock();
+    bool img_topic_published = img_topic_published_;
+    img_topic_published_mutex_.unlock();
+    if (pub_image_data_ && img_topic_published) {
+            // All image topics should be published
+        for (sc::sensor::AirSimImageType a : image_data_) {
 
             // create string to match using topic name
             std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
@@ -241,12 +318,12 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         // for each camera_name publish a transform
         // cout << "camera_names length: " << camera_names_.size() << endl;
         for (std::string cam_name : camera_names_) {
-            for (sc::sensor::AirSimImageType a : msg->data) {
+            for (sc::sensor::AirSimImageType a : image_data_) {
                 if (a.camera_config.cam_name == cam_name) {
                     // cout << "publishing transform for: " << cam_name << endl;
                     // create and publish camera_name transform from image in msg
                     geometry_msgs::TransformStamped image_trans_;
-                    image_trans_.header.frame_id = "world";
+                    image_trans_.header.frame_id = ros_namespace_ + "/base_link";
                     image_trans_.child_frame_id = ros_namespace_ + "/" + cam_name + "/pose";
                     image_trans_.header.stamp = ros::Time::now();
 
@@ -259,82 +336,13 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     image_trans_.transform.rotation.w = a.camera_config.cam_orientation_ENU.w();
                     image_trans_.transform.rotation.x = a.camera_config.cam_orientation_ENU.x();
                     image_trans_.transform.rotation.y = a.camera_config.cam_orientation_ENU.y();
-                    image_trans_.transform.rotation.z = a.camera_config.cam_orientation_ENU.z();;
-                    laser_broadcaster_->sendTransform(image_trans_);
+                    image_trans_.transform.rotation.z = a.camera_config.cam_orientation_ENU.z();
+                    tf_msg_vec_.push_back(image_trans_);
+                    // laser_broadcaster_->sendTransform(image_trans_);
                     break; // break the image in msg for loop if camera_name is found and move to next camera_name
                 }
             }
         }
-    };
-    if (pub_lidar_data_) {
-        subscribe<sensor::AirSimLidarType>("LocalNetwork", "AirSimLidar", airsim_lidar_cb);
-    }
-    if (pub_image_data_) {
-        subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
-    }
-
-    // Setup Image Topics
-}
-
-bool ROSAirSim::step_autonomy(double t, double dt) {
-    ros::spinOnce(); // check for new ROS messages
-
-    // Create PointCloud2 message
-    //////////////////////////////////////////////////////////////////////
-    if (pub_lidar_data_) {
-        sensor_msgs::PointCloud2 lidar_msg;
-        lidar_msg.header.stamp = ros::Time::now();
-        lidar_msg.header.frame_id = ros_namespace_ + "/base_laser";
-        if (lidar_data_.lidar_data.point_cloud.size() > 3) {
-            lidar_msg.height = 1;
-            lidar_msg.width = lidar_data_.lidar_data.point_cloud.size() / 3;
-
-            lidar_msg.fields.resize(3);
-            lidar_msg.fields[0].name = "x";
-            lidar_msg.fields[1].name = "y";
-            lidar_msg.fields[2].name = "z";
-            int offset = 0;
-
-            for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
-                lidar_msg.fields[d].offset = offset;
-                lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
-                lidar_msg.fields[d].count  = 1;
-            }
-
-            lidar_msg.is_bigendian = false;
-            lidar_msg.point_step = offset; // 4 * num fields
-            lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
-
-            lidar_msg.is_dense = true;
-            std::vector<float> data_std = lidar_data_.lidar_data.point_cloud;
-
-            const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
-            vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
-            lidar_msg.data = std::move(lidar_msg_data);
-        }
-        base_scan_pub_.publish(lidar_msg);
-
-        //////////////////////////////////////////////////////////////////////
-        // Publish Laser Transform
-        //////////////////////////////////////////////////////////////////////
-        geometry_msgs::TransformStamped laser_trans_;
-        laser_trans_.header.frame_id = "world";
-        laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
-        laser_trans_.header.stamp = ros::Time::now();
-
-        // Pose in lidar_data.pose is in NED, but scrimmage is in ENU so use the conversion done in AirSimSensor
-        // Position
-        laser_trans_.transform.translation.x = lidar_data_.lidar_position_ENU.x();
-        laser_trans_.transform.translation.y = lidar_data_.lidar_position_ENU.y();
-        laser_trans_.transform.translation.z = lidar_data_.lidar_position_ENU.z();
-        // Orientation
-        laser_trans_.transform.rotation.w = lidar_data_.lidar_orientation_ENU.w();
-        laser_trans_.transform.rotation.x = lidar_data_.lidar_orientation_ENU.x();
-        laser_trans_.transform.rotation.y = lidar_data_.lidar_orientation_ENU.y();
-        laser_trans_.transform.rotation.z = lidar_data_.lidar_orientation_ENU.z();
-        // tf_msg_vec_.push_back(laser_trans_);
-        // laser_broadcaster_->sendTransform(tf_msg_vec_);
-        laser_broadcaster_->sendTransform(laser_trans_);
     }
     //////////////////////////////////////////////////////////////////////
     // Update World Transform
@@ -350,8 +358,22 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
     world_trans_.transform.rotation.z = state->quat().z();
     world_trans_.transform.rotation.w = state->quat().w();
     world_trans_.header.stamp = ros::Time::now();
-    // tf_msg_vec_.push_back(world_trans_);
-    laser_broadcaster_->sendTransform(world_trans_);
+    tf_msg_vec_.push_back(world_trans_);
+    laser_broadcaster_->sendTransform(tf_msg_vec_);
+
+//    world_trans_.header.frame_id = "world";
+//    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+//    world_trans_.transform.translation.x = lidar_data_.vehicle_pose.translation().x();
+//    world_trans_.transform.translation.y = lidar_data_.vehicle_pose.translation().y();
+//    world_trans_.transform.translation.z = lidar_data_.vehicle_pose.translation().z();
+//    Eigen::Quaternionf tf_vehicle_pose_rotation(lidar_data_.vehicle_pose.rotation());
+//    world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+//    world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+//    world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+//    world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
+//    world_trans_.header.stamp = ros::Time::now();
+//    tf_msg_vec_.push_back(world_trans_);
+//    laser_broadcaster_->sendTransform(tf_msg_vec_);
     //////////////////////////////////////////////////////////////////////
 
     return true;

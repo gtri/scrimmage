@@ -46,6 +46,10 @@
 
 #include <opencv2/core/core.hpp>
 
+// Eigen libraries
+#include "Eigen/Core"
+#include "Eigen/Geometry"
+
 #include "common/common_utils/StrictMode.hpp"
 STRICT_MODE_OFF
 #ifndef RPCLIB_MSGPACK
@@ -73,6 +77,8 @@ class CameraConfig {
         int width = 256;  // 512
         Eigen::Matrix<float, 3, 1> cam_position_ENU; // cam_position{0.0, 0.0, 0.0};
         Eigen::Quaternion<float, 2> cam_orientation_ENU;
+//        Eigen::Translation<double, 3> cam_position_ENU; // cam_position{0.0, 0.0, 0.0};
+//        Eigen::Quaternion<double> cam_orientation_ENU;
         bool pixels_as_float = false;
 
         friend std::ostream& operator<<(std::ostream& os,
@@ -93,6 +99,7 @@ class AirSimImageType {
     cv::Mat img;
     CameraConfig camera_config;
     std::string vehicle_name;
+    // Eigen::Isometry3f vehicle_pose;
 };
 
 class AirSimLidarType {
@@ -100,8 +107,9 @@ class AirSimLidarType {
     msr::airlib::LidarData lidar_data;
     std::string vehicle_name;
     std::string lidar_name;
-    Eigen::Matrix<float, 3, 1> lidar_position_ENU{0.0, 0.0, 0.0};
-    Eigen::Quaternion<float, 2> lidar_orientation_ENU{0.0, 0.0, 0.0, 0.0};
+    Eigen::Matrix<float, 3, 1> lidar_position_ENU;
+    Eigen::Quaternion<float, 2> lidar_orientation_ENU;
+    Eigen::Isometry3f vehicle_pose;
 };
 
 class AirSimSensor : public scrimmage::Sensor {
