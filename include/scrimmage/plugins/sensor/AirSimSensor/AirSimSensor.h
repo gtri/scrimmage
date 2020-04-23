@@ -77,8 +77,6 @@ class CameraConfig {
         int width = 256;  // 512
         Eigen::Matrix<float, 3, 1> cam_position_ENU; // cam_position{0.0, 0.0, 0.0};
         Eigen::Quaternion<float, 2> cam_orientation_ENU;
-//        Eigen::Translation<double, 3> cam_position_ENU; // cam_position{0.0, 0.0, 0.0};
-//        Eigen::Quaternion<double> cam_orientation_ENU;
         bool pixels_as_float = false;
 
         friend std::ostream& operator<<(std::ostream& os,

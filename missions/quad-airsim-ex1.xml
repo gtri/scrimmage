@@ -100,7 +100,7 @@
 
     <motion_model motion_model_sets_yaw="false"
                   sim_copter_orientation="true"
-                  max_vel="1"
+                  max_vel="4"
                   max_acc="2"
                   max_yaw_vel="12"
                   max_yaw_acc="2">DoubleIntegrator</motion_model>
@@ -166,7 +166,7 @@
 
     <motion_model motion_model_sets_yaw="false"
                   sim_copter_orientation="true"
-                  max_vel="1"
+                  max_vel="4"
                   max_acc="2"
                   max_yaw_vel="12"
                   max_yaw_acc="2">DoubleIntegrator</motion_model>
