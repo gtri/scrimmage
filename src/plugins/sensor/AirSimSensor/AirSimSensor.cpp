@@ -368,15 +368,23 @@ void AirSimSensor::request_images() {
 
                 std::vector<AirSimImageType> image_type_vec;
                 for (ImageResponse response : response_vector) {
-                    AirSimImageType a;
-                    a.vehicle_name = vehicle_name_;
+//                    AirSimImageType a;
+//                    a.vehicle_name = vehicle_name_;
                     // Get Camera Config
+                    CameraConfig response_cam_config;
+                    bool pixels_as_float_var = response.pixels_as_float;
                     for (CameraConfig c : cam_configs_) {
                         if (c.img_type == response.image_type && c.cam_name == response.camera_name) {
-                            a.camera_config = c;
+//                            a.camera_config = c;
+                            response_cam_config = c;
                             break;
                         }
                     }
+                    // Create AirSimImageType variable
+                    AirSimImageType a(response_cam_config, pixels_as_float_var);
+                    a.vehicle_name = vehicle_name_;
+                    cout << "a image size: " << a.img.size() << endl;
+
                     // AirSim gives pose of camera in relation to the world frame
                     // Pose in response is in NED, but scrimmage is in ENU so convert
                     // Convert position to ENU: Switch X and Y and negate Z
@@ -415,37 +423,59 @@ void AirSimSensor::request_images() {
                     if (a.camera_config.pixels_as_float) {
                         // get uncompressed 32FC1 array bytes
                         auto& im_vec = response.image_data_float;
-                        // auto& im_vec = response.at(0).image_data_float;
-                        // cout << "response[0] size:" << im_vec.size() << endl;
+                        cout << " " << endl;
+                        cout << vehicle_name_ << " float response[0] size:" << im_vec.size() << endl;
+                        cout << " " << endl;
 
                         // todo, no memcpy, just set image ptr to underlying data
                         // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
-                        cv::Mat img(a.camera_config.height, a.camera_config.width, CV_32FC1);
-                        memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
-                        a.img = std::move(img);
+//                        cv::Mat img(a.camera_config.height, a.camera_config.width, CV_32FC1);
+//                        memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
+//                        cout << " " << endl;
+//                        cout << img.size() << endl;
+//                        cout << img << endl;
+//                        cout << " " << endl;
+//                        a.img = std::move(img);
+                        memcpy(a.img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
+                        cout << " " << endl;
+                        cout << a.img.size() << endl;
+                        cout << " " << endl;
                     } else {
                         // All Other Image types come in as RGB = 3 channel uint8 matrix
                         // get uncompressed rgb array bytes
                         auto& im_vec = response.image_data_uint8;
-                        // cout << "response[0] size:" << im_vec.size() << endl;
+                        cout << " " << endl;
+                        cout << vehicle_name_ << " uint8 response[0] size:" << im_vec.size() << endl;
+                        cout << " " << endl;
 
                         // todo, no memcpy, just set image ptr to underlying data, line below mixes image data from different image types
                         // a.img = cv::Mat(c.height, c.width, CV_8UC3, const_cast<uint8_t*>(im_vec.data()));
                         // a.img = cv::Mat(c.height, c.width, CV_8UC3, const_cast<uint8_t*>(response.at(0).image_data_uint8.data()));
 
                         // cv::Mat img({c.height, c.width, 3}, CV_8UC3);
-                        cv::Mat img(a.camera_config.height, a.camera_config.width, CV_8UC3);
-                        memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
-                        a.img = std::move(img);
+//                        cv::Mat img(a.camera_config.height, a.camera_config.width, CV_8UC3);
+//                        memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
+//                        cout << " " << endl;
+//                        cout << img.size << endl;
+//                        cout << img << endl;
+//                        cout << " " << endl;
+//                        a.img = std::move(img);
+//                        // cv::cvtColor(img, a.img, cv::COLOR_RGB2BGR, 3);
+
+                        memcpy(a.img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
+                        cout << " " << endl;
+                        cout << a.img.size() << endl;
+                        cout << " " << endl;
                         // cv::cvtColor(img, a.img, cv::COLOR_RGB2BGR, 3);
 
                     } // end if pixels_as_float
-                    image_type_vec.push_back(std::move(a));
-                    im_msg->data = image_type_vec;
+                    im_msg->data.push_back(a);
+                    cout << "image_type_vec[-1] size: " << im_msg->data.back().img.size() << endl;
+                    //im_msg->data = image_type_vec;
                 } // end ImageResponse for loop
 
                 // Place data inside img_msg
-                im_msg->data = image_type_vec;
+                // im_msg->data = image_type_vec;
 
                 // Submit message to be published
                 img_msg_mutex_.lock();

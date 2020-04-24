@@ -86,8 +86,6 @@ class CameraConfig {
             os << ", Image_Type_Name=" << c.img_type_name;
             os << ", Height=" << c.height;
             os << ", Width=" << c.width;
-            os << ", Position= " << c.cam_position_ENU;
-            os << ", Orientation= " << c.cam_orientation_ENU;
             return os;
         }
 };
@@ -97,8 +95,21 @@ class AirSimImageType {
     cv::Mat img;
     CameraConfig camera_config;
     std::string vehicle_name;
-    // Eigen::Isometry3f vehicle_pose;
+    AirSimImageType(CameraConfig camera_config, bool pixels_as_float);
+    ~AirSimImageType();
 };
+AirSimImageType::AirSimImageType(CameraConfig c, bool pixels_as_float) {
+    cout << "initializing AirSimImageType" << endl;
+    this->camera_config = c;
+    if (pixels_as_float){
+        this->img = cv::Mat(c.height, c.width, CV_32FC1);
+    } else {
+        this->img = cv::Mat(c.height, c.width, CV_8UC3);
+    }
+}
+AirSimImageType::~AirSimImageType(void) {
+    this->img.release();
+}
 
 class AirSimLidarType {
  public:
