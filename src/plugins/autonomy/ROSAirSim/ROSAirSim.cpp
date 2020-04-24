@@ -244,23 +244,23 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     image_trans_.transform.rotation.z = tf_vehicle_camera_ENU_rotation.z();
                     tf_msg_vec_.push_back(image_trans_);
                     // If not publishing lidar data, publish world frame from camera
-                    if (!pub_lidar_data_) {
-                        //////////////////////////////////////////////////////////////////////
-                        // Update World Transform
-                        //////////////////////////////////////////////////////////////////////
-                        world_trans_.header.frame_id = "world";
-                        world_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                        world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
-                        world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
-                        world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
-                        Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
-                        world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
-                        world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
-                        world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
-                        world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
-                        world_trans_.header.stamp = ros::Time::now();
-                        tf_msg_vec_.push_back(world_trans_);
-                    }
+                    // if (!pub_lidar_data_) {
+                    //////////////////////////////////////////////////////////////////////
+                    // Update World Transform
+                    //////////////////////////////////////////////////////////////////////
+                    world_trans_.header.frame_id = "world";
+                    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+                    world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                    world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                    world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                    Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                    world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                    world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                    world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                    world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
+                    world_trans_.header.stamp = ros::Time::now();
+                    tf_msg_vec_.push_back(world_trans_);
+                    // }
                     laser_broadcaster_->sendTransform(tf_msg_vec_);
                 } // end if new camera name to publish pose for
             } // end for loop a : images in msg
@@ -471,6 +471,20 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
         world_trans_.header.stamp = ros::Time::now();
         tf_msg_vec_.push_back(world_trans_);
         //////////////////////////////////////////////////////////////////////
+    }
+    if (!pub_image_data_ && !pub_lidar_data_) {
+        sc::StatePtr &state = parent_->state_truth();
+        world_trans_.header.frame_id = "world";
+        world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+        world_trans_.transform.translation.x = state->pos().x();
+        world_trans_.transform.translation.y = state->pos().y();
+        world_trans_.transform.translation.z = state->pos().z();
+        world_trans_.transform.rotation.x = state->quat().x();
+        world_trans_.transform.rotation.y = state->quat().y();
+        world_trans_.transform.rotation.z = state->quat().z();
+        world_trans_.transform.rotation.w = state->quat().w();
+        world_trans_.header.stamp = ros::Time::now();
+        tf_msg_vec_.push_back(world_trans_);
     }
     laser_broadcaster_->sendTransform(tf_msg_vec_);
 
