@@ -58,6 +58,60 @@ namespace autonomy {
 
 ROSAirSim::ROSAirSim() {}
 
+Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(Eigen::Isometry3f vehicle_pose_world_NED) {
+    //Get Vehicle Pose from NED to ENU
+    Eigen::Matrix<float, 3, 1> vehicle_position_ENU;
+    vehicle_position_ENU.x() = vehicle_pose_world_NED.translation().y();
+    vehicle_position_ENU.y() = vehicle_pose_world_NED.translation().x();
+    vehicle_position_ENU.z() = -1 * vehicle_pose_world_NED.translation().z();
+    // Convert the orientation to ENU
+    // Eigen::Quaternion<float> NED_quat_vehicle = vehicle_pose_world_NED.rotation();
+    Eigen::Quaternionf NED_quat_vehicle(vehicle_pose_world_NED.rotation());
+
+    // Rotate, order matters
+    double xTo = -180 * (M_PI / 180); // -PI rotation about X
+    double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
+    Eigen::Quaternion<float> vehicle_orientation_ENU;
+    vehicle_orientation_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat_vehicle; // -PI rotation about X
+    vehicle_orientation_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * vehicle_orientation_ENU; // PI/2 rotation about Z (Up)
+    // Bring vehicle pose in relation to ENU, World into Eigen
+    Eigen::Translation3f translation_trans_vehicle(vehicle_position_ENU);
+    Eigen::Quaternionf rotation_quat_vehicle(vehicle_orientation_ENU);
+    Eigen::Isometry3f tf_world_vehicle_ENU(translation_trans_vehicle * rotation_quat_vehicle);
+    return tf_world_vehicle_ENU;
+}
+
+Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(Eigen::Isometry3f vehicle_pose_world_NED,
+                                                                         Eigen::Isometry3f sensor_pose_world_NED) {
+    //Get Vehicle Pose from NED to ENU
+    Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(vehicle_pose_world_NED);
+
+    // AirSim gives pose of camera in relation to the world frame
+    // Pose in response is in NED, but scrimmage is in ENU so convert
+    // Convert position to ENU: Switch X and Y and negate Z
+    Eigen::Matrix<float, 3, 1> sensor_position_world_ENU;
+    sensor_position_world_ENU.x() = sensor_pose_world_NED.translation().y();
+    sensor_position_world_ENU.y() = sensor_pose_world_NED.translation().x();
+    sensor_position_world_ENU.z() = -1 * sensor_pose_world_NED.translation().z();
+    // Convert the orientation to ENU
+    // Eigen::Quaternion<float> NED_quat = sensor_pose_world_NED.rotation();
+    Eigen::Quaternionf NED_quat(sensor_pose_world_NED.rotation());
+    // Rotate, order matters
+    double xTo = -180 * (M_PI / 180); // -PI rotation about X
+    double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
+    Eigen::Quaternion<float> sensor_orientation_world_ENU;
+    sensor_orientation_world_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat; // -PI rotation about X
+    sensor_orientation_world_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * sensor_orientation_world_ENU; // PI/2 rotation about Z (Up)
+    // Place pose of camera in ENU, world frame into Eigen
+    Eigen::Translation3f translation_trans_sensor(sensor_position_world_ENU);
+    Eigen::Quaternionf rotation_quat_sensor(sensor_orientation_world_ENU);
+    Eigen::Isometry3f tf_world_sensor_ENU(translation_trans_sensor * rotation_quat_sensor);
+
+    // Get pose of lidar in ENU, vehicle frame using Eigen
+    Eigen::Isometry3f tf_vehicle_sensor_ENU(tf_world_vehicle_ENU.inverse() * tf_world_sensor_ENU);
+    return tf_vehicle_sensor_ENU;
+}
+
 void ROSAirSim::init(std::map<std::string, std::string> &params) {
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, "false");
     pub_image_data_ = sc::get<bool>("pub_image_data", params, "true");
@@ -166,45 +220,10 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     tf_msg_vec_.clear();
 
                     //Get Vehicle Pose from NED to ENU
-                    Eigen::Matrix<float, 3, 1> vehicle_position_ENU;
-                    vehicle_position_ENU.x() = a.vehicle_pose_world_NED.position.y();
-                    vehicle_position_ENU.y() = a.vehicle_pose_world_NED.position.x();
-                    vehicle_position_ENU.z() = -1 * a.vehicle_pose_world_NED.position.z();
-                    // Convert the orientation to ENU
-                    Eigen::Quaternion<float> NED_quat = a.vehicle_pose_world_NED.orientation;
-                    // Rotate, order matters
-                    double xTo = -180 * (M_PI / 180); // -PI rotation about X
-                    double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
-                    Eigen::Quaternion<float> vehicle_orientation_ENU;
-                    vehicle_orientation_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat; // -PI rotation about X
-                    vehicle_orientation_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * vehicle_orientation_ENU; // PI/2 rotation about Z (Up)
-                    // Bring vehicle pose in relation to ENU, World into Eigen
-                    Eigen::Translation3f translation_trans_vehicle(vehicle_position_ENU);
-                    Eigen::Quaternionf rotation_quat_vehicle(vehicle_orientation_ENU);
-                    Eigen::Isometry3f tf_world_vehicle_ENU(translation_trans_vehicle * rotation_quat_vehicle);
-
-                    // AirSim gives pose of camera in relation to the world frame
-                    // Pose in response is in NED, but scrimmage is in ENU so convert
-                    // Convert position to ENU: Switch X and Y and negate Z
-                    Eigen::Matrix<float, 3, 1> camera_position_world_ENU;
-                    camera_position_world_ENU.x() = a.camera_pose_world_NED.position.y();
-                    camera_position_world_ENU.y() = a.camera_pose_world_NED.position.x();
-                    camera_position_world_ENU.z() = -1 * a.camera_pose_world_NED.position.z();
-                    // Convert the orientation to ENU
-                    Eigen::Quaternion<float> NED_quat_camera = a.camera_pose_world_NED.orientation;
-                    // Rotate, order matters
-                    // double xTo = -180 * (M_PI / 180); // -PI rotation about X
-                    // double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
-                    Eigen::Quaternion<float> camera_orientation_world_ENU;
-                    camera_orientation_world_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat_camera; // -PI rotation about X
-                    camera_orientation_world_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * camera_orientation_world_ENU; // PI/2 rotation about Z (Up)
-                    // Place pose of camera in ENU, world frame into Eigen
-                    Eigen::Translation3f translation_trans_camera(camera_position_world_ENU);
-                    Eigen::Quaternionf rotation_quat_camera(camera_orientation_world_ENU);
-                    Eigen::Isometry3f tf_world_camera_ENU(translation_trans_camera * rotation_quat_camera);
-
+                    Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
                     // Get pose of lidar in ENU, vehicle frame using Eigen
-                    Eigen::Isometry3f tf_vehicle_camera_ENU(tf_world_vehicle_ENU.inverse() * tf_world_camera_ENU);
+                    Eigen::Isometry3f tf_vehicle_camera_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(a.vehicle_pose_world_NED,
+                                                                                                          a.camera_pose_world_NED);
 
                     // cout << "publishing transform for: " << camera_name << endl;
                     // Publish Image transform to broadcaster
@@ -213,7 +232,6 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     image_trans_.child_frame_id = ros_namespace_ + "/" + camera_name + "/pose";
                     image_trans_.header.stamp = ros::Time::now();
 
-                    // Pose in image_data.pose is in NED, but scrimmage is in ENU so use the conversion done in AirSimSensor
                     // Position
                     image_trans_.transform.translation.x = tf_vehicle_camera_ENU.translation().x();
                     image_trans_.transform.translation.y = tf_vehicle_camera_ENU.translation().y();
@@ -327,46 +345,10 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     // cout << "publishing transform for: " << cam_name << endl;
 
                     //Get Vehicle Pose from NED to ENU
-                    Eigen::Matrix<float, 3, 1> vehicle_position_ENU;
-                    vehicle_position_ENU.x() = a.vehicle_pose_world_NED.position.y();
-                    vehicle_position_ENU.y() = a.vehicle_pose_world_NED.position.x();
-                    vehicle_position_ENU.z() = -1 * a.vehicle_pose_world_NED.position.z();
-                    // Convert the orientation to ENU
-                    Eigen::Quaternion<float> NED_quat = a.vehicle_pose_world_NED.orientation;
-                    // Rotate, order matters
-                    double xTo = -180 * (M_PI / 180); // -PI rotation about X
-                    double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
-                    Eigen::Quaternion<float> vehicle_orientation_ENU;
-                    vehicle_orientation_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat; // -PI rotation about X
-                    vehicle_orientation_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * vehicle_orientation_ENU; // PI/2 rotation about Z (Up)
-                    // Bring vehicle pose in relation to ENU, World into Eigen
-                    Eigen::Translation3f translation_trans_vehicle(vehicle_position_ENU);
-                    Eigen::Quaternionf rotation_quat_vehicle(vehicle_orientation_ENU);
-                    Eigen::Isometry3f tf_world_vehicle_ENU(translation_trans_vehicle * rotation_quat_vehicle);
-
-                    // AirSim gives pose of camera in relation to the world frame
-                    // Pose in response is in NED, but scrimmage is in ENU so convert
-                    // Convert position to ENU: Switch X and Y and negate Z
-                    Eigen::Matrix<float, 3, 1> camera_position_world_ENU;
-                    camera_position_world_ENU.x() = a.camera_pose_world_NED.position.y();
-                    camera_position_world_ENU.y() = a.camera_pose_world_NED.position.x();
-                    camera_position_world_ENU.z() = -1 * a.camera_pose_world_NED.position.z();
-                    // Convert the orientation to ENU
-                    Eigen::Quaternion<float> NED_quat_camera = a.camera_pose_world_NED.orientation;
-                    // Rotate, order matters
-                    // double xTo = -180 * (M_PI / 180); // -PI rotation about X
-                    // double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
-                    Eigen::Quaternion<float> camera_orientation_world_ENU;
-                    camera_orientation_world_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat_camera; // -PI rotation about X
-                    camera_orientation_world_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * camera_orientation_world_ENU; // PI/2 rotation about Z (Up)
-                    // Place pose of camera in ENU, world frame into Eigen
-                    Eigen::Translation3f translation_trans_camera(camera_position_world_ENU);
-                    Eigen::Quaternionf rotation_quat_camera(camera_orientation_world_ENU);
-                    Eigen::Isometry3f tf_world_camera_ENU(translation_trans_camera * rotation_quat_camera);
-
-                    // Get pose of lidar in ENU, vehicle frame using Eigen
-                    Eigen::Isometry3f tf_vehicle_camera_ENU(tf_world_vehicle_ENU.inverse() * tf_world_camera_ENU);
-
+                    Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
+                    // Get pose of camera in ENU, vehicle frame using Eigen
+                    Eigen::Isometry3f tf_vehicle_camera_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(a.vehicle_pose_world_NED,
+                                                                                                          a.camera_pose_world_NED);
                     // cout << "publishing transform for: " << cam_name << endl;
                     // Publish Image transform to broadcaster
                     geometry_msgs::TransformStamped image_trans_;
@@ -447,47 +429,13 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
         // Publish Laser Transform
         //////////////////////////////////////////////////////////////////////
-        // AirSim vehicle pose is in NED, but scrimmage is in ENU so convert
-        // Convert position to ENU: Switch X and Y and negate Z
-        Eigen::Matrix<float, 3, 1> vehicle_position_ENU;
-        vehicle_position_ENU.x() = lidar_data_.vehicle_pose_world_NED.position.y();
-        vehicle_position_ENU.y() = lidar_data_.vehicle_pose_world_NED.position.x();
-        vehicle_position_ENU.z() = -1 * lidar_data_.vehicle_pose_world_NED.position.z();
-        // Convert the orientation to ENU
-        Eigen::Quaternion<float> NED_quat = lidar_data_.vehicle_pose_world_NED.orientation;
-        // Rotate, order matters
-        double xTo = -180 * (M_PI / 180); // -PI rotation about X
-        double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
-        Eigen::Quaternion<float> vehicle_orientation_ENU;
-        vehicle_orientation_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat; // -PI rotation about X
-        vehicle_orientation_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * vehicle_orientation_ENU; // PI/2 rotation about Z (Up)
-        // Bring vehicle pose in relation to ENU, World into Eigen
-        Eigen::Translation3f translation_trans_vehicle(vehicle_position_ENU);
-        Eigen::Quaternionf rotation_quat_vehicle(vehicle_orientation_ENU);
-        Eigen::Isometry3f tf_world_vehicle_ENU(translation_trans_vehicle * rotation_quat_vehicle);
+        // AirSim vehicle and lidar pose is in NED, but scrimmage is in ENU so convert
 
-        // AirSim gives pose of lidar in relation to the world frame
-        // Pose in lidar_data_ is in NED, but scrimmage is in ENU so convert
-        // Convert position to ENU: Switch X and Y and negate Z
-        Eigen::Matrix<float, 3, 1> lidar_position_world_ENU;
-        lidar_position_world_ENU.x() = lidar_data_.lidar_pose_world_NED.position.y();
-        lidar_position_world_ENU.y() = lidar_data_.lidar_pose_world_NED.position.x();
-        lidar_position_world_ENU.z() = -1 * lidar_data_.lidar_pose_world_NED.position.z();
-        // Convert the orientation to ENU
-        Eigen::Quaternion<float> NED_quat_lidar = lidar_data_.lidar_pose_world_NED.orientation;
-        // Rotate, order matters
-        // double xTo = -180 * (M_PI / 180); // -PI rotation about X
-        // double zTo = 90 * (M_PI / 180); // PI/2 rotation about Z (Up)
-        Eigen::Quaternion<float> lidar_orientation_world_ENU;
-        lidar_orientation_world_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat_lidar; // -PI rotation about X
-        lidar_orientation_world_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * lidar_orientation_world_ENU; // PI/2 rotation about Z (Up)
-        // Place pose of lidar in ENU, world frame into Eigen
-        Eigen::Translation3f translation_trans_lidar(lidar_position_world_ENU);
-        Eigen::Quaternionf rotation_quat_lidar(lidar_orientation_world_ENU);
-        Eigen::Isometry3f tf_world_lidar_ENU(translation_trans_lidar * rotation_quat_lidar);
-
+        //Get Vehicle Pose from NED to ENU
+        Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(lidar_data_.vehicle_pose_world_NED);
         // Get pose of lidar in ENU, vehicle frame using Eigen
-        Eigen::Isometry3f tf_vehicle_lidar_ENU(tf_world_vehicle_ENU.inverse() * tf_world_lidar_ENU);
+        Eigen::Isometry3f tf_vehicle_lidar_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(lidar_data_.vehicle_pose_world_NED,
+                                                                                             lidar_data_.lidar_pose_world_NED);
 
         // Fill in TF broadcast message and publish lidar pose
         geometry_msgs::TransformStamped laser_trans_;

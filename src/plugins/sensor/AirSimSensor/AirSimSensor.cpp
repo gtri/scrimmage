@@ -251,8 +251,17 @@ void AirSimSensor::request_images() {
             l.lidar_data = img_client->getLidarData(lidar_name_, vehicle_name_);
             // Get pose of vehicle
             ma::Pose vehicle_pose = img_client->simGetVehiclePose(vehicle_name_);
-            l.vehicle_pose_world_NED = vehicle_pose;
-            l.lidar_pose_world_NED = l.lidar_data.pose;
+            // l.vehicle_pose_world_NED = vehicle_pose;
+            // l.lidar_pose_world_NED = l.lidar_data.pose;
+            Eigen::Translation3f translation_trans_vehicle(vehicle_pose.position);
+            Eigen::Quaternionf rotation_quat_vehicle(vehicle_pose.orientation);
+            Eigen::Isometry3f tf_world_vehicle_NED(translation_trans_vehicle * rotation_quat_vehicle);
+            l.vehicle_pose_world_NED = tf_world_vehicle_NED;
+
+            Eigen::Translation3f translation_trans_lidar(l.lidar_data.pose.position);
+            Eigen::Quaternionf rotation_quat_lidar(l.lidar_data.pose.orientation);
+            Eigen::Isometry3f tf_world_lidar_NED(translation_trans_lidar * rotation_quat_lidar);
+            l.lidar_pose_world_NED = tf_world_lidar_NED;
 
             if (l.lidar_data.point_cloud.size() > 3) {
                 auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
@@ -313,9 +322,20 @@ void AirSimSensor::request_images() {
                     AirSimImageType a(response_cam_config, pixels_as_float_var);
                     a.vehicle_name = vehicle_name_;
                     // AirSim gives pose of vehicle in relation to the world frame in NED
-                    a.vehicle_pose_world_NED = vehicle_pose_camera;
+                    // a.vehicle_pose_world_NED = vehicle_pose_camera;
                     // AirSim gives pose of camera in relation to the world frame in NED
-                    a.camera_pose_world_NED =  ma::Pose(response.camera_position, response.camera_orientation);
+                    // a.camera_pose_world_NED =  ma::Pose(response.camera_position, response.camera_orientation);
+
+                    // AirSim gives pose of vehicle in relation to the world frame in NED
+                    Eigen::Translation3f translation_trans_vehicle(vehicle_pose_camera.position);
+                    Eigen::Quaternionf rotation_quat_vehicle(vehicle_pose_camera.orientation);
+                    Eigen::Isometry3f tf_world_vehicle_NED(translation_trans_vehicle * rotation_quat_vehicle);
+                    a.vehicle_pose_world_NED = tf_world_vehicle_NED;
+                    // AirSim gives pose of camera in relation to the world frame in NED
+                    Eigen::Translation3f translation_trans_camera(response.camera_position);
+                    Eigen::Quaternionf rotation_quat_camera(response.camera_orientation);
+                    Eigen::Isometry3f tf_world_camera_NED(translation_trans_camera * rotation_quat_camera);
+                    a.camera_pose_world_NED = tf_world_camera_NED;
 
                     // Depth Images (Depth Perspective and Depth Planner) come in as 1 channel float arrays
                     a.camera_config.pixels_as_float = response.pixels_as_float;

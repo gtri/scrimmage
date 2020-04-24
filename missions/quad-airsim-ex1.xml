@@ -83,7 +83,7 @@
             save_airsim_data="true"
             get_image_data="true"
             get_lidar_data="true"
-            data_acquisition_period="0.01">AirSimSensor</sensor>
+            data_acquisition_period="0.1">AirSimSensor</sensor>
 
     <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
     <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
@@ -149,7 +149,7 @@
             save_airsim_data="true"
             get_image_data="true"
             get_lidar_data="true"
-            data_acquisition_period="0.01">AirSimSensor</sensor>
+            data_acquisition_period="0.1">AirSimSensor</sensor>
 
     <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
     <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->

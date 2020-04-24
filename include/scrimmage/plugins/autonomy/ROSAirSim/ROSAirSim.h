@@ -52,8 +52,11 @@
 #include <memory>
 #include <vector>
 
-#include "common/AirSimSettings.hpp"
+// Eigen libraries
+#include "Eigen/Core"
+#include "Eigen/Geometry"
 
+#include "common/AirSimSettings.hpp"
 typedef msr::airlib::AirSimSettings::LidarSetting LidarSetting;
 
 namespace scrimmage {
@@ -62,6 +65,9 @@ namespace autonomy {
 class ROSAirSim : public scrimmage::Autonomy {
  public:
     ROSAirSim();
+    Eigen::Isometry3f get_vehicle_world_pose_from_NED_to_ENU(Eigen::Isometry3f vehicle_pose_world_NED);
+    Eigen::Isometry3f get_sensor_pose_from_worldNED_to_vehicleENU(Eigen::Isometry3f vehicle_position_NED,
+                                                                  Eigen::Isometry3f sensor_position_NED);
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
 
