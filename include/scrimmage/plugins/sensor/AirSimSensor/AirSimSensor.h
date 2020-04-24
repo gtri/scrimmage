@@ -95,11 +95,13 @@ class AirSimImageType {
     cv::Mat img;
     CameraConfig camera_config;
     std::string vehicle_name;
+    msr::airlib::Pose vehicle_pose_world_NED;
+    msr::airlib::Pose camera_pose_world_NED;
     AirSimImageType(CameraConfig camera_config, bool pixels_as_float);
     ~AirSimImageType();
 };
 AirSimImageType::AirSimImageType(CameraConfig c, bool pixels_as_float) {
-    cout << "initializing AirSimImageType" << endl;
+    // cout << "initializing AirSimImageType" << endl;
     this->camera_config = c;
     if (pixels_as_float){
         this->img = cv::Mat(c.height, c.width, CV_32FC1);
@@ -116,9 +118,11 @@ class AirSimLidarType {
     msr::airlib::LidarData lidar_data;
     std::string vehicle_name;
     std::string lidar_name;
-    Eigen::Matrix<float, 3, 1> lidar_position_ENU;
-    Eigen::Quaternion<float, 2> lidar_orientation_ENU;
-    Eigen::Isometry3f vehicle_pose;
+    // Eigen::Matrix<float, 3, 1> lidar_position_ENU;
+    // Eigen::Quaternion<float, 2> lidar_orientation_ENU;
+    // Eigen::Isometry3f vehicle_pose;
+    msr::airlib::Pose vehicle_pose_world_NED;
+    msr::airlib::Pose lidar_pose_world_NED;
 };
 
 class AirSimSensor : public scrimmage::Sensor {
