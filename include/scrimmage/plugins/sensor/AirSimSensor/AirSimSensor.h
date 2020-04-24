@@ -132,6 +132,7 @@ class AirSimSensor : public scrimmage::Sensor {
     void parse_camera_configs(std::map<std::string, std::string> &params);
     void request_images();
     scrimmage::MessagePtr<std::vector<AirSimImageType>> img_msg_ = nullptr;
+    scrimmage::MessagePtr<std::vector<AirSimImageType>> im_msg = nullptr;
     scrimmage::MessagePtr<AirSimLidarType> lidar_msg_ = nullptr;
     std::mutex img_msg_mutex_;
     std::mutex lidar_msg_mutex_;

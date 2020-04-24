@@ -200,6 +200,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     // Publish to scrimmage
     img_pub_ = advertise("LocalNetwork", "AirSimImages");
     lidar_pub_ = advertise("LocalNetwork", "AirSimLidar");
+    auto img_msg_ = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
 
     // Start the image request thread
     request_images_thread_ = std::thread(&AirSimSensor::request_images, this);
@@ -304,10 +305,6 @@ void AirSimSensor::request_images() {
             if (response_vector.size() > 0) {
                 auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
 
-                new_image_mutex_.lock();
-                new_image_ = true;
-                new_image_mutex_.unlock();
-
                 std::vector<AirSimImageType> image_type_vec;
                 for (ImageResponse response : response_vector) {
                     CameraConfig response_cam_config;
@@ -365,6 +362,10 @@ void AirSimSensor::request_images() {
                 // im_msg->data = image_type_vec;
 
                 // Submit message to be published
+                new_image_mutex_.lock();
+                new_image_ = true;
+                new_image_mutex_.unlock();
+
                 img_msg_mutex_.lock();
                 img_msg_ = im_msg;
                 img_msg_mutex_.unlock();
