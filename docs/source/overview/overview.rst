@@ -10,6 +10,7 @@ Overview
    viewer
    workflow
    environment-vars
+   coordinate-frames
    core-plugins
    logging
    xml-tags

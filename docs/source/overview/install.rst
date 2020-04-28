@@ -1,7 +1,8 @@
 .. _install_scrimmage:
 
-Install SCRIMMAGE
------------------
+============
+Installation
+============
 
 See the `SCRIMMAGE README on GitHub`_ for up-to-date instructions on building SCRIMMAGE.
 
