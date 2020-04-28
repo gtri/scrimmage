@@ -1,20 +1,21 @@
 .. _scrimmage_workflow:
 
-SCRIMMAGE Workflow
-------------------
+========
+Workflow
+========
 
 SCRIMMAGE ships with a number of tools to help you simulate, playback, and
 analyze simulation results. The following is a description of SCRIMMAGE's
 tools and how they may be used in a typical workflow:
 
 .. Note::
-   
+
    If scrimmage is not installed on your system, please navigate to
    :ref:`install_scrimmage`. If you don't know if scrimmage is installed, enter
    the following command into a terminal: ::
 
      $ scrimmage
-     
+
    If you receive the message, ``scrimmage: command not found``, you will have
    to install scrimmage.
 
@@ -31,7 +32,7 @@ tools and how they may be used in a typical workflow:
   entities, a log.txt file, which contains the number that was used to seed
   scrimmage's random number generator, and a mission.xml file, which contains
   an exact copy of the mission used to run the simulation. Usage: ::
-   
+
     $ scrimmage-playback ~/.scrimmage/logs/2016-11-01_14-53-27
 
 - **./scripts/plot_3d_fr.py** : Used to plot the recorded trajectories of the
@@ -48,7 +49,7 @@ tools and how they may be used in a typical workflow:
   each team. The ``aggregate-runs`` program creates text
   files at ``~/.scrimmage/logs/aggregate/wins`` that specify the scenarios in
   which each team won. Example usage: ::
-   
+
     $ aggregate-runs -d ~/.scrimmage/logs
 
 - **filter-runs** : Reads the generated text files and allows for easy playback
@@ -59,23 +60,23 @@ tools and how they may be used in a typical workflow:
    Running ``filter-runs`` will print output similar to the following: ::
 
      ====================================================
-     Choose an outcome number: 
+     Choose an outcome number:
      ----------------------------------------------------
      Number		Name		Win Count
      ----------------------------------------------------
      [0]		draw		1
      [1]		team_1		7
-     [2]		team_2		3     
-     >> 
+     [2]		team_2		3
+     >>
 
    To view the simulation runs where ``team_1`` was the winner, type the number
    ``1``, hit enter, and follow the remaing prompts to step through the
    playback of each simulation.
-   
+
 - **scrimmage-plugin** : Display information about a plugin. This program can
   help you debug the location of SCRIMMAGE plugins. Provide this program with a
   plugin name. For example: ::
-  
+
     $ scrimmage-plugin Straight
 
   will produce something like the following: ::
@@ -91,4 +92,3 @@ tools and how they may be used in a typical workflow:
     save_camera_images=false
     show_camera_images=true
     speed=21
-
