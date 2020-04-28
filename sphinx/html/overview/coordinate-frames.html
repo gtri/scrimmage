@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Coordinate Frames &mdash; scrimmage 0.2.0-dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Core Plugins" href="core-plugins.html" />
+    <link rel="prev" title="Environment" href="environment-vars.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scrimmage
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0-dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewer.html">Viewer Controls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment-vars.html">Environment</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Coordinate Frames</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#position">Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#orientation">Orientation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#velocity">Velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enu-to-gps-conversion">ENU to GPS Conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-model-plugins">Motion Model Plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xml-tags.html">Mission XML Tag Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variableio.html">Variable IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Design Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="overview.html">Overview</a> &raquo;</li>
+        
+      <li>Coordinate Frames</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/overview/coordinate-frames.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="coordinate-frames">
+<h1>Coordinate Frames<a class="headerlink" href="#coordinate-frames" title="Permalink to this headline">¶</a></h1>
+<p>The origin of the SCRIMMAGE coordinate system is a right-handed East-North-Up
+(ENU) system centered on the <code class="docutils literal notranslate"><span class="pre">latitude_origin</span></code>, <code class="docutils literal notranslate"><span class="pre">altitude_origin</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">altitude_origin</span></code> specified in the SCRIMMAGE mission file. When accessing an
+entity’s <code class="docutils literal notranslate"><span class="pre">State</span></code> variable, the elements of the <code class="docutils literal notranslate"><span class="pre">State</span></code> are with respect to
+the ENU system’s origin. The <code class="docutils literal notranslate"><span class="pre">State</span></code> class is used to represent an entity’s
+own state. The <code class="docutils literal notranslate"><span class="pre">State</span></code> class is also used when refering to the states of
+other entities in the <code class="docutils literal notranslate"><span class="pre">contacts_</span></code> map.</p>
+<div class="section" id="position">
+<h2>Position<a class="headerlink" href="#position" title="Permalink to this headline">¶</a></h2>
+<p>In an autonomy plugin, the vehicle’s own position relative to the ENU system’s
+origin can be accessed through the <code class="docutils literal notranslate"><span class="pre">state_-&gt;pos()</span></code> function. The <code class="docutils literal notranslate"><span class="pre">pos()</span></code>
+function returns an <code class="docutils literal notranslate"><span class="pre">Eigen::Vector3d</span></code> that contains the x, y, and z positions
+of the entity.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span> <span class="n">my_pos</span> <span class="o">=</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">();</span>
+
+<span class="n">my_pos</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// x-position in ENU frame</span>
+<span class="n">my_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// y-position in ENU frame</span>
+<span class="n">my_pos</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// z-position in ENU frame</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="orientation">
+<h2>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline">¶</a></h2>
+<p>In an autonomy plugin, the entity’s orientation can be accessed through the
+<code class="docutils literal notranslate"><span class="pre">state_-&gt;quat()</span></code> function, which returns a <code class="docutils literal notranslate"><span class="pre">scrimmage::Quaternion</span></code>
+instance. The <code class="docutils literal notranslate"><span class="pre">scrimmage::Quaternion</span></code> class (found in
+<code class="docutils literal notranslate"><span class="pre">scrimmage/math/Quaternion.h</span></code>) has helper functions for returning the roll,
+pitch, and yaw of the orientation (In SCRIMMAGE, the yaw is typically
+synonomous with the heading).</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Quaternion</span> <span class="n">q</span> <span class="o">=</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">();</span>
+
+<span class="n">q</span><span class="p">.</span><span class="n">roll</span><span class="p">();</span>  <span class="c1">// roll (radians) in ENU frame</span>
+<span class="n">q</span><span class="p">.</span><span class="n">pitch</span><span class="p">();</span> <span class="c1">// pitch (radians) in ENU frame</span>
+<span class="n">q</span><span class="p">.</span><span class="n">yaw</span><span class="p">();</span>   <span class="c1">// yaw / heading (radians) in ENU frame</span>
+
+<span class="c1">// Create a quaternion that is initialized with roll, pitch, and yaw values</span>
+<span class="kt">double</span> <span class="n">roll_rad</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">pitch_rad</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">yaw_rad</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">;</span>
+<span class="n">scrimmage</span><span class="o">::</span><span class="n">Quaternion</span> <span class="n">my_quat_0</span><span class="p">(</span><span class="n">roll_rad</span><span class="p">,</span> <span class="n">pitch_rad</span><span class="p">,</span> <span class="n">yaw_rad</span><span class="p">);</span>
+
+<span class="c1">// Create a quaternion from the standard w, x, y, z components:</span>
+<span class="kt">double</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">scrimmage</span><span class="o">::</span><span class="n">Quaternion</span> <span class="n">my_quat_1</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In the SCRIMMAGE ENU frame, “East” points in the direction of the origin’s
+X-axis, “North” points in the direction of the origin’s Y-axis, and “Up” points
+in the direction of the origin’s Z-axis. This means, that in SCRIMMAGE’s ENU
+frame, the positive X-axis points in the direction of 0 degrees yaw/heading and
+the positive Y-axis points in the direction of 90 degrees
+yaw/heading. Likewise, the negative X-axis points in the direction of 180
+degrees yaw/heading and the negative Y-axis points in the direction of 270
+degrees yaw/heading. This is opposed to the GPS heading standard, where 0
+degrees heading points North and 90 degrees heading points East. To facilitate
+translating between GPS and ENU frame orienations, the <code class="docutils literal notranslate"><span class="pre">scrimmage::Angles</span></code>
+class can be leveraged. For example, to convert from SCRIMMAGE ENU to GPS
+heading, the following code segment can be used:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;scrimmage/math/Angles.h&gt;</span><span class="cp"></span>
+
+<span class="kt">double</span> <span class="n">enu_heading_rad</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">::</span><span class="n">Angles</span><span class="o">::</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">45</span><span class="p">);</span> <span class="c1">// ENU heading in radians</span>
+
+<span class="c1">// Input orientation is &quot;EUCLIDEAN&quot; (i.e., ENU) and output orientation is &quot;GPS&quot;.</span>
+<span class="n">scrimmage</span><span class="o">::</span><span class="n">Angles</span> <span class="n">angles_to_gps</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Angles</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">EUCLIDEAN</span><span class="p">,</span> <span class="n">Angles</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">GPS</span><span class="p">);</span>
+
+<span class="c1">// The set_angle() function takes the yaw/heading in degrees</span>
+<span class="n">angles_to_gps</span><span class="p">.</span><span class="n">set_angle</span><span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Angles</span><span class="o">::</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">enu_heading_rad</span><span class="p">));</span>
+
+<span class="c1">// The angle() function returns the heading in degrees.</span>
+<span class="kt">double</span> <span class="n">gps_heading_deg</span> <span class="o">=</span> <span class="n">angles_to_gps</span><span class="p">.</span><span class="n">angle</span><span class="p">();</span>
+
+<span class="c1">// The deg2rad() function</span>
+<span class="kt">double</span> <span class="n">gps_heading_rad</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="o">::</span><span class="n">Angles</span><span class="o">::</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">gps_heading_deg</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="velocity">
+<h2>Velocity<a class="headerlink" href="#velocity" title="Permalink to this headline">¶</a></h2>
+<p>The entity’s linear and angular velocities are also with respect to the
+SCRIMMAGE ENU frame. In an autonomy plugin, the linear and angular velocities
+can be accessed through the <code class="docutils literal notranslate"><span class="pre">state_-&gt;vel()</span></code> and <code class="docutils literal notranslate"><span class="pre">state_-&gt;ang_vel()</span></code>
+functions, respectively. Since the <code class="docutils literal notranslate"><span class="pre">vel()</span></code> and <code class="docutils literal notranslate"><span class="pre">ang_vel()</span></code> functions return
+<code class="docutils literal notranslate"><span class="pre">Eigen::Vector3d</span></code> types, the linear speed can be computed using the <code class="docutils literal notranslate"><span class="pre">norm()</span></code> function:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">double</span> <span class="n">speed</span> <span class="o">=</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">vel</span><span class="p">().</span><span class="n">norm</span><span class="p">();</span>
+
+<span class="c1">// If the speed is NaN, then the vel() vector is probably all zeros.</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">isnan</span><span class="p">(</span><span class="n">speed</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="enu-to-gps-conversion">
+<h2>ENU to GPS Conversion<a class="headerlink" href="#enu-to-gps-conversion" title="Permalink to this headline">¶</a></h2>
+<p>In SCRIMMAGE, <a class="reference external" href="https://geographiclib.sourceforge.io/">GeographicLib</a> is used
+to perform conversions between local ENU positions and latitude, longitude, and
+altitude. For example, to convert from latitude, longitude, and altitude to ENU
+x, y, and z, a SCRIMMAGE plugin can use the
+<code class="docutils literal notranslate"><span class="pre">parent_-&gt;projection()-&gt;Forward()</span></code> function.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/LocalCartesian.hpp&gt;</span><span class="cp"></span>
+
+<span class="kt">double</span> <span class="n">lat</span> <span class="o">=</span> <span class="mf">35.721025</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">120.767925</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">alt</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+
+<span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">;</span>
+<span class="n">parent_</span><span class="o">-&gt;</span><span class="n">projection</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Forward</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">alt</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span>
+
+<span class="c1">// x, y, z are now the local ENU positions relative to the SCRIMMAGE origin</span>
+<span class="c1">// specified in the mission file.</span>
+</pre></div>
+</div>
+<p>Likewise, the GeographicLib’s <code class="docutils literal notranslate"><span class="pre">Reverse()</span></code> function is used to convert from
+ENU x, y, and z positions to latitude, longitude, and altitude.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/LocalCartesian.hpp&gt;</span><span class="cp"></span>
+
+<span class="c1">// The x, y, and z positions relative to the SCRIMMAGE ENU origin.</span>
+<span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">150</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="kt">double</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">alt</span><span class="p">;</span>
+<span class="n">parent_</span><span class="o">-&gt;</span><span class="n">projection</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Reverse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">alt</span><span class="p">);</span>
+
+<span class="c1">// lat, lon, and alt now contain the latitude, longitude, and altitude values</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="motion-model-plugins">
+<h2>Motion Model Plugins<a class="headerlink" href="#motion-model-plugins" title="Permalink to this headline">¶</a></h2>
+<p>When developing a motion model, it can be useful to model the system with
+respect to a North-East-Down (NED) body frame instead of the ENU
+frame. However, the rest of the SCRIMMAGE system requires the entity’s
+<code class="docutils literal notranslate"><span class="pre">State</span></code> to be in the ENU frame. Thus, if the developer wishes to model in the
+NED body frame, during the <code class="docutils literal notranslate"><span class="pre">step()</span></code> function of the motion model, the
+vehicle’s orientation in the ENU frame should be converted to the NED local
+body frame by rotating the <code class="docutils literal notranslate"><span class="pre">state_-&gt;quat()</span></code> function. For example, the
+<a class="reference external" href="https://github.com/gtri/scrimmage/blob/master/src/plugins/motion/FixedWing6DOF/FixedWing6DOF.cpp">FixedWing6DOF</a>
+motion model uses the following code segment to obtain the NED frame’s
+quaterion from the ENU frame’s quaterion:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Quaternion</span> <span class="n">quat_body_</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+<span class="n">quat_body_</span> <span class="o">=</span> <span class="n">rot_180_x_axis_</span> <span class="o">*</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">();</span>
+<span class="n">quat_body_</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="n">sc</span><span class="o">::</span><span class="n">Angles</span><span class="o">::</span><span class="n">angle_pi</span><span class="p">(</span><span class="n">quat_body_</span><span class="p">.</span><span class="n">roll</span><span class="p">()</span><span class="o">+</span><span class="n">M_PI</span><span class="p">),</span>
+               <span class="n">quat_body_</span><span class="p">.</span><span class="n">pitch</span><span class="p">(),</span> <span class="n">quat_body_</span><span class="p">.</span><span class="n">yaw</span><span class="p">());</span>
+<span class="n">quat_body_</span><span class="p">.</span><span class="n">normalize</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>At the end of the motion model’s <code class="docutils literal notranslate"><span class="pre">step()</span></code> function, the (possibly rotated)
+NED frame has to be transformed back into the ENU frame, so that the <code class="docutils literal notranslate"><span class="pre">State</span></code>
+orientation is in the same frame as the rest of the simulation.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Rotate back to Z-axis pointing up</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">()</span> <span class="o">=</span> <span class="n">rot_180_x_axis_</span> <span class="o">*</span> <span class="n">quat_body_</span><span class="p">;</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">set</span><span class="p">(</span><span class="n">sc</span><span class="o">::</span><span class="n">Angles</span><span class="o">::</span><span class="n">angle_pi</span><span class="p">(</span><span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">roll</span><span class="p">()</span><span class="o">+</span><span class="n">M_PI</span><span class="p">),</span>
+                   <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">pitch</span><span class="p">(),</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">());</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">normalize</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The remaining elements of the <code class="docutils literal notranslate"><span class="pre">State</span></code> class must be in the ENU frame as well:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// A motion model must ensure that the State classes elements are in the ENU frame:</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">();</span>     <span class="c1">// position</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">();</span>    <span class="c1">// orientation</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">vel</span><span class="p">();</span>     <span class="c1">// linear velocity</span>
+<span class="n">state_</span><span class="o">-&gt;</span><span class="n">ang_vel</span><span class="p">();</span> <span class="c1">// angular velocity</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="core-plugins.html" class="btn btn-neutral float-right" title="Core Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="environment-vars.html" class="btn btn-neutral float-left" title="Environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Kevin DeMarco
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
