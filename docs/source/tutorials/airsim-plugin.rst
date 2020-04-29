@@ -277,9 +277,8 @@ Environment.
     the Task Manager by pressing CTRL+ALT+DELETE, select the Unreal process, and press "End Task".
 
   **Linux Setup**
-    If you are running Unreal/AirSim on a Windows machine, download one of the Asset ZIP files under **v1.2.0-Linux** and
-    place in the directory: ~/path/to/AirSim-clang/Unreal/Environments/. Assets for newer versions of AirSim will not work
-    with older versions of AirSim installed on your Linux machine. Extract the zip file, and run as shown below:
+    If you are running Unreal/AirSim on a Linux machine, download one of the Asset ZIP files under **v1.3.1-Linux** and
+    place in the directory: ~/path/to/AirSim-clang/Unreal/Environments/. Extract the zip file, and run as shown below:
 
     .. code-block:: bash
 

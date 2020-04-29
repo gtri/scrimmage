@@ -45,6 +45,7 @@
 #include <memory>
 
 #include <opencv2/core/core.hpp>
+#include <opencv2/core/mat.hpp>
 
 // Eigen libraries
 #include "Eigen/Core"
@@ -95,18 +96,8 @@ class AirSimImageType {
     std::string vehicle_name;
     Eigen::Isometry3f vehicle_pose_world_NED;
     Eigen::Isometry3f camera_pose_world_NED;
-    AirSimImageType(CameraConfig camera_config, bool pixels_as_float);
     ~AirSimImageType();
 };
-AirSimImageType::AirSimImageType(CameraConfig c, bool pixels_as_float) {
-    // cout << "initializing AirSimImageType" << endl;
-    this->camera_config = c;
-    if (pixels_as_float){
-        this->img = cv::Mat(c.height, c.width, CV_32FC1);
-    } else {
-        this->img = cv::Mat(c.height, c.width, CV_8UC3);
-    }
-}
 AirSimImageType::~AirSimImageType(void) {
     this->img.release();
 }
@@ -133,14 +124,16 @@ class AirSimSensor : public scrimmage::Sensor {
     void request_images();
     scrimmage::MessagePtr<std::vector<AirSimImageType>> img_msg_ = nullptr;
     scrimmage::MessagePtr<std::vector<AirSimImageType>> im_msg = nullptr;
+    scrimmage::MessagePtr<std::vector<AirSimImageType>> im_msg_step = nullptr;
     scrimmage::MessagePtr<AirSimLidarType> lidar_msg_ = nullptr;
+    scrimmage::MessagePtr<AirSimLidarType> lidar_msg = nullptr;
+    scrimmage::MessagePtr<AirSimLidarType> lidar_msg_step = nullptr;
     std::mutex img_msg_mutex_;
     std::mutex lidar_msg_mutex_;
 
     bool running_ = true;
     std::mutex running_mutex_;
 
-//    std::shared_ptr<msr::airlib::MultirotorRpcLibClient> sim_client_;
     std::shared_ptr<msr::airlib::RpcLibClientBase> sim_client_;
     bool client_connected_;
     std::string airsim_ip_;

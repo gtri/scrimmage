@@ -201,6 +201,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     img_pub_ = advertise("LocalNetwork", "AirSimImages");
     lidar_pub_ = advertise("LocalNetwork", "AirSimLidar");
     auto img_msg_ = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
+    auto lidar_msg_ = std::make_shared<sc::Message<AirSimLidarType>>();
 
     // Start the image request thread
     request_images_thread_ = std::thread(&AirSimSensor::request_images, this);
@@ -252,13 +253,11 @@ void AirSimSensor::request_images() {
             l.lidar_data = img_client->getLidarData(lidar_name_, vehicle_name_);
             // Get pose of vehicle
             ma::Pose vehicle_pose = img_client->simGetVehiclePose(vehicle_name_);
-            // l.vehicle_pose_world_NED = vehicle_pose;
-            // l.lidar_pose_world_NED = l.lidar_data.pose;
             Eigen::Translation3f translation_trans_vehicle(vehicle_pose.position);
             Eigen::Quaternionf rotation_quat_vehicle(vehicle_pose.orientation);
             Eigen::Isometry3f tf_world_vehicle_NED(translation_trans_vehicle * rotation_quat_vehicle);
             l.vehicle_pose_world_NED = tf_world_vehicle_NED;
-
+            // Get pose of LIDAR
             Eigen::Translation3f translation_trans_lidar(l.lidar_data.pose.position);
             Eigen::Quaternionf rotation_quat_lidar(l.lidar_data.pose.orientation);
             Eigen::Isometry3f tf_world_lidar_NED(translation_trans_lidar * rotation_quat_lidar);
@@ -266,6 +265,7 @@ void AirSimSensor::request_images() {
 
             if (l.lidar_data.point_cloud.size() > 3) {
                 auto lidar_msg = std::make_shared<sc::Message<AirSimLidarType>>();
+                // sc::MessagePtr<AirSimLidarType> lidar_msg;
                 lidar_msg->data = l;
 
                 new_lidar_mutex_.lock();
@@ -304,8 +304,8 @@ void AirSimSensor::request_images() {
             // cout << response_vector.size() << endl;
             if (response_vector.size() > 0) {
                 auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
+                // sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
 
-                std::vector<AirSimImageType> image_type_vec;
                 for (ImageResponse response : response_vector) {
                     CameraConfig response_cam_config;
                     bool pixels_as_float_var = response.pixels_as_float;
@@ -316,12 +316,9 @@ void AirSimSensor::request_images() {
                         }
                     }
                     // Create AirSimImageType variable
-                    AirSimImageType a(response_cam_config, pixels_as_float_var);
+                    AirSimImageType a;
+                    a.camera_config = response_cam_config;
                     a.vehicle_name = vehicle_name_;
-                    // AirSim gives pose of vehicle in relation to the world frame in NED
-                    // a.vehicle_pose_world_NED = vehicle_pose_camera;
-                    // AirSim gives pose of camera in relation to the world frame in NED
-                    // a.camera_pose_world_NED =  ma::Pose(response.camera_position, response.camera_orientation);
 
                     // AirSim gives pose of vehicle in relation to the world frame in NED
                     Eigen::Translation3f translation_trans_vehicle(vehicle_pose_camera.position);
@@ -338,28 +335,25 @@ void AirSimSensor::request_images() {
                     a.camera_config.pixels_as_float = response.pixels_as_float;
                     if (a.camera_config.pixels_as_float) {
                         // get uncompressed 32FC1 array bytes
-                        auto& im_vec = response.image_data_float;
-                        // todo, no memcpy, just set image ptr to underlying data
-                        // image = cv::Mat(144, 256, CV_8UC3, static_cast<uint8_t*>(im_vec.data()));
-                        //  cv::Mat img(a.camera_config.height, a.camera_config.width, CV_32FC1);
-                        //  memcpy(img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
-                        memcpy(a.img.data, im_vec.data(), im_vec.size() * sizeof(float_t));
+                        a.img = cv::Mat(a.camera_config.height, a.camera_config.width, CV_32FC1);
+                        memcpy(a.img.data, response.image_data_float.data(), response.image_data_float.size() * sizeof(float_t));
+
                     } else {
                         // All Other Image types come in as RGB = 3 channel uint8 matrix
-                        // get uncompressed rgb array bytes
-                        auto& im_vec = response.image_data_uint8;
-                        // todo, no memcpy, just set image ptr to underlying data, line below mixes image data from different image types
-                        // a.img = cv::Mat(c.height, c.width, CV_8UC3, const_cast<uint8_t*>(im_vec.data()));
-                        // a.img = cv::Mat(c.height, c.width, CV_8UC3, const_cast<uint8_t*>(response.at(0).image_data_uint8.data()));
-                        memcpy(a.img.data, im_vec.data(), im_vec.size() * sizeof(uint8_t));
+                        // However old linux asset environments give 4 channels
+
+                        // If image has 4 channels
+                        if (response.image_data_uint8.size() > (a.camera_config.height * a.camera_config.width * 3)) {
+                            a.img = cv::Mat(a.camera_config.height, a.camera_config.width, CV_8UC4);
+                            memcpy(a.img.data, response.image_data_uint8.data(),response.image_data_uint8.size() * sizeof(uint8_t));
+                        } else {
+                            // image has 3 channels
+                            a.img = cv::Mat(a.camera_config.height, a.camera_config.width, CV_8UC3);
+                            memcpy(a.img.data, response.image_data_uint8.data(),response.image_data_uint8.size() * sizeof(uint8_t));
+                        }
                     } // end if pixels_as_float
                     im_msg->data.push_back(a);
-                    // cout << "image_type_vec[-1] size: " << im_msg->data.back().img.size() << endl;
-                    // im_msg->data = image_type_vec;
                 } // end ImageResponse for loop
-
-                // Place data inside img_msg
-                // im_msg->data = image_type_vec;
 
                 // Submit message to be published
                 new_image_mutex_.lock();
@@ -431,7 +425,8 @@ bool AirSimSensor::step() {
 
     // Get the camera images from the other thread
     if (get_image_data_) {
-        sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
+        // sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
+        auto im_msg_step = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
         bool new_image = false;
 
         new_image_mutex_.lock();
@@ -440,20 +435,21 @@ bool AirSimSensor::step() {
         new_image_mutex_.unlock();
 
         img_msg_mutex_.lock();
-        im_msg = img_msg_;
+        im_msg_step = img_msg_;
         img_msg_mutex_.unlock();
 
         // If image is new, publish
         if (new_image) {
             if (save_airsim_data_) {
-                AirSimSensor::save_data(im_msg, state, airsim_frame_num_);
+                AirSimSensor::save_data(im_msg_step, state, airsim_frame_num_);
             }
-            img_pub_->publish(im_msg);
+            img_pub_->publish(im_msg_step);
         }
     }
 
     if (get_lidar_data_) {
-        sc::MessagePtr<AirSimLidarType> lidar_msg;
+        // sc::MessagePtr<AirSimLidarType> lidar_msg;
+        auto lidar_msg_step = std::make_shared<sc::Message<AirSimLidarType>>();
         bool new_lidar = false;
 
         new_lidar_mutex_.lock();
@@ -462,12 +458,12 @@ bool AirSimSensor::step() {
         new_lidar_mutex_.unlock();
 
         lidar_msg_mutex_.lock();
-        lidar_msg = lidar_msg_;
+        lidar_msg_step = lidar_msg_;
         lidar_msg_mutex_.unlock();
 
         // If lidar is new, publish
         if (new_lidar) {
-            lidar_pub_->publish(lidar_msg);
+            lidar_pub_->publish(lidar_msg_step);
         }
     }
 
