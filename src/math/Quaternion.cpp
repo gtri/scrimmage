@@ -37,7 +37,7 @@
 
 namespace scrimmage {
 
-Quaternion::Quaternion() : Eigen::Quaternion<double, Eigen::DontAlign>() {}
+Quaternion::Quaternion() : Eigen::Quaternion<double, Eigen::DontAlign>(1, 0, 0, 0) {}
 
 Quaternion::Quaternion(const Quaternion &other) : Eigen::Quaternion<double, Eigen::DontAlign>(other) {}
 
