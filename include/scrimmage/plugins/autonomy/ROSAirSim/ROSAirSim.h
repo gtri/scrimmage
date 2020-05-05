@@ -38,7 +38,9 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/Imu.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/static_transform_broadcaster.h>
@@ -75,21 +77,42 @@ class ROSAirSim : public scrimmage::Autonomy {
     bool show_camera_images_ = false;
     bool pub_image_data_ = true;
     bool pub_lidar_data_ = true;
+    bool pub_imu_data_ = true;
+    bool ros_python_ = false;
+    bool ros_cartographer_ = false;
 
+    // ROS
     std::shared_ptr<ros::NodeHandle> nh_;
     std::shared_ptr<image_transport::ImageTransport> it_;
-    std::vector<image_transport::Publisher> img_publishers_;
 
+    // Images
+    vector<scrimmage::sensor::AirSimImageType> image_data_;
+    std::vector<image_transport::Publisher> trans_img_publishers_;
+    std::vector<ros::Publisher> img_publishers_;
+    std::vector<ros::Publisher> cam_info_publishers_;
     bool img_topic_published_ = false;
     std::mutex img_topic_published_mutex_;
     std::vector<std::string> camera_names_;
 
-    vector<scrimmage::sensor::AirSimImageType> image_data_;
-    scrimmage::sensor::AirSimLidarType lidar_data_;
+    // Lidar
+    vector<scrimmage::sensor::AirSimLidarType> lidar_data_;
+    std::vector<ros::Publisher> lidar_publishers_;
+    bool lidar_topic_published_ = false;
+    std::mutex lidar_topic_published_mutex_;
+    std::vector<std::string> lidar_names_;
+
+    // IMU
+    vector<scrimmage::sensor::AirSimImuType> imu_data_;
+    std::vector<ros::Publisher> imu_publishers_;
+    bool imu_topic_published_ = false;
+    std::mutex imu_topic_published_mutex_;
+    std::vector<std::string> imu_names_;
+
     ros::Publisher base_scan_pub_;
     std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
     static std::shared_ptr<tf2_ros::StaticTransformBroadcaster> static_broadcaster_;
     geometry_msgs::TransformStamped world_trans_;
+    geometry_msgs::TransformStamped vehicle_trans_;
 
     std::string ros_name_;
     std::string ros_namespace_;
