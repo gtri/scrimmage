@@ -57,6 +57,13 @@ Quaternion::Quaternion(double roll, double pitch, double yaw) {
     set(roll, pitch, yaw);
 }
 
+Quaternion &Quaternion::operator=(const Quaternion &other) {
+    if (this != &other) {
+        set(other.w(), other.x(), other.y(), other.z());
+    }
+    return *this;
+}
+
 Quaternion &Quaternion::operator=(const Eigen::Quaternion<double, Eigen::DontAlign> &other) {
     if (this != &other) {
         set(other.w(), other.x(), other.y(), other.z());
@@ -127,6 +134,12 @@ std::ostream& operator<<(std::ostream& os, const Quaternion& q) {
        << ", y: " << std::setprecision(q.output_precision) << q.y()
        << ", z: " << std::setprecision(q.output_precision) << q.z();
     return os;
+}
+
+scrimmage::Quaternion operator*(const scrimmage::Quaternion &p, const scrimmage::Quaternion &q) {
+    const Eigen::Quaternion<double, Eigen::DontAlign>& ep = p;
+    const Eigen::Quaternion<double, Eigen::DontAlign>& eq = q;
+    return scrimmage::Quaternion(ep * eq);
 }
 
 } // namespace scrimmage
