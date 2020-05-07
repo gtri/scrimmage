@@ -167,6 +167,17 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     auto params_cb = [&](sc::MessagePtr<std::map<std::string, double>> msg) {set_plugin_params(msg->data);};
     subscribe<std::map<std::string, double>>("LocalNetwork", "BlobPluginParams", params_cb);
 
+    /**
+     * Allow for updating camera's roll, pitch, and yaw in real-time.
+     */
+    auto rpy_cb = [&](sc::MessagePtr<std::vector<double>> msg) {
+        double roll = sc::Angles::deg2rad(msg->data[0]);
+        double pitch = sc::Angles::deg2rad(msg->data[1]);
+        double yaw = sc::Angles::deg2rad(msg->data[2]);
+        this->transform()->quat().set(roll, pitch, yaw);
+    };
+    subscribe<std::vector<double>>("LocalNetwork", "BlobPluginRPY", rpy_cb);
+
     // Publish the resulting bounding boxes
     pub_ = advertise("LocalNetwork", "ContactBlobCamera");
 
@@ -368,6 +379,9 @@ bool ContactBlobCamera::step() {
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
+    msg->data.roll = sc::Angles::rad2deg(this->transform()->quat().roll());
+    msg->data.pitch = sc::Angles::rad2deg(this->transform()->quat().pitch());
+    msg->data.yaw = sc::Angles::rad2deg(this->transform()->quat().yaw());
     msg->data.camera_id = camera_id_;
     msg->data.img_width = img_width_;
     msg->data.img_height = img_height_;

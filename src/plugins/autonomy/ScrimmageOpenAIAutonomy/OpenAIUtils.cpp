@@ -49,7 +49,7 @@ void to_continuous(std::vector<std::pair<double, double>> &p,
     }
 }
 
-void to_discrete(std::vector<double> &p, py::list &maxima) {
+void to_discrete(std::vector<int> &p, py::list &maxima) {
     for (auto &value : p) {
         maxima.append(value);
     }

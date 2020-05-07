@@ -8,34 +8,38 @@
   <airsim_timeout_s>60</airsim_timeout_s>
 
   <!--
-      [CameraID=forward=0 ImageType CameraNumber=ImageTypeValue Width Height]
+      [CameraNumber=Front_Center=0 ImageTypeName=Scene ImageTypeNumber=0 Width=256 Height=144]
+
+      AirSim Camera Types:
+      Front_Center=0, Front_Right=1, Front_Left=2, Bottom_Center=3, Back_Center=4
 
       AirSim Image Types:
-      Scene, DepthPlanner, DepthPerspective, DepthVis, DisparityNormalized,
-      Segmentation, SurfaceNormals
-      Example: [Forward=0 Scene 0 256 144] [Downward Scene 3 256 144]
+      Scene=0, DepthPlanner=1, DepthPerspective=2, DepthVis=3, DisparityNormalized=4,
+      Segmentation=5, SurfaceNormals=6, Infrared=7
+
+      Example: [0 Scene 0 256 144]
   -->
   <camera_config>
     [0 Scene 0 256 144]
     [0 DepthPerspective 2 256 144]
     [0 Segmentation 5 256 144]
+    [0 Infrared 7 256 144]
   </camera_config>
 
-  <!--
-      <camera_config>
-    [SceneForward Scene 0 256 144]
-    [SceneDownward Scene 3 256 144]
-    [DepthPlanner DepthPlanner 0 256 144]
-    [DepthPerspective DepthPerspective 0 256 144]
-    [DepthViz DepthVis 0 256 144]
-    [DisparityNormalized DisparityNormalized 0 256 144]
-    [Segmentation Segmentation 0 256 144]
-    [SurfaceNormals SurfaceNormals 0 256 144]
-    </camera_config>
-    -->
+  <!-- Edit the params below in the mission file, not here -->
+
   <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs-->
-  <save_airsim_data>false</save_airsim_data>
-  <!-- get_lidar_data requests lidar data from AirSim-->
-  <get_lidar_data>false</get_lidar_data>
+  <save_airsim_data>true</save_airsim_data>
+  <!-- get_image_data requests image data from AirSim -->
+  <get_image_data>true</get_image_data>
+  <!-- get_lidar_data requests lidar data from AirSim -->
+  <get_lidar_data>true</get_lidar_data>
+
+  <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+  <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+  <data_acquisition_period>0.1</data_acquisition_period>
+
+  <vehicle_name>"robot1"</vehicle_name>
+  <lidar_name>"lidar1"</lidar_name>
 
 </params>

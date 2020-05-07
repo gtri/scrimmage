@@ -342,8 +342,9 @@ bool Entity::init(AttributeMap &overrides,
     for (auto autonomy_name : autonomy_names) {
         auto autonomy = make_autonomy<Autonomy>(
             info[autonomy_name], plugin_manager, overrides[autonomy_name],
-            parent, state_, proj_, contacts, file_search, rtree, pubsub, time,
-            param_server, plugin_tags, param_override_func, controllers_,
+            parent, state_, id_to_team_map, id_to_ent_map, proj_, contacts,
+            file_search, rtree, pubsub, time, param_server, plugin_tags,
+            param_override_func, controllers_,
             debug_level);
 
         if (autonomy) {

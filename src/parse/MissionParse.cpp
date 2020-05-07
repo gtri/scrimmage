@@ -178,6 +178,12 @@ bool MissionParse::parse(const std::string &filename) {
             network_gui_ = str2bool(attr->value());
         } else if (attr_str == "start_paused") {
             start_paused_ = str2bool(attr->value());
+        } else if (attr_str == "full_screen") {
+            full_screen_ = str2bool(attr->value());
+        } else if (attr_str == "window_width") {
+            window_width_ = std::stod(attr->value());
+        } else if (attr_str == "window_height") {
+            window_height_ = std::stod(attr->value());
         }
     }
 
@@ -774,11 +780,17 @@ double MissionParse::tend() { return tend_; }
 
 double MissionParse::dt() { return dt_; }
 
+void MissionParse::set_dt(const double& dt) { dt_ = dt; }
+
 double MissionParse::motion_multiplier() { return motion_multiplier_; }
 
 double MissionParse::time_warp() { return time_warp_; }
 
 bool MissionParse::start_paused() { return start_paused_; }
+
+const bool& MissionParse::full_screen() { return full_screen_; }
+const unsigned& MissionParse::window_width() { return window_width_; }
+const unsigned& MissionParse::window_height() { return window_height_; }
 
 bool MissionParse::parse_terrain() {
     ConfigParse terrain_parse;

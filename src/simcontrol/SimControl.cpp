@@ -124,6 +124,7 @@ SimControl::SimControl() :
     networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
     pubsub_(std::make_shared<PubSub>()),
     file_search_(std::make_shared<FileSearch>()),
+    rtree_(std::make_shared<scrimmage::RTree>()),
     sim_plugin_(std::make_shared<EntityPlugin>()),
     limited_verbosity_(false) {
     pause(false);
@@ -256,11 +257,17 @@ bool SimControl::generate_entities(const double& t) {
     // Delete gen_info's that don't have ents remaining (count==0)
     remove_if(mp_->gen_info(), [&](auto &kv) {return kv.second.total_count <= 0;});
 
+    // Create a new rtree from the existing entity map and provide additional
+    // space in the rtree for the new entities that will be generated.
+    create_rtree(ents_to_gen.size());
+
     // Call generate_entity on each entity description id.
     auto gen_ent = [&] (const int &ent_desc_id) -> bool {
         return generate_entity(ent_desc_id);
     };
-    return std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
+    bool status = std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
+
+    return status;
 }
 
 bool SimControl::generate_entity(const int &ent_desc_id) {
@@ -339,9 +346,12 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     contacts_mutex_.lock();
     AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
+
+    int id = find_available_id(params);
+
     bool ent_status = ent->init(attr_map, params, id_to_team_map_,
                                 id_to_ent_map_,
-                                contacts_, mp_, proj_, next_id_, ent_desc_id,
+                                contacts_, mp_, proj_, id, ent_desc_id,
                                 plugin_manager_, file_search_, rtree_, pubsub_, time_,
                                 param_server_, global_services_,
                                 std::set<std::string>{},
@@ -380,8 +390,6 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     msg->data.set_entity_id(ent->id().id());
     pub_ent_gen_->publish(msg);
 
-    next_id_++;
-
     return true;
 }
 
@@ -399,8 +407,8 @@ void SimControl::join() {
     thread_.join();
 }
 
-void SimControl::create_rtree() {
-    rtree_->clear();
+void SimControl::create_rtree(const unsigned int& additional_size) {
+    rtree_->init(ents_.size() + additional_size);
     for (EntityPtr &ent: ents_) {
         rtree_->add(ent->state()->pos(), ent->id());
     }
@@ -597,7 +605,6 @@ bool SimControl::run_single_step(const int& loop_number) {
         return false;
     }
 
-    create_rtree();
     set_autonomy_contacts();
     if (!run_entities()) {
         if (!limited_verbosity_) {
@@ -705,9 +712,6 @@ bool SimControl::start() {
     auto get_count = [&](auto &kv) {return kv.second.total_count;};
     int max_num_entities =
         boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
-
-    rtree_ = std::make_shared<scrimmage::RTree>();
-    rtree_->init(max_num_entities);
 
     // What is the end condition?
     if (mp_->params().count("end_condition") > 0) {
@@ -841,10 +845,16 @@ bool SimControl::start() {
         params["pitch"] = std::to_string(sc::Angles::rad2deg(quat.pitch()));
         params["heading"] = std::to_string(sc::Angles::rad2deg(quat.yaw()));
 
+        // Assign the ID based on the protobuf message
+        params["id"] = std::to_string(msg->data.entity_id());
+
         // Override any manually specified entity_params
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
+
+        // Recreate the rtree with one additional size for this entity.
+        this->create_rtree(1);
 
         if (not this->generate_entity(it_ent_desc_id->second, params)) {
             cout << "Failed to generate entity with tag: "
@@ -1753,4 +1763,32 @@ std::shared_ptr<std::unordered_map<int, EntityPtr>>
 SimControl::id_to_entity_map() {
     return id_to_ent_map_;
 }
+
+int SimControl::find_available_id(
+    const std::map<std::string, std::string>& params) {
+
+    // Use the mission file specified ID, if it exists, otherwise, find the
+    // next available ID from the back of the ids_used_ std::set.
+    int id = 0;
+    auto it_id = params.find("id");
+    if (it_id != params.end()) {
+        try {
+            id = std::stoi(it_id->second);
+        } catch (...) {
+            cout << "Failed to convert the following <id> tag into an integer: "
+                 << it_id->second << endl;
+            id = 0;
+        }
+    }
+
+    std::pair<std::set<int>::const_iterator, bool> ret;
+    do {
+        ret = ids_used_.emplace(id);
+        if (not ret.second) {
+            id = *(ids_used_.rbegin()) + 1;
+        }
+    } while (not ret.second);
+    return id;
+}
+
 } // namespace scrimmage

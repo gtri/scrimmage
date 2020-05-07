@@ -116,7 +116,7 @@ bool str2container(const std::string &str, const std::string &delims,
 }
 
 template <typename T>
-[[deprecated("str2vec is deprecated, use str2container instead")]]
+// [[deprecated("str2vec is deprecated, use str2container instead")]]
 std::vector<T> str2vec(const std::string &str, const std::string &delims) {
     std::vector<T> out;
     std::vector<std::string> tokens;
@@ -131,7 +131,7 @@ std::vector<T> str2vec(const std::string &str, const std::string &delims) {
 }
 
 template <typename T>
-[[deprecated("str2vec is deprecated, use str2container instead")]]
+// [[deprecated("str2vec is deprecated, use str2container instead")]]
 bool str2vec(const std::string &str, const std::string &delims,
              std::vector<T> &vec, int size = -1) {
     std::vector<T> tmp_vec;

@@ -59,14 +59,14 @@ class TakeFlag : public scrimmage::Autonomy {
     int flag_boundary_id_ = -1;
     int capture_boundary_id_ = -1;
 
-    scrimmage::PublisherPtr pub_wp_list_;
-
     std::map<int, std::pair<scrimmage_proto::Shape,
         std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
 
     bool has_flag_ = false;
 
-    void publish_waypoint(const Eigen::Vector3d &point);
+    int output_vel_x_idx_ = 0;
+    int output_vel_y_idx_ = 0;
+    int output_vel_z_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

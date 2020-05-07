@@ -201,10 +201,15 @@ However, if you want to clean everything, you can remove your build directory:
 ## ROS Integration
 
 To build SCRIMMAGE's ROS plugins, you must have
-[ROS](http://wiki.ros.org/ROS/Installation) installed and the
-BUILD\_ROS\_PLUGINS cmake variable must be set:
+[ROS](http://wiki.ros.org/ROS/Installation) installed, the ROS environment
+sourced, and the `BUILD_ROS_PLUGINS` cmake variable must be set:
 
+    $ sudo apt-get install ros-${ROS_VERSION}-desktop-full ros-${ROS_VERSION}-mavros-msgs
+    $ source /opt/ros/${ROS_VERSION}/setup.sh
     $ cmake .. -DBUILD_ROS_PLUGINS=ON
+
+The `${ROS_VERSION}` should be substituted with an appropriate ROS version
+(e.g., "kinetic", "melodic", etc.).
 
 An example of using SCRIMMAGE to simulate robots running the ROS 2D Navigation
 stack can be found in the

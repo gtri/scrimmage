@@ -2,5 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>ROSAutonomy_plugin</library>
-  <ros_namespace_prefix>robot</ros_namespace_prefix>
+  <namespace_prefix>entity</namespace_prefix>
 </params>

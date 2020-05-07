@@ -24,6 +24,10 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     ruby-full \
     build-essential \
     zlib1g-dev \
+    python-rosdep \
+    ros-kinetic-opencv3 \
+    ros-kinetic-tf2 \
+    ros-kinetic-mavros-msgs \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \
@@ -76,9 +80,14 @@ RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
 WORKDIR /root/scrimmage/scrimmage
 RUN mkdir -p build \
  && cd build \
+ && source /opt/ros/kinetic/setup.bash \
  && source ~/.bashrc \
  && source ~/.scrimmage/setup.bash \
- && cmake .. -DPYTHON_MIN_VERSION=3 -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+ && cmake .. -G Ninja \
+             -DPYTHON_MIN_VERSION=3  \
+             -DBUILD_TESTS=ON \
+             -DBUILD_DOCS=ON \
+             -DCMAKE_CXX_FLAGS="-Werror" \
  && ninja \
  && ninja docs website-docs
 

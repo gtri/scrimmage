@@ -1,5 +1,6 @@
-SCRIMMAGE Description
----------------------
+===========
+Description
+===========
 
 Simulating Collaborative Robots in Massive Multi-Agent Game Execution, or
 SCRIMMAGE, provides a flexible simulation environment for the experimentation

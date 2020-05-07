@@ -241,7 +241,7 @@ the same altitude of the contact in line 40. If the closest contact search
 didn't succeed in the first part of ``step_autonomy``, then the
 controller inputs won't be updated due to the guard.
 
-By just using the state's of other contacts, Autonomy plugins can implement
+By just using the states of other contacts, Autonomy plugins can implement
 formation controllers, spatial search algorithms, biologically-inspired
 algorithms, and many other algorithms associated with multi-robot problems. The
 contacts in this example are ground truth contacts without any noise. When you

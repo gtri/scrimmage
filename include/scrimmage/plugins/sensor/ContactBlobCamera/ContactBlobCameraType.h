@@ -54,6 +54,9 @@ class ContactBlobCameraType {
     double fn_prob;
     double fp_prob;
     int max_false_positives;
+    double roll;
+    double pitch;
+    double yaw;
 };
 } // namespace sensor
 } // namespace scrimmage

@@ -37,28 +37,50 @@
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/Image.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_ros/transform_broadcaster.h>
+#include <tf2_ros/transform_listener.h>
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <geometry_msgs/Twist.h>
 
 #include <string>
 #include <map>
 #include <memory>
 #include <vector>
 
+#include "common/AirSimSettings.hpp"
+
+typedef msr::airlib::AirSimSettings::LidarSetting LidarSetting;
+
 namespace scrimmage {
 namespace autonomy {
+
 class ROSAirSim : public scrimmage::Autonomy {
  public:
+    ROSAirSim();
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
     bool show_camera_images_ = false;
-
+    bool pub_image_data_ = true;
+    bool pub_lidar_data_ = true;
 
     std::shared_ptr<ros::NodeHandle> nh_;
     std::shared_ptr<image_transport::ImageTransport> it_;
-
     std::vector<image_transport::Publisher> img_publishers_;
 
+    msr::airlib::LidarData lidar_data_;
+    ros::Publisher base_scan_pub_;
+    std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
+    // std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
+    geometry_msgs::TransformStamped world_trans_;
+    geometry_msgs::TransformStamped laser_trans_;
+
+    std::string ros_name_;
     std::string ros_namespace_;
 };
 } // namespace autonomy

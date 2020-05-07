@@ -40,6 +40,7 @@
 #include <scrimmage/plugin_manager/PluginManager.h>
 
 #include <map>
+#include <unordered_map>
 #include <set>
 #include <vector>
 #include <string>
@@ -57,6 +58,8 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
     std::map<std::string, std::string> &overrides,
     EntityPtr parent,
     StatePtr state,
+    std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
     std::shared_ptr<GeographicLib::LocalCartesian> proj,
     ContactMapPtr &contacts,
     FileSearchPtr &file_search,
@@ -89,6 +92,8 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
         autonomy->set_projection(proj);
         autonomy->set_pubsub(pubsub);
         autonomy->set_time(time);
+        autonomy->set_id_to_team_map(id_to_team_map);
+        autonomy->set_id_to_ent_map(id_to_ent_map);
         autonomy->set_param_server(param_server);
         autonomy->set_state(state);
         autonomy->set_contacts(contacts);
