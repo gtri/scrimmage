@@ -20,13 +20,12 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
+ * @author Natalie Rakoski <natalie.rakoski@gtri.gatech.edu>
+ * @date 06 May 2020
+ * @version 0.2.8
+ * @brief Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
+ * @section Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
+ * Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
  *
  */
 
@@ -74,6 +73,7 @@ class ROSAirSim : public scrimmage::Autonomy {
     bool step_autonomy(double t, double dt) override;
 
  protected:
+    std::string vehicle_name_ = "none";
     bool show_camera_images_ = false;
     bool pub_image_data_ = true;
     bool pub_lidar_data_ = true;

@@ -20,13 +20,12 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
+ * @author Natalie Rakoski <natalie.rakoski@gtri.gatech.edu>
+ * @date 06 May 2020
+ * @version 0.2.8
+ * @brief Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.
+ * @section Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.
+ * Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.
  *
  */
 

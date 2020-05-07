@@ -20,14 +20,12 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
  * @author Natalie Rakoski <natalie.rakoski@gtri.gatech.edu>
- * @date 7 January 2020
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
+ * @date 06 May 2020
+ * @version 0.2.8
+ * @brief Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.
+ * @section Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.
+ * Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.
  *
  */
 
@@ -232,9 +230,6 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     image_acquisition_period_ = sc::get<double>("image_acquisition_period", params, 0.1);
     lidar_acquisition_period_ = sc::get<double>("lidar_acquisition_period", params, 0.1);
     imu_acquisition_period_ = sc::get<double>("imu_acquisition_period", params, 0.1);
-    cout << "[AirSimSensor] Image Acquisition Period = " << image_acquisition_period_ << endl;
-    cout << "[AirSimSensor] LIDAR Acquisition Period = " << lidar_acquisition_period_ << endl;
-    cout << "[AirSimSensor] IMU Acquisition Period = " << imu_acquisition_period_ << endl;
 
 
     // Open airsim_data CSV for append (app) and set column headers
@@ -247,6 +242,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     //// Publish Images
     if (get_image_data_) {
         cout << "[AirSimSensor] Retrieving image data within AirSimSensor::request_images() thread." << endl;
+        cout << "[AirSimSensor] Image Acquisition Period = " << image_acquisition_period_ << endl;
         // Get camera configurations
         AirSimSensor::parse_camera_configs(params);
         img_pub_ = advertise("LocalNetwork", "AirSimImages");
@@ -258,6 +254,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     //// Publish Lidar
     if (get_lidar_data_) {
         cout << "[AirSimSensor] Retrieving LIDAR data within AirSimSensor::request_lidar() thread." << endl;
+        cout << "[AirSimSensor] LIDAR Acquisition Period = " << lidar_acquisition_period_ << endl;
         AirSimSensor::parse_lidar_configs(params);
         lidar_pub_ = advertise("LocalNetwork", "AirSimLidar");
         auto lidar_msg_ = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>();
@@ -268,6 +265,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     //// Publish Imu
     if (get_imu_data_) {
         cout << "[AirSimSensor] Retrieving IMU data within AirSimSensor::request_imu() thread." << endl;
+        cout << "[AirSimSensor] IMU Acquisition Period = " << imu_acquisition_period_ << endl;
         AirSimSensor::parse_imu_configs(params);
         imu_pub_ = advertise("LocalNetwork", "AirSimImu");
         auto imu_msg_ = std::make_shared<sc::Message<std::vector<AirSimImuType>>>();
@@ -281,16 +279,24 @@ void AirSimSensor::request_images() {
         std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                      airsim_port_,
                                                      airsim_timeout_s_);
-    bool connected = false;
-    while (!connected) {
-        img_client->confirmConnection();
-
-        // If we haven't been able to connect to AirSim, warn the user
-        if (img_client->getConnectionState() !=
-            ma::RpcLibClientBase::ConnectionState::Connected) {
-            cout << "[AirSimSensor] Warning: Image client not connected to AirSim." << endl;
+    // cout << vehicle_name_ << " Image client waiting for Unreal/AirSim connection" << endl;
+    for (int i = 0; i < 11; i++) {
+        if (img_client->getConnectionState() != ma::RpcLibClientBase::ConnectionState::Connected) {
+            // cout << "X" << std::flush;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            // If we haven't been able to connect to AirSim, warn the user and return
+            if (i == 10) {
+                cout << "\n[AirSimSensor] Warning: Image client could not connect to AirSim." << endl;
+                cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE mission.\n" << endl;
+                return;
+            }
+            std::shared_ptr<ma::RpcLibClientBase> img_client =
+                    std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
+                                                                 airsim_port_,
+                                                                 airsim_timeout_s_);
         } else {
-            connected = true;
+            // cout << vehicle_name_ << " Image Client Connected" << endl;
+            break;
         }
     }
 
@@ -416,16 +422,25 @@ void AirSimSensor::request_lidar() {
             std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                          airsim_port_,
                                                          airsim_timeout_s_);
-    bool connected = false;
-    while (!connected) {
-        lidar_client->confirmConnection();
 
-        // If we haven't been able to connect to AirSim, warn the user
-        if (lidar_client->getConnectionState() !=
-            ma::RpcLibClientBase::ConnectionState::Connected) {
-            cout << "[AirSimSensor] Warning: LIDAR client not connected to AirSim." << endl;
+    // cout << vehicle_name_ << " LIDAR client waiting for Unreal/AirSim connection" << endl;
+    for (int i = 0; i < 11; i++) {
+        if (lidar_client->getConnectionState() != ma::RpcLibClientBase::ConnectionState::Connected) {
+            // cout << "X" << std::flush;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            // If we haven't been able to connect to AirSim, warn the user and return
+            if (i == 10) {
+                cout << "\n[AirSimSensor] Warning: LIDAR client could not connect to AirSim." << endl;
+                cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE mission.\n" << endl;
+                return;
+            }
+            std::shared_ptr<ma::RpcLibClientBase> lidar_client =
+                    std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
+                                                                 airsim_port_,
+                                                                 airsim_timeout_s_);
         } else {
-            connected = true;
+            // cout << vehicle_name_ << " LIDAR Client Connected" << endl;
+            break;
         }
     }
 
@@ -493,16 +508,24 @@ void AirSimSensor::request_imu() {
             std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                          airsim_port_,
                                                          airsim_timeout_s_);
-    bool connected = false;
-    while (!connected) {
-        imu_client->confirmConnection();
-
-        // If we haven't been able to connect to AirSim, warn the user
-        if (imu_client->getConnectionState() !=
-            ma::RpcLibClientBase::ConnectionState::Connected) {
-            cout << "[AirSimSensor] Warning: IMU client not connected to AirSim." << endl;
+    // cout << vehicle_name_ << " IMU waiting for Unreal/AirSim connection" << endl;
+    for (int i = 0; i < 11; i++) {
+        if (imu_client->getConnectionState() != ma::RpcLibClientBase::ConnectionState::Connected) {
+            // cout << "X" << std::flush;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            // If we haven't been able to connect to AirSim, warn the user and return
+            if (i == 10) {
+                cout << "\n[AirSimSensor] Warning: IMU client could not connect to AirSim." << endl;
+                cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE mission.\n" << endl;
+                return;
+            }
+            std::shared_ptr<ma::RpcLibClientBase> imu_client =
+                    std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
+                                                                 airsim_port_,
+                                                                 airsim_timeout_s_);
         } else {
-            connected = true;
+            // cout << vehicle_name_ << " IMU Client Connected" << endl;
+            break;
         }
     }
 
@@ -568,25 +591,34 @@ bool AirSimSensor::step() {
     /// Client Connection / Disconnection Handling
     ///////////////////////////////////////////////////////////////////////////
 
-    // If we aren't connected to AirSim, re-establish connection.
     if (!client_connected_) {
-        cout << "[AirSimSensor] Connecting to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << endl;
+        cout << vehicle_name_ << " Sim Client waiting for Unreal/AirSim connection - " << endl;
         sim_client_ = std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
                                                                    airsim_port_,
                                                                    airsim_timeout_s_);
 
-        sim_client_->confirmConnection();
-
-        // If we haven't been able to connect to AirSim, warn the user and return.
-        if (sim_client_->getConnectionState() !=
-            ma::RpcLibClientBase::ConnectionState::Connected) {
-            client_connected_ = false;
-            cout << "[AirSimSensor] Warning: not connected to AirSim." << endl;
-
-            // return std::make_shared<sc::MessageBase>();
-            return true;
+        // sim_client_->confirmConnection(); -- don't use infinite while loop
+        for (int i = 0; i < 11; i++) {
+            if (sim_client_->getConnectionState() != ma::RpcLibClientBase::ConnectionState::Connected) {
+                cout << "X" << std::flush;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                // If we haven't been able to connect to AirSim, warn the user and return.
+                if (i == 10) {
+                    cout << "\n[AirSimSensor] Warning: Sim client could not connect to AirSim." << endl;
+                    cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE mission.\n" << endl;
+                    return false;
+                }
+                std::shared_ptr<ma::RpcLibClientBase> imu_client =
+                        std::make_shared<ma::MultirotorRpcLibClient>(airsim_ip_,
+                                                                     airsim_port_,
+                                                                     airsim_timeout_s_);
+            } else {
+                client_connected_ = true;
+                cout << "[AirSimSensor] Sim Client for " << vehicle_name_ << " connected to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_ << endl;
+                break;
+            }
         }
-        client_connected_ = true;
+
         sim_client_->enableApiControl(true, vehicle_name_);
     }
 

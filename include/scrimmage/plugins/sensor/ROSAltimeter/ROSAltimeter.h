@@ -54,6 +54,7 @@ class ROSAltimeter : public scrimmage::Sensor {
     bool step() override;
 
  protected:
+    std::string vehicle_name_ = "none";
     std::string ros_namespace_;
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Publisher altimeter_pub_;

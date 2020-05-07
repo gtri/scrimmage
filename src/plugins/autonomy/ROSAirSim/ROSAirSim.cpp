@@ -20,13 +20,12 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
+ * @author Natalie Rakoski <natalie.rakoski@gtri.gatech.edu>
+ * @date 06 May 2020
+ * @version 0.2.8
+ * @brief Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
+ * @section Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
+ * Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
  *
  */
 #include <scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h>
@@ -113,6 +112,7 @@ Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(Eigen::
 }
 
 void ROSAirSim::init(std::map<std::string, std::string> &params) {
+    vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, "false");
     pub_image_data_ = sc::get<bool>("pub_image_data", params, "true");
     pub_lidar_data_ = sc::get<bool>("pub_lidar_data", params, "true");
@@ -120,6 +120,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     ros_python_ = sc::get<bool>("ros_python", params, "false");
     ros_cartographer_ = sc::get<bool>("ros_cartographer", params, "false");
     cout << " " << endl;
+    cout << "[ROSAirSim] Vehicle Name: " << vehicle_name_ << endl;
     if (pub_image_data_) {
         cout << "[ROSAirSim] Publishing AirSim images to ROS." << endl;
     }
@@ -152,8 +153,9 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     nh_ = std::make_shared<ros::NodeHandle>();
 
     // Setup robot namespace
-    ros_name_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
-    ros_namespace_ = ros_name_ + std::to_string(parent_->id().id());
+    ros_namespace_ = vehicle_name_;
+    // ros_name_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
+    // ros_namespace_ = ros_name_ + std::to_string(parent_->id().id());
 
     // setup image transport node
     it_ = std::make_shared<image_transport::ImageTransport>(*nh_);

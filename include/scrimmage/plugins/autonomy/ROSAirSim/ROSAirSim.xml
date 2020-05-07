@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>ROSAirSim_plugin</library>
+  <vehicle_name>"robot1"</vehicle_name>
   <show_camera_images>false</show_camera_images>
   <pub_image_data>true</pub_image_data>
   <pub_lidar_data>true</pub_lidar_data>

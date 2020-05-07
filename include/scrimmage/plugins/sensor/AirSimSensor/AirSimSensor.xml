@@ -3,9 +3,19 @@
 <params>
   <library>AirSimSensor_plugin</library>
 
+  <!--
+    The ``airsim_ip`` and ``airsim_port`` XML tags can be used to connect
+    to an AirSim instance on either the local computer or a remote networked
+    computer(the second machine(Linux or Windows) used to run Unreal/AirSim). If Unreal/AirSim
+    is being ran on the same machine as SCRIMMAGE/AirSim then the ``airsim_ip`` should be set
+    to the Local Host IP (usually 127.0.0.1). These tags can also be set in the quad-airsim-ex1.xml
+    mission file, ``airsim_ip`` is set there by default and overwrites the setting in AirSimSensor.xml.
+  -->
   <airsim_ip>127.0.0.1</airsim_ip>
   <airsim_port>41451</airsim_port>
   <airsim_timeout_s>60</airsim_timeout_s>
+
+
 
   <!--
       [VehicleName CameraName=front_center ImageTypeName=Scene Width=256 Height=144 FOV=60]
@@ -40,10 +50,8 @@
 
   <lidar_config>
     [robot1 lidar1]
-    [robot1 lidar2]
 
     [robot2 lidar1]
-    [robot2 lidar2]
   </lidar_config>
 
   <!--
@@ -52,10 +60,8 @@
   -->
   <imu_config>
     [robot1 imu1]
-    [robot1 imu2]
 
     [robot2 imu1]
-    [robot2 imu2]
   </imu_config>
 
 
