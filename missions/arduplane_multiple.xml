@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <!--  <run start="0.0" end="100" dt="0.00833333" -->
+  <run start="0.0" end="10000000" dt="0.001"
+       motion_multiplier="1"
+       time_warp="1"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="false"/>
+
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <terrain>${terrain=mcmillan}</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>${latitude_origin=34.458281}</latitude_origin>
+  <longitude_origin>${longitude_origin=-84.180209}</longitude_origin>
+  <altitude_origin>${altitude_origin=450}</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <network>LocalNetwork</network>
+  <network>GlobalNetwork</network>
+
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction enable_startup_collisions="false"
+                      remove_on_collision="false">GroundCollision</entity_interaction>
+
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <!--<seed>2147483648</seed>-->
+
+  <!-- ID: 1 -->
+  <entity>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+    <pitch>-20</pitch>
+    <heading>${heading=0}</heading>
+
+    <sensor>RigidBody6DOFStateSensor</sensor>
+
+    <!-- Use this settings in SITL -->
+    <autonomy ardupilot_port_base="5504"
+              port_instance_multiplier="10"
+              >ArduPilot</autonomy>
+
+    <!-- Use this settings in HIL through mavproxy -->
+    <!-- <autonomy to_ardupilot_port="5501" from_ardupilot_port="5502" mavproxy_mode="true">ArduPilot</autonomy> -->
+
+    <controller>DirectController</controller>
+    <!-- <motion_model drawVel="0" drawAngVel="0" drawAcc="0" use_launcher="1" launch_time="60" launch_accel="200">${motion_model=JSBSimControl}</motion_model> -->
+    <motion_model drawVel="0" drawAngVel="0" drawAcc="0">${motion_model=JSBSimControl}</motion_model>
+    <script_name>rascal_no_autopilot.xml</script_name>
+    <visual_model>${visual_model=zephyr-blue}</visual_model>
+
+  </entity>
+
+  <!-- ID: 2 -->
+  <entity>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>10</x>
+    <y>10</y>
+    <z>0</z>
+    <pitch>-20</pitch>
+    <heading>${heading=0}</heading>
+
+    <sensor>RigidBody6DOFStateSensor</sensor>
+
+    <!-- Use this settings in SITL -->
+    <autonomy ardupilot_port_base="5504"
+              port_instance_multiplier="10"
+              >ArduPilot</autonomy>
+
+    <!-- Use this settings in HIL through mavproxy -->
+    <!-- <autonomy to_ardupilot_port="5501" from_ardupilot_port="5502" mavproxy_mode="true">ArduPilot</autonomy> -->
+
+    <controller>DirectController</controller>
+    <!-- <motion_model drawVel="0" drawAngVel="0" drawAcc="0" use_launcher="1" launch_time="60" launch_accel="200">${motion_model=JSBSimControl}</motion_model> -->
+    <motion_model drawVel="0" drawAngVel="0" drawAcc="0">${motion_model=JSBSimControl}</motion_model>
+    <script_name>rascal_no_autopilot.xml</script_name>
+    <visual_model>${visual_model=zephyr-blue}</visual_model>
+
+  </entity>
+
+</runscript>
