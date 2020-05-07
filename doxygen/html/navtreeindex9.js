@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd":[6,0,5,11,3],
+"classscrimmage_1_1Battery.html#a7f3a497ee2daf38a35ab9b739877a25a":[6,0,5,11,9],
 "classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d":[6,0,5,11,2],
 "classscrimmage_1_1Battery.html#a99ec5890238122bd3bf946b3210e4d75":[6,0,5,11,7],
 "classscrimmage_1_1Battery.html#ad4103cd3fb37653a24eaa6722ec4a2b7":[6,0,5,11,5],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "classscrimmage_1_1EntityPlugin.html#addbc827f0665d6fa44d47bfd02f01632":[6,0,5,22,4],
 "classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3":[6,0,5,22,40],
 "classscrimmage_1_1EntityPlugin.html#ae39dd61146cac5018992260a9d383f2d":[6,0,5,22,13],
-"classscrimmage_1_1EntityPlugin.html#aee61807696b82ecdf03aede3439503cc":[6,0,5,22,1],
-"classscrimmage_1_1EntityPlugin.html#afa1b648e6f52b9258bec41084175ac7c":[6,0,5,22,18],
-"classscrimmage_1_1ExponentialFilter.html":[6,0,5,25]
+"classscrimmage_1_1EntityPlugin.html#aee61807696b82ecdf03aede3439503cc":[6,0,5,22,1]
 };

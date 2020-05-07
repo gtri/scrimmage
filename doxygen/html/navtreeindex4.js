@@ -122,8 +122,10 @@ var NAVTREEINDEX4 =
 "PyAutonomy_8h_source.html":[7,0,1,0,10,0,19,0],
 "Quaternion_8cpp.html":[7,0,2,4,1],
 "Quaternion_8cpp.html#a4543fb82a05a003aed6fd77c4a06a6c3":[7,0,2,4,1,0],
+"Quaternion_8cpp.html#aba9c2496e7f9e2e1df87e39f445d6767":[7,0,2,4,1,1],
 "Quaternion_8cpp_source.html":[7,0,2,4,1],
 "Quaternion_8h.html":[7,0,1,0,4,1],
+"Quaternion_8h.html#aba9c2496e7f9e2e1df87e39f445d6767":[7,0,1,0,4,1,1],
 "Quaternion_8h_source.html":[7,0,1,0,4,1],
 "RLConsensusSensor_8cpp.html":[7,0,2,9,6,9,0],
 "RLConsensusSensor_8cpp_source.html":[7,0,2,9,6,9,0],
@@ -245,9 +247,7 @@ var NAVTREEINDEX4 =
 "RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,2],
 "RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,12],
 "RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,21],
-"RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,70],
 "RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,62],
-"RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,76],
-"RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa262f436b00bf53c9731832f520e5b6e0":[7,0,2,9,4,9,1,0,23],
-"RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa262f436b00bf53c9731832f520e5b6e0":[7,0,2,9,4,9,1,0,64]
+"RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,70],
+"RigidBody6DOF_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa2601e665b5a4bc18ab02700a3838981d":[7,0,2,9,4,9,1,0,76]
 };

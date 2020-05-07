@@ -141,6 +141,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9b00100529160d7d45684e8ce62c71c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e861bf3a31c6febcd4132ce8d1880cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Quaternion.html#a1e861bf3a31c6febcd4132ce8d1880cf">Quaternion</a> (const Eigen::Quaternion&lt; double, Eigen::DontAlign &gt; &amp;other)</td></tr>
 <tr class="separator:a1e861bf3a31c6febcd4132ce8d1880cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c63bad4ad79aa172c424fd4bfe7bf1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Quaternion.html#a82c63bad4ad79aa172c424fd4bfe7bf1">operator=</a> (const <a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a> &amp;other)</td></tr>
+<tr class="separator:a82c63bad4ad79aa172c424fd4bfe7bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbd3e666484f908284491e117b144e17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Quaternion.html#abbd3e666484f908284491e117b144e17">operator=</a> (const Eigen::Quaternion&lt; double, Eigen::DontAlign &gt; &amp;other)</td></tr>
 <tr class="separator:abbd3e666484f908284491e117b144e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd49f6c6933d84af02a3446fa94c7937"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Quaternion.html#afd49f6c6933d84af02a3446fa94c7937">Quaternion</a> (const double &amp;w, const double &amp;x, const double &amp;y, const double &amp;z)</td></tr>
@@ -400,10 +402,10 @@ Friends</h2></td></tr>
 
 <p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00056">56</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
-<p>References <a class="el" href="Quaternion_8cpp_source.html#l00101">pitch()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00096">roll()</a>, and <a class="el" href="Quaternion_8cpp_source.html#l00105">yaw()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                            {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">set</span>(<a class="code" href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">roll</a>, <a class="code" href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">pitch</a>, <a class="code" href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">yaw</a>);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1Quaternion_html_a73422aca38ac7e58ad63461a256365d7"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">scrimmage::Quaternion::pitch</a></div><div class="ttdeci">double pitch() const </div><div class="ttdoc">return euler angle pitch </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00101">Quaternion.cpp:101</a></div></div>
-<div class="ttc" id="classscrimmage_1_1Quaternion_html_a5da2514ac6cd0b7f6ff1361e7899ae9d"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">scrimmage::Quaternion::roll</a></div><div class="ttdeci">double roll() const </div><div class="ttdoc">return euler angle roll </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00096">Quaternion.cpp:96</a></div></div>
-<div class="ttc" id="classscrimmage_1_1Quaternion_html_ad98245590757323a5edb52a9c5cc2427"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">scrimmage::Quaternion::yaw</a></div><div class="ttdeci">double yaw() const </div><div class="ttdoc">return euler angle yaw </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00105">Quaternion.cpp:105</a></div></div>
+<p>References <a class="el" href="Quaternion_8cpp_source.html#l00108">pitch()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00103">roll()</a>, and <a class="el" href="Quaternion_8cpp_source.html#l00112">yaw()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                            {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">set</span>(<a class="code" href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">roll</a>, <a class="code" href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">pitch</a>, <a class="code" href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">yaw</a>);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1Quaternion_html_a73422aca38ac7e58ad63461a256365d7"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">scrimmage::Quaternion::pitch</a></div><div class="ttdeci">double pitch() const </div><div class="ttdoc">return euler angle pitch </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00108">Quaternion.cpp:108</a></div></div>
+<div class="ttc" id="classscrimmage_1_1Quaternion_html_a5da2514ac6cd0b7f6ff1361e7899ae9d"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">scrimmage::Quaternion::roll</a></div><div class="ttdeci">double roll() const </div><div class="ttdoc">return euler angle roll </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00103">Quaternion.cpp:103</a></div></div>
+<div class="ttc" id="classscrimmage_1_1Quaternion_html_ad98245590757323a5edb52a9c5cc2427"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">scrimmage::Quaternion::yaw</a></div><div class="ttdeci">double yaw() const </div><div class="ttdoc">return euler angle yaw </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00112">Quaternion.cpp:112</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -420,6 +422,24 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a82c63bad4ad79aa172c424fd4bfe7bf1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a> &amp; scrimmage::Quaternion::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00060">60</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                                         {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">set</span>(other.w(), other.x(), other.y(), other.z());</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div></div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="abbd3e666484f908284491e117b144e17"></a>
 <div class="memitem">
 <div class="memproto">
@@ -434,8 +454,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00060">60</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                                                                      {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">set</span>(other.w(), other.x(), other.y(), other.z());</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00067">67</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                                                      {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">set</span>(other.w(), other.x(), other.y(), other.z());</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a3e320175db85299e28ff6752f510f80d"></a>
@@ -474,10 +494,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00067">67</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00074">74</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="MOOSNode_8cpp_source.html#l00071">scrimmage::autonomy::MOOSNode::OnNewMail()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                                                   {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    w() = w_coeff;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    x() = x_coeff;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    y() = y_coeff;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    z() = z_coeff;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                                                                   {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    w() = w_coeff;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    x() = x_coeff;</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    y() = y_coeff;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    z() = z_coeff;</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -517,8 +537,8 @@ Here is the caller graph for this function:</div>
 
 <p>set the quaternion to rotate an object around the given vector at given angle </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00074">74</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                                                      {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    w() = cos(angle_radians / 2.0);</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Eigen::Vector3d unit_vec = vector.normalized() * sin(angle_radians / 2.0);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    x() = unit_vec.x();</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    y() = unit_vec.y();</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    z() = unit_vec.z();</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00081">81</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                                                      {</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    w() = cos(angle_radians / 2.0);</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    Eigen::Vector3d unit_vec = vector.normalized() * sin(angle_radians / 2.0);</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    x() = unit_vec.x();</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    y() = unit_vec.y();</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    z() = unit_vec.z();</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a68e715cafcf81018e1f6367b350589ce"></a>
@@ -553,11 +573,11 @@ Here is the caller graph for this function:</div>
 
 <p>set quaternion from euler angles </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00082">82</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                                          {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">double</span> sr = sin(<a class="code" href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">roll</a> / 2);</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">double</span> cr = cos(<a class="code" href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">roll</a> / 2);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">double</span> sy = sin(<a class="code" href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">yaw</a> / 2);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">double</span> cy = cos(<a class="code" href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">yaw</a> / 2);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="namespacescrimmage__proto.html">sp</a> = sin(<a class="code" href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">pitch</a> / 2);</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">double</span> cp = cos(<a class="code" href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">pitch</a> / 2);</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    w() = cr * cp * cy + sr * sp * sy;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    x() = sr * cp * cy - cr * sp * sy;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    y() = cr * sp * cy + sr * cp * sy;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    z() = cr * cp * sy - sr * sp * cy;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1Quaternion_html_a73422aca38ac7e58ad63461a256365d7"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">scrimmage::Quaternion::pitch</a></div><div class="ttdeci">double pitch() const </div><div class="ttdoc">return euler angle pitch </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00101">Quaternion.cpp:101</a></div></div>
-<div class="ttc" id="classscrimmage_1_1Quaternion_html_a5da2514ac6cd0b7f6ff1361e7899ae9d"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">scrimmage::Quaternion::roll</a></div><div class="ttdeci">double roll() const </div><div class="ttdoc">return euler angle roll </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00096">Quaternion.cpp:96</a></div></div>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00089">89</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                                          {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">double</span> sr = sin(<a class="code" href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">roll</a> / 2);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">double</span> cr = cos(<a class="code" href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">roll</a> / 2);</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">double</span> sy = sin(<a class="code" href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">yaw</a> / 2);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">double</span> cy = cos(<a class="code" href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">yaw</a> / 2);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="namespacescrimmage__proto.html">sp</a> = sin(<a class="code" href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">pitch</a> / 2);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">double</span> cp = cos(<a class="code" href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">pitch</a> / 2);</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    w() = cr * cp * cy + sr * sp * sy;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    x() = sr * cp * cy - cr * sp * sy;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    y() = cr * sp * cy + sr * cp * sy;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    z() = cr * cp * sy - sr * sp * cy;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1Quaternion_html_a73422aca38ac7e58ad63461a256365d7"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7">scrimmage::Quaternion::pitch</a></div><div class="ttdeci">double pitch() const </div><div class="ttdoc">return euler angle pitch </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00108">Quaternion.cpp:108</a></div></div>
+<div class="ttc" id="classscrimmage_1_1Quaternion_html_a5da2514ac6cd0b7f6ff1361e7899ae9d"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d">scrimmage::Quaternion::roll</a></div><div class="ttdeci">double roll() const </div><div class="ttdoc">return euler angle roll </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00103">Quaternion.cpp:103</a></div></div>
 <div class="ttc" id="namespacescrimmage__proto_html"><div class="ttname"><a href="namespacescrimmage__proto.html">scrimmage_proto</a></div><div class="ttdef"><b>Definition:</b> <a href="Contact_8h_source.html#l00044">Contact.h:44</a></div></div>
-<div class="ttc" id="classscrimmage_1_1Quaternion_html_ad98245590757323a5edb52a9c5cc2427"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">scrimmage::Quaternion::yaw</a></div><div class="ttdeci">double yaw() const </div><div class="ttdoc">return euler angle yaw </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00105">Quaternion.cpp:105</a></div></div>
+<div class="ttc" id="classscrimmage_1_1Quaternion_html_ad98245590757323a5edb52a9c5cc2427"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427">scrimmage::Quaternion::yaw</a></div><div class="ttdeci">double yaw() const </div><div class="ttdoc">return euler angle yaw </div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00112">Quaternion.cpp:112</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -576,10 +596,10 @@ Here is the caller graph for this function:</div>
 
 <p>return euler angle roll </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00096">96</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00103">103</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                              {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">return</span> atan2(2 * (w() * x() + y() * z()),</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                 1 - 2 * (pow(x(), 2) + pow(y(), 2)));</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                              {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> atan2(2 * (w() * x() + y() * z()),</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                 1 - 2 * (pow(x(), 2) + pow(y(), 2)));</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -612,10 +632,10 @@ Here is the caller graph for this function:</div>
 
 <p>return euler angle pitch </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00101">101</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00108">108</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                               {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">return</span> asin(2 * (w() * y() - z() * x()));</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                               {</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">return</span> asin(2 * (w() * y() - z() * x()));</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -648,10 +668,10 @@ Here is the caller graph for this function:</div>
 
 <p>return euler angle yaw </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00105">105</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00112">112</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="State_8cpp_source.html#l00115">scrimmage::operator&lt;&lt;()</a>, <a class="el" href="Updater_8cpp_source.html#l01524">scrimmage::Updater::quat_2_transform()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00056">Quaternion()</a>, <a class="el" href="State_8cpp_source.html#l00093">scrimmage::State::rel_az()</a>, <a class="el" href="FrameUpdateClient_8cpp_source.html#l00063">scrimmage::FrameUpdateClient::send_frame()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00367">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00086">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                             {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> atan2(2 * (w() * z() + x() * y()),</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                 1 - 2 * (pow(y(), 2) + pow(z(), 2)));</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                             {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">return</span> atan2(2 * (w() * z() + x() * y()),</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                 1 - 2 * (pow(y(), 2) + pow(z(), 2)));</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -686,8 +706,8 @@ Here is the caller graph for this function:</div>
 
 <p>return the angle an input vector would be rotated by this quaternion </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00110">110</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                        {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> 2 * acos(w());</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00117">117</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                        {</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> 2 * acos(w());</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a9ec30ec0f7abcce4258d19100533010d"></a>
@@ -706,10 +726,10 @@ Here is the caller graph for this function:</div>
 
 <p>rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be used to convert a vector in the local frame to a vector in the global frame. </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00114">114</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00121">121</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="Updater_8cpp_source.html#l01531">scrimmage::Updater::draw_arc()</a>, <a class="el" href="Updater_8cpp_source.html#l01846">scrimmage::Updater::draw_plane()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00587">scrimmage::interaction::BulletCollision::get_ray_tracing()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00113">scrimmage::interaction::BulletCollision::init()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00443">scrimmage::motion::FixedWing6DOF::model()</a>, <a class="el" href="State_8cpp_source.html#l00089">scrimmage::State::orient_global_frame()</a>, and <a class="el" href="Multirotor_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                                                               {</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    Eigen::Quaternion&lt;double, Eigen::DontAlign&gt; pure_quat(0, vec.x(), vec.y(), vec.z());</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">return</span> (*<span class="keyword">this</span> * pure_quat * inverse()).vec();</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                                               {</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    Eigen::Quaternion&lt;double, Eigen::DontAlign&gt; pure_quat(0, vec.x(), vec.y(), vec.z());</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">return</span> (*<span class="keyword">this</span> * pure_quat * inverse()).vec();</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -744,10 +764,10 @@ Here is the caller graph for this function:</div>
 
 <p>rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be used to convert a vector in the local frame to a vector in the global frame. </p>
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00119">119</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00126">126</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="State_8cpp_source.html#l00077">scrimmage::State::rel_pos_local_frame()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                                                       {</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    Eigen::Quaternion&lt;double, Eigen::DontAlign&gt; pure_quat(0, vec.x(), vec.y(), vec.z());</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">return</span> (inverse() * pure_quat * *<span class="keyword">this</span>).vec();</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                                                       {</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    Eigen::Quaternion&lt;double, Eigen::DontAlign&gt; pure_quat(0, vec.x(), vec.y(), vec.z());</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">return</span> (inverse() * pure_quat * *<span class="keyword">this</span>).vec();</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div></div><!-- fragment -->
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -793,8 +813,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00124">124</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                                                            {</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    os &lt;&lt; <span class="stringliteral">&quot;w: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.w()</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;, x: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.x()</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;, y: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.y()</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;, z: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.z();</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">return</span> os;</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="Quaternion_8cpp_source.html#l00131">131</a> of file <a class="el" href="Quaternion_8cpp_source.html">Quaternion.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                                                            {</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    os &lt;&lt; <span class="stringliteral">&quot;w: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.w()</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;, x: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.x()</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;, y: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.y()</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;       &lt;&lt; <span class="stringliteral">&quot;, z: &quot;</span> &lt;&lt; std::setprecision(q.output_precision) &lt;&lt; q.z();</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">return</span> os;</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -808,9 +828,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Quaternion_8h_source.html#l00110">110</a> of file <a class="el" href="Quaternion_8h_source.html">Quaternion.h</a>.</p>
+<p>Definition at line <a class="el" href="Quaternion_8h_source.html#l00111">111</a> of file <a class="el" href="Quaternion_8h_source.html">Quaternion.h</a>.</p>
 
-<p>Referenced by <a class="el" href="Quaternion_8cpp_source.html#l00124">scrimmage::operator&lt;&lt;()</a>.</p>
+<p>Referenced by <a class="el" href="Quaternion_8cpp_source.html#l00131">scrimmage::operator&lt;&lt;()</a>.</p>
 
 </div>
 </div>
@@ -824,7 +844,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1Quaternion.html">Quaternion</a></li>
-    <li class="footer">Generated on Mon May 4 2020 19:38:41 for SCRIMMAGE by
+    <li class="footer">Generated on Thu May 7 2020 13:52:51 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

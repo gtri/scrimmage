@@ -7,6 +7,7 @@ var classscrimmage_1_1Quaternion =
     [ "Quaternion", "classscrimmage_1_1Quaternion.html#a2f70b40740b7cb1d2a37b781cfaec70a", null ],
     [ "Quaternion", "classscrimmage_1_1Quaternion.html#ace2a82faeecf8afa0b769c2f362c7b5d", null ],
     [ "Quaternion", "classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233", null ],
+    [ "operator=", "classscrimmage_1_1Quaternion.html#a82c63bad4ad79aa172c424fd4bfe7bf1", null ],
     [ "operator=", "classscrimmage_1_1Quaternion.html#abbd3e666484f908284491e117b144e17", null ],
     [ "set", "classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d", null ],
     [ "set", "classscrimmage_1_1Quaternion.html#a4824956fda68b93768bf92450a7bf59e", null ],
