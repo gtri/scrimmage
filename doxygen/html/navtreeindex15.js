@@ -1,8 +1,5 @@
 var NAVTREEINDEX15 =
 {
-"classscrimmage_1_1autonomy_1_1MotorSchemas.html#a3a6f1a64728f255125de435b9e76a89d":[6,0,5,0,17,10],
-"classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91":[6,0,5,0,17,14],
-"classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab":[6,0,5,0,17,2],
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3":[6,0,5,0,17,11],
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6":[6,0,5,0,17,16],
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a722c51019636f6621933ec3ccf4bf730":[6,0,5,0,17,9],
@@ -249,5 +246,8 @@ var NAVTREEINDEX15 =
 "classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a9ee1b96fb69c5fc09e9c5bcc5dca8170":[6,0,5,0,33,6],
 "classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aa3024973e2e554b72a82190dd8467fbd":[6,0,5,0,33,1],
 "classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aca35b76b7d6ad125bf24d10f5ca5e0e2":[6,0,5,0,33,0],
-"classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#af6351d4ccebf42a63817eba1c305225e":[6,0,5,0,33,9]
+"classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#af6351d4ccebf42a63817eba1c305225e":[6,0,5,0,33,9],
+"classscrimmage_1_1autonomy_1_1Waypoint.html":[6,0,5,0,34],
+"classscrimmage_1_1autonomy_1_1Waypoint.html#a03d83369de096e189f3419acc9a47637":[6,0,5,0,34,16],
+"classscrimmage_1_1autonomy_1_1Waypoint.html#a06b03086c221467e241335ce6e8f233b":[6,0,5,0,34,18]
 };

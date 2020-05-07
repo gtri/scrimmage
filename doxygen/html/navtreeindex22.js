@@ -1,8 +1,5 @@
 var NAVTREEINDEX22 =
 {
-"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3236eda651fb20bd8e3e795ccec31b1a":[6,0,5,7,3,2],
-"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3c0b19ff99b674cb2130e9c3d695acd3":[6,0,5,7,3,0],
-"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a5972981899d803a3b6e6fc9fc435f272":[6,0,5,7,3,4],
 "classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a59f7c1245cdc09f583a9bcfeb8e9d1b5":[6,0,5,7,3,1],
 "classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a61149370d2a4aa14dd072c8a6abd504a":[6,0,5,7,3,6],
 "classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2":[6,0,5,7,3,7],
@@ -249,5 +246,8 @@ var NAVTREEINDEX22 =
 "classscrimmage_1_1sensor_1_1ScrimmageOpenAISensor.html#aed819f18a04fdba50d52439c9e1ec9d1":[6,0,5,7,18,0],
 "classscrimmage_1_1sensor_1_1SimpleINS.html":[6,0,5,7,19],
 "classscrimmage_1_1sensor_1_1SimpleINS.html#a0bfd458f79a788681e324592aef199dc":[6,0,5,7,19,9],
-"classscrimmage_1_1sensor_1_1SimpleINS.html#a0d26c4749cee323047399bc05aecac1b":[6,0,5,7,19,13]
+"classscrimmage_1_1sensor_1_1SimpleINS.html#a0d26c4749cee323047399bc05aecac1b":[6,0,5,7,19,13],
+"classscrimmage_1_1sensor_1_1SimpleINS.html#a11fd90e1cc811bb1feaae6fdd84f4e91":[6,0,5,7,19,7],
+"classscrimmage_1_1sensor_1_1SimpleINS.html#a195ef70627c4dbd2db8998fc17ed49fe":[6,0,5,7,19,16],
+"classscrimmage_1_1sensor_1_1SimpleINS.html#a1a90bc3d38f330dfae936b03bf6ec497":[6,0,5,7,19,10]
 };

@@ -1,8 +1,5 @@
 var NAVTREEINDEX16 =
 {
-"classscrimmage_1_1autonomy_1_1Waypoint.html":[6,0,5,0,34],
-"classscrimmage_1_1autonomy_1_1Waypoint.html#a03d83369de096e189f3419acc9a47637":[6,0,5,0,34,16],
-"classscrimmage_1_1autonomy_1_1Waypoint.html#a06b03086c221467e241335ce6e8f233b":[6,0,5,0,34,18],
 "classscrimmage_1_1autonomy_1_1Waypoint.html#a0e65effb7f3882a8f8e4a931351e4853":[6,0,5,0,34,19],
 "classscrimmage_1_1autonomy_1_1Waypoint.html#a19dcf8663ddf0446176f6c070cf8dbfd":[6,0,5,0,34,22],
 "classscrimmage_1_1autonomy_1_1Waypoint.html#a1c60745880789609adfccf1daaa15672":[6,0,5,0,34,20],
@@ -211,8 +208,8 @@ var NAVTREEINDEX16 =
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a79ba3e29dbdca393c1d67e7033701d65":[6,0,5,2,6,9],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a7cb4fcd77491defc1d60274d9453a0ec":[6,0,5,2,6,6],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a92ca95c0f0b9212e0c6ed5cb07199d7a":[6,0,5,2,6,10],
-"classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e":[6,0,5,2,6,0],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e":[6,0,5,2,6,2],
+"classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e":[6,0,5,2,6,0],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aa6217800062e9c9321b7f97ef194e319":[6,0,5,2,6,14],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240":[6,0,5,2,6,3],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240":[6,0,5,2,6,1],
@@ -249,5 +246,8 @@ var NAVTREEINDEX16 =
 "classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a930dd6947d6dcb350670e536252782d2":[6,0,5,2,11,5],
 "classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aa5f2d52117a52f704f4d2449bef1c65a":[6,0,5,2,11,0],
 "classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aaffe8e971bd2ba55beb743bea621fcca":[6,0,5,2,11,2],
-"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#ab8aaad2301f2c8b737a93fdefad89d09":[6,0,5,2,11,6]
+"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#ab8aaad2301f2c8b737a93fdefad89d09":[6,0,5,2,11,6],
+"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aba5deeaaa28b13301a261eb46ff28534":[6,0,5,2,11,13],
+"classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#afbcad766a9303b088d524c512f829cf4":[6,0,5,2,11,11],
+"classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html":[6,0,5,2,12]
 };

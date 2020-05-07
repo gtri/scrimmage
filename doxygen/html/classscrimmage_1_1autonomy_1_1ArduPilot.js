@@ -10,8 +10,6 @@ var classscrimmage_1_1autonomy_1_1ArduPilot =
     [ "start_receive", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a56d2ac1db1cf7e49b25fac6cb33cc9b6", null ],
     [ "handle_receive", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a8105c8e15d5be4aba83dcb9f66499171", null ],
     [ "MAX_NUM_SERVOS", "classscrimmage_1_1autonomy_1_1ArduPilot.html#ab2855f33d85a5c8ce29a191b9a5ccf84", null ],
-    [ "to_ardupilot_ip_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#aadf2064b66fc4662e6820217fcdbf8ff", null ],
-    [ "to_ardupilot_port_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#af1899583285fb1677532808c06b79623", null ],
     [ "mavproxy_mode_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a19755813a386a80e354d59c5673b2e0e", null ],
     [ "tx_io_service_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a80d937b35fe0745bb9726502c58afbb7", null ],
     [ "tx_socket_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a9c1f93b691a900de72f9dba666661702", null ],
@@ -25,6 +23,5 @@ var classscrimmage_1_1autonomy_1_1ArduPilot =
     [ "recv_socket_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a874d2646320757a22d5a765297a04b23", null ],
     [ "recv_remote_endpoint_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a97f283be9d65a8cf0d5763ff8475e607", null ],
     [ "recv_buffer_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a5fc2abce28848fe8a9a01f3d76eac4f2", null ],
-    [ "from_ardupilot_port_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a45e4e02760aa6667e82dd420ee59a03c", null ],
     [ "state_6dof_", "classscrimmage_1_1autonomy_1_1ArduPilot.html#a6edae2335bfd710e91b09a4bb7da292d", null ]
 ];

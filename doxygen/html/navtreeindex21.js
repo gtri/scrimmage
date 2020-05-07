@@ -1,8 +1,5 @@
 var NAVTREEINDEX21 =
 {
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#a8b93eb8e92fa061f742951e826b27493":[6,0,5,5,15,6],
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#a983864282dbe733ce36dad3576549e10":[6,0,5,5,15,2],
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#aa8cb1ca5dfabc810ee2df36bdadedc77":[6,0,5,5,15,8],
 "classscrimmage_1_1motion_1_1SimpleAircraft.html#ab37d2b93998b5a67e8e7697844d41402":[6,0,5,5,15,12],
 "classscrimmage_1_1motion_1_1SimpleAircraft.html#ad76a5d68ca664d33cf27ab48490a9fb0":[6,0,5,5,15,11],
 "classscrimmage_1_1motion_1_1SimpleAircraft.html#adc1d309e958b888e91775d2c7d053c1d":[6,0,5,5,15,5],
@@ -249,5 +246,8 @@ var NAVTREEINDEX21 =
 "classscrimmage_1_1sensor_1_1AirSimSensor.html#af960ffd5c20fe7c2ae84cb1d0b1cc3b7":[6,0,5,7,2,20],
 "classscrimmage_1_1sensor_1_1AirSimSensor.html#affd47606c7190ceb170f60b5aa856949":[6,0,5,7,2,8],
 "classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html":[6,0,5,7,3],
-"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2":[6,0,5,7,3,5]
+"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2":[6,0,5,7,3,5],
+"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3236eda651fb20bd8e3e795ccec31b1a":[6,0,5,7,3,2],
+"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3c0b19ff99b674cb2130e9c3d695acd3":[6,0,5,7,3,0],
+"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a5972981899d803a3b6e6fc9fc435f272":[6,0,5,7,3,4]
 };

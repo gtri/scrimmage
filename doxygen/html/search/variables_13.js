@@ -51,8 +51,6 @@ var searchData=
   ['timer_5f',['timer_',['../classscrimmage_1_1SimControl.html#aafec21660988559e76a3473ac92a612b',1,'scrimmage::SimControl']]],
   ['timer_5fmutex_5f',['timer_mutex_',['../classscrimmage_1_1SimControl.html#aa7d5ac8fae702cd42b1c2cc72be69fcd',1,'scrimmage::SimControl']]],
   ['timestamp_5fus',['timestamp_us',['../structscrimmage_1_1autonomy_1_1ArduPilot_1_1fdm__packet.html#ae01df65ec8890e0f5a9f3f67b264b5a6',1,'scrimmage::autonomy::ArduPilot::fdm_packet']]],
-  ['to_5fardupilot_5fip_5f',['to_ardupilot_ip_',['../classscrimmage_1_1autonomy_1_1ArduPilot.html#aadf2064b66fc4662e6820217fcdbf8ff',1,'scrimmage::autonomy::ArduPilot']]],
-  ['to_5fardupilot_5fport_5f',['to_ardupilot_port_',['../classscrimmage_1_1autonomy_1_1ArduPilot.html#af1899583285fb1677532808c06b79623',1,'scrimmage::autonomy::ArduPilot']]],
   ['todo_5finclude_5ftodos',['todo_include_todos',['../namespaceconf.html#a8fe7f0d85f975f4ecba5cb6066959a09',1,'conf']]],
   ['tolerance_5fin_5f2d_5f',['tolerance_in_2d_',['../classscrimmage_1_1autonomy_1_1Waypoint.html#a45f91b6a6b070afd55075def7b257fb3',1,'scrimmage::autonomy::Waypoint::tolerance_in_2d_()'],['../classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#a23a929ff392baec7f4e5dd0b438b2fa1',1,'scrimmage::autonomy::WaypointDispatcher::tolerance_in_2d_()']]],
   ['topic_5f',['topic_',['../classscrimmage_1_1NetworkDevice.html#a99ad72cb0823ebaade3afb85884aec53',1,'scrimmage::NetworkDevice']]],
