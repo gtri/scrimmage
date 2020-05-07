@@ -66,10 +66,7 @@ namespace scrimmage {
 namespace autonomy {
 
 ArduPilot::ArduPilot() :
-    to_ardupilot_ip_("127.0.0.1"),
-    to_ardupilot_port_("5003"),
-    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS),
-    from_ardupilot_port_(5002) {
+    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
 
     for (int i = 0; i < MAX_NUM_SERVOS; i++) {
         servo_pkt_.servos[i] = 0;
@@ -77,8 +74,6 @@ ArduPilot::ArduPilot() :
 }
 
 void ArduPilot::init(std::map<std::string, std::string> &params) {
-
-
     std::string servo_map = sc::get<std::string>("servo_map", params, "");
     std::vector<std::vector<std::string>> vecs;
     if (!sc::get_vec_of_vecs(servo_map, vecs)) {
@@ -113,27 +108,41 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
     mavproxy_mode_ = sc::get<bool>("mavproxy_mode", params, false);
 
     // Get parameters for transmit socket (to ardupilot)
-    to_ardupilot_ip_ = sc::get<std::string>("to_ardupilot_ip", params, "127.0.0.1");
-    to_ardupilot_port_ = sc::get<std::string>("to_ardupilot_port", params, "5003");
-    cout << "ArduPilot: sending to udp: " << to_ardupilot_ip_ << ":" << to_ardupilot_port_ << endl;
+    std::string to_ardupilot_ip = sc::get<std::string>("to_ardupilot_ip",
+                                                       params, "127.0.0.1");
+
+    int to_ardupilot_port = sc::get<int>("to_ardupilot_port", params, 5003);
+    int from_ardupilot_port = sc::get<int>("from_ardupilot_port", params, 5002);
+
+    // If the ardupilot_port_base is provided, use the instance multiplier to
+    // automatically compute the Rx and Tx port numbers:
+    auto it_base_port = params.find("ardupilot_port_base");
+    if (it_base_port != params.end()) {
+        int multiplier = sc::get<int>("port_instance_multiplier", params, 10);
+
+        int base_port = convert<int>(it_base_port->second);
+        from_ardupilot_port = base_port + multiplier*parent_->id().id();
+        to_ardupilot_port = from_ardupilot_port + 1;
+    }
+
+    cout << "ArduPilot: sending to udp: " << to_ardupilot_ip << ":"
+         << to_ardupilot_port << endl;
+    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip << ":"
+         << from_ardupilot_port << endl;
 
     // Setup transmit socket
     tx_socket_ = std::make_shared<ba::ip::udp::socket>(tx_io_service_,
                                                        ba::ip::udp::endpoint(
                                                            ba::ip::udp::v4(),
                                                            0));
-
     tx_resolver_ = std::make_shared<ba::ip::udp::resolver>(tx_io_service_);
     tx_endpoint_ = *(tx_resolver_->resolve({ba::ip::udp::v4(),
-                    to_ardupilot_ip_, to_ardupilot_port_}));
+                        to_ardupilot_ip, std::to_string(to_ardupilot_port)}));
 
-    // Get parameters for receive socket (from ardupilot)
-    from_ardupilot_port_ = sc::get<int>("from_ardupilot_port", params, 5002);
     recv_socket_ = std::make_shared<ba::ip::udp::socket>(recv_io_service_,
                                                          ba::ip::udp::endpoint(
                                                              ba::ip::udp::v4(),
-                                                             from_ardupilot_port_));
-    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip_ << ":" << from_ardupilot_port_ << endl;
+                                                             from_ardupilot_port));
     start_receive();
 
     state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
@@ -186,7 +195,8 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
 #if 0
     cout << "--------------------------------------------------------" << endl;
-    cout << "  Servo packets received from ArduPilot" << endl;
+    cout << "  Servo packets received from ArduPilot (ID: "
+            << parent_->id().id() << ")" << endl;
     cout << "--------------------------------------------------------" << endl;
 #endif
 
