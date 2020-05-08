@@ -62,6 +62,23 @@ class MissionGenerator():
         self.mission = self._render(self.mission_yaml['mission_file']['template'],
                                     mission_config, self._env)
 
+        # Create a mapping from entity ID to type
+        self._entity_id_to_type = dict()
+        for entity in self.mission_yaml['entities']:
+            try:
+                entity_type = entity['type']
+            except:
+                entity_type = None
+
+            try:
+                entity_id = int(entity['config']['id'])
+                self._entity_id_to_type[entity_id] = entity_type
+            except:
+                pass
+
+    def entity_id_to_type(self, id):
+        return self._entity_id_to_type[id]
+
     def entity_ids(self):
         ids = []
         for entity in self.mission_yaml['entities']:
