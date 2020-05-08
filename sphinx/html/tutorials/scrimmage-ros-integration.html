@@ -398,32 +398,102 @@ $ python ./src/scrimmage_ros/src/scrimmage_ros/test/test_entity_launch.py
 <p>Enter CTRL+c to end the simulation. Let’s take a look at the
 <code class="docutils literal notranslate"><span class="pre">test_entity_launch.py</span></code> script and the associated template files to see how
 the simulation was configured with the <code class="docutils literal notranslate"><span class="pre">EntityLaunch</span></code> class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entity_launch</span> <span class="o">=</span> <span class="n">EntityLaunch</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">sim_mission_yaml_file</span><span class="p">,</span> <span class="n">run_dir</span><span class="p">,</span>
-                             <span class="n">args</span><span class="o">.</span><span class="n">ros_package_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">launch_file</span><span class="p">,</span>
-                             <span class="n">launch_args</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">terminal</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entity_launch</span> <span class="o">=</span> <span class="n">EntityLaunch</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">sim_mission_yaml_file</span><span class="p">,</span>
+                             <span class="n">args</span><span class="o">.</span><span class="n">processes_yaml_file</span><span class="p">,</span>
+                             <span class="n">run_dir</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">EntityLaunch</span></code> takes a <code class="docutils literal notranslate"><span class="pre">mission.yaml</span></code> file as input, generates the
-scrimmage mission file, executes scrimmage with the generated mission file, and
-executes roslaunch for each entity specified by the <code class="docutils literal notranslate"><span class="pre">args.ros_package_name</span></code>
-and <code class="docutils literal notranslate"><span class="pre">args.launch_file</span></code>. After the initial <code class="docutils literal notranslate"><span class="pre">EntityLaunch</span></code> instance is
-created, we can also append to the <code class="docutils literal notranslate"><span class="pre">processes</span></code> that will be launched:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Append a custom ros launch file to the processes list to launch a common</span>
-<span class="c1"># map server for both agents. The map server exists outside of a ROS</span>
-<span class="c1"># namespace</span>
-<span class="n">entity_launch</span><span class="o">.</span><span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-    <span class="p">{</span> <span class="s1">&#39;command&#39;</span><span class="p">:</span> <span class="n">sru</span><span class="o">.</span><span class="n">ros_launch</span><span class="p">(</span><span class="s1">&#39;scrimmage_ros&#39;</span><span class="p">,</span> <span class="s1">&#39;map_server.launch&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-      <span class="s1">&#39;env&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-      <span class="s1">&#39;console&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-      <span class="s1">&#39;terminal&#39;</span><span class="p">:</span> <span class="n">Terminal</span><span class="o">.</span><span class="n">gnome</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-</pre></div>
-</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">EntityLaunch</span></code> takes a <code class="docutils literal notranslate"><span class="pre">mission.yaml</span></code> file and a <code class="docutils literal notranslate"><span class="pre">processes.yaml</span></code>
+file as inputs, generates the scrimmage mission file, executes scrimmage with
+the generated mission file, and executes the processes in the processes yaml
+file.</p>
 <p>Finally, the processes are actually executed in parallel with the <code class="docutils literal notranslate"><span class="pre">run()</span></code>
 method:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the processes. Blocking.</span>
 <span class="n">entity_launch</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Let’s take a look at the processes yaml file to understand how it helps us
+launch scrimmage in parallel with ROS autonomies:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span>
+
+<span class="c1"># Specify default values</span>
+<span class="nt">defaults</span><span class="p">:</span>
+    <span class="nt">terminal</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gnome</span>
+    <span class="nt">environment</span><span class="p">:</span>
+        <span class="nt">some_variable</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">some_value</span>
+
+<span class="c1"># Processes that are run before entities are launched</span>
+<span class="nt">processes</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">roscore</span>
+      <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">roscore</span>
+      <span class="nt">terminal</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">none</span>
+      <span class="nt">post_delay</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">map_server</span>
+      <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">stdbuf -oL roslaunch scrimmage_ros map_server.launch</span>
+      <span class="nt">terminal</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">none</span>
+
+<span class="c1"># Processes that are run for each entity type</span>
+<span class="nt">entity_processes</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">car</span>
+      <span class="nt">processes</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&#39;entity{{</span><span class="nv"> </span><span class="s">id</span><span class="nv"> </span><span class="s">}}&#39;</span>
+          <span class="nt">command</span><span class="p">:</span> <span class="s">&#39;stdbuf</span><span class="nv"> </span><span class="s">-oL</span><span class="nv"> </span><span class="s">roslaunch</span><span class="nv"> </span><span class="s">scrimmage_ros</span><span class="nv"> </span><span class="s">entity_nav_2d.launch</span><span class="nv"> </span><span class="s">team_id:=1</span><span class="nv"> </span><span class="s">entity_id:={{</span><span class="nv"> </span><span class="s">id</span><span class="nv"> </span><span class="s">}}&#39;</span>
+
+      <span class="c1"># Clean up commands run for each entity</span>
+      <span class="nt">clean_up</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">hello</span>
+          <span class="nt">command</span><span class="p">:</span> <span class="s">&#39;echo</span><span class="nv"> </span><span class="s">&quot;Goodbye,</span><span class="nv"> </span><span class="s">Entity</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">id</span><span class="nv"> </span><span class="s">}}&#39;</span>
+
+<span class="c1"># Overall clean up commands</span>
+<span class="nt">clean_up</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">processes</span></code> list specifies the processes that will be launch before the
+individual entities’ ROS systems are launched. The <code class="docutils literal notranslate"><span class="pre">entity_processes</span></code> list
+specifies the processes that will be launched for each entity. In this case, we
+will call <code class="docutils literal notranslate"><span class="pre">roslaunch</span></code> for each entity. Each entity has an optional
+<code class="docutils literal notranslate"><span class="pre">clean_up</span></code> list of commands and we can specify a global <code class="docutils literal notranslate"><span class="pre">clean_up</span></code> for the
+entire system. The processes for each entity are specified with a <code class="docutils literal notranslate"><span class="pre">type</span></code>
+tag. In this case, we use the <code class="docutils literal notranslate"><span class="pre">type</span></code> tag, <code class="docutils literal notranslate"><span class="pre">car</span></code>. We will also have to
+augment our mission yaml file with the <code class="docutils literal notranslate"><span class="pre">type</span></code> tag, so that the processes that
+are launched can be matched with the entities in the scrimmage mission
+file. For example, our new mission yaml file will look like the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span>
+
+<span class="c1"># Relative to current file</span>
+<span class="nt">template_directories</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">.</span>
+
+<span class="c1"># Configuration for overall mission file</span>
+<span class="nt">mission_file</span><span class="p">:</span>
+    <span class="nt">template</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mission.template.xml</span>
+    <span class="nt">config</span><span class="p">:</span>
+        <span class="nt">time_warp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">latitude_origin</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">35.721025</span>
+        <span class="nt">longitude_origin</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-120.767925</span>
+        <span class="nt">altitude_origin</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+<span class="c1"># Configuration for each entity that will be injected into the mission file</span>
+<span class="nt">entities</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">car</span>
+      <span class="nt">template</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">entity.template.xml</span>
+      <span class="nt">config</span><span class="p">:</span>
+          <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+          <span class="nt">x</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-10</span>
+          <span class="nt">y</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+          <span class="nt">z</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-5</span>
+          <span class="nt">heading</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">270</span>
+
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">car</span>
+      <span class="nt">template</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">entity.template.xml</span>
+      <span class="nt">config</span><span class="p">:</span>
+          <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+          <span class="nt">x</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+          <span class="nt">y</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+          <span class="nt">z</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-5</span>
+          <span class="nt">heading</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
 </pre></div>
 </div>
 </div>
