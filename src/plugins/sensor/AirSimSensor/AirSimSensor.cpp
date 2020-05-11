@@ -187,7 +187,7 @@ void AirSimSensor::parse_lidar_configs(std::map<std::string, std::string> &param
 
 void AirSimSensor::parse_imu_configs(std::map<std::string, std::string> &params) {
     // Parse the imu config string.
-    // The string is a list of lidar configs from AirSimSensor.xml of the form:
+    // The string is a list of imu configs from AirSimSensor.xml of the form:
     // [VehicleName ImuName]
     std::string imu_config = sc::get<std::string>("imu_config", params, "");
     std::vector<std::string> tokens_1;
@@ -309,7 +309,6 @@ void AirSimSensor::request_images() {
 
     std::chrono::high_resolution_clock::time_point t_start, t_end;
     // std::chrono::high_resolution_clock::time_point r_start, r_end;
-    double t_elapsed;
 
     while (running) {
         // Set up stream of camera images to be published to scrimmage messages.
@@ -330,7 +329,7 @@ void AirSimSensor::request_images() {
 
         // Get Images
         const std::vector<ImageResponse>& response_vector  = img_client->simGetImages(requests, vehicle_name_);
-        // re-initiate vehicle pose to ensure it is up to date with camera pose
+        // request vehicle pose to ensure it is up to date with camera pose
         ma::Pose vehicle_pose_camera = img_client->simGetVehiclePose(vehicle_name_);
         // AirSim vehicle pose is in NED, but scrimmage is in ENU so convert
         // Convert position to ENU: Switch X and Y and negate Z
@@ -405,7 +404,7 @@ void AirSimSensor::request_images() {
         running_mutex_.unlock();
         // std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(data_acquisition_period_*1000)));
         t_end = std::chrono::high_resolution_clock::now();
-        t_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
+        double t_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
         t_elapsed = (image_acquisition_period_*1000) - t_elapsed;
         if (t_elapsed > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(t_elapsed)));
@@ -449,7 +448,6 @@ void AirSimSensor::request_lidar() {
     running_mutex_.unlock();
 
     std::chrono::high_resolution_clock::time_point t_start, t_end;
-    double t_elapsed;
     while (running) {
         t_start = std::chrono::high_resolution_clock::now();
         auto lidar_msg = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>();
@@ -492,7 +490,7 @@ void AirSimSensor::request_lidar() {
         running_mutex_.unlock();
 
         t_end = std::chrono::high_resolution_clock::now();
-        t_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
+        double t_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
         t_elapsed = (lidar_acquisition_period_*1000) - t_elapsed;
         if (t_elapsed > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(t_elapsed)));
@@ -534,7 +532,6 @@ void AirSimSensor::request_imu() {
     running_mutex_.unlock();
 
     std::chrono::high_resolution_clock::time_point t_start, t_end;
-    double t_elapsed;
     while (running) {
         t_start = std::chrono::high_resolution_clock::now();
         auto imu_msg = std::make_shared<sc::Message<std::vector<AirSimImuType>>>();
@@ -575,7 +572,7 @@ void AirSimSensor::request_imu() {
         running_mutex_.unlock();
 
         t_end = std::chrono::high_resolution_clock::now();
-        t_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
+        double t_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
         t_elapsed = (imu_acquisition_period_*1000) - t_elapsed;
         if (t_elapsed > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(t_elapsed)));
@@ -645,17 +642,18 @@ bool AirSimSensor::step() {
 
     // Get the camera images from the other thread
     if (get_image_data_) {
-        // sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
-        auto im_msg_step = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
-        bool new_image = false;
+        // sc::MessagePtr<std::vector<AirSimImageType>> im_msg_step;
+        // auto im_msg_step = std::make_shared<sc::Message<std::vector<AirSimImageType>>>(); // NOLINT
 
         new_image_mutex_.lock();
-        new_image = new_image_;
+        bool new_image = new_image_;
         new_image_ = false;
         new_image_mutex_.unlock();
 
         img_msg_mutex_.lock();
-        im_msg_step = img_msg_;
+        // im_msg_step = img_msg_;
+        std::shared_ptr<sc::Message<std::vector<AirSimImageType>>> im_msg_step = img_msg_;
+        // sc::MessagePtr<std::vector<AirSimImageType>> im_msg_step = img_msg_;
         img_msg_mutex_.unlock();
 
         // If image is new, publish
@@ -669,16 +667,16 @@ bool AirSimSensor::step() {
 
     if (get_lidar_data_) {
         // sc::MessagePtr<AirSimLidarType> lidar_msg;
-        auto lidar_msg_step = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>();
-        bool new_lidar = false;
+        // auto lidar_msg_step = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>(); // NOLINT
 
         new_lidar_mutex_.lock();
-        new_lidar = new_lidar_;
+        bool new_lidar = new_lidar_;
         new_lidar_ = false;
         new_lidar_mutex_.unlock();
 
         lidar_msg_mutex_.lock();
-        lidar_msg_step = lidar_msg_;
+        std::shared_ptr<sc::Message<std::vector<AirSimLidarType>>> lidar_msg_step = lidar_msg_;
+        // lidar_msg_step = lidar_msg_; // NOLINT
         lidar_msg_mutex_.unlock();
 
         // If lidar is new, publish
@@ -688,16 +686,16 @@ bool AirSimSensor::step() {
     }
 
     if (get_imu_data_) {
-        auto imu_msg_step = std::make_shared<sc::Message<std::vector<AirSimImuType>>>();
-        bool new_imu = false;
+        // auto imu_msg_step = std::make_shared<sc::Message<std::vector<AirSimImuType>>>(); // NOLINT
 
         new_imu_mutex_.lock();
-        new_imu = new_imu_;
+        bool new_imu = new_imu_;
         new_imu_ = false;
         new_imu_mutex_.unlock();
 
         imu_msg_mutex_.lock();
-        imu_msg_step = imu_msg_;
+        std::shared_ptr<sc::Message<std::vector<AirSimImuType>>> imu_msg_step = imu_msg_;
+        // imu_msg_step = imu_msg_;  // NOLINT
         imu_msg_mutex_.unlock();
 
         // If lidar is new, publish

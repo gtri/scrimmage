@@ -224,7 +224,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 std::string topic_name_pub = cam_topic_name + "/" + image_type_name;
                 std::string info_topic_name_pub = topic_name_pub + "/info";
                 topic_name_pub += + "/raw";
-                std::string topic_name = "/" + topic_name_pub;
+                // std::string topic_name = "/" + topic_name_pub;
 
                 if (ros_python_) {
                     img_publishers_.push_back(nh_->advertise<sensor_msgs::Image>(topic_name_pub, 1));
@@ -240,7 +240,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 info_msg.width = a.camera_config.width;
                 float cx = a.camera_config.width / 2.0;
                 float cy = a.camera_config.height / 2.0;
-                double f = (180.0 / M_PI) * (a.camera_config.fov / 2.0);
+                double f = (M_PI / 180.0) * (a.camera_config.fov / 2.0);
                 float fx = (float) tan(f);
                 float fy = fx;
                 info_msg.distortion_model = "plumb_bob";
@@ -272,9 +272,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 //// publish a transform for each unique camera_name
                 // Note down camera names since each camera will need its own image transform
                 // old_cam_name=true if camera_name already exists
-                bool old_cam_name = false;
-                old_cam_name = std::any_of(camera_names_.begin(), camera_names_.end(), [camera_name](std::string str){return str==camera_name;});
-                // If still false, this is a new camera name, save and publish transform
+                bool old_cam_name = std::any_of(camera_names_.begin(), camera_names_.end(), [camera_name](std::string str){return str==camera_name;});
+                // If false, this is a new camera name, save and publish transform
                 if(!old_cam_name){
                     // cout << "New camera found: " << camera_name << endl;
                     camera_names_.push_back(camera_name);
@@ -373,7 +372,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 // Create the topic name
                 std::string lidar_name = boost::algorithm::to_lower_copy(l.lidar_name);
                 std::string topic_name_pub = ros_namespace_ + "/" + lidar_name;
-                std::string topic_name = "/" + topic_name_pub;
+                // std::string topic_name = "/" + topic_name_pub;
                 lidar_publishers_.push_back(nh_->advertise<sensor_msgs::PointCloud2>(topic_name_pub, 1));
                 sensor_msgs::PointCloud2 lidar_msg;
                 lidar_msg.header.stamp = ros::Time::now();
@@ -506,7 +505,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 // Create the topic name
                 std::string imu_name = boost::algorithm::to_lower_copy(i.imu_name);
                 std::string topic_name_pub = ros_namespace_ + "/" + imu_name;
-                std::string topic_name = "/" + topic_name_pub;
+                // std::string topic_name = "/" + topic_name_pub;
                 imu_publishers_.push_back(nh_->advertise<sensor_msgs::Imu>(topic_name_pub, 1));
 
                 // Publish current message so we don't miss any imu data
@@ -603,14 +602,14 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         } // end if img_topic_published=false
     };
 
-    if (pub_image_data_) {
-        subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
+    if (pub_imu_data_) {
+        subscribe<std::vector<sensor::AirSimImuType>>("LocalNetwork", "AirSimImu", airsim_imu_cb);
     }
     if (pub_lidar_data_) {
         subscribe<std::vector<sensor::AirSimLidarType>>("LocalNetwork", "AirSimLidar", airsim_lidar_cb);
     }
-    if (pub_imu_data_) {
-        subscribe<std::vector<sensor::AirSimImuType>>("LocalNetwork", "AirSimImu", airsim_imu_cb);
+    if (pub_image_data_) {
+        subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
     }
 }
 
@@ -618,6 +617,230 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
     ros::spinOnce(); // check for new ROS messages
     std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
     tf_msg_vec_.clear();
+
+    //// Update Imus
+    //////////////////////////////////////////////////////////////////////
+    imu_topic_published_mutex_.lock();
+    bool imu_topic_published = imu_topic_published_;
+    imu_topic_published_mutex_.unlock();
+
+    if (pub_imu_data_ && imu_topic_published) {
+        // All image topics should be published
+        for (sc::sensor::AirSimImuType i : imu_data_) {
+
+            // create string to match using topic name
+            std::string imu_name = boost::algorithm::to_lower_copy(i.imu_name);
+            std::string topic_name_pub = ros_namespace_ + "/" + imu_name;
+            std::string topic_name_match = "/" + topic_name_pub;
+            sensor_msgs::Imu imu_msg;
+            imu_msg.header.stamp = ros::Time::now();
+            imu_msg.header.frame_id = topic_name_pub + "_link";
+
+            // cout << "imu_publishers_ length: " << imu_publishers_.size() << endl;
+            for (auto pub : imu_publishers_) {
+                // If the topic publisher exists, publish to topic
+                if (pub.getTopic() == topic_name_match) {
+                    imu_msg.orientation.x = i.imu_data.orientation.x();
+                    imu_msg.orientation.y = i.imu_data.orientation.y();
+                    imu_msg.orientation.z = i.imu_data.orientation.z();
+                    imu_msg.orientation.w = i.imu_data.orientation.w();
+                    imu_msg.angular_velocity.x = i.imu_data.angular_velocity.x();
+                    imu_msg.angular_velocity.y = i.imu_data.angular_velocity.y();
+                    imu_msg.angular_velocity.z = i.imu_data.angular_velocity.z();
+                    imu_msg.linear_acceleration.x = i.imu_data.linear_acceleration.x();
+                    imu_msg.linear_acceleration.y = i.imu_data.linear_acceleration.y();
+                    imu_msg.linear_acceleration.z = i.imu_data.linear_acceleration.z();
+                    pub.publish(imu_msg);
+                    break; // break publish for loop after image is published
+                } // end if topic name matches
+            } // end publishers for loop
+
+            //// for each imu publish a transform
+            //Get Vehicle Pose from NED to ENU
+            Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(i.vehicle_pose_world_NED);
+            // Get pose of imu in ENU, vehicle frame using Eigen
+            Eigen::Isometry3f tf_vehicle_imu_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(i.vehicle_pose_world_NED,
+                                                                                               i.imu_pose_world_NED);
+
+            //cout << "If not publishing lidar or image data, publish world frame from imu" << endl;
+            //////////////////////////////////////////////////////////////////////
+            // Update and Publish Transform
+            //////////////////////////////////////////////////////////////////////
+            // Publish Vehicle Pose using IMU sensor because it has the least receiving/ processing time
+            world_trans_.header.stamp = ros::Time::now();
+            world_trans_.header.frame_id = "world";
+            if (ros_cartographer_) {
+                world_trans_.child_frame_id = ros_namespace_;
+            } else {
+                world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+            }
+            world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+            world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+            world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+            Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+            world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+            world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+            world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+            world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
+            world_trans_.header.stamp = ros::Time::now();
+            tf_msg_vec_.push_back(world_trans_);
+
+            if (ros_cartographer_) {
+                // Send Robot Transform to Base Link
+                vehicle_trans_.header.frame_id = ros_namespace_;
+                vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
+                vehicle_trans_.header.stamp = ros::Time::now();
+                vehicle_trans_.transform.translation.x = 0.0;
+                vehicle_trans_.transform.translation.y = 0.0;
+                vehicle_trans_.transform.translation.z = 0.0;
+                vehicle_trans_.transform.rotation.x = 0.0;
+                vehicle_trans_.transform.rotation.y = 0.0;
+                vehicle_trans_.transform.rotation.z = 0.0;
+                vehicle_trans_.transform.rotation.w = 1.0;
+                tf_msg_vec_.push_back(vehicle_trans_);
+            }
+
+            // Publish Imu transform to broadcaster
+            geometry_msgs::TransformStamped imu_trans_;
+            imu_trans_.header.frame_id = ros_namespace_ + "/base_link";
+            imu_trans_.child_frame_id = topic_name_pub + "_link";
+            imu_trans_.header.stamp = ros::Time::now();
+            // Position
+            imu_trans_.transform.translation.x = tf_vehicle_imu_ENU.translation().x();
+            imu_trans_.transform.translation.y = tf_vehicle_imu_ENU.translation().y();
+            imu_trans_.transform.translation.z = tf_vehicle_imu_ENU.translation().z();
+            // Orientation
+            Eigen::Quaternionf tf_vehicle_imu_ENU_rotation(tf_vehicle_imu_ENU.rotation());
+            imu_trans_.transform.rotation.w = tf_vehicle_imu_ENU_rotation.w();
+            imu_trans_.transform.rotation.x = tf_vehicle_imu_ENU_rotation.x();
+            imu_trans_.transform.rotation.y = tf_vehicle_imu_ENU_rotation.y();
+            imu_trans_.transform.rotation.z = tf_vehicle_imu_ENU_rotation.z();
+            tf_msg_vec_.push_back(imu_trans_);
+
+        } // end imus in message for loop
+    }
+
+
+    //// Update LIDAR PointCloud2 ROS message
+    //////////////////////////////////////////////////////////////////////
+    lidar_topic_published_mutex_.lock();
+    bool lidar_topic_published = lidar_topic_published_;
+    lidar_topic_published_mutex_.unlock();
+
+    if (pub_lidar_data_ && lidar_topic_published) {
+        // All image topics should be published
+        for (sc::sensor::AirSimLidarType l : lidar_data_) {
+
+            // Create the topic name
+            std::string lidar_name = boost::algorithm::to_lower_copy(l.lidar_name);
+            std::string topic_name_pub = ros_namespace_ + "/" + lidar_name;
+            std::string topic_name_match = "/" + topic_name_pub;
+            sensor_msgs::PointCloud2 lidar_msg;
+            lidar_msg.header.stamp = ros::Time::now();
+            lidar_msg.header.frame_id = topic_name_pub + "_link";
+
+            // cout << "imu_publishers_ length: " << imu_publishers_.size() << endl;
+            for (auto pub : lidar_publishers_) {
+                // If the topic publisher exists, publish to topic
+                if (pub.getTopic() == topic_name_match) {
+                    if (l.lidar_data.point_cloud.size() > 3) {
+                        lidar_msg.height = 1;
+                        lidar_msg.width = l.lidar_data.point_cloud.size() / 3;
+
+                        lidar_msg.fields.resize(3);
+                        lidar_msg.fields[0].name = "x";
+                        lidar_msg.fields[1].name = "y";
+                        lidar_msg.fields[2].name = "z";
+                        int offset = 0;
+
+                        for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
+                            lidar_msg.fields[d].offset = offset;
+                            lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
+                            lidar_msg.fields[d].count  = 1;
+                        }
+
+                        lidar_msg.is_bigendian = false;
+                        lidar_msg.point_step = offset; // 4 * num fields
+                        lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
+
+                        lidar_msg.is_dense = true;
+                        std::vector<float> data_std = l.lidar_data.point_cloud;
+
+                        const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
+                        vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
+                        lidar_msg.data = std::move(lidar_msg_data);
+                    }
+                    pub.publish(lidar_msg);
+                    break; // break publish for loop after lidar data is published
+                } // end if topic name matches
+            } // end publishers for loop
+
+            //// publish a transform for each lidar
+            //Get Vehicle Pose from NED to ENU
+            Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(l.vehicle_pose_world_NED);
+            // Get pose of lidar in ENU, vehicle frame using Eigen
+            Eigen::Isometry3f tf_vehicle_lidar_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(l.vehicle_pose_world_NED,
+                                                                                                 l.lidar_pose_world_NED);
+
+            // If not publishing imu, publish world frame from lidar -- 2nd least receiving/ processing time.
+            if (!pub_imu_data_) {
+                // cout << "If not publishing imu data, publish world frame from lidar" << endl;
+                //////////////////////////////////////////////////////////////////////
+                // Update and Publish Transforms
+                //////////////////////////////////////////////////////////////////////
+                world_trans_.header.stamp = ros::Time::now();
+                world_trans_.header.frame_id = "world";
+                if (ros_cartographer_) {
+                    world_trans_.child_frame_id = ros_namespace_;
+                } else {
+                    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+                }
+                world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
+                tf_msg_vec_.push_back(world_trans_);
+
+                if (ros_cartographer_) {
+                    // Send Robot Transform to Base Link
+                    vehicle_trans_.header.frame_id = ros_namespace_;
+                    vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
+                    vehicle_trans_.header.stamp = ros::Time::now();
+                    vehicle_trans_.transform.translation.x = 0.0;
+                    vehicle_trans_.transform.translation.y = 0.0;
+                    vehicle_trans_.transform.translation.z = 0.0;
+                    vehicle_trans_.transform.rotation.x = 0.0;
+                    vehicle_trans_.transform.rotation.y = 0.0;
+                    vehicle_trans_.transform.rotation.z = 0.0;
+                    vehicle_trans_.transform.rotation.w = 1.0;
+                    tf_msg_vec_.push_back(vehicle_trans_);
+                }
+            }
+            // Publish Lidar transform to broadcaster
+            geometry_msgs::TransformStamped lidar_trans_;
+            lidar_trans_.header.frame_id = ros_namespace_ + "/base_link";
+            lidar_trans_.child_frame_id = topic_name_pub + "_link";
+            lidar_trans_.header.stamp = ros::Time::now();
+
+            // Position
+            lidar_trans_.transform.translation.x = tf_vehicle_lidar_ENU.translation().x();
+            lidar_trans_.transform.translation.y = tf_vehicle_lidar_ENU.translation().y();
+            lidar_trans_.transform.translation.z = tf_vehicle_lidar_ENU.translation().z();
+            // Orientation
+            Eigen::Quaternionf tf_vehicle_lidar_ENU_rotation(tf_vehicle_lidar_ENU.rotation());
+            lidar_trans_.transform.rotation.w = tf_vehicle_lidar_ENU_rotation.w();
+            lidar_trans_.transform.rotation.x = tf_vehicle_lidar_ENU_rotation.x();
+            lidar_trans_.transform.rotation.y = tf_vehicle_lidar_ENU_rotation.y();
+            lidar_trans_.transform.rotation.z = tf_vehicle_lidar_ENU_rotation.z();
+            tf_msg_vec_.push_back(lidar_trans_);
+
+        } // end lidars in message for loop
+    }
+
 
     //// Update Images
     //////////////////////////////////////////////////////////////////////
@@ -632,7 +855,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
             std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
             std::string topic_name_pub = ros_namespace_ + "/camera/" + camera_name + "/" + image_type_name;
-            std::string info_topic_name_pub = topic_name_pub + "/info";
+            // std::string info_topic_name_pub = topic_name_pub + "/info";
             topic_name_pub += + "/raw";
             std::string topic_name_match = "/" + topic_name_pub;
 
@@ -707,12 +930,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     // cout << "publishing transform for: " << cam_name << endl;
                     // create string to match using topic name
                     std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
-                    std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
                     std::string cam_topic_name = ros_namespace_ + "/camera/" + camera_name;
-                    std::string topic_name_pub = cam_topic_name + "/" + image_type_name;
-                    std::string info_topic_name_pub = topic_name_pub + "/info";
-                    topic_name_pub += + "/raw";
-                    std::string topic_name_match = "/" + topic_name_pub;
 
                     //Get Vehicle Pose from NED to ENU
                     Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
@@ -721,39 +939,42 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                                                                                                           a.camera_pose_world_NED);
                     // cout << "publishing transform for: " << cam_name << endl;
 
-                    //////////////////////////////////////////////////////////////////////
-                    // Update and Publish Transforms
-                    //////////////////////////////////////////////////////////////////////
-                    world_trans_.header.stamp = ros::Time::now();
-                    world_trans_.header.frame_id = "world";
-                    if (ros_cartographer_) {
-                        world_trans_.child_frame_id = ros_namespace_;
-                    } else {
-                        world_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                    }
-                    world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
-                    world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
-                    world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
-                    Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
-                    world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
-                    world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
-                    world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
-                    world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
-                    tf_msg_vec_.push_back(world_trans_);
+                    // If not publishing lidar or imu data, publish world frame from images
+                    if (!pub_imu_data_ && !pub_lidar_data_) {
+                        //////////////////////////////////////////////////////////////////////
+                        // Update and Publish Transforms
+                        //////////////////////////////////////////////////////////////////////
+                        world_trans_.header.stamp = ros::Time::now();
+                        world_trans_.header.frame_id = "world";
+                        if (ros_cartographer_) {
+                            world_trans_.child_frame_id = ros_namespace_;
+                        } else {
+                            world_trans_.child_frame_id = ros_namespace_ + "/base_link";
+                        }
+                        world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                        world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                        world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                        Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                        world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                        world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                        world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                        world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
+                        tf_msg_vec_.push_back(world_trans_);
 
-                    if (ros_cartographer_) {
-                        // Send Robot Transform to Base Link
-                        vehicle_trans_.header.frame_id = ros_namespace_;
-                        vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                        vehicle_trans_.header.stamp = ros::Time::now();
-                        vehicle_trans_.transform.translation.x = 0.0;
-                        vehicle_trans_.transform.translation.y = 0.0;
-                        vehicle_trans_.transform.translation.z = 0.0;
-                        vehicle_trans_.transform.rotation.x = 0.0;
-                        vehicle_trans_.transform.rotation.y = 0.0;
-                        vehicle_trans_.transform.rotation.z = 0.0;
-                        vehicle_trans_.transform.rotation.w = 1.0;
-                        tf_msg_vec_.push_back(vehicle_trans_);
+                        if (ros_cartographer_) {
+                            // Send Robot Transform to Base Link
+                            vehicle_trans_.header.frame_id = ros_namespace_;
+                            vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
+                            vehicle_trans_.header.stamp = ros::Time::now();
+                            vehicle_trans_.transform.translation.x = 0.0;
+                            vehicle_trans_.transform.translation.y = 0.0;
+                            vehicle_trans_.transform.translation.z = 0.0;
+                            vehicle_trans_.transform.rotation.x = 0.0;
+                            vehicle_trans_.transform.rotation.y = 0.0;
+                            vehicle_trans_.transform.rotation.z = 0.0;
+                            vehicle_trans_.transform.rotation.w = 1.0;
+                            tf_msg_vec_.push_back(vehicle_trans_);
+                        }
                     }
 
                     // Publish Image transform to broadcaster
@@ -781,228 +1002,6 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
         }
     }
 
-    //// Update LIDAR PointCloud2 ROS message
-    //////////////////////////////////////////////////////////////////////
-    lidar_topic_published_mutex_.lock();
-    bool lidar_topic_published = lidar_topic_published_;
-    lidar_topic_published_mutex_.unlock();
-
-    if (pub_lidar_data_ && lidar_topic_published) {
-        // All image topics should be published
-        for (sc::sensor::AirSimLidarType l : lidar_data_) {
-
-            // Create the topic name
-            std::string lidar_name = boost::algorithm::to_lower_copy(l.lidar_name);
-            std::string topic_name_pub = ros_namespace_ + "/" + lidar_name;
-            std::string topic_name_match = "/" + topic_name_pub;
-            sensor_msgs::PointCloud2 lidar_msg;
-            lidar_msg.header.stamp = ros::Time::now();
-            lidar_msg.header.frame_id = topic_name_pub + "_link";
-
-            // cout << "imu_publishers_ length: " << imu_publishers_.size() << endl;
-            for (auto pub : lidar_publishers_) {
-                // If the topic publisher exists, publish to topic
-                if (pub.getTopic() == topic_name_match) {
-                    if (l.lidar_data.point_cloud.size() > 3) {
-                        lidar_msg.height = 1;
-                        lidar_msg.width = l.lidar_data.point_cloud.size() / 3;
-
-                        lidar_msg.fields.resize(3);
-                        lidar_msg.fields[0].name = "x";
-                        lidar_msg.fields[1].name = "y";
-                        lidar_msg.fields[2].name = "z";
-                        int offset = 0;
-
-                        for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
-                            lidar_msg.fields[d].offset = offset;
-                            lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
-                            lidar_msg.fields[d].count  = 1;
-                        }
-
-                        lidar_msg.is_bigendian = false;
-                        lidar_msg.point_step = offset; // 4 * num fields
-                        lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
-
-                        lidar_msg.is_dense = true;
-                        std::vector<float> data_std = l.lidar_data.point_cloud;
-
-                        const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&data_std[0]);
-                        vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
-                        lidar_msg.data = std::move(lidar_msg_data);
-                    }
-                    pub.publish(lidar_msg);
-                    break; // break publish for loop after lidar data is published
-                } // end if topic name matches
-            } // end publishers for loop
-
-            //// publish a transform for each lidar
-            //Get Vehicle Pose from NED to ENU
-            Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(l.vehicle_pose_world_NED);
-            // Get pose of lidar in ENU, vehicle frame using Eigen
-            Eigen::Isometry3f tf_vehicle_lidar_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(l.vehicle_pose_world_NED,
-                                                                                                 l.lidar_pose_world_NED);
-
-            // If not publishing images, publish world frame from lidar
-            if (!pub_image_data_) {
-                cout << "If not publishing images, publish world frame from lidar" << endl;
-                //////////////////////////////////////////////////////////////////////
-                // Update and Publish Transforms
-                //////////////////////////////////////////////////////////////////////
-                world_trans_.header.stamp = ros::Time::now();
-                world_trans_.header.frame_id = "world";
-                if (ros_cartographer_) {
-                    world_trans_.child_frame_id = ros_namespace_;
-                } else {
-                    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                }
-                world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
-                world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
-                world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
-                Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
-                world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
-                world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
-                world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
-                world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
-                tf_msg_vec_.push_back(world_trans_);
-
-                if (ros_cartographer_) {
-                    // Send Robot Transform to Base Link
-                    vehicle_trans_.header.frame_id = ros_namespace_;
-                    vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                    vehicle_trans_.header.stamp = ros::Time::now();
-                    vehicle_trans_.transform.translation.x = 0.0;
-                    vehicle_trans_.transform.translation.y = 0.0;
-                    vehicle_trans_.transform.translation.z = 0.0;
-                    vehicle_trans_.transform.rotation.x = 0.0;
-                    vehicle_trans_.transform.rotation.y = 0.0;
-                    vehicle_trans_.transform.rotation.z = 0.0;
-                    vehicle_trans_.transform.rotation.w = 1.0;
-                    tf_msg_vec_.push_back(vehicle_trans_);
-                }
-            }
-            // Publish Lidar transform to broadcaster
-            geometry_msgs::TransformStamped lidar_trans_;
-            lidar_trans_.header.frame_id = ros_namespace_ + "/base_link";
-            lidar_trans_.child_frame_id = topic_name_pub + "_link";
-            lidar_trans_.header.stamp = ros::Time::now();
-
-            // Position
-            lidar_trans_.transform.translation.x = tf_vehicle_lidar_ENU.translation().x();
-            lidar_trans_.transform.translation.y = tf_vehicle_lidar_ENU.translation().y();
-            lidar_trans_.transform.translation.z = tf_vehicle_lidar_ENU.translation().z();
-            // Orientation
-            Eigen::Quaternionf tf_vehicle_lidar_ENU_rotation(tf_vehicle_lidar_ENU.rotation());
-            lidar_trans_.transform.rotation.w = tf_vehicle_lidar_ENU_rotation.w();
-            lidar_trans_.transform.rotation.x = tf_vehicle_lidar_ENU_rotation.x();
-            lidar_trans_.transform.rotation.y = tf_vehicle_lidar_ENU_rotation.y();
-            lidar_trans_.transform.rotation.z = tf_vehicle_lidar_ENU_rotation.z();
-            tf_msg_vec_.push_back(lidar_trans_);
-
-        } // end lidars in message for loop
-    }
-
-    //// Update Imus
-    //////////////////////////////////////////////////////////////////////
-    imu_topic_published_mutex_.lock();
-    bool imu_topic_published = imu_topic_published_;
-    imu_topic_published_mutex_.unlock();
-
-    if (pub_imu_data_ && imu_topic_published) {
-        // All image topics should be published
-        for (sc::sensor::AirSimImuType i : imu_data_) {
-
-            // create string to match using topic name
-            std::string imu_name = boost::algorithm::to_lower_copy(i.imu_name);
-            std::string topic_name_pub = ros_namespace_ + "/" + imu_name;
-            std::string topic_name_match = "/" + topic_name_pub;
-            sensor_msgs::Imu imu_msg;
-            imu_msg.header.stamp = ros::Time::now();
-            imu_msg.header.frame_id = topic_name_pub + "_link";
-
-            // cout << "imu_publishers_ length: " << imu_publishers_.size() << endl;
-            for (auto pub : imu_publishers_) {
-                // If the topic publisher exists, publish to topic
-                if (pub.getTopic() == topic_name_match) {
-                    imu_msg.orientation.x = i.imu_data.orientation.x();
-                    imu_msg.orientation.y = i.imu_data.orientation.y();
-                    imu_msg.orientation.z = i.imu_data.orientation.z();
-                    imu_msg.orientation.w = i.imu_data.orientation.w();
-                    imu_msg.angular_velocity.x = i.imu_data.angular_velocity.x();
-                    imu_msg.angular_velocity.y = i.imu_data.angular_velocity.y();
-                    imu_msg.angular_velocity.z = i.imu_data.angular_velocity.z();
-                    imu_msg.linear_acceleration.x = i.imu_data.linear_acceleration.x();
-                    imu_msg.linear_acceleration.y = i.imu_data.linear_acceleration.y();
-                    imu_msg.linear_acceleration.z = i.imu_data.linear_acceleration.z();
-                    pub.publish(imu_msg);
-                    break; // break publish for loop after image is published
-                } // end if topic name matches
-            } // end publishers for loop
-
-            //// for each imu publish a transform
-            //Get Vehicle Pose from NED to ENU
-            Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(i.vehicle_pose_world_NED);
-            // Get pose of imu in ENU, vehicle frame using Eigen
-            Eigen::Isometry3f tf_vehicle_imu_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(i.vehicle_pose_world_NED,
-                                                                                               i.imu_pose_world_NED);
-
-            // If not publishing lidar and image data, publish world frame from imu
-            if (!pub_image_data_ && !pub_lidar_data_) {
-                cout << "If not publishing lidar or image data, publish world frame from imu" << endl;
-                //////////////////////////////////////////////////////////////////////
-                // Update and Publish Transform
-                //////////////////////////////////////////////////////////////////////
-                world_trans_.header.stamp = ros::Time::now();
-                world_trans_.header.frame_id = "world";
-                if (ros_cartographer_) {
-                    world_trans_.child_frame_id = ros_namespace_;
-                } else {
-                    world_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                }
-                world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
-                world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
-                world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
-                Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
-                world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
-                world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
-                world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
-                world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
-                world_trans_.header.stamp = ros::Time::now();
-                tf_msg_vec_.push_back(world_trans_);
-
-                if (ros_cartographer_) {
-                    // Send Robot Transform to Base Link
-                    vehicle_trans_.header.frame_id = ros_namespace_;
-                    vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
-                    vehicle_trans_.header.stamp = ros::Time::now();
-                    vehicle_trans_.transform.translation.x = 0.0;
-                    vehicle_trans_.transform.translation.y = 0.0;
-                    vehicle_trans_.transform.translation.z = 0.0;
-                    vehicle_trans_.transform.rotation.x = 0.0;
-                    vehicle_trans_.transform.rotation.y = 0.0;
-                    vehicle_trans_.transform.rotation.z = 0.0;
-                    vehicle_trans_.transform.rotation.w = 1.0;
-                    tf_msg_vec_.push_back(vehicle_trans_);
-                }
-            }
-            // Publish Imu transform to broadcaster
-            geometry_msgs::TransformStamped imu_trans_;
-            imu_trans_.header.frame_id = ros_namespace_ + "/base_link";
-            imu_trans_.child_frame_id = topic_name_pub + "_link";
-            imu_trans_.header.stamp = ros::Time::now();
-            // Position
-            imu_trans_.transform.translation.x = tf_vehicle_imu_ENU.translation().x();
-            imu_trans_.transform.translation.y = tf_vehicle_imu_ENU.translation().y();
-            imu_trans_.transform.translation.z = tf_vehicle_imu_ENU.translation().z();
-            // Orientation
-            Eigen::Quaternionf tf_vehicle_imu_ENU_rotation(tf_vehicle_imu_ENU.rotation());
-            imu_trans_.transform.rotation.w = tf_vehicle_imu_ENU_rotation.w();
-            imu_trans_.transform.rotation.x = tf_vehicle_imu_ENU_rotation.x();
-            imu_trans_.transform.rotation.y = tf_vehicle_imu_ENU_rotation.y();
-            imu_trans_.transform.rotation.z = tf_vehicle_imu_ENU_rotation.z();
-            tf_msg_vec_.push_back(imu_trans_);
-
-        } // end imus in message for loop
-    }
 
     // If none of the sensor msgs are being published use parent_->state_truth() vehicle pose
     if (!pub_image_data_ && !pub_lidar_data_ && !pub_imu_data_) {

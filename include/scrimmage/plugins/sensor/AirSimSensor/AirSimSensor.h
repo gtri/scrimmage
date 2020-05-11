@@ -144,7 +144,6 @@ class AirSimSensor : public scrimmage::Sensor {
     PublisherPtr img_pub_;
     scrimmage::MessagePtr<std::vector<AirSimImageType>> img_msg_ = nullptr;
     scrimmage::MessagePtr<std::vector<AirSimImageType>> im_msg = nullptr;
-    scrimmage::MessagePtr<std::vector<AirSimImageType>> im_msg_step = nullptr;
     std::mutex img_msg_mutex_;
     bool new_image_ = false;
     std::mutex new_image_mutex_;
@@ -157,7 +156,6 @@ class AirSimSensor : public scrimmage::Sensor {
     PublisherPtr lidar_pub_;
     scrimmage::MessagePtr<std::vector<AirSimLidarType>> lidar_msg_ = nullptr;
     scrimmage::MessagePtr<std::vector<AirSimLidarType>> lidar_msg = nullptr;
-    scrimmage::MessagePtr<std::vector<AirSimLidarType>> lidar_msg_step = nullptr;
     std::mutex lidar_msg_mutex_;
     bool new_lidar_ = false;
     std::mutex new_lidar_mutex_;
@@ -170,7 +168,6 @@ class AirSimSensor : public scrimmage::Sensor {
     PublisherPtr imu_pub_;
     scrimmage::MessagePtr<std::vector<AirSimImuType>> imu_msg_ = nullptr;
     scrimmage::MessagePtr<std::vector<AirSimImuType>> imu_msg = nullptr;
-    scrimmage::MessagePtr<std::vector<AirSimImuType>> imu_msg_step = nullptr;
     std::mutex imu_msg_mutex_;
     bool new_imu_ = false;
     std::mutex new_imu_mutex_;
