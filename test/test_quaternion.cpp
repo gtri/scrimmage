@@ -75,7 +75,7 @@ TEST(test_quaternion, frames) {
     Vector3d vec_diff = vec2 - vec1;
 
     // pointing upward with negative pitch
-    sc::Quaternion q1(0, -sc::Angles::deg2rad(45), 0);  
+    sc::Quaternion q1(0, -sc::Angles::deg2rad(45), 0);
 
     Vector3d vec_diff_local1 = q1.rotate_reverse(vec_diff);
     EXPECT_NEAR(sqrt(2), vec_diff_local1(0), 1e-10);
@@ -86,4 +86,32 @@ TEST(test_quaternion, frames) {
     EXPECT_NEAR(vec_diff(0), vec_diff_global(0), 1e-10);
     EXPECT_NEAR(vec_diff(1), vec_diff_global(1), 1e-10);
     EXPECT_NEAR(vec_diff(2), vec_diff_global(2), 1e-10);
+}
+
+TEST(test_quaternion, constructors) {
+    // copy constructor
+    scrimmage::Quaternion quat1(0, 0, M_PI / 2);
+    scrimmage::Quaternion quat2(M_PI, 0, 0);
+    scrimmage::Quaternion quat3 = quat1 * quat2;
+
+    // three different ways of copying
+    scrimmage::Quaternion quat4(quat1 * quat2);
+    scrimmage::Quaternion quat5;
+    quat5 = quat1 * quat2;
+
+    // test values
+    EXPECT_TRUE(std::abs(quat3.w()) < 1e-7);
+    EXPECT_DOUBLE_EQ(quat3.vec()[0], std::sqrt(1./2.));
+    EXPECT_DOUBLE_EQ(quat3.vec()[1], std::sqrt(1./2.));
+    EXPECT_TRUE(std::abs(quat3.vec()[2]) < 1e-7);
+
+    EXPECT_TRUE(std::abs(quat4.w()) < 1e-7);
+    EXPECT_DOUBLE_EQ(quat4.vec()[0], std::sqrt(1./2.));
+    EXPECT_DOUBLE_EQ(quat4.vec()[1], std::sqrt(1./2.));
+    EXPECT_TRUE(std::abs(quat4.vec()[2]) < 1e-7);
+
+    EXPECT_TRUE(std::abs(quat5.w()) < 1e-7);
+    EXPECT_DOUBLE_EQ(quat5.vec()[0], std::sqrt(1./2.));
+    EXPECT_DOUBLE_EQ(quat5.vec()[1], std::sqrt(1./2.));
+    EXPECT_TRUE(std::abs(quat5.vec()[2]) < 1e-7);
 }
