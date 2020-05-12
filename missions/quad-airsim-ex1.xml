@@ -69,31 +69,62 @@
     <z>14.0</z>
     <heading>0</heading>
 
-    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
-    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
-    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
-    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+
+    <!-- AirSimSensor Plugin -->
+    <!-- airsim_ip is IP of the machine running AirSim/ Unreal Engine or Localhost(127.0.0.1) if running on the same machine as Scrimmage/AirSim. -->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
+
+    <!-- save_airsim_data saves all images requested and a CSV of quaternion pose values to scrimmage logs -->
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
-    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- get_imu_data requests imu data from AirSim -->
+
+    <!-- image_acquisition_period determines the number of times image data is requested from AirSim per second -->
+    <!-- lidar_acquisition_period determines the number of times LIDAR data is requested from AirSim per second -->
+    <!-- imu_acquisition_period determines the number of times IMU data is requested from AirSim per second -->
     <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
-    <sensor airsim_ip="10.108.21.246"
+    <sensor airsim_ip="127.0.0.1"
             vehicle_name="robot1"
-            lidar_name="lidar1"
             save_airsim_data="true"
             get_image_data="true"
             get_lidar_data="true"
-            data_acquisition_period="0.01">AirSimSensor</sensor>
+            get_imu_data="true"
+            image_acquisition_period="0.33"
+            lidar_acquisition_period="0.1"
+            imu_acquisition_period="0.1">AirSimSensor</sensor>
 
+
+    <!-- SCRIMMAGE ROS Data Plugins-->
+    <!-- These plugins publish useful SCRIMMAGE data to ROS -->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
+    <!-- These SCRIMMAGE simulated sensors can not support custom location settings on the vehicle body or using multiple of each per vehicle unlike AirSim sensors.-->
+<!--    <sensor vehicle_name="robot1">ROSAltimeter</sensor>-->
+<!--    <sensor vehicle_name="robot1">ROSCompass</sensor>-->
+<!--    <sensor vehicle_name="robot1">ROSIMUSensor</sensor>-->
+
+
+    <!-- ROSAirSim Plugin -->
     <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
-    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
-    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation, use show_camera_images in Straight Plugin below when possible. -->
+
     <!-- pub_image_data publishes image data to ROS when set to "true". -->
     <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
-    <autonomy show_camera_images="false"
-              pub_image_data="true"
-              pub_lidar_data="true">ROSAirSim</autonomy>
+    <!-- pub_imu_data publishes IMU data to ROS when set to "true". -->
+    <!-- Make sure "get_image_data/get_lidar_data/get_imu_data" is specified in AirSimSensor above before use. -->
 
+    <!-- Set ros_python to "true" if using ROS's python interface, "false" uses Image Transports ROS msg for images.-->
+    <!-- Set ros_cartographer to "true" if using ROS Cartographer with Scrimmage/AirSim-->
+<!--    <autonomy vehicle_name="robot1"-->
+<!--              show_camera_images="false"-->
+<!--              pub_image_data="true"-->
+<!--              pub_lidar_data="true"-->
+<!--              pub_imu_data="true"-->
+<!--              ros_python="false"-->
+<!--              ros_cartographer="false">ROSAirSim</autonomy>-->
+
+
+    <!-- Straight Plugin -->
     <!-- show_camera_images shows AirSim images in windows during simulation. -->
     <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <autonomy show_camera_images="true">Straight</autonomy>
@@ -106,10 +137,6 @@
                   max_yaw_acc="2">DoubleIntegrator</motion_model>
     <controller>DoubleIntegratorControllerVelYaw</controller>
     <visual_model>iris</visual_model>
-
-    <sensor>ROSAltimeter</sensor>
-    <sensor>ROSCompass</sensor>
-    <sensor>ROSIMUSensor</sensor>
 
   </entity>
 
@@ -131,35 +158,62 @@
 
     <heading>0</heading>
 
-    <sensor>ROSAltimeter</sensor>
-    <sensor>ROSCompass</sensor>
-    <sensor>ROSIMUSensor</sensor>
 
-    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
-    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
-    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
-    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- AirSimSensor Plugin -->
+    <!-- airsim_ip is IP of the machine running AirSim/ Unreal Engine or Localhost(127.0.0.1) if running on the same machine as Scrimmage/AirSim. -->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
+
+    <!-- save_airsim_data saves all images requested and a CSV of quaternion pose values to scrimmage logs -->
     <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
     <!-- get_lidar_data requests lidar data from AirSim -->
-    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- get_imu_data requests imu data from AirSim -->
+
+    <!-- image_acquisition_period determines the number of times image data is requested from AirSim per second -->
+    <!-- lidar_acquisition_period determines the number of times LIDAR data is requested from AirSim per second -->
+    <!-- imu_acquisition_period determines the number of times IMU data is requested from AirSim per second -->
     <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
-    <sensor airsim_ip="10.108.21.246"
+    <sensor airsim_ip="127.0.0.1"
             vehicle_name="robot2"
-            lidar_name="lidar1"
             save_airsim_data="true"
             get_image_data="true"
             get_lidar_data="true"
-            data_acquisition_period="0.01">AirSimSensor</sensor>
+            get_imu_data="true"
+            image_acquisition_period="0.33"
+            lidar_acquisition_period="0.1"
+            imu_acquisition_period="0.1">AirSimSensor</sensor>
 
+
+    <!-- SCRIMMAGE ROS Data Plugins -->
+    <!-- These plugins publish useful SCRIMMAGE data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
+    <!-- These SCRIMMAGE simulated sensors can not support custom location settings on the vehicle body or using multiple of each per vehicle unlike AirSim sensors.-->
+<!--    <sensor vehicle_name="robot2">ROSAltimeter</sensor>-->
+<!--    <sensor vehicle_name="robot2">ROSCompass</sensor>-->
+<!--    <sensor vehicle_name="robot2">ROSIMUSensor</sensor>-->
+
+
+    <!-- ROSAirSim Plugin -->
     <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
-    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
-    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation, use show_camera_images in Straight Plugin below when possible. -->
+
     <!-- pub_image_data publishes image data to ROS when set to "true". -->
     <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
-    <autonomy show_camera_images="false"
-              pub_image_data="true"
-              pub_lidar_data="true">ROSAirSim</autonomy>
+    <!-- pub_imu_data publishes IMU data to ROS when set to "true". -->
+    <!-- Make sure "get_image_data/get_lidar_data/get_imu_data" is set correctly in AirSimSensor above before use. -->
 
+    <!-- Set ros_python to "true" if using ROS's python interface, "false" uses Image Transports ROS msg for images.-->
+    <!-- Set ros_cartographer to "true" if using ROS Cartographer with Scrimmage/AirSim-->
+<!--    <autonomy vehicle_name="robot2"-->
+<!--              show_camera_images="false"-->
+<!--              pub_image_data="true"-->
+<!--              pub_lidar_data="true"-->
+<!--              pub_imu_data="true"-->
+<!--              ros_python="false"-->
+<!--              ros_cartographer="false">ROSAirSim</autonomy>-->
+
+
+    <!-- Straight Plugin -->
     <!-- show_camera_images shows AirSim images in windows during simulation. -->
     <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <autonomy show_camera_images="true">Straight</autonomy>

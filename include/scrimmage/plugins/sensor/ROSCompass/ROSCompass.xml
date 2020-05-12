@@ -2,4 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>ROSCompass_plugin</library>
+  <vehicle_name>"none"</vehicle_name>
 </params>

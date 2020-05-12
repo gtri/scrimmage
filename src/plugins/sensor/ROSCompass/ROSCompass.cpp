@@ -57,6 +57,14 @@ namespace sensor {
 ROSCompass::ROSCompass() {}
 
 void ROSCompass::init(std::map<std::string, std::string> &params) {
+    // Setup robot namespace
+    vehicle_name_ = sc::get<std::string>("vehicle_name", params, "none");
+    if (vehicle_name_ == "none") {
+        ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
+        ros_namespace_ += std::to_string(parent_->id().id());
+    } else {
+        ros_namespace_ = vehicle_name_;
+    }
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -64,10 +72,6 @@ void ROSCompass::init(std::map<std::string, std::string> &params) {
         ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
     }
     nh_ = std::make_shared<ros::NodeHandle>();
-
-    // Setup robot namespace
-    ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
-    ros_namespace_ += std::to_string(parent_->id().id());
 
     // Create Publisher
     compass_pub_ = nh_->advertise<sensor_msgs::MagneticField>(ros_namespace_ + "/compass", 1);
