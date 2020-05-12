@@ -251,28 +251,14 @@ the simulation was configured with the ``EntityLaunch`` class:
 
 .. code-block:: python
 
-   entity_launch = EntityLaunch(args.sim_mission_yaml_file, run_dir,
-                                args.ros_package_name, args.launch_file,
-                                launch_args, None, args.terminal)
+   entity_launch = EntityLaunch(args.sim_mission_yaml_file,
+                                args.processes_yaml_file,
+                                run_dir, None, None)
 
-The ``EntityLaunch`` takes a ``mission.yaml`` file as input, generates the
-scrimmage mission file, executes scrimmage with the generated mission file, and
-executes roslaunch for each entity specified by the ``args.ros_package_name``
-and ``args.launch_file``. After the initial ``EntityLaunch`` instance is
-created, we can also append to the ``processes`` that will be launched:
-
-.. code-block:: python
-
-   # Append a custom ros launch file to the processes list to launch a common
-   # map server for both agents. The map server exists outside of a ROS
-   # namespace
-   entity_launch.processes.append(
-       { 'command': sru.ros_launch('scrimmage_ros', 'map_server.launch', ''),
-         'env': os.environ.copy(),
-         'console': False,
-         'terminal': Terminal.gnome
-       }
-   )
+The ``EntityLaunch`` takes a ``mission.yaml`` file and a ``processes.yaml``
+file as inputs, generates the scrimmage mission file, executes scrimmage with
+the generated mission file, and executes the processes in the processes yaml
+file.
 
 Finally, the processes are actually executed in parallel with the ``run()``
 method:
@@ -281,3 +267,90 @@ method:
 
    # Run the processes. Blocking.
    entity_launch.run()
+
+Let's take a look at the processes yaml file to understand how it helps us
+launch scrimmage in parallel with ROS autonomies:
+
+.. code-block:: yaml
+
+   version: "1.0"
+
+   # Specify default values
+   defaults:
+       terminal: gnome
+       environment:
+           some_variable: some_value
+
+   # Processes that are run before entities are launched
+   processes:
+       - name: roscore
+         command: roscore
+         terminal: none
+         post_delay: 1.5
+
+       - name: map_server
+         command: stdbuf -oL roslaunch scrimmage_ros map_server.launch
+         terminal: none
+
+   # Processes that are run for each entity type
+   entity_processes:
+       - type: car
+         processes:
+           - name: 'entity{{ id }}'
+             command: 'stdbuf -oL roslaunch scrimmage_ros entity_nav_2d.launch team_id:=1 entity_id:={{ id }}'
+
+         # Clean up commands run for each entity
+         clean_up:
+           - name: hello
+             command: 'echo "Goodbye, Entity {{ id }}'
+
+   # Overall clean up commands
+   clean_up:
+
+The ``processes`` list specifies the processes that will be launch before the
+individual entities' ROS systems are launched. The ``entity_processes`` list
+specifies the processes that will be launched for each entity. In this case, we
+will call ``roslaunch`` for each entity. Each entity has an optional
+``clean_up`` list of commands and we can specify a global ``clean_up`` for the
+entire system. The processes for each entity are specified with a ``type``
+tag. In this case, we use the ``type`` tag, ``car``. We will also have to
+augment our mission yaml file with the ``type`` tag, so that the processes that
+are launched can be matched with the entities in the scrimmage mission
+file. For example, our new mission yaml file will look like the following:
+
+.. code-block:: yaml
+
+   version: "1.0"
+
+   # Relative to current file
+   template_directories:
+       - .
+
+   # Configuration for overall mission file
+   mission_file:
+       template: mission.template.xml
+       config:
+           time_warp: 0
+           latitude_origin: 35.721025
+           longitude_origin: -120.767925
+           altitude_origin: 0.0
+
+   # Configuration for each entity that will be injected into the mission file
+   entities:
+       - type: car
+         template: entity.template.xml
+         config:
+             id: 1
+             x: -10
+             y: 10
+             z: -5
+             heading: 270
+
+       - type: car
+         template: entity.template.xml
+         config:
+             id: 2
+             x: 10
+             y: 10
+             z: -5
+             heading: 0
