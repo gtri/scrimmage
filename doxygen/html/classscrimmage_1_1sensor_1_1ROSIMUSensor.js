@@ -16,6 +16,7 @@ var classscrimmage_1_1sensor_1_1ROSIMUSensor =
     [ "propagate_quaternion", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a98709dfae69e12159397e4c3723a0a29", null ],
     [ "integrate_quaternion", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aa11433bb336ba5967bda68c998f6f472", null ],
     [ "omega_to_q_dot", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aefd86ae2d1c1775313480d4c0a2903bd", null ],
+    [ "vehicle_name_", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a926c0d35d5c3ee6fb847d632f81eda69", null ],
     [ "ros_namespace_", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a559594aeae981fc842c6e1f94a687525", null ],
     [ "nh_", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a70140ea71a12d6d5a55280041a4f799d", null ],
     [ "imu_pub_", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a98b1f1706f27ade00429d00f1dbdc76c", null ],

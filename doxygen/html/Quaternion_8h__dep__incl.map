@@ -3,7 +3,7 @@
 <area shape="rect" id="node3" href="$State_8h.html" title="Brief file description. " alt="" coords="1427,117,1631,173"/>
 <area shape="rect" id="node4" href="$PyAutonomy_8cpp.html" title="Brief file description. " alt="" coords="237,228,485,284"/>
 <area shape="rect" id="node5" href="$ShapeDraw_8cpp.html" title="Brief file description. " alt="" coords="509,228,749,284"/>
-<area shape="rect" id="node6" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="773,228,1005,284"/>
+<area shape="rect" id="node6" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="773,228,1005,284"/>
 <area shape="rect" id="node7" href="$AltitudeAboveTerrain_8cpp.html" title="Brief file description. " alt="" coords="1029,228,1264,284"/>
 <area shape="rect" id="node8" href="$ContactBlobCamera_8cpp.html" title="Brief file description. " alt="" coords="1289,228,1522,284"/>
 <area shape="rect" id="node9" href="$LOSSensor_8cpp.html" title="Brief file description. " alt="" coords="1547,228,1763,284"/>

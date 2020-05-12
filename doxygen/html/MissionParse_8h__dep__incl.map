@@ -22,7 +22,7 @@
 <area shape="rect" id="node22" href="$Multirotor_8cpp.html" title="Brief file description. " alt="" coords="5417,109,5625,165"/>
 <area shape="rect" id="node23" href="$Unicycle3D_8cpp.html" title="Brief file description. " alt="" coords="5649,109,5867,165"/>
 <area shape="rect" id="node24" href="$UUV6DOF_8cpp.html" title="Brief file description. " alt="" coords="5891,109,6102,165"/>
-<area shape="rect" id="node25" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="6126,109,6358,165"/>
+<area shape="rect" id="node25" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="6126,109,6358,165"/>
 <area shape="rect" id="node26" href="$ContactBlobCamera_8cpp.html" title="Brief file description. " alt="" coords="6383,109,6616,165"/>
 <area shape="rect" id="node27" href="$Network_8cpp.html" title="Brief file description. " alt="" coords="6640,117,6844,158"/>
 <area shape="rect" id="node28" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="6869,117,7087,158"/>

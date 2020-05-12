@@ -107,6 +107,7 @@ $(document).ready(function(){initNavTree('classscrimmage_1_1sensor_1_1AirSimImag
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classscrimmage_1_1sensor_1_1AirSimImageType-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -120,26 +121,53 @@ Collaboration diagram for scrimmage::sensor::AirSimImageType:</div>
 <div class="dyncontent">
 <div class="center"><img src="classscrimmage_1_1sensor_1_1AirSimImageType__coll__graph.png" border="0" usemap="#scrimmage_1_1sensor_1_1AirSimImageType_coll__map" alt="Collaboration graph"/></div>
 <map name="scrimmage_1_1sensor_1_1AirSimImageType_coll__map" id="scrimmage_1_1sensor_1_1AirSimImageType_coll__map">
-<area shape="rect" id="node2" href="classscrimmage_1_1sensor_1_1CameraConfig.html" title="{scrimmage::sensor::\lCameraConfig\n|+ img_type\l+ cam_number\l+ img_type_number\l+ height\l+ width\l|}" alt="" coords="149,160,303,311"/>
-<area shape="rect" id="node3" title="STL class. " alt="" coords="39,5,125,83"/>
+<area shape="rect" id="node2" href="classscrimmage_1_1sensor_1_1CameraConfig.html" title="{scrimmage::sensor::\lCameraConfig\n|+ img_type\l+ img_type_number\l+ height\l+ width\l+ fov\l+ pixels_as_float\l|}" alt="" coords="172,175,325,340"/>
+<area shape="rect" id="node3" title="STL class. " alt="" coords="61,5,148,83"/>
 </map>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a89cb47be46b66e4f3430ad618ad130cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a89cb47be46b66e4f3430ad618ad130cf">~AirSimImageType</a> ()</td></tr>
+<tr class="separator:a89cb47be46b66e4f3430ad618ad130cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a5f133e8fcc2e2127a31a8ed1e4abb58a"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a5f133e8fcc2e2127a31a8ed1e4abb58a">img</a></td></tr>
 <tr class="separator:a5f133e8fcc2e2127a31a8ed1e4abb58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0af4f902aa9995aa449f93246045c45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classscrimmage_1_1sensor_1_1CameraConfig.html">CameraConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#aa0af4f902aa9995aa449f93246045c45">camera_config</a></td></tr>
 <tr class="separator:aa0af4f902aa9995aa449f93246045c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63e7995ed03c7ee09e221e48809d722c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a63e7995ed03c7ee09e221e48809d722c">frame_num</a> = 0</td></tr>
-<tr class="separator:a63e7995ed03c7ee09e221e48809d722c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1004260269f35ea8026388eb12c10b0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#ac1004260269f35ea8026388eb12c10b0">vehicle_name</a></td></tr>
 <tr class="separator:ac1004260269f35ea8026388eb12c10b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f81db475a02180bb210472d5a41d2ff"><td class="memItemLeft" align="right" valign="top">Eigen::Isometry3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a2f81db475a02180bb210472d5a41d2ff">vehicle_pose_world_NED</a></td></tr>
+<tr class="separator:a2f81db475a02180bb210472d5a41d2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cb086ee68a25748bda8aef018165f4d"><td class="memItemLeft" align="right" valign="top">Eigen::Isometry3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a8cb086ee68a25748bda8aef018165f4d">camera_pose_world_NED</a></td></tr>
+<tr class="separator:a8cb086ee68a25748bda8aef018165f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00090">90</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00094">94</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a89cb47be46b66e4f3430ad618ad130cf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">scrimmage::sensor::AirSimImageType::~AirSimImageType </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00103">103</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                      {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    this-&gt;<a class="code" href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a5f133e8fcc2e2127a31a8ed1e4abb58a">img</a>.release();</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div><div class="ttc" id="classscrimmage_1_1sensor_1_1AirSimImageType_html_a5f133e8fcc2e2127a31a8ed1e4abb58a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1AirSimImageType.html#a5f133e8fcc2e2127a31a8ed1e4abb58a">scrimmage::sensor::AirSimImageType::img</a></div><div class="ttdeci">cv::Mat img</div><div class="ttdef"><b>Definition:</b> <a href="AirSimSensor_8h_source.html#l00096">AirSimSensor.h:96</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a5f133e8fcc2e2127a31a8ed1e4abb58a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -150,9 +178,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00092">92</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00096">96</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00201">scrimmage::sensor::AirSimSensor::request_images()</a>, and <a class="el" href="AirSimSensor_8cpp_source.html#l00414">scrimmage::sensor::AirSimSensor::save_data()</a>.</p>
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00277">scrimmage::sensor::AirSimSensor::request_images()</a>, and <a class="el" href="AirSimSensor_8cpp_source.html#l00712">scrimmage::sensor::AirSimSensor::save_data()</a>.</p>
 
 </div>
 </div>
@@ -166,25 +194,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00093">93</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00097">97</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00201">scrimmage::sensor::AirSimSensor::request_images()</a>, and <a class="el" href="AirSimSensor_8cpp_source.html#l00414">scrimmage::sensor::AirSimSensor::save_data()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a63e7995ed03c7ee09e221e48809d722c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int scrimmage::sensor::AirSimImageType::frame_num = 0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00094">94</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
-
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00414">scrimmage::sensor::AirSimSensor::save_data()</a>.</p>
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00277">scrimmage::sensor::AirSimSensor::request_images()</a>, and <a class="el" href="AirSimSensor_8cpp_source.html#l00712">scrimmage::sensor::AirSimSensor::save_data()</a>.</p>
 
 </div>
 </div>
@@ -198,9 +210,41 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00095">95</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00098">98</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00201">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00277">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2f81db475a02180bb210472d5a41d2ff"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Isometry3f scrimmage::sensor::AirSimImageType::vehicle_pose_world_NED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00099">99</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00277">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8cb086ee68a25748bda8aef018165f4d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Isometry3f scrimmage::sensor::AirSimImageType::camera_pose_world_NED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00100">100</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00277">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
 
 </div>
 </div>
@@ -213,7 +257,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html">AirSimImageType</a></li>
-    <li class="footer">Generated on Fri May 8 2020 18:53:00 for SCRIMMAGE by
+    <li class="footer">Generated on Tue May 12 2020 16:08:17 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

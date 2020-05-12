@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('AirSimSensor_8h.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Brief file description.  
+<p>Requests AirSim data over RPC and publishes it as SCRIMMAGE messages.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="Sensor_8h_source.html">scrimmage/sensor/Sensor.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&gt;</code><br />
@@ -126,6 +126,9 @@ $(document).ready(function(){initNavTree('AirSimSensor_8h.html','');});
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;opencv2/core/core.hpp&gt;</code><br />
+<code>#include &lt;opencv2/core/mat.hpp&gt;</code><br />
+<code>#include &quot;Eigen/Core&quot;</code><br />
+<code>#include &quot;Eigen/Geometry&quot;</code><br />
 <code>#include &quot;common/common_utils/StrictMode.hpp&quot;</code><br />
 <code>#include &quot;vehicles/multirotor/api/MultirotorRpcLibClient.hpp&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -143,8 +146,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="AirSimSensor_8h__dep__incl.png" border="0" usemap="#_2root_2scrimmage_2scrimmage_2include_2scrimmage_2plugins_2sensor_2AirSimSensor_2AirSimSensor_8hdep" alt=""/></div>
 <map name="_2root_2scrimmage_2scrimmage_2include_2scrimmage_2plugins_2sensor_2AirSimSensor_2AirSimSensor_8hdep" id="_2root_2scrimmage_2scrimmage_2include_2scrimmage_2plugins_2sensor_2AirSimSensor_2AirSimSensor_8hdep">
-<area shape="rect" id="node2" href="ROSAirSim_8cpp.html" title="Brief file description. " alt="" coords="5,109,241,165"/>
-<area shape="rect" id="node3" href="AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="266,109,498,165"/>
+<area shape="rect" id="node2" href="ROSAirSim_8h.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="5,109,255,165"/>
+<area shape="rect" id="node3" href="ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="92,213,328,269"/>
+<area shape="rect" id="node4" href="AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="329,109,561,165"/>
 </map>
 </div>
 </div>
@@ -157,6 +161,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImageType.html">scrimmage::sensor::AirSimImageType</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html">scrimmage::sensor::AirSimLidarType</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimImuType.html">scrimmage::sensor::AirSimImuType</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimSensor.html">scrimmage::sensor::AirSimSensor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,7 +185,7 @@ Typedefs</h2></td></tr>
 <tr class="separator:a2866028023b92c8d0908df7f7e0e892b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Brief file description. </p>
+<div class="textblock"><p>Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. </p>
 <h1><a class="anchor" id="LICENSE"></a>
 LICENSE</h1>
 <p>Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)</p>
@@ -187,14 +193,12 @@ LICENSE</h1>
 <p>SCRIMMAGE is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
 <p>SCRIMMAGE is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.</p>
 <p>You should have received a copy of the GNU Lesser General Public License along with SCRIMMAGE. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
-<dl class="section author"><dt>Author</dt><dd>Kevin DeMarco <a href="#" onclick="location.href='mai'+'lto:'+'kev'+'in'+'.de'+'ma'+'rco'+'@g'+'tri'+'.g'+'ate'+'ch'+'.ed'+'u'; return false;">kevin<span style="display: none;">.nosp@m.</span>.dem<span style="display: none;">.nosp@m.</span>arco@<span style="display: none;">.nosp@m.</span>gtri<span style="display: none;">.nosp@m.</span>.gate<span style="display: none;">.nosp@m.</span>ch.e<span style="display: none;">.nosp@m.</span>du</a> </dd>
-<dd>
-Eric Squires <a href="#" onclick="location.href='mai'+'lto:'+'eri'+'c.'+'squ'+'ir'+'es@'+'gt'+'ri.'+'ga'+'tec'+'h.'+'edu'; return false;">eric.<span style="display: none;">.nosp@m.</span>squi<span style="display: none;">.nosp@m.</span>res@g<span style="display: none;">.nosp@m.</span>tri.<span style="display: none;">.nosp@m.</span>gatec<span style="display: none;">.nosp@m.</span>h.ed<span style="display: none;">.nosp@m.</span>u</a> </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>31 July 2017 </dd></dl>
-<dl class="section version"><dt>Version</dt><dd>0.1.0 </dd></dl>
-<h1><a class="anchor" id="DESCRIPTION"></a>
-DESCRIPTION</h1>
-<p>A Long description goes here. </p>
+<dl class="section author"><dt>Author</dt><dd>Natalie Rakoski <a href="#" onclick="location.href='mai'+'lto:'+'nat'+'al'+'ie.'+'ra'+'kos'+'ki'+'@gt'+'ri'+'.ga'+'te'+'ch.'+'ed'+'u'; return false;">natal<span style="display: none;">.nosp@m.</span>ie.r<span style="display: none;">.nosp@m.</span>akosk<span style="display: none;">.nosp@m.</span>i@gt<span style="display: none;">.nosp@m.</span>ri.ga<span style="display: none;">.nosp@m.</span>tech<span style="display: none;">.nosp@m.</span>.edu</a> </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>06 May 2020 </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.2.8 </dd></dl>
+<h1><a class="anchor" id="Requests"></a>
+AirSim data over RPC and publishes it as SCRIMMAGE messages.</h1>
+<p>Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. </p>
 
 <p>Definition in file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -208,7 +212,7 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00052">52</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00056">56</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
 </div>
 </div>
@@ -223,7 +227,7 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00060">60</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00064">64</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
 </div>
 </div>
@@ -233,7 +237,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ecf48bde53b2430882a9b9ec48e1b42d.html">scrimmage</a></li><li class="navelem"><a class="el" href="dir_7370054b6647b017d0eee4f04ea2ba4f.html">plugins</a></li><li class="navelem"><a class="el" href="dir_000479e1305f0edebbccb6008dd63eeb.html">sensor</a></li><li class="navelem"><a class="el" href="dir_671fba3c029f139dcce5ad8d020ad569.html">AirSimSensor</a></li><li class="navelem"><a class="el" href="AirSimSensor_8h.html">AirSimSensor.h</a></li>
-    <li class="footer">Generated on Fri May 8 2020 18:52:56 for SCRIMMAGE by
+    <li class="footer">Generated on Tue May 12 2020 16:08:14 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

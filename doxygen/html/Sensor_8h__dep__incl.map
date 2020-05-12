@@ -1,5 +1,5 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/sensor/Sensor.h" name="/root/scrimmage/scrimmage/include/scrimmage/sensor/Sensor.h">
-<area shape="rect" id="node2" href="$AirSimSensor_8h.html" title="Brief file description. " alt="" coords="5,117,268,173"/>
+<area shape="rect" id="node2" href="$AirSimSensor_8h.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="5,117,268,173"/>
 <area shape="rect" id="node3" href="$AltitudeAboveTerrain_8h.html" title="Brief file description. " alt="" coords="292,109,499,180"/>
 <area shape="rect" id="node4" href="$ContactBlobCamera_8h.html" title="Brief file description. " alt="" coords="523,109,727,180"/>
 <area shape="rect" id="node5" href="$GPS_8h.html" title="Brief file description. " alt="" coords="751,117,955,173"/>

@@ -64,16 +64,16 @@ var NAVTREEINDEX =
 "classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd",
 "classscrimmage_1_1VariableIO.html#a306540d9f62dac143b1c365c4656597b",
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3",
-"classscrimmage_1_1autonomy_1_1Waypoint.html#a0e65effb7f3882a8f8e4a931351e4853",
-"classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a00fb7d2c061bf28bf34977ff69f41815",
-"classscrimmage_1_1interaction_1_1BulletCollision.html#a8fd00b56fdd4194d5b3830a4a68797be",
-"classscrimmage_1_1interaction_1_1Sphere.html#af6a0a54fda9aa637da57d6f7ed1a6e72",
-"classscrimmage_1_1motion_1_1FixedWing6DOF.html#a5d86b65fa2b1f77c85a13f59620eab3a",
-"classscrimmage_1_1motion_1_1SimpleAircraft.html#ab37d2b93998b5a67e8e7697844d41402",
-"classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a59f7c1245cdc09f583a9bcfeb8e9d1b5",
-"classscrimmage_1_1sensor_1_1SimpleINS.html#a1df54d79e87b3f4a36c0f6ce0464a746",
-"dir_b85b64a74c6caba31f6f0d288dd992f8.html",
-"namespacemembers_t.html"
+"classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a683f9f13fd29794bb9287b42b8c22fc5",
+"classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3",
+"classscrimmage_1_1interaction_1_1BoundaryBase.html#afe415e9f44358e949b84bf9d6f113a14",
+"classscrimmage_1_1interaction_1_1SimpleCapture.html#af9e4374e4f2c939e8a1137cd26c623a0",
+"classscrimmage_1_1motion_1_1FixedWing6DOF.html#a0ae75b4fc803819e291d4b889072cae1",
+"classscrimmage_1_1motion_1_1Rotor.html#ab898c37d1775bc53753babadbd0918e5",
+"classscrimmage_1_1sensor_1_1AirSimSensor.html#a20cea350c822b2ea0a6e457373cbb648",
+"classscrimmage_1_1sensor_1_1RayTrace.html#a47e7eba3305f789061a6f6e72b07d3b6",
+"dir_817f135874a32d9a48f60d2987d28882.html",
+"globals_defs.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

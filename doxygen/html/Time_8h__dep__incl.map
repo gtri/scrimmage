@@ -23,7 +23,7 @@
 <area shape="rect" id="node23" href="$GlobalNetwork_8cpp.html" title="Brief file description. " alt="" coords="5319,102,5563,158"/>
 <area shape="rect" id="node24" href="$LocalNetwork_8cpp.html" title="Brief file description. " alt="" coords="5587,102,5825,158"/>
 <area shape="rect" id="node25" href="$SphereNetwork_8cpp.html" title="Brief file description. " alt="" coords="5849,102,6099,158"/>
-<area shape="rect" id="node26" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="6123,102,6355,158"/>
+<area shape="rect" id="node26" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="6123,102,6355,158"/>
 <area shape="rect" id="node27" href="$ContactBlobCamera_8cpp.html" title="Brief file description. " alt="" coords="6380,102,6613,158"/>
 <area shape="rect" id="node28" href="$GPS_8cpp.html" title="Brief file description. " alt="" coords="6637,102,6841,158"/>
 <area shape="rect" id="node29" href="$LOSSensor_8cpp.html" title="Brief file description. " alt="" coords="6866,102,7082,158"/>

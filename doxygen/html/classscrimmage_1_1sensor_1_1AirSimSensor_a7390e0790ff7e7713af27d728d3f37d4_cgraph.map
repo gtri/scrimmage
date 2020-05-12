@@ -1,8 +1,12 @@
 <map id="scrimmage::sensor::AirSimSensor::init" name="scrimmage::sensor::AirSimSensor::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="208,5,384,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title="scrimmage::CSV::open\l_output" alt="" coords="211,71,381,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title="scrimmage::CSV::output\l_is_open" alt="" coords="207,136,385,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ab2eb9276fe84581027d8ca971c691681" title="scrimmage::sensor::\lAirSimSensor::request\l_images" alt="" coords="213,201,379,257"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title="scrimmage::CSV::set\l_column_headers" alt="" coords="217,280,375,321"/>
-<area shape="rect" id="node7" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="232,346,360,373"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="219,5,395,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title="scrimmage::CSV::open\l_output" alt="" coords="222,71,391,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title="scrimmage::CSV::output\l_is_open" alt="" coords="217,136,396,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a780d6bdfd278a9034d2fa85b97c04431" title="scrimmage::sensor::\lAirSimSensor::parse\l_camera_configs" alt="" coords="230,201,383,257"/>
+<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a02a85d538538bbe6c1fc4f88dffc4b4e" title="scrimmage::sensor::\lAirSimSensor::parse\l_imu_configs" alt="" coords="230,281,383,337"/>
+<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ad3cee57a295b7338fe54eb377e8c9355" title="scrimmage::sensor::\lAirSimSensor::parse\l_lidar_configs" alt="" coords="230,361,383,417"/>
+<area shape="rect" id="node8" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ab2eb9276fe84581027d8ca971c691681" title="scrimmage::sensor::\lAirSimSensor::request\l_images" alt="" coords="223,441,390,497"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7013d3c477e24caa49e5b2dd8f40c280" title="scrimmage::sensor::\lAirSimSensor::request_imu" alt="" coords="208,520,405,561"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a3e94a829acfbd4d499c2f4fb9e7a3b3a" title="scrimmage::sensor::\lAirSimSensor::request_lidar" alt="" coords="207,585,407,627"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title="scrimmage::CSV::set\l_column_headers" alt="" coords="228,651,385,692"/>
 </map>

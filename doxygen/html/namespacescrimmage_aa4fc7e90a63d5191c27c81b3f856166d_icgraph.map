@@ -6,10 +6,12 @@
 <area shape="rect" id="node6" href="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c" title="scrimmage::get_vec\l_of_vecs" alt="" coords="199,225,351,266"/>
 <area shape="rect" id="node7" href="$namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201" title="scrimmage::parse_plugin\l_vector" alt="" coords="416,241,599,282"/>
 <area shape="rect" id="node8" href="$classscrimmage_1_1PID.html#af0dfdaf6faa01780bec02a2f1605ce0c" title="scrimmage::PID::init" alt="" coords="199,341,350,368"/>
-<area shape="rect" id="node9" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title="scrimmage::sensor::\lAirSimSensor::init" alt="" coords="198,393,351,434"/>
-<area shape="rect" id="node10" href="$classscrimmage_1_1MissionParse.html#a35d75b694ef9d4f68073965ff5f38614" title="scrimmage::MissionParse\l::set_overrides" alt="" coords="182,458,367,499"/>
-<area shape="rect" id="node11" href="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648" title="scrimmage::controller\l::set_pid" alt="" coords="193,523,356,565"/>
-<area shape="rect" id="node12" href="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a" title="scrimmage::set_pid\l_gains" alt="" coords="201,589,349,630"/>
-<area shape="rect" id="node13" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="181,655,368,681"/>
-<area shape="rect" id="node14" href="$namespacescrimmage.html#a9c5aa92c9d3e13a71ba7bf0903de91dd" title="scrimmage::str2vec" alt="" coords="200,705,349,732"/>
+<area shape="rect" id="node9" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a780d6bdfd278a9034d2fa85b97c04431" title="scrimmage::sensor::\lAirSimSensor::parse\l_camera_configs" alt="" coords="198,392,351,448"/>
+<area shape="rect" id="node10" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a02a85d538538bbe6c1fc4f88dffc4b4e" title="scrimmage::sensor::\lAirSimSensor::parse\l_imu_configs" alt="" coords="198,472,351,528"/>
+<area shape="rect" id="node11" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ad3cee57a295b7338fe54eb377e8c9355" title="scrimmage::sensor::\lAirSimSensor::parse\l_lidar_configs" alt="" coords="198,552,351,608"/>
+<area shape="rect" id="node12" href="$classscrimmage_1_1MissionParse.html#a35d75b694ef9d4f68073965ff5f38614" title="scrimmage::MissionParse\l::set_overrides" alt="" coords="182,631,367,673"/>
+<area shape="rect" id="node13" href="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648" title="scrimmage::controller\l::set_pid" alt="" coords="193,697,356,738"/>
+<area shape="rect" id="node14" href="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a" title="scrimmage::set_pid\l_gains" alt="" coords="201,762,349,803"/>
+<area shape="rect" id="node15" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="181,828,368,855"/>
+<area shape="rect" id="node16" href="$namespacescrimmage.html#a9c5aa92c9d3e13a71ba7bf0903de91dd" title="scrimmage::str2vec" alt="" coords="200,879,349,905"/>
 </map>

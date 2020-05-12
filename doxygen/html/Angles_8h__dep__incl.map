@@ -12,8 +12,8 @@
 <area shape="rect" id="node12" href="$JSBSimModel_8h.html" title="Brief file description. " alt="" coords="2211,117,2470,173"/>
 <area shape="rect" id="node13" href="$JSBSimModel_8cpp.html" title="Brief file description. " alt="" coords="2308,228,2539,284"/>
 <area shape="rect" id="node14" href="$Rotor_8h.html" title="Brief file description. " alt="" coords="2545,117,2749,173"/>
-<area shape="rect" id="node15" href="$AirSimSensor_8h.html" title="Brief file description. " alt="" coords="2773,117,3036,173"/>
-<area shape="rect" id="node16" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="2873,228,3105,284"/>
+<area shape="rect" id="node15" href="$AirSimSensor_8h.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="2773,117,3036,173"/>
+<area shape="rect" id="node16" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="2873,228,3105,284"/>
 <area shape="rect" id="node17" href="$PID_8cpp.html" title="Brief file description. " alt="" coords="3112,124,3316,165"/>
 <area shape="rect" id="node18" href="$Entity_8cpp.html" title="Brief file description. " alt="" coords="3340,124,3544,165"/>
 <area shape="rect" id="node19" href="$Angles_8cpp.html" title="Brief file description. " alt="" coords="3568,124,3772,165"/>

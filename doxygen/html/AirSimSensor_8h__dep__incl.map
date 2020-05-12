@@ -1,4 +1,5 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h">
-<area shape="rect" id="node2" href="$ROSAirSim_8cpp.html" title="Brief file description. " alt="" coords="5,109,241,165"/>
-<area shape="rect" id="node3" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="266,109,498,165"/>
+<area shape="rect" id="node2" href="$ROSAirSim_8h.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="5,109,255,165"/>
+<area shape="rect" id="node3" href="$ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="92,213,328,269"/>
+<area shape="rect" id="node4" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="329,109,561,165"/>
 </map>

@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "scrimmage::ActorContact", "classscrimmage_1_1ActorContact.html", null ],
     [ "scrimmage::sensor::AirSimImageType", "classscrimmage_1_1sensor_1_1AirSimImageType.html", null ],
+    [ "scrimmage::sensor::AirSimImuType", "classscrimmage_1_1sensor_1_1AirSimImuType.html", null ],
     [ "scrimmage::sensor::AirSimLidarType", "classscrimmage_1_1sensor_1_1AirSimLidarType.html", null ],
     [ "scrimmage::Angles", "classscrimmage_1_1Angles.html", null ],
     [ "scrimmage::controller::AxisScale", "classscrimmage_1_1controller_1_1AxisScale.html", null ],

@@ -2,7 +2,6 @@ var searchData=
 [
   ['damping_5fratio',['damping_ratio',['../classscrimmage_1_1motion_1_1HarmonicOscillator.html#a9c85f7b8afb5d0964d8fe36f23393471',1,'scrimmage::motion::HarmonicOscillator']]],
   ['data',['data',['../classscrimmage_1_1Message.html#a4740c927c8fdf356a783fe3d01955fff',1,'scrimmage::Message']]],
-  ['data_5facquisition_5fperiod_5f',['data_acquisition_period_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#a3f1db816c3939f011a0f8731dcf64ca9',1,'scrimmage::sensor::AirSimSensor']]],
   ['data_5fsocket_5f',['data_socket_',['../classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a0e28f30efde695554275c3702c4f98c1',1,'scrimmage::autonomy::FlightGearMultiplayer']]],
   ['debug_5finfo',['debug_info',['../classscrimmage_1_1MessageBase.html#a92285fcbc04261588304f0944a48e193',1,'scrimmage::MessageBase']]],
   ['dec_5ffollow_5f',['dec_follow_',['../classscrimmage_1_1Updater.html#acc4349c64ce649e4b7d68513c8750f36',1,'scrimmage::Updater']]],

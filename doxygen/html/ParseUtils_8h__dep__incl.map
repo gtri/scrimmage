@@ -32,7 +32,7 @@
 <area shape="rect" id="node32" href="$Predator_8cpp.html" title="Brief file description. " alt="" coords="6561,117,6784,173"/>
 <area shape="rect" id="node33" href="$RLConsensus_8cpp.html" title="Brief file description. " alt="" coords="6808,117,7060,173"/>
 <area shape="rect" id="node34" href="$RLSimple_8cpp.html" title="Brief file description. " alt="" coords="7085,117,7311,173"/>
-<area shape="rect" id="node35" href="$ROSAirSim_8cpp.html" title="Brief file description. " alt="" coords="7336,117,7572,173"/>
+<area shape="rect" id="node35" href="$ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="7336,117,7572,173"/>
 <area shape="rect" id="node36" href="$ROSAutonomy_8cpp.html" title="Brief file description. " alt="" coords="7596,117,7856,173"/>
 <area shape="rect" id="node37" href="$ROSControl_8cpp.html" title="Brief file description. " alt="" coords="7881,117,8121,173"/>
 <area shape="rect" id="node38" href="$ScrimmageOpenAIAutonomy_8cpp.html" title="Brief file description. " alt="" coords="8145,117,8496,173"/>
@@ -98,7 +98,7 @@
 <area shape="rect" id="node98" href="$Unicycle3D_8cpp.html" title="Brief file description. " alt="" coords="24346,117,24565,173"/>
 <area shape="rect" id="node99" href="$UUV6DOF_8cpp.html" title="Brief file description. " alt="" coords="24589,117,24799,173"/>
 <area shape="rect" id="node100" href="$SphereNetwork_8cpp.html" title="Brief file description. " alt="" coords="24823,117,25074,173"/>
-<area shape="rect" id="node101" href="$AirSimSensor_8cpp.html" title="Brief file description. " alt="" coords="25098,117,25330,173"/>
+<area shape="rect" id="node101" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="25098,117,25330,173"/>
 <area shape="rect" id="node102" href="$AltitudeAboveTerrain_8cpp.html" title="Brief file description. " alt="" coords="25354,117,25589,173"/>
 <area shape="rect" id="node103" href="$ContactBlobCamera_8cpp.html" title="Brief file description. " alt="" coords="25613,117,25847,173"/>
 <area shape="rect" id="node104" href="$GPS_8cpp.html" title="Brief file description. " alt="" coords="25871,117,26075,173"/>

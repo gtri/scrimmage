@@ -120,7 +120,7 @@ Collaboration diagram for scrimmage::sensor::AirSimLidarType:</div>
 <div class="dyncontent">
 <div class="center"><img src="classscrimmage_1_1sensor_1_1AirSimLidarType__coll__graph.png" border="0" usemap="#scrimmage_1_1sensor_1_1AirSimLidarType_coll__map" alt="Collaboration graph"/></div>
 <map name="scrimmage_1_1sensor_1_1AirSimLidarType_coll__map" id="scrimmage_1_1sensor_1_1AirSimLidarType_coll__map">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="39,5,125,83"/>
+<area shape="rect" id="node2" title="STL class. " alt="" coords="59,5,146,83"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -128,16 +128,18 @@ Collaboration diagram for scrimmage::sensor::AirSimLidarType:</div>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a287ff1f72f5eea39954b20d4d645d620"><td class="memItemLeft" align="right" valign="top">msr::airlib::LidarData&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html#a287ff1f72f5eea39954b20d4d645d620">lidar_data</a></td></tr>
 <tr class="separator:a287ff1f72f5eea39954b20d4d645d620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8ef0fe82afa8d0a0b53860c171ebafa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html#ac8ef0fe82afa8d0a0b53860c171ebafa">frame_num</a> = 0</td></tr>
-<tr class="separator:ac8ef0fe82afa8d0a0b53860c171ebafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ed04cf665604887907c7af75b58ecde"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html#a9ed04cf665604887907c7af75b58ecde">vehicle_name</a></td></tr>
 <tr class="separator:a9ed04cf665604887907c7af75b58ecde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7b586b305acb144a52ac3248b8d93f6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html#aa7b586b305acb144a52ac3248b8d93f6">lidar_name</a></td></tr>
 <tr class="separator:aa7b586b305acb144a52ac3248b8d93f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a070602182a1b2af88e62b298dbdf61df"><td class="memItemLeft" align="right" valign="top">Eigen::Isometry3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html#a070602182a1b2af88e62b298dbdf61df">vehicle_pose_world_NED</a></td></tr>
+<tr class="separator:a070602182a1b2af88e62b298dbdf61df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5afaa61fb5f5bd83f136ccc0ff39102a"><td class="memItemLeft" align="right" valign="top">Eigen::Isometry3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html#a5afaa61fb5f5bd83f136ccc0ff39102a">lidar_pose_world_NED</a></td></tr>
+<tr class="separator:a5afaa61fb5f5bd83f136ccc0ff39102a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00098">98</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00107">107</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a287ff1f72f5eea39954b20d4d645d620"></a>
 <div class="memitem">
@@ -149,23 +151,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00100">100</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00109">109</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00201">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac8ef0fe82afa8d0a0b53860c171ebafa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int scrimmage::sensor::AirSimLidarType::frame_num = 0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00101">101</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00419">scrimmage::sensor::AirSimSensor::request_lidar()</a>.</p>
 
 </div>
 </div>
@@ -179,9 +167,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00102">102</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00110">110</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00201">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00419">scrimmage::sensor::AirSimSensor::request_lidar()</a>.</p>
 
 </div>
 </div>
@@ -195,9 +183,41 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00103">103</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00111">111</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
 
-<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00201">scrimmage::sensor::AirSimSensor::request_images()</a>.</p>
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00419">scrimmage::sensor::AirSimSensor::request_lidar()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a070602182a1b2af88e62b298dbdf61df"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Isometry3f scrimmage::sensor::AirSimLidarType::vehicle_pose_world_NED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00112">112</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00419">scrimmage::sensor::AirSimSensor::request_lidar()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5afaa61fb5f5bd83f136ccc0ff39102a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Isometry3f scrimmage::sensor::AirSimLidarType::lidar_pose_world_NED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="AirSimSensor_8h_source.html#l00113">113</a> of file <a class="el" href="AirSimSensor_8h_source.html">AirSimSensor.h</a>.</p>
+
+<p>Referenced by <a class="el" href="AirSimSensor_8cpp_source.html#l00419">scrimmage::sensor::AirSimSensor::request_lidar()</a>.</p>
 
 </div>
 </div>
@@ -210,7 +230,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1AirSimLidarType.html">AirSimLidarType</a></li>
-    <li class="footer">Generated on Fri May 8 2020 18:53:00 for SCRIMMAGE by
+    <li class="footer">Generated on Tue May 12 2020 16:08:17 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

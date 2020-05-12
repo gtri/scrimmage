@@ -23,7 +23,7 @@
 <area shape="rect" id="node23" href="$MotorSchemas_8h.html" title="Brief file description. " alt="" coords="4882,235,5187,291"/>
 <area shape="rect" id="node24" href="$Predator_8h.html" title="Brief file description. " alt="" coords="5165,117,5387,173"/>
 <area shape="rect" id="node25" href="$PyAutonomy_8h.html" title="Brief file description. " alt="" coords="5411,117,5685,173"/>
-<area shape="rect" id="node26" href="$ROSAirSim_8h.html" title="Brief file description. " alt="" coords="5709,117,5958,173"/>
+<area shape="rect" id="node26" href="$ROSAirSim_8h.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="5709,117,5958,173"/>
 <area shape="rect" id="node27" href="$ROSAutonomy_8h.html" title="Brief file description. " alt="" coords="5982,117,6279,173"/>
 <area shape="rect" id="node28" href="$ROSControl_8h.html" title="Brief file description. " alt="" coords="6303,117,6561,173"/>
 <area shape="rect" id="node29" href="$ScrimmageOpenAIAutonomy_8h.html" title="Brief file description. " alt="" coords="6585,109,6866,180"/>

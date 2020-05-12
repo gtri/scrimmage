@@ -1,6 +1,7 @@
 var namespacescrimmage_1_1sensor =
 [
     [ "AirSimImageType", "classscrimmage_1_1sensor_1_1AirSimImageType.html", "classscrimmage_1_1sensor_1_1AirSimImageType" ],
+    [ "AirSimImuType", "classscrimmage_1_1sensor_1_1AirSimImuType.html", "classscrimmage_1_1sensor_1_1AirSimImuType" ],
     [ "AirSimLidarType", "classscrimmage_1_1sensor_1_1AirSimLidarType.html", "classscrimmage_1_1sensor_1_1AirSimLidarType" ],
     [ "AirSimSensor", "classscrimmage_1_1sensor_1_1AirSimSensor.html", "classscrimmage_1_1sensor_1_1AirSimSensor" ],
     [ "AltitudeAboveTerrain", "classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html", "classscrimmage_1_1sensor_1_1AltitudeAboveTerrain" ],

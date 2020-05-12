@@ -1,5 +1,5 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/sensor/AirSimSensor/AirSimSensor.cpp" name="/root/scrimmage/scrimmage/src/plugins/sensor/AirSimSensor/AirSimSensor.cpp">
-<area shape="rect" id="node2" href="$AirSimSensor_8h.html" title="Brief file description. " alt="" coords="161,109,377,151"/>
+<area shape="rect" id="node2" href="$AirSimSensor_8h.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="161,109,377,151"/>
 <area shape="rect" id="node3" href="$Angles_8h.html" title="Brief file description. " alt="" coords="5,206,196,233"/>
 <area shape="rect" id="node6" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="515,199,716,240"/>
 <area shape="rect" id="node7" href="$Entity_8h.html" title="Brief file description. " alt="" coords="702,117,889,143"/>

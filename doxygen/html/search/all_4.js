@@ -2,7 +2,6 @@ var searchData=
 [
   ['damping_5fratio',['damping_ratio',['../classscrimmage_1_1motion_1_1HarmonicOscillator.html#a9c85f7b8afb5d0964d8fe36f23393471',1,'scrimmage::motion::HarmonicOscillator']]],
   ['data',['data',['../classscrimmage_1_1Message.html#a4740c927c8fdf356a783fe3d01955fff',1,'scrimmage::Message']]],
-  ['data_5facquisition_5fperiod_5f',['data_acquisition_period_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#a3f1db816c3939f011a0f8731dcf64ca9',1,'scrimmage::sensor::AirSimSensor']]],
   ['data_5fsocket_5f',['data_socket_',['../classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a0e28f30efde695554275c3702c4f98c1',1,'scrimmage::autonomy::FlightGearMultiplayer']]],
   ['debug_5finfo',['debug_info',['../classscrimmage_1_1MessageBase.html#a92285fcbc04261588304f0944a48e193',1,'scrimmage::MessageBase']]],
   ['dec_5ffollow',['dec_follow',['../classscrimmage_1_1Updater.html#ad0ac87945c08c9cfa7ebbcc5c7f869ef',1,'scrimmage::Updater']]],
@@ -68,7 +67,7 @@ var searchData=
   ['directcontroller',['DirectController',['../classscrimmage_1_1controller_1_1DirectController.html',1,'scrimmage::controller']]],
   ['directcontroller_2ecpp',['DirectController.cpp',['../DirectController_8cpp.html',1,'']]],
   ['directcontroller_2eh',['DirectController.h',['../DirectController_8h.html',1,'']]],
-  ['direction',['direction',['../classscrimmage_1_1motion_1_1Rotor.html#a9112d2ea573d0f5e45d0999017711800',1,'scrimmage::motion::Rotor::direction()'],['../classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2',1,'scrimmage::VariableIO::Direction()'],['../classscrimmage_1_1motion_1_1Rotor.html#a4cf593640fcffc5b8ccc3e0cff650499',1,'scrimmage::motion::Rotor::Direction()']]],
+  ['direction',['Direction',['../classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2',1,'scrimmage::VariableIO::Direction()'],['../classscrimmage_1_1motion_1_1Rotor.html#a4cf593640fcffc5b8ccc3e0cff650499',1,'scrimmage::motion::Rotor::Direction()'],['../classscrimmage_1_1motion_1_1Rotor.html#a9112d2ea573d0f5e45d0999017711800',1,'scrimmage::motion::Rotor::direction()']]],
   ['directory',['directory',['../classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2',1,'scrimmage::ConfigParse']]],
   ['disable',['disable',['../classscrimmage_1_1DelayedTask.html#a0281739bec9a330e301e4e169dbbcbe1',1,'scrimmage::DelayedTask']]],
   ['disable_5foutgoing_5finterfaces',['disable_outgoing_interfaces',['../classscrimmage_1_1External.html#a9b0213011d5254342a8661ec58d7e7cf',1,'scrimmage::External']]],

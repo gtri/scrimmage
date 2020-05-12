@@ -1,3 +1,4 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="53,109,216,151"/>
+<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="40,109,203,151"/>
+<area shape="rect" id="node18" href="$AirSimSensor_8h.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="278,109,494,151"/>
 </map>
