@@ -145,28 +145,29 @@ instructions on installing dependencies and running SCRIMMAGE on macOS.
 
 ## Python Bindings
 
-SCRIMMAGE's Python bindings depend on protobuf, GRPC, and pandas. Install the
-appropriate versions of grpc and protobuf:
+It is recommended to build scrimmage's Python bindings in a python virtual
+environment:
 
-    $ sudo pip install protobuf==3.3.0 grpcio==1.2.1
+    $ cd /path/to/scrimmage
+    $ sudo apt-get install python3 libpython3-dev python3-venv
+    $ python3 -m venv env
+    $ source ./env/bin/activate
 
-You can specify a minimum Python version in SCRIMMAGE core by setting the
-PYTHON\_MIN\_VERSION cmake variable. For example, to specify a minimum Python
-3.0 version, first clear the cmake cache file and rerun cmake:
+Install the python dependencies with specific version numbers:
 
-    $ rm CMakeCache.txt
-    $ cmake .. -DPYTHON_MIN_VERSION=3.0
+    (env)$ pip install -r ./python/requirements.txt
 
-Otherwise, cmake will choose Python on it's own. CMake seems to find the
-minimum version of Python specified. It should be noted that
-`interactive_plots.py` uses wxPython which is only compatible with python2.
+Re-build the scrimmage project within the virtual environment:
+
+    (env)$ cmake .. -DPYTHON_MIN_VERSION=3.6
+    (env)$ make
 
 ### Install SCRIMMAGE Python Bindings
 
 To install scrimmage's python bindings:
 
-    $ cd /path/to/scrimmage/python
-    $ sudo pip install -e .
+    (env)$ cd /path/to/scrimmage/python
+    (env)$ python setup.py develop
 
 ## Build SCRIMMAGE Documentation
 

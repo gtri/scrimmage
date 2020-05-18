@@ -84,7 +84,7 @@ RUN mkdir -p build \
  && source ~/.bashrc \
  && source ~/.scrimmage/setup.bash \
  && cmake .. -G Ninja \
-             -DPYTHON_MIN_VERSION=3  \
+             -DPYTHON_MIN_VERSION=3.6  \
              -DBUILD_TESTS=ON \
              -DBUILD_DOCS=ON \
              -DCMAKE_CXX_FLAGS="-Werror" \
