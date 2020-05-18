@@ -68,22 +68,9 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ContactBlobCamera, Contact
 namespace scrimmage {
 namespace sensor {
 
-void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
-    std::stringstream ss;
-    ss << parent_->id().id();
-    parameters_file_.open(parent_->mp()->log_dir() + "/blob_sensor_parameters_" + ss.str() + ".txt");
 
-    gener_ = parent_->random()->gener();
-
-    window_name_ = sc::get<std::string>("window_name", params, window_name_);
-    ignore_real_entities_ = sc::get<bool>("ignore_real_entities", params, ignore_real_entities_);
-    show_image_ = sc::get<bool>("show_image", params, show_image_);
-    show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
-    log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
-    show_sim_contacts_ = sc::get<bool>("show_sim_contacts", params, true);
-
-    // Parse the simulated detections
-    std::string sim_det_str = sc::get<std::string>("simulated_detections", params, "");
+void ContactBlobCamera::parseSimulatedDetections(std::string &sim_det_str) {
+    sim_contacts_.clear();
     std::vector<std::vector<std::string>> vecs;
     if (get_vec_of_vecs(sim_det_str, vecs, ", ")) {
         int i = 0;
@@ -116,6 +103,27 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
             sim_contacts_[i++] = cnt;
         }
     }
+
+}
+
+void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
+    std::stringstream ss;
+    ss << parent_->id().id();
+    parameters_file_.open(parent_->mp()->log_dir() + "/blob_sensor_parameters_" + ss.str() + ".txt");
+
+    gener_ = parent_->random()->gener();
+
+    window_name_ = sc::get<std::string>("window_name", params, window_name_);
+    ignore_real_entities_ = sc::get<bool>("ignore_real_entities", params, ignore_real_entities_);
+    show_image_ = sc::get<bool>("show_image", params, show_image_);
+    show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
+    log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
+    show_sim_contacts_ = sc::get<bool>("show_sim_contacts", params, true);
+
+    // Parse the simulated detections
+    sim_det_str_ = sc::get<std::string>("simulated_detections", params, "");
+    parseSimulatedDetections(sim_det_str_);
+    proj_ = *parent_->projection();
 
     // override default parameters
     plugin_params_["senderId"] = parent_->id().id();
@@ -366,6 +374,14 @@ void ContactBlobCamera::add_false_positives(
 
 bool ContactBlobCamera::step() {
     if ((time_->t() - last_frame_t_) < 1.0 / fps_) return true;
+
+    if (proj_.LatitudeOrigin() != parent_->projection()->LatitudeOrigin() ||
+        proj_.LongitudeOrigin() != parent_->projection()->LongitudeOrigin() ||
+        proj_.HeightOrigin() != parent_->projection()->HeightOrigin()) {
+        // projection has changed, reparse the simulated targets
+        parseSimulatedDetections(sim_det_str_);
+        proj_ = *parent_->projection();
+    }
 
     sc::State sensor_frame;
     sensor_frame.quat() =

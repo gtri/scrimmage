@@ -47,6 +47,9 @@
 
 #include <opencv2/core/core.hpp>
 
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
+
 namespace scrimmage {
 
 namespace sensor {
@@ -81,6 +84,9 @@ class ContactBlobCamera : public scrimmage::Sensor {
     void set_plugin_params(std::map<std::string, double> params);
     void draw_frustum(const std::vector<scrimmage_proto::ShapePtr>& frustum, double x_rot, double y_rot, double z_rot);
 
+
+    void parseSimulatedDetections(std::string &sim_det_str);
+
     // plugin parameters
     std::map<std::string, double> plugin_params_;
     int camera_id_ = 0;
@@ -98,6 +104,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     int std_dev_h_;
     double canvas_width_;
     double canvas_height_;
+    std::string sim_det_str_;
 
     cv::Mat frame_;
     double last_frame_t_;
@@ -116,6 +123,8 @@ class ContactBlobCamera : public scrimmage::Sensor {
     std::string window_name_ = "ContactBlobCamera";
     std::vector<scrimmage_proto::ShapePtr> frustum_shapes_;
     scrimmage_proto::ShapePtr sim_tgt_sphere_ = std::make_shared<scrimmage_proto::Shape>();
+
+    GeographicLib::LocalCartesian proj_;
 
     scrimmage::ContactMap sim_contacts_;
 };
