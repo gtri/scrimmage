@@ -103,7 +103,6 @@ void ContactBlobCamera::parseSimulatedDetections(std::string &sim_det_str) {
             sim_contacts_[i++] = cnt;
         }
     }
-
 }
 
 void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
