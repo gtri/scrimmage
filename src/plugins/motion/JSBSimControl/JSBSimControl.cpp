@@ -90,9 +90,12 @@ std::tuple<int, int, int> JSBSimControl::version() {
 
 bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          std::map<std::string, std::string> &params) {
-    draw_vel_ = sc::get<double>("drawVel", params, 1.0);
-    draw_ang_vel_ = sc::get<double>("drawAngVel", params, 10.0);
-    draw_acc_ = sc::get<double>("drawAcc", params, 1.0);
+    draw_vel_ = sc::get<bool>("draw_vel", params, draw_vel_);
+    draw_ang_vel_ = sc::get<bool>("draw_ang_vel", params, draw_ang_vel_);
+    draw_acc_ = sc::get<bool>("draw_acc", params, draw_acc_);
+
+    jsbsim_dt_ = std::stod(info["dt"])/std::stod(info["motion_multiplier"]);
+    jsbsim_script_path_ = "scripts/" + info["script_name"];
 
     // Setup variable index for controllers
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
@@ -128,71 +131,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     exec_->SetEnginePath(SGPath("engine"));
     exec_->SetSystemsPath(SGPath("systems"));
 
-    exec_->LoadScript(SGPath("scripts/"+info["script_name"]));
-
-    JSBSim::FGInitialCondition *ic = exec_->GetIC();
-
-    Quaternion q_ned_enu(M_PI, 0.0, M_PI/2.0);
-    Quaternion q_flu_frd(M_PI, 0.0, 0.0);
-    Quaternion q_frd_enu(q_ned_enu * state_->quat() * q_flu_frd);
-    ic->SetPsiRadIC(q_frd_enu.yaw());
-    ic->SetThetaRadIC(q_frd_enu.pitch());
-    ic->SetPhiRadIC(q_frd_enu.roll());
-
-    ic->SetVEastFpsIC(state_->vel()[0] * meters2feet);
-    ic->SetVNorthFpsIC(state_->vel()[1] * meters2feet);
-    ic->SetVDownFpsIC(-state_->vel()[2] * meters2feet);
-
-    ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() * meters2feet);
-
-    Eigen::Vector3d lla;
-    parent_->projection()->Reverse(state_->pos()[0], state_->pos()[1], state_->pos()[2], lla[0], lla[1], lla[2]);
-    ic->SetLatitudeDegIC(lla[0]);
-    ic->SetLongitudeDegIC(lla[1]);
-    ic->SetAltitudeASLFtIC(lla[2] * meters2feet);
-
-#if 0
-    cout << "--------------------------------------------------------" << endl;
-    cout << "  State information in JSBSImControl" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    int prec = 5;
-    cout << std::setprecision(prec) << "state_->quat(): " << state_->quat() << endl;
-    cout << std::setprecision(prec) << "lla[0]: " << lla[0] << endl;
-    cout << std::setprecision(prec) << "lla[1]: " << lla[1] << endl;
-    cout << std::setprecision(prec) << "lla[2]: " << lla[2] << endl;
-    cout << std::setprecision(prec) << "lla[0]: " << lla[0] << endl;
-    cout << std::setprecision(prec) << "lla[1]: " << lla[1] << endl;
-    cout << std::setprecision(prec) << "lla[2]: " << lla[2] << endl;
-
-    cout << std::setprecision(prec) << "GetVEastFpsIC: " << ic->GetVEastFpsIC() << endl;
-    cout << std::setprecision(prec) << "GetVNorthFpsIC: " << ic->GetVNorthFpsIC() << endl;
-    cout << std::setprecision(prec) << "GetVDownFpsIC: " << ic->GetVDownFpsIC() << endl;
-    cout << std::setprecision(prec) << "GetPsiRadIC: " << ic->GetPsiRadIC() << endl;
-    cout << std::setprecision(prec) << "GetThetaRadIC: " << ic->GetThetaRadIC() << endl;
-    cout << std::setprecision(prec) << "GetPhiRadIC: " << ic->GetPhiRadIC() << endl;
-    cout << std::setprecision(prec) << "GetLatitudeDegIC: " << ic->GetLatitudeDegIC() << endl;
-    cout << std::setprecision(prec) << "GetLongitudeDegIC: " << ic->GetLongitudeDegIC() << endl;
-    cout << std::setprecision(prec) << "GetAltitudeASLFtIC: " << ic->GetAltitudeASLFtIC() << endl;
-#endif
-
-    if (info.count("latitude") > 0) {
-        ic->SetLatitudeDegIC(std::stod(info["latitude"]));
-    }
-    if (info.count("longitude") > 0) {
-        ic->SetLongitudeDegIC(std::stod(info["longitude"]));
-    }
-    if (info.count("heading") > 0) {
-        angles_to_jsbsim_.set_angle(std::stod(info["heading"]));
-        ic->SetPsiDegIC(angles_to_jsbsim_.angle());
-    }
-    if (info.count("altitude") > 0) {
-        double alt_asl_meters = std::stod(info["altitude"]);
-        ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
-    }
-
-    exec_->RunIC();
-    exec_->Setdt(std::stod(info["dt"])/std::stod(info["motion_multiplier"]));
-    exec_->Run();
+    exec_->LoadScript(SGPath(jsbsim_script_path_));
 
     // Get references to each of the nodes that hold properties that we
     // care about
@@ -210,13 +149,13 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     ap_elevator_cmd_node_ = mgr->GetNode("fcs/elevator-cmd-norm");
     ap_rudder_cmd_node_ = mgr->GetNode("fcs/rudder-cmd-norm");
     ap_throttle_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm");
+    // ap_throttle_1_cmd_node_ = mgr->GetNode("fcs/throttle-cmd-norm[1]");
 
     vel_north_node_ = mgr->GetNode("velocities/v-north-fps");
     vel_east_node_ = mgr->GetNode("velocities/v-east-fps");
     vel_down_node_ = mgr->GetNode("velocities/v-down-fps");
 
     u_vel_node_ = mgr->GetNode("velocities/u-fps");
-
 
     // angular velocity in ECEF frame
     p_node_ = mgr->GetNode("velocities/p-rad_sec");
@@ -228,6 +167,22 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     ay_pilot_node_ = mgr->GetNode("accelerations/a-pilot-y-ft_sec2");
     az_pilot_node_ = mgr->GetNode("accelerations/a-pilot-z-ft_sec2");
 
+    set_jsbsim_initial_state(*state_);
+
+    // if (info.count("latitude") > 0) {
+    //     ic->SetLatitudeDegIC(std::stod(info["latitude"]));
+    // }
+    // if (info.count("longitude") > 0) {
+    //     ic->SetLongitudeDegIC(std::stod(info["longitude"]));
+    // }
+    // if (info.count("heading") > 0) {
+    //     angles_to_jsbsim_.set_angle(std::stod(info["heading"]));
+    //     ic->SetPsiDegIC(angles_to_jsbsim_.angle());
+    // }
+    // if (info.count("altitude") > 0) {
+    //     double alt_asl_meters = std::stod(info["altitude"]);
+    //     ic->SetAltitudeASLFtIC(alt_asl_meters * meters2feet);
+    // }
 
     // Save state
     parent_->projection()->Forward(latitude_node_->getDoubleValue(),
@@ -255,15 +210,17 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
                          -az_pilot_node_->getDoubleValue());
     linear_accel_body_ = state_->quat().rotate(a_FLU);
 
+    // exec_->PrintPropertyCatalog();
+    // exec_->PrintSimulationConfiguration();
+
     return true;
 }
 
 bool JSBSimControl::step(double time, double dt) {
-
-    throttle_       = ba::clamp(vars_.input(throttle_idx_), -1.0, 1.0);
-    delta_elevator_ = ba::clamp(vars_.input(elevator_idx_), -1.0, 1.0);
-    delta_aileron_  = ba::clamp(vars_.input(aileron_idx_),  -1.0, 1.0);
-    delta_rudder_   = ba::clamp(vars_.input(rudder_idx_),   -1.0, 1.0);
+    throttle_       = vars_.input(throttle_idx_);
+    delta_elevator_ = vars_.input(elevator_idx_);
+    delta_aileron_  = vars_.input(aileron_idx_);
+    delta_rudder_   = vars_.input(rudder_idx_);
 
     // TODO: for some reason, jsb sim does not like it when there is an immediate thottle input
     if (time < .05)
@@ -273,12 +230,16 @@ bool JSBSimControl::step(double time, double dt) {
     ap_elevator_cmd_node_->setDoubleValue(delta_elevator_);
     ap_rudder_cmd_node_->setDoubleValue(delta_rudder_);
     ap_throttle_cmd_node_->setDoubleValue(throttle_);
+    // if (ap_throttle_1_cmd_node_ != nullptr) {
+    //     ap_throttle_1_cmd_node_->setDoubleValue(throttle_);
+    // }
 
     exec_->Setdt(dt);
     exec_->Run();
 
-
-
+    if (fg_out_enable_) {
+        output_fg_->Print();
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
@@ -352,23 +313,28 @@ bool JSBSimControl::step(double time, double dt) {
     cout << "--------------------------------------------------------" << endl;
     int prec = 5;
     // std::cout << "processing time, ms: " << ((double)time_diff.total_microseconds())/1000 << std::endl;
-    cout << std::setprecision(prec) << "dt: " << dt << endl;
-    cout << std::setprecision(prec) << "time: " << time << endl;
-    cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
+    // cout << std::setprecision(prec) << "dt: " << dt << endl;
+    // cout << std::setprecision(prec) << "time: " << time << endl;
+    // cout << std::setprecision(prec) << "Altitude AGL: " << altitudeAGL_node_->getDoubleValue() * feet2meters << endl;
     // cout << std::setprecision(prec) << "WOW[0]: " << mgr->GetNode("gear/unit/WOW")->getDoubleValue() << endl;
     // cout << std::setprecision(prec) << "WOW[1]: " << mgr->GetNode("gear/unit[1]/WOW")->getDoubleValue() << endl;
     // cout << std::setprecision(prec) << "WOW[2]: " << mgr->GetNode("gear/unit[2]/WOW")->getDoubleValue() << endl;
+    cout << "Speed: " << state_->vel().norm() << endl;
     cout << std::setprecision(prec) << "xAccel: " << linear_accel_body_(0) << endl;
     cout << std::setprecision(prec) << "yAccel: " << linear_accel_body_(1) << endl;
     cout << std::setprecision(prec) << "zAccel: " << linear_accel_body_(2) << endl;
-    cout << std::setprecision(prec) << "aileron cmd: " << delta_aileron_ << endl;
-    cout << std::setprecision(prec) << "elevator cmd: " << delta_elevator_ << endl;
-    cout << std::setprecision(prec) << "rudder cmd: " << delta_rudder_ << endl;
-    cout << std::setprecision(prec) << "throttle cmd: " << throttle_ << endl;
+    cout << std::setprecision(prec) << "desired aileron cmd: " << delta_aileron_ << endl;
+    cout << std::setprecision(prec) << "desired elevator cmd: " << delta_elevator_ << endl;
+    cout << std::setprecision(prec) << "desired rudder cmd: " << delta_rudder_ << endl;
+    cout << std::setprecision(prec) << "desired throttle cmd: " << throttle_ << endl;
     cout << std::setprecision(prec) << "aileron jsb: " << mgr->GetNode("fcs/right-aileron-pos-rad")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "elevator jsb: " << mgr->GetNode("fcs/elevator-pos-rad")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "rudder jsb: " << mgr->GetNode("fcs/rudder-pos-rad")->getDoubleValue() << endl;
-    cout << std::setprecision(prec) << "throttle jsb: " << mgr->GetNode("fcs/throttle-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/throttle-cmd-norm: " << mgr->GetNode("fcs/throttle-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/aileron-cmd-norm: " << mgr->GetNode("fcs/aileron-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/elevator-cmd-norm: " << mgr->GetNode("fcs/elevator-cmd-norm")->getDoubleValue() << endl;
+    cout << std::setprecision(prec) << "fcs/rudder-cmd-norm: " << mgr->GetNode("fcs/rudder-cmd-norm")->getDoubleValue() << endl;
+
     cout << std::setprecision(prec) << "thrust (N): " << mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue()*4.44 << endl;
     cout << std::setprecision(prec) << "alpha: " << mgr->GetNode("aero/alpha-rad")->getDoubleValue() << endl;
     cout << std::setprecision(prec) << "drag: " << mgr->GetNode("forces/fwx-aero-lbs")->getDoubleValue() << endl;
@@ -390,5 +356,124 @@ bool JSBSimControl::step(double time, double dt) {
 
     return true;
 }
+
+void JSBSimControl::teleport(StatePtr &state) {
+    // set_jsbsim_state(*state);
+    set_jsbsim_initial_state(*state);
+}
+
+void JSBSimControl::set_jsbsim_initial_state(const scrimmage::State& state) {
+    // exec_->LoadScript(SGPath(jsbsim_script_path_));
+
+    JSBSim::FGInitialCondition *ic = exec_->GetIC();
+
+    Quaternion q_ned_enu(M_PI, 0.0, M_PI/2.0);
+    Quaternion q_flu_frd(M_PI, 0.0, 0.0);
+    Quaternion q_frd_enu(q_ned_enu * state_->quat() * q_flu_frd);
+    ic->SetPsiRadIC(q_frd_enu.yaw());
+    ic->SetThetaRadIC(q_frd_enu.pitch());
+    ic->SetPhiRadIC(q_frd_enu.roll());
+
+    ic->SetVEastFpsIC(state_->vel()[0] * meters2feet);
+    ic->SetVNorthFpsIC(state_->vel()[1] * meters2feet);
+    ic->SetVDownFpsIC(-state_->vel()[2] * meters2feet);
+
+    ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() * meters2feet);
+
+    Eigen::Vector3d lla;
+    parent_->projection()->Reverse(state_->pos()[0], state_->pos()[1], state_->pos()[2], lla[0], lla[1], lla[2]);
+    ic->SetLatitudeDegIC(lla[0]);
+    ic->SetLongitudeDegIC(lla[1]);
+    ic->SetAltitudeASLFtIC(lla[2] * meters2feet);
+
+    JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();
+    mgr->GetNode("fcs/left-aileron-pos-rad")->setDoubleValue(0.0);
+    mgr->GetNode("fcs/right-aileron-pos-rad")->setDoubleValue(0.0);
+    // mgr->GetNode("fcs/aileron-pos-norm")->setDoubleValue(0.0);
+
+    mgr->GetNode("fcs/elevator-pos-norm")->setDoubleValue(0.0);
+    mgr->GetNode("fcs/rudder-pos-norm")->setDoubleValue(0.0);
+    mgr->GetNode("fcs/throttle-pos-norm")->setDoubleValue(0.0);
+
+    mgr->GetNode("accelerations/pdot-rad_sec2")->setDoubleValue(0.0);
+    mgr->GetNode("accelerations/qdot-rad_sec2")->setDoubleValue(0.0);
+    mgr->GetNode("accelerations/rdot-rad_sec2")->setDoubleValue(0.0);
+
+    mgr->GetNode("accelerations/udot-ft_sec2")->setDoubleValue(0.0);
+    mgr->GetNode("accelerations/vdot-ft_sec2")->setDoubleValue(0.0);
+    mgr->GetNode("accelerations/wdot-ft_sec2")->setDoubleValue(0.0);
+
+    mgr->GetNode("accelerations/a-pilot-x-ft_sec2")->setDoubleValue(0.0);
+    mgr->GetNode("accelerations/a-pilot-y-ft_sec2")->setDoubleValue(0.0);
+    mgr->GetNode("accelerations/a-pilot-z-ft_sec2")->setDoubleValue(0.0);
+
+    ap_aileron_cmd_node_->setDoubleValue(0);
+    ap_elevator_cmd_node_->setDoubleValue(0);
+    ap_rudder_cmd_node_->setDoubleValue(0);
+    ap_throttle_cmd_node_->setDoubleValue(0);
+    // ap_throttle_1_cmd_node_->setDoubleValue(0);
+
+
+    if (not init_values_cached_) {
+        init_values_cached_ = true;
+        init_thrust_ = mgr->GetNode("propulsion/engine/thrust-lbs")->getDoubleValue();
+
+        init_fuel_rate_gph_ = mgr->GetNode("propulsion/engine/fuel-flow-rate-gph")->getDoubleValue();
+        init_fuel_used_lbs_ = mgr->GetNode("propulsion/engine/fuel-used-lbs")->getDoubleValue();
+        init_total_fuel_lbs_ = mgr->GetNode("propulsion/total-fuel-lbs")->getDoubleValue();
+
+    }
+    mgr->GetNode("propulsion/engine/thrust-lbs")->setDoubleValue(init_thrust_);
+    // mgr->GetNode("propulsion/engine[1]/thrust-lbs")->setDoubleValue(init_thrust_);
+
+    mgr->GetNode("propulsion/engine/fuel-flow-rate-gph")->setDoubleValue(init_fuel_rate_gph_);
+    mgr->GetNode("propulsion/engine/fuel-used-lbs")->setDoubleValue(init_fuel_used_lbs_);
+    mgr->GetNode("propulsion/total-fuel-lbs")->setDoubleValue(init_total_fuel_lbs_);
+
+    mgr->GetNode("velocities/h-dot-fps")->setDoubleValue(0);
+
+    // exec_->RunIC();
+    exec_->ResetToInitialConditions(0);
+
+    exec_->Setdt(jsbsim_dt_);
+    exec_->Run();
+
+    mgr->GetNode("aero/alpha-deg")->setDoubleValue(0); // OK?
+    mgr->GetNode("aero/beta-deg")->setDoubleValue(0); // OK?
+
+}
+
+void JSBSimControl::set_jsbsim_state(const scrimmage::State& state) {
+    // JSBSim lat/lon/alt from scrimmage state
+    double lat, lon, alt;
+    parent_->projection()->Reverse(state.pos()(0), state.pos()(1), state.pos()(2),
+                                   lat, lon, alt);
+    latitude_node_->setDoubleValue(lat);
+    longitude_node_->setDoubleValue(lon);
+    altitude_node_->setDoubleValue(alt / feet2meters);
+
+    // Set JSBSim orientation from scrimmage state
+    roll_node_->setDoubleValue(state.quat().roll());
+    pitch_node_->setDoubleValue(-state.quat().pitch());
+
+    angles_to_jsbsim_.set_angle(ang::rad2deg(state.quat().yaw()));
+    yaw_node_->setDoubleValue(ang::deg2rad(angles_to_jsbsim_.angle()));
+
+    // set JSBSim linear velocity (NED) from scrimmage state (ENU)
+    vel_north_node_->setDoubleValue(state.vel()(1) / feet2meters); // scrimmage y-axis
+    vel_east_node_->setDoubleValue(state.vel()(0) / feet2meters); // scrimmage x-axis
+    vel_down_node_->setDoubleValue(-state.vel()(2) / feet2meters); // scrimmage -z-axis
+
+    // set JSBSim angular velocity (?) from scrimmage state (ENU)
+    // TODO: What frame is JSBSim using? zeros for now
+    p_node_->setDoubleValue(0);
+    q_node_->setDoubleValue(0);
+    r_node_->setDoubleValue(0);
+}
+
+std::shared_ptr<JSBSim::FGFDMExec> JSBSimControl::jsbsim_exec() {
+    return exec_;
+}
+
 } // namespace motion
 } // namespace scrimmage

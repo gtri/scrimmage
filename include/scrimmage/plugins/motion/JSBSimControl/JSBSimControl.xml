@@ -22,4 +22,8 @@
   <flightgear_port>5600</flightgear_port>
   <flightgear_protocol>UDP</flightgear_protocol> <!-- UDP or TCP -->
 
+  <draw_vel>false</draw_vel>
+  <draw_ang_vel>false</draw_ang_vel>
+  <draw_acc>false</draw_acc>
+
 </params>

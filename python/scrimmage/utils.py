@@ -49,9 +49,21 @@ def find_mission(fname):
 
     Raises a StopIteration exception when it cannot find the file.
     """
-    files = (os.path.join(path, fname)
-             for path in os.environ["SCRIMMAGE_MISSION_PATH"].split(':'))
-    return next((f for f in files if os.path.exists(f)))
+
+    if "SCRIMMAGE_MISSION_PATH" not in os.environ:
+        print('WARNING: SCRIMMAGE_MISSION_PATH is empty.')
+        print('Please source ~/.scrimmage/setup.sh')
+
+    dirs = [ path for path in os.environ["SCRIMMAGE_MISSION_PATH"].split(':') ]
+
+    # Recursively search over directories for mission file
+    for dir in dirs:
+        for dirpath, dirnames, files in os.walk(dir):
+            for name in files:
+                if name == fname:
+                    return os.path.join(dirpath, name)
+
+    return None
 
 
 def tornado(ax, data, labels, base=None, bar_width=0.8, whitespace_buffer=0.1):

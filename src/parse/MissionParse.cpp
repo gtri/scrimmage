@@ -80,6 +80,10 @@ void MissionParse::set_overrides(const std::string &overrides) {
     }
 }
 
+void MissionParse::set_overrides(const std::map<std::string, std::string>& overrides) {
+    overrides_map_.insert(overrides.begin(), overrides.end());
+}
+
 bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = expand_user(filename);
 

@@ -83,6 +83,7 @@ class MissionParse {
  public:
     bool create_log_dir();
     void set_overrides(const std::string &overrides);
+    void set_overrides(const std::map<std::string, std::string>& overrides);
     bool parse(const std::string &filename);
     bool write(const std::string &filename);
 
