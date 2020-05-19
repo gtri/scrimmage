@@ -90,6 +90,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
     Eigen::Vector3d unit_vector = rel_pos.normalized();
     unit_vector = state_->quat().rotate(unit_vector);
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
+    goal_(2) = state_->pos()(2);
 
     // Set the desired_z to our initial position.
     // desired_z_ = state_->pos()(2);
