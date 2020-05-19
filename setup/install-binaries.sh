@@ -130,6 +130,7 @@ if [[ "$PYTHON_VERSION" -eq "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
         python3-numpy
         python3-dev
         python3-pip
+        python3-venv
         python3-matplotlib
         python3-pandas
     )
@@ -254,15 +255,4 @@ if [ "$PKGSTOINSTALL" != "" ]; then
     fi
 else
     echo "All dependencies are installed. No further action is required."
-fi
-
-########################
-# Install Pip Packages
-########################
-if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip install sphinx-git sphinx_rtd_theme pydoe tqdm
-fi
-
-if [[ "$PYTHON_VERSION" = "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip3 install sphinx-git sphinx_rtd_theme pydoe tqdm
 fi
