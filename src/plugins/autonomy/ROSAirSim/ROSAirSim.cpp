@@ -50,7 +50,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAirSim, ROSAirSim_plugin)
+REGISTER_PLUGIN(sc::Autonomy, sc::autonomy::ROSAirSim, ROSAirSim_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -58,7 +58,7 @@ namespace autonomy {
 ROSAirSim::ROSAirSim() {}
 
 Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(Eigen::Isometry3f vehicle_pose_world_NED) {
-    //Get Vehicle Pose from NED to ENU
+    // Get Vehicle Pose from NED to ENU
     Eigen::Matrix<float, 3, 1> vehicle_position_ENU;
     vehicle_position_ENU.x() = vehicle_pose_world_NED.translation().y();
     vehicle_position_ENU.y() = vehicle_pose_world_NED.translation().x();
@@ -82,7 +82,7 @@ Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(Eigen::Isome
 
 Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(Eigen::Isometry3f vehicle_pose_world_NED,
                                                                          Eigen::Isometry3f sensor_pose_world_NED) {
-    //Get Vehicle Pose from NED to ENU
+    // Get Vehicle Pose from NED to ENU
     Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(vehicle_pose_world_NED);
 
     // AirSim gives pose of camera in relation to the world frame
@@ -213,7 +213,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         img_topic_published_mutex_.unlock();
 
         // If topics are not published create them
-        if(!img_topic_published) {
+        if (!img_topic_published) {
             // for each image in the message
             for (sc::sensor::AirSimImageType a : image_data_) {
 
@@ -241,7 +241,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 float cx = a.camera_config.width / 2.0;
                 float cy = a.camera_config.height / 2.0;
                 double f = (M_PI / 180.0) * (a.camera_config.fov / 2.0);
-                float fx = (float) tan(f);
+                float fx = static_cast<float>(tan(f));
                 float fy = fx;
                 info_msg.distortion_model = "plumb_bob";
                 info_msg.K = {fx, 0.f, cx, 0.f, fy, cy, 0.f, 0.f, 1.f};
@@ -272,15 +272,15 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 //// publish a transform for each unique camera_name
                 // Note down camera names since each camera will need its own image transform
                 // old_cam_name=true if camera_name already exists
-                bool old_cam_name = std::any_of(camera_names_.begin(), camera_names_.end(), [camera_name](std::string str){return str==camera_name;});
+                bool old_cam_name = std::any_of(camera_names_.begin(), camera_names_.end(), [camera_name](std::string str){return str == camera_name;});
                 // If false, this is a new camera name, save and publish transform
-                if(!old_cam_name){
+                if (!old_cam_name) {
                     // cout << "New camera found: " << camera_name << endl;
                     camera_names_.push_back(camera_name);
                     std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
                     tf_msg_vec_.clear();
 
-                    //Get Vehicle Pose from NED to ENU
+                    // Get Vehicle Pose from NED to ENU
                     Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
                     // Get pose of lidar in ENU, vehicle frame using Eigen
                     Eigen::Isometry3f tf_vehicle_camera_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(a.vehicle_pose_world_NED,
@@ -365,7 +365,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         lidar_topic_published_mutex_.unlock();
 
         // If topics are not published create them
-        if(!lidar_topic_published) {
+        if (!lidar_topic_published) {
             // for each image in the message
             for (sc::sensor::AirSimLidarType l : lidar_data_) {
 
@@ -415,7 +415,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
                 tf_msg_vec_.clear();
 
-                //Get Vehicle Pose from NED to ENU
+                // Get Vehicle Pose from NED to ENU
                 Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(l.vehicle_pose_world_NED);
                 // Get pose of lidar in ENU, vehicle frame using Eigen
                 Eigen::Isometry3f tf_vehicle_lidar_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(l.vehicle_pose_world_NED,
@@ -498,7 +498,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
         imu_topic_published_mutex_.unlock();
 
         // If topics are not published create them
-        if(!imu_topic_published) {
+        if (!imu_topic_published) {
             // for each image in the message
             for (sc::sensor::AirSimImuType i : imu_data_) {
 
@@ -531,7 +531,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 std::vector<geometry_msgs::TransformStamped> tf_msg_vec_;
                 tf_msg_vec_.clear();
 
-                //Get Vehicle Pose from NED to ENU
+                // Get Vehicle Pose from NED to ENU
                 Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(i.vehicle_pose_world_NED);
                 // Get pose of lidar in ENU, vehicle frame using Eigen
                 Eigen::Isometry3f tf_vehicle_imu_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(i.vehicle_pose_world_NED,
@@ -656,13 +656,13 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             } // end publishers for loop
 
             //// for each imu publish a transform
-            //Get Vehicle Pose from NED to ENU
+            // Get Vehicle Pose from NED to ENU
             Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(i.vehicle_pose_world_NED);
             // Get pose of imu in ENU, vehicle frame using Eigen
             Eigen::Isometry3f tf_vehicle_imu_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(i.vehicle_pose_world_NED,
                                                                                                i.imu_pose_world_NED);
 
-            //cout << "If not publishing lidar or image data, publish world frame from imu" << endl;
+            // cout << "If not publishing lidar or image data, publish world frame from imu" << endl;
             //////////////////////////////////////////////////////////////////////
             // Update and Publish Transform
             //////////////////////////////////////////////////////////////////////
@@ -716,7 +716,6 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             imu_trans_.transform.rotation.y = tf_vehicle_imu_ENU_rotation.y();
             imu_trans_.transform.rotation.z = tf_vehicle_imu_ENU_rotation.z();
             tf_msg_vec_.push_back(imu_trans_);
-
         } // end imus in message for loop
     }
 
@@ -776,7 +775,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             } // end publishers for loop
 
             //// publish a transform for each lidar
-            //Get Vehicle Pose from NED to ENU
+            // Get Vehicle Pose from NED to ENU
             Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(l.vehicle_pose_world_NED);
             // Get pose of lidar in ENU, vehicle frame using Eigen
             Eigen::Isometry3f tf_vehicle_lidar_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(l.vehicle_pose_world_NED,
@@ -837,7 +836,6 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             lidar_trans_.transform.rotation.y = tf_vehicle_lidar_ENU_rotation.y();
             lidar_trans_.transform.rotation.z = tf_vehicle_lidar_ENU_rotation.z();
             tf_msg_vec_.push_back(lidar_trans_);
-
         } // end lidars in message for loop
     }
 
@@ -906,7 +904,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     cv::imshow(window_name, tempImage);
                 } else {
                     // other image types are int 0-255.
-                    if(a.img.channels() == 4) {
+                    if (a.img.channels() == 4) {
                         cout << "image channels: " << a.img.channels() << endl;
                         cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. Color images will not display correctly." << endl;
                         cout << "Warning: Use Asset Environment versions Linux-v1.3.1+." << endl;
@@ -932,7 +930,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
                     std::string cam_topic_name = ros_namespace_ + "/camera/" + camera_name;
 
-                    //Get Vehicle Pose from NED to ENU
+                    // Get Vehicle Pose from NED to ENU
                     Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
                     // Get pose of camera in ENU, vehicle frame using Eigen
                     Eigen::Isometry3f tf_vehicle_camera_ENU = get_sensor_pose_from_worldNED_to_vehicleENU(a.vehicle_pose_world_NED,

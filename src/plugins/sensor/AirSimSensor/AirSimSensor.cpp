@@ -150,7 +150,6 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
 
                     cout << "[AirSimSensor] Adding camera to Vehicle '" << vehicle_name_ << "' " << c << endl;
                     cam_configs_.push_back(c);
-
                 } catch (boost::bad_lexical_cast) {
                     // Parsing whitespace and possibily malformed XML.
                     cout << "Parse Error: Check camera_config's in AirSimSensor.xml" << endl;
@@ -376,13 +375,13 @@ void AirSimSensor::request_images() {
                     // However old linux asset environments give 4 channels
 
                     // If image has 4 channels
-                    if (((int)response.image_data_uint8.size()) > (a.camera_config.height * a.camera_config.width * 3)) {
+                    if ((static_cast<int>(response.image_data_uint8.size())) > (a.camera_config.height * a.camera_config.width * 3)) {
                         a.img = cv::Mat(a.camera_config.height, a.camera_config.width, CV_8UC4);
-                        memcpy(a.img.data, response.image_data_uint8.data(),response.image_data_uint8.size() * sizeof(uint8_t));
+                        memcpy(a.img.data, response.image_data_uint8.data(), response.image_data_uint8.size() * sizeof(uint8_t));
                     } else {
                         // image has 3 channels
                         a.img = cv::Mat(a.camera_config.height, a.camera_config.width, CV_8UC3);
-                        memcpy(a.img.data, response.image_data_uint8.data(),response.image_data_uint8.size() * sizeof(uint8_t));
+                        memcpy(a.img.data, response.image_data_uint8.data(), response.image_data_uint8.size() * sizeof(uint8_t));
                     }
                 } // end if pixels_as_float
                 im_msg->data.push_back(a);
@@ -396,7 +395,6 @@ void AirSimSensor::request_images() {
             img_msg_mutex_.lock();
             img_msg_ = im_msg;
             img_msg_mutex_.unlock();
-
         } // end response > 0
 
         running_mutex_.lock();
@@ -412,7 +410,6 @@ void AirSimSensor::request_images() {
         t_end = std::chrono::high_resolution_clock::now();
         // double image_period_ = std::chrono::duration_cast<std::chrono::duration<double>>(t_end - t_start).count();
         // cout << "avg image period: " << image_period_ << "s" << endl;
-
     } // end while running
 } // end AirSimSensor::request_images
 
