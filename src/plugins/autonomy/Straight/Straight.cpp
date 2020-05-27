@@ -169,7 +169,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
                     cv::imshow(window_name, tempImage);
                 } else {
                     // other image types are int 0-255.
-                    if(a.img.channels() == 4) {
+                    if (a.img.channels() == 4) {
                         cout << "image channels: " << a.img.channels() << endl;
                         cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. Color images will not display correctly." << endl;
                         cout << "Warning: Use Asset Environment versions Linux-v1.3.1+." << endl;

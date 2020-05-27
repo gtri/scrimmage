@@ -50,8 +50,8 @@
 
 using std::cout;
 using std::endl;
-using namespace GeographicLib;
 
+namespace geo = GeographicLib;
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ROSIMUSensor, ROSIMUSensor_plugin)
@@ -93,7 +93,7 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
 }
 
 Eigen::Vector3d ROSIMUSensor::lla_to_ecef(double lat, double lon, double alt) {
-  Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());
+  geo::Geocentric earth(geo::Constants::WGS84_a(), geo::Constants::WGS84_f());
   double X, Y, Z;
   earth.Forward(lat, lon, alt, X, Y, Z);
 
@@ -101,7 +101,7 @@ Eigen::Vector3d ROSIMUSensor::lla_to_ecef(double lat, double lon, double alt) {
 }
 
 Eigen::Vector3d ROSIMUSensor::ecef_to_lla(Eigen::Vector3d ecef) {
-  Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());
+  geo::Geocentric earth(geo::Constants::WGS84_a(), geo::Constants::WGS84_f());
   double lat, lon, alt;
   earth.Reverse(ecef.x(), ecef.y(), ecef.z(), lat, lon, alt);
 
