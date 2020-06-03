@@ -1,5 +1,5 @@
 if (ENABLE_PYTHON_BINDINGS)
-  add_subdirectory(scrimmage/bindings)
+  add_subdirectory(scrimmage/bindings_src)
 endif()
 
 configure_file(
