@@ -91,7 +91,7 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
     prev_time_ = time_->t();
     first_sample_collected = false;
 
-    error_budget.SampleFrequency = 1.0 / time_->dt(); //Make sure this is valid during init
+    error_budget.SampleFrequency = 1.0 / time_->dt(); // Make sure this is valid during init
     error_sim = new IMUErrorSimulator(error_budget);
 }
 
@@ -388,7 +388,7 @@ bool ROSIMUSensor::step() {
         imu_msg.orientation.z = qbodyToECEF.z();
         imu_msg.orientation.w = qbodyToECEF.w();
 
-        //add error to the deltaV and deltaTheta values
+        // add error to the deltaV and deltaTheta values
         NoisyIMUData noisyData = error_sim->EachCycle(error_budget, deltaV, deltaTheta);
 
         // Angular Velocity

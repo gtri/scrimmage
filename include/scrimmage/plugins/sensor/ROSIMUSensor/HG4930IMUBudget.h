@@ -35,8 +35,7 @@
 #include <math.h>
 #include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
 
-class HG4930IMUBudget : public IMUErrorBudgetTemplate
-{
+class HG4930IMUBudget : public IMUErrorBudgetTemplate {
  public:
     bool localInRunBiasOption = true; // false = 1st order Gauss-Markov process, true = Barnes-Jarvis model
 
@@ -72,4 +71,4 @@ class HG4930IMUBudget : public IMUErrorBudgetTemplate
     void CalculateParameters();
 };
 
-#endif //INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_HG4930IMUBUDGET_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_HG4930IMUBUDGET_H_

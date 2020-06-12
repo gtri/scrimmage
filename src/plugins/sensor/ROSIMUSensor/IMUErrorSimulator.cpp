@@ -31,24 +31,20 @@
 
 #include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.h>
 
-IMUErrorSimulator::IMUErrorSimulator(IMUErrorBudgetTemplate errorBudget) {
+IMUErrorSimulator::IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget) {
     InRunBiasOption = false;
-    double randnSeedStart = InitRandomNumberSeed;
     PerformInitialRandomDraws(errorBudget);
     CalculateParametersForFixedDeltaT(errorBudget);
 }
 
-//generate a 3d vector with the passed in random distribution and generator
-Eigen::Vector3d IMUErrorSimulator::RandomVector(std::normal_distribution<double> &distribution, std::mt19937 &generator)
-{
+// generate a 3d vector with the passed in random distribution and generator
+Eigen::Vector3d IMUErrorSimulator::RandomVector(std::normal_distribution<double>& distribution, std::mt19937& generator) {
     Eigen::Vector3d newVec;
     newVec << distribution(generator), distribution(generator), distribution(generator);
-    //cout << "Random Vector: " << newVec.x() << "," << newVec.y() << "," << newVec.z() << endl;
     return newVec;
 }
 
-void IMUErrorSimulator::PerformInitialRandomDraws(IMUErrorBudgetTemplate errorBudget)
-{
+void IMUErrorSimulator::PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget) {
     // Accel Error Terms
     // Get random draws for accel scale factor errors:
     AccelScaleFactorErr.x() = (1e-6) * errorBudget.XAccelAxisScaleFactorPPMStdDev * InitDist(InitRNG);
@@ -76,15 +72,13 @@ void IMUErrorSimulator::PerformInitialRandomDraws(IMUErrorBudgetTemplate errorBu
     GyroBiasTurnOn.z() = errorBudget.ZGyroAxisTurnOnBiasRadPerSecStdDev * InitDist(InitRNG);
 }
 
-void IMUErrorSimulator::CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate errorBudget)
-{
+void IMUErrorSimulator::CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget) {
     // Calculate sample interval
     NominalDeltaT = 1.0 / errorBudget.SampleFrequency;
 
     // Accel Error Terms:
     // The parameters below are for the accel in-run bias error
-    if (InRunBiasOption == false)
-    {
+    if (InRunBiasOption == false) {
         AccelBiasPhi.x() = exp(-NominalDeltaT / errorBudget.XAccelAxisInRunBiasTimeConstantSec);
         AccelBiasPhi.y() = exp(-NominalDeltaT / errorBudget.YAccelAxisInRunBiasTimeConstantSec);
         AccelBiasPhi.z() = exp(-NominalDeltaT / errorBudget.ZAccelAxisInRunBiasTimeConstantSec);
@@ -102,8 +96,7 @@ void IMUErrorSimulator::CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate
 
     // Gyro Error Terms:
     // The parameters below are for the gyro in-run bias error
-    if (InRunBiasOption == false)
-    {
+    if (InRunBiasOption == false) {
         GyroBiasPhi.x() = exp(-NominalDeltaT / errorBudget.XGyroAxisInRunBiasTimeConstantSec);
         GyroBiasPhi.y() = exp(-NominalDeltaT / errorBudget.YGyroAxisInRunBiasTimeConstantSec);
         GyroBiasPhi.z() = exp(-NominalDeltaT / errorBudget.ZGyroAxisInRunBiasTimeConstantSec);
@@ -119,12 +112,11 @@ void IMUErrorSimulator::CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate
     GyroARWRadStdDev = sqrt(NominalDeltaT) * Eigen::Vector3d(errorBudget.XGyroARWRadPerSecPerRtHzStdDev, errorBudget.YGyroARWRadPerSecPerRtHzStdDev, errorBudget.ZGyroARWRadPerSecPerRtHzStdDev);
 }
 
-NoisyIMUData IMUErrorSimulator::EachCycle(IMUErrorBudgetTemplate errorBudget, Eigen::Vector3d InputDeltaVBodyWRTInertialInBody, Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody) {
+NoisyIMUData IMUErrorSimulator::EachCycle(IMUErrorBudgetTemplate& errorBudget, Eigen::Vector3d InputDeltaVBodyWRTInertialInBody, Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody) {
     Eigen::Vector3d quantizedAccelOutput, OutputBodyFrameAccelErrors, quantizedGyroOutput, OutputBodyFrameRateGyroErrors;
     NoisyIMUData returnValue;
 
-    if (!InRunBiasOption)
-    {
+    if (!InRunBiasOption) {
         TotalAccelBias = AccelBiasTurnOn + AccelBiasInRun;
         AccelBiasInRun = AccelBiasPhi.array() * AccelBiasInRun.array() + AccelBiasInRunStdDev.array() * RandomVector(AccelBiasDist, AccelBiasRNG).array();
     }
@@ -149,8 +141,7 @@ NoisyIMUData IMUErrorSimulator::EachCycle(IMUErrorBudgetTemplate errorBudget, Ei
 
     // Gyro
     // Calculate the total gyro bias, i.e. turn-on + in-run
-    if (InRunBiasOption == false)
-    {
+    if (InRunBiasOption == false) {
         TotalGyroBias = GyroBiasTurnOn + GyroBiasInRun;
         // create the next in-run gyro bias error
         GyroBiasInRun = GyroBiasPhi.array() * GyroBiasInRun.array() + GyroBiasInRunStdDev.array() * RandomVector(GyroBiasDist, GyroBiasRNG).array();

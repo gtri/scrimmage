@@ -32,12 +32,11 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
 
+#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
 #include <unsupported/Eigen/MatrixFunctions>
 #include <random>
-#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
 
-struct NoisyIMUData
-{
+struct NoisyIMUData {
     Eigen::Vector3d noisyDeltaV;
     Eigen::Vector3d noisyDeltaTheta;
     Eigen::Vector3d deltaVErrors;
@@ -72,30 +71,29 @@ class IMUErrorSimulator {
     Eigen::Vector3d GyroARWRadDraws;
     Eigen::Vector3d GyroQuantizationResiduals;
 
-    //std::default_random_engine generator;
-    //I did some testing with these, it seems that generation is only repeatable with separate generator/distribution pairs. If you use multiple distributions on the same generator or the same distribution on multiple generators the results are not the same as a unique pair.
-    std::mt19937 InitRNG = std::mt19937(1); //pass the seed
+    // I did some testing with these, it seems that generation is only repeatable with separate generator/distribution pairs. If you use multiple distributions on the same generator or the same distribution on multiple generators the results are not the same as a unique pair.
+    std::mt19937 InitRNG = std::mt19937(1); // pass the seed
     std::mt19937 AccelBiasRNG = std::mt19937(2);
     std::mt19937 AccelVRWRNG = std::mt19937(3);
     std::mt19937 GyroBiasRNG = std::mt19937(4);
     std::mt19937 GyroARWRNG = std::mt19937(5);
 
-    std::normal_distribution<double> InitDist = std::normal_distribution<double>(0, 1);//mean 0, std deviation 1
-    std::normal_distribution<double> AccelBiasDist = std::normal_distribution<double>(0, 1);//mean 0, std deviation 1
-    std::normal_distribution<double> AccelVRWDist = std::normal_distribution<double>(0, 1);//mean 0, std deviation 1
-    std::normal_distribution<double> GyroBiasDist = std::normal_distribution<double>(0, 1);//mean 0, std deviation 1
-    std::normal_distribution<double> GyroARWDist = std::normal_distribution<double>(0, 1);//mean 0, std deviation 1
+    std::normal_distribution<double> InitDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
+    std::normal_distribution<double> AccelBiasDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
+    std::normal_distribution<double> AccelVRWDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
+    std::normal_distribution<double> GyroBiasDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
+    std::normal_distribution<double> GyroARWDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
 
-    IMUErrorSimulator(IMUErrorBudgetTemplate errorBudget);
+    explicit IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget);
 
-    //generate a 3d vector with the passed in random distribution and generator
-    Eigen::Vector3d RandomVector(std::normal_distribution<double> &distribution, std::mt19937 &generator);
+    // generate a 3d vector with the passed in random distribution and generator
+    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution, std::mt19937& generator);
 
-    void PerformInitialRandomDraws(IMUErrorBudgetTemplate errorBudget);
+    void PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget);
 
-    void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate errorBudget);
+    void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget);
 
-    NoisyIMUData EachCycle(IMUErrorBudgetTemplate errorBudget, Eigen::Vector3d InputDeltaVBodyWRTInertialInBody, Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
+    NoisyIMUData EachCycle(IMUErrorBudgetTemplate& errorBudget, Eigen::Vector3d InputDeltaVBodyWRTInertialInBody, Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
 };
 
-#endif //INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_

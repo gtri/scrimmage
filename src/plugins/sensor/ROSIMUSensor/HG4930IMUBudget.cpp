@@ -31,14 +31,12 @@
 
 #include <scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h>
 
-HG4930IMUBudget::HG4930IMUBudget()
-{
+HG4930IMUBudget::HG4930IMUBudget() {
     InRunBiasOption = localInRunBiasOption;
     CalculateParameters();
 }
 
-void HG4930IMUBudget::CalculateParameters()
-{
+void HG4930IMUBudget::CalculateParameters() {
     //// Accel. Parameters:
     // Scale factor
     XAccelAxisScaleFactorPPMStdDev = AccelScaleFactorPPMStdDev; // 1-sigma in units of PPM

@@ -32,8 +32,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORBUDGETTEMPLATE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORBUDGETTEMPLATE_H_
 
-class IMUErrorBudgetTemplate
-{
+class IMUErrorBudgetTemplate {
  public:
     double SampleFrequency;
     bool InRunBiasOption; // 0 = 1st order Gauss-Markov process, 1 = Barnes-Jarvis model
@@ -102,4 +101,4 @@ class IMUErrorBudgetTemplate
     double GyroDeltaThetaQuantizationRadians;
 };
 
-#endif //INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORBUDGETTEMPLATE_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORBUDGETTEMPLATE_H_
