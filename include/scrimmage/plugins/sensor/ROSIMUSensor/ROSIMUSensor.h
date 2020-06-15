@@ -67,7 +67,7 @@ class ROSIMUSensor : public scrimmage::Sensor {
     double prev_time_ = 0.0;
     scrimmage::CSV csv;
     HG4930IMUBudget error_budget;
-    IMUErrorSimulator* error_sim;
+    IMUErrorSimulator* error_sim = nullptr;
 
     // WGS84 constants
     const double earth_radius = GeographicLib::Constants::WGS84_a();

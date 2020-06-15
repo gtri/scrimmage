@@ -388,20 +388,31 @@ bool ROSIMUSensor::step() {
         imu_msg.orientation.z = qbodyToECEF.z();
         imu_msg.orientation.w = qbodyToECEF.w();
 
-        // add error to the deltaV and deltaTheta values
-        NoisyIMUData noisyData = error_sim->EachCycle(error_budget, deltaV, deltaTheta);
+        if (error_sim == nullptr) {
+            // Angular Velocity
+            imu_msg.angular_velocity.x = deltaTheta.x();
+            imu_msg.angular_velocity.y = deltaTheta.y();
+            imu_msg.angular_velocity.z = deltaTheta.z();
 
-        // Angular Velocity
-        // cout << "D Theta X: " << (state->quat().roll() - prev_quat_.roll()) / dt << endl;
-        imu_msg.angular_velocity.x = noisyData.noisyDeltaTheta.x();
-        imu_msg.angular_velocity.y = noisyData.noisyDeltaTheta.y();
-        imu_msg.angular_velocity.z = noisyData.noisyDeltaTheta.z();
+            // Linear Acceleration
+            imu_msg.linear_acceleration.x = deltaV.x();
+            imu_msg.linear_acceleration.y = deltaV.y();
+            imu_msg.linear_acceleration.z = deltaV.z();
+        }
+        else {
+            // add error to the deltaV and deltaTheta values
+            NoisyIMUData noisyData = error_sim->EachCycle(error_budget, deltaV, deltaTheta);
 
-        // Linear Acceleration
-        // cout << "D Vel X: " << (state->vel().x() - prev_vel_.x()) / dt << endl;
-        imu_msg.linear_acceleration.x = noisyData.noisyDeltaV.x();
-        imu_msg.linear_acceleration.y = noisyData.noisyDeltaV.y();
-        imu_msg.linear_acceleration.z = noisyData.noisyDeltaV.z();
+            // Angular Velocity
+            imu_msg.angular_velocity.x = noisyData.noisyDeltaTheta.x();
+            imu_msg.angular_velocity.y = noisyData.noisyDeltaTheta.y();
+            imu_msg.angular_velocity.z = noisyData.noisyDeltaTheta.z();
+
+            // Linear Acceleration
+            imu_msg.linear_acceleration.x = noisyData.noisyDeltaV.x();
+            imu_msg.linear_acceleration.y = noisyData.noisyDeltaV.y();
+            imu_msg.linear_acceleration.z = noisyData.noisyDeltaV.z();
+        }
 
         // Publish IMU information
         imu_pub_.publish(imu_msg);
@@ -430,12 +441,12 @@ bool ROSIMUSensor::step() {
                     {"dTheta_X", deltaTheta.x()},
                     {"dTheta_Y", deltaTheta.y()},
                     {"dTheta_Z", deltaTheta.z()},
-                    {"Noisy_dV_X", noisyData.noisyDeltaV.x()},
-                    {"Noisy_dV_Y", noisyData.noisyDeltaV.y()},
-                    {"Noisy_dV_Z", noisyData.noisyDeltaV.z()},
-                    {"Noisy_dTheta_X", noisyData.noisyDeltaTheta.x()},
-                    {"Noisy_dTheta_Y", noisyData.noisyDeltaTheta.y()},
-                    {"Noisy_dTheta_Z", noisyData.noisyDeltaTheta.z()}},
+                    {"Noisy_dV_X", imu_msg.linear_acceleration.x},
+                    {"Noisy_dV_Y", imu_msg.linear_acceleration.y},
+                    {"Noisy_dV_Z", imu_msg.linear_acceleration.z},
+                    {"Noisy_dTheta_X", imu_msg.angular_velocity.x},
+                    {"Noisy_dTheta_Y", imu_msg.angular_velocity.y},
+                    {"Noisy_dTheta_Z", imu_msg.angular_velocity.z}},
                 true, true);
     }
     return true;
