@@ -25,6 +25,9 @@ message UTMTerrain {
         double grid_size = 15;
         bool show_origin = 16;
         double origin_length = 17;
+        string extrusion_file = 18;
+        string extrusion_property = 19;
+        bool enable_extrusion = 20;
 }
 
 message SimInfo {

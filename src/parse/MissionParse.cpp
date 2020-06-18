@@ -822,6 +822,7 @@ bool MissionParse::parse_terrain() {
 
     utm_terrain_->set_enable_grid(true);
     utm_terrain_->set_enable_terrain(false);
+    utm_terrain_->set_enable_extrusion(false);
 
     if (params_.count("terrain") > 0 &&
         find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {

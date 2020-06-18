@@ -7,4 +7,6 @@
   <hemisphere>north</hemisphere>
   <zone>10</zone>  
   <enable_grid>false</enable_grid>
+  <extrusion>mcmillan.geojson</extrusion>
+  <extrusion_property>Height</extrusion_property>
 </params>
