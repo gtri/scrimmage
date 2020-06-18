@@ -74,8 +74,6 @@ bool find_terrain_files(std::string terrain_name,
     terrain_parse.set_required("system");
     terrain_parse.set_required("hemisphere");
     terrain_parse.set_required("zone");
-    terrain_parse.set_required("extrusion");
-    terrain_parse.set_required("extrusion_property");
 
     FileSearch file_search;
     std::map<std::string, std::string> overrides; // empty, no overrides
@@ -83,9 +81,11 @@ bool find_terrain_files(std::string terrain_name,
         std::string polydata_file = terrain_parse.directory() + "/" + terrain_parse.params()["polydata"];
         std::string texture_file = terrain_parse.directory() + "/" + terrain_parse.params()["texture"];
         std::string extrusion_file = terrain_parse.directory() + "/" + terrain_parse.params()["extrusion"];
-        if (fs::exists(extrusion_file) && fs::is_regular_file(extrusion_file)) {
+        std::string extrusion_property = terrain_parse.params()["extrusion_property"];
+        if (fs::exists(extrusion_file) && fs::is_regular_file(extrusion_file) &&
+                !extrusion_property.empty()) {
             utm_terrain->set_extrusion_file(extrusion_file);
-            utm_terrain->set_extrusion_property(terrain_parse.params()["extrusion_property"]);
+            utm_terrain->set_extrusion_property(extrusion_property);
             utm_terrain->set_enable_extrusion(true);
         }
         if (fs::exists(polydata_file) && fs::exists(texture_file) &&
