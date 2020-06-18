@@ -14,6 +14,7 @@ var classscrimmage_1_1sensor_1_1ContactBlobCamera =
     [ "gener_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a361cd1f762c8deddda60709235fbed30", null ],
     [ "pos_noise_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a533eb31704ffa32b78efdc3faac2a938", null ],
     [ "orient_noise_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a4598106272096af602d6951f923aea50", null ],
+    [ "size_noise_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a843375e45026b8a960e2ae82c5202d05", null ],
     [ "plugin_params_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce", null ],
     [ "camera_id_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8e68a90c17cb53a6c2fe000a9749566a", null ],
     [ "img_width_", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#af130d415e6e196c21f024eba727df56d", null ],

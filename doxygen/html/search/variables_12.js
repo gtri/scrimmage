@@ -68,6 +68,7 @@ var searchData=
   ['single_5fstep_5f',['single_step_',['../classscrimmage_1_1SimControl.html#a936e422d4314df0e9c498941b4ffcbb8',1,'scrimmage::SimControl']]],
   ['single_5fstep_5fmutex_5f',['single_step_mutex_',['../classscrimmage_1_1SimControl.html#a4ff232b9bc621c8660e4b0fc691fde8a',1,'scrimmage::SimControl']]],
   ['size_5f',['size_',['../classscrimmage_1_1RTree.html#a83f36cdce31bcb5e4ba9a55831ed6bc5',1,'scrimmage::RTree']]],
+  ['size_5fnoise_5f',['size_noise_',['../classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a843375e45026b8a960e2ae82c5202d05',1,'scrimmage::sensor::ContactBlobCamera']]],
   ['so_5ffiles_5f',['so_files_',['../classscrimmage_1_1PluginManager.html#a934392285a64481797cdae98905f4a94',1,'scrimmage::PluginManager']]],
   ['source_5fsuffix',['source_suffix',['../namespaceconf.html#a10af2a769eb3bd3322e874f677e435b1',1,'conf']]],
   ['speed',['speed',['../classstraight_1_1Straight.html#a32ce8d78589c9ac3e51f99a584a98205',1,'straight::Straight']]],
