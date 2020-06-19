@@ -1,5 +1,6 @@
 var NAVTREEINDEX15 =
 {
+"classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab":[6,0,5,0,17,2],
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3":[6,0,5,0,17,11],
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6":[6,0,5,0,17,16],
 "classscrimmage_1_1autonomy_1_1MotorSchemas.html#a722c51019636f6621933ec3ccf4bf730":[6,0,5,0,17,9],
@@ -248,6 +249,5 @@ var NAVTREEINDEX15 =
 "classscrimmage_1_1autonomy_1_1TrailMS.html#ad3a36fd676077cab92af7c7c9c4cdd6c":[6,0,5,0,31,1],
 "classscrimmage_1_1autonomy_1_1TrajectoryPoint.html":[6,0,5,0,32],
 "classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a17295af7f24bb3c324c352abc7500f62":[6,0,5,0,32,0],
-"classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a3f582e45e18af1bd65f15c912bfe908d":[6,0,5,0,32,5],
-"classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a574f304096b177f14b0b181b245f4fe5":[6,0,5,0,32,7]
+"classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a3f582e45e18af1bd65f15c912bfe908d":[6,0,5,0,32,5]
 };

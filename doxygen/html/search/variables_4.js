@@ -75,5 +75,6 @@ var searchData=
   ['ext_5fmoment_5f',['ext_moment_',['../classscrimmage_1_1MotionModel.html#a0ff0a9ffc6a1f1532254275af6e2990e',1,'scrimmage::MotionModel']]],
   ['ext_5fsensor_5fvec_5f',['ext_sensor_vec_',['../classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e',1,'scrimmage::autonomy::OpenAIObservations']]],
   ['extensions',['extensions',['../namespaceconf.html#ae475e080536acb271a0a0efe56c3ba42',1,'conf']]],
-  ['extents_5f',['extents_',['../classscrimmage_1_1interaction_1_1BoundaryBase.html#a2bf1622bc6c78ef4d8d13ae8514e2e15',1,'scrimmage::interaction::BoundaryBase']]]
+  ['extents_5f',['extents_',['../classscrimmage_1_1interaction_1_1BoundaryBase.html#a2bf1622bc6c78ef4d8d13ae8514e2e15',1,'scrimmage::interaction::BoundaryBase']]],
+  ['extrusion_5factor_5f',['extrusion_actor_',['../classscrimmage_1_1Updater.html#a2f12dc5d78c5b7d3b37ab13114a51580',1,'scrimmage::Updater']]]
 ];

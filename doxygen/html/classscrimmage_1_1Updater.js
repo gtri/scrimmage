@@ -110,6 +110,7 @@ var classscrimmage_1_1Updater =
     [ "contact_visual_map_", "classscrimmage_1_1Updater.html#a16033fb668304ae357c52bec49f99532", null ],
     [ "send_shutdown_msg_", "classscrimmage_1_1Updater.html#a823667e6e9e90533daeab2201f226972", null ],
     [ "terrain_actor_", "classscrimmage_1_1Updater.html#a2830109f1126f98b582d8f8b18c769e4", null ],
+    [ "extrusion_actor_", "classscrimmage_1_1Updater.html#a2f12dc5d78c5b7d3b37ab13114a51580", null ],
     [ "follow_offset_", "classscrimmage_1_1Updater.html#afdeb99344d7d94fbb88213d99515f2d6", null ],
     [ "follow_vec_", "classscrimmage_1_1Updater.html#a6095684baa361e098647165bf7182302", null ],
     [ "reset_camera_", "classscrimmage_1_1Updater.html#a25da33d07a12cc8d9a29da2672ec288f", null ],

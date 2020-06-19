@@ -1,5 +1,6 @@
 var NAVTREEINDEX21 =
 {
+"classscrimmage_1_1motion_1_1Rotor.html#a9bd1bc13b7b24d3e7e6a159aa5e09da2":[6,0,5,5,14,7],
 "classscrimmage_1_1motion_1_1Rotor.html#ab898c37d1775bc53753babadbd0918e5":[6,0,5,5,14,13],
 "classscrimmage_1_1motion_1_1Rotor.html#abca4fecdb1b50d310d76360ebbefdc9f":[6,0,5,5,14,6],
 "classscrimmage_1_1motion_1_1Rotor.html#ad0de739d4e2020c164c4cce5b8d90559":[6,0,5,5,14,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX21 =
 "classscrimmage_1_1sensor_1_1AirSimSensor.html":[6,0,5,7,3],
 "classscrimmage_1_1sensor_1_1AirSimSensor.html#a00d52e8c4322972e1d90f5ae5b9a412e":[6,0,5,7,3,49],
 "classscrimmage_1_1sensor_1_1AirSimSensor.html#a02a85d538538bbe6c1fc4f88dffc4b4e":[6,0,5,7,3,9],
-"classscrimmage_1_1sensor_1_1AirSimSensor.html#a0e25aac8aab2b87e34a5cda1e230c1ab":[6,0,5,7,3,18],
-"classscrimmage_1_1sensor_1_1AirSimSensor.html#a1dec7dc57c611164009547c9ccbcdbfe":[6,0,5,7,3,32]
+"classscrimmage_1_1sensor_1_1AirSimSensor.html#a0e25aac8aab2b87e34a5cda1e230c1ab":[6,0,5,7,3,18]
 };

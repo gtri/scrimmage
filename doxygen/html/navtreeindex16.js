@@ -1,5 +1,6 @@
 var NAVTREEINDEX16 =
 {
+"classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a574f304096b177f14b0b181b245f4fe5":[6,0,5,0,32,7],
 "classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a683f9f13fd29794bb9287b42b8c22fc5":[6,0,5,0,32,3],
 "classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a937ead80067e56629e6661e1c1395fbe":[6,0,5,0,32,10],
 "classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a93a6051b30a5693eb1ad4ad41f255836":[6,0,5,0,32,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a342be9b1cf9a191f6bfda052f9e4a1cc":[6,0,5,2,7,9],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a7f61f51537a6e5d21978acd771fca781":[6,0,5,2,7,6],
 "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a81c708df5ac4cb11f70b3eb7cb357edf":[6,0,5,2,7,4],
-"classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a827db8d34867c59932213881073ecc28":[6,0,5,2,7,0],
-"classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a95815a944aa27760ddeb67dff8820c55":[6,0,5,2,7,8]
+"classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a827db8d34867c59932213881073ecc28":[6,0,5,2,7,0]
 };
