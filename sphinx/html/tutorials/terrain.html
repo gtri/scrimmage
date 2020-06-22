@@ -118,7 +118,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#step-5-create-a-clipping-polygon">Step 5: Create a Clipping Polygon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-6-process-and-export-the-aerial-imagery">Step 6: Process and Export the Aerial imagery</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-7-process-and-export-the-elevation-data">Step 7: Process and Export the Elevation Data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-8-use-the-digital-terrain-model-in-scrimmmage">Step 8: Use the Digital Terrain Model in SCRIMMMAGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-8-optional-create-building-data">Step 8 (Optional): Create Building Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-9-use-the-digital-terrain-model-in-scrimmmage">Step 9: Use the Digital Terrain Model in SCRIMMMAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -232,7 +233,9 @@ arc-second roughly corresponds to 10 meters, so each pixel in the DEM raster
 represents an approximate 10m-by-10m square of terrain. Its best aerial imagery
 comes from the National Agriculture Imagery Program (NAIP). It is “four band”
 (red, green, blue, infrared) imagery with a resolution of 1 meter, so each
-pixel represents a 1m-by-1m square area</p>
+pixel represents a 1m-by-1m square area.</p>
+<p>SCRIMMAGE can also display extrusions of ground-based objects such as buildings.
+These extrusions are constructed from polygons in a GeoJSON file that have a height property. Many cities provide GeoJSON files with building footprints, but these files might not have building heights. In this tutorial, we create a GeoJSON file that has a height property. Although not used in this tutorial, Microsoft provides building footprint data through the <a class="reference external" href="https://wiki.openstreetmap.org/wiki/Microsoft_Building_Footprint_Data">Microsoft Building Footprint Data</a> wiki.</p>
 </div>
 </div>
 <div class="section" id="instructions">
@@ -619,20 +622,31 @@ final elevation file. You can now close GRASS.</p></li>
 </ol>
 </div></blockquote>
 </div>
-<div class="section" id="step-8-use-the-digital-terrain-model-in-scrimmmage">
-<h3>Step 8: Use the Digital Terrain Model in SCRIMMMAGE<a class="headerlink" href="#step-8-use-the-digital-terrain-model-in-scrimmmage" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-8-optional-create-building-data">
+<h3>Step 8 (Optional): Create Building Data<a class="headerlink" href="#step-8-optional-create-building-data" title="Permalink to this headline">¶</a></h3>
+<p>SCRIMMAGE will display ground-based polygon extrusions if the installed VTK library version is greater than or equal to 7. It obtains the location and height for these extrusions from a GeoJSON file. Thia GeoJSON file can be obtained from a data source or created with QGIS. If it is obtained from a data source, it will likely need to be processed with “Vector &gt; Geoprocessing Tools &gt; Clip”. The following steps show how to create the GeoJSON file with QGIS.</p>
+<ol class="arabic simple">
+<li><p>Enable the ClippedImagery layer and select “View &gt; Zoom to Layer”.</p></li>
+<li><p>Add a layer group between “Miscellaneous” and “Imagery”. Rename it to “Building”.</p></li>
+<li><p>Using Step 5.2 as a reference, add a new polygon shapefile layer to the “Building” group. When creating this shapefile, add a new field with the name “Height” and use “Project CRS”. Save this file to a ./Building folder and name it “Building”.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/qgis_shapefile2.png"><img alt="../_images/qgis_shapefile2.png" class="align-center" src="../_images/qgis_shapefile2.png" style="width: 177.60000000000002px; height: 243.20000000000002px;" /></a>
+<ol class="arabic simple">
+<li><p>Using Step 5.4 as a reference, add polygons to the shapefile. After creating each polygon, a prompt will ask for the “ID” and “Height” values. The “ID” value can be any arbitrary value. However, the “Height” value should be the building’s height in meters.</p></li>
+<li><p>Export the shapefile to a GeoJSON file. Select the Building shapefile in the layer’s pane. Select “Layer &gt; Save As” in the top menu bar. Set the format to “GeoJSON”. Set the output file name such that its path is the ./output folder. Set the CRS to “Project CRS”. Disable “Add saved file to map”.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/qgis_geojson.png"><img alt="../_images/qgis_geojson.png" class="align-center" src="../_images/qgis_geojson.png" style="width: 244.4px; height: 311.20000000000005px;" /></a>
+</div>
+<div class="section" id="step-9-use-the-digital-terrain-model-in-scrimmmage">
+<h3>Step 9: Use the Digital Terrain Model in SCRIMMMAGE<a class="headerlink" href="#step-9-use-the-digital-terrain-model-in-scrimmmage" title="Permalink to this headline">¶</a></h3>
 <p>SCRIMMAGE uses the digital terrain model, specified in its mission file. To be
 more precise, the mission file’s attribute value for “terrain” is used to
-select the ditial terrain model that the simulation will use. SCRIMMAGE
+select the digial terrain model that the simulation will use. SCRIMMAGE
 searches within the paths defined by the ${SCRIMMAGE_DATA_PATH} environment
 variable for a xml file with a relative path
 “/gui/terrain/&lt;terrain_name&gt;/&lt;terrain_name&gt;.xml”, where &lt;terrain_name&gt; matches
 the  attribute value for “terrain”. SCRIMMAGE uses this xml to set the aerial
-imagery, elevation data and CRS for the simulation. Please mimic the mcmillan
-terrain that is packaged with SCRIMMAGE to make your newly created terrain
-model accessible to SCRIMMAGE. After which, configure your mission file to load
-this terrain model and set the latitude and longitude parameters for the
-mission to be within the bounds of your terrain data.</p>
+imagery, elevation data, extrusion data, and CRS for the simulation. Please mimic the mcmillan terrain that is packaged with SCRIMMAGE to make your newly created terrain model accessible to SCRIMMAGE. After which, configure your mission file to load this terrain model and set the latitude and longitude parameters for the mission to be within the bounds of your terrain data.</p>
 </div>
 </div>
 </div>

@@ -10,7 +10,7 @@ SCRIMMAGE is capable of displaying a digital terrain model as a stage for
 simulation. In order to do this, we create terrain data that covers the area of
 interest. This terrain data consists of an elevation file, which defines the
 shape of the terrain, and an image file, which provides the terrain’s visual
-texture (grass, trees, roads, etc.)  
+texture (grass, trees, roads, etc.)
 
 This tutorial explains how to create terrain data for an arbitrary area of
 interest. Although the instructions in this tutorial use the McMillan Airfield
@@ -41,10 +41,15 @@ arc-second roughly corresponds to 10 meters, so each pixel in the DEM raster
 represents an approximate 10m-by-10m square of terrain. Its best aerial imagery
 comes from the National Agriculture Imagery Program (NAIP). It is “four band”
 (red, green, blue, infrared) imagery with a resolution of 1 meter, so each
-pixel represents a 1m-by-1m square area
+pixel represents a 1m-by-1m square area.
+
+SCRIMMAGE can also display extrusions of ground-based objects such as buildings.
+These extrusions are constructed from polygons in a GeoJSON file that have a height property. Many cities provide GeoJSON files with building footprints, but these files might not have building heights. In this tutorial, we create a GeoJSON file that has a height property. Although not used in this tutorial, Microsoft provides building footprint data through the `Microsoft Building Footprint Data`_ wiki.
 
 
 .. _The National Map Data Download and Visualization Services : https://www.usgs.gov/core-science-systems/ngp/tnm-delivery/gis-data-download
+
+.. _Microsoft Building Footprint Data : https://wiki.openstreetmap.org/wiki/Microsoft_Building_Footprint_Data
 
 Instructions
 ------------
@@ -134,7 +139,7 @@ correct file format.
 .. image:: ../images/qgis_crs.png
    :width: 40 %
    :align: center
-   
+
 
 5. Finally, save the project by going to the menu bar and selecting “Project
    > Save As...”. In the resulting dialog, navigate to your root folder from
@@ -219,15 +224,15 @@ Step 5: Create a Clipping Polygon
    edit node 0, node 4 changes also. This is because the polygon is closed, so
    it starts and ends on the same coordinate.
 
-  
+
 .. image:: ../images/qgis_vertices.png
    :width: 35 %
    :align: center
- 
+
 .. table::
    :widths: auto
    :align: center
-   
+
    =====  =======  =======
    index     x        y
    =====  =======  =======
@@ -413,12 +418,12 @@ process for the aerial imagery.
       using throughout the tutorial. Press “Next”.
 
 .. image:: ../images/grass_crs.png
-   :width: 45 % 
+   :width: 45 %
    :align: center
 
 |
 
-   f. Next, GRASS will ask you to select from a list of datum  
+   f. Next, GRASS will ask you to select from a list of datum
       transformations. Select “0 - Do not apply any datum
       transformations”. Press “OK”. GRASS will show you a summary of your new
       GRASS Location. Press “Finish”.
@@ -426,10 +431,10 @@ process for the aerial imagery.
    #. GRASS will ask you if you want to set the default region extents and
       resolution now. Select “Yes”. For Camp Roberts, set the following values:
 
-.. image:: ../images/grass_region.png 
-   :width: 45 % 
+.. image:: ../images/grass_region.png
+   :width: 45 %
    :align: center
-   
+
 |
 
    h. Create a new mapset called “Elevation”. Select it and then press
@@ -448,7 +453,7 @@ process for the aerial imagery.
       dismiss the Import dialog.
 
 .. image:: ../images/grass_output_preview.png
-   :width: 45 % 
+   :width: 45 %
    :align: center
 
 |
@@ -466,18 +471,38 @@ process for the aerial imagery.
    #. Press the “Run” button. After which, you are done creating your
       final elevation file. You can now close GRASS.
 
-Step 8: Use the Digital Terrain Model in SCRIMMMAGE
+
+Step 8 (Optional): Create Building Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SCRIMMAGE will display ground-based polygon extrusions if the installed VTK library version is greater than or equal to 7. It obtains the location and height for these extrusions from a GeoJSON file. Thia GeoJSON file can be obtained from a data source or created with QGIS. If it is obtained from a data source, it will likely need to be processed with "Vector > Geoprocessing Tools > Clip". The following steps show how to create the GeoJSON file with QGIS.
+
+1. Enable the ClippedImagery layer and select "View > Zoom to Layer".
+
+#. Add a layer group between "Miscellaneous" and "Imagery". Rename it to "Building".
+
+#. Using Step 5.2 as a reference, add a new polygon shapefile layer to the "Building" group. When creating this shapefile, add a new field with the name "Height" and use "Project CRS". Save this file to a ./Building folder and name it "Building".
+
+.. image:: ../images/qgis_shapefile2.png
+   :scale: 40 %
+   :align: center
+
+#. Using Step 5.4 as a reference, add polygons to the shapefile. After creating each polygon, a prompt will ask for the "ID" and "Height" values. The "ID" value can be any arbitrary value. However, the "Height" value should be the building's height in meters.
+
+#. Export the shapefile to a GeoJSON file. Select the Building shapefile in the layer's pane. Select "Layer > Save As" in the top menu bar. Set the format to "GeoJSON". Set the output file name such that its path is the ./output folder. Set the CRS to "Project CRS". Disable "Add saved file to map".
+
+.. image:: ../images/qgis_geojson.png
+   :scale: 40 %
+   :align: center
+
+Step 9: Use the Digital Terrain Model in SCRIMMMAGE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SCRIMMAGE uses the digital terrain model, specified in its mission file. To be
 more precise, the mission file's attribute value for "terrain" is used to
-select the ditial terrain model that the simulation will use. SCRIMMAGE
+select the digial terrain model that the simulation will use. SCRIMMAGE
 searches within the paths defined by the ${SCRIMMAGE_DATA_PATH} environment
 variable for a xml file with a relative path
 "/gui/terrain/<terrain_name>/<terrain_name>.xml", where <terrain_name> matches
 the  attribute value for "terrain". SCRIMMAGE uses this xml to set the aerial
-imagery, elevation data and CRS for the simulation. Please mimic the mcmillan
-terrain that is packaged with SCRIMMAGE to make your newly created terrain
-model accessible to SCRIMMAGE. After which, configure your mission file to load
-this terrain model and set the latitude and longitude parameters for the
-mission to be within the bounds of your terrain data.
+imagery, elevation data, extrusion data, and CRS for the simulation. Please mimic the mcmillan terrain that is packaged with SCRIMMAGE to make your newly created terrain model accessible to SCRIMMAGE. After which, configure your mission file to load this terrain model and set the latitude and longitude parameters for the mission to be within the bounds of your terrain data.
