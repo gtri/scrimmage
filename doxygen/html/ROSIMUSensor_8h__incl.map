@@ -1,6 +1,8 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ROSIMUSensor/ROSIMUSensor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ROSIMUSensor/ROSIMUSensor.h">
-<area shape="rect" id="node4" href="$Sensor_8h.html" title="Brief file description. " alt="" coords="602,109,805,136"/>
-<area shape="rect" id="node9" href="$Quaternion_8h.html" title="Brief file description. " alt="" coords="1189,109,1407,136"/>
-<area shape="rect" id="node10" href="$MissionParse_8h.html" title="Brief file description. " alt="" coords="829,109,1063,136"/>
-<area shape="rect" id="node11" href="$CSV_8h.html" title="Brief file description. " alt="" coords="329,109,528,136"/>
+<area shape="rect" id="node4" href="$Sensor_8h.html" title="Brief file description. " alt="" coords="602,117,805,143"/>
+<area shape="rect" id="node9" href="$Quaternion_8h.html" title="Brief file description. " alt="" coords="1189,117,1407,143"/>
+<area shape="rect" id="node10" href="$MissionParse_8h.html" title="Brief file description. " alt="" coords="829,117,1063,143"/>
+<area shape="rect" id="node11" href="$CSV_8h.html" title="Brief file description. " alt="" coords="329,117,528,143"/>
+<area shape="rect" id="node12" href="$HG4930IMUBudget_8h.html" title="Error budget generating IMU errors to emulate an HG4930 IMU. " alt="" coords="1432,109,1692,151"/>
+<area shape="rect" id="node13" href="$IMUErrorSimulator_8h.html" title="Class for simulating randomized IMU error. " alt="" coords="1767,109,2021,151"/>
 </map>

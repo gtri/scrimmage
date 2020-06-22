@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structscrimmage_1_1interaction_1_1GraphInteraction_1_1EdgeProperties.html" title="scrimmage::interaction\l::GraphInteraction::EdgeProperties" alt="" coords="5,5,248,47"/>
+<area shape="rect" id="node1" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html" title="scrimmage::interaction\l::BoundaryBase" alt="" coords="5,104,176,145"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Cuboid.html" title="scrimmage::interaction\l::Cuboid" alt="" coords="224,5,395,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Plane.html" title="scrimmage::interaction\l::Plane" alt="" coords="224,71,395,112"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1Polyhedron.html" title="scrimmage::interaction\l::Polyhedron" alt="" coords="224,136,395,177"/>
+<area shape="rect" id="node5" href="$classscrimmage_1_1interaction_1_1Sphere.html" title="scrimmage::interaction\l::Sphere" alt="" coords="224,201,395,243"/>
 </map>

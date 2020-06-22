@@ -4,5 +4,6 @@ var searchData=
   ['networkdevice',['NetworkDevice',['../classscrimmage_1_1NetworkDevice.html',1,'scrimmage']]],
   ['node',['Node',['../classscrimmage_1_1interaction_1_1TerrainMap_1_1Node.html',1,'scrimmage::interaction::TerrainMap']]],
   ['noisycontacts',['NoisyContacts',['../classscrimmage_1_1sensor_1_1NoisyContacts.html',1,'scrimmage::sensor']]],
+  ['noisyimudata',['NoisyIMUData',['../structNoisyIMUData.html',1,'']]],
   ['noisystate',['NoisyState',['../classscrimmage_1_1sensor_1_1NoisyState.html',1,'scrimmage::sensor']]]
 ];

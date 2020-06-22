@@ -22,6 +22,8 @@ var classscrimmage_1_1sensor_1_1ROSIMUSensor =
     [ "imu_pub_", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a98b1f1706f27ade00429d00f1dbdc76c", null ],
     [ "prev_time_", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a8b57c8eccb479effc423efe7f316d981", null ],
     [ "csv", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a1a5390e52a016f2defa9bef382d74c12", null ],
+    [ "error_budget", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a970b7f02f661573d99e0ac3ea6cea89a", null ],
+    [ "error_sim", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ac4727f9b7f4b1a5c7a82fd4b2020e52c", null ],
     [ "earth_radius", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a37d2ffe3ec94b3ab821b3612ec41e65b", null ],
     [ "flattening", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aaaccaa5a92d23807afa8752681de2fb2", null ],
     [ "wgs84_grav", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a8b1c8f3e18c8e4e6ea0be0114da235a6", null ],

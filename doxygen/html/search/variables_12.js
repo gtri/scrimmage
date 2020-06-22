@@ -3,6 +3,7 @@ var searchData=
   ['s',['s',['../classscrimmage_1_1interaction_1_1Plane.html#a93bf240b0a072dbb6675d5bf767c1d36',1,'scrimmage::interaction::Plane']]],
   ['s_5f',['S_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#aec4810b11e57f69693c47a89f6fab8a4',1,'scrimmage::motion::FixedWing6DOF']]],
   ['s_5fdot_5fp1',['s_dot_P1',['../classscrimmage_1_1interaction_1_1Plane.html#a0c54dc3753c2efdc129f8cae52f94dc5',1,'scrimmage::interaction::Plane']]],
+  ['samplefrequency',['SampleFrequency',['../classIMUErrorBudgetTemplate.html#a0acfc61b5a1aea8509fbd166c2386856',1,'IMUErrorBudgetTemplate']]],
   ['save_5fairsim_5fdata_5f',['save_airsim_data_',['../classscrimmage_1_1sensor_1_1AirSimSensor.html#a7438ccf68d2c28037cf029ecaea118de',1,'scrimmage::sensor::AirSimSensor']]],
   ['save_5fcamera_5fimages_5f',['save_camera_images_',['../classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d',1,'scrimmage::autonomy::Straight']]],
   ['scale_5f',['scale_',['../classscrimmage_1_1Updater.html#a14d28bf775dec49bd700a121d66b9dbd',1,'scrimmage::Updater']]],

@@ -205,6 +205,10 @@ var hierarchy =
     [ "scrimmage::Grid", "classscrimmage_1_1Grid.html", null ],
     [ "std::hash< scrimmage::ID >", "structstd_1_1hash_3_01scrimmage_1_1ID_01_4.html", null ],
     [ "scrimmage::ID", "classscrimmage_1_1ID.html", null ],
+    [ "IMUErrorBudgetTemplate", "classIMUErrorBudgetTemplate.html", [
+      [ "HG4930IMUBudget", "classHG4930IMUBudget.html", null ]
+    ] ],
+    [ "IMUErrorSimulator", "classIMUErrorSimulator.html", null ],
     [ "scrimmage::Interface", "classscrimmage_1_1Interface.html", null ],
     [ "scrimmage::controller::Joystick", "classscrimmage_1_1controller_1_1Joystick.html", null ],
     [ "scrimmage::autonomy::GraphvizFSM::label_t", "structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1label__t.html", null ],
@@ -221,6 +225,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "scrimmage::interaction::TerrainMap::Node", "classscrimmage_1_1interaction_1_1TerrainMap_1_1Node.html", null ],
+    [ "NoisyIMUData", "structNoisyIMUData.html", null ],
     [ "object", null, [
       [ "straight.Straight", "classstraight_1_1Straight.html", null ],
       [ "straight.Straight", "classstraight_1_1Straight.html", null ]

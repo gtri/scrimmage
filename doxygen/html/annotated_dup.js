@@ -9,5 +9,9 @@ var annotated_dup =
     [ "std", null, [
       [ "hash< scrimmage::ID >", "structstd_1_1hash_3_01scrimmage_1_1ID_01_4.html", "structstd_1_1hash_3_01scrimmage_1_1ID_01_4" ]
     ] ],
-    [ "straight", "namespacestraight.html", "namespacestraight" ]
+    [ "straight", "namespacestraight.html", "namespacestraight" ],
+    [ "HG4930IMUBudget", "classHG4930IMUBudget.html", "classHG4930IMUBudget" ],
+    [ "IMUErrorBudgetTemplate", "classIMUErrorBudgetTemplate.html", "classIMUErrorBudgetTemplate" ],
+    [ "IMUErrorSimulator", "classIMUErrorSimulator.html", "classIMUErrorSimulator" ],
+    [ "NoisyIMUData", "structNoisyIMUData.html", "structNoisyIMUData" ]
 ];

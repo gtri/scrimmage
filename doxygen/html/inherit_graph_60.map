@@ -1,4 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classscrimmage_1_1ParameterBase.html" title="scrimmage::ParameterBase" alt="" coords="5,5,208,32"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1Parameter.html" title="scrimmage::Parameter\&lt; T \&gt;" alt="" coords="256,5,463,32"/>
+<area shape="rect" id="node1" href="$classscrimmage_1_1NetworkDevice.html" title="scrimmage::NetworkDevice" alt="" coords="5,31,203,57"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1Publisher.html" title="scrimmage::Publisher" alt="" coords="272,5,432,32"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1SubscriberBase.html" title="scrimmage::SubscriberBase" alt="" coords="251,56,453,83"/>
+<area shape="rect" id="node4" href="$classscrimmage_1_1Subscriber.html" title="scrimmage::Subscriber\l\&lt; T, CallbackFunc \&gt;" alt="" coords="501,49,672,90"/>
 </map>

@@ -68,7 +68,10 @@ var searchData=
   ['loaded',['loaded',['../classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2eac81ac1f30f30a263803b48885e37baed',1,'scrimmage::PluginStatus']]],
   ['local_5fip_5f',['local_ip_',['../classscrimmage_1_1Viewer.html#a5a47288e083e75f21f27b1b8ab5c9fd5',1,'scrimmage::Viewer']]],
   ['local_5fport_5f',['local_port_',['../classscrimmage_1_1Viewer.html#af8c00a5af53a7162c825452e8717cc7b',1,'scrimmage::Viewer']]],
+  ['localacceldeltavquantizationmps',['localAccelDeltaVQuantizationMPS',['../classHG4930IMUBudget.html#acc5a171a8d4c5196389fbf35712eb3e2',1,'HG4930IMUBudget']]],
   ['localcartesianptr',['LocalCartesianPtr',['../namespaceGeographicLib.html#a2fe0981b83bd1f23f687e532e1c0c22d',1,'GeographicLib']]],
+  ['localgyrodeltathetaquantizationradians',['localGyroDeltaThetaQuantizationRadians',['../classHG4930IMUBudget.html#a03c32b13ac5476ecb053d05502902484',1,'HG4930IMUBudget']]],
+  ['localinrunbiasoption',['localInRunBiasOption',['../classHG4930IMUBudget.html#a8a849b9db07c5233235e1c3d947a2d8f',1,'HG4930IMUBudget']]],
   ['localnetwork',['LocalNetwork',['../classscrimmage_1_1network_1_1LocalNetwork.html#ada372922b8e921ea30747a00c47d235f',1,'scrimmage::network::LocalNetwork']]],
   ['localnetwork',['LocalNetwork',['../classscrimmage_1_1network_1_1LocalNetwork.html',1,'scrimmage::network']]],
   ['localnetwork_2ecpp',['LocalNetwork.cpp',['../LocalNetwork_8cpp.html',1,'']]],
@@ -95,8 +98,8 @@ var searchData=
   ['loop_5ftimer_5f',['loop_timer_',['../classscrimmage_1_1Timer.html#a3c83f7c9f4f5b8a4c69af69abf445031',1,'scrimmage::Timer::loop_timer_()'],['../classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993',1,'scrimmage::EntityPlugin::loop_timer_()']]],
   ['loop_5fwait',['loop_wait',['../classscrimmage_1_1Timer.html#a60f3954ff0536e7474c9a4d777a2b8e4',1,'scrimmage::Timer::loop_wait()'],['../classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660',1,'scrimmage::SimControl::loop_wait()']]],
   ['los_5fpub_5f',['los_pub_',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a3dfd3fb5117c1ba13140d55ecbd1dc2c',1,'scrimmage::sensor::LOSSensor']]],
-  ['lossensor',['LOSSensor',['../classscrimmage_1_1sensor_1_1LOSSensor.html',1,'scrimmage::sensor']]],
   ['lossensor',['LOSSensor',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a2077ca72179bd1f614b4e9a723a8c832',1,'scrimmage::sensor::LOSSensor']]],
+  ['lossensor',['LOSSensor',['../classscrimmage_1_1sensor_1_1LOSSensor.html',1,'scrimmage::sensor']]],
   ['lossensor_2ecpp',['LOSSensor.cpp',['../LOSSensor_8cpp.html',1,'']]],
   ['lossensor_2eh',['LOSSensor.h',['../LOSSensor_8h.html',1,'']]]
 ];

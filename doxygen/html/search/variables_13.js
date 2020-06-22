@@ -56,6 +56,8 @@ var searchData=
   ['topic_5f',['topic_',['../classscrimmage_1_1NetworkDevice.html#a99ad72cb0823ebaade3afb85884aec53',1,'scrimmage::NetworkDevice']]],
   ['total_5fcount',['total_count',['../structscrimmage_1_1GenerateInfo.html#a5bff4b60e8ad1e73dfc9f2fa427b06c4',1,'scrimmage::GenerateInfo']]],
   ['total_5fnum_5fentities_5f',['total_num_entities_',['../classscrimmage_1_1interaction_1_1RandomAttrit.html#ac8f63a014bf10a6da51b3d66fe41f93b',1,'scrimmage::interaction::RandomAttrit']]],
+  ['totalaccelbias',['TotalAccelBias',['../classIMUErrorSimulator.html#a81946fd126f87a140d426a4b02eedd6a',1,'IMUErrorSimulator']]],
+  ['totalgyrobias',['TotalGyroBias',['../classIMUErrorSimulator.html#a366552f4069ed17449d1d3cc6adb41c8',1,'IMUErrorSimulator']]],
   ['track_5fsphere_5fshape_5f',['track_sphere_shape_',['../classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#a30cacb93fe1836b16813c72f81964363',1,'scrimmage::autonomy::WaypointDispatcher']]],
   ['trail',['trail',['../classscrimmage_1_1ActorContact.html#afc417deccec074029e32a5052857a8bb',1,'scrimmage::ActorContact']]],
   ['trail_5fid_5f',['trail_id_',['../classscrimmage_1_1autonomy_1_1TrailMS.html#a3762e86018714ae405aaa28c314ccc37',1,'scrimmage::autonomy::TrailMS']]],

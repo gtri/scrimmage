@@ -1,6 +1,7 @@
 var searchData=
 [
   ['m_5f',['m_',['../classscrimmage_1_1sensor_1_1SimpleINS.html#ace6a6f6ca2a38c2928faac2caa4090c6',1,'scrimmage::sensor::SimpleINS']]],
+  ['ma',['Ma',['../classIMUErrorSimulator.html#a48f1ad76faf073ffa546deed9c681ec6',1,'IMUErrorSimulator']]],
   ['mag_5f',['mag_',['../classscrimmage_1_1interaction_1_1ExternalForceField.html#a808ab2d756d8454492034cc5aef76aaa',1,'scrimmage::interaction::ExternalForceField']]],
   ['man_5fpages',['man_pages',['../namespaceconf.html#a85efc5fee48a26fa2d651f6eeb38fc2b',1,'conf']]],
   ['map_5f',['map_',['../classscrimmage_1_1interaction_1_1TerrainGenerator.html#a3a3935c92a56b1c4af3bcbda0a730322',1,'scrimmage::interaction::TerrainGenerator::map_()'],['../classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2',1,'scrimmage::sensor::AltitudeAboveTerrain::map_()']]],
@@ -45,6 +46,7 @@ var searchData=
   ['max_5fyaw_5fvel_5f',['max_yaw_vel_',['../classscrimmage_1_1motion_1_1DoubleIntegrator.html#a41c0447321d22606cc334bf73143efc4',1,'scrimmage::motion::DoubleIntegrator']]],
   ['mesh_5fshape_5f',['mesh_shape_',['../classscrimmage_1_1autonomy_1_1ShapeDraw.html#ac8ba6a2cc6f1b17b2fa5910de8e148d7',1,'scrimmage::autonomy::ShapeDraw']]],
   ['metrics_5f',['metrics_',['../classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3',1,'scrimmage::External::metrics_()'],['../classscrimmage_1_1MissionParse.html#a71fa07ad984b9a553d87758bdf60edb5',1,'scrimmage::MissionParse::metrics_()'],['../classscrimmage_1_1SimControl.html#a0f009096d90efa738eddd0bfb93e2d36',1,'scrimmage::SimControl::metrics_()']]],
+  ['mg',['Mg',['../classIMUErrorSimulator.html#a132d627d207cdc26d2c045f8a5eaa2a8',1,'IMUErrorSimulator']]],
   ['min_5fcharge_5f',['min_charge_',['../classscrimmage_1_1Battery.html#a05b6ae9ac352d05789225bba2f3dfcd3',1,'scrimmage::Battery']]],
   ['min_5frange',['min_range',['../classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html#a2339ef97e14317d3c4a4b3d193afbdc5',1,'scrimmage::sensor::RayTrace::PointCloud']]],
   ['min_5frange_5f',['min_range_',['../classscrimmage_1_1sensor_1_1RayTrace.html#a4323d1d607c8167bb0cedaef619e1e4c',1,'scrimmage::sensor::RayTrace']]],

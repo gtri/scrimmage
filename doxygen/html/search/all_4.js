@@ -34,6 +34,8 @@ var searchData=
   ['delta_5frudder_5f',['delta_rudder_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a9ff94baa7f1bc819ec77e314dba9ca84',1,'scrimmage::motion::FixedWing6DOF::delta_rudder_()'],['../classscrimmage_1_1motion_1_1UUV6DOF.html#aa06f10286d3d5802f8926e818bf1cd0a',1,'scrimmage::motion::UUV6DOF::delta_rudder_()']]],
   ['delta_5frudder_5fmax_5f',['delta_rudder_max_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#aca48f810b6b524f623487341ad5ebffd',1,'scrimmage::motion::FixedWing6DOF::delta_rudder_max_()'],['../classscrimmage_1_1motion_1_1UUV6DOF.html#a40a54b06f10702f05401b6a9c03ebd8e',1,'scrimmage::motion::UUV6DOF::delta_rudder_max_()']]],
   ['delta_5frudder_5fmin_5f',['delta_rudder_min_',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#a7bccb0214648d52b85eb8dc9de0b0fd7',1,'scrimmage::motion::FixedWing6DOF::delta_rudder_min_()'],['../classscrimmage_1_1motion_1_1UUV6DOF.html#a96c7728761d481a22b710bf1d91dc3cb',1,'scrimmage::motion::UUV6DOF::delta_rudder_min_()']]],
+  ['deltathetaerrors',['deltaThetaErrors',['../structNoisyIMUData.html#aba55ca80b518c16ab080d3f64123d06c',1,'NoisyIMUData']]],
+  ['deltaverrors',['deltaVErrors',['../structNoisyIMUData.html#a521c5e79db6aa24b7a029ef458557aef',1,'NoisyIMUData']]],
   ['deplete',['deplete',['../classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd',1,'scrimmage::Battery']]],
   ['depletion_5frate',['depletion_rate',['../classscrimmage_1_1controller_1_1MotionBattery_1_1VarLimit.html#abbb7470990653030b60c437931bbc653',1,'scrimmage::controller::MotionBattery::VarLimit']]],
   ['deployed_5f',['deployed_',['../classscrimmage_1_1autonomy_1_1MOOSNode.html#a95ad0112d3e74999c05cef01291ffb61',1,'scrimmage::autonomy::MOOSNode']]],
