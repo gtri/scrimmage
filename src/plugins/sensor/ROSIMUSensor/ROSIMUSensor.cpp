@@ -359,7 +359,6 @@ bool ROSIMUSensor::step() {
 
     // calculate the body to ECEF orientation
     Eigen::Quaterniond qbodyToEnu = state->quat();
-    qbodyToEnu = qbodyToEnu.inverse();
     Eigen::Quaterniond qbodyToECEF = qEnuToEcef * qbodyToEnu;
 
     // calculate angular velocity and linear acceleration based on this and the previous frames
@@ -398,8 +397,7 @@ bool ROSIMUSensor::step() {
             imu_msg.linear_acceleration.x = deltaV.x();
             imu_msg.linear_acceleration.y = deltaV.y();
             imu_msg.linear_acceleration.z = deltaV.z();
-        }
-        else {
+        } else {
             // add error to the deltaV and deltaTheta values
             NoisyIMUData noisyData = error_sim->EachCycle(error_budget, deltaV, deltaTheta);
 
