@@ -85,6 +85,16 @@
 #include <vtkArcSource.h>
 #include <vtksys/SystemTools.hxx>
 
+#if VTK_MAJOR_VERSION > 6
+#include <vtkCellLocator.h>
+#include <vtkGeoJSONReader.h>
+#include <vtkCellData.h>
+#include <vtkDoubleArray.h>
+#include <vtkAppendPolyData.h>
+#include <vtkLinearExtrusionFilter.h>
+#include <vtkProperty.h>
+#endif
+
 #include <boost/filesystem.hpp>
 
 using std::cout;
@@ -851,6 +861,104 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
             vtkSmartPointer<vtkTextureMapToPlane>::New();
         texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
 
+#if VTK_MAJOR_VERSION > 6
+        if (utm->enable_extrusion()) {
+            // Locate elevation data
+            vtkSmartPointer<vtkCellLocator> cellLocator =
+              vtkSmartPointer<vtkCellLocator>::New();
+            cellLocator->SetDataSet(normalGenerator->GetOutput());
+            cellLocator->BuildLocator();
+            double closestPoint[3];
+            double closestPointDist2;
+            vtkIdType cellId;
+            int subId;
+
+            // Default extrusion height
+            vtkVariant defval = vtkVariant(static_cast<double>(0.0));
+
+            // Read extrusion file and extract polydata and height property
+            vtkSmartPointer<vtkGeoJSONReader> extrusion_reader =
+                    vtkSmartPointer<vtkGeoJSONReader>::New();
+            extrusion_reader->SetFileName(utm->extrusion_file().c_str());
+            extrusion_reader->AddFeatureProperty(
+                    utm->extrusion_property().c_str(), defval);
+            extrusion_reader->Update();
+
+            vtkSmartPointer<vtkTransformPolyDataFilter> extrudeTransform =
+                vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+            extrudeTransform->SetInputConnection(
+                    extrusion_reader->GetOutputPort());
+            extrudeTransform->SetTransform(translation);
+            extrudeTransform->Update();
+
+            // Get all the data in the extrusion file
+            vtkSmartPointer<vtkPolyData> extrusion_data =
+                    vtkSmartPointer<vtkPolyData>::New();
+            extrusion_data = extrudeTransform->GetOutput();
+
+            vtkSmartPointer<vtkDoubleArray> heights =
+                    vtkDoubleArray::SafeDownCast(
+                            extrusion_data->GetCellData()->GetArray("Height"));
+
+            // Extract each polygon, extrude it, and append to new polydata
+            vtkIdType numCells = extrusion_data->GetPolys()->GetNumberOfCells();
+            vtkSmartPointer<vtkAppendPolyData> appendPolys =
+                        vtkSmartPointer<vtkAppendPolyData>::New();
+            for (vtkIdType n(0); n < numCells; n++) {
+                auto pts = vtkSmartPointer<vtkPoints>::New();
+                auto polygon = vtkSmartPointer<vtkPolygon>::New();
+                auto polygons = vtkSmartPointer<vtkCellArray>::New();
+                auto cellPointIds = vtkSmartPointer<vtkIdList>::New();
+                auto polygonPolydata = vtkSmartPointer<vtkPolyData>::New();
+                auto extrudeFilter =
+                        vtkSmartPointer<vtkLinearExtrusionFilter>::New();
+
+                // Get PointIds for the n-th polygon in the polydata
+                extrusion_data->GetCellPoints(n, cellPointIds);
+
+                // Set number of ids in the new polygon
+                polygon->GetPointIds()->SetNumberOfIds(
+                        cellPointIds->GetNumberOfIds());
+
+                // Copy the points to the new polygon
+                for (vtkIdType m(0); m < cellPointIds->GetNumberOfIds(); m++) {
+                    double p[3];
+                    extrusion_data->GetPoint(cellPointIds->GetId(m), p);
+                    if (m == 0){
+                        cellLocator->FindClosestPoint(p, closestPoint, cellId,
+                                subId, closestPointDist2);
+                    }
+                    pts->InsertNextPoint(p[0], p[1], closestPoint[2]);
+                    polygon->GetPointIds()->SetId(m, m);
+                }
+
+                // Create new polydata for the new polygon
+                polygons->InsertNextCell(polygon);
+                polygonPolydata->SetPoints(pts);
+                polygonPolydata->SetPolys(polygons);
+
+                // Extrude the new polydata
+                extrudeFilter->SetExtrusionTypeToNormalExtrusion();
+                extrudeFilter->SetScaleFactor(1);
+                extrudeFilter->SetInputData(polygonPolydata);
+                extrudeFilter->SetVector(0, 0, heights->GetValue(n));
+                extrudeFilter->Update();
+
+                // Append the extruded polydata
+                appendPolys->AddInputData(extrudeFilter->GetOutput());
+            }
+            vtkSmartPointer<vtkPolyDataMapper> extrusion_mapper =
+                    vtkSmartPointer<vtkPolyDataMapper>::New();
+            extrusion_mapper->SetInputConnection(appendPolys->GetOutputPort());
+
+            if (extrusion_actor_ != NULL) {
+                renderer_ ->RemoveActor(extrusion_actor_);
+            }
+
+            extrusion_actor_ = vtkSmartPointer<vtkActor>::New();
+            extrusion_actor_->SetMapper(extrusion_mapper);
+        }
+#endif
         vtkSmartPointer<vtkPolyDataMapper> terrain_mapper =
             vtkSmartPointer<vtkPolyDataMapper>::New();
         terrain_mapper->SetInputConnection(texturePlane->GetOutputPort());
@@ -865,6 +973,10 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
         terrain_actor_->GetProperty()->SetColor(0, 0, 0);
 
         renderer_->AddActor(terrain_actor_);
+#if VTK_MAJOR_VERSION > 6
+        if (utm->enable_extrusion())
+            renderer_->AddActor(extrusion_actor_);
+#endif
     }
     return true;
 }

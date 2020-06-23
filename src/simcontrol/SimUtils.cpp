@@ -146,7 +146,7 @@ bool create_metrics(const SimUtilsInfo &info,
             // Parent specific members
             metrics->parent()->set_random(info.random);
             metrics->parent()->set_mp(info.mp);
-            metrics->parent()->projection() = info.mp->projection();
+            metrics->parent()->set_projection(info.mp->projection());
             metrics->parent()->rtree() = info.rtree;
             metrics->parent()->contacts() = contacts;
 

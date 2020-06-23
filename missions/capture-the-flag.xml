@@ -87,8 +87,6 @@
 
   <entity_interaction collision_range="2">SimpleCollision</entity_interaction>
 
-  <entity_interaction ip="localhost" port="60000">GRPCCommandString</entity_interaction>
-
   <metrics team_collisions_w="-5" non_team_collisions_w="0" flight_time_w="0">SimpleCollisionMetrics</metrics>
   <metrics TeamCapture_weight="0" NonTeamCapture_weight="1">SimpleCaptureMetrics</metrics>
   <metrics flags_taken_w="10" flags_captured_w="100">FlagCaptureMetrics</metrics>
@@ -125,7 +123,7 @@
     <autonomy relays="
        [ GlobalNetwork State LocalNetwork ]"
               >CommandStringRelay</autonomy>
-    
+
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -144,10 +142,10 @@
 
     <autonomy waypointlist_network="LocalNetwork"
               waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
-    
+
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
-       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]                                                            
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
        [ MoveToGoalMS gain='${MS_gain=1.0}' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
        >MotorSchemas</autonomy>
   </entity>
@@ -176,7 +174,7 @@
     <autonomy relays="
        [ GlobalNetwork State LocalNetwork ]"
               >CommandStringRelay</autonomy>
-    
+
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -195,10 +193,10 @@
 
     <autonomy waypointlist_network="LocalNetwork"
               waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
-    
+
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
-       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]                                                            
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
        >MotorSchemas</autonomy>
   </entity>
@@ -229,7 +227,7 @@
     <autonomy relays="
        [ GlobalNetwork State LocalNetwork ]"
               >CommandStringRelay</autonomy>
-    
+
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -251,7 +249,7 @@
 
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
-       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]              
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
               >MotorSchemas</autonomy>
   </entity>
@@ -281,7 +279,7 @@
     <autonomy relays="
        [ GlobalNetwork State LocalNetwork ]"
               >CommandStringRelay</autonomy>
-    
+
     <autonomy generate_fsm_pdf="false"
               graphviz_fsm="
       digraph {
@@ -303,7 +301,7 @@
 
     <autonomy show_shapes="false" max_speed="25" behaviors="
        [ AvoidEntityMS states='TakeFlag' gain='1.0' avoid_non_team='true' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
-       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]              
+       [ AvoidEntityMS states='BoundaryDefense' gain='1.0' avoid_non_team='false' show_shapes='false' sphere_of_influence='10' minimum_range='5' ]
        [ MoveToGoalMS gain='1.0' show_shapes='false' use_initial_heading='true' goal='-1300,0,100']"
               >MotorSchemas</autonomy>
   </entity>

@@ -16,10 +16,12 @@ setup(
         'completion': ['argcomplete'],
     },
     install_requires=[
-        "numpy==1.16.4",
-        "pandas==0.17.1",
+        "numpy",
+        "pandas",
         "protobuf==${PROTOBUF_VERSION}",
-        "argcomplete==1.10.0",
+        "argcomplete",
+        "pyyaml",
+        "jinja2"
     ],
     data_files=[
         ('share/scrimmage/env', [

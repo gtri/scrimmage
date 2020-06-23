@@ -194,6 +194,7 @@ if (${VTK_FOUND})
         set(OPENGL_MODULE vtkRenderingOpenGL)
     else()
         set(OPENGL_MODULE vtkRenderingOpenGL2)
+        set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
     endif()
 
     set(VTK_MODULES
@@ -205,7 +206,8 @@ if (${VTK_FOUND})
         vtkIOLegacy
         vtkRenderingAnnotation
         vtkRenderingCore
-        ${OPENGL_MODULE})
+        ${OPENGL_MODULE}
+        ${EXTRUSION_MODULES})
 
     find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
 endif()
@@ -255,7 +257,7 @@ install(TARGETS scrimmage-boost EXPORT ${PROJECT_NAME}-targets)
 ########################################################
 # Find OpenCV
 ########################################################
-find_package(OpenCV QUIET)
+find_package(OpenCV 3 QUIET)
 if (OpenCV_FOUND)
   add_library(scrimmage-opencv INTERFACE)
   target_include_directories(scrimmage-opencv INTERFACE ${OpenCV_INCLUDE_DIRS})
@@ -271,9 +273,8 @@ endif()
 ########################################################
 option(BUILD_ROS_PLUGINS "BUILD_ROS_PLUGINS" OFF)
 if (BUILD_ROS_PLUGINS)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/kinetic)
   find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs std_msgs
-    geometry_msgs nav_msgs tf)
+    geometry_msgs nav_msgs tf image_transport cv_bridge tf2_ros tf2 tf2_geometry_msgs)
   if (catkin_FOUND)
     include_directories(${catkin_INCLUDE_DIRS})
   endif()

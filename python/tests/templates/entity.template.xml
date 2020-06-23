@@ -1,0 +1,19 @@
+<entity>
+  <id>{{ config.id }}</id>
+  <team_id>1</team_id>
+  <color>77 77 255</color>
+  <count>1</count>
+  <health>1</health>
+  <radius>1</radius>
+
+  <x>{{ config.x }}</x>
+  <y>{{ config.y }}</y>
+  <z>{{ config.z }}</z>
+  <heading>{{ config.heading }}</heading>
+
+  <autonomy>Straight</autonomy>
+
+  <controller>SimpleAircraftControllerPID</controller>
+  <motion_model>SimpleAircraft</motion_model>
+  <visual_model>zephyr-blue</visual_model>
+</entity>

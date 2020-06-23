@@ -165,8 +165,7 @@ int main(int argc, char *argv[]) {
         viewer.set_incoming_interface(outgoing);
         viewer.set_outgoing_interface(incoming);
         viewer.set_enable_network(false);
-        viewer.init(simcontrol.mp()->attributes()["camera"],
-                    simcontrol.mp()->log_dir(), simcontrol.mp()->dt());
+        viewer.init(simcontrol.mp(), simcontrol.mp()->attributes()["camera"]);
         viewer.run();
 
         // When the viewer finishes, tell simcontrol to exit

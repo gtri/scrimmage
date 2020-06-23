@@ -48,6 +48,7 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
                             std::map<std::string, std::string> &params) {
 
     override_heading_ = scrimmage::get<bool>("override_heading", params, false);
+    max_speed_ = scrimmage::get<double>("max_speed", params, max_speed_);
 
     vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);
     vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);
@@ -60,17 +61,32 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
     auto get = [&](auto s) {return std::stod(info.at(s));};
     state_->pos() << get("x"), get("y"), get("z");
 
-    state_->vel() << 0, 0, 0;
+    state_->vel() << Eigen::Vector3d::Zero();
     state_->quat().set(0, 0, Angles::deg2rad(get("heading")));
 
     return true;
 }
 
 bool SingleIntegrator::step(double /*t*/, double dt) {
+    Eigen::Vector3d desired_vel(vars_.input(vel_x_idx_),
+                                vars_.input(vel_y_idx_),
+                                vars_.input(vel_z_idx_));
 
     Eigen::Vector3d &vel = state_->vel();
 
-    vel << vars_.input(vel_x_idx_), vars_.input(vel_y_idx_), vars_.input(vel_z_idx_);
+    // If the max_speed is less than 0, directly apply the desired velocity,
+    // otherwise, normalize the velocity and multiply by the max_speed.
+    if (max_speed_ < 0) {
+        vel = desired_vel;
+    } else {
+        vel = desired_vel.normalized() * max_speed_;
+    }
+
+    if (vel.hasNaN()) {
+        vel = Eigen::Vector3d::Zero();
+    }
+
+    // Propogate the state
     state_->pos() = state_->pos() + vel * dt;
 
     double yaw = override_heading_ ? vars_.input(desired_heading_idx_) : atan2(vel(1), vel(0));

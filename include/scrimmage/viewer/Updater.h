@@ -338,6 +338,7 @@ class Updater : public vtkCommand {
     bool send_shutdown_msg_;
 
     vtkSmartPointer<vtkActor> terrain_actor_;
+    vtkSmartPointer<vtkActor> extrusion_actor_;
 
     double follow_offset_;
     Eigen::Vector3d follow_vec_;
