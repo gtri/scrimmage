@@ -74,44 +74,43 @@ void TeamCPA::init(std::map<std::string, std::string> &params) {
 bool TeamCPA::step_metrics(double t, double dt) {
     if (t >= after_time_s_) {
 
-    if (!initialized_) {
-        for (auto &kv : *id_to_ent_map_) {
-            if (kv.second->id().team_id() == team_id_) {
-                cpa_map_[kv.first] = TeamCPAData();
+        if (!initialized_) {
+            for (auto &kv : *id_to_ent_map_) {
+                if (kv.second->id().team_id() == team_id_) {
+                    cpa_map_[kv.first] = TeamCPAData();
+                }
             }
-        }
-        std::string log_dir = ((*id_to_ent_map_)[1])->mp()->log_dir();
-        std::ostringstream filename;
-        filename << log_dir << "/" << "team_" << team_id_ << "_cpa.csv";
-        csv_.open_output(filename.str());
-//        csv_.open_output(log_dir + "/" + "team_" + team_id_.to_string() + "cpa.csv");
-        csv_.set_column_headers(scrimmage::CSV::Headers{
+            std::string log_dir = ((*id_to_ent_map_)[1])->mp()->log_dir();
+            std::ostringstream filename;
+            filename << log_dir << "/" << "team_" << team_id_ << "_cpa.csv";
+            csv_.open_output(filename.str());
+            csv_.set_column_headers(scrimmage::CSV::Headers{
                 "team",
                 "entity",
                 "cpa",
                 "closest_entity",
                 "time"});
-        initialized_ = true;
-    }
+            initialized_ = true;
+        }
 
-    for (auto &kv : *id_to_ent_map_) {
-        if (kv.second->id().team_id() == team_id_) {
-            for (auto &kv2 : *id_to_ent_map_) {
-                if ((kv != kv2) && (kv2.second->id().team_id() == team_id_)) {
-                    if (kv.second->state_truth() && kv2.second->state_truth()) {
-                        double cur_distance = (kv.second->state_truth()->pos() -
-                                kv2.second->state_truth()->pos()).norm();
-                        if (cur_distance < cpa_map_[kv.first].distance()) {
-                            cpa_map_[kv.first].set_distance(cur_distance);
-                            cpa_map_[kv.first].set_closest_entity(kv2.first);
-                            cpa_map_[kv.first].set_time(t);
+        for (auto &kv : *id_to_ent_map_) {
+            if (kv.second->id().team_id() == team_id_) {
+                for (auto &kv2 : *id_to_ent_map_) {
+                    if ((kv != kv2) && (kv2.second->id().team_id() == team_id_)) {
+                        if (kv.second->state_truth() && kv2.second->state_truth()) {
+                            double cur_distance = (kv.second->state_truth()->pos() -
+                                    kv2.second->state_truth()->pos()).norm();
+                            if (cur_distance < cpa_map_[kv.first].distance()) {
+                                cpa_map_[kv.first].set_distance(cur_distance);
+                                cpa_map_[kv.first].set_closest_entity(kv2.first);
+                                cpa_map_[kv.first].set_time(t);
+                            }
                         }
                     }
                 }
             }
         }
-   }
-   }
+    }
     return true;
 }
 
@@ -134,7 +133,7 @@ void TeamCPA::print_team_summaries() {
         cout << " | Closest Entity: " << kv.second.closest_entity();
         cout << " | Time: " << kv.second.time() << "s" << std::endl;
     }
-    cout << sc::generate_chars("-", 70) << endl;
+    cout << sc::generate_chars("-", 80) << endl;
 }
 } // namespace metrics
 } // namespace scrimmage
