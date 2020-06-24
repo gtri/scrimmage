@@ -34,7 +34,7 @@
 
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 #include <map>
 #include <string>
