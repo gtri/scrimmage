@@ -68,8 +68,9 @@ CPA::CPA() {
 }
 
 void CPA::init(std::map<std::string, std::string> &params) {
-    team_cpa_ = sc::get<bool>("team_cpa", params, team_cpa_);
     team_id_ = sc::get<int>("team_id", params, team_id_);
+    // If team_id_ is set to a specific team, then team_cpa_ should be automatically set based on how the checks work below
+    team_cpa_ = sc::get<bool>("team_cpa", params, team_cpa_) || (team_id_ > 0);
     min_time_s_ = sc::get<double>("min_time_s", params, min_time_s_);
     max_time_s_ = sc::get<double>("max_time_s", params, max_time_s_);
 }
