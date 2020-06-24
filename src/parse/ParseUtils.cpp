@@ -80,7 +80,14 @@ bool find_terrain_files(std::string terrain_name,
     if (terrain_parse.parse(overrides, terrain_name, "SCRIMMAGE_DATA_PATH", file_search)) {
         std::string polydata_file = terrain_parse.directory() + "/" + terrain_parse.params()["polydata"];
         std::string texture_file = terrain_parse.directory() + "/" + terrain_parse.params()["texture"];
-
+        std::string extrusion_file = terrain_parse.directory() + "/" + terrain_parse.params()["extrusion"];
+        std::string extrusion_property = terrain_parse.params()["extrusion_property"];
+        if (fs::exists(extrusion_file) && fs::is_regular_file(extrusion_file) &&
+                !extrusion_property.empty()) {
+            utm_terrain->set_extrusion_file(extrusion_file);
+            utm_terrain->set_extrusion_property(extrusion_property);
+            utm_terrain->set_enable_extrusion(true);
+        }
         if (fs::exists(polydata_file) && fs::exists(texture_file) &&
             fs::is_regular_file(polydata_file) && fs::is_regular_file(texture_file)) {
             utm_terrain->set_texture_file(texture_file);

@@ -38,6 +38,7 @@
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/common/Time.h>
 
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
@@ -74,7 +75,9 @@ void BoundaryDefense::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
-    pub_wp_list_ = advertise("LocalNetwork", "WaypointList");
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool BoundaryDefense::step_autonomy(double t, double dt) {
@@ -106,33 +109,25 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
         }
     }
 
+    Eigen::Vector3d desired_point;
     if (closest != nullptr) {
         // Chase the entity
-        publish_waypoint(closest->pos() + closest->vel()*2);
+        desired_point = closest->pos() + closest->vel() * time_->dt();
     } else {
-        // If there are no entities to chase, move to center of boundary
-        publish_waypoint(std::get<1>(it->second)->center());
+        // If there are no entities to chase, move to center of boundary that
+        // we are trying to defend
+        desired_point = std::get<1>(it->second)->center();
     }
+
+    // Convert the desired point into a desired vector, relative to our own
+    // position.
+    Eigen::Vector3d desired_velocity = desired_point - state_->pos();
+
+    vars_.output(output_vel_x_idx_, desired_velocity(0));
+    vars_.output(output_vel_y_idx_, desired_velocity(1));
+    vars_.output(output_vel_z_idx_, desired_velocity(2));
+
     return true;
 }
-
-void BoundaryDefense::publish_waypoint(const Eigen::Vector3d &point) {
-    auto path_msg = std::make_shared<sc::Message<WaypointList>>();
-    path_msg->data.set_mode(WaypointList::WaypointMode::follow_once);
-    path_msg->data.set_cycles(1);
-
-    double lat, lon, alt;
-    parent_->projection()->Reverse(point(0), point(1), point(2),
-                                   lat, lon, alt);
-
-    Waypoint wp(lat, lon, alt);
-    wp.set_time(0);
-    wp.set_quat(scrimmage::Quaternion(0, 0, 0));
-    wp.set_position_tolerance(80);
-    path_msg->data.waypoints().push_back(wp);
-
-    pub_wp_list_->publish(path_msg);
-}
-
 } // namespace autonomy
 } // namespace scrimmage

@@ -23,7 +23,7 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
     scrimmage-core
   ${AIRSIM_LIBRARIES}
-  ${OpenCV_LIBRARIES}
+  scrimmage-opencv
   )
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})

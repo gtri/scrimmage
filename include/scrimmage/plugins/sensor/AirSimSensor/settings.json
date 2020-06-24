@@ -1,15 +1,165 @@
-{ "SettingsVersion": 1,
-  "SimMode": "",
-  "LocalHostIp": "127.0.0.1",
-  "RpcEnabled": true,
-  "DefaultVehicleConfig": "SimpleFlight",
-  "SimpleFlight": {
-      "RemoteControlID": 0,
-      "RC": {
-          "AllowAPIWhenDisconnected": true,
-          "AllowAPIAlways": true
-      },
-      "ApiServerPort": 41451
-  },
-  "SeeDocsAt": "https://github.com/Microsoft/AirSim/blob/master/docs/settings.md"
+{
+	"SeeDocsAt": "https://github.com/Microsoft/AirSim/blob/master/docs/settings.md",
+	"SettingsVersion": 1.2,
+	"SimMode": "Multirotor",
+	"LogMessagesVisible": true,
+	"ViewMode": "FlyWithMe",
+	"SpeedUnitFactor": 1.0,
+	"SpeedUnitLabel": "m/s",
+	"Vehicles": {
+		"robot1": {
+			"VehicleType": "SimpleFlight",
+			"AutoCreate": true,
+			"Sensors": {
+				"lidar1": {
+					"SensorType": 6,
+					"Enabled" : true,
+					"NumberOfChannels": 16,
+					"RotationsPerSecond": 10,
+					"PointsPerSecond": 100000,
+					"X": 0.0, "Y": 0.0, "Z": 0.0,
+					"Roll": 0.0, "Pitch": 0.0, "Yaw" : 0.0,
+					"VerticalFOVUpper": -15,
+					"VerticalFOVLower": -25,
+					"HorizontalFOVStart": -20,
+					"HorizontalFOVEnd": 20,
+					"DrawDebugPoints": false,
+					"DataFrame": "SensorLocalFrame"
+				},
+				"imu1": {
+					"SensorType": 2,
+					"Enabled" : true,
+					"X": 0.0, "Y": 0.0, "Z": 0.0,
+					"Roll": 0.0, "Pitch": 0.0, "Yaw" : 0.0
+				}
+			},
+			"Cameras": {
+				"front_center": {
+					"CaptureSettings": [
+						{
+							"ImageType": 0,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						},
+						{
+							"ImageType": 2,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						},
+						{
+							"ImageType": 5,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						},
+						{
+							"ImageType": 7,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						}
+					],
+					"X": 0.0, "Y": 0.0, "Z": 0.0,
+					"Pitch": 0.0, "Roll": 0.0, "Yaw": 0.0
+				}
+			},
+			"X": 0.0, "Y": 0.0, "Z": 0.0,
+			"Pitch": 0.0, "Roll": 0.0, "Yaw": 0.0
+		},
+		"robot2": {
+			"VehicleType": "SimpleFlight",
+			"AutoCreate": true,
+			"Sensors": {
+				"lidar1": {
+					"SensorType": 6,
+					"Enabled" : true,
+					"NumberOfChannels": 16,
+					"RotationsPerSecond": 10,
+					"PointsPerSecond": 100000,
+					"X": 0.0, "Y": 0.0, "Z": 0.0,
+					"Roll": 0.0, "Pitch": 0.0, "Yaw" : 0.0,
+					"VerticalFOVUpper": -15,
+					"VerticalFOVLower": -25,
+					"HorizontalFOVStart": -20,
+					"HorizontalFOVEnd": 20,
+					"DrawDebugPoints": false,
+					"DataFrame": "SensorLocalFrame"
+				},
+				"imu1": {
+					"SensorType": 2,
+					"Enabled" : true,
+					"X": 0.0, "Y": 0.0, "Z": 0.0,
+					"Roll": 0.0, "Pitch": 0.0, "Yaw" : 0.0
+				}
+			},
+			"Cameras": {
+				"front_center": {
+					"CaptureSettings": [
+						{
+							"ImageType": 0,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						},
+						{
+							"ImageType": 2,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						},
+						{
+							"ImageType": 5,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						},
+						{
+							"ImageType": 7,
+							"Width": 256,
+							"Height": 144,
+							"FOV_Degrees": 90,
+							"AutoExposureSpeed": 100,
+							"AutoExposureBias": 0,
+							"AutoExposureMaxBrightness": 0.68,
+							"AutoExposureMinBrightness": 0.03
+						}
+					],
+					"X": 0.0, "Y": 0.0, "Z": 0.0,
+					"Pitch": 0.0, "Roll": 0.0, "Yaw": 0.0
+				}
+			},
+			"X": 0.0, "Y": 4.0, "Z": 0.0,
+			"Pitch": 0.0, "Roll": 0.0, "Yaw": 0.0
+		}
+	}
 }

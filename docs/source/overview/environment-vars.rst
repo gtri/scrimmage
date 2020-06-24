@@ -1,7 +1,8 @@
 .. _environmet_vars:
 
-SCRIMMAGE Environment
-=====================
+===========
+Environment
+===========
 
 Environment Variables
 ---------------------
@@ -33,7 +34,7 @@ description of SCRIMMAGE's environment variables.
   ``/path/to/scrimmage-project/scrimmage/data``.
 
 Environment Management
-----------------------  
+----------------------
 
 The SCRIMMAGE environment is managed in the user's ``~/.scrimmage``
 directory. When a user runs the ``cmake`` command in a SCRIMMAGE project, an
@@ -63,7 +64,7 @@ following order:
 2. ``~/.scrimmage/setup.bash`` points to ``~/.scrimmage/env/scrimmage-deps-setenv``
 3. ``~/.scrimmage/setup.bash`` points to ``~/.scrimmage/env/scrimmage-setenv``
 4. ``~/.scrimmage/setup.bash`` points to ``~/.scrimmage/env/<PROJECT_NAME>-setenv``
-   
+
 SCRIMMAGE Log Files
 -------------------
 

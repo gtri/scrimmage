@@ -234,7 +234,7 @@ bool AutonomyExecutor::call_init(std::string autonomy_name, sc::AutonomyPtr auto
     autonomy->set_state(state_);
     autonomy->set_contacts(contacts_);
     autonomy->set_is_controlling(true);
-    autonomy->set_name(autonomy_name);
+    // autonomy->set_name(autonomy_name);
     autonomy->init(config_parse.params());
     return true;
 }

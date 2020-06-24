@@ -403,8 +403,7 @@ bool External::call_update_contacts(double t) {
     if (update_contacts_task.update(t).first) {
         auto rtree = entity_->rtree(); // rtree is a shared_ptr
         if (!rtree) {mutex.unlock(); return false;}
-        rtree->init(100);
-        rtree->clear();
+        rtree->init(entity_->contacts()->size());
         for (auto &kv : *entity_->contacts()) {
             rtree->add(kv.second.state()->pos(), kv.second.id());
         }
