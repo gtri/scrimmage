@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>TeamCPA_plugin</library>
+
+  <!-- Calculates CPA within a single Team (i.e., friendly CPAs) -->
+
+  <!-- team_id of the team for which to calculate CPA within -->
+  <team_id>1</team_id>
+
+  <!-- Compute Team CPAs only starting after this time in the simulation (seconds) -->
+  <after_time_s>0.0</after_time_s> 
+  
+</params>
