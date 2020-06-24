@@ -64,6 +64,8 @@ namespace scrimmage {
 namespace metrics {
 
 TeamCPA::TeamCPA() {
+    team_id_ = 1;
+    after_time_s_ = 0.0;
 }
 
 void TeamCPA::init(std::map<std::string, std::string> &params) {
