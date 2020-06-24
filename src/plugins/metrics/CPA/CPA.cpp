@@ -45,6 +45,8 @@
 #include <scrimmage/msgs/Event.pb.h>
 
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 
 #include <iostream>
 #include <limits>
@@ -66,33 +68,47 @@ CPA::CPA() {
 }
 
 void CPA::init(std::map<std::string, std::string> &params) {
+    team_cpa_ = sc::get<bool>("team_cpa", params, team_cpa_);
+    team_id_ = sc::get<int>("team_id", params, team_id_);
+    min_time_s_ = sc::get<double>("min_time_s", params, min_time_s_);
+    max_time_s_ = sc::get<double>("max_time_s", params, max_time_s_);
 }
 
 bool CPA::step_metrics(double t, double dt) {
-    if (!initialized_) {
-        for (auto &kv : *id_to_ent_map_) {
-            cpa_map_[kv.first] = CPAData();
+    // First verify that within time constraints, if they are set
+    bool outside_time = (((min_time_s_ >= 0.0) && (t < min_time_s_)) || ((max_time_s_ > 0.0) && (t > max_time_s_)));
+    if (!outside_time) {
+        if (!initialized_) {
+            for (auto &kv : *id_to_ent_map_) {
+                cpa_map_[kv.first] = CPAData();
+            }
+            std::string log_dir = ((*id_to_ent_map_)[1])->mp()->log_dir();
+            csv_.open_output(log_dir + "/" + "cpa.csv");
+            csv_.set_column_headers(scrimmage::CSV::Headers{
+                    "entity",
+                    "cpa",
+                    "closest_entity",
+                    "time"});
+            initialized_ = true;
         }
-        std::string log_dir = ((*id_to_ent_map_)[1])->mp()->log_dir();
-        csv_.open_output(log_dir + "/" + "cpa.csv");
-        csv_.set_column_headers(scrimmage::CSV::Headers{
-                "entity",
-                "cpa",
-                "closest_entity",
-                "time"});
-        initialized_ = true;
-    }
 
-    for (auto &kv : *id_to_ent_map_) {
-        for (auto &kv2 : *id_to_ent_map_) {
-            if (kv != kv2) {
-                if (kv.second->state_truth() && kv2.second->state_truth()) {
-                    double cur_distance = (kv.second->state_truth()->pos() -
-                            kv2.second->state_truth()->pos()).norm();
-                    if (cur_distance < cpa_map_[kv.first].distance()) {
-                        cpa_map_[kv.first].set_distance(cur_distance);
-                        cpa_map_[kv.first].set_closest_entity(kv2.first);
-                        cpa_map_[kv.first].set_time(t);
+        for (auto &kv : *id_to_ent_map_) {
+            // Checks if a specific team ID is not being checked or if the entity has the specific team ID
+            if ((team_id_ <= 0) || (kv.second->id().team_id() == team_id_)) {
+                for (auto &kv2 : *id_to_ent_map_) {
+                    if (kv != kv2) {
+                        // Checks if teams are not being checked or if the teams are the same
+                        if (!team_cpa_ || (kv.second->id().team_id() == kv2.second->id().team_id())) {
+                            if (kv.second->state_truth() && kv2.second->state_truth()) {
+                                double cur_distance = (kv.second->state_truth()->pos() -
+                                        kv2.second->state_truth()->pos()).norm();
+                                if (cur_distance < cpa_map_[kv.first].distance()) {
+                                    cpa_map_[kv.first].set_distance(cur_distance);
+                                    cpa_map_[kv.first].set_closest_entity(kv2.first);
+                                    cpa_map_[kv.first].set_time(t);
+                                }
+                            }
+                        }
                     }
                 }
             }
