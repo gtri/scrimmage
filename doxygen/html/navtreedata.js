@@ -68,13 +68,13 @@ var NAVTREEINDEX =
 "classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html",
 "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#ac0488c5f4508b209826846cdd6e38def",
 "classscrimmage_1_1interaction_1_1GraphInteraction.html#acfd2beddf209c6848fc55eeaa2741404",
-"classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#a4938ae900befcf527a692e129d6bcd4d",
-"classscrimmage_1_1motion_1_1Multirotor.html#a297bfd8dc844d06d8d26b63445550d6d",
-"classscrimmage_1_1motion_1_1UUV6DOF.html#ab610d1225cfd56bd2610732bb630e93d",
-"classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1",
-"dir_111d65703e3b11351b53ea345b0a2e09.html",
-"dir_fc073c224283ced7e51ad2bc2618c1dc.html",
-"structscrimmage_1_1GenerateInfo.html#a5bff4b60e8ad1e73dfc9f2fa427b06c4"
+"classscrimmage_1_1metrics_1_1Score.html#aff67e20e1c4c2bc145d21698e7c05727",
+"classscrimmage_1_1motion_1_1Multirotor.html",
+"classscrimmage_1_1motion_1_1UUV6DOF.html#aae446560ee5c7dc5287197162de5c4a8",
+"classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#acc17b0a284abd8d3456a2b00bf9783ac",
+"dir_0e0352c7246283c7be17f29060281748.html",
+"dir_f79b77084d0c92f5c9d062da4c544dc7.html",
+"structscrimmage_1_1EnvValues.html#a07c4fb472f93803b4d015eb89c0adbda"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

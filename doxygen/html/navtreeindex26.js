@@ -1,5 +1,9 @@
 var NAVTREEINDEX26 =
 {
+"structscrimmage_1_1EnvValues.html#a07c4fb472f93803b4d015eb89c0adbda":[6,0,5,24,0],
+"structscrimmage_1_1EnvValues.html#a34b3034715e87a41d277a04ba07e7265":[6,0,5,24,1],
+"structscrimmage_1_1GenerateInfo.html":[6,0,5,30],
+"structscrimmage_1_1GenerateInfo.html#a148c3f411d659eca8f4837332dcad244":[6,0,5,30,5],
 "structscrimmage_1_1GenerateInfo.html#a5bff4b60e8ad1e73dfc9f2fa427b06c4":[6,0,5,30,1],
 "structscrimmage_1_1GenerateInfo.html#aa4ce27854703c173972b9745058983e4":[6,0,5,30,0],
 "structscrimmage_1_1GenerateInfo.html#ab9c2565cf254bcab85cabb013046c009":[6,0,5,30,4],

@@ -121,11 +121,11 @@ Inheritance diagram for scrimmage::Metrics:</div>
 <div class="dyncontent">
 <div class="center"><img src="classscrimmage_1_1Metrics__inherit__graph.png" border="0" usemap="#scrimmage_1_1Metrics_inherit__map" alt="Inheritance graph"/></div>
 <map name="scrimmage_1_1Metrics_inherit__map" id="scrimmage_1_1Metrics_inherit__map">
-<area shape="rect" id="node3" href="classscrimmage_1_1metrics_1_1CPA.html" title="{scrimmage::metrics::CPA\n|# params_\l# cpa_map_\l# csv_\l# initialized_\l|+ CPA()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="5,1143,201,1323"/>
-<area shape="rect" id="node4" href="classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html" title="{scrimmage::metrics\l::FlagCaptureMetrics\n|# scores_\l# team_flag_scores_\l# params_\l|+ FlagCaptureMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="225,1143,421,1323"/>
-<area shape="rect" id="node5" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html" title="{scrimmage::metrics\l::OpenAIRewards\n|# params_\l# rewards_\l|+ OpenAIRewards()\l+ init()\l+ step_metrics()\l+ print_team_summaries()\l+ calc_team_scores()\l}" alt="" coords="445,1151,641,1316"/>
-<area shape="rect" id="node6" href="classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html" title="{scrimmage::metrics\l::SimpleCaptureMetrics\n|# scores_\l# team_scores_map_\l# initialized_\l# teams_\l# params_\l|+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="665,1136,861,1331"/>
-<area shape="rect" id="node7" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html" title="{scrimmage::metrics\l::SimpleCollisionMetrics\n|# scores_\l# team_coll_scores_\l# surviving_teams_\l# params_\l# initialized_\l# teams_\l|+ SimpleCollisionMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="885,1121,1081,1345"/>
+<area shape="rect" id="node3" href="classscrimmage_1_1metrics_1_1CPA.html" title="{scrimmage::metrics::CPA\n|# params_\l# cpa_map_\l# csv_\l# initialized_\l# team_cpa_\l# team_id_\l# min_time_s_\l# max_time_s_\l|+ CPA()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="5,1121,201,1360"/>
+<area shape="rect" id="node4" href="classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html" title="{scrimmage::metrics\l::FlagCaptureMetrics\n|# scores_\l# team_flag_scores_\l# params_\l|+ FlagCaptureMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="225,1151,421,1331"/>
+<area shape="rect" id="node5" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html" title="{scrimmage::metrics\l::OpenAIRewards\n|# params_\l# rewards_\l|+ OpenAIRewards()\l+ init()\l+ step_metrics()\l+ print_team_summaries()\l+ calc_team_scores()\l}" alt="" coords="445,1158,641,1323"/>
+<area shape="rect" id="node6" href="classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html" title="{scrimmage::metrics\l::SimpleCaptureMetrics\n|# scores_\l# team_scores_map_\l# initialized_\l# teams_\l# params_\l|+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="665,1143,861,1338"/>
+<area shape="rect" id="node7" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html" title="{scrimmage::metrics\l::SimpleCollisionMetrics\n|# scores_\l# team_coll_scores_\l# surviving_teams_\l# params_\l# initialized_\l# teams_\l|+ SimpleCollisionMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="885,1129,1081,1353"/>
 <area shape="rect" id="node2" href="classscrimmage_1_1EntityPlugin.html" title="{scrimmage::EntityPlugin\n|+ print_err_on_exit\l# parent_\l# transform_\l# id_to_team_map_\l# id_to_ent_map_\l# vars_\l# pubsub_\l# subs_\l# time_\l&#45; shapes_\l&#45; param_server_\l&#45; loop_rate_\l&#45; loop_timer_\l|+ EntityPlugin()\l+ ~EntityPlugin()\l+ ready()\l+ close_plugin()\l+ close()\l+ set_parent()\l+ parent()\l+ set_scoped_property()\l+ get_scoped_property\l_helper()\l+ transform()\l+ set_id_to_team_map()\l+ set_id_to_ent_map()\l+ shapes()\l+ vars()\l+ subscribe()\l+ subscribe()\l+ advertise()\l+ advertise()\l+ set_pubsub()\l+ pubsub()\l+ subs()\l+ set_time()\l+ set_time()\l+ draw_shape()\l+ set_param_server()\l+ register_param()\l+ set_param()\l+ unregister_param()\l+ loop_rate()\l+ loop_timer()\l+ set_loop_rate()\l+ set_loop_timer()\l+ step_loop_timer()\l}" alt="" coords="452,5,635,743"/>
 </map>
 </div>
@@ -721,7 +721,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1Metrics.html">Metrics</a></li>
-    <li class="footer">Generated on Mon Jun 22 2020 13:54:32 for SCRIMMAGE by
+    <li class="footer">Generated on Wed Jun 24 2020 14:01:29 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -253,8 +253,16 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:afa9cfe5d05fdb1b12ca2ee2d7272573d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5b7c099849ac64084b54c1e461e7f87"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classscrimmage_1_1CSV.html">CSV</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#aa5b7c099849ac64084b54c1e461e7f87">csv_</a></td></tr>
 <tr class="separator:aa5b7c099849ac64084b54c1e461e7f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a963520109098a4f812411e2b39bc0f81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#a963520109098a4f812411e2b39bc0f81">initialized_</a> = false</td></tr>
+<tr class="memitem:a963520109098a4f812411e2b39bc0f81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#a963520109098a4f812411e2b39bc0f81">initialized_</a> {false}</td></tr>
 <tr class="separator:a963520109098a4f812411e2b39bc0f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45ca61a07beff305f5b35487b18a78e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#a45ca61a07beff305f5b35487b18a78e2">team_cpa_</a> {false}</td></tr>
+<tr class="separator:a45ca61a07beff305f5b35487b18a78e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1d248e949013a2a98948f339fb9371b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#ab1d248e949013a2a98948f339fb9371b">team_id_</a> {0}</td></tr>
+<tr class="separator:ab1d248e949013a2a98948f339fb9371b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95d05a8f655d0ddc1153a10a6b72fd65"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#a95d05a8f655d0ddc1153a10a6b72fd65">min_time_s_</a> {-1.0}</td></tr>
+<tr class="separator:a95d05a8f655d0ddc1153a10a6b72fd65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3549dad5629a718e6c39674444bb9d1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html#af3549dad5629a718e6c39674444bb9d1">max_time_s_</a> {-1.0}</td></tr>
+<tr class="separator:af3549dad5629a718e6c39674444bb9d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classscrimmage_1_1Metrics"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classscrimmage_1_1Metrics')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classscrimmage_1_1Metrics.html">scrimmage::Metrics</a></td></tr>
 <tr class="memitem:a7406c3269427c5cdd6778146e1204fa0 inherit pro_attribs_classscrimmage_1_1Metrics"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Metrics.html#a7406c3269427c5cdd6778146e1204fa0">weights_file_</a></td></tr>
 <tr class="separator:a7406c3269427c5cdd6778146e1204fa0 inherit pro_attribs_classscrimmage_1_1Metrics"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -502,7 +510,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool scrimmage::metrics::CPA::initialized_ = false</td>
+          <td class="memname">bool scrimmage::metrics::CPA::initialized_ {false}</td>
         </tr>
       </table>
   </td>
@@ -516,6 +524,94 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a45ca61a07beff305f5b35487b18a78e2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool scrimmage::metrics::CPA::team_cpa_ {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="CPA_8h_source.html#l00079">79</a> of file <a class="el" href="CPA_8h_source.html">CPA.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab1d248e949013a2a98948f339fb9371b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int scrimmage::metrics::CPA::team_id_ {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="CPA_8h_source.html#l00080">80</a> of file <a class="el" href="CPA_8h_source.html">CPA.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a95d05a8f655d0ddc1153a10a6b72fd65"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double scrimmage::metrics::CPA::min_time_s_ {-1.0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="CPA_8h_source.html#l00081">81</a> of file <a class="el" href="CPA_8h_source.html">CPA.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af3549dad5629a718e6c39674444bb9d1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double scrimmage::metrics::CPA::max_time_s_ {-1.0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="CPA_8h_source.html#l00082">82</a> of file <a class="el" href="CPA_8h_source.html">CPA.h</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/CPA/<a class="el" href="CPA_8h_source.html">CPA.h</a></li>
 </ul>
@@ -525,7 +621,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1metrics.html">metrics</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html">CPA</a></li>
-    <li class="footer">Generated on Mon Jun 22 2020 13:54:34 for SCRIMMAGE by
+    <li class="footer">Generated on Wed Jun 24 2020 14:01:31 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
