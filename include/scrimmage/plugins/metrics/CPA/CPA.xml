@@ -5,5 +5,15 @@
 
   <!-- weights for scoring function -->
   <ground_collisions>-1.0</ground_collisions>
+
+  <!-- false for comparison across teams; true for comparisons within teams -->
+  <team_cpa>false</team_cpa>
+
+  <!-- 0 for checking all team IDs.  Specific team ID for checking only that team ID -->
+  <team_id>0</team_id>
+
+  <!-- Time bounds in seconds (-1 for no bound) enables checking before or after some event -->
+  <min_time_s>-1.0</min_time_s>
+  <max_time_s>-1.0</max_time_s>
   
 </params>
