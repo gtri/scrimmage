@@ -59,11 +59,17 @@ class RigidBody6DOFBase : public scrimmage::MotionModel {
         return ang_accel_body_;
     }
 
+    Eigen::Vector3d &wind() {
+        return wind_;
+    }
+
  protected:
     Eigen::Vector3d linear_vel_body_;
     Eigen::Vector3d ang_vel_body_;
     Eigen::Vector3d linear_accel_body_;
     Eigen::Vector3d ang_accel_body_;
+
+    Eigen::Vector3d wind_;
 };
 } // namespace motion
 } // namespace scrimmage
