@@ -419,6 +419,12 @@ When running cmake, the user gets the cmake warning:
 
 This is a VTK6 Ubuntu package bug. It can be ignored.
 
+### Problem: I do not see building extrusions in the SCRIMMAGE GUI
+
+SCRIMMAGE uses vtkGeoJSONReader to load polygon extrusion data from a GeoJSON file. This VTK feature was added in VTK7. Since this feature is not available in older versions, SCRIMMAGE does not load building data if the installed VTK version is less than 7. Therefore, the remedy is to upgrade VTK. To install VTK7 on Ubuntu, run the following command:
+
+    $ sudo apt-get install libvtk7-dev
+
 ### Problem: Docker Container Can't Access Internet
 
 Docker can have DNS issues. If you can ping a public ip address within a docker

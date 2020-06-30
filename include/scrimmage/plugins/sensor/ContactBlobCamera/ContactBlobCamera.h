@@ -63,6 +63,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> size_noise_;
 
     void contacts_to_bounding_boxes(
         const scrimmage::State &sensor_frame,

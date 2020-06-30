@@ -194,6 +194,7 @@ if (${VTK_FOUND})
         set(OPENGL_MODULE vtkRenderingOpenGL)
     else()
         set(OPENGL_MODULE vtkRenderingOpenGL2)
+        set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
     endif()
 
     set(VTK_MODULES
@@ -205,7 +206,8 @@ if (${VTK_FOUND})
         vtkIOLegacy
         vtkRenderingAnnotation
         vtkRenderingCore
-        ${OPENGL_MODULE})
+        ${OPENGL_MODULE}
+        ${EXTRUSION_MODULES})
 
     find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
 endif()

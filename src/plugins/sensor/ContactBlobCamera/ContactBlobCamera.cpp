@@ -132,6 +132,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     plugin_params_["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
     plugin_params_["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
     plugin_params_["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
+    plugin_params_["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
 
     set_plugin_params(plugin_params_);
 
@@ -158,6 +159,17 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
             orient_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
         } else {
             orient_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        std::string tag_name = "size_noise_" + std::to_string(i);
+        std::vector<double> vec;
+        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
+        if (status) {
+            size_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+        } else {
+            size_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
     }
 
@@ -313,15 +325,18 @@ void ContactBlobCamera::contacts_to_bounding_boxes(
         // Calculate image radius using distance between object boundaries
         double object_img_radius = (r1 - r2).norm() / 2.0;
 
+        double object_img_half_width = std::max(1.0, object_img_radius + (*size_noise_[0])(*gener_));
+        double object_img_half_height = std::max(1.0, object_img_radius + (*size_noise_[1])(*gener_));
+
         // Add noise to position in 2D image plane
         raster_center(0) += (*pos_noise_[0])(*gener_);
         raster_center(1) += (*pos_noise_[1])(*gener_);
 
         // Add bounding box to frame around object
-        cv::Rect rect(std::floor(raster_center(0))-std::floor(object_img_radius),
-                      std::floor(raster_center(1))-std::floor(object_img_radius),
-                      std::floor(object_img_radius*2) + 1,
-                      std::floor(object_img_radius*2) + 1);
+        cv::Rect rect(std::floor(raster_center(0))-std::floor(object_img_half_width),
+                      std::floor(raster_center(1))-std::floor(object_img_half_height),
+                      std::floor(object_img_half_width*2) + 1,
+                      std::floor(object_img_half_height*2) + 1);
 
         if (object_img_radius > 0) {
             draw_object_with_bounding_box(msg->data.frame, kv.second.id().id(),
