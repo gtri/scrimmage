@@ -924,7 +924,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
                 for (vtkIdType m(0); m < cellPointIds->GetNumberOfIds(); m++) {
                     double p[3];
                     extrusion_data->GetPoint(cellPointIds->GetId(m), p);
-                    if (m == 0){
+                    if (m == 0) {
                         cellLocator->FindClosestPoint(p, closestPoint, cellId,
                                 subId, closestPointDist2);
                     }

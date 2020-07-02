@@ -430,7 +430,7 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
         double temp_reward;
         bool temp_done;
         py::dict temp_info;
-        std::tie(temp_done, temp_reward, temp_info) = a->calc_reward();
+        std::tie(temp_done, temp_reward, temp_info) = a->calculate_reward();
 
         reward += temp_reward;
         done |= temp_done;

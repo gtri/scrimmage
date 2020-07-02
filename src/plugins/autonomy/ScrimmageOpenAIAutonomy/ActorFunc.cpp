@@ -34,12 +34,18 @@
 #include <pybind11/stl.h>
 
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ActorFunc.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
 
+#include <iostream>
+
 #include <boost/range/algorithm/copy.hpp>
+
+using std::cout;
+using std::endl;
 
 namespace py = pybind11;
 namespace br = boost::range;
@@ -74,19 +80,29 @@ init_actor_func(
 
     observations.create_observation_space(autonomies.size());
     py::object actor_func = py::none();
+    py::object actor_init_func = py::none();
 
     if (!grpc_mode) {
         // get the actor func
-        const std::string module_str = params.at("module");
-        const std::string actor_init_func_str = params.at("actor_init_func");
-        py::object m = py::module::import(module_str.c_str());
-        py::object actor_init_func =
-            m.attr(actor_init_func_str.c_str());
+        const std::string module_str = get("module", params, "");
+        if (module_str == "") {
+            std::cout << "ERROR: ActorFunc: Missing parameter: module" << std::endl;
+        }
 
-        actor_func = actor_init_func(
-            actions.action_space, observations.observation_space, params);
+        const std::string class_str = get("class_name", params, "");
+        if (class_str == "") {
+            std::cout << "ERROR: ActorFunc: Missing parameter: class_name" << std::endl;
+        }
+
+        const std::string actor_init_func_str = get("actor_init_func", params, "");
+        if (actor_init_func_str == "") {
+            std::cout << "ERROR: ActorFunc: Missing parameter: actor_init_func" << std::endl;
+        }
+
+        py::object m = py::module::import(module_str.c_str());
+        actor_init_func = m.attr(class_str.c_str()).attr(actor_init_func_str.c_str());
     }
-    return std::make_tuple(actions, observations, actor_func);
+    return std::make_tuple(actions, observations, actor_init_func);
 }
 } // namespace autonomy
 } // namespace scrimmage
