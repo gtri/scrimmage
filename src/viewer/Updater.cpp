@@ -1487,6 +1487,12 @@ void Updater::shutting_down() {
     if (send_shutdown_msg_) {
         outgoing_interface_->send_gui_msg(gui_msg_);
     }
+
+    rwi_ = NULL;
+    renderer_ = NULL;
+
+    incoming_interface_ = nullptr;
+    outgoing_interface_ = nullptr;
 }
 
 void Updater::inc_scale() {

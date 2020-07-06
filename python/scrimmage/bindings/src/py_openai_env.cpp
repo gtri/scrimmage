@@ -93,7 +93,6 @@ void signal_handler(int signal) { shutdown_handler(signal); }
 
 ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
         const std::string &mission_file,
-        bool enable_gui,
         bool combine_actors,
         bool global_sensor,
         bool static_obs_space,
@@ -101,28 +100,21 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
     spec(py::none()),
     metadata(py::dict()),
     mission_file_(mission_file),
-    //enable_gui_(enable_gui),
     static_obs_space_(static_obs_space) {
 
     observations_.set_global_sensor(global_sensor);
     observations_.set_combine_actors(combine_actors);
 
-    delayed_task_.delay = timestep;
-
     py::module warnings_module = py::module::import("warnings");
     warning_function_ = warnings_module.attr("warn");
 
-    reset_scrimmage(false);
+    reset_scrimmage();
 
     tuple_space_ = sc_auto::get_gym_space("Tuple");
     discrete_space_ = sc_auto::get_gym_space("Discrete");
     multidiscrete_space_ = sc_auto::get_gym_space("MultiDiscrete");
     box_space_ = sc_auto::get_gym_space("Box");
 }
-
-//void ScrimmageOpenAIEnv::viewer_thread() {
-//    viewer_->run();
-//}
 
 void ScrimmageOpenAIEnv::set_reward_range() {
     reward_range = pybind11::tuple(2);
@@ -168,8 +160,7 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     memset( &sa, 0, sizeof(sa) );
     shutdown_handler = [&](int /*s*/){
         std::cout << std::endl << "Exiting gracefully" << std::endl;
-        simcontrol_->force_exit();
-        close_viewer();
+        shutdown_sim();
         throw std::exception();
     };
     sa.sa_handler = signal_handler;
@@ -177,10 +168,26 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
 
-    reset_scrimmage(true);
+    reset_scrimmage();
     observations_.update_observation(actions_.ext_ctrl_vec().size(),
                                      static_obs_space_);
     return observations_.observation;
+}
+
+void ScrimmageOpenAIEnv::shutdown_sim() {
+    if (simcontrol_ != nullptr) {
+        simcontrol_->force_exit();
+
+        if (not simcontrol_->shutdown(false)) {
+            cout << "Failed to shutdown properly." << endl;
+        }
+
+        // Join the viewer thread and close the VTK window, if it was created
+        if (viewer_thread_ != nullptr) {
+            viewer_thread_->join();
+            viewer_->close();
+        }
+    }
 }
 
 void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
@@ -249,23 +256,25 @@ void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
     }
 }
 
-void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
+void ScrimmageOpenAIEnv::reset_scrimmage() {
+    // Shutdown SimControl and close the viewer, if it was already created.
+    shutdown_sim();
+
+    // Clean up lingering SimControl memory
     scrimmage_memory_cleanup();
+
+    // Make a new SimControl instance
     simcontrol_ = std::make_shared<sc::SimControl>();
     if (not simcontrol_->init(mission_file_, false)) {
         std::cout << "Failed to parse file: " << mission_file_ << std::endl;
     }
+
     if (seed_set_) simcontrol_->mp()->params()["seed"] = std::to_string(seed_);
 
     simcontrol_->run_send_shapes();
     simcontrol_->send_terrain();
 
-    bool enable_gui_temp = simcontrol_->enable_gui();
-    std::cout << "============> enable_gui_temp: " << enable_gui_temp << std::endl;
-
-    //if (simcontrol_->enable_gui()) {
-    if (enable_gui) {
-    //if (enable_gui_temp) {
+    if (simcontrol_->enable_gui()) {
         viewer_ = std::make_shared<scrimmage::Viewer>();
 
         auto outgoing = simcontrol_->outgoing_interface();
@@ -294,16 +303,14 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     }
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
-    std::cout << "A" << std::endl;
     reset_learning_mode();
-    std::cout << "B" << std::endl;
 
     simcontrol_->start();
-    std::cout << "C" << std::endl;
-    delayed_task_.last_updated_time = -std::numeric_limits<double>::infinity();
 
     loop_number_ = 0;
-    if (!simcontrol_->generate_entities(0)) {
+
+    // Generate all initial entities
+    if (not simcontrol_->generate_entities(0)) {
         py::print("scrimmage entity generation unsuccessful");
     }
 
@@ -322,19 +329,8 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
     set_reward_range();
 }
 
-void ScrimmageOpenAIEnv::close_viewer() {
-    if (viewer_thread_ != nullptr) {
-        viewer_thread_->join();
-    }
-    //if (viewer_ != nullptr) {
-    //    cout << "STOPPING VIEWER" << endl;
-    //    viewer_->stop();
-    //}
-}
-
 void ScrimmageOpenAIEnv::close() {
-    simcontrol_->shutdown(false);
-    close_viewer();
+    shutdown_sim();
 }
 
 void ScrimmageOpenAIEnv::seed(pybind11::object _seed) {
@@ -361,13 +357,7 @@ void ScrimmageOpenAIEnv::filter_ext_sensor_vec(){
 pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
     actions_.distribute_action(action, observations_.get_combine_actors());
 
-    delayed_task_.update(simcontrol_->t());
-    bool done = !simcontrol_->run_single_step(loop_number_++) ||
-        simcontrol_->end_condition_reached();
-    while (!done && !delayed_task_.update(simcontrol_->t()).first) {
-        done = !simcontrol_->run_single_step(loop_number_++) ||
-        simcontrol_->end_condition_reached();
-    }
+    bool done = not simcontrol_->run_single_step(loop_number_++);
 
     observations_.update_observation(actions_.ext_ctrl_vec().size(),
                                      static_obs_space_);
@@ -384,10 +374,6 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
     // If there aren't any RL entities left, we are done
     done |= actions_.ext_ctrl_vec().size() == 0;
     py_done = py::bool_(done);
-
-    if (done) {
-        close_viewer();
-    }
 
     return py::make_tuple(observations_.observation, py_reward, py_done, py_info);
 }
@@ -452,21 +438,13 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
 
 void add_openai_env(pybind11::module &m) {
     py::class_<ScrimmageOpenAIEnv>(m, "ScrimmageOpenAIEnv")
-        .def(py::init<std::string&, bool, bool, bool, bool, double>(),
+        .def(py::init<std::string&, bool, bool, bool, double>(),
             R"(Scrimmage Open AI Environment Constructor.
 
 Parameters
 ----------
 mission_file : str
     the mission file to be run (does not need the full path, e.g. \"straight.xml\"
-
-enable_gui : bool
-    whether to start a gui. This will run scrimmage-viz in the
-    background.  Make sure your mission file is set to output to
-    localhost:50051, e.g.,
-
-      <stream_port>50051</stream_port>
-      <stream_ip>localhost</stream_ip>
 
 combine_actors : bool
     whether to present the actions and observations of multiple
@@ -490,7 +468,6 @@ timestep : float
     the observation and reward on env.step().
 )",
             py::arg("mission_file"),
-            py::arg("enable_gui") = false,
             py::arg("combine_actors") = false,
             py::arg("global_sensor") = false,
             py::arg("static_obs_space") = true,
