@@ -101,7 +101,7 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
     spec(py::none()),
     metadata(py::dict()),
     mission_file_(mission_file),
-    enable_gui_(enable_gui),
+    //enable_gui_(enable_gui),
     static_obs_space_(static_obs_space) {
 
     observations_.set_global_sensor(global_sensor);
@@ -119,6 +119,10 @@ ScrimmageOpenAIEnv::ScrimmageOpenAIEnv(
     multidiscrete_space_ = sc_auto::get_gym_space("MultiDiscrete");
     box_space_ = sc_auto::get_gym_space("Box");
 }
+
+//void ScrimmageOpenAIEnv::viewer_thread() {
+//    viewer_->run();
+//}
 
 void ScrimmageOpenAIEnv::set_reward_range() {
     reward_range = pybind11::tuple(2);
@@ -173,7 +177,7 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
 
-    reset_scrimmage(enable_gui_);
+    reset_scrimmage(true);
     observations_.update_observation(actions_.ext_ctrl_vec().size(),
                                      static_obs_space_);
     return observations_.observation;
@@ -252,65 +256,51 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
         std::cout << "Failed to parse file: " << mission_file_ << std::endl;
     }
     if (seed_set_) simcontrol_->mp()->params()["seed"] = std::to_string(seed_);
+
+    simcontrol_->run_send_shapes();
+    simcontrol_->send_terrain();
+
+    bool enable_gui_temp = simcontrol_->enable_gui();
+    std::cout << "============> enable_gui_temp: " << enable_gui_temp << std::endl;
+
+    //if (simcontrol_->enable_gui()) {
     if (enable_gui) {
-        simcontrol_->mp()->set_network_gui(true);
-        simcontrol_->mp()->set_enable_gui(false);
+    //if (enable_gui_temp) {
+        viewer_ = std::make_shared<scrimmage::Viewer>();
+
+        auto outgoing = simcontrol_->outgoing_interface();
+        auto incoming = simcontrol_->incoming_interface();
+
+        viewer_->set_incoming_interface(outgoing);
+        viewer_->set_outgoing_interface(incoming);
+        viewer_->set_enable_network(false);
+
+        std::map<std::string, std::string> camera_params;
+        auto it_camera = simcontrol_->mp()->attributes().find("camera");
+        if (it_camera != simcontrol_->mp()->attributes().end()) {
+            camera_params = it_camera->second;
+        }
+        viewer_->init(simcontrol_->mp(), camera_params);
+
+        // Run the viewer in its own thread
+        auto viewer_thread_func = [&] () {
+            viewer_->run();
+        };
+        viewer_thread_ = std::make_shared<std::thread>(viewer_thread_func);
+
     } else {
         simcontrol_->mp()->set_time_warp(0);
+        simcontrol_->pause(false);
     }
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
+    std::cout << "A" << std::endl;
     reset_learning_mode();
+    std::cout << "B" << std::endl;
 
     simcontrol_->start();
-    if (enable_gui) {
-        simcontrol_->pause(simcontrol_->mp()->start_paused());
-    } else {
-        simcontrol_->pause(false);
-    }
+    std::cout << "C" << std::endl;
     delayed_task_.last_updated_time = -std::numeric_limits<double>::infinity();
-
-    if (enable_gui) {
-        std::string cmd = "scrimmage-viz ";
-
-        auto it = simcontrol_->mp()->attributes().find("camera");
-        if (it != simcontrol_->mp()->attributes().end()) {
-            auto camera_pos_str = sc::get<std::string>("pos", it->second, "0, 1, 200");
-            auto camera_focal_pos_str = sc::get<std::string>("focal_point", it->second, "0, 0, 0");
-            cmd += "--pos " + camera_pos_str
-                + " --focal_point " + camera_focal_pos_str;
-        }
-
-        std::string stream_ip = sc::get<std::string>("stream_ip", simcontrol_->mp()->params(), "localhost");
-        size_t stream_port = sc::get<size_t>("stream_port", simcontrol_->mp()->params(), 50051);
-
-        cmd += std::string(" --local_ip localhost")
-            + " --local_port " + std::to_string(stream_port)
-            + " --remote_ip " + stream_ip
-            + " --remote_port " + std::to_string(stream_port + 1)
-            + " &";
-
-        if (system(cmd.c_str())) {
-            std::cout << "could not start scrimmage-viz" << std::endl;
-        }
-
-        double wait_time = 10;
-        double wait_per_iteration = 0.1;
-        size_t ct = 0;
-        const size_t ct_max = wait_time / wait_per_iteration;
-        while (ct++ < ct_max && !simcontrol_->outgoing_interface()->check_ready()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(
-                    static_cast<uint32_t>(wait_per_iteration * 1000)));
-        }
-
-        if (ct == ct_max) {
-            throw std::runtime_error("SimControl server could not be contacted");
-        }
-
-
-        simcontrol_->run_send_shapes();
-        simcontrol_->send_terrain();
-    }
 
     loop_number_ = 0;
     if (!simcontrol_->generate_entities(0)) {
@@ -333,9 +323,13 @@ void ScrimmageOpenAIEnv::reset_scrimmage(bool enable_gui) {
 }
 
 void ScrimmageOpenAIEnv::close_viewer() {
-    if (enable_gui_ && system("pkill scrimmage-viz")) {
-        // ignore error
+    if (viewer_thread_ != nullptr) {
+        viewer_thread_->join();
     }
+    //if (viewer_ != nullptr) {
+    //    cout << "STOPPING VIEWER" << endl;
+    //    viewer_->stop();
+    //}
 }
 
 void ScrimmageOpenAIEnv::close() {

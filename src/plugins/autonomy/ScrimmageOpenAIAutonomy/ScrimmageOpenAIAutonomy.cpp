@@ -149,11 +149,8 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
                 std::cout << "Bad Action received!" << std::endl;
             }
 #endif
-        } else {
-            // Get action from actor function called through pybind
-            // temp_action = actor_func_(observations_.observation);
-            // SS -------- return back function vs function resulting value
         }
+
         bool combine_actors = false;
         temp_action = actor_func_(actions_.action_space, observations_.observation);
         actions_.distribute_action(temp_action, combine_actors);

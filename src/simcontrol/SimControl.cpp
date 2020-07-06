@@ -665,6 +665,10 @@ void SimControl::run_threaded() {
     thread_ = std::thread(&SimControl::run, this);
 }
 
+void SimControl::set_running_in_thread(bool running_in_thread) {
+    running_in_thread_ = running_in_thread;
+}
+
 bool SimControl::start() {
     setup_logging();
 

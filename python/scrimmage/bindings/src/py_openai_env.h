@@ -33,6 +33,7 @@
 #include <pybind11/pybind11.h>
 
 #include <scrimmage/common/DelayedTask.h>
+#include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 
@@ -97,7 +98,7 @@ class ScrimmageOpenAIEnv {
     pybind11::object warning_function_;
 
     std::string mission_file_ = "";
-    bool enable_gui_ = false;
+    // bool enable_gui_ = false;
     bool static_obs_space_ = true;
     scrimmage::DelayedTask delayed_task_;
 
@@ -130,5 +131,8 @@ class ScrimmageOpenAIEnv {
     pybind11::object box_space_;
 
  private:
+    std::shared_ptr<scrimmage::Viewer> viewer_;
+    std::shared_ptr<std::thread> viewer_thread_ = nullptr;
+    //void viewer_thread();
 
 };

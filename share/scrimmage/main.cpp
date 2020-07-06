@@ -147,42 +147,63 @@ int main(int argc, char *argv[]) {
     simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
 
-#if ENABLE_VTK == 0
-    simcontrol.pause(false);
-    if (not simcontrol.run()) {
-        cout << "SimControl::run() failed without VTK installed." << endl;
-        return -1;
-    }
-#else
-    if (simcontrol.enable_gui()) {
-        simcontrol.run_threaded();
+    std::shared_ptr<std::thread> viewer_thread = nullptr;
 
-        scrimmage::Viewer viewer;
+#if ENABLE_VTK == 0
+    // If the GUI wasn't built, un-pause by default.
+    simcontrol.pause(false);
+#else
+    // If the GUI is enabled, the viewer will be run in a separate thread. Use
+    // a shared_ptr to keep it "in scope", if it is created.
+    std::shared_ptr<scrimmage::Viewer> viewer = nullptr;
+
+    if (simcontrol.enable_gui()) {
+        viewer = std::make_shared<scrimmage::Viewer>();
 
         auto outgoing = simcontrol.outgoing_interface();
         auto incoming = simcontrol.incoming_interface();
 
-        viewer.set_incoming_interface(outgoing);
-        viewer.set_outgoing_interface(incoming);
-        viewer.set_enable_network(false);
-        viewer.init(simcontrol.mp(), simcontrol.mp()->attributes()["camera"]);
-        viewer.run();
+        viewer->set_incoming_interface(outgoing);
+        viewer->set_outgoing_interface(incoming);
+        viewer->set_enable_network(false);
 
-        // When the viewer finishes, tell simcontrol to exit
-        simcontrol.force_exit();
-        simcontrol.join();
-    } else {
-        simcontrol.pause(false);
-        if (not simcontrol.run()) {
-            cout << "SimControl::run() failed with GUI disabled." << endl;
-            return -1;
+        // Get the camera params from mission file, if they exist
+        std::map<std::string, std::string> camera_params;
+        auto it_camera = simcontrol.mp()->attributes().find("camera");
+        if (it_camera != simcontrol.mp()->attributes().end()) {
+            camera_params = it_camera->second;
         }
+
+        // Initialize the VTK GUI viewer
+        viewer->init(simcontrol.mp(), camera_params);
+
+        // Run the viewer in its own thread
+        auto viewer_thread_func = [&] () {
+            viewer->run();
+        };
+        viewer_thread = std::make_shared<std::thread>(viewer_thread_func);
+
+    } else {
+        // If the GUI isn't enabled, un-pause by default.
+        simcontrol.pause(false);
     }
 #endif
+
+    // Run SimControl::run() blocking function, which steps through simulation
+    if (not simcontrol.run()) {
+        cout << "SimControl::run() failed." << endl;
+        return -1;
+    }
 
     if (not simcontrol.shutdown()) {
         cout << "Failed to shutdown properly." << endl;
         return -1;
     }
+
+    // Join the viewer thread, if it was created
+    if (viewer_thread != nullptr) {
+        viewer_thread->join();
+    }
+
     return 0;
 }
