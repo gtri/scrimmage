@@ -145,7 +145,7 @@ void ScrimmageOpenAIEnv::set_reward_range() {
 }
 
 void ScrimmageOpenAIEnv::render(const std::string &/*mode*/) {
-    warning_function_("render must be set in gym.make with enable_gui kwargs");
+    warning_function_("render must be set in scrimmage mission file with the 'enable_gui' attribute.");
 }
 
 bool ScrimmageOpenAIEnv::is_gym_instance(pybind11::object &obj, const std::string &type) {
@@ -160,7 +160,7 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     memset( &sa, 0, sizeof(sa) );
     shutdown_handler = [&](int /*s*/){
         std::cout << std::endl << "Exiting gracefully" << std::endl;
-        shutdown_sim();
+        simcontrol_->force_exit();
         throw std::exception();
     };
     sa.sa_handler = signal_handler;
@@ -176,15 +176,17 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
 
 void ScrimmageOpenAIEnv::shutdown_sim() {
     if (simcontrol_ != nullptr) {
-        simcontrol_->force_exit();
-
         if (not simcontrol_->shutdown(false)) {
             cout << "Failed to shutdown properly." << endl;
         }
 
-        // Join the viewer thread and close the VTK window, if it was created
+        // Join the viewer thread, if it exists
         if (viewer_thread_ != nullptr) {
             viewer_thread_->join();
+        }
+
+        // Close the viewer, if it exists
+        if (viewer_ != nullptr) {
             viewer_->close();
         }
     }
@@ -504,7 +506,7 @@ info : dict
         .def("close", &ScrimmageOpenAIEnv::close, "closes scrimmage")
         .def("seed", &ScrimmageOpenAIEnv::seed, "Set the seed used in the mission file")
         .def("render", &ScrimmageOpenAIEnv::render,
-            "no-op. Use \"enable_gui\" if you want to see a visual",
+            "no-op. Use \"enable_gui\" in scrimmage mission file if you want to see a visual",
             py::arg("mode") = "human")
         .def_property_readonly("unwrapped", &ScrimmageOpenAIEnv::get_this);
 }
