@@ -49,8 +49,7 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
             entry_point='scrimmage.bindings:ScrimmageOpenAIEnv',
             max_episode_steps=1e9,
             reward_threshold=1e9,
-            kwargs={"enable_gui": False,
-                    "combine_actors": combine_actors,
+            kwargs={"combine_actors": combine_actors,
                     "global_sensor": global_sensor,
                     "mission_file": TEMP_MISSION_FILE,
                     "timestep": timestep}
