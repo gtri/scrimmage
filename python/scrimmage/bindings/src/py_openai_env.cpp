@@ -65,7 +65,6 @@
 #include <string>
 #include <algorithm>
 #include <limits>
-#include <exception>
 #include <chrono> // NOLINT
 #include <map> // NOLINT
 
@@ -161,7 +160,6 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
     shutdown_handler = [&](int /*s*/){
         std::cout << std::endl << "Exiting gracefully" << std::endl;
         simcontrol_->force_exit();
-        throw std::exception();
     };
     sa.sa_handler = signal_handler;
     sigfillset(&sa.sa_mask);
