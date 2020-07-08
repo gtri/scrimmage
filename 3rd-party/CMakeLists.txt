@@ -202,7 +202,7 @@ if (BUILD_SOURCE_PACKAGES)
   find_package(CMakeDebSrc)
   SET(PPA "ppa:kevin-demarco/scrimmage" CACHE STRING "Launchpad PPA for dput.")
   SET(GPG_KEY_ID "3951DA01" CACHE STRING "GPG Key ID on local system.")
-  SET(DISTRIBUTIONS "xenial bionic jessie" CACHE STRING "Target Linux distributions.")
+  SET(DISTRIBUTIONS "xenial bionic focal jessie" CACHE STRING "Target Linux distributions.")
   SET(ARCHITECTURES "amd64 i386 armhf arm64" CACHE STRING "Possible build architectures.")
 
   BuildDebSrcFromRepo(
