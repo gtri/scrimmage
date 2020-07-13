@@ -36,6 +36,7 @@ RUN apt-get update \
     libboost-regex-dev \
     libboost-filesystem-dev \
     libboost-system-dev \
+    libboost-chrono-dev \
     libprotobuf-dev \
     protobuf-compiler \
     libgeographic-dev \

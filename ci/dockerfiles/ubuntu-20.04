@@ -36,6 +36,7 @@ RUN apt-get update \
     libboost-regex-dev \
     libboost-filesystem-dev \
     libboost-system-dev \
+    libboost-chrono-dev \
     libprotobuf-dev \
     protobuf-compiler \
     libgeographic-dev \
@@ -92,8 +93,9 @@ RUN source /root/env/bin/activate \
  && cmake .. -G Ninja \
              -DPYTHON_MIN_VERSION=3.6 \
              -DBUILD_TESTS=ON \
-             -DCMAKE_CXX_FLAGS="-Werror" \
+             -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
  && ninja
+# Note: gtest produces a deprecated-copy warning. Ignore this.
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
