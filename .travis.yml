@@ -31,11 +31,18 @@ jobs:
             bash ./ci/scripts/deploy-docs.sh;
             docker push $REPO;
         fi
+
     - name: "Build on Ubuntu 18.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
       - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
-      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "bionic"; else echo $TRAVIS_BRANCH ; fi`
+
+    - name: "Build on Ubuntu 20.04"
+      script:
+      - export REPO=$DOCKER_USERNAME/scrimmage
+      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-20.04 .
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "focal"; else echo $TRAVIS_BRANCH ; fi`
 
 notifications:
   email:
