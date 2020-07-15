@@ -22,8 +22,13 @@ target_link_libraries(${LIBRARY_NAME} PRIVATE
   scrimmage-core
   scrimmage-viewer)
 
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/../bindings/__init__.py
+  )
+
 # Push up the SCRIMMAGE_LIBS variable
 set_target_properties(${LIBRARY_NAME} PROPERTIES
   SUFFIX ".so"
-  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../bindings/"
   OUTPUT_NAME py_bindings)

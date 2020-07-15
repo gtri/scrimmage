@@ -65,6 +65,7 @@ target_link_libraries(${LIBRARY_NAME}
     Boost::date_time
     Boost::graph
     Boost::thread
+    Boost::chrono
 )
 
 if(ENABLE_PYTHON_BINDINGS)

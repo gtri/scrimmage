@@ -703,7 +703,7 @@ bool SimControl::start() {
             pybind11::module::import("random").attr("seed")(seed);
             try {
                 pybind11::module::import("numpy.random").attr("seed")(seed);
-            } catch (pybind11::error_already_set) {
+            } catch (const pybind11::error_already_set&) {
                 // ignore. numpy not installed
             }
         }

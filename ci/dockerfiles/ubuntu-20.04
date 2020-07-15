@@ -1,9 +1,9 @@
 ###############################################################################
 # Dockerfile to build SCRIMMAGE
 ###############################################################################
-FROM ubuntu:18.04 as dependencies
+FROM ubuntu:20.04 as dependencies
 
-MAINTAINER Eric Squires
+MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
@@ -11,14 +11,14 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update \
  && apt-get install -y \
     gnupg \
- && echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list \
  && apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 \
  && apt-get update \
  && apt-get install -y \
-    ros-melodic-desktop-full \
+    cmake \
     software-properties-common \
     cppcheck \
     python3-pip \
+    python3-venv \
     git \
     ninja-build \
     clang \
@@ -41,50 +41,35 @@ RUN apt-get update \
     protobuf-compiler \
     libgeographic-dev \
     protobuf-compiler-grpc \
-    libpython3.7-dev \
-    doxygen python3-sphinx \
+    libgrpc++-dev\
+    libgrpc-dev \
+    libpython3-dev \
+    doxygen \
+    python3-sphinx \
     sphinx-rtd-theme-common \
-    python-rosdep \
-    ros-melodic-tf2 \
-    ros-melodic-mavros-msgs \
+    ccache \
+    libbullet-dev \
+    libopencv-dev \
+    libvtk7-dev \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \
  && rm -rf /var/lib/apt/lists/* \
- && rosdep init && rosdep update \
- && echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh
-
-# Install jekyll
-RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
- && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
- && source ~/.bashrc \
- && gem update --system \
- && gem install bundler
-
-# Copy install binaries script into image and run
-COPY ./setup/install-binaries.sh /root/install-binaries.sh
-RUN /root/install-binaries.sh -e 0 --python 3 \
- && rm -rf /var/lib/apt/lists/*
 
 # Build a python virtual environment
 WORKDIR /root
-COPY ./python/requirements-3.6.txt .
+COPY ./python/requirements-3.8.txt .
 RUN python3 -m venv env \
     && source ./env/bin/activate \
-    && pip install -r requirements-3.6.txt
+    && pip install wheel \
+    && pip install -r requirements-3.8.txt
 
 FROM dependencies as builder
 
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
-
-# # Run static analysis tests
-# WORKDIR /root/scrimmage/scrimmage
-# RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv \
-#  && py.test test/test_cppcheck.py \
-#  && python test/test_cpplint.py
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -108,8 +93,9 @@ RUN source /root/env/bin/activate \
  && cmake .. -G Ninja \
              -DPYTHON_MIN_VERSION=3.6 \
              -DBUILD_TESTS=ON \
-             -DCMAKE_CXX_FLAGS="-Werror" \
+             -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
  && ninja
+# Note: gtest produces a deprecated-copy warning. Ignore this.
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
@@ -127,35 +113,6 @@ RUN source /root/env/bin/activate && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
-
-# # build with clang
-# RUN rm * -rf \
-#  && export CC=/usr/bin/clang \
-#  && export CXX=/usr/bin/clang++ \
-#  && source ~/.scrimmage/setup.bash \
-#  && cmake .. -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
-#  && ninja \
-#  && ninja docs website-docs \
-#  && source ~/.scrimmage/setup.bash \
-#  && export PYTHONPATH=$PYTHONPATH:$PWD/../test \
-#  && export CTEST_OUTPUT_ON_FAILURE=1 \
-#  && ninja test
-
-# Test scrimmage_ros package integration
-RUN source /root/env/bin/activate \
- && mkdir -p /root/catkin_ws/src \
- && cd /root/catkin_ws/src \
- && git clone https://github.com/ros-planning/navigation_msgs \
- && git clone https://github.com/SyllogismRXS/scrimmage_ros.git \
- && cd /root/catkin_ws \
- && source /opt/ros/melodic/setup.bash \
- && source /opt/scrimmage/*/setup.sh \
- && catkin_make \
- && source devel/setup.bash \
- && source ~/.scrimmage/setup.bash \
- && cd build \
- && make tests \
- && make test
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash && py.test python/tests"
