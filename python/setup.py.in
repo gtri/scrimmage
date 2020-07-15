@@ -11,7 +11,7 @@ setup(
         'Environment :: Console',
         'License :: OSI Approved :: GNU Lesser General Public License v3.0',
     ],
-    packages=["scrimmage", "scrimmage.command", "scrimmage.bindings", "scrimmage.proto"],
+    packages=["scrimmage", "scrimmage.command", "scrimmage.bindings", "scrimmage.proto", "scrimmage.mission"],
     extras_require={
         'completion': ['argcomplete'],
     },
