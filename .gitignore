@@ -39,3 +39,5 @@ tags*
 .vscode
 env
 .idea*
+python/scrimmage/bindings
+python/dist
