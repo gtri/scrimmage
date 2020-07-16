@@ -28,6 +28,7 @@ var searchData=
   ['servo_5ftfs_5f',['servo_tfs_',['../classscrimmage_1_1autonomy_1_1ArduPilot.html#aae0d9860a6ac6a64af3747184a50d274',1,'scrimmage::autonomy::ArduPilot']]],
   ['servos',['servos',['../structscrimmage_1_1autonomy_1_1ArduPilot_1_1servo__packet.html#aff433a21a593fed5de24c108c076212e',1,'scrimmage::autonomy::ArduPilot::servo_packet']]],
   ['setpoint_5f',['setpoint_',['../classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503',1,'scrimmage::PID']]],
+  ['setup_5fcomplete_5f',['setup_complete_',['../classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a260d7087cfed90cd637587b52ea67a0b',1,'scrimmage::autonomy::ScrimmageOpenAIAutonomy']]],
   ['shape',['shape',['../structscrimmage_1_1interaction_1_1BulletCollision_1_1SceneObject.html#a94dd20f169574d6c52b00d93c8d75431',1,'scrimmage::interaction::BulletCollision::SceneObject']]],
   ['shape_5f',['shape_',['../classscrimmage_1_1interaction_1_1BoundaryBase.html#a04f7111ee9b1248d249c7996d7e5cab5',1,'scrimmage::interaction::BoundaryBase']]],
   ['shape_5fqueue_5f',['shape_queue_',['../classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01',1,'scrimmage::External']]],

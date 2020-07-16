@@ -6,7 +6,7 @@ var classscrimmage_1_1Viewer =
     [ "set_enable_network", "classscrimmage_1_1Viewer.html#aea2f662ebdfa52e7aa79c376e14af658", null ],
     [ "init", "classscrimmage_1_1Viewer.html#a8f105cb47aa540339555f4979cbc7328", null ],
     [ "run", "classscrimmage_1_1Viewer.html#a59e743cccc26251586a3090c6adf8f0f", null ],
-    [ "stop", "classscrimmage_1_1Viewer.html#a20bba29f62712106edf8a5f956de8aeb", null ],
+    [ "close", "classscrimmage_1_1Viewer.html#a5fd7233179870b4e4795ed63c3ee8e2a", null ],
     [ "renderer_", "classscrimmage_1_1Viewer.html#a6b4e4af8bcb569cc0739efc47f143cae", null ],
     [ "renderWindow_", "classscrimmage_1_1Viewer.html#a9511b5fc9254ab545fa277d0032d8168", null ],
     [ "renderWindowInteractor_", "classscrimmage_1_1Viewer.html#ac1a8ded336cb5c1f778bb06b46f92253", null ],

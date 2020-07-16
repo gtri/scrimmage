@@ -12,7 +12,7 @@ var searchData=
   ['odom_5flaser_5fpub_5f',['odom_laser_pub_',['../classscrimmage_1_1autonomy_1_1ROSAutonomy.html#ad5360da9545d77d2c5d8680f164c9086',1,'scrimmage::autonomy::ROSAutonomy']]],
   ['odom_5fpub_5f',['odom_pub_',['../classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a4a1a3e2fb7fa646dd35f59b82e8346a4',1,'scrimmage::autonomy::ROSAutonomy']]],
   ['odom_5ftrans_5f',['odom_trans_',['../classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a9777b558363abbab191052a39324f214',1,'scrimmage::autonomy::ROSAutonomy']]],
-  ['offset',['OFFSET',['../classscrimmage_1_1Updater.html#a22ae824d412862aa4ebb747eca094e5ba1b8a8605d2ff5670a215e55c6645e0d9',1,'scrimmage::Updater::OFFSET()'],['../classscrimmage_1_1motion_1_1Rotor.html#abca4fecdb1b50d310d76360ebbefdc9f',1,'scrimmage::motion::Rotor::offset()']]],
+  ['offset',['offset',['../classscrimmage_1_1motion_1_1Rotor.html#abca4fecdb1b50d310d76360ebbefdc9f',1,'scrimmage::motion::Rotor::offset()'],['../classscrimmage_1_1Updater.html#a22ae824d412862aa4ebb747eca094e5ba1b8a8605d2ff5670a215e55c6645e0d9',1,'scrimmage::Updater::OFFSET()']]],
   ['offset_5f',['offset_',['../classscrimmage_1_1motion_1_1Rotor.html#a0fbfade2c0bb920e064a0acca5d4f271',1,'scrimmage::motion::Rotor']]],
   ['offset_5flength',['offset_length',['../classscrimmage_1_1motion_1_1Rotor.html#a91118b5dd6397c1b74319adf216d927a',1,'scrimmage::motion::Rotor']]],
   ['offset_5flength_5f',['offset_length_',['../classscrimmage_1_1motion_1_1Rotor.html#a7cb4ac896acf91465fcfacd18c924326',1,'scrimmage::motion::Rotor']]],

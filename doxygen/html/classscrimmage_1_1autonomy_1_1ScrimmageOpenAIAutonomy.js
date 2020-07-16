@@ -6,8 +6,9 @@ var classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy =
     [ "init_helper", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a35d8593f43bb25017722cf4953ea45ea", null ],
     [ "step_helper", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#ace53ec3cc8a1b5d577a3e379c58a5534", null ],
     [ "set_environment", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a6bb87fee41488878be58a5f4e2739d42", null ],
-    [ "calc_reward", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a4cb5910aef50a2615b026b4a44720e17", null ],
+    [ "calculate_reward", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a206df1a66cf0b1290261019009b2bc78", null ],
     [ "self_id", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a0b498495407f76f34b4b8336acdd08d7", null ],
+    [ "calc_reward", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a4cb5910aef50a2615b026b4a44720e17", null ],
     [ "reward_range", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#aed1512df177bbdacb08c89b872bc24fa", null ],
     [ "action_space", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#adc623fe9d2d4185dd13396fbc0b61eb1", null ],
     [ "action", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a744a80d9d9b191d29d478b51d2f13e4b", null ],
@@ -21,5 +22,6 @@ var classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy =
     [ "nonlearning_mode_", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#adc48815a82d93d2d3818a69d46b527ae", null ],
     [ "observations_", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a818b84f6eae2b9b199321f25adb3aa1e", null ],
     [ "actions_", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a7a227752db68f8a62a1d7881b12de5aa", null ],
-    [ "grpc_mode_", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a7a8af39db50143ab675de835d0962ba4", null ]
+    [ "grpc_mode_", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a7a8af39db50143ab675de835d0962ba4", null ],
+    [ "setup_complete_", "classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a260d7087cfed90cd637587b52ea67a0b", null ]
 ];

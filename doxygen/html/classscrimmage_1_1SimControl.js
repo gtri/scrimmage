@@ -38,6 +38,7 @@ var classscrimmage_1_1SimControl =
     [ "run_send_shapes", "classscrimmage_1_1SimControl.html#a972d59922baa24baae53b4b2badac6ce", null ],
     [ "display_progress", "classscrimmage_1_1SimControl.html#a4302a97b7177dfda984a733340cdba2f", null ],
     [ "id_to_entity_map", "classscrimmage_1_1SimControl.html#a1093091474f77c3187c827bd95352c9f", null ],
+    [ "set_running_in_thread", "classscrimmage_1_1SimControl.html#ad5da5944edfa7dc03ff0bd262629e60b", null ],
     [ "worker", "classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb", null ],
     [ "run_entities", "classscrimmage_1_1SimControl.html#a3d525927fdbf197d7a418622dce9555c", null ],
     [ "add_tasks", "classscrimmage_1_1SimControl.html#ab8f35fc7c6d88211822c220c0bf1ec13", null ],

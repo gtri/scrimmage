@@ -1,3 +1,4 @@
 <map id="scrimmage::autonomy::ScrimmageOpenAIAutonomy::init" name="scrimmage::autonomy::ScrimmageOpenAIAutonomy::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a35d8593f43bb25017722cf4953ea45ea" title="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::init_helper" alt="" coords="296,5,512,61"/>
+<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="316,5,492,47"/>
+<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#a35d8593f43bb25017722cf4953ea45ea" title="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::init_helper" alt="" coords="296,70,512,126"/>
 </map>
