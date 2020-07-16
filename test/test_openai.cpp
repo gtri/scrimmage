@@ -49,15 +49,16 @@ using namespace pybind11::literals; // NOLINT
 void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
             size_t num_actors, const std::map<int, double> &expected_rewards) {
 
-    py::object test_open_ai_module = py::module::import("test_openai");
+    py::object test_open_ai_module = py::module::import("scrimmage.openai.tests.test_openai");
     py::object write_temp_mission = test_open_ai_module.attr("_write_temp_mission");
 
-    write_temp_mission(
+    const std::string output_mission_file = ".rlsimple.xml";
+
+    write_temp_mission("output_mission_file"_a=output_mission_file,
         "x_discrete"_a = x_discrete, "ctrl_y"_a = ctrl_y, "y_discrete"_a = y_discrete,
         "num_actors"_a = num_actors, "grpc_mode"_a = grpc_mode, "end"_a = 1000);
 
-    const std::string mission = ".rlsimple";
-    auto log_dir = sc::run_test(mission, false, false);
+    auto log_dir = sc::run_test(output_mission_file, false, false);
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);

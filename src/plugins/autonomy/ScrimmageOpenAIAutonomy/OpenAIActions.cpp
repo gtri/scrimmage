@@ -110,9 +110,11 @@ void OpenAIActions::distribute_action(pybind11::object action, bool combine_acto
             cont_actions = asarray_(action_list[1], py::str("float"));
             disc_action_data = static_cast<int*>(disc_actions.request().ptr);
             cont_action_data = static_cast<double*>(cont_actions.request().ptr);
+
         } else if (PyObject_IsInstance(space.ptr(), box_space_.ptr())) {
             cont_actions = asarray_(act);
             cont_action_data = static_cast<double*>(cont_actions.request().ptr);
+
         } else {
             disc_actions = asarray_(act);
             disc_action_data = static_cast<int*>(disc_actions.request().ptr);
@@ -141,9 +143,7 @@ void OpenAIActions::distribute_action(pybind11::object action, bool combine_acto
     };
 
     if (ext_ctrl_vec_.size() == 1 || combine_actors) {
-
         update_action_lists(action_space, action);
-
         int disc_action_idx = 0;
         int cont_action_idx = 0;
         for (auto &a : ext_ctrl_vec_) {

@@ -89,20 +89,18 @@ init_actor_func(
             std::cout << "ERROR: ActorFunc: Missing parameter: module" << std::endl;
         }
 
-        const std::string class_str = get("class_name", params, "");
-        if (class_str == "") {
-            std::cout << "ERROR: ActorFunc: Missing parameter: class_name" << std::endl;
-        }
-
         const std::string actor_init_func_str = get("actor_init_func", params, "");
         if (actor_init_func_str == "") {
             std::cout << "ERROR: ActorFunc: Missing parameter: actor_init_func" << std::endl;
         }
 
         py::object m = py::module::import(module_str.c_str());
-        actor_init_func = m.attr(class_str.c_str()).attr(actor_init_func_str.c_str());
+        actor_init_func = m.attr(actor_init_func_str.c_str());
+
+        actor_func = actor_init_func(
+            actions.action_space, observations.observation, params);
     }
-    return std::make_tuple(actions, observations, actor_init_func);
+    return std::make_tuple(actions, observations, actor_func);
 }
 } // namespace autonomy
 } // namespace scrimmage

@@ -110,6 +110,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             std::tie(actions_, observations_, actor_func_) =
                     init_actor_func({p}, params_, CombineActors::NO, UseGlobalSensor::NO,
                                     grpc_mode_);
+
 #if ENABLE_GRPC
             if (grpc_mode_) {
                 int attempts = 0;
@@ -152,7 +153,9 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
         }
 
         bool combine_actors = false;
-        temp_action = actor_func_(actions_.action_space, observations_.observation);
+
+        temp_action = actor_func_(observations_.observation);
+
         actions_.distribute_action(temp_action, combine_actors);
 
         if (first_step_) {
