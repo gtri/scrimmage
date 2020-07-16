@@ -10,7 +10,7 @@
   <y_discrete>false</y_discrete>
   <max_speed>10</max_speed>
 
-  <module>test_openai</module>
+  <module>scrimmage.openai.tests.test_openai</module>
   <actor_init_func>actor_init_func</actor_init_func>
   <grpc_mode>false</grpc_mode>
 </params>

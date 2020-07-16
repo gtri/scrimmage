@@ -184,13 +184,19 @@ bool Viewer::run() {
     // Start the interaction and timer
     renderWindowInteractor_->Start();
 
+    // Shutdown the updater
     updater->shutting_down();
 
     return true;
 }
 
-bool Viewer::stop() {
+bool Viewer::close() {
+    // Close the window
+    renderWindowInteractor_->GetRenderWindow()->Finalize();
+
+    // Stop the interactor
     renderWindowInteractor_->TerminateApp();
+
     return true;
 }
 } // namespace scrimmage

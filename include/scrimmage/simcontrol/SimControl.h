@@ -318,6 +318,8 @@ class SimControl {
      */
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_entity_map();
 
+    void set_running_in_thread(bool running_in_thread);
+
  protected:
     // Key: Entity ID
     // Value: Team ID

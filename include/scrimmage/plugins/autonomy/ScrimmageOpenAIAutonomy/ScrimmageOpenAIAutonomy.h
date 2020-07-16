@@ -81,7 +81,7 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     virtual bool step_helper() {return true;}
 
     virtual void set_environment() {}
-    virtual std::tuple<bool, double, pybind11::dict> calc_reward();
+    std::tuple<bool, double, pybind11::dict> calculate_reward();
     std::pair<double, double> reward_range;
     EnvParams action_space;
     EnvValues action;
@@ -112,6 +112,10 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
 #else
     bool grpc_mode_ = false;
 #endif
+
+ private:
+    virtual std::tuple<bool, double, pybind11::dict> calc_reward();
+    bool setup_complete_ = false;
 };
 } // namespace autonomy
 } // namespace scrimmage

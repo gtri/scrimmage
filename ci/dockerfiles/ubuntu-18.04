@@ -121,8 +121,7 @@ WORKDIR /root/scrimmage/scrimmage/build
 RUN source /root/env/bin/activate && \
     source ~/.scrimmage/setup.bash && \
     export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
-    export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
-    py.test ../test/test_openai.py && \
+    py.test ../python/scrimmage/openai/tests/test_openai.py && \
     export CTEST_OUTPUT_ON_FAILURE=1 && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \

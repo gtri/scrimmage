@@ -32,7 +32,8 @@
 
 #include <pybind11/pybind11.h>
 
-#include <scrimmage/common/DelayedTask.h>
+//#include <scrimmage/common/DelayedTask.h>
+#include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 
@@ -56,7 +57,6 @@ class ScrimmageOpenAIEnv {
 
     ScrimmageOpenAIEnv() {}
     ScrimmageOpenAIEnv(const std::string &mission_file,
-                       bool enable_gui = false,
                        bool combine_actors = false,
                        bool global_sensor = false,
                        bool static_obs_space = true,
@@ -92,14 +92,10 @@ class ScrimmageOpenAIEnv {
     pybind11::tuple reward_range;
 
  protected:
-    void close_viewer();
-
     pybind11::object warning_function_;
 
     std::string mission_file_ = "";
-    bool enable_gui_ = false;
     bool static_obs_space_ = true;
-    scrimmage::DelayedTask delayed_task_;
 
     std::thread thread_;
 
@@ -115,7 +111,8 @@ class ScrimmageOpenAIEnv {
     void set_reward_range();
     void update_observation();
     std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> calc_reward();
-    void reset_scrimmage(bool enable_gui);
+    void reset_scrimmage();
+    void shutdown_sim();
     void scrimmage_memory_cleanup();
     void reset_learning_mode();
     void filter_ext_sensor_vec();
@@ -130,5 +127,7 @@ class ScrimmageOpenAIEnv {
     pybind11::object box_space_;
 
  private:
+    std::shared_ptr<scrimmage::Viewer> viewer_ = nullptr;
+    std::shared_ptr<std::thread> viewer_thread_ = nullptr;
 
 };
