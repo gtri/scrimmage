@@ -23,7 +23,7 @@ target_link_libraries(${LIBRARY_NAME} PRIVATE
   )
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
-  target_link_libraries(${LIBRARY_NAME}
+  target_link_libraries(${LIBRARY_NAME} PRIVATE
     scrimmage-viewer
     )
 endif()
