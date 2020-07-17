@@ -175,9 +175,10 @@ pybind11::object ScrimmageOpenAIEnv::reset() {
 void ScrimmageOpenAIEnv::shutdown_sim() {
     if (simcontrol_ != nullptr) {
         if (not simcontrol_->shutdown(false)) {
-            cout << "Failed to shutdown properly." << endl;
+            std::cout << "Failed to shutdown properly." << std::endl;
         }
 
+#if ENABLE_VTK == 1
         // Join the viewer thread, if it exists
         if (viewer_thread_ != nullptr) {
             viewer_thread_->join();
@@ -187,6 +188,7 @@ void ScrimmageOpenAIEnv::shutdown_sim() {
         if (viewer_ != nullptr) {
             viewer_->close();
         }
+#endif
     }
 }
 
@@ -274,6 +276,7 @@ void ScrimmageOpenAIEnv::reset_scrimmage() {
     simcontrol_->run_send_shapes();
     simcontrol_->send_terrain();
 
+#if ENABLE_VTK == 1
     if (simcontrol_->enable_gui()) {
         viewer_ = std::make_shared<scrimmage::Viewer>();
 
@@ -301,6 +304,12 @@ void ScrimmageOpenAIEnv::reset_scrimmage() {
         simcontrol_->mp()->set_time_warp(0);
         simcontrol_->pause(false);
     }
+#else
+    // If not built with VTK
+    simcontrol_->mp()->set_time_warp(0);
+    simcontrol_->pause(false);
+#endif
+
     // users may have forgotten to turn off nonlearning_mode.
     // If this code is being called then it should never be nonlearning_mode
     reset_learning_mode();
