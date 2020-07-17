@@ -32,8 +32,9 @@
 
 #include <pybind11/pybind11.h>
 
-//#include <scrimmage/common/DelayedTask.h>
+#if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
+#endif
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 
@@ -127,7 +128,9 @@ class ScrimmageOpenAIEnv {
     pybind11::object box_space_;
 
  private:
+#if ENABLE_VTK == 1
     std::shared_ptr<scrimmage::Viewer> viewer_ = nullptr;
     std::shared_ptr<std::thread> viewer_thread_ = nullptr;
+#endif
 
 };

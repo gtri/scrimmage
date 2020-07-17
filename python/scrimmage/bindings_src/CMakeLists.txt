@@ -20,7 +20,13 @@ target_link_libraries(${LIBRARY_NAME} PRIVATE
   ScrimmageOpenAIAutonomy_plugin
   ScrimmageOpenAISensor_plugin
   scrimmage-core
-  scrimmage-viewer)
+  )
+
+if (NOT EXTERNAL AND ${VTK_FOUND})
+  target_link_libraries(${LIBRARY_NAME} PRIVATE
+    scrimmage-viewer
+    )
+endif()
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
