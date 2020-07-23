@@ -44,8 +44,9 @@ namespace motion {
 
 class RigidBody6DOFState : public scrimmage::State {
  public:
-RigidBody6DOFState() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
-        linear_accel_body_(0, 0, 0), ang_accel_body_(0, 0, 0) {
+    RigidBody6DOFState() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
+            linear_accel_body_(0, 0, 0), ang_accel_body_(0, 0, 0),
+            wind_(0, 0, 0) {
     }
 
     Eigen::Vector3d &linear_vel_body() {
@@ -96,6 +97,9 @@ RigidBody6DOFState() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
     Eigen::Vector3d ang_accel_body_;
 
     Eigen::Vector3d wind_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 using RigidBody6DOFStatePtr = std::shared_ptr<RigidBody6DOFState>;

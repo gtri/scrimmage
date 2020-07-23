@@ -283,6 +283,16 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     // Airspeed is magnitude of velocity vector for now
     fdm_pkt.airspeed = (state.vel() + state.wind()).norm();
+    if (std::isnan(fdm_pkt.airspeed)) {
+        // The norm of a small vector can be NaN, so most likely, the airspeed
+        // should be zero in this case.
+        fdm_pkt.airspeed = 0.0;
+    }
+
+    if (std::isinf(fdm_pkt.airspeed)) {
+        std::cout << "ArduPilot: Warning: velocity or wind contains infinite value." << std::endl;
+        fdm_pkt.airspeed = 0.0;
+    }
 
 #if 0
     cout << "--------------------------------------------------------" << endl;
