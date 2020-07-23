@@ -107,6 +107,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#build-scrimmage-ros">Build scrimmage_ros</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#processes-yaml-file-format">Processes YAML File Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#running-processes-in-docker">Running processes in docker</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
@@ -414,6 +418,10 @@ method:</p>
 <span class="n">entity_launch</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="processes-yaml-file-format">
+<h2>Processes YAML File Format<a class="headerlink" href="#processes-yaml-file-format" title="Permalink to this headline">¶</a></h2>
 <p>Let’s take a look at the processes yaml file to understand how it helps us
 launch scrimmage in parallel with ROS autonomies:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span>
@@ -495,6 +503,27 @@ file. For example, our new mission yaml file will look like the following:</p>
           <span class="nt">y</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
           <span class="nt">z</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-5</span>
           <span class="nt">heading</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+</pre></div>
+</div>
+<div class="section" id="running-processes-in-docker">
+<h3>Running processes in docker<a class="headerlink" href="#running-processes-in-docker" title="Permalink to this headline">¶</a></h3>
+<p>The processes specified in <code class="docutils literal notranslate"><span class="pre">processes.yaml</span></code> can be run in docker as well, keeping in
+mind that there is typically no display available (as specified in the <code class="docutils literal notranslate"><span class="pre">DISPLAY</span></code> environment
+variable), which can affect certain terminal programs. The main scrimmage process uses the
+default terminal, which may need to be set to <code class="docutils literal notranslate"><span class="pre">none</span></code> for running in docker. And any other
+process with its own terminal specified may also need to be set to <code class="docutils literal notranslate"><span class="pre">none</span></code>, or another
+terminal program that can run in docker:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span>
+
+<span class="nt">defaults</span><span class="p">:</span>
+    <span class="nt">terminal</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">none</span>
+    <span class="nt">environment</span><span class="p">:</span>
+        <span class="nt">some_variable</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">some_value</span>
+
+<span class="nt">processes</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">process_with_gui</span>
+      <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">process_with_gui</span>
+      <span class="nt">terminal</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">none</span>
 </pre></div>
 </div>
 </div>
