@@ -268,6 +268,9 @@ method:
    # Run the processes. Blocking.
    entity_launch.run()
 
+Processes YAML File Format
+---------------------------------------
+
 Let's take a look at the processes yaml file to understand how it helps us
 launch scrimmage in parallel with ROS autonomies:
 
@@ -354,3 +357,27 @@ file. For example, our new mission yaml file will look like the following:
              y: 10
              z: -5
              heading: 0
+
+Running processes in docker
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The processes specified in ``processes.yaml`` can be run in docker as well, keeping in
+mind that there is typically no display available (as specified in the ``DISPLAY`` environment
+variable), which can affect certain terminal programs. The main scrimmage process uses the
+default terminal, which may need to be set to ``none`` for running in docker. And any other
+process with its own terminal specified may also need to be set to ``none``, or another
+terminal program that can run in docker:
+
+.. code-block:: yaml
+
+   version: "1.0"
+
+   defaults:
+       terminal: none
+       environment:
+           some_variable: some_value
+
+   processes:
+       - name: process_with_gui
+         command: process_with_gui
+         terminal: none
