@@ -170,7 +170,9 @@ void Updater::init(const std::string &log_dir, double dt) {
 
 void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
                       void * vtkNotUsed(callData)) {
-    update();
+    if (not update()) {
+        return;
+    }
 
     vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::SafeDownCast(caller);
     iren->GetRenderWindow()->Render();
@@ -286,8 +288,10 @@ bool Updater::update() {
         for (auto it : info_list) {
             if (it.shutting_down()) {
                 send_shutdown_msg_ = false;
-                rwi_->GetRenderWindow()->Finalize();
+
+                // Terminate the VTK application
                 rwi_->TerminateApp();
+                return false;
             }
         }
 
@@ -1487,6 +1491,9 @@ void Updater::shutting_down() {
     if (send_shutdown_msg_) {
         outgoing_interface_->send_gui_msg(gui_msg_);
     }
+
+    rwi_->GetRenderWindow()->Finalize();
+    rwi_->TerminateApp();
 
     rwi_ = NULL;
     renderer_ = NULL;

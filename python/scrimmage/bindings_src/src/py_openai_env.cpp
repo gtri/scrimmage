@@ -183,11 +183,6 @@ void ScrimmageOpenAIEnv::shutdown_sim() {
         if (viewer_thread_ != nullptr) {
             viewer_thread_->join();
         }
-
-        // Close the viewer, if it exists
-        if (viewer_ != nullptr) {
-            viewer_->close();
-        }
 #endif
     }
 }
