@@ -170,7 +170,10 @@ void Updater::init(const std::string &log_dir, double dt) {
 
 void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
                       void * vtkNotUsed(callData)) {
-    update();
+    // (James Lewis): If we don't return here, Render() will be called after Finalize().
+    if (!update()) {
+	return;
+    }
 
     vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::SafeDownCast(caller);
     iren->GetRenderWindow()->Render();
@@ -288,6 +291,7 @@ bool Updater::update() {
                 send_shutdown_msg_ = false;
                 rwi_->GetRenderWindow()->Finalize();
                 rwi_->TerminateApp();
+		return false;
             }
         }
 
@@ -1486,6 +1490,10 @@ void Updater::shutting_down() {
     gui_msg_.set_shutting_down(true);
     if (send_shutdown_msg_) {
         outgoing_interface_->send_gui_msg(gui_msg_);
+        // (James Lewis): I was getting segfaults if the smart pointer destructors were called before Finalize.
+	//                This occured if the window was closed by pressing 'q'.
+	rwi_->GetRenderWindow()->Finalize();
+        rwi_->TerminateApp();
     }
 
     rwi_ = NULL;
