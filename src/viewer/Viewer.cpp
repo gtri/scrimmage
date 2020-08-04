@@ -189,14 +189,4 @@ bool Viewer::run() {
 
     return true;
 }
-
-bool Viewer::close() {
-    // Close the window
-    renderWindowInteractor_->GetRenderWindow()->Finalize();
-
-    // Stop the interactor
-    renderWindowInteractor_->TerminateApp();
-
-    return true;
-}
 } // namespace scrimmage

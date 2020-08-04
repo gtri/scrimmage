@@ -112,8 +112,8 @@ RUN source /root/env/bin/activate && \
 
 # Test scrimmage_ros package integration
 RUN source /root/env/bin/activate \
- && pip install catkin-pkg==0.4.16 \
-                rospkg==1.2.3 \
+ && pip install catkin-pkg==0.4.22 \
+                rospkg==1.2.8 \
                 defusedxml==0.6.0 \
  && mkdir -p /root/catkin_ws/src \
  && cd /root/catkin_ws/src \

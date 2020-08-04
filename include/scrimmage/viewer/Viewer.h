@@ -64,7 +64,6 @@ class Viewer {
     bool init(const std::shared_ptr<MissionParse>& mp,
               const std::map<std::string, std::string>& camera_params);
     bool run();
-    bool close();
 
  protected:
     // Create a renderer, render window, and interactor
