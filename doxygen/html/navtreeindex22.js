@@ -1,6 +1,5 @@
 var NAVTREEINDEX22 =
 {
-"classscrimmage_1_1motion_1_1UUV6DOF.html#a8c4f67f52430a09f54a2182e0c6ad102":[6,0,5,5,21,35],
 "classscrimmage_1_1motion_1_1UUV6DOF.html#a8d92c012b3752fcaca4931b82bdf727a":[6,0,5,5,21,61],
 "classscrimmage_1_1motion_1_1UUV6DOF.html#a91ebf64b0477aff2f37c0dec4f1b41b9":[6,0,5,5,21,20],
 "classscrimmage_1_1motion_1_1UUV6DOF.html#a96c7728761d481a22b710bf1d91dc3cb":[6,0,5,5,21,75],
@@ -249,5 +248,6 @@ var NAVTREEINDEX22 =
 "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a200b255b762d291829796cba010f0b43":[6,0,5,7,7,0],
 "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a39d1f4310954331e32795ae36bcffd73":[6,0,5,7,7,15],
 "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a3d4307c5080541d9ccf088e5049459ab":[6,0,5,7,7,11],
-"classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a3ea7bc6800f6a4236c3c13efdf3a1561":[6,0,5,7,7,7]
+"classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a3ea7bc6800f6a4236c3c13efdf3a1561":[6,0,5,7,7,7],
+"classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a4e538aedc2007eceb6797155e8ebecfc":[6,0,5,7,7,8]
 };

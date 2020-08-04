@@ -1,6 +1,5 @@
 var NAVTREEINDEX16 =
 {
-"classscrimmage_1_1autonomy_1_1ROSAirSim.html#ae26b6a95da7e493eacbdeea401441f7d":[6,0,5,0,24,31],
 "classscrimmage_1_1autonomy_1_1ROSAirSim.html#af962ba79427d39878bdb5aff34c2f969":[6,0,5,0,24,17],
 "classscrimmage_1_1autonomy_1_1ROSAutonomy.html":[6,0,5,0,25],
 "classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a0762bc50aeda581506e4457354bcc790":[6,0,5,0,25,1],
@@ -249,5 +248,6 @@ var NAVTREEINDEX16 =
 "classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#a79ea069a342ba5289db22324f46b62ce":[6,0,5,0,0,0,3],
 "classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#a844792b88e00227b24cff1210079a3e3":[6,0,5,0,0,0,0],
 "classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#aa26ef7290c871cacad63008f2446bb8d":[6,0,5,0,0,0,9],
-"classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#ab2731f61333f9b8f12b83714bab98c5a":[6,0,5,0,0,0,4]
+"classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#ab2731f61333f9b8f12b83714bab98c5a":[6,0,5,0,0,0,4],
+"classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#acf23a7ebfbc7403fff7f247af7fc4271":[6,0,5,0,0,0,8]
 };
