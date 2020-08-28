@@ -1,0 +1,20 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::metrics\l::SimpleCollisionMetrics\l::calc_team_scores",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a10578b3dd3a81a976dd39ca3f68cfff7",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::generate\l_chars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::Metrics\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Metrics.html#a82ba11476f39774c8458c6c8b2651b15",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::metrics\l::SimpleCollisionMetrics\l::print_team_summaries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#af72187ec76a748b8fd69019656a4830c",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::metrics\l::SimpleCollisionMetrics\l::SimpleCollisionMetrics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a73b2387fbc3bc1286ed7930dcd8bd254",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::metrics\l::SimpleCollisionMetrics\l::step_metrics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a26d91ce5a23e1fc763cf43a04f96c090",tooltip=" "];
+}

@@ -1,0 +1,14 @@
+digraph "scrimmage::sensor::ROSIMUSensor::init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::sensor::\lROSIMUSensor::init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::CSV::open\l_output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::CSV::output\l_is_open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::CSV::set\l_column_headers",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8",tooltip=" "];
+}

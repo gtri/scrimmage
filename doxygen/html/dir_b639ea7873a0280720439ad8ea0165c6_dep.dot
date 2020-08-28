@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSControl" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_b639ea7873a0280720439ad8ea0165c6 [shape=box, label="ROSControl", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_b639ea7873a0280720439ad8ea0165c6.html"];
+  }
+  dir_8f25491911d3a3415d21158b3a48c0c1 [shape=box label="pubsub" URL="dir_8f25491911d3a3415d21158b3a48c0c1.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_b639ea7873a0280720439ad8ea0165c6->dir_8f25491911d3a3415d21158b3a48c0c1 [headlabel="1", labeldistance=1.5 headhref="dir_000048_000149.html"];
+  dir_b639ea7873a0280720439ad8ea0165c6->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000048_000006.html"];
+}

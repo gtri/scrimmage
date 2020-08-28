@@ -1,0 +1,25 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Angles::\langle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::Angles::\ldeg2rad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::autonomy\l::FlightGearMultiplayer\l::FlightGearMultiplayer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a330bf66d3feefd7f83dd0b404e84ca07",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::autonomy\l::FlightGearMultiplayer\l::fromLonLatRad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a29b6404372957cf8c19966fdc0976877",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Autonomy\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::Angles::\lrad2deg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::Angles::\lset_angle",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae",tooltip=" "];
+  Node8 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::autonomy\l::FlightGearMultiplayer\l::step_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#abfedb4508936a02201d96269177936ac",tooltip=" "];
+}

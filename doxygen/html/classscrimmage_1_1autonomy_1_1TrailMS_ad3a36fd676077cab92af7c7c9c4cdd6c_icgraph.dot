@@ -1,0 +1,10 @@
+digraph "scrimmage::autonomy::TrailMS::step_autonomy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::autonomy\l::TrailMS::step_autonomy",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$TrailMS_8cpp.html#af86866f544ec4fc507b7f7d184acc9ac",tooltip=" "];
+}

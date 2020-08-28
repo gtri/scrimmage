@@ -1,0 +1,14 @@
+digraph "scrimmage::interaction::Boundary"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::Boundary\n|# boundary_published_\l|+ Boundary()\l+ init()\l+ step_entity_interaction()\l+ make_boundary()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
+  Node9 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_boundary_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node9 [label="{std::shared_ptr\< T \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #boundary_shape_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::shared_ptr\< scrimmage\l_proto::Shape \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node86 [dir="back",color="orange",fontsize="10",style="solid",label=" \< scrimmage_proto::\lShape \>" ,fontname="Helvetica"];
+}

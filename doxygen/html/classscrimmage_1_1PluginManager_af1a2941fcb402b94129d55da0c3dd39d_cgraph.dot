@@ -1,0 +1,20 @@
+digraph "scrimmage::PluginManager::make_plugin"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::PluginManager\l::make_plugin",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::FileSearch\l::find_files",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1FileSearch.html#ac4d4bc23721e01f4ff0ff1eaef0a63be",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::PluginManager\l::find_matching_plugins",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PluginManager.html#aaaf0f0916cf0503c5a29683977cccf8d",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::PluginManager\l::make_plugin_helper",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1PluginManager.html#a20f374b8a111d815d4286e4365879082",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::ConfigParse\l::params",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::ConfigParse\l::parse",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::ConfigParse\l::set_required",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3",tooltip=" "];
+}

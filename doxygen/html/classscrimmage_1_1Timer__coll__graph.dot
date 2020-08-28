@@ -1,0 +1,7 @@
+digraph "scrimmage::Timer"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::Timer\n|# time_warp_\l# start_time_\l# actual_time_\l# actual_elapsed_time_\l# sim_time_\l# sim_elapsed_time_\l# loop_timer_\l# iterate_period_\l# iterate_rate_\l|+ start_overall_timer()\l+ elapsed_time()\l+ start_loop_timer()\l+ loop_wait()\l+ set_iterate_rate()\l+ set_time_warp()\l+ update_time_config()\l+ inc_warp()\l+ dec_warp()\l+ time_warp()\l+ getnanotime()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

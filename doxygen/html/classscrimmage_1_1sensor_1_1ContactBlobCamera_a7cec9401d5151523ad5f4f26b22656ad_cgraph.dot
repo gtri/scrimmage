@@ -1,0 +1,28 @@
+digraph "scrimmage::sensor::ContactBlobCamera::init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::sensor::\lContactBlobCamera::init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::EntityPlugin\l::advertise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::Angles::\ldeg2rad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::get_vec",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::get_vec\l_of_vecs",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::set",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="scrimmage::Contact\l::set_active",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Contact.html#a9d3bb2620a1c1963273b20645a2dc98b",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::sensor::\lContactBlobCamera::set\l_plugin_params",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1a55d348ee3af87bdb66e21d095e8110",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="scrimmage::Contact\l::set_radius",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Contact.html#a2ef13b5ef155f7e2a7db6470b0957c70",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::Contact\l::set_type",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Contact.html#af8d81d2b85f30d62c0cf65e3bfc1cb7b",tooltip=" "];
+  Node1 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="scrimmage::EntityPlugin\l::transform",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f",tooltip=" "];
+}

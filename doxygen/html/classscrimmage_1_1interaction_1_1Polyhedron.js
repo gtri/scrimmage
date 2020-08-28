@@ -6,7 +6,7 @@ var classscrimmage_1_1interaction_1_1Polyhedron =
     [ "contains", "classscrimmage_1_1interaction_1_1Polyhedron.html#ab81313b85650dddcdf19542c1c039578", null ],
     [ "set_points", "classscrimmage_1_1interaction_1_1Polyhedron.html#a77a9bdfa3d000186bca0bd6d7ed8b0cb", null ],
     [ "set_visual", "classscrimmage_1_1interaction_1_1Polyhedron.html#ad7dccba681a10f780128d433a7c89021", null ],
-    [ "get_bounds", "classscrimmage_1_1interaction_1_1Polyhedron.html#a512a0d35331b5251ee693a1e5ae5fd6e", null ],
+    [ "get_bounds", "classscrimmage_1_1interaction_1_1Polyhedron.html#a429f2ff3bc6b90a2141e75a71332eb9c", null ],
     [ "points_", "classscrimmage_1_1interaction_1_1Polyhedron.html#aaf8af10789fa538bbbb4efe07d0c65ca", null ],
     [ "u", "classscrimmage_1_1interaction_1_1Polyhedron.html#afd74b6c986f8b48ab0265f5ad2338a71", null ],
     [ "v", "classscrimmage_1_1interaction_1_1Polyhedron.html#a329a4d4acb197b772f88fc02fb40a6c1", null ],

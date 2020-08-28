@@ -1,0 +1,13 @@
+digraph "scrimmage::interaction::Plane::points"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::interaction\l::Plane::points",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::interaction\l::Plane::Plane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Plane.html#a338165114bcdb3f746dbec8bc2d96e6a",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::interaction\l::Plane::set_points",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

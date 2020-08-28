@@ -1,0 +1,42 @@
+digraph "scrimmage::Angles::rad2deg"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::Angles::\lrad2deg",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Updater\l::draw_arc",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a7bfbbe6a19aa840241f98633f58fbeb9",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::motion::\lJSBSimControl::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::motion::\lJSBSimModel::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::Updater\l::quat_2_transform",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ArduPilot_8cpp.html#aa26b41fb7b6c341c0408e5f8aa1836ee",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::FrameUpdateClient\l::send_frame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="scrimmage::Updater\l::set_quat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#aaef3d0cc8f6f4854c9120fa685ca6b80",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::SimControl\l::start",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93",tooltip="Starts the mission by generating entities and setting up logging."];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a8111f6af651d500f112128d06bf2b0c5",tooltip=" "];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a70769acf07b591b4a86cf53d387622e4",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage::sensor::\lContactBlobCamera::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="scrimmage::motion::\lJSBSimControl::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1JSBSimControl.html#a92a9eb114d1af3919df9b62193260a75",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage::motion::\lJSBSimModel::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1JSBSimModel.html#aaec5e2e01ca96af4d8b800643545a0ea",tooltip=" "];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="scrimmage::sensor::\lAirSimSensor::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3",tooltip=" "];
+  Node1 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="scrimmage::motion::\lJSBSimModel::teleport",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1JSBSimModel.html#a74260a468d7e2705b1f99c7a7e7f29e8",tooltip=" "];
+  Node1 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage::Updater\l::update_text_display",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a15c578c9a497f8d1531abaa0f8657452",tooltip=" "];
+}

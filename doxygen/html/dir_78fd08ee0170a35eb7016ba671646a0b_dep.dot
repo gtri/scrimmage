@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor/LOSSensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_2483af7b304531f76a0533eb422d3df1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_2483af7b304531f76a0533eb422d3df1.html"]
+  dir_78fd08ee0170a35eb7016ba671646a0b [shape=box, label="LOSSensor", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_78fd08ee0170a35eb7016ba671646a0b.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_78fd08ee0170a35eb7016ba671646a0b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000269_000004.html"];
+}

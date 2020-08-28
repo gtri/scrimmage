@@ -1,0 +1,29 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryRecordPlayback.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/autonomy/TrajectoryRecordPlayback\l/TrajectoryRecordPlayback.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/autonomy\l/Autonomy.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Autonomy_8h.html",tooltip="Brief file description."];
+  Node2 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="list",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="string",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="scrimmage/common/CSV.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$CSV_8h.html",tooltip="Brief file description."];
+  Node31 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="fstream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node31 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="scrimmage/plugins/autonomy\l/TrajectoryRecordPlayback\l/TrajectoryPoint.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$TrajectoryPoint_8h.html",tooltip="Brief file description."];
+  Node34 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

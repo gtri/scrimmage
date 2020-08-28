@@ -1,0 +1,9 @@
+digraph "scrimmage::autonomy::Waypoint"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::Waypoint\n|# id_\l# time_\l# latitude_\l# longitude_\l# altitude_\l# position_tolerance_\l# quat_tolerance_\l# tolerance_in_2d_\l|+ Waypoint()\l+ Waypoint()\l+ Waypoint()\l+ Waypoint()\l+ Waypoint()\l+ set_id()\l+ set_time()\l+ set_latitude()\l+ set_longitude()\l+ set_altitude()\l+ set_quat()\l+ set_position_tolerance()\l+ set_quat_tolerance()\l+ lla_proto()\l+ id()\l+ time()\l+ latitude()\l+ longitude()\l+ altitude()\l+ quat()\l+ position_tolerance()\l+ quat_tolerance()\l+ xyz()\l+ is_within_tolerance()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #quat_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Quaternion\n|+ output_precision\l|+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ operator=()\l+ operator=()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ set()\l+ set()\l+ set()\l+ roll()\l+ pitch()\l+ yaw()\l+ rotation_angle()\l+ rotate()\l+ rotate_reverse()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* operator=()\l* operator=()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* set()\l* set()\l* set()\l* roll()\l* pitch()\l* yaw()\l* rotation_angle()\l* rotate()\l* rotate_reverse()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html",tooltip=" "];
+}

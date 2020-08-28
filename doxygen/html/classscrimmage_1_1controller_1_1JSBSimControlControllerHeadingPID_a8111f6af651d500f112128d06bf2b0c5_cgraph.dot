@@ -1,0 +1,27 @@
+digraph "scrimmage::controller::JSBSimControlControllerHeadingPID::step"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::step",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Angles::\langle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::Angles::\langle_pi",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b",tooltip=" "];
+  Node3 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::Angles::\ldeg2rad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::VariableIO\l::output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::Angles::\lrad2deg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::Angles::\lset_angle",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae",tooltip=" "];
+  Node8 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::PID::set\l_setpoint",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="scrimmage::PID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3",tooltip=" "];
+  Node12 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

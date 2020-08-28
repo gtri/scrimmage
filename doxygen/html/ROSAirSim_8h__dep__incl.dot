@@ -1,0 +1,9 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/autonomy/ROSAirSim/ROSAirSim.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/ROSAirSim\l/ROSAirSim.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ROSAirSim_8cpp.html",tooltip="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages."];
+}

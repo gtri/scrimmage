@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/network/SphereNetwork" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_a947988000fb94fcb137b6a447a87bc1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="network" fontname="Helvetica", fontsize="10", URL="dir_a947988000fb94fcb137b6a447a87bc1.html"]
+  dir_31ec81cffa7f6b06bbce07ac8a2fe56d [shape=box, label="SphereNetwork", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_31ec81cffa7f6b06bbce07ac8a2fe56d.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_31ec81cffa7f6b06bbce07ac8a2fe56d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000263_000004.html"];
+}

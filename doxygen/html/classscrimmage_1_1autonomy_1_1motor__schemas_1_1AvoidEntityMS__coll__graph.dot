@@ -1,0 +1,11 @@
+digraph "scrimmage::autonomy::motor_schemas::AvoidEntityMS"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::motor_schemas::AvoidEntityMS\n|# sphere_of_influence_\l# minimum_range_\l# avoid_non_team_\l# show_shapes_\l|+ AvoidEntityMS()\l+ init()\l+ step_autonomy()\l# avoidance_vectors()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::autonomy\l::motor_schemas::BehaviorBase\n|# desired_vector_\l# gain_\l# max_vector_length_\l# use_truth_contacts_\l# use_noisy_contacts_\l|+ BehaviorBase()\l+ desired_vector()\l+ set_gain()\l+ gain()\l+ set_max_vector_length()\l+ configure_contacts()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html",tooltip=" "];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #line_shape_\n#circle_shape_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{std::shared_ptr\< Shape \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

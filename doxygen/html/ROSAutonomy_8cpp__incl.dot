@@ -1,0 +1,26 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy/ROSAutonomy/ROSAutonomy.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/ROSAutonomy\l/ROSAutonomy.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="rosgraph_msgs/Clock.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node1 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage/plugins/autonomy\l/ROSAutonomy/ROSAutonomy.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ROSAutonomy_8h.html",tooltip="Brief file description."];
+  Node26 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="scrimmage/plugins/sensor\l/RayTrace/RayTrace.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RayTrace_8h.html",tooltip="Brief file description."];
+  Node1 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node1 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="scrimmage/math/Angles.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Angles_8h.html",tooltip="Brief file description."];
+  Node1 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,22 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::EntityPlugin\l::advertise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::get",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::autonomy\l::GraphvizFSM::GraphvizFSM",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a6389584275b4da44a23564af8278e8e5",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::Autonomy\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Plugin::name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::autonomy\l::GraphvizFSM::step\l_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a5ee1e0b2adc25cb8c4204cce00e1a31d",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::autonomy\l::GraphvizFSM::update\l_state_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a",tooltip=" "];
+}

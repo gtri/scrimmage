@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_da9620d34cca5c42773312c818662e06 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_da9620d34cca5c42773312c818662e06.html"]
+  dir_73075f56f5ff9f2d37560a22b0c682d0 [shape=box, label="DoubleIntegratorControllerWaypoint", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_73075f56f5ff9f2d37560a22b0c682d0.html"];
+  }
+  dir_accb3fd3c749527533ae278fdffb4d13 [shape=box label="motion" fillcolor="white" style="filled" color="red" URL="dir_accb3fd3c749527533ae278fdffb4d13.html"];
+  dir_73075f56f5ff9f2d37560a22b0c682d0->dir_accb3fd3c749527533ae278fdffb4d13 [headlabel="1", labeldistance=1.5 headhref="dir_000062_000107.html"];
+}

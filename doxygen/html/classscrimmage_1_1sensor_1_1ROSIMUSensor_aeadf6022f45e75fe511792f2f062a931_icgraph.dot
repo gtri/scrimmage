@@ -1,0 +1,12 @@
+digraph "scrimmage::sensor::ROSIMUSensor::skew_sym"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::sensor::\lROSIMUSensor::skew_sym",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::sensor::\lROSIMUSensor::get_delta_theta",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ade87f4f2b25d40cf707a21a6aa00d891",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::sensor::\lROSIMUSensor::get_deltaV",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aacdf28a891ddc080f4bcb83ab49b7af7",tooltip=" "];
+}

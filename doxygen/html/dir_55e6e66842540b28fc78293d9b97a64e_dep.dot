@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy/TakeFlag" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_9a5cd39d655c6343ef9bc0ff48b9632e {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html"]
+  dir_55e6e66842540b28fc78293d9b97a64e [shape=box, label="TakeFlag", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_55e6e66842540b28fc78293d9b97a64e.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_55e6e66842540b28fc78293d9b97a64e->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000189_000004.html"];
+}

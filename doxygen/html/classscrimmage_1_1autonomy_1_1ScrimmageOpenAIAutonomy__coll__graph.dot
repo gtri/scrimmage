@@ -1,0 +1,21 @@
+digraph "scrimmage::autonomy::ScrimmageOpenAIAutonomy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\n|+ reward_range\l# tuple_space_\l# box_space_\l# self_id_\l# first_step_\l# actor_func_\l# nonlearning_mode_\l# grpc_mode_\l- setup_complete_\l|+ ScrimmageOpenAIAutonomy()\l+ init()\l+ step_autonomy()\l+ init_helper()\l+ step_helper()\l+ set_environment()\l+ calculate_reward()\l+ self_id()\l- calc_reward()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #observations_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{scrimmage::autonomy\l::OpenAIObservations\n|+ observation_space\l+ observation\l# tuple_space_\l# box_space_\l# combine_actors_\l# global_sensor_\l|+ OpenAIObservations()\l+ create_observation\l_space()\l+ update_observation()\l+ ext_sensor_vec()\l+ add_sensors()\l+ set_global_sensor()\l+ get_global_sensor()\l+ set_combine_actors()\l+ get_combine_actors()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html",tooltip=" "];
+  Node88 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +action_space" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node88 [label="{scrimmage::EnvParams\n||}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$structscrimmage_1_1EnvParams.html",tooltip=" "];
+  Node91 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #actions_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node91 [label="{scrimmage::autonomy\l::OpenAIActions\n|+ action_space\l# tuple_space_\l# box_space_\l# asarray_\l|+ OpenAIActions()\l+ ext_ctrl_vec()\l+ create_action_space()\l+ distribute_action()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIActions.html",tooltip=" "];
+  Node94 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +action" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node94 [label="{scrimmage::EnvValues\n||}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$structscrimmage_1_1EnvValues.html",tooltip=" "];
+  Node63 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #params_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node63 [label="{std::map\< std::string,\l std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node95 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_reward_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node95 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ROSAltimeter" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_000479e1305f0edebbccb6008dd63eeb {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_000479e1305f0edebbccb6008dd63eeb.html"]
+  dir_a7157a58da70f84feaeb0edfebc7f2fc [shape=box, label="ROSAltimeter", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_a7157a58da70f84feaeb0edfebc7f2fc.html"];
+  }
+  dir_e87096b61398b9a30229e95697b76c91 [shape=box label="sensor" URL="dir_e87096b61398b9a30229e95697b76c91.html"];
+  dir_a7157a58da70f84feaeb0edfebc7f2fc->dir_e87096b61398b9a30229e95697b76c91 [headlabel="1", labeldistance=1.5 headhref="dir_000143_000150.html"];
+}

@@ -1,0 +1,26 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::VariableIO\l::declare",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::controller\l::UUV6DOFPIDController::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1UUV6DOFPIDController.html#a90b0e085a19906e71107862a917565f9",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::PID::init",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#af0dfdaf6faa01780bec02a2f1605ce0c",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage::VariableIO\l::input",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::VariableIO\l::output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="scrimmage::PID::set\l_setpoint",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044",tooltip=" "];
+  Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage::controller\l::UUV6DOFPIDController::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1UUV6DOFPIDController.html#a995c38a79c5ba0c8673664f4abc2a1f8",tooltip=" "];
+  Node1 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="scrimmage::PID::step",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3",tooltip=" "];
+  Node1 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="scrimmage::controller\l::UUV6DOFPIDController\l::UUV6DOFPIDController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1UUV6DOFPIDController.html#ad68d41756487af843b1fdeeb8eb0df5e",tooltip=" "];
+}

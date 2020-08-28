@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/GraphvizFSM" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_8bdbae8c9252e984668ea260bd139d75 [shape=box, label="GraphvizFSM", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_8bdbae8c9252e984668ea260bd139d75.html"];
+  }
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_8bdbae8c9252e984668ea260bd139d75->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000035_000006.html"];
+}

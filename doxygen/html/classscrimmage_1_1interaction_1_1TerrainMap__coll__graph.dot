@@ -1,0 +1,13 @@
+digraph "scrimmage::interaction::TerrainMap"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::TerrainMap\n|# technique_\l# center_\l# x_length_\l# y_length_\l# x_resolution_\l# y_resolution_\l# z_min_\l# z_max_\l# color_\l# num_x_cols_\l# num_y_rows_\l|+ TerrainMap()\l+ TerrainMap()\l+ TerrainMap()\l+ shape()\l+ proto()\l+ height_at()\l# generate()\l# generate_random_walk()\l# generate_linear()\l# generate_linear_walk()\l# center_height_adjust()\l# clamp_height()\l# get_neighbor_avg()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #grid_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::vector\< std::vector\l\< scrimmage::interaction\l::TerrainMap::Node \> \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #rng_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node5 [label="{std::shared_ptr\< std\l::normal_distribution\l\< double \> \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node7 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #gener_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node7 [label="{std::shared_ptr\< std\l::default_random_engine \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

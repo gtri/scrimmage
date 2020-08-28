@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/TrailMS" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_19b20a58ac24b781a3d265d8d2c872f7 [shape=box, label="TrailMS", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_19b20a58ac24b781a3d265d8d2c872f7.html"];
+  }
+  dir_06e4f53d84a2ce6951353703db33851a [shape=box label="MotorSchemas" URL="dir_06e4f53d84a2ce6951353703db33851a.html"];
+  dir_19b20a58ac24b781a3d265d8d2c872f7->dir_06e4f53d84a2ce6951353703db33851a [headlabel="1", labeldistance=1.5 headhref="dir_000053_000038.html"];
+}

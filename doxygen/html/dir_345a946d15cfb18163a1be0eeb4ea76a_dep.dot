@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/controller/UUV6DOFLinearEnergy" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_c915aa27e6120cf8f6d19a96e78171a2 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_c915aa27e6120cf8f6d19a96e78171a2.html"]
+  dir_345a946d15cfb18163a1be0eeb4ea76a [shape=box, label="UUV6DOFLinearEnergy", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_345a946d15cfb18163a1be0eeb4ea76a.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_345a946d15cfb18163a1be0eeb4ea76a->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000219_000004.html"];
+}

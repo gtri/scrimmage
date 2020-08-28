@@ -1,0 +1,27 @@
+digraph "scrimmage::Quaternion::rotate"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::Quaternion\l::rotate",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Updater\l::draw_arc",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a7bfbbe6a19aa840241f98633f58fbeb9",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Updater\l::draw_plane",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a854bb35b4b42d64ea553d196266eb9a1",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::interaction\l::BulletCollision::get\l_ray_tracing",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1BulletCollision.html#ac0bd399c534a893915d232b2b4d5446c",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::interaction\l::BulletCollision::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::motion::\lFixedWing6DOF::model",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#ad15005a38942cab6b3a6a72cb610cc48",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::State::orient\l_global_frame",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a9488bbe3359b83b2881eefed107297f3",tooltip="returns the vector extending forward"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Multirotor_8cpp.html#aa84d785e4bc85cd0d95c588dc56b1240",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::motion::\lFixedWing6DOF::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88747115a8cec96099b6f47c54e6d46d",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::Updater\l::update_camera",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a694fd5e005fc053b4423427072900d97",tooltip=" "];
+}

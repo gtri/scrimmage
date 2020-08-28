@@ -1,0 +1,11 @@
+digraph "scrimmage::SubscriberBase"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::SubscriberBase\n||+ SubscriberBase()\l+ SubscriberBase()\l+ accept()\l# print_err()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::NetworkDevice\n|# topic_\l# max_queue_size_\l# enable_queue_size_\l# plugin_\l# msg_list_\l# mutex_\l# undelivered_msg_list_\l|+ NetworkDevice()\l+ NetworkDevice()\l+ NetworkDevice()\l+ ~NetworkDevice()\l+ NetworkDevice()\l+ get_topic()\l+ set_topic()\l+ set_msg_list()\l+ clear_msg_list()\l+ msg_list_size()\l+ undelivered_msg_list_size()\l+ set_max_queue_size()\l+ max_queue_size()\l+ enable_queue_size()\l+ enable_queue_size()\l+ enforce_queue_size()\l+ add_msg()\l+ add_undelivered_msg()\l+ deliver_undelivered_msg()\l+ deliver_undelivered_msg()\l+ pop_msgs()\l+ pop_msgs()\l+ pop_msgs()\l+ msgs()\l+ msgs()\l+ msgs()\l+ plugin()\l# print_str()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1NetworkDevice.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node3 [label="{scrimmage::Subscriber\l\< T, CallbackFunc \>\n|# callback_\l|+ Subscriber()\l+ accept()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Subscriber.html",tooltip=" "];
+}

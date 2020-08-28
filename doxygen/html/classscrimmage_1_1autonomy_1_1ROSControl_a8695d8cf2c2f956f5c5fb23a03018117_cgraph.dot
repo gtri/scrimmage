@@ -1,0 +1,12 @@
+digraph "scrimmage::autonomy::ROSControl::init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::autonomy\l::ROSControl::init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::autonomy\l::ROSControl::cmd_vel_cb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1ROSControl.html#a0a309fc9eeb4a904aef189f5d6f052fe",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::autonomy\l::ROSControl::zero_ctrls",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1ROSControl.html#adb212679efc68f1bba3074d91369dfc1",tooltip=" "];
+}

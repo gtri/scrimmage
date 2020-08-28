@@ -1,0 +1,15 @@
+digraph "scrimmage::Contact"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::Contact\n|# type_\l# active_\l# radius_\l|+ Contact()\l+ Contact()\l+ Contact()\l+ get_properties()\l+ properties()\l+ set_id()\l+ id()\l+ set_state()\l+ state()\l+ state_const()\l+ set_type()\l+ type()\l+ contact_visual()\l+ set_active()\l+ active()\l+ set_radius()\l+ radius()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #id_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{scrimmage::ID\n|# id_\l# sub_swarm_id_\l# team_id_\l|+ ID()\l+ ID()\l+ set_id()\l+ set_sub_swarm_id()\l+ set_team_id()\l+ id()\l+ sub_swarm_id()\l+ team_id()\l+ operator==()\l+ operator\<()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1ID.html",tooltip=" "];
+  Node3 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #contact_visual_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node3 [label="{std::shared_ptr\< scrimmage\l_proto::ContactVisual \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #properties_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::unordered_map\l\< std::string, MessageBase\lPtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node11 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #state_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node11 [label="{std::shared_ptr\< State \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

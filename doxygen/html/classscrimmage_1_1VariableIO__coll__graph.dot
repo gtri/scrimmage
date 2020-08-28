@@ -1,0 +1,15 @@
+digraph "scrimmage::VariableIO"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::VariableIO\n|# next_input_variable\l_index_\l|+ VariableIO()\l+ output_variable_index()\l+ input_variable_index()\l+ add_input_variable()\l+ add_output_variable()\l+ declare()\l+ declare()\l+ input()\l+ output()\l+ output()\l+ exists()\l+ exists()\l+ declared_input_variables()\l+ declared_output_variables()\l+ type_map()\l+ input()\l+ output()\l+ set_input()\l+ set_output()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #output_variable_index\l_\n#input_variable\l_index_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::map\< std::string,\l int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #declared_output_variables\l_\n#declared_input_variables_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 [label="{std::set\< std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #output_\n#input_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node10 [label="{std::shared_ptr\< Eigen\l::VectorXd \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #type_map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node12 [label="{std::map\< Type, std\l::string \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

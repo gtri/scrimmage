@@ -1,0 +1,12 @@
+digraph "scrimmage::sensor::AirSimImageType"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lAirSimImageType\n|+ img\l+ vehicle_pose_world_NED\l+ camera_pose_world_NED\l|+ ~AirSimImageType()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +camera_config" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{scrimmage::sensor::\lCameraConfig\n|+ img_type\l+ img_type_number\l+ height\l+ width\l+ fov\l+ pixels_as_float\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1CameraConfig.html",tooltip=" "];
+  Node3 -> Node2 [color="grey25",fontsize="10",style="solid",label=" +vehicle_name\n+img_type_name\n+cam_name" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node3 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node3 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +vehicle_name" ,arrowhead="odiamond",fontname="Helvetica"];
+}

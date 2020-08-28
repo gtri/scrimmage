@@ -1,0 +1,9 @@
+digraph "scrimmage::sensor::AirSimImuType"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lAirSimImuType\n|+ imu_data\l+ frame_num\l+ vehicle_pose_world_NED\l+ imu_pose_world_NED\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +imu_name\n+vehicle_name" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+}

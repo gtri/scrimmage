@@ -1,0 +1,10 @@
+digraph "scrimmage::motion::RigidBody6DOF::Controller::u"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::motion::\lRigidBody6DOF::Controller::u",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::motion::\lRigidBody6DOF::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1RigidBody6DOF.html#a698b1d55c7b9082e999efe4e36c5163e",tooltip=" "];
+}

@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_ccf9ede14d1e971c374e2bcbdf4cc51e [shape=box, label="ROSAirSim", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_ccf9ede14d1e971c374e2bcbdf4cc51e.html"];
+  }
+  dir_000479e1305f0edebbccb6008dd63eeb [shape=box label="sensor" fillcolor="white" style="filled" color="red" URL="dir_000479e1305f0edebbccb6008dd63eeb.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_ccf9ede14d1e971c374e2bcbdf4cc51e->dir_000479e1305f0edebbccb6008dd63eeb [headlabel="1", labeldistance=1.5 headhref="dir_000046_000131.html"];
+  dir_ccf9ede14d1e971c374e2bcbdf4cc51e->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000046_000006.html"];
+}

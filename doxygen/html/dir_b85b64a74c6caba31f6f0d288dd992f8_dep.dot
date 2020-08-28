@@ -1,0 +1,14 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GRPCCommandString" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e780a5c579cb35e946684e8694642ace {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interaction" fontname="Helvetica", fontsize="10", URL="dir_e780a5c579cb35e946684e8694642ace.html"]
+  dir_b85b64a74c6caba31f6f0d288dd992f8 [shape=box, label="GRPCCommandString", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_b85b64a74c6caba31f6f0d288dd992f8.html"];
+  }
+  dir_8dabc27971b3bc145bbcc2e849e82380 [shape=box label="simcontrol" URL="dir_8dabc27971b3bc145bbcc2e849e82380.html"];
+  dir_5ef164da32927a27aef05eae2283c928 [shape=box label="entity" URL="dir_5ef164da32927a27aef05eae2283c928.html"];
+  dir_8dabc27971b3bc145bbcc2e849e82380->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000151_000008.html"];
+  dir_b85b64a74c6caba31f6f0d288dd992f8->dir_8dabc27971b3bc145bbcc2e849e82380 [headlabel="1", labeldistance=1.5 headhref="dir_000093_000151.html"];
+  dir_b85b64a74c6caba31f6f0d288dd992f8->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000093_000008.html"];
+}

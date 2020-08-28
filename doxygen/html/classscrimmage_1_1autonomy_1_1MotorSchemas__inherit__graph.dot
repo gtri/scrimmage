@@ -1,0 +1,9 @@
+digraph "scrimmage::autonomy::MotorSchemas"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::MotorSchemas\n|# show_shapes_\l# pub_vel_vec_\l# max_speed_\l# add_lower_bound_to_vz_\l# vz_lower_bound_\l# desired_heading_idx_\l# desired_alt_idx_\l# desired_speed_idx_\l# output_vel_x_idx_\l# output_vel_y_idx_\l# output_vel_z_idx_\l# current_state_\l# behaviors_\l# default_behaviors_\l# current_behaviors_\l# line_shape_\l|+ init()\l+ step_autonomy()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# logging_msg_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+}

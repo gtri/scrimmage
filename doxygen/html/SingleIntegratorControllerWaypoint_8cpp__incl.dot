@@ -1,0 +1,15 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/controller\l/SingleIntegratorControllerWaypoint\l/SingleIntegratorControllerWaypoint.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/common/VariableIO.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$VariableIO_8h.html",tooltip="Brief file description."];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage/plugins/controller\l/SingleIntegratorControllerWaypoint\l/SingleIntegratorControllerWaypoint.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$SingleIntegratorControllerWaypoint_8h.html",tooltip="Brief file description."];
+  Node1 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+}

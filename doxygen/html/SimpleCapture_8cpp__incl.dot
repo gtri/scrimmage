@@ -1,0 +1,39 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction/SimpleCapture/SimpleCapture.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/interaction\l/SimpleCapture/SimpleCapture.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node4 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="scrimmage/pubsub/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
+  Node12 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage/common/Utilities.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Utilities_8h.html",tooltip="Brief file description."];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node22 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage/msgs/Capture.pb.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node27 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="scrimmage/plugins/interaction\l/SimpleCapture/SimpleCapture.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$SimpleCapture_8h.html",tooltip="Brief file description."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="scrimmage/pubsub/Publisher.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Publisher_8h.html",tooltip="Brief file description."];
+  Node46 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="scrimmage/pubsub/Subscriber.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Subscriber_8h.html",tooltip="Brief file description."];
+  Node39 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="limits",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,17 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/TrajectoryRecordPlayback" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_0dd5d7c04a7ae1a56667ff7e655963f9 [shape=box, label="TrajectoryRecordPlayback", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_0dd5d7c04a7ae1a56667ff7e655963f9.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_edb592701dc45cc21f3d1cc2e72efe9a->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="4", labeldistance=1.5 headhref="dir_000007_000010.html"];
+  dir_edb592701dc45cc21f3d1cc2e72efe9a->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000007_000006.html"];
+  dir_0dd5d7c04a7ae1a56667ff7e655963f9->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000054_000007.html"];
+  dir_0dd5d7c04a7ae1a56667ff7e655963f9->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="1", labeldistance=1.5 headhref="dir_000054_000010.html"];
+  dir_0dd5d7c04a7ae1a56667ff7e655963f9->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="2", labeldistance=1.5 headhref="dir_000054_000006.html"];
+}

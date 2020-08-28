@@ -1,0 +1,11 @@
+digraph "scrimmage::ScrimmageMsgServiceImpl"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::ScrimmageMsgServiceImpl\n||+ ScrimmageMsgServiceImpl()\l+ SendCommandString()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage_msgs::Scrimmage\lMsgService::Service\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #plugin_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node3 [label="{std::shared_ptr\< scrimmage\l::interaction::GRPCCommandString \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

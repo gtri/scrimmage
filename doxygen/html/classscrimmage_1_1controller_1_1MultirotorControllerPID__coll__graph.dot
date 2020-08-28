@@ -1,0 +1,16 @@
+digraph "scrimmage::controller::MultirotorControllerPID"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::controller\l::MultirotorControllerPID\n|# u_\l|+ MultirotorControllerPID()\l+ init()\l+ step()\l+ u()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Controller\n||+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Controller.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #multirotor_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::shared_ptr\< sc\l::motion::Multirotor \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node87 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #yaw_pid_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node87 [label="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html",tooltip=" "];
+  Node88 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #angle_pids_\n#vel_pids_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node88 [label="{std::vector\< scrimmage\l::PID \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node87 -> Node88 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+}

@@ -1,0 +1,24 @@
+digraph "scrimmage::PID::set_setpoint"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::PID::set\l_setpoint",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$MoveToGoalMS_8cpp.html#a3c243b06815d3c5e6359653de046c505",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::controller\l::SimpleQuadrotorController\lLQR::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::controller\l::SimpleCarControllerHeading::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#a24b6cf91f360155d98b7d325ec5e8138",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::controller\l::RigidBody6DOFControllerPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#a622030af23df1c24e2de829c1159cf23",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::controller\l::DoubleIntegratorController\lVelYaw::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#aeb6623951861d31a2877b3d90fedb043",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#a8111f6af651d500f112128d06bf2b0c5",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a70769acf07b591b4a86cf53d387622e4",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::controller\l::SimpleAircraftControllerPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a0a5e89cf6f0c9100ddd9ef2c008155b5",tooltip=" "];
+}

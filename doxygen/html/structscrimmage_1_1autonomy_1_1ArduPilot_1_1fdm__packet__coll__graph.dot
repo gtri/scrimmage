@@ -1,0 +1,7 @@
+digraph "scrimmage::autonomy::ArduPilot::fdm_packet"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::ArduPilot::fdm_packet\n|+ timestamp_us\l+ latitude\l+ longitude\l+ altitude\l+ heading\l+ speedN\l+ speedE\l+ speedD\l+ xAccel\l+ yAccel\l+ zAccel\l+ rollRate\l+ pitchRate\l+ yawRate\l+ roll\l+ pitch\l+ yaw\l+ airspeed\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

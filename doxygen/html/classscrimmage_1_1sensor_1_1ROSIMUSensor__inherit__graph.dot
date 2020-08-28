@@ -1,0 +1,9 @@
+digraph "scrimmage::sensor::ROSIMUSensor"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lROSIMUSensor\n|# vehicle_name_\l# ros_namespace_\l# nh_\l# imu_pub_\l# prev_time_\l# csv\l# error_budget\l# error_sim\l# earth_radius\l# flattening\l# wgs84_grav\l# earth_rate\l# omega2\l# ecc2\l# flattening_inverse\l# e_prime\l# ae_squared\l# k1\l# earth_semiminor_axis\l# a2\l# b2\l# e2\l# e\l# vel_t1\l# pos_ECEF_t1\l# c_ECEF_To_NED_t1\l# prev_qBody_to_ECEF\l# qBody_to_ECEF_hat\l# p_hat\l# v_hat\l# first_sample_collected\l|+ ROSIMUSensor()\l+ init()\l+ step()\l+ close()\l# lla_to_ecef()\l# enu_to_ecef_rotation()\l# get_deltaV()\l# ecef_to_lla()\l# ecef_to_ned_rotation()\l# gravity_ned_from_lla()\l# skew_sym()\l# get_delta_theta()\l# inv_skew_sym()\l# propagate_quaternion()\l# integrate_quaternion()\l# omega_to_q_dot()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
+}

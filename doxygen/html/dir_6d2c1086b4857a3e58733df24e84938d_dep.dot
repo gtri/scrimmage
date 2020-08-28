@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy/CommandStringRelay" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_9a5cd39d655c6343ef9bc0ff48b9632e {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html"]
+  dir_6d2c1086b4857a3e58733df24e84938d [shape=box, label="CommandStringRelay", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_6d2c1086b4857a3e58733df24e84938d.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_6d2c1086b4857a3e58733df24e84938d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000169_000004.html"];
+}

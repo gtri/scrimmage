@@ -1,0 +1,51 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/sensor/Sensor.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/sensor\l/Sensor.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/AirSimSensor/AirSimSensor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$AirSimSensor_8h.html",tooltip="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/AltitudeAboveTerrain\l/AltitudeAboveTerrain.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$AltitudeAboveTerrain_8h.html",tooltip="Brief file description."];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/ContactBlobCamera\l/ContactBlobCamera.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ContactBlobCamera_8h.html",tooltip="Brief file description."];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/GPS/GPS.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$GPS_8h.html",tooltip="Brief file description."];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/NoisyContacts/NoisyContacts.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$NoisyContacts_8h.html",tooltip="Brief file description."];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/NoisyState/NoisyState.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$NoisyState_8h.html",tooltip="Brief file description."];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/RayTrace/RayTrace.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RayTrace_8h.html",tooltip="Brief file description."];
+  Node16 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="/root/scrimmage/scrimmage\l/src/plugins/interaction\l/BulletCollision/BulletCollision.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$BulletCollision_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/RigidBody6DOFStateSensor\l/RigidBody6DOFStateSensor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RigidBody6DOFStateSensor_8h.html",tooltip="Brief file description."];
+  Node1 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/ROSAltimeter/ROSAltimeter.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ROSAltimeter_8h.html",tooltip="Brief file description."];
+  Node1 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/ROSCompass/ROSCompass.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ROSCompass_8h.html",tooltip="Brief file description."];
+  Node1 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/ROSIMUSensor/ROSIMUSensor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ROSIMUSensor_8h.html",tooltip="Brief file description."];
+  Node1 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/ScrimmageOpenAISensor\l/ScrimmageOpenAISensor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ScrimmageOpenAISensor_8h.html",tooltip="Brief file description."];
+  Node35 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Scrimmage\lOpenAIAutonomy/ScrimmageOpenAIAutonomy.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ScrimmageOpenAIAutonomy_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/SimpleINS/SimpleINS.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$SimpleINS_8h.html",tooltip="Brief file description."];
+  Node1 -> Node45 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="/root/scrimmage/scrimmage\l/src/entity/Entity.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Entity_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="/root/scrimmage/scrimmage\l/src/entity/External.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$External_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node47 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/ArduPilot\l/ArduPilot.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ArduPilot_8cpp.html",tooltip="Class to interface with ArduPilot SIL executable."];
+  Node1 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Straight\l/Straight.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Straight_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node49 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="/root/scrimmage/scrimmage\l/src/sensor/Sensor.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Sensor_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="/root/scrimmage/scrimmage\l/src/simcontrol/SimControl.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SimControl_8cpp.html",tooltip="Brief file description."];
+}

@@ -1,0 +1,18 @@
+digraph "scrimmage::autonomy::ROSAutonomy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::ROSAutonomy\n|# cmd_vel_sub_\l# cmd_vel_\l# odom_pub_\l# odom_laser_pub_\l# base_scan_pub_\l# base_pose_truth_pub\l# odom_trans_\l# laser_trans_\l# speed_idx_\l# turn_rate_idx_\l# pitch_rate_idx_\l# velocity_z_idx_\l|+ ROSAutonomy()\l+ init()\l+ step_autonomy()\l+ cmd_vel_cb()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+  Node6 -> Node2 [color="grey25",fontsize="10",style="solid",label=" #logging_msg_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pcl_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{scrimmage::sensor::\lRayTrace::PointCloud\n|+ max_range\l+ min_range\l+ max_sample_rate\l|+ PointCloud()\l+ get_rays()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html",tooltip=" "];
+  Node91 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #odom_broadcaster_\n#laser_broadcaster_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node91 [label="{std::shared_ptr\< tf\l::TransformBroadcaster \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ros_namespace_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node92 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #nh_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node92 [label="{std::shared_ptr\< ros\l::NodeHandle \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

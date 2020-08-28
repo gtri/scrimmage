@@ -1,0 +1,7 @@
+digraph "scrimmage::Time"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::Time\n|# t_\l# dt_\l# time_warp_\l|+ Time()\l+ t()\l+ dt()\l+ time_warp()\l+ set_t()\l+ set_dt()\l+ set_time_warp()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

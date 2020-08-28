@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction/FlagCaptureInteraction" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_00cc353c998af5f011e8667e057a10ee {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interaction" fontname="Helvetica", fontsize="10", URL="dir_00cc353c998af5f011e8667e057a10ee.html"]
+  dir_718b39571096dbe4377b99f98d4283fc [shape=box, label="FlagCaptureInteraction", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_718b39571096dbe4377b99f98d4283fc.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_718b39571096dbe4377b99f98d4283fc->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000227_000004.html"];
+}

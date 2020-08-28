@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/SimpleQuadrotorControllerLQR" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_da9620d34cca5c42773312c818662e06 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_da9620d34cca5c42773312c818662e06.html"]
+  dir_489117e06841f1d0bf8504e4a981e86e [shape=box, label="SimpleQuadrotorControllerLQR", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_489117e06841f1d0bf8504e4a981e86e.html"];
+  }
+  dir_accb3fd3c749527533ae278fdffb4d13 [shape=box label="motion" fillcolor="white" style="filled" color="red" URL="dir_accb3fd3c749527533ae278fdffb4d13.html"];
+  dir_489117e06841f1d0bf8504e4a981e86e->dir_accb3fd3c749527533ae278fdffb4d13 [headlabel="1", labeldistance=1.5 headhref="dir_000077_000107.html"];
+}

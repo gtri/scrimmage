@@ -1,0 +1,33 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Angles::\langle_2pi",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::VariableIO\l::declare",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::EntityPlugin\l::draw_shape",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::get",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::get_vec",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::Autonomy\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::shape::make_line",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1shape.html#a43bfaee741e0d9c0425e9558cfe251ad",tooltip=" "];
+  Node14 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage::set",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::VariableIO\l::output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="scrimmage::parse_plugin\l_vector",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="scrimmage::Autonomy\l::state",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca",tooltip=" "];
+  Node1 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="scrimmage::autonomy\l::MotorSchemas::step\l_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1MotorSchemas.html#a312fe379590236bc18c55eff5bab6644",tooltip=" "];
+}

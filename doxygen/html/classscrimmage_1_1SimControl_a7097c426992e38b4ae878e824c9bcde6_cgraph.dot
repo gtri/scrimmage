@@ -1,0 +1,16 @@
+digraph "scrimmage::SimControl::shutdown"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::SimControl\l::shutdown",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Finalizes the simulation, closes logs, closes plugins."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::SimControl\l::finalize",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad48792613c02c6f23681810aa50a48d1",tooltip=" "];
+  Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::SimControl::t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2",tooltip="Get the current simulation time."];
+  Node1 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="scrimmage::SimControl\l::reset_pointers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a044859c6f74d181cc82cb57533cef975",tooltip=" "];
+  Node21 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

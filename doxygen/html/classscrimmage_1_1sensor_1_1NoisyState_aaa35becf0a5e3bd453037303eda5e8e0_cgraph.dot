@@ -1,0 +1,12 @@
+digraph "scrimmage::sensor::NoisyState::init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::sensor::\lNoisyState::init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::EntityPlugin\l::advertise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::get_vec",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3",tooltip=" "];
+}

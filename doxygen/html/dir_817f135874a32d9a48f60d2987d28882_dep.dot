@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/MOOSAutonomy" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_817f135874a32d9a48f60d2987d28882 [shape=box, label="MOOSAutonomy", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_817f135874a32d9a48f60d2987d28882.html"];
+  }
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_817f135874a32d9a48f60d2987d28882->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="2", labeldistance=1.5 headhref="dir_000037_000010.html"];
+  dir_817f135874a32d9a48f60d2987d28882->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000037_000006.html"];
+}

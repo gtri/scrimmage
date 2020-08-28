@@ -1,0 +1,23 @@
+digraph "scrimmage::SimControl::pause"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::SimControl\l::pause",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Pause (true) or unpause (false) the simulation."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::SimControl\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad717f0c430d2355c2284b38fa983f7cc",tooltip="Initialize a scrimmage simulation."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::run_test",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::SimControl\l::request_screenshot",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::SimControl\l::run_single_step",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65",tooltip="Runs the scrimmage simulation by a single time step."];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::SimControl\l::run_check_network_msgs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd",tooltip=" "];
+  Node10 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::SimControl\l::SimControl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#aed8d071b19385115edd0dd465efad98f",tooltip="SimControl default constructor."];
+}

@@ -1,0 +1,14 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ContactBlobCamera" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_000479e1305f0edebbccb6008dd63eeb {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_000479e1305f0edebbccb6008dd63eeb.html"]
+  dir_4faf5a0bcbe07442b31ab14545ab6d94 [shape=box, label="ContactBlobCamera", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_4faf5a0bcbe07442b31ab14545ab6d94.html"];
+  }
+  dir_e87096b61398b9a30229e95697b76c91 [shape=box label="sensor" URL="dir_e87096b61398b9a30229e95697b76c91.html"];
+  dir_5ef164da32927a27aef05eae2283c928 [shape=box label="entity" URL="dir_5ef164da32927a27aef05eae2283c928.html"];
+  dir_4faf5a0bcbe07442b31ab14545ab6d94->dir_e87096b61398b9a30229e95697b76c91 [headlabel="1", labeldistance=1.5 headhref="dir_000134_000150.html"];
+  dir_4faf5a0bcbe07442b31ab14545ab6d94->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000134_000008.html"];
+  dir_e87096b61398b9a30229e95697b76c91->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000150_000008.html"];
+}

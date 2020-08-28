@@ -1,0 +1,12 @@
+digraph "scrimmage::State::rel_pos_local_frame"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::State::rel\l_pos_local_frame",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="convert the relative position to the local frame (the output vector will point to the other state)"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::sensor::\lContactBlobCamera::contacts\l_to_bounding_boxes",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51307da3206e61e10fa3dae982353696",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::State::InField\lOfView",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a31950d834080323f55b591755f34a314",tooltip="Returns true if other state is in field-of-view."];
+}

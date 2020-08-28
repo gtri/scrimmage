@@ -1,0 +1,9 @@
+digraph "scrimmage::autonomy::OpenAIActions"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::OpenAIActions\n|+ action_space\l# tuple_space_\l# box_space_\l# asarray_\l|+ OpenAIActions()\l+ ext_ctrl_vec()\l+ create_action_space()\l+ distribute_action()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ext_ctrl_vec_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::vector\< std::shared\l_ptr\< scrimmage::autonomy\l::ScrimmageOpenAIAutonomy \> \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,9 @@
+digraph "scrimmage::interaction::Sphere"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::Sphere\n|# radius_\l|+ Sphere()\l+ Sphere()\l+ Sphere()\l+ set_radius()\l+ set_center()\l+ radius()\l+ center()\l+ contains()\l+ set_visual()\l+ extents()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::interaction\l::BoundaryBase\n|# center_\l|+ BoundaryBase()\l+ ~BoundaryBase()\l+ BoundaryBase()\l+ contains()\l+ shape()\l+ set_shape()\l+ set_visual()\l+ center()\l+ extents()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1BoundaryBase.html",tooltip=" "];
+}

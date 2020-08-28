@@ -1,0 +1,16 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::controller\l::MultirotorControllerPID::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ab9d9e992533a0f8a5c9c4878a85aa089",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::controller\l::MultirotorControllerPID\l::MultirotorControllerPID",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1MultirotorControllerPID.html#a2e93bde0a41bed5381267b720e74f896",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::set_pid\l_gains",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::controller\l::MultirotorControllerPID::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ab7c3b4ba24a90c9fff4c82f5fb4e2977",tooltip=" "];
+}

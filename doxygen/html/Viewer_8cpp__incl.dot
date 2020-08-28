@@ -1,0 +1,25 @@
+digraph "/root/scrimmage/scrimmage/src/viewer/Viewer.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/viewer/Viewer.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="vtkCamera.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage/parse/MissionParse.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$MissionParse_8h.html",tooltip="Brief file description."];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage/network/Interface.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Interface_8h.html",tooltip="Brief file description."];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage/viewer/Viewer.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Viewer_8h.html",tooltip="Brief file description."];
+  Node22 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage/viewer/CameraInterface.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$CameraInterface_8h.html",tooltip="Brief file description."];
+  Node27 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="scrimmage/viewer/Updater.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Updater_8h.html",tooltip="Brief file description."];
+  Node1 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="boost/algorithm/string.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy/AvoidEntityMS" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_9a5cd39d655c6343ef9bc0ff48b9632e {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html"]
+  dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4 [shape=box, label="AvoidEntityMS", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000165_000004.html"];
+}

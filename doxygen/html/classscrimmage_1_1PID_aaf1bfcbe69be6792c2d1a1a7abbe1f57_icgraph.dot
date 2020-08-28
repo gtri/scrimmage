@@ -1,0 +1,20 @@
+digraph "scrimmage::PID::set_parameters"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::PID::set\l_parameters",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::controller\l::SimpleQuadrotorController\lLQR::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::controller\l::SimpleCarControllerHeading::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#ac276c967ac06f29088ec5c05d7b4a473",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::PID::init",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#af0dfdaf6faa01780bec02a2f1605ce0c",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$MoveToGoalMS_8cpp.html#a3c243b06815d3c5e6359653de046c505",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::controller\l::set_pid",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::set_pid\l_gains",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a",tooltip=" "];
+}

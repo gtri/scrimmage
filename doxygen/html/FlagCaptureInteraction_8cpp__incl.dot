@@ -1,0 +1,47 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction/FlagCaptureInteraction/FlagCaptureInteraction.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/interaction\l/FlagCaptureInteraction/FlagCapture\lInteraction.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/plugins/interaction\l/FlagCaptureInteraction/FlagCapture\lInteraction.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$FlagCaptureInteraction_8h.html",tooltip="Brief file description."];
+  Node2 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node32 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage/pubsub/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
+  Node26 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node32 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node41 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="scrimmage/common/Utilities.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Utilities_8h.html",tooltip="Brief file description."];
+  Node1 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node43 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node47 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="scrimmage/pubsub/Publisher.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Publisher_8h.html",tooltip="Brief file description."];
+  Node48 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage/pubsub/Subscriber.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Subscriber_8h.html",tooltip="Brief file description."];
+  Node22 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="scrimmage/msgs/Capture.pb.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="scrimmage/plugins/interaction\l/Boundary/Boundary.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Boundary_8h.html",tooltip="Brief file description."];
+  Node50 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="limits",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

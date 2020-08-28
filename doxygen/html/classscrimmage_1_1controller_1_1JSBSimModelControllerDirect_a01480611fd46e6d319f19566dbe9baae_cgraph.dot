@@ -1,0 +1,14 @@
+digraph "scrimmage::controller::JSBSimModelControllerDirect::init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::controller\l::JSBSimModelControllerDirect::init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::VariableIO\l::declare",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::str2bool",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::VariableIO\l::type_map",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#aa8590f1fee4e18f6233a5337216be636",tooltip=" "];
+}

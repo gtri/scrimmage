@@ -1,0 +1,53 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction/MapGen2D/MapGen2D.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/interaction\l/MapGen2D/MapGen2D.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/common/Utilities.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Utilities_8h.html",tooltip="Brief file description."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage/common/FileSearch.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$FileSearch_8h.html",tooltip="Brief file description."];
+  Node7 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node11 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage/pubsub/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
+  Node16 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node22 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node26 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage/parse/ConfigParse.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ConfigParse_8h.html",tooltip="Brief file description."];
+  Node1 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node28 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="scrimmage/plugins/interaction\l/MapGen2D/MapGen2D.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$MapGen2D_8h.html",tooltip="Brief file description."];
+  Node29 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="opencv2/core/core.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="scrimmage/plugins/interaction\l/MapGen2D/Map2DInfo.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Map2DInfo_8h.html",tooltip="Brief file description."];
+  Node50 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="scrimmage/proto/ProtoConversions.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ProtoConversions_8h.html",tooltip="Brief file description."];
+  Node51 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="limits",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="opencv2/highgui/highgui.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="opencv2/imgproc/imgproc.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

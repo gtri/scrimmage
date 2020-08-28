@@ -1,0 +1,18 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::metrics\l::SimpleCaptureMetrics\l::calc_team_scores",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#a4fc3c5ad65fc36e4da07c0060ff81ebd",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::generate\l_chars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::Metrics\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Metrics.html#a82ba11476f39774c8458c6c8b2651b15",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::metrics\l::SimpleCaptureMetrics\l::print_team_summaries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#afacab377705e4cc069b83ff99fc83626",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::metrics\l::SimpleCaptureMetrics\l::step_metrics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#a221491becc8c17f9c575a877e98ddadd",tooltip=" "];
+}

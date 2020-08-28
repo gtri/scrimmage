@@ -1,0 +1,7 @@
+digraph "IMUErrorSimulator"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{IMUErrorSimulator\n|+ InRunBiasOption\l+ InitRandomNumberSeed\l+ RandomNumberSeedsPerInstance\l+ NominalDeltaT\l+ Ma\l+ AccelScaleFactorErr\l+ AccelBiasTurnOn\l+ AccelBiasInRun\l+ AccelBiasPhi\l+ AccelBiasInRunStdDev\l+ TotalAccelBias\l+ AccelVRWMSStdDev\l+ AccelVRWMSDraws\l+ AccelQuantizationResiduals\l+ Mg\l+ GyroScaleFactorErr\l+ GyroBiasTurnOn\l+ GyroBiasInRun\l+ GyroBiasPhi\l+ GyroBiasInRunStdDev\l+ TotalGyroBias\l+ GyroARWRadStdDev\l+ GyroARWRadDraws\l+ GyroQuantizationResiduals\l+ InitRNG\l+ AccelBiasRNG\l+ AccelVRWRNG\l+ GyroBiasRNG\l+ GyroARWRNG\l+ InitDist\l+ AccelBiasDist\l+ AccelVRWDist\l+ GyroBiasDist\l+ GyroARWDist\l|+ IMUErrorSimulator()\l+ RandomVector()\l+ PerformInitialRandomDraws()\l+ CalculateParametersForFixed\lDeltaT()\l+ EachCycle()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

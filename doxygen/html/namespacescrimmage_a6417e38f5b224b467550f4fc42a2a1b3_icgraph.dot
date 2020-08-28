@@ -1,0 +1,20 @@
+digraph "scrimmage::get_vec"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::get_vec",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::autonomy\l::motor_schemas::BehaviorBase\l::configure_contacts",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html#ac1d1ec8da179e0c4295fdc802c4a7ebc",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::sensor::\lNoisyState::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1NoisyState.html#aaa35becf0a5e3bd453037303eda5e8e0",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::sensor::\lSimpleINS::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1SimpleINS.html#a8934fd24bd425ed9ae10564d7f0706e4",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::sensor::\lContactBlobCamera::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::sensor::\lRayTrace::init",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$AutonomyExecutor_8cpp.html#ab7e242829b3aa3025778f519e989f77e",tooltip=" "];
+}

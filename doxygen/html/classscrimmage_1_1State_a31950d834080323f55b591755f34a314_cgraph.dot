@@ -1,0 +1,12 @@
+digraph "scrimmage::State::InFieldOfView"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::State::InField\lOfView",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Returns true if other state is in field-of-view."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::State::pos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a44e35a1999b53228647e2bde067b6143",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::State::rel\l_pos_local_frame",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a9a509fef76cd8b67fa4f1e161462acc9",tooltip="convert the relative position to the local frame (the output vector will point to the other state)"];
+}

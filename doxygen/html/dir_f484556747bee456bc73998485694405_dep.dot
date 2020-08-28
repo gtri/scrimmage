@@ -1,0 +1,20 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ArduPilot" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_f484556747bee456bc73998485694405 [shape=box, label="ArduPilot", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f484556747bee456bc73998485694405.html"];
+  }
+  dir_accb3fd3c749527533ae278fdffb4d13 [shape=box label="motion" fillcolor="white" style="filled" color="red" URL="dir_accb3fd3c749527533ae278fdffb4d13.html"];
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_da9620d34cca5c42773312c818662e06 [shape=box label="controller" fillcolor="white" style="filled" color="red" URL="dir_da9620d34cca5c42773312c818662e06.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_accb3fd3c749527533ae278fdffb4d13->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="15", labeldistance=1.5 headhref="dir_000107_000010.html"];
+  dir_f484556747bee456bc73998485694405->dir_accb3fd3c749527533ae278fdffb4d13 [headlabel="1", labeldistance=1.5 headhref="dir_000019_000107.html"];
+  dir_f484556747bee456bc73998485694405->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="2", labeldistance=1.5 headhref="dir_000019_000010.html"];
+  dir_f484556747bee456bc73998485694405->dir_da9620d34cca5c42773312c818662e06 [headlabel="1", labeldistance=1.5 headhref="dir_000019_000057.html"];
+  dir_f484556747bee456bc73998485694405->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000019_000006.html"];
+  dir_da9620d34cca5c42773312c818662e06->dir_accb3fd3c749527533ae278fdffb4d13 [headlabel="10", labeldistance=1.5 headhref="dir_000057_000107.html"];
+  dir_da9620d34cca5c42773312c818662e06->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="2", labeldistance=1.5 headhref="dir_000057_000010.html"];
+}

@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="scrimmage::autonomy\l::ArduPilot::servo_packet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structscrimmage_1_1autonomy_1_1ArduPilot_1_1servo__packet.html",tooltip=" "];
+}

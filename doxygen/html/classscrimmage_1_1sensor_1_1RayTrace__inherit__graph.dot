@@ -1,0 +1,11 @@
+digraph "scrimmage::sensor::RayTrace"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lRayTrace\n|# gener_\l# pos_noise_\l# rays_\l# ray_id_counter_\l# max_range_\l# min_range_\l# max_sample_rate_\l# auto_ray_tracing_\l# pub_\l|+ RayTrace()\l+ type()\l+ init()\l+ step()\l+ automatic_ray_tracing()\l+ rays()\l+ max_range()\l+ min_range()\l+ max_sample_rate()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node6 [label="{scrimmage::sensor::\lLOSSensor\n|- sensor_id_\l- last_update_time_\l- range_sd_min_\l- range_sd_per_unit_\l- range_sd_oor_\l- oor_return_\l- probability_of_error_\l- error_sd_\l- probability_oor_error_\l- use_flat_earth_\l- new_data_\l- range_\l- oor_\l- subscribed_\l- generator_\l- los_pub_\l|+ LOSSensor()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1LOSSensor.html",tooltip=" "];
+}

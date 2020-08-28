@@ -1,0 +1,49 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/network/GlobalNetwork/GlobalNetwork.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/network/GlobalNetwork\l/GlobalNetwork.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/plugins/network\l/GlobalNetwork/GlobalNetwork.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$GlobalNetwork_8h.html",tooltip="Brief file description."];
+  Node1 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="scrimmage/common/ID.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ID_8h.html",tooltip="Brief file description."];
+  Node1 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="scrimmage/common/Time.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Time_8h.html",tooltip="Brief file description."];
+  Node38 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="scrimmage/common/Random.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Random_8h.html",tooltip="Brief file description."];
+  Node39 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="scrimmage/common/RTree.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RTree_8h.html",tooltip="Brief file description."];
+  Node41 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node49 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage/pubsub/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
+  Node26 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node52 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node56 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="scrimmage/plugins/network\l/SphereNetwork/SphereNetwork.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$SphereNetwork_8h.html",tooltip="Brief file description."];
+  Node1 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="scrimmage/pubsub/Publisher.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Publisher_8h.html",tooltip="Brief file description."];
+  Node58 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage/pubsub/Subscriber.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Subscriber_8h.html",tooltip="Brief file description."];
+  Node22 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="limits",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

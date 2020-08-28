@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction/MapGen2D" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_00cc353c998af5f011e8667e057a10ee {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interaction" fontname="Helvetica", fontsize="10", URL="dir_00cc353c998af5f011e8667e057a10ee.html"]
+  dir_26200c6c07d216a83ecb4fa0b7270762 [shape=box, label="MapGen2D", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_26200c6c07d216a83ecb4fa0b7270762.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_26200c6c07d216a83ecb4fa0b7270762->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000231_000004.html"];
+}

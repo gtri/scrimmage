@@ -1,0 +1,15 @@
+digraph "scrimmage::autonomy::WaypointGenerator"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::WaypointGenerator\n|# show_waypoints_\l# position_x_idx_\l# position_y_idx_\l# position_z_idx_\l|+ WaypointGenerator()\l+ init()\l+ step_autonomy()\l+ draw_waypoints()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #waypoint_color_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::vector\< int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node87 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #waypoint_list_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node87 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #wp_list_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{scrimmage::autonomy\l::WaypointList\n|# mode_\l# cycles_\l|+ WaypointList()\l+ waypoints()\l+ set_mode()\l+ mode()\l+ set_cycles()\l+ cycles()\l+ size()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1WaypointList.html",tooltip=" "];
+}

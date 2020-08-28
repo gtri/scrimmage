@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/proto_conversions" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_68267d1309a1af8e8297ef4c3efbcdba {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"]
+  dir_1675182af8ff4a446e7b3670d639ab6e [shape=box, label="proto_conversions", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_1675182af8ff4a446e7b3670d639ab6e.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_1675182af8ff4a446e7b3670d639ab6e->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000281_000004.html"];
+}

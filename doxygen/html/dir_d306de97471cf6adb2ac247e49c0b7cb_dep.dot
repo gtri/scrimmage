@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor/AirSimSensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_2483af7b304531f76a0533eb422d3df1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_2483af7b304531f76a0533eb422d3df1.html"]
+  dir_d306de97471cf6adb2ac247e49c0b7cb [shape=box, label="AirSimSensor", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d306de97471cf6adb2ac247e49c0b7cb.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_d306de97471cf6adb2ac247e49c0b7cb->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000265_000004.html"];
+}

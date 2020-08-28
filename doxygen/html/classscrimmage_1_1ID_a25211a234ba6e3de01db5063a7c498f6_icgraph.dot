@@ -1,0 +1,22 @@
+digraph "scrimmage::ID::id"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::ID::id",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::create_frame",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::Entity::\lparse_visual",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a0f933e41855d10195a40d4300acb119f",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="scrimmage::proto_2\l_contact",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f",tooltip=" "];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$FlagCaptureInteraction_8cpp.html#a4a6f2ba87680ef62a40e1ab66af6768f",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage::ID::set_id",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1ID.html#a9895adc7050c16c76f2a7064a886c91f",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="auction_assign.AuctionAssign.step\l_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classauction__assign_1_1AuctionAssign.html#aefed0483da116cd2d4713500755f6125",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage::External\l::update_ents",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd",tooltip=" "];
+}

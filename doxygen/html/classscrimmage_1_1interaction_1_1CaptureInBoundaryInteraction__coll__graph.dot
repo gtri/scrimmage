@@ -1,0 +1,17 @@
+digraph "scrimmage::interaction::CaptureInBoundaryInteraction"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::CaptureInBoundaryInteraction\n|# boundary_shape_\l# capture_range_\l# boundary_id_\l# cool_down_period_\l|+ CaptureInBoundaryInteraction()\l+ init()\l+ step_entity_interaction()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #already_captured_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::unordered_set\l\< int \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node88 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #prev_capture_times_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node88 [label="{std::map\< int, double \>\n|+ keys\l+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #boundary_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{std::shared_ptr\< scrimmage\l::interaction::BoundaryBase \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #non_team_capture_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/RLConsensusSensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_000479e1305f0edebbccb6008dd63eeb {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_000479e1305f0edebbccb6008dd63eeb.html"]
+  dir_7b2516e791e5a51757996c1f9d311969 [shape=box, label="RLConsensusSensor", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_7b2516e791e5a51757996c1f9d311969.html"];
+  }
+  dir_018bf7220a34e97bc4dd798915df6e7d [shape=box label="ScrimmageOpenAISensor" URL="dir_018bf7220a34e97bc4dd798915df6e7d.html"];
+  dir_7b2516e791e5a51757996c1f9d311969->dir_018bf7220a34e97bc4dd798915df6e7d [headlabel="1", labeldistance=1.5 headhref="dir_000141_000146.html"];
+}

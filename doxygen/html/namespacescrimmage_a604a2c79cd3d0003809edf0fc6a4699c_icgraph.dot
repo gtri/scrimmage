@@ -1,0 +1,18 @@
+digraph "scrimmage::get_vec_of_vecs"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::get_vec\l_of_vecs",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::sensor::\lContactBlobCamera::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::controller\l::Joystick::init",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1Joystick.html#a121ee888ab75b5cc0cde232a4f130fbf",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::motion::\lFixedWing6DOF::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#ae8f0b2c9cce1aed27b6dc7efba6ade9f",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::parse_plugin\l_vector",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ArduPilot_8cpp.html#aa26b41fb7b6c341c0408e5f8aa1836ee",tooltip=" "];
+}

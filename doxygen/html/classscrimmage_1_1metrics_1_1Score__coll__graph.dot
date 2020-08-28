@@ -1,0 +1,11 @@
+digraph "scrimmage::metrics::Score"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::metrics\l::Score\n|# flags_taken_\l# flags_taken_w_\l# flags_captured_\l# flags_captured_w_\l|+ set_weights()\l+ increment_flags_taken()\l+ add_flags_taken()\l+ flags_taken()\l+ set_flags_taken()\l+ increment_flags_captured()\l+ add_flags_captured()\l+ flags_captured()\l+ set_flags_captured()\l+ score()\l+ Score()\l+ set_weights()\l+ increment_count()\l+ add_count()\l+ set_count()\l+ count()\l+ score()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #counts_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::map\< std::string,\l int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #weights_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 [label="{std::map\< std::string,\l double \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

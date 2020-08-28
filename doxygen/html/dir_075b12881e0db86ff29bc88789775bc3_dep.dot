@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/UUV6DOFPIDController" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_da9620d34cca5c42773312c818662e06 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_da9620d34cca5c42773312c818662e06.html"]
+  dir_075b12881e0db86ff29bc88789775bc3 [shape=box, label="UUV6DOFPIDController", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_075b12881e0db86ff29bc88789775bc3.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_225ac9950e75cf8b57b2a00ffecc8137 [shape=box label="motion" URL="dir_225ac9950e75cf8b57b2a00ffecc8137.html"];
+  dir_075b12881e0db86ff29bc88789775bc3->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000083_000007.html"];
+  dir_075b12881e0db86ff29bc88789775bc3->dir_225ac9950e75cf8b57b2a00ffecc8137 [headlabel="1", labeldistance=1.5 headhref="dir_000083_000012.html"];
+}

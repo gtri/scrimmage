@@ -1,6 +1,6 @@
 var classscrimmage_1_1Interface =
 [
-    [ "Mode_t", "classscrimmage_1_1Interface.html#a1b5041aa115bb038a6d6c6003447599f", null ],
+    [ "Mode_t", "classscrimmage_1_1Interface.html#aa5935d48ae9d464703d99069b7c2807a", null ],
     [ "Mode", "classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704b", [
       [ "shared", "classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d", null ],
       [ "client", "classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be", null ],

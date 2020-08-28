@@ -1,0 +1,33 @@
+digraph "scrimmage::str2bool"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::str2bool",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::convert\l\< bool \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a8168d08952492df995099010ac4577ca",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::MissionParse\l::create_log_dir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1MissionParse.html#a2495bda15ea061a8cdc966105107b237",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::autonomy\l::AuctionAssign::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1AuctionAssign.html#a5d45a48b536e7412f5d92147f6616b4a",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::controller\l::JSBSimModelControllerDirect::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a01480611fd46e6d319f19566dbe9baae",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::motion::\lDoubleIntegrator::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1DoubleIntegrator.html#abc7be5e9b5dd4f4f38a7638382905b5e",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::controller\l::SimpleAircraftControllerPID::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a61bed493c3b42d7b5a92d467b25b833a",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::motion::\lJSBSimModel::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::autonomy\l::RLSimple::init_helper",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1RLSimple.html#aa49d15631ec45b4dfaa944be1642e529",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::MissionParse\l::parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1MissionParse.html#ad4ba86faae352735bf806e9c7b1641d0",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::MissionParse\l::parse_terrain",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1MissionParse.html#a0d5c1b4d591072ae520dcfd93a8b597b",tooltip=" "];
+  Node11 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$MotionBattery_8cpp.html#a05237daea7da7ca7310b64308e633fcf",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::SimControl\l::start",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93",tooltip="Starts the mission by generating entities and setting up logging."];
+}

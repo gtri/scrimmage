@@ -1,0 +1,13 @@
+digraph "scrimmage::sensor::ROSCompass"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lROSCompass\n|# compass_pub_\l|+ ROSCompass()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #vehicle_name_\n#ros_namespace_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #nh_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::shared_ptr\< ros\l::NodeHandle \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

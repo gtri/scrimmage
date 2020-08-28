@@ -1,0 +1,17 @@
+digraph "scrimmage::sensor::AltitudeAboveTerrain"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lAltitudeAboveTerrain\n||+ AltitudeAboveTerrain()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::shared_ptr\< scrimmage\l::interaction::TerrainMap \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #noise_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{std::shared_ptr\< std\l::normal_distribution\l\< double \> \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node80 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #gener_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node80 [label="{std::shared_ptr\< std\l::default_random_engine \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_true_\n#pub_noise_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

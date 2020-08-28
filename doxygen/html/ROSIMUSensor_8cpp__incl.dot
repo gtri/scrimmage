@@ -1,0 +1,43 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor/ROSIMUSensor/ROSIMUSensor.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/sensor/ROSIMUSensor\l/ROSIMUSensor.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/plugins/sensor\l/ROSIMUSensor/ROSIMUSensor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ROSIMUSensor_8h.html",tooltip="Brief file description."];
+  Node1 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="math.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node1 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node51 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage/pubsub/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
+  Node1 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node1 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="scrimmage/pubsub/Publisher.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Publisher_8h.html",tooltip="Brief file description."];
+  Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="scrimmage/pubsub/Subscriber.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Subscriber_8h.html",tooltip="Brief file description."];
+  Node23 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="scrimmage/proto/State.pb.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node60 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="scrimmage/common/Random.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Random_8h.html",tooltip="Brief file description."];
+  Node1 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="scrimmage/common/Time.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Time_8h.html",tooltip="Brief file description."];
+  Node1 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="scrimmage/proto/Shape.pb.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node63 [label="scrimmage/math/Angles.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Angles_8h.html",tooltip="Brief file description."];
+  Node1 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="unsupported/Eigen/Matrix\lFunctions",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="fstream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

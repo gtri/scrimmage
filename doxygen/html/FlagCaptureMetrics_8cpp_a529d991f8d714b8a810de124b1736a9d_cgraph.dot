@@ -1,0 +1,20 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::metrics\l::FlagCaptureMetrics\l::calc_team_scores",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html#a44b44e1bbf7cca93635319b58ca6102e",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::metrics\l::FlagCaptureMetrics\l::FlagCaptureMetrics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html#a8e689e270211c0d876bc9f3d48703021",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::generate\l_chars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::Metrics\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Metrics.html#a82ba11476f39774c8458c6c8b2651b15",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::metrics\l::FlagCaptureMetrics\l::print_team_summaries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html#a239f2e651f0e16411011f5770b47df8b",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::metrics\l::FlagCaptureMetrics\l::step_metrics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html#a91a77169b687864e6169aae83267ae2e",tooltip=" "];
+}

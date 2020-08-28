@@ -1,0 +1,35 @@
+digraph "scrimmage::sensor::ContactBlobCamera::step"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::sensor::\lContactBlobCamera::step",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::sensor::\lContactBlobCamera::add\l_false_positives",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aa2bb891e0c441a667e64d09d0ee0675e",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::sensor::\lContactBlobCamera::contacts\l_to_bounding_boxes",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51307da3206e61e10fa3dae982353696",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::State::pos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a44e35a1999b53228647e2bde067b6143",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::sensor::\lContactBlobCamera::draw\l_frustum",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a54eb6469a983baf23ccb86ac7405482c",tooltip=" "];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::EntityPlugin\l::draw_shape",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098",tooltip=" "];
+  Node10 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::set",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="scrimmage::Quaternion\l::pitch",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd",tooltip="return euler angle pitch"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage::State::quat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a3233d1e0f138395b2ec2db72eacd5608",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::Angles::\lrad2deg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="scrimmage::Quaternion\l::roll",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44",tooltip="return euler angle roll"];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="scrimmage::EntityPlugin\l::transform",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f",tooltip=" "];
+  Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage::Quaternion::yaw",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7",tooltip="return euler angle yaw"];
+}

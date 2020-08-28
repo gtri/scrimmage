@@ -1,0 +1,7 @@
+digraph "scrimmage::DelayedTask"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::DelayedTask\n|+ disable\l+ delay\l+ last_updated_time\l+ end_time\l+ eps\l+ condition\l+ task\l# repeat_infinitely_\l# repeats_left_\l|+ DelayedTask()\l+ DelayedTask()\l+ set_delay_from_freq()\l+ done()\l+ set_repeats()\l+ set_repeat_infinitely()\l+ update()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="repeats a task after a delay and some condition (if set) are met. The task can be set to repeat a fin..."];
+}

@@ -1,6 +1,6 @@
 var classscrimmage_1_1autonomy_1_1MOOSNode =
 [
-    [ "NodeReportType_t", "classscrimmage_1_1autonomy_1_1MOOSNode.html#acb3fef25d74756063ece077c0f546d8b", null ],
+    [ "NodeReportType_t", "classscrimmage_1_1autonomy_1_1MOOSNode.html#ac97a143d7143512d435187a821b83066", null ],
     [ "NodeReportType", "classscrimmage_1_1autonomy_1_1MOOSNode.html#a835ae798b118caca8acc84d88647119e", [
       [ "OWNSHIP", "classscrimmage_1_1autonomy_1_1MOOSNode.html#a835ae798b118caca8acc84d88647119ea201e38c903fcfc6640be22e08b70d100", null ],
       [ "TRUTH_CONTACT", "classscrimmage_1_1autonomy_1_1MOOSNode.html#a835ae798b118caca8acc84d88647119ea128a7bf3f0ea62dc8917148d0142d693", null ],

@@ -1,0 +1,11 @@
+digraph "scrimmage::PluginManager"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::PluginManager\n|+ plugin_name_t\l+ plugin_type_t\l# files_checked_\l# reload_\l|+ PluginManager()\l+ print_plugins()\l+ print_returned_plugins()\l+ find_matching_plugins()\l+ make_plugin()\l+ get_commits()\l+ set_reload()\l+ get_reload()\l# check_library()\l# make_plugin_helper()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #plugins_info_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::map\< std::string,\l std::map\< std::string,\l scrimmage::PluginInfo \> \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #so_files_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 [label="{std::unordered_map\l\< std::string, std::\llist\< std::string \> \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

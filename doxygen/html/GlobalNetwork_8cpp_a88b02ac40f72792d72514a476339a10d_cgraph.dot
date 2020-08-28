@@ -1,0 +1,18 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::network\l::GlobalNetwork::GlobalNetwork",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1network_1_1GlobalNetwork.html#a45886869136de5e99592db47079a5e52",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::network\l::GlobalNetwork::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1network_1_1GlobalNetwork.html#ac8a65e71643932898266b9aabd443dd4",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::network\l::GlobalNetwork::is\l_reachable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1network_1_1GlobalNetwork.html#a2023362b2416f9f5ed065d73f4857b95",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::network\l::GlobalNetwork::is\l_successful_transmission",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1network_1_1GlobalNetwork.html#ac4c1d41335d01f25084186bb4539139b",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Network\l::network_init",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Network.html#add93e2f15df49ec4defd38a512759738",tooltip=" "];
+}

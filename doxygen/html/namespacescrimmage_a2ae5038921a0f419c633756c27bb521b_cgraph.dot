@@ -1,0 +1,18 @@
+digraph "scrimmage::operator&lt;&lt;"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::operator\<\<",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::eigen_str",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a70be91d02cfa5c29630463176a03206a",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::Quaternion\l::pitch",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd",tooltip="return euler angle pitch"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::State::quat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a3233d1e0f138395b2ec2db72eacd5608",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::Quaternion\l::roll",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44",tooltip="return euler angle roll"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Quaternion::yaw",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7",tooltip="return euler angle yaw"];
+}

@@ -1,0 +1,48 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/Boundary/BoundaryBase.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/autonomy/BoundaryDefense\l/BoundaryDefense.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$BoundaryDefense_8h.html",tooltip="Brief file description."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Boundary\lDefense/BoundaryDefense.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$BoundaryDefense_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/autonomy/TakeFlag/TakeFlag.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$TakeFlag_8h.html",tooltip="Brief file description."];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/TakeFlag\l/TakeFlag.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$TakeFlag_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/Boundary/Boundary.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Boundary_8h.html",tooltip="Brief file description."];
+  Node6 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Straight\l/Straight.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Straight_8cpp.html",tooltip="Brief file description."];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="/root/scrimmage/scrimmage\l/src/plugins/interaction\l/Boundary/Boundary.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Boundary_8cpp.html",tooltip="Brief file description."];
+  Node6 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="/root/scrimmage/scrimmage\l/src/plugins/sensor/GPS\l/GPS.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$GPS_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/Boundary/Cuboid.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Cuboid_8h.html",tooltip="Brief file description."];
+  Node13 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/Boundary/Plane.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Plane_8h.html",tooltip="Brief file description."];
+  Node14 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/Boundary/Polyhedron.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Polyhedron_8h.html",tooltip="Brief file description."];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/Boundary/Sphere.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Sphere_8h.html",tooltip="Brief file description."];
+  Node16 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/CaptureInBoundaryInteraction\l/CaptureInBoundaryInteraction.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$CaptureInBoundaryInteraction_8h.html",tooltip="Brief file description."];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/EnforceBoundaryInteraction\l/EnforceBoundaryInteraction.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$EnforceBoundaryInteraction_8h.html",tooltip="Brief file description."];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/interaction/FlagCaptureInteraction\l/FlagCaptureInteraction.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$FlagCaptureInteraction_8h.html",tooltip="Brief file description."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

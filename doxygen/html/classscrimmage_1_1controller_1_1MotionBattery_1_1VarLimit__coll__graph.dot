@@ -1,0 +1,7 @@
+digraph "scrimmage::controller::MotionBattery::VarLimit"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::controller\l::MotionBattery::VarLimit\n|+ input_idx\l+ output_idx\l+ depletion_rate\l+ value_when_depleted\l+ limit_when_depleted\l|+ VarLimit()\l+ calc_depletion()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

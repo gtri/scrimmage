@@ -1,0 +1,9 @@
+digraph "scrimmage::interaction::MapGen2D"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::MapGen2D\n|# show_map_debug_\l# enable_map_boundary_\l# wall_bottom_z_\l# wall_height_\l# resolution_\l# occupied_thresh_\l# x_origin_\l# y_origin_\l# z_origin_\l# pub_shape_gen_\l# pub_map_2d_info_\l# map_info_published_\l# map_img_\l|+ init()\l+ step_entity_interaction()\l# connect_points()\l# find_rectangles()\l# img_xy_to_xyz()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
+}

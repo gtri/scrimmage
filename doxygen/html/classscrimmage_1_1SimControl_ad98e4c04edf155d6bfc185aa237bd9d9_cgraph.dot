@@ -1,0 +1,14 @@
+digraph "scrimmage::SimControl::generate_entity"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::SimControl\l::generate_entity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Generate an entity given the entity description ID and parameters."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::SimControl\l::collision_exists",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a77d5f4fd33b37fb3c314fdd4b27ddb21",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::SimControl\l::find_available_id",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a543b7f85cb2e26b38569ced76b4b82a7",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::get",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456",tooltip=" "];
+}

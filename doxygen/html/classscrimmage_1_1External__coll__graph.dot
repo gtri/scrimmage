@@ -1,0 +1,45 @@
+digraph "scrimmage::External"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::External\n|+ motion_dt_\l# enable_motion_\l# last_t_\l# shape_queue_max_size_\l|+ External()\l+ entity()\l+ create_entity()\l+ close()\l+ create_interactions()\l+ shape_queue_max_size()\l+ shape_queue()\l+ mp()\l+ send_messages()\l+ print_plugins()\l+ param_server()\l+ enable_outgoing_interface()\l+ disable_outgoing_interfaces()\l+ set_time()\l+ step()\l+ pubsub()\l# setup_logging()\l# update_ents()\l# call_update_contacts()\l# update_time()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #outgoing_interfaces_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::list\< InterfacePtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #id_to_team_map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::shared_ptr\< std\l::unordered_map\< int,\l int \> \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #plugin_manager_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node10 [label="{std::shared_ptr\< PluginManager \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +update_contacts_task" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node18 [label="{scrimmage::DelayedTask\n|+ disable\l+ delay\l+ last_updated_time\l+ end_time\l+ eps\l+ condition\l+ task\l# repeat_infinitely_\l# repeats_left_\l|+ DelayedTask()\l+ DelayedTask()\l+ set_delay_from_freq()\l+ done()\l+ set_repeats()\l+ set_repeat_infinitely()\l+ update()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1DelayedTask.html",tooltip="repeats a task after a delay and some condition (if set) are met. The task can be set to repeat a fin..."];
+  Node19 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #mp_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node19 [label="{std::shared_ptr\< Mission\lParse \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node39 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #global_services_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node39 [label="{std::shared_ptr\< GlobalService \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node42 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #networks_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node42 [label="{std::shared_ptr\< Network\lMap \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node43 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ents_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node43 [label="{std::list\< EntityPtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node44 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +mutex" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node44 [label="{std::mutex\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node45 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pubsub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node45 [label="{std::shared_ptr\< PubSub \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node47 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #entity_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node47 [label="{std::shared_ptr\< Entity \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node56 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +vars" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node56 [label="{scrimmage::VariableIO\n|# next_input_variable\l_index_\l|+ VariableIO()\l+ output_variable_index()\l+ input_variable_index()\l+ add_input_variable()\l+ add_output_variable()\l+ declare()\l+ declare()\l+ input()\l+ output()\l+ output()\l+ exists()\l+ exists()\l+ declared_input_variables()\l+ declared_output_variables()\l+ type_map()\l+ input()\l+ output()\l+ set_input()\l+ set_output()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html",tooltip=" "];
+  Node59 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #param_server_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node59 [label="{std::shared_ptr\< Parameter\lServer \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node84 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #time_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node84 [label="{std::shared_ptr\< Time \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #metrics_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 [label="{std::list\< MetricsPtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node68 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #id_to_ent_map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node68 [label="{std::shared_ptr\< std\l::unordered_map\< int,\l EntityPtr \> \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node91 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #log_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node91 [label="{std::shared_ptr\< scrimmage\l::Log \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node107 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ent_inters_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node107 [label="{std::list\< EntityInteraction\lPtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node108 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #shape_queue_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node108 [label="{std::queue\< scrimmage\l_proto::ShapePtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

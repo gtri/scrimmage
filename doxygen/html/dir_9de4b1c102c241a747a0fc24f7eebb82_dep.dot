@@ -1,0 +1,15 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/PyAutonomy" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_9de4b1c102c241a747a0fc24f7eebb82 [shape=box, label="PyAutonomy", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_9de4b1c102c241a747a0fc24f7eebb82.html"];
+  }
+  dir_5ef164da32927a27aef05eae2283c928 [shape=box label="entity" URL="dir_5ef164da32927a27aef05eae2283c928.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_9de4b1c102c241a747a0fc24f7eebb82->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000041_000008.html"];
+  dir_9de4b1c102c241a747a0fc24f7eebb82->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000041_000006.html"];
+  dir_5ef164da32927a27aef05eae2283c928->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="2", labeldistance=1.5 headhref="dir_000008_000006.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000006_000008.html"];
+}

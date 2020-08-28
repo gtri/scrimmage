@@ -1,0 +1,14 @@
+digraph "scrimmage::SimControl::set_time"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::SimControl\l::set_time",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Set the simulation time."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::SimControl\l::finalize",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad48792613c02c6f23681810aa50a48d1",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::SimControl\l::run_single_step",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65",tooltip="Runs the scrimmage simulation by a single time step."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::SimControl\l::start",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93",tooltip="Starts the mission by generating entities and setting up logging."];
+}

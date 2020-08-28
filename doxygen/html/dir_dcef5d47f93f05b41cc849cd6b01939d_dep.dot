@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/controller/JoystickController" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_c915aa27e6120cf8f6d19a96e78171a2 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_c915aa27e6120cf8f6d19a96e78171a2.html"]
+  dir_dcef5d47f93f05b41cc849cd6b01939d [shape=box, label="JoystickController", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_dcef5d47f93f05b41cc849cd6b01939d.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_dcef5d47f93f05b41cc849cd6b01939d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000203_000004.html"];
+}

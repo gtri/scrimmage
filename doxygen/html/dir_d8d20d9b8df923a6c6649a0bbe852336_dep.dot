@@ -1,0 +1,21 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/FixedWing6DOF" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_accb3fd3c749527533ae278fdffb4d13 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="motion" fontname="Helvetica", fontsize="10", URL="dir_accb3fd3c749527533ae278fdffb4d13.html"]
+  dir_d8d20d9b8df923a6c6649a0bbe852336 [shape=box, label="FixedWing6DOF", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d8d20d9b8df923a6c6649a0bbe852336.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_225ac9950e75cf8b57b2a00ffecc8137 [shape=box label="motion" URL="dir_225ac9950e75cf8b57b2a00ffecc8137.html"];
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_55d3984138c5dccfffce51958269efb9 [shape=box label="RigidBody6DOF" URL="dir_55d3984138c5dccfffce51958269efb9.html"];
+  dir_edb592701dc45cc21f3d1cc2e72efe9a->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="4", labeldistance=1.5 headhref="dir_000007_000010.html"];
+  dir_d8d20d9b8df923a6c6649a0bbe852336->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="2", labeldistance=1.5 headhref="dir_000112_000007.html"];
+  dir_d8d20d9b8df923a6c6649a0bbe852336->dir_225ac9950e75cf8b57b2a00ffecc8137 [headlabel="2", labeldistance=1.5 headhref="dir_000112_000012.html"];
+  dir_d8d20d9b8df923a6c6649a0bbe852336->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="1", labeldistance=1.5 headhref="dir_000112_000010.html"];
+  dir_d8d20d9b8df923a6c6649a0bbe852336->dir_55d3984138c5dccfffce51958269efb9 [headlabel="1", labeldistance=1.5 headhref="dir_000112_000117.html"];
+  dir_55d3984138c5dccfffce51958269efb9->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000117_000007.html"];
+  dir_55d3984138c5dccfffce51958269efb9->dir_225ac9950e75cf8b57b2a00ffecc8137 [headlabel="3", labeldistance=1.5 headhref="dir_000117_000012.html"];
+  dir_55d3984138c5dccfffce51958269efb9->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="2", labeldistance=1.5 headhref="dir_000117_000010.html"];
+}

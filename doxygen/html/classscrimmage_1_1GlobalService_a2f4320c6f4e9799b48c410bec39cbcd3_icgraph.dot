@@ -1,0 +1,10 @@
+digraph "scrimmage::GlobalService::call_service"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::GlobalService\l::call_service",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::GlobalService\l::call_service",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1GlobalService.html#a781a3ef38f7b7e38921188cfbe5594c2",tooltip=" "];
+}

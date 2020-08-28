@@ -1,0 +1,14 @@
+digraph "scrimmage::MissionParse::set_lat_lon_alt_origin"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::MissionParse\l::set_lat_lon_alt_origin",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::MissionParse\l::altitude_origin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1MissionParse.html#a9e1df4ddc89066c8f5ebe1918da52b8e",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::MissionParse\l::latitude_origin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1MissionParse.html#afaa3f08542bc82c3e6280db78176da09",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::MissionParse\l::longitude_origin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1MissionParse.html#a7eb40f338af182d3d949e75517645dee",tooltip=" "];
+}

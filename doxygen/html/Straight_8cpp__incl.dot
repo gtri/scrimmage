@@ -1,0 +1,55 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy/Straight/Straight.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Straight\l/Straight.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/common/Utilities.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Utilities_8h.html",tooltip="Brief file description."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage/common/Shape.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Shape_8h.html",tooltip="Brief file description."];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage/common/Time.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Time_8h.html",tooltip="Brief file description."];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage/entity/Entity.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Entity_8h.html",tooltip="Brief file description."];
+  Node17 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage/pubsub/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="scrimmage/math/StateWith\lCovariance.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$StateWithCovariance_8h.html",tooltip="Brief file description."];
+  Node28 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="scrimmage/math/Angles.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Angles_8h.html",tooltip="Brief file description."];
+  Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="scrimmage/parse/ParseUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ParseUtils_8h.html",tooltip="Brief file description."];
+  Node1 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="scrimmage/plugins/interaction\l/Boundary/BoundaryBase.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$BoundaryBase_8h.html",tooltip="Brief file description."];
+  Node1 -> Node35 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="scrimmage/plugins/interaction\l/Boundary/Boundary.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Boundary_8h.html",tooltip="Brief file description."];
+  Node35 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="scrimmage/proto/State.pb.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="scrimmage/msgs/Event.pb.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="scrimmage/pubsub/Subscriber.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Subscriber_8h.html",tooltip="Brief file description."];
+  Node45 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="scrimmage/pubsub/Publisher.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Publisher_8h.html",tooltip="Brief file description."];
+  Node1 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="scrimmage/sensor/Sensor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Sensor_8h.html",tooltip="Brief file description."];
+  Node55 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="scrimmage/plugins/interaction\l/Boundary/Cuboid.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Cuboid_8h.html",tooltip="Brief file description."];
+  Node57 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="scrimmage/plugins/autonomy\l/Straight/Straight.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Straight_8h.html",tooltip="Brief file description."];
+  Node1 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="boost/filesystem.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

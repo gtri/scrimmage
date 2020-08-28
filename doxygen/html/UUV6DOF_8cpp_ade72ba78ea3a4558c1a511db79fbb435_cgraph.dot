@@ -1,0 +1,46 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Angles::\langle_pi",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::CSV::append",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::VariableIO\l::declare",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::get_vec\l_of_vecs",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage::motion::\lUUV6DOF::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1UUV6DOF.html#a60b051c77fa2f2aee76cb482ede3340b",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::VariableIO\l::input",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="scrimmage::motion::\lUUV6DOF::model",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1UUV6DOF.html#af3a22cd134ac998e4b40f06cc581100d",tooltip=" "];
+  Node1 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="scrimmage::MotionModel\l::ode_step",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1MotionModel.html#ac517470af8e0f4c6d9a0442f064faa43",tooltip=" "];
+  Node1 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="scrimmage::CSV::open\l_output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed",tooltip=" "];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage::Quaternion\l::pitch",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd",tooltip="return euler angle pitch"];
+  Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="scrimmage::Quaternion\l::roll",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44",tooltip="return euler angle roll"];
+  Node1 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="scrimmage::Quaternion\l::rotate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9",tooltip="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..."];
+  Node1 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="scrimmage::Quaternion\l::rotate_reverse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09",tooltip="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..."];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage::Quaternion::set",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d",tooltip=" "];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage::CSV::set\l_column_headers",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8",tooltip=" "];
+  Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="scrimmage::motion::\lUUV6DOF::step",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1UUV6DOF.html#a8bdd99dd217ea4468f4f6d71d7cc827f",tooltip=" "];
+  Node1 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="scrimmage::motion::\lUUV6DOF::UUV6DOF",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1motion_1_1UUV6DOF.html#a78a43e9e22194671adab116e1c7e0235",tooltip=" "];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="scrimmage::vec2eigen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#aaad7545419d1346694d31a4aa5da440f",tooltip=" "];
+  Node1 -> Node33 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="scrimmage::Quaternion::yaw",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7",tooltip="return euler angle yaw"];
+}

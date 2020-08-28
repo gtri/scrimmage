@@ -1,0 +1,14 @@
+digraph "scrimmage::interaction::BulletCollision::PointCloudDescription"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::BulletCollision::PointCloud\lDescription\n|+ last_update_time\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +point_cloud" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{scrimmage::sensor::\lRayTrace::PointCloud\n|+ max_range\l+ min_range\l+ max_sample_rate\l|+ PointCloud()\l+ get_rays()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html",tooltip=" "];
+  Node9 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +pub" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node9 [label="{std::shared_ptr\< T \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node10 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +shapes" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node10 [label="{std::vector\< scrimmage\l_proto::ShapePtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node10 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+}

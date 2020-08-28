@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor/ROSIMUSensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_2483af7b304531f76a0533eb422d3df1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_2483af7b304531f76a0533eb422d3df1.html"]
+  dir_228ae717414f0e0df7f515fd3b7cac48 [shape=box, label="ROSIMUSensor", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_228ae717414f0e0df7f515fd3b7cac48.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_228ae717414f0e0df7f515fd3b7cac48->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="13", labeldistance=1.5 headhref="dir_000278_000004.html"];
+}

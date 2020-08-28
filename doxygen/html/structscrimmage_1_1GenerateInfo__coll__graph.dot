@@ -1,0 +1,7 @@
+digraph "scrimmage::GenerateInfo"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::GenerateInfo\n|+ start_time\l+ total_count\l+ gen_count\l+ rate\l+ first_in_group\l+ time_variance\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

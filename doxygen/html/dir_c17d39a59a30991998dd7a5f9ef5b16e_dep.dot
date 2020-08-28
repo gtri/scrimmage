@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/CPA" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_086d5cad8b1adde5b1fcb87b546f7637 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="metrics" fontname="Helvetica", fontsize="10", URL="dir_086d5cad8b1adde5b1fcb87b546f7637.html"]
+  dir_c17d39a59a30991998dd7a5f9ef5b16e [shape=box, label="CPA", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_c17d39a59a30991998dd7a5f9ef5b16e.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_81ac6949c353a3d04cd403a175b36275 [shape=box label="metrics" URL="dir_81ac6949c353a3d04cd403a175b36275.html"];
+  dir_c17d39a59a30991998dd7a5f9ef5b16e->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000102_000007.html"];
+  dir_c17d39a59a30991998dd7a5f9ef5b16e->dir_81ac6949c353a3d04cd403a175b36275 [headlabel="1", labeldistance=1.5 headhref="dir_000102_000011.html"];
+}

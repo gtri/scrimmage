@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/JoystickAutonomy" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_f7a756a61f53e0f48459ec84daec816d [shape=box, label="JoystickAutonomy", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f7a756a61f53e0f48459ec84daec816d.html"];
+  }
+  dir_da9620d34cca5c42773312c818662e06 [shape=box label="controller" fillcolor="white" style="filled" color="red" URL="dir_da9620d34cca5c42773312c818662e06.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_f7a756a61f53e0f48459ec84daec816d->dir_da9620d34cca5c42773312c818662e06 [headlabel="1", labeldistance=1.5 headhref="dir_000036_000057.html"];
+  dir_f7a756a61f53e0f48459ec84daec816d->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000036_000006.html"];
+}

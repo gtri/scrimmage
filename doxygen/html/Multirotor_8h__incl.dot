@@ -1,0 +1,36 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Multirotor.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/motion/Multirotor/Multirotor.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/plugins/motion\l/Multirotor/Rotor.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Rotor_8h.html",tooltip="Brief file description."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage/plugins/motion\l/RigidBody6DOF/RigidBody6DOFBase.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$RigidBody6DOFBase_8h.html",tooltip="Brief file description."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage/motion/MotionModel.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$MotionModel_8h.html",tooltip="Brief file description."];
+  Node8 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="vector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="string",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node37 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="scrimmage/math/State.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$State_8h.html",tooltip="Brief file description."];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="scrimmage/motion/Controller.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Controller_8h.html",tooltip="Brief file description."];
+  Node40 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="scrimmage/common/PID.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$PID_8h.html",tooltip="Brief file description."];
+  Node41 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="scrimmage/common/CSV.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$CSV_8h.html",tooltip="Brief file description."];
+  Node42 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

@@ -1,0 +1,42 @@
+digraph "scrimmage::Updater::draw_shapes"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::Updater\l::draw_shapes",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::Updater\l::draw_arc",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a7bfbbe6a19aa840241f98633f58fbeb9",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::Updater\l::draw_arrow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a48d6e922d565ff6ce599280ad0969179",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Updater\l::draw_circle",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a9fd4fa629dc4a3aad9896aaf0df68698",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::Updater\l::draw_cone",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#ab8a81847c6c38654d56bc6b8b4754c81",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::Updater\l::draw_cube",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a3a534262403a4ea2f1da30acd476e8ba",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="scrimmage::Updater\l::draw_ellipse",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#ac94d9b8f11e19665110d950fff09c3e1",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::Updater\l::draw_line",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a7201d982bd52483c3e3105fcf463e562",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::Updater\l::draw_mesh",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68",tooltip=" "];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="scrimmage::Updater\l::draw_plane",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a854bb35b4b42d64ea553d196266eb9a1",tooltip=" "];
+  Node1 -> Node33 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="scrimmage::Updater\l::draw_pointcloud",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a31fcaad704a782579e133659205cb9f2",tooltip=" "];
+  Node1 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="scrimmage::Updater\l::draw_polydata",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#aac25b0c1713dd3ae89bece4dbbb0c565",tooltip=" "];
+  Node1 -> Node35 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="scrimmage::Updater\l::draw_polygon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a8915cfff4975d928057c1291329500fd",tooltip=" "];
+  Node1 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="scrimmage::Updater\l::draw_polyline",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#aad348c41e8791d004ab0037f0c65e3b2",tooltip=" "];
+  Node1 -> Node37 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="scrimmage::Updater\l::draw_sphere",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a453b956a0fa1b1a076a63fe2d363d6a3",tooltip=" "];
+  Node1 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="scrimmage::Updater\l::draw_spline",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a8f4c4f76937943c0d2419bf03eb85357",tooltip=" "];
+  Node1 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="scrimmage::Updater\l::draw_text",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a4a5274a49b3ec47c60336e620672c9e9",tooltip=" "];
+  Node1 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="scrimmage::Updater\l::draw_triangle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Updater.html#a99c6f8a3e7bfbaa1fe6e72405102c651",tooltip=" "];
+}

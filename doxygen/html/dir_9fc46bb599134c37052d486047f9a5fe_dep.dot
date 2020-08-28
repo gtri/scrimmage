@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/motion/UUV6DOF" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5f8427e50c3373d6d1a638fa0a1c8683 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="motion" fontname="Helvetica", fontsize="10", URL="dir_5f8427e50c3373d6d1a638fa0a1c8683.html"]
+  dir_9fc46bb599134c37052d486047f9a5fe [shape=box, label="UUV6DOF", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_9fc46bb599134c37052d486047f9a5fe.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_9fc46bb599134c37052d486047f9a5fe->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000259_000004.html"];
+}

@@ -1,0 +1,17 @@
+digraph "scrimmage::metrics::SimpleCollisionMetrics"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::metrics\l::SimpleCollisionMetrics\n|# initialized_\l|+ SimpleCollisionMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Metrics\n|# print_team_summary_\l|+ Metrics()\l+ ~Metrics()\l+ init()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l+ team_metrics()\l+ headers()\l+ team_scores()\l+ get_print_team_summary()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Metrics.html",tooltip=" "];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #surviving_teams_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{std::map\< int, bool \>\n|+ keys\l+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #scores_\n#team_coll_scores_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 [label="{std::map\< int, scrimmage\l::metrics::SimpleCollisionScore \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node92 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #teams_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node92 [label="{std::set\< int \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node63 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #params_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node63 [label="{std::map\< std::string,\l std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

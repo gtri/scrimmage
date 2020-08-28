@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy/PyAutonomy" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_9a5cd39d655c6343ef9bc0ff48b9632e {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html"]
+  dir_e4bf29dd19e07d49809603708d290838 [shape=box, label="PyAutonomy", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_e4bf29dd19e07d49809603708d290838.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_e4bf29dd19e07d49809603708d290838->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000180_000004.html"];
+}

@@ -1,0 +1,14 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/sensor/AirSimSensor/AirSimSensor.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/autonomy/ROSAirSim/ROSAirSim.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ROSAirSim_8h.html",tooltip="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/ROSAirSim\l/ROSAirSim.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ROSAirSim_8cpp.html",tooltip="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="/root/scrimmage/scrimmage\l/src/plugins/sensor/AirSimSensor\l/AirSimSensor.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$AirSimSensor_8cpp.html",tooltip="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages."];
+}

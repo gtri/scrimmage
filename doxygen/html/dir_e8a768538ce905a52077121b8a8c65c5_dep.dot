@@ -1,0 +1,20 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e780a5c579cb35e946684e8694642ace {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interaction" fontname="Helvetica", fontsize="10", URL="dir_e780a5c579cb35e946684e8694642ace.html"]
+  dir_e8a768538ce905a52077121b8a8c65c5 [shape=box, label="Boundary", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_e8a768538ce905a52077121b8a8c65c5.html"];
+  }
+  dir_da3c1142a5a9c223c96a62a7b93eca38 [shape=box label="proto" URL="dir_da3c1142a5a9c223c96a62a7b93eca38.html"];
+  dir_8dabc27971b3bc145bbcc2e849e82380 [shape=box label="simcontrol" URL="dir_8dabc27971b3bc145bbcc2e849e82380.html"];
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_5ef164da32927a27aef05eae2283c928 [shape=box label="entity" URL="dir_5ef164da32927a27aef05eae2283c928.html"];
+  dir_8dabc27971b3bc145bbcc2e849e82380->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000151_000008.html"];
+  dir_5ef164da32927a27aef05eae2283c928->dir_da3c1142a5a9c223c96a62a7b93eca38 [headlabel="1", labeldistance=1.5 headhref="dir_000008_000148.html"];
+  dir_5ef164da32927a27aef05eae2283c928->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="1", labeldistance=1.5 headhref="dir_000008_000010.html"];
+  dir_e8a768538ce905a52077121b8a8c65c5->dir_da3c1142a5a9c223c96a62a7b93eca38 [headlabel="4", labeldistance=1.5 headhref="dir_000085_000148.html"];
+  dir_e8a768538ce905a52077121b8a8c65c5->dir_8dabc27971b3bc145bbcc2e849e82380 [headlabel="1", labeldistance=1.5 headhref="dir_000085_000151.html"];
+  dir_e8a768538ce905a52077121b8a8c65c5->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="3", labeldistance=1.5 headhref="dir_000085_000010.html"];
+  dir_e8a768538ce905a52077121b8a8c65c5->dir_5ef164da32927a27aef05eae2283c928 [headlabel="1", labeldistance=1.5 headhref="dir_000085_000008.html"];
+}

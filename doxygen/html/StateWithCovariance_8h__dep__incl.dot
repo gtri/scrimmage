@@ -1,0 +1,17 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/math/StateWithCovariance.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/math\l/StateWithCovariance.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="/root/scrimmage/scrimmage\l/src/math/StateWithCovariance.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$StateWithCovariance_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Straight\l/Straight.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Straight_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="/root/scrimmage/scrimmage\l/src/plugins/sensor/NoisyContacts\l/NoisyContacts.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$NoisyContacts_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="/root/scrimmage/scrimmage\l/src/plugins/sensor/NoisyState\l/NoisyState.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$NoisyState_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="/root/scrimmage/scrimmage\l/src/plugins/sensor/SimpleINS\l/SimpleINS.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SimpleINS_8cpp.html",tooltip="Brief file description."];
+}

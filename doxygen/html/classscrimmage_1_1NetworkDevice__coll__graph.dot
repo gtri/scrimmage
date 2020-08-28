@@ -1,0 +1,15 @@
+digraph "scrimmage::NetworkDevice"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::NetworkDevice\n|# max_queue_size_\l# enable_queue_size_\l|+ NetworkDevice()\l+ NetworkDevice()\l+ NetworkDevice()\l+ ~NetworkDevice()\l+ NetworkDevice()\l+ get_topic()\l+ set_topic()\l+ set_msg_list()\l+ clear_msg_list()\l+ msg_list_size()\l+ undelivered_msg_list_size()\l+ set_max_queue_size()\l+ max_queue_size()\l+ enable_queue_size()\l+ enable_queue_size()\l+ enforce_queue_size()\l+ add_msg()\l+ add_undelivered_msg()\l+ deliver_undelivered_msg()\l+ deliver_undelivered_msg()\l+ pop_msgs()\l+ pop_msgs()\l+ pop_msgs()\l+ msgs()\l+ msgs()\l+ msgs()\l+ plugin()\l# print_str()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #undelivered_msg_list\l_\n#msg_list_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::list\< MessageBasePtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #mutex_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::mutex\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node7 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #plugin_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node7 [label="{std::shared_ptr\< EntityPlugin \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node11 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #topic_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node11 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+}

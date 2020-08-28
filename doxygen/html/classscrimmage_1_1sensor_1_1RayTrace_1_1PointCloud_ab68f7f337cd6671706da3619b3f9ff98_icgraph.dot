@@ -1,0 +1,10 @@
+digraph "scrimmage::sensor::RayTrace::PointCloud::get_rays"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::sensor::\lRayTrace::PointCloud\l::get_rays",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::interaction\l::BulletCollision::step\l_entity_interaction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1BulletCollision.html#af4d01e28dac425a839b38397d282ab18",tooltip=" "];
+}

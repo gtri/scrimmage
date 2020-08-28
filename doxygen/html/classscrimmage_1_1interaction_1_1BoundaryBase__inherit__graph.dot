@@ -1,0 +1,15 @@
+digraph "scrimmage::interaction::BoundaryBase"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::BoundaryBase\n|# shape_\l# shapes_\l# center_\l# extents_\l|+ BoundaryBase()\l+ ~BoundaryBase()\l+ BoundaryBase()\l+ contains()\l+ shape()\l+ set_shape()\l+ set_visual()\l+ center()\l+ extents()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::interaction\l::Cuboid\n|# points_\l# u\l# v\l# w\l# u_dot_P0\l# u_dot_P1\l# v_dot_P0\l# v_dot_P3\l# w_dot_P0\l# w_dot_P4\l|+ Cuboid()\l+ Cuboid()\l+ Cuboid()\l+ compute_dots()\l+ contains()\l+ points()\l+ set_points()\l+ set_visual()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Cuboid.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node3 [label="{scrimmage::interaction\l::Plane\n|# points_\l# u\l# w\l# v\l# s\l# r\l# normZ\l# normY\l# normX\l# u_dot_P0\l# w_dot_P0\l# r_dot_P3\l# v_dot_P2\l# s_dot_P1\l|+ Plane()\l+ Plane()\l+ Plane()\l+ compute_dots()\l+ contains()\l+ points()\l+ set_points()\l+ set_visual()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Plane.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node4 [label="{scrimmage::interaction\l::Polyhedron\n|# points_\l# u\l# v\l# w\l# u_dot_P0\l# u_dot_P1\l# v_dot_P0\l# v_dot_P3\l# w_dot_P0\l# w_dot_P4\l# bounds_\l|+ Polyhedron()\l+ Polyhedron()\l+ compute_dots()\l+ contains()\l+ set_points()\l+ set_visual()\l+ get_bounds()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Polyhedron.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node5 [label="{scrimmage::interaction\l::Sphere\n|# radius_\l|+ Sphere()\l+ Sphere()\l+ Sphere()\l+ set_radius()\l+ set_center()\l+ radius()\l+ center()\l+ contains()\l+ set_visual()\l+ extents()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Sphere.html",tooltip=" "];
+}

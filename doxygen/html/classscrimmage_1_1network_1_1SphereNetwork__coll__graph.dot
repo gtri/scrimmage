@@ -1,0 +1,9 @@
+digraph "scrimmage::network::SphereNetwork"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::network\l::SphereNetwork\n|# range_\l# prob_transmit_\l# comms_boundary_altitude_\l# comms_boundary_epsilon_\l# filter_comms_plane_\l|+ init()\l# is_reachable()\l# is_successful_transmission()\l# within_planar_boundary()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Network\n|# comm_delay_\l# is_stochastic_delay_\l- monitor_all_pubs_\l- monitor_all_subs_\l- write_csv_\l|+ Network()\l+ init()\l+ step()\l+ type()\l+ set_rtree()\l+ set_random()\l+ close()\l+ set_mission_parse()\l+ comm_delay()\l+ set_comm_delay()\l# is_reachable()\l# is_successful_transmission()\l# get_transmission_delay()\l# network_init()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Network.html",tooltip=" "];
+}

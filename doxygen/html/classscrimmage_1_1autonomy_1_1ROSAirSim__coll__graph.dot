@@ -1,0 +1,29 @@
+digraph "scrimmage::autonomy::ROSAirSim"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::ROSAirSim\n|# show_camera_images_\l# pub_image_data_\l# pub_lidar_data_\l# pub_imu_data_\l# ros_python_\l# ros_cartographer_\l# image_data_\l# img_topic_published_\l# lidar_data_\l# lidar_topic_published_\l# imu_data_\l# imu_topic_published_\l# base_scan_pub_\l# world_trans_\l# vehicle_trans_\l|+ ROSAirSim()\l+ get_vehicle_world_pose\l_from_NED_to_ENU()\l+ get_sensor_pose_from\l_worldNED_to_vehicleENU()\l+ init()\l+ step_autonomy()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+  Node6 -> Node2 [color="grey25",fontsize="10",style="solid",label=" #logging_msg_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #trans_img_publishers_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::vector\< image\l_transport::Publisher \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node87 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #it_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node87 [label="{std::shared_ptr\< image\l_transport::ImageTransport \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node88 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #lidar_topic_published\l_mutex_\n#imu_topic_published\l_mutex_\n#img_topic_published\l_mutex_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node88 [label="{std::mutex\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #static_broadcaster_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{std::shared_ptr\< tf2\l_ros::StaticTransformBroadcaster \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #laser_broadcaster_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 [label="{std::shared_ptr\< tf2\l_ros::TransformBroadcaster \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #vehicle_name_\n#ros_name_\n#ros_namespace_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node91 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #img_publishers_\n#cam_info_publishers\l_\n#lidar_publishers\l_\n#imu_publishers_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node91 [label="{std::vector\< ros::Publisher \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node92 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #camera_names_\n#imu_names_\n#lidar_names_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node92 [label="{std::vector\< std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node92 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #nh_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< ros\l::NodeHandle \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

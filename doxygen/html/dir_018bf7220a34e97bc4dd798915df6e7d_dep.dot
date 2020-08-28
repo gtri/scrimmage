@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ScrimmageOpenAISensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_000479e1305f0edebbccb6008dd63eeb {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_000479e1305f0edebbccb6008dd63eeb.html"]
+  dir_018bf7220a34e97bc4dd798915df6e7d [shape=box, label="ScrimmageOpenAISensor", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_018bf7220a34e97bc4dd798915df6e7d.html"];
+  }
+  dir_e87096b61398b9a30229e95697b76c91 [shape=box label="sensor" URL="dir_e87096b61398b9a30229e95697b76c91.html"];
+  dir_5aacfe0deb1b51de3b8a4437197fbda8 [shape=box label="autonomy" fillcolor="white" style="filled" color="red" URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"];
+  dir_018bf7220a34e97bc4dd798915df6e7d->dir_e87096b61398b9a30229e95697b76c91 [headlabel="1", labeldistance=1.5 headhref="dir_000146_000150.html"];
+  dir_018bf7220a34e97bc4dd798915df6e7d->dir_5aacfe0deb1b51de3b8a4437197fbda8 [headlabel="1", labeldistance=1.5 headhref="dir_000146_000017.html"];
+}

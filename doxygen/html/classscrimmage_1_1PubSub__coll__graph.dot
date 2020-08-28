@@ -1,0 +1,7 @@
+digraph "scrimmage::PubSub"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::PubSub\n|# pub_map_\l# sub_map_\l|+ PubSub()\l+ pubs()\l+ subs()\l+ add_network_name()\l+ find_devices()\l+ find_pubs()\l+ find_subs()\l+ subscribe()\l+ advertise()\l# print_str()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

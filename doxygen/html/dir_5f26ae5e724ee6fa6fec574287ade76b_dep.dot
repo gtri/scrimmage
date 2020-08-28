@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor/RayTrace" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_2483af7b304531f76a0533eb422d3df1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_2483af7b304531f76a0533eb422d3df1.html"]
+  dir_5f26ae5e724ee6fa6fec574287ade76b [shape=box, label="RayTrace", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5f26ae5e724ee6fa6fec574287ade76b.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_5f26ae5e724ee6fa6fec574287ade76b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000272_000004.html"];
+}

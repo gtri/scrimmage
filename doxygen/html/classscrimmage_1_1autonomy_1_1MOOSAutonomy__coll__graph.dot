@@ -1,0 +1,18 @@
+digraph "scrimmage::autonomy::MOOSAutonomy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::MOOSAutonomy\n|# desired_heading_idx_\l# desired_alt_idx_\l# desired_speed_idx_\l|+ MOOSAutonomy()\l+ init()\l+ ready()\l+ step_autonomy()\l# run_moos_node()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+  Node6 -> Node2 [color="grey25",fontsize="10",style="solid",label=" #logging_msg_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #moos_node_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{scrimmage::autonomy\l::MOOSNode\n|# appTick_\l# commsTick_\l# time_warp_\l# deployed_\l|+ MOOSNode()\l+ ~MOOSNode()\l+ ready()\l+ desired_state()\l+ set_time_warp()\l+ PublishNodeReport()\l# OnNewMail()\l# Iterate()\l# OnConnectToServer()\l# OnStartUp()\l# DoRegistrations()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1MOOSNode.html",tooltip=" "];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #angles_from_moos_\n#angles_to_moos_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{scrimmage::Angles\n|# angle_\l# in_direction_\l# in_zero_\l# out_direction_\l# out_zero_\l|+ Angles()\l+ Angles()\l+ set_input_clock_direction()\l+ set_input_zero_axis()\l+ set_output_clock_direction()\l+ set_output_zero_axis()\l+ is_angle_360()\l+ set_angle()\l+ angle()\l+ deg2rad()\l+ rad2deg()\l+ angle_360()\l+ angle_2pi()\l+ angle_180()\l+ angle_pi()\l+ angle_diff()\l+ angle_diff_rad()\l+ angle_within()\l+ angle_within_rad()\l+ angle_avg()\l+ angle_avg_rad()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #moos_app_name_\n#moos_mission_file\l_\n#moos_script_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ivp_thread_\n#moos_node_thread_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 [label="{std::thread\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+}

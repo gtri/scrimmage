@@ -1,0 +1,14 @@
+digraph "scrimmage::MotionModel"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::MotionModel\n|# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::EntityPlugin\n|+ print_err_on_exit\l- loop_rate_\l- loop_timer_\l|+ EntityPlugin()\l+ ~EntityPlugin()\l+ ready()\l+ close_plugin()\l+ close()\l+ set_parent()\l+ parent()\l+ set_scoped_property()\l+ get_scoped_property\l_helper()\l+ transform()\l+ set_id_to_team_map()\l+ set_id_to_ent_map()\l+ shapes()\l+ vars()\l+ subscribe()\l+ subscribe()\l+ advertise()\l+ advertise()\l+ set_pubsub()\l+ pubsub()\l+ subs()\l+ set_time()\l+ set_time()\l+ draw_shape()\l+ set_param_server()\l+ register_param()\l+ set_param()\l+ unregister_param()\l+ loop_rate()\l+ loop_timer()\l+ set_loop_rate()\l+ set_loop_timer()\l+ step_loop_timer()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html",tooltip=" "];
+  Node71 -> Node2 [color="grey25",fontsize="10",style="solid",label=" #transform_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node71 [label="{std::shared_ptr\< State \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node71 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #state_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node54 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #x_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node54 [label="{std::vector\< double \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

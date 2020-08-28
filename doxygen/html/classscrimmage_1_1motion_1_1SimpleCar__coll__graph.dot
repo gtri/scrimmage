@@ -1,0 +1,9 @@
+digraph "scrimmage::motion::SimpleCar"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::motion::\lSimpleCar\n|# length_\l# enable_gravity_\l# max_velocity_\l# input_speed_idx_\l# input_turn_rate_idx_\l|+ init()\l+ step()\l+ model()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::MotionModel\n|# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1MotionModel.html",tooltip=" "];
+}

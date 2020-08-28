@@ -1,0 +1,47 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/motion" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_7020b8b7abcceffa3f9f7a2d24718f16 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_7020b8b7abcceffa3f9f7a2d24718f16.html"]
+  subgraph clusterdir_5f8427e50c3373d6d1a638fa0a1c8683 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_5f8427e50c3373d6d1a638fa0a1c8683.html"];
+    dir_5f8427e50c3373d6d1a638fa0a1c8683 [shape=plaintext label="motion"];
+    dir_d4c97b73e0dba82e11f50eff0cb774cb [shape=box label="Ballistic" color="black" fillcolor="white" style="filled" URL="dir_d4c97b73e0dba82e11f50eff0cb774cb.html"];
+    dir_07d223770655c40fe4a1d986886173ba [shape=box label="DoubleIntegrator" color="black" fillcolor="white" style="filled" URL="dir_07d223770655c40fe4a1d986886173ba.html"];
+    dir_6c3bfdc9d735e33a953469b4d063eec2 [shape=box label="DubinsAirplane" color="black" fillcolor="white" style="filled" URL="dir_6c3bfdc9d735e33a953469b4d063eec2.html"];
+    dir_3be9cb1dc2bdaa7a548b563094e198ee [shape=box label="DubinsAirplane3D" color="black" fillcolor="white" style="filled" URL="dir_3be9cb1dc2bdaa7a548b563094e198ee.html"];
+    dir_a98644b191c6934fc2579ae2b76aacb9 [shape=box label="FixedWing6DOF" color="black" fillcolor="white" style="filled" URL="dir_a98644b191c6934fc2579ae2b76aacb9.html"];
+    dir_8ce1b1a0cf12dd1880e05e388c7fc2ed [shape=box label="HarmonicOscillator" color="black" fillcolor="white" style="filled" URL="dir_8ce1b1a0cf12dd1880e05e388c7fc2ed.html"];
+    dir_cdecd4250763778a3e00dde769955eb2 [shape=box label="JSBSimControl" color="black" fillcolor="white" style="filled" URL="dir_cdecd4250763778a3e00dde769955eb2.html"];
+    dir_431909c9af97166d98fabe21958cbc32 [shape=box label="JSBSimModel" color="black" fillcolor="white" style="filled" URL="dir_431909c9af97166d98fabe21958cbc32.html"];
+    dir_d167b312f6d43a8054e5a4fe1ad1d27f [shape=box label="Multirotor" color="black" fillcolor="white" style="filled" URL="dir_d167b312f6d43a8054e5a4fe1ad1d27f.html"];
+    dir_4279a1d8fcf9d42f28315f3ce5752833 [shape=box label="RigidBody6DOF" color="black" fillcolor="white" style="filled" URL="dir_4279a1d8fcf9d42f28315f3ce5752833.html"];
+    dir_0eb40c79ffb5396ab565664b961c6ec7 [shape=box label="SimpleAircraft" color="black" fillcolor="white" style="filled" URL="dir_0eb40c79ffb5396ab565664b961c6ec7.html"];
+    dir_efee61d7bc32477b74fe8a22fce20ee1 [shape=box label="SimpleCar" color="black" fillcolor="white" style="filled" URL="dir_efee61d7bc32477b74fe8a22fce20ee1.html"];
+    dir_a25c101132dce7efa3faad82650163e3 [shape=box label="SimpleQuadrotor" color="black" fillcolor="white" style="filled" URL="dir_a25c101132dce7efa3faad82650163e3.html"];
+    dir_f186921fadb548dec541032ea377296b [shape=box label="SingleIntegrator" color="black" fillcolor="white" style="filled" URL="dir_f186921fadb548dec541032ea377296b.html"];
+    dir_b35e5772b4b7ed181d258d3cacc0e1d5 [shape=box label="Unicycle" color="black" fillcolor="white" style="filled" URL="dir_b35e5772b4b7ed181d258d3cacc0e1d5.html"];
+    dir_602af855ca62af62f0ae6b10b2c320a7 [shape=box label="Unicycle3D" color="black" fillcolor="white" style="filled" URL="dir_602af855ca62af62f0ae6b10b2c320a7.html"];
+    dir_9fc46bb599134c37052d486047f9a5fe [shape=box label="UUV6DOF" color="black" fillcolor="white" style="filled" URL="dir_9fc46bb599134c37052d486047f9a5fe.html"];
+  }
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_0eb40c79ffb5396ab565664b961c6ec7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000253_000004.html"];
+  dir_8ce1b1a0cf12dd1880e05e388c7fc2ed->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000249_000004.html"];
+  dir_07d223770655c40fe4a1d986886173ba->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000245_000004.html"];
+  dir_d167b312f6d43a8054e5a4fe1ad1d27f->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000252_000004.html"];
+  dir_b35e5772b4b7ed181d258d3cacc0e1d5->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000257_000004.html"];
+  dir_efee61d7bc32477b74fe8a22fce20ee1->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="5", labeldistance=1.5 headhref="dir_000254_000004.html"];
+  dir_cdecd4250763778a3e00dde769955eb2->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000250_000004.html"];
+  dir_4279a1d8fcf9d42f28315f3ce5752833->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000119_000004.html"];
+  dir_602af855ca62af62f0ae6b10b2c320a7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000258_000004.html"];
+  dir_a98644b191c6934fc2579ae2b76aacb9->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="9", labeldistance=1.5 headhref="dir_000248_000004.html"];
+  dir_3be9cb1dc2bdaa7a548b563094e198ee->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000247_000004.html"];
+  dir_9fc46bb599134c37052d486047f9a5fe->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000259_000004.html"];
+  dir_a25c101132dce7efa3faad82650163e3->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000255_000004.html"];
+  dir_431909c9af97166d98fabe21958cbc32->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000251_000004.html"];
+  dir_d4c97b73e0dba82e11f50eff0cb774cb->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000244_000004.html"];
+  dir_6c3bfdc9d735e33a953469b4d063eec2->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000246_000004.html"];
+  dir_f186921fadb548dec541032ea377296b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="5", labeldistance=1.5 headhref="dir_000256_000004.html"];
+}

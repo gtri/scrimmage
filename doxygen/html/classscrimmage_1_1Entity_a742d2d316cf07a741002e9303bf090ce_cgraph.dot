@@ -1,0 +1,52 @@
+digraph "scrimmage::Entity::init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::Entity::init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::connect",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::Entity::\lcontacts",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a15d3ff43512d2c387464495464b784af",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::Angles::\ldeg2rad",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::Entity::\lfile_search",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a418a22dd9e88f347e59c45379309a7e1",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::get",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::Entity::\lglobal_services",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a56e830bcd9a84ba1c32ff48000e178b2",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::Entity::id",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a7a364cceb809cd85528056f33b15be73",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::Controller\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Controller.html#a518884810dcdd498fda898378da406b4",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="scrimmage::Entity::mp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a3f88dfbc5ff9a42fae837da0d48cf898",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="scrimmage::Entity::\lparam_server",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#aba20087f34f68eab4b574084f25935c1",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::Entity::\lparse_visual",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a0f933e41855d10195a40d4300acb119f",tooltip=" "];
+  Node14 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="scrimmage::str2container",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb",tooltip=" "];
+  Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="scrimmage::Entity::\lplugin_manager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a82d54160b13134ef46eeef9e1419dea8",tooltip=" "];
+  Node1 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="scrimmage::print_io\l_error",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8",tooltip=" "];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="scrimmage::Entity::\lpubsub",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#ab587d12ed9d63612f84e88ec23be2ea3",tooltip=" "];
+  Node1 -> Node33 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="scrimmage::Entity::\lrtree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#a28ab84afb7fff848d0282c27e829eb3b",tooltip=" "];
+  Node1 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="scrimmage::Entity::\lsensor",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Entity.html#aaf19d3313ee50a1e15b21a6552ad370a",tooltip=" "];
+  Node1 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="scrimmage::ID::set_id",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1ID.html#a9895adc7050c16c76f2a7064a886c91f",tooltip=" "];
+  Node1 -> Node37 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="scrimmage::ID::set\l_sub_swarm_id",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1ID.html#a6d3c005538695640cd2d1be2495c6311",tooltip=" "];
+  Node1 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="scrimmage::ID::set\l_team_id",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1ID.html#a78e83716223c905e7d747967a3b94c1d",tooltip=" "];
+  Node1 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="scrimmage::verify_io\l_connection",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee",tooltip=" "];
+}

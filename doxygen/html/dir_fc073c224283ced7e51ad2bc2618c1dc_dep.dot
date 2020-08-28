@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GroundCollision" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_e780a5c579cb35e946684e8694642ace {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interaction" fontname="Helvetica", fontsize="10", URL="dir_e780a5c579cb35e946684e8694642ace.html"]
+  dir_fc073c224283ced7e51ad2bc2618c1dc [shape=box, label="GroundCollision", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_fc073c224283ced7e51ad2bc2618c1dc.html"];
+  }
+  dir_8dabc27971b3bc145bbcc2e849e82380 [shape=box label="simcontrol" URL="dir_8dabc27971b3bc145bbcc2e849e82380.html"];
+  dir_8f25491911d3a3415d21158b3a48c0c1 [shape=box label="pubsub" URL="dir_8f25491911d3a3415d21158b3a48c0c1.html"];
+  dir_fc073c224283ced7e51ad2bc2618c1dc->dir_8dabc27971b3bc145bbcc2e849e82380 [headlabel="1", labeldistance=1.5 headhref="dir_000092_000151.html"];
+  dir_fc073c224283ced7e51ad2bc2618c1dc->dir_8f25491911d3a3415d21158b3a48c0c1 [headlabel="1", labeldistance=1.5 headhref="dir_000092_000149.html"];
+}

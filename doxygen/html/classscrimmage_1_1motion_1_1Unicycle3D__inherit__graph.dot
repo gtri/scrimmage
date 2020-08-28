@@ -1,0 +1,9 @@
+digraph "scrimmage::motion::Unicycle3D"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::motion::\lUnicycle3D\n|# accel_max_\l# accel_min_\l# speed_max_\l# speed_min_\l# pitch_rate_max_\l# pitch_rate_min_\l# roll_rate_max_\l# roll_rate_min_\l# turn_rate_max_\l# turn_rate_min_\l# quat_world_\l# quat_world_inverse_\l# quat_local_\l# write_csv_\l# csv_\l# use_accel_input_\l# speed_idx_\l# accel_idx_\l# turn_rate_idx_\l# pitch_rate_idx_\l# roll_rate_idx_\l# speed_\l# acceleration_\l# turn_rate_\l# pitch_rate_\l# roll_rate_\l|+ init()\l+ step()\l+ model()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::MotionModel\n|# state_\l# x_\l# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1MotionModel.html",tooltip=" "];
+}

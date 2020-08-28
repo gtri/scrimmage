@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/GPS" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_000479e1305f0edebbccb6008dd63eeb {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_000479e1305f0edebbccb6008dd63eeb.html"]
+  dir_f54a09de94b30e6209358daea2731f38 [shape=box, label="GPS", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f54a09de94b30e6209358daea2731f38.html"];
+  }
+  dir_e87096b61398b9a30229e95697b76c91 [shape=box label="sensor" URL="dir_e87096b61398b9a30229e95697b76c91.html"];
+  dir_f54a09de94b30e6209358daea2731f38->dir_e87096b61398b9a30229e95697b76c91 [headlabel="1", labeldistance=1.5 headhref="dir_000135_000150.html"];
+}

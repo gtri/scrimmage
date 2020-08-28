@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor/ROSCompass" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_2483af7b304531f76a0533eb422d3df1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_2483af7b304531f76a0533eb422d3df1.html"]
+  dir_af4f08c0f47981e06bd30f57bf3b756b [shape=box, label="ROSCompass", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_af4f08c0f47981e06bd30f57bf3b756b.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_af4f08c0f47981e06bd30f57bf3b756b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000277_000004.html"];
+}

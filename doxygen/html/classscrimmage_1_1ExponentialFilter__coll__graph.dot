@@ -1,0 +1,7 @@
+digraph "scrimmage::ExponentialFilter"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::ExponentialFilter\n|# estimate_\l# time_last_estimate_\l# time_constant_\l|+ ExponentialFilter()\l+ ExponentialFilter()\l+ set_time_constant()\l+ add_estimate()\l+ get_estimate()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

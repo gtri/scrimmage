@@ -6,7 +6,7 @@ var classscrimmage_1_1NetworkDevice =
     [ "NetworkDevice", "classscrimmage_1_1NetworkDevice.html#abf58eb56bd7ea11fb66483e5856a91e0", null ],
     [ "~NetworkDevice", "classscrimmage_1_1NetworkDevice.html#a96b1f8595b2dc4f150408be32b42f62e", null ],
     [ "NetworkDevice", "classscrimmage_1_1NetworkDevice.html#a8d1f896f6d10f21afb65a9b8c4e733ca", null ],
-    [ "get_topic", "classscrimmage_1_1NetworkDevice.html#a350b4b12bbf46dfd5966a744a83d3d16", null ],
+    [ "get_topic", "classscrimmage_1_1NetworkDevice.html#a5397023e7791005728284cc9a5c9811a", null ],
     [ "set_topic", "classscrimmage_1_1NetworkDevice.html#a483a068e14e9ced3aea58a09cac429ea", null ],
     [ "set_msg_list", "classscrimmage_1_1NetworkDevice.html#ac94472659be3ffa30194f041bb7f5c2a", null ],
     [ "clear_msg_list", "classscrimmage_1_1NetworkDevice.html#a870b670ddec439938a0aef20aaa01f1f", null ],

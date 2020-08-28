@@ -1,0 +1,7 @@
+digraph "scrimmage::PID"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

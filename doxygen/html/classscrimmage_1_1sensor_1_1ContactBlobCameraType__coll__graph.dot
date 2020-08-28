@@ -1,0 +1,9 @@
+digraph "scrimmage::sensor::ContactBlobCameraType"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lContactBlobCameraType\n|+ frame\l+ camera_id\l+ img_width\l+ img_height\l+ max_detect_range\l+ focal_length\l+ fps\l+ az_thresh\l+ el_thresh\l+ fn_prob\l+ fp_prob\l+ max_false_positives\l+ roll\l+ pitch\l+ yaw\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +bounding_boxes" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::map\< int, std\l::vector\< cv::Rect \> \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

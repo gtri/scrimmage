@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/MoveToGoalMS" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_9cde9a918a3e6993ec89bd378dd32082 [shape=box, label="MoveToGoalMS", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_9cde9a918a3e6993ec89bd378dd32082.html"];
+  }
+  dir_06e4f53d84a2ce6951353703db33851a [shape=box label="MotorSchemas" URL="dir_06e4f53d84a2ce6951353703db33851a.html"];
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_9cde9a918a3e6993ec89bd378dd32082->dir_06e4f53d84a2ce6951353703db33851a [headlabel="1", labeldistance=1.5 headhref="dir_000039_000038.html"];
+  dir_9cde9a918a3e6993ec89bd378dd32082->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="2", labeldistance=1.5 headhref="dir_000039_000007.html"];
+}

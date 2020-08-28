@@ -1,0 +1,29 @@
+digraph "scrimmage::EntityPlugin"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::EntityPlugin\n|+ print_err_on_exit\l- loop_rate_\l- loop_timer_\l|+ EntityPlugin()\l+ ~EntityPlugin()\l+ ready()\l+ close_plugin()\l+ close()\l+ set_parent()\l+ parent()\l+ set_scoped_property()\l+ get_scoped_property\l_helper()\l+ transform()\l+ set_id_to_team_map()\l+ set_id_to_ent_map()\l+ shapes()\l+ vars()\l+ subscribe()\l+ subscribe()\l+ advertise()\l+ advertise()\l+ set_pubsub()\l+ pubsub()\l+ subs()\l+ set_time()\l+ set_time()\l+ draw_shape()\l+ set_param_server()\l+ register_param()\l+ set_param()\l+ unregister_param()\l+ loop_rate()\l+ loop_timer()\l+ set_loop_rate()\l+ set_loop_timer()\l+ step_loop_timer()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Plugin\n|# name_set_\l|+ Plugin()\l+ ~Plugin()\l+ set_name()\l+ name()\l+ type()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Plugin.html",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -shapes_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::list\< scrimmage\l_proto::ShapePtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #id_to_team_map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node10 [label="{std::shared_ptr\< std\l::unordered_map\< int,\l int \> \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node14 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pubsub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node14 [label="{std::shared_ptr\< PubSub \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node16 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #vars_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node16 [label="{scrimmage::VariableIO\n|# next_input_variable\l_index_\l|+ VariableIO()\l+ output_variable_index()\l+ input_variable_index()\l+ add_input_variable()\l+ add_output_variable()\l+ declare()\l+ declare()\l+ input()\l+ output()\l+ output()\l+ exists()\l+ exists()\l+ declared_input_variables()\l+ declared_output_variables()\l+ type_map()\l+ input()\l+ output()\l+ set_input()\l+ set_output()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1VariableIO.html",tooltip=" "];
+  Node23 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #parent_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node23 [label="{std::shared_ptr\< Entity \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node72 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -param_server_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node72 [label="{std::shared_ptr\< Parameter\lServer \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node80 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #time_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node80 [label="{std::shared_ptr\< const\l scrimmage::Time \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node28 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #transform_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node28 [label="{std::shared_ptr\< State \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node81 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #id_to_ent_map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node81 [label="{std::shared_ptr\< std\l::unordered_map\< int,\l EntityPtr \> \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node83 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #subs_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node83 [label="{std::list\< SubscriberBase\lPtr \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

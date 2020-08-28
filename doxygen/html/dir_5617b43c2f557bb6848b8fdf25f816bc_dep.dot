@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/network/LocalNetwork" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_a947988000fb94fcb137b6a447a87bc1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="network" fontname="Helvetica", fontsize="10", URL="dir_a947988000fb94fcb137b6a447a87bc1.html"]
+  dir_5617b43c2f557bb6848b8fdf25f816bc [shape=box, label="LocalNetwork", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5617b43c2f557bb6848b8fdf25f816bc.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_5617b43c2f557bb6848b8fdf25f816bc->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000262_000004.html"];
+}

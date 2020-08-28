@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/RLSimple" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_4de13b99eadbe5f0127bc918502f4b19 [shape=box, label="RLSimple", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_4de13b99eadbe5f0127bc918502f4b19.html"];
+  }
+  dir_cdfddd118303d664e127b9af9b9183cf [shape=box label="ScrimmageOpenAIAutonomy" URL="dir_cdfddd118303d664e127b9af9b9183cf.html"];
+  dir_4de13b99eadbe5f0127bc918502f4b19->dir_cdfddd118303d664e127b9af9b9183cf [headlabel="1", labeldistance=1.5 headhref="dir_000045_000049.html"];
+}

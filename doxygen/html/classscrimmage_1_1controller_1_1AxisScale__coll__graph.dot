@@ -1,0 +1,7 @@
+digraph "scrimmage::controller::AxisScale"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::controller\l::AxisScale\n|# axis_index_\l# input_min_\l# input_max_\l# output_min_\l# output_max_\l# coeff_\l# vector_index_\l|+ AxisScale()\l+ axis_index()\l+ vector_index()\l+ scale()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

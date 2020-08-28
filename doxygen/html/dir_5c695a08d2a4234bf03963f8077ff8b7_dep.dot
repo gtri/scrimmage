@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/OpenAIRewards" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_086d5cad8b1adde5b1fcb87b546f7637 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="metrics" fontname="Helvetica", fontsize="10", URL="dir_086d5cad8b1adde5b1fcb87b546f7637.html"]
+  dir_5c695a08d2a4234bf03963f8077ff8b7 [shape=box, label="OpenAIRewards", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5c695a08d2a4234bf03963f8077ff8b7.html"];
+  }
+  dir_81ac6949c353a3d04cd403a175b36275 [shape=box label="metrics" URL="dir_81ac6949c353a3d04cd403a175b36275.html"];
+  dir_5c695a08d2a4234bf03963f8077ff8b7->dir_81ac6949c353a3d04cd403a175b36275 [headlabel="1", labeldistance=1.5 headhref="dir_000104_000011.html"];
+}

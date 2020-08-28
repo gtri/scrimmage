@@ -1,0 +1,9 @@
+digraph "scrimmage::sensor::AirSimSensor"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::sensor::\lAirSimSensor\n|# vehicle_name_\l# csv\l# airsim_frame_num_\l# cam_configs_\l# request_images_thread_\l# img_pub_\l# img_msg_\l# im_msg\l# img_msg_mutex_\l# new_image_\l# new_image_mutex_\l# lidar_names_\l# request_lidar_thread_\l# lidar_pub_\l# lidar_msg_\l# lidar_msg\l# lidar_msg_mutex_\l# new_lidar_\l# new_lidar_mutex_\l# imu_names_\l# request_imu_thread_\l# imu_pub_\l# imu_msg_\l# imu_msg\l# imu_msg_mutex_\l# new_imu_\l# new_imu_mutex_\l# running_\l# running_mutex_\l# enu_to_ned_yaw_\l# sim_client_\l# client_connected_\l# airsim_ip_\l# airsim_port_\l# airsim_timeout_s_\l# save_airsim_data_\l# get_image_data_\l# get_lidar_data_\l# get_imu_data_\l# image_acquisition_period_\l# lidar_acquisition_period_\l# imu_acquisition_period_\l|+ AirSimSensor()\l+ init()\l+ step()\l+ close()\l# save_data()\l# parse_camera_configs()\l# request_images()\l# parse_lidar_configs()\l# request_lidar()\l# parse_imu_configs()\l# request_imu()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
+}

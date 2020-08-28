@@ -1,0 +1,7 @@
+digraph "scrimmage::ID"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::ID\n|# id_\l# sub_swarm_id_\l# team_id_\l|+ ID()\l+ ID()\l+ set_id()\l+ set_sub_swarm_id()\l+ set_team_id()\l+ id()\l+ sub_swarm_id()\l+ team_id()\l+ operator==()\l+ operator\<()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

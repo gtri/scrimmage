@@ -1,0 +1,17 @@
+digraph "scrimmage::interaction::BulletCollision"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::interaction\l::BulletCollision\n|# bt_collision_configuration\l# bt_dispatcher\l# bt_broadphase\l# bt_collision_world\l# scene_size_\l# max_objects_\l# show_rays_\l# enable_collision_detection_\l# enable_ray_tracing_\l# prepend_pcl_topic_with_id_\l# publish_on_local_networks_\l# enable_team_collisions_\l# enable_non_team_collisions_\l# remove_on_collision_\l# show_collision_shapes_\l# enable_ground_plane_\l# enable_terrain_\l# ground_plane_height_\l|+ BulletCollision()\l+ ~BulletCollision()\l+ init()\l+ step_entity_interaction()\l+ collision_exists()\l+ get_ray_tracing()\l# get_entity()\l# remove_entity_object()\l# entity_collision()\l# remove_object()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #objects_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::map\< int, scrimmage\l::interaction::BulletCollision\l::SceneObject \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pcl_topic_name_\n#pcl_network_name_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #non_team_collision\l_pub_\n#collision_pub_\n#team_collision_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node95 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pc_descs_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node95 [label="{std::map\< int, std\l::map\< std::string,\l std::unique_ptr\< scrimmage\l::interaction::BulletCollision\l::PointCloudDescription \> \> \>\n|+ keys\l+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

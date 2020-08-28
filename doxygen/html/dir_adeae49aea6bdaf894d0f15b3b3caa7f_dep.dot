@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/controller/MultirotorControllerPID" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_c915aa27e6120cf8f6d19a96e78171a2 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_c915aa27e6120cf8f6d19a96e78171a2.html"]
+  dir_adeae49aea6bdaf894d0f15b3b3caa7f [shape=box, label="MultirotorControllerPID", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_adeae49aea6bdaf894d0f15b3b3caa7f.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_adeae49aea6bdaf894d0f15b3b3caa7f->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000209_000004.html"];
+}

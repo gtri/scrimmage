@@ -1,0 +1,17 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/src/plugins/controller\l/RigidBody6DOFControllerPID\l/RigidBody6DOFControllerPID.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage/math/Angles.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Angles_8h.html",tooltip="Brief file description."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage/plugin_manager\l/RegisterPlugin.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RegisterPlugin_8h.html",tooltip="Brief file description."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage/plugins/controller\l/RigidBody6DOFControllerPID\l/RigidBody6DOFControllerPID.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$RigidBody6DOFControllerPID_8h.html",tooltip="Brief file description."];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="boost/algorithm/string.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

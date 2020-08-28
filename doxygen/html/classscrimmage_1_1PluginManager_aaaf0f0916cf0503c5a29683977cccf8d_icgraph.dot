@@ -1,0 +1,10 @@
+digraph "scrimmage::PluginManager::find_matching_plugins"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::PluginManager\l::find_matching_plugins",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::PluginManager\l::make_plugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1PluginManager.html#af1a2941fcb402b94129d55da0c3dd39d",tooltip=" "];
+}

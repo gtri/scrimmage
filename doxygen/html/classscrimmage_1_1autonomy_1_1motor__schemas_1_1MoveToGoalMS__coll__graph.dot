@@ -1,0 +1,13 @@
+digraph "scrimmage::autonomy::motor_schemas::MoveToGoalMS"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::motor_schemas::MoveToGoalMS\n|# wp_local_\l|+ MoveToGoalMS()\l+ init()\l+ step_autonomy()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::autonomy\l::motor_schemas::BehaviorBase\n|# desired_vector_\l# gain_\l# max_vector_length_\l# use_truth_contacts_\l# use_noisy_contacts_\l|+ BehaviorBase()\l+ desired_vector()\l+ set_gain()\l+ gain()\l+ set_max_vector_length()\l+ configure_contacts()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html",tooltip=" "];
+  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #speed_pid_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node89 [label="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html",tooltip=" "];
+  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #wp_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node90 [label="{scrimmage::autonomy\l::Waypoint\n|# id_\l# time_\l# latitude_\l# longitude_\l# altitude_\l# position_tolerance_\l# quat_tolerance_\l# tolerance_in_2d_\l|+ Waypoint()\l+ Waypoint()\l+ Waypoint()\l+ Waypoint()\l+ Waypoint()\l+ set_id()\l+ set_time()\l+ set_latitude()\l+ set_longitude()\l+ set_altitude()\l+ set_quat()\l+ set_position_tolerance()\l+ set_quat_tolerance()\l+ lla_proto()\l+ id()\l+ time()\l+ latitude()\l+ longitude()\l+ altitude()\l+ quat()\l+ position_tolerance()\l+ quat_tolerance()\l+ xyz()\l+ is_within_tolerance()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html",tooltip=" "];
+}

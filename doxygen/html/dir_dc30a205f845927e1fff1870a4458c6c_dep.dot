@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/SimpleAircraft" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_accb3fd3c749527533ae278fdffb4d13 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="motion" fontname="Helvetica", fontsize="10", URL="dir_accb3fd3c749527533ae278fdffb4d13.html"]
+  dir_dc30a205f845927e1fff1870a4458c6c [shape=box, label="SimpleAircraft", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_dc30a205f845927e1fff1870a4458c6c.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_225ac9950e75cf8b57b2a00ffecc8137 [shape=box label="motion" URL="dir_225ac9950e75cf8b57b2a00ffecc8137.html"];
+  dir_dc30a205f845927e1fff1870a4458c6c->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000120_000007.html"];
+  dir_dc30a205f845927e1fff1870a4458c6c->dir_225ac9950e75cf8b57b2a00ffecc8137 [headlabel="2", labeldistance=1.5 headhref="dir_000120_000012.html"];
+}

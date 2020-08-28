@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/HarmonicOscillatorConstController" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_da9620d34cca5c42773312c818662e06 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="controller" fontname="Helvetica", fontsize="10", URL="dir_da9620d34cca5c42773312c818662e06.html"]
+  dir_f79b77084d0c92f5c9d062da4c544dc7 [shape=box, label="HarmonicOscillatorConstController", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f79b77084d0c92f5c9d062da4c544dc7.html"];
+  }
+  dir_225ac9950e75cf8b57b2a00ffecc8137 [shape=box label="motion" URL="dir_225ac9950e75cf8b57b2a00ffecc8137.html"];
+  dir_f79b77084d0c92f5c9d062da4c544dc7->dir_225ac9950e75cf8b57b2a00ffecc8137 [headlabel="1", labeldistance=1.5 headhref="dir_000065_000012.html"];
+}

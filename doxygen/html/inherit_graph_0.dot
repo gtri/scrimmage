@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="boost::geometry::index\l::rtree\< T1, T2, T3, T4, T5 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classboost_1_1geometry_1_1index_1_1rtree.html",tooltip=" "];
+}

@@ -1,0 +1,16 @@
+digraph "scrimmage::SimControl::generate_entities"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::SimControl\l::generate_entities",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Generate entities based on the current time."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::SimControl\l::create_rtree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::SimControl\l::generate_entity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949",tooltip="Generate an entity given the entity description ID."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::remove_if",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412",tooltip="std::remove_if does not work with associative containers."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::SimControl::t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2",tooltip="Get the current simulation time."];
+}

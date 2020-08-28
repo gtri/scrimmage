@@ -1,0 +1,17 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/pubsub/NetworkDevice.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/NetworkDevice.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/Publisher.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Publisher_8h.html",tooltip="Brief file description."];
+  Node2 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="/root/scrimmage/scrimmage\l/src/pubsub/Network.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Network_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node64 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/SubscriberBase.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$SubscriberBase_8h.html",tooltip="Brief file description."];
+  Node64 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node279 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node279 [label="/root/scrimmage/scrimmage\l/src/pubsub/NetworkDevice.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$NetworkDevice_8cpp.html",tooltip="Brief file description."];
+}

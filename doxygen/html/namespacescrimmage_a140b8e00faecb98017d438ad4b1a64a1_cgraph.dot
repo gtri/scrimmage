@@ -1,0 +1,23 @@
+digraph "scrimmage::run_test"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::run_test",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::SimControl\l::force_exit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a40927589255808dc98d6da45f45431ec",tooltip="Force a threaded simulation to exit."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::SimControl\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad717f0c430d2355c2284b38fa983f7cc",tooltip="Initialize a scrimmage simulation."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::SimControl\l::pause",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda",tooltip="Pause (true) or unpause (false) the simulation."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::SimControl::mp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a018b2840d16d50ff120fd9e878abe4b9",tooltip="Get the pointer to the MissionParser instance."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::SimControl::run",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4",tooltip="Runs the scrimmage simulation in the current thread."];
+  Node1 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="scrimmage::SimControl\l::shutdown",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a7097c426992e38b4ae878e824c9bcde6",tooltip="Finalizes the simulation, closes logs, closes plugins."];
+  Node1 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="scrimmage::anonymous\l_namespace\{SimUtils::\lcpp\}::signal_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a388045679566fea382f2863b74c32278",tooltip=" "];
+}

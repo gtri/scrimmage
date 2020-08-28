@@ -1,0 +1,10 @@
+digraph "scrimmage::State::pos_offset"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::State::pos\l_offset",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="return position offset by trailing_distance in the direction of velocity or orientation"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::State::orient\l_global_frame",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1State.html#a9488bbe3359b83b2881eefed107297f3",tooltip="returns the vector extending forward"];
+}

@@ -1,0 +1,40 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::autonomy\l::Waypoint::altitude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#af21a9b003d37d338bd85418cdbcbec64",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::get",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::Autonomy\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::autonomy\l::Waypoint::latitude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#ac34b234c08fe07d23ade397c862c6a04",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::autonomy\l::Waypoint::longitude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#aa6865facfb872aae2a5647cdf4d6328a",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::autonomy\l::motor_schemas::MoveToGoal\lMS::MoveToGoalMS",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1MoveToGoalMS.html#a7cc98d2b9f04bfd9b84f5820534e27fb",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::PID::set\l_integral_band",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::PID::set\l_parameters",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="scrimmage::autonomy\l::Waypoint::set_position\l_tolerance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#a2d82678ededf132225cbf526da75350b",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="scrimmage::autonomy\l::Waypoint::set_quat",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#a68aa391469dd366403704b7f6b9f502b",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::autonomy\l::Waypoint::set_quat\l_tolerance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#a7ad8bbb99bf47c23497e815f8b08c8ba",tooltip=" "];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="scrimmage::PID::set\l_setpoint",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044",tooltip=" "];
+  Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage::autonomy\l::Waypoint::set_time",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1Waypoint.html#a2fca88f431ea5ba4e9df8a0703b110cc",tooltip=" "];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage::PID::step",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3",tooltip=" "];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="scrimmage::autonomy\l::motor_schemas::MoveToGoal\lMS::step_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1MoveToGoalMS.html#a74c651829139349fd8010b23f9732926",tooltip=" "];
+  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage::vec2eigen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacescrimmage.html#aaad7545419d1346694d31a4aa5da440f",tooltip=" "];
+}

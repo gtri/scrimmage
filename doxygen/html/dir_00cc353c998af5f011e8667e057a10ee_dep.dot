@@ -1,0 +1,45 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_7020b8b7abcceffa3f9f7a2d24718f16 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_7020b8b7abcceffa3f9f7a2d24718f16.html"]
+  subgraph clusterdir_00cc353c998af5f011e8667e057a10ee {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_00cc353c998af5f011e8667e057a10ee.html"];
+    dir_00cc353c998af5f011e8667e057a10ee [shape=plaintext label="interaction"];
+    dir_da3cbff1a3a098e3ec978e4a9dc54185 [shape=box label="Boundary" color="black" fillcolor="white" style="filled" URL="dir_da3cbff1a3a098e3ec978e4a9dc54185.html"];
+    dir_3e40db7e4bd024af5423e1c1f81d9f54 [shape=box label="BulletCollision" color="black" fillcolor="white" style="filled" URL="dir_3e40db7e4bd024af5423e1c1f81d9f54.html"];
+    dir_036589151d75860ca19b92e426662b5c [shape=box label="CaptureInBoundaryInteraction" color="black" fillcolor="white" style="filled" URL="dir_036589151d75860ca19b92e426662b5c.html"];
+    dir_3477232c73cdc3a7b598834a0ed43738 [shape=box label="EnforceBoundaryInteraction" color="black" fillcolor="white" style="filled" URL="dir_3477232c73cdc3a7b598834a0ed43738.html"];
+    dir_18358441837f4cb0340af973a5a22b69 [shape=box label="ExternalForceField" color="black" fillcolor="white" style="filled" URL="dir_18358441837f4cb0340af973a5a22b69.html"];
+    dir_718b39571096dbe4377b99f98d4283fc [shape=box label="FlagCaptureInteraction" color="black" fillcolor="white" style="filled" URL="dir_718b39571096dbe4377b99f98d4283fc.html"];
+    dir_95784d0a9e255c8407d69e2add6d3b22 [shape=box label="GraphInteraction" color="black" fillcolor="white" style="filled" URL="dir_95784d0a9e255c8407d69e2add6d3b22.html"];
+    dir_eb4275ae0aaa8f2972eabe86548b9ef7 [shape=box label="GroundCollision" color="black" fillcolor="white" style="filled" URL="dir_eb4275ae0aaa8f2972eabe86548b9ef7.html"];
+    dir_f5941608f0d3d417e3bbbe056116b6fd [shape=box label="GRPCCommandString" color="black" fillcolor="white" style="filled" URL="dir_f5941608f0d3d417e3bbbe056116b6fd.html"];
+    dir_26200c6c07d216a83ecb4fa0b7270762 [shape=box label="MapGen2D" color="black" fillcolor="white" style="filled" URL="dir_26200c6c07d216a83ecb4fa0b7270762.html"];
+    dir_859d2a45fcb4be9170509f12f1e95f92 [shape=box label="RandomAttrit" color="black" fillcolor="white" style="filled" URL="dir_859d2a45fcb4be9170509f12f1e95f92.html"];
+    dir_96611f5cacff0a6864252084f13edc83 [shape=box label="ROSClockServer" color="black" fillcolor="white" style="filled" URL="dir_96611f5cacff0a6864252084f13edc83.html"];
+    dir_d7837813ef4e20c56d8851f2cab455ea [shape=box label="ROSShapeViz" color="black" fillcolor="white" style="filled" URL="dir_d7837813ef4e20c56d8851f2cab455ea.html"];
+    dir_d115b7084c85df9a9245c167f249b956 [shape=box label="SimpleCapture" color="black" fillcolor="white" style="filled" URL="dir_d115b7084c85df9a9245c167f249b956.html"];
+    dir_705538788f98f066347d6b2b3389a224 [shape=box label="SimpleCollision" color="black" fillcolor="white" style="filled" URL="dir_705538788f98f066347d6b2b3389a224.html"];
+    dir_2c8806f7955fd6d091d1531a736337a3 [shape=box label="TerrainGenerator" color="black" fillcolor="white" style="filled" URL="dir_2c8806f7955fd6d091d1531a736337a3.html"];
+  }
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_f5941608f0d3d417e3bbbe056116b6fd->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000230_000004.html"];
+  dir_705538788f98f066347d6b2b3389a224->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000236_000004.html"];
+  dir_718b39571096dbe4377b99f98d4283fc->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000227_000004.html"];
+  dir_18358441837f4cb0340af973a5a22b69->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000226_000004.html"];
+  dir_036589151d75860ca19b92e426662b5c->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000224_000004.html"];
+  dir_26200c6c07d216a83ecb4fa0b7270762->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000231_000004.html"];
+  dir_eb4275ae0aaa8f2972eabe86548b9ef7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000229_000004.html"];
+  dir_d7837813ef4e20c56d8851f2cab455ea->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000234_000004.html"];
+  dir_3477232c73cdc3a7b598834a0ed43738->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000225_000004.html"];
+  dir_da3cbff1a3a098e3ec978e4a9dc54185->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="14", labeldistance=1.5 headhref="dir_000222_000004.html"];
+  dir_95784d0a9e255c8407d69e2add6d3b22->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="15", labeldistance=1.5 headhref="dir_000228_000004.html"];
+  dir_96611f5cacff0a6864252084f13edc83->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000233_000004.html"];
+  dir_2c8806f7955fd6d091d1531a736337a3->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000237_000004.html"];
+  dir_859d2a45fcb4be9170509f12f1e95f92->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000232_000004.html"];
+  dir_d115b7084c85df9a9245c167f249b956->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="9", labeldistance=1.5 headhref="dir_000235_000004.html"];
+  dir_3e40db7e4bd024af5423e1c1f81d9f54->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="17", labeldistance=1.5 headhref="dir_000223_000004.html"];
+}

@@ -1,0 +1,25 @@
+digraph "scrimmage::remove_if"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::remove_if",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="std::remove_if does not work with associative containers."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::FileSearch\l::find_files",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1FileSearch.html#ac4d4bc23721e01f4ff0ff1eaef0a63be",tooltip=" "];
+  Node1 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="scrimmage::SimControl\l::generate_entities",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5",tooltip="Generate entities based on the current time."];
+  Node1 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="scrimmage::CSV::get\l_csv_line_elements",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a530aa1889d93e5c0dd4529be25314a8c",tooltip=" "];
+  Node1 -> Node39 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="scrimmage::get_vec\l_of_vecs",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c",tooltip=" "];
+  Node39 -> Node44 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="scrimmage::parse_plugin\l_vector",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201",tooltip=" "];
+  Node1 -> Node44 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node47 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$AutonomyExecutor_8cpp.html#ab7e242829b3aa3025778f519e989f77e",tooltip=" "];
+  Node1 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="scrimmage::remove_whitespace",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35",tooltip=" "];
+  Node1 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="scrimmage::str2bool",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96",tooltip=" "];
+}

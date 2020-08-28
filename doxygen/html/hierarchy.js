@@ -22,9 +22,6 @@ var hierarchy =
     [ "scrimmage::ConfigParse", "classscrimmage_1_1ConfigParse.html", null ],
     [ "scrimmage::Contact", "classscrimmage_1_1Contact.html", null ],
     [ "scrimmage::sensor::ContactBlobCameraType", "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html", null ],
-    [ "Controller", null, [
-      [ "scrimmage::controller::FixedWing6DOFControllerPID", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html", null ]
-    ] ],
     [ "scrimmage::metrics::CPAData", "classscrimmage_1_1metrics_1_1CPAData.html", null ],
     [ "scrimmage::CSV", "classscrimmage_1_1CSV.html", null ],
     [ "scrimmage::DelayedTask", "classscrimmage_1_1DelayedTask.html", null ],
@@ -35,7 +32,6 @@ var hierarchy =
       [ "scrimmage::Plugin", "classscrimmage_1_1Plugin.html", [
         [ "scrimmage::EntityPlugin", "classscrimmage_1_1EntityPlugin.html", [
           [ "scrimmage::Autonomy", "classscrimmage_1_1Autonomy.html", [
-            [ "auction_assign.AuctionAssign", "classauction__assign_1_1AuctionAssign.html", null ],
             [ "auction_assign.AuctionAssign", "classauction__assign_1_1AuctionAssign.html", null ],
             [ "scrimmage::autonomy::APITester", "classscrimmage_1_1autonomy_1_1APITester.html", null ],
             [ "scrimmage::autonomy::ArduPilot", "classscrimmage_1_1autonomy_1_1ArduPilot.html", null ],
@@ -214,9 +210,8 @@ var hierarchy =
     [ "scrimmage::autonomy::GraphvizFSM::label_t", "structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1label__t.html", null ],
     [ "scrimmage::Log", "classscrimmage_1_1Log.html", null ],
     [ "scrimmage::interaction::Map2DInfo", "classscrimmage_1_1interaction_1_1Map2DInfo.html", null ],
-    [ "scrimmage::MessageBase", "classscrimmage_1_1MessageBase.html", [
-      [ "scrimmage::Message< T >", "classscrimmage_1_1Message.html", null ]
-    ] ],
+    [ "scrimmage::Message< T >", "classscrimmage_1_1Message.html", null ],
+    [ "scrimmage::MessageBase", "classscrimmage_1_1MessageBase.html", null ],
     [ "scrimmage::MissionParse", "classscrimmage_1_1MissionParse.html", null ],
     [ "scrimmage::NetworkDevice", "classscrimmage_1_1NetworkDevice.html", [
       [ "scrimmage::Publisher", "classscrimmage_1_1Publisher.html", null ],
@@ -227,7 +222,6 @@ var hierarchy =
     [ "scrimmage::interaction::TerrainMap::Node", "classscrimmage_1_1interaction_1_1TerrainMap_1_1Node.html", null ],
     [ "NoisyIMUData", "structNoisyIMUData.html", null ],
     [ "object", null, [
-      [ "straight.Straight", "classstraight_1_1Straight.html", null ],
       [ "straight.Straight", "classstraight_1_1Straight.html", null ]
     ] ],
     [ "scrimmage::autonomy::OpenAIActions", "classscrimmage_1_1autonomy_1_1OpenAIActions.html", null ],
@@ -256,8 +250,8 @@ var hierarchy =
     ] ],
     [ "scrimmage::Random", "classscrimmage_1_1Random.html", null ],
     [ "scrimmage::motion::Rotor", "classscrimmage_1_1motion_1_1Rotor.html", null ],
-    [ "boost::geometry::index::rtree< T1, T2, T3, T4, T5 >", "classboost_1_1geometry_1_1index_1_1rtree.html", null ],
     [ "scrimmage::RTree", "classscrimmage_1_1RTree.html", null ],
+    [ "boost::geometry::index::rtree< T1, T2, T3, T4, T5 >", "classboost_1_1geometry_1_1index_1_1rtree.html", null ],
     [ "scrimmage::interaction::BulletCollision::SceneObject", "structscrimmage_1_1interaction_1_1BulletCollision_1_1SceneObject.html", null ],
     [ "scrimmage::metrics::Score", "classscrimmage_1_1metrics_1_1Score.html", null ],
     [ "Service", null, [

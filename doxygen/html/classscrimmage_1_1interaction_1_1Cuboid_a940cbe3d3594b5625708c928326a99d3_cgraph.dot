@@ -1,0 +1,12 @@
+digraph "scrimmage::interaction::Cuboid::Cuboid"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="scrimmage::interaction\l::Cuboid::Cuboid",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::interaction\l::Cuboid::set_visual",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1Cuboid.html#ad223f8621b6f9a4a8ed4a136a6f2fa1b",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::interaction\l::BoundaryBase::shape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7c625caa01c1422982fd0d34289ee46e",tooltip=" "];
+}

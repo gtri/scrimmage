@@ -1,0 +1,9 @@
+digraph "scrimmage::autonomy::ROSAirSim"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::ROSAirSim\n|# vehicle_name_\l# show_camera_images_\l# pub_image_data_\l# pub_lidar_data_\l# pub_imu_data_\l# ros_python_\l# ros_cartographer_\l# nh_\l# it_\l# image_data_\l# trans_img_publishers_\l# img_publishers_\l# cam_info_publishers_\l# img_topic_published_\l# img_topic_published\l_mutex_\l# camera_names_\l# lidar_data_\l# lidar_publishers_\l# lidar_topic_published_\l# lidar_topic_published\l_mutex_\l# lidar_names_\l# imu_data_\l# imu_publishers_\l# imu_topic_published_\l# imu_topic_published\l_mutex_\l# imu_names_\l# base_scan_pub_\l# laser_broadcaster_\l# world_trans_\l# vehicle_trans_\l# ros_name_\l# ros_namespace_\l# static_broadcaster_\l|+ ROSAirSim()\l+ get_vehicle_world_pose\l_from_NED_to_ENU()\l+ get_sensor_pose_from\l_worldNED_to_vehicleENU()\l+ init()\l+ step_autonomy()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# logging_msg_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+}

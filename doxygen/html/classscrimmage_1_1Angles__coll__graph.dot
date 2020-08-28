@@ -1,0 +1,7 @@
+digraph "scrimmage::Angles"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::Angles\n|# angle_\l# in_direction_\l# in_zero_\l# out_direction_\l# out_zero_\l|+ Angles()\l+ Angles()\l+ set_input_clock_direction()\l+ set_input_zero_axis()\l+ set_output_clock_direction()\l+ set_output_zero_axis()\l+ is_angle_360()\l+ set_angle()\l+ angle()\l+ deg2rad()\l+ rad2deg()\l+ angle_360()\l+ angle_2pi()\l+ angle_180()\l+ angle_pi()\l+ angle_diff()\l+ angle_diff_rad()\l+ angle_within()\l+ angle_within_rad()\l+ angle_avg()\l+ angle_avg_rad()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

@@ -1,0 +1,16 @@
+digraph "scrimmage::autonomy::ROSControl"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::autonomy\l::ROSControl\n|# cmd_vel_sub_\l# cmd_vel_\l|+ ROSControl()\l+ init()\l+ step_autonomy()\l+ cmd_vel_cb()\l# zero_ctrls()\l# ctrl_filter()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Autonomy\n|# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html",tooltip=" "];
+  Node6 -> Node2 [color="grey25",fontsize="10",style="solid",label=" #logging_msg_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ros_namespace_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node34 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #x_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node34 [label="{std::vector\< double \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #nh_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{std::shared_ptr\< ros\l::NodeHandle \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

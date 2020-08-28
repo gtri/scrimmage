@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugin_manager" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_ecf48bde53b2430882a9b9ec48e1b42d {
+    graph [ bgcolor="#ddddee", pencolor="black", label="scrimmage" fontname="Helvetica", fontsize="10", URL="dir_ecf48bde53b2430882a9b9ec48e1b42d.html"]
+  dir_f1e262813d0c1a2f786e1cc54add450c [shape=box, label="plugin_manager", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f1e262813d0c1a2f786e1cc54add450c.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_6a6716f05b1e97ca5a8917dedbdea793 [shape=box label="parse" URL="dir_6a6716f05b1e97ca5a8917dedbdea793.html"];
+  dir_f1e262813d0c1a2f786e1cc54add450c->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000015_000007.html"];
+  dir_f1e262813d0c1a2f786e1cc54add450c->dir_6a6716f05b1e97ca5a8917dedbdea793 [headlabel="4", labeldistance=1.5 headhref="dir_000015_000014.html"];
+}

@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/interaction/BulletCollision" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_00cc353c998af5f011e8667e057a10ee {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interaction" fontname="Helvetica", fontsize="10", URL="dir_00cc353c998af5f011e8667e057a10ee.html"]
+  dir_3e40db7e4bd024af5423e1c1f81d9f54 [shape=box, label="BulletCollision", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_3e40db7e4bd024af5423e1c1f81d9f54.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_3e40db7e4bd024af5423e1c1f81d9f54->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="17", labeldistance=1.5 headhref="dir_000223_000004.html"];
+}

@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/motion/SimpleCar" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5f8427e50c3373d6d1a638fa0a1c8683 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="motion" fontname="Helvetica", fontsize="10", URL="dir_5f8427e50c3373d6d1a638fa0a1c8683.html"]
+  dir_efee61d7bc32477b74fe8a22fce20ee1 [shape=box, label="SimpleCar", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_efee61d7bc32477b74fe8a22fce20ee1.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_efee61d7bc32477b74fe8a22fce20ee1->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="5", labeldistance=1.5 headhref="dir_000254_000004.html"];
+}

@@ -1,0 +1,18 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/WaypointDispatcher" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_cf7a706513bb870fe68b1ce784bae3fe [shape=box, label="WaypointDispatcher", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_cf7a706513bb870fe68b1ce784bae3fe.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_dbbb056ce417e80aeeedbb6c84ec92be [shape=box label="WaypointGenerator" URL="dir_dbbb056ce417e80aeeedbb6c84ec92be.html"];
+  dir_edb592701dc45cc21f3d1cc2e72efe9a->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000007_000006.html"];
+  dir_cf7a706513bb870fe68b1ce784bae3fe->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000055_000007.html"];
+  dir_cf7a706513bb870fe68b1ce784bae3fe->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000055_000006.html"];
+  dir_cf7a706513bb870fe68b1ce784bae3fe->dir_dbbb056ce417e80aeeedbb6c84ec92be [headlabel="1", labeldistance=1.5 headhref="dir_000055_000056.html"];
+  dir_dbbb056ce417e80aeeedbb6c84ec92be->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000056_000007.html"];
+  dir_dbbb056ce417e80aeeedbb6c84ec92be->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000056_000006.html"];
+}

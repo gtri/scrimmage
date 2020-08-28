@@ -1,0 +1,45 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/sensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_7020b8b7abcceffa3f9f7a2d24718f16 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_7020b8b7abcceffa3f9f7a2d24718f16.html"]
+  subgraph clusterdir_2483af7b304531f76a0533eb422d3df1 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_2483af7b304531f76a0533eb422d3df1.html"];
+    dir_2483af7b304531f76a0533eb422d3df1 [shape=plaintext label="sensor"];
+    dir_d306de97471cf6adb2ac247e49c0b7cb [shape=box label="AirSimSensor" color="black" fillcolor="white" style="filled" URL="dir_d306de97471cf6adb2ac247e49c0b7cb.html"];
+    dir_674bcf68485409cb04d5d30c1a5bd3a0 [shape=box label="AltitudeAboveTerrain" color="black" fillcolor="white" style="filled" URL="dir_674bcf68485409cb04d5d30c1a5bd3a0.html"];
+    dir_a4429446084a3a8c6dd1a31577817b18 [shape=box label="ContactBlobCamera" color="black" fillcolor="white" style="filled" URL="dir_a4429446084a3a8c6dd1a31577817b18.html"];
+    dir_f0e1f4b3130a8f9a38e822960150aa11 [shape=box label="GPS" color="black" fillcolor="white" style="filled" URL="dir_f0e1f4b3130a8f9a38e822960150aa11.html"];
+    dir_78fd08ee0170a35eb7016ba671646a0b [shape=box label="LOSSensor" color="black" fillcolor="white" style="filled" URL="dir_78fd08ee0170a35eb7016ba671646a0b.html"];
+    dir_e8a58d8cf706034632d78d18a1cdf5da [shape=box label="NoisyContacts" color="black" fillcolor="white" style="filled" URL="dir_e8a58d8cf706034632d78d18a1cdf5da.html"];
+    dir_4cc30d54b08b815b632ccb55d693b565 [shape=box label="NoisyState" color="black" fillcolor="white" style="filled" URL="dir_4cc30d54b08b815b632ccb55d693b565.html"];
+    dir_5f26ae5e724ee6fa6fec574287ade76b [shape=box label="RayTrace" color="black" fillcolor="white" style="filled" URL="dir_5f26ae5e724ee6fa6fec574287ade76b.html"];
+    dir_cbc738e3d0456d6b156b1cdf3030ff95 [shape=box label="RigidBody6DOFStateSensor" color="black" fillcolor="white" style="filled" URL="dir_cbc738e3d0456d6b156b1cdf3030ff95.html"];
+    dir_b6b962ee749dd00bf35326935a9e51a0 [shape=box label="RLConsensusSensor" color="black" fillcolor="white" style="filled" URL="dir_b6b962ee749dd00bf35326935a9e51a0.html"];
+    dir_e0de1f4789f408d42b998bc3b3f8802b [shape=box label="RLSimpleSensor" color="black" fillcolor="white" style="filled" URL="dir_e0de1f4789f408d42b998bc3b3f8802b.html"];
+    dir_aef5618e242d3409387ab506cbc905f6 [shape=box label="ROSAltimeter" color="black" fillcolor="white" style="filled" URL="dir_aef5618e242d3409387ab506cbc905f6.html"];
+    dir_af4f08c0f47981e06bd30f57bf3b756b [shape=box label="ROSCompass" color="black" fillcolor="white" style="filled" URL="dir_af4f08c0f47981e06bd30f57bf3b756b.html"];
+    dir_228ae717414f0e0df7f515fd3b7cac48 [shape=box label="ROSIMUSensor" color="black" fillcolor="white" style="filled" URL="dir_228ae717414f0e0df7f515fd3b7cac48.html"];
+    dir_6b67e888cbe71bcaf0f1dc86ce772db2 [shape=box label="ScrimmageOpenAISensor" color="black" fillcolor="white" style="filled" URL="dir_6b67e888cbe71bcaf0f1dc86ce772db2.html"];
+    dir_0e0352c7246283c7be17f29060281748 [shape=box label="SimpleINS" color="black" fillcolor="white" style="filled" URL="dir_0e0352c7246283c7be17f29060281748.html"];
+  }
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_4cc30d54b08b815b632ccb55d693b565->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000271_000004.html"];
+  dir_b6b962ee749dd00bf35326935a9e51a0->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="5", labeldistance=1.5 headhref="dir_000274_000004.html"];
+  dir_e8a58d8cf706034632d78d18a1cdf5da->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000270_000004.html"];
+  dir_e0de1f4789f408d42b998bc3b3f8802b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="5", labeldistance=1.5 headhref="dir_000275_000004.html"];
+  dir_228ae717414f0e0df7f515fd3b7cac48->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="13", labeldistance=1.5 headhref="dir_000278_000004.html"];
+  dir_6b67e888cbe71bcaf0f1dc86ce772db2->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="2", labeldistance=1.5 headhref="dir_000279_000004.html"];
+  dir_5f26ae5e724ee6fa6fec574287ade76b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000272_000004.html"];
+  dir_cbc738e3d0456d6b156b1cdf3030ff95->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000273_000004.html"];
+  dir_a4429446084a3a8c6dd1a31577817b18->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="18", labeldistance=1.5 headhref="dir_000267_000004.html"];
+  dir_78fd08ee0170a35eb7016ba671646a0b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000269_000004.html"];
+  dir_f0e1f4b3130a8f9a38e822960150aa11->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000268_000004.html"];
+  dir_af4f08c0f47981e06bd30f57bf3b756b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000277_000004.html"];
+  dir_aef5618e242d3409387ab506cbc905f6->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000276_000004.html"];
+  dir_d306de97471cf6adb2ac247e49c0b7cb->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000265_000004.html"];
+  dir_674bcf68485409cb04d5d30c1a5bd3a0->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="9", labeldistance=1.5 headhref="dir_000266_000004.html"];
+  dir_0e0352c7246283c7be17f29060281748->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000280_000004.html"];
+}

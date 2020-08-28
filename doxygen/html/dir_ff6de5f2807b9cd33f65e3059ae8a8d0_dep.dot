@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/src/simcontrol" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_68267d1309a1af8e8297ef4c3efbcdba {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"]
+  dir_ff6de5f2807b9cd33f65e3059ae8a8d0 [shape=box, label="simcontrol", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_ff6de5f2807b9cd33f65e3059ae8a8d0.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_ff6de5f2807b9cd33f65e3059ae8a8d0->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="45", labeldistance=1.5 headhref="dir_000284_000004.html"];
+}

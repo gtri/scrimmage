@@ -1,0 +1,7 @@
+digraph "scrimmage::Battery"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::Battery\n|# min_charge_\l# max_charge_\l# current_charge_\l|+ Battery()\l+ Battery()\l+ add_charge()\l+ deplete()\l+ is_full()\l+ has_charge()\l+ current_charge()\l+ charge_percentage()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

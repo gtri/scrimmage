@@ -1,0 +1,22 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::EntityPlugin\l::draw_shape",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="scrimmage::interaction\l::ROSShapeViz::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1ROSShapeViz.html#a8aa7275a0f3f50e0890dcc9110e9e1cf",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::shape::make\l_pointcloud",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1shape.html#ac312ffaf0e67dcbe7b5af362e8a3a089",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::shape::make\l_sphere",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1shape.html#a972d50a168325053f1e778fd5221c12c",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::interaction\l::ROSShapeViz::ROSShapeViz",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1ROSShapeViz.html#a1734211f55862ab7a2474745eaa7bd3c",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::interaction\l::ROSShapeViz::shapes_cb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1ROSShapeViz.html#a23f6cd7ef1d0f6703dc48bb6814e5cb4",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="scrimmage::interaction\l::ROSShapeViz::step_entity\l_interaction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1interaction_1_1ROSShapeViz.html#a0076790bebda1dc163368bb893ffcdee",tooltip=" "];
+}

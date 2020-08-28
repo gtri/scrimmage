@@ -1,0 +1,11 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/viewer" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_ecf48bde53b2430882a9b9ec48e1b42d {
+    graph [ bgcolor="#ddddee", pencolor="black", label="scrimmage" fontname="Helvetica", fontsize="10", URL="dir_ecf48bde53b2430882a9b9ec48e1b42d.html"]
+  dir_32f9f1e80ce85f009cf52474f85fb9ad [shape=box, label="viewer", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_32f9f1e80ce85f009cf52474f85fb9ad.html"];
+  }
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_32f9f1e80ce85f009cf52474f85fb9ad->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="1", labeldistance=1.5 headhref="dir_000152_000010.html"];
+}

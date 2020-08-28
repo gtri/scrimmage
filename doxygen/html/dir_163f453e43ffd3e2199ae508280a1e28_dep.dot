@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/FlagCaptureMetrics" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_086d5cad8b1adde5b1fcb87b546f7637 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="metrics" fontname="Helvetica", fontsize="10", URL="dir_086d5cad8b1adde5b1fcb87b546f7637.html"]
+  dir_163f453e43ffd3e2199ae508280a1e28 [shape=box, label="FlagCaptureMetrics", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_163f453e43ffd3e2199ae508280a1e28.html"];
+  }
+  dir_6a6716f05b1e97ca5a8917dedbdea793 [shape=box label="parse" URL="dir_6a6716f05b1e97ca5a8917dedbdea793.html"];
+  dir_81ac6949c353a3d04cd403a175b36275 [shape=box label="metrics" URL="dir_81ac6949c353a3d04cd403a175b36275.html"];
+  dir_163f453e43ffd3e2199ae508280a1e28->dir_6a6716f05b1e97ca5a8917dedbdea793 [headlabel="1", labeldistance=1.5 headhref="dir_000103_000014.html"];
+  dir_163f453e43ffd3e2199ae508280a1e28->dir_81ac6949c353a3d04cd403a175b36275 [headlabel="1", labeldistance=1.5 headhref="dir_000103_000011.html"];
+}

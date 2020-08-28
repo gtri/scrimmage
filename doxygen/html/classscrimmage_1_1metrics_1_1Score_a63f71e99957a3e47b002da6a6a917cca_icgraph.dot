@@ -1,0 +1,12 @@
+digraph "scrimmage::metrics::Score::flags_captured"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="scrimmage::metrics\l::Score::flags_captured",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::metrics\l::Score::score",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1Score.html#a77567c78688536cad9e30ff887d6b96d",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="scrimmage::metrics\l::Score::set_flags_captured",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1metrics_1_1Score.html#aaff36a7c4c9f3dd3bed26250510146ca",tooltip=" "];
+}

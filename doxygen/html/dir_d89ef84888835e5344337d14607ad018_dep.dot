@@ -1,0 +1,18 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ROSIMUSensor" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_000479e1305f0edebbccb6008dd63eeb {
+    graph [ bgcolor="#ddddee", pencolor="black", label="sensor" fontname="Helvetica", fontsize="10", URL="dir_000479e1305f0edebbccb6008dd63eeb.html"]
+  dir_d89ef84888835e5344337d14607ad018 [shape=box, label="ROSIMUSensor", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d89ef84888835e5344337d14607ad018.html"];
+  }
+  dir_edb592701dc45cc21f3d1cc2e72efe9a [shape=box label="common" URL="dir_edb592701dc45cc21f3d1cc2e72efe9a.html"];
+  dir_6a6716f05b1e97ca5a8917dedbdea793 [shape=box label="parse" URL="dir_6a6716f05b1e97ca5a8917dedbdea793.html"];
+  dir_4281587931951fcc16b7a6ccc116b5d1 [shape=box label="math" URL="dir_4281587931951fcc16b7a6ccc116b5d1.html"];
+  dir_e87096b61398b9a30229e95697b76c91 [shape=box label="sensor" URL="dir_e87096b61398b9a30229e95697b76c91.html"];
+  dir_edb592701dc45cc21f3d1cc2e72efe9a->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="4", labeldistance=1.5 headhref="dir_000007_000010.html"];
+  dir_d89ef84888835e5344337d14607ad018->dir_edb592701dc45cc21f3d1cc2e72efe9a [headlabel="1", labeldistance=1.5 headhref="dir_000145_000007.html"];
+  dir_d89ef84888835e5344337d14607ad018->dir_6a6716f05b1e97ca5a8917dedbdea793 [headlabel="1", labeldistance=1.5 headhref="dir_000145_000014.html"];
+  dir_d89ef84888835e5344337d14607ad018->dir_4281587931951fcc16b7a6ccc116b5d1 [headlabel="1", labeldistance=1.5 headhref="dir_000145_000010.html"];
+  dir_d89ef84888835e5344337d14607ad018->dir_e87096b61398b9a30229e95697b76c91 [headlabel="1", labeldistance=1.5 headhref="dir_000145_000150.html"];
+}

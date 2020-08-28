@@ -1,13 +1,32 @@
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this file.
+
+Copyright (C) 1997-2019 by Dimitri van Heesch
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of version 2 of the GNU General Public License as published by
+the Free Software Foundation
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+@licend  The above is the entire license notice
+for the JavaScript code in this file
+*/
 var NAVTREE =
 [
   [ "SCRIMMAGE", "index.html", [
     [ "README", "md__root_scrimmage_scrimmage_include_scrimmage_plugins_interaction_GraphInteraction_README.html", null ],
-    [ "2018-11-29-new-website", "md__root_scrimmage_scrimmage_docs_jekyll__posts_2018-11-29-new-website.html", null ],
-    [ "about", "md__root_scrimmage_scrimmage_docs_jekyll_about.html", null ],
-    [ "index", "md__root_scrimmage_scrimmage_docs_jekyll_index.html", null ],
     [ "Bibliography", "citelist.html", null ],
-    [ "Namespaces", null, [
-      [ "Namespace List", "namespaces.html", "namespaces" ],
+    [ "Namespaces", "namespaces.html", [
+      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
         [ "Functions", "namespacemembers_func.html", null ],
@@ -31,8 +50,8 @@ var NAVTREE =
         [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
-    [ "Files", null, [
-      [ "File List", "files.html", "files" ],
+    [ "Files", "files.html", [
+      [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
@@ -59,7 +78,7 @@ var NAVTREEINDEX =
 "Unicycle3D_8cpp.html#ac52efa0ec59ed7f040ba69815fdb231fa5f7b3bd1cb1e6811dd04ca4019bd254e",
 "classIMUErrorSimulator.html#ac5c5f888b9b0e5fa913f21b9b88e4b85",
 "classscrimmage_1_1Entity.html#a28ab84afb7fff848d0282c27e829eb3b",
-"classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6",
+"classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704b",
 "classscrimmage_1_1Network.html#a39dd612b7ae4ab20b39dec1907744d97",
 "classscrimmage_1_1SimControl.html#a1b7de1b5ad7dd409d07cb17dd509f660",
 "classscrimmage_1_1Updater.html#a42f8b74a1b1e4079f325b1cd4f9bf47a",
@@ -73,8 +92,8 @@ var NAVTREEINDEX =
 "classscrimmage_1_1motion_1_1UUV6DOF.html#a8d92c012b3752fcaca4931b82bdf727a",
 "classscrimmage_1_1sensor_1_1ContactBlobCameraType.html#a77d277f2b892ea86e6a87d6c6889d1c0",
 "dir_0b492dd3a160f6043f7dabefe782681f.html",
-"dir_f1e262813d0c1a2f786e1cc54add450c.html",
-"structscrimmage_1_1Color__t.html#a27e99589e9cec0f4d6b7fdd9d15365b8"
+"dir_f0e1f4b3130a8f9a38e822960150aa11.html",
+"structscrimmage_1_1Color__t.html#a4d91cf3676ac4ab9a6ee356c1d3e0cd6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

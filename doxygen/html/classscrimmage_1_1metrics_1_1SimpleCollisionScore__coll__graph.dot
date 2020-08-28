@@ -1,0 +1,7 @@
+digraph "scrimmage::metrics::SimpleCollisionScore"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::metrics\l::SimpleCollisionScore\n|# flight_time_start_\l# flight_time_end_\l# non_team_collisions_\l# team_collisions_\l# ground_collisions_\l# flight_time_w_\l# non_team_collisions_w_\l# team_collisions_w_\l# max_flight_time_\l# entity_count_\l|+ set_weights()\l+ set_flight_time_start()\l+ set_flight_time_end()\l+ increment_non_team\l_collisions()\l+ increment_team_collisions()\l+ increment_ground_collisions()\l+ add_non_team_collisions()\l+ add_team_collisions()\l+ add_ground_collisions()\l+ add_flight_time()\l+ non_team_collisions()\l+ team_collisions()\l+ ground_collisions()\l+ set_max_flight_time()\l+ increment_entity_count()\l+ entity_count()\l+ set_entity_count()\l+ set_non_team_collisions()\l+ set_team_collisions()\l+ set_ground_collisions()\l+ flight_time()\l+ flight_time_end()\l+ flight_time_start()\l+ flight_time_norm()\l+ score()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

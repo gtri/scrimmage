@@ -1,0 +1,43 @@
+digraph "scrimmage::MissionParse"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::MissionParse\n|# t0_\l# tend_\l# dt_\l# motion_multiplier_\l# time_warp_\l# enable_gui_\l# network_gui_\l# start_paused_\l# full_screen_\l# window_width_\l# window_height_\l# longitude_origin_\l# latitude_origin_\l# altitude_origin_\l# background_color_\l# task_number_\l# job_number_\l|+ create_log_dir()\l+ set_overrides()\l+ parse()\l+ write()\l+ t0()\l+ tend()\l+ dt()\l+ motion_multiplier()\l+ time_warp()\l+ set_time_warp()\l+ start_paused()\l+ full_screen()\l+ window_width()\l+ window_height()\l+ set_dt()\l+ parse_terrain()\l+ background_color()\l+ set_log_dir()\l+ log_dir()\l+ root_log_dir()\l+ entity_attributes()\l+ entity_params()\l+ ent_id_to_block_id()\l+ entity_descriptions()\l+ entity_tag_to_id()\l+ enable_gui()\l+ set_enable_gui()\l+ network_gui()\l+ set_network_gui()\l+ set_start_paused()\l+ attributes()\l+ params()\l+ longitude_origin()\l+ latitude_origin()\l+ altitude_origin()\l+ set_lat_lon_alt_origin()\l+ team_info()\l+ set_task_number()\l+ set_job_number()\l+ entity_interactions()\l+ network_names()\l+ metrics()\l+ gen_info()\l+ next_gen_times()\l+ projection()\l+ utm_terrain()\l+ get_mission_filename()\l+ output_required()\l+ output_type_required()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #gen_info_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::map\< int, scrimmage\l::GenerateInfo \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node7 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #entity_tag_to_id_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node7 [label="{std::map\< std::string,\l int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node7 [color="grey25",fontsize="10",style="solid",label=" +keys" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node10 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ent_id_to_block_id_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node10 [label="{std::map\< int, int \>\n|+ keys\l+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node11 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #team_info_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node11 [label="{std::map\< int, scrimmage\l::TeamInfo \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node17 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #next_gen_times_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node17 [label="{std::map\< int, std\l::vector\< double \> \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -possible_output_types\l_\n-output_types_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node18 [label="{std::set\< std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node18 [color="grey25",fontsize="10",style="solid",label=" +keys" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node20 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #params_\n#overrides_map_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node20 [label="{std::map\< std::string,\l std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node20 [color="grey25",fontsize="10",style="solid",label=" +elements\n+keys" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #mission_filename_\n#log_dir_\n#mission_file_content\l_\n#root_log_dir_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node21 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #entity_params_\n#entity_descs_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node21 [label="{std::map\< int, std\l::map\< std::string,\l std::string \> \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node20 -> Node21 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node22 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #entity_attributes_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node22 [label="{std::map\< int, Attribute\lMap \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node23 -> Node22 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node23 [label="{std::map\< std::string,\l std::map\< std::string,\l std::string \> \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node20 -> Node23 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 -> Node23 [color="grey25",fontsize="10",style="solid",label=" +keys" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node24 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #proj_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node24 [label="{std::shared_ptr\< Geographic\lLib::LocalCartesian \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node23 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #attributes_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node26 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #utm_terrain_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node26 [label="{std::shared_ptr\< scrimmage\l_proto::UTMTerrain \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node27 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #metrics_\n#network_names_\n#entity_interactions_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node27 [label="{std::list\< std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node27 [color="grey25",fontsize="10",style="solid",label=" +elements" ,arrowhead="odiamond",fontname="Helvetica"];
+}

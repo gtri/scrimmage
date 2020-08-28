@@ -1,0 +1,80 @@
+digraph "/root/scrimmage/scrimmage/src/plugins/autonomy" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_7020b8b7abcceffa3f9f7a2d24718f16 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_7020b8b7abcceffa3f9f7a2d24718f16.html"]
+  subgraph clusterdir_9a5cd39d655c6343ef9bc0ff48b9632e {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html"];
+    dir_9a5cd39d655c6343ef9bc0ff48b9632e [shape=plaintext label="autonomy"];
+    dir_3fc285d7c69eccb1a0bc9c76bc8b029f [shape=box label="APITester" color="black" fillcolor="white" style="filled" URL="dir_3fc285d7c69eccb1a0bc9c76bc8b029f.html"];
+    dir_2ef9e075c777bf1665d0fb3577a929ec [shape=box label="ArduPilot" color="black" fillcolor="white" style="filled" URL="dir_2ef9e075c777bf1665d0fb3577a929ec.html"];
+    dir_fb362d9cc68a848da964de8bbbbc19a4 [shape=box label="AuctionAssign" color="black" fillcolor="white" style="filled" URL="dir_fb362d9cc68a848da964de8bbbbc19a4.html"];
+    dir_055c4516519c2630c7c10fd444864435 [shape=box label="AutonomyExecutor" color="black" fillcolor="white" style="filled" URL="dir_055c4516519c2630c7c10fd444864435.html"];
+    dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4 [shape=box label="AvoidEntityMS" color="black" fillcolor="white" style="filled" URL="dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4.html"];
+    dir_deb1a2fc00d57dd1209b5d33b4010e9c [shape=box label="AvoidWalls" color="black" fillcolor="white" style="filled" URL="dir_deb1a2fc00d57dd1209b5d33b4010e9c.html"];
+    dir_fd1d3a9b016329d42b39a0497f741e82 [shape=box label="Boids" color="black" fillcolor="white" style="filled" URL="dir_fd1d3a9b016329d42b39a0497f741e82.html"];
+    dir_b7cbac6c17a8f2dc8ab15647b389c241 [shape=box label="BoundaryDefense" color="black" fillcolor="white" style="filled" URL="dir_b7cbac6c17a8f2dc8ab15647b389c241.html"];
+    dir_6d2c1086b4857a3e58733df24e84938d [shape=box label="CommandStringRelay" color="black" fillcolor="white" style="filled" URL="dir_6d2c1086b4857a3e58733df24e84938d.html"];
+    dir_786cd5f49503dc2ce5f371350f6fba02 [shape=box label="Control3D" color="black" fillcolor="white" style="filled" URL="dir_786cd5f49503dc2ce5f371350f6fba02.html"];
+    dir_921cbad3f67c3d0b4d967758f18f86dd [shape=box label="FlightGearMultiplayer" color="black" fillcolor="white" style="filled" URL="dir_921cbad3f67c3d0b4d967758f18f86dd.html"];
+    dir_8709b2fc64d328f1bbe473c75dd64e76 [shape=box label="follow" color="black" fillcolor="white" style="filled" URL="dir_8709b2fc64d328f1bbe473c75dd64e76.html"];
+    dir_0b9bc72197fa68b7b89aea8fdf9f7c54 [shape=box label="GoToWaypoint" color="black" fillcolor="white" style="filled" URL="dir_0b9bc72197fa68b7b89aea8fdf9f7c54.html"];
+    dir_6e8aa965ee1b017e6f88b890b11677d2 [shape=box label="GraphvizFSM" color="black" fillcolor="white" style="filled" URL="dir_6e8aa965ee1b017e6f88b890b11677d2.html"];
+    dir_19aa7b47a422e2d80fa1e3801cfcdb2d [shape=box label="JoystickAutonomy" color="black" fillcolor="white" style="filled" URL="dir_19aa7b47a422e2d80fa1e3801cfcdb2d.html"];
+    dir_2514da4619724d5aff904c0e3aa59b3a [shape=box label="MOOSAutonomy" color="black" fillcolor="white" style="filled" URL="dir_2514da4619724d5aff904c0e3aa59b3a.html"];
+    dir_2fd355086494cbd8fb8c94cb7d5606dc [shape=box label="MotorSchemas" color="black" fillcolor="white" style="filled" URL="dir_2fd355086494cbd8fb8c94cb7d5606dc.html"];
+    dir_0f3843290c81647f8d2f5ad6ab2078ba [shape=box label="MoveToGoalMS" color="black" fillcolor="white" style="filled" URL="dir_0f3843290c81647f8d2f5ad6ab2078ba.html"];
+    dir_c2d1224c9196c8383950d1c018f0aaa3 [shape=box label="Predator" color="black" fillcolor="white" style="filled" URL="dir_c2d1224c9196c8383950d1c018f0aaa3.html"];
+    dir_e4bf29dd19e07d49809603708d290838 [shape=box label="PyAutonomy" color="black" fillcolor="white" style="filled" URL="dir_e4bf29dd19e07d49809603708d290838.html"];
+    dir_3a430bbf520bd8b36422d45a265aa3f8 [shape=box label="python" color="black" fillcolor="white" style="filled" URL="dir_3a430bbf520bd8b36422d45a265aa3f8.html"];
+    dir_704063e12fcdb26b3360e5c618cd9fe5 [shape=box label="RLConsensus" color="black" fillcolor="white" style="filled" URL="dir_704063e12fcdb26b3360e5c618cd9fe5.html"];
+    dir_0b4db75c834a206b156f890dd23eaa65 [shape=box label="RLSimple" color="black" fillcolor="white" style="filled" URL="dir_0b4db75c834a206b156f890dd23eaa65.html"];
+    dir_a22aa2471c09aed9fcdc95faedb57f35 [shape=box label="ROSAirSim" color="black" fillcolor="white" style="filled" URL="dir_a22aa2471c09aed9fcdc95faedb57f35.html"];
+    dir_1a17902d28467972ab8ff532a3f7cb0b [shape=box label="ROSAutonomy" color="black" fillcolor="white" style="filled" URL="dir_1a17902d28467972ab8ff532a3f7cb0b.html"];
+    dir_debedaa00ba9a1356b20dfca208a7b93 [shape=box label="ROSControl" color="black" fillcolor="white" style="filled" URL="dir_debedaa00ba9a1356b20dfca208a7b93.html"];
+    dir_fc4cacb5bbb260564ece286152b0f8c6 [shape=box label="ScrimmageOpenAIAutonomy" color="black" fillcolor="white" style="filled" URL="dir_fc4cacb5bbb260564ece286152b0f8c6.html"];
+    dir_0265df33cb20eed40dd7b841658e0dd4 [shape=box label="ShapeDraw" color="black" fillcolor="white" style="filled" URL="dir_0265df33cb20eed40dd7b841658e0dd4.html"];
+    dir_7a34f814a0d51ebf7f88cec693175210 [shape=box label="Straight" color="black" fillcolor="white" style="filled" URL="dir_7a34f814a0d51ebf7f88cec693175210.html"];
+    dir_55e6e66842540b28fc78293d9b97a64e [shape=box label="TakeFlag" color="black" fillcolor="white" style="filled" URL="dir_55e6e66842540b28fc78293d9b97a64e.html"];
+    dir_59490ee60a1376572d8b3a39e401b0b4 [shape=box label="TrailMS" color="black" fillcolor="white" style="filled" URL="dir_59490ee60a1376572d8b3a39e401b0b4.html"];
+    dir_a591102d76efa414fd53a9596b181f83 [shape=box label="TrajectoryRecordPlayback" color="black" fillcolor="white" style="filled" URL="dir_a591102d76efa414fd53a9596b181f83.html"];
+    dir_24d24473c943b054bb31b54aac7ee24d [shape=box label="WaypointDispatcher" color="black" fillcolor="white" style="filled" URL="dir_24d24473c943b054bb31b54aac7ee24d.html"];
+    dir_5fb4b9e607208206193b5ac4605cdd00 [shape=box label="WaypointGenerator" color="black" fillcolor="white" style="filled" URL="dir_5fb4b9e607208206193b5ac4605cdd00.html"];
+  }
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_921cbad3f67c3d0b4d967758f18f86dd->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000171_000004.html"];
+  dir_055c4516519c2630c7c10fd444864435->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000164_000004.html"];
+  dir_8709b2fc64d328f1bbe473c75dd64e76->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="4", labeldistance=1.5 headhref="dir_000172_000004.html"];
+  dir_b7cbac6c17a8f2dc8ab15647b389c241->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="13", labeldistance=1.5 headhref="dir_000168_000004.html"];
+  dir_deb1a2fc00d57dd1209b5d33b4010e9c->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000166_000004.html"];
+  dir_fb362d9cc68a848da964de8bbbbc19a4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000024_000004.html"];
+  dir_7a34f814a0d51ebf7f88cec693175210->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="17", labeldistance=1.5 headhref="dir_000188_000004.html"];
+  dir_704063e12fcdb26b3360e5c618cd9fe5->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000181_000004.html"];
+  dir_c2d1224c9196c8383950d1c018f0aaa3->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000179_000004.html"];
+  dir_2ef9e075c777bf1665d0fb3577a929ec->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000163_000004.html"];
+  dir_19aa7b47a422e2d80fa1e3801cfcdb2d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000175_000004.html"];
+  dir_3fc285d7c69eccb1a0bc9c76bc8b029f->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000162_000004.html"];
+  dir_2514da4619724d5aff904c0e3aa59b3a->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="10", labeldistance=1.5 headhref="dir_000176_000004.html"];
+  dir_55e6e66842540b28fc78293d9b97a64e->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000189_000004.html"];
+  dir_2fd355086494cbd8fb8c94cb7d5606dc->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="17", labeldistance=1.5 headhref="dir_000177_000004.html"];
+  dir_6d2c1086b4857a3e58733df24e84938d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000169_000004.html"];
+  dir_fc4cacb5bbb260564ece286152b0f8c6->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="23", labeldistance=1.5 headhref="dir_000186_000004.html"];
+  dir_24d24473c943b054bb31b54aac7ee24d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000192_000004.html"];
+  dir_5fb4b9e607208206193b5ac4605cdd00->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000193_000004.html"];
+  dir_e4bf29dd19e07d49809603708d290838->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000180_000004.html"];
+  dir_a22aa2471c09aed9fcdc95faedb57f35->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000183_000004.html"];
+  dir_fd1d3a9b016329d42b39a0497f741e82->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="9", labeldistance=1.5 headhref="dir_000167_000004.html"];
+  dir_0b9bc72197fa68b7b89aea8fdf9f7c54->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000173_000004.html"];
+  dir_a591102d76efa414fd53a9596b181f83->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000191_000004.html"];
+  dir_0b4db75c834a206b156f890dd23eaa65->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="5", labeldistance=1.5 headhref="dir_000182_000004.html"];
+  dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000165_000004.html"];
+  dir_0f3843290c81647f8d2f5ad6ab2078ba->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000178_000004.html"];
+  dir_debedaa00ba9a1356b20dfca208a7b93->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000185_000004.html"];
+  dir_0265df33cb20eed40dd7b841658e0dd4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000187_000004.html"];
+  dir_1a17902d28467972ab8ff532a3f7cb0b->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000184_000004.html"];
+  dir_6e8aa965ee1b017e6f88b890b11677d2->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="6", labeldistance=1.5 headhref="dir_000174_000004.html"];
+  dir_786cd5f49503dc2ce5f371350f6fba02->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="4", labeldistance=1.5 headhref="dir_000170_000004.html"];
+  dir_59490ee60a1376572d8b3a39e401b0b4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000190_000004.html"];
+}

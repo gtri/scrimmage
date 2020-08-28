@@ -1,0 +1,13 @@
+digraph "/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/TakeFlag" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5aacfe0deb1b51de3b8a4437197fbda8 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="autonomy" fontname="Helvetica", fontsize="10", URL="dir_5aacfe0deb1b51de3b8a4437197fbda8.html"]
+  dir_2015d23bc2161195678e4a17011a5b23 [shape=box, label="TakeFlag", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_2015d23bc2161195678e4a17011a5b23.html"];
+  }
+  dir_e780a5c579cb35e946684e8694642ace [shape=box label="interaction" fillcolor="white" style="filled" color="red" URL="dir_e780a5c579cb35e946684e8694642ace.html"];
+  dir_b3bb4020ef55165afbb203d4dc0e2378 [shape=box label="autonomy" URL="dir_b3bb4020ef55165afbb203d4dc0e2378.html"];
+  dir_2015d23bc2161195678e4a17011a5b23->dir_e780a5c579cb35e946684e8694642ace [headlabel="1", labeldistance=1.5 headhref="dir_000052_000084.html"];
+  dir_2015d23bc2161195678e4a17011a5b23->dir_b3bb4020ef55165afbb203d4dc0e2378 [headlabel="1", labeldistance=1.5 headhref="dir_000052_000006.html"];
+}

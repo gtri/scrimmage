@@ -13,7 +13,7 @@ var fwd__decl_8h =
     [ "PublisherBasePtr", "fwd__decl_8h.html#a94542b613b8662682523b54f0ba3773b", null ],
     [ "SubscriberBasePtr", "fwd__decl_8h.html#af5dac0f6daf649a2df426f590221dbd4", null ],
     [ "MessageBasePtr", "fwd__decl_8h.html#afa6f460d5c68598a6f142c8684df0671", null ],
-    [ "MessagePtr", "fwd__decl_8h.html#aba0dd05d3576f04265087055a11089cb", null ],
+    [ "MessagePtr", "fwd__decl_8h.html#aac049b1d9c91ea33a95d0ed685f92c6e", null ],
     [ "PluginManagerPtr", "fwd__decl_8h.html#ae198398955afacbf4406d1841a9d5005", null ],
     [ "MissionParsePtr", "fwd__decl_8h.html#a923de8354cb1c37f0b66bb40011b4ef4", null ],
     [ "MotionModelPtr", "fwd__decl_8h.html#a1fa276c5423b591ee334c328ca6de38a", null ],

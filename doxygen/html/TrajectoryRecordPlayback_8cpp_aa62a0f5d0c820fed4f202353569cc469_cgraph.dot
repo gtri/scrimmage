@@ -1,0 +1,34 @@
+digraph "REGISTER_PLUGIN"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="REGISTER_PLUGIN",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="scrimmage::CSV::append",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="scrimmage::CSV::at",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#aa6f592cbf079d8d13a40ad4f0c3cece6",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::CSV::close\l_output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="scrimmage::Autonomy\l::desired_state",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="scrimmage::Autonomy\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="scrimmage::CSV::open\l_output",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="scrimmage::CSV::read_csv",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a51fcc2ed30d750ef805fae689fca4558",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="scrimmage::CSV::rows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a53201995a833101cf499932051b3249b",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="scrimmage::CSV::set\l_column_headers",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8",tooltip=" "];
+  Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="scrimmage::Autonomy\l::set_is_controlling",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1Autonomy.html#a147a520ef9b1ed577c28dd095dfa8e4c",tooltip=" "];
+  Node1 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="scrimmage::autonomy\l::TrajectoryRecordPlayback\l::step_autonomy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a0a0361a280806e6e215cdb0ab8e95584",tooltip=" "];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="scrimmage::autonomy\l::TrajectoryRecordPlayback\l::TrajectoryRecordPlayback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aca35b76b7d6ad125bf24d10f5ca5e0e2",tooltip=" "];
+  Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="scrimmage::autonomy\l::TrajectoryRecordPlayback\l::~TrajectoryRecordPlayback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aa3024973e2e554b72a82190dd8467fbd",tooltip=" "];
+}

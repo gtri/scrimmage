@@ -1,0 +1,11 @@
+digraph "scrimmage::controller::SimpleAircraftControllerPID"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::controller\l::SimpleAircraftControllerPID\n|# use_roll_\l# use_glide_slope_\l# alt_idx_\l# input_roll_or_heading_idx_\l# input_altitude_or_glide\l_slope_idx_\l# input_velocity_idx_\l# output_throttle_idx_\l# output_roll_rate_idx_\l# output_pitch_rate_idx_\l|+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{scrimmage::Controller\n||+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Controller.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #heading_pid_\n#vel_pid_\n#alt_pid_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1PID.html",tooltip=" "];
+}
