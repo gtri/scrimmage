@@ -33,13 +33,13 @@ jobs:
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
       - docker build -t $REPO:bionic-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
-      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "bionic"; else echo $TRAVIS_BRANCH ; fi`
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 
     - name: "Build on Ubuntu 20.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
       - docker build -t $REPO:focal-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-20.04 .
-      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "focal"; else echo $TRAVIS_BRANCH ; fi`
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - |
         if [[ "$TAG" == "latest" ]]; then
             docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
