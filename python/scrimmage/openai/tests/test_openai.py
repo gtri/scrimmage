@@ -53,7 +53,8 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
             kwargs={"combine_actors": combine_actors,
                     "global_sensor": global_sensor,
                     "mission_file": TEMP_MISSION_FILE,
-                    "timestep": timestep}
+                    "timestep": timestep,
+                    "static_obs_space": True}
         )
         env = gym.make(version)
 
