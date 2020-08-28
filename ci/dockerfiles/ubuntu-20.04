@@ -57,6 +57,13 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && /opt/scrimmage/*/setup.sh
 
+# Install jekyll
+RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
+ && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
+ && source ~/.bashrc \
+ && gem update --system \
+ && gem install bundler
+
 # Build a python virtual environment
 WORKDIR /root
 COPY ./python/requirements-3.8.txt .
@@ -93,8 +100,11 @@ RUN source /root/env/bin/activate \
  && cmake .. -G Ninja \
              -DPYTHON_MIN_VERSION=3.6 \
              -DBUILD_TESTS=ON \
+             -DBUILD_DOCS=ON \
              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
- && ninja
+ && ninja \
+ && ninja docs website-docs
+
 # Note: gtest produces a deprecated-copy warning. Ignore this.
 
 # install python package and run tests
