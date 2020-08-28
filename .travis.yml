@@ -20,24 +20,31 @@ jobs:
       name: "Build on Ubuntu 16.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
-      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
+      - docker build -t $REPO:xenial-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - |
+        if [[ "$TAG" == "latest" ]]; then
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker tag $REPO:xenial-$TRAVIS_BUILD_NUMBER $REPO:xenial;
+            docker push $REPO;
+        fi
 
     - name: "Build on Ubuntu 18.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
-      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
+      - docker build -t $REPO:bionic-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "bionic"; else echo $TRAVIS_BRANCH ; fi`
 
     - name: "Build on Ubuntu 20.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
-      - docker build -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-20.04 .
+      - docker build -t $REPO:focal-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-20.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "focal"; else echo $TRAVIS_BRANCH ; fi`
       - |
         if [[ "$TAG" == "latest" ]]; then
             docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-            docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG;
+            docker tag $REPO:focal-$TRAVIS_BUILD_NUMBER $REPO:focal;
+            docker tag $REPO:focal-$TRAVIS_BUILD_NUMBER $REPO:$TAG;
             docker create --name mycontainer $REPO:$TAG;
             docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
             bash ./ci/scripts/deploy-docs.sh;
