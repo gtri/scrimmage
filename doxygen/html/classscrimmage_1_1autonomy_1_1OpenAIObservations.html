@@ -102,10 +102,10 @@ Collaboration diagram for scrimmage::autonomy::OpenAIObservations:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acbbfc2fe4805db0b421aa189bd35de2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#acbbfc2fe4805db0b421aa189bd35de2c">OpenAIObservations</a> ()</td></tr>
 <tr class="separator:acbbfc2fe4805db0b421aa189bd35de2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30519878d5900e26e317d89f1089232e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e">create_observation_space</a> (size_t num_entities)</td></tr>
-<tr class="separator:a30519878d5900e26e317d89f1089232e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45c7a47fd44d86793a4b55ab41399e4f"><td class="memItemLeft" align="right" valign="top">pybind11::object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a45c7a47fd44d86793a4b55ab41399e4f">update_observation</a> (size_t num_entities, bool static_obs_space=true)</td></tr>
-<tr class="separator:a45c7a47fd44d86793a4b55ab41399e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a571dd4e98f6f0c33611f125ecb172a39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a571dd4e98f6f0c33611f125ecb172a39">create_observation_space</a> (size_t num_entities, bool static_obs_space)</td></tr>
+<tr class="separator:a571dd4e98f6f0c33611f125ecb172a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56c9922b3cf7d75ac3ad30dc2aa567a0"><td class="memItemLeft" align="right" valign="top">pybind11::object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a56c9922b3cf7d75ac3ad30dc2aa567a0">update_observation</a> (size_t num_entities, bool static_obs_space)</td></tr>
+<tr class="separator:a56c9922b3cf7d75ac3ad30dc2aa567a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcbbc76bbbbc42bc2c0192ec66cf3079"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::shared_ptr&lt; <a class="el" href="classscrimmage_1_1sensor_1_1ScrimmageOpenAISensor.html">sensor::ScrimmageOpenAISensor</a> &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#afcbbc76bbbbc42bc2c0192ec66cf3079">ext_sensor_vec</a> ()</td></tr>
 <tr class="separator:afcbbc76bbbbc42bc2c0192ec66cf3079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67fa145d338c998a59e6d6b374af0b8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a67fa145d338c998a59e6d6b374af0b8a">add_sensors</a> (const std::unordered_map&lt; std::string, <a class="el" href="namespacescrimmage.html#ad426ea9051719a33d49b474755f536f0">SensorPtr</a> &gt; &amp;sensors)</td></tr>
@@ -158,16 +158,16 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00051">51</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                       :</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3aee65c89062f8a3228c99642dde6288">tuple_space_</a>(<a class="code" href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">get_gym_space</a>(<span class="stringliteral">&quot;Tuple&quot;</span>)),</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a71c7e75489dcca49d498853127e2935a">box_space_</a>(<a class="code" href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">get_gym_space</a>(<span class="stringliteral">&quot;Box&quot;</span>)) {}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00054">54</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                       :</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3aee65c89062f8a3228c99642dde6288">tuple_space_</a>(<a class="code" href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">get_gym_space</a>(<span class="stringliteral">&quot;Tuple&quot;</span>)),</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a71c7e75489dcca49d498853127e2935a">box_space_</a>(<a class="code" href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">get_gym_space</a>(<span class="stringliteral">&quot;Box&quot;</span>)) {}</div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a30519878d5900e26e317d89f1089232e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30519878d5900e26e317d89f1089232e">&#9670;&nbsp;</a></span>create_observation_space()</h2>
+<a id="a571dd4e98f6f0c33611f125ecb172a39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a571dd4e98f6f0c33611f125ecb172a39">&#9670;&nbsp;</a></span>create_observation_space()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,109 +176,121 @@ Protected Attributes</h2></td></tr>
           <td class="memname">void scrimmage::autonomy::OpenAIObservations::create_observation_space </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>num_entities</em></td><td>)</td>
+          <td class="paramname"><em>num_entities</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>static_obs_space</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00139">139</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                                                                     {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keyword">auto</span> create_obs = [&amp;](py::list &amp;discrete_count, py::list &amp;continuous_maxima) -&gt; py::object {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keywordtype">int</span> len_discrete = py::len(discrete_count);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordtype">int</span> len_continuous = py::len(continuous_maxima);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        py::array_t&lt;int&gt; discrete_array(len_discrete);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        py::array_t&lt;double&gt; continuous_array(len_continuous);</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00144">144</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                                                         {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">auto</span> create_obs = [&amp;](py::list &amp;discrete_count,</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                          py::list &amp;continuous_maxima) -&gt; py::object {</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="comment">// Return by move to fix this warning from clang: warning: local</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="comment">// variable &#39;obs&#39; will be copied despite being returned by name</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="comment">// [-Wreturn-std-move]</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">if</span> (len_discrete &gt; 0 &amp;&amp; len_continuous &gt; 0) {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            py::list obs;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            obs.append(discrete_array);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            obs.append(continuous_array);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="keywordflow">return</span> std::move(obs);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (len_continuous &gt; 0) {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordflow">return</span> std::move(continuous_array);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">return</span> std::move(discrete_array);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        }</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    };</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">if</span> (num_entities == 1 || <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a>) {</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        py::list discrete_count;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        py::list continuous_minima;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        py::list continuous_maxima;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordtype">bool</span> done = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;v : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>) {</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">if</span> (done) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : v) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                s-&gt;set_observation_space();</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">to_discrete</a>(s-&gt;observation_space.discrete_count, discrete_count);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#abfec7ae8d97dab9686b3680b6eb84076">to_continuous</a>(s-&gt;observation_space.continuous_extrema, continuous_minima, continuous_maxima);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <span class="keywordflow">if</span> (num_entities &gt; 1 &amp;&amp; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a>) {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                    done = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        }</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a> =</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <a class="code" href="namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86">create_space</a>(discrete_count, continuous_minima, continuous_maxima);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a> = create_obs(discrete_count, continuous_maxima);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        py::list observation_spaces;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        py::list obs;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;v : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>) {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : v) {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                py::list discrete_count;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                py::list continuous_minima;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                py::list continuous_maxima;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                s-&gt;set_observation_space();</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">to_discrete</a>(s-&gt;observation_space.discrete_count, discrete_count);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#abfec7ae8d97dab9686b3680b6eb84076">to_continuous</a>(s-&gt;observation_space.continuous_extrema, continuous_minima, continuous_maxima);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                <span class="keyword">auto</span> space =</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    <a class="code" href="namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86">create_space</a>(discrete_count, continuous_minima, continuous_maxima);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                observation_spaces.append(space);</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                obs.append(create_obs(discrete_count, continuous_maxima));</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            }</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        }</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        py::object tuple_space = <a class="code" href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">get_gym_space</a>(<span class="stringliteral">&quot;Tuple&quot;</span>);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a> = tuple_space(observation_spaces);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a> = obs;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    }</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordtype">int</span> len_discrete = py::len(discrete_count);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordtype">int</span> len_continuous = py::len(continuous_maxima);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        py::array_t&lt;int&gt; discrete_array(len_discrete);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        py::array_t&lt;double&gt; continuous_array(len_continuous);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="comment">// Return by move to fix this warning from clang: warning: local</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="comment">// variable &#39;obs&#39; will be copied despite being returned by name</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="comment">// [-Wreturn-std-move]</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">if</span> (len_discrete &gt; 0 &amp;&amp; len_continuous &gt; 0) {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            py::list obs;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            obs.append(discrete_array);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            obs.append(continuous_array);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">return</span> std::move(obs);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (len_continuous &gt; 0) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">return</span> std::move(continuous_array);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">return</span> std::move(discrete_array);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    };</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span> (static_obs_space &amp;&amp; (num_entities == 1 || <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a>)) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        py::list discrete_count;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        py::list continuous_minima;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        py::list continuous_maxima;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordtype">bool</span> done = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;v : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>) {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keywordflow">if</span> (done) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : v) {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                s-&gt;set_observation_space();</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">to_discrete</a>(s-&gt;observation_space.discrete_count, discrete_count);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#abfec7ae8d97dab9686b3680b6eb84076">to_continuous</a>(s-&gt;observation_space.continuous_extrema, continuous_minima, continuous_maxima);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="keywordflow">if</span> (num_entities &gt; 1 &amp;&amp; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a>) {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    done = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a> =</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <a class="code" href="namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86">create_space</a>(discrete_count, continuous_minima, continuous_maxima);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a> = create_obs(discrete_count, continuous_maxima);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        py::list observation_spaces;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        py::list obs;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;v : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>) {</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : v) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                py::list discrete_count;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                py::list continuous_minima;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                py::list continuous_maxima;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                s-&gt;set_observation_space();</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">to_discrete</a>(s-&gt;observation_space.discrete_count, discrete_count);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <a class="code" href="namespacescrimmage_1_1autonomy.html#abfec7ae8d97dab9686b3680b6eb84076">to_continuous</a>(s-&gt;observation_space.continuous_extrema, continuous_minima, continuous_maxima);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                <span class="keyword">auto</span> space = <a class="code" href="namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86">create_space</a>(discrete_count, continuous_minima,</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                                          continuous_maxima);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                observation_spaces.append(space);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                obs.append(create_obs(discrete_count, continuous_maxima));</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        py::object tuple_space = <a class="code" href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">get_gym_space</a>(<span class="stringliteral">&quot;Tuple&quot;</span>);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a> = tuple_space(observation_spaces);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a> = obs;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        py::list observation_space_list =</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a>.attr(<span class="stringliteral">&quot;spaces&quot;</span>).cast&lt;py::list&gt;();</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="OpenAIObservations_8h_source.html#l00082">combine_actors_</a>, <a class="el" href="OpenAIUtils_8cpp_source.html#l00058">scrimmage::autonomy::create_space()</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00077">ext_sensor_vec_</a>, <a class="el" href="OpenAIUtils_8cpp_source.html#l00099">scrimmage::autonomy::get_gym_space()</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00083">global_sensor_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00068">observation</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00067">observation_space</a>, <a class="el" href="OpenAIUtils_8cpp_source.html#l00042">scrimmage::autonomy::to_continuous()</a>, and <a class="el" href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">scrimmage::autonomy::to_discrete()</a>.</p>
+<p class="reference">References <a class="el" href="OpenAIObservations_8h_source.html#l00085">combine_actors_</a>, <a class="el" href="OpenAIUtils_8cpp_source.html#l00058">scrimmage::autonomy::create_space()</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00080">ext_sensor_vec_</a>, <a class="el" href="OpenAIUtils_8cpp_source.html#l00099">scrimmage::autonomy::get_gym_space()</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00086">global_sensor_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00070">observation</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00069">observation_space</a>, <a class="el" href="OpenAIUtils_8cpp_source.html#l00042">scrimmage::autonomy::to_continuous()</a>, and <a class="el" href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">scrimmage::autonomy::to_discrete()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a30519878d5900e26e317d89f1089232e_cgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a30519878d5900e26e317d89f1089232e_cgraph" alt=""/></div>
+<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a571dd4e98f6f0c33611f125ecb172a39_cgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a571dd4e98f6f0c33611f125ecb172a39_cgraph" alt=""/></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a30519878d5900e26e317d89f1089232e_icgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a30519878d5900e26e317d89f1089232e_icgraph" alt=""/></div>
+<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a571dd4e98f6f0c33611f125ecb172a39_icgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a571dd4e98f6f0c33611f125ecb172a39_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="a45c7a47fd44d86793a4b55ab41399e4f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45c7a47fd44d86793a4b55ab41399e4f">&#9670;&nbsp;</a></span>update_observation()</h2>
+<a id="a56c9922b3cf7d75ac3ad30dc2aa567a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56c9922b3cf7d75ac3ad30dc2aa567a0">&#9670;&nbsp;</a></span>update_observation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -293,7 +305,7 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>static_obs_space</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>static_obs_space</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -303,97 +315,99 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">55</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                                               {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">auto</span> call_get_obs = [&amp;](<span class="keyword">auto</span> *data, uint32_t &amp;beg_idx, <span class="keyword">auto</span> sensor, <span class="keywordtype">int</span> obs_size) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        uint32_t end_idx = beg_idx + obs_size;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">if</span> (end_idx != beg_idx) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            sensor-&gt;get_observation(data, beg_idx, end_idx);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            beg_idx = end_idx;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    };</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">auto</span> init_arrays = [&amp;](py::object obs_space, py::object obs) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        py::array_t&lt;int&gt; disc_obs;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        py::array_t&lt;double&gt; cont_obs;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">if</span> (PyObject_IsInstance(obs_space.ptr(), <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3aee65c89062f8a3228c99642dde6288">tuple_space_</a>.ptr())) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            py::list obs_list = obs.cast&lt;py::list&gt;();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            disc_obs = obs_list[0].cast&lt;py::array_t&lt;int&gt;&gt;();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            cont_obs = obs_list[1].cast&lt;py::array_t&lt;double&gt;&gt;();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (PyObject_IsInstance(obs_space.ptr(), <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a71c7e75489dcca49d498853127e2935a">box_space_</a>.ptr())) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            cont_obs = obs.cast&lt;py::array_t&lt;double&gt;&gt;();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            disc_obs = obs.cast&lt;py::array_t&lt;int&gt;&gt;();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> std::make_tuple(disc_obs, cont_obs);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    };</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    py::array_t&lt;int&gt; disc_obs;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    py::array_t&lt;double&gt; cont_obs;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span> (static_obs_space &amp;&amp; (num_entities == 1 || <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a>)) {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        std::tie(disc_obs, cont_obs) = init_arrays(<a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a>, <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        uint32_t disc_beg_idx = 0;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        uint32_t cont_beg_idx = 0;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">int</span>* r_disc = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span> *<span class="keyword">&gt;</span>(disc_obs.request().ptr);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">double</span>* r_cont = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span> *<span class="keyword">&gt;</span>(cont_obs.request().ptr);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordtype">bool</span> done = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;v : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">if</span> (done) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : v) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keyword">auto</span> obs_space = s-&gt;observation_space;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                call_get_obs(r_disc, disc_beg_idx, s, obs_space.discrete_count.size());</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                call_get_obs(r_cont, cont_beg_idx, s, obs_space.continuous_extrema.size());</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keywordflow">if</span> (num_entities &gt; 1 &amp;&amp; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a>) {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    done = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        py::list observation_space_list =</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a>.attr(<span class="stringliteral">&quot;spaces&quot;</span>).cast&lt;py::list&gt;();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        py::list observation_list = <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a>.cast&lt;py::list&gt;();</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="comment">// Number of entities has shrunk</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordflow">while</span> (py::len(observation_list) &gt; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.size()) {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="comment">// Shrink observation_list to the number of sensors</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = py::len(observation_list); i &gt; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.size(); i--) {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                observation_list.attr(<span class="stringliteral">&quot;pop&quot;</span>)(-1);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.size(); i++) {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            py::object indiv_space = observation_space_list[i];</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            py::object indiv_obs = observation_list[i];</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            std::tie(disc_obs, cont_obs) = init_arrays(indiv_space, indiv_obs);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            uint32_t disc_beg_idx = 0;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            uint32_t cont_beg_idx = 0;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordtype">int</span>* r_disc = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span> *<span class="keyword">&gt;</span>(disc_obs.request().ptr);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordtype">double</span>* r_cont = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span> *<span class="keyword">&gt;</span>(cont_obs.request().ptr);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>[i]) {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                <span class="keyword">auto</span> obs_space = s-&gt;observation_space;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                call_get_obs(r_disc, disc_beg_idx, s, obs_space.discrete_count.size());</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                call_get_obs(r_cont, cont_beg_idx, s, obs_space.continuous_extrema.size());</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a>;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">58</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                                                               {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">auto</span> call_get_obs = [&amp;](<span class="keyword">auto</span> *data, uint32_t &amp;beg_idx, <span class="keyword">auto</span> sensor, <span class="keywordtype">int</span> obs_size) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (sensor-&gt;parent() == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        uint32_t end_idx = beg_idx + obs_size;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (end_idx != beg_idx) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            sensor-&gt;get_observation(data, beg_idx, end_idx);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            beg_idx = end_idx;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    };</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">auto</span> init_arrays = [&amp;](py::object obs_space, py::object obs) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        py::array_t&lt;int&gt; disc_obs;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        py::array_t&lt;double&gt; cont_obs;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span> (PyObject_IsInstance(obs_space.ptr(), <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3aee65c89062f8a3228c99642dde6288">tuple_space_</a>.ptr())) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            py::list obs_list = obs.cast&lt;py::list&gt;();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            disc_obs = obs_list[0].cast&lt;py::array_t&lt;int&gt;&gt;();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            cont_obs = obs_list[1].cast&lt;py::array_t&lt;double&gt;&gt;();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (PyObject_IsInstance(obs_space.ptr(), <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a71c7e75489dcca49d498853127e2935a">box_space_</a>.ptr())) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            cont_obs = obs.cast&lt;py::array_t&lt;double&gt;&gt;();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            disc_obs = obs.cast&lt;py::array_t&lt;int&gt;&gt;();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">return</span> std::make_tuple(disc_obs, cont_obs);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    };</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    py::array_t&lt;int&gt; disc_obs;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    py::array_t&lt;double&gt; cont_obs;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> (static_obs_space &amp;&amp; (num_entities == 1 || <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a>)) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        std::tie(disc_obs, cont_obs) = init_arrays(<a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a>, <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        uint32_t disc_beg_idx = 0;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        uint32_t cont_beg_idx = 0;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordtype">int</span>* r_disc = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span> *<span class="keyword">&gt;</span>(disc_obs.request().ptr);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">double</span>* r_cont = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span> *<span class="keyword">&gt;</span>(cont_obs.request().ptr);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordtype">bool</span> done = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;v : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">if</span> (done) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : v) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keyword">auto</span> obs_space = s-&gt;observation_space;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                call_get_obs(r_disc, disc_beg_idx, s, obs_space.discrete_count.size());</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                call_get_obs(r_cont, cont_beg_idx, s, obs_space.continuous_extrema.size());</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">if</span> (num_entities &gt; 1 &amp;&amp; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a>) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    done = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        py::list observation_space_list =</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">observation_space</a>.attr(<span class="stringliteral">&quot;spaces&quot;</span>).cast&lt;py::list&gt;();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        py::list observation_list = <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a>.cast&lt;py::list&gt;();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment">// Number of entities has shrunk</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">while</span> (py::len(observation_list) &gt; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.size()) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="comment">// Shrink observation_list to the number of sensors</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = py::len(observation_list); i &gt; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.size(); i--) {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                observation_list.attr(<span class="stringliteral">&quot;pop&quot;</span>)(-1);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.size(); i++) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            py::object indiv_space = observation_space_list[i];</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            py::object indiv_obs = observation_list[i];</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            std::tie(disc_obs, cont_obs) = init_arrays(indiv_space, indiv_obs);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            uint32_t disc_beg_idx = 0;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            uint32_t cont_beg_idx = 0;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordtype">int</span>* r_disc = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span> *<span class="keyword">&gt;</span>(disc_obs.request().ptr);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordtype">double</span>* r_cont = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span> *<span class="keyword">&gt;</span>(cont_obs.request().ptr);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;s : <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>[i]) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keyword">auto</span> obs_space = s-&gt;observation_space;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                call_get_obs(r_disc, disc_beg_idx, s, obs_space.discrete_count.size());</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                call_get_obs(r_cont, cont_beg_idx, s, obs_space.continuous_extrema.size());</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    }</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">observation</a>;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="OpenAIObservations_8h_source.html#l00080">box_space_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00082">combine_actors_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00077">ext_sensor_vec_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00083">global_sensor_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00068">observation</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00067">observation_space</a>, and <a class="el" href="OpenAIObservations_8h_source.html#l00079">tuple_space_</a>.</p>
+<p class="reference">References <a class="el" href="OpenAIObservations_8h_source.html#l00083">box_space_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00085">combine_actors_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00080">ext_sensor_vec_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00086">global_sensor_</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00070">observation</a>, <a class="el" href="OpenAIObservations_8h_source.html#l00069">observation_space</a>, and <a class="el" href="OpenAIObservations_8h_source.html#l00082">tuple_space_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00103">scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00106">scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a45c7a47fd44d86793a4b55ab41399e4f_icgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a45c7a47fd44d86793a4b55ab41399e4f_icgraph" alt=""/></div>
+<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a56c9922b3cf7d75ac3ad30dc2aa567a0_icgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a56c9922b3cf7d75ac3ad30dc2aa567a0_icgraph" alt=""/></div>
 </div>
 
 </div>
@@ -421,8 +435,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00063">63</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{<span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00065">65</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{<span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -442,16 +456,16 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00217">217</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                                                                                          {</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    std::vector&lt;std::shared_ptr&lt;sensor::ScrimmageOpenAISensor&gt;&gt; vec;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keyword">auto</span> cast = [&amp;](<span class="keyword">auto</span> &amp;p) {<span class="keywordflow">return</span> std::dynamic_pointer_cast&lt;sensor::ScrimmageOpenAISensor&gt;(p);};</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keyword">auto</span> good_ptr = [&amp;](<span class="keyword">auto</span> &amp;p) {<span class="keywordflow">return</span> cast(p) != <span class="keyword">nullptr</span>;};</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    br::transform(sensors | ba::map_values | ba::filtered(good_ptr), std::back_inserter(vec), cast);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.push_back(vec);</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8cpp_source.html#l00225">225</a> of file <a class="el" href="OpenAIObservations_8cpp_source.html">OpenAIObservations.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                                                                                          {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    std::vector&lt;std::shared_ptr&lt;sensor::ScrimmageOpenAISensor&gt;&gt; vec;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keyword">auto</span> cast = [&amp;](<span class="keyword">auto</span> &amp;p) {<span class="keywordflow">return</span> std::dynamic_pointer_cast&lt;sensor::ScrimmageOpenAISensor&gt;(p);};</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keyword">auto</span> good_ptr = [&amp;](<span class="keyword">auto</span> &amp;p) {<span class="keywordflow">return</span> cast(p) != <span class="keyword">nullptr</span>;};</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    br::transform(sensors | ba::map_values | ba::filtered(good_ptr), std::back_inserter(vec), cast);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">ext_sensor_vec_</a>.push_back(vec);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="OpenAIObservations_8h_source.html#l00077">ext_sensor_vec_</a>.</p>
+<p class="reference">References <a class="el" href="OpenAIObservations_8h_source.html#l00080">ext_sensor_vec_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>.</p>
 <div class="dynheader">
@@ -486,8 +500,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00070">70</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{<a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a> = global_sensor;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00072">72</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{<a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a> = global_sensor;}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>.</p>
 <div class="dynheader">
@@ -521,8 +535,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00071">71</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{<span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a>;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00073">73</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{<span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">global_sensor_</a>;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -550,8 +564,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00073">73</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{<a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a> = combine_actors;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00075">75</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{<a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a> = combine_actors;}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>.</p>
 <div class="dynheader">
@@ -585,9 +599,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00074">74</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{<span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a>;}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00076">76</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{<span class="keywordflow">return</span> <a class="code" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">combine_actors_</a>;}</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00106">scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classscrimmage_1_1autonomy_1_1OpenAIObservations_a8a89998e17ca9ca34b2568c9a44fcfa4_icgraph.png" border="0" usemap="#classscrimmage_1_1autonomy_1_1OpenAIObservations_a8a89998e17ca9ca34b2568c9a44fcfa4_icgraph" alt=""/></div>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -603,9 +624,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00067">67</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00069">69</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00139">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00144">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -621,9 +642,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00068">68</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00070">70</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00139">create_observation_space()</a>, <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>, <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00103">scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00144">create_observation_space()</a>, <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>, <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00106">scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -647,9 +668,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00077">77</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00080">80</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00217">add_sensors()</a>, <a class="el" href="OpenAIObservations_8cpp_source.html#l00139">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00225">add_sensors()</a>, <a class="el" href="OpenAIObservations_8cpp_source.html#l00144">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -673,9 +694,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00079">79</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00082">82</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -699,9 +720,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00080">80</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00083">83</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -725,9 +746,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00082">82</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00085">85</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00139">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00144">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -751,9 +772,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00083">83</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OpenAIObservations_8h_source.html#l00086">86</a> of file <a class="el" href="OpenAIObservations_8h_source.html">OpenAIObservations.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00139">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00055">update_observation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIObservations_8cpp_source.html#l00144">create_observation_space()</a>, and <a class="el" href="OpenAIObservations_8cpp_source.html#l00058">update_observation()</a>.</p>
 
 </div>
 </div>
@@ -766,19 +787,19 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespacescrimmage_1_1autonomy_html_abfec7ae8d97dab9686b3680b6eb84076"><div class="ttname"><a href="namespacescrimmage_1_1autonomy.html#abfec7ae8d97dab9686b3680b6eb84076">scrimmage::autonomy::to_continuous</a></div><div class="ttdeci">void DLL_PUBLIC to_continuous(std::vector&lt; std::pair&lt; double, double &gt;&gt; &amp;p, pybind11::list &amp;minima, pybind11::list &amp;maxima)</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIUtils_8cpp_source.html#l00042">OpenAIUtils.cpp:42</a></div></div>
 <div class="ttc" id="anamespacescrimmage_1_1autonomy_html_abc13446762f12418128411bda847fd86"><div class="ttname"><a href="namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86">scrimmage::autonomy::create_space</a></div><div class="ttdeci">pybind11::object DLL_PUBLIC create_space(pybind11::list discrete_maxima, pybind11::list continuous_minima, pybind11::list continuous_maxima)</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIUtils_8cpp_source.html#l00058">OpenAIUtils.cpp:58</a></div></div>
 <div class="ttc" id="anamespacescrimmage_1_1autonomy_html_a66f0e94a3f618489f476e5d4009b482a"><div class="ttname"><a href="namespacescrimmage_1_1autonomy.html#a66f0e94a3f618489f476e5d4009b482a">scrimmage::autonomy::to_discrete</a></div><div class="ttdeci">void DLL_PUBLIC to_discrete(std::vector&lt; int &gt; &amp;p, pybind11::list &amp;maxima)</div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a3f2b9b224223f7db4018d73df6ab213b"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">scrimmage::autonomy::OpenAIObservations::observation</a></div><div class="ttdeci">pybind11::object observation</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00068">OpenAIObservations.h:68</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a72f6b74bbf769800755d5926b4032cad"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">scrimmage::autonomy::OpenAIObservations::observation_space</a></div><div class="ttdeci">pybind11::object observation_space</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00067">OpenAIObservations.h:67</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a3aee65c89062f8a3228c99642dde6288"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3aee65c89062f8a3228c99642dde6288">scrimmage::autonomy::OpenAIObservations::tuple_space_</a></div><div class="ttdeci">pybind11::object tuple_space_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00079">OpenAIObservations.h:79</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a66993eb95e700a19caed2f7d4c4df80a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">scrimmage::autonomy::OpenAIObservations::global_sensor_</a></div><div class="ttdeci">bool global_sensor_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00083">OpenAIObservations.h:83</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a146ea6867969fc3be9fc1372126bad8e"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">scrimmage::autonomy::OpenAIObservations::ext_sensor_vec_</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::shared_ptr&lt; sensor::ScrimmageOpenAISensor &gt; &gt; &gt; ext_sensor_vec_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00077">OpenAIObservations.h:77</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a3f2b9b224223f7db4018d73df6ab213b"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3f2b9b224223f7db4018d73df6ab213b">scrimmage::autonomy::OpenAIObservations::observation</a></div><div class="ttdeci">pybind11::object observation</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00070">OpenAIObservations.h:70</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a72f6b74bbf769800755d5926b4032cad"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a72f6b74bbf769800755d5926b4032cad">scrimmage::autonomy::OpenAIObservations::observation_space</a></div><div class="ttdeci">pybind11::object observation_space</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00069">OpenAIObservations.h:69</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a3aee65c89062f8a3228c99642dde6288"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a3aee65c89062f8a3228c99642dde6288">scrimmage::autonomy::OpenAIObservations::tuple_space_</a></div><div class="ttdeci">pybind11::object tuple_space_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00082">OpenAIObservations.h:82</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a66993eb95e700a19caed2f7d4c4df80a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a66993eb95e700a19caed2f7d4c4df80a">scrimmage::autonomy::OpenAIObservations::global_sensor_</a></div><div class="ttdeci">bool global_sensor_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00086">OpenAIObservations.h:86</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a146ea6867969fc3be9fc1372126bad8e"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a146ea6867969fc3be9fc1372126bad8e">scrimmage::autonomy::OpenAIObservations::ext_sensor_vec_</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::shared_ptr&lt; sensor::ScrimmageOpenAISensor &gt; &gt; &gt; ext_sensor_vec_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00080">OpenAIObservations.h:80</a></div></div>
 <div class="ttc" id="anamespacescrimmage_1_1autonomy_html_a3a5506ddc570064879a963a0c7fff11e"><div class="ttname"><a href="namespacescrimmage_1_1autonomy.html#a3a5506ddc570064879a963a0c7fff11e">scrimmage::autonomy::get_gym_space</a></div><div class="ttdeci">pybind11::object DLL_PUBLIC get_gym_space(const std::string &amp;type)</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIUtils_8cpp_source.html#l00099">OpenAIUtils.cpp:99</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_adcbe1c7d5ab9653fda94d07eae383213"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">scrimmage::autonomy::OpenAIObservations::combine_actors_</a></div><div class="ttdeci">bool combine_actors_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00082">OpenAIObservations.h:82</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a71c7e75489dcca49d498853127e2935a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a71c7e75489dcca49d498853127e2935a">scrimmage::autonomy::OpenAIObservations::box_space_</a></div><div class="ttdeci">pybind11::object box_space_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00080">OpenAIObservations.h:80</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_adcbe1c7d5ab9653fda94d07eae383213"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#adcbe1c7d5ab9653fda94d07eae383213">scrimmage::autonomy::OpenAIObservations::combine_actors_</a></div><div class="ttdeci">bool combine_actors_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00085">OpenAIObservations.h:85</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1OpenAIObservations_html_a71c7e75489dcca49d498853127e2935a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a71c7e75489dcca49d498853127e2935a">scrimmage::autonomy::OpenAIObservations::box_space_</a></div><div class="ttdeci">pybind11::object box_space_</div><div class="ttdef"><b>Definition:</b> <a href="OpenAIObservations_8h_source.html#l00083">OpenAIObservations.h:83</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1OpenAIObservations.html">OpenAIObservations</a></li>
-    <li class="footer">Generated on Fri Aug 28 2020 21:56:33 for SCRIMMAGE by
+    <li class="footer">Generated on Tue Sep 1 2020 15:05:51 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

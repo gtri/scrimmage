@@ -10,9 +10,11 @@ digraph "scrimmage::autonomy::ScrimmageOpenAIAutonomy::step_autonomy"
   Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="scrimmage::autonomy\l::OpenAIActions::distribute\l_action",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#a16570470df4f0442dddb120fc17d774c",tooltip=" "];
   Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="scrimmage::autonomy\l::init_actor_func",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1autonomy.html#abfb21d8be2f6cfbb29b468c2755a512d",tooltip=" "];
-  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node17 [label="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::step_helper",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#ace53ec3cc8a1b5d577a3e379c58a5534",tooltip=" "];
+  Node5 [label="scrimmage::autonomy\l::OpenAIObservations\l::get_combine_actors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a8a89998e17ca9ca34b2568c9a44fcfa4",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="scrimmage::autonomy\l::init_actor_func",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespacescrimmage_1_1autonomy.html#abfb21d8be2f6cfbb29b468c2755a512d",tooltip=" "];
   Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="scrimmage::autonomy\l::OpenAIObservations\l::update_observation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a45c7a47fd44d86793a4b55ab41399e4f",tooltip=" "];
+  Node18 [label="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy\l::step_helper",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#ace53ec3cc8a1b5d577a3e379c58a5534",tooltip=" "];
+  Node1 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="scrimmage::autonomy\l::OpenAIObservations\l::update_observation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a56c9922b3cf7d75ac3ad30dc2aa567a0",tooltip=" "];
 }

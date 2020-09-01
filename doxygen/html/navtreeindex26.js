@@ -1,5 +1,8 @@
 var NAVTREEINDEX26 =
 {
+"structscrimmage_1_1CameraResetParams.html#ad6161ca9aa0ee9f22ac6d8a37cce0e7d":[3,0,5,13,4],
+"structscrimmage_1_1Color__t.html":[3,0,5,14],
+"structscrimmage_1_1Color__t.html#a27e99589e9cec0f4d6b7fdd9d15365b8":[3,0,5,14,0],
 "structscrimmage_1_1Color__t.html#a4d91cf3676ac4ab9a6ee356c1d3e0cd6":[3,0,5,14,2],
 "structscrimmage_1_1Color__t.html#a7db2bec8611c0a8bf87ce670fbddc2f8":[3,0,5,14,1],
 "structscrimmage_1_1EnvParams.html":[3,0,5,23],

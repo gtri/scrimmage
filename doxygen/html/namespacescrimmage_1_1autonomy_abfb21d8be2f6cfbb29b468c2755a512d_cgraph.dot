@@ -10,7 +10,7 @@ digraph "scrimmage::autonomy::init_actor_func"
   Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="scrimmage::autonomy\l::OpenAIActions::create\l_action_space",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#a541fc805e0fec4cb224af7dd93b1be6f",tooltip=" "];
   Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node8 [label="scrimmage::autonomy\l::OpenAIObservations\l::create_observation_space",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e",tooltip=" "];
+  Node8 [label="scrimmage::autonomy\l::OpenAIObservations\l::create_observation_space",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a571dd4e98f6f0c33611f125ecb172a39",tooltip=" "];
   Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node9 [label="scrimmage::autonomy\l::OpenAIActions::ext\l_ctrl_vec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1autonomy_1_1OpenAIActions.html#abf347a0e77cbe8f14d99ee76b75a5024",tooltip=" "];
   Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

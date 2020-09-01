@@ -206,7 +206,7 @@ var searchData=
   ['create_5flog_5fdir_477',['create_log_dir',['../classscrimmage_1_1MissionParse.html#a2495bda15ea061a8cdc966105107b237',1,'scrimmage::MissionParse']]],
   ['create_5fmetrics_478',['create_metrics',['../namespacescrimmage.html#ab7ce57ecde5f7e0a5489f75fa840b57a',1,'scrimmage']]],
   ['create_5fnetworks_479',['create_networks',['../namespacescrimmage.html#aa24d13008157fe3a539bb06b4ce5fb1d',1,'scrimmage']]],
-  ['create_5fobservation_5fspace_480',['create_observation_space',['../classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e',1,'scrimmage::autonomy::OpenAIObservations']]],
+  ['create_5fobservation_5fspace_480',['create_observation_space',['../classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a571dd4e98f6f0c33611f125ecb172a39',1,'scrimmage::autonomy::OpenAIObservations']]],
   ['create_5frtree_481',['create_rtree',['../classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc',1,'scrimmage::SimControl']]],
   ['create_5fspace_482',['create_space',['../namespacescrimmage_1_1autonomy.html#abc13446762f12418128411bda847fd86',1,'scrimmage::autonomy']]],
   ['create_5ftext_5fdisplay_483',['create_text_display',['../classscrimmage_1_1Updater.html#a7cdda66136ab18f3eb38f66e7b82f462',1,'scrimmage::Updater']]],

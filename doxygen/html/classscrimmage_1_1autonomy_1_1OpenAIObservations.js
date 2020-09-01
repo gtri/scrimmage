@@ -1,8 +1,8 @@
 var classscrimmage_1_1autonomy_1_1OpenAIObservations =
 [
     [ "OpenAIObservations", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#acbbfc2fe4805db0b421aa189bd35de2c", null ],
-    [ "create_observation_space", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a30519878d5900e26e317d89f1089232e", null ],
-    [ "update_observation", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a45c7a47fd44d86793a4b55ab41399e4f", null ],
+    [ "create_observation_space", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a571dd4e98f6f0c33611f125ecb172a39", null ],
+    [ "update_observation", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a56c9922b3cf7d75ac3ad30dc2aa567a0", null ],
     [ "ext_sensor_vec", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#afcbbc76bbbbc42bc2c0192ec66cf3079", null ],
     [ "add_sensors", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#a67fa145d338c998a59e6d6b374af0b8a", null ],
     [ "set_global_sensor", "classscrimmage_1_1autonomy_1_1OpenAIObservations.html#ad30b64d002ce779a0ef626e8a919d15f", null ],

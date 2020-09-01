@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['join_4276',['join',['../classscrimmage_1_1SimControl.html#af8395d290cfd7e095835882e450ac5d8',1,'scrimmage::SimControl']]],
-  ['joystick_4277',['Joystick',['../classscrimmage_1_1controller_1_1Joystick.html#ad1be6c9b5197caffa132ae77bdd268f9',1,'scrimmage::controller::Joystick']]],
-  ['jsbsimcontrol_4278',['JSBSimControl',['../classscrimmage_1_1motion_1_1JSBSimControl.html#a9e4dc86dfb36b20f5d93e0009dd4898e',1,'scrimmage::motion::JSBSimControl']]]
+  ['join_4277',['join',['../classscrimmage_1_1SimControl.html#af8395d290cfd7e095835882e450ac5d8',1,'scrimmage::SimControl']]],
+  ['joystick_4278',['Joystick',['../classscrimmage_1_1controller_1_1Joystick.html#ad1be6c9b5197caffa132ae77bdd268f9',1,'scrimmage::controller::Joystick']]],
+  ['jsbsimcontrol_4279',['JSBSimControl',['../classscrimmage_1_1motion_1_1JSBSimControl.html#a9e4dc86dfb36b20f5d93e0009dd4898e',1,'scrimmage::motion::JSBSimControl']]]
 ];
