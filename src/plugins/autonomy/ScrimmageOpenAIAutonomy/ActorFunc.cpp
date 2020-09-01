@@ -78,7 +78,7 @@ init_actor_func(
         if (global_sensor == UseGlobalSensor::YES) break;
     }
 
-    observations.create_observation_space(autonomies.size());
+    observations.create_observation_space(autonomies.size(), true);
     py::object actor_func = py::none();
     py::object actor_init_func = py::none();
 

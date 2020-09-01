@@ -321,14 +321,28 @@ void ScrimmageOpenAIEnv::reset_scrimmage() {
     actions_.ext_ctrl_vec().clear();
     observations_.ext_sensor_vec().clear();
     for (auto &e : simcontrol_->ents()) {
-        auto cast = [&](auto &p) {return std::dynamic_pointer_cast<sc_auto::ScrimmageOpenAIAutonomy>(p);};
-        auto good_ptr = [&](auto &p) {return cast(p) != nullptr;};
-        for (const auto &a : e->autonomies() | ba::filtered(good_ptr) | ba::transformed(cast)) {
+        // Casts an autonomy plugin to a ScrimmageOpenAIAutonomy plugin
+        auto cast = [&](auto &p) {
+            return std::dynamic_pointer_cast<sc_auto::ScrimmageOpenAIAutonomy>(p);
+        };
+
+        // Returns true if the dynamic pointer case was successful.
+        auto good_ptr = [&](auto &p) {
+            return cast(p) != nullptr;
+        };
+
+        // For all entities, find Autonomy plugins that inherit from the
+        // ScrimmageOpenAIAutonomy class.
+        for (const auto &a : e->autonomies()
+                     | ba::filtered(good_ptr) | ba::transformed(cast)) {
+            // Add the autonomy plugin to the ext_ctrl_vec list
             actions_.ext_ctrl_vec().push_back(a);
+            // Add the entity's sensors to the sensors lists
             observations_.add_sensors(a->parent()->sensors());
         }
     }
-    observations_.create_observation_space(actions_.ext_ctrl_vec().size());
+    observations_.create_observation_space(actions_.ext_ctrl_vec().size(),
+                                           static_obs_space_);
     actions_.create_action_space(observations_.get_combine_actors());
     set_reward_range();
 }
@@ -365,7 +379,6 @@ pybind11::tuple ScrimmageOpenAIEnv::step(pybind11::object action) {
 
     observations_.update_observation(actions_.ext_ctrl_vec().size(),
                                      static_obs_space_);
-
     py::float_ py_reward;
     py::bool_ py_done;
     py::dict py_info;
@@ -403,7 +416,6 @@ void ScrimmageOpenAIEnv::reset_learning_mode() {
 }
 
 std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv::calc_reward() {
-
     py::dict info;
     py::list done_list, reward_list, info_list, ent_list;
 
@@ -411,6 +423,10 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
     bool done = false;
 
     for (auto &a : actions_.ext_ctrl_vec()) {
+        if (a->parent() == nullptr) {
+            continue;
+        }
+
         double temp_reward;
         bool temp_done;
         py::dict temp_info;
@@ -425,7 +441,8 @@ std::tuple<pybind11::float_, pybind11::bool_, pybind11::dict> ScrimmageOpenAIEnv
         ent_list.append(a->self_id());
     }
 
-    if (actions_.ext_ctrl_vec().size() == 1 || observations_.get_combine_actors()) {
+    if (reward_list.size() > 0 && info_list.size() > 0 && ent_list.size() > 0 &&
+        (actions_.ext_ctrl_vec().size() == 1 || observations_.get_combine_actors())) {
         info = info_list[0].cast<py::dict>();
         info["reward"] = reward_list[0];
         info["done"] = done_list[0];
