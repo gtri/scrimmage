@@ -8,7 +8,7 @@ permalink: /about/
 
 [Tutorials](http://www.scrimmagesim.org/docs/sphinx/html/index.html)
 
-[Doxygen Documentation](http://www.scrimmagesim.org/docs/doxygen/html/index.html)
+[Doxygen Documentation](http://www.scrimmagesim.org/doxygen/html/index.html)
 
 Simulating Collaborative Robots in Massive Multi-Agent Game Execution, or
 SCRIMMAGE, provides a flexible simulation environment for the experimentation
