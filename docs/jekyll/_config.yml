@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: SCRIMMAGE
-email: scrimmage@gtri.org
+email: kevin.demarco@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Simulating Collaborative Robots in Massive Multi-Agent Game Execution, or
   SCRIMMAGE, provides a flexible simulation environment for the experimentation
