@@ -79,6 +79,9 @@ using EntityPtr = std::shared_ptr<Entity>;
 class Time;
 using TimePtr = std::shared_ptr<Time>;
 
+class Print;
+using PrintPtr = std::shared_ptr<Print>;
+
 class ParameterBase;
 using ParameterBasePtr = std::shared_ptr<ParameterBase>;
 

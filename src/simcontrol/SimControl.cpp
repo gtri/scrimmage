@@ -34,6 +34,7 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/log/Log.h>
+#include <scrimmage/log/Print.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/network/Interface.h>
@@ -119,6 +120,7 @@ SimControl::SimControl() :
     global_services_(std::make_shared<GlobalService>()),
     timer_(Timer()),
     log_(std::make_shared<Log>()),
+    printer_(std::make_shared<Print>()),
     random_(std::make_shared<Random>()),
     plugin_manager_(std::make_shared<PluginManager>()),
     networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
@@ -155,6 +157,10 @@ bool SimControl::setup_logging() {
         log_->set_enable_log(false);
         log_->init(mp_->log_dir(), Log::NONE);
     }
+
+    // Setup the printer
+    printer_->init(time_, mp_->log_dir());
+
     return true;
 }
 
@@ -352,8 +358,8 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     bool ent_status = ent->init(attr_map, params, id_to_team_map_,
                                 id_to_ent_map_,
                                 contacts_, mp_, proj_, id, ent_desc_id,
-                                plugin_manager_, file_search_, rtree_, pubsub_, time_,
-                                param_server_, global_services_,
+                                plugin_manager_, file_search_, rtree_, pubsub_,
+                                printer_, time_, param_server_, global_services_,
                                 std::set<std::string>{},
                                 [](std::map<std::string, std::string>&){});
     contacts_mutex_.unlock();
@@ -795,6 +801,7 @@ bool SimControl::start() {
     info.file_search = file_search_;
     info.rtree = rtree_;
     info.pubsub = pubsub_;
+    info.printer = printer_;
     info.time = time_;
     info.param_server = param_server_;
     info.random = random_;
@@ -1032,6 +1039,7 @@ bool SimControl::finalize() {
 
     // Close the log file
     log_->close_log();
+    printer_->close();
 
     if (not limited_verbosity_) {
         cout << "Simulation Complete" << endl;

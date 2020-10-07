@@ -78,6 +78,7 @@ External::External() :
     log_(std::make_shared<Log>()),
     last_t_(NAN),
     pubsub_(std::make_shared<PubSub>()),
+    printer_(std::make_shared<Print>()),
     time_(std::make_shared<Time>()),
     param_server_(std::make_shared<ParameterServer>()),
     global_services_(std::make_shared<GlobalService>()),
@@ -165,6 +166,7 @@ bool External::create_entity(const std::string &mission_file,
     sim_info.file_search = file_search;
     sim_info.rtree = rtree;
     sim_info.pubsub = pubsub_;
+    sim_info.printer = printer_;
     sim_info.time = time_;
     sim_info.random = random;
     sim_info.id_to_team_map = id_to_team_map_;
@@ -211,7 +213,7 @@ bool External::create_entity(const std::string &mission_file,
             attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
             mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_, param_server_, global_services_, plugin_tags,
+            printer_, time_, param_server_, global_services_, plugin_tags,
             param_override_func, debug_level);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;

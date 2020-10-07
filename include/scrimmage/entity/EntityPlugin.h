@@ -131,6 +131,7 @@ class EntityPlugin : public Plugin {
     void set_time(const std::shared_ptr<Time> &time) { time_ = time; }
     // cppcheck-suppress passedByValue
     void set_time(std::shared_ptr<const Time> time) { time_ = time; }
+    std::shared_ptr<const Time> getTime() { return time_; }
 
     void draw_shape(scrimmage_proto::ShapePtr s);
     bool print_err_on_exit = true;
