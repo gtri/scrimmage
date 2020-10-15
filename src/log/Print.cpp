@@ -100,6 +100,11 @@ namespace scrimmage {
       }
       time_ = nullptr;
   }
+  void Print::flush() {
+      if (log_stream_) {
+          log_stream_.flush();
+      }
+  }
 
 
 

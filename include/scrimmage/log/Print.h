@@ -82,6 +82,7 @@ class Print {
     void init(TimePtr &time, std::string log_dir);
     void init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag);
     void close();
+    void flush();
 
     void printDev(PrintData &data, std::string outmessage);
     void printInfo(PrintData &data, std::string outmessage);
