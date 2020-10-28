@@ -17,3 +17,6 @@ and testing of novel mobile robotics algorithms.
 
 ## [Tutorials](./sphinx/html/index.html)
 
+## GTRI Internal SCRIMMAGE Mailing List
+
+[scrimmage@gtri.org](mailto:scrimmage@gtri.org)
