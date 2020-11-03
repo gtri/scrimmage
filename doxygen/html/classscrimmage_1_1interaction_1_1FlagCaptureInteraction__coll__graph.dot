@@ -8,8 +8,8 @@ digraph "scrimmage::interaction::FlagCaptureInteraction"
   Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
   Node36 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #entity_with_flag_" ,arrowhead="odiamond",fontname="Helvetica"];
   Node36 [label="{scrimmage::ID\n|# id_\l# sub_swarm_id_\l# team_id_\l|+ ID()\l+ ID()\l+ set_id()\l+ set_sub_swarm_id()\l+ set_team_id()\l+ id()\l+ sub_swarm_id()\l+ team_id()\l+ operator==()\l+ operator\<()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classscrimmage_1_1ID.html",tooltip=" "];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #flag_boundary_\n#capture_boundary_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::shared_ptr\< scrimmage\l::interaction::BoundaryBase \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #flag_captured_pub\l_\n#flag_taken_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node90 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #flag_boundary_\n#capture_boundary_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< scrimmage\l::interaction::BoundaryBase \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node97 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #flag_captured_pub\l_\n#flag_taken_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node97 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

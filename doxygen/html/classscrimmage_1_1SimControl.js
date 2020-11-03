@@ -123,6 +123,7 @@ var classscrimmage_1_1SimControl =
     [ "entity_pool_condition_var_", "classscrimmage_1_1SimControl.html#aae2e3d0c9dda0345d8683e16ec12c791", null ],
     [ "entity_worker_threads_", "classscrimmage_1_1SimControl.html#a681b239ab8665f623f83d8c9605a571f", null ],
     [ "log_", "classscrimmage_1_1SimControl.html#a9d1bf33f50cc2660a1c6160f0a94b38c", null ],
+    [ "printer_", "classscrimmage_1_1SimControl.html#a4a7d931656f53d614dbf02cd568b115e", null ],
     [ "end_conditions_", "classscrimmage_1_1SimControl.html#a48b0c861510668246a4b031c493b481a", null ],
     [ "random_", "classscrimmage_1_1SimControl.html#a03faffbf4c3fa9d4e3cb4071050d9ba5", null ],
     [ "plugin_manager_", "classscrimmage_1_1SimControl.html#a5ce2077a41659105a39ec5fbbd477cc9", null ],

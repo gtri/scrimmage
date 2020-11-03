@@ -8,6 +8,6 @@ digraph "/root/scrimmage/scrimmage/include/scrimmage/pubsub/SubscriberBase.h"
   Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/Subscriber.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Subscriber_8h.html",tooltip="Brief file description."];
   Node1 -> Node210 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node210 [label="/root/scrimmage/scrimmage\l/src/pubsub/Network.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Network_8cpp.html",tooltip="Brief file description."];
-  Node1 -> Node277 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node277 [label="/root/scrimmage/scrimmage\l/src/pubsub/SubscriberBase.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SubscriberBase_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node278 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node278 [label="/root/scrimmage/scrimmage\l/src/pubsub/SubscriberBase.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SubscriberBase_8cpp.html",tooltip="Brief file description."];
 }

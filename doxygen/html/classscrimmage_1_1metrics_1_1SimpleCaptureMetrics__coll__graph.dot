@@ -6,10 +6,10 @@ digraph "scrimmage::metrics::SimpleCaptureMetrics"
   Node1 [label="{scrimmage::metrics\l::SimpleCaptureMetrics\n|# initialized_\l|+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
   Node2 [label="{scrimmage::Metrics\n|# print_team_summary_\l|+ Metrics()\l+ ~Metrics()\l+ init()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l+ team_metrics()\l+ headers()\l+ team_scores()\l+ get_print_team_summary()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Metrics.html",tooltip=" "];
-  Node89 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #team_scores_map_\n#scores_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node89 [label="{std::map\< int, scrimmage\l::metrics::Score \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node91 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #teams_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node91 [label="{std::set\< int \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node63 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #params_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node63 [label="{std::map\< std::string,\l std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node96 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #team_scores_map_\n#scores_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node96 [label="{std::map\< int, scrimmage\l::metrics::Score \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node98 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #teams_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node98 [label="{std::set\< int \>\n|+ keys\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node72 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #params_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node72 [label="{std::map\< std::string,\l std::string \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

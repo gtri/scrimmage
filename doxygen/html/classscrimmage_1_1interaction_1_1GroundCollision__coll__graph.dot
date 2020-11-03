@@ -8,6 +8,6 @@ digraph "scrimmage::interaction::GroundCollision"
   Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
   Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #team_" ,arrowhead="odiamond",fontname="Helvetica"];
   Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #collision_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #collision_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

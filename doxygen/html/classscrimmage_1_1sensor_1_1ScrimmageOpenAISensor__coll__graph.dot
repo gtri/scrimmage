@@ -6,6 +6,6 @@ digraph "scrimmage::sensor::ScrimmageOpenAISensor"
   Node1 [label="{scrimmage::sensor::\lScrimmageOpenAISensor\n||+ ScrimmageOpenAISensor()\l+ set_observation_space()\l+ get_observation()\l+ get_observation()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
   Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +observation_space" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{scrimmage::EnvParams\n||}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$structscrimmage_1_1EnvParams.html",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +observation_space" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{scrimmage::EnvParams\n||}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$structscrimmage_1_1EnvParams.html",tooltip=" "];
 }

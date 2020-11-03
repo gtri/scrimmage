@@ -34,6 +34,7 @@ var classscrimmage_1_1External =
     [ "log_", "classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4", null ],
     [ "last_t_", "classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273", null ],
     [ "pubsub_", "classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436", null ],
+    [ "printer_", "classscrimmage_1_1External.html#a31de2d2c75445379b1f55a3872d284fc", null ],
     [ "time_", "classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7", null ],
     [ "param_server_", "classscrimmage_1_1External.html#abef5ee16a206f57b9b56fb0eb6729895", null ],
     [ "global_services_", "classscrimmage_1_1External.html#a933a6df36f2dcfe2be1cc364d15d4443", null ],

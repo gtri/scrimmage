@@ -281,6 +281,8 @@ $(document).ready(function(){initNavTree('functions_t.html',''); initResizable()
 , <a class="el" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">scrimmage::External</a>
 , <a class="el" href="classscrimmage_1_1Frame.html#a7256de3d8f202030946dbbc425137109">scrimmage::Frame</a>
 , <a class="el" href="classscrimmage_1_1metrics_1_1CPAData.html#a47d50c5f0aa808d6ccf9ccc094873086">scrimmage::metrics::CPAData</a>
+, <a class="el" href="classscrimmage_1_1Print.html#ad8557c2cae9d985ea99451b9cf0c900c">scrimmage::Print</a>
+, <a class="el" href="structscrimmage_1_1PrintData.html#a1cbfd8b6fd18cf51685f1de4a9cd6ff2">scrimmage::PrintData</a>
 , <a class="el" href="classscrimmage_1_1SimControl.html#a1ab9e2be3bfdf7dde9f5fea876484e06">scrimmage::SimControl</a>
 </li>
 <li>time_actor_
@@ -378,7 +380,7 @@ $(document).ready(function(){initNavTree('functions_t.html',''); initResizable()
 : <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a5b97545495a8aa29a2ac7c74eb8eb267">scrimmage::autonomy::TrajectoryRecordPlayback</a>
 </li>
 <li>TrajectoryPoint()
-: <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a17295af7f24bb3c324c352abc7500f62">scrimmage::autonomy::TrajectoryPoint</a>
+: <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#af20a0f4daeb2efede05ba16ea05f03c9">scrimmage::autonomy::TrajectoryPoint</a>
 </li>
 <li>TrajectoryRecordPlayback()
 : <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aca35b76b7d6ad125bf24d10f5ca5e0e2">scrimmage::autonomy::TrajectoryRecordPlayback</a>
@@ -446,24 +448,28 @@ $(document).ready(function(){initNavTree('functions_t.html',''); initResizable()
 <li>type()
 : <a class="el" href="classscrimmage_1_1autonomy_1_1PyAutonomy.html#a5be6db5c97d67a400c01d12ed65b0af3">scrimmage::autonomy::PyAutonomy</a>
 , <a class="el" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">scrimmage::Autonomy</a>
-, <a class="el" href="classscrimmage_1_1Contact.html#a5a0679dfa9020d662094e5b275b1f5c5">scrimmage::Contact</a>
 </li>
 <li>Type
 : <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abd">scrimmage::Contact</a>
 </li>
 <li>type()
-: <a class="el" href="classscrimmage_1_1Entity.html#a6afb730040e5e6c98a105d7eeb311c2e">scrimmage::Entity</a>
+: <a class="el" href="classscrimmage_1_1Contact.html#a5a0679dfa9020d662094e5b275b1f5c5">scrimmage::Contact</a>
+, <a class="el" href="classscrimmage_1_1Entity.html#a6afb730040e5e6c98a105d7eeb311c2e">scrimmage::Entity</a>
 , <a class="el" href="classscrimmage_1_1MotionModel.html#aed08887055da65dca2bd1c0e9c6c65b9">scrimmage::MotionModel</a>
 , <a class="el" href="classscrimmage_1_1Network.html#a36b06560b4c6daa899c0cafa9886109e">scrimmage::Network</a>
 , <a class="el" href="classscrimmage_1_1Plugin.html#a83e4f1983cc998530df754be6779aae1">scrimmage::Plugin</a>
 , <a class="el" href="classscrimmage_1_1PluginInfo.html#adf5a766a04cb48709644367e38000203">scrimmage::PluginInfo</a>
 , <a class="el" href="classscrimmage_1_1sensor_1_1RayTrace.html#a83d799b4e8c7b5d90b78729748d6496b">scrimmage::sensor::RayTrace</a>
 , <a class="el" href="classscrimmage_1_1Sensor.html#ac932d46e7643152eed5b60694f2abbee">scrimmage::Sensor</a>
-, <a class="el" href="structscrimmage_1_1SimControl_1_1Task.html#a1437625c6b273dc8d671417b16583f2b">scrimmage::SimControl::Task</a>
 </li>
 <li>Type
 : <a class="el" href="structscrimmage_1_1SimControl_1_1Task.html#a24d9f78f602ef9235e92a3c15830d920">scrimmage::SimControl::Task</a>
-, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4">scrimmage::VariableIO</a>
+</li>
+<li>type
+: <a class="el" href="structscrimmage_1_1SimControl_1_1Task.html#a1437625c6b273dc8d671417b16583f2b">scrimmage::SimControl::Task</a>
+</li>
+<li>Type
+: <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4">scrimmage::VariableIO</a>
 </li>
 <li>type_
 : <a class="el" href="classscrimmage_1_1Contact.html#aeb8eb5539b06eedcab4bdb016747a943">scrimmage::Contact</a>
@@ -481,7 +487,7 @@ $(document).ready(function(){initNavTree('functions_t.html',''); initResizable()
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Oct 28 2020 13:43:44 for SCRIMMAGE by
+    <li class="footer">Generated on Tue Nov 3 2020 18:25:23 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

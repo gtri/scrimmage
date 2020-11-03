@@ -1,6 +1,6 @@
 var classscrimmage_1_1Entity =
 [
-    [ "init", "classscrimmage_1_1Entity.html#a742d2d316cf07a741002e9303bf090ce", null ],
+    [ "init", "classscrimmage_1_1Entity.html#ad852aad2e5b0eff3a6ba76244218e7a8", null ],
     [ "print_plugins", "classscrimmage_1_1Entity.html#a3f0fca81cfe301b3626f8c91044e8614", null ],
     [ "parse_visual", "classscrimmage_1_1Entity.html#a0f933e41855d10195a40d4300acb119f", null ],
     [ "close", "classscrimmage_1_1Entity.html#a5e17f65b64cbd368bb2e6284f115c280", null ],
@@ -47,9 +47,11 @@ var classscrimmage_1_1Entity =
     [ "plugin_manager", "classscrimmage_1_1Entity.html#a82d54160b13134ef46eeef9e1419dea8", null ],
     [ "file_search", "classscrimmage_1_1Entity.html#a418a22dd9e88f347e59c45379309a7e1", null ],
     [ "pubsub", "classscrimmage_1_1Entity.html#ab587d12ed9d63612f84e88ec23be2ea3", null ],
+    [ "printer", "classscrimmage_1_1Entity.html#a9a27d2cac7249a346fe28e7e8ad5e34d", null ],
     [ "param_server", "classscrimmage_1_1Entity.html#aba20087f34f68eab4b574084f25935c1", null ],
     [ "radius", "classscrimmage_1_1Entity.html#a872f8be2aff00c05e27698722274f5ec", null ],
     [ "set_time_ptr", "classscrimmage_1_1Entity.html#a0c5ce169d8fd7f0bd7f4fa64226ce709", null ],
+    [ "set_printer", "classscrimmage_1_1Entity.html#af1e8d268a75a25d57e7a7723fb52fbbb", null ],
     [ "print", "classscrimmage_1_1Entity.html#a3e9176a39139a80c8fd1d51f49e6539b", null ],
     [ "id_", "classscrimmage_1_1Entity.html#a776ab8049442e7a6fce1bfbac18974d2", null ],
     [ "visual_", "classscrimmage_1_1Entity.html#a4570f11d983305b1984641fb0ba966f5", null ],
@@ -75,6 +77,7 @@ var classscrimmage_1_1Entity =
     [ "plugin_manager_", "classscrimmage_1_1Entity.html#a694b744d0bbe1d01c92f83c5a44083cb", null ],
     [ "file_search_", "classscrimmage_1_1Entity.html#aa057c48b5c4359b97c428d3fb55fd079", null ],
     [ "pubsub_", "classscrimmage_1_1Entity.html#a0642d0781f3eb965c5f983585f3f3dcb", null ],
+    [ "printer_", "classscrimmage_1_1Entity.html#ae54363f2779fd86f841bec1f6d706b9c", null ],
     [ "global_services_", "classscrimmage_1_1Entity.html#a5666f80dd82e79dc7eec54e8aca880cd", null ],
     [ "param_server_", "classscrimmage_1_1Entity.html#a146165d5c94a2898ba3b9cfdcb63803d", null ],
     [ "time_", "classscrimmage_1_1Entity.html#abe8652e75a4d29a64cca3f1074552ef5", null ]

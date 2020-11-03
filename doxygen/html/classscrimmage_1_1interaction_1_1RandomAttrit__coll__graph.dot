@@ -6,12 +6,12 @@ digraph "scrimmage::interaction::RandomAttrit"
   Node1 [label="{scrimmage::interaction\l::RandomAttrit\n|# started_\l# team_id_\l# start_wait_time_s_\l# duration_s_\l# total_num_entities_\l# start_num_ent_\l# num_ent_\l|+ RandomAttrit()\l+ init()\l+ step_entity_interaction()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
   Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
-  Node79 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #random_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node79 [label="{scrimmage::Random\n|# seed_\l# rng_normal_\l# rng_uniform_\l|+ Random()\l+ get_seed()\l+ seed()\l+ seed()\l+ rng_uniform()\l+ rng_uniform()\l+ rng_normal()\l+ rng_normal()\l+ rng_uniform_int()\l+ make_rng_normal()\l+ rng_discrete_int()\l+ gener()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Random.html",tooltip=" "];
+  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #random_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node86 [label="{scrimmage::Random\n|# seed_\l# rng_normal_\l# rng_uniform_\l|+ Random()\l+ get_seed()\l+ seed()\l+ seed()\l+ rng_uniform()\l+ rng_uniform()\l+ rng_normal()\l+ rng_normal()\l+ rng_uniform_int()\l+ make_rng_normal()\l+ rng_discrete_int()\l+ gener()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Random.html",tooltip=" "];
   Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #decay_method_" ,arrowhead="odiamond",fontname="Helvetica"];
   Node6 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #stay_alive_ids_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::vector\< int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node87 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #attrit_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node87 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #stay_alive_ids_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::vector\< int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node94 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #attrit_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node94 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

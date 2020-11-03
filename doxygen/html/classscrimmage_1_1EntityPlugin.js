@@ -23,6 +23,7 @@ var classscrimmage_1_1EntityPlugin =
     [ "subs", "classscrimmage_1_1EntityPlugin.html#a8868803dc5a863aed93008c22ea31beb", null ],
     [ "set_time", "classscrimmage_1_1EntityPlugin.html#ab45123eda477fa407d6177ab23da2aa8", null ],
     [ "set_time", "classscrimmage_1_1EntityPlugin.html#ac84fea261b921876f2a53c7fc3b8b0c3", null ],
+    [ "getTime", "classscrimmage_1_1EntityPlugin.html#a7f3aea0853df1cc2da2ffac109beeb41", null ],
     [ "draw_shape", "classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098", null ],
     [ "set_param_server", "classscrimmage_1_1EntityPlugin.html#a69de203df586b33e5092fe4b303b9814", null ],
     [ "register_param", "classscrimmage_1_1EntityPlugin.html#ac88ed372d1e0516e29c5bcebc4164179", null ],

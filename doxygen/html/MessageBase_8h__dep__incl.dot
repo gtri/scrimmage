@@ -6,12 +6,12 @@ digraph "/root/scrimmage/scrimmage/include/scrimmage/pubsub/MessageBase.h"
   Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/MessageBase.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/Message.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Message_8h.html",tooltip="Brief file description."];
-  Node2 -> Node143 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node143 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/NetworkDevice.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$NetworkDevice_8h.html",tooltip="Brief file description."];
-  Node143 -> Node288 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node288 [label="/root/scrimmage/scrimmage\l/src/pubsub/NetworkDevice.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$NetworkDevice_8cpp.html",tooltip="Brief file description."];
-  Node1 -> Node143 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 -> Node290 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node290 [label="/root/scrimmage/scrimmage\l/src/pubsub/MessageBase.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$MessageBase_8cpp.html",tooltip="Brief file description."];
-  Node1 -> Node288 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node144 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node144 [label="/root/scrimmage/scrimmage\l/include/scrimmage/pubsub\l/NetworkDevice.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$NetworkDevice_8h.html",tooltip="Brief file description."];
+  Node144 -> Node289 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node289 [label="/root/scrimmage/scrimmage\l/src/pubsub/NetworkDevice.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$NetworkDevice_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node144 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node291 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node291 [label="/root/scrimmage/scrimmage\l/src/pubsub/MessageBase.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$MessageBase_8cpp.html",tooltip="Brief file description."];
+  Node1 -> Node289 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

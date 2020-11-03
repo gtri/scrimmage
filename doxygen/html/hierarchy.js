@@ -244,14 +244,17 @@ var hierarchy =
       [ "scrimmage::sensor::RayTrace::PointCloudWithId", "classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloudWithId.html", null ]
     ] ],
     [ "scrimmage::interaction::BulletCollision::PointCloudDescription", "structscrimmage_1_1interaction_1_1BulletCollision_1_1PointCloudDescription.html", null ],
+    [ "scrimmage::Print", "classscrimmage_1_1Print.html", null ],
+    [ "scrimmage::PrintData", "structscrimmage_1_1PrintData.html", null ],
+    [ "scrimmage::PrintEnums", "structscrimmage_1_1PrintEnums.html", null ],
     [ "scrimmage::PubSub", "classscrimmage_1_1PubSub.html", null ],
     [ "Quaternion", null, [
       [ "scrimmage::Quaternion", "classscrimmage_1_1Quaternion.html", null ]
     ] ],
     [ "scrimmage::Random", "classscrimmage_1_1Random.html", null ],
     [ "scrimmage::motion::Rotor", "classscrimmage_1_1motion_1_1Rotor.html", null ],
-    [ "scrimmage::RTree", "classscrimmage_1_1RTree.html", null ],
     [ "boost::geometry::index::rtree< T1, T2, T3, T4, T5 >", "classboost_1_1geometry_1_1index_1_1rtree.html", null ],
+    [ "scrimmage::RTree", "classscrimmage_1_1RTree.html", null ],
     [ "scrimmage::interaction::BulletCollision::SceneObject", "structscrimmage_1_1interaction_1_1BulletCollision_1_1SceneObject.html", null ],
     [ "scrimmage::metrics::Score", "classscrimmage_1_1metrics_1_1Score.html", null ],
     [ "Service", null, [

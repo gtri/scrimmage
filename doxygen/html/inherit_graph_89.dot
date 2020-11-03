@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="scrimmage::TeamInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structscrimmage_1_1TeamInfo.html",tooltip=" "];
+  Node0 [label="scrimmage::SimControl\l::Task",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structscrimmage_1_1SimControl_1_1Task.html",tooltip=" "];
 }

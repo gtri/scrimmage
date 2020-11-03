@@ -6,10 +6,10 @@ digraph "scrimmage::sensor::GPS"
   Node1 [label="{scrimmage::sensor::GPS\n|# gps_found_\l# boundary_id_\l|+ GPS()\l+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
   Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #boundary_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::shared_ptr\< scrimmage\l::interaction::BoundaryBase \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node90 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #gps_denied_ids_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node90 [label="{std::vector\< int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node91 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node91 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #boundary_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< scrimmage\l::interaction::BoundaryBase \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node97 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #gps_denied_ids_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node97 [label="{std::vector\< int \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node98 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node98 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

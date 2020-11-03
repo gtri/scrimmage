@@ -6,8 +6,8 @@ digraph "scrimmage::sensor::SimpleINS"
   Node1 [label="{scrimmage::sensor::\lSimpleINS\n|# gps_fix_\l# pos_error_accum_\l# vel_Nminus1\l# accel_\l# m_\l# init_m_\l# surface_timer_\l# prev_time_\l# sea_state_gps_\l# SeaState_\l|+ init()\l+ step()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
   Node2 [label="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1Sensor.html",tooltip=" "];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pos_noise_\n#orient_noise_\n#vel_noise_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::vector\< std::shared\l_ptr\< std::normal_distribution\l\< double \> \> \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node88 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_\n#pub_seastate_\n#pub_cep_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node88 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pos_noise_\n#orient_noise_\n#vel_noise_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::vector\< std::shared\l_ptr\< std::normal_distribution\l\< double \> \> \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node95 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #pub_\n#pub_seastate_\n#pub_cep_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node95 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

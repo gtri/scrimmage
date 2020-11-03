@@ -6,6 +6,6 @@ digraph "scrimmage::interaction::SimpleCollision"
   Node1 [label="{scrimmage::interaction\l::SimpleCollision\n|# collision_range_\l# startup_collision_range_\l# startup_collisions\l_only_\l# enable_team_collisions_\l# enable_non_team_collisions_\l# init_alt_deconflict_\l|+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
   Node2 [label="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classscrimmage_1_1EntityInteraction.html",tooltip=" "];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #non_team_collision\l_pub_\n#team_collision_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #non_team_collision\l_pub_\n#team_collision_pub_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< Publisher \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

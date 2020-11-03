@@ -211,6 +211,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1PluginStatus.html">PluginStatus</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Print.html">Print</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscrimmage_1_1PrintData.html">PrintData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscrimmage_1_1PrintEnums.html">PrintEnums</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1Publisher.html">Publisher</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1PubSub.html">PubSub</a></td></tr>
@@ -298,6 +304,8 @@ Typedefs</h2></td></tr>
 <tr class="separator:a85eb0a47fbe1798b416e6c8a0755b6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ef96c3af42e781c58e85845d0715fee"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a4ef96c3af42e781c58e85845d0715fee">VariableIOPtr</a> = std::shared_ptr&lt; <a class="el" href="classscrimmage_1_1VariableIO.html">VariableIO</a> &gt;</td></tr>
 <tr class="separator:a4ef96c3af42e781c58e85845d0715fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6ee19cb341f21711fc8695bebb3da0f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#ae6ee19cb341f21711fc8695bebb3da0f">PrintPtr</a> = std::shared_ptr&lt; <a class="el" href="classscrimmage_1_1Print.html">Print</a> &gt;</td></tr>
+<tr class="separator:ae6ee19cb341f21711fc8695bebb3da0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ea749535cebe2148958ae7df51cc242"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a7ea749535cebe2148958ae7df51cc242">NetworkPtr</a> = std::shared_ptr&lt; <a class="el" href="classscrimmage_1_1Network.html">Network</a> &gt;</td></tr>
 <tr class="separator:a7ea749535cebe2148958ae7df51cc242"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af51070985dc95355d8e24b702e68d379"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#af51070985dc95355d8e24b702e68d379">NetworkMap</a> = std::map&lt; std::string, <a class="el" href="namespacescrimmage.html#a7ea749535cebe2148958ae7df51cc242">NetworkPtr</a> &gt;</td></tr>
@@ -872,7 +880,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Entity_8h_source.html#l00246">246</a> of file <a class="el" href="Entity_8h_source.html">Entity.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Entity_8h_source.html#l00253">253</a> of file <a class="el" href="Entity_8h_source.html">Entity.h</a>.</p>
 
 </div>
 </div>
@@ -904,7 +912,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00192">192</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00193">193</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
 </div>
 </div>
@@ -956,6 +964,22 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ae6ee19cb341f21711fc8695bebb3da0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6ee19cb341f21711fc8695bebb3da0f">&#9670;&nbsp;</a></span>PrintPtr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::shared_ptr&lt; <a class="el" href="classscrimmage_1_1Print.html">Print</a> &gt; <a class="el" href="namespacescrimmage.html#ae6ee19cb341f21711fc8695bebb3da0f">scrimmage::PrintPtr</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00083">83</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+
+</div>
+</div>
 <a id="a7ea749535cebe2148958ae7df51cc242"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ea749535cebe2148958ae7df51cc242">&#9670;&nbsp;</a></span>NetworkPtr</h2>
 
@@ -968,7 +992,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00092">92</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00095">95</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -984,7 +1008,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00093">93</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00096">96</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +1024,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00094">94</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00097">97</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1016,7 +1040,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00097">97</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00100">100</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1032,7 +1056,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00100">100</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00103">103</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1048,7 +1072,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00103">103</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00106">106</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1064,7 +1088,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00109">109</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00112">112</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1080,7 +1104,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00112">112</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00115">115</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1098,7 +1122,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00118">118</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00121">121</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1114,7 +1138,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00129">129</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00132">132</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1130,7 +1154,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00132">132</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00135">135</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1146,7 +1170,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00135">135</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00138">138</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1162,7 +1186,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00138">138</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00141">141</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1178,7 +1202,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00141">141</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00144">144</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1194,7 +1218,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00146">146</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00149">149</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1210,7 +1234,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00149">149</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00152">152</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1226,7 +1250,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00152">152</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fwd__decl_8h_source.html#l00155">155</a> of file <a class="el" href="fwd__decl_8h_source.html">fwd_decl.h</a>.</p>
 
 </div>
 </div>
@@ -1350,7 +1374,7 @@ template&lt;class ContainerType , class Predicate &gt; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="FileSearch_8cpp_source.html#l00139">scrimmage::FileSearch::find_files()</a>, <a class="el" href="SimControl_8cpp_source.html#l00211">scrimmage::SimControl::generate_entities()</a>, <a class="el" href="CSV_8cpp_source.html#l00277">scrimmage::CSV::get_csv_line_elements()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00258">get_vec_of_vecs()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00372">parse_plugin_vector()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00248">remove_whitespace()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00198">str2bool()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="FileSearch_8cpp_source.html#l00139">scrimmage::FileSearch::find_files()</a>, <a class="el" href="SimControl_8cpp_source.html#l00217">scrimmage::SimControl::generate_entities()</a>, <a class="el" href="CSV_8cpp_source.html#l00277">scrimmage::CSV::get_csv_line_elements()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00258">get_vec_of_vecs()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00372">parse_plugin_vector()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00248">remove_whitespace()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00198">str2bool()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1785,7 +1809,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    std::cout.flush();</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l00547">scrimmage::SimControl::run_single_step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l00553">scrimmage::SimControl::run_single_step()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1925,7 +1949,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Utilities_8cpp_source.html#l00088">get_sha()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01638">scrimmage::SimControl::output_git_summary()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01646">scrimmage::SimControl::output_git_summary()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2046,7 +2070,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">return</span> out;</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01658">scrimmage::SimControl::output_summary()</a>, and <a class="el" href="CPA_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01666">scrimmage::SimControl::output_summary()</a>, and <a class="el" href="CPA_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2390,7 +2414,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00088">scrimmage::VariableIO::input_variable_index()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00106">scrimmage::External::create_entity()</a>, and <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00107">scrimmage::External::create_entity()</a>, and <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2443,7 +2467,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00179">scrimmage::VariableIO::declared_input_variables()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00183">scrimmage::VariableIO::declared_output_variables()</a>, and <a class="el" href="Algorithm_8h_source.html#l00059">set_difference()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00106">scrimmage::External::create_entity()</a>, and <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00107">scrimmage::External::create_entity()</a>, and <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2751,7 +2775,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Algorithm_8h_source.html#l00046">remove_if()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ParseUtils_8h_source.html#l00075">convert&lt; bool &gt;()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00686">scrimmage::MissionParse::create_log_dir()</a>, <a class="el" href="JSBSimModelControllerDirect_8cpp_source.html#l00044">scrimmage::controller::JSBSimModelControllerDirect::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="DoubleIntegrator_8cpp_source.html#l00057">scrimmage::motion::DoubleIntegrator::init()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00049">scrimmage::controller::SimpleAircraftControllerPID::init()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00072">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="RLSimple_8cpp_source.html#l00045">scrimmage::autonomy::RLSimple::init_helper()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00083">scrimmage::MissionParse::parse()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00791">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00672">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ParseUtils_8h_source.html#l00075">convert&lt; bool &gt;()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00686">scrimmage::MissionParse::create_log_dir()</a>, <a class="el" href="JSBSimModelControllerDirect_8cpp_source.html#l00044">scrimmage::controller::JSBSimModelControllerDirect::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="DoubleIntegrator_8cpp_source.html#l00057">scrimmage::motion::DoubleIntegrator::init()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00049">scrimmage::controller::SimpleAircraftControllerPID::init()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00072">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="RLSimple_8cpp_source.html#l00045">scrimmage::autonomy::RLSimple::init_helper()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00083">scrimmage::MissionParse::parse()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00791">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00678">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2959,7 +2983,7 @@ template&lt;class T1 , class T2  = T1&gt; </div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">return</span> it == map.end() ? default_val : convert&lt;T2&gt;(it-&gt;second);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01476">scrimmage::SimControl::add_tasks()</a>, <a class="el" href="SimControl_8cpp_source.html#l00282">scrimmage::SimControl::generate_entity()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00215">get_vec()</a>, <a class="el" href="SingleIntegrator_8cpp_source.html#l00047">scrimmage::motion::SingleIntegrator::init()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00048">scrimmage::controller::SimpleQuadrotorControllerLQR::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00053">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00047">scrimmage::controller::JSBSimModelControllerHeadingPID::init()</a>, <a class="el" href="SimpleCollision_8cpp_source.html#l00057">scrimmage::interaction::SimpleCollision::init()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00061">scrimmage::interaction::GroundCollision::init()</a>, <a class="el" href="RigidBody6DOF_8cpp_source.html#l00084">scrimmage::motion::RigidBody6DOF::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00113">scrimmage::interaction::BulletCollision::init()</a>, <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>, <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00076">scrimmage::autonomy::ScrimmageOpenAIAutonomy::init()</a>, <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00791">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="Viewer_8cpp_source.html#l00109">scrimmage::Viewer::run()</a>, <a class="el" href="External_8cpp_source.html#l00257">scrimmage::External::setup_logging()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00672">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01484">scrimmage::SimControl::add_tasks()</a>, <a class="el" href="SimControl_8cpp_source.html#l00288">scrimmage::SimControl::generate_entity()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00215">get_vec()</a>, <a class="el" href="SingleIntegrator_8cpp_source.html#l00047">scrimmage::motion::SingleIntegrator::init()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00048">scrimmage::controller::SimpleQuadrotorControllerLQR::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00053">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00047">scrimmage::controller::JSBSimModelControllerHeadingPID::init()</a>, <a class="el" href="SimpleCollision_8cpp_source.html#l00057">scrimmage::interaction::SimpleCollision::init()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00061">scrimmage::interaction::GroundCollision::init()</a>, <a class="el" href="RigidBody6DOF_8cpp_source.html#l00084">scrimmage::motion::RigidBody6DOF::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00072">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00113">scrimmage::interaction::BulletCollision::init()</a>, <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>, <a class="el" href="ScrimmageOpenAIAutonomy_8cpp_source.html#l00076">scrimmage::autonomy::ScrimmageOpenAIAutonomy::init()</a>, <a class="el" href="ActorFunc_8cpp_source.html#l00057">scrimmage::autonomy::init_actor_func()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00791">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="Viewer_8cpp_source.html#l00109">scrimmage::Viewer::run()</a>, <a class="el" href="External_8cpp_source.html#l00259">scrimmage::External::setup_logging()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00678">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -3101,7 +3125,7 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="ParseUtils_8cpp_source.html#l00343">split()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ParseUtils_8cpp_source.html#l00101">find_model_properties()</a>, <a class="el" href="Updater_8cpp_source.html#l02400">scrimmage::Updater::get_model_texture()</a>, <a class="el" href="ParseUtils_8h_source.html#l00157">get_vec()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00045">scrimmage::controller::DoubleIntegratorControllerWaypoint::init()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00064">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="GPS_8cpp_source.html#l00068">scrimmage::sensor::GPS::init()</a>, <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00083">scrimmage::MissionParse::parse()</a>, <a class="el" href="Entity_8cpp_source.html#l00466">scrimmage::Entity::parse_visual()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, and <a class="el" href="Viewer_8cpp_source.html#l00109">scrimmage::Viewer::run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ParseUtils_8cpp_source.html#l00101">find_model_properties()</a>, <a class="el" href="Updater_8cpp_source.html#l02400">scrimmage::Updater::get_model_texture()</a>, <a class="el" href="ParseUtils_8h_source.html#l00157">get_vec()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00045">scrimmage::controller::DoubleIntegratorControllerWaypoint::init()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00064">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="GPS_8cpp_source.html#l00068">scrimmage::sensor::GPS::init()</a>, <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00083">scrimmage::MissionParse::parse()</a>, <a class="el" href="Entity_8cpp_source.html#l00468">scrimmage::Entity::parse_visual()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, and <a class="el" href="Viewer_8cpp_source.html#l00109">scrimmage::Viewer::run()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3657,7 +3681,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="ConfigParse_8cpp_source.html#l00165">scrimmage::ConfigParse::directory()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00105">scrimmage::ConfigParse::parse()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00059">scrimmage::ConfigParse::set_required()</a>, and <a class="el" href="ParseUtils_8h_source.html#l00092">str2container()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Entity_8cpp_source.html#l00466">scrimmage::Entity::parse_visual()</a>, and <a class="el" href="Updater_8cpp_source.html#l01156">scrimmage::Updater::update_contact_visual()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Entity_8cpp_source.html#l00468">scrimmage::Entity::parse_visual()</a>, and <a class="el" href="Updater_8cpp_source.html#l01156">scrimmage::Updater::update_contact_visual()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -4226,7 +4250,7 @@ template&lt;class T &gt; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    dst-&gt;set_z(src(2));</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="ProtoConversions_8cpp_source.html#l00188">add_point_color()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00277">create_frame()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00207">scrimmage::sensor::ContactBlobCamera::draw_frustum()</a>, <a class="el" href="GraphUtils_8cpp_source.html#l00054">scrimmage::interaction::draw_graph()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00064">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00113">scrimmage::interaction::BulletCollision::init()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00093">scrimmage::autonomy::Waypoint::lla_proto()</a>, <a class="el" href="Shape_8cpp_source.html#l00056">scrimmage::shape::make_arc()</a>, <a class="el" href="Shape_8cpp_source.html#l00070">scrimmage::shape::make_arrow()</a>, <a class="el" href="Shape_8cpp_source.html#l00082">scrimmage::shape::make_circle()</a>, <a class="el" href="Shape_8cpp_source.html#l00095">scrimmage::shape::make_cone()</a>, <a class="el" href="Shape_8cpp_source.html#l00109">scrimmage::shape::make_cuboid()</a>, <a class="el" href="Shape_8cpp_source.html#l00125">scrimmage::shape::make_ellipse()</a>, <a class="el" href="Shape_8cpp_source.html#l00139">scrimmage::shape::make_line()</a>, <a class="el" href="Shape_8cpp_source.html#l00149">scrimmage::shape::make_mesh()</a>, <a class="el" href="Shape_8cpp_source.html#l00163">scrimmage::shape::make_plane()</a>, <a class="el" href="Shape_8cpp_source.html#l00181">scrimmage::shape::make_pointcloud()</a>, <a class="el" href="Shape_8cpp_source.html#l00195">scrimmage::shape::make_polydata()</a>, <a class="el" href="Shape_8cpp_source.html#l00206">scrimmage::shape::make_polygon()</a>, <a class="el" href="Shape_8cpp_source.html#l00217">scrimmage::shape::make_polyhedron()</a>, <a class="el" href="Shape_8cpp_source.html#l00228">scrimmage::shape::make_polyline()</a>, <a class="el" href="Shape_8cpp_source.html#l00046">scrimmage::shape::make_shape()</a>, <a class="el" href="Shape_8cpp_source.html#l00239">scrimmage::shape::make_sphere()</a>, <a class="el" href="Shape_8cpp_source.html#l00249">scrimmage::shape::make_spline()</a>, <a class="el" href="Shape_8cpp_source.html#l00260">scrimmage::shape::make_text()</a>, <a class="el" href="Shape_8cpp_source.html#l00271">scrimmage::shape::make_triangle()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00791">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="Entity_8cpp_source.html#l00466">scrimmage::Entity::parse_visual()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00234">path_to_lines()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00246">points_to_lines()</a>, <a class="el" href="TerrainMap_8cpp_source.html#l00234">scrimmage::interaction::TerrainMap::proto()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00318">proto_2_contact()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00225">proto_2_state()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00700">scrimmage::interaction::BulletCollision::remove_object()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00085">set()</a>, <a class="el" href="Sphere_8h_source.html#l00075">scrimmage::interaction::Sphere::set_visual()</a>, <a class="el" href="Polyhedron_8h_source.html#l00135">scrimmage::interaction::Polyhedron::set_visual()</a>, <a class="el" href="Cuboid_8h_source.html#l00151">scrimmage::interaction::Cuboid::set_visual()</a>, <a class="el" href="Plane_8h_source.html#l00159">scrimmage::interaction::Plane::set_visual()</a>, <a class="el" href="TerrainMap_8cpp_source.html#l00216">scrimmage::interaction::TerrainMap::shape()</a>, <a class="el" href="SimControl_8cpp_source.html#l00672">scrimmage::SimControl::start()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00382">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00261">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00270">scrimmage::motion::FixedWing6DOF::step()</a>, <a class="el" href="Boids_8cpp_source.html#l00098">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00379">scrimmage::interaction::BulletCollision::step_entity_interaction()</a>, <a class="el" href="TerrainMap_8cpp_source.html#l00071">scrimmage::interaction::TerrainMap::TerrainMap()</a>, <a class="el" href="Updater_8cpp_source.html#l01156">scrimmage::Updater::update_contact_visual()</a>, <a class="el" href="Updater_8cpp_source.html#l01008">scrimmage::Updater::update_contacts()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00062">scrimmage::autonomy::Waypoint::Waypoint()</a>, and <a class="el" href="Updater_8cpp_source.html#l01423">scrimmage::Updater::world_point_clicked()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ProtoConversions_8cpp_source.html#l00188">add_point_color()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00277">create_frame()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00207">scrimmage::sensor::ContactBlobCamera::draw_frustum()</a>, <a class="el" href="GraphUtils_8cpp_source.html#l00054">scrimmage::interaction::draw_graph()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00064">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00113">scrimmage::interaction::BulletCollision::init()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00093">scrimmage::autonomy::Waypoint::lla_proto()</a>, <a class="el" href="Shape_8cpp_source.html#l00056">scrimmage::shape::make_arc()</a>, <a class="el" href="Shape_8cpp_source.html#l00070">scrimmage::shape::make_arrow()</a>, <a class="el" href="Shape_8cpp_source.html#l00082">scrimmage::shape::make_circle()</a>, <a class="el" href="Shape_8cpp_source.html#l00095">scrimmage::shape::make_cone()</a>, <a class="el" href="Shape_8cpp_source.html#l00109">scrimmage::shape::make_cuboid()</a>, <a class="el" href="Shape_8cpp_source.html#l00125">scrimmage::shape::make_ellipse()</a>, <a class="el" href="Shape_8cpp_source.html#l00139">scrimmage::shape::make_line()</a>, <a class="el" href="Shape_8cpp_source.html#l00149">scrimmage::shape::make_mesh()</a>, <a class="el" href="Shape_8cpp_source.html#l00163">scrimmage::shape::make_plane()</a>, <a class="el" href="Shape_8cpp_source.html#l00181">scrimmage::shape::make_pointcloud()</a>, <a class="el" href="Shape_8cpp_source.html#l00195">scrimmage::shape::make_polydata()</a>, <a class="el" href="Shape_8cpp_source.html#l00206">scrimmage::shape::make_polygon()</a>, <a class="el" href="Shape_8cpp_source.html#l00217">scrimmage::shape::make_polyhedron()</a>, <a class="el" href="Shape_8cpp_source.html#l00228">scrimmage::shape::make_polyline()</a>, <a class="el" href="Shape_8cpp_source.html#l00046">scrimmage::shape::make_shape()</a>, <a class="el" href="Shape_8cpp_source.html#l00239">scrimmage::shape::make_sphere()</a>, <a class="el" href="Shape_8cpp_source.html#l00249">scrimmage::shape::make_spline()</a>, <a class="el" href="Shape_8cpp_source.html#l00260">scrimmage::shape::make_text()</a>, <a class="el" href="Shape_8cpp_source.html#l00271">scrimmage::shape::make_triangle()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00791">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="Entity_8cpp_source.html#l00468">scrimmage::Entity::parse_visual()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00234">path_to_lines()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00246">points_to_lines()</a>, <a class="el" href="TerrainMap_8cpp_source.html#l00234">scrimmage::interaction::TerrainMap::proto()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00318">proto_2_contact()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00225">proto_2_state()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00700">scrimmage::interaction::BulletCollision::remove_object()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00085">set()</a>, <a class="el" href="Sphere_8h_source.html#l00075">scrimmage::interaction::Sphere::set_visual()</a>, <a class="el" href="Polyhedron_8h_source.html#l00135">scrimmage::interaction::Polyhedron::set_visual()</a>, <a class="el" href="Cuboid_8h_source.html#l00151">scrimmage::interaction::Cuboid::set_visual()</a>, <a class="el" href="Plane_8h_source.html#l00159">scrimmage::interaction::Plane::set_visual()</a>, <a class="el" href="TerrainMap_8cpp_source.html#l00216">scrimmage::interaction::TerrainMap::shape()</a>, <a class="el" href="SimControl_8cpp_source.html#l00678">scrimmage::SimControl::start()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00382">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00261">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00270">scrimmage::motion::FixedWing6DOF::step()</a>, <a class="el" href="Boids_8cpp_source.html#l00098">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00379">scrimmage::interaction::BulletCollision::step_entity_interaction()</a>, <a class="el" href="TerrainMap_8cpp_source.html#l00071">scrimmage::interaction::TerrainMap::TerrainMap()</a>, <a class="el" href="Updater_8cpp_source.html#l01156">scrimmage::Updater::update_contact_visual()</a>, <a class="el" href="Updater_8cpp_source.html#l01008">scrimmage::Updater::update_contacts()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00062">scrimmage::autonomy::Waypoint::Waypoint()</a>, and <a class="el" href="Updater_8cpp_source.html#l01423">scrimmage::Updater::world_point_clicked()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -5606,7 +5630,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda99b4a8bfcb7ebe3195f12cce2b9594bf">scrimmage::Contact::AIRCRAFT</a>, <a class="el" href="ID_8cpp_source.html#l00050">scrimmage::ID::id()</a>, <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda5b65fe46c5dd90ebcec69c472c3be1d9">scrimmage::Contact::MESH</a>, <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abdabb054dc5eabd9c9e008eb7804df0fcd1">scrimmage::Contact::QUADROTOR</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00047">set()</a>, and <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda6f7cea7381e843e2ee0338b4a92b0d43">scrimmage::Contact::SPHERE</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l00507">scrimmage::SimControl::run_logging()</a>, and <a class="el" href="External_8cpp_source.html#l00271">scrimmage::External::step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l00513">scrimmage::SimControl::run_logging()</a>, and <a class="el" href="External_8cpp_source.html#l00273">scrimmage::External::step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5711,39 +5735,40 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            ent_inter-&gt;parent()-&gt;rtree() = info.rtree;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            ent_inter-&gt;parent()-&gt;contacts() = contacts;</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            ent_inter-&gt;parent()-&gt;set_global_services(global_services);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="comment">// Plugin specific members</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            ent_inter-&gt;set_name(name);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            ent_inter-&gt;set_pubsub(info.pubsub);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            ent_inter-&gt;set_time(info.time);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            ent_inter-&gt;set_param_server(info.param_server);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            ent_inter-&gt;set_id_to_team_map(info.id_to_team_map);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            ent_inter-&gt;set_id_to_ent_map(info.id_to_ent_map);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            param_override_func(config_parse.params());</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">if</span> (debug_level &gt; 1) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;--------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;Entity interaction plugin params: &quot;</span> &lt;&lt; name &lt;&lt; endl;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                cout &lt;&lt; config_parse;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            ent_inter-&gt;init(info.mp-&gt;params(), config_parse.params());</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="comment">// Get shapes from plugin</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            shapes.insert(</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                shapes.end(), ent_inter-&gt;shapes().begin(), ent_inter-&gt;shapes().end());</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            ent_inter-&gt;shapes().clear();</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            ent_inters.push_back(ent_inter);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            ent_inter-&gt;parent()-&gt;set_printer(info.printer);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="comment">// Plugin specific members</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            ent_inter-&gt;set_name(name);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            ent_inter-&gt;set_pubsub(info.pubsub);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            ent_inter-&gt;set_time(info.time);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            ent_inter-&gt;set_param_server(info.param_server);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            ent_inter-&gt;set_id_to_team_map(info.id_to_team_map);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            ent_inter-&gt;set_id_to_ent_map(info.id_to_ent_map);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            param_override_func(config_parse.params());</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">if</span> (debug_level &gt; 1) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;--------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;Entity interaction plugin params: &quot;</span> &lt;&lt; name &lt;&lt; endl;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                cout &lt;&lt; config_parse;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            ent_inter-&gt;init(info.mp-&gt;params(), config_parse.params());</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="comment">// Get shapes from plugin</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            shapes.insert(</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                shapes.end(), ent_inter-&gt;shapes().begin(), ent_inter-&gt;shapes().end());</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            ent_inter-&gt;shapes().clear();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            ent_inters.push_back(ent_inter);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="SimUtils_8h_source.html#l00056">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="SimUtils_8h_source.html#l00054">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="SimUtils_8h_source.html#l00055">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="SimUtils_8h_source.html#l00058">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00057">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>, and <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::time</a>.</p>
+<p class="reference">References <a class="el" href="SimUtils_8h_source.html#l00056">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="SimUtils_8h_source.html#l00064">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="SimUtils_8h_source.html#l00054">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="SimUtils_8h_source.html#l00055">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::printer</a>, <a class="el" href="SimUtils_8h_source.html#l00058">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00057">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>, and <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::time</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00106">scrimmage::External::create_entity()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00672">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00107">scrimmage::External::create_entity()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00678">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5807,58 +5832,59 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00123">123</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                                            {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">for</span> (std::string metrics_name : info.mp-&gt;metrics()) {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        ConfigParse config_parse;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        std::map&lt;std::string, std::string&gt; &amp;overrides =</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            info.mp-&gt;attributes()[metrics_name];</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        PluginStatus&lt;Metrics&gt; status =</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            info.plugin_manager-&gt;make_plugin&lt;Metrics&gt;(</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="stringliteral">&quot;scrimmage::Metrics&quot;</span>, metrics_name,</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                *info.file_search, config_parse, overrides,</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                plugin_tags);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Metrics&gt;::cast_failed) {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;Failed to load metrics: &quot;</span> &lt;&lt; metrics_name &lt;&lt; endl;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Metrics&gt;::loaded) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <a class="code" href="namespacescrimmage.html#ab7d3fe5e4e0cddb46b9763146f410a90">MetricsPtr</a> metrics = status.plugin;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="comment">// Parent specific members</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            metrics-&gt;parent()-&gt;set_random(info.random);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            metrics-&gt;parent()-&gt;set_mp(info.mp);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            metrics-&gt;parent()-&gt;set_projection(info.mp-&gt;projection());</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            metrics-&gt;parent()-&gt;rtree() = info.rtree;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            metrics-&gt;parent()-&gt;contacts() = contacts;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="comment">// Plugin specific members</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            metrics-&gt;set_name(metrics_name);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            metrics-&gt;set_pubsub(info.pubsub);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            metrics-&gt;set_time(info.time);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            metrics-&gt;set_param_server(info.param_server);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            metrics-&gt;set_id_to_team_map(info.id_to_team_map);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            metrics-&gt;set_id_to_ent_map(info.id_to_ent_map);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            param_override_func(config_parse.params());</div>
+<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00124">124</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                            {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">for</span> (std::string metrics_name : info.mp-&gt;metrics()) {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        ConfigParse config_parse;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        std::map&lt;std::string, std::string&gt; &amp;overrides =</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            info.mp-&gt;attributes()[metrics_name];</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        PluginStatus&lt;Metrics&gt; status =</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            info.plugin_manager-&gt;make_plugin&lt;Metrics&gt;(</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="stringliteral">&quot;scrimmage::Metrics&quot;</span>, metrics_name,</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                *info.file_search, config_parse, overrides,</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                plugin_tags);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Metrics&gt;::cast_failed) {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;Failed to load metrics: &quot;</span> &lt;&lt; metrics_name &lt;&lt; endl;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Metrics&gt;::loaded) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <a class="code" href="namespacescrimmage.html#ab7d3fe5e4e0cddb46b9763146f410a90">MetricsPtr</a> metrics = status.plugin;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="comment">// Parent specific members</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            metrics-&gt;parent()-&gt;set_random(info.random);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            metrics-&gt;parent()-&gt;set_mp(info.mp);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            metrics-&gt;parent()-&gt;set_projection(info.mp-&gt;projection());</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            metrics-&gt;parent()-&gt;rtree() = info.rtree;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            metrics-&gt;parent()-&gt;contacts() = contacts;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            metrics-&gt;parent()-&gt;set_printer(info.printer);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <span class="comment">// Plugin specific members</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            metrics-&gt;set_name(metrics_name);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            metrics-&gt;set_pubsub(info.pubsub);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            metrics-&gt;set_time(info.time);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            metrics-&gt;set_param_server(info.param_server);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            metrics-&gt;set_id_to_team_map(info.id_to_team_map);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            metrics-&gt;set_id_to_ent_map(info.id_to_ent_map);</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">if</span> (debug_level &gt; 1) {</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;--------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;Metrics plugin params: &quot;</span> &lt;&lt; metrics_name &lt;&lt; endl;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                cout &lt;&lt; config_parse;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            metrics-&gt;init(config_parse.params());</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            metrics_list.push_back(metrics);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            param_override_func(config_parse.params());</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="keywordflow">if</span> (debug_level &gt; 1) {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;--------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;Metrics plugin params: &quot;</span> &lt;&lt; metrics_name &lt;&lt; endl;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                cout &lt;&lt; config_parse;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            }</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            metrics-&gt;init(config_parse.params());</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            metrics_list.push_back(metrics);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="SimUtils_8h_source.html#l00056">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="SimUtils_8h_source.html#l00054">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="SimUtils_8h_source.html#l00055">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="SimUtils_8h_source.html#l00058">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00057">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>, and <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::time</a>.</p>
+<p class="reference">References <a class="el" href="SimUtils_8h_source.html#l00056">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="SimUtils_8h_source.html#l00064">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="SimUtils_8h_source.html#l00054">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="SimUtils_8h_source.html#l00055">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::printer</a>, <a class="el" href="SimUtils_8h_source.html#l00058">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00057">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>, and <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::time</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00106">scrimmage::External::create_entity()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00672">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00107">scrimmage::External::create_entity()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00678">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5916,58 +5942,59 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00229">229</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                                             {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordflow">for</span> (std::string network_name : info.mp-&gt;network_names()) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        ConfigParse config_parse;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        std::map&lt;std::string, std::string&gt; &amp;overrides =</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            info.mp-&gt;attributes()[network_name];</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        PluginStatus&lt;Network&gt; status =</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            info.plugin_manager-&gt;make_plugin&lt;Network&gt;(</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                <span class="stringliteral">&quot;scrimmage::Network&quot;</span>, network_name, *info.file_search,</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                config_parse, overrides, plugin_tags);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Network&gt;::cast_failed) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;Failed to load network plugin: &quot;</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                &lt;&lt; network_name &lt;&lt; endl;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Network&gt;::loaded) {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <a class="code" href="namespacescrimmage.html#a7ea749535cebe2148958ae7df51cc242">NetworkPtr</a> network = status.plugin;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="comment">// If the name was overridden, use the override.</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            std::string name =</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                get&lt;std::string&gt;(<span class="stringliteral">&quot;name&quot;</span>, config_parse.params(), network_name);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            network-&gt;set_name(name);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            network-&gt;set_mission_parse(info.mp);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            network-&gt;set_time(info.time);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            network-&gt;set_param_server(info.param_server);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            network-&gt;set_pubsub(info.pubsub);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            network-&gt;set_random(info.random);</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            network-&gt;set_rtree(info.rtree);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            network-&gt;set_id_to_team_map(info.id_to_team_map);</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            network-&gt;set_id_to_ent_map(info.id_to_ent_map);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <span class="comment">// Seed the pubsub with network names</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            info.pubsub-&gt;add_network_name(name);</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            param_override_func(config_parse.params());</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">if</span> (debug_level &gt; 1) {</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;--------------------------------&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;Network plugin params: &quot;</span> &lt;&lt; name &lt;&lt; endl;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                cout &lt;&lt; config_parse;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            }</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            network-&gt;init(info.mp-&gt;params(), config_parse.params());</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            networks[name] = network;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        }</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    }</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00231">231</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                                             {</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">for</span> (std::string network_name : info.mp-&gt;network_names()) {</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        ConfigParse config_parse;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        std::map&lt;std::string, std::string&gt; &amp;overrides =</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            info.mp-&gt;attributes()[network_name];</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        PluginStatus&lt;Network&gt; status =</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            info.plugin_manager-&gt;make_plugin&lt;Network&gt;(</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                <span class="stringliteral">&quot;scrimmage::Network&quot;</span>, network_name, *info.file_search,</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                config_parse, overrides, plugin_tags);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Network&gt;::cast_failed) {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;Failed to load network plugin: &quot;</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                &lt;&lt; network_name &lt;&lt; endl;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (status.status == PluginStatus&lt;Network&gt;::loaded) {</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <a class="code" href="namespacescrimmage.html#a7ea749535cebe2148958ae7df51cc242">NetworkPtr</a> network = status.plugin;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="comment">// If the name was overridden, use the override.</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            std::string name =</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                get&lt;std::string&gt;(<span class="stringliteral">&quot;name&quot;</span>, config_parse.params(), network_name);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            network-&gt;parent()-&gt;set_printer(info.printer);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            network-&gt;set_name(name);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            network-&gt;set_mission_parse(info.mp);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            network-&gt;set_time(info.time);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            network-&gt;set_param_server(info.param_server);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            network-&gt;set_pubsub(info.pubsub);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            network-&gt;set_random(info.random);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            network-&gt;set_rtree(info.rtree);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            network-&gt;set_id_to_team_map(info.id_to_team_map);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            network-&gt;set_id_to_ent_map(info.id_to_ent_map);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="comment">// Seed the pubsub with network names</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            info.pubsub-&gt;add_network_name(name);</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            param_override_func(config_parse.params());</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            <span class="keywordflow">if</span> (debug_level &gt; 1) {</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;--------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;Network plugin params: &quot;</span> &lt;&lt; name &lt;&lt; endl;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                cout &lt;&lt; config_parse;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            }</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            network-&gt;init(info.mp-&gt;params(), config_parse.params());</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            networks[name] = network;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        }</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    }</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="SimUtils_8h_source.html#l00056">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="SimUtils_8h_source.html#l00054">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="SimUtils_8h_source.html#l00055">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="SimUtils_8h_source.html#l00058">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00057">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>, and <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::time</a>.</p>
+<p class="reference">References <a class="el" href="SimUtils_8h_source.html#l00056">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="SimUtils_8h_source.html#l00064">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="SimUtils_8h_source.html#l00054">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00161">scrimmage::ConfigParse::params()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="SimUtils_8h_source.html#l00055">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::printer</a>, <a class="el" href="SimUtils_8h_source.html#l00058">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00057">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>, and <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::time</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00106">scrimmage::External::create_entity()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00672">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00107">scrimmage::External::create_entity()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00678">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5997,16 +6024,16 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00176">176</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                                           {</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;sub : plugin-&gt;subs()) {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> msg : sub-&gt;pop_msgs&lt;MessageBase&gt;()) {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            sub-&gt;accept(msg);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00178">178</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                                           {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;sub : plugin-&gt;subs()) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> msg : sub-&gt;pop_msgs&lt;MessageBase&gt;()) {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            sub-&gt;accept(msg);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        }</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01506">scrimmage::SimControl::run_entities()</a>, <a class="el" href="SimControl_8cpp_source.html#l00457">scrimmage::SimControl::run_interaction_detection()</a>, <a class="el" href="SimControl_8cpp_source.html#l00501">scrimmage::SimControl::run_metrics()</a>, <a class="el" href="SimControl_8cpp_source.html#l01448">scrimmage::SimControl::run_sensors()</a>, <a class="el" href="SimControl_8cpp_source.html#l00547">scrimmage::SimControl::run_single_step()</a>, <a class="el" href="External_8cpp_source.html#l00363">scrimmage::External::send_messages()</a>, and <a class="el" href="SimControl_8cpp_source.html#l01383">scrimmage::SimControl::worker()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01514">scrimmage::SimControl::run_entities()</a>, <a class="el" href="SimControl_8cpp_source.html#l00463">scrimmage::SimControl::run_interaction_detection()</a>, <a class="el" href="SimControl_8cpp_source.html#l00507">scrimmage::SimControl::run_metrics()</a>, <a class="el" href="SimControl_8cpp_source.html#l01456">scrimmage::SimControl::run_sensors()</a>, <a class="el" href="SimControl_8cpp_source.html#l00553">scrimmage::SimControl::run_single_step()</a>, <a class="el" href="External_8cpp_source.html#l00365">scrimmage::External::send_messages()</a>, and <a class="el" href="SimControl_8cpp_source.html#l01391">scrimmage::SimControl::worker()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -6047,45 +6074,45 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00190">190</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                                                                   {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    SimControl simcontrol;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordflow">if</span> (not simcontrol.init(mission, init_python)) {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;Failed to initialize SimControl.&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">return</span> boost::none;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">// Handle kill signals</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keyword">struct </span>sigaction sa;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    memset( &amp;sa, 0, <span class="keyword">sizeof</span>(sa) );</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <a class="code" href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a7861c3a578ca9843414c6a07b55b98ec">shutdown_handler</a> = [&amp;](<span class="keywordtype">int</span> <span class="comment">/*s*/</span>){</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        cout &lt;&lt; endl &lt;&lt; <span class="stringliteral">&quot;Exiting gracefully&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        simcontrol.force_exit();</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    };</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    sa.sa_handler = <a class="code" href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a388045679566fea382f2863b74c32278">signal_handler</a>;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    sigfillset(&amp;sa.sa_mask);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    sigaction(SIGINT, &amp;sa, NULL);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    sigaction(SIGTERM, &amp;sa, NULL);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    simcontrol.mp()-&gt;set_time_warp(-1);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    simcontrol.mp()-&gt;set_enable_gui(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    simcontrol.pause(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">if</span> (not simcontrol.run()) {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">return</span> boost::none;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    }</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="comment">// Extract the log directory</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keyword">auto</span> out = <a class="code" href="classboost_1_1optional.html">boost::optional&lt;std::string&gt;</a>{simcontrol.mp()-&gt;log_dir()};</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="comment">// Shutdown SimControl</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordflow">if</span> (not simcontrol.shutdown(shutdown_python)) {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">return</span> boost::none;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    }</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="SimUtils_8cpp_source.html#l00192">192</a> of file <a class="el" href="SimUtils_8cpp_source.html">SimUtils.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                                                                   {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    SimControl simcontrol;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordflow">if</span> (not simcontrol.init(mission, init_python)) {</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;Failed to initialize SimControl.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">return</span> boost::none;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="comment">// Handle kill signals</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">struct </span>sigaction sa;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    memset( &amp;sa, 0, <span class="keyword">sizeof</span>(sa) );</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <a class="code" href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a7861c3a578ca9843414c6a07b55b98ec">shutdown_handler</a> = [&amp;](<span class="keywordtype">int</span> <span class="comment">/*s*/</span>){</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        cout &lt;&lt; endl &lt;&lt; <span class="stringliteral">&quot;Exiting gracefully&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        simcontrol.force_exit();</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    };</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    sa.sa_handler = <a class="code" href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a388045679566fea382f2863b74c32278">signal_handler</a>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    sigfillset(&amp;sa.sa_mask);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    sigaction(SIGINT, &amp;sa, NULL);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    sigaction(SIGTERM, &amp;sa, NULL);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    simcontrol.mp()-&gt;set_time_warp(-1);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    simcontrol.mp()-&gt;set_enable_gui(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    simcontrol.pause(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordflow">if</span> (not simcontrol.run()) {</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">return</span> boost::none;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="comment">// Extract the log directory</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keyword">auto</span> out = <a class="code" href="classboost_1_1optional.html">boost::optional&lt;std::string&gt;</a>{simcontrol.mp()-&gt;log_dir()};</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">// Shutdown SimControl</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">if</span> (not simcontrol.shutdown(shutdown_python)) {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">return</span> boost::none;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    }</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="SimControl_8cpp_source.html#l01256">scrimmage::SimControl::force_exit()</a>, <a class="el" href="SimControl_8cpp_source.html#l00161">scrimmage::SimControl::init()</a>, <a class="el" href="SimControl_8cpp_source.html#l00396">scrimmage::SimControl::mp()</a>, <a class="el" href="SimControl_8cpp_source.html#l01304">scrimmage::SimControl::pause()</a>, <a class="el" href="SimControl_8cpp_source.html#l00978">scrimmage::SimControl::run()</a>, <a class="el" href="SimControl_8cpp_source.html#l01042">scrimmage::SimControl::shutdown()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00186">scrimmage::anonymous_namespace{SimUtils.cpp}::shutdown_handler</a>, and <a class="el" href="SimUtils_8cpp_source.html#l00187">scrimmage::anonymous_namespace{SimUtils.cpp}::signal_handler()</a>.</p>
+<p class="reference">References <a class="el" href="SimControl_8cpp_source.html#l01264">scrimmage::SimControl::force_exit()</a>, <a class="el" href="SimControl_8cpp_source.html#l00167">scrimmage::SimControl::init()</a>, <a class="el" href="SimControl_8cpp_source.html#l00402">scrimmage::SimControl::mp()</a>, <a class="el" href="SimControl_8cpp_source.html#l01312">scrimmage::SimControl::pause()</a>, <a class="el" href="SimControl_8cpp_source.html#l00985">scrimmage::SimControl::run()</a>, <a class="el" href="SimControl_8cpp_source.html#l01050">scrimmage::SimControl::shutdown()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00188">scrimmage::anonymous_namespace{SimUtils.cpp}::shutdown_handler</a>, and <a class="el" href="SimUtils_8cpp_source.html#l00189">scrimmage::anonymous_namespace{SimUtils.cpp}::signal_handler()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -6261,7 +6288,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="VariableIO_8h_source.html#l00115">scrimmage::VariableIO::input_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00088">scrimmage::VariableIO::input_variable_index()</a>, <a class="el" href="VariableIO_8h_source.html#l00116">scrimmage::VariableIO::output_</a>, and <a class="el" href="VariableIO_8cpp_source.html#l00084">scrimmage::VariableIO::output_variable_index()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00106">scrimmage::External::create_entity()</a>, and <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00107">scrimmage::External::create_entity()</a>, and <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -6671,16 +6698,16 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimControl_8cpp_source.html#l01440">1440</a> of file <a class="el" href="SimControl_8cpp_source.html">SimControl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l01440"></a><span class="lineno"> 1440</span>&#160;                                  {</div>
-<div class="line"><a name="l01441"></a><span class="lineno"> 1441</span>&#160;    <span class="keywordflow">if</span> (p-&gt;print_err_on_exit) {</div>
-<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;failed to update entity &quot;</span> &lt;&lt; p-&gt;parent()-&gt;id().id()</div>
-<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;, plugin type \&quot;&quot;</span> &lt;&lt; p-&gt;type() &lt;&lt; <span class="stringliteral">&quot;\&quot;&quot;</span></div>
-<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;, plugin name \&quot;&quot;</span> &lt;&lt; p-&gt;name() &lt;&lt; <span class="stringliteral">&quot;\&quot;&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160;    }</div>
-<div class="line"><a name="l01446"></a><span class="lineno"> 1446</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="SimControl_8cpp_source.html#l01448">1448</a> of file <a class="el" href="SimControl_8cpp_source.html">SimControl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l01448"></a><span class="lineno"> 1448</span>&#160;                                  {</div>
+<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;    <span class="keywordflow">if</span> (p-&gt;print_err_on_exit) {</div>
+<div class="line"><a name="l01450"></a><span class="lineno"> 1450</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;failed to update entity &quot;</span> &lt;&lt; p-&gt;parent()-&gt;id().id()</div>
+<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;, plugin type \&quot;&quot;</span> &lt;&lt; p-&gt;type() &lt;&lt; <span class="stringliteral">&quot;\&quot;&quot;</span></div>
+<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;, plugin name \&quot;&quot;</span> &lt;&lt; p-&gt;name() &lt;&lt; <span class="stringliteral">&quot;\&quot;&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160;    }</div>
+<div class="line"><a name="l01454"></a><span class="lineno"> 1454</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01506">scrimmage::SimControl::run_entities()</a>, and <a class="el" href="SimControl_8cpp_source.html#l01448">scrimmage::SimControl::run_sensors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01514">scrimmage::SimControl::run_entities()</a>, and <a class="el" href="SimControl_8cpp_source.html#l01456">scrimmage::SimControl::run_sensors()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -6772,7 +6799,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespacescrimmage_html_ae42181611e4e2947da3256bedabc3d1a"><div class="ttname"><a href="namespacescrimmage.html#ae42181611e4e2947da3256bedabc3d1a">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::State *dst, scrimmage::State &amp;state)</div><div class="ttdef"><b>Definition:</b> <a href="ProtoConversions_8cpp_source.html#l00173">ProtoConversions.cpp:173</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Angles_html_a49e7f100f2e0784033a7910673e6dadb"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">scrimmage::Angles::deg2rad</a></div><div class="ttdeci">static double deg2rad(double deg)</div><div class="ttdef"><b>Definition:</b> <a href="Angles_8cpp_source.html#l00064">Angles.cpp:64</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a1ba94c295482a052570330663ae2caef"><div class="ttname"><a href="namespacescrimmage.html#a1ba94c295482a052570330663ae2caef">scrimmage::scale</a></div><div class="ttdeci">Eigen::VectorXd scale(const Eigen::VectorXd &amp;input, const T &amp;in_min, const T &amp;in_max, const T &amp;out_min, const T &amp;out_max)</div><div class="ttdef"><b>Definition:</b> <a href="Utilities_8h_source.html#l00092">Utilities.h:92</a></div></div>
-<div class="ttc" id="anamespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03_html_a7861c3a578ca9843414c6a07b55b98ec"><div class="ttname"><a href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a7861c3a578ca9843414c6a07b55b98ec">scrimmage::anonymous_namespace{SimUtils.cpp}::shutdown_handler</a></div><div class="ttdeci">std::function&lt; void(int)&gt; shutdown_handler</div><div class="ttdef"><b>Definition:</b> <a href="SimUtils_8cpp_source.html#l00186">SimUtils.cpp:186</a></div></div>
+<div class="ttc" id="anamespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03_html_a7861c3a578ca9843414c6a07b55b98ec"><div class="ttname"><a href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a7861c3a578ca9843414c6a07b55b98ec">scrimmage::anonymous_namespace{SimUtils.cpp}::shutdown_handler</a></div><div class="ttdeci">std::function&lt; void(int)&gt; shutdown_handler</div><div class="ttdef"><b>Definition:</b> <a href="SimUtils_8cpp_source.html#l00188">SimUtils.cpp:188</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html_afd3791f8b846f04e65259615ca0d127e"><div class="ttname"><a href="classscrimmage_1_1State.html#afd3791f8b846f04e65259615ca0d127e">scrimmage::State::ang_vel_const</a></div><div class="ttdeci">const Eigen::Vector3d &amp; ang_vel_const() const</div><div class="ttdef"><b>Definition:</b> <a href="State_8cpp_source.html#l00062">State.cpp:62</a></div></div>
 <div class="ttc" id="astructscrimmage_1_1Color__t_html_a27e99589e9cec0f4d6b7fdd9d15365b8"><div class="ttname"><a href="structscrimmage_1_1Color__t.html#a27e99589e9cec0f4d6b7fdd9d15365b8">scrimmage::Color_t::r</a></div><div class="ttdeci">double r</div><div class="ttdef"><b>Definition:</b> <a href="ColorMaps_8h_source.html#l00041">ColorMaps.h:41</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a4ec67fb75b8322044ea0340f27680c78"><div class="ttname"><a href="namespacescrimmage.html#a4ec67fb75b8322044ea0340f27680c78">scrimmage::GetColor_matlab</a></div><div class="ttdeci">Color_t GetColor_matlab(double v, double vmin, double vmax)</div><div class="ttdef"><b>Definition:</b> <a href="ColorMaps_8cpp_source.html#l00040">ColorMaps.cpp:40</a></div></div>
@@ -6794,13 +6821,13 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespacescrimmage_html_a9d72d606c8d0895e34c16fc9e335d915"><div class="ttname"><a href="namespacescrimmage.html#a9d72d606c8d0895e34c16fc9e335d915">scrimmage::point_id_t</a></div><div class="ttdeci">std::pair&lt; point, ID &gt; point_id_t</div><div class="ttdef"><b>Definition:</b> <a href="RTree_8h_source.html#l00062">RTree.h:62</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition:</b> <a href="Contact_8h_source.html#l00052">Contact.h:52</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ae9311f019876a2543ab3b83f7ef68291afc93a31e4300a32c01afe557c28b8d03"><div class="ttname"><a href="namespacescrimmage.html#ae9311f019876a2543ab3b83f7ef68291afc93a31e4300a32c01afe557c28b8d03">scrimmage::EndConditionFlags::ALL_DEAD</a></div><div class="ttdeci">@ ALL_DEAD</div></div>
-<div class="ttc" id="anamespacescrimmage_html_ab7d3fe5e4e0cddb46b9763146f410a90"><div class="ttname"><a href="namespacescrimmage.html#ab7d3fe5e4e0cddb46b9763146f410a90">scrimmage::MetricsPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Metrics &gt; MetricsPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00152">fwd_decl.h:152</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_ab7d3fe5e4e0cddb46b9763146f410a90"><div class="ttname"><a href="namespacescrimmage.html#ab7d3fe5e4e0cddb46b9763146f410a90">scrimmage::MetricsPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Metrics &gt; MetricsPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00155">fwd_decl.h:155</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html_a46b0712b89c626ab6edaaffdb947c87f"><div class="ttname"><a href="classscrimmage_1_1State.html#a46b0712b89c626ab6edaaffdb947c87f">scrimmage::State::quat_const</a></div><div class="ttdeci">const Quaternion &amp; quat_const() const</div><div class="ttdef"><b>Definition:</b> <a href="State_8cpp_source.html#l00063">State.cpp:63</a></div></div>
-<div class="ttc" id="anamespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03_html_a388045679566fea382f2863b74c32278"><div class="ttname"><a href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a388045679566fea382f2863b74c32278">scrimmage::anonymous_namespace{SimUtils.cpp}::signal_handler</a></div><div class="ttdeci">void signal_handler(int signal)</div><div class="ttdef"><b>Definition:</b> <a href="SimUtils_8cpp_source.html#l00187">SimUtils.cpp:187</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_ae198398955afacbf4406d1841a9d5005"><div class="ttname"><a href="namespacescrimmage.html#ae198398955afacbf4406d1841a9d5005">scrimmage::PluginManagerPtr</a></div><div class="ttdeci">std::shared_ptr&lt; PluginManager &gt; PluginManagerPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00129">fwd_decl.h:129</a></div></div>
+<div class="ttc" id="anamespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03_html_a388045679566fea382f2863b74c32278"><div class="ttname"><a href="namespacescrimmage_1_1anonymous__namespace_02SimUtils_8cpp_03.html#a388045679566fea382f2863b74c32278">scrimmage::anonymous_namespace{SimUtils.cpp}::signal_handler</a></div><div class="ttdeci">void signal_handler(int signal)</div><div class="ttdef"><b>Definition:</b> <a href="SimUtils_8cpp_source.html#l00189">SimUtils.cpp:189</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_ae198398955afacbf4406d1841a9d5005"><div class="ttname"><a href="namespacescrimmage.html#ae198398955afacbf4406d1841a9d5005">scrimmage::PluginManagerPtr</a></div><div class="ttdeci">std::shared_ptr&lt; PluginManager &gt; PluginManagerPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00132">fwd_decl.h:132</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a27c757b4bc55207daa1280f57ecb05f3"><div class="ttname"><a href="namespacescrimmage.html#a27c757b4bc55207daa1280f57ecb05f3">scrimmage::ContactMap</a></div><div class="ttdeci">std::unordered_map&lt; int, Contact &gt; ContactMap</div><div class="ttdef"><b>Definition:</b> <a href="Contact_8h_source.html#l00111">Contact.h:111</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a2479d18eb03663f58bf950aa3b53b040"><div class="ttname"><a href="namespacescrimmage.html#a2479d18eb03663f58bf950aa3b53b040">scrimmage::get_sha</a></div><div class="ttdeci">std::string get_sha(std::string &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="Utilities_8cpp_source.html#l00088">Utilities.cpp:88</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a7ea749535cebe2148958ae7df51cc242"><div class="ttname"><a href="namespacescrimmage.html#a7ea749535cebe2148958ae7df51cc242">scrimmage::NetworkPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Network &gt; NetworkPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00092">fwd_decl.h:92</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a7ea749535cebe2148958ae7df51cc242"><div class="ttname"><a href="namespacescrimmage.html#a7ea749535cebe2148958ae7df51cc242">scrimmage::NetworkPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Network &gt; NetworkPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00095">fwd_decl.h:95</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ad720024e501e58d7e072004a70095ff5"><div class="ttname"><a href="namespacescrimmage.html#ad720024e501e58d7e072004a70095ff5">scrimmage::remove_trailing_spaces</a></div><div class="ttdeci">void remove_trailing_spaces(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="ParseUtils_8cpp_source.html#l00434">ParseUtils.cpp:434</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html_aee8589e05d72cbfb1edd92376b7c0bb9"><div class="ttname"><a href="classscrimmage_1_1State.html#aee8589e05d72cbfb1edd92376b7c0bb9">scrimmage::State::vel_const</a></div><div class="ttdeci">const Eigen::Vector3d &amp; vel_const() const</div><div class="ttdef"><b>Definition:</b> <a href="State_8cpp_source.html#l00061">State.cpp:61</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a></div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8h_source.html#l00041">Quaternion.h:41</a></div></div>
@@ -6817,14 +6844,14 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespacescrimmage_html_a170223bf5a035097455993b6c9749522"><div class="ttname"><a href="namespacescrimmage.html#a170223bf5a035097455993b6c9749522">scrimmage::FileSearchPtr</a></div><div class="ttdeci">std::shared_ptr&lt; FileSearch &gt; FileSearchPtr</div><div class="ttdef"><b>Definition:</b> <a href="FileSearch_8h_source.html#l00073">FileSearch.h:73</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition:</b> <a href="ParseUtils_8h_source.html#l00080">ParseUtils.h:80</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ae9311f019876a2543ab3b83f7ef68291a346ff32eaa3c09983fb2ec057816d352"><div class="ttname"><a href="namespacescrimmage.html#ae9311f019876a2543ab3b83f7ef68291a346ff32eaa3c09983fb2ec057816d352">scrimmage::EndConditionFlags::TIME</a></div><div class="ttdeci">@ TIME</div></div>
-<div class="ttc" id="anamespacescrimmage_html_a1907aa8ca5f47fe16b9639b110b4ec91"><div class="ttname"><a href="namespacescrimmage.html#a1907aa8ca5f47fe16b9639b110b4ec91">scrimmage::EntityInteractionPtr</a></div><div class="ttdeci">std::shared_ptr&lt; EntityInteraction &gt; EntityInteractionPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00149">fwd_decl.h:149</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a1907aa8ca5f47fe16b9639b110b4ec91"><div class="ttname"><a href="namespacescrimmage.html#a1907aa8ca5f47fe16b9639b110b4ec91">scrimmage::EntityInteractionPtr</a></div><div class="ttdeci">std::shared_ptr&lt; EntityInteraction &gt; EntityInteractionPtr</div><div class="ttdef"><b>Definition:</b> <a href="fwd__decl_8h_source.html#l00152">fwd_decl.h:152</a></div></div>
 <div class="ttc" id="aclassboost_1_1optional_html"><div class="ttname"><a href="classboost_1_1optional.html">boost::optional</a></div><div class="ttdef"><b>Definition:</b> <a href="FileSearch_8h_source.html#l00042">FileSearch.h:42</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html_a3e320175db85299e28ff6752f510f80d"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d">scrimmage::Quaternion::set</a></div><div class="ttdeci">void set(double w_coeff, double x_coeff, double y_coeff, double z_coeff)</div><div class="ttdef"><b>Definition:</b> <a href="Quaternion_8cpp_source.html#l00074">Quaternion.cpp:74</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li>
-    <li class="footer">Generated on Wed Oct 28 2020 13:43:41 for SCRIMMAGE by
+    <li class="footer">Generated on Tue Nov 3 2020 18:25:20 for SCRIMMAGE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

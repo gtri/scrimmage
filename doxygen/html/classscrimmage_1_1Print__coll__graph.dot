@@ -1,0 +1,13 @@
+digraph "scrimmage::Print"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{scrimmage::Print\n|- output_flag_\l|+ Print()\l+ init()\l+ init()\l+ close()\l+ flush()\l+ printDev()\l+ printInfo()\l+ printWarning()\l+ printError()\l+ printDev()\l+ printInfo()\l+ printWarning()\l+ printError()\l# print()\l# print()\l# getWarningLevel()\l# formatTime()\l# formatMsg()\l- write_file()\l- write_console()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -log_dir_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{std::string\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+  Node4 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -time_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node4 [label="{std::shared_ptr\< Time \>\n||+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -log_stream_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node8 [label="{std::ofstream\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip="STL class."];
+}

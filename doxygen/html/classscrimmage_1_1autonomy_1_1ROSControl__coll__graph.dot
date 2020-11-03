@@ -11,6 +11,6 @@ digraph "scrimmage::autonomy::ROSControl"
   Node6 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #ros_namespace_" ,arrowhead="odiamond",fontname="Helvetica"];
   Node34 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #x_" ,arrowhead="odiamond",fontname="Helvetica"];
   Node34 [label="{std::vector\< double \>\n|+ elements\l|}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node86 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #nh_" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node86 [label="{std::shared_ptr\< ros\l::NodeHandle \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node93 -> Node1 [color="grey25",fontsize="10",style="solid",label=" #nh_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node93 [label="{std::shared_ptr\< ros\l::NodeHandle \>\n|+ ptr\l|+ operator-\>()\l}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

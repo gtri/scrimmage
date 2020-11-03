@@ -6,10 +6,10 @@ digraph "/root/scrimmage/scrimmage/include/scrimmage/common/VariableIO.h"
   Node1 [label="/root/scrimmage/scrimmage\l/include/scrimmage/common\l/VariableIO.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Brief file description."];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="/root/scrimmage/scrimmage\l/include/scrimmage/entity\l/EntityPlugin.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$EntityPlugin_8h.html",tooltip="Brief file description."];
-  Node1 -> Node277 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node277 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/controller/JoystickController\l/Joystick.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Joystick_8h.html",tooltip="Brief file description."];
   Node1 -> Node278 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node278 [label="/root/scrimmage/scrimmage\l/src/common/VariableIO.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$VariableIO_8cpp.html",tooltip="Brief file description."];
+  Node278 [label="/root/scrimmage/scrimmage\l/include/scrimmage/plugins\l/controller/JoystickController\l/Joystick.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$Joystick_8h.html",tooltip="Brief file description."];
+  Node1 -> Node279 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node279 [label="/root/scrimmage/scrimmage\l/src/common/VariableIO.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$VariableIO_8cpp.html",tooltip="Brief file description."];
   Node1 -> Node86 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node86 [label="/root/scrimmage/scrimmage\l/src/plugins/autonomy/Waypoint\lGenerator/WaypointGenerator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$WaypointGenerator_8cpp.html",tooltip="Brief file description."];
   Node1 -> Node111 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
