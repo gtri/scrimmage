@@ -16,7 +16,7 @@ set(SRCS
     common/Shape.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     entity/EntityPlugin.cpp
-    log/FrameUpdateClient.cpp log/Log.cpp
+    log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp
     math/StateWithCovariance.cpp
     metrics/Metrics.cpp

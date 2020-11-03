@@ -79,6 +79,7 @@ bool Entity::init(AttributeMap &overrides,
                   FileSearchPtr &file_search,
                   RTreePtr &rtree,
                   PubSubPtr &pubsub,
+                  PrintPtr &printer,
                   TimePtr &time,
                   const ParameterServerPtr &param_server,
                   const GlobalServicePtr &global_services,
@@ -86,6 +87,7 @@ bool Entity::init(AttributeMap &overrides,
                   std::function<void(std::map<std::string, std::string>&)> param_override_func,
                   const int& debug_level) {
     pubsub_ = pubsub;
+    printer_ = printer;
     global_services_ = global_services;
     time_ = time;
     file_search_ = file_search;
@@ -692,6 +694,7 @@ void Entity::close(double t) {
     plugin_manager_ = nullptr;
     file_search_ = nullptr;
     pubsub_ = nullptr;
+    printer_ = nullptr;
     global_services_ = nullptr;
     time_ = nullptr;
 }
@@ -701,6 +704,8 @@ std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
 }
 
 void Entity::set_time_ptr(TimePtr t) {time_ = t;}
+void Entity::set_printer(PrintPtr printer) { printer_ = printer; }
+
 
 // cppcheck-suppress passedByValue
 void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {

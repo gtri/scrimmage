@@ -391,6 +391,7 @@ class SimControl {
     bool reset_autonomies();
 
     std::shared_ptr<Log> log_;
+    PrintPtr printer_;
 
     std::set<EndConditionFlags> end_conditions_ = {EndConditionFlags::NONE};
 

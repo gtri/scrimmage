@@ -77,6 +77,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
               FileSearchPtr &file_search,
               RTreePtr &rtree,
               PubSubPtr &pubsub,
+              PrintPtr &printer,
               TimePtr &time,
               const ParameterServerPtr &param_server,
               const GlobalServicePtr &global_services,
@@ -190,12 +191,17 @@ class Entity : public std::enable_shared_from_this<Entity> {
         return pubsub_;
     }
 
+    PrintPtr & printer() {
+        return printer_;
+    }
+
     const ParameterServerPtr& param_server() {
         return param_server_;
     }
 
     double radius() { return radius_; }
     void set_time_ptr(TimePtr t);
+    void set_printer(PrintPtr printer);
 
     ///@}
 
@@ -238,6 +244,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     PluginManagerPtr plugin_manager_;
     FileSearchPtr file_search_;
     PubSubPtr pubsub_;
+    PrintPtr printer_;
     GlobalServicePtr global_services_;
     ParameterServerPtr param_server_;
     TimePtr time_;
