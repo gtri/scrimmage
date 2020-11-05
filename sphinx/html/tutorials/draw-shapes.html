@@ -287,10 +287,23 @@ cleared.</p>
 <p>To remove a shape after drawing it with the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function, just set
 the shape’s persistence to false and call the <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> function again:</p>
 <div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">text_shape_</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">text_shape</span><span class="o">-&gt;</span><span class="n">set_persistent</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
 <span class="n">draw_shape</span><span class="p">(</span><span class="n">text_shape</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
+<p>If you have not set shape persistence duration, you will also need to call
+<code class="docutils literal notranslate"><span class="pre">set_persistent_duration(0.0)</span></code> before calling <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> to remove the
+shape.
+.. code-block:: c++</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">linenos</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>text_shape-&gt;set_persistent(false);
+text_shape-&gt;set_persistent_duration(0.0);
+draw_shape(text_shape);</p>
+</div></blockquote>
 <p>You can also change the shape’s color, opacity, and ttl after it has been
 drawn by changing the value and calling <code class="docutils literal notranslate"><span class="pre">draw_shape()</span></code> again.</p>
 </div>
