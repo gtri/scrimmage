@@ -33,8 +33,6 @@
 #include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/ParameterServer.h>
@@ -86,6 +84,11 @@ PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic
 }
 
 void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
+    if (!pub_shapes_) {
+        scrimmage::EntityPluginPtr shared_this(this);
+        pub_shapes_ = pubsub_->advertise(
+            "GlobalNetwork", "shapes", 0, false, shared_this);
+    }
     if (!s->hash_set()) {
         // Hash function uses entity ID, current simulation time, plugin name,
         // and a random number.
@@ -98,6 +101,11 @@ void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
         s->set_hash_set(true);
     }
     shapes_.push_back(s);
+
+    // publish shapes for anyone to pick up
+    auto msg = std::make_shared<scrimmage::Message<scrimmage_proto::ShapePtr>>();
+    msg->data = s;
+    pub_shapes_->publish(msg);
 }
 
 void EntityPlugin::set_param_server(const ParameterServerPtr &param_server) {

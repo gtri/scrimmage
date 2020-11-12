@@ -7,7 +7,7 @@
        time_warp="1"
        enable_gui="true"
        network_gui="false"
-       start_paused="false"/>
+       start_paused="true"/>
 
   <multi_threaded num_threads="8">false</multi_threaded>
   <stream_port>50051</stream_port>
@@ -37,6 +37,8 @@
   <!-- uncomment "seed" and use integer for deterministic results -->
   <seed>2147483648</seed>
 
+  <entity_interaction>CesiumWebServer</entity_interaction>
+
   <!-- ========================== TEAM 1 ========================= -->
   <entity>
     <name>uav_entity</name>
@@ -46,13 +48,16 @@
     <health>1</health>
     <radius>1</radius>
 
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
-    <variance_z>10</variance_z>
+    <variance_x>0</variance_x>
+    <variance_y>0</variance_y>
+    <variance_z>0</variance_z>
 
-    <x>-900</x>
+    <!-- <x>-900</x> -->
+    <!-- <y>0</y> -->
+    <!-- <z>195</z> -->
+    <x>0</x>
     <y>0</y>
-    <z>195</z>
+    <z>0</z>
     <heading>0</heading>
 
     <!-- <controller>SimpleAircraftControllerPID</controller> -->
