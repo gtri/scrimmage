@@ -58,6 +58,9 @@ using grpc::Status;
 namespace sp = scrimmage_proto;
 namespace py = pybind11;
 
+using std::cout;
+using std::endl;
+
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ScrimmageOpenAIAutonomy, ScrimmageOpenAIAutonomy_plugin)
 
 namespace scrimmage {
@@ -108,7 +111,8 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             // need contacts size to be set before calling init
             auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(shared_from_this());
             std::tie(actions_, observations_, actor_func_) =
-                    init_actor_func({p}, params_, CombineActors::NO, UseGlobalSensor::NO,
+                    init_actor_func({p}, params_, CombineActors::NO,
+                                    UseGlobalSensor::NO,
                                     grpc_mode_);
 
 #if ENABLE_GRPC
@@ -133,7 +137,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 #endif
         }
         const size_t num_entities = 1;
-        observations_.update_observation(num_entities);
+        observations_.update_observation(num_entities, true);
         py::object temp_action;
         if (grpc_mode_) {
 #if ENABLE_GRPC
@@ -152,11 +156,10 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 #endif
         }
 
-        bool combine_actors = false;
-
         temp_action = actor_func_(observations_.observation);
 
-        actions_.distribute_action(temp_action, combine_actors);
+        actions_.distribute_action(temp_action,
+                                   observations_.get_combine_actors());
 
         if (first_step_) {
             // there is no reward on the first step

@@ -45,6 +45,9 @@ namespace py = pybind11;
 namespace br = boost::range;
 namespace ba = boost::adaptors;
 
+using std::cout;
+using std::endl;
+
 namespace scrimmage {
 namespace autonomy {
 
@@ -56,6 +59,9 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
                                                         bool static_obs_space) {
 
     auto call_get_obs = [&](auto *data, uint32_t &beg_idx, auto sensor, int obs_size) {
+        if (sensor->parent() == nullptr) {
+            return;
+        }
         uint32_t end_idx = beg_idx + obs_size;
         if (end_idx != beg_idx) {
             sensor->get_observation(data, beg_idx, end_idx);
@@ -105,7 +111,7 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
 
     } else {
         py::list observation_space_list =
-            observation_space.attr("spaces").cast<py::list>();
+                observation_space.attr("spaces").cast<py::list>();
         py::list observation_list = observation.cast<py::list>();
 
         // Number of entities has shrunk
@@ -132,13 +138,13 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
             }
         }
     }
-
     return observation;
 }
 
-void OpenAIObservations::create_observation_space(size_t num_entities) {
-
-    auto create_obs = [&](py::list &discrete_count, py::list &continuous_maxima) -> py::object {
+void OpenAIObservations::create_observation_space(size_t num_entities,
+                                                  bool static_obs_space) {
+    auto create_obs = [&](py::list &discrete_count,
+                          py::list &continuous_maxima) -> py::object {
 
         int len_discrete = py::len(discrete_count);
         int len_continuous = py::len(continuous_maxima);
@@ -161,7 +167,7 @@ void OpenAIObservations::create_observation_space(size_t num_entities) {
         }
     };
 
-    if (num_entities == 1 || combine_actors_) {
+    if (static_obs_space && (num_entities == 1 || combine_actors_)) {
         py::list discrete_count;
         py::list continuous_minima;
         py::list continuous_maxima;
@@ -187,7 +193,6 @@ void OpenAIObservations::create_observation_space(size_t num_entities) {
         observation = create_obs(discrete_count, continuous_maxima);
 
     } else {
-
         py::list observation_spaces;
         py::list obs;
 
@@ -201,8 +206,8 @@ void OpenAIObservations::create_observation_space(size_t num_entities) {
                 to_discrete(s->observation_space.discrete_count, discrete_count);
                 to_continuous(s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
 
-                auto space =
-                    create_space(discrete_count, continuous_minima, continuous_maxima);
+                auto space = create_space(discrete_count, continuous_minima,
+                                          continuous_maxima);
                 observation_spaces.append(space);
                 obs.append(create_obs(discrete_count, continuous_maxima));
             }
@@ -211,6 +216,9 @@ void OpenAIObservations::create_observation_space(size_t num_entities) {
         py::object tuple_space = get_gym_space("Tuple");
         observation_space = tuple_space(observation_spaces);
         observation = obs;
+
+        py::list observation_space_list =
+                observation_space.attr("spaces").cast<py::list>();
     }
 }
 

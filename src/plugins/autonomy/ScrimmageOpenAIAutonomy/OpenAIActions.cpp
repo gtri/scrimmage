@@ -41,6 +41,9 @@
 
 namespace py = pybind11;
 
+using std::cout;
+using std::endl;
+
 namespace scrimmage {
 namespace autonomy {
 
@@ -54,11 +57,10 @@ std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &OpenAIActions::ext_ctrl_v
 }
 
 void OpenAIActions::create_action_space(bool combine_actors) {
-
     if (ext_ctrl_vec_.empty()) {
         std::cout << "OpenAIActions::create_action_space called "
-            << "with 0 actors" << std::endl;
-    } else if (ext_ctrl_vec_.size() == 1 || combine_actors) {
+                  << "with 0 actors" << std::endl;
+    } else if ((ext_ctrl_vec_.size() == 1 || combine_actors)) {
         py::list discrete_count;
         py::list continuous_minima;
         py::list continuous_maxima;
@@ -95,7 +97,8 @@ void OpenAIActions::create_action_space(bool combine_actors) {
     }
 }
 
-void OpenAIActions::distribute_action(pybind11::object action, bool combine_actors) {
+void OpenAIActions::distribute_action(pybind11::object action,
+                                      bool combine_actors) {
     py::array_t<int> disc_actions;
     py::array_t<double> cont_actions;
     int* disc_action_data = nullptr;
@@ -142,7 +145,7 @@ void OpenAIActions::distribute_action(pybind11::object action, bool combine_acto
                    cont_action_data, a->action.continuous);
     };
 
-    if (ext_ctrl_vec_.size() == 1 || combine_actors) {
+    if ((ext_ctrl_vec_.size() == 1 || combine_actors)) {
         update_action_lists(action_space, action);
         int disc_action_idx = 0;
         int cont_action_idx = 0;

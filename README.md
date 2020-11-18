@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/gtri/scrimmage.png?branch=master)](https://travis-ci.org/gtri/scrimmage)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gtri/scrimmage/issues)
 [![Docker Pulls](https://img.shields.io/docker/pulls/syllogismrxs/scrimmage.svg?maxAge=2592000)](https://hub.docker.com/r/syllogismrxs/scrimmage)
+[![Join the chat at https://gitter.im/gtri-scrimmage/community](https://badges.gitter.im/gtri-scrimmage/community.svg)](https://gitter.im/gtri-scrimmage/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean_medium.png)
 

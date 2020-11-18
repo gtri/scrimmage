@@ -35,13 +35,6 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
  && echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
  && /opt/scrimmage/*/setup.sh
 
-# Install jekyll
-RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
- && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
- && source ~/.bashrc \
- && gem update --system \
- && gem install bundler
-
 # Copy install binaries script into image and run
 COPY ./setup/install-binaries.sh /root/install-binaries.sh
 RUN /root/install-binaries.sh -e 0 --python 3 \
@@ -89,10 +82,9 @@ RUN source /root/env/bin/activate \
  && cmake .. -G Ninja \
              -DPYTHON_MIN_VERSION=3.5  \
              -DBUILD_TESTS=ON \
-             -DBUILD_DOCS=ON \
+             -DBUILD_DOCS=OFF \
              -DCMAKE_CXX_FLAGS="-Werror" \
- && ninja \
- && ninja docs website-docs
+ && ninja
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
