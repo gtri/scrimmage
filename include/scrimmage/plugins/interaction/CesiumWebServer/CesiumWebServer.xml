@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>CesiumWebServer_plugin</library>
+  <web_host_ip>127.0.0.1</web_host_ip>
+  <web_host_port>9090</web_host_port>
+  <web_src_dir>/home/crichardson8/gtri_repos/scrimmage/src/plugins/interaction/CesiumWebServer/web</web_src_dir>
+</params>
