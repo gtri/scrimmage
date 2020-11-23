@@ -4,5 +4,5 @@
   <library>CesiumWebServer_plugin</library>
   <web_host_ip>127.0.0.1</web_host_ip>
   <web_host_port>9090</web_host_port>
-  <web_src_dir>/home/crichardson8/gtri_repos/scrimmage/src/plugins/interaction/CesiumWebServer/web</web_src_dir>
+  <web_src_dir>cesium_default</web_src_dir>
 </params>

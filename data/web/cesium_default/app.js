@@ -161,11 +161,12 @@ function callbackShape(data) {
       data.polyline.material[3],
     )
   } else if (data.box) {
-    shape.position = new Cesium.Cartesian3.fromDegrees(
+    var position = new Cesium.Cartesian3.fromDegrees(
       data.position[0],
       data.position[1],
       data.position[2],
     );
+    shape.position = position;
     shape.box = data.box;
     shape.box.material = new Cesium.Color(
       data.box.material[0],
@@ -178,6 +179,25 @@ function callbackShape(data) {
       data.box.dimensions[1],
       data.box.dimensions[2],
     );
+
+    // transform orientation from enu-relative to ecef-relative
+    var quatEnuToBody = new Cesium.Quaternion(
+      data.orientation.x,
+      data.orientation.y,
+      data.orientation.z,
+      data.orientation.w,
+    );
+
+    // get quat from ECEF to ENU
+    var transformEnuToEcef = new Cesium.Transforms.eastNorthUpToFixedFrame(position);
+    const rotEnuToEcef = new Cesium.Matrix3();
+    Cesium.Matrix4.getMatrix3(transformEnuToEcef, rotEnuToEcef);
+    var quatEnuToEcef = new Cesium.Quaternion.fromRotationMatrix(rotEnuToEcef)
+
+    // compose quaternions
+    var quatEcefToBody = new Cesium.Quaternion()
+    Cesium.Quaternion.multiply(quatEnuToEcef, quatEnuToBody, quatEcefToBody)
+    shape.orientation = quatEcefToBody;
   }
 }
 

@@ -34,6 +34,7 @@
 
 #include <GeographicLib/LocalCartesian.hpp>
 
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/MissionParse.h>
@@ -74,8 +75,20 @@ bool CesiumWebServer::init(std::map<std::string, std::string> &mission_params,
                  std::map<std::string, std::string> &plugin_params) {
 
   // params
-  web_src_dir_ = sc::get<std::string>("web_src_dir", plugin_params, "");
   web_host_port_ = sc::get<int>("web_host_port", plugin_params, 9090);
+
+  // FIXME debug
+  scrimmage::FileSearch fs;
+  /* std::string model_map_file; */
+  /* fs.find_file("default_model_map", "js", "SCRIMMAGE_DATA_PATH", model_map_file); */
+  /* std::cout << "default_model_map: " << model_map_file << std::endl; */
+
+  // find dir with website source
+  const std::string web_src_dir = sc::get<std::string>(
+      "web_src_dir", plugin_params, "cesium_default");
+  std::cout << "web_src_dir: " << web_src_dir << std::endl;
+  if (!fs.find_dir(web_src_dir, "SCRIMMAGE_DATA_PATH", web_src_dir_path_)) return false;
+  std::cout << "web_src_dir_path: " << web_src_dir_path_ << std::endl;
 
   // subscribe to scrimmage shapes
   subscribe<scrimmage_proto::ShapePtr>("GlobalNetwork", "shapes",
@@ -134,7 +147,7 @@ void CesiumWebServer::sendEntities() {
 }
 
 void CesiumWebServer::serve_blocking() {
-  server_->serve(web_src_dir_.c_str(), web_host_port_);
+  server_->serve(web_src_dir_path_.c_str(), web_host_port_);
 }
 
 void CesiumWebServer::subShapes(scrimmage::MessagePtr<scrimmage_proto::ShapePtr> &msg) {
@@ -171,6 +184,11 @@ void CesiumWebServer::subShapes(scrimmage::MessagePtr<scrimmage_proto::ShapePtr>
     shape["position"] = {lon, lat, alt};
     shape["box"]["dimensions"] = {cub.x_length(), cub.y_length(), cub.z_length()};
     shape["box"]["material"] = {rgb.r()/255.0, rgb.g()/255.0, rgb.b()/255.0, msg->data->opacity()};
+    const auto quat = cub.quat();
+    shape["orientation"]["x"] = quat.x();
+    shape["orientation"]["y"] = quat.y();
+    shape["orientation"]["z"] = quat.z();
+    shape["orientation"]["w"] = quat.w();
   } else if (msg->data->has_polyline()) {
     shape["name"] = "polyline";
     shape["polyline"]["positions"] = {};

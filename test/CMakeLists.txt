@@ -6,6 +6,7 @@ set(
   test_collisions.cpp
   test_delayed_task.cpp
   test_exponential_filter.cpp
+  test_find_files.cpp
   test_find_mission.cpp
   test_id.cpp
   test_params.cpp

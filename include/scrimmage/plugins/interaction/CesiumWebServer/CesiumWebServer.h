@@ -69,7 +69,7 @@ class CesiumWebServer : public scrimmage::EntityInteraction {
   std::shared_ptr<seasocks::Server> server_;
   std::shared_ptr<std::thread> serve_thread_;
   std::shared_ptr<CesiumWebSocketHandler> ws_handler_;
-  std::string web_src_dir_;
+  std::string web_src_dir_path_;
   int web_host_port_;
   void serve_blocking();
   void subShapes(scrimmage::MessagePtr<scrimmage_proto::ShapePtr> &msg);

@@ -216,7 +216,12 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
 
             while (it != endit) {
                 fs::path path = it->path();
-                if (fs::is_regular_file(*it) && path.extension() == ext) {
+                if (fs::is_directory(*it) && ext == "/") {
+                    std::string fname = path.filename().string();
+                    std::string full_path = fs::absolute(path).string();
+                    dbg(std::string("   ") + fname);
+                    ext_it->second[fname].push_back(full_path);
+                } else if (fs::is_regular_file(*it) && path.extension() == ext) {
                     std::string fname = path.filename().string();
                     std::string full_path = fs::absolute(path).string();
                     dbg(std::string("   ") + fname);
@@ -231,6 +236,56 @@ void FileSearch::find_files(std::string env_var, const std::string &ext,
 
     out = ext_it->second;
     return;
+}
+
+bool FileSearch::find_dir(const std::string &search,
+        const std::string &env_var, std::string &result,
+        bool verbose) {
+    // Find the xml file.
+    // Search order:
+    // 1. search could be the full path
+    // 2. search could be just the name of the plugin (e.g., QuadTest_plugin)
+    //    a. Is the file located in the plugin path environment variable?
+    std::string search_filename = search;
+
+    auto dbg = [&](std::string msg) {
+        if (verbose) std::cout << "find_file: " << msg << std::endl;
+    };
+    dbg(std::string("looking for ") + search_filename);
+
+    std::list<std::string> filenames;
+    if (!fs::exists(search)) {
+        // files[search_filename] = list of full paths
+        dbg(std::string("not an absolute path, checking recursively in ")
+                + env_var);
+        std::unordered_map<std::string, std::list<std::string>> files;
+        find_files(env_var, "/", files, verbose);
+        filenames = files[search_filename];
+    } else {
+        filenames.push_back(search);
+    }
+
+    if (filenames.empty()) {
+        dbg(std::string("Failed to find xml filename: ") + search);
+        return false;
+    }
+
+    // Use the last XML file that was found
+    result = filenames.back();
+
+    if (filenames.size() > 1) {
+        std::cout <<
+            "===============================================" << std::endl;
+        std::cout <<
+            "WARNING: Multiple dirs with same name found" << std::endl;
+        for (std::string &full_path : filenames) {
+            std::cout << full_path << std::endl;
+        }
+        std::cout << "Using dir: " << result << std::endl;
+        std::cout <<
+            "===============================================" << std::endl;
+    }
+    return true;
 }
 
 }  // namespace scrimmage
