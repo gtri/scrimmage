@@ -44,7 +44,11 @@ comes from the National Agriculture Imagery Program (NAIP). It is “four band�
 pixel represents a 1m-by-1m square area.
 
 SCRIMMAGE can also display extrusions of ground-based objects such as buildings.
-These extrusions are constructed from polygons in a GeoJSON file that have a height property. Many cities provide GeoJSON files with building footprints, but these files might not have building heights. In this tutorial, we create a GeoJSON file that has a height property. Although not used in this tutorial, Microsoft provides building footprint data through the `Microsoft Building Footprint Data`_ wiki.
+These extrusions are constructed from polygons in a GeoJSON file that have a height
+property. Many cities provide GeoJSON files with building footprints, but these files
+might not have building heights. In this tutorial, we create a GeoJSON file that has a
+height property. Although not used in this tutorial, Microsoft provides building
+footprint data through the `Microsoft Building Footprint Data`_ wiki.
 
 
 .. _The National Map Data Download and Visualization Services : https://www.usgs.gov/core-science-systems/ngp/tnm-delivery/gis-data-download
@@ -84,6 +88,10 @@ for the aerial imagery and elevation data.
 .. image:: ../images/tnm_elevation.png
    :align: center
 
+An alternative way to download terrain and imagery data is through the `visual TMS downloader`_.
+This will allow you to see the boundaries of each product on a map so that you know you are getting
+the correct data for the location you want.
+
 For Camp Roberts, the downloadURL for the aerial imagery is
 https://prd-tnm.s3.amazonaws.com/StagedProducts/NAIP/ca_2016/35120/m_3512018_ne_10_h_20160530_20161004.jp2.
 This file should be downloaded to the ./Imagery/Original folder. The
@@ -93,6 +101,7 @@ The contents of this folder should be extracted to the ./Elevation/Original
 folder.
 
 .. _TNM Access API : https://viewer.nationalmap.gov/tnmaccess/api/productsForm
+.. _visual TMS downloader : https://viewer.nationalmap.gov/basic/
 
 Step 3: Create a QGIS Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -166,7 +175,7 @@ solely as an aid for locating and defining our area of interest.
 
 2. From the menu bar, select “Web > QuickMapServices > Search QMS” to bring
    up the Search QMS panel. Using this panel, search for “Google” and
-   double-click the result “Google Hybrid [TMS]”. This will create a new item
+   double-click the result “Google Terrain Hybrid [TMS]”. This will create a new item
    in the Layers panel called “Google Hybrid”. If this layer is not already in
    the Miscellaneous group, drag-and-drop it there. Right-click on the layer,
    select “Rename”, and change the layer’s name to “Basemap: Google Hybrid”.
@@ -203,56 +212,20 @@ Step 5: Create a Clipping Polygon
    Project's CRS, which for the mcmillan QGIS project is "WGS 84 / UTM zone
    10N".
 
-#. Next we will draw the rectangle. Note that the “rectangle” will not be
-   perfect. We will clean this up afterwards with the Node tool. In the Layer
-   panel, make sure the ClippingRect layer is selected. From the menu bar,
+#. Next we will draw the rectangle. In the Layer panel, make sure the ClippingRect
+   layer is selected. From the menu bar,
    select “Layer > Toggle Editing” to make the layer editable. From the menu
-   bar, select “Edit > Add Feature” to select the polygon drawing tool. Define
-   the polygon’s perimeter by clicking on four corner arbitrary points in a
-   circular order. Finish the definition by right-clicking anywhere on the map.
-   QGIS will immediately prompt you for an ID for the new polygon. Enter “1”
-   and press OK. The polygon should now be visible on the map as shown below.
+   bar, select “Edit > Add Rectangle > Add Rectangle from Center and a Point” to
+   select the polygon drawing tool. Click the center of the bounding rectangle
+   you wish to define and then a corner. Finish the definition by right-clicking anywhere on the map.
 
-.. image:: ../images/qgis_rect.png
-   :width: 40 %
-   :align: center
-
-5. From the menu bar, select “Edit > Node Tool”. On the map, click on the
-   boundary of the polygon to display its nodes in the Vertex Editor panel.
-   Double-click in a cell in the Editor to edit the node’s coordinate values.
-   For Camp Roberts, we will use the values listed below. Note that when you
-   edit node 0, node 4 changes also. This is because the polygon is closed, so
-   it starts and ends on the same coordinate.
-
-
-.. image:: ../images/qgis_vertices.png
-   :width: 35 %
-   :align: center
-
-.. table::
-   :widths: auto
-   :align: center
-
-   =====  =======  =======
-   index     x        y
-   =====  =======  =======
-     0     698000  3958000
-     1     703000  3954000
-     2     698000  3954000
-     3     698000  3958000
-   =====  =======  =======
-
-6. Next, we will make the rectangle semi-transparent so that we can see the
+5. Next, we will make the rectangle semi-transparent so that we can see the
    imagery behind it. In the Layers Panel, right-click on the ClippingRect
    layer and select “Properties”. In the Layer Properties dialog, select the
-   Style tab. Under Layer Rendering, change Layer Transparency to 50% and then
+   Style tab. Under Layer Rendering, change transparency/opacity to 50% and then
    press OK.
 
-.. image:: ../images/qgis_transparency.png
-   :scale: 40 %
-   :align: center
-
-7. We are finished with the ClippingRect layer. In the Layer panel, make sure
+#. We are finished with the ClippingRect layer. In the Layer panel, make sure
    the ClippingRect layer is selected. From the menu bar, select “Layer >
    Toggle Editing” to stop editing the layer. QGIS will ask you if you want to
    save the changes to the layer; select “Save”.
@@ -328,7 +301,10 @@ projected into the Project CRS.
    output there as a GeoTIFF file named “ImageryClipped.tif”. Under “Clipping
    mode”, select “Mask layer”, set the “Mask layer” selection to
    “ClippingRect”, and check “Crop the extent of the target dataset to the
-   extent of the cutline”. Press “OK” to start the process. When done, press
+   extent of the cutline”. Press “OK” to start the process. If this does not 
+   work for you, instead click Raster > Extraction > Clip Raster by Extent. In the
+   dialog, click the square button next to "Clipping extent field", select 
+   "Calculate from Layer", and then the clipping layer. When done with the clipping, press
    “Close” to dismiss the Clipper dialog and then hide the “ImageryReprojected”
    and “ClippingRect” layers to see the results. Once again, if the new image
    looks washed out, set its transparency to None as mentioned in the previous
@@ -344,10 +320,9 @@ projected into the Project CRS.
    the Translate dialog, set “Input Layer” to “ImageryClipped”. For the output
    file, press the “Select...” button, navigate to “./Output”, and save the
    output image as a JPEG/JFIF file called “imagery.jpg”. Unselect “Load into
-   canvas when finished”. I also recommend pressing the Edit (pencil) button
-   next to the text area at the bottom of the dialog and manually adding “-b 1
-   -b 2 -b 3” to the gdal_translate command, as shown in the second image
-   below. This exports only the first three (red, green, and blue) bands and
+   canvas when finished”. I also recommend opening "Advanced Parameters" and
+   manually adding “-b 1 -b 2 -b 3” to the "Additional command-line parameters"
+   field. This exports only the first three (red, green, and blue) bands and
    omits any others, such as transparency or infrared bands. Press “OK” to
    begin the operation. After completion, press “Close” to dismiss the dialog.
    The resulting JPEG image is suitable for use with SCRIMMAGE.
@@ -388,7 +363,10 @@ process for the aerial imagery.
    file named “ElevationClipped.tif” in “./Elevation/Clipped”. Under “Clipping
    mode”, select “Mask layer”, set the “Mask layer” to “ClippingRect”, and
    check “Crop the extent of the target dataset to the extent of the cutline”.
-   Press “OK” to start the process. When done, press “Close” to dismiss the
+   Press “OK” to start the process. Again, if this does not work for you, click
+   Raster > Extraction > Clip Raster by Extent. In the dialog, click the square 
+   button next to "Clipping extent field", select "Calculate from Layer", and 
+   then the clipping layer. When done, press “Close” to dismiss the
    Clipper dialog and then hide the other layers to see the results.
 
 .. image:: ../images/qgis_elevation_clipped.png
@@ -417,11 +395,10 @@ process for the aerial imagery.
       corresponds to the WGS84 UTM zone 10N reference system that we’ve been
       using throughout the tutorial. Press “Next”.
 
-.. image:: ../images/grass_crs.png
-   :width: 45 %
-   :align: center
-
-|
+   .. image:: ../images/grass_crs.png
+      :width: 45 %
+      :align: center
+   
 
    f. Next, GRASS will ask you to select from a list of datum
       transformations. Select “0 - Do not apply any datum
@@ -431,11 +408,9 @@ process for the aerial imagery.
    #. GRASS will ask you if you want to set the default region extents and
       resolution now. Select “Yes”. For Camp Roberts, set the following values:
 
-.. image:: ../images/grass_region.png
-   :width: 45 %
-   :align: center
-
-|
+   .. image:: ../images/grass_region.png
+      :width: 45 %
+      :align: center
 
    h. Create a new mapset called “Elevation”. Select it and then press
       “Start GRASS session”. The Layer Manager and Map Display windows
@@ -452,13 +427,15 @@ process for the aerial imagery.
       raster should now be visible on the Map Display window. Press “Close” to
       dismiss the Import dialog.
 
-.. image:: ../images/grass_output_preview.png
-   :width: 45 %
-   :align: center
+   .. image:: ../images/grass_output_preview.png
+      :width: 45 %
+      :align: center
 
-|
+   j. Before exporting, we must be sure that the red computational boundary box 
+      surrounds the image. To do this, click Settings > Computational Region > Set region.
+      From there, select your map under "Set region to match raster maps" and click Run.
 
-   j. From the Layer Manager menu bar, select “File > Export raster map >
+   #. From the Layer Manager menu bar, select “File > Export raster map >
       VTK    export [r.out.vtk]”. On the export dialog, select the
       “Optional” tab. Set:
 
@@ -468,8 +445,12 @@ process for the aerial imagery.
         “elevation.vtk”
       - Name of input elevation raster map: ElevationClipped@Elevation
 
-   #. Press the “Run” button. After which, you are done creating your
+   l. Press the “Run” button. After which, you are done creating your
       final elevation file. You can now close GRASS.
+
+   #. It is a good idea to be sure that the elevation file looks correct after 
+      exporting to .vtk. To visualize it, download a VTK viewer such as Paraview
+      and make sure the elevation file looks correct in 3D.
 
 
 Step 8 (Optional): Create Building Data
