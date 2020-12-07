@@ -696,7 +696,7 @@ entity or specify their position on the vehicle (coming soon).</p>
 rm -rf build/ <span class="o">&amp;&amp;</span> mkdir build/ <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build/
 
 <span class="c1"># Config CMake to build SCRIMMAGE ROS Plugins</span>
-cmake .. -DAIRSIM_ROOT_SEARCH<span class="o">=</span>/home/nrakoski3/scrimmage/AirSim/ -DROS_VERSION<span class="o">=</span>melodic -DBUILD_ROS_PLUGINS<span class="o">=</span>ON
+cmake .. -DAIRSIM_ROOT_SEARCH<span class="o">=</span>/path/to/AirSim-gcc/ -DROS_VERSION<span class="o">=</span>melodic -DBUILD_ROS_PLUGINS<span class="o">=</span>ON
 <span class="c1"># Build</span>
 make -j7
 
