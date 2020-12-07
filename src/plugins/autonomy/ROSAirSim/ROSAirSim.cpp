@@ -50,7 +50,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(sc::Autonomy, sc::autonomy::ROSAirSim, ROSAirSim_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAirSim, ROSAirSim_plugin)
 
 namespace scrimmage {
 namespace autonomy {
