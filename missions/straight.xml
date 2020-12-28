@@ -45,9 +45,10 @@
                       center="0, 0, 500"
                       rpy="0, 0, 0"
                       >Boundary</entity_interaction>
+<!--  
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction>GroundCollision</entity_interaction>
-
+-->
   <!--
        The following is an example configuration of the BulletCollision plugin
        that uses the terrain to determine ground and entity collisions. Note
@@ -56,7 +57,7 @@
        unique locations. (You will want to remove the above SimpleCollision and
        GroundCollision plugins.)
   -->
-  <!--
+
   <entity_interaction startup_collisions_only="true"
                       startup_collision_range="5"
                       >SimpleCollision</entity_interaction>
@@ -69,7 +70,7 @@
                       enable_ground_plane="false"
                       ground_plane_height="0"
                       >BulletCollision</entity_interaction>
-  -->
+
 
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 

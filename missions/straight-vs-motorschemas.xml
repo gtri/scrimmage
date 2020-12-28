@@ -99,12 +99,13 @@
 
     <!--<sensor>NoisyContacts</sensor>-->
     
-    <autonomy max_speed="30"
+    <!--<autonomy max_speed="30"
               show_shapes="true"
               behaviors="
        [ AvoidEntityMS gain='1.0' contacts='truth' sphere_of_influence='20' minimum_range='5' ]
        [ MoveToGoalMS gain='1.0' use_initial_heading='true goal='100,0,0']"       
-       >MotorSchemas</autonomy>
+       >MotorSchemas</autonomy>-->
+	<autonomy sphere_of_influence="50">MotorSchemas</autonomy>
 
     <color>255 0 0</color>
     <health>1</health>
@@ -130,12 +131,13 @@
 
     <!--<sensor>NoisyContacts</sensor>-->
     
-    <autonomy max_speed="30"
+    <!--<autonomy max_speed="30"
               show_shapes="true"
               behaviors="
        [ AvoidEntityMS gain='1.0' contacts='truth' sphere_of_influence='20' minimum_range='5' ]
        [ MoveToGoalMS gain='1.0' use_initial_heading='true goal='100,0,0']"       
-       >MotorSchemas</autonomy>
+       >MotorSchemas</autonomy>-->
+	<autonomy sphere_of_influence="50">MotorSchemas</autonomy>
        
     <color>255 0 0</color>
     <health>1</health>
