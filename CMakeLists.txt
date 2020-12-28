@@ -93,12 +93,13 @@ GenerateSetEnv(
 option(EXTERNAL "EXTERNAL" 0)
 
 option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
-set(PYTHON_MIN_VERSION "2.7" CACHE STRING "Minimum Python version for building")
+#set(PYTHON_MIN_VERSION "2.7" CACHE STRING "Minimum Python version for building")
 add_library(scrimmage-python INTERFACE)
 if (ENABLE_PYTHON_BINDINGS)
 
   # Find Python
   #The order of the followin find_package calls is important!
+  message(STATUS "Python Version Required: ${PYTHON_MIN_VERSION}")
   find_package(PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
   find_package(PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
 

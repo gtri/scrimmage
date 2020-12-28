@@ -98,6 +98,8 @@
     <!-- These plugins publish useful SCRIMMAGE data to ROS -->
     <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
     <!-- These SCRIMMAGE simulated sensors can not support custom location settings on the vehicle body or using multiple of each per vehicle unlike AirSim sensors.-->
+    <!-- CAUTION: You can not use get_imu_data="true" in the AirSim plugin above and the ROSIMUSensor plugin below at the same time.-->
+    <!-- CAUTION: To use the ROSIMUSensor plugin below, get_imu_data="false" must be set in the AirSim plugin above, else you will receive an error.-->
 <!--    <sensor vehicle_name="robot1">ROSAltimeter</sensor>-->
 <!--    <sensor vehicle_name="robot1">ROSCompass</sensor>-->
 <!--    <sensor vehicle_name="robot1">ROSIMUSensor</sensor>-->
@@ -187,6 +189,8 @@
     <!-- These plugins publish useful SCRIMMAGE data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
     <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file. -->
     <!-- These SCRIMMAGE simulated sensors can not support custom location settings on the vehicle body or using multiple of each per vehicle unlike AirSim sensors.-->
+    <!-- CAUTION: You can not use get_imu_data="true" in the AirSim plugin above and the ROSIMUSensor plugin below at the same time.-->
+    <!-- CAUTION: To use the ROSIMUSensor plugin below, get_imu_data="false" must be set in the AirSim plugin above, else you will receive an error.-->
 <!--    <sensor vehicle_name="robot2">ROSAltimeter</sensor>-->
 <!--    <sensor vehicle_name="robot2">ROSCompass</sensor>-->
 <!--    <sensor vehicle_name="robot2">ROSIMUSensor</sensor>-->

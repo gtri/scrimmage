@@ -517,7 +517,7 @@ Publish Data to ROS
           rm -rf build/ && mkdir build/ && cd build/
 
           # Config CMake to build SCRIMMAGE ROS Plugins
-          cmake .. -DAIRSIM_ROOT_SEARCH=/home/nrakoski3/scrimmage/AirSim/ -DROS_VERSION=melodic -DBUILD_ROS_PLUGINS=ON
+          cmake .. -DAIRSIM_ROOT_SEARCH=/path/to/AirSim-gcc/ -DROS_VERSION=melodic -DBUILD_ROS_PLUGINS=ON
           # Build
           make -j7
 
