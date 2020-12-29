@@ -35,7 +35,7 @@
 usage()
 {
     cat << EOF
-usage: sudo $0 -e
+usage: sudo $0
 This script installs all required dependencies.
 
 OPTIONS
@@ -53,6 +53,23 @@ OPTIONS
         The default is "a".
 EOF
 }
+
+###################################################################
+# Process input parameters to assign state of external flag and
+# Python version variables
+###################################################################
+EXTERNAL=false
+PYTHON_VERSION="a"
+
+while (( "$#" )); do
+    if [[ "$1" = "--python" ]] && ([[ "$2" = "2" ]] || [[ "$2" = "3" ]]); then
+        PYTHON_VERSION="$2"
+    elif [[ "$1" = "--external" ]]; then
+		EXTERNAL=true
+    fi
+
+    shift
+done
 
 ###################################################################
 # Dependencies array.
@@ -85,7 +102,7 @@ DEPS_DPKG=(
     unzip
 )
 
-if ( [ "$1" != "--external" ] ) && ( [ "$3" != "--external" ] ); then
+if [ "$EXTERNAL" = false ]; then
     DEPS_DPKG+=(
         ccache
         parallel
@@ -95,18 +112,11 @@ if ( [ "$1" != "--external" ] ) && ( [ "$3" != "--external" ] ); then
         libopencv-dev
         libvtk6-dev
     )
-    if [ "18.04" == ${UBUNTU_VERSION} ]; then
+    if ! echo "$UBUNTU_VERSION 18.04 -p" | dc | grep > \dev\null ^-; then
         DEPS_DPKG+=(tcl-vtk7)
     else
         DEPS_DPKG+=(tcl-vtk)
     fi
-fi
-
-PYTHON_VERSION="a"
-if [[ "$1" = "--python" ]]; then
-    PYTHON_VERSION="$2"
-elif  [[ "$3" = "--python" ]]; then
-    PYTHON_VERSION="$4"
 fi
 
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
