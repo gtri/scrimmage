@@ -178,6 +178,12 @@
 <div class="section" id="git-change-log">
 <h2>git change log<a class="headerlink" href="#git-change-log" title="Permalink to this headline">¶</a></h2>
 <ul>
+<li><p><strong>Merge pull request #508 from gtri/gps-message-protobuf-patch</strong><span> by </span><em>shaun-d-anderson</em><span> at </span><em>2021-02-04 18:35:33</em></p>
+<p>Update GPS.proto</p>
+</li>
+<li><p><strong>Update GPS.proto</strong><span> by </span><em>shaun-d-anderson</em><span> at </span><em>2021-02-04 18:03:21</em></p>
+<p>Correcting GPS message from signed int to double, as GPS coords were being truncated from GPS plugin.</p>
+</li>
 <li><p><strong>Merge pull request #404 from crichardson332/deprecate-macos</strong><span> by </span><em>shaun-d-anderson</em><span> at </span><em>2021-02-03 01:16:31</em></p>
 <p>deprecate macOS in readme</p>
 </li>
@@ -210,16 +216,6 @@ fixed word wrap</p>
 Co-authored-by: Frazier Baker &lt;frazier.baker&#64;gtri.gatech.edu&gt;</p>
 </li>
 <li><p><strong>exposed the flush() function so that partial log files can be written in the case of scrimmage crashing</strong><span> by </span><em>Tara Madden</em><span> at </span><em>2020-10-15 18:58:03</em></p></li>
-<li><p><strong>Added a printer utility in the log directory. Usage comments are in src/log/Print.cpp. This utility is shared among plugins in the simulation and can be invoked to print to both the console and to a file in the log directory called console.log.</strong><span> by </span><em>Tara Madden</em><span> at </span><em>2020-10-07 22:09:52</em></p>
-<p>* PrintDev()
-* PrintInfo()
-* PrintWarning()
-* PrintError()
-
-See the .h file (include/scrimmage/log/Print.h) for the publicly accessible method prototypes.
-All plugins have access to this utility, including interaction, network, and metrics plugins.</p>
-</li>
-<li><p><strong>Merge branch ‘master’ of github.com:tm132/scrimmage</strong><span> by </span><em>Tara Madden</em><span> at </span><em>2020-10-07 20:35:48</em></p></li>
 </ul>
 </div>
 </div>
