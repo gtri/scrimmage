@@ -2264,6 +2264,9 @@ bool Updater::draw_sphere(const bool &new_shape,
     } else {
         sphereSource = vtkSphereSource::SafeDownCast(source);
     }
+    if (!sphereSource) {
+        return false;
+    }
     sphereSource->SetRadius(s.radius());
     actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
     return true;
