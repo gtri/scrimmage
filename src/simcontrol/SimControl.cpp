@@ -1063,6 +1063,10 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         kv.second->close_plugin(t());
     }
 
+    for (MetricsPtr metric : metrics_) {
+        metric->close_plugin(t());
+    }
+
     bool status = reset_pointers();
 
 #if ENABLE_PYTHON_BINDINGS == 1
