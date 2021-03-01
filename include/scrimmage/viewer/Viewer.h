@@ -87,6 +87,8 @@ class Viewer {
     int local_port_ = 50051;
     std::string remote_ip_ = "localhost";
     int remote_port_ = 50052;
+
+    double init_scale_ = 1.0;
 };
 
 } // namespace scrimmage

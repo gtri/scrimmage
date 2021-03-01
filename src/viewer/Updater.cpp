@@ -1527,7 +1527,7 @@ void Updater::inc_follow_offset() {follow_offset_ *= 1.1;}
 void Updater::dec_follow_offset() {follow_offset_ /= 1.1;}
 
 void Updater::reset_scale() {
-    scale_ = 1.0;
+    scale_ = init_scale_;
     scale_required_ = true;
 }
 

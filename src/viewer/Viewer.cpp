@@ -93,6 +93,7 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
         renderWindow_->SetFullScreen(false);
         renderWindow_->SetSize(mp->window_width(), mp->window_height());
     }
+    init_scale_ = get<double>("scale", mp->params(), 1.0);
 
     log_dir_ = mp->log_dir();
     dt_ = mp->dt();
@@ -134,6 +135,8 @@ bool Viewer::run() {
     updater->set_incoming_interface(incoming_interface_);
     updater->set_outgoing_interface(outgoing_interface_);
     updater->set_max_update_rate(update_rate);
+    updater->set_init_scale(init_scale_);
+    updater->reset_scale();
 
     std::string camera_pos_str =
         get<std::string>("pos", camera_params_, "0, 1, 200");

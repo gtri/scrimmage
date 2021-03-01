@@ -171,6 +171,7 @@ class Updater : public vtkCommand {
                              const double &z);
 
     void reset_scale();
+    void set_init_scale(double init_scale) {init_scale_ = init_scale;}
 
     void set_reset_camera();
     void set_camera_reset_params(double pos_x, double pos_y, double pos_z,
@@ -351,6 +352,7 @@ class Updater : public vtkCommand {
 
     bool show_helpmenu_;
     double label_scale_ = 0.3;
+    double init_scale_ = 1.0;
 };
 
 } // namespace scrimmage

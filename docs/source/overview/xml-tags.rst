@@ -331,3 +331,5 @@ and match between the two paradigms for a single entity.
   - ``controller`` : whether to enable or disable running controller plugins in threads (``default = true``)
   - ``motion`` : whether to enable or disable running motion plugins in threads (``default = true``)
   - ``sensor`` : whether to enable or disable running sensor plugins in threads (``default = true``)
+
+- ``scale``: the initial scale of the vehicles in the gui (``default = 1.0``)
