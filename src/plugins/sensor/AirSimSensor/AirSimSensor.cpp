@@ -41,6 +41,7 @@
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/autonomy/Autonomy.h>
 
 #include <iostream>
 #include <memory>
@@ -216,7 +217,7 @@ std::deque<State> AirSimSensor::get_init_maneuver_positions() {
         State init_state(*state);
         State current_state(*state);
         man_positions.push_back(current_state);
-        double delta = 0.1;
+        double delta = 0.01;
 
         // Rise up to 5 meters above the starting position
         for (double i=0.0; i<5.0; i+=delta) {
@@ -681,6 +682,62 @@ void AirSimSensor::request_imu() {
     }
 }
 
+//void AirSimSensor::complete_init_maneuver(){
+//
+//    while(man_positions_.size() != 0){
+//        // Pop a state off the front of man_positions_ vector and delete the element
+//        State next_state = man_positions_.front();
+//        man_positions_.pop_front();
+//
+//        // convert from ENU to NED frame
+//        ma::Vector3r pos(next_state.pos()(1), next_state.pos()(0), -next_state.pos()(2));
+//
+//        enu_to_ned_yaw_.set_angle(ang::rad2deg(next_state.quat().yaw()));
+//        double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+//
+//        // pitch, roll, yaw
+//        // note, the negative pitch and yaw are required because of the wsu coordinate frame
+//        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-next_state.quat().pitch(),
+//                                                          next_state.quat().roll(),
+//                                                          airsim_yaw_rad);
+//
+//        // Send state information to AirSim
+//        sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+//
+//        // Get the camera images from the other thread
+//        if (get_image_data_) {
+//            // sc::MessagePtr<std::vector<AirSimImageType>> im_msg_step;
+//            // auto im_msg_step = std::make_shared<sc::Message<std::vector<AirSimImageType>>>(); // NOLINT
+//
+//            new_image_mutex_.lock();
+//            bool new_image = new_image_;
+//            new_image_ = false;
+//            new_image_mutex_.unlock();
+//
+//            img_msg_mutex_.lock();
+//            // im_msg_step = img_msg_;
+//            std::shared_ptr<sc::Message<std::vector<AirSimImageType>>> im_msg_step = img_msg_;
+//            // sc::MessagePtr<std::vector<AirSimImageType>> im_msg_step = img_msg_;
+//            img_msg_mutex_.unlock();
+//
+//            // If image is new, publish
+//            if (new_image) {
+//                if (save_airsim_data_) {
+//                    AirSimSensor::save_data(im_msg_step, next_state, airsim_frame_num_);
+//                }
+//                img_pub_->publish(im_msg_step);
+//            }
+//        }
+//        // increment frame num so we do not save over the images
+//        airsim_frame_num_++;
+//
+//        // sleep
+//        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+//    } // end while man_positions_ is not empty
+//
+//    init_maneuver_finished_ = true;
+//}
+
 bool AirSimSensor::step() {
     ///////////////////////////////////////////////////////////////////////////
     /// Client Connection / Disconnection Handling
@@ -724,12 +781,29 @@ bool AirSimSensor::step() {
     // Setup state information for AirSim
     sc::StatePtr &state = parent_->state_truth();
 
-    if (man_positions_.size() == 0){
+    // record init state
+    if (airsim_frame_num_ == 0){
+        init_state_ = parent_->state_truth();
+    }
+
+    State next_state(*state);
+
+    if (man_positions_.size() == 0) {
         init_maneuver_finished_ = true;
+        // reset to the original state
+        // parent_->state_truth() = init_state_;
+        std::vector<AutonomyPtr> autos = parent_->autonomies();
+        // autos.front()->set_desired_state(init_state_);
+        for (auto a : autos) {
+            // (*a).set_desired_state(init_state_);
+            // autos.front()->set_desired_state(init_state_);
+            a->set_desired_state(init_state_);
+        }
     }
 
     if (!init_maneuver_finished_ && use_init_maneuver_) {
-
+        //MissionParsePtr mp_->pause();
+        // complete_init_maneuver();
         // Pop a state off the front of man_positions_ vector and delete the element
         State next_state = man_positions_.front();
         man_positions_.pop_front();
@@ -750,8 +824,7 @@ bool AirSimSensor::step() {
         sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
 
     } else {
-        // Else go through the motions of the autonomy plugin defined in the mission file.
-
+        // Go through the motions of the autonomy plugin defined in the mission file.
         // convert from ENU to NED frame
         ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
 
@@ -767,6 +840,22 @@ bool AirSimSensor::step() {
         // Send state information to AirSim
         sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
     }
+
+//    // Go through the motions of the autonomy plugin defined in the mission file.
+//    // convert from ENU to NED frame
+//    ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
+//
+//    enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
+//    double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+//
+//    // pitch, roll, yaw
+//    // note, the negative pitch and yaw are required because of the wsu coordinate frame
+//    ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
+//                                                      state->quat().roll(),
+//                                                      airsim_yaw_rad);
+//
+//    // Send state information to AirSim
+//    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
 
     // Get the camera images from the other thread
     if (get_image_data_) {
@@ -787,7 +876,7 @@ bool AirSimSensor::step() {
         // If image is new, publish
         if (new_image) {
             if (save_airsim_data_) {
-                AirSimSensor::save_data(im_msg_step, state, airsim_frame_num_);
+                AirSimSensor::save_data(im_msg_step, next_state, airsim_frame_num_);
             }
             img_pub_->publish(im_msg_step);
         }
@@ -837,7 +926,7 @@ bool AirSimSensor::step() {
     return true;
 }
 
-bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, sc::StatePtr& state, int frame_num) {
+bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, State state, int frame_num) {
     // Get timestamp
     double time_now = time_->t();
 
@@ -866,12 +955,12 @@ bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, s
     csv.append(sc::CSV::Pairs{
     {"frame", frame_num},
     {"t", time_now},
-    {"x", state->pos()(0)},
-    {"y", state->pos()(1)},
-    {"z", state->pos()(2)},
-    {"roll", state->quat().roll()},
-    {"pitch", state->quat().pitch()},
-    {"yaw", state->quat().yaw()}}, true, true);
+    {"x", state.pos()(0)},
+    {"y", state.pos()(1)},
+    {"z", state.pos()(2)},
+    {"roll", state.quat().roll()},
+    {"pitch", state.quat().pitch()},
+    {"yaw", state.quat().yaw()}}, true, true);
 
     return true;
 }

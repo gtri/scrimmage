@@ -134,7 +134,7 @@ class AirSimSensor : public scrimmage::Sensor {
 
  protected:
     std::string vehicle_name_ = "none";
-    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state, int frame_num);
+    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, State state, int frame_num);
     scrimmage::CSV csv;
     int airsim_frame_num_ = 0;
 
@@ -194,7 +194,9 @@ class AirSimSensor : public scrimmage::Sensor {
     bool use_init_maneuver_ = true;
     bool init_maneuver_finished_ = false;
     std::deque<State> get_init_maneuver_positions();
+    void complete_init_maneuver();
     std::deque<State> man_positions_;
+    StatePtr init_state_;
 
     // period at which the data acquisition is run [seconds]
     // double data_acquisition_period_ = .1;
