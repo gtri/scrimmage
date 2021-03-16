@@ -41,8 +41,6 @@
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/Time.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
 
 #include <iostream>
 #include <memory>
@@ -209,6 +207,102 @@ void AirSimSensor::parse_imu_configs(std::map<std::string, std::string> &params)
     }
 }
 
+std::deque<State> AirSimSensor::get_init_maneuver_positions() {
+
+        std::deque<State> man_positions;
+
+        // get the starting position
+        sc::StatePtr &state = parent_->state_truth();
+        State init_state(*state);
+        State current_state(*state);
+        man_positions.push_back(current_state);
+        double delta = 0.1;
+
+        // Rise up to 5 meters above the starting position
+        for (double i=0.0; i<5.0; i+=delta) {
+            current_state.pos()(2) = current_state.pos()(2) + delta;
+            man_positions.push_back(current_state);
+        }
+
+        // repeat the below right-left movements 3 times
+        for (int repeat = 0; repeat<3; repeat++){
+            // move 2 meters to the right, back to the center
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) + delta;;
+                man_positions.push_back(current_state);
+            }
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) - delta;
+                man_positions.push_back(current_state);
+            }
+            // move 2 meters to the left, back to the center
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) - delta;
+                man_positions.push_back(current_state);
+            }
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) + delta;
+                man_positions.push_back(current_state);
+            }
+        }
+
+        // repeat the below up-down movements 3 times
+        for (int repeat = 0; repeat<3; repeat++){
+            // move 1 meter up, back to the center
+            for (double i=0.0; i<1.0; i+=delta) {
+                current_state.pos()(2) = current_state.pos()(2) + delta;
+                man_positions.push_back(current_state);
+            }
+            for (double i=0.0; i<1.0; i+=delta) {
+                current_state.pos()(2) = current_state.pos()(2) - delta;
+                man_positions.push_back(current_state);
+            }
+            // move 1 meter down, back to the center
+            for (double i=0.0; i<1.0; i+=delta) {
+                current_state.pos()(2) = current_state.pos()(2) - delta;
+                man_positions.push_back(current_state);
+            }
+            for (double i=0.0; i<1.0; i+=delta) {
+                current_state.pos()(2) = current_state.pos()(2) + delta;
+                man_positions.push_back(current_state);
+            }
+        }
+
+        // move in a 4mx2m rectangle parallel to the ground 3 times
+        for (int repeat = 0; repeat<3; repeat++){
+            // move 1 meter in the +y direction
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) + delta;
+                man_positions.push_back(current_state);
+            }
+            // move 1 meter in the +x direction
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(0) = current_state.pos()(0) + delta;
+                man_positions.push_back(current_state);
+            }
+            // move 2 meters in the -y direction
+            for (double i=0.0; i<4.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) - delta;
+                man_positions.push_back(current_state);
+            }
+            // move 1 meters in the -x direction
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(0) = current_state.pos()(0) - delta;
+                man_positions.push_back(current_state);
+            }
+            // move 1 meter in the +y direction
+            for (double i=0.0; i<2.0; i+=delta) {
+                current_state.pos()(1) = current_state.pos()(1) + delta;
+                man_positions.push_back(current_state);
+            }
+        }
+
+        // place back at beginning for Straight Plugin
+        man_positions.push_back(init_state);
+
+        return man_positions;
+}
+
 void AirSimSensor::init(std::map<std::string, std::string> &params) {
     // RPC / AirSim.xml file
     airsim_ip_ = sc::get<std::string>("airsim_ip", params, "localhost");
@@ -229,6 +323,13 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     image_acquisition_period_ = sc::get<double>("image_acquisition_period", params, 0.1);
     lidar_acquisition_period_ = sc::get<double>("lidar_acquisition_period", params, 0.1);
     imu_acquisition_period_ = sc::get<double>("imu_acquisition_period", params, 0.1);
+
+    // If using an initialization maneuver, then compile the position vector
+    use_init_maneuver_ = sc::get<bool>("use_init_maneuver", params, "true");
+    if (use_init_maneuver_) {
+        man_positions_ = get_init_maneuver_positions();
+        cout << "[AirSimSensor] Start VO Initialization Maneuver." << endl;
+    }
 
 
     // Open airsim_data CSV for append (app) and set column headers
@@ -622,20 +723,50 @@ bool AirSimSensor::step() {
 
     // Setup state information for AirSim
     sc::StatePtr &state = parent_->state_truth();
-    // convert from ENU to NED frame
-    ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
 
-    enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
-    double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+    if (man_positions_.size() == 0){
+        init_maneuver_finished_ = true;
+    }
 
-    // pitch, roll, yaw
-    // note, the negative pitch and yaw are required because of the wsu coordinate frame
-    ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
-                                                      state->quat().roll(),
-                                                      airsim_yaw_rad);
+    if (!init_maneuver_finished_ && use_init_maneuver_) {
 
-    // Send state information to AirSim
-    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+        // Pop a state off the front of man_positions_ vector and delete the element
+        State next_state = man_positions_.front();
+        man_positions_.pop_front();
+
+        // convert from ENU to NED frame
+        ma::Vector3r pos(next_state.pos()(1), next_state.pos()(0), -next_state.pos()(2));
+
+        enu_to_ned_yaw_.set_angle(ang::rad2deg(next_state.quat().yaw()));
+        double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+
+        // pitch, roll, yaw
+        // note, the negative pitch and yaw are required because of the wsu coordinate frame
+        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-next_state.quat().pitch(),
+                                                          next_state.quat().roll(),
+                                                          airsim_yaw_rad);
+
+        // Send state information to AirSim
+        sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+
+    } else {
+        // Else go through the motions of the autonomy plugin defined in the mission file.
+
+        // convert from ENU to NED frame
+        ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
+
+        enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
+        double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+
+        // pitch, roll, yaw
+        // note, the negative pitch and yaw are required because of the wsu coordinate frame
+        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
+                                                          state->quat().roll(),
+                                                          airsim_yaw_rad);
+
+        // Send state information to AirSim
+        sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+    }
 
     // Get the camera images from the other thread
     if (get_image_data_) {

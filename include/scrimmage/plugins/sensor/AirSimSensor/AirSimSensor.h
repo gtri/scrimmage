@@ -33,7 +33,9 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_
 
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/common/CSV.h>
 
 #include <random>
@@ -189,6 +191,11 @@ class AirSimSensor : public scrimmage::Sensor {
     bool get_image_data_ = true;
     bool get_lidar_data_ = true;
     bool get_imu_data_ = true;
+    bool use_init_maneuver_ = true;
+    bool init_maneuver_finished_ = false;
+    std::deque<State> get_init_maneuver_positions();
+    std::deque<State> man_positions_;
+
     // period at which the data acquisition is run [seconds]
     // double data_acquisition_period_ = .1;
     double image_acquisition_period_ = .1;
