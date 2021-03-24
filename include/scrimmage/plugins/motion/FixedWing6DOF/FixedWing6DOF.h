@@ -123,7 +123,6 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double delta_elevator_ = 0;
     double delta_aileron_ = 0;
     double delta_rudder_ = 0;
-    double launch_command_ = 0;
 
     double alpha_ = 0; // angle of attack
     // double alpha_prev_ = 0;
@@ -180,16 +179,11 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase{
     double C_N_delta_aileron_ = 0.06;
     double C_N_delta_rudder_ = 0.032;
 
-    double launch_accel_ = 200;
-    double launch_speed_ = 20;
-    double launch_start_t_ = 0;
-    double launch_time_ = 30;
-    LaunchState launch_state_ = POSTLAUNCH;
-    Eigen::Vector3d launch_dir_NED_;
-
     bool use_ground_model_ = true;
 
     Eigen::Quaterniond rot_180_x_axis_;
+
+    bool skip_propagation_ = false;
 };
 } // namespace motion
 } // namespace scrimmage
