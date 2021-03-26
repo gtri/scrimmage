@@ -111,9 +111,9 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     for (auto &plugin_override : plugin_overrides_list) {
         auto behavior = make_autonomy<ms::BehaviorBase>(
             plugin_override.name, parent_->plugin_manager(),
-            plugin_override.overrides, parent_, state_, proj_,
-            contacts_, parent_->file_search(), rtree_, parent_->pubsub(),
-            time_, parent_->param_server());
+            plugin_override.overrides, parent_, state_, id_to_team_map_,
+            id_to_ent_map_, proj_, contacts_, parent_->file_search(), rtree_,
+            parent_->pubsub(), time_, parent_->param_server());
 
         if (behavior) {
             // Extract the gain for this plugin and apply it

@@ -91,6 +91,7 @@ void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
         // and a random number.
         std::string str = name() + std::to_string(parent_->id().id())
                 + std::to_string(time_->t())
+                + std::to_string(parent_->random()->rng_uniform())
                 + std::to_string(parent_->random()->rng_uniform());
 
         std::size_t hash_id = std::hash<std::string>{}(str);

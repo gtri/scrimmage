@@ -56,6 +56,7 @@ struct SimUtilsInfo {
     FileSearchPtr file_search;
     RTreePtr rtree;
     PubSubPtr pubsub;
+    PrintPtr printer;
     TimePtr time;
     ParameterServerPtr param_server;
     RandomPtr random;

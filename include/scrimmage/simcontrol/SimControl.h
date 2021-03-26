@@ -319,6 +319,8 @@ class SimControl {
      */
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_entity_map();
 
+    void set_running_in_thread(bool running_in_thread);
+
  protected:
     // Key: Entity ID
     // Value: Team ID
@@ -390,6 +392,7 @@ class SimControl {
     bool reset_autonomies();
 
     std::shared_ptr<Log> log_;
+    PrintPtr printer_;
 
     std::set<EndConditionFlags> end_conditions_ = {EndConditionFlags::NONE};
 
@@ -406,12 +409,12 @@ class SimControl {
     NetworkMapPtr networks_;
     PubSubPtr pubsub_;
 
-    int next_id_ = 1;
+    std::set<int> ids_used_ = {0};
     FileSearchPtr file_search_;
     RTreePtr rtree_;
 
     void request_screenshot();
-    void create_rtree();
+    void create_rtree(const unsigned int& additional_size);
     void run_autonomy();
     void set_autonomy_contacts();
     void run_dynamics();
@@ -467,6 +470,7 @@ class SimControl {
     void cleanup();
     bool finalize();
     bool reset_pointers();
+    int find_available_id(const std::map<std::string, std::string>& params);
 
     bool finalized_called_ = false;
     bool running_in_thread_ = false;

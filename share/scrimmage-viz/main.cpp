@@ -32,6 +32,7 @@
 
 #include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/network/Interface.h>
+#include <scrimmage/parse/MissionParse.h>
 
 #include <map>
 
@@ -73,23 +74,27 @@ int main(int argc, char* argv[]) {
     sc::InterfacePtr outgoing_interface = std::make_shared<sc::Interface>();
 
     // Get the network parameters from the command line parser
-    std::map<std::string, std::string> params;
-    set_param(vm, params, "local_ip");
-    set_param(vm, params, "local_port");
-    set_param(vm, params, "remote_ip");
-    set_param(vm, params, "remote_port");
-    set_param(vm, params, "pos");
-    set_param(vm, params, "focal_point");
+    std::map<std::string, std::string> camera_params;
+    set_param(vm, camera_params, "local_ip");
+    set_param(vm, camera_params, "local_port");
+    set_param(vm, camera_params, "remote_ip");
+    set_param(vm, camera_params, "remote_port");
+    set_param(vm, camera_params, "pos");
+    set_param(vm, camera_params, "focal_point");
 
-    if (params.count("pos") > 0 || params.count("focal_point") > 0) {
-        params["mode"] = "FREE";
+    if (camera_params.count("pos") > 0 || camera_params.count("focal_point") > 0) {
+        camera_params["mode"] = "FREE";
     }
+
+    auto mp = std::make_shared<sc::MissionParse>();
+    mp->set_dt(1.0e-6);
+    mp->set_log_dir("");
 
     sc::Viewer viewer;
     viewer.set_enable_network(true);
     viewer.set_incoming_interface(incoming_interface);
     viewer.set_outgoing_interface(outgoing_interface);
-    viewer.init(params, "", 1.0e-6);
+    viewer.init(mp, camera_params);
     viewer.run();
 
     return 0;

@@ -35,6 +35,7 @@ pushd gh-pages-dir
     git config user.email "deploy@travis.ci"
     cp -r ../doc_output/jekyll/* .
     cp -r ../doc_output/sphinx .
+    cp -r ../doc_output/doxygen .
 
     # If there are no changes to the compiled out, don't push
     if git diff --quiet; then

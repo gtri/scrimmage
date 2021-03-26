@@ -124,7 +124,7 @@ bool Unicycle::step(double t, double dt) {
         const double radius = velocity_ / turn_rate_;
         roll = -atan2(pow(velocity_, 2) / radius, g_);
     }
-    state_->quat().set(roll, -x_[PITCH], x_[YAW]);
+    state_->quat().set(roll, x_[PITCH], x_[YAW]);
 
     return true;
 }
@@ -135,7 +135,7 @@ void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Y] = xy_speed * sin(x[YAW]);
     dxdt[YAW] = turn_rate_;
     if (use_pitch_) {
-        dxdt[Z] = velocity_ * sin(x[PITCH]);
+        dxdt[Z] = -velocity_ * sin(x[PITCH]);
         dxdt[PITCH] = pitch_rate_;
     } else {
         dxdt[Z] = velocity_z_;

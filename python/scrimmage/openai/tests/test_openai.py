@@ -32,12 +32,13 @@ A Long description goes here.
 import xml.etree.ElementTree as ET
 import copy
 
+import os
 import numpy as np
 import gym
 import scrimmage.utils
 
 MISSION_FILE = 'rlsimple.xml'
-TEMP_MISSION_FILE = '.rlsimple.xml'
+TEMP_MISSION_FILE = os.path.join(os.getcwd(), '.rlsimple.xml')
 
 
 def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
@@ -49,11 +50,11 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
             entry_point='scrimmage.bindings:ScrimmageOpenAIEnv',
             max_episode_steps=1e9,
             reward_threshold=1e9,
-            kwargs={"enable_gui": False,
-                    "combine_actors": combine_actors,
+            kwargs={"combine_actors": combine_actors,
                     "global_sensor": global_sensor,
                     "mission_file": TEMP_MISSION_FILE,
-                    "timestep": timestep}
+                    "timestep": timestep,
+                    "static_obs_space": True}
         )
         env = gym.make(version)
 
@@ -82,7 +83,8 @@ def _run_test(version, combine_actors, global_sensor, get_action, timestep=-1):
     return env, obs, total_reward, info_hx
 
 
-def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end, grpc_mode=False):
+def _write_temp_mission(output_mission_file, x_discrete, ctrl_y,
+                        y_discrete, num_actors, end, grpc_mode=False):
     tree = ET.parse(scrimmage.utils.find_mission(MISSION_FILE))
     root = tree.getroot()
 
@@ -100,20 +102,7 @@ def _write_temp_mission(x_discrete, ctrl_y, y_discrete, num_actors, end, grpc_mo
         entity_node2 = copy.deepcopy(root.find('entity'))
         root.append(entity_node2)
 
-    tree.write(TEMP_MISSION_FILE)
-
-def actor_init_func(action_space, observation_space, params):
-    if isinstance(action_space, gym.spaces.Discrete):
-        return get_action_test_one_dim_discrete
-    elif isinstance(action_space, gym.spaces.MultiDiscrete):
-        return get_action_test_two_dim_discrete
-    elif isinstance(action_space, gym.spaces.Box):
-        if action_space.shape[0] == 0:
-            return get_action_test_one_dim_continuous
-        else:
-            return get_action_test_two_dim_continuous
-    elif isinstance(action_space, gym.spaces.Tuple):
-        return get_action_test_two_dim_tuple
+    tree.write(output_mission_file)
 
 def get_action_test_one_dim_discrete(i):
     return 1 if i[1] < 100 else 0
@@ -130,10 +119,8 @@ def get_action_test_one_dim_continuous(i):
 def get_action_test_two_dim_continuous(i):
     return np.array([1.0, 1.0] if i[1] < 100 else [-1.0, -1.0], dtype=float)
 
-
 def get_action_test_two_dim_tuple(i):
     return np.array([[1], [1.0]] if i[1] < 100 else [[0], [-1.0]])
-
 
 def get_action_two_combined_veh_dim_discrete(i):
     return [1, 0] if i[1] < 100 else [0, 1]
@@ -150,7 +137,8 @@ def get_action_test_two_combined_veh_dim_discrete_global_sensor(i):
 def test_one_dim_discrete():
     """A single agent along the x-axis."""
     VERSION = 'scrimmage-v0'
-    _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=False, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
@@ -171,7 +159,8 @@ def test_one_dim_discrete():
 def test_two_dim_discrete():
     """A single agent along the x and y-axis."""
     VERSION = 'scrimmage-v1'
-    _write_temp_mission(x_discrete=True, ctrl_y=True, y_discrete=True,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=True, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
@@ -192,7 +181,8 @@ def test_two_dim_discrete():
 def test_two_dim_continuous():
     """A single agent along the x and y-axis with continuous input."""
     VERSION = 'scrimmage-v2'
-    _write_temp_mission(x_discrete=False, ctrl_y=True, y_discrete=False,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=False, ctrl_y=True, y_discrete=False,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
@@ -212,7 +202,8 @@ def test_two_dim_continuous():
 def test_two_dim_tuple():
     """Single agent with discrete and continuous input."""
     VERSION = 'scrimmage-v3'
-    _write_temp_mission(x_discrete=False, ctrl_y=True, y_discrete=True,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=False, ctrl_y=True, y_discrete=True,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
@@ -232,7 +223,8 @@ def test_two_dim_tuple():
 def test_one_dim_continuous():
     """A single agent along the x-axis with continuous input."""
     VERSION = 'scrimmage-v4'
-    _write_temp_mission(x_discrete=False, ctrl_y=False, y_discrete=False,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=False, ctrl_y=False, y_discrete=False,
                         num_actors=1, end=1000)
     combine_actors = False
     global_sensor = False
@@ -252,7 +244,8 @@ def test_one_dim_continuous():
 def test_two_combined_veh_dim_discrete():
     """Two agents, each with one discrete input, treated as a single agent."""
     VERSION = 'scrimmage-v5'
-    _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = True
     global_sensor = False
@@ -272,7 +265,8 @@ def test_two_combined_veh_dim_discrete():
 def test_two_not_combined_veh_dim_discrete():
     """Two agents, each with discrete input, treated as separate agents."""
     VERSION = 'scrimmage-v6'
-    _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = False
     global_sensor = False
@@ -295,7 +289,8 @@ def test_two_combined_veh_dim_discrete_global_sensor():
     state.
     """
     VERSION = 'scrimmage-v7'
-    _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=False,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=False, y_discrete=False,
                         num_actors=2, end=1000)
     combine_actors = True
     global_sensor = True
@@ -317,7 +312,8 @@ def test_sim_end():
         return 1 if i[1] < 100 else 0
 
     VERSION = 'scrimmage-v8'
-    _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=False, y_discrete=True,
                         num_actors=1, end=2)
     combine_actors = False
     global_sensor = False
@@ -331,8 +327,9 @@ def test_timestep():
         return 1 if i[1] < 100 else 0
 
     VERSION = 'scrimmage-v9'
-    _write_temp_mission(x_discrete=True, ctrl_y=False, y_discrete=True,
-                        num_actors=1, end=1000)
+    _write_temp_mission(output_mission_file=TEMP_MISSION_FILE,
+                        x_discrete=True, ctrl_y=False, y_discrete=True,
+                        num_actors=1, end=100)
     combine_actors = False
     global_sensor = False
     env, obs, total_reward = \
@@ -340,11 +337,24 @@ def test_timestep():
 
     assert len(obs[0]) == 2
     assert obs[0][0] == 0
-    assert obs[1][0] == 10
+    assert obs[1][0] == 1
     assert isinstance(env.action_space, gym.spaces.Discrete)
     assert isinstance(env.observation_space, gym.spaces.Box)
     assert env.action_space.n == 2
     assert total_reward == 1
+
+def actor_init_func(action_space, observation_space, params):
+    if isinstance(action_space, gym.spaces.Discrete):
+        return get_action_test_one_dim_discrete
+    elif isinstance(action_space, gym.spaces.MultiDiscrete):
+        return get_action_test_two_dim_discrete
+    elif isinstance(action_space, gym.spaces.Box):
+        if action_space.shape[0] == 0:
+            return get_action_test_one_dim_continuous
+        else:
+            return get_action_test_two_dim_continuous
+    elif isinstance(action_space, gym.spaces.Tuple):
+        return get_action_test_two_dim_tuple
 
 
 if __name__ == '__main__':

@@ -16,7 +16,7 @@ set(SRCS
     common/Shape.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     entity/EntityPlugin.cpp
-    log/FrameUpdateClient.cpp log/Log.cpp
+    log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
     math/Angles.cpp math/Quaternion.cpp math/State.cpp
     math/StateWithCovariance.cpp
     metrics/Metrics.cpp
@@ -65,6 +65,7 @@ target_link_libraries(${LIBRARY_NAME}
     Boost::date_time
     Boost::graph
     Boost::thread
+    Boost::chrono
 )
 
 if(ENABLE_PYTHON_BINDINGS)

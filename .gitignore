@@ -37,3 +37,7 @@ tags*
 **.DS_Store
 **.ccls*
 .vscode
+env
+.idea*
+python/scrimmage/bindings
+python/dist

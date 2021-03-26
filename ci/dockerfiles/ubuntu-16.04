@@ -16,7 +16,6 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     software-properties-common \
     python3-software-properties \
     cppcheck \
-    python3-pytest \
     python3-pip \
     git \
     ninja-build \
@@ -24,31 +23,29 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources
     ruby-full \
     build-essential \
     zlib1g-dev \
+    python-rosdep \
+    ros-kinetic-opencv3 \
+    ros-kinetic-tf2 \
+    ros-kinetic-mavros-msgs \
  && add-apt-repository ppa:kevin-demarco/scrimmage \
  && apt-get update \
  && apt-get install -y scrimmage-dependencies \
  && rm -rf /var/lib/apt/lists/* \
  && rosdep init && rosdep update \
  && echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
- && /opt/scrimmage/*/setup.sh \
- && pip3 install cpplint \
-    protobuf==3.3.0 \
-    grpcio==1.2.1 \
-    gym==0.10.11 \
-    sphinx-git \
-    sphinx_rtd_theme
-
-# Install jekyll
-RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
- && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
- && source ~/.bashrc \
- && gem update --system \
- && gem install bundler
+ && /opt/scrimmage/*/setup.sh
 
 # Copy install binaries script into image and run
 COPY ./setup/install-binaries.sh /root/install-binaries.sh
 RUN /root/install-binaries.sh -e 0 --python 3 \
  && rm -rf /var/lib/apt/lists/*
+
+# Build a python virtual environment
+WORKDIR /root
+COPY ./python/requirements-3.5.txt .
+RUN python3 -m venv env \
+    && source ./env/bin/activate \
+    && pip install -r requirements-3.5.txt
 
 FROM dependencies as builder
 
@@ -59,11 +56,13 @@ COPY ./ /root/scrimmage/scrimmage
 # Run static analysis tests
 WORKDIR /root/scrimmage/scrimmage
 RUN find -name __pycache__ -o -name "*.pyc" | xargs rm -rfv \
- && py.test-3 test/test_cppcheck.py
+    && source /root/env/bin/activate \
+    && py.test test/test_cppcheck.py
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
-RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+RUN source /root/env/bin/activate \
+ && ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
  && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
  && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
  && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
@@ -74,31 +73,41 @@ RUN ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
 
 # Build scrimmage core, plugins, and documentation
 WORKDIR /root/scrimmage/scrimmage
-RUN mkdir -p build \
+RUN source /root/env/bin/activate \
+ && mkdir -p build \
  && cd build \
+ && source /opt/ros/kinetic/setup.bash \
  && source ~/.bashrc \
  && source ~/.scrimmage/setup.bash \
- && cmake .. -DPYTHON_MIN_VERSION=3 -G Ninja -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror" \
- && ninja \
- && ninja docs website-docs
+ && cmake .. -G Ninja \
+             -DPYTHON_MIN_VERSION=3.5  \
+             -DBUILD_TESTS=ON \
+             -DBUILD_DOCS=OFF \
+             -DCMAKE_CXX_FLAGS="-Werror" \
+ && ninja
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
-RUN pip3 install -e .
+RUN source /root/env/bin/activate \
+    && python setup.py develop
 
 # run tests
 WORKDIR /root/scrimmage/scrimmage/build
-RUN source ~/.scrimmage/setup.bash && \
+RUN source /root/env/bin/activate && \
+    source ~/.scrimmage/setup.bash && \
     export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
-    export PYTHONPATH=$PYTHONPATH:$PWD/../test && \
-    py.test-3 ../test/test_openai.py && \
+    py.test ../python/scrimmage/openai/tests/test_openai.py && \
     export CTEST_OUTPUT_ON_FAILURE=1 && \
     ninja test && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
 
 # Test scrimmage_ros package integration
-RUN mkdir -p /root/catkin_ws/src \
+RUN source /root/env/bin/activate \
+ && pip install catkin-pkg==0.4.22 \
+                rospkg==1.2.8 \
+                defusedxml==0.6.0 \
+ && mkdir -p /root/catkin_ws/src \
  && cd /root/catkin_ws/src \
  && git clone https://github.com/ros-planning/navigation_msgs \
  && git clone https://github.com/SyllogismRXS/scrimmage_ros.git \
@@ -113,7 +122,7 @@ RUN mkdir -p /root/catkin_ws/src \
  && make test
 
 WORKDIR /root/scrimmage/scrimmage
-RUN /bin/bash -c "source ~/.scrimmage/setup.bash && py.test-3 python/tests"
+RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash && py.test python/tests"
 
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]

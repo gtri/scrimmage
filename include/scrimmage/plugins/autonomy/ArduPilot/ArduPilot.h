@@ -85,8 +85,6 @@ class ArduPilot : public scrimmage::Autonomy {
     void close(double t) override;
 
  protected:
-    std::string to_ardupilot_ip_;
-    std::string to_ardupilot_port_;
     bool mavproxy_mode_ = false;
 
     boost::asio::io_service tx_io_service_;
@@ -108,7 +106,6 @@ class ArduPilot : public scrimmage::Autonomy {
     std::shared_ptr<boost::asio::ip::udp::socket> recv_socket_;
     boost::asio::ip::udp::endpoint recv_remote_endpoint_;
     boost::array<unsigned char, 100> recv_buffer_;
-    uint32_t from_ardupilot_port_;
 
     void start_receive();
     void handle_receive(const boost::system::error_code& error,

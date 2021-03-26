@@ -266,3 +266,21 @@ def downsample_frames(frames_file, new_dt=None):
 def frames2csv(frames_file, new_dt=None, out_filename='./frames.csv'):
     df = downsample_frames(frames_file, new_dt)
     df.to_csv(out_filename)
+
+# Given a file, create the directory structure for that file to be created
+def make_dirs_from_file(file_path):
+    if not os.path.exists(os.path.dirname(file_path)):
+        try:
+            os.makedirs(os.path.dirname(file_path))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+# Given a directory, create the directory structure required
+def make_dir_tree(directory):
+    if not os.path.exists(directory):
+        try:
+            os.makedirs(directory)
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise

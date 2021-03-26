@@ -38,6 +38,7 @@
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
+#include <scrimmage/log/Print.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/proto/ProtoConversions.h>
@@ -122,6 +123,7 @@ class External {
     std::shared_ptr<Log> log_;
     double last_t_;
     PubSubPtr pubsub_;
+    PrintPtr printer_;
     TimePtr time_;
     ParameterServerPtr param_server_;
     GlobalServicePtr global_services_;

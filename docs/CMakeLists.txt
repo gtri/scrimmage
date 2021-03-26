@@ -1,12 +1,6 @@
 ###############################################################################
 # Sphinx setup
 ###############################################################################
-find_python_module(sphinx_git PY_SPHINX_GIT_FOUND REQUIRED)
-if (NOT PY_SPHINX_GIT_FOUND)
-  message(WARNING "Can't find sphinx_git Python module.")
-  return()
-endif()
-
 find_package(Sphinx)
 
 if(NOT DEFINED SPHINX_THEME)

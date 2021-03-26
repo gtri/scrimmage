@@ -90,6 +90,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->parent()->rtree() = info.rtree;
             ent_inter->parent()->contacts() = contacts;
             ent_inter->parent()->set_global_services(global_services);
+            ent_inter->parent()->set_printer(info.printer);
 
             // Plugin specific members
             ent_inter->set_name(name);
@@ -146,9 +147,10 @@ bool create_metrics(const SimUtilsInfo &info,
             // Parent specific members
             metrics->parent()->set_random(info.random);
             metrics->parent()->set_mp(info.mp);
-            metrics->parent()->projection() = info.mp->projection();
+            metrics->parent()->set_projection(info.mp->projection());
             metrics->parent()->rtree() = info.rtree;
             metrics->parent()->contacts() = contacts;
+            metrics->parent()->set_printer(info.printer);
 
             // Plugin specific members
             metrics->set_name(metrics_name);
@@ -250,6 +252,7 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
             // If the name was overridden, use the override.
             std::string name =
                 get<std::string>("name", config_parse.params(), network_name);
+            network->parent()->set_printer(info.printer);
             network->set_name(name);
             network->set_mission_parse(info.mp);
             network->set_time(info.time);

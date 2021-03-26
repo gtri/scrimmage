@@ -1,0 +1,131 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+###############################################################################
+FROM ubuntu:20.04 as dependencies
+
+MAINTAINER Kevin DeMarco
+ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
+
+# Install initial dependencies and setup .bashrc
+RUN apt-get update \
+ && apt-get install -y \
+    gnupg \
+ && apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 \
+ && apt-get update \
+ && apt-get install -y \
+    cmake \
+    software-properties-common \
+    cppcheck \
+    python3-pip \
+    python3-venv \
+    git \
+    ninja-build \
+    clang \
+    ruby-full \
+    build-essential \
+    zlib1g-dev \
+    libgeographic-dev \
+    libeigen3-dev \
+    librapidxml-dev \
+    libboost-thread-dev \
+    libboost-date-time-dev \
+    libboost-graph-dev \
+    libboost-iostreams-dev \
+    libboost-program-options-dev \
+    libboost-regex-dev \
+    libboost-filesystem-dev \
+    libboost-system-dev \
+    libboost-chrono-dev \
+    libprotobuf-dev \
+    protobuf-compiler \
+    libgeographic-dev \
+    protobuf-compiler-grpc \
+    libgrpc++-dev\
+    libgrpc-dev \
+    libpython3-dev \
+    doxygen \
+    python3-sphinx \
+    sphinx-rtd-theme-common \
+    ccache \
+    libbullet-dev \
+    libopencv-dev \
+    libvtk7-dev \
+ && add-apt-repository ppa:kevin-demarco/scrimmage \
+ && apt-get update \
+ && apt-get install -y scrimmage-dependencies \
+ && rm -rf /var/lib/apt/lists/* \
+ && /opt/scrimmage/*/setup.sh
+
+# Install jekyll
+RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
+ && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
+ && source ~/.bashrc \
+ && gem update --system \
+ && gem install bundler
+
+# Build a python virtual environment
+WORKDIR /root
+COPY ./python/requirements-3.8.txt .
+RUN python3 -m venv env \
+    && source ./env/bin/activate \
+    && pip install wheel \
+    && pip install -r requirements-3.8.txt
+
+FROM dependencies as builder
+
+# Copy repo code into image
+RUN mkdir -p /root/scrimmage/scrimmage
+COPY ./ /root/scrimmage/scrimmage
+
+# Test Plugin Generation
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN source /root/env/bin/activate \
+ && ./create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+ && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh motion MotionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh sensor SensorTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
+
+# Build scrimmage core, plugins, and documentation
+WORKDIR /root/scrimmage/scrimmage
+RUN source /root/env/bin/activate \
+ && mkdir -p build \
+ && cd build \
+ && source ~/.bashrc \
+ && source ~/.scrimmage/setup.bash \
+ && cmake .. -G Ninja \
+             -DPYTHON_MIN_VERSION=3.6 \
+             -DBUILD_TESTS=ON \
+             -DBUILD_DOCS=ON \
+             -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+ && ninja \
+ && ninja docs website-docs
+
+# Note: gtest produces a deprecated-copy warning. Ignore this.
+
+# install python package and run tests
+WORKDIR /root/scrimmage/scrimmage/python
+RUN source /root/env/bin/activate \
+    && python setup.py develop
+
+# run tests
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source /root/env/bin/activate && \
+    source ~/.scrimmage/setup.bash && \
+    export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
+    py.test ../python/scrimmage/openai/tests/test_openai.py && \
+    export CTEST_OUTPUT_ON_FAILURE=1 && \
+    ninja test && \
+    scrimmage ../missions/straight-no-gui.xml && \
+    scrimmage ../missions/straight_jsbsim.xml
+
+WORKDIR /root/scrimmage/scrimmage
+RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash && py.test python/tests"
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]

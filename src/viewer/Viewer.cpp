@@ -33,6 +33,7 @@
 #include <vtkCamera.h>
 
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/viewer/Viewer.h>
 #include <scrimmage/viewer/Updater.h>
@@ -56,9 +57,8 @@ void Viewer::set_enable_network(bool enable) {
     enable_network_ = enable;
 }
 
-bool Viewer::init(const std::map<std::string, std::string> &params,
-                  const std::string &log_dir,
-                  double dt) {
+bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
+                  const std::map<std::string, std::string>& camera_params) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 
@@ -81,21 +81,28 @@ bool Viewer::init(const std::map<std::string, std::string> &params,
     renderWindowInteractor_->SetInteractorStyle(cam_int_);
     cam_int_->SetCurrentRenderer(renderer_);
 
-    params_ = params;
+    camera_params_ = camera_params;
     renderer_->SetActiveCamera(camera);
 
     // Render and interact
     renderWindow_->SetWindowName("SCRIMMAGE");
-    renderWindow_->SetSize(800, 600);
+    if (mp->full_screen()) {
+        renderWindow_->SetFullScreen(true);
+        renderWindow_->FullScreenOn();
+    } else {
+        renderWindow_->SetFullScreen(false);
+        renderWindow_->SetSize(mp->window_width(), mp->window_height());
+    }
+    init_scale_ = get<double>("scale", mp->params(), 1.0);
 
-    log_dir_ = log_dir;
-    dt_ = dt;
+    log_dir_ = mp->log_dir();
+    dt_ = mp->dt();
 
     // Get network parameters
-    local_ip_ = get<std::string>("local_ip", params_, local_ip_);
-    local_port_ = get<int>("local_port", params_, local_port_);
-    remote_ip_ = get<std::string>("remote_ip", params_, remote_ip_);
-    remote_port_ = get<int>("remote_port", params_, remote_port_);
+    local_ip_ = get<std::string>("local_ip", camera_params_, local_ip_);
+    local_port_ = get<int>("local_port", camera_params_, local_port_);
+    remote_ip_ = get<std::string>("remote_ip", camera_params_, remote_ip_);
+    remote_port_ = get<int>("remote_port", camera_params_, remote_port_);
 
     return true;
 }
@@ -128,9 +135,11 @@ bool Viewer::run() {
     updater->set_incoming_interface(incoming_interface_);
     updater->set_outgoing_interface(outgoing_interface_);
     updater->set_max_update_rate(update_rate);
+    updater->set_init_scale(init_scale_);
+    updater->reset_scale();
 
     std::string camera_pos_str =
-        get<std::string>("pos", params_, "0, 1, 200");
+        get<std::string>("pos", camera_params_, "0, 1, 200");
 
     std::vector<double> camera_pos;
     if (!str2container(camera_pos_str, ",", camera_pos, 3)) {
@@ -139,7 +148,7 @@ bool Viewer::run() {
     }
 
     std::string camera_focal_pos_str =
-        get<std::string>("focal_point", params_, "0, 0, 0");
+        get<std::string>("focal_point", camera_params_, "0, 0, 0");
 
     std::vector<double> camera_focal_pos;
     if (!str2container(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
@@ -149,12 +158,12 @@ bool Viewer::run() {
 
     updater->set_camera_reset_params(camera_pos[0], camera_pos[1], camera_pos[2],
         camera_focal_pos[0], camera_focal_pos[1], camera_focal_pos[2]);
-    updater->set_show_fps(get("show_fps", params_, false));
+    updater->set_show_fps(get("show_fps", camera_params_, false));
 
-    updater->set_follow_id(get("follow_id", params_, 1) - 1);
+    updater->set_follow_id(get("follow_id", camera_params_, 1) - 1);
 
     std::string view_mode =
-        boost::to_upper_copy(get<std::string>("mode", params_, "follow"));
+        boost::to_upper_copy(get<std::string>("mode", camera_params_, "follow"));
 
     if (view_mode == "FOLLOW") {
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
@@ -178,13 +187,9 @@ bool Viewer::run() {
     // Start the interaction and timer
     renderWindowInteractor_->Start();
 
+    // Shutdown the updater
     updater->shutting_down();
 
-    return true;
-}
-
-bool Viewer::stop() {
-    renderWindowInteractor_->TerminateApp();
     return true;
 }
 } // namespace scrimmage

@@ -1,0 +1,45 @@
+#!/usr/bin/make -f
+
+LDFLAGS := " -L /opt/scrimmage/${DEB_HOST_MULTIARCH}/lib"
+C_INCLUDE_PATH := "/opt/scrimmage/${DEB_HOST_MULTIARCH}/include"
+CPLUS_INCLUDE_PATH := "/opt/scrimmage/${DEB_HOST_MULTIARCH}/include"
+LD_LIBRARY_PATH := "/opt/scrimmage/${DEB_HOST_MULTIARCH}/lib:${LD_LIBRARY_PATH}"
+
+# secondly called by launchpad
+build:
+	make \
+	DEB_HOST_MULTIARCH=${DEB_HOST_MULTIARCH} \
+	LDFLAGS=$(LDFLAGS) \
+	C_INCLUDE_PATH=$(C_INCLUDE_PATH) \
+	CPLUS_INCLUDE_PATH=$(CPLUS_INCLUDE_PATH) \
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) \
+	HAS_SYSTEM_PROTOBUF=true \
+	PROTOC=/opt/scrimmage/${DEB_HOST_MULTIARCH}/bin/protoc
+
+# thirdly called by launchpad
+binary: binary-indep binary-arch
+
+binary-indep:
+	# nothing to be done
+
+binary-arch:
+	make \
+	DEB_HOST_MULTIARCH=${DEB_HOST_MULTIARCH} \
+	LDFLAGS=$(LDFLAGS) \
+	C_INCLUDE_PATH=$(C_INCLUDE_PATH) \
+	CPLUS_INCLUDE_PATH=$(CPLUS_INCLUDE_PATH) \
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) \
+	HAS_SYSTEM_PROTOBUF=true \
+	PROTOC=/opt/scrimmage/${DEB_HOST_MULTIARCH}/bin/protoc \
+	prefix=${CURDIR}/debian/tmp/opt/scrimmage/${DEB_HOST_MULTIARCH} \
+	install
+
+	mkdir debian/tmp/DEBIAN
+	dpkg-gencontrol -pscrimmage-grpc
+	dpkg --build debian/tmp ..
+
+# firstly called by launchpad
+clean:
+	# nothing to be done
+
+.PHONY: binary binary-arch binary-indep clean

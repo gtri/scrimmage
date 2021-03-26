@@ -45,5 +45,6 @@ message GenerateEntity {
         string entity_tag = 1;
         scrimmage_proto.State state = 2;
         repeated KeyValuePair entity_param = 3;
-        int32 request_id = 4;
+        int32 entity_id = 4;
+        int32 request_id = 5;
 }

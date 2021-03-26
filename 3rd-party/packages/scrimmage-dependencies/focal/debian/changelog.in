@@ -1,0 +1,5 @@
+scrimmage-dependencies (@ARG_SOURCE_VERSION@.@ARG_PPA_VERSION_NUMBER@-@ARG_PPA_VERSION_NUMBER@-@ARG_DISTRIBUTION@ppa@ARG_PPA_VERSION_NUMBER_SUFFIX@) @ARG_DISTRIBUTION@; urgency=medium
+
+  * Initial upload!
+
+ -- Kevin DeMarco <kevin.demarco@gmail.com>  @DATE_STRING@

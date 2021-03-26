@@ -29,13 +29,14 @@ RUN yum -y update && yum clean all && yum -y install \
 ###############################################################################
 # get the ruby version manager and install
 RUN command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+RUN command curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
 RUN curl -L get.rvm.io | bash -s stable
 RUN source /etc/profile.d/rvm.sh
 
 # install ruby 1.9.3
 RUN source /etc/profile.d/rvm.sh && rvm requirements
-RUN source /etc/profile.d/rvm.sh && rvm install 1.9.3
-RUN source /etc/profile.d/rvm.sh && rvm use 1.9.3 --default
+RUN source /etc/profile.d/rvm.sh && rvm install 2.5
+RUN source /etc/profile.d/rvm.sh && rvm use 2.5 --default
 
 # install rubygems
 RUN source /etc/profile.d/rvm.sh && rvm rubygems current
@@ -253,6 +254,13 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/grpc \
            --name scrimmage-grpc --version 1.2.1 \
            --package scrimmage_grpc_VERSION_ARCH.rpm ./ \
     && rpm -ivh --force /root/installs/grpc/*.rpm
+
+###############################################################################
+# Clone and Setup CMakeDebSrc
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/SyllogismRXS/CMakeDebSrc.git
+RUN cd CMakeDebSrc && mkdir build && cd build && cmake ..
 
 ###############################################################################
 # Build JSBsim from scrimmage's 3rd-party
