@@ -163,14 +163,14 @@ Install the python dependencies with specific version numbers:
 
 Re-build the scrimmage project within the virtual environment:
 
-    (env)$ cmake .. -DPYTHON_TARGET_VERSION=3.6
+    (env)$ cmake .. -DPYTHON_MIN_VERSION=3.6
     (env)$ make
 
-Scrimmage's cmake build procedures will by default select the
-environment default Python in its configuration process
-when running `cmake ..`. To specify a specific version of
-Python to be used, use the `cmake .. -DPYTHON_TARGET_VERSION=2.7`
-flag during the cmake process.
+Scrimmage's cmake build procedures will choose the environment
+default Python in its configuration process when running
+plain `cmake ..`. To specify a specific minimum version of Python
+to be used, use the `cmake .. -DPYTHON_MIN_VERSION=2.7` flag during
+the cmake process.
 
 ### Install SCRIMMAGE Python Bindings
 

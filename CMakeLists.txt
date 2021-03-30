@@ -93,24 +93,16 @@ GenerateSetEnv(
 option(EXTERNAL "EXTERNAL" 0)
 
 
-set(PYTHON_MIN_VERSION "" CACHE STRING "Deprecated; please use PYTHON_TARGET_VERSION instead.")
-if (PYTHON_MIN_VERSION)
-  message(DEPRECATION "!!!!!  Variable 'PYTHON_MIN_VERSION' is deprecated.\
-                       The environment default python will be used. If you\
-                       wish to specify a specific python version, please\
-                       use 'PYTHON_TARGET_VERSION' instead. !!!!!")
-endif()
-
 option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
-set(PYTHON_TARGET_VERSION "" CACHE STRING "Target Python version for building outside of environment default Python")
+set(PYTHON_MIN_VERSION "" CACHE STRING "Minimum Python version for building, typically outside of environment default Python")
 add_library(scrimmage-python INTERFACE)
 if (ENABLE_PYTHON_BINDINGS)
 
   # Find Python
   #The order of the following find_package calls is important!
-  if (PYTHON_TARGET_VERSION)
-    find_package(PythonInterp ${PYTHON_TARGET_VERSION} REQUIRED)
-    find_package(PythonLibs ${PYTHON_TARGET_VERSION} REQUIRED)
+  if (PYTHON_MIN_VERSION)
+    find_package(PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
+    find_package(PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
   else()
     find_package(PythonInterp REQUIRED)
     find_package(PythonLibs REQUIRED)
