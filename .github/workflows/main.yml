@@ -20,6 +20,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      DOCKER_USERNAME: multiplatformautonomy
+      _DOCKER_USERNAME: ${{ secrets.MPAUT_DOCKER_USERNAME }}
+      _DOCKER_PASSWORD: ${{ secrets.MPAUT_DOCKER_PASSWORD }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -32,7 +36,7 @@ jobs:
           docker build -t $REPO:xenial-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu-16.04 .
           export TAG=`if [ "$GITHUB_BRANCH" == "master" ] && [ "$GITHUB_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $GITHUB_BRANCH ; fi`
           if [[ "$TAG" == "latest" ]]; then
-            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker login -u="$_DOCKER_USERNAME" -p="$_DOCKER_PASSWORD";
             docker tag $REPO:xenial-$GITHUB_SHA $REPO:xenial;
             docker push $REPO;
           fi
@@ -43,7 +47,7 @@ jobs:
           docker build -t $REPO:bionic-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu-18.04 .
           export TAG=`if [ "$GITHUB_BRANCH" == "master" ] && [ "$GITHUB_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $GITHUB_BRANCH ; fi`
           if [[ "$TAG" == "latest" ]]; then
-            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker login -u="$_DOCKER_USERNAME" -p="$_DOCKER_PASSWORD";
             docker tag $REPO:bionic-$GITHUB_SHA $REPO:bionic;
             docker push $REPO;
           fi
@@ -54,7 +58,7 @@ jobs:
           docker build -t $REPO:focal-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu-20.04 .
           export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
           if [[ "$TAG" == "latest" ]]; then
-              docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+              docker login -u="$_DOCKER_USERNAME" -p="$_DOCKER_PASSWORD";
               docker tag $REPO:focal-$GITHUB_SHA $REPO:focal;
               docker tag $REPO:focal-$GITHUB_SHA $REPO:$TAG;
               docker create --name mycontainer $REPO:$TAG;
