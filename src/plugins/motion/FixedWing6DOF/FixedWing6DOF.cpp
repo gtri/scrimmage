@@ -357,11 +357,15 @@ bool FixedWing6DOF::step(double time, double dt) {
     }
 
     // Apply any external forces (todo)
-    // force_ext_body_ = quat_body_.rotate_reverse(ext_force_);
-    // ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
-    force_ext_body_ = F_catapult;
+    Eigen::Vector3d ext_force_NED(ext_force_(0), -ext_force_(1), -ext_force_(2));
+    ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
+    force_ext_body_ = quat_body_.rotate_reverse(ext_force_NED);
+    force_ext_body_ += F_catapult;
 
-    ode_step(dt);
+    if (!skip_propagation_) {
+        ode_step(dt);
+    }
+    skip_propagation_ = false;
 
     quat_body_.set(x_[q0], x_[q1], x_[q2], x_[q3]);
     quat_body_.normalize();
@@ -506,10 +510,10 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
         F_total += F_ground;
     }
-
     if (POSTLAUNCH != launch_state_) {
-        F_total = force_ext_body_;
+        F_total = Eigen::Vector3d::Zero();;
     }
+    F_total += force_ext_body_;
 
     // Calculate body frame linear velocities
     dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
@@ -568,7 +572,11 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 }
 
 void FixedWing6DOF::teleport(StatePtr &state) {
-    state_ = state;
+    state_->pos() = state->pos();
+    state_->vel() = state->vel();
+    state_->ang_vel() = state->ang_vel();
+    state_->quat() = state->quat();
+    skip_propagation_ = true;
 }
 
 } // namespace motion
