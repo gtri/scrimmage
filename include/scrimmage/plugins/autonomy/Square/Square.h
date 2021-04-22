@@ -94,10 +94,11 @@ class Square : public scrimmage::Autonomy{
     Eigen::Vector3d init_man_goal_pos_;
     Quaternion init_man_goal_quat_;
 
-    int square_side_ = 0;
+    int square_side_ = 1;
     double sq_side_length_m_ = 100;
     Eigen::Vector3d init_goal_;
     // StatePtr init_state_;
+    Eigen::Vector3d prev_diff_ = {0,0,0};
 
 };
 } // namespace autonomy
