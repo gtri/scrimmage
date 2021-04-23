@@ -212,7 +212,8 @@ class SimControl {
      * parameters.
      */
     bool generate_entity(const int &ent_desc_id,
-                         std::map<std::string, std::string> &params);
+                         std::map<std::string, std::string> &params,
+                         int request_id=0);
 
     /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
