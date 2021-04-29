@@ -75,11 +75,21 @@ void ROSCompass::init(std::map<std::string, std::string> &params) {
 
     // Create Publisher
     compass_pub_ = nh_->advertise<sensor_msgs::MagneticField>(ros_namespace_ + "/compass", 1);
+
+    // Open imu_data CSV for append (app) and set column headers
+    std::string csv_filename = parent_->mp()->log_dir() + "/compass_data_robot" + std::to_string(parent_->id().id()) + ".csv";
+    if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
+    if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
+
+    csv.set_column_headers("time, dt, mag_field_x, mag_field_y, mag_field_z");
 }
 
 bool ROSCompass::step() {
     // Obtain current state information
     sc::StatePtr &state = parent_->state_truth();
+    double time_now = time_->t();
+    double dt = time_now - prev_time_;
+    prev_time_ = time_now;
 
     // Scrimmage is in ENU so all outputs are in ENU (East North Up).
 
@@ -102,7 +112,26 @@ bool ROSCompass::step() {
     // Publish Compass information
     compass_pub_.publish(compass_msg);
 
+    // Write Altimeter data to CSV
+    // Write the CSV file to the root log directory file name = imu_data.csv
+    // "time, dt, monotonic, amsl, local, relative, terrain, bottom_clearance"
+    if (!csv.output_is_open()) {
+      cout << "File isn't open. Can't append to CSV" << endl;
+    }
+    csv.append(sc::CSV::Pairs{
+                   {"time", time_now},
+                   {"dt", dt},
+                   {"mag_field_x", compass_msg.magnetic_field.x},
+                   {"mag_field_y", compass_msg.magnetic_field.y},
+                   {"mag_field_z", compass_msg.magnetic_field.z}},
+               true, true);
+
     return true;
 }
+
+void ROSCompass::close(double t){
+    csv.close_output();
+}
+
 } // namespace sensor
 } // namespace scrimmage
