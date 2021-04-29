@@ -191,12 +191,10 @@ class AirSimSensor : public scrimmage::Sensor {
     bool get_image_data_ = true;
     bool get_lidar_data_ = true;
     bool get_imu_data_ = true;
-    bool use_init_maneuver_ = true;
-    bool init_maneuver_finished_ = false;
-    std::deque<State> get_init_maneuver_positions();
-    void complete_init_maneuver();
-    std::deque<State> man_positions_;
-    StatePtr init_state_;
+
+    // Init Maneuver
+    bool init_maneuver_active_ = false;
+    Quaternion init_man_orig_quat_;
 
     // period at which the data acquisition is run [seconds]
     // double data_acquisition_period_ = .1;

@@ -9,4 +9,6 @@
 <!--  <generate_entities>false</generate_entities>-->
   <use_init_maneuver>false</use_init_maneuver>
   <sq_side_length_m>100</sq_side_length_m>
+  <!-- specify how many meters before the corner would you like the vehicle to start turning -->
+  <start_corner_turn>10</start_corner_turn>
 </params>

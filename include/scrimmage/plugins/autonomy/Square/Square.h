@@ -49,6 +49,12 @@ namespace scrimmage {
 //}
 
 namespace autonomy {
+
+class InitManeuverType {
+ public:
+    bool active = false;
+};
+
 class Square : public scrimmage::Autonomy{
  public:
     void init(std::map<std::string, std::string> &params) override;
@@ -57,6 +63,7 @@ class Square : public scrimmage::Autonomy{
  protected:
     double speed_;
     Eigen::Vector3d goal_;
+    Eigen::Vector3d next_goal_;
     Eigen::Vector3d goal1_;
     Eigen::Vector3d goal2_;
     Eigen::Vector3d goal3_;
@@ -65,9 +72,6 @@ class Square : public scrimmage::Autonomy{
     int frame_number_;
     bool show_camera_images_;
     bool save_camera_images_;
-
-//    bool enable_boundary_control_ = false;
-//    std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
 
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
@@ -83,12 +87,9 @@ class Square : public scrimmage::Autonomy{
 
     double desired_z_ = 0;
 
-//    PublisherPtr pub_gen_ents_;
-//    bool gen_ents_ = false;
-//    double prev_gen_time_ = -1.0;
-
-    bool use_init_maneuver_ = true;
-    bool init_maneuver_finished_ = false;
+    PublisherPtr init_maneuver_pub_;
+    bool use_init_maneuver_ = false;
+    bool init_maneuver_finished_ = true;
     std::deque<State> get_init_maneuver_positions();
     std::deque<State> man_positions_;
     Eigen::Vector3d init_man_goal_pos_;
@@ -96,6 +97,7 @@ class Square : public scrimmage::Autonomy{
 
     int square_side_ = 1;
     double sq_side_length_m_ = 100;
+    double start_corner_turn_ = 10;
     Eigen::Vector3d init_goal_;
     // StatePtr init_state_;
     Eigen::Vector3d prev_diff_ = {0,0,0};

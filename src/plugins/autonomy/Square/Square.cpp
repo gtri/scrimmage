@@ -88,16 +88,15 @@ std::deque<State> Square::get_init_maneuver_positions() {
         State init_state(*state);
         State current_state(*state);
         // man_positions.push_back(current_state);
-//        double delta = 0.05;
-        double delta = 1.0;
 
         // Rise up to 5 meters above the starting position
 //        for (double i=0.0; i<5.0; i+=delta) {
 //            current_state.pos()(2) = current_state.pos()(2) + delta;
 //            man_positions.push_back(current_state);
 //        }
-        cout << "starting_state: " <<  current_state.pos() << endl;
-        current_state.pos()(2) = current_state.pos()(2) + 5.0;
+        // cout << "starting_state: " <<  current_state.pos() << endl;
+        // add 5m in altitude
+        // current_state.pos()(2) = current_state.pos()(2) + 5.0;
         man_positions.push_back(current_state);
 
 //        // repeat the below right-left movements 1 times
@@ -121,12 +120,12 @@ std::deque<State> Square::get_init_maneuver_positions() {
 //                man_positions.push_back(current_state);
 //            }
 //        }
-
-        current_state.pos()(1) = current_state.pos()(1) + 5.0;
+        // move left - right
+        current_state.pos()(1) = current_state.pos()(1) + 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) - 10.0;
+        current_state.pos()(1) = current_state.pos()(1) - 8.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) + 5.0;
+        current_state.pos()(1) = current_state.pos()(1) + 4.0;
         man_positions.push_back(current_state);
 
 //        // repeat the below up-down movements 3 times
@@ -150,12 +149,12 @@ std::deque<State> Square::get_init_maneuver_positions() {
 //                man_positions.push_back(current_state);
 //            }
 //        }
-
-        current_state.pos()(2) = current_state.pos()(2) + 5.0;
+        // move up-down
+        current_state.pos()(2) = current_state.pos()(2) + 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(2) = current_state.pos()(2) - 10.0;
+        current_state.pos()(2) = current_state.pos()(2) - 8.0;
         man_positions.push_back(current_state);
-        current_state.pos()(2) = current_state.pos()(2) + 5.0;
+        current_state.pos()(2) = current_state.pos()(2) + 4.0;
         man_positions.push_back(current_state);
 
 //        // move in a 4mx2m rectangle parallel to the ground 3 times
@@ -186,16 +185,16 @@ std::deque<State> Square::get_init_maneuver_positions() {
 //                man_positions.push_back(current_state);
 //            }
 //        }
-
-        current_state.pos()(1) = current_state.pos()(1) + 5.0;
+        // move in a rectangle - right, forward, left, backward, right
+        current_state.pos()(1) = current_state.pos()(1) + 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(0) = current_state.pos()(0) + 5.0;
+        current_state.pos()(0) = current_state.pos()(0) + 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) - 10.0;
+        current_state.pos()(1) = current_state.pos()(1) - 8.0;
         man_positions.push_back(current_state);
-        current_state.pos()(0) = current_state.pos()(0) - 5.0;
+        current_state.pos()(0) = current_state.pos()(0) - 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) + 5.0;
+        current_state.pos()(1) = current_state.pos()(1) + 4.0;
         man_positions.push_back(current_state);
 
         // place back at beginning for Straight Plugin
@@ -203,9 +202,9 @@ std::deque<State> Square::get_init_maneuver_positions() {
         man_positions.push_back(init_state);
         man_positions.push_back(init_state);
 
-        for (auto state : man_positions) {
-            cout << state.pos()(0) << ", " << state.pos()(1) << ", " << state.pos()(2) << "\n" << endl;
-        }
+//        for (auto state : man_positions) {
+//            cout << state.pos()(0) << ", " << state.pos()(1) << ", " << state.pos()(2) << "\n" << endl;
+//        }
 
         return man_positions;
 }
@@ -215,41 +214,31 @@ void Square::init(std::map<std::string, std::string> &params) {
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);
     sq_side_length_m_ = scrimmage::get<double>("sq_side_length_m", params, 100);
+    start_corner_turn_ = scrimmage::get<double>("start_corner_turn", params, 10);
 
-    // Project goal in front...
-//    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
-//    Eigen::Vector3d unit_vector = rel_pos.normalized();
-//    unit_vector = state_->quat().rotate(unit_vector);
-//    goal_ = state_->pos() + unit_vector * rel_pos.norm();
-//    goal_(2) = state_->pos()(2);
-
-    cout << "speed: " << speed_ << endl;
-
+    // Save the initial starting position
+    init_goal_ = state_->pos();
     // initialize the corner locations of the square
+    cout << "[SquareAutonomy] Square Corner Locations:" << endl;
     // positve x direction
     goal1_ = state_->pos();
     goal1_(0) = goal1_(0) + sq_side_length_m_;
-    cout << "goal1: " << goal1_ << endl;
+    cout << "goal1: " << goal1_(0) << ", " << goal1_(1) << ", " << goal1_(2) << endl;
     // positve y direction
     goal2_ = goal1_;
     goal2_(1) = goal2_(1) + sq_side_length_m_;
-    cout << "goal2: " << goal2_ << endl;
+    cout << "goal2: " << goal2_(0) << ", " << goal2_(1) << ", " << goal2_(2) << endl;
     // negative x direction
     goal3_ = goal2_;
     goal3_(0) = goal3_(0) - sq_side_length_m_;
-    cout << "goal3: " << goal3_ << endl;
+    cout << "goal3: " << goal3_(0) << ", " << goal3_(1) << ", " << goal3_(2) << endl;
     // negative y direction
     goal4_ = goal3_;
     goal4_(1) = goal4_(1) - sq_side_length_m_;
-    cout << "goal4: " << goal4_ << endl;
-
-    // goal_ = goal1_;
+    cout << "goal4: " << goal4_(0) << ", " << goal4_(1) << ", " << goal4_(2) << endl;
 
     // Save the initial starting position
-    // desired_z_ = state_->pos()(2);
-    init_goal_ = state_->pos();
-    noisy_state_ = *state_;
-    cout << "original init_goal_: " << init_goal_ << endl;
+    // cout << "starting position: " << init_goal_ << endl;
 
     // Register the desired_z parameter with the parameter server
     auto param_cb = [&](const double &desired_z) {
@@ -285,25 +274,23 @@ void Square::init(std::map<std::string, std::string> &params) {
 
     // If using an initialization maneuver, then compile the position vector
     use_init_maneuver_ = sc::get<bool>("use_init_maneuver", params, "false");
+    // create an init maneuver publisher
+    init_maneuver_pub_ = advertise("LocalNetwork", "InitManeuver");
+    init_maneuver_finished_ = true;
     if (use_init_maneuver_) {
         man_positions_ = get_init_maneuver_positions();
-        cout << "[Square] Start VO Initialization Maneuver." << endl;
-    }
+        init_maneuver_finished_ = false;
+        cout << "[SquareAutonomy] Start VO Initialization Maneuver." << endl;
 
-    if (use_init_maneuver_) {
         State next_state = man_positions_.front();
         man_positions_.pop_front();
         init_man_goal_pos_ = next_state.pos();
         init_man_goal_quat_ = next_state.quat();
-        // goal_ = man_positions_;
+
     } else {
         goal_ = goal1_;
+        next_goal_ = goal2_;
     }
-
-//    enable_boundary_control_ = get<bool>("enable_boundary_control", params, false);
-//
-//    auto bd_cb = [&](auto &msg) {boundary_ = sci::Boundary::make_boundary(msg->data);};
-//    subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
 
     auto state_cb = [&](auto &msg) {
         noisy_state_set_ = true;
@@ -366,11 +353,6 @@ void Square::init(std::map<std::string, std::string> &params) {
     subscribe<sc::sensor::ContactBlobCameraType>("LocalNetwork", "ContactBlobCamera", blob_cb);
 #endif
 
-//    gen_ents_ = sc::get("generate_entities", params, gen_ents_);
-//    if (gen_ents_) {
-//        pub_gen_ents_ = advertise("GlobalNetwork", "GenerateEntity");
-//    }
-
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
@@ -383,127 +365,62 @@ bool Square::step_autonomy(double t, double dt) {
         noisy_state_ = *state_;
     }
 
-//    if (boundary_ != nullptr && enable_boundary_control_) {
-//        if (!boundary_->contains(noisy_state_.pos())) {
-//            // Project goal through center of boundary
-//            Eigen::Vector3d center = boundary_->center();
-//            center(2) = noisy_state_.pos()(2); // maintain altitude
-//            Eigen::Vector3d diff = center - noisy_state_.pos();
-//            goal_ = noisy_state_.pos() + diff.normalized() * 1e6;
-//        }
-//    }
-
+    Eigen::Vector3d current_goal;
     Eigen::Vector3d diff;
     Eigen::Vector3d v;
     double altitude = goal_(2);
-    // double heading = init_man_goal_quat_.yaw();
 
-    // cout << "HERE" << endl;
-
-    if (man_positions_.size() == 0 && use_init_maneuver_) {
+    if (man_positions_.size() == 0 && use_init_maneuver_ && init_maneuver_finished_ == false) {
         init_maneuver_finished_ = true;
-        // goal_ = init_goal_;
         goal_ = goal1_;
+        next_goal_ = goal2_;
         prev_diff_ = {0,0,0};
         cout << "init maneuver finished" << endl;
     }
 
-    if (!init_maneuver_finished_ && use_init_maneuver_) {
+    // Publish the Init Maneuver Status to send to AirSimSensor
+    // This is necessary to prevent the quadcopter from rotating during the init maneuver
+    // for Visual Odometry init maneuver we need the camera to stay facing forward
+    auto msg = std::make_shared<sc::Message<InitManeuverType>>();
+    msg->data.active = !init_maneuver_finished_;
+    init_maneuver_pub_->publish(msg);
 
+    if (!init_maneuver_finished_ && use_init_maneuver_) {
         // Pop a state off the front of man_positions_ vector and delete the element
         float distance = sqrt(pow((init_man_goal_pos_(0) - noisy_state_.pos()(0)), 2) + pow((init_man_goal_pos_(1) - noisy_state_.pos()(1)), 2) + pow((init_man_goal_pos_(2) - noisy_state_.pos()(2)), 2));
-        cout << "DISTANCE: " << distance << endl;
-        if (distance < 1.0) {
+        if (distance < 0.5) {
             State next_state = man_positions_.front();
             man_positions_.pop_front();
-            // cout << "remaining man_pos: " << man_positions_.size() << endl;
             init_man_goal_pos_ = next_state.pos();
-            init_man_goal_quat_ = next_state.quat();
             v = {0, 0, 0};
             altitude = init_man_goal_pos_(2);
             prev_diff_ = {0, 0, 0};
-        } else {
-
-            cout << "remaining man_pos: " << man_positions_.size() << endl;
-            cout << "next_state: " << init_man_goal_pos_ << endl;
-            cout << "current_state: " << noisy_state_.pos() << endl;
-            // create desired goal and velocity
-    //        diff = init_man_goal_pos_ - noisy_state_.pos();
-    //        v = 5.0 * diff.normalized();
-    //        // heading = init_man_goal_quat_.yaw();
-    //        altitude = init_man_goal_pos_(2);
-
-            // create desired goal and velocity
-            // 1.0, 1.0 - bad overshoot
-            // 0.5, 50 is good
-            // 0.4/50 and 0.5/60 and 0.5/55 gives dead stop at corners
-            double kp = 0.4;
-            double kd = 50.0;
-            diff = init_man_goal_pos_ - noisy_state_.pos();
-            cout << "diff: " << diff << endl;
-            // v = speed_ * (diff - (diff-prev_diff);
-            // v = 1.0 * (kp*diff.normalized() + kd*(diff.normalized() - prev_diff_.normalized()));
-            v = 3.0 * (kp*diff + kd*(diff - prev_diff_));
-
         }
 
-//        cout << "remaining man_pos: " << man_positions_.size() << endl;
-//        cout << "next_state: " << init_man_goal_pos_ << endl;
-//        cout << "current_state: " << noisy_state_.pos() << endl;
-//        // create desired goal and velocity
-////        diff = init_man_goal_pos_ - noisy_state_.pos();
-////        v = 5.0 * diff.normalized();
-////        // heading = init_man_goal_quat_.yaw();
-////        altitude = init_man_goal_pos_(2);
-//
-//        // create desired goal and velocity
-//        // 1.0, 1.0 - bad overshoot
-//        // 0.5, 50 is pretty good so is 0.6, 60 - maybe a meter of overshoot, 0.4 40 gives more overshoot
-//        // 0.4/50 and 0.5/60 and 0.5/55 gives dead stop at corners
-//        double kp = 0.5;
-//        double kd = 50.0;
-//        diff = init_man_goal_pos_ - noisy_state_.pos();
-//        cout << "diff: " << diff << endl;
-//        // v = speed_ * (diff - (diff-prev_diff);
-//        // v = 1.0 * (kp*diff.normalized() + kd*(diff.normalized() - prev_diff_.normalized()));
-//        v = 3.0 * (kp*diff + kd*(diff - prev_diff_));
-
-////        // solution that is different for individual axis?
-//        Eigen::Vector3d kp = diff.normalized();
-//        Eigen::Vector3d kd = (diff - prev_diff_).normalized();
-//        v(0) = speed_ * (kp(0)*diff(0) + kd(0)*(diff(0) - prev_diff_(0)));
-//        v(1) = speed_ * (kp(1)*diff(1) + kd(1)*(diff(1) - prev_diff_(1)));
-//        v(2) = speed_ * (kp(2)*diff(2) + kd(2)*(diff(2) - prev_diff_(2)));
-
-        altitude = init_man_goal_pos_(2);
-        cout << "V: " << v << endl;
-        cout << "proportional: " << diff << endl;
-        cout << "derivative: " << diff - prev_diff_ << endl;
-        cout << "altitude: " << altitude << endl;
+        // PD Controller
+        // create desired goal and velocity
+        // 1.0, 1.0 - bad overshoot
+        // 0.5, 50 is good
+        // 0.4/50 and 0.5/60 and 0.5/55 gives dead stop at corners
+        double kp = 0.6;
+        double kd = 60.0;
+        double init_man_speed = 5.0;
+        diff = init_man_goal_pos_ - noisy_state_.pos();
+        v = init_man_speed * (kp*diff + kd*(diff - prev_diff_));
+        // calculate the new desired altitude
+        altitude = noisy_state_.pos()(2) + v(2)*dt;
+        // do not count z in the velocity normalization
+        v(2) = 0.0;
+        // heading should stay facing the original heading
+        noisy_state_.set_quat(init_man_goal_quat_);
         prev_diff_ = diff;
 
     } else {
-
-//        // if init maneuver was used, start the drones at the starting point
-//        if(square_side_ == 0) {
-//            if(use_init_maneuver_) {
-//                float distance = sqrt(pow((goal_(0) - noisy_state_.pos()(0)), 2) + pow((goal_(1) - noisy_state_.pos()(1)), 2));
-//                if (distance < 5) {
-//                    square_side_ += 1;
-//                    goal_ = goal1_;
-//                }
-//            }
-//            else{
-//                square_side_ += 1;
-//            }
-//        }
+        // if not performing init maneuver
 
         // check if we have completed this side
-        float distance = sqrt(pow((init_goal_(0) - state_->pos()(0)), 2) + pow((init_goal_(1) - state_->pos()(1)), 2));
-//        cout << "distance: " << distance << endl;
-//        cout << "sq_side_length_m_: " << sq_side_length_m_ << endl;
-//        cout << "square_side_: " << square_side_ << endl;
-//        cout << "position: " << state_->pos()<< endl;
+        // float distance = sqrt(pow((init_goal_(0) - state_->pos()(0)), 2) + pow((init_goal_(1) - state_->pos()(1)), 2));
+        float distance = sqrt(pow((init_goal_(0) - noisy_state_.pos()(0)), 2) + pow((init_goal_(1) - noisy_state_.pos()(1)), 2));
         if (distance >= sq_side_length_m_ && square_side_ > 0){
             // update which side of the square we are on.
             square_side_ += 1;
@@ -514,60 +431,61 @@ bool Square::step_autonomy(double t, double dt) {
             switch(current_side) {
                 case 1:
                   {
-                      // cout << '1' << endl; // prints "1"
-                      // Project goal in front...
                       // Move in positive X direction
                         goal_ = goal1_;
+                        next_goal_ = goal2_;
                       break;
                   }
                 case 2 :
                   {
-                      // cout << '2' << endl;
-                      // Project goal in front...
                       // Move in positive Y direction
                       goal_ = goal2_;
+                      next_goal_ = goal3_;
                       break;
                   }
                 case 3:
                   {
-                      // cout << '3' << endl;
-                      // Project goal in front...
                       // Move in negative X direction
                       goal_ = goal3_;
+                      next_goal_ = goal4_;
                       break;
                   }
                 case 0:
                   {
-                      // cout << '4' << endl;
-                      // Project goal in front...
                       // Move in negative Y direction
                       goal_ = goal4_;
+                      next_goal_ = goal1_;
                       break;
                   }
             }
-            cout << "goal: " << goal_ << endl;
+        } // if distance
+
+        // Parametric Path Planning
+        // heading should turn slowly toward the next corner as it approaches a corner in order to keep the camera on track
+        current_goal = goal_;
+        // if distance is less than 10 to the upcoming corner start adding in influence for the next goal
+        // cout << (sq_side_length_m_ - distance) << endl;
+        if ((sq_side_length_m_ - distance) < start_corner_turn_) {
+            // influence (btw 0 and 1) will increase as the quadcopter gets closer to the corner
+            double influence = (start_corner_turn_ - (sq_side_length_m_ - distance)) / start_corner_turn_;
+            // average the goal position between the upcoming corner and the next corner as the quadcopter gets closer
+            current_goal = (current_goal * (1.0 - influence)) + (next_goal_ * influence);
         }
 
-     // create desired goal and velocity
-     // 1.0, 1.0 - bad overshoot
-     // 0.5, 50 is pretty good so is 0.6, 60 - maybe a meter of overshoot, 0.4 40 gives more overshoot
-     // 0.4/50 and 0.5/60 and 0.5/55 gives dead stop at corners
+        // create desired goal and velocity
+        // 1.0, 1.0 - bad overshoot
+        // 0.5, 50 is pretty good so is 0.6, 60 - maybe a meter of overshoot, 0.4 40 gives more overshoot
+        // 0.4/50 and 0.5/60 and 0.5/55 gives dead stop at corners
+        double kp = 0.6;
+        double kd = 60;
+        diff = current_goal - noisy_state_.pos();
+        v = speed_ * (kp*diff + kd*(diff - prev_diff_));
+        // calculate the new desired altitude
+        altitude = noisy_state_.pos()(2) + v(2)*dt;
+        // do not count z in the velocity normalization
+        v(2) = 0.0;
 
-    double kp = 0.6;
-    double kd = 60;
-    diff = goal_ - noisy_state_.pos();
-    cout << "diff: " << diff << endl;
-    // v * (diff - (diff-prev_diff)
-    // v = speed_ * (kp*diff.normalized() + kd*(diff.normalized() - prev_diff_.normalized()));
-    v = speed_ * (kp*diff + kd*(diff - prev_diff_));
-    cout << "V: " << v << endl;
-    cout << "proportional: " << diff << endl;
-    cout << "derivative: " << diff - prev_diff_ << endl;
-
-    altitude = goal_(2);
-
-    prev_diff_ = diff;
-    // heading = Angles::angle_2pi(atan2(v(1), v(0)));
+        prev_diff_ = diff;
     }
 
     ///////////////////////////////////////////////////////////////////////////
