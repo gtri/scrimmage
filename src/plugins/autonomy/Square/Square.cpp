@@ -375,7 +375,7 @@ bool Square::step_autonomy(double t, double dt) {
         goal_ = goal1_;
         next_goal_ = goal2_;
         prev_diff_ = {0,0,0};
-        cout << "init maneuver finished" << endl;
+        cout << "init maneuver finished at time: " << t << endl;
     }
 
     // Publish the Init Maneuver Status to send to AirSimSensor
