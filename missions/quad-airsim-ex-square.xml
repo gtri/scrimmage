@@ -91,8 +91,6 @@
     <!-- lidar_acquisition_period determines the number of times LIDAR data is requested from AirSim per second -->
     <!-- imu_acquisition_period determines the number of times IMU data is requested from AirSim per second -->
     <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
-
-    <!-- use_init_maneuver makes all aircraft perform a visual odometry initialization maneuver at the beginning of the mission -->
     <sensor airsim_ip="127.0.0.1"
             vehicle_name="robot1"
             save_airsim_data="true"
@@ -101,8 +99,7 @@
             get_imu_data="false"
             image_acquisition_period="0.33"
             lidar_acquisition_period="0.1"
-            imu_acquisition_period="0.1"
-            use_init_maneuver="false">AirSimSensor</sensor>
+            imu_acquisition_period="0.1">AirSimSensor</sensor>
 
 
     <!-- SCRIMMAGE ROS Data Plugins-->
@@ -199,8 +196,6 @@
     <!-- lidar_acquisition_period determines the number of times LIDAR data is requested from AirSim per second -->
     <!-- imu_acquisition_period determines the number of times IMU data is requested from AirSim per second -->
     <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
-
-    <!-- use_init_maneuver makes all aircraft perform a visual odometry initialization maneuver at the beginning of the mission -->
     <sensor airsim_ip="127.0.0.1"
             vehicle_name="robot2"
             save_airsim_data="true"
@@ -209,8 +204,7 @@
             get_imu_data="false"
             image_acquisition_period="0.33"
             lidar_acquisition_period="0.1"
-            imu_acquisition_period="0.1"
-            use_init_maneuver="false">AirSimSensor</sensor>
+            imu_acquisition_period="0.1">AirSimSensor</sensor>
 
 
     <!-- SCRIMMAGE ROS Data Plugins -->

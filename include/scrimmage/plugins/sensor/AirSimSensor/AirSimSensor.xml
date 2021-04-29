@@ -66,8 +66,6 @@
 
 
   <!-- Edit the params below in the mission file, not here -->
-  <!-- use_init_maneuver makes all aircraft perform a visual odometry initialization maneuver at the beginning of the mission -->
-  <use_init_maneuver>true</use_init_maneuver>
 
   <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs-->
   <save_airsim_data>true</save_airsim_data>
