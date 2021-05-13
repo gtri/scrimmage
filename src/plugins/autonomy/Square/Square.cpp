@@ -204,6 +204,7 @@ std::deque<State> Square::get_init_maneuver_positions() {
 
 //        for (auto state : man_positions) {
 //            cout << state.pos()(0) << ", " << state.pos()(1) << ", " << state.pos()(2) << "\n" << endl;
+//            // cout << state.quat().yaw() << endl;
 //        }
 
         return man_positions;
@@ -376,6 +377,7 @@ bool Square::step_autonomy(double t, double dt) {
         next_goal_ = goal2_;
         prev_diff_ = {0,0,0};
         cout << "init maneuver finished at time: " << t << endl;
+        state_->set_quat(init_man_goal_quat_);
     }
 
     // Publish the Init Maneuver Status to send to AirSimSensor
@@ -412,11 +414,15 @@ bool Square::step_autonomy(double t, double dt) {
         // do not count z in the velocity normalization
         v(2) = 0.0;
         // heading should stay facing the original heading
-        noisy_state_.set_quat(init_man_goal_quat_);
+        state_->set_quat(init_man_goal_quat_);
         prev_diff_ = diff;
 
     } else {
         // if not performing init maneuver
+
+        // make sure state us using the correct yaw
+        // Quaternion quat_now = noisy_state_.quat();
+        // quat_now
 
         // check if we have completed this side
         // float distance = sqrt(pow((init_goal_(0) - state_->pos()(0)), 2) + pow((init_goal_(1) - state_->pos()(1)), 2));
@@ -488,10 +494,13 @@ bool Square::step_autonomy(double t, double dt) {
         prev_diff_ = diff;
     }
 
+    // cout << "yaw: " << noisy_state_.quat().yaw() << endl;
+
     ///////////////////////////////////////////////////////////////////////////
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
+    // cout << "hdn: " << heading << endl;
     vars_.output(desired_alt_idx_, altitude);
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
