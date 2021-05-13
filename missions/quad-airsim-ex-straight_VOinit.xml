@@ -5,7 +5,7 @@
 
   <run start="0.0" end="200" dt="0.01"
        time_warp="1"
-       enable_gui="false"
+       enable_gui="true"
        network_gui="false"
        start_paused="false"/>
 
@@ -139,7 +139,7 @@
     <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <!-- use_init_maneuver performs an initialization maneuver for visual odometry SLAM algorithms. -->
     <autonomy show_camera_images="false"
-              use_init_maneuver="false">StraightVOInit</autonomy>
+              use_init_maneuver="true">StraightVOInit</autonomy>
 
     <!-- Square Plugin -->
     <!-- Only leave one uncommented: Straight Plugin or Square Plugin -->
@@ -247,7 +247,7 @@
     <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <!-- use_init_maneuver performs an initialization maneuver for visual odometry SLAM algorithms. -->
     <autonomy show_camera_images="false"
-              use_init_maneuver="false">StraightVOInit</autonomy>
+              use_init_maneuver="true">StraightVOInit</autonomy>
 
     <!-- Square Plugin -->
     <!-- Only leave one uncommented: Straight Plugin or Square Plugin -->
