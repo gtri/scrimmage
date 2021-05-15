@@ -35,6 +35,8 @@
 #include <ros/ros.h>
 #include <sensor_msgs/MagneticField.h>
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/common/CSV.h>
 
 #include <random>
 #include <vector>
@@ -50,12 +52,15 @@ class ROSCompass : public scrimmage::Sensor {
     ROSCompass();
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
+    void close(double t) override;
 
  protected:
     std::string vehicle_name_ = "none";
     std::string ros_namespace_;
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Publisher compass_pub_;
+    double prev_time_ = 0.0;
+    scrimmage::CSV csv;
 
  private:
 };
