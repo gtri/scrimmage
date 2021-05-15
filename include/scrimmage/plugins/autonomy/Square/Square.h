@@ -53,6 +53,8 @@ namespace autonomy {
 class InitManeuverType {
  public:
     bool active = false;
+    Quaternion init_man_goal_quat;
+    bool stay_straight = false;
 };
 
 class Square : public scrimmage::Autonomy{

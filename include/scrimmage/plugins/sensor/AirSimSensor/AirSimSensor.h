@@ -195,6 +195,7 @@ class AirSimSensor : public scrimmage::Sensor {
     // Init Maneuver
     bool init_maneuver_active_ = false;
     Quaternion init_man_orig_quat_;
+    bool stay_straight_ = false;
 
     // period at which the data acquisition is run [seconds]
     // double data_acquisition_period_ = .1;

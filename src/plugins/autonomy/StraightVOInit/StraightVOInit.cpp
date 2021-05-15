@@ -89,49 +89,52 @@ std::deque<State> StraightVOInit::get_init_maneuver_positions() {
         State current_state(*state);
         // man_positions.push_back(current_state);
 
-        // Rise up to 5 meters above the starting position
-//        for (double i=0.0; i<5.0; i+=delta) {
-//            current_state.pos()(2) = current_state.pos()(2) + delta;
-//            man_positions.push_back(current_state);
-//        }
         // cout << "starting_state: " <<  current_state.pos() << endl;
         // add 5m in altitude
-        // current_state.pos()(2) = current_state.pos()(2) + 5.0;
+        current_state.pos()(2) = current_state.pos()(2) + 3.0;
         man_positions.push_back(current_state);
 
         // move left - right
-        current_state.pos()(1) = current_state.pos()(1) + 4.0;
+        current_state.pos()(1) = current_state.pos()(1) + 3.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) - 8.0;
+        current_state.pos()(1) = current_state.pos()(1) - 6.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) + 4.0;
+        current_state.pos()(1) = current_state.pos()(1) + 3.0;
         man_positions.push_back(current_state);
 
         // move up-down
-        current_state.pos()(2) = current_state.pos()(2) + 4.0;
+        current_state.pos()(2) = current_state.pos()(2) + 2.0;
         man_positions.push_back(current_state);
-        current_state.pos()(2) = current_state.pos()(2) - 8.0;
+        current_state.pos()(2) = current_state.pos()(2) - 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(2) = current_state.pos()(2) + 4.0;
+        current_state.pos()(2) = current_state.pos()(2) + 2.0;
         man_positions.push_back(current_state);
 
         // move in a rectangle - right, forward, left, backward, right
-        current_state.pos()(1) = current_state.pos()(1) + 4.0;
+        current_state.pos()(1) = current_state.pos()(1) + 2.0;
         man_positions.push_back(current_state);
-        current_state.pos()(0) = current_state.pos()(0) + 4.0;
+        current_state.pos()(0) = current_state.pos()(0) + 2.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) - 8.0;
+        current_state.pos()(1) = current_state.pos()(1) - 4.0;
         man_positions.push_back(current_state);
-        current_state.pos()(0) = current_state.pos()(0) - 4.0;
+        current_state.pos()(0) = current_state.pos()(0) - 2.0;
         man_positions.push_back(current_state);
-        current_state.pos()(1) = current_state.pos()(1) + 4.0;
+        current_state.pos()(1) = current_state.pos()(1) + 2.0;
         man_positions.push_back(current_state);
 
         // place back at beginning for Straight Plugin
+        // 5.0 = 0.14, 3.0 = -0.15, 0 = -1.9
         man_positions.push_back(init_state);
+        init_state.pos()(0) = init_state.pos()(0) + 5.0;
         man_positions.push_back(init_state);
+        init_state.pos()(0) = init_state.pos()(0) + 5.0;
         man_positions.push_back(init_state);
 
+//        for (auto state : man_positions) {
+//            cout << state.pos()(0) << ", " << state.pos()(1) << ", " << state.pos()(2) << "\n" << endl;
+//            // cout << state.quat().roll() << ", " << state.quat().pitch() << ", " << state.quat().yaw() << "\n" << endl;
+//            // cout << state.quat().yaw() << endl;
+//        }
 
         return man_positions;
 }
@@ -148,6 +151,7 @@ void StraightVOInit::init(std::map<std::string, std::string> &params) {
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
     goal_(2) = state_->pos()(2);
     init_goal_ = goal_;
+    init_man_goal_quat_ = state_->quat();
 
     // Set the desired_z to our initial position.
     // desired_z_ = state_->pos()(2);
@@ -272,6 +276,7 @@ void StraightVOInit::init(std::map<std::string, std::string> &params) {
 }
 
 bool StraightVOInit::step_autonomy(double t, double dt) {
+    sc::StatePtr &state_ = parent_->state_truth();
 
     // Read data from sensors...
     if (!noisy_state_set_) {
@@ -283,11 +288,17 @@ bool StraightVOInit::step_autonomy(double t, double dt) {
     Eigen::Vector3d v;
     double altitude = goal_(2);
 
+    // If Init Maneuver is finished
     if (man_positions_.size() == 0 && use_init_maneuver_ && init_maneuver_finished_ == false) {
         init_maneuver_finished_ = true;
         goal_ = init_goal_;
         prev_diff_ = {0,0,0};
         cout << "init maneuver finished at time: " << t << endl;
+        // Use the keep straight action one last time
+        parent_->state_truth()->set_quat(init_man_goal_quat_);
+        state_ = parent_->state_truth();
+        state_->set_quat(init_man_goal_quat_);
+        noisy_state_ = *state_;
     }
 
     // Publish the Init Maneuver Status to send to AirSimSensor
@@ -295,8 +306,21 @@ bool StraightVOInit::step_autonomy(double t, double dt) {
     // for Visual Odometry init maneuver we need the camera to stay facing forward
     auto msg = std::make_shared<sc::Message<InitManeuverType>>();
     msg->data.active = !init_maneuver_finished_;
+    msg->data.init_man_goal_quat = init_man_goal_quat_;
+    // if using init maneuver, keep the quadcopter at the same roll, pitch, yaw during the init maneuver
+    if (init_maneuver_finished_ == false) {
+            // Keep the quadcopter Straight
+            msg->data.stay_straight = true;
+            parent_->state_truth()->set_quat(init_man_goal_quat_);
+            state_ = parent_->state_truth();
+            state_->set_quat(init_man_goal_quat_);
+            noisy_state_ = *state_;
+    } else {
+        msg->data.stay_straight = false;
+    }
     init_maneuver_pub_->publish(msg);
 
+    // Perform Init Maneuver
     if (!init_maneuver_finished_ && use_init_maneuver_) {
         // Pop a state off the front of man_positions_ vector and delete the element
         float distance = sqrt(pow((init_man_goal_pos_(0) - noisy_state_.pos()(0)), 2) + pow((init_man_goal_pos_(1) - noisy_state_.pos()(1)), 2) + pow((init_man_goal_pos_(2) - noisy_state_.pos()(2)), 2));

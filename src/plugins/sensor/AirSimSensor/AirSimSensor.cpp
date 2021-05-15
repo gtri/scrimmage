@@ -232,8 +232,12 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
 
     ///// Init Maneuver //////
     // Subscribe to initialization maneuver active flag
+    sc::StatePtr &state = parent_->state_truth();
+    init_man_orig_quat_ = state->quat();
     auto init_man_cb = [&](auto &msg) {
         init_maneuver_active_ = msg->data.active;
+        init_man_orig_quat_ = msg->data.init_man_goal_quat;
+        stay_straight_ = msg->data.stay_straight;
     };
     subscribe<autonomy::InitManeuverType>("LocalNetwork", "InitManeuver", init_man_cb);
     if (init_maneuver_active_) {
@@ -631,27 +635,14 @@ bool AirSimSensor::step() {
 
     // Setup state information for AirSim
     sc::StatePtr &state = parent_->state_truth();
-
-    // record init state
-    if (airsim_frame_num_ == 0){
-        sc::StatePtr &init_state = parent_->state_truth();
-        init_man_orig_quat_ = init_state->quat();
-    }
-
     State next_state(*state);
 
-//    if (man_positions_.size() == 0) {
-//        init_maneuver_finished_ = true;
-//        // reset to the original state
-//        // parent_->state_truth() = init_state_;
-//        std::vector<AutonomyPtr> autos = parent_->autonomies();
-//        // autos.front()->set_desired_state(init_state_);
-//        for (auto a : autos) {
-//            // (*a).set_desired_state(init_state_);
-//            // autos.front()->set_desired_state(init_state_);
-//            a->set_desired_state(init_state_);
-//        }
-//    }
+    // if using init maneuver, keep the quadcopter at the same roll, pitch, yaw during the init maneuver
+    // and for a little while afterwards in order to ensure a smooth transition.
+    if (stay_straight_ == true) {
+        parent_->state_truth()->set_quat(init_man_orig_quat_);
+        next_state.set_quat(init_man_orig_quat_);
+    }
 
     if (init_maneuver_active_) {
         // move the quadcopter, but keep its heading facing forward so that the camera can
@@ -665,9 +656,6 @@ bool AirSimSensor::step() {
 
         // pitch, roll, yaw
         // note, the negative pitch and yaw are required because of the wsu coordinate frame
-//        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
-//                                                          state->quat().roll(),
-//                                                          airsim_yaw_rad);
         ma::Quaternionr qd = ma::VectorMath::toQuaternion(-init_man_orig_quat_.pitch(),
                                                           init_man_orig_quat_.roll(),
                                                           airsim_yaw_rad);
@@ -677,15 +665,15 @@ bool AirSimSensor::step() {
     } else {
         // Go through the motions of the autonomy plugin defined in the mission file.
         // convert from ENU to NED frame
-        ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
+        ma::Vector3r pos(next_state.pos()(1), next_state.pos()(0), -next_state.pos()(2));
 
-        enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
+        enu_to_ned_yaw_.set_angle(ang::rad2deg(next_state.quat().yaw()));
         double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
 
         // pitch, roll, yaw
         // note, the negative pitch and yaw are required because of the wsu coordinate frame
-        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
-                                                          state->quat().roll(),
+        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-next_state.quat().pitch(),
+                                                          next_state.quat().roll(),
                                                           airsim_yaw_rad);
 
         // Send state information to AirSim

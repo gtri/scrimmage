@@ -3,7 +3,7 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="Straight flying">
 
-  <run start="0.0" end="200" dt="0.01"
+  <run start="0.0" end="400" dt="0.01"
        time_warp="1"
        enable_gui="true"
        network_gui="false"
@@ -39,8 +39,8 @@
 
   <entity_interaction name="blue_boundary"
                       type="cuboid"
-                      lengths="130, 130, 130"
-                      center="65, 65, 0"
+                      lengths="300, 300, 50"
+                      center="0, 0, 0"
                       color="0 0 255"
                       id="1"
                       team_id="1">Boundary</entity_interaction>
@@ -138,8 +138,10 @@
     <!-- show_camera_images shows AirSim images in windows during simulation. -->
     <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <!-- use_init_maneuver performs an initialization maneuver for visual odometry SLAM algorithms. -->
+    <!-- enable_boundary_control="true" will keep the quadcopters inside the blue boundary box. -->
     <autonomy show_camera_images="false"
-              use_init_maneuver="true">StraightVOInit</autonomy>
+              use_init_maneuver="true"
+              enable_boundary_control="false">StraightVOInit</autonomy>
 
     <!-- Square Plugin -->
     <!-- Only leave one uncommented: Straight Plugin or Square Plugin -->
@@ -246,8 +248,10 @@
     <!-- show_camera_images shows AirSim images in windows during simulation. -->
     <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
     <!-- use_init_maneuver performs an initialization maneuver for visual odometry SLAM algorithms. -->
+    <!-- enable_boundary_control="true" will keep the quadcopters inside the blue boundary box. -->
     <autonomy show_camera_images="false"
-              use_init_maneuver="true">StraightVOInit</autonomy>
+              use_init_maneuver="true"
+              enable_boundary_control="false">StraightVOInit</autonomy>
 
     <!-- Square Plugin -->
     <!-- Only leave one uncommented: Straight Plugin or Square Plugin -->
