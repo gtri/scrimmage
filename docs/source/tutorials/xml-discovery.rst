@@ -1,5 +1,6 @@
-SCRIMMAGE Plugin / XML File Discovery
-=====================================
+===========================
+Plugin / XML File Discovery
+===========================
 
 This tutorial assumes you have completed the section
 :ref:`install_scrimmage`.  Let's start with the command we ran to run the

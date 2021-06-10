@@ -52,6 +52,7 @@
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #endif
 
 #if ENABLE_AIRSIM == 1
@@ -89,6 +90,7 @@ void Straight::init(std::map<std::string, std::string> &params) {
     Eigen::Vector3d unit_vector = rel_pos.normalized();
     unit_vector = state_->quat().rotate(unit_vector);
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
+    goal_(2) = state_->pos()(2);
 
     // Set the desired_z to our initial position.
     // desired_z_ = state_->pos()(2);
@@ -153,14 +155,36 @@ void Straight::init(std::map<std::string, std::string> &params) {
 
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
     auto airsim_cb = [&](auto &msg) {
-        for (sc::sensor::AirSimSensorType a : msg->data) {
+        for (sc::sensor::AirSimImageType a : msg->data) {
             if (show_camera_images_) {
-                cv::imshow(a.camera_config.name.c_str(), a.img);
+                // Get Camera Name
+                std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                // for depth images CV imshow expects grayscale image values to be between 0 and 1.
+                if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
+                    // Worked before building with ROS
+                    cv::Mat tempImage;
+                    a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
+                    // cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);
+                    // cout << tempImage << endl;
+                    cv::imshow(window_name, tempImage);
+                } else {
+                    // other image types are int 0-255.
+                    if (a.img.channels() == 4) {
+                        cout << "image channels: " << a.img.channels() << endl;
+                        cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. Color images will not display correctly." << endl;
+                        cout << "Warning: Use Asset Environment versions Linux-v1.3.1+." << endl;
+                        cv::Mat tempImage;
+                        cv::cvtColor(a.img , tempImage, CV_RGBA2RGB);
+                        cv::imshow(window_name, tempImage);
+                    } else {
+                        cv::imshow(window_name, a.img);
+                    }
+                }
                 cv::waitKey(1);
             }
         }
     };
-    subscribe<sensor::AirSimSensorType>>("LocalNetwork", "AirSim", airsim_cb);
+    subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_cb);
 #endif
 
 #if ENABLE_OPENCV == 1

@@ -34,7 +34,11 @@
 
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
-from builtins import *
+try:
+    from builtins import *
+except ImportError:
+    from __builtin__ import *
+    
 
 import os
 import sys
@@ -66,11 +70,12 @@ parser = argparse.ArgumentParser(
         description="Run batch SCRIMMAGE experiments",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
         )
-parser.add_argument('-m', '--mission', help='Mission file')
+parser.add_argument('-m', '--mission', help='Mission file',
+                    default= "./scrimmage/scrimmage/missions/batch-example-mission.xml")
 parser.add_argument('-r', '--ranges', help='Ranges file for generating new'
-                    ' scenarios')
+                    ' scenarios', default= "~/scrimmage/scrimmage/config/ranges/batch-ranges.xml")
 parser.add_argument('-p', '--parallel', help='Maximum number of parallel runs',
-                    default=1, type=int)
+                    default=7, type=int)
 parser.add_argument('-n', '--experiment-name', help='Name of the batch '
                     'experiment',
                     default=datetime.datetime.now().strftime(
@@ -82,7 +87,7 @@ parser.add_argument('-s', '--num-repeats', help='Num repeats per set of params',
 parser.add_argument('-d', '--method', help='Method of sampling, grid or lhs',
                     default='lhs', type=str)
 parser.add_argument('-t', '--tasks', help='Number of simulation runs',
-                    type=int)
+                    default=100, type=int)
 
 args = parser.parse_args()
 
@@ -95,7 +100,7 @@ if not os.path.isfile(args.mission):
 # See if the user is using the ranges file
 if not args.ranges:
     print('not using ranges file')
-elif not os.path.exists(args.ranges):
+elif not os.path.exists(os.path.expanduser(args.ranges)):
     sys.exit('Ranges file does not exist... Exiting')
 
 if args.method == "lhs":

@@ -30,12 +30,27 @@
  *
  */
 
+#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/network/Interface.h>
+#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/OriginAxes.h>
+#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/viewer/Grid.h>
+
+#include <iostream>
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkDataSetMapper.h>
 #include <vtkPNGReader.h>
 #include <vtkOBJReader.h>
+#include <vtkSTLReader.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 #include <vtkTriangle.h>
@@ -52,6 +67,7 @@
 #include <vtkPointData.h>
 #include <vtkPoints.h>
 #include <vtkPolygon.h>
+#include <vtkPolyLine.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
 #include <vtkCallbackCommand.h>
@@ -67,20 +83,17 @@
 #include <vtkWindowToImageFilter.h>
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
+#include <vtksys/SystemTools.hxx>
 
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/viewer/OriginAxes.h>
-#include <scrimmage/viewer/Updater.h>
-#include <scrimmage/viewer/Grid.h>
-
-#include <iostream>
+#if VTK_MAJOR_VERSION > 6
+#include <vtkCellLocator.h>
+#include <vtkGeoJSONReader.h>
+#include <vtkCellData.h>
+#include <vtkDoubleArray.h>
+#include <vtkAppendPolyData.h>
+#include <vtkLinearExtrusionFilter.h>
+#include <vtkProperty.h>
+#endif
 
 #include <boost/filesystem.hpp>
 
@@ -157,7 +170,9 @@ void Updater::init(const std::string &log_dir, double dt) {
 
 void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
                       void * vtkNotUsed(callData)) {
-    update();
+    if (not update()) {
+        return;
+    }
 
     vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::SafeDownCast(caller);
     iren->GetRenderWindow()->Render();
@@ -273,8 +288,10 @@ bool Updater::update() {
         for (auto it : info_list) {
             if (it.shutting_down()) {
                 send_shutdown_msg_ = false;
-                rwi_->GetRenderWindow()->Finalize();
+
+                // Terminate the VTK application
                 rwi_->TerminateApp();
+                return false;
             }
         }
 
@@ -848,6 +865,104 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
             vtkSmartPointer<vtkTextureMapToPlane>::New();
         texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
 
+#if VTK_MAJOR_VERSION > 6
+        if (utm->enable_extrusion()) {
+            // Locate elevation data
+            vtkSmartPointer<vtkCellLocator> cellLocator =
+              vtkSmartPointer<vtkCellLocator>::New();
+            cellLocator->SetDataSet(normalGenerator->GetOutput());
+            cellLocator->BuildLocator();
+            double closestPoint[3];
+            double closestPointDist2;
+            vtkIdType cellId;
+            int subId;
+
+            // Default extrusion height
+            vtkVariant defval = vtkVariant(static_cast<double>(0.0));
+
+            // Read extrusion file and extract polydata and height property
+            vtkSmartPointer<vtkGeoJSONReader> extrusion_reader =
+                    vtkSmartPointer<vtkGeoJSONReader>::New();
+            extrusion_reader->SetFileName(utm->extrusion_file().c_str());
+            extrusion_reader->AddFeatureProperty(
+                    utm->extrusion_property().c_str(), defval);
+            extrusion_reader->Update();
+
+            vtkSmartPointer<vtkTransformPolyDataFilter> extrudeTransform =
+                vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+            extrudeTransform->SetInputConnection(
+                    extrusion_reader->GetOutputPort());
+            extrudeTransform->SetTransform(translation);
+            extrudeTransform->Update();
+
+            // Get all the data in the extrusion file
+            vtkSmartPointer<vtkPolyData> extrusion_data =
+                    vtkSmartPointer<vtkPolyData>::New();
+            extrusion_data = extrudeTransform->GetOutput();
+
+            vtkSmartPointer<vtkDoubleArray> heights =
+                    vtkDoubleArray::SafeDownCast(
+                            extrusion_data->GetCellData()->GetArray("Height"));
+
+            // Extract each polygon, extrude it, and append to new polydata
+            vtkIdType numCells = extrusion_data->GetPolys()->GetNumberOfCells();
+            vtkSmartPointer<vtkAppendPolyData> appendPolys =
+                        vtkSmartPointer<vtkAppendPolyData>::New();
+            for (vtkIdType n(0); n < numCells; n++) {
+                auto pts = vtkSmartPointer<vtkPoints>::New();
+                auto polygon = vtkSmartPointer<vtkPolygon>::New();
+                auto polygons = vtkSmartPointer<vtkCellArray>::New();
+                auto cellPointIds = vtkSmartPointer<vtkIdList>::New();
+                auto polygonPolydata = vtkSmartPointer<vtkPolyData>::New();
+                auto extrudeFilter =
+                        vtkSmartPointer<vtkLinearExtrusionFilter>::New();
+
+                // Get PointIds for the n-th polygon in the polydata
+                extrusion_data->GetCellPoints(n, cellPointIds);
+
+                // Set number of ids in the new polygon
+                polygon->GetPointIds()->SetNumberOfIds(
+                        cellPointIds->GetNumberOfIds());
+
+                // Copy the points to the new polygon
+                for (vtkIdType m(0); m < cellPointIds->GetNumberOfIds(); m++) {
+                    double p[3];
+                    extrusion_data->GetPoint(cellPointIds->GetId(m), p);
+                    if (m == 0) {
+                        cellLocator->FindClosestPoint(p, closestPoint, cellId,
+                                subId, closestPointDist2);
+                    }
+                    pts->InsertNextPoint(p[0], p[1], closestPoint[2]);
+                    polygon->GetPointIds()->SetId(m, m);
+                }
+
+                // Create new polydata for the new polygon
+                polygons->InsertNextCell(polygon);
+                polygonPolydata->SetPoints(pts);
+                polygonPolydata->SetPolys(polygons);
+
+                // Extrude the new polydata
+                extrudeFilter->SetExtrusionTypeToNormalExtrusion();
+                extrudeFilter->SetScaleFactor(1);
+                extrudeFilter->SetInputData(polygonPolydata);
+                extrudeFilter->SetVector(0, 0, heights->GetValue(n));
+                extrudeFilter->Update();
+
+                // Append the extruded polydata
+                appendPolys->AddInputData(extrudeFilter->GetOutput());
+            }
+            vtkSmartPointer<vtkPolyDataMapper> extrusion_mapper =
+                    vtkSmartPointer<vtkPolyDataMapper>::New();
+            extrusion_mapper->SetInputConnection(appendPolys->GetOutputPort());
+
+            if (extrusion_actor_ != NULL) {
+                renderer_ ->RemoveActor(extrusion_actor_);
+            }
+
+            extrusion_actor_ = vtkSmartPointer<vtkActor>::New();
+            extrusion_actor_->SetMapper(extrusion_mapper);
+        }
+#endif
         vtkSmartPointer<vtkPolyDataMapper> terrain_mapper =
             vtkSmartPointer<vtkPolyDataMapper>::New();
         terrain_mapper->SetInputConnection(texturePlane->GetOutputPort());
@@ -862,6 +977,10 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
         terrain_actor_->GetProperty()->SetColor(0, 0, 0);
 
         renderer_->AddActor(terrain_actor_);
+#if VTK_MAJOR_VERSION > 6
+        if (utm->enable_extrusion())
+            renderer_->AddActor(extrusion_actor_);
+#endif
     }
     return true;
 }
@@ -1078,11 +1197,6 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 actor->SetTexture(colorTexture);
             }
 
-            vtkSmartPointer<vtkOBJReader> reader =
-                vtkSmartPointer<vtkOBJReader>::New();
-            reader->SetFileName(cv->model_file().c_str());
-            reader->Update();
-
             vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
 
             // transform->RotateWXYZ(cv->rotate(0), cv->rotate(1),
@@ -1095,7 +1209,20 @@ void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact
                 vtkSmartPointer<vtkTransformPolyDataFilter>::New();
 
             transformFilter->SetTransform(transform);
-            transformFilter->SetInputConnection(reader->GetOutputPort());
+            std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(cv->model_file().c_str()));
+            if (extension == ".obj") {
+                vtkSmartPointer<vtkOBJReader> reader =
+                    vtkSmartPointer<vtkOBJReader>::New();
+                reader->SetFileName(cv->model_file().c_str());
+                reader->Update();
+                transformFilter->SetInputConnection(reader->GetOutputPort());
+            } else if (extension == ".stl") {
+                vtkSmartPointer<vtkSTLReader> reader =
+                        vtkSmartPointer<vtkSTLReader>::New();
+                reader->SetFileName(cv->model_file().c_str());
+                reader->Update();
+                transformFilter->SetInputConnection(reader->GetOutputPort());
+            }
             transformFilter->Update();
 
             mapper->SetInputConnection(transformFilter->GetOutputPort());
@@ -1364,6 +1491,15 @@ void Updater::shutting_down() {
     if (send_shutdown_msg_) {
         outgoing_interface_->send_gui_msg(gui_msg_);
     }
+
+    rwi_->GetRenderWindow()->Finalize();
+    rwi_->TerminateApp();
+
+    rwi_ = NULL;
+    renderer_ = NULL;
+
+    incoming_interface_ = nullptr;
+    outgoing_interface_ = nullptr;
 }
 
 void Updater::inc_scale() {
@@ -1391,7 +1527,7 @@ void Updater::inc_follow_offset() {follow_offset_ *= 1.1;}
 void Updater::dec_follow_offset() {follow_offset_ /= 1.1;}
 
 void Updater::reset_scale() {
-    scale_ = 1.0;
+    scale_ = init_scale_;
     scale_required_ = true;
 }
 
@@ -1794,10 +1930,6 @@ bool Updater::draw_mesh(const bool &new_shape,
             actor->SetTexture(colorTexture);
         }
 
-        auto reader = vtkSmartPointer<vtkOBJReader>::New();
-        reader->SetFileName(model_file.c_str());
-        reader->Update();
-
         // add transform from model coordinates to normal aircraft rpy and scale
         // based on the rpy and scale in the model config file
         transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
@@ -1807,7 +1939,18 @@ bool Updater::draw_mesh(const bool &new_shape,
         transformFilter->SetTransform(transform);
 
         // connect transform filter
-        transformFilter->SetInputConnection(reader->GetOutputPort());
+        std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(model_file.c_str()));
+        if (extension == ".obj") {
+            auto reader = vtkSmartPointer<vtkOBJReader>::New();
+            reader->SetFileName(model_file.c_str());
+            reader->Update();
+            transformFilter->SetInputConnection(reader->GetOutputPort());
+        } else if (extension == ".stl") {
+            auto reader = vtkSmartPointer<vtkSTLReader>::New();
+            reader->SetFileName(model_file.c_str());
+            reader->Update();
+            transformFilter->SetInputConnection(reader->GetOutputPort());
+        }
         transformFilter->Update();
         source = transformFilter;
 
@@ -2066,9 +2209,40 @@ bool Updater::draw_polyline(const bool &new_shape,
                             vtkSmartPointer<vtkActor> &actor,
                             vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    const auto ptr_field = pl.line();
-    for (auto it = ptr_field.begin(); it != ptr_field.end(); ++it) {
-      draw_line(new_shape, *it, actor, source, mapper);
+    if (new_shape) {
+        vtkSmartPointer<vtkPoints> points =
+                vtkSmartPointer<vtkPoints>::New();
+
+        for (int i = 0; i < pl.point_size(); i++) {
+            points->InsertNextPoint(pl.point(i).x(), pl.point(i).y(),
+                                    pl.point(i).z());
+        }
+
+        vtkSmartPointer<vtkPolyLine> polyLine =
+                vtkSmartPointer<vtkPolyLine>::New();
+        polyLine->GetPointIds()->SetNumberOfIds(pl.point_size());
+        for (int i = 0; i < pl.point_size(); i++) {
+            polyLine->GetPointIds()->SetId(i, i);
+        }
+
+        // Create a cell array to store the lines in and add the lines to it
+        vtkSmartPointer<vtkCellArray> cells =
+                vtkSmartPointer<vtkCellArray>::New();
+        cells->InsertNextCell(polyLine);
+
+        // Create a polydata to store everything in
+        vtkSmartPointer<vtkPolyData> polyData =
+                vtkSmartPointer<vtkPolyData>::New();
+
+        // Add the points to the dataset
+        polyData->SetPoints(points);
+
+        // Add the lines to the dataset
+        polyData->SetLines(cells);
+
+        // source = polyLine; // Not inherited from source
+        mapper->SetInputData(polyData);
+        actor->SetMapper(mapper);
     }
     return true;
 }
@@ -2089,6 +2263,9 @@ bool Updater::draw_sphere(const bool &new_shape,
         actor->SetMapper(mapper);
     } else {
         sphereSource = vtkSphereSource::SafeDownCast(source);
+    }
+    if (!sphereSource) {
+        return false;
     }
     sphereSource->SetRadius(s.radius());
     actor->SetPosition(s.center().x(), s.center().y(), s.center().z());

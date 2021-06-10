@@ -2,22 +2,34 @@
 
 SCRIMMAGE currently targets Ubuntu Xenial. This means that if a package exists
 in Ubuntu Xenial that SCRIMMAGE depends on, apt-get will be used to install the
-package. However, in some cases, we need much newer versions of the software
-than are provided by Canonical. This subproject is for building the few
-dependencies that have to be built from source because we require custom or
-newer versions of the software. This project can build deb, rpm, source
-binaries (for PPA), and local builds for the required dependencies.
+package.
+
+However, in some cases, we need much newer versions of the software than are
+provided by Canonical. This subproject is for building the few dependencies
+that have to be built from source because we require custom or newer versions
+of the software.
+
+This project can build deb, rpm, source binaries (for PPA), and local builds
+for the required dependencies.
 
 ## Build Local Versions of dependencies
 
 This is the old process for installing SCRIMMAGE's dependencies, but it will be
 maintained for system flexibility. After running the following commands, the
-dependencies will be installed under ~/.local :
+dependencies will be installed under `~/.local`:
 
     $ cd /path/to/3rd-party
     $ mkdir -p build && cd build
     $ cmake ..
     $ source ~/.scrimmage/setup.bash
+    $ make
+
+After building these libraries, you can make use of them by adding them to the
+`LD_LIBRARY_PATH` and then following the standard build process:
+
+    $ export LD_LIBRARY_PATH="$HOME/.local/lib/"
+    $ cd build
+    $ cmake .. -DCMAKE_PREFIX_PATH="$HOME/.local"
     $ make
 
 ## Build deb packages
@@ -38,29 +50,35 @@ Similarly, rpm packages can be built:
     $ cmake .. -DBUILD_BINARY_PACKAGES=ON -DPACKAGE_OUTPUT_TYPE=rpm
     $ make
 
-## Build debian source packages
+## Build Debian source packages
 
-In order for Launchpad to provide debian binary packages, debian source
-packages have to be uploaded to Launchpad via dput. This project provides cmake
-build targets for the building of these source packages. It is recommended that
-you use a different build directory for building PPA source packages since some
-of the CMake variables may conflict with your locally built binary
-packages. You have to manually specify PPA targets to build since they are not
-built by default to discourage uploading to Launchpad accidently. By default,
+Launchpad requires Debian source packages in order to provide compiled
+packages. These source packages are built with the CMake build targets in this
+directory and uploaded to Launchpad with
+[dput](http://manpages.ubuntu.com/manpages/xenial/man1/dput.1.html).
+
+It is recommended that you use a different build directory for building PPA
+source packages since some of the CMake variables may conflict with your
+locally built binary packages.
+
+You have to manually specify PPA targets to build since they are not
+built by default to discourage uploading to Launchpad accidentally. By default,
 the packages are uploaded to Kevin DeMarco's PPA
-(ppa:kevin-demarco/scrimmage). Thus, if you don't have his GPG keys (which you
+(`ppa:kevin-demarco/scrimmage`). Thus, if you don't have his GPG keys (which you
 don't), but you still want to upload to Launchpad, you will need to create a
 Launchpad account, a PPA, and setup your GPG keys with the Ubuntu
-keyserver. You can change the PPA and GPG key ID with the "PPA" and
-"GPG\_KEY\_ID" CMake cache variables. 
+keyserver. You can change the PPA and GPG key ID with the `PPA` and
+`GPG_KEY_ID` CMake cache variables.
 
 The CMakeDebSrc cmake project is used to build the debian source
 packages. CMakeDebSrc is a collection of cmake scripts that wrap around
 pbuilder commands to build packages for various Linux distributions and
-architectures. First, clone and install the CMakeDebSrc project from GitHub:
-https://github.com/SyllogismRXS/CMakeDebSrc. You will also need to use pbuilder
-to initialize a base tarball and setup a pbuilderrc file (see CMakeDebSrc's
-installation instructions).
+architectures.
+
+First, clone and install the [CMakeDebSrc project from
+GitHub](https://github.com/SyllogismRXS/CMakeDebSrc). You will also need to use
+pbuilder to initialize a base tarball and setup a `/.pbuilderrc` file (see
+CMakeDebSrc's installation instructions).
 
     $ cd /path/to/3rd-party
     $ mkdir -p build-ppa && cd build-ppa
@@ -71,17 +89,18 @@ installation instructions).
 
 As changes are made to the dependencies source code and the debian packaging
 configuration files, the package maintainer needs to bump the versions for the
-SOURCE\_VERSION and PPA\_NUMBER in the root CMakeLists.txt file. Note: Allow
-protobuf3 to build successfully on the Launchpad server before building
-grpc. Then, allow grpc to build successfully before building the
+`SOURCE_VERSION` and `PPA_NUMBER` in the root `CMakeLists.txt` file.
+
+Note: Allow protobuf3 to build successfully on the Launchpad server before
+building grpc. Then, allow grpc to build successfully before building the
 dependencies-ppa.
 
 ## Build GRPC and Protobuf Python Packages from Source
 
-### Install protobuf Python package
+### Install Protobuf Python package
 
 Protobuf should be installed using the source files that are compiled during
-build.  Using protobuf from PyPI (i.e. what you get with `pip install protobuf`
+build. Using Protobuf from PyPI (i.e. what you get with `pip install protobuf`
 ) is known to cause crashes.
 
     $ cd /path/to/scrimmage/3rd-party/build/src/protobuf/python
@@ -119,6 +138,7 @@ Allow pbuilder to have access to the network during build-time:
     $ make scrimmage-pybind11-local-test
 
 ## Manual
+
 Change directories to the location of the *.dsc file that was created and run
 pbuilder:
 
@@ -127,9 +147,9 @@ pbuilder:
 
 ## Test Resulting Binary Debian Packages
 
-The result of the package-name-local-test target is a debian binary package,
-which is usually output to ~/pbuilder/xenial_result. To see the contents of the
-output binary package, run the following command:
+The result of the package-name-local-test target is a Debian binary package,
+which is usually output to `~/pbuilder/xenial_result`. To see the contents of
+the output binary package, run the following command:
 
     $ dpkg -c ~/pbuilder/xenial_result/scrimmage-pybind11_0.1.1-0ppa1_amd64.deb
 

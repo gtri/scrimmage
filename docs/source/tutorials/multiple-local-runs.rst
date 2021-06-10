@@ -160,17 +160,17 @@ output log directory. In this case, the file can be found at:
 Multiple Runs in Parallel
 -------------------------
 
-Before running multiple scenarios in parallel, you will need to install some
-Python packages: ::
+Before running multiple scenarios in parallel, you will need to be sure you have followed the install with Python Bindings then install some
+additional Python packages: ::
 
      $ sudo apt-get install python-pip python-scipy python-pandas parallel
-     $ sudo pip install pyDOE
+     $ sudo pip install pyDOE tqdm
 
 We will now use one of SCRIMMAGE's tools, ``run_experiments.py``, to execute
 100 simulation runs of this same scenario (7 instances allowed in parallel) ::
 
   $ cd ~/scrimmage/scrimmage/scripts
-  $ ./run_experiments.py -t 100 -m ../missions/straight-vs-motorschemas.xml -p 7
+  $ ./run_experiments.py -t 100 -m ../missions/straight-vs-motorschemas.xml -r ../config/ranges/batch-ranges.xml -p 7
 
 Since my machine has eight cores, I allow seven SCRIMMAGE instances to run in
 parallel at a time to prevent system lockup. After the 100 simulations finish
@@ -299,6 +299,11 @@ This is a python jupyter notebook showing a simple example of how to aggregate
 data from this tutorial. In this example, we output all of the data on entity 1
 per run into a single .csv file saved at
 ``~/.scrimmage/experiments/my_first_parameter_varying/entity_1_data.csv``.
+
+You can run the aggregation of the data locally with either Jupyter Notebooks or with python script to produce the indicated csv file ::
+
+     $ sudo pip install statsmodels
+     $ python BatchExample.py
 
 
 Basic Visualization

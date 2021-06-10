@@ -130,6 +130,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     if (true == use_launcher)
         launch_state_ = PRELAUNCH;
 
+    use_ground_model_ = sc::get<double>("use_ground_model", params, true);
+
     // Parse XML parameters
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
     mass_ = sc::get<double>("mass", params, 1.2);
@@ -202,6 +204,9 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     }
 
     rho_ = sc::get<double>("air_density", params, rho_); // air density
+    wind_(0) = sc::get<double>("wind_E", params, 0); // wind constant
+    wind_(1) = sc::get<double>("wind_N", params, 0); // wind constant
+    wind_(2) = sc::get<double>("wind_U", params, 0); // wind constant
 
     // thrust and dimensional specs
     throttle_input_min_ = sc::get<double>("throttle_input_min", params, throttle_input_min_);
@@ -312,10 +317,15 @@ bool FixedWing6DOF::step(double time, double dt) {
     x_[R_dot] = ang_accel_body_(2);
 
     // Cache values to calculate changes:
-    Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
+    Eigen::Vector3d prev_linear_vel_ENU(state_->vel());
     Eigen::Vector3d prev_angular_vel(x_[P], x_[Q], x_[R]);
 
-    alpha_ = atan2(x_[W], x_[U]); // angle of attack
+    // wind frame velocity
+    Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
+    wind_B = quat_body_.rotate_reverse(wind_B);
+    Eigen::Vector3d vel_rel_wind(x_[U]+wind_B(0), x_[V]+wind_B(1), x_[W]+wind_B(2));
+
+    alpha_ = atan2(vel_rel_wind(2), vel_rel_wind(0)); // angle of attack
     // TODO: Need to compute alpha_dot without using alpha_prev_
     alpha_dot_ = 0;
     // alpha_dot_ = (alpha_ - alpha_prev_) / dt;
@@ -347,11 +357,15 @@ bool FixedWing6DOF::step(double time, double dt) {
     }
 
     // Apply any external forces (todo)
-    // force_ext_body_ = quat_body_.rotate_reverse(ext_force_);
-    // ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
-    force_ext_body_ = F_catapult;
+    Eigen::Vector3d ext_force_NED(ext_force_(0), -ext_force_(1), -ext_force_(2));
+    ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
+    force_ext_body_ = quat_body_.rotate_reverse(ext_force_NED);
+    force_ext_body_ += F_catapult;
 
-    ode_step(dt);
+    if (!skip_propagation_) {
+        ode_step(dt);
+    }
+    skip_propagation_ = false;
 
     quat_body_.set(x_[q0], x_[q1], x_[q2], x_[q3]);
     quat_body_.normalize();
@@ -440,13 +454,16 @@ bool FixedWing6DOF::step(double time, double dt) {
 
 void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     // Calculate velocity magnitude (handle zero velocity)
-    double V_tau = sqrt(pow(x_[U], 2) + pow(x_[V], 2) + pow(x_[W], 2));
+    Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
+    wind_B = quat_body_.rotate_reverse(wind_B);
+    Eigen::Vector3d vel_rel_wind(x_[U]+wind_B(0), x_[V]+wind_B(1), x_[W]+wind_B(2));
+    double V_tau = vel_rel_wind.norm();
     if (std::abs(V_tau) < std::numeric_limits<double>::epsilon()) {
         V_tau = 0.00001;
     }
 
     // Calculate commonly used quantities
-    double beta = atan2(x_[V], x_[U]); // side slip
+    double beta = asin(clamp(vel_rel_wind(1)/V_tau, -1.0, 1.0)); // side slip
     // double delta_Ve = 0.05*V_tau; // wind velocity across tail of aircraft (approximation)
     // double VtauVe = pow((V_tau + delta_Ve)/V_tau, 2);
     double pVtS = rho_ * pow(V_tau, 2) * S_ / 2.0;
@@ -479,7 +496,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     // simple ground contact model
     Eigen::Vector3d F_ground_W(0, 0, 0);
     Eigen::Vector3d F_ground(0, 0, 0);
-    if (x_[Zw] < 0) {
+    if (x_[Zw] < 0 && use_ground_model_) {
         double wn = 20;
         double Kp = wn*wn*mass_;
         double Kd = 2*wn;
@@ -493,10 +510,10 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
         F_total += F_ground;
     }
-
     if (POSTLAUNCH != launch_state_) {
-        F_total = force_ext_body_;
+        F_total = Eigen::Vector3d::Zero();;
     }
+    F_total += force_ext_body_;
 
     // Calculate body frame linear velocities
     dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
@@ -555,7 +572,11 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 }
 
 void FixedWing6DOF::teleport(StatePtr &state) {
-    state_ = state;
+    state_->pos() = state->pos();
+    state_->vel() = state->vel();
+    state_->ang_vel() = state->ang_vel();
+    state_->quat() = state->quat();
+    skip_propagation_ = true;
 }
 
 } // namespace motion

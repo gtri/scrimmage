@@ -48,6 +48,8 @@
 #include <functional>
 #include <memory>
 
+#include <boost/optional.hpp>
+
 namespace scrimmage_proto {
 using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 }
@@ -59,13 +61,14 @@ using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::Messag
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
 class Entity : public std::enable_shared_from_this<Entity> {
-
  public:
     /*! \name utilities */
     ///@{
 
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
+              std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
               ContactMapPtr &contacts,
               MissionParsePtr mp,
               const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
@@ -74,11 +77,13 @@ class Entity : public std::enable_shared_from_this<Entity> {
               FileSearchPtr &file_search,
               RTreePtr &rtree,
               PubSubPtr &pubsub,
+              PrintPtr &printer,
               TimePtr &time,
               const ParameterServerPtr &param_server,
+              const GlobalServicePtr &global_services,
               const std::set<std::string> &plugin_tags,
-              std::function<void(std::map<std::string, std::string>&)> param_override_func
-        );
+              std::function<void(std::map<std::string, std::string>&)> param_override_func,
+              const int& debug_level = 0);
 
     void print_plugins(std::ostream &out) const;
 
@@ -140,7 +145,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     int health_points();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
-    void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj);
+    void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
     void set_mp(MissionParsePtr mp);
     MissionParsePtr mp();
@@ -159,7 +164,12 @@ class Entity : public std::enable_shared_from_this<Entity> {
     std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
     SensorPtr sensor(const std::string &sensor_name);
 
+    // Enables creating services at the entity level
     std::unordered_map<std::string, Service> &services();
+    // Enables creating services at the global level (especially for entity interactions, etc.)
+    std::unordered_map<std::string, Service> &global_services();
+    // Enables setting these for entity interactions
+    void set_global_services(const GlobalServicePtr &global_services);
 
     std::unordered_map<std::string, MessageBasePtr> &properties();
 
@@ -181,8 +191,18 @@ class Entity : public std::enable_shared_from_this<Entity> {
         return pubsub_;
     }
 
+    PrintPtr & printer() {
+        return printer_;
+    }
+
+    const ParameterServerPtr& param_server() {
+        return param_server_;
+    }
+
     double radius() { return radius_; }
     void set_time_ptr(TimePtr t);
+    void set_printer(PrintPtr printer);
+
     ///@}
 
  protected:
@@ -224,6 +244,9 @@ class Entity : public std::enable_shared_from_this<Entity> {
     PluginManagerPtr plugin_manager_;
     FileSearchPtr file_search_;
     PubSubPtr pubsub_;
+    PrintPtr printer_;
+    GlobalServicePtr global_services_;
+    ParameterServerPtr param_server_;
     TimePtr time_;
 };
 

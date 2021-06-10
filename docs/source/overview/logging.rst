@@ -1,5 +1,6 @@
-SCRIMMAGE Logging
----------------------
+=======
+Logging
+=======
 
 SCRIMMAGE provides several tools for logging and playback of data from a
 simulation. A user can specify a SCRIMMAGE root logging directory in a
@@ -211,7 +212,7 @@ plugin developer can leave the ``csv-plot.py`` script constantly running, while
 restarting SCRIMMAGE.
 
 The script can be passed a ``-s`` or ``--static`` flag to disable automatic
-plotting of new data. 
+plotting of new data.
 
 Tips for Naming CSV Files
 =========================

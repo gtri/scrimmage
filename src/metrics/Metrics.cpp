@@ -41,8 +41,6 @@ Metrics::Metrics() {}
 
 Metrics::~Metrics() {}
 
-std::string Metrics::name() { return std::string("Metrics"); }
-
 void Metrics::init() {}
 
 void Metrics::init(std::map<std::string, std::string> &params) {}

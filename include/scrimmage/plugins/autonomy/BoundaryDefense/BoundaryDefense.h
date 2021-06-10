@@ -53,8 +53,10 @@ class BoundaryDefense : public scrimmage::Autonomy {
     int boundary_id_ = -1;
     std::map<int, std::pair<scrimmage_proto::Shape,
         std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
-    scrimmage::PublisherPtr pub_wp_list_;
-    void publish_waypoint(const Eigen::Vector3d &point);
+
+    int output_vel_x_idx_ = 0;
+    int output_vel_y_idx_ = 0;
+    int output_vel_z_idx_ = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

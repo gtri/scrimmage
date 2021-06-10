@@ -307,6 +307,9 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
 
     for (unsigned int i = 0; i < rotors_.size(); i++) {
         rotor_thrust(i) =  c_T_ * omega_sq(i);
+        if (std::abs(omega[i] - wmin_) < std::numeric_limits<double>::epsilon()) { // if minimum throttle, servo is off
+            rotor_thrust[i] = 0.0;
+        }
         rotor_torque(i) = rotors_[i].direction() * c_Q_ * omega_sq(i);
         F_thrust(2) += rotor_thrust(i);
     }
@@ -319,6 +322,16 @@ void Multirotor::model(const vector_t &x , vector_t &dxdt , double t) {
     Eigen::Vector3d vel_body(x_[U], x_[V], x_[W]);
     double vel_mag = vel_body.norm();
     Eigen::Vector3d F_drag = vel_body * (-0.5 * c_D_ * vel_mag);
+
+    // Calculate normal force
+    force_ext_body_[2] = force_ext_body_[2]-F_thrust[2];
+    if (force_ext_body_[2] > 0) { // only true if contacting ground
+        force_ext_body_[2] = -1.0*(F_weight[2]) - F_thrust[2]; // correctly calculate normal force
+    }
+
+    if (force_ext_body_[2] < 0) { // normal force only pushes up from the ground
+        force_ext_body_[2] = 0.0;
+    }
 
     // Calculate total force
     Eigen::Vector3d F_total = F_thrust + F_weight + F_drag + force_ext_body_;

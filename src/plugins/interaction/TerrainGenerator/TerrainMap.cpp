@@ -95,6 +95,8 @@ bool TerrainMap::generate() {
 
     if (technique_ == Technique::LINEAR) {
         return generate_linear();
+    } else if (technique_ == Technique::LINEAR_WALK) {
+        return generate_linear_walk();
     }
     return generate_random_walk();
 }
@@ -131,6 +133,40 @@ bool TerrainMap::generate_random_walk() {
             double height_avg = get_neighbor_avg(row, col);
             grid_[row][col].height = height_avg + (*rng_)(*gener_);
             grid_[row][col].is_set = true;
+        }
+    }
+    center_height_adjust();
+    clamp_height();
+    return true;
+}
+
+bool TerrainMap::generate_linear_walk() {
+    for (unsigned int row = 0; row < num_y_rows_; ++row) {
+        for (unsigned int col = 0; col < num_x_cols_; ++col) {
+            // If this node is already set, skip (continue)
+            if (grid_[row][col].is_set) {
+                continue;
+            }
+            // Get the average of the neighbors that are already set
+            double height_avg = get_neighbor_avg(row, col);
+            grid_[row][col].height = height_avg + (*rng_)(*gener_);
+            grid_[row][col].is_set = true;
+        }
+    }
+    center_height_adjust();
+    clamp_height();
+     // Force the altitude center to be at the midpoint between z_max and z_min
+    center_(2) = (z_max_ + z_min_) / 2.0;
+
+    // Initialize the map, such that row 0 is at z_min and the last row is at
+    // z_max, with a linear interpolation across the rows. Also, add noise to
+    // each height value.
+    double z_step = (z_max_ - z_min_) / num_y_rows_;
+
+    for (unsigned int row = 0; row < num_y_rows_; ++row) {
+        double height_l = z_step * row;
+        for (unsigned int col = 0; col < num_x_cols_; ++col) {
+            grid_[row][col].height = grid_[row][col].height + height_l;
         }
     }
     center_height_adjust();

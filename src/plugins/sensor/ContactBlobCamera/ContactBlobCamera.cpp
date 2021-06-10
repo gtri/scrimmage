@@ -76,14 +76,17 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     gener_ = parent_->random()->gener();
 
     window_name_ = sc::get<std::string>("window_name", params, window_name_);
+    ignore_real_entities_ = sc::get<bool>("ignore_real_entities", params, ignore_real_entities_);
     show_image_ = sc::get<bool>("show_image", params, show_image_);
     show_frustum_ = sc::get<bool>("show_frustum", params, show_frustum_);
     log_detections_ = sc::get<bool>("log_detections", params, log_detections_);
+    show_sim_contacts_ = sc::get<bool>("show_sim_contacts", params, true);
 
     // Parse the simulated detections
     std::string sim_det_str = sc::get<std::string>("simulated_detections", params, "");
     std::vector<std::vector<std::string>> vecs;
     if (get_vec_of_vecs(sim_det_str, vecs, ", ")) {
+        int i = 0;
         for (auto &vec : vecs) {
             // First, assume the description is in XYZ
             int id = std::stoi(vec[1]);
@@ -108,7 +111,9 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
             cnt.set_type(sc::Contact::Type::MESH);
             cnt.set_radius(radius);
             cnt.set_active(true);
-            sim_contacts_[id] = cnt;
+
+            // Allow multiple simulated contacts to have the same ID
+            sim_contacts_[i++] = cnt;
         }
     }
 
@@ -126,6 +131,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     plugin_params_["fp_prob"] = sc::get<double>("false_positive_probability", params, 0.1);
     plugin_params_["max_false_positives"] = sc::get<int>("max_false_positives_per_frame", params, 10);
     plugin_params_["std_dev_w"] = sc::get<int>("std_dev_width", params, 10);
+    plugin_params_["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
     plugin_params_["std_dev_h"] = sc::get<int>("std_dev_height", params, 10);
 
     set_plugin_params(plugin_params_);
@@ -156,17 +162,53 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
         }
     }
 
+    for (int i = 0; i < 3; i++) {
+        std::string tag_name = "size_noise_" + std::to_string(i);
+        std::vector<double> vec;
+        bool status = sc::get_vec(tag_name, params, " ", vec, 2);
+        if (status) {
+            size_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+        } else {
+            size_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
+        }
+    }
+
     /**
      * Allow for updating plugin parameters in real-time.
      */
     auto params_cb = [&](sc::MessagePtr<std::map<std::string, double>> msg) {set_plugin_params(msg->data);};
     subscribe<std::map<std::string, double>>("LocalNetwork", "BlobPluginParams", params_cb);
 
+    /**
+     * Allow for updating camera's roll, pitch, and yaw in real-time.
+     */
+    auto rpy_cb = [&](sc::MessagePtr<std::vector<double>> msg) {
+        double roll = sc::Angles::deg2rad(msg->data[0]);
+        double pitch = sc::Angles::deg2rad(msg->data[1]);
+        double yaw = sc::Angles::deg2rad(msg->data[2]);
+        this->transform()->quat().set(roll, pitch, yaw);
+    };
+    subscribe<std::vector<double>>("LocalNetwork", "BlobPluginRPY", rpy_cb);
+
     // Publish the resulting bounding boxes
     pub_ = advertise("LocalNetwork", "ContactBlobCamera");
+
+    // Initialize frustum shapes
+    frustum_shapes_.resize(8);
+    for (auto&& shape : frustum_shapes_) {
+        shape = std::make_shared<scrimmage_proto::Shape>();
+        sc::set(shape->mutable_color(), 0, 255, 0);
+        shape->set_opacity(1.0);
+        shape->set_persistent(false);
+        shape->set_persist_duration(0.0);
+    }
 }
 
-void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
+void ContactBlobCamera::draw_frustum(const std::vector<scrimmage_proto::ShapePtr>& frustum_shapes, double x_rot, double y_rot, double z_rot) {
+    if (frustum_shapes.size() != 8) {
+        std::cerr << "ContactBlobCamera::draw_frustum: ERROR: input shape vector must be size 8" << std::endl;
+        return;
+    }
     double sensor_footprint_height = max_detect_range_ * tan(el_thresh_ / 2) * 2;
     double sensor_footprint_width = max_detect_range_ * tan(az_thresh_ / 2) * 2;
     Eigen::Vector3d sensor_UL(max_detect_range_,  sensor_footprint_width / 2, -sensor_footprint_height / 2);
@@ -190,18 +232,33 @@ void ContactBlobCamera::draw_frustum(double x_rot, double y_rot, double z_rot) {
     scene_bb_line->set_persistent(false);
     scene_bb_line->set_persist_duration(0.0);
     sc::set(scene_bb_line->mutable_color(), 0, 255, 0);
-    sc::path_to_lines(sensor_scene_bb, scene_bb_line, shared_from_this());
 
-    // Draw lines from scene box to the point of view
-    for (unsigned int iter = 0; iter < sensor_scene_bb.size() - 1; iter++) {
-        auto line = std::make_shared<scrimmage_proto::Shape>();
-        sc::set(line->mutable_color(), 0, 255, 0);
-        line->set_opacity(1.0);
-        line->set_persistent(false);
-        line->set_persist_duration(0.0);
-        sc::set(line->mutable_line()->mutable_start(), parent_->state_truth()->pos());
-        sc::set(line->mutable_line()->mutable_end(), sensor_scene_bb[iter]);
-        draw_shape(line);
+    sc::path_to_lines(sensor_scene_bb, scene_bb_line,
+                      std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+    // draw 8 lines for the 4 points
+    const Eigen::Vector3d fov_edge_start = parent_->state_truth()->pos();
+    for (int idx_bb = 0; idx_bb != 4; ++idx_bb) {
+        // box edges are idx 0-3 in frustum, fov edges are 4-7
+        const size_t idx_fov_edge = idx_bb + 4;
+
+        // set box line
+        Eigen::Vector3d box_edge_start;
+        const Eigen::Vector3d box_edge_end = sensor_scene_bb.at(idx_bb);
+        if (idx_bb == 0) {
+            box_edge_start = sensor_scene_bb.back();
+        } else {
+            box_edge_start = sensor_scene_bb.at(idx_bb-1);
+        }
+        scrimmage::set(frustum_shapes.at(idx_bb)->mutable_line()->mutable_start(), box_edge_start);
+        scrimmage::set(frustum_shapes.at(idx_bb)->mutable_line()->mutable_end(), box_edge_end);
+
+        // set fov line
+        scrimmage::set(frustum_shapes.at(idx_fov_edge)->mutable_line()->mutable_start(), fov_edge_start);
+        scrimmage::set(frustum_shapes.at(idx_fov_edge)->mutable_line()->mutable_end(), box_edge_end);
+    }
+    // draw all lines
+    for (auto&& shape : frustum_shapes) {
+        draw_shape(shape);
     }
 }
 
@@ -268,15 +325,18 @@ void ContactBlobCamera::contacts_to_bounding_boxes(
         // Calculate image radius using distance between object boundaries
         double object_img_radius = (r1 - r2).norm() / 2.0;
 
+        double object_img_half_width = std::max(1.0, object_img_radius + (*size_noise_[0])(*gener_));
+        double object_img_half_height = std::max(1.0, object_img_radius + (*size_noise_[1])(*gener_));
+
         // Add noise to position in 2D image plane
         raster_center(0) += (*pos_noise_[0])(*gener_);
         raster_center(1) += (*pos_noise_[1])(*gener_);
 
         // Add bounding box to frame around object
-        cv::Rect rect(std::floor(raster_center(0))-std::floor(object_img_radius),
-                      std::floor(raster_center(1))-std::floor(object_img_radius),
-                      std::floor(object_img_radius*2) + 1,
-                      std::floor(object_img_radius*2) + 1);
+        cv::Rect rect(std::floor(raster_center(0))-std::floor(object_img_half_width),
+                      std::floor(raster_center(1))-std::floor(object_img_half_height),
+                      std::floor(object_img_half_width*2) + 1,
+                      std::floor(object_img_half_height*2) + 1);
 
         if (object_img_radius > 0) {
             draw_object_with_bounding_box(msg->data.frame, kv.second.id().id(),
@@ -329,11 +389,14 @@ bool ContactBlobCamera::step() {
     sensor_frame.pos() = this->transform()->pos() + parent_->state_truth()->pos();
 
     if (show_frustum_) {
-        draw_frustum(sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
+        draw_frustum(frustum_shapes_, sensor_frame.quat().roll(), sensor_frame.quat().pitch(), sensor_frame.quat().yaw());
     }
 
     auto msg = std::make_shared<sc::Message<ContactBlobCameraType>>();
 
+    msg->data.roll = sc::Angles::rad2deg(this->transform()->quat().roll());
+    msg->data.pitch = sc::Angles::rad2deg(this->transform()->quat().pitch());
+    msg->data.yaw = sc::Angles::rad2deg(this->transform()->quat().yaw());
     msg->data.camera_id = camera_id_;
     msg->data.img_width = img_width_;
     msg->data.img_height = img_height_;
@@ -348,11 +411,33 @@ bool ContactBlobCamera::step() {
 
     msg->data.frame = cv::Mat::zeros(img_height_, img_width_, CV_8UC3);
 
-    // Compute bounding boxes for real contacts
-    contacts_to_bounding_boxes(sensor_frame, *(parent_->contacts()), msg);
+    if (not ignore_real_entities_) {
+        // Compute bounding boxes for real contacts
+        contacts_to_bounding_boxes(sensor_frame, *(parent_->contacts()), msg);
+    }
 
     // Compute bounding boxes for added "simulated" contacts
     contacts_to_bounding_boxes(sensor_frame, sim_contacts_, msg);
+
+    if (show_sim_contacts_ &&
+        time_->t() > last_contact_send_time_ + contact_send_dt_) {
+        // draw_sim_contacts(sim_contacts_);
+        for (auto &kv : sim_contacts_) {
+            // Draw a sphere at the expected commanded state
+            Eigen::Vector3d sphere_center(kv.second.state()->pos().x(),
+                                          kv.second.state()->pos().y(),
+                                          kv.second.state()->pos().z());
+
+            sc::set(sim_tgt_sphere_->mutable_sphere()->mutable_center(), sphere_center);
+            sc::set(sim_tgt_sphere_->mutable_color(), 0, 255, 255);
+            sim_tgt_sphere_->mutable_sphere()->set_radius(kv.second.radius());
+            sim_tgt_sphere_->set_opacity(0.7);
+            sim_tgt_sphere_->set_persistent(false);
+            draw_shape(sim_tgt_sphere_);
+        }
+
+        last_contact_send_time_ = time_->t();
+    }
 
     // Add false positives
     add_false_positives(msg);

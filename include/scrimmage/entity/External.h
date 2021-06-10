@@ -38,6 +38,7 @@
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
+#include <scrimmage/log/Print.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/proto/ProtoConversions.h>
@@ -67,6 +68,9 @@ namespace scrimmage {
 class ParameterServer;
 using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 
+class GlobalService;
+using GlobalServicePtr = std::shared_ptr<GlobalService>;
+
 class External {
  public:
     External();
@@ -79,7 +83,9 @@ class External {
                        double init_time,
                        double init_dt,
                        const std::string &log_dir,
-                       std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>&){});
+                       std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>&){},
+                       const std::string& mission_file_overrides = "",
+                       const int& debug_level = 0);
     void close();
     bool create_interactions();
 
@@ -117,8 +123,10 @@ class External {
     std::shared_ptr<Log> log_;
     double last_t_;
     PubSubPtr pubsub_;
+    PrintPtr printer_;
     TimePtr time_;
     ParameterServerPtr param_server_;
+    GlobalServicePtr global_services_;
     MissionParsePtr mp_;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;

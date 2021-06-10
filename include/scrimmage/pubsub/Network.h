@@ -34,7 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/common/CSV.h>
 
 #include <map>
@@ -46,7 +46,7 @@
 
 namespace scrimmage {
 
-class Network : public Plugin {
+class Network : public EntityPlugin {
  public:
     Network();
 
@@ -54,10 +54,9 @@ class Network : public Plugin {
                       std::map<std::string, std::string> &/*plugin_params*/);
     virtual bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
                       std::map<std::string, std::list<NetworkDevicePtr>> &subs);
-    std::string name() override;
     std::string type() override;
 
-    void set_rtree(RTreePtr rtree);
+    void set_rtree(const RTreePtr &rtree);
 
     void set_random(RandomPtr random);
 
@@ -84,11 +83,11 @@ class Network : public Plugin {
     // Value : Whether the publisher can reach the subscriber with a message
     std::unordered_map<int, std::unordered_map<int, bool>> reachable_map_;
 
-    virtual bool is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                              const scrimmage::PluginPtr &sub_plugin);
+    virtual bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                              const scrimmage::EntityPluginPtr &sub_plugin);
 
-    virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                            const scrimmage::PluginPtr &sub_plugin);
+    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                            const scrimmage::EntityPluginPtr &sub_plugin);
 
     virtual double get_transmission_delay();
 

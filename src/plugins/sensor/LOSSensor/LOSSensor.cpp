@@ -71,10 +71,6 @@ LOSSensor::LOSSensor():
     subscribed_(false) {
 }
 
-std::string LOSSensor::name() {
-    return "LOSSensor" + std::to_string(sensor_id_);
-}
-
 void LOSSensor::init(std::map<std::string, std::string> &params) {
     // Call the super class
     RayTrace::init(params);

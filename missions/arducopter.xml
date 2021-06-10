@@ -6,7 +6,7 @@
   <!--  <run start="0.0" end="100" dt="0.00833333" -->
   <run start="0.0" end="10000000" dt="0.001"
        time_warp="1"
-       enable_gui="true"
+       enable_gui="${enable_gui=true}"
        network_gui="false"
        start_paused="false"/>
 
@@ -67,6 +67,9 @@
                            [ motor_1 1 1000 +2000    346.41 1200.0 +1 ]
                            [ motor_2 2 1000 +2000    346.41 1200.0 +1 ]
                            [ motor_3 3 1000 +2000    346.41 1200.0 +1 ]"
+              to_ardupilot_port="${to_ardupilot_port=5501}"
+              from_ardupilot_port="${from_ardupilot_port=5502}"
+              to_ardupilot_ip="${to_ardupilot_ip=127.0.0.1}"
         >ArduPilot</autonomy>
 
     <motion_model write_csv="true">${motion_model=Multirotor}</motion_model>

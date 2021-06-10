@@ -174,6 +174,12 @@ bool MissionParse::parse(const std::string &filename) {
             network_gui_ = str2bool(attr->value());
         } else if (attr_str == "start_paused") {
             start_paused_ = str2bool(attr->value());
+        } else if (attr_str == "full_screen") {
+            full_screen_ = str2bool(attr->value());
+        } else if (attr_str == "window_width") {
+            window_width_ = std::stod(attr->value());
+        } else if (attr_str == "window_height") {
+            window_height_ = std::stod(attr->value());
         }
     }
 
@@ -293,9 +299,8 @@ bool MissionParse::parse(const std::string &filename) {
         altitude_origin_ = std::stod(params_["altitude_origin"]);
     }
 
-    proj_ =
-      std::make_shared<GeographicLib::LocalCartesian>(latitude_origin_,
-        longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
+    set_lat_lon_alt_origin(latitude_origin_, longitude_origin_,
+                           altitude_origin_);
 
     // Handle log directory
     root_log_dir_ = expand_user("~/.scrimmage/logs");
@@ -664,6 +669,17 @@ bool MissionParse::parse(const std::string &filename) {
 
     parse_terrain();
 
+    // Parse the output_type
+    auto it_output_type = params_.find("output_type");
+    if (it_output_type != params_.end()) {
+        output_types_ = str2container<std::set<std::string>>(it_output_type->second,
+                                                             ", ");
+    }
+    // If "all" is a possible output_type, include all output_types
+    if (output_types_.find("all") != output_types_.end()) {
+        output_types_ = possible_output_types_;
+    }
+
     return true;
 }
 
@@ -747,7 +763,6 @@ bool MissionParse::create_log_dir() {
             print_error();
         }
     }
-
     return true;
 }
 
@@ -761,11 +776,17 @@ double MissionParse::tend() { return tend_; }
 
 double MissionParse::dt() { return dt_; }
 
+void MissionParse::set_dt(const double& dt) { dt_ = dt; }
+
 double MissionParse::motion_multiplier() { return motion_multiplier_; }
 
 double MissionParse::time_warp() { return time_warp_; }
 
 bool MissionParse::start_paused() { return start_paused_; }
+
+const bool& MissionParse::full_screen() { return full_screen_; }
+const unsigned& MissionParse::window_width() { return window_width_; }
+const unsigned& MissionParse::window_height() { return window_height_; }
 
 bool MissionParse::parse_terrain() {
     ConfigParse terrain_parse;
@@ -801,6 +822,7 @@ bool MissionParse::parse_terrain() {
 
     utm_terrain_->set_enable_grid(true);
     utm_terrain_->set_enable_terrain(false);
+    utm_terrain_->set_enable_extrusion(false);
 
     if (params_.count("terrain") > 0 &&
         find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
@@ -900,6 +922,18 @@ double MissionParse::latitude_origin() { return latitude_origin_; }
 
 double MissionParse::altitude_origin() { return altitude_origin_; }
 
+void MissionParse::set_lat_lon_alt_origin(const double& latitude_origin,
+                                          const double& longitude_origin,
+                                          const double& altitude_origin) {
+    latitude_origin_ = latitude_origin;
+    longitude_origin_ = longitude_origin;
+    altitude_origin_ = altitude_origin;
+
+    proj_ =
+      std::make_shared<GeographicLib::LocalCartesian>(latitude_origin_,
+        longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
+}
+
 std::map<int, TeamInfo> &MissionParse::team_info() { return team_info_; }
 
 void MissionParse::set_task_number(int task_num) { task_number_ = task_num; }
@@ -939,4 +973,14 @@ void MissionParse::set_time_warp(double warp) {time_warp_ = warp;}
 void MissionParse::set_network_gui(bool enable) {network_gui_ = enable;}
 
 void MissionParse::set_start_paused(bool paused) {start_paused_ = paused;}
+
+bool MissionParse::output_required() {
+    // If the output_types set is empty, no output is required
+    return output_types_.size() != static_cast<unsigned int>(0);
+}
+
+bool MissionParse::output_type_required(const std::string& output_type) {
+    return output_types_.find(output_type) != output_types_.end();
+}
+
 } // namespace scrimmage

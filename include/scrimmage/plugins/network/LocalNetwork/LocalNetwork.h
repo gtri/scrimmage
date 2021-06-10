@@ -50,11 +50,11 @@ class LocalNetwork : public scrimmage::Network {
     bool init(std::map<std::string, std::string> &mission_params,
                       std::map<std::string, std::string> &plugin_params) override;
  protected:
-    bool is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                              const scrimmage::PluginPtr &sub_plugin) override;
+    bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                              const scrimmage::EntityPluginPtr &sub_plugin) override;
 
-    bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                            const scrimmage::PluginPtr &sub_plugin) override;
+    bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                            const scrimmage::EntityPluginPtr &sub_plugin) override;
  protected:
  private:
 };

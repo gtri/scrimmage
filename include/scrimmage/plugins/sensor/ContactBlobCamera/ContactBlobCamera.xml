@@ -26,7 +26,10 @@
   <!-- noise params are defined with (mean, standard deviation) -->
   <pos_noise_0>0.0 1.0</pos_noise_0> <!-- x position noise (2D image) -->
   <pos_noise_1>0.0 1.0</pos_noise_1> <!-- y position noise (2D image)-->
+  <size_noise_0>0.0 0.0</size_noise_0> <!-- x bounding box size noise (2D image) -->
+  <size_noise_1>0.0 0.0</size_noise_1> <!-- y bounding box size noise (2D image)-->
 
+  <ignore_real_entities>false</ignore_real_entities>
   <show_image>false</show_image>
   <show_frustum>false</show_frustum>
   <log_detections>false</log_detections>

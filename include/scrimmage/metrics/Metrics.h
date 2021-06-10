@@ -32,7 +32,7 @@
 
 #ifndef INCLUDE_SCRIMMAGE_METRICS_METRICS_H_
 #define INCLUDE_SCRIMMAGE_METRICS_METRICS_H_
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <map>
 #include <list>
@@ -41,12 +41,11 @@
 
 namespace scrimmage {
 
-class Metrics : public Plugin{
+class Metrics : public EntityPlugin {
  public:
     Metrics();
     virtual ~Metrics();
 
-    std::string name() override;
     virtual void init();
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step_metrics(double t, double dt);

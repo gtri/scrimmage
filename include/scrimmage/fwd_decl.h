@@ -79,11 +79,17 @@ using EntityPtr = std::shared_ptr<Entity>;
 class Time;
 using TimePtr = std::shared_ptr<Time>;
 
+class Print;
+using PrintPtr = std::shared_ptr<Print>;
+
 class ParameterBase;
 using ParameterBasePtr = std::shared_ptr<ParameterBase>;
 
 class ParameterServer;
 using ParameterServerPtr = std::shared_ptr<ParameterServer>;
+
+class GlobalService;
+using GlobalServicePtr = std::shared_ptr<GlobalService>;
 
 class Network;
 using NetworkPtr = std::shared_ptr<Network>;
@@ -118,6 +124,9 @@ using RTreePtr = std::shared_ptr<RTree>;
 
 class Plugin;
 using PluginPtr = std::shared_ptr<Plugin>;
+
+class EntityPlugin;
+using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 class PluginManager;
 using PluginManagerPtr = std::shared_ptr<PluginManager>;

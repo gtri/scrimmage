@@ -63,6 +63,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     std::shared_ptr<std::default_random_engine> gener_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> size_noise_;
 
     void contacts_to_bounding_boxes(
         const scrimmage::State &sensor_frame,
@@ -79,7 +80,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
                                        const Eigen::Vector2d &center,
                                        const double &radius);
     void set_plugin_params(std::map<std::string, double> params);
-    void draw_frustum(double x_rot, double y_rot, double z_rot);
+    void draw_frustum(const std::vector<scrimmage_proto::ShapePtr>& frustum, double x_rot, double y_rot, double z_rot);
 
     // plugin parameters
     std::map<std::string, double> plugin_params_;
@@ -104,11 +105,18 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     PublisherPtr pub_;
 
+    bool ignore_real_entities_ = false;
     bool show_image_ = false;
     bool show_frustum_ = false;
     bool log_detections_ = false;
+    bool show_sim_contacts_ = false;
+
+    double last_contact_send_time_ = 0.0;
+    double contact_send_dt_ = 1.0; // seconds
 
     std::string window_name_ = "ContactBlobCamera";
+    std::vector<scrimmage_proto::ShapePtr> frustum_shapes_;
+    scrimmage_proto::ShapePtr sim_tgt_sphere_ = std::make_shared<scrimmage_proto::Shape>();
 
     scrimmage::ContactMap sim_contacts_;
 };

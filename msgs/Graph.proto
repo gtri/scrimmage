@@ -12,10 +12,11 @@ message Node {
 }
 
 message Edge {
-    int64 start_node_id = 1;
-    int64 end_node_id = 2;
-    double weight = 3;
-    string label = 4;
+    int32 id = 1;
+    int64 start_node_id = 2;
+    int64 end_node_id = 3;
+    double weight = 4;
+    string label = 5;
 }
 
 message Graph {

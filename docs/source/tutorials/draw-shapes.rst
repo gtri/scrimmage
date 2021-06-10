@@ -91,7 +91,17 @@ the shape's persistence to false and call the ``draw_shape()`` function again:
 .. code-block:: c++
    :linenos:
 
-   text_shape_->set_persistent(false);
+   text_shape->set_persistent(false);
+   draw_shape(text_shape);
+
+If you have not set shape persistence duration, you will also need to call
+``set_persistent_duration(0.0)`` before calling ``draw_shape()`` to remove the
+shape.
+.. code-block:: c++
+   :linenos:
+
+   text_shape->set_persistent(false);
+   text_shape->set_persistent_duration(0.0);
    draw_shape(text_shape);
 
 You can also change the shape's color, opacity, and ttl after it has been

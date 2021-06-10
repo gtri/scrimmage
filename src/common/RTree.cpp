@@ -31,6 +31,9 @@
  */
 
 #include <scrimmage/common/RTree.h>
+
+#include <algorithm>
+
 #include <boost/geometry.hpp>
 #include <boost/geometry/index/rtree.hpp>
 
@@ -39,11 +42,14 @@ namespace bgi = boost::geometry::index;
 
 namespace scrimmage {
 
-void RTree::init(int size) {
-    if (size > 0) {
-        rtree_ = std::make_shared<rtree_t>(bgi::dynamic_rstar(size));
-        size_ = size;
+void RTree::init(const unsigned int& size) {
+    if (rtree_ != nullptr) {
+        clear();
     }
+
+    // The rtree must be created with size > 0
+    size_ = std::max(size, static_cast<unsigned int>(1));
+    rtree_ = std::make_shared<rtree_t>(bgi::dynamic_rstar(size_));
 }
 
 void RTree::clear() {
@@ -51,7 +57,7 @@ void RTree::clear() {
     rtree_team_.clear();
 }
 
-void RTree::add(Eigen::Vector3d &pos, const ID &id) {
+void RTree::add(const Eigen::Vector3d &pos, const ID &id) {
     point p(pos(0), pos(1), pos(2));
     std::pair<point, ID> pair(p, id);
     rtree_->insert(pair);

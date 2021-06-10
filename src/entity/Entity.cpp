@@ -32,6 +32,7 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/GlobalService.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -44,6 +45,7 @@
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/simcontrol/SimUtils.h>
+#include <scrimmage/entity/EntityPluginHelper.h>
 
 #include <iostream>
 #include <iomanip>
@@ -67,6 +69,8 @@ namespace scrimmage {
 
 bool Entity::init(AttributeMap &overrides,
                   std::map<std::string, std::string> &info,
+                  std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+                  std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
                   ContactMapPtr &contacts,
                   MissionParsePtr mp,
                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
@@ -75,18 +79,23 @@ bool Entity::init(AttributeMap &overrides,
                   FileSearchPtr &file_search,
                   RTreePtr &rtree,
                   PubSubPtr &pubsub,
+                  PrintPtr &printer,
                   TimePtr &time,
                   const ParameterServerPtr &param_server,
+                  const GlobalServicePtr &global_services,
                   const std::set<std::string> &plugin_tags,
-                  std::function<void(std::map<std::string, std::string>&)> param_override_func) {
-
+                  std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                  const int& debug_level) {
     pubsub_ = pubsub;
+    printer_ = printer;
+    global_services_ = global_services;
     time_ = time;
     file_search_ = file_search;
     plugin_manager_ = plugin_manager;
     contacts_ = contacts;
     rtree_ = rtree;
     proj_ = proj;
+    param_server_ = param_server;
 
     id_.set_id(id);
     id_.set_sub_swarm_id(ent_desc_id);
@@ -189,8 +198,9 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_parent(parent);
             sensor->set_pubsub(pubsub);
             sensor->set_time(time);
+            sensor->set_id_to_team_map(id_to_team_map);
+            sensor->set_id_to_ent_map(id_to_ent_map);
             sensor->set_param_server(param_server);
-            sensor->set_name(sensor_name);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -200,8 +210,16 @@ bool Entity::init(AttributeMap &overrides,
               sensor->set_loop_rate(loop_rate);
             }
 
+            std::string given_name = sensor_name + std::to_string(sensor_ct);
+            sensor->set_name(given_name);
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Sensor plugin params: " << given_name << endl;
+                cout << config_parse;
+            }
             sensor->init(config_parse.params());
-            sensors_[sensor_name + std::to_string(sensor_ct)] = sensor;
+            sensors_[given_name] = sensor;
         }
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
     }
@@ -233,9 +251,17 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_->set_parent(parent);
             motion_model_->set_pubsub(pubsub);
             motion_model_->set_time(time);
+            motion_model_->set_id_to_team_map(id_to_team_map);
+            motion_model_->set_id_to_ent_map(id_to_ent_map);
             motion_model_->set_param_server(param_server);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Motion plugin params: " << info["motion_model"] << endl;
+                cout << config_parse;
+            }
             motion_model_->init(info, config_parse.params());
         }
     }
@@ -247,6 +273,8 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_pubsub(pubsub);
         motion_model_->set_param_server(param_server);
         motion_model_->set_time(time);
+        motion_model_->set_id_to_team_map(id_to_team_map);
+        motion_model_->set_id_to_ent_map(id_to_ent_map);
         motion_model_->set_name("BLANK");
     }
 
@@ -294,6 +322,8 @@ bool Entity::init(AttributeMap &overrides,
 
             controller->set_parent(shared_from_this());
             controller->set_time(time_);
+            controller->set_id_to_team_map(id_to_team_map);
+            controller->set_id_to_ent_map(id_to_ent_map);
             controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
@@ -318,6 +348,11 @@ bool Entity::init(AttributeMap &overrides,
             }
 
             // Initialize this controller.
+            if (debug_level > 1) {
+                cout << "--------------------------------" << endl;
+                cout << "Controller plugin params: " << info[controller_name] << endl;
+                cout << config_parse;
+            }
             controller->init(config_parse.params());
 
             // Verify the VariableIO connection
@@ -370,52 +405,27 @@ bool Entity::init(AttributeMap &overrides,
     ////////////////////////////////////////////////////////////
     // autonomy
     ////////////////////////////////////////////////////////////
+    // Create a list of autonomy names
+    std::list<std::string> autonomy_names;
     int autonomy_ct = 0;
     std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
-
     while (info.count(autonomy_name) > 0) {
-        ConfigParse config_parse;
-        PluginStatus<Autonomy> status =
-            plugin_manager->make_plugin<Autonomy>("scrimmage::Autonomy",
-                                                  info[autonomy_name],
-                                                  *file_search,
-                                                  config_parse,
-                                                  overrides[autonomy_name],
-                                                  plugin_tags);
-        if (status.status == PluginStatus<Autonomy>::cast_failed) {
-            cout << "Failed to open autonomy plugin: " << info[autonomy_name] << endl;
-            return false;
-        } else if (status.status == PluginStatus<Autonomy>::parse_failed) {
-            return false;
-        } else if (status.status == PluginStatus<Autonomy>::loaded) {
-            AutonomyPtr autonomy = status.plugin;
-            // Connect the autonomy to the first controller
-            if (not controllers_.empty()) {
-                connect(autonomy->vars(), controllers_.front()->vars());
-            }
-            autonomy->set_rtree(rtree);
-            autonomy->set_parent(parent);
-            autonomy->set_projection(proj_);
-            autonomy->set_pubsub(pubsub);
-            autonomy->set_time(time);
-            autonomy->set_param_server(param_server);
-            autonomy->set_state(state_);
-            autonomy->set_contacts(contacts);
-            autonomy->set_is_controlling(true);
-            autonomy->set_name(info[autonomy_name]);
-            param_override_func(config_parse.params());
-            autonomy->init(config_parse.params());
-
-            // get loop rate from plugin's params
-            auto it_loop_rate = config_parse.params().find("loop_rate");
-            if (it_loop_rate != config_parse.params().end()) {
-              const double loop_rate = std::stod(it_loop_rate->second);
-              autonomy->set_loop_rate(loop_rate);
-            }
-
-            autonomies_.push_back(autonomy);
-        }
+        autonomy_names.push_back(autonomy_name);
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
+    }
+
+    // Create the autonomy plugins from the autonomy_names list.
+    for (auto autonomy_name : autonomy_names) {
+        auto autonomy = make_autonomy<Autonomy>(
+            info[autonomy_name], plugin_manager, overrides[autonomy_name],
+            parent, state_, id_to_team_map, id_to_ent_map, proj_, contacts,
+            file_search, rtree, pubsub, time, param_server, plugin_tags,
+            param_override_func, controllers_,
+            debug_level);
+
+        if (autonomy) {
+            autonomies_.push_back(*autonomy);
+        }
     }
 
     bool connect_entity = true;
@@ -607,21 +617,33 @@ void Entity::setup_desired_state() {
 }
 
 std::unordered_map<std::string, Service> &Entity::services() {return services_;}
+std::unordered_map<std::string, Service> &Entity::global_services() {
+    return global_services_->services();
+}
+
+void Entity::set_global_services(const GlobalServicePtr &global_services) {
+    global_services_ = global_services;
+}
 
 bool Entity::call_service(scrimmage::MessageBasePtr req,
         scrimmage::MessageBasePtr &res, const std::string &service_name) {
-
     auto it = services_.find(service_name);
     if (it == services_.end()) {
-        std::cout << "request for service ("
-            << service_name
-            << ") that does not exist" << std::endl;
-        std::cout << "services are: ";
-        for (auto &kv : services_) {
-            std::cout << kv.first << ", ";
+        // First check for a global service of this name
+        bool found = global_services_->call_service(req, res, service_name);
+        if (!found) {
+            std::cout << "request for service ("
+                << service_name
+                << ") that does not exist" << std::endl;
+            std::cout << "services are: ";
+            for (auto &kv : services_) {
+                std::cout << kv.first << ", ";
+            }
+            std::cout << std::endl;
+            return false;
+        } else {
+            return true;
         }
-        std::cout << std::endl;
-        return false;
     }
 
     Service &service = it->second;
@@ -648,7 +670,7 @@ void Entity::close(double t) {
         kv.second->close_plugin(t);
     }
 
-    for (ControllerPtr controller: controllers_) {
+    for (ControllerPtr controller : controllers_) {
         controller->close_plugin(t);
     }
 
@@ -672,6 +694,8 @@ void Entity::close(double t) {
     plugin_manager_ = nullptr;
     file_search_ = nullptr;
     pubsub_ = nullptr;
+    printer_ = nullptr;
+    global_services_ = nullptr;
     time_ = nullptr;
 }
 
@@ -680,9 +704,11 @@ std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
 }
 
 void Entity::set_time_ptr(TimePtr t) {time_ = t;}
+void Entity::set_printer(PrintPtr printer) { printer_ = printer; }
+
 
 // cppcheck-suppress passedByValue
-void Entity::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> proj) {
+void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj_ = proj;
 }
 
@@ -704,4 +730,4 @@ void Entity::print_plugins(std::ostream &out) const {
         out << motion_model_->name() << endl;
     }
 }
-} // namespace scrimmage
+}  // namespace scrimmage

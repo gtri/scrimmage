@@ -36,10 +36,13 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/Time.h>
+#include <math.h>
 
 #include <memory>
 #include <limits>
@@ -63,6 +66,7 @@ ExternalForceField::ExternalForceField() {
 bool ExternalForceField::init(std::map<std::string, std::string> &mission_params,
                               std::map<std::string, std::string> &plugin_params) {
 
+    pub_ = advertise("GlobalNetwork", "Force_Field");
     // Parse the force type
     std::string force_type_str = sc::get("force_type", plugin_params, "constant");
     if (force_type_str == "constant") {
@@ -70,8 +74,19 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
 
         // Parse the constant force
         std::vector<double> force_vec;
+
         if (str2container(sc::get("constant_force", plugin_params, "0, 0, 0"),
                           ", ", force_vec, 3)) {
+            if (force_vec[0] == 99) {
+                mag_ = sc::get("constant_mag", plugin_params, mag_);
+                ang_ = sc::get("constant_dir", plugin_params, ang_);
+                ang_ *= M_PI / 180;
+                // calc x y force, set force_v, publish global mag, angle
+                force_vec[0] = mag_ * cos(ang_);
+                force_vec[1] = mag_ * sin(ang_);
+                force_vec[2] = 0;
+            }
+            // std::cout << "Force is [0]: " << force_vec[0] << ", [1]: " << force_vec[1] << std::endl;
             force_ << force_vec[0], force_vec[1], force_vec[2];
         }
     } else if (force_type_str == "variable") {
@@ -133,6 +148,10 @@ bool ExternalForceField::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             sample_force();
         }
     }
+
+    auto msg_force = std::make_shared<sc::Message<Eigen::Vector3d>>();
+    msg_force->data = force_;
+    pub_->publish(msg_force);
 
     moment_(0) = roll_amp_ * sin(time_->t() * 2 * M_PI * 1.0 / roll_period_);
     moment_(1) = pitch_amp_ * sin(time_->t() * 2 * M_PI * 1.0 / pitch_period_);

@@ -44,7 +44,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/msgs/Collision.pb.h>

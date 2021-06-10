@@ -106,6 +106,8 @@ bool RigidBody6DOFStateSensor::step() {
     msg->data.linear_accel_body() = motion_->linear_accel_body();
     msg->data.ang_accel_body() = motion_->ang_accel_body();
 
+    msg->data.wind() = motion_->wind();
+
     // Return the sensor message.
     pub_->publish(msg);
     return true;

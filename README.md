@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/gtri/scrimmage.png?branch=master)](https://travis-ci.org/gtri/scrimmage)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gtri/scrimmage/issues)
 [![Docker Pulls](https://img.shields.io/docker/pulls/syllogismrxs/scrimmage.svg?maxAge=2592000)](https://hub.docker.com/r/syllogismrxs/scrimmage)
+[![Join the chat at https://gitter.im/gtri-scrimmage/community](https://badges.gitter.im/gtri-scrimmage/community.svg)](https://gitter.im/gtri-scrimmage/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean_medium.png)
 
@@ -64,14 +65,10 @@ dependencies).
 Some of SCRIMMAGE's dependencies have to be custom built from source. We
 provide debian package binaries for both Ubuntu 16.04 (xenial) and 18.04
 (bionic) via the SCRIMMAGE PPA on Launchpad for these custom built
-packages. For Ubuntu 16.04 (xenial), add the following PPA to your apt-get
-sources:
+packages. For Ubuntu 16.04 (xenial) and 18.04 (bionic), add the following PPA
+to your apt-get sources:
 
     $ sudo add-apt-repository ppa:kevin-demarco/scrimmage
-
-For Ubuntu 18.04 (bionic), add the following PPA:
-
-    $ sudo add-apt-repository ppa:kevin-demarco/scrimmage-bionic
 
 For both distributions, update your sources list:
 
@@ -79,7 +76,7 @@ For both distributions, update your sources list:
 
 Now, install the SCRIMMAGE custom built binary dependencies:
 
-    $ sudo apt-get install scrimmage-dependencies
+    $ sudo apt-get install scrimmage-dependencies scrimmage-jsbsim
 
 Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
 local system and sets up some environment variables:
@@ -144,33 +141,37 @@ your mouse.
 
 ## Building on macOS
 
-Refer [here](https://github.com/crichardson332/homebrew-crich_brews) for
-instructions on installing dependencies and running SCRIMMAGE on macOS.
+Support for macOS has been deprecated. Refer [here](https://github.com/crichardson332/homebrew-crich_brews)
+for legacy homebrew instructions, but this is not guaranteed to build
+without intervention from the user. Any user wishing to develop on
+macOS is free to do so and make pull requests for patches, but the
+platform is no longer supported by SCRIMMAGE core developers.
 
 ## Python Bindings
 
-SCRIMMAGE's Python bindings depend on protobuf, GRPC, and pandas. Install the
-appropriate versions of grpc and protobuf:
+It is recommended to build scrimmage's Python bindings in a python virtual
+environment:
 
-    $ sudo pip install protobuf==3.3.0 grpcio==1.2.1
+    $ cd /path/to/scrimmage
+    $ sudo apt-get install python3 libpython3-dev python3-venv
+    $ python3 -m venv env
+    $ source ./env/bin/activate
 
-You can specify a minimum Python version in SCRIMMAGE core by setting the
-PYTHON\_MIN\_VERSION cmake variable. For example, to specify a minimum Python
-3.0 version, first clear the cmake cache file and rerun cmake:
+Install the python dependencies with specific version numbers:
 
-    $ rm CMakeCache.txt
-    $ cmake .. -DPYTHON_MIN_VERSION=3.0
+    (env)$ pip install -r ./python/requirements.txt
 
-Otherwise, cmake will choose Python on it's own. CMake seems to find the
-minimum version of Python specified. It should be noted that
-`interactive_plots.py` uses wxPython which is only compatible with python2.
+Re-build the scrimmage project within the virtual environment:
+
+    (env)$ cmake .. -DPYTHON_MIN_VERSION=3.6
+    (env)$ make
 
 ### Install SCRIMMAGE Python Bindings
 
 To install scrimmage's python bindings:
 
-    $ cd /path/to/scrimmage/python
-    $ sudo pip install -e .
+    (env)$ cd /path/to/scrimmage/python
+    (env)$ python setup.py develop
 
 ## Build SCRIMMAGE Documentation
 
@@ -205,10 +206,15 @@ However, if you want to clean everything, you can remove your build directory:
 ## ROS Integration
 
 To build SCRIMMAGE's ROS plugins, you must have
-[ROS](http://wiki.ros.org/ROS/Installation) installed and the
-BUILD\_ROS\_PLUGINS cmake variable must be set:
+[ROS](http://wiki.ros.org/ROS/Installation) installed, the ROS environment
+sourced, and the `BUILD_ROS_PLUGINS` cmake variable must be set:
 
+    $ sudo apt-get install ros-${ROS_VERSION}-desktop-full ros-${ROS_VERSION}-mavros-msgs
+    $ source /opt/ros/${ROS_VERSION}/setup.sh
     $ cmake .. -DBUILD_ROS_PLUGINS=ON
+
+The `${ROS_VERSION}` should be substituted with an appropriate ROS version
+(e.g., "kinetic", "melodic", etc.).
 
 An example of using SCRIMMAGE to simulate robots running the ROS 2D Navigation
 stack can be found in the
@@ -416,6 +422,12 @@ When running cmake, the user gets the cmake warning:
     but not all the files it references.
 
 This is a VTK6 Ubuntu package bug. It can be ignored.
+
+### Problem: I do not see building extrusions in the SCRIMMAGE GUI
+
+SCRIMMAGE uses vtkGeoJSONReader to load polygon extrusion data from a GeoJSON file. This VTK feature was added in VTK7. Since this feature is not available in older versions, SCRIMMAGE does not load building data if the installed VTK version is less than 7. Therefore, the remedy is to upgrade VTK. To install VTK7 on Ubuntu, run the following command:
+
+    $ sudo apt-get install libvtk7-dev
 
 ### Problem: Docker Container Can't Access Internet
 

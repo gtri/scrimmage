@@ -4,9 +4,6 @@ env:
   global:
   - ENCRYPTION_LABEL: dcc9512392ad
 
-before_install:
-  - sudo apt-get install tar
-
 install:
  - echo '|1|hwoha+oiyHsKVrC9MhVGWVS26Pk=|GjfQxx3fU/0NzJb8DvMLSs9fXTc= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA363sO9FUaRFrYc3JGHLRfVCe49YBXVJYHt4HUhv8qaId/gFmL9tuL4SHuB5POc6zn+QGFrCQXfOSDBPcFI/lveDLMFWBx3k942tvtU4UUsdI0+8yvddGoILu5Rrw78HLmfXUUpjC9Qo27EO7OEkDbg6ybdQr82sBCjtTT9s7p9PWwXs6QISxsEek0ECNuQGBbICM6gm91zXFnwLa3COicvUpLGpFd0/jncObi2MjFrnyDPgDJ922DKkriwFQ0lFLBriHl10RLH3/KZjmivwmiSV+1J+Kvatf767hkEydEESTwe9++RLDh9/ab4KoKYbQ65da16Ai8Z6XwoOKIm/FYw==' >> $HOME/.ssh/known_hosts
 
@@ -20,55 +17,41 @@ services:
 jobs:
   include:
     - stage: "Build Docker Images"
-      env: CACHE_NAME=ubuntu1604
       name: "Build on Ubuntu 16.04"
       script:
       - export REPO=$DOCKER_USERNAME/scrimmage
-      - export DEPENDENCIES=$DOCKER_USERNAME/scrimmage-dependencies:latest
-      - export IMG_CACHE=$HOME/docker/scrimmage-dependencies-16.04.tar.gz
-      - export USE_CACHE=""
-      - if [ -f ${IMG_CACHE} ]; then
-            zcat ${IMG_CACHE} | docker load;
-            USE_CACHE="--cache-from ${DEPENDENCIES}";
-        fi
-      - docker build ${USE_CACHE} --target dependencies -t ${DEPENDENCIES} -f ./ci/dockerfiles/ubuntu-16.04 .
-      - docker build ${USE_CACHE} -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
+      - docker build -t $REPO:xenial-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-16.04 .
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - |
         if [[ "$TAG" == "latest" ]]; then
             docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-            docker tag $REPO:$TRAVIS_BUILD_NUMBER $REPO:$TAG;
+            docker tag $REPO:xenial-$TRAVIS_BUILD_NUMBER $REPO:xenial;
+            docker push $REPO;
+        fi
+
+    - name: "Build on Ubuntu 18.04"
+      script:
+      - export REPO=$DOCKER_USERNAME/scrimmage
+      - docker build -t $REPO:bionic-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+
+    - name: "Build on Ubuntu 20.04"
+      script:
+      - export REPO=$DOCKER_USERNAME/scrimmage
+      - docker build -t $REPO:focal-${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-20.04 .
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - |
+        if [[ "$TAG" == "latest" ]]; then
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker tag $REPO:focal-$TRAVIS_BUILD_NUMBER $REPO:focal;
+            docker tag $REPO:focal-$TRAVIS_BUILD_NUMBER $REPO:$TAG;
             docker create --name mycontainer $REPO:$TAG;
             docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
             bash ./ci/scripts/deploy-docs.sh;
             docker push $REPO;
-            docker save ${DEPENDENCIES} | gzip -2 > ${IMG_CACHE};
-        fi
-    - name: "Build on Ubuntu 18.04"
-      env: CACHE_NAME=ubuntu1804
-      script:
-      - export REPO=$DOCKER_USERNAME/scrimmage
-      - export DEPENDENCIES=$DOCKER_USERNAME/scrimmage-dependencies:18.04
-      - export IMG_CACHE=$HOME/docker/scrimmage-dependencies-18.04.tar.gz
-      - export USE_CACHE=""
-      - if [ -f ${IMG_CACHE} ]; then
-            zcat ${IMG_CACHE} | docker load;
-            USE_CACHE="--cache-from ${DEPENDENCIES}";
-        fi
-      - docker build ${USE_CACHE} --target dependencies -t ${DEPENDENCIES} -f ./ci/dockerfiles/ubuntu-18.04 .
-      - docker build ${USE_CACHE} -t $REPO:${TRAVIS_BUILD_NUMBER} -f ./ci/dockerfiles/ubuntu-18.04 .
-      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-      - |
-        if [[ "$TAG" == "latest" ]]; then
-            docker save ${DEPENDENCIES} | gzip -2 > ${IMG_CACHE};
         fi
 
 notifications:
   email:
     on_success: change
     on_failure: always
-
-# Setup the docker cache directories
-cache:
-  directories:
-    - $HOME/docker

@@ -34,7 +34,7 @@
 
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 #include <map>
 #include <string>
@@ -47,7 +47,6 @@ namespace sensor {
 class LOSSensor : public RayTrace {
  public:
     LOSSensor();
-    std::string name() override;
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
 

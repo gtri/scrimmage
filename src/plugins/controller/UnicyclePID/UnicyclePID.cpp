@@ -102,17 +102,17 @@ bool UnicyclePID::step(double t, double dt) {
     // Reconstruct original velocity vector (close, but not exact
     double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_)-state_->pos()(2));
+    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_) - state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
-    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
+    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), - state_->quat().pitch()));
 
     // Track zero roll
     roll_pid_.set_setpoint(0);
-    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), -state_->quat().roll()));
+    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), - state_->quat().roll()));
 
     if (show_shapes_) {
         line_shape_->set_persistent(true);

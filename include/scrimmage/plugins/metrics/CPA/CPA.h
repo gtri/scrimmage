@@ -65,7 +65,6 @@ class CPAData {
 class CPA : public scrimmage::Metrics {
  public:
     CPA();
-    std::string name() override { return std::string("CPA"); }
     void init(std::map<std::string, std::string> &params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;
@@ -76,7 +75,11 @@ class CPA : public scrimmage::Metrics {
     // Entity Num: CPA, Closest Entity, Time
     std::map<int, CPAData> cpa_map_;
     CSV csv_;
-    bool initialized_ = false;
+    bool initialized_{false};
+    bool team_cpa_{false};  // Whether checking within a team
+    int team_id_{0};  // If checking a specific team ID
+    double min_time_s_{-1.0};  // For constraining after some event
+    double max_time_s_{-1.0};  // For constraining before some event
  private:
 };
 

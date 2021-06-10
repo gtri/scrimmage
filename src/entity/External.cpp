@@ -36,6 +36,7 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/GlobalService.h>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
@@ -77,8 +78,10 @@ External::External() :
     log_(std::make_shared<Log>()),
     last_t_(NAN),
     pubsub_(std::make_shared<PubSub>()),
+    printer_(std::make_shared<Print>()),
     time_(std::make_shared<Time>()),
     param_server_(std::make_shared<ParameterServer>()),
+    global_services_(std::make_shared<GlobalService>()),
     mp_(std::make_shared<MissionParse>()),
     id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
     id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
@@ -109,7 +112,9 @@ bool External::create_entity(const std::string &mission_file,
                              double init_time,
                              double init_dt,
                              const std::string &log_dir,
-                             std::function<void(std::map<std::string, std::string>&)> param_override_func) {
+                             std::function<void(std::map<std::string, std::string>&)> param_override_func,
+                             const std::string& mission_file_overrides,
+                             const int& debug_level) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
     if (not found_mission_file) {
@@ -119,6 +124,7 @@ bool External::create_entity(const std::string &mission_file,
 
     // Parse the mission file
     mp_ = std::make_shared<MissionParse>();
+    mp_->set_overrides(mission_file_overrides);
     if (not mp_->parse(*found_mission_file)) {
         cout << "Failed to parse mission file: " << *found_mission_file << endl;
         return false;
@@ -160,6 +166,7 @@ bool External::create_entity(const std::string &mission_file,
     sim_info.file_search = file_search;
     sim_info.rtree = rtree;
     sim_info.pubsub = pubsub_;
+    sim_info.printer = printer_;
     sim_info.time = time_;
     sim_info.random = random;
     sim_info.id_to_team_map = id_to_team_map_;
@@ -180,7 +187,7 @@ bool External::create_entity(const std::string &mission_file,
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, plugin_tags, param_override_func)) {
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, global_services_, plugin_tags, param_override_func)) {
         std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }
@@ -203,9 +210,11 @@ bool External::create_entity(const std::string &mission_file,
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
     bool ent_success =
         entity_->init(
-            attr_map, info, contacts, mp_, mp_->projection(), entity_id,
+            attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
+            mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            time_, param_server_, plugin_tags, param_override_func);
+            printer_, time_, param_server_, global_services_, plugin_tags,
+            param_override_func, debug_level);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;
@@ -396,8 +405,7 @@ bool External::call_update_contacts(double t) {
     if (update_contacts_task.update(t).first) {
         auto rtree = entity_->rtree(); // rtree is a shared_ptr
         if (!rtree) {mutex.unlock(); return false;}
-        rtree->init(100);
-        rtree->clear();
+        rtree->init(entity_->contacts()->size());
         for (auto &kv : *entity_->contacts()) {
             rtree->add(kv.second.state()->pos(), kv.second.id());
         }

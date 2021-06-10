@@ -4,7 +4,7 @@
   <library>ExternalForceField_plugin</library>
   <!-- constant, variable -->
   <force_type>constant</force_type>
-  <constant_force>1, 0, 0</constant_force>
+  <constant_force>1, 0, 0</constant_force> <!-- If Input as Magnitude and Angle format (99, Mag, Ang)-->
 
   <!-- mean, std -->
   <force_change_period>1.0, 0.1</force_change_period>

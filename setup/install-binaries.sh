@@ -36,7 +36,7 @@ usage()
 {
     cat << EOF
 usage: sudo $0 -e
-This script installs all required dependencies. 
+This script installs all required dependencies.
 
 OPTIONS
 
@@ -46,7 +46,7 @@ OPTIONS
         installation.
 
     --python <number>
-        install dependencies for python version <number>. This will install 
+        install dependencies for python version <number>. This will install
         dependencies from apt for this version of python (e.g.,
         apt install python<number>-numpy). Options are "2, 3, a"
         with "a" installing dependencies for both python 2 and 3.
@@ -59,6 +59,8 @@ EOF
 # Add new dependencies here.
 ###################################################################
 # Dependencies only for Ubuntu
+UBUNTU_VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -d '=' -f 2)
+
 DEPS_DPKG=(
     sudo
     git
@@ -92,8 +94,12 @@ if ( [ "$1" != "--external" ] ) && ( [ "$3" != "--external" ] ); then
         doxygen
         libopencv-dev
         libvtk6-dev
-        tcl-vtk
     )
+    if [ "18.04" == ${UBUNTU_VERSION} ]; then
+        DEPS_DPKG+=(tcl-vtk7)
+    else
+        DEPS_DPKG+=(tcl-vtk)
+    fi
 fi
 
 PYTHON_VERSION="a"
@@ -101,7 +107,7 @@ if [[ "$1" = "--python" ]]; then
     PYTHON_VERSION="$2"
 elif  [[ "$3" = "--python" ]]; then
     PYTHON_VERSION="$4"
-fi 
+fi
 
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
     DEPS_DPKG+=(
@@ -117,13 +123,14 @@ if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
     )
 fi
 
-if [[ "$PYTHON_VERSION" -eq "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then 
+if [[ "$PYTHON_VERSION" -eq "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
     DEPS_DPKG+=(
         python3
         python3-setuptools
         python3-numpy
         python3-dev
         python3-pip
+        python3-venv
         python3-matplotlib
         python3-pandas
     )
@@ -143,10 +150,11 @@ fi
 # Ubuntu
 if which apt-get &> /dev/null; then
     DEPENDENCIES=("${DEPS_COMMON[@]}" "${DEPS_DPKG[@]}")
-    UBUNTU_VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -d '=' -f 2)
     if [ "14.04" == ${UBUNTU_VERSION} ]; then
         DEPENDENCIES+=(python-wxgtk2.8)
     elif [ "16.04" == ${UBUNTU_VERSION} ]; then
+        DEPENDENCIES+=(python-wxgtk3.0)
+    elif [ "18.04" == ${UBUNTU_VERSION} ]; then
         DEPENDENCIES+=(python-wxgtk3.0)
     fi
     echo "This is Ubuntu. Using dpkg."
@@ -248,14 +256,3 @@ if [ "$PKGSTOINSTALL" != "" ]; then
 else
     echo "All dependencies are installed. No further action is required."
 fi
-
-########################
-# Install Pip Packages
-########################
-if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip install sphinx-git sphinx_rtd_theme pydoe tqdm
-fi 
-
-if [[ "$PYTHON_VERSION" = "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    pip3 install sphinx-git sphinx_rtd_theme pydoe tqdm
-fi 

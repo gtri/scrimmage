@@ -11,14 +11,17 @@ setup(
         'Environment :: Console',
         'License :: OSI Approved :: GNU Lesser General Public License v3.0',
     ],
-    packages=["scrimmage", "scrimmage.command", "scrimmage.bindings", "scrimmage.proto"],
+    #packages=["scrimmage", "scrimmage.command", "scrimmage.bindings",
+    #          "scrimmage.proto", "scrimmage.mission"],
+    packages=find_packages(),
     extras_require={
         'completion': ['argcomplete'],
     },
     install_requires=[
-        "pandas",
         "protobuf==${PROTOBUF_VERSION}",
         "argcomplete",
+        "pyyaml",
+        "jinja2"
     ],
     data_files=[
         ('share/scrimmage/env', [

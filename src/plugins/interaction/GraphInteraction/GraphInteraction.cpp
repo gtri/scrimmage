@@ -164,7 +164,7 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
 
     if (vis_graph_) {
         auto node_idx_to_pos = nodes_idxs_to_pos_map(graph_msg->data);
-        auto ptr = shared_from_this();
+        auto ptr = std::static_pointer_cast<EntityPlugin>(shared_from_this());
         bool draw_node_labels = sc::get<bool>("draw_node_labels", plugin_params, true);
         auto draw = draw_node_labels ? DrawNodeLabels::YES : DrawNodeLabels::NO;
         draw_graph(graph_msg->data, node_idx_to_pos, draw, ptr);

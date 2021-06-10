@@ -36,7 +36,7 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/plugin_manager/Plugin.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 #include <list>
 #include <map>
@@ -45,15 +45,12 @@
 
 namespace scrimmage {
 
-class EntityInteraction : public Plugin {
+class EntityInteraction : public EntityPlugin {
 
  public:
     inline virtual bool init(std::map<std::string, std::string> &/*mission_params*/,
                       std::map<std::string, std::string> &/*plugin_params*/)
     { return true;}
-
-    inline std::string name() override
-    { return std::string("EntityInteraction"); }
 
     inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
                                                 double /*t*/, double /*dt*/)
