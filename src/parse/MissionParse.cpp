@@ -165,7 +165,7 @@ bool MissionParse::parse(const std::string &filename) {
         } else if (attr_str == "dt") {
             dt_ = std::stod(attr->value());
         } else if (attr_str ==  "motion_multiplier") {
-            motion_multiplier_ = std::stod(attr->value());
+            motion_multiplier_ = std::stoi(attr->value());
         } else if (attr_str == "time_warp") {
             time_warp_ = std::stod(attr->value());
         } else if (attr_str == "enable_gui") {
