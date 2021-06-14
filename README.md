@@ -86,6 +86,41 @@ local system and sets up some environment variables:
 Note: If you need to build the dependencies from source or generate binary
 packages, see [Build Dependencies from Source](./3rd-party/README.md)
 
+### Cesium terrain
+
+Scrimmage has a plugin that will visualize entities and shapes in a [cesium.js](https://cesium.com/cesiumjs/)
+web application, allowing you to run your simulation on a global 3D earth model
+with satellite imagery and terrain. To enable this, you need the open
+source c++ web server library [seasocks](https://github.com/mattgodbolt/seasocks).
+There is currently no debian package for this, so we have to build from source:
+
+    git clone https://github.com/mattgodbolt/seasocks
+    cd seasocks
+    git checkout 5cc8f38d00999d49562b36f9982fcd582b868cb7
+    mkdir build
+    cd build
+    cmake .. -DSEASOCKS_SHARED=true
+    make
+    sudo make install
+    sudo ldconfig
+
+Now add the cesium plugin to your scrimmage mission to enable:
+
+```xml
+    <entity_interaction>CesiumWebServer</entity_interaction>
+```
+
+With a scrimmage mission running, open your browser and navigate to localhost
+on the port that CesiumWebServer is set to (default: 9090): http://localhost:9090.
+The next time you step the sim, you should see entities show up, and any supported
+shapes drawn from your plugins should appear as well. Currently supported shapes:
+
+- Sphere
+- Cuboid
+- Line
+- Polyline
+
+
 ### Build SCRIMMAGE Core
 
     $ mkdir build && cd build
