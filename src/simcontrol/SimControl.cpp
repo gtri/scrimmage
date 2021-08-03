@@ -152,6 +152,7 @@ bool SimControl::setup_logging() {
     if (mp_->output_required()) {
         mp_->create_log_dir();
         log_->set_enable_log(true);
+        log_->set_drop_bin_logging(mp_->get_no_bin_logging());
         log_->init(mp_->log_dir(), Log::WRITE);
     } else {
         log_->set_enable_log(false);
