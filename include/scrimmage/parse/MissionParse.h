@@ -153,6 +153,8 @@ class MissionParse {
 
     std::string get_mission_filename();
 
+    bool get_no_bin_logging();
+
     bool output_required();
     bool output_type_required(const std::string& output_type);
 
@@ -172,6 +174,8 @@ class MissionParse {
     bool full_screen_ = false;
     unsigned window_width_ = 800;
     unsigned window_height_ = 600;
+
+    bool no_bin_logging_ = false;
 
     AttributeMap attributes_;
     std::map<std::string, std::string> params_;

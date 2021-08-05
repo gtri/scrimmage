@@ -127,6 +127,7 @@ class Log {
     std::string msgs_filename();
 
     void set_enable_log(bool enable);
+    void set_drop_bin_logging(bool enable);
 
     void init_network(NetworkPtr network);
 
@@ -134,6 +135,7 @@ class Log {
     using MessageLitePtr = std::shared_ptr<google::protobuf::MessageLite>;
 
     bool enable_log_ = true;
+    bool drop_bin_logging_ = false;
     Mode mode_ = Mode::READ;
 
     bool open_file(std::string name, int &fd);
