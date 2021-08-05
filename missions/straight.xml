@@ -27,7 +27,7 @@
 
   <plot_tracks>false</plot_tracks>
   <output_type>all</output_type>
-  <no_bin_logging>true</no_bin_logging>
+  <no_bin_logging>false</no_bin_logging>
   <show_plugins>false</show_plugins>
 
   <metrics>SimpleCollisionMetrics</metrics>
