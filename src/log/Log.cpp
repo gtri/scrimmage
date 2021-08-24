@@ -96,7 +96,7 @@ bool Log::init(const std::string &dir, Log::Mode mode) {
     contact_visual_name_ = log_dir_ + "/" + contact_visual_name_;
     msgs_name_ = log_dir_ + "/" + msgs_name_;
 
-    if (mode_ == WRITE) {
+    if (mode_ == WRITE && drop_bin_logging_ == false) {
         if (open_file(frames_name_, frames_fd_)) {
             frames_output_ = std::make_shared<google::protobuf::io::FileOutputStream>(frames_fd_);
         }
@@ -160,6 +160,8 @@ std::string Log::contact_visual_filename() { return contact_visual_name_; }
 std::string Log::msgs_filename() { return msgs_name_; }
 
 void Log::set_enable_log(bool enable) { enable_log_ = enable; }
+
+void Log::set_drop_bin_logging(bool enable) { drop_bin_logging_ = enable; }
 
 bool Log::parse(std::string dir) {
     if (!fs::is_directory(dir)) {
@@ -299,7 +301,7 @@ bool Log::parse_contact_visual(std::string filename,
 
 bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
                            ZeroCopyOutputStreamPtr rawOutput) {
-    if (mode_ == READ || !enable_log_) {
+    if (mode_ == READ || !enable_log_ || drop_bin_logging_) {
         return true;
     }
 
