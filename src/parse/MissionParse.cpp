@@ -680,6 +680,11 @@ bool MissionParse::parse(const std::string &filename) {
         output_types_ = possible_output_types_;
     }
 
+    // Log the bins by default. Don't log the bins if the tag is defined in
+    // the mission file and it is set to true.
+    no_bin_logging_ = (params_.count("no_bin_logging") > 0 && 
+                                str2bool(params_["no_bin_logging"]) == true);
+
     return true;
 }
 
@@ -965,6 +970,9 @@ std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain()
 std::string MissionParse::get_mission_filename() {
     return mission_filename_;
 }
+
+bool MissionParse::get_no_bin_logging()
+{ return no_bin_logging_; }
 
 void MissionParse::set_enable_gui(bool enable) {enable_gui_ = enable;}
 

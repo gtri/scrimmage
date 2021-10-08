@@ -267,6 +267,7 @@ void External::setup_logging(const std::string &log_dir) {
         output_type.find("frames") != std::string::npos;
 
     log_->set_enable_log(enable_log);
+    log_->set_drop_bin_logging(mp_->get_no_bin_logging());
     log_->init(mp_->log_dir(), Log::WRITE);
 }
 
