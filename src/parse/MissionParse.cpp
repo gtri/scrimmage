@@ -783,7 +783,7 @@ double MissionParse::dt() { return dt_; }
 
 void MissionParse::set_dt(const double& dt) { dt_ = dt; }
 
-double MissionParse::motion_multiplier() { return motion_multiplier_; }
+int MissionParse::motion_multiplier() { return motion_multiplier_; }
 
 double MissionParse::time_warp() { return time_warp_; }
 

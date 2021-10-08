@@ -89,7 +89,7 @@ class MissionParse {
     double t0();
     double tend();
     double dt();
-    double motion_multiplier();
+    int motion_multiplier();
     double time_warp();
     void set_time_warp(double warp);
     bool start_paused();
