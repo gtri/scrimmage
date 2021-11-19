@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_USERNAME: multiplatformautonomy
-      _DOCKER_USERNAME: ${{ secrets.MPAUT_DOCKER_USERNAME }}
-      _DOCKER_PASSWORD: ${{ secrets.MPAUT_DOCKER_PASSWORD }}
+      DOCKER_USERNAME: gtri
+      _DOCKER_USERNAME: ${{ secrets.GTRI_DOCKER_USERNAME }}
+      _DOCKER_PASSWORD: ${{ secrets.GTRI_DOCKER_PASSWORD }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
