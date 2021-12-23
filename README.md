@@ -52,13 +52,9 @@ A list of the Ubuntu packages required is provided in
 installer to install the required packages:
 
     $ cd scrimmage
-    $ sudo ./setup/install-binaries.sh -e 0 -p 3
+    $ sudo ./setup/install-binaries.sh [--external] [--python <version>]
 
-The first argument `-e 0` says to install all dependencies for all features in
-SCRIMMAGE (you would use `-e 1` if you wanted to run SCRIMMAGE as part of an
-embedded system). The second argument `-p 3` says to install python3
-dependencies (use `-p a` for both python2 and 3 or `-p 2` for just python2
-dependencies).
+If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
 
 ### Install Custom Built Binary Dependencies
 
