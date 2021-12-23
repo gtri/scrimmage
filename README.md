@@ -162,6 +162,12 @@ Re-build the scrimmage project within the virtual environment:
     (env)$ cmake .. -DPYTHON_MIN_VERSION=3.6
     (env)$ make
 
+Scrimmage's cmake build procedures will choose the environment
+default Python in its configuration process when running
+plain `cmake ..`. To specify a specific minimum version of Python
+to be used, use the `cmake .. -DPYTHON_MIN_VERSION=2.7` flag during
+the cmake process.
+
 ### Install SCRIMMAGE Python Bindings
 
 To install scrimmage's python bindings:
