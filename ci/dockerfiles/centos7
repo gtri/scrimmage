@@ -150,9 +150,9 @@ ENV BOOST_ROOT ${PKG_PREFIX}
 # Build Eigen
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN wget bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2
-RUN tar xvf 3.3.4.tar.bz2
-WORKDIR eigen-eigen-5a0156e40feb
+RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.4/eigen-3.3.4.tar.bz2
+RUN tar xvf eigen-3.3.4.tar.bz2
+WORKDIR eigen-3.3.4
 RUN mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
     && make -j $(($(nproc)-1)) && make DESTDIR=/root/installs/eigen install
 
