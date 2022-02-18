@@ -195,6 +195,7 @@ class MissionParse {
 
     std::string root_log_dir_;
     std::string log_dir_;
+    std::string output_dir_trailer_;
 
     double longitude_origin_ = 29.0;
     double latitude_origin_ = -95.0;
