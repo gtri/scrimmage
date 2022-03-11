@@ -108,6 +108,11 @@ and match between the two paradigms for a single entity.
   log information from the simulation. This includes entity trajectory data,
   event data, and the random seed that was used during the simulation.
 
+- ``output_dir_trailer`` : If defined, this string will be appended as a
+  trailing string to the simulation's output directory's name. Note: it will
+  be truncated to 100 characters, and all occurrences of '/' will be replaced
+  with an underscore '_'.
+
 - ``create_latest_dir`` : If ``true``, a symbolically linked directory named
   ``latest`` will be created that links to the most recent ``log_dir``. This
   tag is ``true`` by default. When executing parallel runs, the user should set

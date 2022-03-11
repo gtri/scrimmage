@@ -309,6 +309,14 @@ bool MissionParse::parse(const std::string &filename) {
         root_log_dir_ = expand_user(params_["log_dir"]);
     }
 
+    // Is output_dir_trailer defined?
+    if (params_.count("output_dir_trailer") > 0) {
+        output_dir_trailer_ = "_" + params_["output_dir_trailer"].substr(0, 100);
+        std::replace(output_dir_trailer_.begin(), output_dir_trailer_.end(), '/', '_');
+    } else {
+        output_dir_trailer_ = "";
+    }
+
     // Create a directory to hold the log data
     // Use the current time for the directory's name
     time_t rawtime;
@@ -327,6 +335,7 @@ bool MissionParse::parse(const std::string &filename) {
     if (task_number_ != -1) {
         log_dir_ += "_task_" + std::to_string(task_number_);
     }
+    log_dir_ += output_dir_trailer_;
 
     int ent_desc_id = 0;
     int team_id_err = 0; // only used when team_id is not set "warn condition"
