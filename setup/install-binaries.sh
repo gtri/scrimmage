@@ -112,11 +112,20 @@ if [ "$EXTERNAL" = false ]; then
         libopencv-dev
         libvtk6-dev
     )
-    if ! echo "$UBUNTU_VERSION 18.04 -p" | dc | grep > \dev\null ^-; then
+    if ! echo "$UBUNTU_VERSION 18.04 -p" | dc | grep > \dev\null ^- || ! echo "$UBUNTU_VERSION 20.04 -p" | dc | grep > \dev\null ^-; then
         DEPS_DPKG+=(tcl-vtk7)
     else
         DEPS_DPKG+=(tcl-vtk)
     fi
+fi
+
+if [ "20.04" == ${UBUNTU_VERSION} ]; then
+    PYTHON_VERSION="3"  #Force Only Python 3 install for Focal
+    DEPS_DPKG+=(
+    libvtk6.3-qt
+    libgrpc-dev
+    libgrpc++-dev
+    ) #GRPC Libraries for Focal
 fi
 
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
@@ -165,6 +174,8 @@ if which apt-get &> /dev/null; then
     elif [ "16.04" == ${UBUNTU_VERSION} ]; then
         DEPENDENCIES+=(python-wxgtk3.0)
     elif [ "18.04" == ${UBUNTU_VERSION} ]; then
+        DEPENDENCIES+=(python-wxgtk3.0)
+    elif [ "20.04" == ${UBUNTU_VERSION} ]; then
         DEPENDENCIES+=(python-wxgtk3.0)
     fi
     echo "This is Ubuntu. Using dpkg."
