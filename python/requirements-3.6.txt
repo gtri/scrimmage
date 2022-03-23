@@ -22,7 +22,7 @@ more-itertools==8.3.0
 numpy==1.19.0rc1
 packaging==20.3
 pandas==1.0.3
-pkg-resources==0.0.0
+setuptools==42.0.0
 pluggy==0.13.1
 protobuf==3.3.0
 py==1.8.1
