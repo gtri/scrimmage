@@ -54,7 +54,11 @@ if(NOT CMAKE_BUILD_TYPE)
       RelWithDebInfo MinSizeRel." FORCE)
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+if (${SCRIMMAGE_CXX_VERSION})
+    set(CMAKE_CXX_STANDARD ${SCRIMMAGE_CXX_VERSION})
+else()
+    set(CMAKE_CXX_STANDARD 14)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
@@ -263,7 +267,11 @@ install(TARGETS scrimmage-boost EXPORT ${PROJECT_NAME}-targets)
 ########################################################
 # Find OpenCV
 ########################################################
-find_package(OpenCV 3 QUIET)
+# Look for both OpenCV 3 and 4, giving preference to 4
+find_package(OpenCV 4 QUIET)
+if (NOT OpenCV_FOUND)
+  find_package(OpenCV 3 QUIET)
+endif()
 if (OpenCV_FOUND)
   add_library(scrimmage-opencv INTERFACE)
   target_include_directories(scrimmage-opencv INTERFACE ${OpenCV_INCLUDE_DIRS})

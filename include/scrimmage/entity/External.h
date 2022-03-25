@@ -71,6 +71,17 @@ using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 class GlobalService;
 using GlobalServicePtr = std::shared_ptr<GlobalService>;
 
+// Implied capturing of "this" was deprecated in c++20, so this allows for
+// warning-free compilation for both c++20 and pre-c++20. We use the official
+// c++17 version as the cutoff since c++20 features begin appearing after that
+// but before a finalized c++20 version number has been designated. E.g. gcc9,
+// if compiling with c++20, has a __cplusplus value of 201709L.
+#if __cplusplus <= 201703L // pre-c++20
+    #define __copy_capture_with_this =
+#else // c++20 and beyond
+    #define __copy_capture_with_this =, this
+#endif
+
 class External {
  public:
     External();
@@ -189,7 +200,7 @@ class External {
         boost::optional<std::list<NetworkDevicePtr>> subs =
             pubsub_->find_subs(network_name, topic_name);
 
-        return [=](const boost::shared_ptr<RosType const> &ros_msg) {
+        return [__copy_capture_with_this](const boost::shared_ptr<RosType const> &ros_msg) {
             boost::optional<std::list<NetworkDevicePtr>> curr_subs =
                 pubsub_->find_subs(network_name, topic_name);
             if (!curr_subs) {
@@ -235,7 +246,7 @@ class External {
            Ros2ScRequestFunc ros2sc_request_func,
            Sc2RosResFunc sc2ros_response_func) {
 
-        return [=](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
+        return [__copy_capture_with_this](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
             auto err_msg = [&](const std::string &preface) {
                 std::cout << preface << " in advertised_service \""
                     << service_name << "\"" << std::endl;
@@ -291,7 +302,7 @@ class External {
             std::make_shared<ros::ServiceClient>(nh.serviceClient<RosType>(topic));
 
         auto call_service =
-            [=](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
+            [__copy_capture_with_this](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
                 std::string suffix =
                     std::string("(sc_topic = ") + sc_topic + ", ros_topic = " + topic + ")";
 
@@ -351,5 +362,7 @@ class External {
 };
 
 } // namespace scrimmage
+
+#undef __copy_capture_with_this
 
 #endif // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
