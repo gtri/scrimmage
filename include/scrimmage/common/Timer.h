@@ -66,13 +66,15 @@ class Timer {
     boost::posix_time::ptime start_time_;
 
     boost::posix_time::ptime actual_time_;
-    boost::posix_time::time_duration actual_elapsed_time_;
 
     boost::posix_time::ptime sim_time_;
     boost::posix_time::time_duration sim_elapsed_time_;
 
     boost::posix_time::ptime loop_timer_;
+    bool loop_timer_running_;
+    boost::posix_time::ptime loop_end_time_;
     boost::posix_time::time_duration iterate_period_;
+    boost::posix_time::time_duration sim_time_period_;
     double iterate_rate_;
 };
 } // namespace scrimmage
