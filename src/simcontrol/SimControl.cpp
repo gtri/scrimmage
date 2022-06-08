@@ -1374,6 +1374,12 @@ void SimControl::start_loop_timer() {
     timer_mutex_.unlock();
 }
 
+void SimControl::pause_loop_timer() {
+    timer_mutex_.lock();
+    timer_.pause_loop_timer();
+    timer_mutex_.unlock();
+}
+
 void SimControl::loop_wait() {
     timer_mutex_.lock();
     timer_.loop_wait();

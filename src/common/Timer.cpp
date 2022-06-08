@@ -64,6 +64,10 @@ void Timer::start_loop_timer() {
     sim_time_ += sim_time_period_;
 }
 
+void Timer::pause_loop_timer() {
+    loop_timer_running_ = false;
+}
+
 boost::posix_time::time_duration Timer::loop_wait() {
     boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
     if (time > loop_end_time_) {

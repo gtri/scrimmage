@@ -45,6 +45,8 @@ class Timer {
 
     void start_loop_timer();
 
+    void pause_loop_timer();
+
     boost::posix_time::time_duration loop_wait();
 
     void set_iterate_rate(double iterate_rate);
