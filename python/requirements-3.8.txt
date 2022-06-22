@@ -18,7 +18,7 @@ importlib-metadata==1.6.0
 Jinja2==3.0.0a1
 MarkupSafe==2.0.0a1
 more-itertools==8.3.0
-numpy==1.19.0rc1
+numpy==1.22.0rc1
 packaging==20.3
 pandas==1.0.3
 setuptools==42.0.0
