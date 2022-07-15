@@ -369,7 +369,8 @@ bool Log::readDelimitedFrom(const std::string &filename,
     return true;
 }
 
-bool Log::close_stream(ZeroCopyOutputStreamPtr stream) {
+bool Log::close_fileoutputstream(ZeroCopyOutputStreamPtr stream) {
+    // Close() flushes the stream as well
     bool status = dynamic_cast<google::protobuf::io::FileOutputStream&>(*stream).Close();
     return status;
 }
@@ -381,10 +382,10 @@ bool Log::close_log() {
 
     google::protobuf::ShutdownProtobufLibrary();
 
-    close_stream(frames_output_);
-    close_stream(shapes_output_);
-    close_stream(utm_terrain_output_);
-    close_stream(contact_visual_output_);
+    close_fileoutputstream(frames_output_);
+    close_fileoutputstream(shapes_output_);
+    close_fileoutputstream(utm_terrain_output_);
+    close_fileoutputstream(contact_visual_output_);
 
     close(frames_fd_);
     close(shapes_fd_);

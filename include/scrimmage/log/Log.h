@@ -182,7 +182,7 @@ class Log {
                            MessageLitePtr message,
                            bool& clean_eof);
 
-    bool close_stream(ZeroCopyOutputStreamPtr stream);
+    bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream);
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_LOG_LOG_H_
