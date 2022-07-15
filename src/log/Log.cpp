@@ -369,16 +369,28 @@ bool Log::readDelimitedFrom(const std::string &filename,
     return true;
 }
 
+bool Log::close_stream(ZeroCopyOutputStreamPtr stream) {
+    bool status = dynamic_cast<google::protobuf::io::FileOutputStream&>(*stream).Close();
+    return status;
+}
+
 bool Log::close_log() {
     if (ascii_output_.is_open()) {
         ascii_output_.close();
     }
 
     google::protobuf::ShutdownProtobufLibrary();
-    frames_output_.reset();
-    shapes_output_.reset();
-    utm_terrain_output_.reset();
-    contact_visual_output_.reset();
+
+    close_stream(frames_output_);
+    close_stream(shapes_output_);
+    close_stream(utm_terrain_output_);
+    close_stream(contact_visual_output_);
+
+    close(frames_fd_);
+    close(shapes_fd_);
+    close(utm_terrain_fd_);
+    close(contact_visual_fd_);
+    close(msgs_fd_);
 
     return true;
 }
