@@ -40,12 +40,15 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+
 
 namespace google { namespace protobuf {
 class MessageLite;
 namespace io {
 class ZeroCopyInputStream;
 class ZeroCopyOutputStream;
+class FileOutputStreamPtr;
 }}}
 
 namespace scrimmage_proto {
@@ -61,6 +64,7 @@ class Log {
  public:
     using ZeroCopyInputStreamPtr = std::shared_ptr<google::protobuf::io::ZeroCopyInputStream>;
     using ZeroCopyOutputStreamPtr = std::shared_ptr<google::protobuf::io::ZeroCopyOutputStream>;
+    using FileOutputStreamPtr = std::shared_ptr<google::protobuf::io::FileOutputStream>;
 
     Log();
 
@@ -177,6 +181,8 @@ class Log {
                            ZeroCopyInputStreamPtr rawInput,
                            MessageLitePtr message,
                            bool& clean_eof);
+
+    bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream);
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_LOG_LOG_H_
