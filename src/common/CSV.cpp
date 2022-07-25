@@ -33,9 +33,11 @@
 #include <scrimmage/common/CSV.h>
 #include <scrimmage/parse/ParseUtils.h>
 
+#include <iomanip>
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
@@ -158,12 +160,19 @@ std::string CSV::row_to_string(const int& row) const {
     std::string result = "";
 
     // Initialize a vector with no value string. Iterate over
-    // column_headers, use column index to fill in columne for values.
+    // column_headers, use column index to fill in column for values.
     std::vector<std::string> values(column_headers_.size(), no_value_str_);
     auto it_row = table_.find(row);
     for (auto &kv : it_row->second) {
         if (static_cast<int64_t>(kv.second) == kv.second) {
             values[kv.first] = std::to_string(static_cast<int64_t>(kv.second));
+        } else if (static_cast<double>(kv.second) == kv.second) {
+            // default precision values for double are not enough in many cases
+            std::ostringstream conv;
+            if (double_is_fixed_) { conv << std::fixed; }
+            if (double_is_scientific_) { conv << std::scientific; }
+            conv << std::setprecision(double_precision_) << kv.second;
+            values[kv.first] = conv.str();
         } else {
             values[kv.first] = std::to_string(kv.second);
         }
