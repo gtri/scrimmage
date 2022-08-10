@@ -81,6 +81,11 @@ class CSV {
 
     bool equals(const CSV& other);
 
+    // double parameters
+    void set_double_precision(int precision) { double_precision_ = precision; }
+    void set_double_fixed(bool is_fixed) { double_is_fixed_ = is_fixed; }
+    void set_double_scientific(bool is_scientific) { double_is_scientific_ = is_scientific; }
+
  protected:
     std::list<std::string> get_csv_line_elements(const std::string &str);
 
@@ -102,6 +107,10 @@ class CSV {
     std::string no_value_str_ = "NaN";
 
  private:
+    int double_precision_ = 13;
+    bool double_is_fixed_ = true;
+    bool double_is_scientific_ = false;
+
     std::string headers_to_string() const;
     std::string rows_to_string() const;
     std::string row_to_string(const int& i) const;
