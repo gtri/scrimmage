@@ -68,8 +68,8 @@ def read_frames(frames_file, to_dataframe=False):
 
         try:
             frame.ParseFromString(data[pos:pos + next_pos])
-        except:
-            print('Error reading frames! Aborting data read-in.')
+        except Exception as e:
+            print(f'Error reading frames!\nError: {e}\nAborting data read-in.\n')
             break
 
         frames.append(frame)
