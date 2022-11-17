@@ -160,7 +160,7 @@ def main():
 
     for fr in frames: # at each timestep
         for con in fr.contact: # for each contact/entity
-            conidx = min(con.id.id - 1, 0)
+            conidx = con.id.id - 1
             # append each entity's x, y, z position to the appropriate list
             allentX[conidx].append(con.state.position.x)
             allentY[conidx].append(con.state.position.y)
