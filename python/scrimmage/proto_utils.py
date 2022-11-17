@@ -33,7 +33,14 @@ from scrimmage.proto import Frame_pb2
 import google.protobuf.internal.decoder
 
 
+
+
 def read_frames(frames_file, to_dataframe=False):
+    frames_stream = open(frames_file, 'rb')
+    return read_frames_stream(frames_stream, to_dataframe)
+
+def read_frames_stream(frames_stream, to_dataframe=False):
+
     """Return a list of frames from a protobuf binary file.
 
     The protobuf frames file is a series of frames (see here:
@@ -50,8 +57,7 @@ def read_frames(frames_file, to_dataframe=False):
     The first link contains the code used below with the exception that decoder
     is _DecodeVarint32, found at the 2nd link
     """
-    with open(frames_file, 'rb') as f:
-        data = f.read()
+    data = frames_stream.read()
 
     frames = []
     next_pos, pos = 0, 0
