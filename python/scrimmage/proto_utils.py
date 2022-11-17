@@ -57,8 +57,6 @@ def read_frames_stream(frames_stream, to_dataframe=False):
     The first link contains the code used below with the exception that decoder
     is _DecodeVarint32, found at the 2nd link
     """
-#    with open(frames_file, 'rb') as f:
-
     data = frames_stream.read()
 
     frames = []
