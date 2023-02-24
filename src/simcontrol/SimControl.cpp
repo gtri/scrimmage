@@ -76,6 +76,8 @@
 #include <chrono> // NOLINT
 #include <future> // NOLINT
 
+#include <fstream>
+
 #if ENABLE_PYTHON_BINDINGS == 1
 #include <pybind11/pybind11.h>
 #ifdef __clang__
@@ -106,6 +108,8 @@ namespace ba = boost::adaptors;
 using std::cout;
 using std::endl;
 using NormDistribution = std::normal_distribution<double>;
+
+using namespace std::chrono;
 
 namespace scrimmage {
 
@@ -1514,15 +1518,15 @@ bool SimControl::add_tasks(Task::Type type, double t, double dt) {
     }
     entity_pool_mutex_.unlock();
 
-    // tell the threads to run
-    entity_pool_condition_var_.notify_all();
-
     // wait for results
     auto get = [&](auto &future) {return future.get();};
     return std::all_of(futures.begin(), futures.end(), get);
 }
 
 bool SimControl::run_entities() {
+    
+    cout << "Natalie in run entities" << endl;
+
     contacts_mutex_.lock();
     bool success = true;
 
@@ -1536,10 +1540,12 @@ bool SimControl::run_entities() {
         }
     };
 
+    //Natalie, need to get the autonomies plug in working so that we can see the time elapsed during them
     // run autonomies threaded or in a single thread
     if (entity_thread_types_.count(Task::Type::AUTONOMY)) {
         success &= add_tasks(Task::Type::AUTONOMY, t_, dt_);
     } else {
+        auto start = high_resolution_clock::now();
         for (EntityPtr &ent : ents_) {
             for (auto a : ent->autonomies()) {
                 success &= exec_step(a, [&](auto a){
@@ -1547,12 +1553,20 @@ bool SimControl::run_entities() {
                     a->step_autonomy(t_, dt_) : true;});
             }
         }
+        auto stop = high_resolution_clock::now();
+        auto autonomyDuration = duration_cast<microseconds>(stop - start);
+        cout << "Autonomy execution time after all entities: " << autonomyDuration.count() << endl;
+
     }
 
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // run controllers in a single thread since they are serially connected
+        cout << "The motion multiplier is at iteration: " << i << endl;
+
+        auto start = high_resolution_clock::now();
+
         for (EntityPtr &ent : ents_) {
             for (auto c : ent->controllers()) {
                 success &= exec_step(c, [&](auto c){
@@ -1560,16 +1574,71 @@ bool SimControl::run_entities() {
                     c->step(t_, dt_) : true;});
             }
         }
+        
+        auto stop = high_resolution_clock::now();
+        auto controllerDuration = duration_cast<microseconds>(stop - start);
+        cout << "Controller execution time after all entities: " << controllerDuration.count() << endl;
 
         // run motion model
+        // Natalie need to add a flag here so that the matrix version of the motion model is executed
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
                 success &= add_tasks(type, temp_t, motion_dt);
-            } else {
+            } 
+            // Natalie add else if statement here to run the matrix manipulation option... probably want a flag in the mission xml
+
+            else {
+                auto start = high_resolution_clock::now();
+                auto steptot = 0;
+                auto successtot = 0;
+
+                std::vector<double> odestepvals_;
+                int entTracker = 0;
                 for (EntityPtr &ent : ents_) {
-                    auto step = [&](auto p){return p->step(temp_t, motion_dt);};
-                    success &= exec_step(getter(ent), step);
+                    //Tracks which entity we are on for the if statement
+                    entTracker++;
+
+                    //If it is the first entity, run the step function that calls ODE step
+                    cout << "Entity id is: " << ent->id() << endl;
+                    // auto step = [&](auto p){
+                    //         if(entTracker != 1){
+                    //             return p->step(temp_t, motion_dt, odestepvals_); // create this function definition
+                    //         }
+                    //         else{
+                    //             bool stepReturn = p->step(temp_t, motion_dt);
+                    //             odestepvals_ = p->getOdeStepVal();
+                    //             return stepReturn;
+                    //         }
+                    //     };
+
+                    auto step = [&](auto p){ return p->step(temp_t, motion_dt);}; // Step function for all entities calling ode step
+
+                    //If it is not the first entity, pass the returned vector to the rest of the entitys' step functions
+                    cout << "Step type: " << typeid(step).name() << endl;
+
+                    //This is the area that is executing the step function in the motion model plugin... but
+                    // the plugin step function only takes up like 2-3 microsends max, but the entire call takes
+                    // up 61 seconds. So something other than the step function needs to be optimized.
+                    // Let's investigate what the exec_step function call is doing exactly
+                    cout << "Executing success" << endl;
+                    auto successStart = high_resolution_clock::now();
+                    
+                    
+                    success &= exec_step(getter(ent), step);   
+                    //Need to add a getter here for the vector changes and save it to a local vector that can be used
+                    //to update the other entity iterations' ODE step function
+                    
+                    auto successStop = high_resolution_clock::now();
+                    auto successDuration = duration_cast<microseconds>(successStop - successStart);
+                    cout << "Success execution time after one entity: " << successDuration.count() << endl;
+                    successtot += successDuration.count();
                 }
+                auto stop = high_resolution_clock::now();
+                auto motionDuration = duration_cast<microseconds>(stop - start);               
+                cout << "Motion execution time after all entities: " << motionDuration.count() << endl;
+            
+                cout << "Total step time: " << steptot << endl;
+                cout << "Total success time: " << successtot << endl;
             }
         };
         step_all(Task::Type::MOTION, [&](auto ent){return ent->motion();});

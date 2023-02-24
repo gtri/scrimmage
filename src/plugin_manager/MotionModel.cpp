@@ -47,6 +47,10 @@ bool MotionModel::init(std::map<std::string, std::string> &info, std::map<std::s
 { return false; }
 
 bool MotionModel::step(double time, double dt) { return true; }
+bool MotionModel::step(double time, double dt, int iteration) { return true; }
+bool MotionModel::step(double time, double dt, vector_t odevect) { return true; }
+
+std::vector<double> MotionModel::getOdeStepVal() { return odeVal_;}
 
 bool MotionModel::posthumous(double t) { return true; }
 
@@ -60,6 +64,18 @@ void MotionModel::ode_step(double dt) {
     auto sys = std::bind(&MotionModel::model, this, pl::_1, pl::_2, pl::_3);
     boost::numeric::odeint::runge_kutta4<std::vector<double>> stepper;
     stepper.do_step(sys, x_, 0, dt);
+
+    // ABM Stepper
+    // This did not result in a change of wall time...
+    // boost::numeric::odeint::adams_bashforth< 5, std::vector<double>> abm;
+    // double t = 0;
+    // abm.initialize(sys , x_ , t , dt );
+    // abm.do_step( sys , x_ , t , dt );
+
+    //Adjustable stepper
+    //boost::numeric::odeint::controlled_runge_kutta
+
+
 }
 
 void MotionModel::model(const MotionModel::vector_t &x, MotionModel::vector_t &dxdt, double t) {}

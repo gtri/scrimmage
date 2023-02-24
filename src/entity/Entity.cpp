@@ -122,6 +122,8 @@ bool Entity::init(AttributeMap &overrides,
     }
     state_truth_ = state_;
 
+    //std::cout << "Generating the initial state of entity: " << id;
+
     double x = get("x", info, 0.0);
     double y = get("y", info, 0.0);
     double z = get("z", info, 0.0);
