@@ -140,10 +140,15 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
 
 bool DubinsAirplane3D::step(double t, double dt) {
     // Natalie take a screenshot
-    std::cout << "In step function, going to take screenshot for ID: " << parent()->id() << std::endl;
-    auto screenshot_msg = std::make_shared<sc::Message<bool>>();
-    screenshot_msg->data = true;
-    pub_screenshot_->publish(screenshot_msg);
+    if(parent()->id().id() == 1){
+        std::cout << "In step function, going to take screenshot for ID: " << parent()->id().id() << 
+        " for time t: " << t << std::endl;
+
+        auto screenshot_msg = std::make_shared<sc::Message<bool>>();
+        screenshot_msg->data = true;
+        pub_screenshot_->publish(screenshot_msg);
+
+    }
     
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
