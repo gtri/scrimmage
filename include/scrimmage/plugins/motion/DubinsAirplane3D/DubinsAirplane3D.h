@@ -53,9 +53,6 @@ class DubinsAirplane3D : public scrimmage::MotionModel {
     void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:
-   // Screenshot publisher
-   scrimmage::PublisherPtr pub_screenshot_;
-
     double speed_max_ = +std::numeric_limits<double>::infinity();
     double speed_min_ = -std::numeric_limits<double>::infinity();
 

@@ -206,10 +206,7 @@ bool SimControl::init(const std::string& mission_file,
     return true;
 }
 
-// Natalie - this is the function that is called when taking a screen shot
-// can call this function from the subscriber's callback
 void SimControl::request_screenshot() {
-    cout << "Taking a screenshot" << endl;
     prev_paused_ = paused();
     pause(true);
     scrimmage_proto::GUIMsg gui_msg;
@@ -880,11 +877,12 @@ bool SimControl::start() {
     sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork",
                                                "GenerateEntity", gen_ent_cb);
 
-    // Natalie's screenshot callback
-    // Subscribe to TakeScreenshot callback
+    // Set subscriber / callback that allows plugins to take a screenshot of the GUI
+    // if the enable_gui XML tag is set to true
     auto takeSS = [&](auto &msg) {
-        cout << "Requesting screenshot..." << endl;
-        request_screenshot();
+        if(enable_gui()){
+            request_screenshot();
+        }
     };
     sim_plugin_->subscribe<bool>("GlobalNetwork", "take_screenshot", takeSS);
 
