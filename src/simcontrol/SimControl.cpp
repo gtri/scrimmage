@@ -210,7 +210,7 @@ bool SimControl::init(const std::string& mission_file,
     return true;
 }
 
-void SimControl::request_screenshot() {
+void SimControl::request_screenshot() { //Natalie for next project
     prev_paused_ = paused();
     pause(true);
     scrimmage_proto::GUIMsg gui_msg;
@@ -567,7 +567,7 @@ bool SimControl::run_single_step(const int& loop_number) {
 
     run_callbacks(sim_plugin_);
 
-    if (screenshot_task_.update(t_).first) {
+    if (screenshot_task_.update(t_).first) { //Natlie, investigate when this is called
         request_screenshot();
     }
 
