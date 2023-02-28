@@ -328,6 +328,38 @@ and match between the two paradigms for a single entity.
   - ``start``: when to start taking screenshots
   - ``end``: when to stop taking screenshots.
 
+  A separate method for taking plugin event based screenshots can be implemented 
+  through published messages on the take_screenshot topic. The following line
+  should be added to the plugin's header file:
+
+  ``// Screenshot publisher
+  scrimmage::PublisherPtr pub_screenshot_;``
+
+  Ensure the following headers are included in the plugin's \*.cpp file:
+  ``#include <scrimmage/pubsub/Message.h>
+  #include <scrimmage/pubsub/Publisher.h>``
+
+  Initialize the publisher in the init() method of the plugin's \*.cpp file. The
+  intialization creates a publisher in the "GlobalNetwork" with a topic name of 
+  "take_screenshot".
+
+  ``// Screenshot publisher initialization
+  pub_screenshot_ = advertise("GlobalNetwork", "take_screenshot");``
+
+  A message can be published to take a screenshot by utilizing the code below. 
+  A conditional can be placed around the publish message code to control when
+  screenshots are executed.
+
+  ``auto screenshot_msg = std::make_shared<sc::Message<bool>>();
+  screenshot_msg->data = true;
+  pub_screenshot_->publish(screenshot_msg);``
+
+  When a message is published, the ``takeSS`` subscriber callback is entered in
+  the SimControl.cpp file. If the ``enable_gui`` XML tag has been set to true,
+  a screenshot will be taken of the GUI at the specified condition surrounding the
+  publish message code. If the ``enable_gui`` XML tag has been set to false, no 
+  screenshot will be taken.
+
 - ``multi_threaded``: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
   The default is for scrimmage to run in a single thread. The attributes are:
 

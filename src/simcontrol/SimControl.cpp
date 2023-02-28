@@ -876,6 +876,16 @@ bool SimControl::start() {
     };
     sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork",
                                                "GenerateEntity", gen_ent_cb);
+
+    // Set subscriber / callback that allows plugins to take a screenshot of the GUI
+    // if the enable_gui XML tag is set to true
+    auto takeSS = [&](auto &msg) {
+        if(enable_gui()){
+            request_screenshot();
+        }
+    };
+    sim_plugin_->subscribe<bool>("GlobalNetwork", "take_screenshot", takeSS);
+
     contacts_mutex_.lock();
     contacts_->reserve(max_num_entities+1);
     contacts_mutex_.unlock();
