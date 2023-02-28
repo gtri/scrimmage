@@ -39,6 +39,9 @@
 #include <scrimmage/math/State.h>
 #include <boost/algorithm/clamp.hpp>
 
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
+
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane3D, DubinsAirplane3D_plugin)
 
 namespace scrimmage {
@@ -71,6 +74,9 @@ enum ModelParams {
 bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
                             std::map<std::string, std::string> &params) {
     write_csv_ = sc::get<bool>("write_csv", params, false);
+
+    // Screenshot publisher initialization
+    pub_screenshot_ = advertise("GlobalNetwork", "take_screenshot");
 
     // Model limits
     speed_max_ = sc::get<double>("speed_max", params, speed_max_);
@@ -133,6 +139,12 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
 }
 
 bool DubinsAirplane3D::step(double t, double dt) {
+    // Natalie take a screenshot
+    std::cout << "In step function, going to take screenshot for ID: " << parent()->id() << std::endl;
+    auto screenshot_msg = std::make_shared<sc::Message<bool>>();
+    screenshot_msg->data = true;
+    pub_screenshot_->publish(screenshot_msg);
+    
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
     pitch_ = vars_.input(desired_pitch_idx_);
