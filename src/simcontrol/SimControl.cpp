@@ -1600,18 +1600,18 @@ bool SimControl::run_entities() {
 
                     //If it is the first entity, run the step function that calls ODE step
                     cout << "Entity id is: " << ent->id() << endl;
-                    // auto step = [&](auto p){
-                    //         if(entTracker != 1){
-                    //             return p->step(temp_t, motion_dt, odestepvals_); // create this function definition
-                    //         }
-                    //         else{
-                    //             bool stepReturn = p->step(temp_t, motion_dt);
-                    //             odestepvals_ = p->getOdeStepVal();
-                    //             return stepReturn;
-                    //         }
-                    //     };
+                    auto step = [&](auto p){
+                            if(entTracker != 1){
+                                return p->step(temp_t, motion_dt, odestepvals_); // create this function definition
+                            }
+                            else{
+                                bool stepReturn = p->step(temp_t, motion_dt);
+                                odestepvals_ = p->getOdeStepVal();
+                                return stepReturn;
+                            }
+                        };
 
-                    auto step = [&](auto p){ return p->step(temp_t, motion_dt);}; // Step function for all entities calling ode step
+                    //auto step = [&](auto p){ return p->step(temp_t, motion_dt);}; // Step function for all entities calling ode step
 
                     //If it is not the first entity, pass the returned vector to the rest of the entitys' step functions
                     cout << "Step type: " << typeid(step).name() << endl;
