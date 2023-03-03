@@ -57,8 +57,8 @@ class MotionModel : public EntityPlugin {
 
     virtual bool step(double time, double dt);
     virtual bool step(double time, double dt, int iteration);
-
     virtual bool step(double time, double dt, vector_t odevect);
+    virtual bool offset_step(double time, double dt);
 
     //Getters and setters in the case the motion model flag requires
     //odestep only occuring once

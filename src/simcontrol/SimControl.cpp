@@ -1580,41 +1580,79 @@ bool SimControl::run_entities() {
         cout << "Controller execution time after all entities: " << controllerDuration.count() << endl;
 
         // run motion model
-        // Natalie need to add a flag here so that the matrix version of the motion model is executed
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
                 success &= add_tasks(type, temp_t, motion_dt);
             } 
-            // Natalie add else if statement here to run the matrix manipulation option... probably want a flag in the mission xml
-
             else {
                 auto start = high_resolution_clock::now();
                 auto steptot = 0;
                 auto successtot = 0;
 
-                std::vector<double> odestepvals_;
-                int entTracker = 0;
+                std::vector<double> odestepvals_; // need to hold this value for the given 1st entity for a given team
+                int entTracker = 0; //should be able to replace this with the actual entity id number later
+
                 for (EntityPtr &ent : ents_) {
                     //Tracks which entity we are on for the if statement
-                    entTracker++;
+                    entTracker++; //Not a good method for multiple teams, need to figure something else out. All teams are part of ents_
+                    cout << "Entity id is: " << ent->id() << endl; // id#, ent_desc_id#, team id#
 
-                    //If it is the first entity, run the step function that calls ODE step
-                    cout << "Entity id is: " << ent->id() << endl;
+                    // Tracks which entity is the first entity for a given team
+                    if(!stepIterDone && (ent_desc_to_id_map.count(ent->id().sub_swarm_id())==0)){
+                        ent_desc_to_id_map.insert({ent->id().sub_swarm_id(), entTracker});
+                        
+                        cout << "Natalie in the if statement... map says ent_desc_id is: " << ent->id().sub_swarm_id() << " pair id is: " 
+                            << ent_desc_to_id_map[ent->id().sub_swarm_id()] << endl;
+                    }
+                    
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                    //Method that uses the ent tracker
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                    // auto step = [&](auto p){
+                    //         if((entTracker != 1) && (ent->get_stepsCalled() > 9)){ // If more than 10 steps have been taken by the entity, then utilize entity ID #1's step function offset
+                    //             return p->step(temp_t, motion_dt, odestepvals_); // create this function definition
+                    //         }
+                    //         else if((entTracker != 1) && (ent->get_stepsCalled() <= 9)){ // Enitity utilizes its own step function for the first 10 steps
+                    //             ent->incrementSteps();
+                    //             return p->step(temp_t, motion_dt); //original step function
+                    //         }
+                    //         else{ //If entity is #1, run the ODE step function
+                    //             //could the get_stepscalled check be applied here also? Wondering if adding this in the longterm would add
+                    //             // to the run-time processing due to condition it has to check everytime
+                    //             bool stepReturn = p->offset_step(temp_t, motion_dt); //odestepvals update function just for entity #1
+                    //             odestepvals_ = p->getOdeStepVal();
+                    //             return stepReturn;
+                    //         }
+                    //     };
+
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                    // Method that uses list tracker
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                    //ent_desc_id can be accessed by: ent->id().sub_swarm_id()
                     auto step = [&](auto p){
-                            if(entTracker != 1){
-                                return p->step(temp_t, motion_dt, odestepvals_); // create this function definition
+                            if(mp_->entity_attributes()[ent->id().sub_swarm_id()]["motion_model"]["grouped_model"] == "true"){
+                                if((ent_desc_to_id_map[ent->id().sub_swarm_id()] != entTracker) && (ent->get_stepsCalled() > 9)){ // If more than 10 steps have been taken by the entity, then utilize entity ID #1's step function offset
+                                    //return p->step(temp_t, motion_dt, odestepvals_); // create this function definition
+                                    return p->step(temp_t, motion_dt, ent_desc_to_ode_vector[ent->id().sub_swarm_id()]);
+                                }
+                                else if((ent_desc_to_id_map[ent->id().sub_swarm_id()] != entTracker) && (ent->get_stepsCalled() <= 9)){ // Enitity utilizes its own step function for the first 10 steps
+                                    ent->incrementSteps();
+                                    return p->step(temp_t, motion_dt); //original step function
+                                }
+                                else{ //If entity is #1, run the ODE step function
+                                    //could the get_stepscalled check be applied here also? Wondering if adding this in the longterm would add
+                                    // to the run-time processing due to condition it has to check everytime
+                                    bool stepReturn = p->offset_step(temp_t, motion_dt); //odestepvals update function just for entity #1
+                                    //odestepvals_ = p->getOdeStepVal();
+                                    ent_desc_to_ode_vector[ent->id().sub_swarm_id()] = p->getOdeStepVal();
+                                    return stepReturn;
+                                }
                             }
                             else{
-                                bool stepReturn = p->step(temp_t, motion_dt);
-                                odestepvals_ = p->getOdeStepVal();
-                                return stepReturn;
+                                return p->step(temp_t, motion_dt); //original step function
                             }
                         };
-
-                    //auto step = [&](auto p){ return p->step(temp_t, motion_dt);}; // Step function for all entities calling ode step
-
-                    //If it is not the first entity, pass the returned vector to the rest of the entitys' step functions
-                    cout << "Step type: " << typeid(step).name() << endl;
+                    
 
                     //This is the area that is executing the step function in the motion model plugin... but
                     // the plugin step function only takes up like 2-3 microsends max, but the entire call takes
@@ -1633,6 +1671,8 @@ bool SimControl::run_entities() {
                     cout << "Success execution time after one entity: " << successDuration.count() << endl;
                     successtot += successDuration.count();
                 }
+                stepIterDone = true;
+
                 auto stop = high_resolution_clock::now();
                 auto motionDuration = duration_cast<microseconds>(stop - start);               
                 cout << "Motion execution time after all entities: " << motionDuration.count() << endl;

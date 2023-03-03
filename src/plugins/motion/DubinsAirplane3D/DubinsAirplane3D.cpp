@@ -160,8 +160,8 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
 ///////////////////////////////////////////////////////////////////////////////////////
 // Trying one ode step function
 ///////////////////////////////////////////////////////////////////////////////////////
-bool DubinsAirplane3D::step(double t, double dt) {
-    std::cout << "In the regular step function" << std::endl;
+bool DubinsAirplane3D::offset_step(double t, double dt) {
+    std::cout << "In the offset step function" << std::endl;
 
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
@@ -281,7 +281,7 @@ bool DubinsAirplane3D::step(double t, double dt) {
 }
 
 bool DubinsAirplane3D::step(double t, double dt, vector_t odevect_) {
-    std::cout << "In the vector input step function" << std::endl;
+    std::cout << "In the vector offset applied for state change step function" << std::endl;
 
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
@@ -353,104 +353,99 @@ std::vector<double> DubinsAirplane3D::getOdeStepVal(){
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-// END trying one ode step function
-///////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////
 // Original ode step function
 ///////////////////////////////////////////////////////////////////////////////////////
-// bool DubinsAirplane3D::step(double t, double dt) {
-//     std::cout << "In the regular step function" << std::endl;
+bool DubinsAirplane3D::step(double t, double dt) {
+    std::cout << "In the original step function" << std::endl;
 
-//     // Get inputs and saturate
-//     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
-//     pitch_ = vars_.input(desired_pitch_idx_);
-//     roll_ = vars_.input(desired_roll_idx_);
+    // Get inputs and saturate
+    speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
+    pitch_ = vars_.input(desired_pitch_idx_);
+    roll_ = vars_.input(desired_roll_idx_);
 
-//     x_[Uw] = state_->vel()(0);
-//     x_[Vw] = state_->vel()(1);
-//     x_[Ww] = state_->vel()(2);
+    x_[Uw] = state_->vel()(0);
+    x_[Vw] = state_->vel()(1);
+    x_[Ww] = state_->vel()(2);
 
-//     x_[Xw] = state_->pos()(0);
-//     x_[Yw] = state_->pos()(1);
-//     x_[Zw] = state_->pos()(2);
+    x_[Xw] = state_->pos()(0);
+    x_[Yw] = state_->pos()(1);
+    x_[Zw] = state_->pos()(2);
 
-//     // state_->quat().normalize();
-//     state_->quat().set(roll_, pitch_, state_->quat().yaw());
-//     quat_local_ = state_->quat() * quat_world_inverse_;
-//     quat_local_.normalize();
-//     x_[q0] = quat_local_.w();
-//     x_[q1] = quat_local_.x();
-//     x_[q2] = quat_local_.y();
-//     x_[q3] = quat_local_.z();
+    // state_->quat().normalize();
+    state_->quat().set(roll_, pitch_, state_->quat().yaw());
+    quat_local_ = state_->quat() * quat_world_inverse_;
+    quat_local_.normalize();
+    x_[q0] = quat_local_.w();
+    x_[q1] = quat_local_.x();
+    x_[q2] = quat_local_.y();
+    x_[q3] = quat_local_.z();
 
-//     Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
-//     Eigen::Vector3d ext_moment_body = ext_moment_;
-//     ext_force_ = Eigen::Vector3d::Zero();
-//     ext_moment_ = Eigen::Vector3d::Zero();
+    Eigen::Vector3d force_body = quat_local_.rotate_reverse(ext_force_);
+    Eigen::Vector3d ext_moment_body = ext_moment_;
+    ext_force_ = Eigen::Vector3d::Zero();
+    ext_moment_ = Eigen::Vector3d::Zero();
 
-//     x_[U] = speed_ + force_body(0) / mass_;
-//     x_[V] = force_body(1) / mass_;
-//     x_[W] = force_body(2) / mass_;
+    x_[U] = speed_ + force_body(0) / mass_;
+    x_[V] = force_body(1) / mass_;
+    x_[W] = force_body(2) / mass_;
 
-//     double turn_rate = 0;
-//     if (std::abs(speed_) >= std::numeric_limits<double>::epsilon()) {
-//         turn_rate = -g_ / speed_ * tan(roll_);
-//     }
+    double turn_rate = 0;
+    if (std::abs(speed_) >= std::numeric_limits<double>::epsilon()) {
+        turn_rate = -g_ / speed_ * tan(roll_);
+    }
 
-//     x_[P] = ext_moment_body(0) / mass_;
-//     x_[Q] = ext_moment_body(1) / mass_;
-//     x_[R] = ext_moment_body(2) / mass_ + turn_rate;
+    x_[P] = ext_moment_body(0) / mass_;
+    x_[Q] = ext_moment_body(1) / mass_;
+    x_[R] = ext_moment_body(2) / mass_ + turn_rate;
 
-//     ode_step(dt);
+    ode_step(dt);
 
-//     // Normalize quaternion
-//     quat_local_.w() = x_[q0];
-//     quat_local_.x() = x_[q1];
-//     quat_local_.y() = x_[q2];
-//     quat_local_.z() = x_[q3];
-//     quat_local_.normalize();
+    // Normalize quaternion
+    quat_local_.w() = x_[q0];
+    quat_local_.x() = x_[q1];
+    quat_local_.y() = x_[q2];
+    quat_local_.z() = x_[q3];
+    quat_local_.normalize();
 
-//     x_[q0] = quat_local_.w();
-//     x_[q1] = quat_local_.x();
-//     x_[q2] = quat_local_.y();
-//     x_[q3] = quat_local_.z();
+    x_[q0] = quat_local_.w();
+    x_[q1] = quat_local_.x();
+    x_[q2] = quat_local_.y();
+    x_[q3] = quat_local_.z();
 
-//     Eigen::Vector3d vel_local(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d vel_local(x_[U], x_[V], x_[W]);
 
-//     // Convert local coordinates to world coordinates
-//     state_->quat() = quat_local_ * quat_world_;
-//     state_->quat().normalize();
-//     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
-//     state_->vel() << state_->quat().toRotationMatrix() * vel_local;
+    // Convert local coordinates to world coordinates
+    state_->quat() = quat_local_ * quat_world_;
+    state_->quat().normalize();
+    state_->pos() << x_[Xw], x_[Yw], x_[Zw];
+    state_->vel() << state_->quat().toRotationMatrix() * vel_local;
 
-//     speed_ = vel_local.norm();
+    speed_ = vel_local.norm();
 
-//     if (write_csv_) {
-//         // Log state to CSV
-//         csv_.append(sc::CSV::Pairs{
-//                 {"t", t},
-//                 {"x", x_[Xw]},
-//                 {"y", x_[Yw]},
-//                 {"z", x_[Zw]},
-//                 {"U", x_[U]},
-//                 {"V", x_[V]},
-//                 {"W", x_[W]},
-//                 {"P", x_[P]},
-//                 {"Q", x_[Q]},
-//                 {"R", x_[R]},
-//                 {"roll", state_->quat().roll()},
-//                 {"pitch", state_->quat().pitch()},
-//                 {"yaw", state_->quat().yaw()},
-//                 {"speed", speed_},
-//                 {"Uw", state_->vel()(0)},
-//                 {"Vw", state_->vel()(1)},
-//                 {"Ww", state_->vel()(2)}});
-//     }
+    if (write_csv_) {
+        // Log state to CSV
+        csv_.append(sc::CSV::Pairs{
+                {"t", t},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"speed", speed_},
+                {"Uw", state_->vel()(0)},
+                {"Vw", state_->vel()(1)},
+                {"Ww", state_->vel()(2)}});
+    }
 
-//     return true;
-// }
-
+    return true;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Only returning true to see how run-time differs

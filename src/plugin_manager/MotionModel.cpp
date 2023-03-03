@@ -47,8 +47,16 @@ bool MotionModel::init(std::map<std::string, std::string> &info, std::map<std::s
 { return false; }
 
 bool MotionModel::step(double time, double dt) { return true; }
-bool MotionModel::step(double time, double dt, int iteration) { return true; }
+
+///////////////////////////////////////////////////////////////////////////////////////
+// Natalie's step functions
+///////////////////////////////////////////////////////////////////////////////////////
+
+bool MotionModel::offset_step(double time, double dt){ return true; }
 bool MotionModel::step(double time, double dt, vector_t odevect) { return true; }
+bool MotionModel::step(double time, double dt, int iteration) { return true; } // Can be deleted, not being used
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 std::vector<double> MotionModel::getOdeStepVal() { return odeVal_;}
 

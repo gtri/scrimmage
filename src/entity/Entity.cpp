@@ -280,6 +280,9 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_name("BLANK");
     }
 
+    // Tracking ode steps called, intialize to 0
+    stepsCalled = 0;
+
     ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
@@ -466,6 +469,20 @@ bool Entity::init(AttributeMap &overrides,
     }
     return true;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+// Tracking ode step calls
+///////////////////////////////////////////////////////////////////////////////////////
+
+void Entity::incrementSteps(){
+    stepsCalled++;
+}
+
+int Entity::get_stepsCalled(){
+    return stepsCalled;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 bool Entity::parse_visual(std::map<std::string, std::string> &info,
                           MissionParsePtr mp,
