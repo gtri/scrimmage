@@ -1572,7 +1572,6 @@ bool SimControl::run_entities() {
                 for (EntityPtr &ent : ents_) {
                     //Tracks which entity we are on for the if statement
                     entTracker++; //Not a good method for multiple teams, need to figure something else out. All teams are part of ents_
-                    cout << "Entity id is: " << ent->id().id() << endl; // id#, ent_desc_id#, team id#
 
                     // Tracks which entity is the first entity for a given team
                     if(!stepIterDone && (ent_desc_to_id_map.count(ent->id().sub_swarm_id())==0)){

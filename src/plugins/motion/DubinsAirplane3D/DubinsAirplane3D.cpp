@@ -87,8 +87,6 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch, VariableIO::Direction::In);
     desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
     
-    std::cout << "Resizing the odeval vector" << std::endl;
-
     x_.resize(MODEL_NUM_ITEMS);
     odeVal_.resize(MODEL_NUM_ITEMS); // I had this set to 9 because I thought it was related to the number of doubles in the vector... but that was causing memory chunk control structure fields in the adjacent following chunk are being overwritten due to out-of-bounds access by the code
     Eigen::Vector3d &pos = state_->pos();
@@ -99,7 +97,6 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     quat_world_inverse_.normalize();
 
     //Initializing odeVal_ vector
-    std::cout << "Initializing the odeval vector" << std::endl;
     odeVal_[q0] = 0;
     odeVal_[q1] = 0;
     odeVal_[q2] = 0;
@@ -112,7 +109,6 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     odeVal_[Xw] = 0;
     odeVal_[Yw] = 0;
     odeVal_[Zw] = 0;
-    std::cout << "Did the odeval vector cause it to die?" << std::endl;
 
     x_[U] = 0;
     x_[V] = 0;
@@ -161,8 +157,6 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
 // Trying one ode step function
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DubinsAirplane3D::offset_step(double t, double dt) {
-    std::cout << "In the offset step function" << std::endl;
-
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
     pitch_ = vars_.input(desired_pitch_idx_);
@@ -281,8 +275,6 @@ bool DubinsAirplane3D::offset_step(double t, double dt) {
 }
 
 bool DubinsAirplane3D::step(double t, double dt, vector_t odevect_) {
-    std::cout << "In the vector offset applied for state change step function" << std::endl;
-
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
     pitch_ = vars_.input(desired_pitch_idx_);
@@ -356,8 +348,6 @@ std::vector<double> DubinsAirplane3D::getOdeStepVal(){
 // Original ode step function
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DubinsAirplane3D::step(double t, double dt) {
-    std::cout << "In the original step function" << std::endl;
-
     // Get inputs and saturate
     speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
     pitch_ = vars_.input(desired_pitch_idx_);
@@ -624,7 +614,6 @@ bool DubinsAirplane3D::step(double t, double dt, int iteration) {
     
     // Get inputs and saturate
     if(iteration == 1){
-        std::cout << "In the first iteration" << std::endl;
         speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
         pitch_ = vars_.input(desired_pitch_idx_);
         roll_ = vars_.input(desired_roll_idx_);

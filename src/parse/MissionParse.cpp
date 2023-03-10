@@ -532,8 +532,6 @@ bool MissionParse::parse(const std::string &filename) {
             }
             script_info[nm] = node->value();
 
-            cout << "Natalie, the node name is: " << nm << endl;
-
             // Loop through each node's attributes:
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
@@ -542,12 +540,9 @@ bool MissionParse::parse(const std::string &filename) {
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
-                        cout << "Natalie kv second: " << kv.second << endl;
                     }
                 } else {
                     entity_attributes_[ent_desc_id][nm][attr_name] = attr->value();
-                    cout << "natalie ent_desc_id: " << ent_desc_id << " node name: " << nm << " attr_name: "
-                    << attr_name << " attr value: " << attr->value() << endl;
                 }
             }
         }
