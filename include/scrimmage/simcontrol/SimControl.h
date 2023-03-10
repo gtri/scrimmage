@@ -333,6 +333,8 @@ class SimControl {
     bool stepIterDone = false;
 
     std::map<int, std::vector<double>> ent_desc_to_ode_vector;
+
+    std::map<int, int> ent_id_to_ode_step;
     ///////////////////////////////////////////////////////////////////////////////////////
 
     InterfacePtr incoming_interface_;
