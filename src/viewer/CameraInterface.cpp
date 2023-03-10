@@ -43,7 +43,7 @@ CameraInterface *CameraInterface::New() {
     return cb;
 }
 
-void CameraInterface::OnKeyPress() {
+void CameraInterface::OnKeyPress() { // Natalie - add key here for undoing
     // Get the keypress
     vtkRenderWindowInteractor *rwi = this->Interactor;
     std::string key = rwi->GetKeySym();
@@ -57,6 +57,8 @@ void CameraInterface::OnKeyPress() {
         updater_->dec_follow();
     } else if (key == "a") {
         updater_->next_mode();
+    } else if (key == "u") { // Natalie - added this key for undoing camera change
+        updater_->undo_camera(); // Natalie - need a new function here for undoing camera changes
     } else if (key == "c") {
         updater_->request_cached();
     } else if (key == "t") {
@@ -102,11 +104,18 @@ void CameraInterface::OnKeyPress() {
 }
 
 void CameraInterface::Rotate() {
+    cout << "In rotate..." << endl;
     updater_->update();
     vtkInteractorStyleTrackballCamera::Rotate();
 }
 
 void CameraInterface::OnLeftButtonDown() {
+    // Natalie - this is called whenever the mouse is clicked. This implies rotate is being called, so do
+    // not need to save the state from the rotate interface, instead just from this function
+
+    cout << "In left button down..." << endl;
+    updater_->track_camera_pos();
+
     if (enable_object_draw_) {
         this->Interactor->GetPicker()->Pick(this->Interactor->GetEventPosition()[0],
                                             this->Interactor->GetEventPosition()[1],
@@ -121,15 +130,21 @@ void CameraInterface::OnLeftButtonDown() {
 }
 
 void CameraInterface::OnLeftButtonUp() {
+    cout << "In left button up..." << endl;
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
 }
 
 void CameraInterface::Pan() {
+    // Natalie - this is called when the scroll button is toggled, will need to save the state from this
+    cout << "In pan..." << endl;
+    updater_->track_camera_pos();
+
     updater_->update();
     vtkInteractorStyleTrackballCamera::Pan();
 }
 
 void CameraInterface::Dolly() {
+    cout << "In dolly..." << endl;
     updater_->update();
     vtkInteractorStyleTrackballCamera::Dolly();
 }
