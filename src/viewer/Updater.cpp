@@ -799,6 +799,8 @@ void Updater::track_camera_pos() { // Natalie - free and follow have positions t
     camera_pos_tracker.push_back(y_pos_fp);
     camera_pos_tracker.push_back(z_pos_fp);
 
+    camera_pos_tracker.push_back(renderer_->GetActiveCamera()->GetDistance());
+
     prev_camera_pos.push_back(camera_pos_tracker);
 }
 
@@ -824,11 +826,14 @@ void Updater::undo_camera() {
         double y_pos_fp = new_camera_pos[4];
         double z_pos_fp = new_camera_pos[5];
 
+        double dist = new_camera_pos[6];
+
         std::cout << "Camera position: " << camera_pos[0] << ", " << camera_pos[1] << ", " << camera_pos[2] << std::endl;
         std::cout << "Focal point: " << x_pos_fp << ", " << y_pos_fp << ", " << z_pos_fp << std::endl;
 
         renderer_->GetActiveCamera()->SetPosition(camera_pos);
         renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
+        renderer_->GetActiveCamera()->SetDistance(dist);
     }
 
 }
