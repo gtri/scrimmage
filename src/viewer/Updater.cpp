@@ -166,6 +166,9 @@ void Updater::init(const std::string &log_dir, double dt) {
     enable_fps();
     log_dir_ = log_dir;
     dt_ = dt;
+
+    // Natalie - init camera angle
+    track_camera_pos();
 }
 
 void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
@@ -742,29 +745,49 @@ void Updater::next_mode() {
 }
 
 void Updater::track_camera_pos() { // Natalie - free and follow have positions that you would want to return to
+    
+    // Apply transform... takes in a tranforms matrix
+
+    double currentPos[3];
+    renderer_->GetActiveCamera()->GetPosition(currentPos);
+    double currentFp[3];
+    renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
+    
     auto it = actor_contacts_.find(follow_id_);
     
-    double x_pos_fp = it->second->contact.state().position().x();
-    double y_pos_fp = it->second->contact.state().position().y();
-    double z_pos_fp = it->second->contact.state().position().z();
+    double x_pos_fp = currentFp[0]; // The issue with this is that the x y and z are for the entity... so when it goes to reset it is in reference to the 
+    double y_pos_fp = currentFp[1]; // entity's position and not the camera's position in the simulation... need to find another reference for camera
+    double z_pos_fp = currentFp[2]; // angle
 
     double camera_pos[3] {0, 0, 0};
+    camera_pos[0] = currentPos[0];
+    camera_pos[1] = currentPos[1];
+    camera_pos[2] = currentPos[2];
 
-    if(view_mode_ == ViewMode::FREE) {
-        camera_pos[0] = camera_reset_params_.pos_x;
-        camera_pos[1] = camera_reset_params_.pos_y;
-        camera_pos[2] = camera_reset_params_.pos_z;
-    } else if(view_mode_ == ViewMode::FOLLOW){
-        Eigen::Vector3d rel_cam_pos = follow_vec_.normalized() * follow_offset_;
-        Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
+    // if(view_mode_ == ViewMode::FREE) {
+    //     std::cout << "In free view mode." << std::endl;
 
-        Eigen::Vector3d pos = Eigen::Vector3d(x_pos_fp, y_pos_fp, z_pos_fp) +
-            unit_vector * rel_cam_pos.norm();
+    //     camera_pos[0] = currentPos[0];
+    //     camera_pos[1] = currentPos[1];
+    //     camera_pos[2] = currentPos[2];
+    // } else if(view_mode_ == ViewMode::FOLLOW){
+    //     Eigen::Vector3d rel_cam_pos = follow_vec_.normalized() * follow_offset_;
+    //     Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
 
-        camera_pos[0] = pos[0];
-        camera_pos[1] = pos[1];
-        camera_pos[2] = pos[2];
-    }
+    //     Eigen::Vector3d pos = Eigen::Vector3d(x_pos_fp, y_pos_fp, z_pos_fp) +
+    //         unit_vector * rel_cam_pos.norm();
+
+    //     camera_pos[0] = pos[0];
+    //     camera_pos[1] = pos[1];
+    //     camera_pos[2] = pos[2];
+    // }
+
+    std::cout << "Camera position: " << camera_pos[0] << ", " << camera_pos[1] << ", " << camera_pos[2] << std::endl;
+    std::cout << "Focal point: " << currentFp[0] << ", " << currentFp[1] << ", " << currentFp[2] << std::endl;
+    //std::cout << "View angle: " << renderer_->GetActiveCamera()->GetViewAngle() << std::endl; // Not used for zooming
+    //std::cout << "Roll angle: " << renderer_->GetActiveCamera()->GetRoll() << std::endl; // I dont think this helped either
+    std::cout << "Get view up: " << renderer_->GetActiveCamera()->GetViewUp()[0] << ", " << renderer_->GetActiveCamera()->GetViewUp()[1] 
+    << ", " << renderer_->GetActiveCamera()->GetViewUp()[2] << std::endl; // Seemed to mess with the view angle a bit
 
     std::vector<double> camera_pos_tracker;
 
@@ -800,6 +823,9 @@ void Updater::undo_camera() {
         double x_pos_fp = new_camera_pos[3];
         double y_pos_fp = new_camera_pos[4];
         double z_pos_fp = new_camera_pos[5];
+
+        std::cout << "Camera position: " << camera_pos[0] << ", " << camera_pos[1] << ", " << camera_pos[2] << std::endl;
+        std::cout << "Focal point: " << x_pos_fp << ", " << y_pos_fp << ", " << z_pos_fp << std::endl;
 
         renderer_->GetActiveCamera()->SetPosition(camera_pos);
         renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
@@ -1495,6 +1521,7 @@ void Updater::world_point_clicked(const double &x, const double &y,
     sc::set(msg.mutable_point(), x, y, z);
     msg.set_name("WorldPointClicked");
     outgoing_interface_->send_world_point_clicked_msg(msg);
+    std::cout << "World point clicked: (" << x << ","<< y << "," << z << ")" << std::endl;
 }
 
 void Updater::toggle_helpmenu() {
