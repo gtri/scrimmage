@@ -776,7 +776,7 @@ void Updater::track_camera_pos() {
 void Updater::undo_camera() {
     if(prev_camera_pos.size() < 2) {
         std::cout << "No previous state to return to..." << std::endl;
-        return; // There is not a previous state to return to, so do nothing
+        return;
     } else {
         std::vector<double> new_camera_pos;
 

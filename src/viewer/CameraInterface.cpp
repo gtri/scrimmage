@@ -127,8 +127,12 @@ void CameraInterface::OnLeftButtonUp() {
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
 }
 
-void CameraInterface::Pan() {
+void CameraInterface::OnMiddleButtonUp() {
     updater_->track_camera_pos();
+    vtkInteractorStyleTrackballCamera::OnMiddleButtonUp();
+}
+
+void CameraInterface::Pan() {
     updater_->update();
     vtkInteractorStyleTrackballCamera::Pan();
 }
