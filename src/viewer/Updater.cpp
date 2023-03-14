@@ -739,7 +739,7 @@ void Updater::next_mode() {
 }
 
 void Updater::track_camera_pos() { 
-    // Camera cannot be updated when OFFSET or FPV view modes
+    // Camera cannot be updated for OFFSET or FPV view modes
     if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV)) {
         return;
     }
@@ -747,7 +747,7 @@ void Updater::track_camera_pos() {
     // If in FREE or FOLLOW view modes, save the current position and focal point
     double currentPos[3];
     renderer_->GetActiveCamera()->GetPosition(currentPos);
-    
+
     double currentFp[3];
     renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
         
