@@ -167,7 +167,6 @@ void Updater::init(const std::string &log_dir, double dt) {
     log_dir_ = log_dir;
     dt_ = dt;
 
-    // Natalie - init camera angle
     track_camera_pos();
 }
 
@@ -608,13 +607,13 @@ bool Updater::update_camera() {
             return true;
         }
     } else {
-        if (view_mode_ == ViewMode::OFFSET) { // Natalie - do not need offset because you can't really move the camera
+        if (view_mode_ == ViewMode::OFFSET) { 
             camera_pos[0] = x_pos + 0.0;
             camera_pos[1] = y_pos - 6.0;
             camera_pos[2] = z_pos + 2.0;
         } else if (view_mode_ == ViewMode::FOLLOW) {
 
-            if (view_mode_prev_ == ViewMode::FOLLOW) { // Natalie - with follow you can left click but you cannot pan
+            if (view_mode_prev_ == ViewMode::FOLLOW) {
                 double currentPos[3];
                 renderer_->GetActiveCamera()->GetPosition(currentPos);
                 double currentFp[3];
@@ -641,7 +640,7 @@ bool Updater::update_camera() {
             Eigen::Vector3d z_axis(0, 0, 1);
             renderer_->GetActiveCamera()->SetViewUp(z_axis(0), z_axis(1), z_axis(2));
 
-        } else if (view_mode_ == ViewMode::FPV) { // Natalie - do not need FPV because you can't really move the camera
+        } else if (view_mode_ == ViewMode::FPV) { 
             sp::Quaternion sp_quat = it->second->contact.state().orientation();
             sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
 
@@ -673,8 +672,6 @@ bool Updater::update_camera() {
     renderer_->GetActiveCamera()->SetPosition(camera_pos);
     renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
     renderer_->ResetCameraClippingRange(); // fixes missing terrain/entity issue
-
-    std::cout << "New camera angle: " << camera_pos << endl; // Natalie -
 
     return true;
 }
@@ -744,50 +741,25 @@ void Updater::next_mode() {
     }
 }
 
-void Updater::track_camera_pos() { // Natalie - free and follow have positions that you would want to return to
-    
-    // Apply transform... takes in a tranforms matrix
-
+void Updater::track_camera_pos() { 
     double currentPos[3];
     renderer_->GetActiveCamera()->GetPosition(currentPos);
     double currentFp[3];
     renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
-    
-    auto it = actor_contacts_.find(follow_id_);
-    
-    double x_pos_fp = currentFp[0]; // The issue with this is that the x y and z are for the entity... so when it goes to reset it is in reference to the 
-    double y_pos_fp = currentFp[1]; // entity's position and not the camera's position in the simulation... need to find another reference for camera
-    double z_pos_fp = currentFp[2]; // angle
-
+        
     double camera_pos[3] {0, 0, 0};
     camera_pos[0] = currentPos[0];
     camera_pos[1] = currentPos[1];
     camera_pos[2] = currentPos[2];
 
-    // if(view_mode_ == ViewMode::FREE) {
-    //     std::cout << "In free view mode." << std::endl;
+    double x_pos_fp = currentFp[0];  
+    double y_pos_fp = currentFp[1]; 
+    double z_pos_fp = currentFp[2]; 
 
-    //     camera_pos[0] = currentPos[0];
-    //     camera_pos[1] = currentPos[1];
-    //     camera_pos[2] = currentPos[2];
-    // } else if(view_mode_ == ViewMode::FOLLOW){
-    //     Eigen::Vector3d rel_cam_pos = follow_vec_.normalized() * follow_offset_;
-    //     Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
-
-    //     Eigen::Vector3d pos = Eigen::Vector3d(x_pos_fp, y_pos_fp, z_pos_fp) +
-    //         unit_vector * rel_cam_pos.norm();
-
-    //     camera_pos[0] = pos[0];
-    //     camera_pos[1] = pos[1];
-    //     camera_pos[2] = pos[2];
-    // }
-
-    std::cout << "Camera position: " << camera_pos[0] << ", " << camera_pos[1] << ", " << camera_pos[2] << std::endl;
-    std::cout << "Focal point: " << currentFp[0] << ", " << currentFp[1] << ", " << currentFp[2] << std::endl;
-    //std::cout << "View angle: " << renderer_->GetActiveCamera()->GetViewAngle() << std::endl; // Not used for zooming
-    //std::cout << "Roll angle: " << renderer_->GetActiveCamera()->GetRoll() << std::endl; // I dont think this helped either
-    std::cout << "Get view up: " << renderer_->GetActiveCamera()->GetViewUp()[0] << ", " << renderer_->GetActiveCamera()->GetViewUp()[1] 
-    << ", " << renderer_->GetActiveCamera()->GetViewUp()[2] << std::endl; // Seemed to mess with the view angle a bit
+    if(view_mode_ == ViewMode::FOLLOW){
+        // Want to add an exception for if pan called this and in follow mode to not add to vector? This logic would
+        // probably be done in the camerainterface.cpp file.
+    }
 
     std::vector<double> camera_pos_tracker;
 
@@ -799,23 +771,14 @@ void Updater::track_camera_pos() { // Natalie - free and follow have positions t
     camera_pos_tracker.push_back(y_pos_fp);
     camera_pos_tracker.push_back(z_pos_fp);
 
-    camera_pos_tracker.push_back(renderer_->GetActiveCamera()->GetDistance());
-
     prev_camera_pos.push_back(camera_pos_tracker);
 }
 
 void Updater::undo_camera() {
-    // Natalie - set the camera pos to the previous position
-    // probably will want to use an array list where each state gets added and removed
-    // once the undo button is selected
-
-    //May need to have a case if there is nothing prev... check the size of the vector
     if(prev_camera_pos.size() < 2) {
         std::cout << "No previous state to return to..." << std::endl;
         return; // There is not a previous state to return to, so do nothing
     } else {
-        std::cout << "New camera position being set..." << std::endl;
-
         std::vector<double> new_camera_pos;
 
         prev_camera_pos.pop_back(); // Current position
@@ -826,16 +789,9 @@ void Updater::undo_camera() {
         double y_pos_fp = new_camera_pos[4];
         double z_pos_fp = new_camera_pos[5];
 
-        double dist = new_camera_pos[6];
-
-        std::cout << "Camera position: " << camera_pos[0] << ", " << camera_pos[1] << ", " << camera_pos[2] << std::endl;
-        std::cout << "Focal point: " << x_pos_fp << ", " << y_pos_fp << ", " << z_pos_fp << std::endl;
-
         renderer_->GetActiveCamera()->SetPosition(camera_pos);
         renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
-        renderer_->GetActiveCamera()->SetDistance(dist);
     }
-
 }
 
 bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm) {
@@ -1539,7 +1495,7 @@ void Updater::toggle_helpmenu() {
             << "space\n"
             << "a\n"
             << "A\n"
-            << "u\n" // Natalie - undo camera change
+            << "u\n"
             << "right/left arrows\n"
             << "[\n"
             << "]\n"
@@ -1557,13 +1513,13 @@ void Updater::toggle_helpmenu() {
             << "SHIFT + left click\n"
             << ";\n";
         helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
-        stream_helpvalues // Natalie - place to add new key for undoing camera changes
+        stream_helpvalues
             << ": quit\n"
             << ": pause/unpause\n"
             << ": step sim (paused only)\n"
             << ": cycle camera views\n"
             << ": free camera view\n"
-            << ": undo camera angle change\n" // Natalie - explanation of the undo
+            << ": undo camera angle change\n"
             << ": change aircraft\n"
             << ": decrease warp speed\n"
             << ": increase warp speed\n"
@@ -1648,7 +1604,7 @@ void Updater::set_show_fps(bool show_fps) {
 }
 
 void Updater::set_camera_reset_params(double pos_x, double pos_y, double pos_z,
-                                      double focal_x, double focal_y, double focal_z) { // Natalie - will most likely need to be called whenever the camera angle is changed, set to previous camera angle when a new one is established. 
+                                      double focal_x, double focal_y, double focal_z) { 
     camera_reset_params_.pos_x = pos_x;
     camera_reset_params_.pos_y = pos_y;
     camera_reset_params_.pos_z = pos_z;

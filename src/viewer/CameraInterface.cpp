@@ -43,7 +43,7 @@ CameraInterface *CameraInterface::New() {
     return cb;
 }
 
-void CameraInterface::OnKeyPress() { // Natalie - add key here for undoing
+void CameraInterface::OnKeyPress() {
     // Get the keypress
     vtkRenderWindowInteractor *rwi = this->Interactor;
     std::string key = rwi->GetKeySym();
@@ -57,8 +57,8 @@ void CameraInterface::OnKeyPress() { // Natalie - add key here for undoing
         updater_->dec_follow();
     } else if (key == "a") {
         updater_->next_mode();
-    } else if (key == "u") { // Natalie - added this key for undoing camera change
-        updater_->undo_camera(); // Natalie - need a new function here for undoing camera changes
+    } else if (key == "u") { 
+        updater_->undo_camera(); 
     } else if (key == "c") {
         updater_->request_cached();
     } else if (key == "t") {
@@ -109,7 +109,7 @@ void CameraInterface::Rotate() {
 }
 
 void CameraInterface::OnLeftButtonDown() {
-    if (enable_object_draw_) { // Natalie - this is not entered when changing the camera angle
+    if (enable_object_draw_) { 
         this->Interactor->GetPicker()->Pick(this->Interactor->GetEventPosition()[0],
                                             this->Interactor->GetEventPosition()[1],
                                             0,  // always zero.
@@ -123,14 +123,11 @@ void CameraInterface::OnLeftButtonDown() {
 }
 
 void CameraInterface::OnLeftButtonUp() {
-    // Natalie - this is called whenever the mouse is clicked. This implies rotate is being called, so do
-    // not need to save the state from the rotate interface, instead just from this function
     updater_->track_camera_pos();
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
 }
 
 void CameraInterface::Pan() {
-    // Natalie - this is called when the scroll button is toggled, will need to save the state from this
     updater_->track_camera_pos();
 
     updater_->update();

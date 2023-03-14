@@ -86,8 +86,6 @@ int main(int argc, char* argv[]) {
         camera_params["mode"] = "FREE";
     }
 
-    cout << "Camera parms pos count: " << camera_params.count("pos") << endl;
-
     auto mp = std::make_shared<sc::MissionParse>();
     mp->set_dt(1.0e-6);
     mp->set_log_dir("");
