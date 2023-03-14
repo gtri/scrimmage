@@ -85,7 +85,7 @@
     <name>uav_entity</name>
     <team_id>1</team_id>
     <color>77 77 255</color>
-    <count>${count=5}</count>
+    <count>${count=1}</count>
     <health>1</health>
     <radius>1</radius>
 
@@ -129,7 +129,7 @@
   <entity>
     <team_id>2</team_id>
     <color>255 0 0</color>
-    <count>0</count>
+    <count>30</count>
     <health>1</health>
     <radius>2</radius>
 
@@ -154,7 +154,9 @@
       <altitude>300</altitude>
       <radius>25</radius>
     </base>
-  </entity>  Entity that is generated during runtime by other plugins
+  </entity>
+
+  <!-- Entity that is generated during runtime by other plugins -->
   <entity tag="gen_straight">
     <count>0</count>
     <team_id>1</team_id>
