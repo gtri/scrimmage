@@ -739,8 +739,15 @@ void Updater::next_mode() {
 }
 
 void Updater::track_camera_pos() { 
+    // Camera cannot be updated when OFFSET or FPV view modes
+    if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV)) {
+        return;
+    }
+
+    // If in FREE or FOLLOW view modes, save the current position and focal point
     double currentPos[3];
     renderer_->GetActiveCamera()->GetPosition(currentPos);
+    
     double currentFp[3];
     renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
         
@@ -752,11 +759,6 @@ void Updater::track_camera_pos() {
     double x_pos_fp = currentFp[0];  
     double y_pos_fp = currentFp[1]; 
     double z_pos_fp = currentFp[2]; 
-
-    if(view_mode_ == ViewMode::FOLLOW){
-        // Want to add an exception for if pan called this and in follow mode to not add to vector? This logic would
-        // probably be done in the camerainterface.cpp file.
-    }
 
     std::vector<double> camera_pos_tracker;
 
@@ -772,16 +774,18 @@ void Updater::track_camera_pos() {
 }
 
 void Updater::undo_camera() {
-    if(prev_camera_pos.size() < 2) {
-        std::cout << "No previous state to return to..." << std::endl;
+    // Return with no update if the view modes are OFFSET or FPV or if there
+    // is no previous state to return to
+    if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV) || prev_camera_pos.size() < 2) {
         return;
     } else {
         std::vector<double> new_camera_pos;
 
-        prev_camera_pos.pop_back(); // Current position
-        new_camera_pos = prev_camera_pos.back(); // Previous position to revert to
+        prev_camera_pos.pop_back();
+        new_camera_pos = prev_camera_pos.back();
 
         double camera_pos[3] = {new_camera_pos[0], new_camera_pos[1], new_camera_pos[2]};
+
         double x_pos_fp = new_camera_pos[3];
         double y_pos_fp = new_camera_pos[4];
         double z_pos_fp = new_camera_pos[5];
