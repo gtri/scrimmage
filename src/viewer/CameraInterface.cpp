@@ -109,7 +109,7 @@ void CameraInterface::Rotate() {
 }
 
 void CameraInterface::OnLeftButtonDown() {
-    if (enable_object_draw_) { 
+    if (enable_object_draw_) {
         this->Interactor->GetPicker()->Pick(this->Interactor->GetEventPosition()[0],
                                             this->Interactor->GetEventPosition()[1],
                                             0,  // always zero.
@@ -129,7 +129,6 @@ void CameraInterface::OnLeftButtonUp() {
 
 void CameraInterface::Pan() {
     updater_->track_camera_pos();
-
     updater_->update();
     vtkInteractorStyleTrackballCamera::Pan();
 }

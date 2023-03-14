@@ -607,7 +607,7 @@ bool Updater::update_camera() {
             return true;
         }
     } else {
-        if (view_mode_ == ViewMode::OFFSET) { 
+        if (view_mode_ == ViewMode::OFFSET) {
             camera_pos[0] = x_pos + 0.0;
             camera_pos[1] = y_pos - 6.0;
             camera_pos[2] = z_pos + 2.0;
@@ -640,7 +640,7 @@ bool Updater::update_camera() {
             Eigen::Vector3d z_axis(0, 0, 1);
             renderer_->GetActiveCamera()->SetViewUp(z_axis(0), z_axis(1), z_axis(2));
 
-        } else if (view_mode_ == ViewMode::FPV) { 
+        } else if (view_mode_ == ViewMode::FPV) {
             sp::Quaternion sp_quat = it->second->contact.state().orientation();
             sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
 
@@ -672,7 +672,6 @@ bool Updater::update_camera() {
     renderer_->GetActiveCamera()->SetPosition(camera_pos);
     renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
     renderer_->ResetCameraClippingRange(); // fixes missing terrain/entity issue
-
     return true;
 }
 
@@ -1482,13 +1481,12 @@ void Updater::world_point_clicked(const double &x, const double &y,
     sc::set(msg.mutable_point(), x, y, z);
     msg.set_name("WorldPointClicked");
     outgoing_interface_->send_world_point_clicked_msg(msg);
-    std::cout << "World point clicked: (" << x << ","<< y << "," << z << ")" << std::endl;
 }
 
 void Updater::toggle_helpmenu() {
     std::stringstream stream_helpkeys, stream_helpvalues;
         show_helpmenu_ = !show_helpmenu_;
-    if (show_helpmenu_) { // Natalie - place to add new key for undoing camera changes
+    if (show_helpmenu_) {
         stream_helpkeys
             << "q\n"
             << "b\n"
@@ -1604,7 +1602,7 @@ void Updater::set_show_fps(bool show_fps) {
 }
 
 void Updater::set_camera_reset_params(double pos_x, double pos_y, double pos_z,
-                                      double focal_x, double focal_y, double focal_z) { 
+                                      double focal_x, double focal_y, double focal_z) {
     camera_reset_params_.pos_x = pos_x;
     camera_reset_params_.pos_y = pos_y;
     camera_reset_params_.pos_z = pos_z;

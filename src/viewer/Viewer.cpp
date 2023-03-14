@@ -108,9 +108,6 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
 }
 
 bool Viewer::run() {
-
-    std::cout << "In run..." << std::endl;
-
     double update_rate = 50; // Hz
 
     if (enable_network_) {

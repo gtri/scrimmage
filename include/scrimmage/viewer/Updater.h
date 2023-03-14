@@ -138,8 +138,8 @@ class Updater : public vtkCommand {
 
     void next_mode();
 
-    // Natalie - camera updates
     void undo_camera();
+    
     void track_camera_pos();
 
     void process_custom_key(std::string &key);
@@ -358,7 +358,6 @@ class Updater : public vtkCommand {
     double label_scale_ = 0.3;
     double init_scale_ = 1.0;
 
-    // Natalie - camera angle vector
     std::vector<std::vector<double>> prev_camera_pos; 
 };
 
