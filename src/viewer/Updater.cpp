@@ -166,8 +166,6 @@ void Updater::init(const std::string &log_dir, double dt) {
     enable_fps();
     log_dir_ = log_dir;
     dt_ = dt;
-
-    track_camera_pos();
 }
 
 void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
