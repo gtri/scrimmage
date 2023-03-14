@@ -283,11 +283,12 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
     if (it_params == mp_->entity_descriptions().end()) {
         return false;
     }
-    return generate_entity(ent_desc_id, it_params->second);
+    return generate_entity(ent_desc_id, it_params->second, 0);
 }
 
 bool SimControl::generate_entity(const int &ent_desc_id,
-                                 std::map<std::string, std::string> &params) {
+                                 std::map<std::string, std::string> &params,
+                                 int request_id) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
@@ -395,6 +396,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     auto msg = std::make_shared<Message<sm::EntityGenerated>>();
     msg->data.set_entity_id(ent->id().id());
+    msg->data.set_request_id(request_id);
     pub_ent_gen_->publish(msg);
 
     return true;
@@ -865,10 +867,13 @@ bool SimControl::start() {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
 
+        int request_id = 0;
+        request_id = msg->data.request_id();
+
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params)) {
+        if (not this->generate_entity(it_ent_desc_id->second, params, request_id)) {
             cout << "Failed to generate entity with tag: "
                  << msg->data.entity_tag() << endl;
             return;
