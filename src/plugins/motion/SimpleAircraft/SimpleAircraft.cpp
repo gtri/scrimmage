@@ -40,16 +40,12 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-#include <string>
-
 using boost::algorithm::clamp;
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft, SimpleAircraft_plugin)
 
 namespace scrimmage {
 namespace motion {
-
-using namespace std;
 
 enum ModelParams {
     X = 0,
@@ -121,15 +117,6 @@ bool SimpleAircraft::step(double time, double dt) {
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
     state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
-
-    if(parent()->id().id()==1)
-    {
-        cout << "In the motion controller step function: " << parent()->id().id() << endl; //should be able to go to the parent definition from here, but it is not loading at the moment
-        cout << "Current values for local: 1. " << x_[ROLL] << " 2. " << x_[PITCH] << " 3. " << x_[SPEED] << endl;
-        cout << "Local x, y, and z values: (" << state_->pos() << endl;
-        cout << "State quaternion values: " << state_->quat() << endl;
-        cout << "State velocities: " << state_->vel() << endl;
-    }
 
     return true;
 }
