@@ -865,6 +865,13 @@ bool SimControl::start() {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
 
+        for (auto const &pair: params){
+            cout << "Pair: " << pair.first << " : " << pair.second << endl;
+        }
+
+        cout << it_params->first << endl;
+        
+
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
