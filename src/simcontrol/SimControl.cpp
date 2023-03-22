@@ -867,10 +867,10 @@ bool SimControl::start() {
 
         for (auto const &pair: params){
             cout << "Pair: " << pair.first << " : " << pair.second << endl;
+            if(pair.first == "team_id")
+                cout << "Anything...: " << mp_->entity_attributes()[]["autonomy"][0] << endl;
         }
 
-        cout << it_params->first << endl;
-        
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
