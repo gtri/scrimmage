@@ -248,6 +248,12 @@ bool Straight::step_autonomy(double t, double dt) {
             kv_visual->set_key("visual_model");
             kv_visual->set_value("sphere");
 
+            // Natalie - testing updates for dynamic plugin params
+            auto autonomy_speed = msg->data.add_plugin_param();
+            autonomy_speed->set_key("autonomy0");
+            autonomy_speed->set_value("speed");
+            autonomy_speed->set_attr("100");
+
             pub_gen_ents_->publish(msg); // Publish the GenerateEntity message
         }
     }

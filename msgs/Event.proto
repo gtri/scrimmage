@@ -40,9 +40,16 @@ message KeyValuePair {
         string value = 2;
 }
 
+message KeyValueAttr {
+        string key = 1;
+        string value = 2;
+        string attr = 3;
+}
+
 message GenerateEntity {
         string entity_tag = 1;
         scrimmage_proto.State state = 2;
         repeated KeyValuePair entity_param = 3;
         int32 entity_id = 4;
+        repeated KeyValueAttr plugin_param = 5;
 }
