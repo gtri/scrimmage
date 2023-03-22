@@ -867,10 +867,18 @@ bool SimControl::start() {
 
         for (auto const &pair: params){
             cout << "Pair: " << pair.first << " : " << pair.second << endl;
-            if(pair.first == "team_id")
-                cout << "Anything...: " << mp_->entity_attributes()[]["autonomy"][0] << endl;
+            if(pair.first == "id")
+                cout << "Anything...: " << mp_->entity_attributes()[stoi(pair.second)]["motion_model"]["hello"] << endl; // does not let you use a number here for the [] after motion model for example, has to be a string..
         }
 
+        for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
+            for (auto const &inner: pair.second){
+                // 1. is the autonomy0, motion_model, etc.
+                // 2. is the flag name
+                // 3. is the value of the flag
+                cout << "1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
+            }
+        }
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
@@ -1558,6 +1566,7 @@ bool SimControl::run_entities() {
         success &= add_tasks(Task::Type::AUTONOMY, t_, dt_);
     } else {
         for (EntityPtr &ent : ents_) {
+            cout << "WHAT IS THIS " <<ent->id().sub_swarm_id() << endl;
             for (auto a : ent->autonomies()) {
                 success &= exec_step(a, [&](auto a){
                   return a->step_loop_timer(dt_) ?
