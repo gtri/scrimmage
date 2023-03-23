@@ -214,10 +214,12 @@ void Straight::init(std::map<std::string, std::string> &params) {
 }
 
 bool Straight::step_autonomy(double t, double dt) {
+
+    // Natalie - checking each individual entity's speed
+    std::cout << "Entity #" << this->parent()->id().id() << " speed: " << speed_ << std::endl;
+
     if (gen_ents_) {
-        std::cout << "Stepping autonomy" << std::endl;
         if (time_->t() > (prev_gen_time_ + 2.0)) {
-            std::cout << "Generating entity message" << std::endl;
             prev_gen_time_ = time_->t();
 
             // Create a state for the new entity

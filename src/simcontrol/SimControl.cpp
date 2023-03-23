@@ -867,36 +867,35 @@ bool SimControl::start() {
 
         int entityGroupId = 0;
         for (auto const &pair: params){
-            cout << "Pair: " << pair.first << " : " << pair.second << endl;
             if(pair.first == "id")
                 entityGroupId = stoi(pair.second);
                 //cout << "Anything...: " << mp_->entity_attributes()[stoi(pair.second)]["motion_model"]["hello"] << endl; // does not let you use a number here for the [] after motion model for example, has to be a string..
         }
         
-        for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
-            for (auto const &inner: pair.second){
-                // 1. is the autonomy0, motion_model, etc.
-                // 2. is the flag name
-                // 3. is the value of the flag
-                cout << "BEFORE 1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
-            }
-        }
+        // for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
+        //     for (auto const &inner: pair.second){
+        //         // 1. is the autonomy0, motion_model, etc.
+        //         // 2. is the flag name
+        //         // 3. is the value of the flag
+        //         cout << "BEFORE 1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
+        //     }
+        // }
 
         //AttributeMap plugin_attr_map = mp_->entity_attributes()[entityGroupId];
         for (int i = 0; i < msg->data.plugin_param().size(); i++){
-            //This line is my issue, because I am updating the value for all entities... really just want to update the value for the specific
-            //entity... 
+            //This actually works - validated by printing speeds of individual entities in the straight.cpp file; however, this changes
+            //the mp value for speed... so may want to find another way... not totally sure if this matters... tbd
             mp_->entity_attributes()[entityGroupId][msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
         }
 
-        for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
-            for (auto const &inner: pair.second){
-                // 1. is the autonomy0, motion_model, etc.
-                // 2. is the flag name
-                // 3. is the value of the flag
-                cout << "AFTER 1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
-            }
-        }
+        // for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
+        //     for (auto const &inner: pair.second){
+        //         // 1. is the autonomy0, motion_model, etc.
+        //         // 2. is the flag name
+        //         // 3. is the value of the flag
+        //         cout << "AFTER 1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
+        //     }
+        // }
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
@@ -1585,7 +1584,6 @@ bool SimControl::run_entities() {
     } else {
         int track = 1;
         for (EntityPtr &ent : ents_) {
-            cout << "Speed value for entity #" << track << ": " <<mp_->entity_attributes()[ent->id().sub_swarm_id()]["autonomy0"]["speed"] << endl;
             for (auto a : ent->autonomies()) {
                 success &= exec_step(a, [&](auto a){
                   return a->step_loop_timer(dt_) ?
