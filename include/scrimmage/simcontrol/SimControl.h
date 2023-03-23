@@ -206,13 +206,6 @@ class SimControl {
 
     /// @brief Generate an entity given the entity description ID.
     bool generate_entity(const int &ent_desc_id);
-
-    /**
-     * @brief Generate an entity given the entity description ID and
-     * parameters.
-     */
-    bool generate_entity(const int &ent_desc_id,
-                         std::map<std::string, std::string> &params);
    
     /**
      * @brief Generate an entity given the entity description ID,
