@@ -114,9 +114,10 @@ by adding an entity plugin key-value-attr block to the ``GenerateEntity`` messag
    autonomy_speed->set_tag_value("100")
 
 Here the ``plugin_type`` represents the type of plugin, like ``motion_model``, ``autonomy`` (Note the 
-autonomy plugin is read as ``autonomy0`` by the GUI), or ``controller``. The ``tag_name`` represents
-the plugin specific tag that should be updated, like ``speed`` for the Straight ``autonomy`` plugin.
-The ``tag_value`` represents the value of the corresponding plugin specific tag.
+autonomy plugin is referenced as ``autonomy#`` by the GUI, where ``autonomy0`` is the first instance
+and increments if there are multiple autonomy plugins in one entity), or ``controller``. The ``tag_name`` 
+represents the plugin specific tag that should be updated, like ``speed`` for the Straight ``autonomy`` 
+plugin. The ``tag_value`` represents the value of the corresponding plugin specific tag.
 
 The above change in the plugin parameter for the ``GenerateEntity`` message does not affect
 the stored parsed Mission XML plugin attribute value used by ``SimControl.cpp``. For example,
