@@ -82,6 +82,9 @@ class Straight : public scrimmage::Autonomy{
     PublisherPtr pub_gen_ents_;
     bool gen_ents_ = false;
     double prev_gen_time_ = -1.0;
+
+    // Remove after demo
+    int speedTrack = 0;
 };
 } // namespace autonomy
 } // namespace scrimmage

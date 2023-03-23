@@ -41,9 +41,9 @@ message KeyValuePair {
 }
 
 message KeyValueAttr {
-        string key = 1;
-        string value = 2;
-        string attr = 3;
+        string plugin_type = 1;
+        string tag_name = 2;
+        string tag_value = 3;
 }
 
 message GenerateEntity {

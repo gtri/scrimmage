@@ -871,7 +871,7 @@ bool SimControl::start() {
 
         AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
         for (int i = 0; i < msg->data.plugin_param().size(); i++){
-            plugin_attr_map[msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
+            plugin_attr_map[msg->data.plugin_param(i).plugin_type()][msg->data.plugin_param(i).tag_name()] = msg->data.plugin_param(i).tag_value();
         }
 
         // Recreate the rtree with one additional size for this entity.

@@ -253,9 +253,9 @@ bool Straight::step_autonomy(double t, double dt) {
             // Remove after demo
             if(speedTrack == 0){
                 auto autonomy_speed = msg->data.add_plugin_param();
-                autonomy_speed->set_key("autonomy0");
-                autonomy_speed->set_value("speed");
-                autonomy_speed->set_attr("100");
+                autonomy_speed->set_plugin_type("autonomy0");
+                autonomy_speed->set_tag_name("speed");
+                autonomy_speed->set_tag_value("100");
             }
             speedTrack++;
 
