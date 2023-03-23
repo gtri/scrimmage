@@ -219,7 +219,8 @@ bool Straight::step_autonomy(double t, double dt) {
     std::cout << "Entity #" << this->parent()->id().id() << " speed: " << speed_ << std::endl;
 
     if (gen_ents_) {
-        if (time_->t() > (prev_gen_time_ + 2.0)) {
+        //if (time_->t() > (prev_gen_time_ + 2.0)) {
+        if ((time_->t() > (prev_gen_time_ + 2.0)) && this->parent()->id().id() < 3) {
             prev_gen_time_ = time_->t();
 
             // Create a state for the new entity
@@ -251,11 +252,14 @@ bool Straight::step_autonomy(double t, double dt) {
             kv_visual->set_value("sphere");
 
             // Natalie - testing updates for dynamic plugin params
-            auto autonomy_speed = msg->data.add_plugin_param();
-            autonomy_speed->set_key("autonomy0");
-            autonomy_speed->set_value("speed");
-            autonomy_speed->set_attr("100");
-
+            if(speedTrack == 0){
+                auto autonomy_speed = msg->data.add_plugin_param();
+                autonomy_speed->set_key("autonomy0");
+                autonomy_speed->set_value("speed");
+                autonomy_speed->set_attr("100");
+            }
+            
+            speedTrack++;
             pub_gen_ents_->publish(msg); // Publish the GenerateEntity message
         }
     }

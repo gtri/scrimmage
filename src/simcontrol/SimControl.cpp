@@ -844,6 +844,14 @@ bool SimControl::start() {
 
         // Overwrite the vehicle's state in the "params" block
         std::map<std::string, std::string> params = it_params->second;
+
+        // Natalie - checking if params are added or are preset
+        //cout << "Same as id? #" << it_ent_desc_id->second << endl;
+
+        // for (auto const &pair: params){
+        //     cout << "Params: 1. " << pair.first << " 2. " << pair.second << endl;
+        // }
+
         params["x0"] = std::to_string(msg->data.state().position().x());
         params["y0"] = std::to_string(msg->data.state().position().y());
         params["z0"] = std::to_string(msg->data.state().position().z());
@@ -864,13 +872,6 @@ bool SimControl::start() {
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
-
-        int entityGroupId = 0;
-        for (auto const &pair: params){
-            if(pair.first == "id")
-                entityGroupId = stoi(pair.second);
-                //cout << "Anything...: " << mp_->entity_attributes()[stoi(pair.second)]["motion_model"]["hello"] << endl; // does not let you use a number here for the [] after motion model for example, has to be a string..
-        }
         
         // for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
         //     for (auto const &inner: pair.second){
@@ -881,11 +882,12 @@ bool SimControl::start() {
         //     }
         // }
 
-        //AttributeMap plugin_attr_map = mp_->entity_attributes()[entityGroupId];
+        AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
         for (int i = 0; i < msg->data.plugin_param().size(); i++){
             //This actually works - validated by printing speeds of individual entities in the straight.cpp file; however, this changes
             //the mp value for speed... so may want to find another way... not totally sure if this matters... tbd
-            mp_->entity_attributes()[entityGroupId][msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
+            //mp_->entity_attributes()[it_ent_desc_id->second][msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
+            plugin_attr_map[msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
         }
 
         // for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
