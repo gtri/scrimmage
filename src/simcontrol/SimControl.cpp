@@ -283,7 +283,8 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
     if (it_params == mp_->entity_descriptions().end()) {
         return false;
     }
-    //Natalie just add the plugin_param_map here
+
+    // Get the entity attributes for the given id
     AttributeMap plugin_attr_map = mp_->entity_attributes()[ent_desc_id];
 
     return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
@@ -870,22 +871,12 @@ bool SimControl::start() {
 
         AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
         for (int i = 0; i < msg->data.plugin_param().size(); i++){
-            //This actually works - validated by printing speeds of individual entities in the straight.cpp file; however, this changes
-            //the mp value for speed... so may want to find another way... not totally sure if this matters... tbd
-            //mp_->entity_attributes()[it_ent_desc_id->second][msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
             plugin_attr_map[msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
         }
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        // Natalie - need to create a new generate_entity function here that will take in the plugin_attr_map so that the mision xml
-        // file parse does not get overwritten by the generate entity pub messages
-        // if (not this->generate_entity(it_ent_desc_id->second, params)) {
-        //     cout << "Failed to generate entity with tag: "
-        //          << msg->data.entity_tag() << endl;
-        //     return;
-        // }
         if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
             cout << "Failed to generate entity with tag: "
                  << msg->data.entity_tag() << endl;
@@ -1568,7 +1559,6 @@ bool SimControl::run_entities() {
     if (entity_thread_types_.count(Task::Type::AUTONOMY)) {
         success &= add_tasks(Task::Type::AUTONOMY, t_, dt_);
     } else {
-        int track = 1;
         for (EntityPtr &ent : ents_) {
             for (auto a : ent->autonomies()) {
                 success &= exec_step(a, [&](auto a){
