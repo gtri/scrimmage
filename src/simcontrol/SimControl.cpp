@@ -286,6 +286,122 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
     return generate_entity(ent_desc_id, it_params->second);
 }
 
+//Need to add the attr_map as an argument here and pass that into the ent->init instead,
+//this will prevent the parsed mission values from being updated by generate entity messages
+bool SimControl::generate_entity(const int &ent_desc_id,
+                                 std::map<std::string, std::string> &params,
+                                 AttributeMap &plugin_attr_map) {
+#if ENABLE_JSBSIM == 1
+    params["JSBSIM_ROOT"] = jsbsim_root_;
+#endif
+    params["dt"] = std::to_string(dt_);
+    params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
+
+    double x0 = scrimmage::get("x0", params, 0.0);
+    double y0 = scrimmage::get("y0", params, 0.0);
+    double z0 = scrimmage::get("z0", params, 0.0);
+    double heading = scrimmage::get("heading", params, 0.0);
+
+    Eigen::Vector3d pos(x0, y0, z0);
+
+    auto gener = random_->gener();
+    NormDistribution x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
+    NormDistribution y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
+    NormDistribution z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
+    NormDistribution heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
+    params["heading"] = std::to_string(heading_normal_dist(*gener));
+
+    bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
+
+    // Use variance if a collision exists (This happens when you place <entity>
+    // tags" at the same location). Or, if use_variance_all_ents is specified
+    // as true in the entity block.
+    if (collision_exists(pos) || use_variance_all_ents) {
+        // Use the uniform distribution to place aircraft
+        // within the x/y variance
+        int ct = 0;
+        const int max_ct = 1e6;
+        bool reselect_pos = collision_exists(pos) || use_variance_all_ents;
+        while (ct++ < max_ct && !exit_ && reselect_pos) {
+            pos(0) = x_normal_dist(*gener);
+            pos(1) = y_normal_dist(*gener);
+            pos(2) = z_normal_dist(*gener);
+            reselect_pos = collision_exists(pos);
+        }
+
+        if (ct >= max_ct) {
+            cout << "----------------------------------" << endl;
+            cout << "ERROR: Having difficulty finding collision-free location for entity at: "
+                 << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
+                 << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
+            return false;
+        } else if (exit_) {
+            return false;
+        }
+    }
+
+    params["x"] = std::to_string(pos(0));
+    params["y"] = std::to_string(pos(1));
+    params["z"] = std::to_string(pos(2));
+
+    // Fill in the ent's lat/lon/alt value
+    double lat, lon, alt;
+    proj_->Reverse(pos(0), pos(1), pos(2), lat, lon, alt);
+    params["latitude"] = std::to_string(lat);
+    params["longitude"] = std::to_string(lon);
+    params["altitude"] = std::to_string(alt);
+
+    std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+    ent->set_random(random_);
+
+    contacts_mutex_.lock();
+
+    int id = find_available_id(params);
+
+    bool ent_status = ent->init(plugin_attr_map, params, id_to_team_map_,
+                                id_to_ent_map_,
+                                contacts_, mp_, proj_, id, ent_desc_id,
+                                plugin_manager_, file_search_, rtree_, pubsub_,
+                                printer_, time_, param_server_, global_services_,
+                                std::set<std::string>{},
+                                [](std::map<std::string, std::string>&){});
+    contacts_mutex_.unlock();
+
+    if (!ent_status) {
+        cout << "Failed to parse entity at start position: "
+             << "x=" << x0 << ", y=" << y0 << endl;
+        return false;
+    }
+
+    (*id_to_team_map_)[ent->id().id()] = ent->id().team_id();
+    (*id_to_ent_map_)[ent->id().id()] = ent;
+
+    contact_visuals_[ent->id().id()] = ent->contact_visual();
+
+    // Send the visual information to the viewer
+    outgoing_interface_->send_contact_visual(ent->contact_visual());
+    log_->save_contact_visual(ent->contact_visual());
+
+    // Store pointer to entities that aren't ready yet
+    if (!ent->ready()) {
+        not_ready_.push_back(ent);
+    }
+
+    ents_.push_back(ent);
+    rtree_->add(ent->state()->pos(), ent->id());
+    contacts_mutex_.lock();
+    (*contacts_)[ent->id().id()] =
+            Contact(ent->id(), ent->radius(), ent->state_truth(),
+                    ent->type(), ent->contact_visual(), ent->properties());
+    contacts_mutex_.unlock();
+
+    auto msg = std::make_shared<Message<sm::EntityGenerated>>();
+    msg->data.set_entity_id(ent->id().id());
+    pub_ent_gen_->publish(msg);
+
+    return true;
+}
+
 bool SimControl::generate_entity(const int &ent_desc_id,
                                  std::map<std::string, std::string> &params) {
 #if ENABLE_JSBSIM == 1
@@ -844,14 +960,6 @@ bool SimControl::start() {
 
         // Overwrite the vehicle's state in the "params" block
         std::map<std::string, std::string> params = it_params->second;
-
-        // Natalie - checking if params are added or are preset
-        //cout << "Same as id? #" << it_ent_desc_id->second << endl;
-
-        // for (auto const &pair: params){
-        //     cout << "Params: 1. " << pair.first << " 2. " << pair.second << endl;
-        // }
-
         params["x0"] = std::to_string(msg->data.state().position().x());
         params["y0"] = std::to_string(msg->data.state().position().y());
         params["z0"] = std::to_string(msg->data.state().position().z());
@@ -872,15 +980,6 @@ bool SimControl::start() {
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
-        
-        // for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
-        //     for (auto const &inner: pair.second){
-        //         // 1. is the autonomy0, motion_model, etc.
-        //         // 2. is the flag name
-        //         // 3. is the value of the flag
-        //         cout << "BEFORE 1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
-        //     }
-        // }
 
         AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
         for (int i = 0; i < msg->data.plugin_param().size(); i++){
@@ -890,19 +989,17 @@ bool SimControl::start() {
             plugin_attr_map[msg->data.plugin_param(i).key()][msg->data.plugin_param(i).value()] = msg->data.plugin_param(i).attr();
         }
 
-        // for (auto const &pair: mp_->entity_attributes()[0]){ // Here, 0 needs to be the id: # from the above params list
-        //     for (auto const &inner: pair.second){
-        //         // 1. is the autonomy0, motion_model, etc.
-        //         // 2. is the flag name
-        //         // 3. is the value of the flag
-        //         cout << "AFTER 1. " << pair.first << " 2. " << inner.first << " 3. " << inner.second << endl;
-        //     }
-        // }
-
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params)) {
+        // Natalie - need to create a new generate_entity function here that will take in the plugin_attr_map so that the mision xml
+        // file parse does not get overwritten by the generate entity pub messages
+        // if (not this->generate_entity(it_ent_desc_id->second, params)) {
+        //     cout << "Failed to generate entity with tag: "
+        //          << msg->data.entity_tag() << endl;
+        //     return;
+        // }
+        if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
             cout << "Failed to generate entity with tag: "
                  << msg->data.entity_tag() << endl;
             return;
