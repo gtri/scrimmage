@@ -206,7 +206,7 @@ class SimControl {
 
     /// @brief Generate an entity given the entity description ID.
     bool generate_entity(const int &ent_desc_id);
-   
+
     /**
      * @brief Generate an entity given the entity description ID,
      * parameters, and plugin specific params. This is utilized for
