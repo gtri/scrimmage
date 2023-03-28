@@ -214,12 +214,8 @@ void Straight::init(std::map<std::string, std::string> &params) {
 }
 
 bool Straight::step_autonomy(double t, double dt) {
-    // Remove after demo
-    std::cout << "Entity #" << this->parent()->id().id() << " speed: " << speed_ << std::endl;
-
     if (gen_ents_) {
-        //if (time_->t() > (prev_gen_time_ + 2.0)) {
-        if ((time_->t() > (prev_gen_time_ + 2.0)) && this->parent()->id().id() < 3) { // Revert after demo
+        if (time_->t() > (prev_gen_time_ + 2.0)) {
             prev_gen_time_ = time_->t();
 
             // Create a state for the new entity
@@ -249,15 +245,6 @@ bool Straight::step_autonomy(double t, double dt) {
             auto kv_visual = msg->data.add_entity_param();
             kv_visual->set_key("visual_model");
             kv_visual->set_value("sphere");
-
-            // Remove after demo
-            if(speedTrack == 0){
-                auto autonomy_speed = msg->data.add_plugin_param();
-                autonomy_speed->set_plugin_type("autonomy0");
-                autonomy_speed->set_tag_name("speed");
-                autonomy_speed->set_tag_value("100");
-            }
-            speedTrack++;
 
             pub_gen_ents_->publish(msg); // Publish the GenerateEntity message
         }
