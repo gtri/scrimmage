@@ -83,6 +83,8 @@ void MissionParse::set_overrides(const std::string &overrides) {
 bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = expand_user(filename);
 
+    //cout << "Natalie, filename: " << filename << " and the mission file name: " << mission_filename_ << endl;
+
     // First, explicitly search for the mission file.
     if (!fs::exists(mission_filename_)) {
         // If the file doesn't exist, search for the mission file under the
@@ -518,6 +520,103 @@ bool MissionParse::parse(const std::string &filename) {
              node = node->next_sibling()) {
 
             std::string nm = node->name();
+
+            /////////////////////////////////////////////////
+            /////////////////////////////////////////////////
+            // Plugin type: nm
+            // Plugin name: node->value()
+            // Plugin attribute name: attr->name()
+            // Plugin attribute value: attr->value()
+            // 
+            // Need to open the plugin specific xml file if it is one of the following
+            // plugins:
+            // - Autonomy
+            // - Controller
+            // - Motion model
+            // - ?
+            // 
+            // Starting with just the autonomy plugin, let's open that file...
+            if (nm == "autonomy"){
+                cout << "Natalie - in the autonomy file opener" << endl;    
+                std::string plugin_file = node->value() + std::string(".xml");
+                std::string plugin_filename_ = expand_user(plugin_file);
+
+                // First, explicitly search for the mission file.
+                if (!fs::exists(plugin_filename_)) {
+                    // If the file doesn't exist, search for the mission file under the
+                    // SCRIMMAGE_MISSION_PATH.
+                    FileSearch file_search;
+                    std::string result = "";
+
+                    std::string pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/" + nm + "/" + node->value();
+
+                    bool status = file_search.find_file(plugin_filename_, "xml",
+                                                        pluginxml_path,
+                                                        result, false);
+                    if (!status) {
+                        // The mission file wasn't found. Exit.
+                        cout << "SCRIMMAGE mission file not found: " << plugin_filename_ << endl;
+                        return false;
+                    }
+                    // The mission file was found, save its path.
+                    plugin_filename_ = result;
+                }
+
+                std::ifstream file(plugin_filename_.c_str());
+                if (!file.is_open()) {
+                    std::cout << "Failed to open mission file: " << plugin_filename_ << endl;
+                    return false;
+                }
+
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                mission_file_content_ = buffer.str();
+
+                // Search and replace any overrides of the form ${key=value} in the mission
+                // file
+                for (auto &kv : overrides_map_) {
+                    std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
+                    mission_file_content_ = std::regex_replace(mission_file_content_, reg,
+                                                            kv.second);
+                }
+
+                // Replace our xml variables of the form ${var=default} with the default
+                // value
+                std::string fmt{"$1"};
+                std::regex reg("\\$\\{.+?=(.+?)\\}");
+                mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
+
+                // Parse the xml tree.
+                rapidxml::xml_document<> doc;
+                // doc.parse requires a null terminated string that it can modify.
+                std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
+                mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
+                mission_file_content_vec.push_back('\0'); // shouldn't reallocate
+                try {
+                    // Note: This parse function can hard fail (seg fault, no exception) on
+                    //       badly formatted xml data. Sometimes it'll except, sometimes not.
+                    doc.parse<0>(mission_file_content_vec.data());
+                } catch (...) {
+                    cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+                    return false;
+                }
+
+                rapidxml::xml_node<> *params_node = doc.first_node("params");
+                if (params_node == 0) {
+                    cout << "Missing params tag." << endl;
+                    return false;
+                }
+
+                for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0;
+                node = node->next_sibling()){
+                    cout << "Natalie node name: " << node->name() << " and the value: " << node->value() << endl;
+                }
+
+             }
+            /////////////////////////////////////////////////
+            /////////////////////////////////////////////////
+
             if (nm == "autonomy") {
                 nm += std::to_string(autonomy_order++);
             } else if (nm == "controller") {
@@ -536,6 +635,7 @@ bool MissionParse::parse(const std::string &filename) {
                  attr; attr = attr->next_attribute()) {
 
                 const std::string attr_name = attr->name();
+
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
