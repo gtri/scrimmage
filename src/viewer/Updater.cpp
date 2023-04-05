@@ -738,6 +738,63 @@ void Updater::next_mode() {
     }
 }
 
+void Updater::track_camera_pos() { 
+    // Camera cannot be updated for OFFSET or FPV view modes
+    if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV)) {
+        return;
+    }
+
+    // If in FREE or FOLLOW view modes, save the current position and focal point
+    double currentPos[3];
+    renderer_->GetActiveCamera()->GetPosition(currentPos);
+
+    double currentFp[3];
+    renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
+        
+    double camera_pos[3] {0, 0, 0};
+    camera_pos[0] = currentPos[0];
+    camera_pos[1] = currentPos[1];
+    camera_pos[2] = currentPos[2];
+
+    double x_pos_fp = currentFp[0];  
+    double y_pos_fp = currentFp[1]; 
+    double z_pos_fp = currentFp[2]; 
+
+    std::vector<double> camera_pos_tracker;
+
+    camera_pos_tracker.push_back(camera_pos[0]);
+    camera_pos_tracker.push_back(camera_pos[1]);
+    camera_pos_tracker.push_back(camera_pos[2]);
+
+    camera_pos_tracker.push_back(x_pos_fp);
+    camera_pos_tracker.push_back(y_pos_fp);
+    camera_pos_tracker.push_back(z_pos_fp);
+
+    prev_camera_pos.push_back(camera_pos_tracker);
+}
+
+void Updater::undo_camera() {
+    // Return with no update if the view modes are OFFSET or FPV or if there
+    // is no previous state to return to
+    if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV) || prev_camera_pos.size() < 2) {
+        return;
+    } else {
+        std::vector<double> new_camera_pos;
+
+        prev_camera_pos.pop_back();
+        new_camera_pos = prev_camera_pos.back();
+
+        double camera_pos[3] = {new_camera_pos[0], new_camera_pos[1], new_camera_pos[2]};
+
+        double x_pos_fp = new_camera_pos[3];
+        double y_pos_fp = new_camera_pos[4];
+        double z_pos_fp = new_camera_pos[5];
+
+        renderer_->GetActiveCamera()->SetPosition(camera_pos);
+        renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
+    }
+}
+
 bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm) {
     // Reset the grid
     grid_->remove();
@@ -1438,6 +1495,7 @@ void Updater::toggle_helpmenu() {
             << "space\n"
             << "a\n"
             << "A\n"
+            << "u\n"
             << "right/left arrows\n"
             << "[\n"
             << "]\n"
@@ -1461,6 +1519,7 @@ void Updater::toggle_helpmenu() {
             << ": step sim (paused only)\n"
             << ": cycle camera views\n"
             << ": free camera view\n"
+            << ": undo camera angle change\n"
             << ": change aircraft\n"
             << ": decrease warp speed\n"
             << ": increase warp speed\n"
