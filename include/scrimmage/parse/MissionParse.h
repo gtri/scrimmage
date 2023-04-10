@@ -163,7 +163,6 @@ class MissionParse {
  protected:
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
-    std::string plugin_file_content_ = "";
     rapidxml::xml_document<> doc;
     
     double t0_ = 0;

@@ -84,8 +84,6 @@ void MissionParse::set_overrides(const std::string &overrides) {
 bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = expand_user(filename);
 
-    //cout << "Natalie, filename: " << filename << " and the mission file name: " << mission_filename_ << endl;
-
     // First, explicitly search for the mission file.
     if (!fs::exists(mission_filename_)) {
         // If the file doesn't exist, search for the mission file under the
@@ -130,7 +128,6 @@ bool MissionParse::parse(const std::string &filename) {
     mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
 
     // Parse the xml tree.
-    //rapidxml::xml_document<> doc;
     // doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
@@ -143,11 +140,6 @@ bool MissionParse::parse(const std::string &filename) {
         cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
         return false;
     }
-
-    // Natalie - this works for printing the document
-    std::string s;
-    rapidxml::print(std::back_inserter(s), doc, 0);
-    cout << s << endl;
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
     if (runscript_node == 0) {
@@ -247,6 +239,8 @@ bool MissionParse::parse(const std::string &filename) {
 
         std::string nm = node->name();
         if (nm != "entity" && nm != "base"  && nm != "entity_common" && nm != "param_common") {
+            cout << "Node name: " << nm << endl;
+            
             params_[nm] = node->value();
 
             rapidxml::xml_attribute<> *attr = node->first_attribute("name");
@@ -259,6 +253,98 @@ bool MissionParse::parse(const std::string &filename) {
             attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node->value();
             attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node->value();
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node->value();
+
+            // Ideally - need to make the following conditional a separate function since it is reused code
+
+            // Add plugin specific xml attributes and values to the plugin_spec_attrs map.
+            // These plugin specific values will be checked against the mission xml file's plugin
+            // attributes - adding them to the mission xml log file if they are not already included. 
+            // 
+            // Plugins that are not entity specific to check for:
+            // - entity_interaction
+            // - metrics
+            // - network
+            std::map<std::string, std::string> plugin_spec_attrs; 
+            if (nm == "metrics" || nm == "entity_interaction" || nm == "network"){
+                std::string plugin_file = node->value() + std::string(".xml");
+                std::string plugin_filename_ = expand_user(plugin_file);
+
+                // First, explicitly search for the mission file.
+                if (!fs::exists(plugin_filename_)) {
+                    // If the file doesn't exist, search for the mission file under the
+                    // SCRIMMAGE_MISSION_PATH.
+                    FileSearch file_search;
+                    std::string result = "";
+
+                    std::string pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/" + nm + "/" + node->value(); //This will need to be updated to the environment variable path
+                    if(nm=="entity_interaction"){
+                        std::string temp = node->value();
+                        pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/interaction/" + temp; //This will need to be updated to the environment variable path
+                    }
+
+                    bool status = file_search.find_file(plugin_filename_, "xml",
+                                                        pluginxml_path,
+                                                        result, false);
+                    if (!status) {
+                        // The mission file wasn't found. Exit.
+                        cout << "SCRIMMAGE mission file not found: " << plugin_filename_ << endl;
+                        return false;
+                    }
+                    // The mission file was found, save its path.
+                    plugin_filename_ = result;
+                }
+
+                std::ifstream file(plugin_filename_.c_str());
+                if (!file.is_open()) {
+                    std::cout << "Failed to open mission file: " << plugin_filename_ << endl;
+                    return false;
+                }
+
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                std::string plugin_file_content_ = buffer.str();
+
+                // Search and replace any overrides of the form ${key=value} in the mission
+                // file
+                for (auto &kv : overrides_map_) {
+                    std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
+                    plugin_file_content_ = std::regex_replace(plugin_file_content_, reg,
+                                                            kv.second);
+                }
+
+                // Replace our xml variables of the form ${var=default} with the default
+                // value
+                std::string fmt{"$1"};
+                std::regex reg("\\$\\{.+?=(.+?)\\}");
+                plugin_file_content_ = std::regex_replace(plugin_file_content_, reg, fmt);
+
+                // Parse the xml tree.
+                rapidxml::xml_document<> plugin_doc;
+                // doc.parse requires a null terminated string that it can modify.
+                std::vector<char> plugin_file_content_vec(plugin_file_content_.size() + 1); // allocation done here
+                plugin_file_content_vec.assign(plugin_file_content_.begin(), plugin_file_content_.end()); // copy
+                plugin_file_content_vec.push_back('\0'); // shouldn't reallocate
+                try {
+                    // Note: This parse function can hard fail (seg fault, no exception) on
+                    //       badly formatted xml data. Sometimes it'll except, sometimes not.
+                    plugin_doc.parse<0>(plugin_file_content_vec.data());
+                } catch (...) {
+                    cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+                    return false;
+                }
+
+                rapidxml::xml_node<> *params_node = plugin_doc.first_node("params");
+                if (params_node == 0) {
+                    cout << "Missing params tag." << endl;
+                    return false;
+                }
+
+                for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0; node = node->next_sibling()){
+                    plugin_spec_attrs.insert({node->name(), node->value()});
+                }
+             }
+
 
             // Loop through each node's attributes:
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
@@ -275,10 +361,35 @@ bool MissionParse::parse(const std::string &filename) {
                     attributes_[nm2][attr->name()] = attr->value();
                     attributes_[nm3][attr->name()] = attr->value();
                     attributes_[nm4][attr->name()] = attr->value();
+
+                    // If the plugin xml attribute already exists in the mission xml,
+                    // remove it from the map
+                    if (plugin_spec_attrs[attr->name()]!=""){
+                        plugin_spec_attrs.erase(attr->name());
+                    }
                 }
+
+                // Natalie - loops through the map of plugin specific params and allocate them to the doc
             }
+
+            // Add plugin specific xml attributes and values to the mission xml
+            for(std::map<std::string,std::string>::iterator mapitr=plugin_spec_attrs.begin(); mapitr!=plugin_spec_attrs.end(); ++mapitr){
+                char *attribute_name = doc.allocate_string(mapitr->first.c_str());
+                char *attribute_value = doc.allocate_string(mapitr->second.c_str());
+                rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                node->append_attribute(tempattr);
+            }
+
+            // Update the mission plugin file string with the new doc
         }
     }
+    
+    //I don't think this is needed....because it is done later... check this
+    // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
+    // Note - this only updates entity specific plugins... need to add for non-entity specific plugins next
+    std::string s;
+    rapidxml::print(std::back_inserter(s), doc, 0);
+    mission_file_content_ = s;
 
     // Save background color:
     bool bg_color_result = false;
@@ -527,24 +638,22 @@ bool MissionParse::parse(const std::string &filename) {
 
             std::string nm = node->name();
 
-            std::map<std::string, std::string> plugin_spec_attrs; 
-            /////////////////////////////////////////////////
-            /////////////////////////////////////////////////
-            // Plugin type: nm
-            // Plugin name: node->value()
-            // Plugin attribute name: attr->name()
-            // Plugin attribute value: attr->value()
-            // 
+            // Add plugin specific xml attributes and values to the plugin_spec_attrs map.
+            // These plugin specific values will be checked against the mission xml file's plugin
+            // attributes - adding them to the mission xml log file if they are not already included. 
             // Need to open the plugin specific xml file if it is one of the following
             // plugins:
             // - Autonomy
             // - Controller
             // - Motion model
-            // - ?
+            // - Sensor
             // 
-            // Starting with just the autonomy plugin, let's open that file...
-            if (nm == "autonomy"){
-                cout << "Natalie - in the autonomy file opener" << endl;    
+            // plugins that are not entity specific to check for:
+            // - entity_interaction
+            // - metrics
+            // - network
+            std::map<std::string, std::string> plugin_spec_attrs; 
+            if (nm == "autonomy" || nm == "controller" || nm == "motion_model" || nm == "sensor"){
                 std::string plugin_file = node->value() + std::string(".xml");
                 std::string plugin_filename_ = expand_user(plugin_file);
 
@@ -555,7 +664,11 @@ bool MissionParse::parse(const std::string &filename) {
                     FileSearch file_search;
                     std::string result = "";
 
-                    std::string pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/" + nm + "/" + node->value();
+                    std::string pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/" + nm + "/" + node->value(); //This will need to be updated to the environment variable path
+                    if(nm=="motion_model"){
+                        std::string temp = node->value();
+                        pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/motion/" + temp; //This will need to be updated to the environment variable path
+                    }
 
                     bool status = file_search.find_file(plugin_filename_, "xml",
                                                         pluginxml_path,
@@ -578,7 +691,7 @@ bool MissionParse::parse(const std::string &filename) {
                 std::stringstream buffer;
                 buffer << file.rdbuf();
                 file.close();
-                plugin_file_content_ = buffer.str();
+                std::string plugin_file_content_ = buffer.str();
 
                 // Search and replace any overrides of the form ${key=value} in the mission
                 // file
@@ -615,15 +728,10 @@ bool MissionParse::parse(const std::string &filename) {
                     return false;
                 }
 
-                for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0;
-                node = node->next_sibling()){
+                for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0; node = node->next_sibling()){
                     plugin_spec_attrs.insert({node->name(), node->value()});
-                    cout << "Natalie node name: " << typeid(node->name()).name() << " and the value: " << node->value() << endl;
                 }
-
              }
-            /////////////////////////////////////////////////
-            /////////////////////////////////////////////////
 
             if (nm == "autonomy") {
                 nm += std::to_string(autonomy_order++);
@@ -643,33 +751,33 @@ bool MissionParse::parse(const std::string &filename) {
                  attr; attr = attr->next_attribute()) {
 
                 const std::string attr_name = attr->name();
-
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
                     }
                 } else {
+                    // If the plugin xml attribute already exists in the mission xml,
+                    // remove it from the map
                     if (plugin_spec_attrs[attr->name()]!=""){
-                        cout << "The key is specified in the mission xml file, so delete it from the map." << endl;
                         plugin_spec_attrs.erase(attr->name());
                     }
                     entity_attributes_[ent_desc_id][nm][attr_name] = attr->value();
                 }
             }
 
+            // Add plugin specific xml attributes and values to the mission xml
             for(std::map<std::string,std::string>::iterator mapitr=plugin_spec_attrs.begin(); mapitr!=plugin_spec_attrs.end(); ++mapitr){
-                cout << "Natalie adding new lines to plugin: 1. " << mapitr->first << " 2. " << mapitr->second << endl;
-                //rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute((mapitr->first).c_str(), (mapitr->second).c_str());
                 char *attribute_name = doc.allocate_string(mapitr->first.c_str());
                 char *attribute_value = doc.allocate_string(mapitr->second.c_str());
                 rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
                 node->append_attribute(tempattr);
             }
 
-            // Natalie - this works for printing the document
+            // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
+            // Note - this only updates entity specific plugins... need to add for non-entity specific plugins next
              std::string s;
              rapidxml::print(std::back_inserter(s), doc, 0);
-             cout << s << endl;
+             mission_file_content_ = s;
         }
         
         // For each entity, if the lat/lon are defined, use these values to
