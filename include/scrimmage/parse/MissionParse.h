@@ -47,6 +47,8 @@
 #include <string>
 #include <set>
 
+#include <rapidxml/rapidxml.hpp>
+
 namespace sp = scrimmage_proto;
 
 namespace scrimmage {
@@ -161,7 +163,9 @@ class MissionParse {
  protected:
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
-
+    std::string plugin_file_content_ = "";
+    rapidxml::xml_document<> doc;
+    
     double t0_ = 0;
     double tend_ = 50;
     double dt_ = 0.00833333;
