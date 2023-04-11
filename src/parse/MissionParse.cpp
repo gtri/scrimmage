@@ -240,7 +240,7 @@ bool MissionParse::parse(const std::string &filename) {
         // Clear the map so other plugins do not utilize the values
         plugin_spec_attrs.clear();
         std::string nm = node->name();
-        if (nm != "entity" && nm != "base"  && nm != "entity_common" && nm != "param_common") {            
+        if (nm != "entity" && nm != "base"  && nm != "entity_common" && nm != "param_common") {
             params_[nm] = node->value();
 
             rapidxml::xml_attribute<> *attr = node->first_attribute("name");
@@ -283,14 +283,11 @@ bool MissionParse::parse(const std::string &filename) {
                     attributes_[nm3][attr->name()] = attr->value();
                     attributes_[nm4][attr->name()] = attr->value();
 
-                    // If the plugin xml attribute already exists in the mission xml,
-                    // remove it from the map
+                    // If the plugin xml attribute already exists in the mission xml, remove it from the map
                     if (plugin_spec_attrs[attr->name()]!=""){
                         plugin_spec_attrs.erase(attr->name());
                     }
                 }
-
-                // Natalie - loops through the map of plugin specific params and allocate them to the doc
             }
 
             // Add plugin specific xml attributes and values to the mission xml
@@ -302,13 +299,6 @@ bool MissionParse::parse(const std::string &filename) {
             }
         }
     }
-    
-    //I don't think this is needed....because it is done later... check this
-    // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
-    // Note - this only updates entity specific plugins... need to add for non-entity specific plugins next
-    std::string s;
-    rapidxml::print(std::back_inserter(s), doc, 0);
-    mission_file_content_ = s;
 
     // Save background color:
     bool bg_color_result = false;
@@ -611,14 +601,13 @@ bool MissionParse::parse(const std::string &filename) {
                 rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
                 node->append_attribute(tempattr);
             }
-
-            // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
-            // Note - this only updates entity specific plugins... need to add for non-entity specific plugins next
-             std::string s;
-             rapidxml::print(std::back_inserter(s), doc, 0);
-             mission_file_content_ = s;
         }
         
+        // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
+        std::string s;
+        rapidxml::print(std::back_inserter(s), doc, 0);
+        mission_file_content_ = s;
+
         // For each entity, if the lat/lon are defined, use these values to
         // overwrite the "x" and "y" values
         // Search for lon lat alt.
@@ -653,7 +642,9 @@ bool MissionParse::parse(const std::string &filename) {
         if (script_info.count("x") > 0) {
             script_info["x0"] = script_info["x"];
         } else {
-            cout << "Entity missing 'x' tag." << endl;
+            cout << "Entity missing 'x' tag." << endl;    // std::string s;
+    // rapidxml::print(std::back_inserter(s), doc, 0);
+    // mission_file_content_ = s;
         }
 
         if (script_info.count("y") > 0) {
