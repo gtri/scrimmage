@@ -86,6 +86,7 @@ class MissionParse {
     bool create_log_dir();
     void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
+    void get_plugin_params(std::string node_name, std::string node_value);
     bool write(const std::string &filename);
 
     double t0();
@@ -163,6 +164,7 @@ class MissionParse {
  protected:
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
+    std::map<std::string, std::string> plugin_spec_attrs;
     rapidxml::xml_document<> doc;
     
     double t0_ = 0;
