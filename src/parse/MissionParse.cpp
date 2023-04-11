@@ -135,22 +135,10 @@ bool MissionParse::parse(const std::string &filename) {
     try {
         // Note: This parse function can hard fail (seg fault, no exception) on
         //       badly formatted xml data. Sometimes it'll except, sometimes not.
-        // doc.parse<0>(mission_file_content_vec.data());
-        doc.parse<rapidxml::parse_no_data_nodes>(mission_file_content_vec.data());
-    }
-    catch (const rapidxml::parse_error& e)
-    {
-        std::cout << e.what() << std::endl;
+        doc.parse<0>(mission_file_content_vec.data());
+    } catch (...) {
         cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
         return false;
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Error was: " << e.what() << std::endl;
-    }
-    catch (...)
-    {
-        std::cerr << "An unknown error occurred." << std::endl;
     }
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
@@ -618,11 +606,13 @@ bool MissionParse::parse(const std::string &filename) {
         // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
         std::string s;
         rapidxml::print(std::back_inserter(s), doc, 0);
+        // Note - save this to a different string and create a combined specific mission xml log
         mission_file_content_ = s;
 
         // For each entity, if the lat/lon are defined, use these values to
         // overwrite the "x" and "y" values
-        // Search for lon lat alt.
+        // Search for lon lat alt.2. search could be just the name of the plugin (e.g., QuadTest_plugin)
+    //    a. Is the file located in the plugin path environment variab
         Eigen::Vector3d pos_LLA(-1, -1, -1);
         Eigen::Vector3d pos_xyz(-1, -1, -1);
         bool lon_valid = false, lat_valid = false, alt_valid = false;
@@ -654,9 +644,7 @@ bool MissionParse::parse(const std::string &filename) {
         if (script_info.count("x") > 0) {
             script_info["x0"] = script_info["x"];
         } else {
-            cout << "Entity missing 'x' tag." << endl;    // std::string s;
-    // rapidxml::print(std::back_inserter(s), doc, 0);
-    // mission_file_content_ = s;
+            cout << "Entity missing 'x' tag." << endl;
         }
 
         if (script_info.count("y") > 0) {
@@ -799,7 +787,7 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
         if (!status) {
             // The mission file wasn't found. Exit.
             cout << "SCRIMMAGE mission file not found: " << plugin_filename_ << endl;
-            //return false; //Need to somehow return bad result to parse if this doesnt work...maybe just an empty list?
+            return;
         }
         // The mission file was found, save its path.
         plugin_filename_ = result;
@@ -808,7 +796,7 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
     std::ifstream file(plugin_filename_.c_str());
     if (!file.is_open()) {
         std::cout << "Failed to open mission file: " << plugin_filename_ << endl;
-        //return false; //Need to somehow return bad result to parse if this doesnt work...maybe just an empty list?
+        return;
     }
 
     std::stringstream buffer;
@@ -839,13 +827,13 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
         plugin_doc.parse<0>(plugin_file_content_vec.data());
     } catch (...) {
         cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
-        //return false; //Need to somehow return bad result to parse if this doesnt work...maybe just an empty list?
+        return false;
     }
 
     rapidxml::xml_node<> *params_node = plugin_doc.first_node("params");
     if (params_node == 0) {
         cout << "Missing params tag." << endl;
-        //return false; //Need to somehow return bad result to parse if this doesnt work
+        return;
     }
 
     for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0; node = node->next_sibling()){
