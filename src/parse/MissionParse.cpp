@@ -84,6 +84,25 @@ void MissionParse::set_overrides(const std::string &overrides) {
 bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = expand_user(filename);
 
+    // Extracts the appropriate Scrimmage plugin path for plugin specific
+    // xml files. This path is utilized for formatting the mission.plugin.xml file
+    std::string plugin_env_string = getenv("SCRIMMAGE_PLUGIN_PATH");
+    std::vector<std::string> plugin_substrings;
+    std::stringstream plugin_ss(plugin_env_string);
+    std::string plugin_path;
+
+    while(std::getline(plugin_ss, plugin_path, ':')){
+        if(!plugin_path.empty()){
+            plugin_substrings.push_back(plugin_path);
+        }
+    }
+
+    for(const auto& plugin_string : plugin_substrings){
+        if (plugin_string.find("/include/scrimmage/plugins") != std::string::npos){
+            scrimmage_plugin_path = plugin_string;
+        }
+    }
+
     // First, explicitly search for the mission file.
     if (!fs::exists(mission_filename_)) {
         // If the file doesn't exist, search for the mission file under the
@@ -771,14 +790,14 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
         // SCRIMMAGE_MISSION_PATH.
         FileSearch file_search;
         std::string result = "";
-        std::string pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/" + node_name + "/" + node_value; //This will need to be updated to the environment variable path
-        
+        std::string pluginxml_path = scrimmage_plugin_path + "/" + node_name + "/" + node_value; //This will need to be updated to the environment variable path
+
         if(node_name=="entity_interaction"){
             std::string temp = node_value;
-            pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/interaction/" + temp; //This will need to be updated to the environment variable path
+            pluginxml_path = scrimmage_plugin_path + "/" + "interaction/" + temp; //This will need to be updated to the environment variable path
         } else if (node_name=="motion_model"){
             std::string temp = node_value;
-            pluginxml_path = "/home/ndavis64/scrimmage/scrimmage/include/scrimmage/plugins/motion/" + temp; //This will need to be updated to the environment variable path
+            pluginxml_path = scrimmage_plugin_path + "/" + "motion/" + temp; //This will need to be updated to the environment variable path
         }
 
         bool status = file_search.find_file(plugin_filename_, "xml",
@@ -827,7 +846,7 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
         plugin_doc.parse<0>(plugin_file_content_vec.data());
     } catch (...) {
         cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
-        return false;
+        return;
     }
 
     rapidxml::xml_node<> *params_node = plugin_doc.first_node("params");

@@ -164,6 +164,7 @@ class MissionParse {
  protected:
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
+    std::string scrimmage_plugin_path = "";
     std::map<std::string, std::string> plugin_spec_attrs;
     rapidxml::xml_document<> doc;
     
