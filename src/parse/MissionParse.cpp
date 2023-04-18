@@ -231,6 +231,28 @@ bool MissionParse::parse(const std::string &filename) {
         }
     }
 
+    // Extracts the appropriate Scrimmage plugin path for plugin specific
+    // xml files. This path is utilized for formatting the mission.plugin.xml file
+    std::string plugin_env_string = getenv("SCRIMMAGE_PLUGIN_PATH");
+    std::vector<std::string> plugin_substrings;
+    std::stringstream plugin_ss(plugin_env_string);
+    std::string plugin_path;
+
+    // Create substrings of the plugin_env_string, using the ':' character as 
+    // a delimiter
+    while(std::getline(plugin_ss, plugin_path, ':')){
+        if(!plugin_path.empty()){
+            plugin_substrings.push_back(plugin_path);
+        }
+    }
+
+    // Update the scrimmage_plugin_path string with the path that can access plugin
+    // specific xml files
+    for(const auto& plugin_string : plugin_substrings){
+        if (plugin_string.find("/include/scrimmage/plugins") != std::string::npos){
+            scrimmage_plugin_path = plugin_string;
+        }
+    }
 
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
@@ -697,6 +719,88 @@ bool MissionParse::parse(const std::string &filename) {
     return true;
 }
 
+<<<<<<< HEAD
+=======
+void MissionParse::get_plugin_params(std::string node_name, std::string node_value) {
+    std::string plugin_file = node_value + std::string(".xml");
+    std::string plugin_filename_ = expand_user(plugin_file);
+
+    // First, explicitly search for the mission file.
+    if (!fs::exists(plugin_filename_)) {
+        FileSearch file_search;
+        std::string result = "";
+        std::string pluginxml_path = scrimmage_plugin_path + "/" + node_name + "/" + node_value;
+
+        if(node_name=="entity_interaction"){
+            std::string temp = node_value;
+            pluginxml_path = scrimmage_plugin_path + "/" + "interaction/" + temp;
+        } else if (node_name=="motion_model"){
+            std::string temp = node_value;
+            pluginxml_path = scrimmage_plugin_path + "/" + "motion/" + temp;
+        }
+
+        bool status = file_search.find_file(plugin_filename_, "xml",
+                                                            pluginxml_path,
+                                                            result, false);
+        if (!status) {
+            // The mission file wasn't found. Exit.
+            cout << "SCRIMMAGE mission file not found: " << plugin_filename_ << endl;
+            return;
+        }
+        // The mission file was found, save its path.
+        plugin_filename_ = result;
+    }
+
+    std::ifstream file(plugin_filename_.c_str());
+    if (!file.is_open()) {
+        std::cout << "Failed to open mission file: " << plugin_filename_ << endl;
+        return;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    file.close();
+    std::string plugin_file_content_ = buffer.str();
+
+    // Search and replace any overrides of the form ${key=value} in the mission file
+    for (auto &kv : overrides_map_) {
+        std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
+        plugin_file_content_ = std::regex_replace(plugin_file_content_, reg, kv.second);
+    }
+
+    // Replace our xml variables of the form ${var=default} with the default value
+    std::string fmt{"$1"};
+    std::regex reg("\\$\\{.+?=(.+?)\\}");
+    plugin_file_content_ = std::regex_replace(plugin_file_content_, reg, fmt);
+
+    // Parse the xml tree.
+    rapidxml::xml_document<> plugin_doc;
+    // doc.parse requires a null terminated string that it can modify.
+    std::vector<char> plugin_file_content_vec(plugin_file_content_.size() + 1); // allocation done here
+    plugin_file_content_vec.assign(plugin_file_content_.begin(), plugin_file_content_.end()); // copy
+    plugin_file_content_vec.push_back('\0'); // shouldn't reallocate
+    try {
+        // Note: This parse function can hard fail (seg fault, no exception) on
+        //       badly formatted xml data. Sometimes it'll except, sometimes not.
+        plugin_doc.parse<0>(plugin_file_content_vec.data());
+    } catch (...) {
+        cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+        return;
+    }
+
+    rapidxml::xml_node<> *params_node = plugin_doc.first_node("params");
+    if (params_node == 0) {
+        cout << "Missing params tag." << endl;
+        return;
+    }
+
+    // Add all plugin specific xml attributes to the map
+    for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0; node = node->next_sibling()){
+        plugin_spec_attrs.insert({node->name(), node->value()});
+    }
+}
+
+>>>>>>> a9fb57dcf... Code cleanup
 bool MissionParse::create_log_dir() {
     // Create the root_log_dir_ if it doesn't exist:
     if (not fs::exists(fs::path(root_log_dir_)) &&
