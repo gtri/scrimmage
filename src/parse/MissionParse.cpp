@@ -622,16 +622,14 @@ bool MissionParse::parse(const std::string &filename) {
             }
         }
         
-        // Save doc with new allocated attributes to the mission_file_content_ string to be saved to mission.xml logs
-        std::string s;
-        rapidxml::print(std::back_inserter(s), doc, 0);
-        // Note - save this to a different string and create a combined specific mission xml log
-        mission_file_content_ = s;
+        // Save doc with new allocated attributes to the mission_plugin_file_content string to be saved to mission.plugin.xml logs
+        std::string rapidxml_plugin_doc;
+        rapidxml::print(std::back_inserter(rapidxml_plugin_doc), doc, 0);
+        mission_plugin_file_content = rapidxml_plugin_doc;
 
         // For each entity, if the lat/lon are defined, use these values to
         // overwrite the "x" and "y" values
-        // Search for lon lat alt.2. search could be just the name of the plugin (e.g., QuadTest_plugin)
-    //    a. Is the file located in the plugin path environment variab
+        // Search for lon lat alt.2.
         Eigen::Vector3d pos_LLA(-1, -1, -1);
         Eigen::Vector3d pos_xyz(-1, -1, -1);
         bool lon_valid = false, lat_valid = false, alt_valid = false;
@@ -903,6 +901,10 @@ bool MissionParse::create_log_dir() {
     std::ofstream content_out(log_dir_+"/mission.xml");
     content_out << mission_file_content_;
     content_out.close();
+
+    std::ofstream mission_plugin_content_out(log_dir_+"/mission.plugin.xml");
+    mission_plugin_content_out << mission_plugin_file_content;
+    mission_plugin_content_out.close();
 
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
