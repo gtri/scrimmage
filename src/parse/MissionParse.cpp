@@ -84,25 +84,6 @@ void MissionParse::set_overrides(const std::string &overrides) {
 bool MissionParse::parse(const std::string &filename) {
     mission_filename_ = expand_user(filename);
 
-    // Extracts the appropriate Scrimmage plugin path for plugin specific
-    // xml files. This path is utilized for formatting the mission.plugin.xml file
-    std::string plugin_env_string = getenv("SCRIMMAGE_PLUGIN_PATH");
-    std::vector<std::string> plugin_substrings;
-    std::stringstream plugin_ss(plugin_env_string);
-    std::string plugin_path;
-
-    while(std::getline(plugin_ss, plugin_path, ':')){
-        if(!plugin_path.empty()){
-            plugin_substrings.push_back(plugin_path);
-        }
-    }
-
-    for(const auto& plugin_string : plugin_substrings){
-        if (plugin_string.find("/include/scrimmage/plugins") != std::string::npos){
-            scrimmage_plugin_path = plugin_string;
-        }
-    }
-
     // First, explicitly search for the mission file.
     if (!fs::exists(mission_filename_)) {
         // If the file doesn't exist, search for the mission file under the
@@ -250,6 +231,28 @@ bool MissionParse::parse(const std::string &filename) {
         }
     }
 
+    // Extracts the appropriate Scrimmage plugin path for plugin specific
+    // xml files. This path is utilized for formatting the mission.plugin.xml file
+    std::string plugin_env_string = getenv("SCRIMMAGE_PLUGIN_PATH");
+    std::vector<std::string> plugin_substrings;
+    std::stringstream plugin_ss(plugin_env_string);
+    std::string plugin_path;
+
+    // Create substrings of the plugin_env_string, using the ':' character as 
+    // a delimiter
+    while(std::getline(plugin_ss, plugin_path, ':')){
+        if(!plugin_path.empty()){
+            plugin_substrings.push_back(plugin_path);
+        }
+    }
+
+    // Update the scrimmage_plugin_path string with the path that can access plugin
+    // specific xml files
+    for(const auto& plugin_string : plugin_substrings){
+        if (plugin_string.find("/include/scrimmage/plugins") != std::string::npos){
+            scrimmage_plugin_path = plugin_string;
+        }
+    }
 
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
@@ -629,7 +632,7 @@ bool MissionParse::parse(const std::string &filename) {
 
         // For each entity, if the lat/lon are defined, use these values to
         // overwrite the "x" and "y" values
-        // Search for lon lat alt.2.
+        // Search for lon lat alt.
         Eigen::Vector3d pos_LLA(-1, -1, -1);
         Eigen::Vector3d pos_xyz(-1, -1, -1);
         bool lon_valid = false, lat_valid = false, alt_valid = false;
@@ -784,18 +787,16 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
 
     // First, explicitly search for the mission file.
     if (!fs::exists(plugin_filename_)) {
-        // If the file doesn't exist, search for the mission file under the
-        // SCRIMMAGE_MISSION_PATH.
         FileSearch file_search;
         std::string result = "";
-        std::string pluginxml_path = scrimmage_plugin_path + "/" + node_name + "/" + node_value; //This will need to be updated to the environment variable path
+        std::string pluginxml_path = scrimmage_plugin_path + "/" + node_name + "/" + node_value;
 
         if(node_name=="entity_interaction"){
             std::string temp = node_value;
-            pluginxml_path = scrimmage_plugin_path + "/" + "interaction/" + temp; //This will need to be updated to the environment variable path
+            pluginxml_path = scrimmage_plugin_path + "/" + "interaction/" + temp;
         } else if (node_name=="motion_model"){
             std::string temp = node_value;
-            pluginxml_path = scrimmage_plugin_path + "/" + "motion/" + temp; //This will need to be updated to the environment variable path
+            pluginxml_path = scrimmage_plugin_path + "/" + "motion/" + temp;
         }
 
         bool status = file_search.find_file(plugin_filename_, "xml",
@@ -853,6 +854,7 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
         return;
     }
 
+    // Add all plugin specific xml attributes to the map
     for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0; node = node->next_sibling()){
         plugin_spec_attrs.insert({node->name(), node->value()});
     }
