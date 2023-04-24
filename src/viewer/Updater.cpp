@@ -1628,15 +1628,6 @@ void Updater::create_text_display() {
     int text_y = 10;
     int text_x = 10;
 
-    // Add the play and pause display
-    playpause_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    playpause_actor_->SetInput(" ");
-    playpause_actor_->SetPosition(text_x, text_y);
-    playpause_actor_->GetTextProperty()->SetFontSize(24);
-    playpause_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(playpause_actor_);
-    text_y += text_y_spacing;
-
     // Add the time (text) display
     time_actor_ = vtkSmartPointer<vtkTextActor>::New();
     time_actor_->SetInput("000.000 s");
@@ -1671,6 +1662,15 @@ void Updater::create_text_display() {
     alt_actor_->GetTextProperty()->SetFontSize(24);
     alt_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(alt_actor_);
+    text_y += text_y_spacing;
+
+    // Add the play and pause display
+    playpause_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    playpause_actor_->SetInput(" ");
+    playpause_actor_->SetPosition(text_x, text_y);
+    playpause_actor_->GetTextProperty()->SetFontSize(24);
+    playpause_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(playpause_actor_);
 
     // Add the help menu
     // NOTE: this requires two vtkTextActor's because you can't
