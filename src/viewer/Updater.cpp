@@ -182,6 +182,7 @@ void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // N
     if (!gui_msg_list.empty()) {
         auto &msg = gui_msg_list.front();
         if (std::abs(msg.time() - frame_time_) < 1e-7 && fs::exists(log_dir_)) {
+            
             vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
                 vtkSmartPointer<vtkWindowToImageFilter>::New();
             windowToImageFilter->SetInput(rwi_->GetRenderWindow());
@@ -1070,6 +1071,7 @@ void Updater::set_outgoing_interface(InterfacePtr &outgoing_interface)
 
 bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     frame_time_ = frame->time();
+    
     // Add new contacts to contact map
     for (int i = 0; i < frame->contact_size(); i++) {
 
