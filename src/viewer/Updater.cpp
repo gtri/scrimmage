@@ -182,9 +182,6 @@ void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // N
     if (!gui_msg_list.empty()) {
         auto &msg = gui_msg_list.front();
         if (std::abs(msg.time() - frame_time_) < 1e-7 && fs::exists(log_dir_)) {
-
-            std::cout << "Message for toggle pause: " << msg.toggle_pause() << std::endl;
-
             vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
                 vtkSmartPointer<vtkWindowToImageFilter>::New();
             windowToImageFilter->SetInput(rwi_->GetRenderWindow());
@@ -279,8 +276,6 @@ bool Updater::update() {
         incoming_interface_->frames().clear();
 
         incoming_interface_->frames_mutex.unlock();
-    } else{
-        //std::cout << "NO updates..." << std::endl;
     }
 
     // Do we have any updates to the sim info?
@@ -298,8 +293,6 @@ bool Updater::update() {
                 return false;
             }
         }
-
-        
 
         // We only care about the last message for actual data
         sim_info_ = info_list.back();
@@ -696,19 +689,12 @@ bool Updater::update_text_display() {
     ss << std::setprecision(num_digits) << std::fixed << frame_time_ << " s";
     time_actor_->SetInput(ss.str().c_str());
 
-    std::cout << "Sim info for paused: " << sim_info_.sim_paused() << std::endl;
-
     // Update play and pause indicator
     if(sim_info_.sim_paused()){
-        std::cout << "The indicator is the same as previous value, so the simulation is paused." << std::endl;
         playpause_actor_->SetInput("State: Paused");
     } else {
-        std::cout << "The indicator is a new value, so the simulation is playing." << std::endl;
         playpause_actor_->SetInput("State: Playing");
     }
-    playpause_tracker = ss.str().c_str();
-    playpause_actor_->SetInput(" ");
-
 
     // Update the time warp
     std::stringstream stream_warp;
@@ -1084,8 +1070,6 @@ void Updater::set_outgoing_interface(InterfacePtr &outgoing_interface)
 
 bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     frame_time_ = frame->time();
-    //std::cout << "Updating frame time" << std::endl; // only called when the simulation is running
-
     // Add new contacts to contact map
     for (int i = 0; i < frame->contact_size(); i++) {
 
@@ -1652,8 +1636,6 @@ void Updater::create_text_display() {
     playpause_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(playpause_actor_);
     text_y += text_y_spacing;
-
-    playpause_tracker = "000.000 s";
 
     // Add the time (text) display
     time_actor_ = vtkSmartPointer<vtkTextActor>::New();
