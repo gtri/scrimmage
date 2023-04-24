@@ -35,6 +35,7 @@ message SimInfo {
         double desired_warp = 2;
         double actual_warp = 3;
         bool shutting_down = 4;
+        bool sim_paused = 5;
 }
 
 message ContactVisual {

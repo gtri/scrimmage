@@ -322,6 +322,9 @@ class Updater : public vtkCommand {
 
     scrimmage_proto::SimInfo sim_info_;
 
+    vtkSmartPointer<vtkTextActor> playpause_actor_;
+    std::string playpause_tracker;
+
     vtkSmartPointer<vtkTextActor> time_actor_;
     vtkSmartPointer<vtkTextActor> warp_actor_;
     vtkSmartPointer<vtkTextActor> heading_actor_;
