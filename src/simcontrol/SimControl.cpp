@@ -428,7 +428,7 @@ void SimControl::create_rtree(const unsigned int& additional_size) {
 void SimControl::set_autonomy_contacts() {
     std::map<std::string, AutonomyPtr> autonomy_map;
     for (EntityPtr &ent : ents_) {
-        for (AutonomyPtr &autonomy : ent->autonomies()) {
+        for (AutonomyPtr &autonomy : ent->autonomies()) { // natalie here for autonomies
             if (autonomy->need_reset()) {
                 std::string type = autonomy->type();
                 auto it = autonomy_map.find(type);
@@ -1072,6 +1072,54 @@ bool SimControl::shutdown(const bool& shutdown_python) {
 
     // Close all plugins
     for (EntityPtr &ent : ents_) {
+        // Natalie - need to store all state information before the GUI shuts down. Grab state information that can be captured in the entity block
+        // in the mission xml file. Need to then send the information to the mission parse file to create a new xml file when shutting down that
+        // can then be used by another simulation
+        //
+        // Need to attempt to specify the following for the mission xml:
+        // Name - can multiple blocks have the same name?
+        
+        // team_id
+        cout << "Team id: " << ent->id().team_id() << endl;
+        
+        // color - probably going to need to get this from the mission parse file
+        // count (should be 1),
+        // autonomy, autonomy loop rate,
+        
+        // health
+        cout << "Health points: " << ent->health_points() << endl; // Need to check if the value is lower than a certain number, the entity should be created or not
+        
+        // x, y, z
+        //double x, y, z = ent->state()->pos();
+        cout << "Position values, x: " << ent->state()->pos()[0] << " y: " << ent->state()->pos()[1] << " z: " << ent->state()->pos()[2] << endl;
+
+        // latitude
+        // longitude
+        // altitude
+
+        // heading (shoud be able to retrieve this from the quaternion)
+        cout << "Yaw of the quaternion: " << ent->state()->quat().yaw() << endl;
+
+        // motion model
+        // visual model
+        // controller, controller loop rate, 
+        // sensor, sensor loop rate, 
+        // base - x,y,z, latitude, longitude, altitude, and radius of the base
+        
+        // Velocity - no known tag for the entity block, may need to be an entry for controller
+        //double vx, vy, vz = ent->state()->vel();
+        cout << "Position values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
+
+        // Data that could come from the mission xml file
+
+
+        // Do not include:
+        // generate_rate, start time, count, and time variance, 
+        // variance x y and z
+        // use variance all ents,
+
+
+
         ent->close(t());
     }
 
