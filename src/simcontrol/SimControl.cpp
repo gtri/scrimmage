@@ -1084,9 +1084,15 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         
         // color - probably going to need to get this from the mission parse file
         // count (should be 1),
+        int block_count = 1;
+        cout << "Block count: " << block_count << endl;
+
         // autonomy, autonomy loop rate,
         
+
         // health
+        // Note: Entities that have collisions are removed. Health points could still be used for other mission xml output, because they might have more than 1 as a 
+        // starting point, being able to endure multiple collisions
         cout << "Health points: " << ent->health_points() << endl; // Need to check if the value is lower than a certain number, the entity should be created or not
         
         // x, y, z
@@ -1095,10 +1101,15 @@ bool SimControl::shutdown(const bool& shutdown_python) {
 
         // latitude
         // longitude
+
         // altitude
+        // altitude is the same as the z position
+        cout << "Altitude: " << ent->state()->pos()[2] << endl;
 
         // heading (shoud be able to retrieve this from the quaternion)
         cout << "Yaw of the quaternion: " << ent->state()->quat().yaw() << endl;
+        cout << "Roll of the quaternion: " << ent->state()->quat().roll() << endl;
+        cout << "Pitch of the quaternion: " << ent->state()->quat().pitch() << endl;
 
         // motion model
         // visual model
@@ -1108,7 +1119,7 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         
         // Velocity - no known tag for the entity block, may need to be an entry for controller
         //double vx, vy, vz = ent->state()->vel();
-        cout << "Position values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
+        cout << "Velocity values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
 
         // Data that could come from the mission xml file
 
