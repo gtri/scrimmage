@@ -87,6 +87,10 @@ class MissionParse {
     void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
     void get_plugin_params(std::string node_name, std::string node_value);
+
+    //Natalie
+    void final_state_xml();
+
     bool write(const std::string &filename);
 
     double t0();
@@ -164,11 +168,12 @@ class MissionParse {
  protected:
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
+    std::string miss2miss_file_content = "";
     std::string mission_plugin_file_content = "";
     std::string scrimmage_plugin_path = "";
     std::map<std::string, std::string> plugin_spec_attrs;
     rapidxml::xml_document<> doc;
-    
+
     double t0_ = 0;
     double tend_ = 50;
     double dt_ = 0.00833333;

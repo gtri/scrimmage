@@ -448,6 +448,11 @@ bool MissionParse::parse(const std::string &filename) {
         entity_common[nm] = script_info;
     }
 
+    // Natalie - for the mission to mission pull request, will want to save the format of the entity blocks
+    // I think what should be done is call a function that parses through the mission_file_content and will add new
+    // entity nodes based on the count of each team, duplicating entries that are common and updating entity specific 
+    // values based on the final state of the entity
+
     // Loop through each "entity" node
     for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
          script_node != 0;
@@ -779,6 +784,52 @@ bool MissionParse::parse(const std::string &filename) {
                                 str2bool(params_["no_bin_logging"]) == true);
 
     return true;
+}
+
+// Natalie test function
+void MissionParse::final_state_xml(){
+    // Parse the xml tree.
+    // doc.parse requires a null terminated string that it can modify.
+    std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
+    mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
+    mission_file_content_vec.push_back('\0'); // shouldn't reallocate
+    try {
+        // Note: This parse function can hard fail (seg fault, no exception) on
+        //       badly formatted xml data. Sometimes it'll except, sometimes not.
+        doc.parse<0>(mission_file_content_vec.data());
+    } catch (...) {
+        cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+        return;
+    }
+
+    int loop_test = 0;
+    rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
+    if (runscript_node == 0) {
+        cout << "Missing runscript tag." << endl;
+        return;
+    }
+    // Loop through each "entity" node
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
+         script_node != 0;
+         script_node = script_node->next_sibling("entity")) {
+
+            // This successfully adds 4 entities of the first entity node to the end of the XML file!
+            while(loop_test < 4){
+                rapidxml::xml_node<> *test_ent = doc.clone_node(script_node);
+                doc.first_node("runscript")->append_node(test_ent);
+                loop_test ++;
+            }
+         }
+
+    // Save doc with new allocated attributes to the miss2miss_file_content string to be saved to mission.plugin.xml logs
+    std::string rapidxml_miss2miss_doc;
+    rapidxml::print(std::back_inserter(rapidxml_miss2miss_doc), doc, 0);
+    miss2miss_file_content = rapidxml_miss2miss_doc;
+
+    std::ofstream miss2miss_content_out(log_dir_+"/miss2miss.xml");
+    miss2miss_content_out << miss2miss_file_content;
+    miss2miss_content_out.close();
+
 }
 
 void MissionParse::get_plugin_params(std::string node_name, std::string node_value) {

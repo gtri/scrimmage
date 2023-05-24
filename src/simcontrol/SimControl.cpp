@@ -1063,6 +1063,68 @@ bool SimControl::shutdown(const bool& shutdown_python) {
 
     // Close all plugins
     for (EntityPtr &ent : ents_) {
+
+        // Natalie - need to store all state information before the GUI shuts down. Grab state information that can be captured in the entity block
+        // in the mission xml file. Need to then send the information to the mission parse file to create a new xml file when shutting down that
+        // can then be used by another simulation
+        //
+        // Need to pass the team ID and need to determine the number of entities that are part of a given team... might be able to handle this with
+        // looping
+        //
+        // Need to attempt to specify the following for the mission xml:
+        // Name - can multiple blocks have the same name?
+
+        // team_id
+        cout << "Team id: " << ent->id().team_id() << endl;
+
+        // color - probably going to need to get this from the mission parse file
+        // count (should be 1),
+        int block_count = 1;
+        cout << "Block count: " << block_count << endl;
+
+        // autonomy, autonomy loop rate,
+
+
+        // health
+        // Note: Entities that have collisions are removed. Health points could still be used for other mission xml output, because they might have more than 1 as a 
+        // starting point, being able to endure multiple collisions
+        cout << "Health points: " << ent->health_points() << endl; // Need to check if the value is lower than a certain number, the entity should be created or not
+
+        // x, y, z
+        //double x, y, z = ent->state()->pos();
+        cout << "Position values, x: " << ent->state()->pos()[0] << " y: " << ent->state()->pos()[1] << " z: " << ent->state()->pos()[2] << endl;
+
+        // latitude
+        // longitude
+
+        // altitude
+        // altitude is the same as the z position
+        cout << "Altitude: " << ent->state()->pos()[2] << endl;
+
+        // heading (shoud be able to retrieve this from the quaternion)
+        cout << "Yaw of the quaternion: " << ent->state()->quat().yaw() << endl;
+        cout << "Roll of the quaternion: " << ent->state()->quat().roll() << endl;
+        cout << "Pitch of the quaternion: " << ent->state()->quat().pitch() << endl;
+
+        // motion model
+        // visual model
+        // controller, controller loop rate, 
+        // sensor, sensor loop rate, 
+        // base - x,y,z, latitude, longitude, altitude, and radius of the base
+
+        // Velocity - no known tag for the entity block, may need to be an entry for controller
+        //double vx, vy, vz = ent->state()->vel();
+        cout << "Velocity values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
+
+        // Data that could come from the mission xml file
+
+
+        // Do not include:
+        // generate_rate, start time, count, and time variance, 
+        // variance x y and z
+        // use variance all ents,
+
+        mp_->final_state_xml();
         ent->close(t());
     }
 
