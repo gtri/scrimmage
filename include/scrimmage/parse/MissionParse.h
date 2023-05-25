@@ -39,6 +39,9 @@
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <scrimmage/proto/Color.pb.h>
+#include <scrimmage/simcontrol/SimControl.h>
+
+#include <scrimmage/parse/EntEndStates.h>
 
 #include <list>
 #include <vector>
@@ -89,7 +92,7 @@ class MissionParse {
     void get_plugin_params(std::string node_name, std::string node_value);
 
     //Natalie
-    void final_state_xml();
+    void final_state_xml(std::vector<ent_end_state> & all_end_states);
 
     bool write(const std::string &filename);
 

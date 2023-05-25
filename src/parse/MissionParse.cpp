@@ -787,7 +787,12 @@ bool MissionParse::parse(const std::string &filename) {
 }
 
 // Natalie test function
-void MissionParse::final_state_xml(){
+void MissionParse::final_state_xml(std::vector<ent_end_state> & all_end_states){
+    
+    for(auto& a : all_end_states){
+        cout << "1. " << a.team_id << " 2. " << a.x_pos << " 3. " << a.y_pos << " 4. " << a.z_pos << endl;
+    }
+    
     // Parse the xml tree.
     // doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
@@ -802,16 +807,22 @@ void MissionParse::final_state_xml(){
         return;
     }
 
-    int loop_test = 0;
+    int loop_test = 0; // remove once passing actual sim control ent information
+
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
     if (runscript_node == 0) {
         cout << "Missing runscript tag." << endl;
         return;
     }
+
     // Loop through each "entity" node
     for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
          script_node != 0;
          script_node = script_node->next_sibling("entity")) {
+
+            // Get the team id number of the current node
+            rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
+            cout << "Team id for the given node: " << team_id_node->value() << endl;
 
             // This successfully adds 4 entities of the first entity node to the end of the XML file!
             while(loop_test < 4){

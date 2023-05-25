@@ -70,6 +70,8 @@
 
 #include <scrimmage/msgs/Event.pb.h>
 
+#include <scrimmage/parse/EntEndStates.h>
+
 #include <iostream>
 #include <string>
 #include <memory>
@@ -1060,6 +1062,8 @@ bool SimControl::finalize() {
 
 bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
+    
+    std::vector<ent_end_state> all_end_states;
 
     // Close all plugins
     for (EntityPtr &ent : ents_) {
@@ -1101,7 +1105,7 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         // altitude is the same as the z position
         cout << "Altitude: " << ent->state()->pos()[2] << endl;
 
-        // heading (shoud be able to retrieve this from the quaternion)
+        // heading - same thing as yaw
         cout << "Yaw of the quaternion: " << ent->state()->quat().yaw() << endl;
         cout << "Roll of the quaternion: " << ent->state()->quat().roll() << endl;
         cout << "Pitch of the quaternion: " << ent->state()->quat().pitch() << endl;
@@ -1124,9 +1128,16 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         // variance x y and z
         // use variance all ents,
 
-        mp_->final_state_xml();
+        //mp_->final_state_xml();
+
+        // Struct saving and vector
+        ent_end_state end_state = {ent->id().team_id(), ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2]};
+        all_end_states.push_back(end_state);
+
         ent->close(t());
     }
+
+    mp_->final_state_xml(all_end_states);
 
     for (EntityInteractionPtr ent_inter : ent_inters_) {
         ent_inter->close_plugin(t());
