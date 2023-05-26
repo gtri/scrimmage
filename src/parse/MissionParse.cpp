@@ -814,6 +814,8 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
         return;
     }
 
+    cout << "Number of entity blocks: " << num_ents << endl;
+
     for(auto a = all_end_states.begin(); a != all_end_states.end(); ++a){
         const auto& cur_ent = *a;
         cout << "1. " << cur_ent.team_id << " 2. " << cur_ent.x_pos << " 3. " << cur_ent.y_pos << " 4. " << cur_ent.z_pos << endl;
@@ -849,7 +851,28 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
                     new_ent->insert_node(new_ent->first_node("z"),z_pos);
                     new_ent->remove_node(new_ent->first_node("z")->next_sibling());
 
+                    // Make the count value 1
+                    if(new_ent->first_node("count")){
+                        rapidxml::xml_node<> *ent_count = doc.allocate_node(rapidxml::node_element, "count", "1");
+                        new_ent->insert_node(new_ent->first_node("count"),ent_count);
+                        new_ent->remove_node(new_ent->first_node("count")->next_sibling());
+                    }
 
+                    // Remove instances of variance
+                    if(new_ent->first_node("variance_x")){
+                        new_ent->remove_node(new_ent->first_node("variance_x"));
+                    }
+                    if(new_ent->first_node("variance_y")){
+                        new_ent->remove_node(new_ent->first_node("variance_y"));
+                    }
+                    if(new_ent->first_node("variance_z")){
+                        new_ent->remove_node(new_ent->first_node("variance_z"));
+                    }
+
+                    // Update the heading
+                    if(new_ent->first_node("heading")){
+                        cout << "In the heading node if statement" << endl;
+                    }
                     // Adds the new entity node to the main XML tree
                     doc.first_node("runscript")->append_node(new_ent);
 
@@ -858,13 +881,15 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
                 }
 
              loop_test++;   
-        }
-
-
+        }        
 
         loop_test = 0;
     }
 
+    // Remove original entity nodes
+    for (int i = 0; i<num_ents; i++) {
+            doc.first_node("runscript")->remove_node(runscript_node->first_node("entity"));
+    }
 
     // Save doc with new allocated attributes to the miss2miss_file_content string to be saved to mission.plugin.xml logs
     std::string rapidxml_miss2miss_doc;
