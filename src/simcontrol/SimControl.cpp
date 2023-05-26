@@ -1063,7 +1063,7 @@ bool SimControl::finalize() {
 bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
     
-    std::vector<ent_end_state> all_end_states;
+    std::list<ent_end_state> all_end_states;
 
     // Close all plugins
     for (EntityPtr &ent : ents_) {

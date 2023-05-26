@@ -458,6 +458,9 @@ bool MissionParse::parse(const std::string &filename) {
          script_node != 0;
          script_node = script_node->next_sibling("entity")) {
 
+        // Tracks the number of entities in the original XML file
+        num_ents++;
+
         std::map<std::string, std::string> script_info;
 
         rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("entity_common");
@@ -787,12 +790,8 @@ bool MissionParse::parse(const std::string &filename) {
 }
 
 // Natalie test function
-void MissionParse::final_state_xml(std::vector<ent_end_state> & all_end_states){
-    
-    for(auto& a : all_end_states){
-        cout << "1. " << a.team_id << " 2. " << a.x_pos << " 3. " << a.y_pos << " 4. " << a.z_pos << endl;
-    }
-    
+void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
+       
     // Parse the xml tree.
     // doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
@@ -815,22 +814,57 @@ void MissionParse::final_state_xml(std::vector<ent_end_state> & all_end_states){
         return;
     }
 
-    // Loop through each "entity" node
-    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
-         script_node != 0;
-         script_node = script_node->next_sibling("entity")) {
+    for(auto a = all_end_states.begin(); a != all_end_states.end(); ++a){
+        const auto& cur_ent = *a;
+        cout << "1. " << cur_ent.team_id << " 2. " << cur_ent.x_pos << " 3. " << cur_ent.y_pos << " 4. " << cur_ent.z_pos << endl;
 
-            // Get the team id number of the current node
-            rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
-            cout << "Team id for the given node: " << team_id_node->value() << endl;
+        // Loop through each "entity" node
+        for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
+            loop_test < num_ents; //Do not need this condiiton... will not have to worry about added nodes because of the break statement
+            script_node = script_node->next_sibling("entity")) {
 
-            // This successfully adds 4 entities of the first entity node to the end of the XML file!
-            while(loop_test < 4){
-                rapidxml::xml_node<> *test_ent = doc.clone_node(script_node);
-                doc.first_node("runscript")->append_node(test_ent);
-                loop_test ++;
-            }
-         }
+                // Get the team id number of the current node
+                rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
+
+                if(strcmp(std::to_string(cur_ent.team_id).c_str(),team_id_node->value()) == 0){
+                    cout << "Creating new entity instance... " << "1. " << cur_ent.team_id 
+                    << " 2. " << cur_ent.x_pos << " 3. " << cur_ent.y_pos << " 4. " << cur_ent.z_pos << endl;
+
+                    // Creates a clone of the current entity node
+                    rapidxml::xml_node<> *new_ent = doc.clone_node(script_node);
+                    
+                    char *xpos_value = doc.allocate_string(std::to_string(cur_ent.x_pos).c_str()); // If this way of converting to char * is not used, the code will error with repeated values or random ascii
+                    rapidxml::xml_node<> *x_pos = doc.allocate_node(rapidxml::node_element, "x", xpos_value);
+                    new_ent->insert_node(new_ent->first_node("x"),x_pos);
+                    new_ent->remove_node(new_ent->first_node("x")->next_sibling());
+                    
+
+                    char *ypos_value = doc.allocate_string(std::to_string(cur_ent.y_pos).c_str()); // If this way of converting to char * is not used, the code will error with repeated values or random ascii
+                    rapidxml::xml_node<> *y_pos = doc.allocate_node(rapidxml::node_element, "y", ypos_value);
+                    new_ent->insert_node(new_ent->first_node("y"),y_pos);
+                    new_ent->remove_node(new_ent->first_node("y")->next_sibling());
+
+                    char *zpos_value = doc.allocate_string(std::to_string(cur_ent.z_pos).c_str()); // If this way of converting to char * is not used, the code will error with repeated values or random ascii
+                    rapidxml::xml_node<> *z_pos = doc.allocate_node(rapidxml::node_element, "z", zpos_value);
+                    new_ent->insert_node(new_ent->first_node("z"),z_pos);
+                    new_ent->remove_node(new_ent->first_node("z")->next_sibling());
+
+
+                    // Adds the new entity node to the main XML tree
+                    doc.first_node("runscript")->append_node(new_ent);
+
+                    // If a new node is added, break to the next entity in the list of structs
+                    break; 
+                }
+
+             loop_test++;   
+        }
+
+
+
+        loop_test = 0;
+    }
+
 
     // Save doc with new allocated attributes to the miss2miss_file_content string to be saved to mission.plugin.xml logs
     std::string rapidxml_miss2miss_doc;

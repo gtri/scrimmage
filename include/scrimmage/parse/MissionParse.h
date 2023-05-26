@@ -92,7 +92,8 @@ class MissionParse {
     void get_plugin_params(std::string node_name, std::string node_value);
 
     //Natalie
-    void final_state_xml(std::vector<ent_end_state> & all_end_states);
+    void final_state_xml(std::list<ent_end_state> & all_end_states);
+    int num_ents = 0;
 
     bool write(const std::string &filename);
 
