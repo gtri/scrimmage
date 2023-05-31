@@ -448,11 +448,6 @@ bool MissionParse::parse(const std::string &filename) {
         entity_common[nm] = script_info;
     }
 
-    // Natalie - for the mission to mission pull request, will want to save the format of the entity blocks
-    // I think what should be done is call a function that parses through the mission_file_content and will add new
-    // entity nodes based on the count of each team, duplicating entries that are common and updating entity specific 
-    // values based on the final state of the entity
-
     // Loop through each "entity" node
     for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
          script_node != 0;
@@ -806,59 +801,111 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
         return;
     }
 
-    int loop_test = 0; // remove once passing actual sim control ent information
-
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
     if (runscript_node == 0) {
         cout << "Missing runscript tag." << endl;
         return;
     }
 
-    cout << "Number of entity blocks: " << num_ents << endl;
-
     for(auto a = all_end_states.begin(); a != all_end_states.end(); ++a){
         const auto& cur_ent = *a;
-        cout << "1. " << cur_ent.team_id << " 2. " << cur_ent.x_pos << " 3. " << cur_ent.y_pos << " 4. " << cur_ent.z_pos << endl;
 
         // Loop through each "entity" node
         for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
-            loop_test < num_ents; //Do not need this condiiton... will not have to worry about added nodes because of the break statement
+            script_node != 0; 
             script_node = script_node->next_sibling("entity")) {
 
                 // Get the team id number of the current node
                 rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
 
                 if(strcmp(std::to_string(cur_ent.team_id).c_str(),team_id_node->value()) == 0){
-                    cout << "Creating new entity instance... " << "1. " << cur_ent.team_id 
-                    << " 2. " << cur_ent.x_pos << " 3. " << cur_ent.y_pos << " 4. " << cur_ent.z_pos << endl;
-
-                    // Creates a clone of the current entity node
+                    // Creates a clone of the entity node that matches the struct's team id
                     rapidxml::xml_node<> *new_ent = doc.clone_node(script_node);
                     
-                    char *xpos_value = doc.allocate_string(std::to_string(cur_ent.x_pos).c_str()); // If this way of converting to char * is not used, the code will error with repeated values or random ascii
+                    // Update the entity block with the final state values for the given entity
+                    char *xpos_value = doc.allocate_string(std::to_string(cur_ent.x_pos).c_str()); // Must convert to char * this way; otherwise, the code will error with repeated values or random ascii
                     rapidxml::xml_node<> *x_pos = doc.allocate_node(rapidxml::node_element, "x", xpos_value);
-                    new_ent->insert_node(new_ent->first_node("x"),x_pos);
-                    new_ent->remove_node(new_ent->first_node("x")->next_sibling());
+                    if(new_ent->first_node("x")){
+                        new_ent->insert_node(new_ent->first_node("x"),x_pos);
+                        new_ent->remove_node(new_ent->first_node("x")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node(),x_pos);
+                    }
                     
-
-                    char *ypos_value = doc.allocate_string(std::to_string(cur_ent.y_pos).c_str()); // If this way of converting to char * is not used, the code will error with repeated values or random ascii
+                    char *ypos_value = doc.allocate_string(std::to_string(cur_ent.y_pos).c_str()); 
                     rapidxml::xml_node<> *y_pos = doc.allocate_node(rapidxml::node_element, "y", ypos_value);
-                    new_ent->insert_node(new_ent->first_node("y"),y_pos);
-                    new_ent->remove_node(new_ent->first_node("y")->next_sibling());
-
-                    char *zpos_value = doc.allocate_string(std::to_string(cur_ent.z_pos).c_str()); // If this way of converting to char * is not used, the code will error with repeated values or random ascii
-                    rapidxml::xml_node<> *z_pos = doc.allocate_node(rapidxml::node_element, "z", zpos_value);
-                    new_ent->insert_node(new_ent->first_node("z"),z_pos);
-                    new_ent->remove_node(new_ent->first_node("z")->next_sibling());
-
-                    // Make the count value 1
-                    if(new_ent->first_node("count")){
-                        rapidxml::xml_node<> *ent_count = doc.allocate_node(rapidxml::node_element, "count", "1");
-                        new_ent->insert_node(new_ent->first_node("count"),ent_count);
-                        new_ent->remove_node(new_ent->first_node("count")->next_sibling());
+                    if(new_ent->first_node("y")){
+                        new_ent->insert_node(new_ent->first_node("y"),y_pos);
+                        new_ent->remove_node(new_ent->first_node("y")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node(),y_pos);
                     }
 
-                    // Remove instances of variance
+                    char *zpos_value = doc.allocate_string(std::to_string(cur_ent.z_pos).c_str()); 
+                    rapidxml::xml_node<> *z_pos = doc.allocate_node(rapidxml::node_element, "z", zpos_value);
+                    if(new_ent->first_node("z")){
+                        new_ent->insert_node(new_ent->first_node("z"),z_pos);
+                        new_ent->remove_node(new_ent->first_node("z")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node(),z_pos);
+                    }
+
+                    char *heading_value = doc.allocate_string(std::to_string(cur_ent.yaw).c_str()); 
+                    rapidxml::xml_node<> * heading = doc.allocate_node(rapidxml::node_element, "heading", heading_value);
+                    if(new_ent->first_node("heading")){
+                        new_ent->insert_node(new_ent->first_node("heading"),heading);
+                        new_ent->remove_node(new_ent->first_node("heading")->next_sibling());
+                        cout << "In heading if." << endl;
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("z")->next_sibling(),heading);
+                        cout << "In heading else." << endl;
+                    }
+
+                    char *pitch_value = doc.allocate_string(std::to_string(cur_ent.pitch).c_str()); 
+                    rapidxml::xml_node<> * pitch = doc.allocate_node(rapidxml::node_element, "pitch", pitch_value);
+                    if(new_ent->first_node("pitch")){
+                        new_ent->insert_node(new_ent->first_node("pitch"),pitch);
+                        new_ent->remove_node(new_ent->first_node("pitch")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("heading")->next_sibling(),pitch);
+                    }
+
+                    char *roll_value = doc.allocate_string(std::to_string(cur_ent.roll).c_str()); 
+                    rapidxml::xml_node<> * roll = doc.allocate_node(rapidxml::node_element, "roll", roll_value);
+                    if(new_ent->first_node("roll")){
+                        new_ent->insert_node(new_ent->first_node("roll"),roll);
+                        new_ent->remove_node(new_ent->first_node("roll")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("pitch")->next_sibling(),roll);
+                    }
+
+                    char *altitude_value = doc.allocate_string(std::to_string(cur_ent.z_pos).c_str()); 
+                    rapidxml::xml_node<> * altitude = doc.allocate_node(rapidxml::node_element, "altitude", altitude_value);
+                    if(new_ent->first_node("altitude")){
+                        new_ent->insert_node(new_ent->first_node("altitude"),altitude);
+                        new_ent->remove_node(new_ent->first_node("altitude")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("roll")->next_sibling(),altitude);
+                    }
+
+                    rapidxml::xml_node<> *ent_count = doc.allocate_node(rapidxml::node_element, "count", "1");
+                    if(new_ent->first_node("count")){
+                        new_ent->insert_node(new_ent->first_node("count"),ent_count);
+                        new_ent->remove_node(new_ent->first_node("count")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("team_id")->next_sibling(),ent_count);
+                    }
+
+                    char *health_value = doc.allocate_string(std::to_string(cur_ent.health_points).c_str()); 
+                    rapidxml::xml_node<> *health = doc.allocate_node(rapidxml::node_element, "health", health_value);
+                    if(new_ent->first_node("health")){
+                        new_ent->insert_node(new_ent->first_node("health"),health);
+                        new_ent->remove_node(new_ent->first_node("health")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("count"),health);
+                    }
+
+                    // Remove tags that are not needed for single entity blocks
                     if(new_ent->first_node("variance_x")){
                         new_ent->remove_node(new_ent->first_node("variance_x"));
                     }
@@ -868,22 +915,26 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
                     if(new_ent->first_node("variance_z")){
                         new_ent->remove_node(new_ent->first_node("variance_z"));
                     }
-
-                    // Update the heading
-                    if(new_ent->first_node("heading")){
-                        cout << "In the heading node if statement" << endl;
+                    if(new_ent->first_node("generate_rate")){
+                        new_ent->remove_node(new_ent->first_node("generate_rate"));
                     }
+                    if(new_ent->first_node("generate_count")){
+                        new_ent->remove_node(new_ent->first_node("generate_count"));
+                    }
+                    if(new_ent->first_node("generate_start_time")){
+                        new_ent->remove_node(new_ent->first_node("generate_start_time"));
+                    }
+                    if(new_ent->first_node("generate_time_variance")){
+                        new_ent->remove_node(new_ent->first_node("generate_time_variance"));
+                    }
+                    
                     // Adds the new entity node to the main XML tree
                     doc.first_node("runscript")->append_node(new_ent);
 
                     // If a new node is added, break to the next entity in the list of structs
                     break; 
                 }
-
-             loop_test++;   
         }        
-
-        loop_test = 0;
     }
 
     // Remove original entity nodes

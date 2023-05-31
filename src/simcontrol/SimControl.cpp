@@ -1081,14 +1081,6 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         // team_id
         cout << "Team id: " << ent->id().team_id() << endl;
 
-        // color - probably going to need to get this from the mission parse file
-        // count (should be 1),
-        int block_count = 1;
-        cout << "Block count: " << block_count << endl;
-
-        // autonomy, autonomy loop rate,
-
-
         // health
         // Note: Entities that have collisions are removed. Health points could still be used for other mission xml output, because they might have more than 1 as a 
         // starting point, being able to endure multiple collisions
@@ -1107,36 +1099,36 @@ bool SimControl::shutdown(const bool& shutdown_python) {
 
         // heading - same thing as yaw
         cout << "Yaw of the quaternion: " << ent->state()->quat().yaw() << endl;
-        cout << "Roll of the quaternion: " << ent->state()->quat().roll() << endl;
         cout << "Pitch of the quaternion: " << ent->state()->quat().pitch() << endl;
-
-        // motion model
-        // visual model
-        // controller, controller loop rate, 
-        // sensor, sensor loop rate, 
-        // base - x,y,z, latitude, longitude, altitude, and radius of the base
+        cout << "Roll of the quaternion: " << ent->state()->quat().roll() << endl;
 
         // Velocity - no known tag for the entity block, may need to be an entry for controller
         //double vx, vy, vz = ent->state()->vel();
         cout << "Velocity values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
 
-        // Data that could come from the mission xml file
-
-
+        // I wonder if code about generating new ents, etc. should be removed, because it would
+        // be duplicated many times
+        // Will probably also want to remove the original calls of the ent blocks so that
+        // more are not created in the 2nd mission file... 
         // Do not include:
         // generate_rate, start time, count, and time variance, 
         // variance x y and z
         // use variance all ents,
 
-        //mp_->final_state_xml();
-
         // Struct saving and vector
-        ent_end_state end_state = {ent->id().team_id(), ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2]};
+        ent_end_state end_state = {ent->id().team_id(), 
+            ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2],
+            ent->state()->quat().yaw(), ent->state()->quat().pitch(), ent->state()->quat().roll(),
+            ent->health_points()};
         all_end_states.push_back(end_state);
 
         ent->close(t());
     }
 
+    // Add a tag to not remove certain entity blocks
+    // Add a tag to determine if the mission file should be created, at the same level as the run tag
+
+    //only call this and the above if a flag is set in the mission xml to create an output state file
     mp_->final_state_xml(all_end_states);
 
     for (EntityInteractionPtr ent_inter : ent_inters_) {
