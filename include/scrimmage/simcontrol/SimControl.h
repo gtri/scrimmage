@@ -373,6 +373,7 @@ class SimControl {
 
     bool finished_ = false;
     bool exit_ = false;
+    bool miss2miss = false;
 
     std::mutex finished_mutex_;
     std::mutex contacts_mutex_;
