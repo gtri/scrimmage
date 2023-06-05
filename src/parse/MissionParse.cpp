@@ -784,7 +784,6 @@ bool MissionParse::parse(const std::string &filename) {
     return true;
 }
 
-// Natalie test function
 void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
        
     // Parse the xml tree.
@@ -814,16 +813,12 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
         for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
             script_node != 0; 
             script_node = script_node->next_sibling("entity")) {
-
-                // Get the team id number of the current node
-                rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id"); // is this needed?
-
-                if(strcmp(std::to_string(cur_ent.team_id).c_str(),team_id_node->value()) == 0){
+                if(strcmp(std::to_string(cur_ent.team_id).c_str(),script_node->first_node("team_id")->value()) == 0){
                     // Creates a clone of the entity node that matches the struct's team id
                     rapidxml::xml_node<> *new_ent = doc.clone_node(script_node);
                     
                     // Update the entity block with the final state values for the given entity
-                    char *xpos_value = doc.allocate_string(std::to_string(cur_ent.x_pos).c_str()); // Must convert to char * this way; otherwise, the code will error with repeated values or random ascii
+                    char *xpos_value = doc.allocate_string(std::to_string(cur_ent.x_pos).c_str());
                     rapidxml::xml_node<> *x_pos = doc.allocate_node(rapidxml::node_element, "x", xpos_value);
                     if(new_ent->first_node("x")){
                         new_ent->insert_node(new_ent->first_node("x"),x_pos);
@@ -949,12 +944,12 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
         }        
     }
 
-    // Remove original entity nodes
+    // Remove original entity nodes based on the bool value of the remove_block entity tag
     int i = 0;
     for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity"); i<num_ents; i++){        
         std::string node_value = script_node->first_node("remove_block")->value();
 
-        if(node_value.compare("false") == 0){
+        if(node_value=="false"){    
             cout << "Not removing the entity block" << endl;
             continue;
         }

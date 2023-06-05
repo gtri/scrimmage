@@ -1070,39 +1070,9 @@ bool SimControl::shutdown(const bool& shutdown_python) {
     std::list<ent_end_state> all_end_states;
 
     // Close all plugins
+    // If the mission_to_mission tag is true, store final states of each entity in a vector of structs
     if(miss2miss){
-        for (EntityPtr &ent : ents_) {
-            // Natalie - need to store all state information before the GUI shuts down. Grab state information that can be captured in the entity block
-            // in the mission xml file. Need to then send the information to the mission parse file to create a new xml file when shutting down that
-            // can then be used by another simulation
-            //
-            // Need to pass the team ID and need to determine the number of entities that are part of a given team... might be able to handle this with
-            // looping
-            //
-            // Need to attempt to specify the following for the mission xml:
-            // Name - can multiple blocks have the same name?
-
-            // team_id
-            cout << "Team id: " << ent->id().team_id() << endl;
-
-            // health
-            // Note: Entities that have collisions are removed. Health points could still be used for other mission xml output, because they might have more than 1 as a 
-            // starting point, being able to endure multiple collisions
-            cout << "Health points: " << ent->health_points() << endl; // Need to check if the value is lower than a certain number, the entity should be created or not
-
-            // x, y, z
-            //double x, y, z = ent->state()->pos();
-            cout << "Position values, x: " << ent->state()->pos()[0] << " y: " << ent->state()->pos()[1] << " z: " << ent->state()->pos()[2] << endl;
-
-            // heading - same thing as yaw
-            cout << "Yaw of the quaternion: " << ent->state()->quat().yaw() << endl;
-            cout << "Pitch of the quaternion: " << ent->state()->quat().pitch() << endl;
-            cout << "Roll of the quaternion: " << ent->state()->quat().roll() << endl;
-
-            // Velocity - no known tag for the entity block, may need to be an entry for controller
-            //double vx, vy, vz = ent->state()->vel();
-            cout << "Velocity values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
-
+        for (EntityPtr &ent : ents_) {        
             // Create the struct for the entity end states
             // x_pos, y_pos, z_pos, yaw, pitch, roll, health_points, vel_x, vel_y, vel_z
             ent_end_state end_state = {ent->id().team_id(), 
@@ -1119,9 +1089,6 @@ bool SimControl::shutdown(const bool& shutdown_python) {
             ent->close(t());
         }
     }
-    
-    // Add information that cannot be utilized in the mission block explicitly to a separate output file, like
-    // the velocity values
 
     if(miss2miss){
         mp_->final_state_xml(all_end_states);

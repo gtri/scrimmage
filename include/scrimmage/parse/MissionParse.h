@@ -40,8 +40,8 @@
 
 #include <scrimmage/proto/Color.pb.h>
 #include <scrimmage/simcontrol/SimControl.h>
-
 #include <scrimmage/parse/EntEndStates.h>
+#include <rapidxml/rapidxml.hpp>
 
 #include <list>
 #include <vector>
@@ -49,8 +49,6 @@
 #include <memory>
 #include <string>
 #include <set>
-
-#include <rapidxml/rapidxml.hpp>
 
 namespace sp = scrimmage_proto;
 
@@ -90,9 +88,8 @@ class MissionParse {
     void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
     void get_plugin_params(std::string node_name, std::string node_value);
-
-    //Natalie
     void final_state_xml(std::list<ent_end_state> & all_end_states);
+    // Track the number of entity blocks in the input Mission XML file
     int num_ents = 0;
 
     bool write(const std::string &filename);
