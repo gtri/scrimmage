@@ -816,7 +816,7 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
             script_node = script_node->next_sibling("entity")) {
 
                 // Get the team id number of the current node
-                rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id");
+                rapidxml::xml_node<> *team_id_node = script_node->first_node("team_id"); // is this needed?
 
                 if(strcmp(std::to_string(cur_ent.team_id).c_str(),team_id_node->value()) == 0){
                     // Creates a clone of the entity node that matches the struct's team id
@@ -903,6 +903,20 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
                         new_ent->insert_node(new_ent->first_node("count"),health);
                     }
 
+                    ent_state_file_content << "--- New Entity Entry ---" << endl 
+                    << "Team_ID: " << team_id_node->value() << endl
+                    << "X_Pos: " << xpos_value << endl
+                    << "Y_Pos: " << ypos_value << endl
+                    << "Z_Pos: " << zpos_value << endl
+                    << "Vel_X: " << cur_ent.vel_x << endl
+                    << "Vel_Y: " << cur_ent.vel_y << endl
+                    << "Vel_Z: " << cur_ent.vel_z << endl
+                    << "Heading: " << heading_value << endl
+                    << "Pitch: " << pitch_value << endl
+                    << "Roll: " << roll_value << endl
+                    << "Altitude: " << altitude_value << endl
+                    << "Health: " << health_value << endl << endl;
+
                     // Remove tags that are not needed for single entity blocks
                     if(new_ent->first_node("variance_x")){
                         new_ent->remove_node(new_ent->first_node("variance_x"));
@@ -931,32 +945,21 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
 
                     // If a new node is added, break to the next entity in the list of structs
                     break; 
-                }
+            }
         }        
     }
 
     // Remove original entity nodes
     int i = 0;
-    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
-            i<num_ents; 
-            i++){
-
-        rapidxml::xml_node<> *remove_node = script_node;
-
-        // If the remove_block is set to true, do not remove the entity block from the miss2miss file
-        cout << "Value of remove block for ent " << i << ": " << script_node->first_node("remove_block")->value() 
-        << "strcmp value: " << strcmp("true",script_node->first_node("remove_block")->value()) << endl;
-        
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity"); i<num_ents; i++){        
         std::string node_value = script_node->first_node("remove_block")->value();
-
-        cout << "Node string value: " << node_value << " Compare value: " << node_value.compare("true") 
-        << "Team id value: " << script_node->first_node("team_id")->value() << endl;
 
         if(node_value.compare("false") == 0){
             cout << "Not removing the entity block" << endl;
             continue;
         }
 
+        rapidxml::xml_node<> *remove_node = script_node;
         script_node = script_node->next_sibling("entity");
         doc.first_node("runscript")->remove_node(remove_node);
     }
@@ -966,10 +969,15 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
     rapidxml::print(std::back_inserter(rapidxml_miss2miss_doc), doc, 0);
     miss2miss_file_content = rapidxml_miss2miss_doc;
 
+    // Create the new mission to mission xml file
     std::ofstream miss2miss_content_out(log_dir_+"/miss2miss.xml");
     miss2miss_content_out << miss2miss_file_content;
     miss2miss_content_out.close();
 
+    // Create the entity end state file
+    std::ofstream ent_state_content_out(log_dir_+"/final_ent_states.xml");
+    ent_state_content_out << ent_state_file_content.rdbuf();
+    ent_state_content_out.close();
 }
 
 void MissionParse::get_plugin_params(std::string node_name, std::string node_value) {

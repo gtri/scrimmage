@@ -1103,11 +1103,13 @@ bool SimControl::shutdown(const bool& shutdown_python) {
             //double vx, vy, vz = ent->state()->vel();
             cout << "Velocity values, vx: " << ent->state()->vel()[0] << " vy: " << ent->state()->vel()[1] << " vz: " << ent->state()->vel()[2] << endl;
 
-            // Struct saving and vector
+            // Create the struct for the entity end states
+            // x_pos, y_pos, z_pos, yaw, pitch, roll, health_points, vel_x, vel_y, vel_z
             ent_end_state end_state = {ent->id().team_id(), 
                 ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2],
                 ent->state()->quat().yaw(), ent->state()->quat().pitch(), ent->state()->quat().roll(),
-                ent->health_points()};
+                ent->health_points(),
+                ent->state()->vel()[0], ent->state()->vel()[1], ent->state()->vel()[2]};
             all_end_states.push_back(end_state);
 
             ent->close(t());
@@ -1118,7 +1120,6 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         }
     }
     
-    // Add a tag to not remove certain entity blocks
     // Add information that cannot be utilized in the mission block explicitly to a separate output file, like
     // the velocity values
 

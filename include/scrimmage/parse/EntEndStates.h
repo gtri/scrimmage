@@ -14,6 +14,10 @@
       double roll;
 
       int health_points;
+
+      double vel_x;
+      double vel_y;
+      double vel_z;
    };
 
 #endif

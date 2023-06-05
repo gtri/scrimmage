@@ -173,6 +173,7 @@ class MissionParse {
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
     std::string miss2miss_file_content = "";
+    std::stringstream ent_state_file_content;
     std::string mission_plugin_file_content = "";
     std::string scrimmage_plugin_path = "";
     std::map<std::string, std::string> plugin_spec_attrs;
