@@ -154,6 +154,8 @@ using EntityInteractionPtr = std::shared_ptr<EntityInteraction>;
 class Metrics;
 using MetricsPtr = std::shared_ptr<Metrics>;
 
+using AttributeMap = std::map<std::string, std::map<std::string, std::string>>;
+
 class CameraInterface;
 } // namespace scrimmage
 
