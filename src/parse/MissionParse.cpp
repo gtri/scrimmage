@@ -855,10 +855,8 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
                     if(new_ent->first_node("heading")){
                         new_ent->insert_node(new_ent->first_node("heading"),heading);
                         new_ent->remove_node(new_ent->first_node("heading")->next_sibling());
-                        cout << "In heading if." << endl;
                     } else{
                         new_ent->insert_node(new_ent->first_node("z")->next_sibling(),heading);
-                        cout << "In heading else." << endl;
                     }
 
                     char *pitch_value = doc.allocate_string(std::to_string(cur_ent.pitch).c_str()); 
@@ -938,8 +936,29 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
     }
 
     // Remove original entity nodes
-    for (int i = 0; i<num_ents; i++) {
-            doc.first_node("runscript")->remove_node(runscript_node->first_node("entity"));
+    int i = 0;
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
+            i<num_ents; 
+            i++){
+
+        rapidxml::xml_node<> *remove_node = script_node;
+
+        // If the remove_block is set to true, do not remove the entity block from the miss2miss file
+        cout << "Value of remove block for ent " << i << ": " << script_node->first_node("remove_block")->value() 
+        << "strcmp value: " << strcmp("true",script_node->first_node("remove_block")->value()) << endl;
+        
+        std::string node_value = script_node->first_node("remove_block")->value();
+
+        cout << "Node string value: " << node_value << " Compare value: " << node_value.compare("true") 
+        << "Team id value: " << script_node->first_node("team_id")->value() << endl;
+
+        if(node_value.compare("false") == 0){
+            cout << "Not removing the entity block" << endl;
+            continue;
+        }
+
+        script_node = script_node->next_sibling("entity");
+        doc.first_node("runscript")->remove_node(remove_node);
     }
 
     // Save doc with new allocated attributes to the miss2miss_file_content string to be saved to mission.plugin.xml logs
