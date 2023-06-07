@@ -321,12 +321,22 @@ class SimControl {
     void set_running_in_thread(bool running_in_thread);
 
    // Natalie adding struct information
-   // struct ent_end_state {
-   //    int team_id;
-   //    double x_pos;
-   //    double y_pos;
-   //    double z_pos;
-   // } end_state;
+   struct ent_end_state {
+      int team_id;
+      double x_pos;
+      double y_pos;
+      double z_pos;
+
+      double yaw;
+      double pitch;
+      double roll;
+
+      int health_points;
+
+      double vel_x;
+      double vel_y;
+      double vel_z;
+   } end_state;
 
    //std::vector<ent_end_state> all_end_states;
 

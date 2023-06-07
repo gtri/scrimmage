@@ -70,7 +70,7 @@
 
 #include <scrimmage/msgs/Event.pb.h>
 
-#include <scrimmage/parse/EntEndStates.h>
+//#include <scrimmage/parse/EntEndStates.h>
 
 #include <iostream>
 #include <string>
@@ -1075,7 +1075,8 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         for (EntityPtr &ent : ents_) {        
             // Create the struct for the entity end states
             // x_pos, y_pos, z_pos, yaw, pitch, roll, health_points, vel_x, vel_y, vel_z
-            ent_end_state end_state = {ent->id().team_id(), 
+            //ent_end_state end_state = {ent->id().team_id(), 
+            end_state = {ent->id().team_id(), 
                 ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2],
                 ent->state()->quat().yaw(), ent->state()->quat().pitch(), ent->state()->quat().roll(),
                 ent->health_points(),

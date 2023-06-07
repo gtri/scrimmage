@@ -778,7 +778,7 @@ bool MissionParse::parse(const std::string &filename) {
     return true;
 }
 
-void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
+void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_end_states){
     // Parse the xml tree. doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
