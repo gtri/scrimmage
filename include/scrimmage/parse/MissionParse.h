@@ -40,7 +40,6 @@
 
 #include <scrimmage/proto/Color.pb.h>
 #include <scrimmage/simcontrol/SimControl.h>
-//#include <scrimmage/parse/EntEndStates.h>
 #include <rapidxml/rapidxml.hpp>
 
 #include <list>

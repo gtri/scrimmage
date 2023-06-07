@@ -320,7 +320,7 @@ class SimControl {
 
     void set_running_in_thread(bool running_in_thread);
 
-   // Natalie adding struct information
+   /// @brief Contains the final state values of each entity
    struct ent_end_state {
       int team_id;
       double x_pos;
@@ -338,7 +338,7 @@ class SimControl {
       double vel_z;
    } end_state;
 
-   //std::vector<ent_end_state> all_end_states;
+   std::list<ent_end_state> all_end_states;
 
  protected:
     // Key: Entity ID
