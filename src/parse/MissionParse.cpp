@@ -239,18 +239,12 @@ bool MissionParse::parse(const std::string &filename) {
     std::string plugin_path;
 
     // Create substrings of the plugin_env_string, using the ':' character as 
-    // a delimiter
+    // a delimiter. Update the scrimmage_plugin_path string with the path that 
+    // can access plugin specific xml files
     while(std::getline(plugin_ss, plugin_path, ':')){
-        if(!plugin_path.empty()){
-            plugin_substrings.push_back(plugin_path);
-        }
-    }
-
-    // Update the scrimmage_plugin_path string with the path that can access plugin
-    // specific xml files
-    for(const auto& plugin_string : plugin_substrings){
-        if (plugin_string.find("/include/scrimmage/plugins") != std::string::npos){
-            scrimmage_plugin_path = plugin_string;
+        if (!plugin_path.empty() && (plugin_path.find("/include/scrimmage/plugins") != std::string::npos)){
+            scrimmage_plugin_path = plugin_path;
+            break;
         }
     }
 
@@ -899,7 +893,7 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
                     }
 
                     ent_state_file_content << "--- New Entity Entry ---" << endl 
-                    << "Team_ID: " << team_id_node->value() << endl
+                    << "Team_ID: " << script_node->first_node("team_id")->value() << endl
                     << "X_Pos: " << xpos_value << endl
                     << "Y_Pos: " << ypos_value << endl
                     << "Z_Pos: " << zpos_value << endl

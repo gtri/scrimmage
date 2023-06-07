@@ -39,7 +39,7 @@
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <scrimmage/proto/Color.pb.h>
-#include <scrimmage/simcontrol/SimControl.h>
+//#include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/parse/EntEndStates.h>
 #include <rapidxml/rapidxml.hpp>
 
