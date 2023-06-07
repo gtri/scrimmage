@@ -87,8 +87,12 @@ class MissionParse {
     void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
     void get_plugin_params(std::string node_name, std::string node_value);
+
+    /// @brief Generate the mission to mission xml file for all final states of entities
+    /// @param all_end_states 
     void final_state_xml(std::list<SimControl::ent_end_state> & all_end_states);
-    // Track the number of entity blocks in the input Mission XML file
+
+    /// @brief Track the number of entity blocks in the input Mission XML file
     int num_ents = 0;
 
     bool write(const std::string &filename);
