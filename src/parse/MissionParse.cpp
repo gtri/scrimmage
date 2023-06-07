@@ -282,7 +282,6 @@ bool MissionParse::parse(const std::string &filename) {
                 get_plugin_params(nm, node->value());
             }
 
-
             // Loop through each node's attributes:
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
                  attr; attr = attr->next_attribute()) {
@@ -622,7 +621,8 @@ bool MissionParse::parse(const std::string &filename) {
             }
         }
         
-        // Save doc with new allocated attributes to the mission_plugin_file_content string to be saved to mission.plugin.xml logs
+        // Save doc with new allocated attributes to the mission_plugin_file_content string, which will be output to the 
+        // mission.plugin.xml file in the log directory
         std::string rapidxml_plugin_doc;
         rapidxml::print(std::back_inserter(rapidxml_plugin_doc), doc, 0);
         mission_plugin_file_content = rapidxml_plugin_doc;
@@ -779,9 +779,7 @@ bool MissionParse::parse(const std::string &filename) {
 }
 
 void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
-       
-    // Parse the xml tree.
-    // doc.parse requires a null terminated string that it can modify.
+    // Parse the xml tree. doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
     mission_file_content_vec.push_back('\0'); // shouldn't reallocate
@@ -939,11 +937,11 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
     }
 
     // Remove original entity nodes based on the bool value of the remove_block entity tag
-    int i = 0;
-    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity"); i<num_ents; i++){        
+    rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
+    for (int i = 0; i<num_ents; i++){        
         std::string node_value = script_node->first_node("remove_block")->value();
 
-        if(node_value=="false"){    
+        if(script_node->first_node("remove_block") && (node_value=="false")){    
             cout << "Not removing the entity block" << endl;
             continue;
         }
@@ -953,7 +951,8 @@ void MissionParse::final_state_xml(std::list<ent_end_state> & all_end_states){
         doc.first_node("runscript")->remove_node(remove_node);
     }
 
-    // Save doc with new allocated attributes to the miss2miss_file_content string to be saved to mission.plugin.xml logs
+    // Save doc with new allocated attributes to the miss2miss_file_content string, which will be output to the
+    // miss2miss.xml file in the log directory
     std::string rapidxml_miss2miss_doc;
     rapidxml::print(std::back_inserter(rapidxml_miss2miss_doc), doc, 0);
     miss2miss_file_content = rapidxml_miss2miss_doc;
@@ -1021,9 +1020,8 @@ void MissionParse::get_plugin_params(std::string node_name, std::string node_val
     std::regex reg("\\$\\{.+?=(.+?)\\}");
     plugin_file_content_ = std::regex_replace(plugin_file_content_, reg, fmt);
 
-    // Parse the xml tree.
+    // Parse the xml tree. doc.parse requires a null terminated string that it can modify.
     rapidxml::xml_document<> plugin_doc;
-    // doc.parse requires a null terminated string that it can modify.
     std::vector<char> plugin_file_content_vec(plugin_file_content_.size() + 1); // allocation done here
     plugin_file_content_vec.assign(plugin_file_content_.begin(), plugin_file_content_.end()); // copy
     plugin_file_content_vec.push_back('\0'); // shouldn't reallocate
