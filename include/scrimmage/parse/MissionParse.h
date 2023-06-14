@@ -80,7 +80,7 @@ struct GenerateInfo {
     bool first_in_group;
     double time_variance;
 };
-
+// test
 class MissionParse {
  public:
     bool create_log_dir();
