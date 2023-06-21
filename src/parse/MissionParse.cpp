@@ -446,7 +446,6 @@ bool MissionParse::parse(const std::string &filename) {
          script_node != 0;
          script_node = script_node->next_sibling("entity")) {
 
-        // Tracks the number of entities in the original XML file
         num_ents++;
 
         std::map<std::string, std::string> script_info;
@@ -962,8 +961,8 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
     miss2miss_content_out << miss2miss_file_content;
     miss2miss_content_out.close();
 
-    // Create the entity end state file
-    std::ofstream ent_state_content_out(log_dir_+"/final_ent_states.xml");
+    // Create the entity end state txt file
+    std::ofstream ent_state_content_out(log_dir_+"/final_ent_states.txt");
     ent_state_content_out << ent_state_file_content.rdbuf();
     ent_state_content_out.close();
 }

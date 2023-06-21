@@ -80,7 +80,7 @@ struct GenerateInfo {
     bool first_in_group;
     double time_variance;
 };
-// test
+
 class MissionParse {
  public:
     bool create_log_dir();
@@ -170,14 +170,17 @@ class MissionParse {
     bool output_type_required(const std::string& output_type);
 
  protected:
+    rapidxml::xml_document<> doc;
+
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
+
     std::string miss2miss_file_content = "";
     std::stringstream ent_state_file_content;
+
     std::string mission_plugin_file_content = "";
     std::string scrimmage_plugin_path = "";
     std::map<std::string, std::string> plugin_spec_attrs;
-    rapidxml::xml_document<> doc;
 
     double t0_ = 0;
     double tend_ = 50;

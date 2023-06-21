@@ -70,8 +70,6 @@
 
 #include <scrimmage/msgs/Event.pb.h>
 
-//#include <scrimmage/parse/EntEndStates.h>
-
 #include <iostream>
 #include <string>
 #include <memory>
@@ -1066,7 +1064,7 @@ bool SimControl::finalize() {
 
 bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
-    
+
     // Close all plugins
     // If the mission_to_mission tag is true, store final states of each entity in a vector of structs
     if(miss2miss){
