@@ -779,6 +779,7 @@ bool MissionParse::parse(const std::string &filename) {
 
 void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_end_states){
     // Parse the xml tree. doc.parse requires a null terminated string that it can modify.
+    cout << "In the final state function" << endl;
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
     mission_file_content_vec.push_back('\0'); // shouldn't reallocate
@@ -938,11 +939,12 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
     // Remove original entity nodes based on the bool value of the remove_block entity tag
     rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
     for (int i = 0; i<num_ents; i++){        
-        std::string node_value = script_node->first_node("remove_block")->value();
-
-        if(script_node->first_node("remove_block") && (node_value=="false")){    
-            cout << "Not removing the entity block" << endl;
-            continue;
+        if(script_node->first_node("remove_block")){
+            std::string node_value = script_node->first_node("remove_block")->value(); // Placed in the if statement, otherwise it will seg fault
+            if(node_value == "false"){
+                cout << "Not removing the entity block" << endl;
+                continue;
+            }
         }
 
         rapidxml::xml_node<> *remove_node = script_node;
