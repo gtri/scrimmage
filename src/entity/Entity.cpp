@@ -730,4 +730,36 @@ void Entity::print_plugins(std::ostream &out) const {
         out << motion_model_->name() << endl;
     }
 }
+
+// Function that creates some kind of data structure based off the sensors, autonomies, 
+// controllers, and motion models.
+// The plugins can call the function to pass their plugin specific xml values, which will
+// be added to the corresponding plugin stored in the data structure
+// Might be good to have a function for each plugin type, instead of combining them like in the
+// print plugins function
+
+void Entity::set_motion_xml_vect(){
+    std::map<std::string,std::string> cur_mm_xml;
+    if (motion_model_ && motion_model_->name() != "BLANK") {
+        cur_mm_xml = motion_model_->mission_xml_set();
+    }
+    //all_motion_xml.push_back(motion_xml);
+
+    for (auto itr = cur_mm_xml.begin(); itr != cur_mm_xml.end(); ++itr) {
+        std::cout << "1. " << itr->first << " 2. " << itr->second << std::endl;
+    }
+}
+
+void Entity::set_sensor_xml_vect(){
+    return;
+}
+
+void Entity::set_autonomy_xml_vect(){
+    return;
+}
+
+void Entity::set_controller_xml_vect(){
+    return;
+}
+
 }  // namespace scrimmage

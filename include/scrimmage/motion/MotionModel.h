@@ -56,6 +56,10 @@ class MotionModel : public EntityPlugin {
                       std::map<std::string, std::string> &params);
 
     virtual bool step(double time, double dt);
+
+    // Mission to mission function
+    virtual std::map<std::string,std::string> mission_xml_set();
+
     virtual bool posthumous(double t);
     virtual StatePtr &state();
     virtual void set_state(StatePtr &state);

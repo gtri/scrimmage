@@ -48,6 +48,11 @@ bool MotionModel::init(std::map<std::string, std::string> &info, std::map<std::s
 
 bool MotionModel::step(double time, double dt) { return true; }
 
+std::map<std::string,std::string> MotionModel::mission_xml_set() { 
+    std::map<std::string,std::string> mission_xml; 
+    return mission_xml;
+}
+
 bool MotionModel::posthumous(double t) { return true; }
 
 StatePtr &MotionModel::state() {return state_;}

@@ -1078,6 +1078,8 @@ bool SimControl::shutdown(const bool& shutdown_python) {
                 ent->state()->vel()[0], ent->state()->vel()[1], ent->state()->vel()[2]};
             all_end_states.push_back(end_state);
 
+            //ent->print_plugins(std::cout);
+            ent->set_motion_xml_vect();
             ent->close(t());
         }
     } else {
