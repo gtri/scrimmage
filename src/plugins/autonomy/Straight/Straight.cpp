@@ -213,6 +213,24 @@ void Straight::init(std::map<std::string, std::string> &params) {
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
+// Misison to mission testing
+std::map<std::string,std::string> Straight::mission_xml_set() {
+    std::map<std::string,std::string> mission_xml;
+
+    // I actually think it would make more sense to do a vector of maps,
+    // so that I can relate the xml tag name to the value duhhhhhhh
+    mission_xml.insert({"Autonomy Plugin Name","Straight"});
+    mission_xml.insert({"speed",std::to_string(speed_)});
+    mission_xml.insert({"show_camera_images",std::to_string(show_camera_images_)});
+    mission_xml.insert({"save_camera_images",std::to_string(save_camera_images_)});
+    mission_xml.insert({"show_text_label",std::to_string(show_text_label_)});
+    mission_xml.insert({"enable_boundary_control",std::to_string(enable_boundary_control_)});
+    mission_xml.insert({"generate_entities",std::to_string(gen_ents_)});
+
+    return mission_xml;
+}
+// End of mission to mission testing
+
 bool Straight::step_autonomy(double t, double dt) {
     if (gen_ents_) {
         if (time_->t() > (prev_gen_time_ + 2.0)) {

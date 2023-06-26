@@ -742,11 +742,10 @@ void Entity::set_motion_xml_vect(){
     std::map<std::string,std::string> cur_mm_xml;
     if (motion_model_ && motion_model_->name() != "BLANK") {
         cur_mm_xml = motion_model_->mission_xml_set();
-    }
-    //all_motion_xml.push_back(motion_xml);
-
-    for (auto itr = cur_mm_xml.begin(); itr != cur_mm_xml.end(); ++itr) {
-        std::cout << "1. " << itr->first << " 2. " << itr->second << std::endl;
+        
+        for (auto itr = cur_mm_xml.begin(); itr != cur_mm_xml.end(); ++itr) {
+            std::cout << "Motion Model: 1. " << itr->first << " 2. " << itr->second << std::endl;
+        }
     }
 }
 
@@ -755,7 +754,17 @@ void Entity::set_sensor_xml_vect(){
 }
 
 void Entity::set_autonomy_xml_vect(){
-    return;
+    std::vector<std::map<std::string,std::string>> all_autonomy_xml;
+    std::map<std::string,std::string> cur_aut_xml;
+
+    for (AutonomyPtr a : autonomies_) {
+        cur_aut_xml = a->mission_xml_set();
+        all_autonomy_xml.push_back(cur_aut_xml);
+
+        for (auto itr = cur_aut_xml.begin(); itr != cur_aut_xml.end(); ++itr) {
+            std::cout << "Autonomy: 1. " << itr->first << " 2. " << itr->second << std::endl;
+        }
+    }
 }
 
 void Entity::set_controller_xml_vect(){

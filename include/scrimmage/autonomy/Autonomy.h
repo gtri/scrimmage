@@ -56,6 +56,9 @@ class Autonomy : public EntityPlugin {
     void close(double t) override;
     bool need_reset();
 
+    // Mission to mission function
+    virtual std::map<std::string,std::string> mission_xml_set();
+
     // getters/setters
     StatePtr &desired_state();
     void set_desired_state(StatePtr desired_state);

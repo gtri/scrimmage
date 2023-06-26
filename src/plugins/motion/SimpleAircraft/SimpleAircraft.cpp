@@ -112,6 +112,7 @@ std::map<std::string,std::string> SimpleAircraft::mission_xml_set() {
 
     // I actually think it would make more sense to do a vector of maps,
     // so that I can relate the xml tag name to the value duhhhhhhh
+    mission_xml.insert({"Motion Model Plugin Name","SimpleAircraft"});
     mission_xml.insert({"min_velocity",std::to_string(min_velocity_)});
     mission_xml.insert({"max_velocity",std::to_string(max_velocity_)});
     mission_xml.insert({"max_roll",std::to_string(max_roll_)});
