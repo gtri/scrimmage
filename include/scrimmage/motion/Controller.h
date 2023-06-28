@@ -52,6 +52,13 @@ class Controller : public EntityPlugin {
         desired_state_ = nullptr;
     }
 
+    // Mission to mission function
+    virtual std::map<std::string,std::string> mission_xml_set() {
+        std::map<std::string,std::string> mission_xml; 
+        return mission_xml;
+    };
+
+
  protected:
     StatePtr state_;
     StatePtr desired_state_;

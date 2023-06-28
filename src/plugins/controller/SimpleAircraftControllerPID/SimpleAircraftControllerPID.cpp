@@ -77,6 +77,24 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     output_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 }
 
+// Misison to mission testing
+std::map<std::string,std::string> SimpleAircraftControllerPID::mission_xml_set() {
+    std::map<std::string,std::string> mission_xml;
+
+    // I actually think it would make more sense to do a vector of maps,
+    // so that I can relate the xml tag name to the value
+    mission_xml.insert({"Controller Plugin Name","SimpleAircraftControllerPID"});
+    // mission_xml.insert({"heading_pid",std::to_string()});
+    // mission_xml.insert({"show_camera_images",std::to_string(show_camera_images_)});
+    // mission_xml.insert({"save_camera_images",std::to_string(save_camera_images_)});
+    // mission_xml.insert({"show_text_label",std::to_string(show_text_label_)});
+    // mission_xml.insert({"enable_boundary_control",std::to_string(enable_boundary_control_)});
+    // mission_xml.insert({"generate_entities",std::to_string(gen_ents_)});
+
+    return mission_xml;
+}
+// End of mission to mission testing
+
 bool SimpleAircraftControllerPID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
     double u_roll_rate = use_roll_ ?

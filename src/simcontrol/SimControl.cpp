@@ -1069,18 +1069,24 @@ bool SimControl::shutdown(const bool& shutdown_python) {
     // If the mission_to_mission tag is true, store final states of each entity in a vector of structs
     if(miss2miss){
         for (EntityPtr &ent : ents_) {        
+            
+            // Get the vectors of all entity specific plugin xml tags
+            std::map<std::string,std::string> motion_xml_vect = ent->set_motion_xml_vect();
+            std::vector<std::map<std::string,std::string>> autonomy_xml_vect = ent->set_autonomy_xml_vect();
+            std::vector<std::map<std::string,std::string>> controller_xml_vect = ent->set_controller_xml_vect();
+            std::vector<std::map<std::string,std::string>> sensor_xml_vect = ent->set_sensor_xml_vect();
+
             // Create the struct for the entity end states
             // x_pos, y_pos, z_pos, yaw, pitch, roll, health_points, vel_x, vel_y, vel_z
             end_state = {ent->id().team_id(), 
                 ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2],
                 ent->state()->quat().yaw(), ent->state()->quat().pitch(), ent->state()->quat().roll(),
                 ent->health_points(),
-                ent->state()->vel()[0], ent->state()->vel()[1], ent->state()->vel()[2]};
+                ent->state()->vel()[0], ent->state()->vel()[1], ent->state()->vel()[2],
+                motion_xml_vect, autonomy_xml_vect, controller_xml_vect, sensor_xml_vect};
+            
             all_end_states.push_back(end_state);
 
-            //ent->print_plugins(std::cout);
-            ent->set_motion_xml_vect();
-            ent->set_autonomy_xml_vect();
             ent->close(t());
         }
     } else {

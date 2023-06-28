@@ -51,6 +51,12 @@ class Sensor : public EntityPlugin {
 
     virtual bool step() {return true;}
 
+    // Mission to mission function
+    virtual std::map<std::string,std::string> mission_xml_set() {
+        std::map<std::string,std::string> mission_xml; 
+        return mission_xml;
+    };
+
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting) */

@@ -139,10 +139,10 @@ class Entity : public std::enable_shared_from_this<Entity> {
     std::vector<ControllerPtr> &controllers();
 
     // Mission to mission pull request
-    void set_motion_xml_vect();
-    void set_sensor_xml_vect();
-    void set_autonomy_xml_vect();
-    void set_controller_xml_vect();
+    std::map<std::string,std::string> set_motion_xml_vect();
+    std::vector<std::map<std::string,std::string>> set_sensor_xml_vect();
+    std::vector<std::map<std::string,std::string>> set_autonomy_xml_vect();
+    std::vector<std::map<std::string,std::string>> set_controller_xml_vect();
     // End of mission to mission
 
     void set_id(ID &id);

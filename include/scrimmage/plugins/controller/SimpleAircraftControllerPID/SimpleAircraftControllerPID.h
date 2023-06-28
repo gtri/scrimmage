@@ -54,6 +54,8 @@ class SimpleAircraftControllerPID : public Controller {
  public:
     virtual void init(std::map<std::string, std::string> &params);
     virtual bool step(double t, double dt);
+    std::map<std::string,std::string> mission_xml_set() override;
+
 
  protected:
     scrimmage::PID heading_pid_;

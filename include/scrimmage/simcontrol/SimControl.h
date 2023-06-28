@@ -336,6 +336,12 @@ class SimControl {
       double vel_x;
       double vel_y;
       double vel_z;
+
+      std::map<std::string,std::string> motion_xml_tags;
+      std::vector<std::map<std::string,std::string>> autonomy_xml_tags;
+      std::vector<std::map<std::string,std::string>> controller_xml_tags;
+      std::vector<std::map<std::string,std::string>> sensor_xml_tags;
+
    } end_state;
 
    std::list<ent_end_state> all_end_states;

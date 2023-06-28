@@ -926,8 +926,33 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                     if(new_ent->first_node("generate_time_variance")){
                         new_ent->remove_node(new_ent->first_node("generate_time_variance"));
                     }
-                    
-                    // Adds the new entity node to the main XML tree
+
+                    // Handle plugin specific xml tags
+                    for (rapidxml::xml_node<> *node = new_ent->first_node(); node != 0; node = node->next_sibling()) {
+                        std::string nm = node->name();
+
+                        cout << "Node name: " << nm << " Node value: " << node->value() << endl;
+
+                        // Will need to check the name of the given autonomy, controller, or sensor. Do not need to check name for the
+                        // motion model, since there is just one. To do this, compare the node->value() to the name in the struct's map
+                        if (nm == "autonomy"){
+                            
+                        } else if (nm == "motion_model"){
+                            for(auto itr = cur_ent.motion_xml_tags.begin(); itr != cur_ent.motion_xml_tags.end(); ++itr){
+                                char *attribute_name = doc.allocate_string(itr->first.c_str());
+                                char *attribute_value = doc.allocate_string(itr->second.c_str());
+                                rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                node->append_attribute(tempattr);
+                            }
+                        } else if (nm == "controller"){
+
+                        } else if (nm == "sensor"){
+
+                        }
+
+                    }
+
+                    // Adds the new entity node to the main xml tree
                     doc.first_node("runscript")->append_node(new_ent);
 
                     // If a new node is added, break to the next entity in the list of structs

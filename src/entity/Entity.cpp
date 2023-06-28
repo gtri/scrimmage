@@ -737,38 +737,88 @@ void Entity::print_plugins(std::ostream &out) const {
 // be added to the corresponding plugin stored in the data structure
 // Might be good to have a function for each plugin type, instead of combining them like in the
 // print plugins function
+// In the case the xml tag is a vector of PID, could do a type check in the mission parse file and
+// update accordingly
 
-void Entity::set_motion_xml_vect(){
-    std::map<std::string,std::string> cur_mm_xml;
+// Note: all data passed from the mission_xml_set function should be formatted as a map of strings
+// to strings. This will assist with the Rapid XML formatting. Additionally, the first entry of the map
+// must be the name of the given plugin - for example: "Straight" for an autonomy plugin.
+
+std::map<std::string,std::string> Entity::set_motion_xml_vect(){
+    std::map<std::string,std::string> cur_motion_xml;
     if (motion_model_ && motion_model_->name() != "BLANK") {
-        cur_mm_xml = motion_model_->mission_xml_set();
+        cur_motion_xml = motion_model_->mission_xml_set();
         
-        for (auto itr = cur_mm_xml.begin(); itr != cur_mm_xml.end(); ++itr) {
-            std::cout << "Motion Model: 1. " << itr->first << " 2. " << itr->second << std::endl;
-        }
+        // Verifies the motion model has the expected xml specific tags. This can be uncommented for debugging.
+        // for (auto itr = cur_motion_xml.begin(); itr != cur_motion_xml.end(); ++itr) {
+        //     std::cout << "Motion Model: 1. " << itr->first << " 2. " << itr->second << std::endl;
+        // }
     }
+
+    return cur_motion_xml;
 }
 
-void Entity::set_sensor_xml_vect(){
-    return;
+std::vector<std::map<std::string,std::string>> Entity::set_sensor_xml_vect(){
+    std::vector<std::map<std::string,std::string>> all_sensor_xml;
+    std::map<std::string,std::string> cur_sensor_xml;
+
+    for (auto &kv : sensors_) {
+        cur_sensor_xml = kv.second->mission_xml_set();
+        all_sensor_xml.push_back(cur_sensor_xml);
+    }
+
+    // Verifies each sensor has the expected xml specific tags. This can be uncommented for debugging.
+    // for (int i = 0; i < all_sensor_xml.size(); i++) {
+    //     std::cout << "Autonomy vector #: " << i << std::endl;
+ 
+    //     // Traverse the map
+    //     for (auto itr : all_sensor_xml[i])
+    //         std::cout << "Autonomy: 1. " << itr.first << " 2. " << itr.second << std::endl;
+    // }
+
+    return all_sensor_xml;
 }
 
-void Entity::set_autonomy_xml_vect(){
+std::vector<std::map<std::string,std::string>> Entity::set_autonomy_xml_vect(){
     std::vector<std::map<std::string,std::string>> all_autonomy_xml;
-    std::map<std::string,std::string> cur_aut_xml;
+    std::map<std::string,std::string> cur_autonomy_xml;
 
     for (AutonomyPtr a : autonomies_) {
-        cur_aut_xml = a->mission_xml_set();
-        all_autonomy_xml.push_back(cur_aut_xml);
-
-        for (auto itr = cur_aut_xml.begin(); itr != cur_aut_xml.end(); ++itr) {
-            std::cout << "Autonomy: 1. " << itr->first << " 2. " << itr->second << std::endl;
-        }
+        cur_autonomy_xml = a->mission_xml_set();
+        all_autonomy_xml.push_back(cur_autonomy_xml);
     }
+
+    // Verifies each autonomy has the expected xml specific tags. This can be uncommented for debugging.
+    // for (int i = 0; i < all_autonomy_xml.size(); i++) {
+    //     std::cout << "Autonomy vector #: " << i << std::endl;
+ 
+    //     // Traverse the map
+    //     for (auto itr : all_autonomy_xml[i])
+    //         std::cout << "Autonomy: 1. " << itr.first << " 2. " << itr.second << std::endl;
+    // }
+
+    return all_autonomy_xml;
 }
 
-void Entity::set_controller_xml_vect(){
-    return;
+std::vector<std::map<std::string,std::string>> Entity::set_controller_xml_vect(){
+    std::vector<std::map<std::string,std::string>> all_controller_xml;
+    std::map<std::string,std::string> cur_controller_xml;
+
+    for (ControllerPtr c : controllers_) {
+        cur_controller_xml = c->mission_xml_set();
+        all_controller_xml.push_back(cur_controller_xml);
+    }
+
+    // Verifies each controller has the expected xml specific tags. This can be uncommented for debugging.
+    // for (int i = 0; i < all_controller_xml.size(); i++) {
+    //     std::cout << "Autonomy vector #: " << i << std::endl;
+ 
+    //     // Traverse the map
+    //     for (auto itr : all_controller_xml[i])
+    //         std::cout << "Autonomy: 1. " << itr.first << " 2. " << itr.second << std::endl;
+    // }
+
+    return all_controller_xml;
 }
 
 }  // namespace scrimmage
