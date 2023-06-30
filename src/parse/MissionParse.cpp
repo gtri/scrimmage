@@ -944,15 +944,17 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                             continue;
                                         }
                                     }
-                                    
-                                    if(node->first_attribute(itr.first.c_str())){
-                                        continue;
-                                    }
 
                                     char *attribute_name = doc.allocate_string(itr.first.c_str());
                                     char *attribute_value = doc.allocate_string(itr.second.c_str());
                                     rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
-                                    node->append_attribute(tempattr);
+                                    //node->append_attribute(tempattr);
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
+                                        node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
+                                    } else {
+                                        node->append_attribute(tempattr);
+                                    }
                                 }
                                     
                             }
@@ -962,14 +964,15 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                     continue;       
                                 }
 
-                                if(node->first_attribute(itr->first.c_str())){
-                                        continue;
-                                }
-
                                 char *attribute_name = doc.allocate_string(itr->first.c_str());
                                 char *attribute_value = doc.allocate_string(itr->second.c_str());
                                 rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
-                                node->append_attribute(tempattr);
+                                if(node->first_attribute(itr->first.c_str())){
+                                    node->insert_attribute(node->first_attribute(itr->first.c_str()),tempattr);
+                                    node->remove_attribute(node->first_attribute(itr->first.c_str())->next_attribute());
+                                } else {
+                                    node->append_attribute(tempattr);
+                                }
                             }
                         } else if (nm == "controller"){
                             for (int i = 0; i < cur_ent.controller_xml_tags.size(); i++) {                        
@@ -984,14 +987,15 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                         }
                                     }
 
-                                    if(node->first_attribute(itr.first.c_str())){
-                                        continue;
-                                    }
-
                                     char *attribute_name = doc.allocate_string(itr.first.c_str());
                                     char *attribute_value = doc.allocate_string(itr.second.c_str());
                                     rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
-                                    node->append_attribute(tempattr);
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
+                                        node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
+                                    } else {
+                                        node->append_attribute(tempattr);
+                                    }
                                 }
                                     
                             }
@@ -1008,14 +1012,15 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                         }
                                     }
 
-                                    if(node->first_attribute(itr.first.c_str())){
-                                        continue;
-                                    }
-
                                     char *attribute_name = doc.allocate_string(itr.first.c_str());
                                     char *attribute_value = doc.allocate_string(itr.second.c_str());
                                     rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
-                                    node->append_attribute(tempattr);
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
+                                        node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
+                                    } else {
+                                        node->append_attribute(tempattr);
+                                    }
                                 }
                                     
                             }
