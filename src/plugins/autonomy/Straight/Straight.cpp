@@ -219,7 +219,7 @@ std::map<std::string,std::string> Straight::mission_xml_set() {
 
     // I actually think it would make more sense to do a vector of maps,
     // so that I can relate the xml tag name to the value
-    mission_xml.insert({"Autonomy Plugin Name","Straight"});
+    mission_xml.insert({"Name","Straight"});
     mission_xml.insert({"speed",std::to_string(speed_)});
     mission_xml.insert({"show_camera_images",std::to_string(show_camera_images_)});
     mission_xml.insert({"save_camera_images",std::to_string(save_camera_images_)});

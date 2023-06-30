@@ -769,11 +769,11 @@ std::vector<std::map<std::string,std::string>> Entity::set_sensor_xml_vect(){
 
     // Verifies each sensor has the expected xml specific tags. This can be uncommented for debugging.
     // for (int i = 0; i < all_sensor_xml.size(); i++) {
-    //     std::cout << "Autonomy vector #: " << i << std::endl;
+    //     std::cout << "Sensor vector #: " << i << std::endl;
  
     //     // Traverse the map
     //     for (auto itr : all_sensor_xml[i])
-    //         std::cout << "Autonomy: 1. " << itr.first << " 2. " << itr.second << std::endl;
+    //         std::cout << "Sensor: 1. " << itr.first << " 2. " << itr.second << std::endl;
     // }
 
     return all_sensor_xml;
@@ -811,11 +811,11 @@ std::vector<std::map<std::string,std::string>> Entity::set_controller_xml_vect()
 
     // Verifies each controller has the expected xml specific tags. This can be uncommented for debugging.
     // for (int i = 0; i < all_controller_xml.size(); i++) {
-    //     std::cout << "Autonomy vector #: " << i << std::endl;
+    //     std::cout << "Controller vector #: " << i << std::endl;
  
     //     // Traverse the map
     //     for (auto itr : all_controller_xml[i])
-    //         std::cout << "Autonomy: 1. " << itr.first << " 2. " << itr.second << std::endl;
+    //         std::cout << "Controller: 1. " << itr.first << " 2. " << itr.second << std::endl;
     // }
 
     return all_controller_xml;

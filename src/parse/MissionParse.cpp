@@ -930,24 +930,95 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                     // Handle plugin specific xml tags
                     for (rapidxml::xml_node<> *node = new_ent->first_node(); node != 0; node = node->next_sibling()) {
                         std::string nm = node->name();
+                        std::string nv = node->value();
 
-                        cout << "Node name: " << nm << " Node value: " << node->value() << endl;
-
-                        // Will need to check the name of the given autonomy, controller, or sensor. Do not need to check name for the
-                        // motion model, since there is just one. To do this, compare the node->value() to the name in the struct's map
                         if (nm == "autonomy"){
-                            
+                            for (int i = 0; i < cur_ent.autonomy_xml_tags.size(); i++) {                        
+                                // Traverse the map
+                                for (auto itr : cur_ent.autonomy_xml_tags[i]){
+                                    if(itr.first == "Name"){
+                                        if(nv != itr.second){
+                                            break;
+                                        }
+                                        else{
+                                            continue;
+                                        }
+                                    }
+                                    
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        continue;
+                                    }
+
+                                    char *attribute_name = doc.allocate_string(itr.first.c_str());
+                                    char *attribute_value = doc.allocate_string(itr.second.c_str());
+                                    rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                    node->append_attribute(tempattr);
+                                }
+                                    
+                            }
                         } else if (nm == "motion_model"){
                             for(auto itr = cur_ent.motion_xml_tags.begin(); itr != cur_ent.motion_xml_tags.end(); ++itr){
+                                if(itr->first == "Name"){
+                                    continue;       
+                                }
+
+                                if(node->first_attribute(itr->first.c_str())){
+                                        continue;
+                                }
+
                                 char *attribute_name = doc.allocate_string(itr->first.c_str());
                                 char *attribute_value = doc.allocate_string(itr->second.c_str());
                                 rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
                                 node->append_attribute(tempattr);
                             }
                         } else if (nm == "controller"){
+                            for (int i = 0; i < cur_ent.controller_xml_tags.size(); i++) {                        
+                                // Traverse the map
+                                for (auto itr : cur_ent.controller_xml_tags[i]){
+                                    if(itr.first == "Name"){
+                                        if(nv != itr.second){
+                                            break;
+                                        }
+                                        else{
+                                            continue;
+                                        }
+                                    }
 
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        continue;
+                                    }
+
+                                    char *attribute_name = doc.allocate_string(itr.first.c_str());
+                                    char *attribute_value = doc.allocate_string(itr.second.c_str());
+                                    rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                    node->append_attribute(tempattr);
+                                }
+                                    
+                            }
                         } else if (nm == "sensor"){
+                            for (int i = 0; i < cur_ent.sensor_xml_tags.size(); i++) {                        
+                                // Traverse the map
+                                for (auto itr : cur_ent.sensor_xml_tags[i]){
+                                    if(itr.first == "Name"){
+                                        if(nv != itr.second){
+                                            break;
+                                        }
+                                        else{
+                                            continue;
+                                        }
+                                    }
 
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        continue;
+                                    }
+
+                                    char *attribute_name = doc.allocate_string(itr.first.c_str());
+                                    char *attribute_value = doc.allocate_string(itr.second.c_str());
+                                    rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                    node->append_attribute(tempattr);
+                                }
+                                    
+                            }
                         }
 
                     }
@@ -967,7 +1038,6 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
         if(script_node->first_node("remove_block")){
             std::string node_value = script_node->first_node("remove_block")->value(); // Placed in the if statement, otherwise it will seg fault
             if(node_value == "false"){
-                cout << "Not removing the entity block" << endl;
                 continue;
             }
         }
