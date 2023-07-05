@@ -948,7 +948,6 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                     char *attribute_name = doc.allocate_string(itr.first.c_str());
                                     char *attribute_value = doc.allocate_string(itr.second.c_str());
                                     rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
-                                    //node->append_attribute(tempattr);
                                     if(node->first_attribute(itr.first.c_str())){
                                         node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
                                         node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
@@ -1039,13 +1038,19 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
 
     // Remove original entity nodes based on the bool value of the remove_block entity tag
     rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
-    for (int i = 0; i<num_ents; i++){        
+    for (int i = 0; i<num_ents; i++){       
+        cout << "Removing original entities, the i value is: " << i << endl; 
         if(script_node->first_node("remove_block")){
             std::string node_value = script_node->first_node("remove_block")->value(); // Placed in the if statement, otherwise it will seg fault
+            cout << "Remove block is present" << endl;
             if(node_value == "false"){
+                cout << "Continuing, remove block node value is false" << endl;
+                script_node = script_node->next_sibling("entity");
                 continue;
             }
         }
+
+        cout << "Removing the node" << endl;
 
         rapidxml::xml_node<> *remove_node = script_node;
         script_node = script_node->next_sibling("entity");
