@@ -43,6 +43,7 @@
 #include <iostream>
 #include <limits>
 #include <fstream>
+#include <chrono>
 
 #include <GeographicLib/LocalCartesian.hpp>
 
@@ -106,6 +107,7 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
     }
 
     mavproxy_mode_ = sc::get<bool>("mavproxy_mode", params, false);
+    asynchonous_mode_ = sc::get<bool>("asynchronous_mode", params, true);
 
     // Get parameters for transmit socket (to ardupilot)
     std::string to_ardupilot_ip = sc::get<std::string>("to_ardupilot_ip",
@@ -150,6 +152,11 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
     subscribe<motion::RigidBody6DOFState>("LocalNetwork", "RigidBody6DOFState", cb);
 }
 
+static int nrx = 0;
+static int ntx = 0;
+static int last_ntx = 0;
+static double last_print_t = 0;
+static std::chrono::time_point<std::chrono::system_clock> last_print_wall_t;
 void ArduPilot::start_receive() {
     // Enable the receive async callback
     recv_socket_->async_receive_from(
@@ -172,12 +179,24 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         // TODO: Michael, endian handling?
         tx_socket_->send_to(ba::buffer(&fdm_pkt, sizeof(fdm_packet)),
                             tx_endpoint_);
+        ntx++;
+        last_ntx++;
     } catch (std::exception& e) {
         cerr << "Exception: " << e.what() << "\n";
     }
 
     // Let async receive callback run
-    recv_io_service_.poll();
+    if (asynchonous_mode_) {
+        recv_io_service_.poll();
+    } else {
+        boost::system::error_code error;
+        ba::ip::udp::socket::message_flags flags;
+        std::size_t nbytes = recv_socket_->receive_from(
+            ba::buffer(recv_buffer_), recv_remote_endpoint_,
+            flags, error);
+
+        parse_receive(error, nbytes);
+    }
 
     // Copy the received servo commands into the desired state
     servo_pkt_mutex_.lock();
@@ -188,10 +207,25 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     }
     servo_pkt_mutex_.unlock();
 
+
+    if (t - last_print_t > 5) {
+        const auto t0 = std::chrono::system_clock::now();
+        auto d = std::chrono::duration_cast<std::chrono::microseconds>(t0-last_print_wall_t);
+        cout <<
+        "walltime: " << t0.time_since_epoch().count() <<
+        ", simtime: " << t <<
+        ", packets tx: " << ntx << ", rx: " << nrx <<
+        ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz" <<
+        endl;
+        last_print_t = t;
+        last_print_wall_t = t0;
+        last_ntx = 0;
+    }
+
     return true;
 }
 
-void ArduPilot::handle_receive(const boost::system::error_code& error,
+void ArduPilot::parse_receive(const boost::system::error_code& error,
                                std::size_t num_bytes) {
 #if 0
     cout << "--------------------------------------------------------" << endl;
@@ -216,6 +250,12 @@ void ArduPilot::handle_receive(const boost::system::error_code& error,
         }
         servo_pkt_mutex_.unlock();
     }
+    nrx++;
+}
+
+void ArduPilot::handle_receive(const boost::system::error_code& error,
+                               std::size_t num_bytes) {
+    parse_receive(error, num_bytes);
     start_receive(); // enable async receive for next message
 }
 

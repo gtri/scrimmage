@@ -86,6 +86,7 @@ class ArduPilot : public scrimmage::Autonomy {
 
  protected:
     bool mavproxy_mode_ = false;
+    bool asynchonous_mode_ = true;
 
     boost::asio::io_service tx_io_service_;
     std::shared_ptr<boost::asio::ip::udp::socket> tx_socket_;
@@ -108,6 +109,8 @@ class ArduPilot : public scrimmage::Autonomy {
     boost::array<unsigned char, 100> recv_buffer_;
 
     void start_receive();
+    void parse_receive(const boost::system::error_code& error,
+                        std::size_t num_bytes);
     void handle_receive(const boost::system::error_code& error,
                         std::size_t num_bytes);
 
