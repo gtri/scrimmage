@@ -86,6 +86,10 @@ class MissionParse {
     bool create_log_dir();
     void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
+
+    /// @brief Adds all plugin specific xml attributes to the plugin_spec_attrs map
+    /// @param node_name 
+    /// @param node_value 
     void get_plugin_params(std::string node_name, std::string node_value);
 
     /// @brief Generate the mission to mission xml file for all final states of entities
