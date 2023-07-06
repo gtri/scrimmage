@@ -1049,16 +1049,16 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
         doc.first_node("runscript")->remove_node(remove_node);
     }
 
-    // Save doc with new allocated attributes to the miss2miss_file_content string, which will be output to the
-    // miss2miss.xml file in the log directory
-    std::string rapidxml_miss2miss_doc;
-    rapidxml::print(std::back_inserter(rapidxml_miss2miss_doc), doc, 0);
-    miss2miss_file_content = rapidxml_miss2miss_doc;
+    // Save doc with new allocated attributes to the mission_to_mission_file_content string, which will be output to the
+    // mission_to_mission.xml file in the log directory
+    std::string rapidxml_mission_to_mission_doc;
+    rapidxml::print(std::back_inserter(rapidxml_mission_to_mission_doc), doc, 0);
+    mission_to_mission_file_content = rapidxml_mission_to_mission_doc;
 
     // Create the new mission to mission xml file
-    std::ofstream miss2miss_content_out(log_dir_+"/miss2miss.xml");
-    miss2miss_content_out << miss2miss_file_content;
-    miss2miss_content_out.close();
+    std::ofstream mission_to_mission_content_out(log_dir_+"/mission_to_mission.xml");
+    mission_to_mission_content_out << mission_to_mission_file_content;
+    mission_to_mission_content_out.close();
 
     // Create the entity end state txt file
     std::ofstream ent_state_content_out(log_dir_+"/final_ent_states.txt");

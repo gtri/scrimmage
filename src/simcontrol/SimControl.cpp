@@ -891,7 +891,7 @@ bool SimControl::start() {
     contacts_mutex_.unlock();
 
     if (get("mission_to_mission", mp_->params(), true)) {
-        miss2miss = true;
+        mission_to_mission = true;
     }
 
     if (get("show_plugins", mp_->params(), false)) {
@@ -1066,7 +1066,7 @@ bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
 
     // Close all plugins
-    if(miss2miss){
+    if(mission_to_mission){
         for (EntityPtr &ent : ents_) {        
             
             // Get the vectors of all entity specific plugin xml tags
@@ -1098,7 +1098,7 @@ bool SimControl::shutdown(const bool& shutdown_python) {
         }
     }
 
-    if(miss2miss){
+    if(mission_to_mission){
         mp_->final_state_xml(all_end_states);
     }
 

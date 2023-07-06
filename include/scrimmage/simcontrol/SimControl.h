@@ -391,7 +391,7 @@ class SimControl {
     bool exit_ = false;
 
     /// @brief Holds the mission_to_mission tag. If true, will create an output XML file of final entity states
-    bool miss2miss = false;
+    bool mission_to_mission = false;
 
     std::mutex finished_mutex_;
     std::mutex contacts_mutex_;
