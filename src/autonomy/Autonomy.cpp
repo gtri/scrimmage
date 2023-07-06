@@ -78,7 +78,7 @@ void Autonomy::init() {}
 void Autonomy::init(std::map<std::string, std::string> &/*params*/) {}
 bool Autonomy::need_reset() {return need_reset_;}
 
-std::map<std::string,std::string> Autonomy::mission_xml_set() { 
+std::map<std::string,std::string> Autonomy::mission_xml_get() { 
     std::map<std::string,std::string> mission_xml; 
     return mission_xml;
 }

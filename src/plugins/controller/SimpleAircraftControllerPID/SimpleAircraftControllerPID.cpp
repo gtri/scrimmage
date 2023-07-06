@@ -78,7 +78,7 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
 }
 
 // Misison to mission testing
-std::map<std::string,std::string> SimpleAircraftControllerPID::mission_xml_set() {
+std::map<std::string,std::string> SimpleAircraftControllerPID::mission_xml_get() {
     std::map<std::string,std::string> mission_xml;
 
     // I actually think it would make more sense to do a vector of maps,

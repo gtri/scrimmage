@@ -61,7 +61,7 @@ class SimpleAircraft : public scrimmage::MotionModel{
 
     void teleport(scrimmage::StatePtr &state) override;
 
-    std::map<std::string,std::string> mission_xml_set() override;
+    std::map<std::string,std::string> mission_xml_get() override;
 
  protected:
     scrimmage::PID heading_pid_;

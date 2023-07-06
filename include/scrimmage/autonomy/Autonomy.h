@@ -56,12 +56,16 @@ class Autonomy : public EntityPlugin {
     void close(double t) override;
     bool need_reset();
 
-    // Mission to mission function
-    virtual std::map<std::string,std::string> mission_xml_set();
-
     // getters/setters
     StatePtr &desired_state();
     void set_desired_state(StatePtr desired_state);
+
+    /// @brief Plugin specific xml tags are inserted to a map and returned. The map
+    /// is used to update the mission to mission xml file, which captures entity end states
+    /// to be used as starting points in future simulations.
+    /// @return A map of keys and values of type string, representing plugin specific
+    /// xml tag attribute names and associated values
+    virtual std::map<std::string,std::string> mission_xml_get();
 
     ContactMapPtr &get_contacts();
     ContactMap &get_contacts_raw();

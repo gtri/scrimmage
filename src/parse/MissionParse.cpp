@@ -934,7 +934,6 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
 
                         if (nm == "autonomy"){
                             for (int i = 0; i < cur_ent.autonomy_xml_tags.size(); i++) {                        
-                                // Traverse the map
                                 for (auto itr : cur_ent.autonomy_xml_tags[i]){
                                     if(itr.first == "Name"){
                                         if(nv != itr.second){
@@ -975,7 +974,6 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                             }
                         } else if (nm == "controller"){
                             for (int i = 0; i < cur_ent.controller_xml_tags.size(); i++) {                        
-                                // Traverse the map
                                 for (auto itr : cur_ent.controller_xml_tags[i]){
                                     if(itr.first == "Name"){
                                         if(nv != itr.second){
@@ -1000,7 +998,6 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                             }
                         } else if (nm == "sensor"){
                             for (int i = 0; i < cur_ent.sensor_xml_tags.size(); i++) {                        
-                                // Traverse the map
                                 for (auto itr : cur_ent.sensor_xml_tags[i]){
                                     if(itr.first == "Name"){
                                         if(nv != itr.second){
@@ -1039,18 +1036,13 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
     // Remove original entity nodes based on the bool value of the remove_block entity tag
     rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
     for (int i = 0; i<num_ents; i++){       
-        cout << "Removing original entities, the i value is: " << i << endl; 
         if(script_node->first_node("remove_block")){
-            std::string node_value = script_node->first_node("remove_block")->value(); // Placed in the if statement, otherwise it will seg fault
-            cout << "Remove block is present" << endl;
+            std::string node_value = script_node->first_node("remove_block")->value();
             if(node_value == "false"){
-                cout << "Continuing, remove block node value is false" << endl;
                 script_node = script_node->next_sibling("entity");
                 continue;
             }
         }
-
-        cout << "Removing the node" << endl;
 
         rapidxml::xml_node<> *remove_node = script_node;
         script_node = script_node->next_sibling("entity");

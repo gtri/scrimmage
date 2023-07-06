@@ -57,8 +57,12 @@ class MotionModel : public EntityPlugin {
 
     virtual bool step(double time, double dt);
 
-    // Mission to mission function
-    virtual std::map<std::string,std::string> mission_xml_set();
+    /// @brief Plugin specific xml tags are inserted to a map and returned. The map
+    /// is used to update the mission to mission xml file, which captures entity end states
+    /// to be used as starting points in future simulations.
+    /// @return A map of keys and values of type string, representing plugin specific
+    /// xml tag attribute names and associated values
+    virtual std::map<std::string,std::string> mission_xml_get();
 
     virtual bool posthumous(double t);
     virtual StatePtr &state();
