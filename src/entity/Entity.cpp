@@ -731,11 +731,6 @@ void Entity::print_plugins(std::ostream &out) const {
     }
 }
 
-// Note: All data passed from the mission_xml_get function must be formatted as a map of strings
-// to strings. This will assist with the Rapid XML formatting. Additionally, the first entry of the map
-// must be the name of the given plugin - for example: "Straight" for an autonomy plugin. The key for the
-// plugin name must be "Name".
-
 std::map<std::string,std::string> Entity::set_motion_xml_map(){
     std::map<std::string,std::string> cur_motion_xml;
     if (motion_model_ && motion_model_->name() != "BLANK") {
