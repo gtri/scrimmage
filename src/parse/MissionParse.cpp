@@ -933,7 +933,7 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                         std::string nv = node->value();
 
                         if (nm == "autonomy"){
-                            for (int i = 0; i < cur_ent.autonomy_xml_tags.size(); i++) {                        
+                            for (unsigned int i = 0; i < cur_ent.autonomy_xml_tags.size(); i++) {                        
                                 for (auto itr : cur_ent.autonomy_xml_tags[i]){
                                     if(itr.first == "Name"){
                                         if(nv != itr.second){
@@ -973,7 +973,7 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                 }
                             }
                         } else if (nm == "controller"){
-                            for (int i = 0; i < cur_ent.controller_xml_tags.size(); i++) {                        
+                            for (unsigned int i = 0; i < cur_ent.controller_xml_tags.size(); i++) {                        
                                 for (auto itr : cur_ent.controller_xml_tags[i]){
                                     if(itr.first == "Name"){
                                         if(nv != itr.second){
@@ -997,7 +997,7 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
                                     
                             }
                         } else if (nm == "sensor"){
-                            for (int i = 0; i < cur_ent.sensor_xml_tags.size(); i++) {                        
+                            for (unsigned int i = 0; i < cur_ent.sensor_xml_tags.size(); i++) {                        
                                 for (auto itr : cur_ent.sensor_xml_tags[i]){
                                     if(itr.first == "Name"){
                                         if(nv != itr.second){

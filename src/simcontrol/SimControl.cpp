@@ -1065,6 +1065,8 @@ bool SimControl::finalize() {
 bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
 
+    cout << "Shutting down" << endl;
+
     // Close all plugins
     if(mission_to_mission){
         for (EntityPtr &ent : ents_) {        
