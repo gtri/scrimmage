@@ -73,16 +73,43 @@ bool ROSClockServer::init(std::map<std::string, std::string> &mission_params,
         ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
     }
 
-    nh_ = std::make_shared<ros::NodeHandle>();
-    clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
+    // run once, to preserve original synchronous behavior
+    check_rosmaster();
 
-    // Tell other nodes to use the simulated time from "/clock"
-    ros::param::set("/use_sim_time", true);
-
-    // Publish the first time message
-    publish_clock_msg(time_->t());
+    // rosmaster check thread
+    running_ = true;
+    check_rosmaster_thread_ = std::thread(&ROSClockServer::check_rosmaster_loop, this);
 
     return true;
+}
+
+void ROSClockServer::close(double t) {
+    (void) t;
+    running_ = false;
+    check_rosmaster_thread_.join();
+}
+
+void ROSClockServer::check_rosmaster() {
+    bool rosmaster_state = ros::master::check();
+    if (prev_rosmaster_state_ == false && rosmaster_state == true) {
+        // time to reinitialize
+        nh_ = std::make_shared<ros::NodeHandle>(); // this actually starts the node
+        // Create Publisher
+        pub_mutex_.lock();
+        clock_pub_.shutdown();
+        clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
+        ros::param::set("/use_sim_time", true);
+        pub_mutex_.unlock();
+    }
+    prev_rosmaster_state_ = rosmaster_state;
+}
+
+
+void ROSClockServer::check_rosmaster_loop() {
+    while (running_) {
+        check_rosmaster();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 }
 
 void ROSClockServer::publish_clock_msg(const double& t) {
@@ -104,7 +131,10 @@ void ROSClockServer::publish_clock_msg(const double& t) {
     // Create the ros Clock message and publish it
     rosgraph_msgs::Clock clock_msg;
     clock_msg.clock = ros::Time(sec, nsec);
+
+    pub_mutex_.lock();
     clock_pub_.publish(clock_msg);
+    pub_mutex_.unlock();
 }
 
 bool ROSClockServer::step_entity_interaction(std::list<sc::EntityPtr> &ents,
