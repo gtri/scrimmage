@@ -371,7 +371,10 @@ bool Log::readDelimitedFrom(const std::string &filename,
 
 bool Log::close_fileoutputstream(ZeroCopyOutputStreamPtr stream) {
     // Close() flushes the stream as well
-    bool status = dynamic_cast<google::protobuf::io::FileOutputStream&>(*stream).Close();
+    bool status = false;
+    if (stream) {
+        status = dynamic_cast<google::protobuf::io::FileOutputStream&>(*stream).Close();
+    }
     return status;
 }
 

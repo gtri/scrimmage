@@ -57,6 +57,8 @@ void CameraInterface::OnKeyPress() {
         updater_->dec_follow();
     } else if (key == "a") {
         updater_->next_mode();
+    } else if (key == "u") { 
+        updater_->undo_camera(); 
     } else if (key == "c") {
         updater_->request_cached();
     } else if (key == "t") {
@@ -121,7 +123,13 @@ void CameraInterface::OnLeftButtonDown() {
 }
 
 void CameraInterface::OnLeftButtonUp() {
+    updater_->track_camera_pos();
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
+}
+
+void CameraInterface::OnMiddleButtonUp() {
+    updater_->track_camera_pos();
+    vtkInteractorStyleTrackballCamera::OnMiddleButtonUp();
 }
 
 void CameraInterface::Pan() {

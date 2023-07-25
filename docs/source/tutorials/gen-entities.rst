@@ -102,15 +102,34 @@ by adding an entity block key-value pair to the ``GenerateEntity`` message:
 Modify Plugin Parameters
 ------------------------
 
-Currently, this entity generation interface doesn't allow you to modify the XML
-attributes of specific plugins. If you need to generate entities with different
-plugin parameters you can either use multiple entity blocks with different
-entity ``tags`` or you can create new plugin XML files that have differently
-configured default parameters. For example, you could copy and rename the
-``Straight.xml`` file to ``MyStraight.xml`` and then modify the plugin
-parameters in ``MyStraight.xml``. In your entity, you can load the
-``MyStraight`` autonomy plugin by referencing it directly as long as it is in
-your ``SCRIMMAGE_PLUGIN_PATH``:
+Before publishing the message, you can modify the XML attributes of specific plugins
+by adding an entity plugin key-value-attr block to the ``GenerateEntity`` message:
+
+.. code-block:: c++
+
+   // Modify the entity's plugin speed
+   auto autonomy_speed = msg->data.add_plugin_param();
+   autonomy_speed->set_plugin_type("autonomy0");
+   autonomy_speed->set_tag_name("speed");
+   autonomy_speed->set_tag_value("100")
+
+Here the ``plugin_type`` represents the type of plugin, like ``motion_model``, ``autonomy`` (Note the 
+autonomy plugin is referenced as ``autonomy#`` by the GUI, where ``autonomy0`` is the first instance
+and increments if there are multiple autonomy plugins in one entity), or ``controller``. The ``tag_name`` 
+represents the plugin specific tag that should be updated, like ``speed`` for the Straight ``autonomy`` 
+plugin. The ``tag_value`` represents the value of the corresponding plugin specific tag.
+
+The above change in the plugin parameter for the ``GenerateEntity`` message does not affect
+the stored parsed Mission XML plugin attribute value used by ``SimControl.cpp``. For example,
+if the above block was only executed for a given conditional, entities without a block changing
+their speed would default to the Mission XML defined speed.
+
+Another way to generate entities with different plugin parameters involves either using multiple entity 
+blocks with different entity ``tags`` or creating new plugin XML files that have differently
+configured default parameters. For example, you could copy and rename the ``Straight.xml`` file to 
+``MyStraight.xml`` and then modify the plugin parameters in ``MyStraight.xml``. 
+In your entity, you can load the ``MyStraight`` autonomy plugin by referencing it directly as long 
+as it is in your ``SCRIMMAGE_PLUGIN_PATH``:
 
 .. code-block:: xml
 

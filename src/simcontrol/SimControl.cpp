@@ -283,11 +283,16 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
     if (it_params == mp_->entity_descriptions().end()) {
         return false;
     }
-    return generate_entity(ent_desc_id, it_params->second);
+
+    // Get the entity attributes for the given id
+    AttributeMap plugin_attr_map = mp_->entity_attributes()[ent_desc_id];
+
+    return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
 }
 
 bool SimControl::generate_entity(const int &ent_desc_id,
-                                 std::map<std::string, std::string> &params) {
+                                 std::map<std::string, std::string> &params,
+                                 AttributeMap &plugin_attr_map) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
@@ -352,11 +357,10 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     ent->set_random(random_);
 
     contacts_mutex_.lock();
-    AttributeMap &attr_map = mp_->entity_attributes()[ent_desc_id];
 
     int id = find_available_id(params);
 
-    bool ent_status = ent->init(attr_map, params, id_to_team_map_,
+    bool ent_status = ent->init(plugin_attr_map, params, id_to_team_map_,
                                 id_to_ent_map_,
                                 contacts_, mp_, proj_, id, ent_desc_id,
                                 plugin_manager_, file_search_, rtree_, pubsub_,
@@ -865,10 +869,15 @@ bool SimControl::start() {
             params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
 
+        AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
+        for (int i = 0; i < msg->data.plugin_param().size(); i++){
+            plugin_attr_map[msg->data.plugin_param(i).plugin_type()][msg->data.plugin_param(i).tag_name()] = msg->data.plugin_param(i).tag_value();
+        }
+
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params)) {
+        if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
             cout << "Failed to generate entity with tag: "
                  << msg->data.entity_tag() << endl;
             return;

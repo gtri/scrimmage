@@ -66,6 +66,7 @@ class CameraInterface : public vtkInteractorStyleTrackballCamera {
     virtual void OnLeftButtonUp();
     virtual void Rotate();
 
+    virtual void OnMiddleButtonUp();
     virtual void Pan();
     virtual void Dolly();
 
