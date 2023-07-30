@@ -145,7 +145,8 @@ void playback_loop(std::shared_ptr<sc::Log> log,
                         timer.inc_warp();
                     } else if (it->dec_warp()) {
                         timer.dec_warp();
-                    } else if (it->toggle_pause()) {
+                    } else if (it->toggle_pause()) { // Nat - cannot seem to toggle once 'b' is initially pressed
+                        std::cout << "Pause toggled" << std::endl;
                         paused = !paused;
                     } else if (it->single_step()) {
                         single_step = true;
@@ -161,13 +162,18 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             info.set_actual_warp(timer.time_warp());
             out_interface->send_sim_info(info);
 
+            std::cout << "In the playback loop" << std::endl;
+
             if (single_step) {
                 break;
             }
+            // Nat - Added
             if (paused) {
+                std::cout << "In if paused, calling the time pause loop timer" << std::endl; // never entered
                 timer.pause_loop_timer();
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
+            //end of added
         } while (paused && !exit_loop);
         if (exit_loop) break;
     }
@@ -203,6 +209,7 @@ int main(int argc, char *argv[]) {
 
     cout << "Frames parsed: " << log->frames().size() << endl;
 
+    std::cout << "Play back thread is being created" << std::endl;
     std::thread playback(playback_loop, log, from_gui_interface,
                          to_gui_interface);
     playback.detach(); // todo

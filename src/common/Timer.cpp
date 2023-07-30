@@ -41,9 +41,13 @@ namespace scrimmage {
 void Timer::start_overall_timer() {
     start_time_ = boost::posix_time::microsec_clock::local_time();
     actual_time_ = start_time_;
+    //actual_elapsed_time_ = start_time_ - start_time_; // 0 // Nat - removed
     sim_time_ = start_time_;
+    //sim_elapsed_time_ = start_time_ - start_time_; // 0 // Nat - removed
+    // Nat - added
     loop_end_time_ = loop_timer_ + iterate_period_;
     loop_timer_running_ = false;
+    // end of added
 }
 
 boost::posix_time::time_duration Timer::elapsed_time() {
@@ -52,31 +56,59 @@ boost::posix_time::time_duration Timer::elapsed_time() {
 
 void Timer::start_loop_timer() {
     loop_timer_ = boost::posix_time::microsec_clock::local_time();
+
+    //boost::posix_time::time_duration time_diff = loop_timer_ - actual_time_; // Nat - removed
+
+    // Nat - added
     if (!loop_timer_running_) {
         // set loop to end on current time
         loop_end_time_ = loop_timer_;
         loop_timer_running_ = true;
     }
     loop_end_time_ += iterate_period_;
+    // end of added
 
     actual_time_ = loop_timer_;
 
-    sim_time_ += sim_time_period_;
+    // Nat - removed
+    // actual_elapsed_time_ += time_diff;
+
+    // boost::posix_time::time_duration sim_time_diff = time_diff * time_warp_;
+    // sim_time_ += sim_time_diff;
+    // sim_elapsed_time_ += sim_time_diff;
+    // end of removed
+
+    sim_time_ += sim_time_period_; // Nat - added
 }
 
+// Nat - added
 void Timer::pause_loop_timer() {
     loop_timer_running_ = false;
 }
+// end of added
 
 boost::posix_time::time_duration Timer::loop_wait() {
     boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
+
+    // Nat - removed
+    // boost::posix_time::time_duration time_diff = time - loop_timer_;
+
+    // boost::posix_time::time_duration remainder = iterate_period_ - time_diff;
+    // if (time_diff < iterate_period_) {
+    //     boost::this_thread::sleep(remainder);
+    // }
+    // end of removed
+
+    // Nat - added
     if (time > loop_end_time_) {
+        std::cout << "In the loop end time is less than time" << std::endl; // This is essentially always entered when paused
         // already took too long, go to next period now.
         return boost::posix_time::time_duration(0, 0, 0, 0);
     }
 
     boost::posix_time::time_duration remainder = loop_end_time_ - time;
     boost::this_thread::sleep(remainder);
+    // end of added
 
     return remainder;
 }
@@ -96,8 +128,11 @@ void Timer::update_time_config() {
     } else {
         iterate_period_ = boost::posix_time::time_duration(0, 0, 0, 0);
     }
+
+    // Nat - added
     sim_time_period_ = iterate_period_ * time_warp_;
     loop_timer_running_ = false;
+    // end of added
 }
 
 uint64_t Timer::getnanotime() {

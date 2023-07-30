@@ -68,6 +68,7 @@ class Timer {
     boost::posix_time::ptime start_time_;
 
     boost::posix_time::ptime actual_time_;
+    boost::posix_time::time_duration actual_elapsed_time_; // Nat - removed
 
     boost::posix_time::ptime sim_time_;
     boost::posix_time::time_duration sim_elapsed_time_;

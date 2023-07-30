@@ -1374,11 +1374,14 @@ void SimControl::start_loop_timer() {
     timer_mutex_.unlock();
 }
 
+// Nat - added
 void SimControl::pause_loop_timer() {
+    cout << "In pause loop timer for sim control" << endl; // Never entered
     timer_mutex_.lock();
     timer_.pause_loop_timer();
     timer_mutex_.unlock();
 }
+// end of added
 
 void SimControl::loop_wait() {
     timer_mutex_.lock();
