@@ -164,10 +164,12 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             if (single_step) {
                 break;
             }
+            // Nat - same
             if (paused) {
                 timer.pause_loop_timer();
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
+            // end of same
         } while (paused && !exit_loop);
         if (exit_loop) break;
     }

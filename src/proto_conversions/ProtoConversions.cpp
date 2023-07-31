@@ -276,6 +276,7 @@ Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
 
 std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_ptr<ContactMap> &contacts) {
     std::shared_ptr<scrimmage_proto::Frame> frame(new scrimmage_proto::Frame());
+    std::cout << "In create frame, setting the time of the frame: " << time << std::endl;
     frame->set_time(time);
 
     for (auto &kv : *contacts) {

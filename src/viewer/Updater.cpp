@@ -1063,7 +1063,8 @@ void Updater::set_outgoing_interface(InterfacePtr &outgoing_interface)
 { outgoing_interface_ = outgoing_interface; }
 
 bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
-    frame_time_ = frame->time();
+    frame_time_ = frame->time(); // Nat - this is where time display on scrimmage gets value
+    cout << "In update contacts, the current frame time is: " << frame_time_ << endl;
 
     // Add new contacts to contact map
     for (int i = 0; i < frame->contact_size(); i++) {

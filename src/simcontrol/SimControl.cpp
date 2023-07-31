@@ -1393,11 +1393,13 @@ void SimControl::start_loop_timer() {
     timer_mutex_.unlock();
 }
 
+// Nat - same
 void SimControl::pause_loop_timer() {
     timer_mutex_.lock();
     timer_.pause_loop_timer();
     timer_mutex_.unlock();
 }
+// end of same
 
 void SimControl::loop_wait() {
     timer_mutex_.lock();

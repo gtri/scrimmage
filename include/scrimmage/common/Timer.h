@@ -45,7 +45,7 @@ class Timer {
 
     void start_loop_timer();
 
-    void pause_loop_timer();
+    void pause_loop_timer(); // Nat - same
 
     boost::posix_time::time_duration loop_wait();
 
@@ -73,10 +73,10 @@ class Timer {
     boost::posix_time::time_duration sim_elapsed_time_;
 
     boost::posix_time::ptime loop_timer_;
-    bool loop_timer_running_;
-    boost::posix_time::ptime loop_end_time_;
+    bool loop_timer_running_; // Nat - same
+    boost::posix_time::ptime loop_end_time_; // Nat - same
     boost::posix_time::time_duration iterate_period_;
-    boost::posix_time::time_duration sim_time_period_;
+    boost::posix_time::time_duration sim_time_period_; // Nat - same
     double iterate_rate_;
 };
 } // namespace scrimmage
