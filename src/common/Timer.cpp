@@ -52,7 +52,6 @@ boost::posix_time::time_duration Timer::elapsed_time() {
 
 void Timer::start_loop_timer() {
     loop_timer_ = boost::posix_time::microsec_clock::local_time();
-    
     if (!loop_timer_running_) {
         // set loop to end on current time
         loop_end_time_ = loop_timer_;
