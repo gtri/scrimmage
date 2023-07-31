@@ -1337,6 +1337,7 @@ void SimControl::pause(const bool& pause) {
     paused_mutex_.lock();
     paused_ = pause;
     paused_mutex_.unlock();
+    this->pause_loop_timer();
 }
 
 bool SimControl::paused() {
