@@ -42,74 +42,40 @@ void Timer::start_overall_timer() {
     start_time_ = boost::posix_time::microsec_clock::local_time();
     actual_time_ = start_time_;
     sim_time_ = start_time_;
-    // Nat - same
     loop_end_time_ = loop_timer_ + iterate_period_;
     loop_timer_running_ = false;
-    // end of same
 }
 
 boost::posix_time::time_duration Timer::elapsed_time() {
     return boost::posix_time::microsec_clock::local_time() - start_time_;
 }
 
-// Nat - one of the four functions used. Called at the beginning and while the simulation is playing
 void Timer::start_loop_timer() {
-
-    std::cout << "FUNCTION 1 - In start loop timer" << std::endl;
-
     loop_timer_ = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration time_diff = loop_timer_ - actual_time_;
     
-    // Nat - same
     if (!loop_timer_running_) {
         // set loop to end on current time
         loop_end_time_ = loop_timer_;
         loop_timer_running_ = true;
     }
     loop_end_time_ += iterate_period_;
-    // end of same
 
     actual_time_ = loop_timer_;
 
-    sim_time_ += sim_time_period_; // Nat - same
+    sim_time_ += sim_time_period_;
 }
 
-// Nat - same
-// Nat - one of the four functions used. This is not called while paused or playing. I believe
-// this is only called during the scrimmage-playback simulations
 void Timer::pause_loop_timer() {
-    std::cout << "FUNCTION 2 - In pause loop timer" << std::endl;
-
     loop_timer_running_ = false;
 }
-// end of same
 
-// Nat - one of the four functions used. This is called while the simulation is playing
 boost::posix_time::time_duration Timer::loop_wait() {
-    std::cout << "FUNCTION 3 - In start loop timer" << std::endl;
-
     boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
 
-    // Notes:
-    // - loop_timer_ is: boost::posix_time::microsec_clock::local_time();
-    // - time duration: boost::posix_time::time_duration time_diff = time - loop_timer_;
-    // - remainder: boost::posix_time::time_duration remainder = iterate_period_ - time_diff;
-    // - iterate period: iterate_period_ = boost::posix_time::time_duration(0, 0, 0, milli);
-
-    // Nat - same
-    boost::posix_time::time_duration time_diff = time - loop_timer_;
-    if (time_diff < iterate_period_) {
-    //if (time > loop_end_time_) {
+    if (time > loop_end_time_) {
         // already took too long, go to next period now.
-        //return boost::posix_time::time_duration(0, 0, 0, 0);
-        
-        // The following lines did not fix it
-        // std::cout << "Fix for threading" << std::endl;
-        // boost::posix_time::time_duration remainder = loop_end_time_ - time;
-        //boost::posix_time::time_duration time_diff = time - loop_timer_;
-        boost::posix_time::time_duration remainder = iterate_period_ - time_diff;
-        boost::this_thread::sleep(remainder);
-        return remainder;
+        return boost::posix_time::time_duration(0, 0, 0, 0);
     }
 
     boost::posix_time::time_duration remainder = loop_end_time_ - time;
@@ -127,10 +93,7 @@ void Timer::set_time_warp(double time_warp) {
     time_warp_ = time_warp;
 }
 
-// Nat - one of the four functions used. This is called once at the beginning of the simulation
 void Timer::update_time_config() {
-    std::cout << "FUNCTION 4 - In start loop timer" << std::endl;
-
     if (iterate_rate_ > 0 && time_warp_ > 0) {
         uint64_t milli = (1.0 / iterate_rate_ * 1000000.0) / time_warp_;
         iterate_period_ = boost::posix_time::time_duration(0, 0, 0, milli);
@@ -138,10 +101,8 @@ void Timer::update_time_config() {
         iterate_period_ = boost::posix_time::time_duration(0, 0, 0, 0);
     }
 
-    // Nat - same
     sim_time_period_ = iterate_period_ * time_warp_;
     loop_timer_running_ = false;
-    // end of same
 }
 
 uint64_t Timer::getnanotime() {
