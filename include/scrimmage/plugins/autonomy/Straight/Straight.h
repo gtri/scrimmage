@@ -52,7 +52,6 @@ class Straight : public scrimmage::Autonomy{
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
-    std::map<std::string,std::string> mission_xml_get() override;
 
  protected:
     double speed_;

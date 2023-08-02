@@ -106,27 +106,6 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-// Misison to mission testing
-std::map<std::string,std::string> SimpleAircraft::mission_xml_get() {
-    std::map<std::string,std::string> mission_xml;
-
-    // I actually think it would make more sense to do a vector of maps,
-    // so that I can relate the xml tag name to the value duhhhhhhh
-    mission_xml.insert({"Name","SimpleAircraft"});
-    mission_xml.insert({"min_velocity",std::to_string(min_velocity_)});
-    mission_xml.insert({"max_velocity",std::to_string(max_velocity_)});
-    mission_xml.insert({"max_roll",std::to_string(max_roll_)});
-    mission_xml.insert({"max_roll_rate",std::to_string(max_roll_rate_)});
-    mission_xml.insert({"max_pitch",std::to_string(max_pitch_)});
-    mission_xml.insert({"max_pitch_rate",std::to_string(max_pitch_rate_)});
-    mission_xml.insert({"speed_target",std::to_string(speedTarget_)});
-    mission_xml.insert({"radius_slope_per_speed",std::to_string(lengthSlopePerSpeed_)});
-    mission_xml.insert({"turning_radius",std::to_string(length_)});
-
-    return mission_xml;
-}
-// End of mission to mission testing
-
 bool SimpleAircraft::step(double time, double dt) {
     // Need to saturate state variables before model runs
     x_[ROLL] = clamp(x_[ROLL], -max_roll_, max_roll_);
