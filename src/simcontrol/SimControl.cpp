@@ -899,7 +899,7 @@ bool SimControl::start() {
     contacts_->reserve(max_num_entities+1);
     contacts_mutex_.unlock();
 
-    if (get("mission_to_mission", mp_->params(), true)) {
+    if (get("mission_to_mission", mp_->params(), false)) {
         mission_to_mission = true;
     }
 
