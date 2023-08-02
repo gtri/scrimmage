@@ -726,7 +726,7 @@ void Entity::print_plugins(std::ostream &out) const {
         out << c->name() << endl;
     }
     out << "----------- Motion -------------" << endl;
-    if (motion_model_ && motion_model_->name() != "BLANK") {
+    if (motion_model_->name() != "BLANK") {
         out << motion_model_->name() << endl;
     }
 }

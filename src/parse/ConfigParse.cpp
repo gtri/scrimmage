@@ -126,19 +126,7 @@ bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
     buffer << file.rdbuf();
     file.close();
     std::string content(buffer.str());
-    try {
-        // Note: This parse function can hard fail (seg fault, no exception) on
-        //       badly formatted xml data. Sometimes it'll except, sometimes not.
-        // doc.parse<0>(mission_file_content_vec.data());
-        doc.parse<0>(&content[0]);
-    }
-    catch (const rapidxml::parse_error& e)
-    {
-        std::cout << e.what() << std::endl;
-        throw std::runtime_error("Error parsing config file " + filename);
-        // cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
-        return false;
-    }
+    doc.parse<0>(&content[0]);
 
     rx::xml_node<> *config_node = doc.first_node("params");
     if (config_node == 0) {
