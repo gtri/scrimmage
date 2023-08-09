@@ -135,10 +135,16 @@ bool MissionParse::parse(const std::string &filename) {
     try {
         // Note: This parse function can hard fail (seg fault, no exception) on
         //       badly formatted xml data. Sometimes it'll except, sometimes not.
-        doc.parse<0>(mission_file_content_vec.data());
-    } catch (...) {
+        // doc.parse<0>(mission_file_content_vec.data());
+        doc.parse<rapidxml::parse_no_data_nodes>(mission_file_content_vec.data());
+    } catch (const rapidxml::parse_error& e) {
+        std::cout << e.what() << std::endl;
         cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
         return false;
+    } catch (const std::exception& e) {
+        std::cerr << "Error was: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error occurred." << std::endl;
     }
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
