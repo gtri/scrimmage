@@ -13,10 +13,10 @@ utilized:
 
 2. In the mission XML file's entity block, if the block should be included in the output
    mission XML file - meaning future simulations will require the block, the following tag
-   must be included with the value ``true``. If it is not included, the entity block will be removed
+   must be included with the value ``false``. If it is not included, the entity block will be removed
    from the output mission XML file. ::
 
-        <remove_block>true</remove_block>
+        <remove_block>false</remove_block>
 
 3. If plugin specific XML tag attributes (applicable to motion, sensor, autonomy, and controller plugins) 
    are expected to be updated while the simulation is running, the following function declaration will need to 

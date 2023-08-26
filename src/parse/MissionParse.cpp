@@ -811,7 +811,11 @@ void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_en
         for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
             script_node != 0; 
             script_node = script_node->next_sibling("entity")) {
-                if(strcmp(std::to_string(cur_ent.team_id).c_str(),script_node->first_node("team_id")->value()) == 0){
+                if(!script_node->first_node("team_id")){
+                    cout << "Team id was not specified in the Mission XML file. Mission to Mission end state is not being logged for the given entity." << endl;
+                    break;
+                }
+                else if(strcmp(std::to_string(cur_ent.team_id).c_str(),script_node->first_node("team_id")->value()) == 0){
                     // Creates a clone of the entity node that matches the struct's team id
                     rapidxml::xml_node<> *new_ent = doc.clone_node(script_node);
                     
