@@ -83,6 +83,8 @@ class Formation : public scrimmage::Autonomy{
     float leader_x_pos;
     float leader_y_pos;
     float leader_z_pos;
+
+    int ent_id;
 };
 } // namespace autonomy
 } // namespace scrimmage
