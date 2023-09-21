@@ -46,7 +46,7 @@
   <network>GlobalNetwork</network>
   <network>LocalNetwork</network>
 
-  <!-- ========================== Moving Aircraft ========================= -->
+  <!-- ========================== TEAM 1 Moving Aircraft ========================= -->
   <entity>
     <team_id>1</team_id>
     <color>77 77 255</color>
@@ -65,14 +65,14 @@
     <autonomy waypointlist_network="GlobalNetwork"
               waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
     
-    <autonomy show_shapes="false" max_speed="25" behaviors="
+    <autonomy show_shapes="true" max_speed="25" behaviors="
        [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
-       [ MoveToGoalMS gain='1.0' use_initial_heading='true' goal='-1300,0,100']"
+       [ MoveToGoalMS gain='1.0' use_initial_heading='true' goal='800,25,500']"
               >MotorSchemas</autonomy>
 
   </entity>
   
-  <!-- ===================== Ground Control Station ====================== -->
+  <!-- ===================== TEAM 1 Ground Control Station ====================== -->
   <entity>
     <team_id>1</team_id>
     <color>77 77 255</color>
@@ -86,7 +86,64 @@
     <heading>0</heading>
     
     <visual_model>sea-angler</visual_model>
-    <autonomy show_waypoints="true">WaypointGenerator</autonomy>    
+
+    <!-- Each waypoint is visualized with a sphere in scrimmage. The drone will goal
+              to each of these points sequentiall, orbiting the last point once it has been reached. -->
+    <autonomy show_waypoints="true" 
+              waypoints="[ XYZ 0 789 12 55 0 0 0 5 -1 ] 
+                          [ XYZ 0 900 160 22 0 0 0 5 -1 ]
+                          [ XYZ 0 -3 6 370 0 0 0 5 -1 ]"
+              >WaypointGenerator</autonomy>    
   </entity>
+
+  <!-- ========================== TEAM 2 Moving Aircraft ========================= -->
+  <entity>
+    <team_id>2</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>  
+
+    <x>0</x>
+    <y>5</y>
+    <z>100</z>
+    <heading>0</heading>
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+    <visual_model>zephyr-red</visual_model>
+
+    <autonomy waypointlist_network="GlobalNetwork"
+              waypoint_network="LocalNetwork">WaypointDispatcher</autonomy>
+    
+    <autonomy show_shapes="true" max_speed="25" behaviors="
+       [ AvoidEntityMS gain='1.0' sphere_of_influence='10' minimum_range='2' ]
+       [ MoveToGoalMS gain='1.0' use_initial_heading='true' goal='-25,-5,7']"
+              >MotorSchemas</autonomy>
+
+  </entity>
+  
+  ===================== TEAM 2 Ground Control Station ======================
+  <!-- <entity>
+    <team_id>2</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>  
+
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+    <heading>0</heading>
+    
+    <visual_model>sea-angler</visual_model>
+
+    Each waypoint is visualized with a sphere in scrimmage. The drone will goal
+              to each of these points sequentiall, orbiting the last point once it has been reached.
+    <autonomy show_waypoints="true" 
+              waypoints="[ XYZ 0 600 38 90 0 0 0 5 -1 ] 
+                          [ XYZ 0 8 160 7 0 0 0 5 -1 ]
+                          [ XYZ 0 -3 6 370 0 0 0 5 -1 ]"
+              >WaypointGenerator</autonomy>    
+  </entity> -->
   
 </runscript>
