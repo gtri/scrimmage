@@ -129,9 +129,9 @@ void Formation::init(std::map<std::string, std::string> &params) {
 
     // Set up follower subscriber
     auto follower_cb = [&](auto &msg) { // Nat - this may be good for locating entities nearby
-        auto leader_x_pos = msg->data.x_pos;
-        auto leader_y_pos = msg->data.y_pos;
-        auto leader_z_pos = msg->data.z_pos;
+        leader_x_pos = msg->data.x_pos();
+        leader_y_pos = msg->data.y_pos();
+        leader_z_pos = msg->data.z_pos();
     };
     subscribe<scrimmage_msgs::FormationLeader>("GlobalNetwork", "FormationLeader", follower_cb);
 }

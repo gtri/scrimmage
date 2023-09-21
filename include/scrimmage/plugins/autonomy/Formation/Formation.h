@@ -80,9 +80,9 @@ class Formation : public scrimmage::Autonomy{
     double prev_gen_time_ = -1.0;
 
     scrimmage::PublisherPtr leader_pub_;
-   //  float leader_x_pos;
-   //  float leader_y_pos;
-   //  float leader_z_pos;
+    float leader_x_pos;
+    float leader_y_pos;
+    float leader_z_pos;
 };
 } // namespace autonomy
 } // namespace scrimmage
