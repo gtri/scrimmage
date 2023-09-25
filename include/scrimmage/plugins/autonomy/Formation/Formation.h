@@ -40,6 +40,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <map>
 
 namespace scrimmage {
 
@@ -54,11 +55,23 @@ class Formation : public scrimmage::Autonomy{
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    double speed_;
+    bool leader_;
+    double leader_speed_;
+    float leader_x_pos;
+    float leader_y_pos;
+    float leader_z_pos;
+
+    double follower_speed_;
+
+    scrimmage::PublisherPtr leader_pub_;
+    scrimmage::PublisherPtr follower_track_pub_;
+
+    int ent_id;
+    std::map<int,int> follower_track; //ent_id, follower number
+
     Eigen::Vector3d goal_;
 
     int frame_number_;
-    bool leader_;
 
     bool enable_boundary_control_ = false;
     std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_;
@@ -78,13 +91,6 @@ class Formation : public scrimmage::Autonomy{
     double desired_z_ = 0;
 
     double prev_gen_time_ = -1.0;
-
-    scrimmage::PublisherPtr leader_pub_;
-    float leader_x_pos;
-    float leader_y_pos;
-    float leader_z_pos;
-
-    int ent_id;
 };
 } // namespace autonomy
 } // namespace scrimmage

@@ -74,8 +74,10 @@ namespace autonomy {
 void Formation::init(std::map<std::string, std::string> &params) {
     ent_id = parent_->id().id();
     
-    speed_ = scrimmage::get("speed", params, 0.0);
+    leader_speed_ = scrimmage::get("leader_speed", params, 0.0);
     leader_ = scrimmage::get<bool>("leader", params, false);
+
+    follower_speed_ = scrimmage::get("follower_speed", params, 0.0);
 
     // Project goal in front...
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
@@ -83,16 +85,6 @@ void Formation::init(std::map<std::string, std::string> &params) {
     unit_vector = state_->quat().rotate(unit_vector);
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
     goal_(2) = state_->pos()(2);
-
-    // Nat - what if goal isn't in front? see if it turns
-    // Should probably have a tag that is for leader/follower with the given entity
-    // Instead of speed, probably want displacement compared to the leader instead.
-    // Might be able to stack autonomies for go to waypoint and avoid entity MS
-    //
-    // Will need logic if the entitiy is not the leader. If it is the leader, it can
-    // just continue to fly straight. Maybe a good way to do this if it is not the leader,
-    // it should publish messages from follower, saying it is in the formation. The leader
-    // should publish messages with its location, that way the follower can do proper displacement
 
     // Set the desired_z to our initial position.
     // desired_z_ = state_->pos()(2);
@@ -126,16 +118,14 @@ void Formation::init(std::map<std::string, std::string> &params) {
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
-    // Set up leader publisher
-    leader_pub_ = advertise("GlobalNetwork", "FormationLeader");
-
     // Set up follower subscriber
     auto follower_cb = [&](auto &msg) { // Nat - this may be good for locating entities nearby
-        if(msg->data.bird_id() == ent_id){
+        if(msg->data.bird_id() == ent_id || msg->data.bird_id() != 1){ // Only compute euc dist. for cur vs ent 1
             cout << "Skip calculation, entity ids are the same" << endl;
             return;
         }
 
+        // If the bird is a follower, offsets could be put here depending on the follower number
         leader_x_pos = msg->data.x_pos();
         leader_y_pos = msg->data.y_pos();
         leader_z_pos = msg->data.z_pos();
@@ -156,29 +146,39 @@ void Formation::init(std::map<std::string, std::string> &params) {
         if(leader_){
             float x_pos_sq = (state_->pos()(0) - leader_x_pos) * (state_->pos()(0) - leader_x_pos);
             float y_pos_sq = (state_->pos()(1) - leader_y_pos) * (state_->pos()(1) - leader_y_pos);
-            // float z_pos_sq = (state_->pos()(2) - leader_z_pos) * (state_->pos()(2) - leader_z_pos);
+            //float z_pos_sq = (state_->pos()(2) - leader_z_pos) * (state_->pos()(2) - leader_z_pos); // IF using z, will need a diff distance threshold
             float euc_dist = std::sqrt(x_pos_sq + y_pos_sq);
 
             cout << "Euclidean distance is: " << euc_dist << " and ent id is: " << ent_id << endl;
 
             if(euc_dist < 50 && ent_id != 1){
-                cout << "Entity " << ent_id << " is no longer the leader" << endl;
                 leader_ = false;
+                follower_track[ent_id] = follower_track.size();
+                cout << "Entity " << ent_id << " is no longer the leader. It is now follower #" << follower_track[ent_id] << endl;
             }
         }
     };
     subscribe<scrimmage_msgs::FormationLeader>("GlobalNetwork", "FormationLeader", follower_cb);
+    leader_pub_ = advertise("GlobalNetwork", "FormationLeader");
+
+    // Set up follower tracker subscriber
+    // auto tracker_cb = [&](auto &msg) { 
+    //     follower_track = msg->data.follower_track();
+    //     cout << "In the follower track call back. The map is currently the following size: " << follower_track.size() << endl;
+    // };
+    // subscribe<scrimmage_msgs::FollowerTrack>("GlobalNetwork", "FollowerTrack", tracker_cb);
+    // follower_track_pub_ = advertise("GlobalNetwork", "FollowerTrack");
 }
 
 bool Formation::step_autonomy(double t, double dt) {
-    
-    //cout << "Entity id: " << parent_->id().id() << endl;
 
-
-    // Nat - Need a case where the entity senses a new nearby autonomy
-    // If it does, then need to do new leader selection
+    // Goal displacements if a follower
     if(!leader_){
-        goal_(0) = leader_x_pos;
+        // When adding this kind of offset with the way velocity is calculated,
+        // if the drone enters a zone that is closer than the displacement,
+        // it turns around. Instead, need to have it slow and if it passes into the
+        // displacement zone, decrease speed but never spin in a circle.
+        goal_(0) = leader_x_pos - 5;
         goal_(1) = leader_y_pos;
         goal_(2) = leader_z_pos;
 
@@ -204,9 +204,23 @@ bool Formation::step_autonomy(double t, double dt) {
         }
     }
 
-    // If the entity is the leader, the goal is in front
+    // If the entity is the leader, the goal is in front // look at unicycle pid 
     Eigen::Vector3d diff = goal_ - noisy_state_.pos();
-    Eigen::Vector3d v = speed_ * diff.normalized();
+    Eigen::Vector3d v;
+    if(!leader_){
+        // Calculate velocity using a PID controller
+        v = follower_speed_ * diff.normalized();
+    } else {
+        v = leader_speed_ * diff.normalized();
+    }
+
+    // Straight's way of calculating speed
+    //Eigen::Vector3d v = speed_ * diff.normalized();
+
+    if(ent_id != 1){
+        cout << "The diff between goal and noisy state is: " << diff
+                        << " The velocity vector is: " << v << endl;
+    }
 
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));
@@ -220,30 +234,11 @@ bool Formation::step_autonomy(double t, double dt) {
         leader_msg->data.set_z_pos(state_->pos()(2));
         leader_msg->data.set_bird_id(ent_id);
         leader_pub_->publish(leader_msg);
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Convert desired velocity to desired speed, heading, and pitch controls
-    ///////////////////////////////////////////////////////////////////////////
-    // Nat - this should be if you are the leader, then do normal straight flying
-    // if(leader_){
-
-    //     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
-    //     vars_.output(desired_alt_idx_, goal_(2));
-    //     vars_.output(desired_speed_idx_, v.norm());
-    //     vars_.output(desired_heading_idx_, heading);
-
-    //     auto leader_msg = std::make_shared<Message<scrimmage_msgs::FormationLeader>>();
-    //     leader_msg->data.set_x_pos(state_->pos()(0));
-    //     leader_msg->data.set_y_pos(state_->pos()(1));
-    //     leader_msg->data.set_z_pos(state_->pos()(2));
-    //     leader_pub_->publish(leader_msg);
-    // } else { // If it is not the leader, take the leader's heading and add a displacement
-
+     } //else{
+    //     auto follower_track_msg = std::make_shared<Message<scrimmage_msgs::FollowerTrack>>();
+    //     follower_track_msg->data.mutable_follower_track()[ent_id] = follower_track.size();
+    //     follower_track_pub_->publish(follower_track_msg);
     // }
-
-    // Nat - if you are not the leader, get the leader's position and do proper displacements
-    // for desired alt, speed, and heading
 
     noisy_state_set_ = false;
     return true;

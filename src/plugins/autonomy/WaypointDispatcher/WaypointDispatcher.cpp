@@ -143,6 +143,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
         sphere->set_opacity(1.0);
         sphere->mutable_sphere()->set_radius(30);
         sc::set(sphere->mutable_sphere()->mutable_center(), pt);
+        cout << "Point is: " << pt << endl;
         this->draw_shape(sphere);
     };
 
@@ -150,6 +151,8 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
         draw_sphere(track_sphere_shape_, track_point, 0, 0, 0);
         draw_sphere(curr_wp_sphere_shape_, wp, 255, 0, 0);
         draw_sphere(prev_wp_sphere_shape_, prev_wp, 0, 0, 255);
+
+        cout << "Track point: " << track_point << " WP: " << wp << " Prev WP: " << prev_wp << endl;
     }
 
     // convert track_point to lat/lon and Publish track_point!

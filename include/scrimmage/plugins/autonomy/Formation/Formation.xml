@@ -2,7 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
 <params>
   <library>Formation_plugin</library>
-  <speed>21</speed>
-  <enable_boundary_control>false</enable_boundary_control>
+
+  <leader_speed>15</leader_speed>
   <leader>false</leader>
+
+  <follower_speed>30</follower_speed>
+
+  <enable_boundary_control>false</enable_boundary_control>
 </params>

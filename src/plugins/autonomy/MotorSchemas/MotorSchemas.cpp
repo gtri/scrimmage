@@ -158,7 +158,8 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     for (motor_schemas::BehaviorBasePtr &behavior : current_behaviors_) {
         behavior->shapes().clear();
 
-        // cout << "Behavior: " << behavior->name() << endl;
+        cout << "-------------------------------------------------------" << endl;
+        cout << "Behavior: " << behavior->name() << endl;
 
         // Execute callbacks for received messages before calling
         // step_autonomy
@@ -183,9 +184,9 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
             continue;
         }
 
-        // cout << "desired_vector: " << desired_vector << endl;
-        // cout << "gain: " << behavior->gain() << endl;
-        // cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
+        cout << "desired_vector: " << desired_vector << endl;
+        cout << "gain: " << behavior->gain() << endl;
+        cout << "desired_vector.norm(): " << desired_vector.norm() << endl;
 
         // Keep a running sum of all vectors with gains
         vec_w_gain += desired_vector * behavior->gain();
@@ -225,11 +226,15 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         vars_.output(output_vel_x_idx_, vel_result(0));
         vars_.output(output_vel_y_idx_, vel_result(1));
         vars_.output(output_vel_z_idx_, vel_result(2));
+
+        cout << "Publishing vel vector" << endl;
     } else {
         double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
         vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
         vars_.output(desired_speed_idx_, vel_result.norm());
         vars_.output(desired_heading_idx_, heading);
+
+        cout << "Converting vector to heading, speed, and vel command" << endl;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -246,6 +251,9 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         sc::set(line_shape_->mutable_line()->mutable_end(), vel_result + state_->pos());
         draw_shape(line_shape_);
     }
+    
+    cout << "-------------------------------------------------------" << endl;
+
     return true;
 }
 } // namespace autonomy

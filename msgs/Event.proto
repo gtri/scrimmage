@@ -60,3 +60,7 @@ message FormationLeader{
         float z_pos = 3;
         int32 bird_id = 4;
 }
+
+message FollowerTrack{
+        map<int32,int32> follower_track = 1;
+}
