@@ -92,13 +92,13 @@ void ROSClockServer::close(double t) {
 void ROSClockServer::check_rosmaster() {
     bool rosmaster_state = ros::master::check();
     if (prev_rosmaster_state_ == false && rosmaster_state == true) {
+        ros::param::set("/use_sim_time", true);
         // time to reinitialize
         nh_ = std::make_shared<ros::NodeHandle>(); // this actually starts the node
         // Create Publisher
         pub_mutex_.lock();
         clock_pub_.shutdown();
         clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
-        ros::param::set("/use_sim_time", true);
         pub_mutex_.unlock();
     }
     prev_rosmaster_state_ = rosmaster_state;
