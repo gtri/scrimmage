@@ -160,12 +160,12 @@ environment:
 
 Install the python dependencies with specific version numbers:
 
-    (env) pip install -r ./python/requirements.txt
+    (env)$ pip install -r ./python/requirements.txt
 
 Re-build the scrimmage project within the virtual environment:
 
-    (env) cmake .. -DPYTHON_MIN_VERSION=3.6
-    (env) make
+    (env)$ cmake .. -DPYTHON_MIN_VERSION=3.6
+    (env)$ make
 
 Scrimmage's cmake build procedures will choose the environment
 default Python in its configuration process when running
@@ -177,8 +177,8 @@ the cmake process.
 
 To install scrimmage's python bindings:
 
-    (env) cd /path/to/scrimmage/python
-    (env) python setup.py develop
+    (env)$ cd /path/to/scrimmage/python
+    (env)$ python setup.py develop
 
 ## Build SCRIMMAGE Documentation
 
