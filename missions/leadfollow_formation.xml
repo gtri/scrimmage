@@ -80,7 +80,8 @@
     <visual_model>zephyr-blue</visual_model>
 
     <autonomy leader="true"
-              enable_boundary_control="true">Formation</autonomy>
+              enable_boundary_control="true"
+              show_shapes="true">Formation</autonomy>
 
     <base>
       <latitude>35.721112</latitude>
@@ -109,7 +110,11 @@
     <visual_model>zephyr-blue</visual_model>
 
     <autonomy leader = "true"
-              enable_boundary_control="true">Formation</autonomy>
+              enable_boundary_control="true"
+              x_disp = "10"
+              y_disp = "0"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
 
     <base>
       <latitude>35.721112</latitude>

@@ -60,8 +60,16 @@ class Formation : public scrimmage::Autonomy{
     float leader_x_pos;
     float leader_y_pos;
     float leader_z_pos;
+    float safety_dist_;
 
     double follower_speed_;
+    double follow_v_k_;
+    double x_disp_;
+    double y_disp_;
+    double z_disp_;
+
+    bool show_shapes_;
+    scrimmage_proto::ShapePtr circle_shape_;
 
     scrimmage::PublisherPtr leader_pub_;
     scrimmage::PublisherPtr follower_track_pub_;

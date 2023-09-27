@@ -39,6 +39,11 @@
 
 #include <boost/algorithm/string.hpp>
 
+#include <scrimmage/common/VariableIO.h>
+
+using std::cout;
+using std::endl;
+
 REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleAircraftControllerPID, SimpleAircraftControllerPID_plugin)
 
 namespace scrimmage {
@@ -75,6 +80,10 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     output_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
     output_roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
     output_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+
+    desired_pitch_idx_ = vars_.declare("desired_pitch", scrimmage::VariableIO::Direction::Out);
+    desired_roll_idx_ = vars_.declare("desired_roll", scrimmage::VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare("desired_speed", scrimmage::VariableIO::Direction::Out);
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
@@ -91,9 +100,17 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
     double u_throttle = vel_pid_.step(dt, state_->vel().norm());
 
+    // cout << "Throttle is: " << u_throttle << " State vel is: " << state_->vel() << " Norm of vel is: " << state_->vel().norm() << endl;
+    cout << "The speed idx is: " << output_throttle_idx_ << endl;
+
     vars_.output(output_roll_rate_idx_, u_roll_rate);
     vars_.output(output_pitch_rate_idx_, u_pitch_rate);
     vars_.output(output_throttle_idx_, u_throttle);
+
+    vars_.output(desired_pitch_idx_, u_pitch_rate);
+    vars_.output(desired_roll_idx_, u_roll_rate);
+    vars_.output(desired_speed_idx_, u_throttle);
+
     return true;
 }
 }  // namespace controller
