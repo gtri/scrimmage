@@ -101,7 +101,6 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
     double u_throttle = vel_pid_.step(dt, state_->vel().norm());
 
     // cout << "Throttle is: " << u_throttle << " State vel is: " << state_->vel() << " Norm of vel is: " << state_->vel().norm() << endl;
-    cout << "The speed idx is: " << output_throttle_idx_ << endl;
 
     vars_.output(output_roll_rate_idx_, u_roll_rate);
     vars_.output(output_pitch_rate_idx_, u_pitch_rate);

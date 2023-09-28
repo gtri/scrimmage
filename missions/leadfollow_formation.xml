@@ -69,7 +69,7 @@
     <health>1</health>
     <radius>1</radius>
 
-    <x>-200</x>
+    <x>-100</x>
     <y>0</y>
     <z>195</z>
     <heading>0</heading>
@@ -124,7 +124,7 @@
     </base>
   </entity>
 
-  <!-- ========================== Entity 3 =========================
+  ========================== Entity 3 =========================
   <entity>
     <name>leader_3</name>
     <team_id>3</team_id>
@@ -132,10 +132,10 @@
     <health>1</health>
     <radius>1</radius>
 
-    <x>500</x>
-    <y>5</y>
+    <x>5</x>
+    <y>-100</y>
     <z>195</z>
-    <heading>180</heading>
+    <heading>90</heading>
 
     <controller>SimpleAircraftControllerPID</controller>
     <motion_model>SimpleAircraft</motion_model>
@@ -143,7 +143,11 @@
     <visual_model>zephyr-blue</visual_model>
 
     <autonomy leader = "true"
-              enable_boundary_control="true">Formation</autonomy>
+              enable_boundary_control="false"
+              x_disp = "20"
+              y_disp = "0"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
 
     <base>
       <latitude>35.721112</latitude>
@@ -151,6 +155,6 @@
       <altitude>300</altitude>
       <radius>25</radius>
     </base>
-  </entity> -->
+  </entity>
 
 </runscript>

@@ -175,7 +175,7 @@ void Formation::init(std::map<std::string, std::string> &params) {
             if(euc_dist < 50 && ent_id != 1){
                 leader_ = false;
                 //follower_track[ent_id] = follower_track.size();
-                cout << "Entity " << ent_id << " is no longer the leader. It is now follower #" << follower_track[ent_id] << endl;
+                //cout << "Entity " << ent_id << " is no longer the leader. It is now follower #" << follower_track[ent_id] << endl;
             }
         }
     };
