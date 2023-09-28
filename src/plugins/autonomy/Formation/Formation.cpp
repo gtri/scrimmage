@@ -128,10 +128,21 @@ void Formation::init(std::map<std::string, std::string> &params) {
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
+    // If initialized as a follower, update track
+    if(!leader_){
+        //follower_track[ent_id] = follower_track.size();
+        FollowerData follower;
+        follower.x_pos = state_->pos()(0);
+        follower.y_pos = state_->pos()(1);
+        follower.z_pos = state_->pos()(2);
+        follower.ent_id = ent_id;
+
+        follower_map[ent_id] = follower;
+    }
+
     // Set up follower subscriber
-    auto follower_cb = [&](auto &msg) { // Nat - this may be good for locating entities nearby
-        if(msg->data.bird_id() == ent_id || msg->data.bird_id() != 1){ // Only compute euc dist. for cur vs ent 1
-            // cout << "Skip calculation, entity ids are the same" << endl;
+    auto follower_cb = [&](auto &msg) {
+        if(msg->data.bird_id() == ent_id || msg->data.bird_id() != 1){ // Only compute euclidean distance for cur vs ent 1
             return;
         }
 
@@ -163,7 +174,7 @@ void Formation::init(std::map<std::string, std::string> &params) {
 
             if(euc_dist < 50 && ent_id != 1){
                 leader_ = false;
-                follower_track[ent_id] = follower_track.size();
+                //follower_track[ent_id] = follower_track.size();
                 cout << "Entity " << ent_id << " is no longer the leader. It is now follower #" << follower_track[ent_id] << endl;
             }
         }
@@ -172,12 +183,21 @@ void Formation::init(std::map<std::string, std::string> &params) {
     leader_pub_ = advertise("GlobalNetwork", "FormationLeader");
 
     // Set up follower tracker subscriber
-    // auto tracker_cb = [&](auto &msg) { 
-    //     follower_track = msg->data.follower_track();
-    //     cout << "In the follower track call back. The map is currently the following size: " << follower_track.size() << endl;
-    // };
-    // subscribe<scrimmage_msgs::FollowerTrack>("GlobalNetwork", "FollowerTrack", tracker_cb);
-    // follower_track_pub_ = advertise("GlobalNetwork", "FollowerTrack");
+    auto tracker_cb = [&](auto &msg) { 
+        if(follower_map.count(msg->data.bird_id()) == 0){
+            //follower_track[ent_id] = follower_track.size();
+            cout << "Adding new follower id: " << msg->data.bird_id() << endl;
+            FollowerData follower;
+            follower.x_pos = msg->data.x_pos();
+            follower.y_pos = msg->data.y_pos();
+            follower.z_pos = msg->data.z_pos();
+            follower.ent_id = msg->data.bird_id();
+
+            follower_map[msg->data.bird_id()] = follower;
+        }
+    };
+    subscribe<scrimmage_msgs::FollowerTrack>("GlobalNetwork", "FollowerTrack", tracker_cb);
+    follower_track_pub_ = advertise("GlobalNetwork", "FollowerTrack");
 }
 
 bool Formation::step_autonomy(double t, double dt) {
@@ -189,15 +209,18 @@ bool Formation::step_autonomy(double t, double dt) {
         // it turns around. Instead, need to have it slow and if it passes into the
         // displacement zone, decrease speed but never spin in a circle. Will need hard 
         // hard set distance where it will turn around if it goes within the area
+
+        cout << "Leader pos is: " << leader_x_pos << ", " << leader_y_pos << ", leader_z_pos" << endl;
+
         goal_(0) = leader_x_pos - x_disp_;
         goal_(1) = leader_y_pos - y_disp_;
         goal_(2) = leader_z_pos - z_disp_;
 
-        // cout << "Updating follower goal positions for entity" << ent_id
-        //                                 << " x_pos: " << goal_(0)
-        //                                 << " y_pos: " << goal_(1)
-        //                                 << " z_pos: " << goal_(2) 
-        //                                 << endl;
+        cout << "Updating follower goal positions: "
+                                        << " x_pos: " << goal_(0)
+                                        << " y_pos: " << goal_(1)
+                                        << " z_pos: " << goal_(2) 
+                                        << endl;
     }
 
     // Read data from sensors...
@@ -215,29 +238,14 @@ bool Formation::step_autonomy(double t, double dt) {
         }
     }
 
-    cout << "------------------------Entity " << ent_id << "------------------------" << endl; 
-    // If the entity is the leader, the goal is in front // look at unicycle pid 
     Eigen::Vector3d diff = goal_ - noisy_state_.pos();
     Eigen::Vector3d v;
-    
-    cout << "Pre safety check diff: " << diff(0) << endl;
 
     if(!leader_){
         // Calculate velocity using a PID controller
         // For now, just handle the vel and distance here to get it working, then can add
         // it to the pid once ready. Would be good to do this and then handle the follower messaging that
         // couldn't get working last week
-
-        // If the diff is less than the safety distance, then need to circle back. If it is less than the displacement
-        // distance, then slow down and match the sign of the velocities of the leader
-        // if (goal_(0) > 0 && safety_dist_ > diff(0)){ // Need to check more than just the x value, having issues with edge cases
-        //     cout << "Safety #1 dist check" << endl;
-        //     diff(0) = safety_dist_;
-        //  } //else if(goal_(0) < 0 && -safety_dist_ < diff(0) && diff(0) < 0.0){
-        //     cout << "Safety #2 dist check" << endl;
-        //     diff(0) = -safety_dist_;
-        // }
-
         v = follow_v_k_ * diff;
         if(v(0)>follower_speed_){
             v(0) = follower_speed_;
@@ -248,17 +256,6 @@ bool Formation::step_autonomy(double t, double dt) {
     } else {
         v = leader_speed_ * diff.normalized();
     }
-
-    // Straight's way of calculating speed
-    //Eigen::Vector3d v = speed_ * diff.normalized();
-
-    // if(ent_id != 1){
-    //     cout << "The diff between goal and noisy state is: " << diff
-    //                     << " The velocity vector is: " << v << endl;
-    // }
-    cout << "The diff between goal and noisy state is: " << diff
-                        << " The velocity vector is: " << v << endl;
-    cout << "---------------------------------------------------------" << endl;
     
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));
@@ -272,11 +269,14 @@ bool Formation::step_autonomy(double t, double dt) {
         leader_msg->data.set_z_pos(state_->pos()(2));
         leader_msg->data.set_bird_id(ent_id);
         leader_pub_->publish(leader_msg);
-     } //else{
-    //     auto follower_track_msg = std::make_shared<Message<scrimmage_msgs::FollowerTrack>>();
-    //     follower_track_msg->data.mutable_follower_track()[ent_id] = follower_track.size();
-    //     follower_track_pub_->publish(follower_track_msg);
-    // }
+     } else{
+        auto follower_track_msg = std::make_shared<Message<scrimmage_msgs::FollowerTrack>>();
+        follower_track_msg->data.set_x_pos(state_->pos()(0));
+        follower_track_msg->data.set_y_pos(state_->pos()(1));
+        follower_track_msg->data.set_z_pos(state_->pos()(2));
+        follower_track_msg->data.set_bird_id(ent_id);
+        follower_track_pub_->publish(follower_track_msg);
+    }
 
     if (show_shapes_) {
         // Draw the sphere of influence
@@ -284,7 +284,7 @@ bool Formation::step_autonomy(double t, double dt) {
             circle_shape_ = sc::shape::make_sphere(
                 state_->pos(), 2,
                 Eigen::Vector3d(255, 0, 0), 0.2);
-        } if(!leader_) { // When followers are known by the leader, can change the leader color to represent a new formation
+        } if(!follower_map.empty()){
             sc::set(circle_shape_->mutable_color(), Eigen::Vector3d(0, 255, 0));
         }
         sc::set(circle_shape_->mutable_sphere()->mutable_center(), state_->pos());

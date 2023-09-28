@@ -57,6 +57,7 @@ class Formation : public scrimmage::Autonomy{
  protected:
     bool leader_;
     double leader_speed_;
+    int leader_id;
     float leader_x_pos;
     float leader_y_pos;
     float leader_z_pos;
@@ -75,7 +76,16 @@ class Formation : public scrimmage::Autonomy{
     scrimmage::PublisherPtr follower_track_pub_;
 
     int ent_id;
-    std::map<int,int> follower_track; //ent_id, follower number
+    //std::map<int,int> follower_track; //ent_id, follower number
+
+    struct FollowerData {
+      double x_pos;
+      double y_pos;
+      double z_pos;
+      int ent_id;
+    };
+
+    std::map<int, FollowerData> follower_map;
 
     Eigen::Vector3d goal_;
 

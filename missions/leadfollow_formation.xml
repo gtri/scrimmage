@@ -80,7 +80,7 @@
     <visual_model>zephyr-blue</visual_model>
 
     <autonomy leader="true"
-              enable_boundary_control="true"
+              enable_boundary_control="false"
               show_shapes="true">Formation</autonomy>
 
     <base>
@@ -110,7 +110,7 @@
     <visual_model>zephyr-blue</visual_model>
 
     <autonomy leader = "true"
-              enable_boundary_control="true"
+              enable_boundary_control="false"
               x_disp = "10"
               y_disp = "0"
               z_disp = "0"
