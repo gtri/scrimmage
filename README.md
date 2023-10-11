@@ -42,8 +42,8 @@ under a single directory, but it is not necessary. To create a directory to
 hold your scrimmage projects and clone this scrimmage repo, run the following
 commands:
 
-    $ mkdir -p ~/scrimmage && cd ~/scrimmage
-    $ git clone https://github.com/gtri/scrimmage.git
+    mkdir -p ~/scrimmage && cd ~/scrimmage
+    git clone https://github.com/gtri/scrimmage.git
 
 ### Install Binary Dependencies
 
@@ -51,43 +51,48 @@ A list of the Ubuntu packages required is provided in
 ./setup/install-binaries.sh in the "DEPS_DPKG" array. Run our automated
 installer to install the required packages:
 
-    $ cd scrimmage
-    $ sudo ./setup/install-binaries.sh [--external] [--python <version>]
+    cd scrimmage
+    sudo ./setup/install-binaries.sh [--external] [--python <version>]
 
 If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
+
+### Additional Binary Dependencies Ubuntu 20.04
+
+    sudo apt install libgrpc++-dev
+    (optional) sudo ln -s usr/bin/python3 usr/bin/python
 
 ### Install Custom Built Binary Dependencies
 
 Some of SCRIMMAGE's dependencies have to be custom built from source. We
 provide debian package binaries for both Ubuntu 16.04 (xenial) and 18.04
 (bionic) via the SCRIMMAGE PPA on Launchpad for these custom built
-packages. For Ubuntu 16.04 (xenial) and 18.04 (bionic), add the following PPA
+packages. For Ubuntu 16.04 (xenial) and 18.04 (bionic), and 20.04 (focal) add the following PPA
 to your apt-get sources:
 
-    $ sudo add-apt-repository ppa:kevin-demarco/scrimmage
+    sudo add-apt-repository ppa:kevin-demarco/scrimmage
 
 For both distributions, update your sources list:
 
-    $ sudo apt-get update
+    sudo apt-get update
 
 Now, install the SCRIMMAGE custom built binary dependencies:
 
-    $ sudo apt-get install scrimmage-dependencies scrimmage-jsbsim
+    sudo apt-get install scrimmage-dependencies scrimmage-jsbsim
 
 Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
 local system and sets up some environment variables:
 
-    $ source /opt/scrimmage/*/setup.sh
+    source /opt/scrimmage/*/setup.sh
 
 Note: If you need to build the dependencies from source or generate binary
 packages, see [Build Dependencies from Source](./3rd-party/README.md)
 
 ### Build SCRIMMAGE Core
 
-    $ mkdir build && cd build
-    $ cmake ..
-    $ make
-    $ source ~/.scrimmage/setup.bash
+    mkdir build && cd build
+    cmake ..
+    make
+    source ~/.scrimmage/setup.bash
 
 ### Environment Setup
 
@@ -95,14 +100,14 @@ Whenever you want to use scrimmage, you need to source the
 ~/.scrimmage/setup.bash file or you can place a line in your ~/.bashrc file to
 source it automatically:
 
-    $ echo "source ~/.scrimmage/setup.bash" >> ~/.bashrc
+    echo "source ~/.scrimmage/setup.bash" >> ~/.bashrc
 
 ## Run SCRIMMAGE
 
 Open a new terminal, change to the scrimmage directory, and execute a mission.
 
-    $ cd </path/to/>scrimmage
-    $ scrimmage ./missions/straight.xml
+    cd </path/to/>scrimmage
+    scrimmage ./missions/straight.xml
 
 You should see the visualization GUI open up and display the simulation.
 
@@ -148,10 +153,10 @@ platform is no longer supported by SCRIMMAGE core developers.
 It is recommended to build scrimmage's Python bindings in a python virtual
 environment:
 
-    $ cd /path/to/scrimmage
-    $ sudo apt-get install python3 libpython3-dev python3-venv
-    $ python3 -m venv env
-    $ source ./env/bin/activate
+    cd /path/to/scrimmage
+    sudo apt-get install python3 libpython3-dev python3-venv
+    python3 -m venv env
+    source ./env/bin/activate
 
 Install the python dependencies with specific version numbers:
 
@@ -177,33 +182,33 @@ To install scrimmage's python bindings:
 
 ## Build SCRIMMAGE Documentation
 
-    $ cd build
-    $ cmake .. -DBUILD_DOCS=ON
-    $ make docs
+    cd build
+    cmake .. -DBUILD_DOCS=ON
+    make docs
 
 ### View SCRIMMAGE API (Doxygen) Documentation
 
-    $ firefox ./docs/doxygen/html/index.html
+    firefox ./docs/doxygen/html/index.html
 
 ### View SCRIMMAGE Tutorial (Sphinx) Documentation
 
-    $ firefox ./docs/sphinx/html/index.html
+    firefox ./docs/sphinx/html/index.html
 
 ## Build and Run Tests
 
-    $ cmake .. -DBUILD_TESTS=ON
-    $ make
-    $ make test
+    cmake .. -DBUILD_TESTS=ON
+    make
+    make test
 
 ## Cleaning SCRIMMAGE
 
 The scrimmage source code can be cleaned with the standard clean command:
 
-    $ make clean
+    make clean
 
 However, if you want to clean everything, you can remove your build directory:
 
-    $ cd /path/to/scrimmage && rm -rf build
+    cd /path/to/scrimmage && rm -rf build
 
 ## ROS Integration
 
@@ -211,9 +216,9 @@ To build SCRIMMAGE's ROS plugins, you must have
 [ROS](http://wiki.ros.org/ROS/Installation) installed, the ROS environment
 sourced, and the `BUILD_ROS_PLUGINS` cmake variable must be set:
 
-    $ sudo apt-get install ros-${ROS_VERSION}-desktop-full ros-${ROS_VERSION}-mavros-msgs
-    $ source /opt/ros/${ROS_VERSION}/setup.sh
-    $ cmake .. -DBUILD_ROS_PLUGINS=ON
+    sudo apt-get install ros-${ROS_VERSION}-desktop-full ros-${ROS_VERSION}-mavros-msgs
+    source /opt/ros/${ROS_VERSION}/setup.sh
+    cmake .. -DBUILD_ROS_PLUGINS=ON
 
 The `${ROS_VERSION}` should be substituted with an appropriate ROS version
 (e.g., "kinetic", "melodic", etc.).
@@ -233,7 +238,7 @@ contact information, and receive desired state from the IvP Helm. To build
 MOOSAutonomy, you have to provide cmake with the path to the moos-ivp source
 tree:
 
-    $ cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
+    cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
 
 
 ## FlightGear Multiplayer Server (FGMS) Integration
@@ -244,18 +249,18 @@ https://github.com/FlightGear/fgms
 
 Clone the flight gear multiplayer server repository and build it:
 
-    $ git clone https://github.com/FlightGear/fgms.git
-    $ cd fgms
-    $ git checkout 6669ac222b9f6ca34b0d56ba1bc6cac9cc0324b2
-    $ mkdir build && cd build
-    $ cmake .. -DBUILD_SHARED_LIB=ON
-    $ make
+    git clone https://github.com/FlightGear/fgms.git
+    cd fgms
+    git checkout 6669ac222b9f6ca34b0d56ba1bc6cac9cc0324b2
+    mkdir build && cd build
+    cmake .. -DBUILD_SHARED_LIB=ON
+    make
 
 The FGMS plugin interacts with SCRIMMAGE to receive the state variables of each
 entity. To build FGMS, you have to provide SCRIMMAGE's CMake project the path
 to the FGMS root source:
 
-    $ cmake .. -DFGMS_SOURCE_TREE_BASE=/path/to/fgms
+    cmake .. -DFGMS_SOURCE_TREE_BASE=/path/to/fgms
 
 ## Running SCRIMMAGE inside of Docker
 
@@ -263,13 +268,13 @@ The SCRIMMAGE docker image is pushed to a public repository after a successful
 build on Travis. If docker is installed on your machine, you can obtain the
 SCRIMMAGE docker image by running the following command:
 
-    $ docker pull syllogismrxs/scrimmage:latest
+    docker pull syllogismrxs/scrimmage:latest
 
 You can pass mission files from your host machine to the `scrimmage` executable
 inside of the docker container with the following command:
 
-    $ cd /path/to/scrimmage/missions
-    $ docker run --name my-scrimmage \
+    cd /path/to/scrimmage/missions
+    docker run --name my-scrimmage \
         -v ${PWD}/straight_jsbsim.xml:/straight_jsbsim.xml \
         syllogismrxs/scrimmage:latest /straight_jsbsim.xml
 
@@ -282,18 +287,18 @@ defined in the Dockerfile. Finally, the `scrimmage` executable is passed the
 Since we provided a name for our container, we can easily extract the SCRIMMAGE
 log files from the docker container:
 
-    $ docker cp my-scrimmage:/root/.scrimmage/logs .
+    docker cp my-scrimmage:/root/.scrimmage/logs .
 
 If you need to drop into a shell inside of the scrimmage container, you will
 need to overwrite the docker image's ENTRYPOINT.
 
-    $ docker run -it --entrypoint="/bin/bash" syllogismrxs/scrimmage:latest
+    docker run -it --entrypoint="/bin/bash" syllogismrxs/scrimmage:latest
 
 Once inside of the container, you will need to source the `setup.bash` file
 manually before running a mission.
 
-    $ source ~/.scrimmage/setup.bash
-    $ scrimmage ./missions/straight-no-gui.xml
+    source ~/.scrimmage/setup.bash
+    scrimmage ./missions/straight-no-gui.xml
 
 ## Building SCRIMMAGE for CentOS or RedHat
 
@@ -304,22 +309,22 @@ CentOS or RedHat system. The user can change the package install prefix for all
 RPMs by specifying the `PKG_PREFIX` docker build argument. Building the docker
 image can take several hours:
 
-    $ cd /path/to/scrimmage/ci/dockerfiles
-    $ docker build --build-arg PKG_PREFIX=/opt/scrimmage \
+    cd /path/to/scrimmage/ci/dockerfiles
+    docker build --build-arg PKG_PREFIX=/opt/scrimmage \
                    --tag scrimmage/centos6:latest \
                    --file centos6 .
 
 Extract the RPMs that were built to the host's `rpms` folder:
 
-    $ docker create --name mycontainer scrimmage/centos6:latest
-    $ docker cp mycontainer:/root/rpms ./rpms     # extract the rpms
-    $ docker rm mycontainer                       # clean up container
+    docker create --name mycontainer scrimmage/centos6:latest
+    docker cp mycontainer:/root/rpms ./rpms     # extract the rpms
+    docker rm mycontainer                       # clean up container
 
 Copy the `rpms` folder to your CentOS or RedHat system and install the run-time
 dependencies:
 
-    $ cd /path/to/rpms
-    $ rpm -ivh scrimmage_gcc*.rpm \
+    cd /path/to/rpms
+    rpm -ivh scrimmage_gcc*.rpm \
              scrimmage_python*.rpm \
              scrimmage_boost*.rpm \
              scrimmage_geographiclib*.rpm \
@@ -330,7 +335,7 @@ dependencies:
 
 To test that SCRIMMAGE was installed correctly, run the following command:
 
-    $ export JSBSIM_ROOT=/opt/scrimmage/etc/JSBSim \
+    export JSBSIM_ROOT=/opt/scrimmage/etc/JSBSim \
         && source /opt/scrimmage/etc/scrimmage/env/scrimmage-setenv \
         && scrimmage /opt/scrimmage/share/scrimmage/missions/straight-no-gui.xml
 
@@ -342,7 +347,7 @@ Instructions modified from:
 
 Install Grid Engine:
 
-    $ sudo apt-get install gridengine-master gridengine-exec \
+    sudo apt-get install gridengine-master gridengine-exec \
       gridengine-common gridengine-qmon gridengine-client
 
 Note that you can configure how qsub is called with a `.sge_request` in your
@@ -354,8 +359,8 @@ available) when running grid engine under the Queue Control tab.
 Install PostgreSQL and configure the database scrimmage, create user scrimmage with
 password scrimmage, and add that user to the scrimmage database:
 
-    $ sudo apt-get install postgresql postgresql-contrib
-    $ sudo update-rc.d postgresql enable &&\
+    sudo apt-get install postgresql postgresql-contrib
+    sudo update-rc.d postgresql enable &&\
       sudo service postgresql restart &&\
       sudo -u postgres createdb scrimmage &&\
       sudo -u postgres psql -c "CREATE USER scrimmage with password 'scrimmage';" &&\
@@ -373,7 +378,7 @@ to
 
 Then run:
 
-    $ sudo service postgresql restart
+    sudo service postgresql restart
 
 This will allow us to authenticate the scrimmage user on postgres with the
 password scrimmage that we created.
@@ -381,7 +386,7 @@ password scrimmage that we created.
 To use the python scripts for pulling .csv files to postgres, install psycopg2,
 the python interface for postgres:
 
-    $ pip install psycopg2
+    pip install psycopg2
 
 The scripts are located in the scripts directory.
 
@@ -392,21 +397,21 @@ The scripts are located in the scripts directory.
 There are some OpenGL issues with VTK6 in Virtualbox. To run SCRIMMAGE in
 VirtualBox with VTK5, run the following commands:
 
-    $ sudo apt-get install libvtk5-dev
-    $ cd ~/scrimmage/scrimmage/build      # Note: Path may vary
-    $ cmake ..
+    sudo apt-get install libvtk5-dev
+    cd ~/scrimmage/scrimmage/build      # Note: Path may vary
+    cmake ..
 
 At this point, cmake should output a message about finding VTK Version 5. Now,
 you have to rebuild SCRIMMAGE:
 
-    $ make
+    make
 
 ### Problem: I cannot load python libraries through scrimmage
 
 Make sure that when you run the cmake command it is using the version of python
 that you want to use with the following:
 
-    $ cmake -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python      \  # adjust path to your needs
+    cmake -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python      \  # adjust path to your needs
             -DPYTHON_INCLUDE_DIR:PATH=/usr/include/python2.7  \  # adjust path to your needs
             -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.7.so   # adjust path to your needs
 
@@ -429,7 +434,7 @@ This is a VTK6 Ubuntu package bug. It can be ignored.
 
 SCRIMMAGE uses vtkGeoJSONReader to load polygon extrusion data from a GeoJSON file. This VTK feature was added in VTK7. Since this feature is not available in older versions, SCRIMMAGE does not load building data if the installed VTK version is less than 7. Therefore, the remedy is to upgrade VTK. To install VTK7 on Ubuntu, run the following command:
 
-    $ sudo apt-get install libvtk7-dev
+    sudo apt-get install libvtk7-dev
 
 ### Problem: Docker Container Can't Access Internet
 
@@ -444,9 +449,9 @@ image (such as 8.8.8.8), but you can't ping archive.ubuntu.com, create the file
 Where `<DNS-IP>` is the first DNS IP address and <interfacename> is a network
 interface with internet access from the commands:
 
-    $ nmcli dev list | grep 'IP4.DNS'                    # Ubuntu <= 14
-    $ nmcli device show <interfacename> | grep IP4.DNS   # Ubuntu >= 15
+    nmcli dev list | grep 'IP4.DNS'                    # Ubuntu <= 14
+    nmcli device show <interfacename> | grep IP4.DNS   # Ubuntu >= 15
 
 Restart docker:
 
-    $ sudo service docker restart
+    sudo service docker restart
