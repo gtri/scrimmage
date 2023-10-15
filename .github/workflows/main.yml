@@ -1,0 +1,68 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_USERNAME: gtri
+      _DOCKER_USERNAME: ${{ secrets.GTRI_DOCKER_USERNAME }}
+      _DOCKER_PASSWORD: ${{ secrets.GTRI_DOCKER_PASSWORD }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: build_docker_1604
+        run: |
+          export REPO=$DOCKER_USERNAME/scrimmage
+          docker build -t $REPO:xenial-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu-16.04 .
+          export TAG=`if [ "$GITHUB_BRANCH" == "master" ] && [ "$GITHUB_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $GITHUB_BRANCH ; fi`
+          if [[ "$TAG" == "latest" ]]; then
+            docker login -u="$_DOCKER_USERNAME" -p="$_DOCKER_PASSWORD";
+            docker tag $REPO:xenial-$GITHUB_SHA $REPO:xenial;
+            docker push $REPO;
+          fi
+
+      - name: build_docker_1804
+        run: |
+          export REPO=$DOCKER_USERNAME/scrimmage
+          docker build -t $REPO:bionic-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu-18.04 .
+          export TAG=`if [ "$GITHUB_BRANCH" == "master" ] && [ "$GITHUB_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $GITHUB_BRANCH ; fi`
+          if [[ "$TAG" == "latest" ]]; then
+            docker login -u="$_DOCKER_USERNAME" -p="$_DOCKER_PASSWORD";
+            docker tag $REPO:bionic-$GITHUB_SHA $REPO:bionic;
+            docker push $REPO;
+          fi
+
+      - name: build_docker_2004
+        run: |
+          export REPO=$DOCKER_USERNAME/scrimmage
+          docker build -t $REPO:focal-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu-20.04 .
+          export TAG=`if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+          if [[ "$TAG" == "latest" ]]; then
+              docker login -u="$_DOCKER_USERNAME" -p="$_DOCKER_PASSWORD";
+              docker tag $REPO:focal-$GITHUB_SHA $REPO:focal;
+              docker tag $REPO:focal-$GITHUB_SHA $REPO:$TAG;
+              docker create --name mycontainer $REPO:$TAG;
+              docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output;
+              bash ./ci/scripts/deploy-docs.sh;
+              docker push $REPO;
+          fi
