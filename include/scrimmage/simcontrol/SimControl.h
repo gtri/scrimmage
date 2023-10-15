@@ -321,6 +321,32 @@ class SimControl {
 
     void set_running_in_thread(bool running_in_thread);
 
+   /// @brief Contains the final state values of each entity
+   struct ent_end_state {
+      int team_id;
+      double x_pos;
+      double y_pos;
+      double z_pos;
+
+      double yaw;
+      double pitch;
+      double roll;
+
+      int health_points;
+
+      double vel_x;
+      double vel_y;
+      double vel_z;
+
+      std::map<std::string,std::string> motion_xml_tags;
+      std::vector<std::map<std::string,std::string>> autonomy_xml_tags;
+      std::vector<std::map<std::string,std::string>> controller_xml_tags;
+      std::vector<std::map<std::string,std::string>> sensor_xml_tags;
+
+   } end_state;
+
+   std::list<ent_end_state> all_end_states;
+
  protected:
     // Key: Entity ID
     // Value: Team ID
@@ -364,6 +390,9 @@ class SimControl {
 
     bool finished_ = false;
     bool exit_ = false;
+
+    /// @brief Holds the mission_to_mission tag. If true, will create an output XML file of final entity states
+    bool mission_to_mission = false;
 
     std::mutex finished_mutex_;
     std::mutex contacts_mutex_;

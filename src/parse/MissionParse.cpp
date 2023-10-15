@@ -53,6 +53,7 @@
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 #include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_print.hpp>
 
 using std::cout;
 using std::endl;
@@ -127,7 +128,6 @@ bool MissionParse::parse(const std::string &filename) {
     mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
 
     // Parse the xml tree.
-    rapidxml::xml_document<> doc;
     // doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
@@ -135,10 +135,16 @@ bool MissionParse::parse(const std::string &filename) {
     try {
         // Note: This parse function can hard fail (seg fault, no exception) on
         //       badly formatted xml data. Sometimes it'll except, sometimes not.
-        doc.parse<0>(mission_file_content_vec.data());
-    } catch (...) {
+        // doc.parse<0>(mission_file_content_vec.data());
+        doc.parse<rapidxml::parse_no_data_nodes>(mission_file_content_vec.data());
+    } catch (const rapidxml::parse_error& e) {
+        std::cout << e.what() << std::endl;
         cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
         return false;
+    } catch (const std::exception& e) {
+        std::cerr << "Error was: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error occurred." << std::endl;
     }
 
     rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
@@ -231,12 +237,30 @@ bool MissionParse::parse(const std::string &filename) {
         }
     }
 
+    // Extracts the appropriate Scrimmage plugin path for plugin specific
+    // xml files. This path is utilized for formatting the mission.plugin.xml file
+    std::string plugin_env_string = getenv("SCRIMMAGE_PLUGIN_PATH");
+    std::vector<std::string> plugin_substrings;
+    std::stringstream plugin_ss(plugin_env_string);
+    std::string plugin_path;
+
+    // Create substrings of the plugin_env_string, using the ':' character as 
+    // a delimiter. Update the scrimmage_plugin_path string with the path that 
+    // can access plugin specific xml files
+    while(std::getline(plugin_ss, plugin_path, ':')){
+        if (!plugin_path.empty() && (plugin_path.find("/include/scrimmage/plugins") != std::string::npos)){
+            scrimmage_plugin_path = plugin_path;
+            break;
+        }
+    }
 
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
     for (rapidxml::xml_node<> *node = runscript_node->first_node(); node != 0;
          node = node->next_sibling()) {
 
+        // Clear the map so other plugins do not utilize the values
+        plugin_spec_attrs.clear();
         std::string nm = node->name();
         if (nm != "entity" && nm != "base"  && nm != "entity_common" && nm != "param_common") {
             params_[nm] = node->value();
@@ -251,6 +275,18 @@ bool MissionParse::parse(const std::string &filename) {
             attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node->value();
             attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node->value();
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node->value();
+
+            // Add plugin specific xml attributes and values to the plugin_spec_attrs map.
+            // These plugin specific values will be checked against the mission xml file's plugin
+            // attributes - adding them to the mission xml log file if they are not already included. 
+            // 
+            // Plugins that are not entity specific to check for:
+            // - entity_interaction
+            // - metrics
+            // - network
+            if (nm == "metrics" || nm == "entity_interaction" || nm == "network"){
+                get_plugin_params(nm, node->value());
+            }
 
             // Loop through each node's attributes:
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
@@ -267,7 +303,20 @@ bool MissionParse::parse(const std::string &filename) {
                     attributes_[nm2][attr->name()] = attr->value();
                     attributes_[nm3][attr->name()] = attr->value();
                     attributes_[nm4][attr->name()] = attr->value();
+
+                    // If the plugin xml attribute already exists in the mission xml, remove it from the map
+                    if (plugin_spec_attrs[attr->name()]!=""){
+                        plugin_spec_attrs.erase(attr->name());
+                    }
                 }
+            }
+
+            // Add plugin specific xml attributes and values to the mission xml
+            for(std::map<std::string,std::string>::iterator mapitr=plugin_spec_attrs.begin(); mapitr!=plugin_spec_attrs.end(); ++mapitr){
+                char *attribute_name = doc.allocate_string(mapitr->first.c_str());
+                char *attribute_value = doc.allocate_string(mapitr->second.c_str());
+                rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                node->append_attribute(tempattr);
             }
         }
     }
@@ -403,6 +452,8 @@ bool MissionParse::parse(const std::string &filename) {
          script_node != 0;
          script_node = script_node->next_sibling("entity")) {
 
+        num_ents++;
+
         std::map<std::string, std::string> script_info;
 
         rapidxml::xml_attribute<> *nm_attr = script_node->first_attribute("entity_common");
@@ -517,7 +568,23 @@ bool MissionParse::parse(const std::string &filename) {
         for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
              node = node->next_sibling()) {
 
+            // Clear the map so other plugins do not utilize the values
+            plugin_spec_attrs.clear();
             std::string nm = node->name();
+
+            // Add plugin specific xml attributes and values to the plugin_spec_attrs map.
+            // These plugin specific values will be checked against the mission xml file's plugin
+            // attributes - adding them to the mission xml log file if they are not already included. 
+            // Need to open the plugin specific xml file if it is one of the following
+            // plugins:
+            // - Autonomy
+            // - Controller
+            // - Motion model
+            // - Sensor
+            if (nm == "autonomy" || nm == "controller" || nm == "motion_model" || nm == "sensor"){
+                get_plugin_params(nm, node->value());
+            }
+
             if (nm == "autonomy") {
                 nm += std::to_string(autonomy_order++);
             } else if (nm == "controller") {
@@ -541,10 +608,29 @@ bool MissionParse::parse(const std::string &filename) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
                     }
                 } else {
+                    // If the plugin xml attribute already exists in the mission xml,
+                    // remove it from the map
+                    if (plugin_spec_attrs[attr->name()]!=""){
+                        plugin_spec_attrs.erase(attr->name());
+                    }
                     entity_attributes_[ent_desc_id][nm][attr_name] = attr->value();
                 }
             }
+
+            // Add plugin specific xml attributes and values to the mission xml
+            for(std::map<std::string,std::string>::iterator mapitr=plugin_spec_attrs.begin(); mapitr!=plugin_spec_attrs.end(); ++mapitr){
+                char *attribute_name = doc.allocate_string(mapitr->first.c_str());
+                char *attribute_value = doc.allocate_string(mapitr->second.c_str());
+                rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                node->append_attribute(tempattr);
+            }
         }
+        
+        // Save doc with new allocated attributes to the mission_plugin_file_content string, which will be output to the 
+        // mission.plugin.xml file in the log directory
+        std::string rapidxml_plugin_doc;
+        rapidxml::print(std::back_inserter(rapidxml_plugin_doc), doc, 0);
+        mission_plugin_file_content = rapidxml_plugin_doc;
 
         // For each entity, if the lat/lon are defined, use these values to
         // overwrite the "x" and "y" values
@@ -697,6 +783,377 @@ bool MissionParse::parse(const std::string &filename) {
     return true;
 }
 
+void MissionParse::final_state_xml(std::list<SimControl::ent_end_state> & all_end_states){
+    // Parse the xml tree. doc.parse requires a null terminated string that it can modify.
+    cout << "In the final state function" << endl;
+    std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1); // allocation done here
+    mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy
+    mission_file_content_vec.push_back('\0'); // shouldn't reallocate
+    try {
+        // Note: This parse function can hard fail (seg fault, no exception) on
+        //       badly formatted xml data. Sometimes it'll except, sometimes not.
+        doc.parse<0>(mission_file_content_vec.data());
+    } catch (...) {
+        cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+        return;
+    }
+
+    rapidxml::xml_node<> *runscript_node = doc.first_node("runscript");
+    if (runscript_node == 0) {
+        cout << "Missing runscript tag." << endl;
+        return;
+    }
+
+    for(auto a = all_end_states.begin(); a != all_end_states.end(); ++a){
+        const auto& cur_ent = *a;
+
+        // Loop through each "entity" node
+        for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
+            script_node != 0; 
+            script_node = script_node->next_sibling("entity")) {
+                if(!script_node->first_node("team_id")){
+                    cout << "Team id was not specified in the Mission XML file. Mission to Mission end state is not being logged for the given entity." << endl;
+                    break;
+                }
+                else if(strcmp(std::to_string(cur_ent.team_id).c_str(),script_node->first_node("team_id")->value()) == 0){
+                    // Creates a clone of the entity node that matches the struct's team id
+                    rapidxml::xml_node<> *new_ent = doc.clone_node(script_node);
+                    
+                    // Update the entity block with the final state values for the given entity
+                    char *xpos_value = doc.allocate_string(std::to_string(cur_ent.x_pos).c_str());
+                    rapidxml::xml_node<> *x_pos = doc.allocate_node(rapidxml::node_element, "x", xpos_value);
+                    if(new_ent->first_node("x")){
+                        new_ent->insert_node(new_ent->first_node("x"),x_pos);
+                        new_ent->remove_node(new_ent->first_node("x")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node(),x_pos);
+                    }
+                    
+                    char *ypos_value = doc.allocate_string(std::to_string(cur_ent.y_pos).c_str()); 
+                    rapidxml::xml_node<> *y_pos = doc.allocate_node(rapidxml::node_element, "y", ypos_value);
+                    if(new_ent->first_node("y")){
+                        new_ent->insert_node(new_ent->first_node("y"),y_pos);
+                        new_ent->remove_node(new_ent->first_node("y")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node(),y_pos);
+                    }
+
+                    char *zpos_value = doc.allocate_string(std::to_string(cur_ent.z_pos).c_str()); 
+                    rapidxml::xml_node<> *z_pos = doc.allocate_node(rapidxml::node_element, "z", zpos_value);
+                    if(new_ent->first_node("z")){
+                        new_ent->insert_node(new_ent->first_node("z"),z_pos);
+                        new_ent->remove_node(new_ent->first_node("z")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node(),z_pos);
+                    }
+
+                    char *heading_value = doc.allocate_string(std::to_string(cur_ent.yaw).c_str()); 
+                    rapidxml::xml_node<> * heading = doc.allocate_node(rapidxml::node_element, "heading", heading_value);
+                    if(new_ent->first_node("heading")){
+                        new_ent->insert_node(new_ent->first_node("heading"),heading);
+                        new_ent->remove_node(new_ent->first_node("heading")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("z")->next_sibling(),heading);
+                    }
+
+                    char *pitch_value = doc.allocate_string(std::to_string(cur_ent.pitch).c_str()); 
+                    rapidxml::xml_node<> * pitch = doc.allocate_node(rapidxml::node_element, "pitch", pitch_value);
+                    if(new_ent->first_node("pitch")){
+                        new_ent->insert_node(new_ent->first_node("pitch"),pitch);
+                        new_ent->remove_node(new_ent->first_node("pitch")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("heading")->next_sibling(),pitch);
+                    }
+
+                    char *roll_value = doc.allocate_string(std::to_string(cur_ent.roll).c_str()); 
+                    rapidxml::xml_node<> * roll = doc.allocate_node(rapidxml::node_element, "roll", roll_value);
+                    if(new_ent->first_node("roll")){
+                        new_ent->insert_node(new_ent->first_node("roll"),roll);
+                        new_ent->remove_node(new_ent->first_node("roll")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("pitch")->next_sibling(),roll);
+                    }
+
+                    char *altitude_value = doc.allocate_string(std::to_string(cur_ent.z_pos).c_str()); 
+                    rapidxml::xml_node<> * altitude = doc.allocate_node(rapidxml::node_element, "altitude", altitude_value);
+                    if(new_ent->first_node("altitude")){
+                        new_ent->insert_node(new_ent->first_node("altitude"),altitude);
+                        new_ent->remove_node(new_ent->first_node("altitude")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("roll")->next_sibling(),altitude);
+                    }
+
+                    rapidxml::xml_node<> *ent_count = doc.allocate_node(rapidxml::node_element, "count", "1");
+                    if(new_ent->first_node("count")){
+                        new_ent->insert_node(new_ent->first_node("count"),ent_count);
+                        new_ent->remove_node(new_ent->first_node("count")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("team_id")->next_sibling(),ent_count);
+                    }
+
+                    char *health_value = doc.allocate_string(std::to_string(cur_ent.health_points).c_str()); 
+                    rapidxml::xml_node<> *health = doc.allocate_node(rapidxml::node_element, "health", health_value);
+                    if(new_ent->first_node("health")){
+                        new_ent->insert_node(new_ent->first_node("health"),health);
+                        new_ent->remove_node(new_ent->first_node("health")->next_sibling());
+                    } else{
+                        new_ent->insert_node(new_ent->first_node("count"),health);
+                    }
+
+                    ent_state_file_content << "--- New Entity Entry ---" << endl 
+                    << "Team_ID: " << script_node->first_node("team_id")->value() << endl
+                    << "X_Pos: " << xpos_value << endl
+                    << "Y_Pos: " << ypos_value << endl
+                    << "Z_Pos: " << zpos_value << endl
+                    << "Vel_X: " << cur_ent.vel_x << endl
+                    << "Vel_Y: " << cur_ent.vel_y << endl
+                    << "Vel_Z: " << cur_ent.vel_z << endl
+                    << "Heading: " << heading_value << endl
+                    << "Pitch: " << pitch_value << endl
+                    << "Roll: " << roll_value << endl
+                    << "Altitude: " << altitude_value << endl
+                    << "Health: " << health_value << endl << endl;
+
+                    // Remove tags that are not needed for single entity blocks
+                    if(new_ent->first_node("variance_x")){
+                        new_ent->remove_node(new_ent->first_node("variance_x"));
+                    }
+                    if(new_ent->first_node("variance_y")){
+                        new_ent->remove_node(new_ent->first_node("variance_y"));
+                    }
+                    if(new_ent->first_node("variance_z")){
+                        new_ent->remove_node(new_ent->first_node("variance_z"));
+                    }
+                    if(new_ent->first_node("generate_rate")){
+                        new_ent->remove_node(new_ent->first_node("generate_rate"));
+                    }
+                    if(new_ent->first_node("generate_count")){
+                        new_ent->remove_node(new_ent->first_node("generate_count"));
+                    }
+                    if(new_ent->first_node("generate_start_time")){
+                        new_ent->remove_node(new_ent->first_node("generate_start_time"));
+                    }
+                    if(new_ent->first_node("generate_time_variance")){
+                        new_ent->remove_node(new_ent->first_node("generate_time_variance"));
+                    }
+
+                    // Handle plugin specific xml tags
+                    for (rapidxml::xml_node<> *node = new_ent->first_node(); node != 0; node = node->next_sibling()) {
+                        std::string nm = node->name();
+                        std::string nv = node->value();
+
+                        if (nm == "autonomy"){
+                            for (unsigned int i = 0; i < cur_ent.autonomy_xml_tags.size(); i++) {                        
+                                for (auto itr : cur_ent.autonomy_xml_tags[i]){
+                                    if(itr.first == "Name"){
+                                        if(nv != itr.second){
+                                            break;
+                                        }
+                                        else{
+                                            continue;
+                                        }
+                                    }
+
+                                    char *attribute_name = doc.allocate_string(itr.first.c_str());
+                                    char *attribute_value = doc.allocate_string(itr.second.c_str());
+                                    rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
+                                        node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
+                                    } else {
+                                        node->append_attribute(tempattr);
+                                    }
+                                }
+                                    
+                            }
+                        } else if (nm == "motion_model"){
+                            for(auto itr = cur_ent.motion_xml_tags.begin(); itr != cur_ent.motion_xml_tags.end(); ++itr){
+                                if(itr->first == "Name"){
+                                    continue;       
+                                }
+
+                                char *attribute_name = doc.allocate_string(itr->first.c_str());
+                                char *attribute_value = doc.allocate_string(itr->second.c_str());
+                                rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                if(node->first_attribute(itr->first.c_str())){
+                                    node->insert_attribute(node->first_attribute(itr->first.c_str()),tempattr);
+                                    node->remove_attribute(node->first_attribute(itr->first.c_str())->next_attribute());
+                                } else {
+                                    node->append_attribute(tempattr);
+                                }
+                            }
+                        } else if (nm == "controller"){
+                            for (unsigned int i = 0; i < cur_ent.controller_xml_tags.size(); i++) {                        
+                                for (auto itr : cur_ent.controller_xml_tags[i]){
+                                    if(itr.first == "Name"){
+                                        if(nv != itr.second){
+                                            break;
+                                        }
+                                        else{
+                                            continue;
+                                        }
+                                    }
+
+                                    char *attribute_name = doc.allocate_string(itr.first.c_str());
+                                    char *attribute_value = doc.allocate_string(itr.second.c_str());
+                                    rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
+                                        node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
+                                    } else {
+                                        node->append_attribute(tempattr);
+                                    }
+                                }
+                                    
+                            }
+                        } else if (nm == "sensor"){
+                            for (unsigned int i = 0; i < cur_ent.sensor_xml_tags.size(); i++) {                        
+                                for (auto itr : cur_ent.sensor_xml_tags[i]){
+                                    if(itr.first == "Name"){
+                                        if(nv != itr.second){
+                                            break;
+                                        }
+                                        else{
+                                            continue;
+                                        }
+                                    }
+
+                                    char *attribute_name = doc.allocate_string(itr.first.c_str());
+                                    char *attribute_value = doc.allocate_string(itr.second.c_str());
+                                    rapidxml::xml_attribute <> *tempattr = doc.allocate_attribute(attribute_name, attribute_value);     
+                                    if(node->first_attribute(itr.first.c_str())){
+                                        node->insert_attribute(node->first_attribute(itr.first.c_str()),tempattr);
+                                        node->remove_attribute(node->first_attribute(itr.first.c_str())->next_attribute());
+                                    } else {
+                                        node->append_attribute(tempattr);
+                                    }
+                                }
+                                    
+                            }
+                        }
+
+                    }
+
+                    // Adds the new entity node to the main xml tree
+                    doc.first_node("runscript")->append_node(new_ent);
+
+                    // If a new node is added, break to the next entity in the list of structs
+                    break; 
+            }
+        }        
+    }
+
+    // Remove original entity nodes based on the bool value of the remove_block entity tag
+    rapidxml::xml_node<> *script_node = runscript_node->first_node("entity");
+    for (int i = 0; i<num_ents; i++){       
+        if(script_node->first_node("remove_block")){
+            std::string node_value = script_node->first_node("remove_block")->value();
+            if(node_value == "false"){
+                script_node = script_node->next_sibling("entity");
+                continue;
+            }
+        }
+
+        rapidxml::xml_node<> *remove_node = script_node;
+        script_node = script_node->next_sibling("entity");
+        doc.first_node("runscript")->remove_node(remove_node);
+    }
+
+    // Save doc with new allocated attributes to the mission_to_mission_file_content string, which will be output to the
+    // mission_to_mission.xml file in the log directory
+    std::string rapidxml_mission_to_mission_doc;
+    rapidxml::print(std::back_inserter(rapidxml_mission_to_mission_doc), doc, 0);
+    mission_to_mission_file_content = rapidxml_mission_to_mission_doc;
+
+    // Create the new mission to mission xml file
+    std::ofstream mission_to_mission_content_out(log_dir_+"/mission_to_mission.xml");
+    mission_to_mission_content_out << mission_to_mission_file_content;
+    mission_to_mission_content_out.close();
+
+    // Create the entity end state txt file
+    std::ofstream ent_state_content_out(log_dir_+"/final_ent_states.txt");
+    ent_state_content_out << ent_state_file_content.rdbuf();
+    ent_state_content_out.close();
+}
+
+void MissionParse::get_plugin_params(std::string node_name, std::string node_value) {
+    std::string plugin_file = node_value + std::string(".xml");
+    std::string plugin_filename_ = expand_user(plugin_file);
+
+    // First, explicitly search for the mission file.
+    if (!fs::exists(plugin_filename_)) {
+        FileSearch file_search;
+        std::string result = "";
+        std::string pluginxml_path = scrimmage_plugin_path + "/" + node_name + "/" + node_value;
+
+        if(node_name=="entity_interaction"){
+            std::string temp = node_value;
+            pluginxml_path = scrimmage_plugin_path + "/" + "interaction/" + temp;
+        } else if (node_name=="motion_model"){
+            std::string temp = node_value;
+            pluginxml_path = scrimmage_plugin_path + "/" + "motion/" + temp;
+        }
+
+        bool status = file_search.find_file(plugin_filename_, "xml",
+                                                            pluginxml_path,
+                                                            result, false);
+        if (!status) {
+            // The mission file wasn't found. Exit.
+            cout << "SCRIMMAGE mission file not found: " << plugin_filename_ << endl;
+            return;
+        }
+        // The mission file was found, save its path.
+        plugin_filename_ = result;
+    }
+
+    std::ifstream file(plugin_filename_.c_str());
+    if (!file.is_open()) {
+        std::cout << "Failed to open mission file: " << plugin_filename_ << endl;
+        return;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    file.close();
+    std::string plugin_file_content_ = buffer.str();
+
+    // Search and replace any overrides of the form ${key=value} in the mission file
+    for (auto &kv : overrides_map_) {
+        std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
+        plugin_file_content_ = std::regex_replace(plugin_file_content_, reg, kv.second);
+    }
+
+    // Replace our xml variables of the form ${var=default} with the default value
+    std::string fmt{"$1"};
+    std::regex reg("\\$\\{.+?=(.+?)\\}");
+    plugin_file_content_ = std::regex_replace(plugin_file_content_, reg, fmt);
+
+    // Parse the xml tree. doc.parse requires a null terminated string that it can modify.
+    rapidxml::xml_document<> plugin_doc;
+    std::vector<char> plugin_file_content_vec(plugin_file_content_.size() + 1); // allocation done here
+    plugin_file_content_vec.assign(plugin_file_content_.begin(), plugin_file_content_.end()); // copy
+    plugin_file_content_vec.push_back('\0'); // shouldn't reallocate
+    try {
+        // Note: This parse function can hard fail (seg fault, no exception) on
+        //       badly formatted xml data. Sometimes it'll except, sometimes not.
+        plugin_doc.parse<0>(plugin_file_content_vec.data());
+    } catch (...) {
+        cout << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()." << endl;
+        return;
+    }
+
+    rapidxml::xml_node<> *params_node = plugin_doc.first_node("params");
+    if (params_node == 0) {
+        cout << "Missing params tag." << endl;
+        return;
+    }
+
+    // Add all plugin specific xml attributes to the map
+    for (rapidxml::xml_node<> *node = params_node->first_node(); node != 0; node = node->next_sibling()){
+        plugin_spec_attrs.insert({node->name(), node->value()});
+    }
+}
+
 bool MissionParse::create_log_dir() {
     // Create the root_log_dir_ if it doesn't exist:
     if (not fs::exists(fs::path(root_log_dir_)) &&
@@ -740,6 +1197,10 @@ bool MissionParse::create_log_dir() {
     std::ofstream content_out(log_dir_+"/mission.xml");
     content_out << mission_file_content_;
     content_out.close();
+
+    std::ofstream mission_plugin_content_out(log_dir_+"/mission.plugin.xml");
+    mission_plugin_content_out << mission_plugin_file_content;
+    mission_plugin_content_out.close();
 
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to

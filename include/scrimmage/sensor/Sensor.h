@@ -51,6 +51,16 @@ class Sensor : public EntityPlugin {
 
     virtual bool step() {return true;}
 
+    /// @brief Plugin specific xml tags are inserted to a map and returned. The map
+    /// is used to update the mission to mission xml file, which captures entity end states
+    /// to be used as starting points in future simulations.
+    /// @return A map of keys and values of type string, representing plugin specific
+    /// xml tag attribute names and associated values
+    virtual std::map<std::string,std::string> mission_xml_get() {
+        std::map<std::string,std::string> mission_xml; 
+        return mission_xml;
+    };
+
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting) */

@@ -899,6 +899,10 @@ bool SimControl::start() {
     contacts_->reserve(max_num_entities+1);
     contacts_mutex_.unlock();
 
+    if (get("mission_to_mission", mp_->params(), false)) {
+        mission_to_mission = true;
+    }
+
     if (get("show_plugins", mp_->params(), false)) {
         plugin_manager_->print_returned_plugins();
     }
@@ -1070,9 +1074,43 @@ bool SimControl::finalize() {
 bool SimControl::shutdown(const bool& shutdown_python) {
     finalize();
 
+    cout << "Shutting down" << endl;
+
     // Close all plugins
-    for (EntityPtr &ent : ents_) {
-        ent->close(t());
+    if(mission_to_mission){
+        for (EntityPtr &ent : ents_) {        
+            
+            // Get the vectors of all entity specific plugin xml tags
+            std::map<std::string,std::string> motion_xml_vect = ent->set_motion_xml_map();
+            std::vector<std::map<std::string,std::string>> autonomy_xml_vect = ent->set_autonomy_xml_vect();
+            std::vector<std::map<std::string,std::string>> controller_xml_vect = ent->set_controller_xml_vect();
+            std::vector<std::map<std::string,std::string>> sensor_xml_vect = ent->set_sensor_xml_vect();
+
+            // Create the struct for the entity end states
+            // x_pos, y_pos, z_pos, 
+            // yaw, pitch, roll, 
+            // health_points, 
+            // vel_x, vel_y, vel_z
+            // motion_xml_tags, autonomy_xml_tags, controller_xml_tags, sensor_xml_tags
+            end_state = {ent->id().team_id(), 
+                ent->state()->pos()[0], ent->state()->pos()[1], ent->state()->pos()[2],
+                ent->state()->quat().yaw(), ent->state()->quat().pitch(), ent->state()->quat().roll(),
+                ent->health_points(),
+                ent->state()->vel()[0], ent->state()->vel()[1], ent->state()->vel()[2],
+                motion_xml_vect, autonomy_xml_vect, controller_xml_vect, sensor_xml_vect};
+            
+            all_end_states.push_back(end_state);
+
+            ent->close(t());
+        }
+    } else {
+        for (EntityPtr &ent : ents_) {
+            ent->close(t());
+        }
+    }
+
+    if(mission_to_mission){
+        mp_->final_state_xml(all_end_states);
     }
 
     for (EntityInteractionPtr ent_inter : ent_inters_) {

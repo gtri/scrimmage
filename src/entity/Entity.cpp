@@ -726,8 +726,54 @@ void Entity::print_plugins(std::ostream &out) const {
         out << c->name() << endl;
     }
     out << "----------- Motion -------------" << endl;
-    if (motion_model_->name() != "BLANK") {
+    if (motion_model_ && motion_model_->name() != "BLANK") {
         out << motion_model_->name() << endl;
     }
 }
+
+std::map<std::string,std::string> Entity::set_motion_xml_map(){
+    std::map<std::string,std::string> cur_motion_xml;
+    if (motion_model_ && motion_model_->name() != "BLANK") {
+        cur_motion_xml = motion_model_->mission_xml_get();
+    }
+
+    return cur_motion_xml;
+}
+
+std::vector<std::map<std::string,std::string>> Entity::set_sensor_xml_vect(){
+    std::vector<std::map<std::string,std::string>> all_sensor_xml;
+    std::map<std::string,std::string> cur_sensor_xml;
+
+    for (auto &kv : sensors_) {
+        cur_sensor_xml = kv.second->mission_xml_get();
+        all_sensor_xml.push_back(cur_sensor_xml);
+    }
+
+    return all_sensor_xml;
+}
+
+std::vector<std::map<std::string,std::string>> Entity::set_autonomy_xml_vect(){
+    std::vector<std::map<std::string,std::string>> all_autonomy_xml;
+    std::map<std::string,std::string> cur_autonomy_xml;
+
+    for (AutonomyPtr a : autonomies_) {
+        cur_autonomy_xml = a->mission_xml_get();
+        all_autonomy_xml.push_back(cur_autonomy_xml);
+    }
+
+    return all_autonomy_xml;
+}
+
+std::vector<std::map<std::string,std::string>> Entity::set_controller_xml_vect(){
+    std::vector<std::map<std::string,std::string>> all_controller_xml;
+    std::map<std::string,std::string> cur_controller_xml;
+
+    for (ControllerPtr c : controllers_) {
+        cur_controller_xml = c->mission_xml_get();
+        all_controller_xml.push_back(cur_controller_xml);
+    }
+
+    return all_controller_xml;
+}
+
 }  // namespace scrimmage

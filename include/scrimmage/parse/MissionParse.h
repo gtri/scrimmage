@@ -39,6 +39,8 @@
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <scrimmage/proto/Color.pb.h>
+#include <scrimmage/simcontrol/SimControl.h>
+#include <rapidxml/rapidxml.hpp>
 
 #include <list>
 #include <vector>
@@ -84,6 +86,19 @@ class MissionParse {
     bool create_log_dir();
     void set_overrides(const std::string &overrides);
     bool parse(const std::string &filename);
+
+    /// @brief Adds all plugin specific xml attributes to the plugin_spec_attrs map
+    /// @param node_name 
+    /// @param node_value 
+    void get_plugin_params(std::string node_name, std::string node_value);
+
+    /// @brief Generate the mission to mission xml file for all final states of entities
+    /// @param all_end_states 
+    void final_state_xml(std::list<SimControl::ent_end_state> & all_end_states);
+
+    /// @brief Track the number of entity blocks in the input Mission XML file
+    int num_ents = 0;
+
     bool write(const std::string &filename);
 
     double t0();
@@ -159,8 +174,17 @@ class MissionParse {
     bool output_type_required(const std::string& output_type);
 
  protected:
+    rapidxml::xml_document<> doc;
+
     std::string mission_filename_ = "";
     std::string mission_file_content_ = "";
+
+    std::string mission_to_mission_file_content = "";
+    std::stringstream ent_state_file_content;
+
+    std::string mission_plugin_file_content = "";
+    std::string scrimmage_plugin_path = "";
+    std::map<std::string, std::string> plugin_spec_attrs;
 
     double t0_ = 0;
     double tend_ = 50;

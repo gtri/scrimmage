@@ -685,7 +685,7 @@ bool Updater::update_text_display() {
     }
 
     // Update the time (text) display
-    const int num_digits = std::abs(log10(dt_));
+    const int num_digits = std::ceil(std::abs(log10(dt_)));
     std::stringstream ss;
     ss << std::setprecision(num_digits) << std::fixed << frame_time_ << " s";
     time_actor_->SetInput(ss.str().c_str());

@@ -78,6 +78,11 @@ void Autonomy::init() {}
 void Autonomy::init(std::map<std::string, std::string> &/*params*/) {}
 bool Autonomy::need_reset() {return need_reset_;}
 
+std::map<std::string,std::string> Autonomy::mission_xml_get() { 
+    std::map<std::string,std::string> mission_xml; 
+    return mission_xml;
+}
+
 StatePtr &Autonomy::desired_state() {return desired_state_;}
 
 void Autonomy::set_desired_state(StatePtr desired_state) {desired_state_ = desired_state;}

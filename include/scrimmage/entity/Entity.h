@@ -138,6 +138,21 @@ class Entity : public std::enable_shared_from_this<Entity> {
     MotionModelPtr &motion();
     std::vector<ControllerPtr> &controllers();
 
+    /// @brief Loops through each motion model for the given entity and retrieves a map of plugin 
+    /// specific xml tags
+    /// @return A map of keys and values of type string, representing plugin specific xml tag 
+    /// attribute names and associated values
+    std::map<std::string,std::string> set_motion_xml_map();
+
+    /// @brief Loops through each sensor, autonomy, or controller plugin for the given entity and 
+    /// retrieves a map of plugin specific xml tags. Each map corresponds to a given plugin and 
+    /// is pushed into a vector.
+    /// @return A vector of maps of keys and values of type string, representing plugin specific 
+    /// xml tag attribute names and associated values
+    std::vector<std::map<std::string,std::string>> set_sensor_xml_vect();
+    std::vector<std::map<std::string,std::string>> set_autonomy_xml_vect();
+    std::vector<std::map<std::string,std::string>> set_controller_xml_vect();
+
     void set_id(ID &id);
     ID &id();
 

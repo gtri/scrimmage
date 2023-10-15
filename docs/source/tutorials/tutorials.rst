@@ -34,3 +34,4 @@ swarm behaviors.
    utilities.rst
    simcontrol.rst
    capture-the-flag.rst
+   mission-to-mission-xml.rst
