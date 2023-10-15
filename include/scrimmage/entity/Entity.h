@@ -138,6 +138,14 @@ class Entity : public std::enable_shared_from_this<Entity> {
     MotionModelPtr &motion();
     std::vector<ControllerPtr> &controllers();
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // Tracking the number of times the ode step function has been called for the given entity
+    ///////////////////////////////////////////////////////////////////////////////////////
+    int stepsCalled;
+    void incrementSteps();
+    int get_stepsCalled();
+    ///////////////////////////////////////////////////////////////////////////////////////
+    
     void set_id(ID &id);
     ID &id();
 

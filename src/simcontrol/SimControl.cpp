@@ -76,6 +76,8 @@
 #include <chrono> // NOLINT
 #include <future> // NOLINT
 
+#include <fstream>
+
 #if ENABLE_PYTHON_BINDINGS == 1
 #include <pybind11/pybind11.h>
 #ifdef __clang__
@@ -106,6 +108,8 @@ namespace ba = boost::adaptors;
 using std::cout;
 using std::endl;
 using NormDistribution = std::normal_distribution<double>;
+
+using namespace std::chrono;
 
 namespace scrimmage {
 
@@ -206,7 +210,7 @@ bool SimControl::init(const std::string& mission_file,
     return true;
 }
 
-void SimControl::request_screenshot() {
+void SimControl::request_screenshot() { //Natalie for next project
     prev_paused_ = paused();
     pause(true);
     scrimmage_proto::GUIMsg gui_msg;
@@ -567,7 +571,7 @@ bool SimControl::run_single_step(const int& loop_number) {
 
     run_callbacks(sim_plugin_);
 
-    if (screenshot_task_.update(t_).first) {
+    if (screenshot_task_.update(t_).first) { //Natlie, investigate when this is called
         request_screenshot();
     }
 
@@ -1534,9 +1538,6 @@ bool SimControl::add_tasks(Task::Type type, double t, double dt) {
     }
     entity_pool_mutex_.unlock();
 
-    // tell the threads to run
-    entity_pool_condition_var_.notify_all();
-
     // wait for results
     auto get = [&](auto &future) {return future.get();};
     return std::all_of(futures.begin(), futures.end(), get);
@@ -1556,7 +1557,6 @@ bool SimControl::run_entities() {
         }
     };
 
-    // run autonomies threaded or in a single thread
     if (entity_thread_types_.count(Task::Type::AUTONOMY)) {
         success &= add_tasks(Task::Type::AUTONOMY, t_, dt_);
     } else {
@@ -1585,11 +1585,59 @@ bool SimControl::run_entities() {
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
                 success &= add_tasks(type, temp_t, motion_dt);
-            } else {
+            } 
+            else {                
+                int entTracker = 0; //should be able to replace this with the actual entity id number later
+
                 for (EntityPtr &ent : ents_) {
-                    auto step = [&](auto p){return p->step(temp_t, motion_dt);};
-                    success &= exec_step(getter(ent), step);
+                    //Tracks which entity we are on for the if statement
+                    entTracker++; //Not a good method for multiple teams, need to figure something else out. All teams are part of ents_
+
+                    // Tracks which entity is the first entity for a given team
+                    if(!stepIterDone && (ent_desc_to_id_map.count(ent->id().sub_swarm_id())==0)){
+                        ent_desc_to_id_map.insert({ent->id().sub_swarm_id(), entTracker});
+                    }
+
+                    // Assigns the ODE step value for how many steps from the entity's ode_step function should be called before depending
+                    // on state updates from the team's first entity's ode_step offset vector
+                    if(!stepIterDone){
+                        if(mp_->entity_attributes()[ent->id().sub_swarm_id()]["motion_model"]["ode_step_count"] == ""){
+                              ent_id_to_ode_step[ent->id().id()] = 0;         
+                        }
+                        else{
+                            ent_id_to_ode_step[ent->id().id()] = stoi(mp_->entity_attributes()[ent->id().sub_swarm_id()]["motion_model"]["ode_step_count"]);
+                        }
+                    }
+                    
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                    // Method that uses list tracker
+                    ///////////////////////////////////////////////////////////////////////////////////////
+                    //ent_desc_id can be accessed by: ent->id().sub_swarm_id()
+                    auto step = [&](auto p){
+                            if(mp_->entity_attributes()[ent->id().sub_swarm_id()]["motion_model"]["grouped_model"] == "true"){
+                                if((ent_desc_to_id_map[ent->id().sub_swarm_id()] != entTracker) && (ent->get_stepsCalled() >= ent_id_to_ode_step[ent->id().id()])){ // If more than 10 steps have been taken by the entity, then utilize entity ID #1's step function offset
+                                    return p->step(temp_t, motion_dt, ent_desc_to_ode_vector[ent->id().sub_swarm_id()]);
+                                }
+                                else if((ent_desc_to_id_map[ent->id().sub_swarm_id()] != entTracker) && (ent->get_stepsCalled() < ent_id_to_ode_step[ent->id().id()])){ // Enitity utilizes its own step function for the first 10 steps
+                                    ent->incrementSteps();
+                                    return p->step(temp_t, motion_dt); //original step function
+                                }
+                                else{ //If entity is #1, run the ODE step function
+                                    //could the get_stepscalled check be applied here also? Wondering if adding this in the longterm would add
+                                    // to the run-time processing due to condition it has to check everytime
+                                    bool stepReturn = p->offset_step(temp_t, motion_dt); //odestepvals update function just for entity #1
+                                    ent_desc_to_ode_vector[ent->id().sub_swarm_id()] = p->getOdeStepVal();
+                                    return stepReturn;
+                                }
+                            }
+                            else{
+                                return p->step(temp_t, motion_dt); //original step function
+                            }
+                        };                   
+                    
+                    success &= exec_step(getter(ent), step);                       
                 }
+                stepIterDone = true;
             }
         };
         step_all(Task::Type::MOTION, [&](auto ent){return ent->motion();});

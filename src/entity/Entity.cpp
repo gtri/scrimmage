@@ -122,6 +122,8 @@ bool Entity::init(AttributeMap &overrides,
     }
     state_truth_ = state_;
 
+    //std::cout << "Generating the initial state of entity: " << id;
+
     double x = get("x", info, 0.0);
     double y = get("y", info, 0.0);
     double z = get("z", info, 0.0);
@@ -277,6 +279,9 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_->set_id_to_ent_map(id_to_ent_map);
         motion_model_->set_name("BLANK");
     }
+
+    // Tracking ode steps called, intialize to 0
+    stepsCalled = 0;
 
     ////////////////////////////////////////////////////////////
     // controller
@@ -464,6 +469,20 @@ bool Entity::init(AttributeMap &overrides,
     }
     return true;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+// Tracking ode step calls
+///////////////////////////////////////////////////////////////////////////////////////
+
+void Entity::incrementSteps(){
+    stepsCalled++;
+}
+
+int Entity::get_stepsCalled(){
+    return stepsCalled;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 bool Entity::parse_visual(std::map<std::string, std::string> &info,
                           MissionParsePtr mp,

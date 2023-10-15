@@ -369,6 +369,7 @@ bool MissionParse::parse(const std::string &filename) {
 
             if (node_name == "autonomy") {
                 node_name += std::to_string(orders[nm]["autonomy"]++);
+                cout << node_name << endl;
             } else if (node_name == "controller") {
                 node_name += std::to_string(orders[nm]["controller"]++);
             } else if (node_name == "sensor") {
