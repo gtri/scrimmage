@@ -79,6 +79,14 @@ void ROSAltimeter::init(std::map<std::string, std::string> &params) {
     // Create Publisher
     altimeter_pub_ = nh_->advertise<mavros_msgs::Altitude>(ros_namespace_ + "/altimeter", 1);
 
+    // Open imu_data CSV for append (app) and set column headers
+    std::string csv_filename = parent_->mp()->log_dir() + "/altimeter_data_robot" + std::to_string(parent_->id().id()) + ".csv";
+    if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
+    if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
+
+    csv.set_column_headers("time, dt, monotonic, amsl, local, relative, terrain, bottom_clearance");
+
+
     // Scrimmage is in East North Up (ENU)
     // For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside scrimmage.
     // For more information on the MavROS message format view this page:
@@ -92,6 +100,7 @@ void ROSAltimeter::init(std::map<std::string, std::string> &params) {
     // consistent within a flight. The recommended value for this field is the uncorrected barometric altitude
     // at boot time. This altitude will also drift and vary between flights.
     sc::StatePtr &state = parent_->state_truth();
+    prev_time_ = time_->t();
     double lat_init, lon_init, alt_init;
     parent_->projection()->Reverse(state->pos()(0), state->pos()(1), state->pos()(2), lat_init, lon_init, alt_init);
     monotonic_ = static_cast<float>(alt_init);
@@ -100,6 +109,9 @@ void ROSAltimeter::init(std::map<std::string, std::string> &params) {
 bool ROSAltimeter::step() {
     // Obtain current state information
     sc::StatePtr &state = parent_->state_truth();
+    double time_now = time_->t();
+    double dt = time_now - prev_time_;
+    prev_time_ = time_now;
 
     // Scrimmage is in East North Up (ENU)
     // For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside scrimmage.
@@ -158,7 +170,28 @@ bool ROSAltimeter::step() {
     // Publish Altimeter information
     altimeter_pub_.publish(alt_msg);
 
+    // Write Altimeter data to CSV
+    // Write the CSV file to the root log directory file name = imu_data.csv
+    // "time, dt, monotonic, amsl, local, relative, terrain, bottom_clearance"
+    if (!csv.output_is_open()) {
+      cout << "File isn't open. Can't append to CSV" << endl;
+    }
+    csv.append(sc::CSV::Pairs{
+                   {"time", time_now},
+                   {"dt", dt},
+                   {"monotonic", alt_msg.monotonic},
+                   {"amsl", alt_msg.amsl},
+                   {"local", alt_msg.local},
+                   {"relative", alt_msg.relative},
+                   {"terrain", alt_msg.terrain},
+                   {"bottom_clearance", alt_msg.bottom_clearance}},
+               true, true);
+
     return true;
+}
+
+void ROSAltimeter::close(double t){
+    csv.close_output();
 }
 } // namespace sensor
 } // namespace scrimmage
