@@ -70,7 +70,7 @@
     <radius>1</radius>
 
     <x>-100</x>
-    <y>0</y>
+    <y>-2</y>
     <z>195</z>
     <heading>0</heading>
 
@@ -103,7 +103,7 @@
     <radius>1</radius>
 
     <x>100</x>
-    <y>5</y>
+    <y>2</y>
     <z>195</z>
     <heading>180</heading>
 
@@ -116,77 +116,7 @@
 
     <autonomy leader = "true"
               enable_boundary_control="false"
-              x_disp = "10"
-              y_disp = "0"
-              z_disp = "0"
-              show_shapes="true" >Formation</autonomy>
-
-    <base>
-      <latitude>35.721112</latitude>
-      <longitude>-120.770305</longitude>
-      <altitude>300</altitude>
-      <radius>25</radius>
-    </base>
-  </entity>
-
-  <!-- ========================== Entity 3 ========================= -->
-  <entity>
-    <name>leader_3</name>
-    <team_id>3</team_id>
-    <count>1</count>
-    <health>1</health>
-    <radius>1</radius>
-
-    <x>5</x>
-    <y>-100</y>
-    <z>195</z>
-    <heading>90</heading>
-
-    <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
-
-    <visual_model>zephyr-blue</visual_model>
-
-    <sensor>NoisyContacts</sensor>
-
-    <autonomy leader = "true"
-              enable_boundary_control="false"
-              x_disp = "20"
-              y_disp = "0"
-              z_disp = "0"
-              show_shapes="true" >Formation</autonomy>
-
-    <base>
-      <latitude>35.721112</latitude>
-      <longitude>-120.770305</longitude>
-      <altitude>300</altitude>
-      <radius>25</radius>
-    </base>
-  </entity>
-
-<!-- ========================== Entity 4 ========================= -->
-  <entity>
-    <name>leader_4</name>
-    <team_id>4</team_id>
-    <count>1</count>
-    <health>1</health>
-    <radius>1</radius>
-
-    <x>-5</x>
-    <y>100</y>
-    <z>195</z> <!-- consider altitude bands until formation is finalized. eric squires for formation control and routing -->
-    <heading>270</heading>
-
-    <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
-
-    <visual_model>zephyr-blue</visual_model>
-
-    <sensor>NoisyContacts</sensor>
-
-    <autonomy leader = "true"
-              enable_boundary_control="false"
-              x_disp = "30"
+              x_disp = "50"
               y_disp = "0"
               z_disp = "0"
               show_shapes="true" >Formation</autonomy>

@@ -53,14 +53,17 @@
 
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 
+#include <scrimmage/plugins/autonomy/Formation/Formation.h>
+
+#include <vector>
+#include <algorithm>
+
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace sci = scrimmage::interaction;
 
 using std::cout;
 using std::endl;
-
-#include <scrimmage/plugins/autonomy/Formation/Formation.h>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -88,6 +91,13 @@ void Formation::init(std::map<std::string, std::string> &params) {
     z_disp_ = scrimmage::get("z_disp", params, 0.0);
 
     show_shapes_ = scrimmage::get<bool>("show_shapes", params, false);
+
+    // Entity avoidance
+    avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
+    sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 30);
+    minimum_range_ = sc::get<double>("minimum_range", params, 5);
+    
+    cout << "Sphere: " << sphere_of_influence_ << " Min range: " << minimum_range_ << endl;
 
     // Project goal in front...
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
@@ -146,20 +156,9 @@ void Formation::init(std::map<std::string, std::string> &params) {
             return;
         }
 
-        // If the bird is a follower, offsets could be put here depending on the follower number
         leader_x_pos = msg->data.x_pos();
         leader_y_pos = msg->data.y_pos();
         leader_z_pos = msg->data.z_pos();
-        // cout << "Leader positions: x_pos: " << leader_x_pos
-        //                                 << " y_pos: " << leader_y_pos
-        //                                 << " z_pos: " << leader_z_pos 
-        //                                 << endl;
-
-        // cout << "Current entity " << ent_id << "positions: x_pos: " << state_->pos()(0)
-        //                                 << " y_pos: " << state_->pos()(1)
-        //                                 << " z_pos: " << state_->pos()(2) 
-        //                                 << endl;
-
 
         // If the entity is a leader, but it is also receiver other leader messages, calculate
         // the euclidean distance. If it is within a range, need to combine formations and define
@@ -170,12 +169,10 @@ void Formation::init(std::map<std::string, std::string> &params) {
             //float z_pos_sq = (state_->pos()(2) - leader_z_pos) * (state_->pos()(2) - leader_z_pos); // IF using z, will need a diff distance threshold
             float euc_dist = std::sqrt(x_pos_sq + y_pos_sq);
 
-            cout << "Euclidean distance is: " << euc_dist << " and ent id is: " << ent_id << endl;
+            // cout << "Euclidean distance is: " << euc_dist << " and ent id is: " << ent_id << endl;
 
             if(euc_dist < 50 && ent_id != 1){
                 leader_ = false;
-                //follower_track[ent_id] = follower_track.size();
-                //cout << "Entity " << ent_id << " is no longer the leader. It is now follower #" << follower_track[ent_id] << endl;
             }
         }
     };
@@ -185,8 +182,7 @@ void Formation::init(std::map<std::string, std::string> &params) {
     // Set up follower tracker subscriber
     auto tracker_cb = [&](auto &msg) { 
         if(follower_map.count(msg->data.bird_id()) == 0){
-            //follower_track[ent_id] = follower_track.size();
-            cout << "Adding new follower id: " << msg->data.bird_id() << endl;
+            // cout << "Adding new follower id: " << msg->data.bird_id() << endl;
             FollowerData follower;
             follower.x_pos = msg->data.x_pos();
             follower.y_pos = msg->data.y_pos();
@@ -200,7 +196,74 @@ void Formation::init(std::map<std::string, std::string> &params) {
     follower_track_pub_ = advertise("GlobalNetwork", "FollowerTrack");
 }
 
+void Formation::avoidance_vectors(ContactMap &contacts,
+                                      std::vector<Eigen::Vector3d> &O_vecs) {
+    for (auto it = contacts.begin(); it != contacts.end(); it++) {
+
+        // Ignore own position / id
+        if (it->second.id().id() == parent_->id().id()) {
+            continue;
+        }
+
+        if (!avoid_non_team_ &&
+            it->second.id().team_id() != parent_->id().team_id()) {
+            continue;
+        }
+
+        Eigen::Vector3d diff = it->second.state()->pos() - state_->pos();
+
+        double O_mag = 0;
+        double dist = diff.norm();
+
+        if (dist > sphere_of_influence_) {
+            O_mag = 0;
+        } else if (minimum_range_ < dist && dist <= sphere_of_influence_) {
+            O_mag = (sphere_of_influence_ - dist) /
+                (sphere_of_influence_ - minimum_range_);
+        } else if (dist <= minimum_range_) {
+            O_mag = 1e10;
+        }
+
+        Eigen::Vector3d O_dir = -O_mag * diff.normalized();
+
+        // cout << "Entity id: " << ent_id 
+        // << " and the contact vector id is: " << it->second.id().id() 
+        // << " The avoidance vector: " << O_dir << endl;
+
+        O_vecs.push_back(O_dir);
+    }
+}
+
 bool Formation::step_autonomy(double t, double dt) {
+
+    ////////////////////////// Collision Avoidance //////////////////////////
+    // Compute repulsion vector from each robot contact
+    std::vector<Eigen::Vector3d> O_vecs;
+
+    avoidance_vectors(noisy_contacts_, O_vecs);
+
+    // Normalize each repulsion vector and sum
+    desired_vector_ <<  0, 0, 0;
+    for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
+        if (it->hasNaN()) {
+            continue; // ignore misbehaved vectors
+        }
+        desired_vector_ += *it;
+    }
+
+    cout << "Desired vector is: " << desired_vector_ << endl;
+
+    ////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////// Collision Avoidance vs Formation switching //
+
+    // Need a threshold for the output vecs - monitoring the x, y and z
+    // output pos
+
+    // Would be good to figure out the scaling of x and y pos in scrimmage
+
+
+    ////////////////////////////////////////////////////////////////////////
 
     // Goal displacements if a follower
     if(!leader_){
@@ -210,17 +273,17 @@ bool Formation::step_autonomy(double t, double dt) {
         // displacement zone, decrease speed but never spin in a circle. Will need hard 
         // hard set distance where it will turn around if it goes within the area
 
-        cout << "Leader pos is: " << leader_x_pos << ", " << leader_y_pos << ", leader_z_pos" << endl;
+        // cout << "Leader pos is: " << leader_x_pos << ", " << leader_y_pos << ", leader_z_pos" << endl;
 
         goal_(0) = leader_x_pos - x_disp_;
         goal_(1) = leader_y_pos - y_disp_;
         goal_(2) = leader_z_pos - z_disp_;
 
-        cout << "Updating follower goal positions: "
-                                        << " x_pos: " << goal_(0)
-                                        << " y_pos: " << goal_(1)
-                                        << " z_pos: " << goal_(2) 
-                                        << endl;
+        // cout << "Updating follower goal positions: "
+        //                                 << " x_pos: " << goal_(0)
+        //                                 << " y_pos: " << goal_(1)
+        //                                 << " z_pos: " << goal_(2) 
+        //                                 << endl;
     }
 
     // Read data from sensors...
@@ -246,16 +309,37 @@ bool Formation::step_autonomy(double t, double dt) {
         // For now, just handle the vel and distance here to get it working, then can add
         // it to the pid once ready. Would be good to do this and then handle the follower messaging that
         // couldn't get working last week
-        v = follow_v_k_ * diff;
-        if(v(0)>follower_speed_){
-            v(0) = follower_speed_;
-        } else if(v(0)<-follower_speed_){
-            v(0) = -follower_speed_;
+
+        if(desired_vector_(0) == 0 && desired_vector_(1) == 0 && desired_vector_(2) == 0){ // need to add espsilon fat guards to avoid shaking
+            v = follow_v_k_ * diff;
+            cout << "Using diff for velocity: " << v(0) << ", " << v(1) << ", " << v(2) << endl;
+        } else {
+            v = desired_vector_ * follower_speed_;
+            cout << "Using avoidance for velocity: " << v(0) << ", " << v(1) << ", " << v(2) << endl;
         }
 
+        if(v(0)>follower_speed_){
+                v(0) = follower_speed_;
+            } else if(v(0)<-follower_speed_){
+                v(0) = -follower_speed_;
+            } 
+
+        if(v(1)>follower_speed_){
+            v(1) = follower_speed_;
+        } else if(v(1)<-follower_speed_){
+            v(1) = -follower_speed_;
+        }
+
+        if(v(2)>follower_speed_){
+            v(2) = follower_speed_;
+        } else if(v(2)<-follower_speed_){
+            v(2) = -follower_speed_;
+        }
     } else {
         v = leader_speed_ * diff.normalized();
     }
+
+    cout << "Output v for entity: " << ent_id << ": " << v(0) << ", " << v(1) << ", " << v(2) << endl;
     
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));

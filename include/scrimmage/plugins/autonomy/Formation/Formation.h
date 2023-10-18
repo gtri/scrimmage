@@ -69,6 +69,12 @@ class Formation : public scrimmage::Autonomy{
     double y_disp_;
     double z_disp_;
 
+    // Entity avoidance
+    bool avoid_non_team_;
+    double sphere_of_influence_;
+    double minimum_range_;
+    Eigen::Vector3d desired_vector_;
+
     bool show_shapes_;
     scrimmage_proto::ShapePtr circle_shape_;
 
@@ -109,6 +115,9 @@ class Formation : public scrimmage::Autonomy{
     double desired_z_ = 0;
 
     double prev_gen_time_ = -1.0;
+
+    void avoidance_vectors(ContactMap &contacts,
+                           std::vector<Eigen::Vector3d> &O_vecs);
 };
 } // namespace autonomy
 } // namespace scrimmage
