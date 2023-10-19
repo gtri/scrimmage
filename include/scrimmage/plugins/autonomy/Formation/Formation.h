@@ -68,6 +68,7 @@ class Formation : public scrimmage::Autonomy{
     double x_disp_;
     double y_disp_;
     double z_disp_;
+    double lead_to_follow_dist_;
 
     // Entity avoidance
     bool avoid_non_team_;

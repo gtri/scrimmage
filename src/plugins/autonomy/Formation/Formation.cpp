@@ -20,14 +20,25 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Natalie Davis <natalie.m.davis@gtri.gatech.edu>
+ * @date 01 September 2023
  * @version 0.1.0
  * @brief Brief file description.
  * @section DESCRIPTION
  * A Long description goes here.
  *
+ * To do:
+ * 
+ * 1. Change how follower tracks the leader for the follower call back. It should be a param in the 
+ * struct that tracks the entity id of the leader if this is allowed information to track. It seems
+ * we only know the position, trajectory, and desired formation - so entity ID might not be allowed.
+ * 
+ * 2. Handle the z position for euclidean distance calculations
+ * 
+ * 3. Update the follower track to update the x, y, and z positions of the followers. Currently it
+ * only adds them from the first time the message is sent
+ * 
+ * 4. Update color tracking of the spheres. Currently only changes to green if the follow track is not empty
  */
 
 #include <scrimmage/common/Utilities.h>
@@ -78,51 +89,43 @@ namespace scrimmage {
 namespace autonomy {
 
 void Formation::init(std::map<std::string, std::string> &params) {
+    
+    // Set up entity data
     ent_id = parent_->id().id();
     
+    // Leader information
     leader_speed_ = scrimmage::get("leader_speed", params, 0.0);
     leader_ = scrimmage::get<bool>("leader", params, false);
-    safety_dist_ = scrimmage::get("safety_dist", params, 0.0);
 
+    // Follower information
     follower_speed_ = scrimmage::get("follower_speed", params, 0.0);
     follow_v_k_ = scrimmage::get("follow_v_k", params, 0.0);
     x_disp_ = scrimmage::get("x_disp", params, 0.0);
     y_disp_ = scrimmage::get("y_disp", params, 0.0);
     z_disp_ = scrimmage::get("z_disp", params, 0.0);
+    lead_to_follow_dist_ = scrimmage::get("lead_to_follow_dist", params, 0.0);
 
+    // Toggles spheres around the entity
     show_shapes_ = scrimmage::get<bool>("show_shapes", params, false);
 
-    // Entity avoidance
-    avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
-    sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 30);
-    minimum_range_ = sc::get<double>("minimum_range", params, 5);
+    // Entity avoidance parameters
+    avoid_non_team_ = scrimmage::get<bool>("avoid_non_team", params, true);
+    sphere_of_influence_ = scrimmage::get("sphere_of_influence", params, 0.0);
+    minimum_range_ = scrimmage::get("minimum_range", params, 0.0);
     
-    cout << "Sphere: " << sphere_of_influence_ << " Min range: " << minimum_range_ << endl;
-
-    // Project goal in front...
+    // Project initial goal in front of entity
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
     Eigen::Vector3d unit_vector = rel_pos.normalized();
     unit_vector = state_->quat().rotate(unit_vector);
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
     goal_(2) = state_->pos()(2);
 
-    // Set the desired_z to our initial position.
-    // desired_z_ = state_->pos()(2);
-
-    // Register the desired_z parameter with the parameter server
-    auto param_cb = [&](const double &desired_z) {
-        std::cout << "desired_z param changed at: " << time_->t()
-        << ", with value: " << desired_z << endl;
-    };
-    register_param<double>("desired_z", goal_(2), param_cb);
-
-    frame_number_ = 0;
-
+    // Handles entities hitting the edge of the simulation map
     enable_boundary_control_ = get<bool>("enable_boundary_control", params, false);
-
     auto bd_cb = [&](auto &msg) {boundary_ = sci::Boundary::make_boundary(msg->data);};
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
 
+    // Handles noise for state and contacts
     auto state_cb = [&](auto &msg) {
         noisy_state_set_ = true;
         noisy_state_ = msg->data;
@@ -134,13 +137,14 @@ void Formation::init(std::map<std::string, std::string> &params) {
     };
     subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
 
+    // Setting up output vars - includes altitude, speed, and heading
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
-    // If initialized as a follower, update track
+    // If initialized as a follower, update tracking
+    // follower_map holds a struct for each follower in the formation
     if(!leader_){
-        //follower_track[ent_id] = follower_track.size();
         FollowerData follower;
         follower.x_pos = state_->pos()(0);
         follower.y_pos = state_->pos()(1);
@@ -150,9 +154,14 @@ void Formation::init(std::map<std::string, std::string> &params) {
         follower_map[ent_id] = follower;
     }
 
-    // Set up follower subscriber
+    // Set up follower subscriber. This listens to leader data that is used to update the
+    // leader position tracking, which acts as goal positions for the follower
     auto follower_cb = [&](auto &msg) {
-        if(msg->data.bird_id() == ent_id || msg->data.bird_id() != 1){ // Only compute euclidean distance for cur vs ent 1
+
+        // Only compute euclidean distance if the message is not from the current entity
+        // and if it is from the leader - assumed to be entity #1 for now. Will need to
+        // later identify ways a leader should be specified
+        if(msg->data.bird_id() == ent_id || msg->data.bird_id() != 1){ // Another instance where leader is defined as ent id 1
             return;
         }
 
@@ -162,16 +171,14 @@ void Formation::init(std::map<std::string, std::string> &params) {
 
         // If the entity is a leader, but it is also receiver other leader messages, calculate
         // the euclidean distance. If it is within a range, need to combine formations and define
-        // a new leader. For the time being, make id 1 the leader.
+        // a leader.
         if(leader_){
             float x_pos_sq = (state_->pos()(0) - leader_x_pos) * (state_->pos()(0) - leader_x_pos);
             float y_pos_sq = (state_->pos()(1) - leader_y_pos) * (state_->pos()(1) - leader_y_pos);
             //float z_pos_sq = (state_->pos()(2) - leader_z_pos) * (state_->pos()(2) - leader_z_pos); // IF using z, will need a diff distance threshold
             float euc_dist = std::sqrt(x_pos_sq + y_pos_sq);
 
-            // cout << "Euclidean distance is: " << euc_dist << " and ent id is: " << ent_id << endl;
-
-            if(euc_dist < 50 && ent_id != 1){
+            if(euc_dist < lead_to_follow_dist_ && ent_id != 1){ // Another instance where leader is defined as ent id 1
                 leader_ = false;
             }
         }
@@ -179,7 +186,8 @@ void Formation::init(std::map<std::string, std::string> &params) {
     subscribe<scrimmage_msgs::FormationLeader>("GlobalNetwork", "FormationLeader", follower_cb);
     leader_pub_ = advertise("GlobalNetwork", "FormationLeader");
 
-    // Set up follower tracker subscriber
+    // Set up follower tracker subscriber. This updates tracking
+    // follower_map holds a struct for each follower in the formation
     auto tracker_cb = [&](auto &msg) { 
         if(follower_map.count(msg->data.bird_id()) == 0){
             // cout << "Adding new follower id: " << msg->data.bird_id() << endl;
@@ -196,10 +204,10 @@ void Formation::init(std::map<std::string, std::string> &params) {
     follower_track_pub_ = advertise("GlobalNetwork", "FollowerTrack");
 }
 
+// Handles entity avoidance
 void Formation::avoidance_vectors(ContactMap &contacts,
                                       std::vector<Eigen::Vector3d> &O_vecs) {
     for (auto it = contacts.begin(); it != contacts.end(); it++) {
-
         // Ignore own position / id
         if (it->second.id().id() == parent_->id().id()) {
             continue;
@@ -237,6 +245,7 @@ void Formation::avoidance_vectors(ContactMap &contacts,
 bool Formation::step_autonomy(double t, double dt) {
 
     ////////////////////////// Collision Avoidance //////////////////////////
+
     // Compute repulsion vector from each robot contact
     std::vector<Eigen::Vector3d> O_vecs;
 
@@ -251,42 +260,8 @@ bool Formation::step_autonomy(double t, double dt) {
         desired_vector_ += *it;
     }
 
-    cout << "Desired vector is: " << desired_vector_ << endl;
-
-    ////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////// Collision Avoidance vs Formation switching //
-
-    // Need a threshold for the output vecs - monitoring the x, y and z
-    // output pos
-
-    // Would be good to figure out the scaling of x and y pos in scrimmage
-
-
-    ////////////////////////////////////////////////////////////////////////
-
-    // Goal displacements if a follower
-    if(!leader_){
-        // When adding this kind of offset with the way velocity is calculated,
-        // if the drone enters a zone that is closer than the displacement,
-        // it turns around. Instead, need to have it slow and if it passes into the
-        // displacement zone, decrease speed but never spin in a circle. Will need hard 
-        // hard set distance where it will turn around if it goes within the area
-
-        // cout << "Leader pos is: " << leader_x_pos << ", " << leader_y_pos << ", leader_z_pos" << endl;
-
-        goal_(0) = leader_x_pos - x_disp_;
-        goal_(1) = leader_y_pos - y_disp_;
-        goal_(2) = leader_z_pos - z_disp_;
-
-        // cout << "Updating follower goal positions: "
-        //                                 << " x_pos: " << goal_(0)
-        //                                 << " y_pos: " << goal_(1)
-        //                                 << " z_pos: " << goal_(2) 
-        //                                 << endl;
-    }
-
-    // Read data from sensors...
+    ////////////////////////// Boundary Control //////////////////////////
+   
     if (!noisy_state_set_) {
         noisy_state_ = *state_;
     }
@@ -301,15 +276,24 @@ bool Formation::step_autonomy(double t, double dt) {
         }
     }
 
+    //////////////////////// Velocity & Goal Calc ////////////////////////
+
+    if(!leader_){
+        goal_(0) = leader_x_pos - x_disp_;
+        goal_(1) = leader_y_pos - y_disp_;
+        goal_(2) = leader_z_pos - z_disp_;
+
+        // cout << "Updating follower goal positions: "
+        //                                 << " x_pos: " << goal_(0)
+        //                                 << " y_pos: " << goal_(1)
+        //                                 << " z_pos: " << goal_(2) 
+        //                                 << endl;
+    }
+
     Eigen::Vector3d diff = goal_ - noisy_state_.pos();
     Eigen::Vector3d v;
 
     if(!leader_){
-        // Calculate velocity using a PID controller
-        // For now, just handle the vel and distance here to get it working, then can add
-        // it to the pid once ready. Would be good to do this and then handle the follower messaging that
-        // couldn't get working last week
-
         if(desired_vector_(0) == 0 && desired_vector_(1) == 0 && desired_vector_(2) == 0){ // need to add espsilon fat guards to avoid shaking
             v = follow_v_k_ * diff;
             cout << "Using diff for velocity: " << v(0) << ", " << v(1) << ", " << v(2) << endl;
@@ -320,9 +304,9 @@ bool Formation::step_autonomy(double t, double dt) {
 
         if(v(0)>follower_speed_){
                 v(0) = follower_speed_;
-            } else if(v(0)<-follower_speed_){
-                v(0) = -follower_speed_;
-            } 
+        } else if(v(0)<-follower_speed_){
+            v(0) = -follower_speed_;
+        } 
 
         if(v(1)>follower_speed_){
             v(1) = follower_speed_;
@@ -339,12 +323,14 @@ bool Formation::step_autonomy(double t, double dt) {
         v = leader_speed_ * diff.normalized();
     }
 
-    cout << "Output v for entity: " << ent_id << ": " << v(0) << ", " << v(1) << ", " << v(2) << endl;
+    //cout << "Output v for entity: " << ent_id << ": " << v(0) << ", " << v(1) << ", " << v(2) << endl;
     
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));
     vars_.output(desired_speed_idx_, v.norm());
     vars_.output(desired_heading_idx_, heading);
+
+    //////////////////////// Update leader & follower output messages ////////////////////////
 
     if(leader_){
         auto leader_msg = std::make_shared<Message<scrimmage_msgs::FormationLeader>>();
@@ -362,6 +348,8 @@ bool Formation::step_autonomy(double t, double dt) {
         follower_track_pub_->publish(follower_track_msg);
     }
 
+    //////////////////////// Handle spheres drawn around entity ////////////////////////
+
     if (show_shapes_) {
         // Draw the sphere of influence
         if (circle_shape_ == nullptr) {
@@ -375,6 +363,7 @@ bool Formation::step_autonomy(double t, double dt) {
         draw_shape(circle_shape_);
     }
 
+    //////////////////////// Return from step function ////////////////////////
     noisy_state_set_ = false;
     return true;
 }
