@@ -75,6 +75,8 @@ class Formation : public scrimmage::Autonomy{
     double sphere_of_influence_;
     double minimum_range_;
     Eigen::Vector3d desired_vector_;
+    double fat_guard_;
+    bool avoid_state;
 
     bool show_shapes_;
     scrimmage_proto::ShapePtr circle_shape_;

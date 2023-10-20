@@ -11,7 +11,7 @@
 
   add an assert that checks if the avoidance dist, safety dist, follow dist etc make sense together
 
-  <follower_speed>30</follower_speed>
+  <follower_speed>15</follower_speed>
   <follow_v_k>0.55</follow_v_k>
   <x_disp>0</x_disp>
   <y_disp>0</y_disp>
@@ -23,6 +23,7 @@
   <avoid_non_team>true</avoid_non_team_>
   <sphere_of_influence>30</sphere_of_influence>
   <minimum_range>5</minimum_range>
+  <fat_guard>5</fat_guard>
 
   <enable_boundary_control>false</enable_boundary_control>
 </params>

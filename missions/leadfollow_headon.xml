@@ -75,7 +75,7 @@
     <heading>0</heading>
 
     <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
+    <motion_model min_velocity="5">SimpleAircraft</motion_model>
 
     <visual_model>zephyr-blue</visual_model>
 
@@ -84,7 +84,7 @@
     <autonomy leader="true"
               enable_boundary_control="false"
               show_shapes="true"
-              leader_speed="8">Formation</autonomy>
+              leader_speed="5">Formation</autonomy>
 
     <base>
       <latitude>35.721112</latitude>
@@ -108,18 +108,71 @@
     <heading>180</heading>
 
     <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
+    <motion_model min_velocity="5">SimpleAircraft</motion_model>
 
     <visual_model>zephyr-blue</visual_model>
 
     <sensor>NoisyContacts</sensor>
 
     <autonomy leader = "true"
-              enable_boundary_control="false"
-              x_disp = "50"
-              y_disp = "0"
+              leader_speed="5"
+              follower_speed="15"
+              follow_v_k="0.35"
+              lead_to_follow_dist="50"
+  
+              x_disp = "15"
+              y_disp = "-15"
               z_disp = "0"
-              show_shapes="true" >Formation</autonomy>
+
+              show_shapes="true" 
+
+              sphere_of_influence="8"
+              minimum_range="2"
+              fat_guard="3">Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <!-- ========================== Entity 3 ========================= -->
+  <entity>
+    <name>leader_3</name>
+    <team_id>3</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>0</x>
+    <y>-100</y>
+    <z>195</z>
+    <heading>90</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model min_velocity="5">SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "true"
+              leader_speed="5"
+              follower_speed="15"
+              follow_v_k="0.35"
+              lead_to_follow_dist="50"
+  
+              x_disp = "15"
+              y_disp = "15"
+              z_disp = "0"
+              
+              show_shapes="true" 
+
+              sphere_of_influence="8"
+              minimum_range="2"
+              fat_guard="3">Formation</autonomy>
 
     <base>
       <latitude>35.721112</latitude>

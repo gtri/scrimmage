@@ -561,6 +561,9 @@ bool MissionParse::parse(const std::string &filename) {
                 if(entity_attributes_[ent_desc_id][nm]["minimum_range"] == ""){
                     cout << "Entity " << ent_desc_id+1 << "'s minimum range needs to be defined for entity avoidance on the Formation autonomy." << endl;
                 }
+                if(entity_attributes_[ent_desc_id][nm]["fat_guard"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s fat guard value needs to be defined for entity avoidance on the Formation autonomy." << endl;
+                }
                 if(entity_attributes_[ent_desc_id][nm]["sphere_of_influence"] < entity_attributes_[ent_desc_id][nm]["minimum_range"]){
                     cout << "Entity " << ent_desc_id+1 << "'s sphere of influence must be larger than the minimum range for entity avoidance in the Formation autonomy." << endl;
                 }

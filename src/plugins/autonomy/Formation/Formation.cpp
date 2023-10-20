@@ -112,6 +112,8 @@ void Formation::init(std::map<std::string, std::string> &params) {
     avoid_non_team_ = scrimmage::get<bool>("avoid_non_team", params, true);
     sphere_of_influence_ = scrimmage::get("sphere_of_influence", params, 0.0);
     minimum_range_ = scrimmage::get("minimum_range", params, 0.0);
+    fat_guard_ = scrimmage::get("fat_guard", params, 0.0);
+    avoid_state = false;
     
     // Project initial goal in front of entity
     Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
@@ -207,6 +209,11 @@ void Formation::init(std::map<std::string, std::string> &params) {
 // Handles entity avoidance
 void Formation::avoidance_vectors(ContactMap &contacts,
                                       std::vector<Eigen::Vector3d> &O_vecs) {
+    // cout << "-------------Avoidance Calculation-------------" << endl;
+
+    // Minimum distance used for state switching between avoidance and follower velocity calculations
+    double min_dist = sphere_of_influence_ + fat_guard_;
+
     for (auto it = contacts.begin(); it != contacts.end(); it++) {
         // Ignore own position / id
         if (it->second.id().id() == parent_->id().id()) {
@@ -223,6 +230,11 @@ void Formation::avoidance_vectors(ContactMap &contacts,
         double O_mag = 0;
         double dist = diff.norm();
 
+        // State machine distance track
+        if(dist < min_dist){
+            min_dist = dist;
+        }
+
         if (dist > sphere_of_influence_) {
             O_mag = 0;
         } else if (minimum_range_ < dist && dist <= sphere_of_influence_) {
@@ -233,6 +245,8 @@ void Formation::avoidance_vectors(ContactMap &contacts,
         }
 
         Eigen::Vector3d O_dir = -O_mag * diff.normalized();
+        // cout << "Sphere val: " << sphere_of_influence_ << " Dist val: " << dist << " Min range: " << minimum_range_
+        //     << " O_mag: " << O_mag << endl;
 
         // cout << "Entity id: " << ent_id 
         // << " and the contact vector id is: " << it->second.id().id() 
@@ -240,6 +254,14 @@ void Formation::avoidance_vectors(ContactMap &contacts,
 
         O_vecs.push_back(O_dir);
     }
+
+    if(min_dist < (sphere_of_influence_ + fat_guard_)){
+        avoid_state = true;
+    } else{
+        avoid_state = false;
+    }
+
+    // cout << "-----------------------------------------------" << endl;
 }
 
 bool Formation::step_autonomy(double t, double dt) {
@@ -294,12 +316,21 @@ bool Formation::step_autonomy(double t, double dt) {
     Eigen::Vector3d v;
 
     if(!leader_){
-        if(desired_vector_(0) == 0 && desired_vector_(1) == 0 && desired_vector_(2) == 0){ // need to add espsilon fat guards to avoid shaking
+        // Needs to be more like a state machine, not just checking avoidance every time
+        if(!avoid_state){ // avoid state determiner should be based on the min dist value from avoidance function
             v = follow_v_k_ * diff;
-            cout << "Using diff for velocity: " << v(0) << ", " << v(1) << ", " << v(2) << endl;
-        } else {
+            // cout << "--------------------------DIFF VEL--------------------------" << endl;
+            // cout << "Using diff for velocity: " << v(0) << ", " << v(1) << ", " << v(2) << endl;
+            // cout << "Desired vector: " << desired_vector_(0) << " , " << desired_vector_(1) << " , " << desired_vector_(2) << endl;
+            // cout << "Diff is: " << diff(0) << " ," << v(1) << " ," << v(2) << endl;
+            // cout << "-------------------------------------------------------------" << endl;
+        } else { // only come out of avoidance if you are within a certain min distance + fat guard
             v = desired_vector_ * follower_speed_;
+            cout << "--------------------------AVOIDANCE VEL--------------------------" << endl;
             cout << "Using avoidance for velocity: " << v(0) << ", " << v(1) << ", " << v(2) << endl;
+            cout << "Desired vector: " << desired_vector_(0) << " , " << desired_vector_(1) << " , " << desired_vector_(2) << endl;
+            cout << "Diff is: " << diff(0) << " ," << v(1) << " ," << v(2) << endl;
+            cout << "-------------------------------------------------------------" << endl;
         }
 
         if(v(0)>follower_speed_){
@@ -323,7 +354,7 @@ bool Formation::step_autonomy(double t, double dt) {
         v = leader_speed_ * diff.normalized();
     }
 
-    //cout << "Output v for entity: " << ent_id << ": " << v(0) << ", " << v(1) << ", " << v(2) << endl;
+    cout << "Output v for entity: " << ent_id << ": " << v(0) << ", " << v(1) << ", " << v(2) << endl;
     
     double heading = Angles::angle_2pi(atan2(v(1), v(0)));
     vars_.output(desired_alt_idx_, goal_(2));
