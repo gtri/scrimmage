@@ -57,8 +57,11 @@ installer to install the required packages:
 If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
 
 ### Additional Binary Dependencies Ubuntu 20.04
-
-    sudo apt install libgrpc++-dev
+    
+    (situational) sudo apt install libgrpc++-dev
+    (situational) sudo apt install libboost-thread-dev
+    Might need to downgrade libprotoc if you have errors with installing scrimmage-dependencies
+    (situational) sudo apt install libprotoc17=3.6.1.3-2ubuntu5
     (optional) sudo ln -s usr/bin/python3 usr/bin/python
 
 ### Install Custom Built Binary Dependencies
