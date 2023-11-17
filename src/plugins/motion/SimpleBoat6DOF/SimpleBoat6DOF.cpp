@@ -102,6 +102,7 @@ bool SimpleBoat6DOF::step(double time, double dt) {
     double prev_x = x_[X];
     double prev_y = x_[Y];
     double prev_z = x_[Z];
+    double prev_theta = x_[THETA];
 
     ode_step(dt);
 
@@ -115,11 +116,12 @@ bool SimpleBoat6DOF::step(double time, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
+    state_->ang_vel() << 0.0, 0.0, (x_[THETA] - prev_theta) / dt;
 
     // UPDATE THESE FOR 6DOF SENSOR
-    linear_accel_body_ = state_->vel() - linear_vel_body_;
-    ang_accel_body_ = state_->ang_vel() - ang_vel_body_;
-    linear_vel_body_ = state_->vel();
+    linear_accel_body_ = (state_->quat().rotate_reverse(state_->vel()) - linear_vel_body_) / dt;
+    ang_accel_body_ = (state_->ang_vel() - ang_vel_body_) / dt;
+    linear_vel_body_ = state_->quat().rotate_reverse(state_->vel()); // converting to body frame
     ang_vel_body_ = state_->ang_vel();
 
     return true;
