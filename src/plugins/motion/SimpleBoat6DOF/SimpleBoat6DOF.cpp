@@ -64,6 +64,8 @@ enum ModelParams {
     Z,
     Z_dot,
     THETA,
+    angular_speed,
+    speed,
     MODEL_NUM_ITEMS
 };
 
@@ -86,11 +88,17 @@ bool SimpleBoat6DOF::init(std::map<std::string, std::string> &info,
     mass_ = get<double>("mass", params, 1.0);
     enable_gravity_ = get<bool>("enable_gravity", params, false);
     max_velocity_ = get<double>("max_velocity", params, 30.0);
+    max_acceleration_ = get<double>("max_acceleration", params, 5);
+    max_angular_accel_ = get<double>("max_angular_accel", params, .1);
+    max_turn_rate_ = get<double>("max_turn_rate", params, .3);
 
     /////////
     state_->vel() << 0, 0, 0;
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
+
+    acceleration_ = 0;
+    angular_acceleration_ = 0;
 
     input_speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     input_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
@@ -103,6 +111,12 @@ bool SimpleBoat6DOF::step(double time, double dt) {
     double prev_y = x_[Y];
     double prev_z = x_[Z];
     double prev_theta = x_[THETA];
+
+    const double u_vel = clamp(vars_.input(input_speed_idx_), 0, max_velocity_);
+    acceleration_ = clamp(((u_vel - x_[speed]) / dt), -1*max_acceleration_, max_acceleration_); // set fixed linear accel for time step
+
+    const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -1*max_turn_rate_, max_turn_rate_);
+    angular_acceleration_ = clamp(((u_theta - x_[angular_speed]) / dt), -1*max_angular_accel_, max_angular_accel_); // set fixed angular accel for time step
 
     ode_step(dt);
 
@@ -130,15 +144,15 @@ bool SimpleBoat6DOF::step(double time, double dt) {
 void SimpleBoat6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 0 : x-position
     /// 1 : y-position
-    /// 2 : theta
+    /// 2 : z-position
+    /// 3 : z dot
+    /// 4 : theta
+    /// 5 : angular speed
+    /// 6 : linear speed
 
-    const double u_vel = clamp(vars_.input(input_speed_idx_), 0, max_velocity_);
-    const double theta_lim = M_PI / 4 - 0.0001;
-    const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -theta_lim, theta_lim);
-
-    dxdt[X] = u_vel*cos(x[THETA]);
-    dxdt[Y] = u_vel*sin(x[THETA]);
-    dxdt[THETA] = u_vel/length_*tan(u_theta);
+    dxdt[X] = x[speed]*cos(x[THETA]);
+    dxdt[Y] = x[speed]*sin(x[THETA]);
+    dxdt[THETA] = x[angular_speed];
 
     if (enable_gravity_) {
         dxdt[Z] = x[Z_dot];
@@ -147,6 +161,9 @@ void SimpleBoat6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
         dxdt[Z] = 0;
         dxdt[Z_dot] = 0;
     }
+
+    dxdt[speed] = acceleration_;
+    dxdt[angular_speed] = angular_acceleration_;
 
     // Saturate based on external force:
     if (std::abs(ext_force_(0)) > 0.1) {
