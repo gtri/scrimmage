@@ -58,6 +58,12 @@ class SimpleBoat6DOF : public scrimmage::motion::RigidBody6DOFBase {
     double length_;
     bool enable_gravity_;
     double max_velocity_;
+    double max_acceleration_;
+    double max_angular_accel_;
+    double max_turn_rate_;
+
+    double acceleration_;
+    double angular_acceleration_;
 
     uint8_t input_speed_idx_;
     uint8_t input_turn_rate_idx_;
