@@ -122,7 +122,7 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
         desired_vector_ += *it;
     }
 
-    desired_vector_ *= max_vector_length_;
+    desired_vector_ *= max_vector_length_; // Nat - max vec length is just max speed
 
     if (show_shapes_) {
         // Draw the sphere of influence

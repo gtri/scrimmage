@@ -97,20 +97,33 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
     wp_.set_position_tolerance(1);
     wp_.set_quat_tolerance(1);
 
+    cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
+    cout << "Way point data: 1. " << wp_local_(0) << " 2. " << wp_local_(1) << " 3. " << wp_local_(2)
+        << " 4. " << lat << " 5. " << lon << " 6. " << alt << endl;
+    cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
+
     auto wp_cb = [&] (scrimmage::MessagePtr<Waypoint> msg) {
         wp_ = msg->data;
         parent_->projection()->Forward(wp_.latitude(),
                                        wp_.longitude(),
                                        wp_.altitude(), wp_local_(0),
                                        wp_local_(1), wp_local_(2));
+        cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
+        cout << "LAMBDA FUNCTION Way point data: 1. " << wp_local_(0) << " 2. " << wp_local_(1) << " 3. " << wp_local_(2)
+        << " 4. " << wp_.latitude() << " 5. " << wp_.longitude() << " 6. " << wp_.altitude() << endl;
+        cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
     };
     subscribe<Waypoint>("LocalNetwork", "Waypoint", wp_cb);
 }
 
 bool MoveToGoalMS::step_autonomy(double t, double dt) {
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "Stepping MOVE TO GOAL autonomy" << endl;
+    cout << "Waypoint value: " << wp_local_ << endl;
     double measurement = -(wp_local_ - state_->pos()).norm();
     double speed_factor = speed_pid_.step(dt, measurement);
     desired_vector_ = (wp_local_ - state_->pos()).normalized() * speed_factor;
+    cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     return true;
 }
 } // namespace motor_schemas

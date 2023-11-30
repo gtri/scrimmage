@@ -518,6 +518,7 @@ bool MissionParse::parse(const std::string &filename) {
              node = node->next_sibling()) {
 
             std::string nm = node->name();
+
             if (nm == "autonomy") {
                 nm += std::to_string(autonomy_order++);
             } else if (nm == "controller") {
@@ -536,6 +537,10 @@ bool MissionParse::parse(const std::string &filename) {
                  attr; attr = attr->next_attribute()) {
 
                 const std::string attr_name = attr->name();
+
+                // cout << "Attr_name: " << attr_name << "attr value: " << attr->value() << " ent_desc_id: " 
+                // << ent_desc_id << " NM " << nm << endl;
+
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
@@ -543,6 +548,46 @@ bool MissionParse::parse(const std::string &filename) {
                 } else {
                     entity_attributes_[ent_desc_id][nm][attr_name] = attr->value();
                 }
+            }
+
+            // If doing formation control, need to ensure the following autonomy attributes are defined
+            std::string is_formation = script_info[nm];
+            if (is_formation == "Formation"){
+
+                // Entity avoidance parameter handling
+                if(entity_attributes_[ent_desc_id][nm]["sphere_of_influence"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s sphere of influence needs to be defined for entity avoidance on the Formation autonomy." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["minimum_range"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s minimum range needs to be defined for entity avoidance on the Formation autonomy." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["fat_guard"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s fat guard value needs to be defined for entity avoidance on the Formation autonomy." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["sphere_of_influence"] < entity_attributes_[ent_desc_id][nm]["minimum_range"]){
+                    cout << "Entity " << ent_desc_id+1 << "'s sphere of influence must be larger than the minimum range for entity avoidance in the Formation autonomy." << endl;
+                }
+
+                // Leader/follower parameter handling
+                if(entity_attributes_[ent_desc_id][nm]["leader"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s leader bool value needs to be defined for the Formation autonomy." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["leader"] == "false" && 
+                        (entity_attributes_[ent_desc_id][nm]["x_disp"] == "" ||
+                         entity_attributes_[ent_desc_id][nm]["y_disp"] == "" || 
+                         entity_attributes_[ent_desc_id][nm]["z_disp"] == "")){
+                    cout << "Entity " << ent_desc_id+1 << "'s follower displacements need to be complete with values for x, y, and z displacements." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["leader"] == "false" && entity_attributes_[ent_desc_id][nm]["follower_speed"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s follower speed needs to be defined." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["leader"] == "false" && entity_attributes_[ent_desc_id][nm]["follow_v_k"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s follower PID K value needs to be defined." << endl;
+                }
+                if(entity_attributes_[ent_desc_id][nm]["leader"] == "true" && entity_attributes_[ent_desc_id][nm]["leader_speed"] == ""){
+                    cout << "Entity " << ent_desc_id+1 << "'s leader speed needs to be defined." << endl;
+                }
+
             }
         }
 
@@ -578,7 +623,7 @@ bool MissionParse::parse(const std::string &filename) {
         // Save the initial positions (x,y,z) since we modify them for each
         // entity during generation
         if (script_info.count("x") > 0) {
-            script_info["x0"] = script_info["x"];
+            script_info["x0"] = script_info["x"]; // Why would this be updating for only entity 1?
         } else {
             cout << "Entity missing 'x' tag." << endl;
         }

@@ -70,6 +70,10 @@ class SimpleAircraftControllerPID : public Controller {
     uint8_t output_throttle_idx_ = 0;
     uint8_t output_roll_rate_idx_ = 0;
     uint8_t output_pitch_rate_idx_ = 0;
+
+    uint8_t desired_pitch_idx_ = 0;
+    uint8_t desired_roll_idx_ = 0;
+    uint8_t desired_speed_idx_ = 0;
 };
 }  // namespace controller
 }  // namespace scrimmage

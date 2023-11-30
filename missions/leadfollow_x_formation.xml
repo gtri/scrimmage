@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <run start="0.0" end="100" dt="0.1"
+       time_warp="1"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"
+       full_screen="false"
+       window_width="800"
+       window_height="600"/>
+
+  <multi_threaded num_threads="8">false</multi_threaded>
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <!-- <terrain>mcmillan</terrain> -->
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>true</plot_tracks> <!-- Nat - made true -->
+  <output_type>all</output_type>
+  <no_bin_logging>false</no_bin_logging>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+  <create_latest_dir>true</create_latest_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <entity_interaction type="cuboid"
+                      lengths="2000, 2000, 1000"
+                      center="0, 0, 500"
+                      rpy="0, 0, 0"
+                      >Boundary</entity_interaction>
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>GroundCollision</entity_interaction>
+
+  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>2147483648</seed>
+
+  <!-- =========================================================== -->
+  <!-- ========================== TEAM 1 ========================= -->
+  <!-- =========================================================== -->
+
+  <!-- ========================== Entity 1 ========================= -->
+  <entity>
+    <name>leader_1</name>
+    <team_id>1</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-900</x>
+    <y>0</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader="true"
+              enable_boundary_control="false"
+              show_shapes="true"
+              leader_speed="8">Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <!-- ========================== Entity 2 ========================= -->
+  <entity>
+    <name>leader_2</name>
+    <team_id>2</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-910</x>
+    <y>10</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "10"
+              y_disp = "-10"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <!-- ========================== Entity 3 ========================= -->
+  <entity>
+    <name>leader_3</name>
+    <team_id>3</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-910</x>
+    <y>-10</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "10"
+              y_disp = "10"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+<!-- ========================== Entity 4 ========================= -->
+  <entity>
+    <name>leader_4</name>
+    <team_id>4</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-890</x>
+    <y>-10</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "-10"
+              y_disp = "10"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+<!-- ========================== Entity 5 ========================= -->
+  <entity>
+    <name>leader_5</name>
+    <team_id>5</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-890</x>
+    <y>10</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "-10"
+              y_disp = "-10"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <!-- ========================== Entity 6 ========================= -->
+  <entity>
+    <name>leader_6</name>
+    <team_id>6</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-920</x>
+    <y>20</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "20"
+              y_disp = "-20"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <!-- ========================== Entity 7 ========================= -->
+  <entity>
+    <name>leader_7</name>
+    <team_id>7</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-920</x>
+    <y>-20</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "20"
+              y_disp = "20"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+<!-- ========================== Entity 8 ========================= -->
+  <entity>
+    <name>leader_8</name>
+    <team_id>8</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-880</x>
+    <y>-20</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "-20"
+              y_disp = "20"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+<!-- ========================== Entity 9 ========================= -->
+  <entity>
+    <name>leader_9</name>
+    <team_id>9</team_id>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <x>-880</x>
+    <y>20</y>
+    <z>195</z>
+    <heading>0</heading>
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <sensor>NoisyContacts</sensor>
+
+    <autonomy leader = "false"
+              enable_boundary_control="false"
+              x_disp = "-20"
+              y_disp = "-20"
+              z_disp = "0"
+              show_shapes="true" >Formation</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+</runscript>

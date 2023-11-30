@@ -53,3 +53,17 @@ message GenerateEntity {
         int32 entity_id = 4;
         repeated KeyValueAttr plugin_param = 5;
 }
+
+message FormationLeader{
+        float x_pos = 1;
+        float y_pos = 2;
+        float z_pos = 3;
+        int32 bird_id = 4;
+}
+
+message FollowerTrack{
+        float x_pos = 1;
+        float y_pos = 2;
+        float z_pos = 3;
+        int32 bird_id = 4;
+}
