@@ -91,6 +91,7 @@ bool SimpleBoat6DOF::init(std::map<std::string, std::string> &info,
     max_acceleration_ = get<double>("max_acceleration", params, 5);
     max_angular_accel_ = get<double>("max_angular_accel", params, .1);
     max_turn_rate_ = get<double>("max_turn_rate", params, .3);
+    alpha_ = get<double>("damping", params, .1);
 
     /////////
     state_->vel() << 0, 0, 0;
@@ -103,6 +104,24 @@ bool SimpleBoat6DOF::init(std::map<std::string, std::string> &info,
     input_speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     input_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
 
+    // Should we write a CSV file? What values should be written?
+    write_csv_ = get<bool>("write_csv", params, false);
+    if (write_csv_) {
+        csv_.open_output(parent_->mp()->root_log_dir() + "/"
+                         + std::to_string(parent_->id().id())
+                         + "-states.csv");
+        cout << "Writing log to " + parent_->mp()->root_log_dir() + "/"
+                         + std::to_string(parent_->id().id())
+                         + "-states.csv" << endl;
+
+        csv_.set_column_headers(CSV::Headers{"t",
+                    "x", "y", "z",
+                    "Ax_b", "Ay_b", "Az_b",
+                    "AngAccelx_b", "AngAccely_b", "AngAccelz_b",
+                    "roll", "pitch", "yaw", "cmd_accel", "cmd_ang_accel",
+                    "throttle", "steering", "theta_dot", "x_bdot", "y_bdot"});
+    }
+
     return true;
 }
 
@@ -113,10 +132,13 @@ bool SimpleBoat6DOF::step(double time, double dt) {
     double prev_theta = x_[THETA];
 
     const double u_vel = clamp(vars_.input(input_speed_idx_), 0, max_velocity_);
-    acceleration_ = clamp(((u_vel - x_[speed]) / dt), -1*max_acceleration_, max_acceleration_); // set fixed linear accel for time step
+    const double accel_cmd = clamp(((u_vel - x_[speed]) / dt), -1*max_acceleration_, max_acceleration_); // set fixed linear accel for time step
+    acceleration_ = (1 - alpha_) * acceleration_ + alpha_ * accel_cmd;
 
     const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -1*max_turn_rate_, max_turn_rate_);
-    angular_acceleration_ = clamp(((u_theta - x_[angular_speed]) / dt), -1*max_angular_accel_, max_angular_accel_); // set fixed angular accel for time step
+    const double angular_accel_cmd = clamp(((u_theta - x_[angular_speed]) / dt), -1*max_angular_accel_, max_angular_accel_); // set fixed angular accel for time step
+    angular_acceleration_ = (1 - alpha_) * angular_acceleration_ + alpha_ * angular_accel_cmd;
+
 
     ode_step(dt);
 
@@ -137,6 +159,31 @@ bool SimpleBoat6DOF::step(double time, double dt) {
     ang_accel_body_ = (state_->ang_vel() - ang_vel_body_) / dt;
     linear_vel_body_ = state_->quat().rotate_reverse(state_->vel()); // converting to body frame
     ang_vel_body_ = state_->ang_vel();
+
+    if (write_csv_) {
+        // Log state to CSV
+        csv_.append(CSV::Pairs{
+                {"t", time},
+                {"x", x_[X]},
+                {"y", x_[Y]},
+                {"z", x_[Z]},
+                {"Ax_b", linear_accel_body_(0)},
+                {"Ay_b", linear_accel_body_(1)},
+                {"Az_b", linear_accel_body_(2)},
+                {"AngAccelx_b", ang_accel_body_(0)},
+                {"AngAccely_b", ang_accel_body_(1)},
+                {"AngAccelz_b", ang_accel_body_(2)},
+                {"roll", x_[THETA]},
+                {"pitch", 0.0},
+                {"yaw", 0.0},
+                {"cmd_accel", acceleration_},
+                {"cmd_ang_accel", angular_acceleration_},
+                {"throttle", u_vel},
+                {"steering", u_theta},
+                {"theta_dot", (x_[THETA] - prev_theta) / dt},
+                {"x_bdot", linear_vel_body_(0)},
+                {"y_bdot", linear_vel_body_(1)}});
+    }
 
     return true;
 }
