@@ -64,6 +64,10 @@ class SimpleBoat6DOF : public scrimmage::motion::RigidBody6DOFBase {
 
     double acceleration_;
     double angular_acceleration_;
+    double alpha_;
+    // Logging utility
+    bool write_csv_ = false;
+    CSV csv_;
 
     uint8_t input_speed_idx_;
     uint8_t input_turn_rate_idx_;
