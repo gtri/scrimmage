@@ -42,8 +42,12 @@ class FGOutputFGMod : public FGOutputFG {
     virtual void Print(void);
  protected:
  private:
-    FGNetFDM fgSockBufMod;
-    void SocketDataFillMod(FGNetFDM* net);
+	static constexpr size_t s = sizeof(FGNetFDM1) + sizeof(FGNetFDM2) + sizeof(FGNetFDM3);
+	char data[s];
+	FGNetFDM1 * const net1 = (FGNetFDM1*)data;
+	FGNetFDM3* net3;
+	size_t dataLength;
+  void SocketDataFillMod(void);
 };
 } // namespace JSBSim
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_FGOUTPUTFGMOD_H_
