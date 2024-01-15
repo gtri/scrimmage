@@ -135,8 +135,11 @@ void FGOutputFGMod::SocketDataFillMod(void) {
 	net3 = (FGNetFDM3 *)(net1 + 1);
 	
   // Positions
+  // Latitude & Longitude are set to the geocentric coordinates (The 
+  // unmodified FGOutputFG from JSBSim uses geodeic)
   net1->longitude = Propagate->GetLocation().GetLongitude(); //
-  net1->latitude  = Propagate->GetLocation().GetLatitude(); // GeodLatitudeRad(); // geodetic (radians)
+  net1->latitude  = Propagate->GetLocation().GetLatitude();  // geocentric (radians)
+
   net1->altitude  = Propagate->GetAltitudeASL()*0.3048; // altitude, above sea level (meters)
   net1->agl       = static_cast<float>(Propagate->GetDistanceAGL()*0.3048); // altitude, above ground level (meters)
 
