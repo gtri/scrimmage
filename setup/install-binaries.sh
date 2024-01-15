@@ -133,6 +133,7 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     protobuf-compiler
     protobuf-compiler-grpc
     pybind11-dev
+    libprotobuf-dev
     ) #GRPC Libraries for Jammy
 fi
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
