@@ -95,7 +95,7 @@ static void htonf(float &x) {
 FGOutputFGMod::FGOutputFGMod(FGFDMExec* fdmex) :
 		FGOutputFG(fdmex) {
     memset(net1, 0x0, sizeof(s));
-		dataLength = sizeof(FGNetFDM1) + sizeof(FGNetFDM3); // FS 2020.2 or earlier does not use FGNetFDM2
+		PacketInit(FGPacketVersion::v24);
 
 		if (fdmex->GetDebugLevel() > 0) {
 				 // Engine status
@@ -116,6 +116,24 @@ FGOutputFGMod::FGOutputFGMod(FGFDMExec* fdmex) :
 								<< "version of FlightGear's FGNetFDM only supports " << FG_MAX_WHEELS << " bogeys." << endl
 								<< "Only the first " << FG_MAX_WHEELS << " bogeys will be used." << endl;
 			 }
+}
+
+void FGOutputFGMod::PacketInit(FGPacketVersion version) {
+	switch(version) {
+		case FGPacketVersion::v24: {
+			dataLength = sizeof(FGNetFDM1) + sizeof(FGNetFDM3); // FS 2020.2 or earlier does not use FGNetFDM2
+			// Ptr Arithmatic to set net3 to the next byte after net1 ends
+			net3 = reinterpret_cast<FGNetFDM3*>(net1 + 1);
+			break;
+		}
+		case FGPacketVersion::v25: {
+			dataLength = s;
+			net2 = reinterpret_cast<FGNetFDM2*>(net1 + 1);
+			net3 = reinterpret_cast<FGNetFDM3*>(net2 + 1);
+			break;
+		}
+	}
+
 }
 
 void FGOutputFGMod::Print(void) {
