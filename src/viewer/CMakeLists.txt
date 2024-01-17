@@ -22,6 +22,9 @@ if(VTK_LIBRARIES)
     scrimmage-protos
     scrimmage-boost
     ${VTK_LIBRARIES})
+	vtk_module_autoinit(
+		TARGETS ${LIBRARY_NAME}
+		MODULES ${VTK_LIBRARIES})
 else()
   target_link_libraries(${LIBRARY_NAME}
     scrimmage-core

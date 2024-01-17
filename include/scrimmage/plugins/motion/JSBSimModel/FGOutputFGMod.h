@@ -43,8 +43,8 @@ class FGOutputFGMod : public FGOutputFG {
  protected:
  private:
 	enum FGPacketVersion {
-		v24 = 24,
-		v25 = 25
+		v24 = 24, // FlightGear 2020.2 and earlier
+		v25 = 25  // FlightGear 2020.3 and later
 	};
 	// Max packet size
 	static constexpr size_t s = sizeof(FGNetFDM1) + sizeof(FGNetFDM2) + sizeof(FGNetFDM3);
