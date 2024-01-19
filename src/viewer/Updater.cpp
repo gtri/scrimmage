@@ -84,8 +84,9 @@
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
 #include <vtksys/SystemTools.hxx>
+#include <vtkTexture.h>
 
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
 #include <vtkCellLocator.h>
 #include <vtkGeoJSONReader.h>
 #include <vtkCellData.h>
@@ -922,7 +923,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
             vtkSmartPointer<vtkTextureMapToPlane>::New();
         texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
 
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
         if (utm->enable_extrusion()) {
             // Locate elevation data
             vtkSmartPointer<vtkCellLocator> cellLocator =
@@ -1034,7 +1035,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
         terrain_actor_->GetProperty()->SetColor(0, 0, 0);
 
         renderer_->AddActor(terrain_actor_);
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
         if (utm->enable_extrusion())
             renderer_->AddActor(extrusion_actor_);
 #endif

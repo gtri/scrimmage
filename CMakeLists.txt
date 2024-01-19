@@ -200,10 +200,11 @@ endif()
 
 find_package(VTK NO_MODULE)
 if (${VTK_FOUND})
-	if (${VTK_MAJOR_VERSION} GREATER 7)
+	if (${VTK_MAJOR_VERSION} EQUAL 9)
 		message("VTK9 Detected")
       set(OPENGL_MODULE RenderingOpenGL2)
-			set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+      #set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+      set(EXTRUSION_MODULES FiltersModeling)
 			set(VTK_MODULES
 					FiltersSources
 					FiltersTexture
