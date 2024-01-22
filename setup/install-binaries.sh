@@ -125,11 +125,11 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     echo "Detected Ubuntu 22"
     PYTHON_VERSION="3"  #Force Only Python 3 install for Jammy
     DEPS_DPKG+=(
-    libvtk7-qt-dev
+    libvtk9-qt-dev
     libgrpc-dev
     libgrpc++-dev
     tcl-vtk7
-    libvtk7-dev
+    libvtk9-dev
     protobuf-compiler
     protobuf-compiler-grpc
     pybind11-dev
