@@ -14,7 +14,6 @@ set(SRCS
     common/VariableIO.cpp
     common/Battery.cpp
     common/Shape.cpp
-    common/TerrainEvaluator.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     entity/EntityPlugin.cpp
     log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
