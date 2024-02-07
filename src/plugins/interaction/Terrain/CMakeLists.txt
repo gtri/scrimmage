@@ -17,6 +17,7 @@ target_compile_options(${LIBRARY_NAME}
 )
 
 target_link_libraries(${LIBRARY_NAME}
+  gdal
   Boost::boost
   scrimmage-core
 )

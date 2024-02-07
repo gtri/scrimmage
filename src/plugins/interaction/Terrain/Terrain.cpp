@@ -68,9 +68,11 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
         std::string terrain_topic = "Elevation"; // Eventually get from params
 
         terrain_filename = parent()->mp()->utm_terrain()->poly_data_file();
+        std::cout << "Terrain: " << terrain_filename << std::endl;
         successful_init_ = terrain_map_->init(
+            terrain_filename,
             parent()->mp()->utm_terrain()->zone(),
-            terrain_filename);
+            parent()->mp()->utm_terrain()->hemisphere() == "NORTH");
 
         if(successful_init_) {
           pub_terrain_ = advertise("GlobalNetwork", terrain_topic);

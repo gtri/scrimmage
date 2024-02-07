@@ -43,14 +43,19 @@ namespace scrimmage {
       public:
         TerrainMap(); 
 
-        bool init(int utm_zone_, std::string filename);
+        bool init(
+            const std::string filename,
+            const int utm_zone,
+            const bool northern_hemisphere = true);
 
         // ----- Query Functions ----
         std::optional<double> queryTerrain(const double xpos, const double ypos) const;
         int utm_zone() { return utm_zone_; }
+        bool northern_hemisphere() { return utm_northern_hemisphere_; }
 
       protected:
-        bool initFromVTK(std::string filename);
+        bool initFromVTK(const std::string filename);
+        bool initFromDTED(const std::string filename);
 
         void search_y(std::vector<double> const& y_vec,
             double positionY, int* y_index, int *vec_width) const;
@@ -59,12 +64,14 @@ namespace scrimmage {
             double positionX, int search_start, int vec_width, int *x_index) const;
 
         int utm_zone_;
+        bool utm_northern_hemisphere_;
 
         std::array<std::vector<double>, 3> elevation_map_;
 
       private:
     };
 
+    using TerrainMapPtr = std::shared_ptr<TerrainMap>;
   } // namespace interaction
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_

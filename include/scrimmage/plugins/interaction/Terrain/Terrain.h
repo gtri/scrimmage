@@ -34,16 +34,14 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 
 #include <list>
 #include <map>
-#include <memory>
 #include <string>
 
 namespace scrimmage {
   namespace interaction {
-    class TerrainMap;
-    using TerrainMapPtr = std::shared_ptr<TerrainMap>;
 
     class Terrain: public EntityInteraction {
       public:

@@ -69,7 +69,6 @@ TerrainCollision::TerrainCollision()    : remove_on_collision_(true),
 
 bool TerrainCollision::init(std::map<std::string, std::string> &mission_params,
                                std::map<std::string, std::string> &plugin_params) {
-    
     std::string terrain_str = sc::get<std::string>("terrain_interaction", plugin_params, "grandcanyon.vtk");
     sc::common::TerrainEvaluator terrain;
     // terrain.terrain_utm_zone = sc::get<int>("utm_zone", plugin_params, 12);
