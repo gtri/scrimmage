@@ -91,6 +91,8 @@ class TerrainMap {
     unsigned int num_x_cols_ = x_length_ / x_resolution_;
     unsigned int num_y_rows_ = y_length_ / y_resolution_;
 
+    std::size_t stride_;
+
     class Node {
      public:
         double height = 0;

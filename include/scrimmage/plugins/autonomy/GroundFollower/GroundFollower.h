@@ -37,8 +37,8 @@
 
 #include <Eigen/Dense>
 
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <scrimmage/plugins/interaction/Terrain/Terrain.h>
+#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <map>
 #include <string>
 #include <memory>

@@ -32,6 +32,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
 
+#include <vtkPolyData.h>
+#include <vtkSmartPointer.h>
 #include <memory>
 #include <optional>
 #include <string>
@@ -43,30 +45,47 @@ namespace scrimmage {
       public:
         TerrainMap(); 
 
-        bool init(
+        virtual bool init(
             const std::string filename,
             const int utm_zone,
-            const bool northern_hemisphere = true);
+            const bool northern_hemisphere = true) = 0;
+
+        // I don't really like this here
+        vtkSmartPointer<vtkPolyData> ToPolyData(); 
 
         // ----- Query Functions ----
-        std::optional<double> queryTerrain(const double xpos, const double ypos) const;
+        virtual std::optional<double> QueryUTM(
+            const double easting, const double northing) const = 0;
+
+        virtual std::optional<double> QueryLongLat(
+            const double longitude, const double latitude) const = 0;
+
+        // ----- Accessors -------
         int utm_zone() { return utm_zone_; }
         bool northern_hemisphere() { return utm_northern_hemisphere_; }
 
-      protected:
-        bool initFromVTK(const std::string filename);
-        bool initFromDTED(const std::string filename);
 
-        void search_y(std::vector<double> const& y_vec,
+      protected:
+        //bool InitFromVTK(const std::string filename);
+        //bool InitFromDTED(const std::string filename);
+        
+        std::optional<double> QueryTerrain(
+            const double xpos, const double ypos) const;
+  
+        void SearchY(std::vector<double> const& y_vec,
             double positionY, int* y_index, int *vec_width) const;
 
-        void search_x(std::vector<double> const& x_vec,
+        void SearchX(std::vector<double> const& x_vec,
             double positionX, int search_start, int vec_width, int *x_index) const;
+        
 
         int utm_zone_;
         bool utm_northern_hemisphere_;
+        std::size_t stride_;
 
         std::array<std::vector<double>, 3> elevation_map_;
+
+        std::size_t number_points() { return elevation_map_[0].size(); }
 
       private:
     };

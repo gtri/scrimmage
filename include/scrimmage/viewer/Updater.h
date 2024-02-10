@@ -290,6 +290,9 @@ class Updater : public vtkCommand {
                            std::string& texture_file, bool& texture_found,
                            double& base_scale, Quaternion& base_rot);
 
+    static vtkSmartPointer<vtkPolyData> ElevationToPolyData(
+        const std::array<std::vector<double>, 3>& elevation);
+
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;
     vtkSmartPointer<vtkRenderer> renderer_;

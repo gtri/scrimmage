@@ -31,6 +31,7 @@
 
 #include <scrimmage/plugins/interaction/Terrain/Terrain.h>
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/plugins/interaction/Terrain/DTEDTerrainMap.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -59,23 +60,26 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
       bool Terrain::init(std::map<std::string, std::string> &mission_params,
           std::map<std::string, std::string> &plugin_params) 
       {
-        terrain_map_ = std::make_shared<TerrainMap>();
         std::string terrain_filename = scrimmage::get<std::string>(
             "terrain_interaction",
             plugin_params,
             "");
-        
+
         std::string terrain_topic = "Elevation"; // Eventually get from params
 
         terrain_filename = parent()->mp()->utm_terrain()->poly_data_file();
         std::cout << "Terrain: " << terrain_filename << std::endl;
+
+        terrain_map_ = std::make_shared<DTEDTerrainMap>();
         successful_init_ = terrain_map_->init(
             terrain_filename,
             parent()->mp()->utm_terrain()->zone(),
-            parent()->mp()->utm_terrain()->hemisphere() == "NORTH");
+            parent()->mp()->utm_terrain()->hemisphere() == "north"); // <- problamatic
 
         if(successful_init_) {
           pub_terrain_ = advertise("GlobalNetwork", terrain_topic);
+        } else {
+          std::cout << "Unable to initalize terrain" << std::endl;
         }
         return true;
       }
@@ -86,8 +90,11 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
 
         // We only want to publish a ptr to a successfully initalized map
         if (!is_published_ && successful_init_) {
-          auto msg = std::make_shared<scrimmage::Message<TerrainMapPtr>>(terrain_map_);
+          auto msg = std::make_shared<
+            scrimmage::Message<TerrainMapPtr>>(terrain_map_);
           pub_terrain_->publish(msg);
+          std::cout << "Published Terrain Map" << std::endl;
+          is_published_ = true;
         }
         return true;
       }

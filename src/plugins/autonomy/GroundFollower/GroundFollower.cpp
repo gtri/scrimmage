@@ -52,6 +52,7 @@
 #include <GeographicLib/GeoCoords.hpp>
 
 #include <scrimmage/plugins/interaction/Terrain/Terrain.h>
+#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 
@@ -108,10 +109,12 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         };
         subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
 
-        auto map_cb = [&](scrimmage::MessagePtr<scrimmage::interaction::TerrainMapPtr> &msg) {
+        auto map_cb = [&](scrimmage::MessagePtr<interaction::TerrainMapPtr> &msg) {
           elevation_map_ = msg->data;
+          std::cout << "Got Elevation Map" << std::endl;
         };
-        subscribe<scrimmage::interaction::TerrainMapPtr>("GlobalNetwork", "Elevation", map_cb);
+        //Eventually get topic message from paramrs:
+        subscribe<interaction::TerrainMapPtr>("GlobalNetwork", "Elevation", map_cb);
 
         desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
         desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
@@ -139,19 +142,25 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
           double y_pos = state_->pos()(1);
           double z_pos = state_->pos()(2);
 
-
           parent_->projection()->Reverse(x_pos, y_pos, z_pos, lat, lon, alt);
 
-          GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat, lon, 
-              elevation_map_->utm_zone());
+          std::optional<double> elevation = elevation_map_->QueryLongLat(
+              lon, lat);
 
-          std::optional<double> elevation = elevation_map_->queryTerrain(
-              GC.Easting(), GC.Northing());
+          //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat, lon, 
+          //    elevation_map_->utm_zone());
+
+          //std::optional<double> elevation = elevation_map_->QueryTerrain(
+          //    GC.Easting(), GC.Northing());
 
           if (elevation.has_value()) {
             desired_alt_ = *elevation + target_height_;
+            std::cout << "Elevation " << *elevation << std::endl;
+          } else {
+            std::cout << "No elevation data" << std::endl;
           }
         }
+
 
         ///////////////////////////////////////////////////////////////////////////
         // Convert desired velocity to desired speed, heading, and pitch controls

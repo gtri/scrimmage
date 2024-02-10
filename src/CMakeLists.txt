@@ -22,6 +22,7 @@ set(SRCS
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
+    parse/DTEDParse.cpp
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -37,6 +38,22 @@ set(SRCS
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
 )
+
+set(CORE_LIBS
+    Boost::boost
+    Boost::filesystem
+    Boost::program_options
+    Boost::date_time
+    Boost::graph
+    Boost::thread
+    Boost::chrono
+    gdal
+)
+
+if(${VTK_FOUND})
+  set(SRCS ${SRCS} parse/VTKPolyDataParse.cpp)
+  set(CORE_LIBS ${CORE_LIBS} ${VTK_LIBRARIES})
+endif()
 
 add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
@@ -59,13 +76,7 @@ target_link_libraries(${LIBRARY_NAME}
     ${GeographicLib_LIBRARIES}
     ${CMAKE_DL_LIBS}
   PRIVATE
-    Boost::boost
-    Boost::filesystem
-    Boost::program_options
-    Boost::date_time
-    Boost::graph
-    Boost::thread
-    Boost::chrono
+    ${CORE_LIBS}
 )
 
 if(ENABLE_PYTHON_BINDINGS)
