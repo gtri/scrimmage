@@ -32,21 +32,23 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_DTEDPARSE_H_
 #define INCLUDE_SCRIMMAGE_PARSE_DTEDPARSE_H_
 
-#include <scrimmage/parse/TerrainParse.h>
-
 #include <array>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
-    class DTEDParse: public TerrainParse {
+    class DTEDParse {
       public:
-        DTEDParse(int utm_zone, bool northern_hemisphere); 
+        DTEDParse() = delete;
 
-        std::optional<std::array<std::vector<double>, 3>> Parse(const std::string& filename);
-      protected:
-        int utm_zone_;
-        bool utm_northern_hemisphere_;
+        static std::unique_ptr<std::array<std::vector<double>, 3>> Parse(
+            const std::string& filename);
+
+        static std::unique_ptr<std::array<std::vector<double>, 3>> ParseAsUTM(
+            const std::string& filename,
+            const int utm_zone,
+            const bool northern_hemisphere);
     };
 
 } // namespace scrimmage

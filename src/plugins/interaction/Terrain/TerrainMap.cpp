@@ -39,11 +39,9 @@
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/pubsub/Publisher.h>
 
-#include <vtkSmartPointer.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataReader.h>
-#include <gdal/gdal.h>
-#include <gdal/gdal_priv.h>
+//#include <vtkSmartPointer.h>
+//#include <vtkPolyData.h>
+//#include <vtkPolyDataReader.h>
 
 #include <algorithm>
 #include <array>
@@ -94,20 +92,20 @@ namespace scrimmage {
      * of the terrain. Copy the underlying data model to this format.
      * Skeptical of having this here
      */
-    vtkSmartPointer<vtkPolyData> TerrainMap::ToPolyData() {
-      vtkSmartPointer<vtkPolyData> polydata = vtkPolyData::New();
-      vtkSmartPointer<vtkPoints> points = vtkPoints::New();
-      std::size_t num_pts = number_points();
-      points->SetNumberOfPoints(num_pts); 
-      for (std::size_t i = 0; i < num_pts; i++) {
-        points->SetPoint(i,
-          elevation_map_[0][i],
-          elevation_map_[1][i],
-          elevation_map_[2][i]);
-      }
-      polydata->SetPoints(points);
-      return polydata;
-    }
+//    vtkSmartPointer<vtkPolyData> TerrainMap::ToPolyData() {
+//      vtkSmartPointer<vtkPolyData> polydata = vtkPolyData::New();
+//      vtkSmartPointer<vtkPoints> points = vtkPoints::New();
+//      std::size_t num_pts = number_points();
+//      points->SetNumberOfPoints(num_pts); 
+//      for (std::size_t i = 0; i < num_pts; i++) {
+//        points->SetPoint(i,
+//          elevation_map_[0][i],
+//          elevation_map_[1][i],
+//          elevation_map_[2][i]);
+//      }
+//      polydata->SetPoints(points);
+//      return polydata;
+//    }
 
     //bool TerrainMap::InitFromVTK(const std::string filename) {
     //  // Use vtkPolyReader
@@ -288,20 +286,19 @@ namespace scrimmage {
         const double xpos, const double ypos) const {
       // Do some checks here that we are within the 
       // boundary of terrain I suppose
-      int y_idx, x_idx;
-      if(stride_ == 0) { return std::nullopt; }
+      int y_idx, x_idx, stride;
 
-      const std::vector<double>& x_vec = elevation_map_[0];
-      const std::vector<double>& y_vec = elevation_map_[1];
-      const std::vector<double>& z_vec = elevation_map_[2];
+      const std::vector<double>& x_vec = elevation_map_->at(0);
+      const std::vector<double>& y_vec = elevation_map_->at(1);
+      const std::vector<double>& z_vec = elevation_map_->at(2);
 
       // Find the width" of the terrain. In otherwords, how many 
       // x-values corresond to a single y-value
-      //stride = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
+      stride = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
       y_idx = std::lower_bound(y_vec.begin(), y_vec.end(), ypos) - y_vec.begin(); 
 
       auto x_search_start = x_vec.begin() + y_idx;
-      x_idx = std::lower_bound(x_search_start, x_search_start + stride_, xpos) - x_vec.begin();
+      x_idx = std::lower_bound(x_search_start, x_search_start + stride, xpos) - x_vec.begin();
 
       // We may want to interpolate here at some point, as we are 
       // always selecting the lower bound of indicies. But for now 

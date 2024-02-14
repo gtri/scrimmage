@@ -33,17 +33,17 @@
 #define INCLUDE_SCRIMMAGE_PARSE_TERRAINPARSE_H_
 
 #include <array>
-#include <optional>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
     class TerrainParse {
       public:
-        TerrainParse() = default; 
+        TerrainParse() = delete; 
         virtual ~TerrainParse() = default; 
 
-        virtual std::optional<std::array<std::vector<double>, 3>> Parse(const std::string&) = 0;
+        virtual std::unique_ptr<std::array<std::vector<double>, 3>> Parse(const std::string&) = 0;
       protected:
     };
 } // namespace scrimmage

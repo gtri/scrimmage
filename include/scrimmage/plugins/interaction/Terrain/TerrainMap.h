@@ -46,12 +46,9 @@ namespace scrimmage {
         TerrainMap(); 
 
         virtual bool init(
-            const std::string filename,
+            const std::string& filename,
             const int utm_zone,
             const bool northern_hemisphere = true) = 0;
-
-        // I don't really like this here
-        vtkSmartPointer<vtkPolyData> ToPolyData(); 
 
         // ----- Query Functions ----
         virtual std::optional<double> QueryUTM(
@@ -60,9 +57,10 @@ namespace scrimmage {
         virtual std::optional<double> QueryLongLat(
             const double longitude, const double latitude) const = 0;
 
+
         // ----- Accessors -------
-        int utm_zone() { return utm_zone_; }
-        bool northern_hemisphere() { return utm_northern_hemisphere_; }
+        int utm_zone() const { return utm_zone_; }
+        bool northern_hemisphere() const { return utm_northern_hemisphere_; }
 
 
       protected:
@@ -81,11 +79,15 @@ namespace scrimmage {
 
         int utm_zone_;
         bool utm_northern_hemisphere_;
-        std::size_t stride_;
 
-        std::array<std::vector<double>, 3> elevation_map_;
-
-        std::size_t number_points() { return elevation_map_[0].size(); }
+        std::unique_ptr<std::array<std::vector<double>, 3>> elevation_map_;
+        std::size_t number_points() const { 
+          if(elevation_map_) {
+            return elevation_map_->at(0).size(); 
+          } else {
+            return 0;
+          }
+        }
 
       private:
     };

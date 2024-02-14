@@ -846,22 +846,35 @@ namespace scrimmage {
       terrain_texture->InterpolateOn();
 
       // Read the terrain polydata
-      //vtkSmartPointer<vtkPolyDataReader> terrain_reader1 =
-      //    vtkSmartPointer<vtkPolyDataReader>::New();
-      //terrain_reader1->SetFileName(utm->poly_data_file().c_str());
-      //terrain_reader1->Update();
 
-      VTKPolyDataParse vtkParser;     
-      DTEDParse dtedParse(utm->zone(), utm->hemisphere()=="north");
-      auto elevation_map = dtedParse.Parse(utm->poly_data_file());
-      if (!elevation_map) {
-        return true;
+      const std::string& utm_polydata_file = utm->poly_data_file();
+      const std::size_t extension_ind = utm_polydata_file.find_last_of("."); 
+      const std::string extension = utm_polydata_file.substr(extension_ind + 1);
+
+      if(extension_ind == std::string::npos) {
+        std::cout << "No file extension of terrain file found. Unable"
+          "to determine terrain file type\n";
+        return false;
       }
-
       vtkSmartPointer<vtkPolyData> polydata;
-      //        polydata = terrain_reader1->GetOutput();
-      polydata = ElevationToPolyData(*elevation_map);
+      if(extension.find("vtk", 0) == 0) {
+        vtkSmartPointer<vtkPolyDataReader> terrain_reader1 =
+          vtkSmartPointer<vtkPolyDataReader>::New();
+        terrain_reader1->SetFileName(utm_polydata_file.c_str());
+        terrain_reader1->Update();
+        polydata = terrain_reader1->GetOutput();
+      } else if(extension.find("dt", 0) == 0 && extension.size() == 3) {
+        std::unique_ptr<std::array<std::vector<double>, 3>> elevation_map
+          = DTEDParse::ParseAsUTM(utm_polydata_file, 
+              utm->zone(), 
+              utm->hemisphere() == "north");
 
+        if (!elevation_map) {
+          return true;
+        }
+
+        polydata = ElevationToPolyData(std::move(elevation_map));
+      }
 
       double bad_z_thresh = -90000;
       double testpoint[3];
@@ -2509,40 +2522,35 @@ namespace scrimmage {
     }
   }
 
-  vtkSmartPointer<vtkPolyData> Updater::ElevationToPolyData(const std::array<std::vector<double>, 3>& elevation) {
+  vtkSmartPointer<vtkPolyData> Updater::ElevationToPolyData(
+      std::unique_ptr<std::array<std::vector<double>, 3>> elevation) {
     vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkCellArray> quads = vtkSmartPointer<vtkCellArray>::New();
-    // Ugh this only works for vtk files b/c they're regular. DTED 
-    // files are not
-//    auto first_y = elevation[1].cbegin();
-//    auto last_y = elevation[1].cend();
-//    std::size_t num_cols = std::upper_bound(first_y, last_y, *first_y) - first_y;
-//
-    std::size_t num_cols = 0;
-    for(auto it = elevation[1].cbegin(); (it + 1) != elevation[1].cend(); it++) {
-      if(*it > *(it + 1)) {
-        num_cols = it - elevation[1].cbegin(); 
-        break;
-      }
-    }
-  
 
-    std::size_t num_pts = elevation[0].size();
-    std::size_t num_rows =  num_pts / num_cols;
-    std::size_t num_quads = (num_rows - 1) * (num_cols - 1);
-    
+    std::vector<double>& xs = elevation->at(0);
+    std::vector<double>& ys = elevation->at(1);
+    std::vector<double>& zs = elevation->at(2);
+
+    const std::size_t num_pts = xs.size();
+    std::size_t num_cols = 0;
+    for(; num_cols < num_pts - 1; num_cols++) {
+      if(xs.at(num_cols) > xs.at(num_cols + 1)) { break; }
+    }
+
+    const std::size_t num_rows =  num_pts / num_cols;
+    const std::size_t num_quads = (num_rows - 1) * (num_cols - 1);
+
     points->SetNumberOfPoints(num_pts); 
     quads->Allocate(quads->EstimateSize(num_quads, 4));
 
     std::cout << "Number of points from file: " << num_pts << std::endl;
     for (std::size_t i = 0; i < num_pts; i++) {
-      points->SetPoint(i,
-          elevation[0][i],
-          elevation[1][i],
-          elevation[2][i]);
+      points->SetPoint(i, xs[i], ys[i], zs[i]);
     }
 
+    // Specifiy how points are "stiched" together to 
+    // form a 2d topology
     vtkIdType quad[4];
     for(std::size_t row = 0; row < (num_rows - 1); row++) {
       for(std::size_t col = 0; col < (num_cols - 1); col++) {
@@ -2553,7 +2561,7 @@ namespace scrimmage {
         quads->InsertNextCell(4, quad);
       }
     }
-  
+
     polydata->SetPoints(points);
     polydata->SetPolys(quads);
 

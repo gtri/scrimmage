@@ -44,13 +44,9 @@
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataReader.h>
-#include <gdal/gdal.h>
-#include <gdal/gdal_priv.h>
 
-#include <algorithm>
 #include <array>
 #include <optional>
-#include <vector>
 
 namespace scrimmage {
   namespace interaction {
@@ -85,20 +81,6 @@ namespace scrimmage {
      * of the terrain. Copy the underlying data model to this format.
      * Skeptical of having this here
      */
-    vtkSmartPointer<vtkPolyData> TerrainMap::ToPolyData() {
-      vtkSmartPointer<vtkPolyData> polydata = vtkPolyData::New();
-      vtkSmartPointer<vtkPoints> points = vtkPoints::New();
-      std::size_t num_pts = number_points();
-      points->SetNumberOfPoints(num_pts); 
-      for (int i = 0; i < num_pts; i++) {
-        points->SetPoint(i,
-          elevation_map_[0][i],
-          elevation_map_[1][i],
-          elevation_map_[2][i]);
-      }
-      polydata->SetPoints(points);
-      return polydata;
-    }
 
     bool VTKTerrainMap::InitFromVTK(const std::string filename) {
       // Use vtkPolyReader
@@ -120,7 +102,7 @@ namespace scrimmage {
 
       std::size_t num_pts = polydata->GetNumberOfPoints();
       for(int i = 0; i < 3; i++) {
-        elevation_map_[i].reserve(num_pts);
+        elevation_map_->at(i).reserve(num_pts);
       }
 
       for(size_t n = 0; n < num_pts; n++){
@@ -129,12 +111,10 @@ namespace scrimmage {
         std::array<double, 3> tmp_point;
         polydata->GetPoint(static_cast<vtkIdType>(n), tmp_point.data());
         //Sort for binary lookup? 
-        elevation_map_[0].push_back(tmp_point[0]);
-        elevation_map_[1].push_back(tmp_point[1]);
-        elevation_map_[2].push_back(tmp_point[2]);
+        elevation_map_->at(0).push_back(tmp_point[0]);
+        elevation_map_->at(1).push_back(tmp_point[1]);
+        elevation_map_->at(2).push_back(tmp_point[2]);
       }
-      auto& y_vec = elevation_map_[1];
-      stride_ = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
       return true;
     }
 

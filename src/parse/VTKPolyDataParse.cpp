@@ -38,11 +38,13 @@
 #include <array>
 #include <optional>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
 
-    std::optional<std::array<std::vector<double>, 3>> VTKPolyDataParse::Parse(const std::string& filename) {
-      std::array<std::vector<double>, 3> elevation_map;
+    std::unique_ptr<std::array<std::vector<double>, 3>> VTKPolyDataParse::Parse(const std::string& filename) {
+      auto elevation_map = std::make_unique<std::array<std::vector<double>, 3>>();
+
       vtkSmartPointer<vtkPolyDataReader> elevation_reader =
         vtkSmartPointer<vtkPolyDataReader>::New();
 
@@ -51,7 +53,7 @@ namespace scrimmage {
       if (!validFile) { 
         std::cout << "Invalid VTK File: \'" << filename <<
           "\'. Elevation information is unavailable\n";
-        return std::nullopt; 
+        return nullptr;
       }
 
       elevation_reader->Update();
@@ -60,7 +62,7 @@ namespace scrimmage {
 
       std::size_t num_pts = polydata->GetNumberOfPoints();
       for(int i = 0; i < 3; i++) {
-        elevation_map[i].reserve(num_pts);
+        elevation_map->at(i).reserve(num_pts);
       }
 
       for(size_t n = 0; n < num_pts; n++){
@@ -69,10 +71,10 @@ namespace scrimmage {
         std::array<double, 3> tmp_point;
         polydata->GetPoint(static_cast<vtkIdType>(n), tmp_point.data());
         //Sort for binary lookup? 
-        elevation_map[0].push_back(tmp_point[0]);
-        elevation_map[1].push_back(tmp_point[1]);
-        elevation_map[2].push_back(tmp_point[2]);
+        elevation_map->at(0).push_back(tmp_point[0]);
+        elevation_map->at(1).push_back(tmp_point[1]);
+        elevation_map->at(2).push_back(tmp_point[2]);
       }
-      return std::make_optional(elevation_map);
+      return elevation_map;
     }
 } // namespace scrimmage

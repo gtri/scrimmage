@@ -291,7 +291,7 @@ class Updater : public vtkCommand {
                            double& base_scale, Quaternion& base_rot);
 
     static vtkSmartPointer<vtkPolyData> ElevationToPolyData(
-        const std::array<std::vector<double>, 3>& elevation);
+        std::unique_ptr<std::array<std::vector<double>, 3>> elevation);
 
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;

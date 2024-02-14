@@ -35,6 +35,9 @@
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <optional>
 #include <string>
+#include <vtkSmartPointer.h>
+#include <vtkPolyData.h>
+
 
 namespace scrimmage {
   namespace interaction {
@@ -43,17 +46,17 @@ namespace scrimmage {
         DTEDTerrainMap(); 
 
         bool init(
-            const std::string filename,
+            const std::string& filename,
             const int utm_zone,
-            const bool northern_hemisphere = true);
+            const bool northern_hemisphere = true) override;
 
         // ----- Query Functions ----
-        std::optional<double> QueryUTM(const double easting, const double northing) const;
-        std::optional<double> QueryLongLat(const double longitude, const double latitude) const;
+        std::optional<double> QueryUTM(const double easting, const double northing) const override;
+        std::optional<double> QueryLongLat(const double longitude, const double latitude) const override;
 
       protected:
-        //bool InitFromVTK(const std::string filename);
-        bool InitFromDTED(const std::string filename);
+        bool InitFromFile(const std::string& filename);
+
       private:
     };
 

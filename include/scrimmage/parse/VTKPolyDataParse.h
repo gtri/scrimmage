@@ -32,17 +32,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_VTKPOLYDATAPARSE_H_
 #define INCLUDE_SCRIMMAGE_PARSE_VTKPOLYDATAPARSE_H_
 
-#include <scrimmage/parse/TerrainParse.h>
-
 #include <array>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace scrimmage {
-    class VTKPolyDataParse: public TerrainParse {
+    class VTKPolyDataParse {
       public:
-        VTKPolyDataParse() {}; 
-        std::optional<std::array<std::vector<double>, 3>> Parse(const std::string& filename);
+        VTKPolyDataParse() = delete;; 
+        static std::unique_ptr<std::array<std::vector<double>, 3>> Parse(const std::string& filename);
     };
 
 } // namespace scrimmage
