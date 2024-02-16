@@ -52,10 +52,14 @@ namespace scrimmage {
 
         // ----- Query Functions ----
         virtual std::optional<double> QueryUTM(
-            const double easting, const double northing) const = 0;
+            const double easting, 
+            const double northing,
+            const bool interpolate = false) const = 0;
 
         virtual std::optional<double> QueryLongLat(
-            const double longitude, const double latitude) const = 0;
+            const double longitude, 
+            const double latitude,
+            const bool interpolate = false) const = 0;
 
 
         // ----- Accessors -------
@@ -66,19 +70,23 @@ namespace scrimmage {
       protected:
         //bool InitFromVTK(const std::string filename);
         //bool InitFromDTED(const std::string filename);
-        
-        std::optional<double> QueryTerrain(
-            const double xpos, const double ypos) const;
-  
+
+        std::optional<double> Query(
+            const double xpos, const double ypos, const bool interpolate=true) const;
+
         void SearchY(std::vector<double> const& y_vec,
             double positionY, int* y_index, int *vec_width) const;
 
         void SearchX(std::vector<double> const& x_vec,
             double positionX, int search_start, int vec_width, int *x_index) const;
-        
+
+        double Interpolate(const double  xpos, 
+            const double ypos, 
+            const std::size_t pt_idx0) const;
 
         int utm_zone_;
         bool utm_northern_hemisphere_;
+        std::size_t stride_;
 
         std::unique_ptr<std::array<std::vector<double>, 3>> elevation_map_;
         std::size_t number_points() const { 

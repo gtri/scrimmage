@@ -88,6 +88,7 @@
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
 #include <vtksys/SystemTools.hxx>
+#include <vtkQuad.h>
 
 #if VTK_MAJOR_VERSION > 6
 #include <vtkCellLocator.h>
@@ -857,6 +858,7 @@ namespace scrimmage {
         return false;
       }
       vtkSmartPointer<vtkPolyData> polydata;
+      vtkSmartPointer<vtkCellArray> polys;
       if(extension.find("vtk", 0) == 0) {
         vtkSmartPointer<vtkPolyDataReader> terrain_reader1 =
           vtkSmartPointer<vtkPolyDataReader>::New();
@@ -872,7 +874,6 @@ namespace scrimmage {
         if (!elevation_map) {
           return true;
         }
-
         polydata = ElevationToPolyData(std::move(elevation_map));
       }
 
@@ -2535,7 +2536,10 @@ namespace scrimmage {
     const std::size_t num_pts = xs.size();
     std::size_t num_cols = 0;
     for(; num_cols < num_pts - 1; num_cols++) {
-      if(xs.at(num_cols) > xs.at(num_cols + 1)) { break; }
+      if(xs.at(num_cols) > xs.at(num_cols + 1)) { 
+        num_cols++;
+        break;
+      }
     }
 
     const std::size_t num_rows =  num_pts / num_cols;
@@ -2544,11 +2548,10 @@ namespace scrimmage {
     points->SetNumberOfPoints(num_pts); 
     quads->Allocate(quads->EstimateSize(num_quads, 4));
 
-    std::cout << "Number of points from file: " << num_pts << std::endl;
+
     for (std::size_t i = 0; i < num_pts; i++) {
       points->SetPoint(i, xs[i], ys[i], zs[i]);
     }
-
     // Specifiy how points are "stiched" together to 
     // form a 2d topology
     vtkIdType quad[4];
@@ -2565,8 +2568,6 @@ namespace scrimmage {
     polydata->SetPoints(points);
     polydata->SetPolys(quads);
 
-    std::cout << "Polydata has " << polydata->GetNumberOfPoints() << " points" << std::endl;
-    std::cout << "Polydata has " << polydata->GetNumberOfPolys() << " polygons" << std::endl;
     return polydata;
   }
 } // namespace scrimmage

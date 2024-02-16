@@ -68,7 +68,10 @@ namespace scrimmage {
           << " and " << max_utm_zone << "\n";
         return false;
       }
-      return InitFromFile(filename);
+      bool init_success = InitFromFile(filename);
+      const std::vector<double>& y_vec = elevation_map_->at(1);
+      stride_ = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
+      return init_success;
     }
 
     bool DTEDTerrainMap::InitFromFile(const std::string& filename) {
@@ -89,29 +92,16 @@ namespace scrimmage {
      * search using std::upper_bound/lower_bound).
      */
     std::optional<double> DTEDTerrainMap::QueryLongLat(
-        const double longitude, const double latitude) const {
-      // Do some checks here that we are within the 
-      // boundary of terrain I suppose
-      int y_idx, x_idx, stride;
-
-      const std::vector<double>& x_vec = elevation_map_->at(0);
-      const std::vector<double>& y_vec = elevation_map_->at(1);
-      const std::vector<double>& z_vec = elevation_map_->at(2);
-
-      // Find the width" of the terrain. In otherwords, how many 
-      // x-values corresond to a single y-value
-      // X Y coords might be messed up
-      stride = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
-      y_idx = std::lower_bound(y_vec.begin(), y_vec.end(), latitude) - y_vec.begin(); 
-
-      auto x_search_start = x_vec.begin() + y_idx;
-      x_idx = std::lower_bound(x_search_start, x_search_start + stride, longitude) - x_vec.begin();
-
-      return  z_vec[x_idx];
+        const double longitude, 
+        const double latitude, 
+        const bool interpolate) const {
+      return Query(longitude, latitude, interpolate);
     }
 
     std::optional<double> DTEDTerrainMap::QueryUTM(
-        const double easting, const double northing) const {
+        const double easting, 
+        const double northing,
+        const bool interpolate) const {
       
       GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(
           utm_zone_, 

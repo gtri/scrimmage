@@ -43,16 +43,23 @@ namespace scrimmage {
         VTKTerrainMap(); 
 
         bool init(
-            const std::string filename,
+            const std::string& filename,
             const int utm_zone,
-            const bool northern_hemisphere = true);
+            const bool northern_hemisphere = true) override;
 
         // ----- Query Functions ----
-        std::optional<double> QueryUTM(const double easting, const double northing) const;
-        std::optional<double> QueryLongLat(const double longitude, const double latitude) const;
+        std::optional<double> QueryUTM(
+            const double easting, 
+            const double northing, 
+            const bool interpolate = false) const override;
+
+        std::optional<double> QueryLongLat(
+            const double longitude, 
+            const double latitude,
+            const bool interpolate = false) const override;
 
       protected:
-        bool InitFromVTK(const std::string filename);
+        bool InitFromFile(const std::string& filename);
       private:
     };
 

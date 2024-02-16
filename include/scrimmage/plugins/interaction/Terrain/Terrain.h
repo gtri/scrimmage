@@ -55,6 +55,7 @@ namespace scrimmage {
 
       private:
         bool is_published_, successful_init_;
+        std::string terrain_topic_;
         scrimmage::PublisherPtr pub_terrain_;
         TerrainMapPtr terrain_map_;
     };

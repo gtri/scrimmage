@@ -53,7 +53,7 @@ namespace scrimmage {
 
     VTKTerrainMap::VTKTerrainMap() {}
 
-    bool VTKTerrainMap::init(const std::string filename, const int utm_zone, const bool northern_hemisphere) {
+    bool VTKTerrainMap::init(const std::string& filename, const int utm_zone, const bool northern_hemisphere) {
       constexpr int max_utm_zone = 60;
       constexpr int min_utm_zone = 1;
       utm_zone_ = utm_zone;
@@ -72,7 +72,11 @@ namespace scrimmage {
           "to determine terrain file type\n";
         return false;
       }
-      return InitFromVTK(filename);
+      bool init_success = InitFromFile(filename);
+      const std::vector<double>& y_vec = elevation_map_->at(1);
+      stride_ = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
+      return init_success;
+
     }
 
     /*
@@ -82,7 +86,7 @@ namespace scrimmage {
      * Skeptical of having this here
      */
 
-    bool VTKTerrainMap::InitFromVTK(const std::string filename) {
+    bool VTKTerrainMap::InitFromFile(const std::string& filename) {
       // Use vtkPolyReader
       // Read the terrain polydata
       vtkSmartPointer<vtkPolyDataReader> elevation_reader =
@@ -119,17 +123,21 @@ namespace scrimmage {
     }
 
       std::optional<double> VTKTerrainMap::QueryUTM(
-          const double easting, const double northing) const  {
+          const double easting, 
+          const double northing,
+          const bool interpolate) const  {
         // Default Coordinates are already in easting/northing
-        return QueryTerrain(easting, northing);
+        return Query(easting, northing, interpolate);
       }
 
       std::optional<double> VTKTerrainMap::QueryLongLat(
-          const double longitude, const double latitude) const {
+          const double longitude, 
+          const double latitude,
+          const bool interpolate) const {
         GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(
             latitude, longitude,
             utm_zone_);
-          return QueryUTM(GC.Easting(), GC.Northing());
+          return QueryUTM(GC.Easting(), GC.Northing(), interpolate);
       }
 
   } // namespace interaction

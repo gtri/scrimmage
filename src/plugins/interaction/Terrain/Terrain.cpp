@@ -65,10 +65,12 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
             plugin_params,
             "");
 
-        std::string terrain_topic = "Elevation"; // Eventually get from params
+        terrain_topic_ = scrimmage::get<std::string>(
+            "terrain_data",
+            plugin_params,
+            "elevation");
 
         terrain_filename = parent()->mp()->utm_terrain()->poly_data_file();
-        std::cout << "Terrain: " << terrain_filename << std::endl;
 
         terrain_map_ = std::make_shared<DTEDTerrainMap>();
         successful_init_ = terrain_map_->init(
@@ -77,13 +79,12 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
             parent()->mp()->utm_terrain()->hemisphere() == "north"); // <- problamatic
 
         if(successful_init_) {
-          pub_terrain_ = advertise("GlobalNetwork", terrain_topic);
+          pub_terrain_ = advertise("GlobalNetwork", terrain_topic_);
         } else {
           std::cout << "Unable to initalize terrain" << std::endl;
         }
         return true;
       }
-
 
       bool Terrain::step_entity_interaction(std::list<sc::EntityPtr> &ents,
           double t, double dt) {
@@ -93,7 +94,6 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
           auto msg = std::make_shared<
             scrimmage::Message<TerrainMapPtr>>(terrain_map_);
           pub_terrain_->publish(msg);
-          std::cout << "Published Terrain Map" << std::endl;
           is_published_ = true;
         }
         return true;

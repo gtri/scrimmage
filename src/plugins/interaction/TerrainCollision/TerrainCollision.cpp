@@ -48,6 +48,9 @@
 #include <memory>
 #include <limits>
 #include <iostream>
+#include <scrimmage/plugins/interaction/Terrain/Terrain.h>
+#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 using std::cout;
 using std::endl;
@@ -69,30 +72,34 @@ TerrainCollision::TerrainCollision()    : remove_on_collision_(true),
 
 bool TerrainCollision::init(std::map<std::string, std::string> &mission_params,
                                std::map<std::string, std::string> &plugin_params) {
-    std::string terrain_str = sc::get<std::string>("terrain_interaction", plugin_params, "grandcanyon.vtk");
-    sc::common::TerrainEvaluator terrain;
-    // terrain.terrain_utm_zone = sc::get<int>("utm_zone", plugin_params, 12);
-    terrain.terrain_utm_zone = parent()->mp()->utm_terrain()->zone();
-    std::cout << "[TC] Terrain UTM Zone: " << terrain.terrain_utm_zone << std::endl;
-    std::cout << "[TC] Terrain file: " << parent()->mp()->utm_terrain()->poly_data_file() << std::endl;
+         
+        std::string terrain_topic = scrimmage::get<std::string>(
+            "terrain_data",
+            plugin_params,
+            "elevation");
 
-    terrain.create_elevation_matrix(parent()->mp()->utm_terrain()->poly_data_file());
+        interpolate_ = scrimmage::get<bool>(
+            "interpolate_terrain",
+            plugin_params,
+            false);
 
-    //collision_pub_ = advertise("GlobalNetwork", "GroundCollision");
-
-    return true;
-
+        auto terrain_cb = [&](scrimmage::MessagePtr<interaction::TerrainMapPtr> &msg) {
+          elevation_map_ = msg->data;
+        };
+        //Eventually get topic message from paramrs:
+        subscribe<interaction::TerrainMapPtr>(
+            "GlobalNetwork", terrain_topic, terrain_cb);
+        return true;
 }
 
 
 bool TerrainCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                                   double t, double dt) {
-    sc::common::TerrainEvaluator terrain;
+    if(!elevation_map_) {
+      return true;
+    }
     for (sc::EntityPtr ent : ents)
     {
-        if (ent->properties().count("Flying") == 0) {
-            continue;
-        }
         //Position conversion to UTM
         double x = ent->state()->pos().x();
         double y = ent->state()->pos().y();
@@ -105,15 +112,16 @@ bool TerrainCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
 
         parent_->projection()->Reverse(x,y,z,lat,lon,alt);
         
-        GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat,lon,terrain.terrain_utm_zone);
+        //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat,lon, terrain.terrain_utm_zone);
 
+        bool collision = elevation_map_->QueryLongLat(lon, lat, interpolate_) >= z;
 
-        // is_collision expects UTM coordinates be sure to convert position from ENU -> lat/lon/alt -> UTM before calling function
-        if(terrain.is_collision(GC.Easting(), GC.Northing(), ent->state()->pos()(2))){
-
+        if(collision){
             ShapePtr segment = sc::shape::make_line(start, end, Eigen::Vector3d(255, 0, 0), 1);
             draw_shape(segment);
-            std::cout << "[TC] Terrain Collision: Agent " << ent->id().id() << std::endl;
+            std::cout << "[TC] Terrain Collision: Agent " << ent->id().id() << 
+              " Altitude: " << z << " m" << std::endl;
+
 
             ent->collision();
 

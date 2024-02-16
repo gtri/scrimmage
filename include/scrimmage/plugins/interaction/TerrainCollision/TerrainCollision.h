@@ -35,7 +35,7 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 
-#include <scrimmage/common/TerrainEvaluator.h>
+#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 
 #include <map>
 #include <list>
@@ -53,9 +53,11 @@ class TerrainCollision : public scrimmage::EntityInteraction {
                                  double t, double dt) override;
  protected:
  private:
+  TerrainMapPtr elevation_map_;
   scrimmage::PublisherPtr terrain_collision_pub_;
   bool remove_on_collision_;
   bool enable_startup_collisions_;
+  bool interpolate_;
   std::vector<std::vector<float> > terrain_matrix; // matrix of x,y,z values from VTK file
 
 

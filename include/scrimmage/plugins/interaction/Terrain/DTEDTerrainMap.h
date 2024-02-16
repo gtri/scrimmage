@@ -51,8 +51,14 @@ namespace scrimmage {
             const bool northern_hemisphere = true) override;
 
         // ----- Query Functions ----
-        std::optional<double> QueryUTM(const double easting, const double northing) const override;
-        std::optional<double> QueryLongLat(const double longitude, const double latitude) const override;
+        std::optional<double> QueryUTM(
+            const double easting, 
+            const double northing, 
+            const bool interpolate = false) const override;
+        std::optional<double> QueryLongLat(
+            const double longitude, 
+            const double latitude,
+            const bool interpolate = false) const override;
 
       protected:
         bool InitFromFile(const std::string& filename);

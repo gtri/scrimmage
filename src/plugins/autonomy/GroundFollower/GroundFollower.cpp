@@ -71,9 +71,8 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 
 
       void GroundFollower::init(std::map<std::string, std::string> &params) {
-        std::cout << "Using Ground Follower" << std::endl;
         speed_ = scrimmage::get("speed", params, 0.0);
-        target_height_ = sc::get("target_height", params, 50.0);
+        target_height_ = sc::get<double>("target_height", params, 50);
 
         // Project goal in front...
         Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
@@ -109,12 +108,15 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         };
         subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
 
-        auto map_cb = [&](scrimmage::MessagePtr<interaction::TerrainMapPtr> &msg) {
+        auto terrain_cb = [&](scrimmage::MessagePtr<interaction::TerrainMapPtr> &msg) {
           elevation_map_ = msg->data;
-          std::cout << "Got Elevation Map" << std::endl;
         };
         //Eventually get topic message from paramrs:
-        subscribe<interaction::TerrainMapPtr>("GlobalNetwork", "Elevation", map_cb);
+        std::string terrain_topic = scrimmage::get<std::string>(
+            "terrain_topic",
+            params,
+            "elevation");
+        subscribe<interaction::TerrainMapPtr>("GlobalNetwork", "elevation", terrain_cb);
 
         desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
         desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
@@ -145,7 +147,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
           parent_->projection()->Reverse(x_pos, y_pos, z_pos, lat, lon, alt);
 
           std::optional<double> elevation = elevation_map_->QueryLongLat(
-              lon, lat);
+              lon, lat, true);
 
           //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat, lon, 
           //    elevation_map_->utm_zone());
@@ -155,9 +157,6 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 
           if (elevation.has_value()) {
             desired_alt_ = *elevation + target_height_;
-            std::cout << "Elevation " << *elevation << std::endl;
-          } else {
-            std::cout << "No elevation data" << std::endl;
           }
         }
 
