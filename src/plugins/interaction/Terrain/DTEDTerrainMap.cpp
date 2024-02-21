@@ -61,6 +61,7 @@ namespace scrimmage {
       constexpr int min_utm_zone = 1;
       utm_zone_ = utm.zone();
       utm_northern_hemisphere_ = utm.hemisphere() == "north";
+      terrain_offset_ = utm.z_translate();
 
       if (utm_zone_ < min_utm_zone || utm_zone_ > max_utm_zone) {
         std::cout << "The utm zone \'" << utm_zone_ << "\' is invalid."
@@ -90,7 +91,7 @@ namespace scrimmage {
         const double longitude, 
         const double latitude, 
         const bool interpolate) const {
-      return elevation_grid_->Query(longitude, latitude, interpolate);
+      return elevation_grid_->Query(longitude, latitude, terrain_offset_, interpolate);
     }
 
     std::optional<double> DTEDTerrainMap::QueryUTM(
@@ -104,7 +105,7 @@ namespace scrimmage {
           easting,
           northing);
 
-      return QueryLongLat(GC.Latitude(), GC.Longitude());
+      return QueryLongLat(GC.Latitude(), GC.Longitude(), interpolate);
       
     }
   } // namespace interaction

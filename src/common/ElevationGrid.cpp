@@ -68,8 +68,10 @@ namespace scrimmage {
      * search using std::upper_bound/lower_bound).
      */
     std::optional<double> ElevationGrid::Query(
-        const double xpos, const double ypos, const bool interpolate) const {
+        const double xpos, const double ypos, 
+        const double z_offset, const bool interpolate) const {
       std::size_t y_idx, pt_idx;
+      double elevation;
 
       // Find the width" of the terrain. In otherwords, how many 
       // x-values corresond to a single y-value
@@ -79,14 +81,11 @@ namespace scrimmage {
       pt_idx = std::lower_bound(x_search_start, x_search_start + stride_, xpos) - x_.begin();
 
       if (interpolate) {
-        return Interpolate(xpos, ypos, pt_idx);
+        elevation = Interpolate(xpos, ypos, pt_idx);
+      } else {
+        elevation = z_[pt_idx];
       }
-
-      // We may want to interpolate here at some point, as we are 
-      // always selecting the lower bound of indicies. But for now 
-      // just reutrn the z-value
-
-      return  z_[pt_idx];
+      return elevation - z_offset;
     }
 
     /*

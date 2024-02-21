@@ -45,7 +45,10 @@ namespace scrimmage {
             std::vector<double>&& z); 
 
         std::optional<double> Query(
-            const double xpos, const double ypos, const bool interpolate=false) const;
+            const double xpos, 
+            const double ypos, 
+            const double z_offset = 0,
+            const bool interpolate = false) const;
 
         void GetPoint(std::size_t index, std::array<double, 3>& buffer) const {
           buffer[0] = x_[index];

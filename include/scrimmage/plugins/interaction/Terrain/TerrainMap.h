@@ -68,6 +68,7 @@ namespace scrimmage {
 
         int utm_zone_;
         bool utm_northern_hemisphere_;
+        double terrain_offset_;
 
       private:
     };
