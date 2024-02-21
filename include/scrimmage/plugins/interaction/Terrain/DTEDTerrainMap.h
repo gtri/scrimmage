@@ -33,10 +33,10 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_DTEDTERRAINMAP_DTEDTERRAINMAP_H_
 
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/proto/Visual.pb.h>
+
 #include <optional>
 #include <string>
-#include <vtkSmartPointer.h>
-#include <vtkPolyData.h>
 
 
 namespace scrimmage {
@@ -45,10 +45,7 @@ namespace scrimmage {
       public:
         DTEDTerrainMap(); 
 
-        bool init(
-            const std::string& filename,
-            const int utm_zone,
-            const bool northern_hemisphere = true) override;
+        bool init (const scrimmage_proto::UTMTerrain& utm) override;
 
         // ----- Query Functions ----
         std::optional<double> QueryUTM(

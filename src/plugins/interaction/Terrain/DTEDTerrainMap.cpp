@@ -32,16 +32,16 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <scrimmage/plugins/interaction/Terrain/DTEDTerrainMap.h>
+#include <scrimmage/parse/TerrainReaders/DTEDReader.h>
+#include <scrimmage/proto/Visual.pb.h>
+
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/parse/DTEDParse.h>
 
-#include <gdal/gdal.h>
-#include <gdal/gdal_priv.h>
 #include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/GeoCoords.hpp>
 
@@ -56,28 +56,23 @@ namespace scrimmage {
 
     DTEDTerrainMap::DTEDTerrainMap() {};
 
-    bool DTEDTerrainMap::init(const std::string& filename, const int utm_zone, const bool northern_hemisphere) {
+    bool DTEDTerrainMap::init(const scrimmage_proto::UTMTerrain& utm) {
       constexpr int max_utm_zone = 60;
       constexpr int min_utm_zone = 1;
-      utm_zone_ = utm_zone;
-      utm_northern_hemisphere_ = northern_hemisphere;
+      utm_zone_ = utm.zone();
+      utm_northern_hemisphere_ = utm.hemisphere() == "north";
 
       if (utm_zone_ < min_utm_zone || utm_zone_ > max_utm_zone) {
-        std::cout << "The utm zone \'" << utm_zone << "\' is invalid."
+        std::cout << "The utm zone \'" << utm_zone_ << "\' is invalid."
           "Valid Zones must be between " << min_utm_zone
           << " and " << max_utm_zone << "\n";
         return false;
       }
-      bool init_success = InitFromFile(filename);
-      const std::vector<double>& y_vec = elevation_map_->at(1);
-      stride_ = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
-      return init_success;
+      DTEDReader reader(utm.poly_data_file());
+      elevation_grid_ = reader.Parse();
+      return elevation_grid_ != nullptr;
     }
 
-    bool DTEDTerrainMap::InitFromFile(const std::string& filename) {
-      elevation_map_ = DTEDParse::Parse(filename);  
-      return true;
-    }
 
     /*
      * Queries terrain map by choosing the closest x and y positions  
@@ -95,7 +90,7 @@ namespace scrimmage {
         const double longitude, 
         const double latitude, 
         const bool interpolate) const {
-      return Query(longitude, latitude, interpolate);
+      return elevation_grid_->Query(longitude, latitude, interpolate);
     }
 
     std::optional<double> DTEDTerrainMap::QueryUTM(

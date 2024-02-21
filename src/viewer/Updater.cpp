@@ -32,14 +32,13 @@
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/DTEDParse.h>
-#include <scrimmage/parse/VTKPolyDataParse.h>
+#include <scrimmage/parse/TerrainReaders/DTEDReader.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/viewer/OriginAxes.h>
 #include <scrimmage/viewer/Updater.h>
@@ -866,15 +865,15 @@ namespace scrimmage {
         terrain_reader1->Update();
         polydata = terrain_reader1->GetOutput();
       } else if(extension.find("dt", 0) == 0 && extension.size() == 3) {
-        std::unique_ptr<std::array<std::vector<double>, 3>> elevation_map
-          = DTEDParse::ParseAsUTM(utm_polydata_file, 
-              utm->zone(), 
-              utm->hemisphere() == "north");
+        DTEDReader dted_reader(utm_polydata_file);
+        std::unique_ptr<std::array<std::vector<double>, 3>> elevation_grid
+          = dted_reader.ParseAsUTM(utm->zone(), utm->hemisphere() == "north");
 
-        if (!elevation_map) {
+        if (!elevation_grid) {
+          std::cout << "Could not create elevation grid from DTED\n";
           return true;
         }
-        polydata = ElevationToPolyData(std::move(elevation_map));
+        polydata = ElevationToPolyData(std::move(elevation_grid));
       }
 
       double bad_z_thresh = -90000;
@@ -2524,23 +2523,25 @@ namespace scrimmage {
   }
 
   vtkSmartPointer<vtkPolyData> Updater::ElevationToPolyData(
-      std::unique_ptr<std::array<std::vector<double>, 3>> elevation) {
+      std::unique_ptr<std::array<std::vector<double>, 3>> elevation_data) {
     vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkCellArray> quads = vtkSmartPointer<vtkCellArray>::New();
 
-    std::vector<double>& xs = elevation->at(0);
-    std::vector<double>& ys = elevation->at(1);
-    std::vector<double>& zs = elevation->at(2);
+    std::vector<double>& x = elevation_data->at(0);
+    std::vector<double>& y = elevation_data->at(1);
+    std::vector<double>& z = elevation_data->at(2);
+    
+    // Determine number of colums by finding the point where 
+    // the next x value is less than the current one. Can not use
+    // faster std::upper_bound method because there is 
+    // no gaurantee that y values are all in ascending order for this type of data
+    std::size_t num_cols;
+    auto it = x.begin();
+    for(; *(it + 1) > *(it) && it != (x.cend() - 1); it++);
+    num_cols = it - x.cbegin();
 
-    const std::size_t num_pts = xs.size();
-    std::size_t num_cols = 0;
-    for(; num_cols < num_pts - 1; num_cols++) {
-      if(xs.at(num_cols) > xs.at(num_cols + 1)) { 
-        num_cols++;
-        break;
-      }
-    }
+    const std::size_t num_pts = x.size();
 
     const std::size_t num_rows =  num_pts / num_cols;
     const std::size_t num_quads = (num_rows - 1) * (num_cols - 1);
@@ -2549,8 +2550,12 @@ namespace scrimmage {
     quads->Allocate(quads->EstimateSize(num_quads, 4));
 
 
+    std::array<double, 3> tmp_point;
     for (std::size_t i = 0; i < num_pts; i++) {
-      points->SetPoint(i, xs[i], ys[i], zs[i]);
+      tmp_point[0] = x[i];
+      tmp_point[1] = y[i];
+      tmp_point[2] = z[i];
+      points->SetPoint(i, tmp_point.data());
     }
     // Specifiy how points are "stiched" together to 
     // form a 2d topology

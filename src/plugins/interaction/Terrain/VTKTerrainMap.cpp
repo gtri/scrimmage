@@ -32,6 +32,7 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <scrimmage/plugins/interaction/Terrain/VTKTerrainMap.h>
+#include <scrimmage/parse/TerrainReaders/VTKTerrainReader.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
@@ -41,11 +42,6 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <GeographicLib/GeoCoords.hpp>
 
-#include <vtkSmartPointer.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataReader.h>
-
-#include <array>
 #include <optional>
 
 namespace scrimmage {
@@ -53,73 +49,23 @@ namespace scrimmage {
 
     VTKTerrainMap::VTKTerrainMap() {}
 
-    bool VTKTerrainMap::init(const std::string& filename, const int utm_zone, const bool northern_hemisphere) {
+    bool VTKTerrainMap::init(const scrimmage_proto::UTMTerrain& utm) {
       constexpr int max_utm_zone = 60;
       constexpr int min_utm_zone = 1;
-      utm_zone_ = utm_zone;
-      utm_northern_hemisphere_ = northern_hemisphere;
+      utm_zone_ = utm.zone();
+      utm_northern_hemisphere_ = utm.hemisphere() == "north";
 
       if (utm_zone_ < min_utm_zone || utm_zone_ > max_utm_zone) {
-        std::cout << "The utm zone \'" << utm_zone << "\' is invalid."
+        std::cout << "The utm zone \'" << utm_zone_ << "\' is invalid."
           "Valid Zones must be between " << min_utm_zone
           << " and " << max_utm_zone << "\n";
         return false;
       }
 
-      std::size_t extension_ind = filename.find_last_of("."); 
-      if(extension_ind == std::string::npos) {
-        std::cout << "No file extension of terrain file found. Unable"
-          "to determine terrain file type\n";
-        return false;
-      }
-      bool init_success = InitFromFile(filename);
-      const std::vector<double>& y_vec = elevation_map_->at(1);
-      stride_ = std::upper_bound(y_vec.begin(), y_vec.end(), y_vec[0]) - y_vec.begin();
-      return init_success;
+      VTKTerrainReader reader(utm.poly_data_file());
+      elevation_grid_ = reader.Parse();
+      return elevation_grid_ != nullptr;
 
-    }
-
-    /*
-     * The vtk renderer requires terrain data in the form of 
-     * polydata to correctly map a terrain image to a 3D rendering 
-     * of the terrain. Copy the underlying data model to this format.
-     * Skeptical of having this here
-     */
-
-    bool VTKTerrainMap::InitFromFile(const std::string& filename) {
-      // Use vtkPolyReader
-      // Read the terrain polydata
-      vtkSmartPointer<vtkPolyDataReader> elevation_reader =
-        vtkSmartPointer<vtkPolyDataReader>::New();
-
-      elevation_reader->SetFileName(filename.c_str());
-      bool validFile = elevation_reader->IsFilePolyData() != 0;
-      if (!validFile) { 
-        std::cout << "Invalid VTK File: \'" << filename <<
-          "\'. Elevation information is unavailable\n";
-        return false; 
-      }
-
-      elevation_reader->Update();
-      vtkSmartPointer<vtkPolyData> polydata;
-      polydata = elevation_reader->GetOutput();
-
-      std::size_t num_pts = polydata->GetNumberOfPoints();
-      for(int i = 0; i < 3; i++) {
-        elevation_map_->at(i).reserve(num_pts);
-      }
-
-      for(size_t n = 0; n < num_pts; n++){
-        // Copies the point information from polydata into the raw array
-        // of the elevation map
-        std::array<double, 3> tmp_point;
-        polydata->GetPoint(static_cast<vtkIdType>(n), tmp_point.data());
-        //Sort for binary lookup? 
-        elevation_map_->at(0).push_back(tmp_point[0]);
-        elevation_map_->at(1).push_back(tmp_point[1]);
-        elevation_map_->at(2).push_back(tmp_point[2]);
-      }
-      return true;
     }
 
       std::optional<double> VTKTerrainMap::QueryUTM(
@@ -127,7 +73,7 @@ namespace scrimmage {
           const double northing,
           const bool interpolate) const  {
         // Default Coordinates are already in easting/northing
-        return Query(easting, northing, interpolate);
+        return elevation_grid_->Query(easting, northing, interpolate);
       }
 
       std::optional<double> VTKTerrainMap::QueryLongLat(

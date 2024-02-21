@@ -29,29 +29,31 @@
  *
  */
 
-#include <scrimmage/parse/VTKPolyDataParse.h>
+#include <scrimmage/parse/TerrainReaders/VTKTerrainReader.h>
 
-#include <vtkPolyData.h>
 #include <vtkPolyDataReader.h>
+#include <vtkPolyData.h>
 #include <vtkSmartPointer.h>
 
 #include <array>
-#include <optional>
 #include <vector>
 #include <memory>
 
 namespace scrimmage {
 
-    std::unique_ptr<std::array<std::vector<double>, 3>> VTKPolyDataParse::Parse(const std::string& filename) {
-      auto elevation_map = std::make_unique<std::array<std::vector<double>, 3>>();
+    VTKTerrainReader::VTKTerrainReader(std::string filename):
+      filename_(filename) {}
+
+    std::unique_ptr<common::ElevationGrid> VTKTerrainReader::Parse() const {
+      std::unique_ptr<common::ElevationGrid> elevation_grid = nullptr;
 
       vtkSmartPointer<vtkPolyDataReader> elevation_reader =
         vtkSmartPointer<vtkPolyDataReader>::New();
 
-      elevation_reader->SetFileName(filename.c_str());
+      elevation_reader->SetFileName(filename_.c_str());
       bool validFile = elevation_reader->IsFilePolyData() != 0;
       if (!validFile) { 
-        std::cout << "Invalid VTK File: \'" << filename <<
+        std::cout << "Invalid VTK File: \'" << filename_ <<
           "\'. Elevation information is unavailable\n";
         return nullptr;
       }
@@ -60,10 +62,11 @@ namespace scrimmage {
       vtkSmartPointer<vtkPolyData> polydata;
       polydata = elevation_reader->GetOutput();
 
+      std::vector<double> x, y, z;
       std::size_t num_pts = polydata->GetNumberOfPoints();
-      for(int i = 0; i < 3; i++) {
-        elevation_map->at(i).reserve(num_pts);
-      }
+      x.reserve(num_pts);
+      y.reserve(num_pts);
+      z.reserve(num_pts);
 
       for(size_t n = 0; n < num_pts; n++){
         // Copies the point information from polydata into the raw array
@@ -71,10 +74,12 @@ namespace scrimmage {
         std::array<double, 3> tmp_point;
         polydata->GetPoint(static_cast<vtkIdType>(n), tmp_point.data());
         //Sort for binary lookup? 
-        elevation_map->at(0).push_back(tmp_point[0]);
-        elevation_map->at(1).push_back(tmp_point[1]);
-        elevation_map->at(2).push_back(tmp_point[2]);
+        x.push_back(tmp_point[0]);
+        y.push_back(tmp_point[0]);
+        z.push_back(tmp_point[0]);
       }
-      return elevation_map;
+      elevation_grid = std::make_unique<common::ElevationGrid>(
+          std::move(x), std::move(y), std::move(z));
+      return elevation_grid;
     }
 } // namespace scrimmage

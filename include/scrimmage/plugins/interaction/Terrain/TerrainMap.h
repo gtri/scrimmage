@@ -32,12 +32,11 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
 
-#include <vtkPolyData.h>
-#include <vtkSmartPointer.h>
+#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/proto/Visual.pb.h>
+
 #include <memory>
 #include <optional>
-#include <string>
-#include <vector>
 
 namespace scrimmage {
   namespace interaction {
@@ -45,10 +44,7 @@ namespace scrimmage {
       public:
         TerrainMap(); 
 
-        virtual bool init(
-            const std::string& filename,
-            const int utm_zone,
-            const bool northern_hemisphere = true) = 0;
+        virtual bool init(const scrimmage_proto::UTMTerrain& utm) = 0;
 
         // ----- Query Functions ----
         virtual std::optional<double> QueryUTM(
@@ -68,34 +64,10 @@ namespace scrimmage {
 
 
       protected:
-        //bool InitFromVTK(const std::string filename);
-        //bool InitFromDTED(const std::string filename);
-
-        std::optional<double> Query(
-            const double xpos, const double ypos, const bool interpolate=true) const;
-
-        void SearchY(std::vector<double> const& y_vec,
-            double positionY, int* y_index, int *vec_width) const;
-
-        void SearchX(std::vector<double> const& x_vec,
-            double positionX, int search_start, int vec_width, int *x_index) const;
-
-        double Interpolate(const double  xpos, 
-            const double ypos, 
-            const std::size_t pt_idx0) const;
+        std::unique_ptr<common::ElevationGrid> elevation_grid_;
 
         int utm_zone_;
         bool utm_northern_hemisphere_;
-        std::size_t stride_;
-
-        std::unique_ptr<std::array<std::vector<double>, 3>> elevation_map_;
-        std::size_t number_points() const { 
-          if(elevation_map_) {
-            return elevation_map_->at(0).size(); 
-          } else {
-            return 0;
-          }
-        }
 
       private:
     };

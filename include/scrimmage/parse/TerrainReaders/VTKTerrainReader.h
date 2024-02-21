@@ -29,27 +29,30 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PARSE_DTEDPARSE_H_
-#define INCLUDE_SCRIMMAGE_PARSE_DTEDPARSE_H_
+#ifndef INCLUDE_SCRIMMAGE_PARSE_TERRAINREADEERS_VTKTERRAINREADER_H_
+#define INCLUDE_SCRIMMAGE_PARSE_TERRAINREADEERS_VTKTERRAINREADER_H_
 
-#include <array>
+#include <scrimmage/parse/TerrainReaders/TerrainReader.h>
+#include <scrimmage/common/ElevationGrid.h>
+
 #include <string>
-#include <vector>
-#include <memory>
 
 namespace scrimmage {
-    class DTEDParse {
+    class VTKTerrainReader : public TerrainReader {
       public:
-        DTEDParse() = delete;
+        VTKTerrainReader(std::string filename);
 
-        static std::unique_ptr<std::array<std::vector<double>, 3>> Parse(
-            const std::string& filename);
+        std::unique_ptr<common::ElevationGrid> Parse() const;
+        std::string get_filename() const {
+          return filename_;
+        }
 
-        static std::unique_ptr<std::array<std::vector<double>, 3>> ParseAsUTM(
-            const std::string& filename,
-            const int utm_zone,
-            const bool northern_hemisphere);
-    };
+        void set_filename(std::string filename) {
+          filename_ = filename;
+        }
 
+      protected:
+        std::string filename_;
+   };
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PARSE_DTEDPARSE_H_
+#endif //INCLUDE_SCRIMMAGE_PARSE_TERRAINREADEERS_VTKTERRAINREADER_H_

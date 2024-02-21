@@ -14,6 +14,7 @@ set(SRCS
     common/VariableIO.cpp
     common/Battery.cpp
     common/Shape.cpp
+    common/ElevationGrid.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     entity/EntityPlugin.cpp
     log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
@@ -22,7 +23,7 @@ set(SRCS
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
-    parse/DTEDParse.cpp
+    parse/TerrainReaders/DTEDReader.cpp 
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -39,6 +40,8 @@ set(SRCS
     common/WaypointListProcessor.cpp
 )
 
+find_package(GDAL CONFIG REQUIRED)
+
 set(CORE_LIBS
     Boost::boost
     Boost::filesystem
@@ -47,11 +50,13 @@ set(CORE_LIBS
     Boost::graph
     Boost::thread
     Boost::chrono
-    gdal
+    GDAL::GDAL
 )
 
+# Only compile vtk-dependent sources when vtk is installed, 
+# and make sure that those libraries are linked
 if(${VTK_FOUND})
-  set(SRCS ${SRCS} parse/VTKPolyDataParse.cpp)
+  set(SRCS ${SRCS} parse/TerrainReaders/VTKTerrainReader.cpp)
   set(CORE_LIBS ${CORE_LIBS} ${VTK_LIBRARIES})
 endif()
 

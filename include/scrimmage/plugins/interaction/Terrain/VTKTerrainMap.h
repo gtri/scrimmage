@@ -32,7 +32,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_VTKTERRAINMAP_VTKTERRAINMAP_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_VTKTERRAINMAP_VTKTERRAINMAP_H_
 
+
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/proto/Visual.pb.h>
+
 #include <optional>
 #include <string>
 
@@ -42,10 +45,7 @@ namespace scrimmage {
       public:
         VTKTerrainMap(); 
 
-        bool init(
-            const std::string& filename,
-            const int utm_zone,
-            const bool northern_hemisphere = true) override;
+        bool init(const scrimmage_proto::UTMTerrain& utm) override;
 
         // ----- Query Functions ----
         std::optional<double> QueryUTM(

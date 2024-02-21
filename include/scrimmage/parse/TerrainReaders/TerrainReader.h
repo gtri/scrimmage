@@ -21,7 +21,7 @@
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Wesley Ford <wesley.ford@gatech.edu>
- * @date 31 Jan 2024
+ * @date 9 Feb 2024
  * @version 0.1.0
  * @brief Brief file description.
  * @section DESCRIPTION
@@ -29,20 +29,21 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PARSE_VTKPOLYDATAPARSE_H_
-#define INCLUDE_SCRIMMAGE_PARSE_VTKPOLYDATAPARSE_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAIN_TERRAINREADER_TERRAINREADER_H
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAIN_TERRAINREADER_TERRAINREADER_H
 
-#include <array>
+#include <scrimmage/common/ElevationGrid.h>
+
 #include <string>
-#include <vector>
 #include <memory>
 
 namespace scrimmage {
-    class VTKPolyDataParse {
+    class TerrainReader {
       public:
-        VTKPolyDataParse() = delete;; 
-        static std::unique_ptr<std::array<std::vector<double>, 3>> Parse(const std::string& filename);
+        virtual std::unique_ptr<common::ElevationGrid> Parse() const = 0;
+        virtual std::string get_filename() const = 0;
+        virtual void set_filename(std::string filename) = 0;
+      protected:
     };
-
 } // namespace scrimmage
-#endif //INCLUDE_SCRIMMAGE_PARSE_VTKPOLYDATAPARSE_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAIN_TERRAINREADER_TERRAINREADER_H

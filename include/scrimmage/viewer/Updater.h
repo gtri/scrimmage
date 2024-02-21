@@ -40,6 +40,7 @@
 #include <scrimmage/proto/Color.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
+#include <scrimmage/common/ElevationGrid.h>
 
 #include <time.h>
 
@@ -290,8 +291,8 @@ class Updater : public vtkCommand {
                            std::string& texture_file, bool& texture_found,
                            double& base_scale, Quaternion& base_rot);
 
-    static vtkSmartPointer<vtkPolyData> ElevationToPolyData(
-        std::unique_ptr<std::array<std::vector<double>, 3>> elevation);
+   vtkSmartPointer<vtkPolyData> ElevationToPolyData(
+      std::unique_ptr<std::array<std::vector<double>, 3>> elevation_data);
 
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;

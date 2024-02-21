@@ -8,6 +8,7 @@ set(LIB_RELEASE 1)
 
 file(GLOB SRCS *.cpp)
 
+# Will causes issues compiling if vtk is not installed
 add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
 )
@@ -17,7 +18,6 @@ target_compile_options(${LIBRARY_NAME}
 )
 
 target_link_libraries(${LIBRARY_NAME}
-  gdal
   Boost::boost
   scrimmage-core
 )

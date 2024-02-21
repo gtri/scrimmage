@@ -29,28 +29,46 @@
  *
  */
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
-#include <scrimmage/common/ElevationGrid.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Publisher.h>
+#ifndef INCLUDE_SCRIMMAGE_TERRAIN_TERRAINREADER_DTEDREADER_H_
+#define INCLUDE_SCRIMMAGE_TERRAIN_TERRAINREADER_DTEDREADER_H_
 
-#include <algorithm>
-#include <array>
+#include <scrimmage/parse/TerrainReaders/TerrainReader.h>
+#include <scrimmage/common/ElevationGrid.h>
+
+#include <gdal_priv.h>
+
+#include <iostream>
+#include <string>
 #include <memory>
-#include <optional>
-#include <vector>
 
 namespace scrimmage {
-  namespace interaction {
+  class DTEDReader: TerrainReader {
+    public:
+      DTEDReader(std::string filename);
 
-    TerrainMap::TerrainMap():
-      utm_zone_(0), utm_northern_hemisphere_(true) {};
+      std::unique_ptr<common::ElevationGrid> Parse() const; 
 
-  } // namespace interaction
+      std::unique_ptr<std::array<std::vector<double>, 3>> ParseAsUTM(
+          const int utm_zone, const bool northern_hemisphere) const;
+
+      std::string get_filename() const {
+        return filename_;
+      }
+
+      void set_filename(std::string filename) {
+        filename_ = filename;
+      }
+
+    protected:
+      std::string filename_;
+      char c_filename_[1024];
+
+      std::unique_ptr<GDALDataset, GDALDatasetUniquePtrReleaser> OpenDTED() const;
+      //void CloseDTED(std::unique_ptr<GDALDataset> dataset) const;
+
+      std::unique_ptr<std::array<std::vector<double>, 3>>
+        ReadDTED(GDALDataset& dataset) const;
+  };
+
 } // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_TERRAIN_TERRAINREADER_DTEDREADER_H_

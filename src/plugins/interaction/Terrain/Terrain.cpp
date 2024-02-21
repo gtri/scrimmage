@@ -32,6 +32,7 @@
 #include <scrimmage/plugins/interaction/Terrain/Terrain.h>
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <scrimmage/plugins/interaction/Terrain/DTEDTerrainMap.h>
+#include <scrimmage/plugins/interaction/Terrain/VTKTerrainMap.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -70,13 +71,35 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
             plugin_params,
             "elevation");
 
-        terrain_filename = parent()->mp()->utm_terrain()->poly_data_file();
+        std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain = 
+          parent()->mp()->utm_terrain();
+        terrain_filename = utm_terrain->poly_data_file();
 
-        terrain_map_ = std::make_shared<DTEDTerrainMap>();
-        successful_init_ = terrain_map_->init(
-            terrain_filename,
-            parent()->mp()->utm_terrain()->zone(),
-            parent()->mp()->utm_terrain()->hemisphere() == "north"); // <- problamatic
+        std::size_t extension_ind = terrain_filename.find_last_of(".");
+        if(extension_ind == std::string::npos) { 
+          std::cout << "Terrain file \'" << terrain_filename 
+            << "\' does not have proper extension\n" ;
+          return true;
+        }
+        std::string extension = terrain_filename.substr(extension_ind + 1);
+        if (extension.find("vtk") == 0) {
+          terrain_map_ = std::make_shared<VTKTerrainMap>();
+        } else if (extension.find("dt") == 0 && extension.size() == 3) {
+          terrain_map_ = std::make_shared<DTEDTerrainMap>();
+        } else {
+          std::cout << "Terrain file \'" << terrain_filename 
+            << "\' does not have proper extension\n" ;
+          return true;
+        }
+
+        //successful_init_ = terrain_map_->init(
+        //    terrain_filename,
+        //    parent()->mp()->utm_terrain()->zone(),
+        //    parent()->mp()->utm_terrain()->hemisphere() == "north"); // <- problamatic
+        //
+        if (utm_terrain != nullptr) {
+          successful_init_ = terrain_map_->init(*utm_terrain);
+        }
 
         if(successful_init_) {
           pub_terrain_ = advertise("GlobalNetwork", terrain_topic_);
@@ -98,5 +121,7 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
         }
         return true;
       }
+
+      
     } // namespace interaction
   } // namespace scrimmage

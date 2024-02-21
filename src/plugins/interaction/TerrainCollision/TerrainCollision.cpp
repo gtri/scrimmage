@@ -114,7 +114,8 @@ bool TerrainCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         
         //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat,lon, terrain.terrain_utm_zone);
 
-        bool collision = elevation_map_->QueryLongLat(lon, lat, interpolate_) >= z;
+        std::optional<double> elevation = elevation_map_->QueryLongLat(lon, lat, interpolate_);
+        bool collision = (elevation) && *elevation >= z; 
 
         if(collision){
             ShapePtr segment = sc::shape::make_line(start, end, Eigen::Vector3d(255, 0, 0), 1);
