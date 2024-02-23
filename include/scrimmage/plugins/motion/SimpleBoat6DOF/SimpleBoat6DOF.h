@@ -60,7 +60,16 @@ class SimpleBoat6DOF : public scrimmage::motion::RigidBody6DOFBase {
     double max_velocity_;
     double max_acceleration_;
     double max_angular_accel_;
+    double max_thrust_deflection_angle_deg_;
+    double angular_accel_factor_;
+    double steering_in_;
+    double throttle_in_;
+
+    double max_speed_;
     double max_turn_rate_;
+    
+    double linear_drag_;
+    double angular_drag_;
 
     double acceleration_;
     double angular_acceleration_;
@@ -69,8 +78,8 @@ class SimpleBoat6DOF : public scrimmage::motion::RigidBody6DOFBase {
     bool write_csv_ = false;
     CSV csv_;
 
-    uint8_t input_speed_idx_;
-    uint8_t input_turn_rate_idx_;
+    uint8_t input_throttle_idx_;
+    uint8_t input_steering_idx_;
 };
 } // namespace motion
 } // namespace scrimmage
