@@ -35,7 +35,7 @@
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
 #include <map>
 #include <list>
@@ -53,7 +53,7 @@ class TerrainCollision : public scrimmage::EntityInteraction {
                                  double t, double dt) override;
  protected:
  private:
-  TerrainMapPtr elevation_map_;
+  terrain::TerrainMapPtr elevation_map_;
   scrimmage::PublisherPtr terrain_collision_pub_;
   bool remove_on_collision_;
   bool enable_startup_collisions_;

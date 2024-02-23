@@ -119,14 +119,14 @@ namespace scrimmage {
       return arr; 
     }
 
-  std::unique_ptr<common::ElevationGrid> DTEDReader::Parse() const {
+  std::unique_ptr<terrain::ElevationGrid> DTEDReader::Parse() const {
     auto dataset = OpenDTED();
-    std::unique_ptr<common::ElevationGrid> elevation_grid = nullptr;
+    std::unique_ptr<terrain::ElevationGrid> elevation_grid = nullptr;
 
     if(dataset) {
       auto elevation_data = ReadDTED(*dataset);
       if (elevation_data) {
-        elevation_grid = std::make_unique<common::ElevationGrid>(
+        elevation_grid = std::make_unique<terrain::ElevationGrid>(
             std::move(elevation_data->at(0)),
             std::move(elevation_data->at(1)),
             std::move(elevation_data->at(2)));

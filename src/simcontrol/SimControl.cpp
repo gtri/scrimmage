@@ -54,6 +54,7 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/terrain/TerrainFactory.h>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -138,11 +139,14 @@ SimControl::SimControl() :
     contacts_mutex_.unlock();
 }
 
-void SimControl::send_terrain() {
+void SimControl::init_terrain() {
     // Send initial gui information through GUI interface
     mp_->utm_terrain()->set_time(this->t());
     outgoing_interface_->send_utm_terrain(mp_->utm_terrain());
     log_->save_utm_terrain(mp_->utm_terrain());
+
+    // Build TerrainMap ptr
+    terrain_map_ = terrain::TerrainFactory::MakeTerrain(mp_->utm_terrain());  
 }
 
 bool SimControl::setup_logging() {
@@ -364,7 +368,8 @@ bool SimControl::generate_entity(const int &ent_desc_id,
                                 id_to_ent_map_,
                                 contacts_, mp_, proj_, id, ent_desc_id,
                                 plugin_manager_, file_search_, rtree_, pubsub_,
-                                printer_, time_, param_server_, global_services_,
+                                printer_, time_, terrain_map_, 
+                                param_server_, global_services_,
                                 std::set<std::string>{},
                                 [](std::map<std::string, std::string>&){});
     contacts_mutex_.unlock();
@@ -808,6 +813,7 @@ bool SimControl::start() {
     info.pubsub = pubsub_;
     info.printer = printer_;
     info.time = time_;
+    info.terrain_map = terrain_map_;
     info.param_server = param_server_;
     info.random = random_;
     info.id_to_team_map = id_to_team_map_;

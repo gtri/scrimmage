@@ -29,28 +29,20 @@
  *
  */
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
-#include <scrimmage/common/ElevationGrid.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Publisher.h>
+#ifndef INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAINFACTORY_H_
+#define INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAINFACTORY_H_
 
-#include <algorithm>
-#include <array>
-#include <memory>
-#include <optional>
-#include <vector>
+#include <scrimmage/fwd_decl.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
 namespace scrimmage {
-  namespace interaction {
+  namespace terrain {
+    class TerrainFactory {
+      public:
+    static TerrainMapPtr MakeTerrain(std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain);
 
-    TerrainMap::TerrainMap():
-      utm_zone_(0), utm_northern_hemisphere_(true) {};
-
-  } // namespace interaction
+      private:
+    };
+  } // namespace terrain
 } // namespace scrimmage
+#endif // INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAINFACTORY_H_

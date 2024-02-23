@@ -33,20 +33,19 @@
 #define INCLUDE_SCRIMMAGE_TERRAIN_TERRAINREADER_DTEDREADER_H_
 
 #include <scrimmage/parse/TerrainReaders/TerrainReader.h>
-#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 
 #include <gdal_priv.h>
 
-#include <iostream>
 #include <string>
 #include <memory>
 
 namespace scrimmage {
-  class DTEDReader: TerrainReader {
+  class DTEDReader: public TerrainReader {
     public:
       DTEDReader(std::string filename);
 
-      std::unique_ptr<common::ElevationGrid> Parse() const; 
+      std::unique_ptr<terrain::ElevationGrid> Parse() const; 
 
       std::unique_ptr<std::array<std::vector<double>, 3>> ParseAsUTM(
           const int utm_zone, const bool northern_hemisphere) const;

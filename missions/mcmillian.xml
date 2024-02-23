@@ -5,9 +5,9 @@
 
   <run start="0.0" end="100" dt="0.1"
        time_warp="10"
-       enable_gui="true"
+       enable_gui="false"
        network_gui="false"
-       start_paused="true"
+       start_paused="false"
        full_screen="false"
        window_width="800"
        window_height="600"/>
@@ -47,7 +47,7 @@
                       rpy="0, 0, 0"
                       >Boundary</entity_interaction>
   <entity_interaction>SimpleCollision</entity_interaction>
-  <entity_interaction>GroundCollision</entity_interaction>
+  <entity_interaction>TerrainCollision</entity_interaction>
 
   <!--
        The following is an example configuration of the BulletCollision plugin
@@ -71,7 +71,6 @@
                       ground_plane_height="0"
                       >BulletCollision</entity_interaction>
   -->
-  <entity_interaction>Terrain</entity_interaction>
 
 
   <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
@@ -116,7 +115,7 @@
     <sensor rpy="0, 0, 45" show_image="true" camera_id="1">ContactBlobCamera</sensor>
     -->
 
-    <autonomy target_height="50">GroundFollower</autonomy>
+    <autonomy target_height="-50">GroundFollower</autonomy>
 
     <base>
       <latitude>35.721112</latitude>

@@ -44,8 +44,8 @@ namespace scrimmage {
     VTKTerrainReader::VTKTerrainReader(std::string filename):
       filename_(filename) {}
 
-    std::unique_ptr<common::ElevationGrid> VTKTerrainReader::Parse() const {
-      std::unique_ptr<common::ElevationGrid> elevation_grid = nullptr;
+    std::unique_ptr<terrain::ElevationGrid> VTKTerrainReader::Parse() const {
+      std::unique_ptr<terrain::ElevationGrid> elevation_grid = nullptr;
 
       vtkSmartPointer<vtkPolyDataReader> elevation_reader =
         vtkSmartPointer<vtkPolyDataReader>::New();
@@ -78,7 +78,7 @@ namespace scrimmage {
         y.push_back(tmp_point[1]);
         z.push_back(tmp_point[2]);
       }
-      elevation_grid = std::make_unique<common::ElevationGrid>(
+      elevation_grid = std::make_unique<terrain::ElevationGrid>(
           std::move(x), std::move(y), std::move(z));
       return elevation_grid;
     }

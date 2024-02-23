@@ -38,11 +38,11 @@
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
 #include <map>
 #include <set>
 #include <unordered_map>
-#include <list>
 #include <vector>
 #include <string>
 #include <functional>
@@ -79,6 +79,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
               PubSubPtr &pubsub,
               PrintPtr &printer,
               TimePtr &time,
+              terrain::TerrainMapPtr &terrain_map,
               const ParameterServerPtr &param_server,
               const GlobalServicePtr &global_services,
               const std::set<std::string> &plugin_tags,
@@ -195,6 +196,10 @@ class Entity : public std::enable_shared_from_this<Entity> {
         return printer_;
     }
 
+    terrain::TerrainMapPtr& terrain_map() {
+      return terrain_map_;
+    }
+
     const ParameterServerPtr& param_server() {
         return param_server_;
     }
@@ -237,6 +242,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     ContactMapPtr contacts_;
     RTreePtr rtree_;
+    terrain::TerrainMapPtr terrain_map_;
 
     double radius_ = 1;
 

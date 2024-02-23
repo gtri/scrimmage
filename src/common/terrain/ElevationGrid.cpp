@@ -30,7 +30,7 @@
  */
 
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
@@ -46,11 +46,10 @@
 #include <vector>
 
 namespace scrimmage {
-  namespace common {
-
+  namespace terrain {
     ElevationGrid::ElevationGrid(std::vector<double>&& x,
-            std::vector<double>&& y, 
-            std::vector<double>&& z): 
+        std::vector<double>&& y, 
+        std::vector<double>&& z): 
       x_{std::move(x)}, y_{std::move(y)}, z_{std::move(z)} {
         stride_ = std::upper_bound(y_.cbegin(), y_.cend(), y_[0]) - y_.cbegin();
         x_min_ = x_.front();
@@ -162,11 +161,11 @@ namespace scrimmage {
         z1_weight = (fx)*(1-fy);
         z2_weight = (1-fx)*(fy);
         z3_weight = (fx)*(fy);
-        
+
         return z0_weight*z0 + z1_weight*z1 + z2_weight*z2 + z3_weight*z3;
       } else {
         return z_[pt_idx0];
       }
     }
-  } // namespace common
+  } //namespace terrain
 } // namespace scrimmage

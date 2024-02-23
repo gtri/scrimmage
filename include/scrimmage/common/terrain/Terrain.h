@@ -21,7 +21,7 @@
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Wesley Ford <wesley.ford@gatech.edu>
- * @date 9 Feb 2024
+ * @date 31 Jan 2024
  * @version 0.1.0
  * @brief Brief file description.
  * @section DESCRIPTION
@@ -29,21 +29,29 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PARSE_TERRAINREADERS_TERRAINREADER_H
-#define INCLUDE_SCRIMMAGE_PARSE_TERRAINREADERS_TERRAINREADER_H
+#ifndef INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAIN_H_
+#define INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAIN_H_
 
-#include <scrimmage/common/terrain/ElevationGrid.h>
+#include <scrimmage/fwd_decl.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
-#include <memory>
+#include <list>
+#include <map>
 #include <string>
 
 namespace scrimmage {
-    class TerrainReader {
-      public:
-        virtual std::unique_ptr<terrain::ElevationGrid> Parse() const = 0;
-        virtual std::string get_filename() const = 0;
-        virtual void set_filename(std::string filename) = 0;
-      protected:
-    };
+  class Terrain {
+    public:
+      Terrain(); 
+
+      bool init(const scrimmage_proto::UTMTerrain& utm_terrain);
+
+      bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+          double t, double dt);
+
+    private:
+  };
+
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PARSE_TERRAINREADERS_TERRAINREADER_H
+#endif // INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAIN_H_

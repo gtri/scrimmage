@@ -33,6 +33,7 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/GlobalService.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -81,6 +82,7 @@ bool Entity::init(AttributeMap &overrides,
                   PubSubPtr &pubsub,
                   PrintPtr &printer,
                   TimePtr &time,
+                  terrain::TerrainMapPtr &terrain_map,
                   const ParameterServerPtr &param_server,
                   const GlobalServicePtr &global_services,
                   const std::set<std::string> &plugin_tags,
@@ -95,6 +97,7 @@ bool Entity::init(AttributeMap &overrides,
     contacts_ = contacts;
     rtree_ = rtree;
     proj_ = proj;
+    terrain_map_ = terrain_map;
     param_server_ = param_server;
 
     id_.set_id(id);
@@ -201,6 +204,7 @@ bool Entity::init(AttributeMap &overrides,
             sensor->set_id_to_team_map(id_to_team_map);
             sensor->set_id_to_ent_map(id_to_ent_map);
             sensor->set_param_server(param_server);
+            sensor->set_terrain_map(terrain_map);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -255,6 +259,7 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_->set_id_to_ent_map(id_to_ent_map);
             motion_model_->set_param_server(param_server);
             motion_model_->set_name(info["motion_model"]);
+            motion_model_->set_terrain_map(terrain_map);
             param_override_func(config_parse.params());
 
             if (debug_level > 1) {
@@ -327,6 +332,7 @@ bool Entity::init(AttributeMap &overrides,
             controller->set_param_server(param_server);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
+            controller->set_terrain_map(terrain_map);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -419,7 +425,7 @@ bool Entity::init(AttributeMap &overrides,
         auto autonomy = make_autonomy<Autonomy>(
             info[autonomy_name], plugin_manager, overrides[autonomy_name],
             parent, state_, id_to_team_map, id_to_ent_map, proj_, contacts,
-            file_search, rtree, pubsub, time, param_server, plugin_tags,
+            file_search, rtree, pubsub, time, terrain_map, param_server, plugin_tags,
             param_override_func, controllers_,
             debug_level);
 

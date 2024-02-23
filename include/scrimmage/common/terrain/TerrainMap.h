@@ -29,40 +29,50 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_DTEDTERRAINMAP_DTEDTERRAINMAP_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_DTEDTERRAINMAP_DTEDTERRAINMAP_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAINMAP_H
+#define INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAINMAP_H
 
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 #include <scrimmage/proto/Visual.pb.h>
 
-#include <string>
-
+#include <memory>
 
 namespace scrimmage {
-  namespace interaction {
-    class DTEDTerrainMap : public TerrainMap {
+  namespace terrain {
+    class TerrainMap {
       public:
-        DTEDTerrainMap(); 
-
-        bool init (const scrimmage_proto::UTMTerrain& utm) override;
+        virtual bool init(
+            std::unique_ptr<ElevationGrid> elevation_grid,
+            const scrimmage_proto::UTMTerrain& utm) = 0;
 
         // ----- Query Functions ----
-        double QueryUTM(
+        virtual double QueryUTM(
             const double easting, 
-            const double northing, 
-            const bool interpolate = false) const override;
-        double QueryLongLat(
+            const double northing,
+            const bool interpolate = false) const = 0;
+
+        virtual double QueryLongLat(
             const double longitude, 
             const double latitude,
-            const bool interpolate = false) const override;
+            const bool interpolate = false) const = 0;
+
+
+        // ----- Accessors -------
+        int utm_zone() const { return utm_zone_; }
+        bool northern_hemisphere() const { return utm_northern_hemisphere_; }
+
 
       protected:
-        bool InitFromFile(const std::string& filename);
+        std::unique_ptr<ElevationGrid> elevation_grid_;
+
+        int utm_zone_;
+        bool utm_northern_hemisphere_;
+        double z_translate_;
 
       private:
     };
 
-    using DTEDTerrainMapPtr = std::shared_ptr<DTEDTerrainMap>;
-  } // namespace interaction
+    using TerrainMapPtr = std::shared_ptr<TerrainMap>;
+} // namespace terrain
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_DTEDTERRAINMAP_DTEDTERRAINMAP_H_
+#endif // INCLUDE_SCRIMMAGE_COMMON_TERRAIN_TERRAINMAP_H

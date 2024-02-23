@@ -33,7 +33,7 @@
 #define INCLUDE_SCRIMMAGE_PARSE_TERRAINREADEERS_VTKTERRAINREADER_H_
 
 #include <scrimmage/parse/TerrainReaders/TerrainReader.h>
-#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 
 #include <string>
 
@@ -42,7 +42,7 @@ namespace scrimmage {
       public:
         VTKTerrainReader(std::string filename);
 
-        std::unique_ptr<common::ElevationGrid> Parse() const;
+        std::unique_ptr<terrain::ElevationGrid> Parse() const;
         std::string get_filename() const {
           return filename_;
         }

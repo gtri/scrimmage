@@ -128,4 +128,9 @@ void EntityPlugin::close_plugin(const double &t) {
     time_ = nullptr;
     shapes_.clear();
 }
+
+void EntityPlugin::set_terrain_map(const terrain::TerrainMapPtr &terrain_map) {
+  terrain_map_ = terrain_map;
+}
+
 } // namespace scrimmage

@@ -30,9 +30,8 @@
  */
 
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
-#include <scrimmage/plugins/interaction/Terrain/DTEDTerrainMap.h>
-#include <scrimmage/parse/TerrainReaders/DTEDReader.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/WGSTerrainMap.h>
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -52,11 +51,13 @@
 #include <vector>
 
 namespace scrimmage {
-  namespace interaction {
+  namespace terrain {
+    WGSTerrainMap::WGSTerrainMap() {}
 
-    DTEDTerrainMap::DTEDTerrainMap() {};
+    bool WGSTerrainMap::init(
+        std::unique_ptr<ElevationGrid> elevation_grid,
+        const scrimmage_proto::UTMTerrain& utm) {
 
-    bool DTEDTerrainMap::init(const scrimmage_proto::UTMTerrain& utm) {
       constexpr int max_utm_zone = 60;
       constexpr int min_utm_zone = 1;
       utm_zone_ = utm.zone();
@@ -69,8 +70,7 @@ namespace scrimmage {
           << " and " << max_utm_zone << "\n";
         return false;
       }
-      DTEDReader reader(utm.poly_data_file());
-      elevation_grid_ = reader.Parse();
+      elevation_grid_.swap(elevation_grid);
       return elevation_grid_ != nullptr;
     }
 
@@ -87,14 +87,14 @@ namespace scrimmage {
      * x-values (colums) are increasing within each row. (This is for efficent
      * search using std::upper_bound/lower_bound).
      */
-    double DTEDTerrainMap::QueryLongLat(
+    double WGSTerrainMap::QueryLongLat(
         const double longitude, 
         const double latitude, 
         const bool interpolate) const {
       return elevation_grid_->Query(longitude, latitude, interpolate) - z_translate_;
     }
 
-    double DTEDTerrainMap::QueryUTM(
+    double WGSTerrainMap::QueryUTM(
         const double easting, 
         const double northing,
         const bool interpolate) const {
@@ -108,5 +108,5 @@ namespace scrimmage {
       return QueryLongLat(GC.Latitude(), GC.Longitude(), interpolate);
 
     }
-  } // namespace interaction
+  } // namespace terrain
 } // namespace scrimmage

@@ -58,6 +58,7 @@ struct SimUtilsInfo {
     PubSubPtr pubsub;
     PrintPtr printer;
     TimePtr time;
+    terrain::TerrainMapPtr terrain_map;
     ParameterServerPtr param_server;
     RandomPtr random;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;

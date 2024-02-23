@@ -99,6 +99,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->set_param_server(info.param_server);
             ent_inter->set_id_to_team_map(info.id_to_team_map);
             ent_inter->set_id_to_ent_map(info.id_to_ent_map);
+            ent_inter->set_terrain_map(info.terrain_map);
 
             param_override_func(config_parse.params());
 

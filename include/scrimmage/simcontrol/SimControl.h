@@ -40,6 +40,7 @@
 #include <scrimmage/common/Timer.h>
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 
@@ -302,8 +303,8 @@ class SimControl {
     /// @brief Access the entities in the simulation.
     std::list<EntityPtr> &ents();
 
-    /// @brief Sends terrain to visualizers and log files.
-    void send_terrain();
+    /// @brief Sends terrain to visualizers and log files and build terrain map
+    void init_terrain();
 
     /// @brief Sends simulation shapes to visualizers and log files.
     void run_send_shapes();
@@ -350,6 +351,7 @@ class SimControl {
     TimePtr time_;
     ParameterServerPtr param_server_;
     GlobalServicePtr global_services_;
+    terrain::TerrainMapPtr terrain_map_;
 
     double t0_ = 0;
     double tend_ = 0;

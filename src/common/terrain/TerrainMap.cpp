@@ -29,37 +29,28 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAIN_TERRAIN_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAIN_TERRAIN_H_
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Publisher.h>
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
-
-#include <list>
-#include <map>
-#include <string>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <optional>
+#include <vector>
 
 namespace scrimmage {
-  namespace interaction {
+  namespace common {
 
-    class Terrain: public EntityInteraction {
-      public:
-        Terrain(); 
-      
-        bool init(std::map<std::string, std::string> &mission_params,
-          std::map<std::string, std::string> &plugin_params);
+    //TerrainMap::TerrainMap():
+    //  utm_zone_(0), utm_northern_hemisphere_(true) {};
 
-        bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-            double t, double dt);
-
-      private:
-        bool is_published_, successful_init_;
-        std::string terrain_topic_;
-        scrimmage::PublisherPtr pub_terrain_;
-        TerrainMapPtr terrain_map_;
-    };
-
-  } // namespace interaction
+  } // namespace common
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAIN_TERRAIN_H_

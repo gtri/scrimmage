@@ -15,7 +15,6 @@ ADD_LIBRARY(${LIBRARY_NAME} SHARED
 # Any plugins we refrence need to be linked here
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
   Boundary_plugin
-  Terrain_plugin
   scrimmage-core
   )
 

@@ -157,6 +157,7 @@ using MetricsPtr = std::shared_ptr<Metrics>;
 using AttributeMap = std::map<std::string, std::map<std::string, std::string>>;
 
 class CameraInterface;
+
 } // namespace scrimmage
 
 #endif // INCLUDE_SCRIMMAGE_FWD_DECL_H_

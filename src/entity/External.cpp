@@ -33,6 +33,8 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/TerrainFactory.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
@@ -158,6 +160,8 @@ bool External::create_entity(const std::string &mission_file,
     RandomPtr random = std::make_shared<Random>();
     random->seed();
 
+    terrain::TerrainMapPtr terrain_map = terrain::TerrainFactory::MakeTerrain(mp_->utm_terrain());
+
     std::list<scrimmage_proto::ShapePtr> shapes;
 
     SimUtilsInfo sim_info;
@@ -197,6 +201,7 @@ bool External::create_entity(const std::string &mission_file,
     entity_->contacts() = contacts;
     entity_->rtree() = rtree;
     entity_->state() = std::make_shared<State>();
+    entity_->terrain_map() = terrain_map;
 
     call_update_contacts(time_->t());
     auto it = entity_->contacts()->find(entity_id);
@@ -213,7 +218,7 @@ bool External::create_entity(const std::string &mission_file,
             attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
             mp_->projection(), entity_id,
             it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            printer_, time_, param_server_, global_services_, plugin_tags,
+            printer_, time_, terrain_map, param_server_, global_services_, plugin_tags,
             param_override_func, debug_level);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;

@@ -35,8 +35,8 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
-#include <list>
 #include <map>
 #include <memory>
 #include <string>

@@ -32,7 +32,6 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
-#include <scrimmage/common/TerrainEvaluator.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/StateWithCovariance.h>
@@ -51,9 +50,6 @@
 #include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/GeoCoords.hpp>
 
-#include <scrimmage/plugins/interaction/Terrain/Terrain.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
-
 #include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
 
 namespace sc = scrimmage;
@@ -68,8 +64,6 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 
   namespace scrimmage {
     namespace autonomy {
-
-
       void GroundFollower::init(std::map<std::string, std::string> &params) {
         speed_ = scrimmage::get("speed", params, 0.0);
         target_height_ = sc::get<double>("target_height", params, 50);
@@ -108,16 +102,6 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         };
         subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
 
-        auto terrain_cb = [&](scrimmage::MessagePtr<interaction::TerrainMapPtr> &msg) {
-          elevation_map_ = msg->data;
-        };
-        //Eventually get topic message from paramrs:
-        std::string terrain_topic = scrimmage::get<std::string>(
-            "terrain_topic",
-            params,
-            "elevation");
-        subscribe<interaction::TerrainMapPtr>("GlobalNetwork", "elevation", terrain_cb);
-
         desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
         desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
         desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
@@ -137,7 +121,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         Eigen::Vector3d diff = goal_ - noisy_state_.pos();
         Eigen::Vector3d v = speed_ * diff.normalized();
 
-        if (elevation_map_ != nullptr) {
+        if (terrain_map_ != nullptr) {
 
           double lat, lon, alt;
           double x_pos = state_->pos()(0);
@@ -146,7 +130,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 
           parent_->projection()->Reverse(x_pos, y_pos, z_pos, lat, lon, alt);
 
-          double elevation = elevation_map_->QueryLongLat(
+          double elevation = terrain_map_->QueryLongLat(
               lon, lat, true);
 
           desired_alt_ = elevation + target_height_;

@@ -45,97 +45,75 @@
 #include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/GeoCoords.hpp>
 
-#include <memory>
-#include <limits>
-#include <iostream>
-#include <scrimmage/plugins/interaction/Terrain/Terrain.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-using std::cout;
-using std::endl;
-
-namespace sc = scrimmage;
-namespace sm = scrimmage_msgs;
-
 REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::TerrainCollision,
-                TerrainCollision_plugin)
+    scrimmage::interaction::TerrainCollision,
+    TerrainCollision_plugin)
 
-namespace scrimmage {
-namespace interaction {
+  namespace scrimmage {
+    namespace interaction {
 
-TerrainCollision::TerrainCollision()    : remove_on_collision_(true),
-                                          enable_startup_collisions_(true) {
+      TerrainCollision::TerrainCollision():
+        remove_on_collision_(true),
+        enable_startup_collisions_(true),
+        interpolate_(false)
+      {
 
-}
+      }
 
-bool TerrainCollision::init(std::map<std::string, std::string> &mission_params,
-                               std::map<std::string, std::string> &plugin_params) {
-         
-        std::string terrain_topic = scrimmage::get<std::string>(
-            "terrain_data",
-            plugin_params,
-            "elevation");
+      bool TerrainCollision::init(std::map<std::string, std::string> &mission_params,
+          std::map<std::string, std::string> &plugin_params) {
 
         interpolate_ = scrimmage::get<bool>(
             "interpolate_terrain",
             plugin_params,
             false);
 
-        auto terrain_cb = [&](scrimmage::MessagePtr<interaction::TerrainMapPtr> &msg) {
-          elevation_map_ = msg->data;
-        };
-        //Eventually get topic message from paramrs:
-        subscribe<interaction::TerrainMapPtr>(
-            "GlobalNetwork", terrain_topic, terrain_cb);
         return true;
-}
+      }
 
 
-bool TerrainCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
-    if(!elevation_map_) {
-      return true;
-    }
-    for (sc::EntityPtr ent : ents)
-    {
-        //Position conversion to UTM
-        double x = ent->state()->pos().x();
-        double y = ent->state()->pos().y();
-        double z = ent->state()->pos().z();
-        double lat,lon,alt;
-        
-        Eigen::Vector3d start = {x, y, z};
-        Eigen::Vector3d end = {x, y, z+25};
-        //Eigen::Vector3d new_start = {lat,lon,alt};
+      bool TerrainCollision::step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+          double t, double dt) {
+        if(!terrain_map_) {
+          return true;
+        }
+        for (scrimmage::EntityPtr ent : ents)
+        {
+          //Position conversion to UTM
+          double x = ent->state()->pos().x();
+          double y = ent->state()->pos().y();
+          double z = ent->state()->pos().z();
+          double lat,lon,alt;
 
-        parent_->projection()->Reverse(x,y,z,lat,lon,alt);
-        
-        //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat,lon, terrain.terrain_utm_zone);
+          Eigen::Vector3d start = {x, y, z};
+          Eigen::Vector3d end = {x, y, z+25};
+          //Eigen::Vector3d new_start = {lat,lon,alt};
 
-        std::optional<double> elevation = elevation_map_->QueryLongLat(lon, lat, interpolate_);
-        bool collision = (elevation) && *elevation >= z; 
+          parent_->projection()->Reverse(x,y,z,lat,lon,alt);
 
-        if(collision){
-            ShapePtr segment = sc::shape::make_line(start, end, Eigen::Vector3d(255, 0, 0), 1);
+          //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat,lon, terrain.terrain_utm_zone);
+
+          double elevation = terrain_map_->QueryLongLat(lon, lat, interpolate_);
+          bool collision = elevation >= z; 
+
+          if(collision){
+            ShapePtr segment = scrimmage::shape::make_line(start, end, Eigen::Vector3d(255, 0, 0), 1);
             draw_shape(segment);
             std::cout << "[TC] Terrain Collision: Agent " << ent->id().id() << 
               " Altitude: " << z << " m" << std::endl;
 
 
             ent->collision();
-
-            //auto msg = std::make_shared<sc::Message<sm::GroundCollision>>();
-            //msg->data.set_entity_id(ent->id().id());
-            //collision_pub_->publish(msg);
+          }
         }
-    }
-    if (ents.empty()) {
-        return true;
-    }
+        if (ents.empty()) {
+          return true;
+        }
 
-    return true;
-}
-} // namespace interaction
-} // namespace scrimmage
+        return true;
+      }
+    } // namespace interaction
+  } // namespace scrimmage

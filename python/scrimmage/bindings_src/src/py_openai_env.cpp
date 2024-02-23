@@ -269,7 +269,7 @@ void ScrimmageOpenAIEnv::reset_scrimmage() {
     if (seed_set_) simcontrol_->mp()->params()["seed"] = std::to_string(seed_);
 
     simcontrol_->run_send_shapes();
-    simcontrol_->send_terrain();
+    simcontrol_->init_terrain();
 
 #if ENABLE_VTK == 1
     if (simcontrol_->enable_gui()) {

@@ -40,6 +40,7 @@
 #include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
 #include <unordered_set>
 #include <unordered_map>
@@ -165,10 +166,13 @@ class EntityPlugin : public Plugin {
     void set_loop_timer(const double &loop_timer) { loop_timer_ = loop_timer; }
     bool step_loop_timer(double dt);
 
+    void set_terrain_map(const terrain::TerrainMapPtr &terrain_map);
+
  protected:
     EntityPtr parent_;
 
     StatePtr transform_;
+    terrain::TerrainMapPtr terrain_map_;
 
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
@@ -178,6 +182,7 @@ class EntityPlugin : public Plugin {
 
     std::list<SubscriberBasePtr> subs_;
     std::shared_ptr<const Time> time_;
+
 
  private:
     // This name should only be set by the creator so it matches what is in the

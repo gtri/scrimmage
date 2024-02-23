@@ -32,7 +32,7 @@
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>

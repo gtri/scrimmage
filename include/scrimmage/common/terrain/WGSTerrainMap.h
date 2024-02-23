@@ -29,22 +29,24 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_VTKTERRAINMAP_VTKTERRAINMAP_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_VTKTERRAINMAP_VTKTERRAINMAP_H_
+#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_WGSTERRAINMAP_WGSTERRAINMAP_H_
+#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_WGSTERRAINMAP_WGSTERRAINMAP_H_
 
-
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <string>
 
-namespace scrimmage {
-  namespace interaction {
-    class VTKTerrainMap : public TerrainMap {
-      public:
-        VTKTerrainMap(); 
 
-        bool init(const scrimmage_proto::UTMTerrain& utm) override;
+namespace scrimmage {
+  namespace terrain {
+    class WGSTerrainMap : public TerrainMap {
+      public:
+        WGSTerrainMap(); 
+
+       bool init(
+            std::unique_ptr<ElevationGrid> elevation_grid,
+            const scrimmage_proto::UTMTerrain& utm) override;
 
         // ----- Query Functions ----
         double QueryUTM(
@@ -59,10 +61,9 @@ namespace scrimmage {
 
       protected:
         bool InitFromFile(const std::string& filename);
+
       private:
     };
-
-    using VTKTerrainMapPtr = std::shared_ptr<VTKTerrainMap>;
-  } // namespace interaction
+    } // namespace terrain
 } // namespace scrimmage
-#endif //INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_VTKTERRAINMAP_VTKTERRAINMAP_H_
+#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_WGSTERRAINMAP_WGSTERRAINMAP_H_

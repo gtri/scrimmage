@@ -33,11 +33,10 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_COMMON_ELEVATIONGRID_H
 
 #include <array>
-#include <optional>
 #include <vector>
 
 namespace scrimmage {
-  namespace common {
+  namespace terrain {
     class ElevationGrid {
       public:
         ElevationGrid(std::vector<double>&& x,
@@ -77,6 +76,6 @@ namespace scrimmage {
 
       private:
     };
-  } // namespace common
+  } // namespace terrain
 } // namespace scrimmage
 #endif //INCLUDE_SCRIMMAGE_PLUGINS_COMMON_ELEVATIONGRID_H

@@ -29,50 +29,40 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
-#define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
+#ifndef INCLUDE_SCRIMMAGE_COMMON_TERRAIN_UTMTERRAINMAP_H_
+#define INCLUDE_SCRIMMAGE_COMMON_TERRAIN_UTMTERRAINMAP_H_
 
-#include <scrimmage/common/ElevationGrid.h>
+
+#include <scrimmage/common/terrain/TerrainMap.h>
 #include <scrimmage/proto/Visual.pb.h>
 
-#include <memory>
+#include <string>
 
 namespace scrimmage {
-  namespace interaction {
-    class TerrainMap {
+  namespace terrain {
+    class UTMTerrainMap : public TerrainMap {
       public:
-        TerrainMap(); 
+        UTMTerrainMap(); 
 
-        virtual bool init(const scrimmage_proto::UTMTerrain& utm) = 0;
+        bool init(
+            std::unique_ptr<ElevationGrid> elevation_grid,
+            const scrimmage_proto::UTMTerrain& utm) override;
 
         // ----- Query Functions ----
-        virtual double QueryUTM(
+        double QueryUTM(
             const double easting, 
-            const double northing,
-            const bool interpolate = false) const = 0;
+            const double northing, 
+            const bool interpolate = false) const override;
 
-        virtual double QueryLongLat(
+        double QueryLongLat(
             const double longitude, 
             const double latitude,
-            const bool interpolate = false) const = 0;
-
-
-        // ----- Accessors -------
-        int utm_zone() const { return utm_zone_; }
-        bool northern_hemisphere() const { return utm_northern_hemisphere_; }
-
+            const bool interpolate = false) const override;
 
       protected:
-        std::unique_ptr<common::ElevationGrid> elevation_grid_;
-
-        int utm_zone_;
-        bool utm_northern_hemisphere_;
-        double z_translate_;
-
+        bool InitFromFile(const std::string& filename);
       private:
     };
-
-    using TerrainMapPtr = std::shared_ptr<TerrainMap>;
-  } // namespace interaction
+  } // namespace terrain
 } // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINMAP_TERRAINMAP_H_
+#endif //INCLUDE_SCRIMMAGE_COMMON_TERRAIN_UTMTERRAINMAP_H_

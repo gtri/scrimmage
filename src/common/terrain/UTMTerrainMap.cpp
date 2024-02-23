@@ -30,8 +30,8 @@
  */
 
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
-#include <scrimmage/plugins/interaction/Terrain/VTKTerrainMap.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
+#include <scrimmage/common/terrain/UTMTerrainMap.h>
 #include <scrimmage/parse/TerrainReaders/VTKTerrainReader.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
@@ -42,14 +42,15 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <GeographicLib/GeoCoords.hpp>
 
-#include <optional>
+// TerrainMap that is indexed directly with UTM Coordinates
 
 namespace scrimmage {
-  namespace interaction {
+  namespace terrain {
+    UTMTerrainMap::UTMTerrainMap() {}
 
-    VTKTerrainMap::VTKTerrainMap() {}
-
-    bool VTKTerrainMap::init(const scrimmage_proto::UTMTerrain& utm) {
+    bool UTMTerrainMap::init(
+        std::unique_ptr<ElevationGrid> elevation_grid,
+        const scrimmage_proto::UTMTerrain& utm) {
       constexpr int max_utm_zone = 60;
       constexpr int min_utm_zone = 1;
       utm_zone_ = utm.zone();
@@ -62,14 +63,11 @@ namespace scrimmage {
           << " and " << max_utm_zone << "\n";
         return false;
       }
-
-      VTKTerrainReader reader(utm.poly_data_file());
-      elevation_grid_ = reader.Parse();
+      elevation_grid_.swap(elevation_grid);
       return elevation_grid_ != nullptr;
-
     }
 
-      double VTKTerrainMap::QueryUTM(
+      double UTMTerrainMap::QueryUTM(
           const double easting, 
           const double northing,
           const bool interpolate) const  {
@@ -77,7 +75,7 @@ namespace scrimmage {
         return elevation_grid_->Query(easting, northing, interpolate) - z_translate_;
       }
 
-      double VTKTerrainMap::QueryLongLat(
+      double UTMTerrainMap::QueryLongLat(
           const double longitude, 
           const double latitude,
           const bool interpolate) const {
@@ -86,6 +84,5 @@ namespace scrimmage {
             utm_zone_);
           return QueryUTM(GC.Easting(), GC.Northing(), interpolate);
       }
-
-  } // namespace interaction
+  } // terrain
 } // namespace scrimmage

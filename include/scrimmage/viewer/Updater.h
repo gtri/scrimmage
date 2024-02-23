@@ -40,7 +40,7 @@
 #include <scrimmage/proto/Color.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
-#include <scrimmage/common/ElevationGrid.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 
 #include <time.h>
 

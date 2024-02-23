@@ -6,6 +6,17 @@ set(LIB_MAJOR 0)
 set(LIB_MINOR 0)
 set(LIB_RELEASE 1)
 
+
+set(TERRAIN_SRCS 
+      parse/TerrainReaders/DTEDReader.cpp 
+      common/terrain/TerrainMap.cpp
+      common/terrain/WGSTerrainMap.cpp
+      common/terrain/UTMTerrainMap.cpp
+      common/terrain/ElevationGrid.cpp
+      common/terrain/TerrainFactory.cpp
+      )
+
+
 set(SRCS
     autonomy/Autonomy.cpp
     common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
@@ -14,7 +25,6 @@ set(SRCS
     common/VariableIO.cpp
     common/Battery.cpp
     common/Shape.cpp
-    common/ElevationGrid.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp
     entity/EntityPlugin.cpp
     log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
@@ -23,7 +33,6 @@ set(SRCS
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
-    parse/TerrainReaders/DTEDReader.cpp 
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -38,7 +47,9 @@ set(SRCS
     common/GlobalService.cpp
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
+    ${TERRAIN_SRCS}
 )
+
 
 find_package(GDAL CONFIG REQUIRED)
 
@@ -59,6 +70,7 @@ if(${VTK_FOUND})
   set(SRCS ${SRCS} parse/TerrainReaders/VTKTerrainReader.cpp)
   set(CORE_LIBS ${CORE_LIBS} ${VTK_LIBRARIES})
 endif()
+
 
 add_library(${LIBRARY_NAME} SHARED
   ${SRCS}

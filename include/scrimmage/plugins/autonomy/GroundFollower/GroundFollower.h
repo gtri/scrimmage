@@ -37,8 +37,6 @@
 
 #include <Eigen/Dense>
 
-#include <scrimmage/plugins/interaction/Terrain/Terrain.h>
-#include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <map>
 #include <string>
 #include <memory>
@@ -86,8 +84,6 @@ class GroundFollower : public scrimmage::Autonomy{
     PublisherPtr pub_gen_ents_;
     bool gen_ents_ = false;
     double prev_gen_time_ = -1.0;
-
-    scrimmage::interaction::TerrainMapPtr elevation_map_;
 };
 } // namespace autonomy
 } // namespace scrimmage

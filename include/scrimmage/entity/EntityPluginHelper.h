@@ -38,6 +38,7 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
+#include <scrimmage/common/terrain/TerrainMap.h>
 
 #include <map>
 #include <unordered_map>
@@ -66,6 +67,7 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
     RTreePtr &rtree,
     PubSubPtr &pubsub,
     const std::shared_ptr<const Time> &time,
+    terrain::TerrainMapPtr &terrain_map,
     const ParameterServerPtr &param_server,
     const std::set<std::string> &plugin_tags = {},
     std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>& params){},
@@ -99,6 +101,7 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
         autonomy->set_contacts(contacts);
         autonomy->set_is_controlling(true);
         autonomy->set_name(autonomy_name);
+        autonomy->set_terrain_map(terrain_map);
         param_override_func(config_parse.params());
 
         if (debug_level > 1) {
