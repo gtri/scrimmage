@@ -146,18 +146,10 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 
           parent_->projection()->Reverse(x_pos, y_pos, z_pos, lat, lon, alt);
 
-          std::optional<double> elevation = elevation_map_->QueryLongLat(
+          double elevation = elevation_map_->QueryLongLat(
               lon, lat, true);
 
-          //GeographicLib::GeoCoords GC = GeographicLib::GeoCoords(lat, lon, 
-          //    elevation_map_->utm_zone());
-
-          //std::optional<double> elevation = elevation_map_->QueryTerrain(
-          //    GC.Easting(), GC.Northing());
-
-          if (elevation.has_value()) {
-            desired_alt_ = *elevation + target_height_;
-          }
+          desired_alt_ = elevation + target_height_;
         }
 
 

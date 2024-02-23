@@ -75,8 +75,8 @@ namespace scrimmage {
         polydata->GetPoint(static_cast<vtkIdType>(n), tmp_point.data());
         //Sort for binary lookup? 
         x.push_back(tmp_point[0]);
-        y.push_back(tmp_point[0]);
-        z.push_back(tmp_point[0]);
+        y.push_back(tmp_point[1]);
+        z.push_back(tmp_point[2]);
       }
       elevation_grid = std::make_unique<common::ElevationGrid>(
           std::move(x), std::move(y), std::move(z));

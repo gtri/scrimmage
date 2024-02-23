@@ -53,6 +53,10 @@ namespace scrimmage {
             std::vector<double>&& z): 
       x_{std::move(x)}, y_{std::move(y)}, z_{std::move(z)} {
         stride_ = std::upper_bound(y_.cbegin(), y_.cend(), y_[0]) - y_.cbegin();
+        x_min_ = x_.front();
+        x_max_ = x_.back();
+        y_min_ = y_.front();
+        y_max_ = y_.back();
       }
 
     /*
@@ -67,11 +71,14 @@ namespace scrimmage {
      * x-values (colums) are increasing within each row. (This is for efficent
      * search using std::upper_bound/lower_bound).
      */
-    std::optional<double> ElevationGrid::Query(
-        const double xpos, const double ypos, 
-        const double z_offset, const bool interpolate) const {
+    double ElevationGrid::Query(
+        double xpos, double ypos, bool interpolate) const {
       std::size_t y_idx, pt_idx;
       double elevation;
+
+
+      xpos = std::clamp(xpos, x_min_, x_max_);
+      ypos = std::clamp(ypos, y_min_, y_max_);
 
       // Find the width" of the terrain. In otherwords, how many 
       // x-values corresond to a single y-value
@@ -85,7 +92,7 @@ namespace scrimmage {
       } else {
         elevation = z_[pt_idx];
       }
-      return elevation - z_offset;
+      return elevation;
     }
 
     /*

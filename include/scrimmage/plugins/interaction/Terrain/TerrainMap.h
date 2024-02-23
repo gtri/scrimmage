@@ -36,7 +36,6 @@
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <memory>
-#include <optional>
 
 namespace scrimmage {
   namespace interaction {
@@ -47,12 +46,12 @@ namespace scrimmage {
         virtual bool init(const scrimmage_proto::UTMTerrain& utm) = 0;
 
         // ----- Query Functions ----
-        virtual std::optional<double> QueryUTM(
+        virtual double QueryUTM(
             const double easting, 
             const double northing,
             const bool interpolate = false) const = 0;
 
-        virtual std::optional<double> QueryLongLat(
+        virtual double QueryLongLat(
             const double longitude, 
             const double latitude,
             const bool interpolate = false) const = 0;
@@ -68,7 +67,7 @@ namespace scrimmage {
 
         int utm_zone_;
         bool utm_northern_hemisphere_;
-        double terrain_offset_;
+        double z_translate_;
 
       private:
     };

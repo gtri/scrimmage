@@ -35,7 +35,6 @@
 #include <scrimmage/plugins/interaction/Terrain/TerrainMap.h>
 #include <scrimmage/proto/Visual.pb.h>
 
-#include <optional>
 #include <string>
 
 
@@ -48,11 +47,11 @@ namespace scrimmage {
         bool init (const scrimmage_proto::UTMTerrain& utm) override;
 
         // ----- Query Functions ----
-        std::optional<double> QueryUTM(
+        double QueryUTM(
             const double easting, 
             const double northing, 
             const bool interpolate = false) const override;
-        std::optional<double> QueryLongLat(
+        double QueryLongLat(
             const double longitude, 
             const double latitude,
             const bool interpolate = false) const override;
