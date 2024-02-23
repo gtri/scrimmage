@@ -62,10 +62,14 @@ enum ModelParams {
     X = 0,
     Y,
     Z,
+    X_dot,
+    Y_dot,
     Z_dot,
     THETA,
-    angular_speed,
-    speed,
+    THETA_dot,
+    Xw,
+    Yw,
+    ACCEL_CENTRIP,
     MODEL_NUM_ITEMS
 };
 
@@ -78,35 +82,41 @@ enum ControlParams {
 bool SimpleBoat6DOF::init(std::map<std::string, std::string> &info,
                      std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
+
+    // initial conditions
     x_[X] = std::stod(info["x"]);
     x_[Y] = std::stod(info["y"]);
     x_[Z] = std::stod(info["z"]);
     x_[Z_dot] = 0;
+    x_[X_dot] = 0;
+    x_[Y_dot] = 0;
     x_[THETA] = Angles::deg2rad(std::stod(info["heading"]));
+    x_[THETA_dot] = 0;
 
-    length_ = get<double>("length", params, 100.0);
-    mass_ = get<double>("mass", params, 1.0);
-    enable_gravity_ = get<bool>("enable_gravity", params, false);
-    max_velocity_ = get<double>("max_velocity", params, 30.0);
-    max_acceleration_ = get<double>("max_acceleration", params, 5);
-    max_angular_accel_ = get<double>("max_angular_accel", params, .1);
-    max_turn_rate_ = get<double>("max_turn_rate", params, .3);
-    alpha_ = get<double>("damping", params, .1);
-
-    /////////
     state_->vel() << 0, 0, 0;
-    state_->pos() << x_[X], x_[Y], x_[Z];
+    state_->pos() << x_[Xw], x_[Yw], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
 
-    acceleration_ = 0;
-    angular_acceleration_ = 0;
+    // get model params
+    max_velocity_ = get<double>("max_velocity", params, 30.0);
+    max_acceleration_ = get<double>("max_acceleration", params, 5);
+    max_angular_accel_ = get<double>("max_angular_accel", params, .05);
+    max_speed_ = get<double>("max_speed", params, 20); // m/s
+    max_turn_rate_ = get<double>("max_turn_rate", params, .3);
+    max_thrust_deflection_angle_deg_ = get<double>("deflection_angle", params, 20);
 
-    input_speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-    input_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    // define drag constants based on ratio of max accel/max speed^2
+    linear_drag_ = max_acceleration_ / pow(max_speed_, 2);
+    angular_drag_ = max_angular_accel_ / pow(max_turn_rate_, 2);
+    angular_accel_factor_ = max_angular_accel_ / (max_acceleration_ * sin(max_thrust_deflection_angle_deg_*M_PI/180));
+
+    // controller inputs
+    input_throttle_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+    input_steering_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
 
     // Should we write a CSV file? What values should be written?
     write_csv_ = get<bool>("write_csv", params, false);
-    if (write_csv_) {
+    /*if (write_csv_) {
         csv_.open_output(parent_->mp()->root_log_dir() + "/"
                          + std::to_string(parent_->id().id())
                          + "-states.csv");
@@ -120,46 +130,48 @@ bool SimpleBoat6DOF::init(std::map<std::string, std::string> &info,
                     "AngAccelx_b", "AngAccely_b", "AngAccelz_b",
                     "roll", "pitch", "yaw", "cmd_accel", "cmd_ang_accel",
                     "throttle", "steering", "theta_dot", "x_bdot", "y_bdot"});
-    }
-
+    }*/
     return true;
 }
 
 bool SimpleBoat6DOF::step(double time, double dt) {
-    double prev_x = x_[X];
-    double prev_y = x_[Y];
-    double prev_z = x_[Z];
-    double prev_theta = x_[THETA];
 
-    const double u_vel = clamp(vars_.input(input_speed_idx_), 0, max_velocity_);
-    const double accel_cmd = clamp(((u_vel - x_[speed]) / dt), -1*max_acceleration_, max_acceleration_); // set fixed linear accel for time step
-    acceleration_ = (1 - alpha_) * acceleration_ + alpha_ * accel_cmd;
-
-    const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -1*max_turn_rate_, max_turn_rate_);
-    const double angular_accel_cmd = clamp(((u_theta - x_[angular_speed]) / dt), -1*max_angular_accel_, max_angular_accel_); // set fixed angular accel for time step
-    angular_acceleration_ = (1 - alpha_) * angular_acceleration_ + alpha_ * angular_accel_cmd;
-
+    // get controller inputs
+    throttle_in_ = clamp(vars_.input(input_throttle_idx_), 0, max_acceleration_);
+    steering_in_ = clamp(vars_.input(input_steering_idx_),
+        -1*max_thrust_deflection_angle_deg_*M_PI/180, 
+        max_thrust_deflection_angle_deg_*M_PI/180); // max 45deg deflection angle on thruster
+    std::cout << "THROTTLE IN: " << throttle_in_ << std::endl;
+    std::cout << "STEERING IN: " << steering_in_ << std::endl;
 
     ode_step(dt);
-
-    ext_force_ = Eigen::Vector3d::Zero();
-
     /////////////////////
     // Save state
     // Simple velocity
-    state_->vel() << (x_[X] - prev_x) / dt, (x_[Y] - prev_y) / dt,
-        (x_[Z] - prev_z) / dt;
 
-    state_->pos() << x_[X], x_[Y], x_[Z];
+    std::cout << "X world: " << x_[Xw] << std::endl;
+    std::cout << "Y world: " << x_[Yw] << std::endl;
+    std::cout << "X body: " << x_[X] << std::endl;
+    std::cout << "Y body: " << x_[Y] << std::endl;
+    std::cout << "THETA: " << x_[THETA] << std::endl;
+    std::cout << "TURN RATE: " << x_[THETA_dot] << std::endl;
+
+    Eigen::Vector3d current_position(x_[Xw], x_[Yw], x_[Z]);
+    state_->vel() << (current_position - state_->pos()) / dt;
+    state_->pos() << x_[Xw], x_[Yw], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
-    state_->ang_vel() << 0.0, 0.0, (x_[THETA] - prev_theta) / dt;
+    state_->ang_vel() << 0.0, 0.0, x_[THETA_dot];
 
     // UPDATE THESE FOR 6DOF SENSOR
-    linear_accel_body_ = (state_->quat().rotate_reverse(state_->vel()) - linear_vel_body_) / dt;
-    ang_accel_body_ = (state_->ang_vel() - ang_vel_body_) / dt;
-    linear_vel_body_ = state_->quat().rotate_reverse(state_->vel()); // converting to body frame
-    ang_vel_body_ = state_->ang_vel();
+    Eigen::Vector3d current_body_frame_vel(x_[X_dot], x_[Y_dot], x_[Z_dot]);
+    Eigen::Vector3d current_angular_vel(0.0, 0.0, x_[THETA_dot]);
 
+    linear_accel_body_ = (current_body_frame_vel - linear_vel_body_) / dt;
+    linear_accel_body_[1] = x_[X_dot] * x_[THETA_dot];
+    ang_accel_body_ = (current_angular_vel - ang_vel_body_) / dt;
+    linear_vel_body_ = current_body_frame_vel;
+    ang_vel_body_ = current_angular_vel;
+    /*
     if (write_csv_) {
         // Log state to CSV
         csv_.append(CSV::Pairs{
@@ -183,8 +195,7 @@ bool SimpleBoat6DOF::step(double time, double dt) {
                 {"theta_dot", (x_[THETA] - prev_theta) / dt},
                 {"x_bdot", linear_vel_body_(0)},
                 {"y_bdot", linear_vel_body_(1)}});
-    }
-
+    }*/
     return true;
 }
 
@@ -197,33 +208,47 @@ void SimpleBoat6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     /// 5 : angular speed
     /// 6 : linear speed
 
-    dxdt[X] = x[speed]*cos(x[THETA]);
-    dxdt[Y] = x[speed]*sin(x[THETA]);
-    dxdt[THETA] = x[angular_speed];
+    dxdt[X] = x[X_dot];
+    dxdt[Y] = x[Y_dot];
+    dxdt[Z] = x[Z_dot];
+    dxdt[THETA] = x[THETA_dot];
 
-    if (enable_gravity_) {
-        dxdt[Z] = x[Z_dot];
-        dxdt[Z_dot] = mass_ * -9.8;
+    double x_drag, y_drag, theta_drag;
+    if (abs(x[X_dot]) > 0) {
+        x_drag = (abs(x[X_dot])/x[X_dot]) * linear_drag_ *
+        (pow(x[X_dot],2) + pow(x[Y_dot], 2)) + .5 * (abs(x[X_dot])/x[X_dot]);
     } else {
-        dxdt[Z] = 0;
-        dxdt[Z_dot] = 0;
+        x_drag = 0;
     }
 
-    dxdt[speed] = acceleration_;
-    dxdt[angular_speed] = angular_acceleration_;
-
-    // Saturate based on external force:
-    if (std::abs(ext_force_(0)) > 0.1) {
-        dxdt[X] = 0;
+    if (abs(x[Y_dot]) > 0) {
+        y_drag = (abs(x[Y_dot])/x[Y_dot]) * linear_drag_ *
+        (pow(x[X_dot],2) + pow(x[Y_dot], 2)) + .5 * (abs(x[Y_dot])/x[Y_dot]);
+    } else {
+        y_drag = 0;
     }
 
-    if (std::abs(ext_force_(1)) > 0.1) {
-        dxdt[Y] = 0;
+    if (abs(x[THETA_dot]) > 0) {
+        theta_drag = (abs(x[THETA_dot])/x[THETA_dot]) * angular_drag_ *
+        (pow(x[THETA_dot], 2)) + .05 * (abs(x[THETA_dot])/x[THETA_dot]);
+    } else {
+        theta_drag = 0;
     }
 
-    if (std::abs(ext_force_(2)) > 0.1) {
-        dxdt[Z] = 0;
-    }
+    double y_accel = 0; //-1*(throttle_in_ * sin(steering_in_)) - y_drag;
+    double x_accel = (throttle_in_ * cos(steering_in_)) - x_drag;
+    double ang_accel = throttle_in_ * sin(steering_in_) * angular_accel_factor_ - theta_drag;
+    dxdt[X_dot] = x_accel;
+    dxdt[Y_dot] = y_accel;
+    dxdt[Z_dot] = 0;
+    dxdt[THETA_dot] = ang_accel;
+
+    // world frame position -- ENU
+    double speed = sqrt(pow(x[X_dot],2) + pow(x[Y_dot],2));
+    dxdt[Xw] = speed * cos(x[THETA]);
+    dxdt[Yw] = speed * sin(x[THETA]);
+
+    x_[ACCEL_CENTRIP] = throttle_in_ * sin(steering_in_);
 }
 } // namespace motion
 } // namespace scrimmage
