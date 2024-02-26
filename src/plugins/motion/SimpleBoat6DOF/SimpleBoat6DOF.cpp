@@ -105,7 +105,7 @@ bool SimpleBoat6DOF::init(std::map<std::string, std::string> &info,
     max_turn_rate_ = get<double>("max_turn_rate", params, .3);
     max_thrust_deflection_angle_deg_ = get<double>("deflection_angle", params, 20);
 
-    // define drag constants based on ratio of max accel/max speed^2
+    // define drag constants = max accel/max speed^2
     linear_drag_ = max_acceleration_ / pow(max_speed_, 2);
     angular_drag_ = max_angular_accel_ / pow(max_turn_rate_, 2);
     angular_accel_factor_ = max_angular_accel_ / (max_acceleration_ * sin(max_thrust_deflection_angle_deg_*M_PI/180));
@@ -140,34 +140,38 @@ bool SimpleBoat6DOF::step(double time, double dt) {
     throttle_in_ = clamp(vars_.input(input_throttle_idx_), 0, max_acceleration_);
     steering_in_ = clamp(vars_.input(input_steering_idx_),
         -1*max_thrust_deflection_angle_deg_*M_PI/180, 
-        max_thrust_deflection_angle_deg_*M_PI/180); // max 45deg deflection angle on thruster
+        max_thrust_deflection_angle_deg_*M_PI/180); // max deflection angle on thruster
+    /*
     std::cout << "THROTTLE IN: " << throttle_in_ << std::endl;
     std::cout << "STEERING IN: " << steering_in_ << std::endl;
-
+    */
     ode_step(dt);
     /////////////////////
     // Save state
     // Simple velocity
 
+    /*
     std::cout << "X world: " << x_[Xw] << std::endl;
     std::cout << "Y world: " << x_[Yw] << std::endl;
     std::cout << "X body: " << x_[X] << std::endl;
     std::cout << "Y body: " << x_[Y] << std::endl;
     std::cout << "THETA: " << x_[THETA] << std::endl;
     std::cout << "TURN RATE: " << x_[THETA_dot] << std::endl;
+    */
 
     Eigen::Vector3d current_position(x_[Xw], x_[Yw], x_[Z]);
+    // inertial frame -- ENU coords
     state_->vel() << (current_position - state_->pos()) / dt;
     state_->pos() << x_[Xw], x_[Yw], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
     state_->ang_vel() << 0.0, 0.0, x_[THETA_dot];
 
-    // UPDATE THESE FOR 6DOF SENSOR
+    // UPDATE THESE FOR 6DOF SENSOR -- body frame, x-axis out nose, z-axis up(I think?)
     Eigen::Vector3d current_body_frame_vel(x_[X_dot], x_[Y_dot], x_[Z_dot]);
     Eigen::Vector3d current_angular_vel(0.0, 0.0, x_[THETA_dot]);
 
     linear_accel_body_ = (current_body_frame_vel - linear_vel_body_) / dt;
-    linear_accel_body_[1] = x_[X_dot] * x_[THETA_dot];
+    linear_accel_body_[1] = x_[X_dot] * x_[THETA_dot]; // centripetal accel
     ang_accel_body_ = (current_angular_vel - ang_vel_body_) / dt;
     linear_vel_body_ = current_body_frame_vel;
     ang_vel_body_ = current_angular_vel;
@@ -214,6 +218,8 @@ void SimpleBoat6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[THETA] = x[THETA_dot];
 
     double x_drag, y_drag, theta_drag;
+
+    // drag_force = Cv^2 + constant_term: adding constant_term so velocity can reach 0
     if (abs(x[X_dot]) > 0) {
         x_drag = (abs(x[X_dot])/x[X_dot]) * linear_drag_ *
         (pow(x[X_dot],2) + pow(x[Y_dot], 2)) + .5 * (abs(x[X_dot])/x[X_dot]);
@@ -235,9 +241,11 @@ void SimpleBoat6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
         theta_drag = 0;
     }
 
+    // assume body frame y accel is negligable for now
     double y_accel = 0; //-1*(throttle_in_ * sin(steering_in_)) - y_drag;
     double x_accel = (throttle_in_ * cos(steering_in_)) - x_drag;
-    double ang_accel = throttle_in_ * sin(steering_in_) * angular_accel_factor_ - theta_drag;
+    double ang_accel = (throttle_in_+max_acceleration_*.2) *
+        sin(steering_in_) * angular_accel_factor_ - theta_drag;
     dxdt[X_dot] = x_accel;
     dxdt[Y_dot] = y_accel;
     dxdt[Z_dot] = 0;
