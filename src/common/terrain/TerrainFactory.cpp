@@ -52,11 +52,12 @@ namespace scrimmage {
         std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain)
     {
       std::string terrain_filename{utm_terrain->poly_data_file()};
+      if(terrain_filename.size() == 0) { return nullptr; }
 
       std::size_t extension_ind = terrain_filename.find_last_of(".");
       if(extension_ind == std::string::npos) { 
         std::cout << "Terrain file \'" << terrain_filename 
-          << "\' does not have proer extension\n" ;
+          << "\' does not have proper extension\n" ;
         return nullptr;
       }
       std::string extension = terrain_filename.substr(extension_ind + 1);
