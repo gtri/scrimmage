@@ -36,6 +36,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules
   ${PROJECT_SOURCE_DIR}/share/cmake/${PROJECT_NAME})
+message(CMAKE_MODULE_PATH="${CMAKE_MODULE_PATH}")
 
 set(SCRIMMAGE_PYTHON_DIR ${PROJECT_SOURCE_DIR}/python)
 set(SCRIMMAGE_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/src/proto)
@@ -164,7 +165,7 @@ set(PROTOBUF_INCLUDE ${PROTOBUF_INCLUDE_DIRS})
 ########################################################
 # Find GRPC
 ########################################################
-set(GRPC_VERSION 1.2.1)
+set(GRPC_VERSION 1.5)
 find_package(GRPC)
 
 ########################################################

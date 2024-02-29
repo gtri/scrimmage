@@ -42,6 +42,7 @@
 #include <scrimmage/msgs/LOSSensor.pb.h>
 
 #include <cstdlib>
+#include <sys/param.h>
 #include <vector>
 
 namespace sc = scrimmage;

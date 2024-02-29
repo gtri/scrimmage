@@ -86,7 +86,6 @@ DEPS_DPKG=(
     build-essential
     librapidxml-dev
     libeigen3-dev
-    libgeographic-dev
     libboost-thread-dev
     libboost-date-time-dev
     libboost-graph-dev
@@ -116,6 +115,7 @@ fi
 if [ "20.04" == ${UBUNTU_VERSION} ]; then
     PYTHON_VERSION="3"  #Force Only Python 3 install for Focal
     DEPS_DPKG+=(
+    libgeographic-dev
     libvtk6.3-qt
     libgrpc-dev
     libgrpc++-dev
@@ -125,6 +125,7 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     echo "Detected Ubuntu 22"
     PYTHON_VERSION="3"  #Force Only Python 3 install for Jammy
     DEPS_DPKG+=(
+    libgeographic-dev
     libvtk9-qt-dev
     libgrpc-dev
     libgrpc++-dev
@@ -136,6 +137,22 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     libprotobuf-dev
     ) #GRPC Libraries for Jammy
 fi
+if [ "23.10" == ${UBUNTU_VERSION} ]; then
+    echo "Detected Ubuntu 23"
+    PYTHON_VERSION="3"  #Force Only Python 3 install for Jammy
+    DEPS_DPKG+=(
+    libgeographiclib-dev
+    libvtk9-qt-dev
+    libgrpc-dev
+    libgrpc++-dev
+    libvtk9-dev
+    protobuf-compiler
+    protobuf-compiler-grpc
+    pybind11-dev
+    libprotobuf-dev
+    ) #GRPC Libraries for Jammy
+fi
+
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
     DEPS_DPKG+=(
         python
