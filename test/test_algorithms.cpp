@@ -33,6 +33,7 @@
 #include <gtest/gtest.h>
 
 #include <scrimmage/common/Algorithm.h>
+#include <cstdint>
 
 #include <map>
 
