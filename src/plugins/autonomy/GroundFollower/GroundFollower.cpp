@@ -30,6 +30,7 @@
  */
 
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
@@ -46,6 +47,7 @@
 #include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/common/CSV.h>
 
 #include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/GeoCoords.hpp>
@@ -86,7 +88,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         register_param<double>("desired_z", goal_(2), param_cb);
 
 
-        enable_boundary_control_ = get<bool>("enable_boundary_control", params, false);
+        interpolate_terrain_ = get<bool>("interpolate_terrain_", params, false);
 
         auto bd_cb = [&](auto &msg) {boundary_ = sci::Boundary::make_boundary(msg->data);};
         subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
@@ -105,6 +107,16 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
         desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
         desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+
+        std::string logging_filename = parent_->mp()->log_dir() + 
+          + "/" + "ground_follower_" + std::to_string(parent_->id().id()) + ".csv";
+        if(!csv_.open_output(logging_filename)) {
+          std::cout << "Could not create output file " << logging_filename << "\n"; 
+        } else {
+          csv_.set_column_headers(
+              "t, lon, lat,altitude, elevation");
+        }
+
       }
 
       bool GroundFollower::step_autonomy(double t, double dt) {
@@ -131,9 +143,16 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
           parent_->projection()->Reverse(x_pos, y_pos, z_pos, lat, lon, alt);
 
           double elevation = terrain_map_->QueryLongLat(
-              lon, lat, true);
+              lon, lat, interpolate_terrain_);
 
           desired_alt_ = elevation + target_height_;
+
+          csv_.append(scrimmage::CSV::Pairs{
+            {"t", t},
+            {"lon", lon},
+            {"lat", lat},
+            {"altitude", alt},
+            {"elevation", elevation}});
         }
 
 
@@ -146,6 +165,11 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
         vars_.output(desired_heading_idx_, heading);
 
         noisy_state_set_ = false;
+        return true;
+      }
+
+      bool GroundFollower::posthumous(double t) {
+        csv_.close_output();
         return true;
       }
     } // namespace autonomy

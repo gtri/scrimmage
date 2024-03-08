@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GROUND_FOLLOWER_GROUND_FOLLOWER_H_
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/common/CSV.h>
 
 #include <Eigen/Dense>
 
@@ -52,12 +53,14 @@ class GroundFollower : public scrimmage::Autonomy{
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
+    bool posthumous(double t) override;
 
  protected:
     double speed_;
     double target_height_;
     double desired_alt_;
     Eigen::Vector3d goal_;
+    bool interpolate_terrain_;
 
     int frame_number_;
     bool show_camera_images_;
@@ -84,6 +87,10 @@ class GroundFollower : public scrimmage::Autonomy{
     PublisherPtr pub_gen_ents_;
     bool gen_ents_ = false;
     double prev_gen_time_ = -1.0;
+
+    scrimmage::CSV csv_;
+
+
 };
 } // namespace autonomy
 } // namespace scrimmage
