@@ -177,6 +177,12 @@ class MissionParse {
 
     bool no_bin_logging_ = false;
 
+    bool read_file_content(const std::string& filename);
+    bool replace_overrides_in_mission_file();
+
+    template<class T>
+    bool parse_mission();
+
     AttributeMap attributes_;
     std::map<std::string, std::string> params_;
 

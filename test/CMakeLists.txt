@@ -17,6 +17,8 @@ set(
   test_entity_configs.cpp
   test_openai.cpp
   test_shape.cpp
+  test_mission_parse.cpp
+  test_xml_parser.cpp
   test_parse_utils.cpp
   )
 
@@ -36,15 +38,16 @@ endif()
 foreach(test_file ${test_files})
   get_filename_component(test_name ${test_file} NAME_WE)
   add_executable(${test_name} ${test_file})
-  AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
+  #AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
   add_dependencies(${test_name} scrimmage-core)
   target_link_libraries(${test_name}
     gtest_main
+    gmock
     scrimmage-core
     )
   if (ENABLE_PYTHON_BINDINGS)
     target_link_libraries(${test_name} scrimmage-python)
   endif()
 
-  add_test(NAME ${test_name} COMMAND ${test_name})
+  add_test(NAME ${test_name} COMMAND ${test_name} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 endforeach()

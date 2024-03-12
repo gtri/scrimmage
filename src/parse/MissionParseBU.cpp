@@ -82,9 +82,23 @@ namespace scrimmage {
 
   bool MissionParse::parse(const std::string &filename) {
     read_file_content(filename);
-    replace_overrides_in_mission_file();
-    std::size_t xIncludePos = mission_file_content_.find("http://www.w3.org/2001/XInclude");
-    bool useLibXMLParser = xIncludePos != std::string::npos; 
+    set_overrides();
+    RapidXMLParser rx_parser;
+    // Parse first with RapidXML. If we find the inclusion of 
+    // the xinclude namespace tag, switch to libxml2 if it exits
+    rx_parser.parse(mission_file_content_);
+    auto runscript_node = rx_parser.first_node("runscript");
+    bool useLibXMLParser = false;
+    if (runscript_node.is_valid()) {
+      for(auto attribute = runscript_node.first_attribute(); attribute.is_valid(); attribute = attribute.next()) {
+        if(attribute.value().find("XInclude") != std::string::npos) {
+          // Runscript tag contained an XInclude 
+          useLibXMLParser = true;
+          break;
+        }
+      }
+    } 
+  
     if(useLibXMLParser) {
       return parse_mission<LibXML2Parser>();
     } else {
@@ -125,7 +139,7 @@ namespace scrimmage {
       return true;
   }
 
-  bool MissionParse::replace_overrides_in_mission_file() {
+  bool MissionParse::set_overrides() {
       // Search and replace any overrides of the form ${key=value} in the mission
       // file
       for (auto &kv : overrides_map_) {
@@ -146,7 +160,6 @@ namespace scrimmage {
     bool MissionParse::parse_mission() {
       // Parse the xml tree.
       Parser doc;
-      doc.set_filename(mission_filename_);
       // doc.parse requires a null terminated string that it can modify.
       std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);
       mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end()); // copy

@@ -1,0 +1,31 @@
+<entity>
+<team_id>2</team_id>
+<color>255 0 0</color>
+<count>30</count>
+<health>1</health>
+<radius>2</radius>
+
+<variance_x>20</variance_x>
+<variance_y>20</variance_y>
+<variance_z>20</variance_z>
+
+<x>50</x>
+<y>0</y>
+<z>200</z>
+
+<heading>180</heading>
+<altitude>200</altitude>
+<controller>SimpleAircraftControllerPID</controller>
+<motion_model>SimpleAircraft</motion_model>
+<visual_model>zephyr-red</visual_model>
+<autonomy speed="21"
+enable_boundary_control="true">Straight</autonomy>
+<base>
+<latitude>35.719961</latitude>
+<longitude>-120.767304</longitude>
+<altitude>300</altitude>
+<radius>25</radius>
+</base>
+</entity>
+
+
