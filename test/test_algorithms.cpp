@@ -35,6 +35,7 @@
 #include <scrimmage/common/Algorithm.h>
 
 #include <map>
+#include <stdint.h>
 
 namespace sc = scrimmage;
 
