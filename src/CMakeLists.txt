@@ -36,6 +36,7 @@ set(SRCS
     common/GlobalService.cpp
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
+    gpu/GPUController.cpp
 )
 
 add_library(${LIBRARY_NAME} SHARED
@@ -52,6 +53,8 @@ else()
   target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
 endif()
 
+
+
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
     scrimmage-protos
@@ -67,6 +70,19 @@ target_link_libraries(${LIBRARY_NAME}
     Boost::thread
     Boost::chrono
 )
+
+# For now force compilation with openCL
+set(ENABLE_GPU_ACCELERATION true)
+if (ENABLE_GPU_ACCELERATION) 
+    find_package(OpenCL REQUIRED)
+    target_link_libraries(${LIBRARY_NAME} 
+        PUBLIC
+        OpenCL::OpenCL
+    )
+    target_compile_definitions(${LIBRARY_NAME} 
+        PUBLIC
+        CL_HPP_TARGET_OPENCL_VERSION=300)
+endif()
 
 if(ENABLE_PYTHON_BINDINGS)
   # compile definitions need to be public

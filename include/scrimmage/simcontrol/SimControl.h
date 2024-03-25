@@ -321,6 +321,9 @@ class SimControl {
 
     void set_running_in_thread(bool running_in_thread);
 
+    /// @brief Searches for Hardware Acceleration Devices 
+    void init_gpu();
+
  protected:
     // Key: Entity ID
     // Value: Team ID
@@ -412,6 +415,8 @@ class SimControl {
     std::set<int> ids_used_ = {0};
     FileSearchPtr file_search_;
     RTreePtr rtree_;
+
+    GPUControllerPtr gpu_;
 
     void request_screenshot();
     void create_rtree(const unsigned int& additional_size);
