@@ -54,6 +54,7 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/gpu/GPUController.h>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -127,6 +128,7 @@ SimControl::SimControl() :
     pubsub_(std::make_shared<PubSub>()),
     file_search_(std::make_shared<FileSearch>()),
     rtree_(std::make_shared<scrimmage::RTree>()),
+    gpu_(std::make_shared<scrimmage::GPUController>()),
     sim_plugin_(std::make_shared<EntityPlugin>()),
     limited_verbosity_(false) {
     pause(false);
@@ -204,6 +206,17 @@ bool SimControl::init(const std::string& mission_file,
     }
 #endif
     return true;
+}
+
+void SimControl::init_gpu() {
+#define ENABLE_GPU_ACCELERATION
+#ifdef ENABLE_GPU_ACCELERATION
+    if(!gpu_->init(mp_->kernel_dir())) {
+        std::cerr << "Unable to initalize GPU with kernel directory \"" << mp_->kernel_dir() << "\"\n";
+    }
+#else
+    std::cout << "GPU Acceleration Disabled. Enable GPU Message Placeholder\n";
+#endif
 }
 
 void SimControl::request_screenshot() {

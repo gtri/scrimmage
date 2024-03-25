@@ -84,6 +84,7 @@ GenerateSetEnv(
   SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
   LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
   SETENV_IN_FILE   ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
+  KERNEL_PATH      ${PROJECT_SOURCE_DIR}/src/gpu/kernels
   MISSION_PATH     ${PROJECT_SOURCE_DIR}/missions
   PLUGIN_PATH      ${PROJECT_BINARY_DIR}/plugin_libs
                    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins

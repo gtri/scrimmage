@@ -151,7 +151,10 @@ class MissionParse {
 
     std::shared_ptr<scrimmage_proto::UTMTerrain> & utm_terrain();
 
+    std::string kernel_dir() const;
+
     std::string get_mission_filename();
+
 
     bool get_no_bin_logging();
 
@@ -196,6 +199,7 @@ class MissionParse {
     std::string root_log_dir_;
     std::string log_dir_;
     std::string output_dir_trailer_;
+    std::string kernel_dir_;
 
     double longitude_origin_ = 29.0;
     double latitude_origin_ = -95.0;

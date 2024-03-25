@@ -143,6 +143,9 @@ using ControllerPtr = std::shared_ptr<Controller>;
 class Sensor;
 using SensorPtr = std::shared_ptr<Sensor>;
 
+class GPUController;
+using GPUControllerPtr = std::shared_ptr<GPUController>;
+
 class Log;
 
 class Interface;

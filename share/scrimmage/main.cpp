@@ -146,6 +146,7 @@ int main(int argc, char *argv[]) {
 
     simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
+    simcontrol.init_gpu();
 
     std::shared_ptr<std::thread> viewer_thread = nullptr;
 
