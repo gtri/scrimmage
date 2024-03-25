@@ -2,7 +2,7 @@ include(CMakeParseArguments)
 
 function(GenerateSetEnv)
   set(options)
-  set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE)
+  set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE JSBSIM_ROOT KERNEL_PATH)
   set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH PYTHONPATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
@@ -14,6 +14,10 @@ function(GenerateSetEnv)
     set(SCRIMMAGE_ENV_DIR "${ARG_LOCAL_CONFIG_DIR}/env")
     set(LOCAL_SETUP_BASH ${ARG_LOCAL_CONFIG_DIR}/setup.bash)
     file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
+
+    set(ARG_JSBSIM_ROOT "${ARG_DATA_PATH}")
+
+    set(ARG_KERNEL_PATH "${ARG_KERNEL_PATH}")
 
     # Convert CMake lists into file paths separated by ":"
     string(REPLACE ";" ":" ARG_MISSION_PATH "${ARG_MISSION_PATH}")

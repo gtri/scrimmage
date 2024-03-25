@@ -37,11 +37,13 @@ set(SRCS
     common/GlobalService.cpp
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
+    gpu/GPUController.cpp
 )
 
 add_subdirectory(parse/XMLParser)
 
-set(PUBLIC_LIBS
+target_link_libraries(${LIBRARY_NAME}
+  PUBLIC
     scrimmage-protos
     scrimmage-msgs
     scrimmage-xml
@@ -93,6 +95,19 @@ target_link_libraries(${LIBRARY_NAME}
 )
 
 target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
+
+# For now force compilation with openCL
+set(ENABLE_GPU_ACCELERATION true)
+if (ENABLE_GPU_ACCELERATION) 
+    find_package(OpenCL REQUIRED)
+    target_link_libraries(${LIBRARY_NAME} 
+        PUBLIC
+        OpenCL::OpenCL
+    )
+    target_compile_definitions(${LIBRARY_NAME} 
+        PUBLIC
+        CL_HPP_TARGET_OPENCL_VERSION=300)
+endif()
 
 if(ENABLE_PYTHON_BINDINGS)
   # compile definitions need to be public

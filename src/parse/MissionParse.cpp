@@ -330,8 +330,16 @@ namespace scrimmage {
         root_log_dir_ = expand_user(params_["log_dir"]);
       }
 
-      // Is output_dir_trailer defined?
-      if (params_.count("output_dir_trailer") > 0) {
+    const char* env_kernel_path = std::getenv("SCRIMMAGE_KERNEL_PATH");
+    if (env_kernel_path != nullptr) {
+        kernel_dir_ = env_kernel_path;
+    }
+    if (params_.count("kernel_dir") > 0) {
+        kernel_dir_ = expand_user(params_["kernel_dir"]);
+    }
+
+    // Is output_dir_trailer defined?
+    if (params_.count("output_dir_trailer") > 0) {
         output_dir_trailer_ = "_" + params_["output_dir_trailer"].substr(0, 100);
         std::replace(output_dir_trailer_.begin(), output_dir_trailer_.end(), '/', '_');
       } else {
@@ -927,8 +935,9 @@ namespace scrimmage {
   scrimmage_proto::Color &MissionParse::background_color()
   { return background_color_; }
 
-  std::string MissionParse::log_dir() { return log_dir_; }
-  std::string MissionParse::root_log_dir() { return root_log_dir_; }
+std::string MissionParse::log_dir() { return log_dir_; }
+std::string MissionParse::root_log_dir() { return root_log_dir_; }
+std::string MissionParse::kernel_dir() const { return kernel_dir_; }
 
   void MissionParse::set_log_dir(const std::string &log_dir) {log_dir_ = log_dir;}
 
