@@ -56,12 +56,22 @@ installer to install the required packages:
 
 If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
 
-### Additional Binary Dependencies Ubuntu 20.04
+### Additional Dependencies
+#### Unbuntu 22.04
+
+Additional dependencies for running Scrimmage on Ubuntu 22.04 can be installed
+by running:
+    
+    sudo ./setup/install-jsbsim.sh
+
+
+### Ubuntu 20.04 and Earlier: 
+#### Additional Binary Dependencies Ubuntu 20.04
 
     sudo apt install libgrpc++-dev
     (optional) sudo ln -s usr/bin/python3 usr/bin/python
 
-### Install Custom Built Binary Dependencies
+#### Install Custom Built Binary Dependencies
 
 Some of SCRIMMAGE's dependencies have to be custom built from source. We
 provide debian package binaries for both Ubuntu 16.04 (xenial) and 18.04
