@@ -38,12 +38,16 @@
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/parse/XMLParser/XMLParser.h>
 #include <scrimmage/parse/XMLParser/RapidXMLParser.h>
+
+#if ENABLE_LIBXML2_PARSER
 #include <scrimmage/parse/XMLParser/LibXML2Parser.h>
+#endif
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <regex> //NOLINT
+#include <typeinfo>
 
 #include <GeographicLib/UTMUPS.hpp>
 #include <GeographicLib/Geocentric.hpp>
@@ -83,6 +87,7 @@ namespace scrimmage {
   bool MissionParse::parse(const std::string &filename) {
     read_file_content(filename);
     replace_overrides_in_mission_file();
+#if ENABLE_LIBXML2_PARSER
     std::size_t xIncludePos = mission_file_content_.find("http://www.w3.org/2001/XInclude");
     bool useLibXMLParser = xIncludePos != std::string::npos; 
     if(useLibXMLParser) {
@@ -90,60 +95,64 @@ namespace scrimmage {
     } else {
       return parse_mission<RapidXMLParser>();
     }
+#else
+    return parse_mission<RapidXMLParser>();
+#endif
   }
 
   bool MissionParse::read_file_content(const std::string& filename) {
     mission_filename_ = expand_user(filename);
-      // First, explicitly search for the mission file.
-      if (!fs::exists(mission_filename_)) {
-        // If the file doesn't exist, search for the mission file under the
-        // SCRIMMAGE_MISSION_PATH.
-        FileSearch file_search;
-        std::string result = "";
-        bool status = file_search.find_file(mission_filename_, "xml",
-            "SCRIMMAGE_MISSION_PATH",
-            result, false);
-        if (!status) {
-          // The mission file wasn't found. Exit.
-          cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
-          return false;
-        }
-        // The mission file was found, save its path.
-        mission_filename_ = result;
-      }
-
-      std::ifstream file(mission_filename_.c_str());
-      if (!file.is_open()) {
-        std::cout << "Failed to open mission file: " << mission_filename_ << endl;
+    // First, explicitly search for the mission file.
+    if (!fs::exists(mission_filename_)) {
+      // If the file doesn't exist, search for the mission file under the
+      // SCRIMMAGE_MISSION_PATH.
+      FileSearch file_search;
+      std::string result = "";
+      bool status = file_search.find_file(mission_filename_, "xml",
+          "SCRIMMAGE_MISSION_PATH",
+          result, false);
+      if (!status) {
+        // The mission file wasn't found. Exit.
+        cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
         return false;
       }
+      // The mission file was found, save its path.
+      mission_filename_ = result;
+    }
 
-      std::stringstream buffer;
-      buffer << file.rdbuf();
-      file.close();
-      mission_file_content_ = buffer.str();
-      return true;
+    std::ifstream file(mission_filename_.c_str());
+    if (!file.is_open()) {
+      std::cout << "Failed to open mission file: " << mission_filename_ << endl;
+      return false;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    file.close();
+    mission_file_content_ = buffer.str();
+    return true;
   }
 
   bool MissionParse::replace_overrides_in_mission_file() {
-      // Search and replace any overrides of the form ${key=value} in the mission
-      // file
-      for (auto &kv : overrides_map_) {
-        std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
-        mission_file_content_ = std::regex_replace(mission_file_content_, reg,
-            kv.second);
-      }
+    // Search and replace any overrides of the form ${key=value} in the mission
+    // file
+    for (auto &kv : overrides_map_) {
+      std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
+      mission_file_content_ = std::regex_replace(mission_file_content_, reg,
+          kv.second);
+    }
 
-      // Replace our xml variables of the form ${var=default} with the default
-      // value
-      std::string fmt{"$1"};
-      std::regex reg("\\$\\{.+?=(.+?)\\}");
-      mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
-      return true;
+    // Replace our xml variables of the form ${var=default} with the default
+    // value
+    std::string fmt{"$1"};
+    std::regex reg("\\$\\{.+?=(.+?)\\}");
+    mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
+    return true;
   }
 
   template<class Parser>
     bool MissionParse::parse_mission() {
+      //std::cout << "Parsing with " << typeid(Parser).name() << "\n";
       // Parse the xml tree.
       Parser doc;
       doc.set_filename(mission_filename_);

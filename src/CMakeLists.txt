@@ -23,7 +23,6 @@ set(SRCS
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
     parse/XMLParser/RapidXMLParser.cpp
-    parse/XMLParser/LibXML2Parser.cpp
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -39,20 +38,6 @@ set(SRCS
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
 )
-
-add_library(${LIBRARY_NAME} SHARED
-  ${SRCS}
-)
-
-add_dependencies(${LIBRARY_NAME}
-  scrimmage-msgs scrimmage-proto-gen
-)
-
-if (GRPC_FOUND)
-  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
-else()
-  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
-endif()
 
 set(PUBLIC_LIBS
     scrimmage-protos
@@ -78,24 +63,38 @@ set(INCLUDE_DIRS
     "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
 )
 
-find_package(LibXml2)
-if(LibXml2_FOUND)
-  set(PUBLIC_LIBS
-    ${PUBLIC_LIBS}
-    ${LIBXML2_LIBRARIES})
-
-    set(INCLUDE_DIRS
-      ${INCLUDE_DIRS}
-      ${LIBXML2_INCLUDE_DIRS}
-      )
+if (GRPC_FOUND)
+  set(DEFINITIONS ${DEFINITIONS} -DENABLE_GRPC=1)
+  #target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
+else()
+  set(DEFINITIONS ${DEFINITIONS} -DENABLE_GRPC=0)
+  #target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
 endif()
 
+if(LibXml2_FOUND)
+   set(SRCS ${SRCS} parse/XMLParser/LibXML2Parser.cpp)
+   set(PUBLIC_LIBS ${PUBLIC_LIBS} ${LIBXML2_LIBRARIES})
+   set(INCLUDE_DIRS ${INCLUDE_DIRS} ${LIBXML2_INCLUDE_DIRS})
+   set(DEFINITIONS ${DEFINITIONS} -DENABLE_LIBXML2_PARSER=1)
+else()
+   set(DEFINITIONS ${DEFINITIONS} -DENABLE_LIBXML2_PARSER=1)
+endif()
+
+add_library(${LIBRARY_NAME} SHARED
+  ${SRCS}
+)
+
+add_dependencies(${LIBRARY_NAME}
+  scrimmage-msgs scrimmage-proto-gen
+)
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
     ${PUBLIC_LIBS}
   PRIVATE
     ${CORE_LIBS}
 )
+
+target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
 if(ENABLE_PYTHON_BINDINGS)
   # compile definitions need to be public
