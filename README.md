@@ -57,7 +57,7 @@ installer to install the required packages:
 If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
 
 ### Additional Dependencies
-#### Unbuntu 22.04
+#### Ubuntu 22.04
 
 Additional dependencies for running Scrimmage on Ubuntu 22.04 can be installed
 by running:
