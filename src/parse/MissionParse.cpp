@@ -86,7 +86,7 @@ namespace scrimmage {
 
   bool MissionParse::parse(const std::string &filename) {
     read_file_content(filename);
-    replace_overrides_in_mission_file();
+    mission_file_content_ = replace_overrides(mission_file_content_);
 #if ENABLE_LIBXML2_PARSER
     std::size_t xIncludePos = mission_file_content_.find("http://www.w3.org/2001/XInclude");
     bool useLibXMLParser = xIncludePos != std::string::npos; 
@@ -133,12 +133,12 @@ namespace scrimmage {
     return true;
   }
 
-  bool MissionParse::replace_overrides_in_mission_file() {
+  std::string MissionParse::replace_overrides(std::string str) {
     // Search and replace any overrides of the form ${key=value} in the mission
     // file
     for (auto &kv : overrides_map_) {
       std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
-      mission_file_content_ = std::regex_replace(mission_file_content_, reg,
+      str = std::regex_replace(str, reg,
           kv.second);
     }
 
@@ -146,14 +146,26 @@ namespace scrimmage {
     // value
     std::string fmt{"$1"};
     std::regex reg("\\$\\{.+?=(.+?)\\}");
-    mission_file_content_ = std::regex_replace(mission_file_content_, reg, fmt);
-    return true;
+    str = std::regex_replace(str, reg, fmt);
+    return str;
   }
 
   template<class Parser>
     bool MissionParse::parse_mission() {
       //std::cout << "Parsing with " << typeid(Parser).name() << "\n";
       // Parse the xml tree.
+
+
+      // Helpers to avoid passing bad strings into stoi and stod
+      auto parse_int = [&](std::string str) {
+        return std::stoi(replace_overrides(str)); 
+      };
+
+      auto parse_double = [&](std::string str) {
+        return std::stod(replace_overrides(str)); 
+      };
+
+
       Parser doc;
       doc.set_filename(mission_filename_);
       // doc.parse requires a null terminated string that it can modify.
@@ -180,15 +192,15 @@ namespace scrimmage {
 
         std::string attr_str(attr.name());
         if (attr_str == "start") {
-          t0_ = std::stod(attr.value());
+          t0_ = parse_double(attr.value());
         } else if (attr_str == "end") {
-          tend_ = std::stod(attr.value());
+          tend_ = parse_double(attr.value());
         } else if (attr_str == "dt") {
-          dt_ = std::stod(attr.value());
+          dt_ = parse_double(attr.value());
         } else if (attr_str ==  "motion_multiplier") {
-          motion_multiplier_ = std::stod(attr.value());
+          motion_multiplier_ = parse_double(attr.value());
         } else if (attr_str == "time_warp") {
-          time_warp_ = std::stod(attr.value());
+          time_warp_ = parse_double(attr.value());
         } else if (attr_str == "enable_gui") {
           enable_gui_ = str2bool(attr.value());
         } else if (attr_str == "network_gui") {
@@ -198,9 +210,9 @@ namespace scrimmage {
         } else if (attr_str == "full_screen") {
           full_screen_ = str2bool(attr.value());
         } else if (attr_str == "window_width") {
-          window_width_ = std::stod(attr.value());
+          window_width_ = parse_double(attr.value());
         } else if (attr_str == "window_height") {
-          window_height_ = std::stod(attr.value());
+          window_height_ = parse_double(attr.value());
         }
       }
 
@@ -295,17 +307,17 @@ namespace scrimmage {
 
       // Is latitude_origin defined?
       if (params_.count("latitude_origin") > 0) {
-        latitude_origin_ = std::stod(params_["latitude_origin"]);
+        latitude_origin_ = parse_double(params_["latitude_origin"]);
       }
 
       // Is longitude_origin defined?
       if (params_.count("longitude_origin") > 0) {
-        longitude_origin_ = std::stod(params_["longitude_origin"]);
+        longitude_origin_ = parse_double(params_["longitude_origin"]);
       }
 
       // Is altitude_origin defined?
       if (params_.count("altitude_origin") > 0) {
-        altitude_origin_ = std::stod(params_["altitude_origin"]);
+        altitude_origin_ = parse_double(params_["altitude_origin"]);
       }
 
       set_lat_lon_alt_origin(latitude_origin_, longitude_origin_,
@@ -444,7 +456,7 @@ namespace scrimmage {
           script_info["team_id"] = std::to_string(team_id_err--);
         }
 
-        int team_id = std::stoi(script_info["team_id"]);
+        int team_id = parse_int(script_info["team_id"]);
 
         // Since we can handle multiple bases per team ID, we need to see if
         // a team ID has already been set. If not, create a new entry into
@@ -467,13 +479,13 @@ namespace scrimmage {
           double radius = 25;
           auto radius_node = base_node.first_node("radius");
           if (radius_node.is_valid()) {
-            radius = std::stod(radius_node.value());
+            radius = parse_double(radius_node.value());
           }
 
           double opacity = 1.0;
           auto opacity_node = base_node.first_node("opacity");
           if (opacity_node.is_valid()) {
-            opacity = std::stod(opacity_node.value());
+            opacity = parse_double(opacity_node.value());
           }
 
           // Extract position of base
@@ -482,17 +494,17 @@ namespace scrimmage {
           // Search for xyz
           auto x_node = base_node.first_node("x");
           if (x_node.is_valid()) {
-            pos_xyz(0) = std::stod(x_node.value());
+            pos_xyz(0) = parse_double(x_node.value());
           }
 
           auto y_node = base_node.first_node("y");
           if (y_node.is_valid()) {
-            pos_xyz(0) = std::stod(y_node.value());
+            pos_xyz(0) = parse_double(y_node.value());
           }
 
           auto z_node = base_node.first_node("z");
           if (z_node.is_valid()) {
-            pos_xyz(0) = std::stod(z_node.value());
+            pos_xyz(0) = parse_double(z_node.value());
           }
 
           // Search for lon lat alt.
@@ -500,19 +512,19 @@ namespace scrimmage {
           bool lon_valid = false, lat_valid = false, alt_valid = false;
           auto lon_node = base_node.first_node("longitude");
           if (lon_node.is_valid()) {
-            pos_LLA(0) = std::stod(lon_node.value());
+            pos_LLA(0) = parse_double(lon_node.value());
             lon_valid = true;
           }
 
           auto lat_node = base_node.first_node("latitude");
           if (lat_node.is_valid()) {
-            pos_LLA(1) = std::stod(lat_node.value());
+            pos_LLA(1) = parse_double(lat_node.value());
             lat_valid = true;
           }
 
           auto alt_node = base_node.first_node("altitude");
           if (alt_node.is_valid()) {
-            pos_LLA(2) = std::stod(alt_node.value());
+            pos_LLA(2) = parse_double(alt_node.value());
             alt_valid = true;
           }
 
@@ -566,15 +578,15 @@ namespace scrimmage {
         Eigen::Vector3d pos_xyz(-1, -1, -1);
         bool lon_valid = false, lat_valid = false, alt_valid = false;
         if (script_info.count("longitude") > 0) {
-          pos_LLA(0) = std::stod(script_info["longitude"]);
+          pos_LLA(0) = parse_double(script_info["longitude"]);
           lon_valid = true;
         }
         if (script_info.count("latitude") > 0) {
-          pos_LLA(1) = std::stod(script_info["latitude"]);
+          pos_LLA(1) = parse_double(script_info["latitude"]);
           lat_valid = true;
         }
         if (script_info.count("altitude") > 0) {
-          pos_LLA(2) = std::stod(script_info["altitude"]);
+          pos_LLA(2) = parse_double(script_info["altitude"]);
           alt_valid = true;
         }
 
@@ -629,7 +641,8 @@ namespace scrimmage {
         gen_info.rate = -1;
         gen_info.time_variance = 0;
         if (script_info.count("count") > 0) {
-          gen_info.total_count = std::stoi(script_info["count"]);
+          // If there are overrides in count, catch them and substitue
+          gen_info.total_count = parse_int(script_info["count"]);
           gen_info.gen_count = gen_info.total_count;
         } else {
           script_info["count"] = std::to_string(gen_info.total_count);
@@ -647,19 +660,21 @@ namespace scrimmage {
           if (status) {
             rate = values[0] / values[1];
           } else {
-            rate = std::stod(script_info["generate_rate"]);
+            rate = parse_double(script_info["generate_rate"]);
           }
 
           double start_time = 0;
           if (script_info.count("generate_start_time") > 0) {
-            start_time = std::stod(script_info["generate_start_time"]);
+            start_time = parse_double(script_info["generate_start_time"]);
           }
 
           if (script_info.count("generate_time_variance") > 0) {
-            gen_info.time_variance = std::stod(script_info["generate_time_variance"]);
+
+            gen_info.time_variance = parse_double(script_info["generate_time_variance"]);
           }
 
-          int gen_count = std::stoi(script_info["generate_count"]);
+          std::string gen_count_str = replace_overrides(script_info["generate_count"]);
+          int gen_count = parse_int(gen_count_str);
           if (rate > 0 && gen_count > 0) {
             gen_info.start_time = start_time;
             gen_info.gen_count = gen_count;
