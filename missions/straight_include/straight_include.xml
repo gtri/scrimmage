@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    name="Straight Flying With XInclude">
+  
+<xi:include href="run_tag.xml" />
+
+<!-- Use an xpointer to select children of a specific node
+-->
+<xi:include href="sim_info.xml" xpointer="xpointer(/sim_info/*)"/>
+
+<xi:include href="../straight.xml" xpointer="xpointer(/*/entity_interaction)"/>
+
+<!-- ========================== TEAM 1 ========================= -->
+<xi:include href="entity1.xml" />
+
+<!-- ========================== TEAM 2 ========================= -->
+<xi:include href="entity2.xml" />
+
+</runscript>
