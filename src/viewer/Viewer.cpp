@@ -87,8 +87,11 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
     // Render and interact
     renderWindow_->SetWindowName("SCRIMMAGE");
     if (mp->full_screen()) {
-        renderWindow_->SetFullScreen(true);
-        renderWindow_->FullScreenOn();
+        // Don't use "FullScreenOn" or SetFullScreen(true).
+        // This uses the entire screen, prevents displaying the window name
+        // and makes it difficult to resize the window later.
+        renderWindow_->Render();
+        renderWindow_->SetSize(renderWindow_->GetScreenSize());
     } else {
         renderWindow_->SetFullScreen(false);
         renderWindow_->SetSize(mp->window_width(), mp->window_height());

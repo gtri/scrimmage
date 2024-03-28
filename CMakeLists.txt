@@ -200,10 +200,11 @@ endif()
 
 find_package(VTK NO_MODULE)
 if (${VTK_FOUND})
-	if (${VTK_MAJOR_VERSION} GREATER 7)
-		message("VTK9 Detected")
+	if (${VTK_MAJOR_VERSION} EQUAL 9)
       set(OPENGL_MODULE RenderingOpenGL2)
-			set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+      # Current binaries of VTK9 do not compile IOGeoJSON
+      #set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+      set(EXTRUSION_MODULES FiltersModeling)
 			set(VTK_MODULES
 					FiltersSources
 					FiltersTexture
@@ -243,7 +244,10 @@ endif()
 if (${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
   include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
-	include(${VTK_USE_FILE})
+  if(${VTK_MAJOR_VERSION} LESS 9)
+      ## VTK_USE_FILE is deprecated in vtk9
+      include(${VTK_USE_FILE})
+  endif()
   add_definitions(-DENABLE_VTK=1)
 else()
   add_definitions(-DENABLE_VTK=0)
