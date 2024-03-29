@@ -86,16 +86,9 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
 
     // Render and interact
     renderWindow_->SetWindowName("SCRIMMAGE");
-    if (mp->full_screen()) {
-        // Don't use "FullScreenOn" or SetFullScreen(true).
-        // This uses the entire screen, prevents displaying the window name
-        // and makes it difficult to resize the window later.
-        renderWindow_->Render();
-        renderWindow_->SetSize(renderWindow_->GetScreenSize());
-    } else {
-        renderWindow_->SetFullScreen(false);
-        renderWindow_->SetSize(mp->window_width(), mp->window_height());
-    }
+    renderWindow_->SetFullScreen(false);
+
+    renderWindow_->SetSize(mp->window_width(), mp->window_height());
     init_scale_ = get<double>("scale", mp->params(), 1.0);
 
     log_dir_ = mp->log_dir();
@@ -106,6 +99,8 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
     local_port_ = get<int>("local_port", camera_params_, local_port_);
     remote_ip_ = get<std::string>("remote_ip", camera_params_, remote_ip_);
     remote_port_ = get<int>("remote_port", camera_params_, remote_port_);
+
+    full_screen_ = mp->full_screen();
 
     return true;
 }
@@ -128,6 +123,13 @@ bool Viewer::run() {
 
     // Initialize must be called prior to creating timer events.
     renderWindowInteractor_->Initialize();
+
+    if (full_screen_) {
+        // Don't use "FullScreenOn" or SetFullScreen().
+        // This uses the entire screen, prevents displaying the window name
+        // and makes it difficult to resize the window later.
+        renderWindow_->SetSize(renderWindow_->GetScreenSize());
+    } 
 
     // Sign up to receive TimerEvent
     vtkSmartPointer<scrimmage::Updater> updater =
