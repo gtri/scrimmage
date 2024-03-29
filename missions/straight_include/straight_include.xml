@@ -10,7 +10,8 @@
 -->
 <xi:include href="sim_info.xml" xpointer="xpointer(/sim_info/*)"/>
 
-<xi:include href="../straight.xml" xpointer="xpointer(/*/entity_interaction)"/>
+<xi:include xml:base="../" href="straight.xml" xpointer="xpointer(/*/entity_interaction)"/>
+
 
 <!-- ========================== TEAM 1 ========================= -->
 <xi:include href="entity1.xml" />
