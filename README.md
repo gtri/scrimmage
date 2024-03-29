@@ -46,56 +46,17 @@ commands:
     git clone https://github.com/gtri/scrimmage.git
 
 ### Install Binary Dependencies
-
-A list of the Ubuntu packages required is provided in
-./setup/install-binaries.sh in the "DEPS_DPKG" array. Run our automated
-installer to install the required packages:
+Scrimmage's Binary Dependencies can be intalled by running `./setup/install-binaries.sh` and `./setup/install-jsbsim.sh` 
 
     cd scrimmage
+    sudo ./setup/install-binaries.sh 
+    sudo ./setup/install-jsbsim.sh
+
+`./setup/install-binaries.sh` provides a list of required Ubuntu packages in the "DEPS_DPKG" array. This script allows for futher installation customization with either the `--external` or `--python` flags:
+
     sudo ./setup/install-binaries.sh [--external] [--python <version>]
 
 If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
-
-### Additional Dependencies
-#### Ubuntu 22.04
-
-Additional dependencies for running Scrimmage on Ubuntu 22.04 can be installed
-by running:
-    
-    sudo ./setup/install-jsbsim.sh
-
-
-### Ubuntu 20.04 and Earlier: 
-#### Additional Binary Dependencies Ubuntu 20.04
-
-    sudo apt install libgrpc++-dev
-    (optional) sudo ln -s usr/bin/python3 usr/bin/python
-
-#### Install Custom Built Binary Dependencies
-
-Some of SCRIMMAGE's dependencies have to be custom built from source. We
-provide debian package binaries for both Ubuntu 16.04 (xenial) and 18.04
-(bionic) via the SCRIMMAGE PPA on Launchpad for these custom built
-packages. For Ubuntu 16.04 (xenial) and 18.04 (bionic), and 20.04 (focal) add the following PPA
-to your apt-get sources:
-
-    sudo add-apt-repository ppa:kevin-demarco/scrimmage
-
-For both distributions, update your sources list:
-
-    sudo apt-get update
-
-Now, install the SCRIMMAGE custom built binary dependencies:
-
-    sudo apt-get install scrimmage-dependencies scrimmage-jsbsim
-
-Run the SCRIMMAGE setup script, which adds the ~/.scrimmage directory to your
-local system and sets up some environment variables:
-
-    source /opt/scrimmage/*/setup.sh
-
-Note: If you need to build the dependencies from source or generate binary
-packages, see [Build Dependencies from Source](./3rd-party/README.md)
 
 ### Build SCRIMMAGE Core
 
