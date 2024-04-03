@@ -1,9 +1,12 @@
-// Simply copy the state from input to output
-__kernel void static_motion(__global double* state, __global double* control, 
-                                      int num_inputs,
-                                      int num_outputs) {
-  int gid = get_global_id(0);
+__kernel void static_motion(__global float* state, __global float* control, 
+                                      int num_states,
+                                      int num_control_inputs) {
+  int gid, state_offset, control_input_offset;
 
-  int state_offset = gid*num_inputs;
-  int control_offset = gid*num_outputs;
+  gid = get_global_id(0);
+  state_offset = num_states*gid;
+  
+  for(int i = 0; i < num_states; i++) {
+    state[state_offset + i] = gid;
+  }
 }

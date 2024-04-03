@@ -20,9 +20,9 @@ class GPUController {
 
         const cl::Context& context() const { return context_; }
 
-        cl::CommandQueue& queue() const { return queue_; }
+        cl::CommandQueue& queue() { return queue_; }
 
-        std::optional<cl::Kernel> get_kernel(const std::string& name) const {
+        std::optional<cl::Kernel> get_kernel(const std::string& name) {
           if (kernels_.count(name) == 0) { return std::nullopt; }
           return std::make_optional<cl::Kernel>(kernels_[name]);
         }

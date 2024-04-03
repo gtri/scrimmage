@@ -2,7 +2,6 @@
  * @file
  *
  * @section LICENSE
- *
  * Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
  *
  * This file is part of SCRIMMAGE.
@@ -96,19 +95,19 @@ namespace scrimmage {
       Quaternion& quat = state->quat();
       states_.insert(states_.cend(),
           {
-          pos(0),
-          pos(1),
-          pos(2),
-          vel(0),
-          vel(1),
-          vel(2),
-          ang_vel(0),
-          ang_vel(1),
-          ang_vel(2),
-          quat.w(),
-          quat.x(),
-          quat.y(),
-          quat.z(),
+          (float) pos(0),
+          (float) pos(1),
+          (float) pos(2),
+          (float) vel(0),
+          (float) vel(1),
+          (float) vel(2),
+          (float) ang_vel(0),
+          (float) ang_vel(1),
+          (float) ang_vel(2),
+          (float) quat.w(),
+          (float) quat.x(),
+          (float) quat.y(),
+          (float) quat.z(),
           });
 
       auto output = *autonomy_output.output();
@@ -153,28 +152,30 @@ namespace scrimmage {
     motion_kernel.setArg(2, MODEL_NUM_ITEMS);
     motion_kernel.setArg(3, CONTROL_NUM_ITEMS);
 
+    std::size_t value_size = sizeof(decltype(states_)::value_type);
+
     err = queue.enqueueWriteBuffer(state_buffer,
-        true, 0, sizeof(double)*states_.size(),
+        true, 0, value_size*states_.size(),
         states_.data());
 
     err = queue.enqueueWriteBuffer(control_buffer,
-        true, 0, sizeof(double)*control_inputs_.size(),
+        true, 0, value_size*control_inputs_.size(),
         control_inputs_.data());
 
     err = queue.enqueueNDRangeKernel(motion_kernel,
         cl::NullRange, 
-        cl::NDRange{num_ents, 0, 0},
-        cl::NDRange{256, 0, 0});
+        cl::NDRange{num_ents},
+        cl::NDRange{num_ents});
 
     err = queue.enqueueReadBuffer(state_buffer,
-        true, 0, sizeof(double)*states_.size(),
+        true, 0, value_size*states_.size(),
         states_.data());
   
 
     return true;
   }
 
-  void reassign(std::list<EntityPtr> entities)  {
+  void GPUMotionModel::reassign(std::list<EntityPtr> entities)  {
     std::size_t offset = 0;
     auto state_info = [&](std::size_t indx) {
       return states_[offset + indx];
@@ -183,7 +184,7 @@ namespace scrimmage {
     for(auto entity_ptr_it = entities.begin();
         entity_ptr_it != entities.end();
         ++entity_ptr_it) {
-      offset = entity_ptr_it - entities.cbegin();
+      offset = std::distance(entity_ptr_it, entities.begin());
       StatePtr state = (*entity_ptr_it)->state_truth();
       state->pos() << state_info(X), state_info(Y), state_info(Z);
       state->vel() << state_info(X_VEL), state_info(Y_VEL), state_info(Z_VEL);
