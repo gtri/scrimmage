@@ -29,40 +29,43 @@ namespace scrimmage {
         queue_.flush();
     }
 
+    // Returns true when an error as occured
     bool GPUController::check_error(cl_int err, const std::string&& msg) const {
         if (err != 0) {
             fprintf(stderr, "OpenCL Error %d: %s\n", err, msg.c_str());
-            return false;
+            return true;
         }
-        return true;
+        return false;
     };
 
     bool GPUController::init(const std::string& kernel_directory) {
         return init(std::filesystem::path{kernel_directory});
     }
 
+    // Returns true if GPU is successfully initalized
     bool GPUController::init(std::filesystem::path kernel_directory) {
         kernel_directory_ = kernel_directory;
 
         cl_int err;
         // Get default platform for now. 
         platform_ = cl::Platform::getDefault(&err); 
-        if(!check_error(err, "Error Retreiving Default Platform")) { return false; }
+        if(check_error(err, "Error Retreiving Default Platform")) { return false; }
 
         platform_.getDevices(CL_DEVICE_TYPE_GPU, &devices_);
         
         context_ = cl::Context{devices_, nullptr, nullptr, nullptr, &err};
-        if(!check_error(err, "Error Initalizeing Context")) { return false; }
+        if(check_error(err, "Error Initalizeing Context")) { return false; }
 
         bool build_kernels_success = build_kernels();
-        if(build_kernels_success) { return false; }
+        if(!build_kernels_success) { return false; }
     
         queue_ = cl::CommandQueue(context_, 0, &err);
-        if(!check_error(err, "Error Initalizeing Command Queue")) { return false; }
+        if(check_error(err, "Error Initalizeing Command Queue")) { return false; }
 
         return true;
     }
 
+    // Returns true if all kernels are built successfully
     bool GPUController::build_kernels() {
         using KernelSource = GPUController::KernelSource; 
         cl_int err;
@@ -81,8 +84,8 @@ namespace scrimmage {
                 std::back_insert_iterator(cl_srcs), kernel_src_to_cl_src);
 
         program_ = cl::Program{context_, cl_srcs, &err};
-        if(!check_error(err, "Unable to initalize OpenCL Program")) { return false; }
-        program_.build(devices_, OPENCL_COMPILER_OPTIONS, nullptr, &err);
+        if(check_error(err, "Unable to initalize OpenCL Program")) { return false; }
+        err = program_.build(devices_, OPENCL_COMPILER_OPTIONS, nullptr, nullptr);
         
         // Display Compiler Error messages, if any.
         if(err != 0) {
@@ -98,10 +101,12 @@ namespace scrimmage {
         }
         for(KernelSource kernel_src : kernel_srcs) {
             cl::Kernel kernel = cl::Kernel{program_, kernel_src.name_.c_str(), &err};
-            check_error(err, "Unable to Initalize Kernel " + kernel_src.name_);
+            if(!check_error(err, "Unable to Initalize Kernel " + kernel_src.name_)) {
+              printf("Successfully Initalized Kernel \'%s\'\n", kernel_src.name_.c_str());
+              kernels_[kernel_src.name_] = kernel;
+            }
         }
         // All Kernels Should be initalized now
-
         return true;
     } 
 

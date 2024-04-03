@@ -22,7 +22,6 @@ set(SRCS
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
-    #parse/XMLParser/RapidXMLParser.cpp
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -38,6 +37,7 @@ set(SRCS
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
     gpu/GPUController.cpp
+    motion/GPUMotionModel.cpp
 )
 
 add_subdirectory(parse/XMLParser)
@@ -60,7 +60,6 @@ set(CORE_LIBS
     Boost::thread
     Boost::chrono
 )
-
 set(INCLUDE_DIRS
     ${EIGEN3_INCLUDE_DIR}
     ${GeographicLib_INCLUDE_DIRS}
@@ -99,14 +98,15 @@ target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 # For now force compilation with openCL
 set(ENABLE_GPU_ACCELERATION true)
 if (ENABLE_GPU_ACCELERATION) 
-    find_package(OpenCL REQUIRED)
-    target_link_libraries(${LIBRARY_NAME} 
-        PUBLIC
-        OpenCL::OpenCL
+  find_package(OpenCL REQUIRED)
+  target_link_libraries(${LIBRARY_NAME} 
+    PUBLIC
+    OpenCL::OpenCL
     )
-    target_compile_definitions(${LIBRARY_NAME} 
-        PUBLIC
-        CL_HPP_TARGET_OPENCL_VERSION=300)
+  target_compile_definitions(${LIBRARY_NAME} 
+    PUBLIC
+    CL_HPP_MINIMUM_OPENCL_VERSION=120
+    CL_HPP_TARGET_OPENCL_VERSION=120)
 endif()
 
 if(ENABLE_PYTHON_BINDINGS)
@@ -125,20 +125,23 @@ set_target_properties(
   PROPERTIES
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
-)
+  )
 
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    ${INCLUDE_DIRS}
-)
+  ${EIGEN3_INCLUDE_DIR}
+  ${GeographicLib_INCLUDE_DIRS}
+  "$<INSTALL_INTERFACE:include>"
+  "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
+  )
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
-)
+  )
 
 ##################################################
 # Recurse into protos and plugins

@@ -253,7 +253,7 @@ if(NOT "${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
   add_definitions(-DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT=1)
 endif()
 
-find_package(Eigen3 QUIET)
+find_package(Eigen3 3.4 QUIET)
 
 if (NOT Eigen3_FOUND)
   include(LibFindMacros)
