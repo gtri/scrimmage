@@ -216,8 +216,8 @@ void SimControl::init_gpu() {
 #ifdef ENABLE_GPU_ACCELERATION
     if(!gpu_->init(mp_->kernel_dir())) {
         std::cerr << "Unable to initalize GPU with kernel directory \"" << mp_->kernel_dir() << "\"\n";
-      gpu_motion_models_.push_back(std::make_shared<GPUMotionModel>(gpu_));
     }
+    gpu_motion_models_.push_back(std::make_shared<GPUMotionModel>(gpu_));
 #else
     std::cout << "GPU Acceleration Disabled. Enable GPU Message Placeholder\n";
 #endif
@@ -1590,6 +1590,7 @@ bool SimControl::run_entities() {
     for(GPUMotionModelPtr gpu_motion_model : gpu_motion_models_) {
       gpu_motion_model->collect(ents_);
       gpu_motion_model->step(dt_, mp_->motion_multiplier());
+      gpu_motion_model->reassign(ents_);
     }
 # else
     double motion_dt = dt_ / mp_->motion_multiplier();

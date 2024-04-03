@@ -51,9 +51,10 @@ namespace scrimmage {
         GPUMotionModel(GPUControllerPtr gpu);
         void collect(std::list<EntityPtr> entities);
         bool step(double dt, std::size_t iterations); // Enque and exeucte kernel
+        void reassign(std::list<EntityPtr> entities);
     protected:
-      std::vector<double> states_;
-      std::vector<double> control_inputs_;
+      std::vector<float> states_;
+      std::vector<float> control_inputs_;
       GPUControllerPtr gpu_;
   };
 
