@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <optional>
 
 #ifndef INCLUDE_SCRIMMAGE_GPU_GPUCONTROLLER_H
 #define INCLUDE_SCRIMMAGE_GPU_GPUCONTROLLER_H
@@ -16,6 +17,15 @@ class GPUController {
         ~GPUController();
         bool init(const std::string& kernel_directory);
         bool init(std::filesystem::path kernel_directory);
+
+        const cl::Context& context() const { return context_; }
+
+        cl::CommandQueue& queue() const { return queue_; }
+
+        std::optional<cl::Kernel> get_kernel(const std::string& name) const {
+          if (kernels_.count(name) == 0) { return std::nullopt; }
+          return std::make_optional<cl::Kernel>(kernels_[name]);
+        }
 
     private:
         struct KernelSource {
@@ -37,7 +47,6 @@ class GPUController {
         std::map<std::string, cl::Kernel> kernels_;
 
         cl::CommandQueue queue_;
-
 
         static std::string get_device_name(cl::Device& device);
         bool check_error(cl_int err, const std::string&& msg) const;

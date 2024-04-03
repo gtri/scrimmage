@@ -7,45 +7,46 @@ set(LIB_MINOR 0)
 set(LIB_RELEASE 1)
 
 set(SRCS
-    autonomy/Autonomy.cpp
-    common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
-    common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
-    common/CSV.cpp
-    common/VariableIO.cpp
-    common/Battery.cpp
-    common/Shape.cpp
-    entity/Contact.cpp entity/Entity.cpp entity/External.cpp
-    entity/EntityPlugin.cpp
-    log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
-    math/Angles.cpp math/Quaternion.cpp math/State.cpp
-    math/StateWithCovariance.cpp
-    metrics/Metrics.cpp
-    network/Interface.cpp network/ScrimmageServiceImpl.cpp
-    parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
-    plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
-    plugin_manager/PluginManager.cpp
-    proto_conversions/ProtoConversions.cpp
-    pubsub/MessageBase.cpp pubsub/SubscriberBase.cpp pubsub/Network.cpp
-    pubsub/NetworkDevice.cpp pubsub/Publisher.cpp pubsub/PubSub.cpp
-    sensor/Sensor.cpp
-    simcontrol/SimControl.cpp
-    simcontrol/SimUtils.cpp
-    common/DelayedTask.cpp
-    common/ExponentialFilter.cpp
-    common/ParameterServer.cpp
-    common/GlobalService.cpp
-    common/Waypoint.cpp
-    common/WaypointListProcessor.cpp
-    gpu/GPUController.cpp
-)
+  autonomy/Autonomy.cpp
+  common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
+  common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
+  common/CSV.cpp
+  common/VariableIO.cpp
+  common/Battery.cpp
+  common/Shape.cpp
+  entity/Contact.cpp entity/Entity.cpp entity/External.cpp
+  entity/EntityPlugin.cpp
+  log/FrameUpdateClient.cpp log/Log.cpp log/Print.cpp
+  math/Angles.cpp math/Quaternion.cpp math/State.cpp
+  math/StateWithCovariance.cpp
+  metrics/Metrics.cpp
+  network/Interface.cpp network/ScrimmageServiceImpl.cpp
+  parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
+  plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
+  plugin_manager/PluginManager.cpp
+  proto_conversions/ProtoConversions.cpp
+  pubsub/MessageBase.cpp pubsub/SubscriberBase.cpp pubsub/Network.cpp
+  pubsub/NetworkDevice.cpp pubsub/Publisher.cpp pubsub/PubSub.cpp
+  sensor/Sensor.cpp
+  simcontrol/SimControl.cpp
+  simcontrol/SimUtils.cpp
+  common/DelayedTask.cpp
+  common/ExponentialFilter.cpp
+  common/ParameterServer.cpp
+  common/GlobalService.cpp
+  common/Waypoint.cpp
+  common/WaypointListProcessor.cpp
+  gpu/GPUController.cpp
+  motion/GPUMotionModel.cpp
+  )
 
 add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
-)
+  )
 
 add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen
-)
+  )
 
 if (GRPC_FOUND)
   target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
@@ -57,31 +58,32 @@ endif()
 
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
-    scrimmage-protos
-    scrimmage-msgs
-    ${GeographicLib_LIBRARIES}
-    ${CMAKE_DL_LIBS}
+  scrimmage-protos
+  scrimmage-msgs
+  ${GeographicLib_LIBRARIES}
+  ${CMAKE_DL_LIBS}
   PRIVATE
-    Boost::boost
-    Boost::filesystem
-    Boost::program_options
-    Boost::date_time
-    Boost::graph
-    Boost::thread
-    Boost::chrono
-)
+  Boost::boost
+  Boost::filesystem
+  Boost::program_options
+  Boost::date_time
+  Boost::graph
+  Boost::thread
+  Boost::chrono
+  )
 
 # For now force compilation with openCL
 set(ENABLE_GPU_ACCELERATION true)
 if (ENABLE_GPU_ACCELERATION) 
-    find_package(OpenCL REQUIRED)
-    target_link_libraries(${LIBRARY_NAME} 
-        PUBLIC
-        OpenCL::OpenCL
+  find_package(OpenCL REQUIRED)
+  target_link_libraries(${LIBRARY_NAME} 
+    PUBLIC
+    OpenCL::OpenCL
     )
-    target_compile_definitions(${LIBRARY_NAME} 
-        PUBLIC
-        CL_HPP_TARGET_OPENCL_VERSION=300)
+  target_compile_definitions(${LIBRARY_NAME} 
+    PUBLIC
+    CL_HPP_MINIMUM_OPENCL_VERSION=120
+    CL_HPP_TARGET_OPENCL_VERSION=120)
 endif()
 
 if(ENABLE_PYTHON_BINDINGS)
@@ -100,22 +102,22 @@ set_target_properties(
   PROPERTIES
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
-)
+  )
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    ${EIGEN3_INCLUDE_DIR}
-    ${GeographicLib_INCLUDE_DIRS}
-    "$<INSTALL_INTERFACE:include>"
-    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
-)
+  ${EIGEN3_INCLUDE_DIR}
+  ${GeographicLib_INCLUDE_DIRS}
+  "$<INSTALL_INTERFACE:include>"
+  "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
+  )
 
 install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
-)
+  )
 
 ##################################################
 # Recurse into protos and plugins

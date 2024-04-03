@@ -417,6 +417,7 @@ class SimControl {
     RTreePtr rtree_;
 
     GPUControllerPtr gpu_;
+    std::list<GPUMotionModelPtr> gpu_motion_models_;
 
     void request_screenshot();
     void create_rtree(const unsigned int& additional_size);

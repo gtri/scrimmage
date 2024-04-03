@@ -55,6 +55,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/gpu/GPUController.h>
+#include <scrimmage/motion/GPUMotionModel.h>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -185,6 +186,7 @@ bool SimControl::init(const std::string& mission_file,
     networks_->clear();
     pubsub_->pubs().clear();
     pubsub_->subs().clear();
+    gpu_motion_models_.clear();
 
     if (!mp_->parse(mission_file)) {
         cout << "Failed to parse file: " << mission_file << endl;
@@ -205,6 +207,7 @@ bool SimControl::init(const std::string& mission_file,
         cout << "Missing JSBSIM_ROOT env variable, using ./" << endl;
     }
 #endif
+
     return true;
 }
 
@@ -213,6 +216,7 @@ void SimControl::init_gpu() {
 #ifdef ENABLE_GPU_ACCELERATION
     if(!gpu_->init(mp_->kernel_dir())) {
         std::cerr << "Unable to initalize GPU with kernel directory \"" << mp_->kernel_dir() << "\"\n";
+      gpu_motion_models_.push_back(std::make_shared<GPUMotionModel>(gpu_));
     }
 #else
     std::cout << "GPU Acceleration Disabled. Enable GPU Message Placeholder\n";
@@ -1582,6 +1586,12 @@ bool SimControl::run_entities() {
         }
     }
 
+# ifdef ENABLE_GPU_ACCELERATION 
+    for(GPUMotionModelPtr gpu_motion_model : gpu_motion_models_) {
+      gpu_motion_model->collect(ents_);
+      gpu_motion_model->step(dt_, mp_->motion_multiplier());
+    }
+# else
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
@@ -1609,6 +1619,7 @@ bool SimControl::run_entities() {
 
         temp_t += motion_dt;
     }
+#endif
 
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
