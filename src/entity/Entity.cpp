@@ -67,35 +67,28 @@ namespace ba = boost::adaptors;
 
 namespace scrimmage {
 
-bool Entity::init(AttributeMap &overrides,
-                  std::map<std::string, std::string> &info,
-                  std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-                  std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-                  ContactMapPtr &contacts,
-                  MissionParsePtr mp,
-                  const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
-                  int id, int ent_desc_id,
-                  PluginManagerPtr plugin_manager,
-                  FileSearchPtr &file_search,
-                  RTreePtr &rtree,
-                  PubSubPtr &pubsub,
-                  PrintPtr &printer,
-                  TimePtr &time,
-                  const ParameterServerPtr &param_server,
-                  const GlobalServicePtr &global_services,
-                  const std::set<std::string> &plugin_tags,
-                  std::function<void(std::map<std::string, std::string>&)> param_override_func,
-                  const int& debug_level) {
-    pubsub_ = pubsub;
-    printer_ = printer;
-    global_services_ = global_services;
-    time_ = time;
-    file_search_ = file_search;
-    plugin_manager_ = plugin_manager;
-    contacts_ = contacts;
-    rtree_ = rtree;
-    proj_ = proj;
-    param_server_ = param_server;
+bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
+    pubsub_ = sim_info.pubsub;
+    printer_ = sim_info.printer;
+    global_services_ = sim_info.global_services;
+    time_ = sim_info.time;
+    file_search_ = sim_info.file_search;
+    plugin_manager_ = sim_info.plugin_manager;
+    contacts_ = sim_info.contacts;
+    rtree_ = sim_info.rtree;
+    proj_ = sim_info.proj;
+    param_server_ = sim_info.param_server;
+    auto mp = sim_info.mp;
+    auto id_to_ent_map = sim_info.id_to_ent_map;
+    auto id_to_team_map = sim_info.id_to_team_map;
+
+    int id = init_params.id;
+    int ent_desc_id = init_params.ent_desc_id;
+    std::map<std::string, std::string>& info = init_params.info;
+    AttributeMap& overrides = init_params.overrides;
+    std::set<std::string>& plugin_tags = init_params.plugin_tags;
+    std::function<void(std::map<std::string, std::string>&)> param_override_func = init_params.param_override_func;
+    int debug_level = init_params.debug_level;
 
     id_.set_id(id);
     id_.set_sub_swarm_id(ent_desc_id);
@@ -163,8 +156,8 @@ bool Entity::init(AttributeMap &overrides,
         ConfigParse config_parse;
         std::string sensor_name = info[sensor_order_name];
         PluginStatus<Sensor> status =
-            plugin_manager->make_plugin<Sensor>("scrimmage::Sensor",
-                                                sensor_name, *file_search,
+            plugin_manager_->make_plugin<Sensor>("scrimmage::Sensor",
+                                                sensor_name, *file_search_,
                                                 config_parse,
                                                 overrides[sensor_order_name],
                                                 plugin_tags);
@@ -196,11 +189,11 @@ bool Entity::init(AttributeMap &overrides,
                                             Angles::deg2rad(tf_rpy[2]));
 
             sensor->set_parent(parent);
-            sensor->set_pubsub(pubsub);
-            sensor->set_time(time);
+            sensor->set_pubsub(pubsub_);
+            sensor->set_time(time_);
             sensor->set_id_to_team_map(id_to_team_map);
             sensor->set_id_to_ent_map(id_to_ent_map);
-            sensor->set_param_server(param_server);
+            sensor->set_param_server(param_server_);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -231,9 +224,9 @@ bool Entity::init(AttributeMap &overrides,
     if (info.count("motion_model") > 0) {
         ConfigParse config_parse;
         PluginStatus<MotionModel> status =
-            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel",
+            plugin_manager_->make_plugin<MotionModel>("scrimmage::MotionModel",
                                                      info["motion_model"],
-                                                     *file_search,
+                                                     *file_search_,
                                                      config_parse,
                                                      overrides["motion_model"],
                                                      plugin_tags);
@@ -249,11 +242,11 @@ bool Entity::init(AttributeMap &overrides,
             motion_model_ = status.plugin;
             motion_model_->set_state(state_truth_);
             motion_model_->set_parent(parent);
-            motion_model_->set_pubsub(pubsub);
-            motion_model_->set_time(time);
+            motion_model_->set_pubsub(pubsub_);
+            motion_model_->set_time(time_);
             motion_model_->set_id_to_team_map(id_to_team_map);
             motion_model_->set_id_to_ent_map(id_to_ent_map);
-            motion_model_->set_param_server(param_server);
+            motion_model_->set_param_server(param_server_);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
 
@@ -270,9 +263,9 @@ bool Entity::init(AttributeMap &overrides,
         motion_model_ = std::make_shared<MotionModel>();
         motion_model_->set_state(state_truth_);
         motion_model_->set_parent(parent);
-        motion_model_->set_pubsub(pubsub);
-        motion_model_->set_param_server(param_server);
-        motion_model_->set_time(time);
+        motion_model_->set_pubsub(pubsub_);
+        motion_model_->set_param_server(param_server_);
+        motion_model_->set_time(time_);
         motion_model_->set_id_to_team_map(id_to_team_map);
         motion_model_->set_id_to_ent_map(id_to_ent_map);
         motion_model_->set_name("BLANK");
@@ -306,7 +299,7 @@ bool Entity::init(AttributeMap &overrides,
         PluginStatus<Controller> status =
             plugin_manager_->make_plugin<Controller>("scrimmage::Controller",
                                                      info[controller_name],
-                                                     *file_search,
+                                                     *file_search_,
                                                      config_parse,
                                                      overrides[controller_name],
                                                      plugin_tags);
@@ -324,7 +317,7 @@ bool Entity::init(AttributeMap &overrides,
             controller->set_time(time_);
             controller->set_id_to_team_map(id_to_team_map);
             controller->set_id_to_ent_map(id_to_ent_map);
-            controller->set_param_server(param_server);
+            controller->set_param_server(param_server_);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
             param_override_func(config_parse.params());
@@ -417,9 +410,9 @@ bool Entity::init(AttributeMap &overrides,
     // Create the autonomy plugins from the autonomy_names list.
     for (auto autonomy_name : autonomy_names) {
         auto autonomy = make_autonomy<Autonomy>(
-            info[autonomy_name], plugin_manager, overrides[autonomy_name],
-            parent, state_, id_to_team_map, id_to_ent_map, proj_, contacts,
-            file_search, rtree, pubsub, time, param_server, plugin_tags,
+            info[autonomy_name], plugin_manager_, overrides[autonomy_name],
+            parent, state_, id_to_team_map, id_to_ent_map, proj_, contacts_,
+            file_search_, rtree_, pubsub_, time_, param_server_, plugin_tags,
             param_override_func, controllers_,
             debug_level);
 

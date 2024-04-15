@@ -293,6 +293,8 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
 bool SimControl::generate_entity(const int &ent_desc_id,
                                  std::map<std::string, std::string> &params,
                                  AttributeMap &plugin_attr_map) {
+
+
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
@@ -360,14 +362,41 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     int id = find_available_id(params);
 
-    bool ent_status = ent->init(plugin_attr_map, params, id_to_team_map_,
-                                id_to_ent_map_,
-                                contacts_, mp_, proj_, id, ent_desc_id,
-                                plugin_manager_, file_search_, rtree_, pubsub_,
-                                printer_, time_, param_server_, global_services_,
-                                std::set<std::string>{},
-                                [](std::map<std::string, std::string>&){});
+    SimUtilsInfo info;
+    info.mp = mp_;
+    info.plugin_manager = plugin_manager_;
+    info.file_search = file_search_;
+    info.rtree = rtree_;
+    info.pubsub = pubsub_;
+    info.printer = printer_;
+    info.time = time_;
+    info.param_server = param_server_;
+    info.random = random_;
+    info.id_to_team_map = id_to_team_map_;
+    info.id_to_ent_map = id_to_ent_map_;
+    info.proj = proj_;
+    info.global_services = global_services_;
+    info.contacts = contacts_;
+
+    EntityInitParams init_params;
+    init_params.overrides = plugin_attr_map;
+    init_params.info = params;
+    init_params.id = id;
+    init_params.ent_desc_id = ent_desc_id;
+    init_params.param_override_func = [](std::map<std::string, std::string>&){};
+    init_params.plugin_tags = std::set<std::string>{};
+
+    //bool ent_status = ent->init(plugin_attr_map, params, id_to_team_map_,
+    //                            id_to_ent_map_,
+    //                            contacts_, mp_, proj_, id, ent_desc_id,
+    //                            plugin_manager_, file_search_, rtree_, pubsub_,
+    //                            printer_, time_, param_server_, global_services_,
+    //                            std::set<std::string>{},
+    //                            [](std::map<std::string, std::string>&){});
+    //
+    bool ent_status = ent->init(info, init_params);
     contacts_mutex_.unlock();
+
 
     if (!ent_status) {
         cout << "Failed to parse entity at start position: "
@@ -1217,9 +1246,27 @@ Timer &SimControl::timer() {return timer_;}
 
 std::list<MetricsPtr> &SimControl::metrics() { return metrics_; }
 
-PluginManagerPtr &SimControl::plugin_manager() {return plugin_manager_;}
+PluginManagerPtr SimControl::plugin_manager() const {return plugin_manager_;}
 
-FileSearchPtr &SimControl::file_search() {return file_search_;}
+FileSearchPtr SimControl::file_search() const {return file_search_;}
+
+PubSubPtr SimControl::pubsub() const {return pubsub_;}
+
+PrintPtr SimControl::printer() const { return printer_; }
+
+GlobalServicePtr SimControl::global_services() const { return global_services_; }
+
+TimePtr SimControl::time() const { return time_; }
+
+ContactMapPtr SimControl::contacts() const { return contacts_; }
+
+RTreePtr SimControl::rtree() const { return rtree_; }
+
+std::shared_ptr<GeographicLib::LocalCartesian> SimControl::proj() const { return proj_; }
+
+ParameterServerPtr SimControl::param_server() const { return param_server_; }
+
+MissionParsePtr SimControl::mp() const { return mp_; }
 
 bool SimControl::take_step() {
     take_step_mutex_.lock();
@@ -1803,8 +1850,13 @@ EntityPluginPtr SimControl::plugin() {
 }
 
 std::shared_ptr<std::unordered_map<int, EntityPtr>>
-SimControl::id_to_entity_map() {
+SimControl::id_to_entity_map() const {
     return id_to_ent_map_;
+}
+
+std::shared_ptr<std::unordered_map<int, int>>
+SimControl::id_to_team_map() const {
+    return id_to_team_map_;
 }
 
 int SimControl::find_available_id(
