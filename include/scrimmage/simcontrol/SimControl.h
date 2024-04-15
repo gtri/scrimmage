@@ -262,10 +262,39 @@ class SimControl {
     std::list<MetricsPtr> & metrics();
 
     /// @brief Access the PluginManager instance.
-    PluginManagerPtr &plugin_manager();
+    PluginManagerPtr plugin_manager() const;
 
     /// @brief Access the FileSearch instance.
-    FileSearchPtr &file_search();
+    FileSearchPtr file_search() const;
+
+    /// @brief Access the PubSub instance
+    PubSubPtr pubsub() const;
+
+    /// @brief Access the Printer Instance
+    PrintPtr printer() const;
+
+    /// @brief Access the Global Services Instance
+    GlobalServicePtr global_services() const; 
+
+    /// @brief Access the Time instance
+    TimePtr time() const;
+    
+    /// @brief Access the Contact Map instance
+    ContactMapPtr contacts() const;
+
+    /// @brief Access the RTree instance
+    RTreePtr rtree() const;
+
+    /// @brief Access the Projection Instance instance
+    std::shared_ptr<GeographicLib::LocalCartesian> proj() const;
+
+    /// @brief Access the Param Server instance
+    ParameterServerPtr param_server() const;
+
+    /// @brief Access the Mission Parse instance
+    MissionParsePtr mp() const;
+
+
 
     struct Task {
         // FIXME: this will be much simpler once there is a
@@ -317,7 +346,9 @@ class SimControl {
      * Provies access to the simulated entities, where the map is indexed by
      * the entity.
      */
-    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_entity_map();
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_entity_map() const;
+
+    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map() const;
 
     void set_running_in_thread(bool running_in_thread);
 
