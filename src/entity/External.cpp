@@ -171,6 +171,8 @@ bool External::create_entity(const std::string &mission_file,
     sim_info.random = random;
     sim_info.id_to_team_map = id_to_team_map_;
     sim_info.id_to_ent_map = id_to_ent_map_;
+    sim_info.proj = mp_->projection();
+    sim_info.global_services = global_services_;
 
     auto plugin_tags = str2container<std::set<std::string>>(plugin_tags_str, ", ");
 
@@ -208,13 +210,23 @@ bool External::create_entity(const std::string &mission_file,
         mp_->entity_descriptions()[it_name_id->second];
 
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
-    bool ent_success =
-        entity_->init(
-            attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
-            mp_->projection(), entity_id,
-            it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            printer_, time_, param_server_, global_services_, plugin_tags,
-            param_override_func, debug_level);
+    //bool ent_success =
+    //    entity_->init(
+    //        attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
+    //        mp_->projection(), entity_id,
+    //        it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
+    //        printer_, time_, param_server_, global_services_, plugin_tags,
+    //        param_override_func, debug_level);
+    //
+    EntityInitParams init_params;
+    init_params.overrides = attr_map;
+    init_params.id = entity_id;
+    init_params.info = info;
+    init_params.ent_desc_id = it_name_id->second;
+    init_params.param_override_func = param_override_func;
+    init_params.debug_level = debug_level;
+
+    bool ent_success = entity_->init(sim_info, init_params);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;
