@@ -42,11 +42,17 @@
 #include <scrimmage/motion/GPUMotionModel.h>
 #include <scrimmage/math/Quaternion.h>
 
+#if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
+#endif
+
+#include <map>
+#include <optional>
+#include <vector>
 
 namespace scrimmage {
   // Full state
-  enum ModelParams {
+  enum StateParams {
     X = 0,
     Y,
     Z,
@@ -60,34 +66,88 @@ namespace scrimmage {
     QUAT_X,
     QUAT_Y,
     QUAT_Z,
-    MODEL_NUM_ITEMS
+    STATE_NUM_ITEMS
   };
 
-  enum ControlParams  {
+  enum InputParams  {
     THRUST = 0,
     TURN_RATE,
     PITCH_RATE,
-    CONTROL_NUM_ITEMS
-  };
+    INPUT_NUM_ITEMS
+ };
 
-  GPUMotionModel::GPUMotionModel(GPUControllerPtr gpu) : gpu_{gpu} {}
+  GPUMotionModel::GPUMotionModel(GPUControllerPtr gpu, 
+      const std::string& kernel_name) : 
+    gpu_{gpu},
+    kernel_name_{kernel_name},
+    states_{gpu, CL_MEM_READ_WRITE},
+    inputs_{gpu, CL_MEM_WRITE_ONLY} // Inputs only need to be write only from our perspective
+  {}
 
-  void GPUMotionModel::collect(std::list<EntityPtr> entities) {
-    states_.reserve(MODEL_NUM_ITEMS * entities.size());
-    states_.clear();
+  void GPUMotionModel::add_entity(EntityPtr entity) {
+    entities_.push_back(entity);
+    vars_.try_emplace(entity);
+    entity_added_ = true;
+  }
 
-    control_inputs_.reserve(CONTROL_NUM_ITEMS * entities.size());
-    control_inputs_.clear();
+  VariableIO& GPUMotionModel::get_entity_input(EntityPtr entity) {
+    if(vars_.count(entity) == 0) {
+      // Apparently this entity was not added. Add it now to avoid 
+      // errors.
+      add_entity(entity);
+    }
+    return vars_[entity];
+  }
 
-    for(auto entityptr_it = entities.cbegin();
-        entityptr_it != entities.cend(); 
+  /* (0): Right now, state/input data is stored on the heap.
+  *          We will eventually have to iterate over every entity to pull this information out.
+  *          This might be able to be avoided by transfering ownership of state info from individual entities to something higher up in
+  *          In the higherarchy, but that would break a lot of things.
+  *  (1): Map state & input buffers from device to a region in our Address Space. (Align to multiple of 64 bytes)
+  *  (2): Copy State and Control Information from around heap into these regions of memory.
+  *  (3): Unmap these buffers from our address space to ensure they are on the device.
+  *  (4): Execute Kernel
+  *  (5): Remap State Information into our address space 
+  *  (6): Copy State Information back to entities state 
+  *  (7): Unmap State buffer (could we avoid this until end of program? Reduce the number of mapping/unmapping operations we have to
+  *   do? Maybe premeature optomization)
+  */
+
+  void GPUMotionModel::remove_inactive() {
+    for(auto it = entities_.begin(); it != entities_.end();) {
+      if (!(*it)->active()) {
+        it = entities_.erase(it); 
+      } else {
+        ++it;
+      }
+    }
+  }
+
+
+  void GPUMotionModel::collect_state() {
+    states_.resize(STATE_NUM_ITEMS * entities_.size());
+    inputs_.resize(INPUT_NUM_ITEMS * entities_.size());
+
+    // Map our device buffers into host memory to write to them;
+    // We dont care about any possible data in our buffers rn. Invalidate
+    // the region we are writing to.
+    states_.map(CL_MAP_WRITE_INVALIDATE_REGION);
+    inputs_.map(CL_MAP_WRITE_INVALIDATE_REGION);
+
+    for(auto entityptr_it = entities_.cbegin();
+        entityptr_it != entities_.cend(); 
         ++entityptr_it) {
       // For now, assume that controllers have already been run. 
       // Eventually I think we want to include the controller with the kernel.
-      // This also assumes that all entites are homogonous in their state
+      // This also assumes that all entites are homogenous in their state
       // and controller output
       EntityPtr entity = *entityptr_it;
-      VariableIO autonomy_output = entity->autonomies().back()->vars();
+      VariableIO& model_input = vars_[entity];
+      
+      // We only need to copy state information when a new entity is added.
+      // Otherwise the state information of the device is consistant 
+      // with the host, and we just copy that data back to the host after 
+      // every step.
       StatePtr state = entity->state_truth();
       Eigen::Vector3d& pos = state->pos();
       Eigen::Vector3d& vel = state->vel();
@@ -109,87 +169,93 @@ namespace scrimmage {
           (float) quat.y(),
           (float) quat.z(),
           });
-
-      auto output = *autonomy_output.output();
-      for(int i = 0; i < output.size(); ++i) {
-        control_inputs_.push_back(output(i));
+      // We always need to copy motion inputs as they change on the host.
+      for(int i = 0; i < model_input.input()->size(); ++i) {
+        inputs_.push_back((float) model_input.input(i));
       }
     }
+    
+    // Unmap buffers to commit changes to device.
+    states_.unmap();
+    inputs_.unmap();
   }
 
-  bool GPUMotionModel::step(double dt, std::size_t iterations) {
+  bool GPUMotionModel::step(double time, double dt, std::size_t iterations) {
+#if ENABLE_GPU_ACCELERATION == 1
+    remove_inactive();
+    collect_state();
     // Copy motion_inputs to mem objects and execute kenrnels
     cl_int err;
 
-    std::size_t num_ents = states_.size() / MODEL_NUM_ITEMS;
+    //std::size_t num_ents = device_states_.size() / STATE_NUM_ITEMS;
+    std::size_t num_ents = entities_.size();
 
-    cl::Buffer state_buffer{
-      gpu_->context(), 
-        CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, 
-        sizeof(double)*states_.size(),
-        states_.data(), &err};
-
-    cl::Buffer control_buffer{
-      gpu_->context(), 
-        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, 
-        sizeof(double)*control_inputs_.size(),
-        control_inputs_.data(), &err};
-
-    std::string kernel_name{"static_motion"};
+    // Only reinitalize 
+    std::string kernel_name{"simple_aircraft"};
     
     auto kernel_opt = gpu_->get_kernel(kernel_name);
     cl::Kernel motion_kernel;
     if(kernel_opt) {motion_kernel = kernel_opt.value();}
     else { 
-      std::cerr << "Could not find kernel \'static_motion\'" << std::endl;
+      std::cerr << "Could not find kernel \'" << kernel_name << "\'\n";
       return false; 
     }
   
-    cl::CommandQueue& queue = gpu_->queue();
+    const cl::CommandQueue& queue = gpu_->queue();
 
-    motion_kernel.setArg(0, state_buffer); 
-    motion_kernel.setArg(1, control_buffer); 
-    motion_kernel.setArg(2, MODEL_NUM_ITEMS);
-    motion_kernel.setArg(3, CONTROL_NUM_ITEMS);
+    err = motion_kernel.setArg(0, states_.device_buffer()); 
+    GPUController::check_error(err, "Error setting Kernal Args");
+    
+    err = motion_kernel.setArg(1, inputs_.device_buffer()); 
+    GPUController::check_error(err, "Error setting Kernal Args");
+    err = motion_kernel.setArg(2, (float) time); 
 
-    std::size_t value_size = sizeof(decltype(states_)::value_type);
+    GPUController::check_error(err, "Error setting Kernal Args");
 
-    err = queue.enqueueWriteBuffer(state_buffer,
-        true, 0, value_size*states_.size(),
-        states_.data());
-
-    err = queue.enqueueWriteBuffer(control_buffer,
-        true, 0, value_size*control_inputs_.size(),
-        control_inputs_.data());
+    err = motion_kernel.setArg(3, (float) dt);
+    GPUController::check_error(err, "Error setting Kernal Args");
 
     err = queue.enqueueNDRangeKernel(motion_kernel,
         cl::NullRange, 
         cl::NDRange{num_ents},
         cl::NDRange{num_ents});
 
-    err = queue.enqueueReadBuffer(state_buffer,
-        true, 0, value_size*states_.size(),
-        states_.data());
+    GPUController::check_error(err, "Error Executing Kernel");
   
-
+    gpu_->queue().finish();
+    distribute_state();
+#endif
     return true;
   }
 
-  void GPUMotionModel::reassign(std::list<EntityPtr> entities)  {
-    std::size_t offset = 0;
-    auto state_info = [&](std::size_t indx) {
-      return states_[offset + indx];
-    };
+  void GPUMotionModel::distribute_state()  {
+    // Map state information back to host memory to copy to entites
+    states_.map(CL_MAP_READ);
 
-    for(auto entity_ptr_it = entities.begin();
-        entity_ptr_it != entities.end();
+    std::size_t entity_ind;
+    for(auto entity_ptr_it = entities_.begin();
+        entity_ptr_it != entities_.end();
         ++entity_ptr_it) {
-      offset = std::distance(entity_ptr_it, entities.begin());
+      entity_ind = std::distance(entities_.begin(), entity_ptr_it);
       StatePtr state = (*entity_ptr_it)->state_truth();
-      state->pos() << state_info(X), state_info(Y), state_info(Z);
-      state->vel() << state_info(X_VEL), state_info(Y_VEL), state_info(Z_VEL);
-      state->ang_vel() << state_info(X_ANG_VEL), state_info(Y_ANG_VEL), state_info(Z_ANG_VEL);
+      state->pos() << state_info(entity_ind, X), 
+                      state_info(entity_ind, Y), 
+                      state_info(entity_ind, Z);
+      state->vel() << state_info(entity_ind, X_VEL),
+                      state_info(entity_ind, Y_VEL),
+                      state_info(entity_ind, Z_VEL);
+      state->ang_vel() << state_info(entity_ind, X_ANG_VEL),
+                          state_info(entity_ind, Y_ANG_VEL),
+                          state_info(entity_ind, Z_ANG_VEL);
+      state->quat().w() = state_info(entity_ind, QUAT_W);
+      state->quat().x() = state_info(entity_ind, QUAT_X);
+      state->quat().y() = state_info(entity_ind, QUAT_Y);
+      state->quat().z() = state_info(entity_ind, QUAT_Z);
     }
+  }
+
+  double GPUMotionModel::state_info(std::size_t entity_index, std::size_t state_index) {
+    return states_.at(STATE_NUM_ITEMS*entity_index + state_index);
   }
 } // namespace scrimmage
 

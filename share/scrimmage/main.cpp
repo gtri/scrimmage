@@ -146,7 +146,6 @@ int main(int argc, char *argv[]) {
 
     simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
-    simcontrol.init_gpu();
 
     std::shared_ptr<std::thread> viewer_thread = nullptr;
 
@@ -157,6 +156,12 @@ int main(int argc, char *argv[]) {
     // If the GUI is enabled, the viewer will be run in a separate thread. Use
     // a shared_ptr to keep it "in scope", if it is created.
     std::shared_ptr<scrimmage::Viewer> viewer = nullptr;
+
+    const char* display_var = std::getenv("DISPLAY");
+    if(display_var == nullptr) {
+      // Turn off gui if we have no display (e.g. ssh session)  
+      simcontrol.mp()->set_enable_gui(false);
+    }
 
     if (simcontrol.enable_gui()) {
         viewer = std::make_shared<scrimmage::Viewer>();

@@ -43,7 +43,10 @@
 namespace scrimmage {
 /*! \brief abstracts the connection between motion models, controllers, and autonomies
  */
-class VariableIO;
+
+//template<typename Input = int>
+//class VariableIO;
+
 class VariableIO {
  public:
     enum class Direction {In = 0, Out};
@@ -103,6 +106,8 @@ class VariableIO {
     void set_input(const std::shared_ptr<Eigen::VectorXd> &input);
     void set_output(const std::shared_ptr<Eigen::VectorXd> &output);
 
+    void create_unconnected_output();
+
     /*! \brief Connect two VariableIO objects where writing to the output of
      *  the first object will transfer the data to the input of the second
      *  object. */
@@ -120,6 +125,7 @@ class VariableIO {
 };
 
 void print_io_error(const std::string &in_name, VariableIO &v);
+
 bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
 
 } // namespace scrimmage

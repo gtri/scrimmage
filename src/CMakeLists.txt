@@ -55,7 +55,6 @@ else()
 endif()
 
 
-
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
   scrimmage-protos
@@ -73,9 +72,11 @@ target_link_libraries(${LIBRARY_NAME}
   )
 
 # For now force compilation with openCL
-set(ENABLE_GPU_ACCELERATION true)
+message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
 if (ENABLE_GPU_ACCELERATION) 
-  find_package(OpenCL REQUIRED)
+  #target_sources(${LIBRARY_NAME} PRIVATE
+  #  gpu/GPUController.cpp
+  #  motion/GPUMotionModel.cpp)
   target_link_libraries(${LIBRARY_NAME} 
     PUBLIC
     OpenCL::OpenCL

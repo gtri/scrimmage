@@ -3,12 +3,12 @@
 <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="Straight flying">
 
-  <run start="0.0" end="200" dt="0.1"
+  <run start="0.0" end="100" dt="0.1"
        time_warp="10"
        enable_gui="true"
        network_gui="false"
        start_paused="true"
-        full_screen="false"
+       full_screen="true"
        window_width="800"
        window_height="600"/>
 
@@ -103,9 +103,6 @@
     <!--<pitch>45</pitch>-->
 
     <controller>SimpleAircraftControllerPID</controller>
-    <!--
-    <motion_model>SimpleAircraft</motion_model>
-    -->
     <gpu_motion_model>simple_aircraft</gpu_motion_model>
 
     <visual_model>zephyr-blue</visual_model>
@@ -158,27 +155,4 @@
       <radius>25</radius>
     </base>
   </entity>
-
-  <!-- Entity that is generated during runtime by other plugins -->
-  <entity tag="gen_straight">
-    <count>0</count>
-    <team_id>1</team_id>
-    <health>1</health>
-    <radius>1</radius>
-
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
-    <variance_z>10</variance_z>
-
-    <x>0</x>
-    <y>0</y>
-    <z>0</z>
-    <heading>0</heading>
-
-    <autonomy>Straight</autonomy>
-    <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-blue</visual_model>
-  </entity>
-
 </runscript>

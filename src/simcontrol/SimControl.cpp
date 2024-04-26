@@ -56,6 +56,8 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/motion/GPUMotionModel.h>
+#if ENABLE_GPU_ACCELERATION == 1
+#endif
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -127,9 +129,9 @@ SimControl::SimControl() :
     plugin_manager_(std::make_shared<PluginManager>()),
     networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
     pubsub_(std::make_shared<PubSub>()),
+    gpu_(nullptr),
     file_search_(std::make_shared<FileSearch>()),
     rtree_(std::make_shared<scrimmage::RTree>()),
-    gpu_(std::make_shared<scrimmage::GPUController>()),
     sim_plugin_(std::make_shared<EntityPlugin>()),
     limited_verbosity_(false) {
     pause(false);
@@ -193,6 +195,11 @@ bool SimControl::init(const std::string& mission_file,
         return false;
     }
 
+#if ENABLE_GPU_ACCELERATION == 1
+    // Needs to be done after parsing mission file
+    init_gpu();
+#endif
+
     // Start with the simulation paused? Can be overriden by
     // SimControl::pause()
     if (mp_->start_paused()) {
@@ -212,14 +219,15 @@ bool SimControl::init(const std::string& mission_file,
 }
 
 void SimControl::init_gpu() {
-#define ENABLE_GPU_ACCELERATION
-#ifdef ENABLE_GPU_ACCELERATION
+#if ENABLE_GPU_ACCELERATION == 1
+    gpu_ = std::make_shared<scrimmage::GPUController>();
     if(!gpu_->init(mp_->kernel_dir())) {
         std::cerr << "Unable to initalize GPU with kernel directory \"" << mp_->kernel_dir() << "\"\n";
     }
-    gpu_motion_models_.push_back(std::make_shared<GPUMotionModel>(gpu_));
+    //gpu_motion_models_.push_back(std::make_shared<GPUMotionModel>(gpu_));
 #else
-    std::cout << "GPU Acceleration Disabled. Enable GPU Message Placeholder\n";
+    std::cout << "GPU Acceleration Disabled. Using CPU for motion updates.\n"
+      "Enable GPU Motion Updates by compiling with -DENABLE_GPU_ACCELERATION \n";
 #endif
 }
 
@@ -403,15 +411,17 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     init_params.param_override_func = [](std::map<std::string, std::string>&){};
     init_params.plugin_tags = std::set<std::string>{};
 
-    //bool ent_status = ent->init(plugin_attr_map, params, id_to_team_map_,
-    //                            id_to_ent_map_,
-    //                            contacts_, mp_, proj_, id, ent_desc_id,
-    //                            plugin_manager_, file_search_, rtree_, pubsub_,
-    //                            printer_, time_, param_server_, global_services_,
-    //                            std::set<std::string>{},
-    //                            [](std::map<std::string, std::string>&){});
-    //
+    if(params.count("gpu_motion_model") > 0) {
+      std::string name = params["gpu_motion_model"];
+      // This may need to be reworked 
+      if (gpu_motion_models_.count(name) == 0 ) {
+        gpu_motion_models_[name] = std::make_shared<GPUMotionModel>(gpu_, name);
+      }
+      init_params.gpu_motion_model = gpu_motion_models_[name];
+    }
+
     bool ent_status = ent->init(info, init_params);
+
     contacts_mutex_.unlock();
 
 
@@ -454,6 +464,10 @@ MissionParsePtr SimControl::mp() { return mp_; }
 
 bool SimControl::enable_gui() {
     return mp_->enable_gui();
+}
+
+void SimControl::set_enable_gui(bool enable) {
+  mp_->set_enable_gui(false);
 }
 
 void SimControl::display_progress(const bool& enable) {
@@ -594,7 +608,8 @@ void SimControl::run_remove_inactive() {
             } else {
                 id_to_ent_map_->erase(it_id_ent);
             }
-
+            
+            // Remove from gpu motion model
         } else {
             ++it;
         }
@@ -1633,13 +1648,6 @@ bool SimControl::run_entities() {
         }
     }
 
-# ifdef ENABLE_GPU_ACCELERATION 
-    for(GPUMotionModelPtr gpu_motion_model : gpu_motion_models_) {
-      gpu_motion_model->collect(ents_);
-      gpu_motion_model->step(dt_, mp_->motion_multiplier());
-      gpu_motion_model->reassign(ents_);
-    }
-# else
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
@@ -1651,7 +1659,14 @@ bool SimControl::run_entities() {
                     c->step(t_, dt_) : true;});
             }
         }
-
+    }
+# if ENABLE_GPU_ACCELERATION == 1
+    for(auto gpu_motion_model_pair : gpu_motion_models_) {
+      GPUMotionModelPtr gpu_motion_model = gpu_motion_model_pair.second;
+      gpu_motion_model->step(t_, dt_, mp_->motion_multiplier());
+    }
+# else
+    for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // run motion model
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
@@ -1704,7 +1719,9 @@ bool SimControl::run_entities() {
         };
         br::for_each(ent->autonomies(), add_shapes);
         br::for_each(ent->controllers(), add_shapes);
-        add_shapes(ent->motion());
+        if (ent->motion() != nullptr) {
+          add_shapes(ent->motion());
+        }
     }
     return success;
 }

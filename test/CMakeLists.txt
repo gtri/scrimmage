@@ -20,6 +20,10 @@ set(
   test_parse_utils.cpp
   )
 
+if(OpenCL_FOUND)
+  set(test_files ${test_files} test_gpu_mapbuffer.cpp)
+endif()
+
 if (NOT ENABLE_PYTHON_BINDINGS)
   LIST(REMOVE_ITEM test_files "test_openai.cpp")
 else()

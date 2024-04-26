@@ -283,6 +283,7 @@ bool Straight::step_autonomy(double t, double dt) {
     Eigen::Vector3d diff = goal_ - noisy_state_.pos();
     Eigen::Vector3d v = speed_ * diff.normalized();
 
+
     ///////////////////////////////////////////////////////////////////////////
     // Convert desired velocity to desired speed, heading, and pitch controls
     ///////////////////////////////////////////////////////////////////////////
