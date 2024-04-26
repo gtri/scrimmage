@@ -1,3 +1,4 @@
+setuptools==58.2.0
 alabaster==0.7.12
 argcomplete==1.11.1
 attrs==19.3.0
@@ -18,10 +19,10 @@ importlib-metadata==1.6.0
 Jinja2==3.0.0
 MarkupSafe==2.0.0
 more-itertools==8.3.0
-numpy==1.19.0
+numpy==1.20.0
+matplotlib==2.2
 packaging==20.3
 pandas==1.0.3
-setuptools==42.0.0
 pluggy==0.13.1
 py==1.8.1
 pyglet==1.5.0

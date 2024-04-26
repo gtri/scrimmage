@@ -63,6 +63,7 @@ namespace scrimmage {
   struct EntityInitParams {
     EntityInitParams() {};
     AttributeMap overrides;
+    GPUMotionModelPtr gpu_motion_model;
     std::map<std::string, std::string> info;
     int id;
     int ent_desc_id;

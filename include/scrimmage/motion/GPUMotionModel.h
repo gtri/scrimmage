@@ -37,25 +37,38 @@
 
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/gpu/GPUMapBuffer.h>
 
+#if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
+#endif
 
-#include <list>
 #include <memory>
-
+#include <optional>
 
 namespace scrimmage {
 
-  class GPUMotionModel {
+  class GPUMotionModel : public Plugin {
     public: 
-        GPUMotionModel(GPUControllerPtr gpu);
-        void collect(std::list<EntityPtr> entities);
-        bool step(double dt, std::size_t iterations); // Enque and exeucte kernel
-        void reassign(std::list<EntityPtr> entities);
+        GPUMotionModel(GPUControllerPtr gpu, const std::string& kernel_name);
+        bool step(double time, double dt, std::size_t iterations); // Enque and exeucte kernel
+        void add_entity(EntityPtr entity);
+        VariableIO& get_entity_input(EntityPtr entity);
+
     protected:
-      std::vector<float> states_;
-      std::vector<float> control_inputs_;
+      void collect_state();
+      void distribute_state();
+      void remove_inactive();
+      double state_info(std::size_t entity_index, std::size_t state_index);
+      std::vector<EntityPtr> entities_; // List of entities that use this motion model.
+      std::map<EntityPtr, VariableIO> vars_; // Maps entities to their motion model inputs
+
+      bool entity_added_;  // Flag that signals a new state buffer needs to be copied to the device.
+
       GPUControllerPtr gpu_;
+      std::string kernel_name_;
+
+      GPUMapBuffer<float> states_, inputs_;
   };
 
   using GPUMotionModelPtr = std::shared_ptr<GPUMotionModel>;

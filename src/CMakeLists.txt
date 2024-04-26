@@ -86,6 +86,7 @@ add_library(${LIBRARY_NAME} SHARED
 add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen
 )
+
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
     ${PUBLIC_LIBS}
@@ -96,9 +97,11 @@ target_link_libraries(${LIBRARY_NAME}
 target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
 # For now force compilation with openCL
-set(ENABLE_GPU_ACCELERATION true)
+message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
 if (ENABLE_GPU_ACCELERATION) 
-  find_package(OpenCL REQUIRED)
+  #target_sources(${LIBRARY_NAME} PRIVATE
+  #  gpu/GPUController.cpp
+  #  motion/GPUMotionModel.cpp)
   target_link_libraries(${LIBRARY_NAME} 
     PUBLIC
     OpenCL::OpenCL

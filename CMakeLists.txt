@@ -317,6 +317,19 @@ else()
   add_definitions(-DENABLE_AIRSIM=0)
 endif()
 
+########################################################
+# Find OpenCL
+########################################################
+find_package(OpenCL)
+if(OpenCL_FOUND)
+  set(ENABLE_GPU_ACCELERATION true)
+  add_compile_options(-DENABLE_GPU_ACCELERATION=1)
+  message("-- OpenCL found. Enabling GPU Support")
+else()
+  message("-- No OpenCL installation found. Disabeling GPU Acceleration")
+  add_compile_options(-DENABLE_GPU_ACCELERATION=0)
+endif()
+#add_compile_options(-DENABLE_GPU_ACCELERATION=0)
 
 ########################################################
 # Recurse into src, share, and plugins

@@ -89,6 +89,10 @@ std::map<std::string, int> & VariableIO::input_variable_index() {
     return input_variable_index_;
 }
 
+void VariableIO::create_unconnected_output() {
+    *output_ = Eigen::VectorXd::Zero(output_variable_index_.size());
+}
+
 int VariableIO::add_input_variable(const std::string &var) {
     // If the variable already exists, return its existing index
     declared_input_variables_.insert(var);

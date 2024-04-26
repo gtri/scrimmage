@@ -252,6 +252,9 @@ class SimControl {
     /// @brief Returns true if mission file requests a GUI.
     bool enable_gui();
 
+    /// @brief Sets the value of the mission's use of a GUI.
+    void set_enable_gui(bool enable);
+
     /// @brief Returns true if a simulation end condition has been met.
     bool end_condition_reached();
 
@@ -443,12 +446,15 @@ class SimControl {
     NetworkMapPtr networks_;
     PubSubPtr pubsub_;
 
+    GPUControllerPtr gpu_;
+
+    // GPUMotionModel Name : GPUMotionModelPtr
+    std::map<std::string, GPUMotionModelPtr> gpu_motion_models_;
+
     std::set<int> ids_used_ = {0};
     FileSearchPtr file_search_;
     RTreePtr rtree_;
 
-    GPUControllerPtr gpu_;
-    std::list<GPUMotionModelPtr> gpu_motion_models_;
 
     void request_screenshot();
     void create_rtree(const unsigned int& additional_size);

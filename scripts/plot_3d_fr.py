@@ -166,6 +166,7 @@ def main():
     if args.two_d:
         ax = trajFig.gca()
     else:
+        #ax = trajFig.add_subplot(projection='3d')
         ax = trajFig.gca(projection='3d')
         ax.set_zlabel('z position (m)', fontsize=20)
 
