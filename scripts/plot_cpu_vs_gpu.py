@@ -131,94 +131,122 @@ def main():
     ## Command-line argument parsing ##
     parser=argparse.ArgumentParser(description='Plots trajectories of all entities after SCRIMMAGE simulation')
     parser.add_argument(type=str,
-                        dest='frames_file',
+                        dest='cpu_frames',
                         default='',
                         help='path of frames.bin or its containing directory;\nif not specified, most recent frames.bin will be processed')
-    parser.add_argument('--2d', dest='two_d', default=False, action='store_true')
+    parser.add_argument(type=str,
+                        dest='gpu_frames',
+                        default='',
+                        help='path of frames.bin or its containing directory;\nif not specified, most recent frames.bin will be processed')
+    #parser.add_argument('--2d', dest='two_d', default=False, action='store_true')
 
     args = parser.parse_args()
+    print(args.cpu_frames)
+    print(args.gpu_frames)
 
-    ## find and read in the frames.bin for the case we want (or most recent case) ##
-    finalFramesDir = find_frames(args.frames_file)
-    finalFramesLoc = finalFramesDir + '/frames.bin'
 
-    # Read in the frames from the protocol buffer
-    print('Reading frames...\n')
-    frames = utils.read_frames(finalFramesLoc)
-
-    ## Organize data for plotting ##
-    # Make a list of lists for each coordinate (one list per entity)
-    allentX = [[] for ent in frames[0].contact]
-    allentY = [[] for ent in frames[0].contact]
-    allentZ = [[] for ent in frames[0].contact]
-
-    for fr in frames: # at each timestep
-        for con in fr.contact: # for each contact/entity
-            conidx = con.id.id - 1
-            # append each entity's x, y, z position to the appropriate list
-            allentX[conidx].append(con.state.position.x)
-            allentY[conidx].append(con.state.position.y)
-            allentZ[conidx].append(con.state.position.z)
-
-    ## Plot data ##
-    # Preparing 3D trajectory plot
+    ## Preparing 3D trajectory plot
     trajFig = plt.figure(figsize=(18,12))
-    if args.two_d:
+    if False:
         ax = trajFig.add_subplot()
     else:
         ax = trajFig.add_subplot(projection='3d')
         ax.set_zlabel('z position (m)', fontsize=20)
 
-    ax.axis('equal')
+    #ax.axis('equal')
     ax.grid(linestyle='dotted', linewidth=1)
 
     ax.set_xlabel('x-position (m)', fontsize=20)
     ax.set_ylabel('y-position (m)', fontsize=20)
     ax.set_title('Agent Trajectories', fontsize=20)
 
-    # Markers the plot can use
-    mkCycler = cycle(mpl.markers.MarkerStyle.filled_markers)
-    # How many markers on the longest-lived entity's trajectory line
-    num_mk = 8
-    if num_mk > len(allentX):
-        num_mk = len(allentX)
-    # How many data points before a marker is placed
-    mkInterval = ceil(len(frames)/num_mk)
-    # Marker fillstyles (set by team)
-    fs = ['full','none']
-    #fs = mpl.markers.MarkerStyle.fillstyles # more fillstyles
+    ### find and read in the frames.bin for the case we want (or most recent case) ##
+    lsCycler = cycle(["solid", "dotted", "dashed"])
+    mkCycler = cycle(mpl.markers.MarkerStyle.filled_markers[0:2])
+    colorCycler = cycle(["red", "blue"])
+    labelCycler = cycle(["cpu", "gpu"])
+    for frame_file in [args.cpu_frames, args.gpu_frames]: 
+        finalFramesDir = find_frames(frame_file)
+        finalFramesLoc = finalFramesDir + '/frames.bin'
 
-    try:
-        ## Plot each entity's trajectory and label with team number and agent number ##
-        for con in frames[0].contact:
-            conidx = con.id.id - 1
-            labelstr = 'T' + str(con.id.team_id) + ', #' + str(conidx+1)
+        ## Read in the frames from the protocol buffer
+        #print('Reading frames...\n')
+        frames = utils.read_frames(finalFramesLoc)
 
-            if args.two_d:
-                ax.plot(allentX[conidx],allentY[conidx],
-                        marker=next(mkCycler),markevery=mkInterval,
-                        fillstyle=fs[con.id.team_id-1],label=labelstr,
-                        linewidth=3)
-            else:
-                ax.plot(allentX[conidx],allentY[conidx],allentZ[conidx],
-                        marker=next(mkCycler),markevery=mkInterval,
-                        fillstyle=fs[con.id.team_id-1],label=labelstr,
-                        linewidth=3)
-    except:
-        raise Exception('Error during plotting procedure! Please verify that you are plotting a valid case.\n')
+        ### Organize data for plotting ##
+        ## Make a list of lists for each coordinate (one list per entity)
+        allentX = [[] for ent in frames[0].contact]
+        allentY = [[] for ent in frames[0].contact]
+        allentZ = [[] for ent in frames[0].contact]
+
+        for fr in frames: # at each timestep
+            for con in fr.contact: # for each contact/entity
+                conidx = con.id.id - 1
+                # append each entity's x, y, z position to the appropriate list
+                allentX[conidx].append(con.state.position.x)
+                allentY[conidx].append(con.state.position.y)
+                allentZ[conidx].append(con.state.position.z)
+
+        ### Plot data ##
+
+
+        ## Markers the plot can use
+        ## How many markers on the longest-lived entity's trajectory line
+        num_mk = 8
+        if num_mk > len(allentX):
+            num_mk = len(allentX)
+        ## How many data points before a marker is placed
+        mkInterval = ceil(len(frames)/num_mk)
+        ## Marker fillstyles (set by team)
+        fs = ['full','none']
+        #fs = mpl.markers.MarkerStyle.fillstyles # more fillstyles
+
+        try:
+            ## Plot each entity's trajectory and label with team number and agent number ##
+            for con in frames[0].contact:
+                conidx = con.id.id - 1
+                labelstr = next(labelCycler) + ': T' + str(con.id.team_id) + ', #' + str(conidx+1)
+
+                if False:
+                    ax.plot(allentX[conidx],allentY[conidx],
+                            marker=next(mkCycler),markevery=mkInterval,
+                            fillstyle=fs[con.id.team_id-1],label=labelstr,
+                            linewidth=3)
+                else:
+                    ax.plot(allentX[conidx],allentY[conidx],allentZ[conidx],
+                            marker=next(mkCycler),markevery=mkInterval,
+                            fillstyle=fs[con.id.team_id-1],label=labelstr,
+                            linestyle=next(lsCycler), color=next(colorCycler), linewidth=1)
+        except:
+            raise Exception('Error during plotting procedure! Please verify that you are plotting a valid case.\n')
+
+
+        max_x = max(max(allentX)) 
+        max_y = max(max(allentY)) 
+        max_z = max(max(allentZ)) 
+        min_x = max(min(allentX)) 
+        min_y = max(min(allentY)) 
+        min_z = max(min(allentZ)) 
+        (ax_min_x, ax_max_x) = ax.get_xlim()
+        (ax_min_y, ax_max_y) = ax.get_ylim()
+        (ax_min_z, ax_max_z) = ax.get_zlim()
+    
+
+        ax.set_xlim(min(ax_min_x, min_x), max(ax_max_x, max_x))
+        ax.set_ylim(min(ax_min_y, min_y), max(ax_max_y, max_y))
+        ax.set_zlim(min(ax_min_z, min_z), max(ax_max_z, max_x))
+
+        # Create legend
+        numEntPerCol = 30
+        numLegCols = int(len(allentX)/numEntPerCol)
+        if numLegCols < 1:
+            numLegCols = 1
+        leg = ax.legend(loc='center left',fontsize=9,markerscale=0.8,ncol=numLegCols,bbox_to_anchor=(1,0.5))
+        leg.set_draggable(True)
 
     # Shrink plot's axes to make some room for legend
     axLoc = ax.get_position()
     ax.set_position([axLoc.x0, axLoc.y0, axLoc.width*0.8, axLoc.height])
-
-    # Create legend
-    numEntPerCol = 30
-    numLegCols = int(len(allentX)/numEntPerCol)
-    if numLegCols < 1:
-        numLegCols = 1
-    leg = ax.legend(loc='center left',fontsize=9,markerscale=0.8,ncol=numLegCols,bbox_to_anchor=(1,0.5))
-    leg.set_draggable(True)
-
     try:
         ## Show and save figure ##
         trajFig.show()

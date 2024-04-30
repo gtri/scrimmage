@@ -29,6 +29,7 @@
  *
  */
 
+#include <cmath>
 #include <ctime>
 #include <gtest/gtest.h>
 
@@ -106,6 +107,8 @@ class TestMotionModels : public ::testing::TestWithParam<std::string> {
     fs::path cpu_mission_path, gpu_mission_path;
 };
 
+
+
 INSTANTIATE_TEST_SUITE_P(Missions, TestMotionModels, testing::Values("straight"));
 
 TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
@@ -113,6 +116,18 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
   using FramePtr = std::shared_ptr<Frame>;
   using Frames = std::list<FramePtr>;
   Log cpu_log, gpu_log;
+
+  auto clamp_angle = [](double rad) {
+    // Makes sure angle is in [0, 2pi)
+    constexpr double two_pi = 2*M_PI;
+    while(rad < 0) {
+      rad += two_pi;
+    }
+    while (rad >= two_pi) {
+      rad -= two_pi;
+    }
+    return rad;
+  }; 
 
   // TODO: Make sure seeds are the same
 
@@ -209,9 +224,9 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
           cpu_state.orientation().y(), 
           cpu_state.orientation().z()); 
 
-      EXPECT_NEAR(gpu_quat.roll(), cpu_quat.roll(), 1e-5);
-      EXPECT_NEAR(gpu_quat.pitch(), cpu_quat.pitch(), 1e-5);
-      EXPECT_NEAR(gpu_quat.yaw(), cpu_quat.yaw(), 1e-5);
+      EXPECT_NEAR(clamp_angle(gpu_quat.roll()), clamp_angle(cpu_quat.roll()), 1e-5);
+      EXPECT_NEAR(clamp_angle(gpu_quat.pitch()), clamp_angle(cpu_quat.pitch()), 1e-5);
+      EXPECT_NEAR(clamp_angle(gpu_quat.yaw()), clamp_angle(cpu_quat.yaw()), 1e-5);
     }
     std::list<std::string> list_headers;
     list_headers.insert(list_headers.end(), headers.begin(), headers.end());
