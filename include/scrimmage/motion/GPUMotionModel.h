@@ -38,6 +38,7 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/gpu/GPUMapBuffer.h>
+#include <scrimmage/math/State.h>
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
@@ -51,19 +52,22 @@ namespace scrimmage {
   class GPUMotionModel : public Plugin {
     public: 
         GPUMotionModel(GPUControllerPtr gpu, const std::string& kernel_name);
+        void init_new_entities(double time);
         bool step(double time, double dt, std::size_t iterations); // Enque and exeucte kernel
         void add_entity(EntityPtr entity);
         VariableIO& get_entity_input(EntityPtr entity);
 
     protected:
-      void collect_state();
-      void distribute_state();
+      void collect_states(std::vector<EntityPtr>& entities, GPUMapBuffer<float>& states, GPUMapBuffer<float>& inputs);
+      bool propagate(GPUMapBuffer<float>& states, GPUMapBuffer<float>& inputs, std::size_t num_entities, double time, double dt, std::size_t iterations);
+      void distribute_states(std::vector<EntityPtr>& entities, GPUMapBuffer<float>& states);
       void remove_inactive();
-      double state_info(std::size_t entity_index, std::size_t state_index);
+//double state_info(std::size_t entity_index, std::size_t state_index);
+
+      std::vector<EntityPtr> to_init_; // Buffer for initalization. Holds entities 
+                                       // generated on the previous timestep to initalize
       std::vector<EntityPtr> entities_; // List of entities that use this motion model.
       std::map<EntityPtr, VariableIO> vars_; // Maps entities to their motion model inputs
-
-      bool entity_added_;  // Flag that signals a new state buffer needs to be copied to the device.
 
       GPUControllerPtr gpu_;
       std::string kernel_name_;

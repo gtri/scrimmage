@@ -22,7 +22,10 @@ set(test_files
   )
 
 if(OpenCL_FOUND)
-  set(test_files ${test_files} test_gpu_mapbuffer.cpp)
+  set(test_files ${test_files} 
+    test_gpu_mapbuffer.cpp
+    test_compare_gpu_cpu_motion_models.cpp
+    )
 endif()
 
 if (NOT ENABLE_PYTHON_BINDINGS)

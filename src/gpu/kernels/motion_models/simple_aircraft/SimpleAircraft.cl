@@ -1,56 +1,43 @@
-#include "math_utils.h"
+#include <math_utils.h>
+#include <motion_models/simple_aircraft/SimpleAircraft.h>
 
-enum StateParams {
-  STATE_X = 0,
-  STATE_Y,
-  STATE_Z,
-  STATE_X_VEL,
-  STATE_Y_VEL,
-  STATE_Z_VEL,
-  STATE_X_ANG_VEL,
-  STATE_Y_ANG_VEL,
-  STATE_Z_ANG_VEL,
-  STATE_QUAT_W,
-  STATE_QUAT_X,
-  STATE_QUAT_Y,
-  STATE_QUAT_Z,
-  STATE_NUM_PARAMS
-};
+__kernel void SimpleAircraft(__global float* states, __global float* controls, 
+                                       float t,
+                                       float dt) {
+  int gid, state_offset, control_offset;
+  float state[STATE_NUM_PARAMS], control[INPUT_NUM_PARAMS];
+  float8 x; // Model Vector
+  float4 u; // Control Vector
 
-enum ModelParams {
-    MODEL_X = 0,
-    MODEL_Y,
-    MODEL_Z,
-    MODEL_ROLL,
-    MODEL_PITCH,
-    MODEL_YAW,
-    MODEL_SPEED,
-    MODEL_NUM_PARAMS
-};
+  gid = get_global_id(0);
+  state_offset = STATE_NUM_PARAMS*gid;
+  control_offset = INPUT_NUM_PARAMS*gid;
+   
+  // Copy state/control information from global entity information to private vars.
+  for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
+    state[i] = states[state_offset + i];
+  }
 
-enum ControlParams {
-    CONTROL_THRUST = 0,
-    CONTROL_ROLL_RATE,
-    CONTROL_PITCH_RATE,
-    CONTROL_NUM_PARAMS
-};
+  for(int i = 0; i < INPUT_NUM_PARAMS; ++i) {
+    u[i] = controls[control_offset + i];
+  }
 
-#define MAX_SPEED (40.0f)
-#define MIN_SPEED (15.0f)
-#define MAX_ROLL (30.0f)
-#define MAX_PITCH (30.0f)
-#define TURNING_RADIUS (50.0f)
-#define SPEED_TARGET (50.0f)
-#define RADIUS_SLOPE_PER_SPEED (0.0f)
-#define MAX_THROTTLE (100.0f)
-#define MAX_ROLL_RATE (57.3f)
-#define MAX_PITCH_RATE (57.3f)
+  x = state_to_model(state); 
+  int target_id = 1;
+  // Update x with rk4
+  RK4(x, u, t, dt, simple_aircraft_model);
+
+  model_to_state(x, state);
+  for(int i = 0; i < STATE_NUM_PARAMS; i++) {
+    states[state_offset + i] = state[i];
+  }
+}
 
 float8 simple_aircraft_model(float8 x, float4 u, float t) {
   float8 dxdt;
-  float throttle = u[CONTROL_THRUST];
-  float roll_rate = u[CONTROL_ROLL_RATE];
-  float pitch_rate = u[CONTROL_PITCH_RATE];
+  float throttle = u[INPUT_THRUST];
+  float roll_rate = u[INPUT_ROLL_RATE];
+  float pitch_rate = u[INPUT_PITCH_RATE];
 
   throttle = clamp(throttle, -MAX_THROTTLE, MAX_THROTTLE);
   roll_rate = clamp(roll_rate, -MAX_ROLL_RATE, MAX_ROLL_RATE);
@@ -115,34 +102,3 @@ void model_to_state(float8 model, float* state) {
   state[STATE_Z_VEL] = speed * sin(pitch);
 }
 
-__kernel void simple_aircraft(__global float* states, __global float* controls, 
-                                       float t,
-                                       float dt) {
-  int gid, state_offset, control_offset;
-  float state[STATE_NUM_PARAMS], control[CONTROL_NUM_PARAMS];
-  float8 x; // Model Vector
-  float4 u; // Control Vector
-
-  gid = get_global_id(0);
-  state_offset = STATE_NUM_PARAMS*gid;
-  control_offset = CONTROL_NUM_PARAMS*gid;
-   
-  // Copy state/control information from global entity information to private vars.
-  for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
-    state[i] = states[state_offset + i];
-  }
-
-  for(int i = 0; i < CONTROL_NUM_PARAMS; ++i) {
-    u[i] = controls[control_offset + i];
-  }
-
-  x = state_to_model(state); 
-  int target_id = 1;
-  // Update x with rk4
-  RK4(x, u, t, dt, simple_aircraft_model);
-
-  model_to_state(x, state);
-  for(int i = 0; i < STATE_NUM_PARAMS; i++) {
-    states[state_offset + i] = state[i];
-  }
-}

@@ -79,6 +79,7 @@ namespace scrimmage {
     rtree_ = sim_info.rtree;
     proj_ = sim_info.proj;
     param_server_ = sim_info.param_server;
+    gpu_motion_model_ = init_params.gpu_motion_model;
 
     auto mp = sim_info.mp;
     auto id_to_ent_map = sim_info.id_to_ent_map;
@@ -597,6 +598,10 @@ scrimmage_proto::ContactVisualPtr &Entity::contact_visual()
 
 std::unordered_map<std::string, SensorPtr> &Entity::sensors() {
   return sensors_;
+}
+
+bool Entity::using_gpu_motion() {
+  return gpu_motion_model_ != nullptr;
 }
 
 std::unordered_map<std::string, SensorPtr> Entity::sensors(const std::string &sensor_name) {

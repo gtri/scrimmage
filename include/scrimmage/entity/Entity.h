@@ -152,7 +152,10 @@ namespace scrimmage {
       void set_visual_changed(bool visual_changed);
       bool visual_changed();
 
+
       scrimmage_proto::ContactVisualPtr &contact_visual();
+
+      bool using_gpu_motion();
 
       std::unordered_map<std::string, SensorPtr> &sensors();
       std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
@@ -207,8 +210,10 @@ namespace scrimmage {
 
       std::vector<ControllerPtr> controllers_;
       MotionModelPtr motion_model_;
+      GPUMotionModelPtr gpu_motion_model_;
       std::vector<AutonomyPtr> autonomies_;
       MissionParsePtr mp_;
+
 
       int health_points_ = 1;
 

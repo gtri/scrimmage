@@ -224,7 +224,6 @@ void SimControl::init_gpu() {
     if(!gpu_->init(mp_->kernel_dir())) {
         std::cerr << "Unable to initalize GPU with kernel directory \"" << mp_->kernel_dir() << "\"\n";
     }
-    //gpu_motion_models_.push_back(std::make_shared<GPUMotionModel>(gpu_));
 #else
     std::cout << "GPU Acceleration Disabled. Using CPU for motion updates.\n"
       "Enable GPU Motion Updates by compiling with -DENABLE_GPU_ACCELERATION \n";
@@ -627,6 +626,9 @@ bool SimControl::run_single_step(const int& loop_number) {
     }
 
     run_callbacks(sim_plugin_);
+    for(auto gpu_motion_model_pair : gpu_motion_models_) {
+      gpu_motion_model_pair.second->init_new_entities(t);
+    }
 
     if (screenshot_task_.update(t_).first) {
         request_screenshot();
@@ -1660,12 +1662,10 @@ bool SimControl::run_entities() {
             }
         }
     }
-# if ENABLE_GPU_ACCELERATION == 1
     for(auto gpu_motion_model_pair : gpu_motion_models_) {
       GPUMotionModelPtr gpu_motion_model = gpu_motion_model_pair.second;
       gpu_motion_model->step(t_, dt_, mp_->motion_multiplier());
     }
-# else
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // run motion model
         auto step_all = [&](Task::Type type, auto getter) {
@@ -1673,8 +1673,10 @@ bool SimControl::run_entities() {
                 success &= add_tasks(type, temp_t, motion_dt);
             } else {
                 for (EntityPtr &ent : ents_) {
+                  if (!ent->using_gpu_motion()) {
                     auto step = [&](auto p){return p->step(temp_t, motion_dt);};
                     success &= exec_step(getter(ent), step);
+                  }
                 }
             }
         };
@@ -1682,7 +1684,6 @@ bool SimControl::run_entities() {
 
         temp_t += motion_dt;
     }
-#endif
 
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
