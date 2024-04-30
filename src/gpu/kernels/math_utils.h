@@ -38,7 +38,7 @@ float4 quat_from_euler(float yaw, float pitch, float roll) {
 
 // These are macros to enable functions to pass in their own motion models.
 // OpenCL 1.1 does not permit the use of function pointers.
-#define RK4(x, u, t, dt, model) {\ 
+#define RK4(x, u, t, dt, model) {\
     float8 k1, k2, k3, k4; \
     k1 = model(x, u, t); \
     k2 = model(x + 0.5f*dt*k1, u, t + 0.5f*dt); \
