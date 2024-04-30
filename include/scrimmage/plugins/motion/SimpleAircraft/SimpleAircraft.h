@@ -61,6 +61,7 @@ class SimpleAircraft : public scrimmage::MotionModel{
 
     void teleport(scrimmage::StatePtr &state) override;
 
+
  protected:
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;

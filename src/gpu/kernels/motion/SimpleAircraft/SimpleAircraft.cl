@@ -1,5 +1,5 @@
 #include <math_utils.h>
-#include <motion_models/simple_aircraft/SimpleAircraft.h>
+#include <motion/SimpleAircraft/SimpleAircraft.h>
 
 __kernel void SimpleAircraft(__global float* states, __global float* controls, 
                                        float t,

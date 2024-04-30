@@ -82,7 +82,8 @@ namespace scrimmage {
     gpu_{gpu},
     kernel_name_{kernel_name},
     states_{gpu, CL_MEM_READ_WRITE}, // State needs to be read/wrtie. This is what we update.
-    inputs_{gpu, CL_MEM_WRITE_ONLY} // Inputs only need to be write only from our perspective
+    inputs_{gpu, CL_MEM_WRITE_ONLY}, // Inputs only need to be write only from our perspective
+    input_num_items_{0} // The number of input parameters.
   {}
 
   void GPUMotionModel::add_entity(EntityPtr entity) {
@@ -90,11 +91,9 @@ namespace scrimmage {
     vars_.try_emplace(entity);
   }
 
-
   VariableIO& GPUMotionModel::get_entity_input(EntityPtr entity) {
     if(vars_.count(entity) == 0) {
-      // Apparently this entity was not added. Add it now to avoid 
-      // errors.
+      // Apparently this entity was not added. Add it now.
       add_entity(entity);
     }
     return vars_[entity];
@@ -127,7 +126,7 @@ namespace scrimmage {
 
   void GPUMotionModel::collect_states(std::vector<EntityPtr>& entities, GPUMapBuffer<float>& states, GPUMapBuffer<float>& inputs) { 
     states.resize(STATE_NUM_ITEMS * entities.size());
-    inputs.resize(INPUT_NUM_ITEMS * entities.size());
+    inputs.resize(input_num_items_ * entities.size());
 
     // Map our device buffers into host memory to write to them;
     // We dont care about any possible data in our buffers rn. Invalidate
@@ -185,6 +184,9 @@ namespace scrimmage {
     // "Propagate" the motion model with dt=0. This should not update the motion,
     // but should ensure that all states are properly initalized.
     if (to_init_.size() > 0) {
+      if(input_num_items_ == 0) {
+        input_num_items_ = vars_[to_init_[0]].input()->size();
+      }
       GPUMapBuffer<float> states{gpu_, CL_MEM_READ_WRITE};
       GPUMapBuffer<float> inputs{gpu_, CL_MEM_WRITE_ONLY};
       collect_states(to_init_, states, inputs); 

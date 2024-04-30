@@ -162,10 +162,11 @@ def main():
 
     ### find and read in the frames.bin for the case we want (or most recent case) ##
     lsCycler = cycle(["solid", "dotted", "dashed"])
-    mkCycler = cycle(mpl.markers.MarkerStyle.filled_markers[0:2])
     colorCycler = cycle(["red", "blue"])
     labelCycler = cycle(["cpu", "gpu"])
+    markers = mpl.markers.MarkerStyle.filled_markers[:]
     for frame_file in [args.cpu_frames, args.gpu_frames]: 
+        mkCycler = cycle(markers)
         finalFramesDir = find_frames(frame_file)
         finalFramesLoc = finalFramesDir + '/frames.bin'
 
@@ -203,9 +204,11 @@ def main():
 
         try:
             ## Plot each entity's trajectory and label with team number and agent number ##
+            linestyle = next(lsCycler)
+            device = next(labelCycler)
             for con in frames[0].contact:
                 conidx = con.id.id - 1
-                labelstr = next(labelCycler) + ': T' + str(con.id.team_id) + ', #' + str(conidx+1)
+                labelstr = device + ': T' + str(con.id.team_id) + ', #' + str(conidx+1)
 
                 if False:
                     ax.plot(allentX[conidx],allentY[conidx],
@@ -216,7 +219,7 @@ def main():
                     ax.plot(allentX[conidx],allentY[conidx],allentZ[conidx],
                             marker=next(mkCycler),markevery=mkInterval,
                             fillstyle=fs[con.id.team_id-1],label=labelstr,
-                            linestyle=next(lsCycler), color=next(colorCycler), linewidth=1)
+                            linestyle=linestyle, linewidth=1)
         except:
             raise Exception('Error during plotting procedure! Please verify that you are plotting a valid case.\n')
 
