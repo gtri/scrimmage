@@ -58,7 +58,7 @@ void MotionModel::teleport(StatePtr &state) {state_ = state;}
 
 void MotionModel::ode_step(double dt) {
     auto sys = std::bind(&MotionModel::model, this, pl::_1, pl::_2, pl::_3);
-    boost::numeric::odeint::runge_kutta4<std::vector<double>> stepper;
+    boost::numeric::odeint::runge_kutta4<vector_t> stepper;
     stepper.do_step(sys, x_, 0, dt);
 }
 

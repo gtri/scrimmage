@@ -73,6 +73,8 @@ namespace scrimmage {
       std::string kernel_name_;
 
       GPUMapBuffer<float> states_, inputs_;
+
+      std::size_t input_num_items_;
   };
 
   using GPUMotionModelPtr = std::shared_ptr<GPUMotionModel>;
