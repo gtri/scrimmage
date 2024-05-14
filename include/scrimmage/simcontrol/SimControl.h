@@ -43,6 +43,7 @@
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 
+#include <chrono>
 #include <future> // NOLINT
 #include <memory>
 #include <deque>
@@ -487,6 +488,27 @@ class SimControl {
 
     DelayedTask reseed_task_;
     bool limited_verbosity_;
+
+    std::map<std::string, 
+        std::pair<std::chrono::time_point<std::chrono::system_clock>, 
+        std::chrono::system_clock::duration>> simstep_timer_;
+
+    void start_timer(const std::string& timer_name) {
+        using mapped_type = decltype(simstep_timer_)::mapped_type;
+        if(simstep_timer_.count(timer_name) == 0) {
+            simstep_timer_.emplace(timer_name,
+                    mapped_type{std::chrono::system_clock::now(),
+                   std::chrono::system_clock::duration::zero()});
+        } else {
+            simstep_timer_[timer_name].first = std::chrono::system_clock::now();
+        }
+    }
+
+    void stop_timer(const std::string& timer_name) {
+        assert(simstep_timer_.count(timer_name) != 0);
+        auto& timer = simstep_timer_[timer_name];
+        timer.second += std::chrono::system_clock::now() - timer.first;
+    }
 
  private:
     bool take_step();

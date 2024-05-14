@@ -57,7 +57,7 @@
 #include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/motion/GPUMotionModel.h>
 #if ENABLE_GPU_ACCELERATION == 1
-#endif
+#include <scrimmage/common/CSV.h>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -614,11 +614,15 @@ bool SimControl::run_single_step(const int& loop_number) {
     reseed_task_.update(t);
     start_loop_timer();
 
+
+    start_timer("entity_generation");
     if (!generate_entities(t)) {
         cout << "Failed to generate entity" << endl;
         return false;
     }
+    stop_timer("entity_generation");
 
+    start_timer("callbacks");
     run_callbacks(sim_plugin_);
     
     // Sync the motion model with sim execution so all values are properly initalized 
@@ -626,17 +630,22 @@ bool SimControl::run_single_step(const int& loop_number) {
     for(auto gpu_motion_model_pair : gpu_motion_models_) {
       gpu_motion_model_pair.second->init_new_entities(t);
     }
+    stop_timer("callbacks");
 
+    start_timer("screenshots");
     if (screenshot_task_.update(t_).first) {
         request_screenshot();
     }
+    stop_timer("screenshots");
 
+    start_timer("logging");
     if (!run_logging()) {
         if (!limited_verbosity_) {
             std::cout << "Exiting due to logging exception" << std::endl;
         }
         return false;
     }
+    stop_timer("logging");
 
     // Wait loop timer.
     // Stay in loop if currently paused.
@@ -677,46 +686,59 @@ bool SimControl::run_single_step(const int& loop_number) {
     }
 
     set_autonomy_contacts();
+    start_timer("entities");
     if (!run_entities()) {
         if (!limited_verbosity_) {
             std::cout << "Exiting due to plugin request." << std::endl;
         }
         return false;
     }
+    stop_timer("entities");
 
+    start_timer("sensors");
     if (!run_sensors()) {
         if (!limited_verbosity_) {
             std::cout << "Exiting due to plugin request." << std::endl;
         }
         return false;
     }
+    stop_timer("sensors");
 
+    start_timer("interactions");
     if (!run_interaction_detection()) {
         auto msg = std::make_shared<Message<sm::EntityInteractionExit>>();
         pub_ent_int_exit_->publish(msg);
         return false;
     }
+    stop_timer("interactions");
 
     // The networks are run before the metrics, so that messages that are
     // published on the final time stamp can be processed by the metrics.
+    start_timer("networks");
     if (!run_networks()) {
         if (!limited_verbosity_) {
             std::cout << "Exiting due to network plugin request." << std::endl;
         }
         return false;
     }
+    stop_timer("networks");
 
+    start_timer("metrics");
     if (!run_metrics()) {
         if (!limited_verbosity_) {
             std::cout << "Exiting due to metrics plugin exception" << std::endl;
         }
         return false;
     }
+    stop_timer("metrics");
 
+    start_timer("cleanup");
     run_remove_inactive();
     run_send_shapes();
     run_send_contact_visuals(); // send updated visuals
+    stop_timer("cleanup");
 
+    start_timer("wait");
     if (display_progress_) {
         if (loop_number % 100 == 0) {
             sc::display_progress((tend_ == 0) ? 1.0 : t / tend_);
@@ -728,6 +750,7 @@ bool SimControl::run_single_step(const int& loop_number) {
     set_time(t + dt_);
     prev_paused_ = paused_;
 
+    stop_timer("wait");
     return not (end_condition_reached() || exit_loop);
 }
 
@@ -1067,10 +1090,35 @@ bool SimControl::run() {
         return false;
     }
     int loop_number = 0;
+    start_timer("total");
     while (run_single_step(loop_number++)) {}
     bool result = finalize();
     return result;
 
+    stop_timer("total");
+    CSV timer_log;
+    CSV::Headers timer_names;
+    CSV::Pairs pairs;
+
+    std::string log_filename = mp()->log_dir() + "/timer_log.csv";
+    timer_log.open_output(log_filename);
+    if(!timer_log.output_is_open()) {
+        std::cerr << "Unable to open \'" << log_filename << "\' for output." << std::endl;
+        return finalize() && false;
+    }
+    for(auto timer_it : simstep_timer_) {
+        timer_names.push_back(timer_it.first);
+    }
+    timer_log.set_column_headers(timer_names);
+
+    for(auto timer_it : simstep_timer_) {
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(timer_it.second.second);
+        pairs.push_back({timer_it.first, duration.count()});
+    }
+    timer_log.append(pairs);
+
+    timer_log.close_output();
+    return finalize();
 }
 
 bool SimControl::finalize() {
@@ -1636,6 +1684,7 @@ bool SimControl::run_entities() {
         }
     };
 
+    start_timer("autonomies");
     // run autonomies threaded or in a single thread
     if (entity_thread_types_.count(Task::Type::AUTONOMY)) {
         success &= add_tasks(Task::Type::AUTONOMY, t_, dt_);
@@ -1648,9 +1697,11 @@ bool SimControl::run_entities() {
             }
         }
     }
+    stop_timer("autonomies");
 
     double motion_dt = dt_ / mp_->motion_multiplier();
     double temp_t = t_;
+    start_timer("controllers");
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // run controllers in a single thread since they are serially connected
         for (EntityPtr &ent : ents_) {
@@ -1661,11 +1712,16 @@ bool SimControl::run_entities() {
             }
         }
     }
+    stop_timer("controllers");
+    start_timer("gpu_motion_models");
     for(auto gpu_motion_model_pair : gpu_motion_models_) {
       GPUMotionModelPtr gpu_motion_model = gpu_motion_model_pair.second;
       gpu_motion_model->step(t_, dt_, mp_->motion_multiplier());
     }
+    stop_timer("gpu_motion_models");
+    start_timer("cpu_motion_models");
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
+
         // run motion model
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
@@ -1683,6 +1739,7 @@ bool SimControl::run_entities() {
 
         temp_t += motion_dt;
     }
+    stop_timer("cpu_motion_models");
 
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
@@ -1697,6 +1754,7 @@ bool SimControl::run_entities() {
         }
     }
 
+    start_timer("misc");
     for (EntityPtr &ent : ents_) {
         ent->setup_desired_state();
     }
@@ -1723,6 +1781,7 @@ bool SimControl::run_entities() {
           add_shapes(ent->motion());
         }
     }
+    stop_timer("misc");
     return success;
 }
 
