@@ -131,6 +131,9 @@ namespace scrimmage {
       std::vector<AutonomyPtr> &autonomies();
       MotionModelPtr &motion();
       std::vector<ControllerPtr> &controllers();
+      GPUMotionModelPtr gpu_motion_model();
+      bool using_gpu_motion_model(); // Avoid ptr copy if we only want to know if the entity is using a gpu motion model.
+
 
       void set_id(ID &id);
       ID &id();
@@ -155,7 +158,6 @@ namespace scrimmage {
 
       scrimmage_proto::ContactVisualPtr &contact_visual();
 
-      bool using_gpu_motion();
 
       std::unordered_map<std::string, SensorPtr> &sensors();
       std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
@@ -213,7 +215,6 @@ namespace scrimmage {
       GPUMotionModelPtr gpu_motion_model_;
       std::vector<AutonomyPtr> autonomies_;
       MissionParsePtr mp_;
-
 
       int health_points_ = 1;
 

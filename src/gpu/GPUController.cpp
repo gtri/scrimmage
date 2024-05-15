@@ -1,4 +1,9 @@
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/gpu/GPUController.h>
+#include <scrimmage/gpu/OpenCLUtils.h>
+#include <scrimmage/motion/GPUMotionModel.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
@@ -12,9 +17,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Useful document of OpenCL CPP wrappers: https://registry.khronos.org/OpenCL/specs/opencl-cplusplus-1.2.pdf
+namespace fs = std::filesystem;
 
 namespace scrimmage {
 #if ENABLE_GPU_ACCELERATION == 1
@@ -24,220 +31,244 @@ namespace scrimmage {
     return vendor + ":" + name;
   }
 
-  GPUController::KernelSource::KernelSource(std::string name, std::string src, std::size_t size) :
-    name_{name}, src_{src}, size_{size} {};
+  GPUController::KernelSource::KernelSource(std::string name, std::string src) :
+    name_{name}, src_{src} {};
 
-  GPUController::GPUController() {};
-
-  GPUController::~GPUController() {
-    queue_.finish();
-    queue_.flush();
-  }
-
-  // Returns true when an error as occured
-  bool GPUController::check_error(cl_int& err, const std::string&& msg) {
-    if (err != 0) {
-      fprintf(stderr, "OpenCL Error: %s (CODE: %d)\n--%s\n",
-          GPUController::CL_ERROR_MESSAGES.at(err).c_str(), err, msg.c_str());
-      err = 0;
-      return true;
-    }
-    return false;
-  };
-
-  bool GPUController::init() {
-    // Empty initalization. Used for testing when we don't need 
-    // any kernels, but still want access to a device
-    cl_int err;
-    std::vector<cl::Platform> platforms;
-
-    err = cl::Platform::get(&platforms);
-    if(check_error(err, "Error Retreiving System Platforms")) { return false; }
-
-    // For this purpose, just pick the first platform that we can get a command queue from
-
-    for (cl::Platform platform : platforms) {
-      platform_ = platform;
-      platform.getDevices(CL_DEVICE_TYPE_GPU, &devices_);
-      std::string platform_name = platform.getInfo<CL_PLATFORM_NAME>();
-      if (devices_.size() == 0) {
-        std::cerr << "Platform \'" + platform_name + "\' does not have any devices!\n";
-        continue;
-      }
-      context_ = cl::Context{devices_, nullptr, nullptr, nullptr, &err};
-      if(check_error(err, "Error Initalizeing Context for platform \'" +
-            platform_name + "\'")) { continue; }
-      queue_ = cl::CommandQueue(context_, 0, &err);
-      if(check_error(err, "Error Initalizeing Command Queue for platform \'" + 
-            platform_name + "\'")) { continue; }
-
-      return true;
-    }
-    return false;
-
-  }
-
-  bool GPUController::init(const std::string& kernel_directory) {
-    return init(std::filesystem::path{kernel_directory});
-  }
-
-  // Returns true if GPU is successfully initalized
-  bool GPUController::init(std::filesystem::path kernel_directory) {
-    cl_int err;
-    std::vector<cl::Platform> platforms;
-    bool successfull_init = false;
-
-    kernel_directory_ = kernel_directory;
-    err = cl::Platform::get(&platforms); 
-    if(check_error(err, "Error Retreiving System Platforms")) { return false; }
-
-    // Cycle through platforms and select the first one our kernel
-    // compiles on.
-    for (cl::Platform& platform : platforms) {
-      std::string platform_name = platform.getInfo<CL_PLATFORM_NAME>();
-      std::cout << "Compiling for platform \'" + platform_name + "\'\n";
-
-      set_kernel_sources();
-      set_compiler_options();
-
-      err = 0;
-      platform_ = platform;
-      devices_.clear();
-      platform.getDevices(CL_DEVICE_TYPE_GPU, &devices_);
-      if (devices_.size() == 0) {
-        std::cerr << "Platform \'" + platform_name + "\' does not have any devices!\n";
-        continue;
-      }
-
-      context_ = cl::Context{devices_, nullptr, nullptr, nullptr, &err};
-      if(check_error(err, "Error Initalizeing Context for platform \'" +
-            platform_name + "\'")) { continue; }
-
-      bool build_kernels_success = build_kernels();
-      if(!build_kernels_success) { continue; }
-
-      // This creats a command queue for the first device in the context.
-      // If there are more devices in the context, we could specalize this later
-      queue_ = cl::CommandQueue(context_, 0, &err);
-      if(check_error(err, "Error Initalizeing Command Queue for platform \'" + 
-            platform_name + "\'")) { continue; }
-
-      successfull_init = true;
-      break;
-    }
-
-    if(successfull_init) {
-      std::cout << "Successfully initalized GPU on platform \'" + 
-        platform_.getInfo<CL_PLATFORM_NAME>() + "\' and compiled kernels\n"; 
+  GPUController::GPUController() {
+    const char* kernel_dir_str = std::getenv(KERNEL_PATH_ENV_VAR);
+    if(kernel_dir_str == nullptr) {
+      std::cerr << "SCRIMMAGE_KERNEL_DIR is not defined. Did you source your environment" << std::endl;
     } else {
-      std::cerr  << "Unable to successfully initalize any GPU's on the " <<
-        "device or compile kernels successfully\n";
+      kernel_dir_ = fs::path{kernel_dir_str};
     }
-    return successfull_init;
   }
 
-  // Returns true if all kernels are built successfully
-  bool GPUController::build_kernels() {
-    using KernelSource = GPUController::KernelSource; 
-    cl_int err;
+  KernelBuildOpts GPUController::get_opts(const std::map<std::string, std::string>& overrides) {
+    KernelBuildOpts opts; 
+    opts.single_precision =  scrimmage::get<bool>("single_precision", overrides, false);
+    return opts;
+  }
 
+  std::map<std::string, GPUMotionModelPtr> GPUController::build_motion_models(MissionParsePtr mp) {
+    // TODO: Clean up this method
+    namespace fs = std::filesystem;
+    std::map<std::string, GPUMotionModelPtr> motion_models;
+    for(auto ent_descs : mp->entity_descriptions()) {
+      KernelBuildOpts opts;
+      std::map<std::string, std::string>& descriptor = ent_descs.second;
+      std::string motion_model_name = descriptor["gpu_motion_model"];
+      if (motion_model_name == "") {
+        continue;
+      }
+      if (mp->attributes().count(motion_model_name) == 0) {
+        std::cerr << "No GPU Motion Model named \'" << motion_model_name << "\' found in Mission File\n";
+        continue;
+      }
+      std::map<std::string, std::string> motion_model_attributes = mp->attributes()[motion_model_name];
+      opts.single_precision = scrimmage::get<bool>("single_precision", motion_model_attributes, false);
+      std::string kernel_name = scrimmage::get<std::string>("kernel_name", motion_model_attributes, "");
+
+      std::string include_dirs_str{scrimmage::get<std::string>("include_dirs", motion_model_attributes, "kernels")};
+      std::string src_dirs_str{scrimmage::get<std::string>("src_dirs", motion_model_attributes, "kernels")};
+
+      std::vector<std::string> include_dirs = scrimmage::str2container<std::vector<std::string>>(include_dirs_str, ",");
+      std::vector<std::string> src_dirs = scrimmage::str2container<std::vector<std::string>>(src_dirs_str, ",");
+
+      auto to_path = [&](std::string filename) -> std::optional<fs::path> {
+        filename = scrimmage::expand_user(filename);
+        if(!fs::exists(filename) && !kernel_dir_.empty()) {
+          // The kernel_dir is not part of the recursive iteration below. Explicitly check if it matches
+          if(kernel_dir_.stem() == filename) {
+            return std::optional<fs::path>{kernel_dir_};
+          }
+          fs::recursive_directory_iterator kernel_dir{kernel_dir_};
+          for(auto dir_entry: kernel_dir) {
+            if(dir_entry.is_directory() && dir_entry.path().stem() == filename) {
+              return std::optional<fs::path>{dir_entry.path()};
+            }
+          }
+        }
+        return std::nullopt;
+      };
+
+      std::vector<std::optional<fs::path>> include_dir_opts; 
+      std::vector<std::optional<fs::path>> src_dir_opts; 
+
+      std::transform(include_dirs.cbegin(), include_dirs.cend(), std::back_inserter(include_dir_opts), to_path);
+      std::transform(src_dirs.cbegin(), src_dirs.cend(), std::back_inserter(src_dir_opts), to_path);
+
+      for(auto include_dir_opt : include_dir_opts) {
+        if(include_dir_opt.has_value()) {opts.include_dirs.push_back(include_dir_opt.value()); }
+      }
+
+      for(auto src_dir_opt : src_dir_opts) {
+        if(src_dir_opt.has_value()) {opts.src_dirs.push_back(src_dir_opt.value()); }
+      }
+
+      std::optional<std::pair<cl::Kernel, cl::CommandQueue>> kernel_queue_opt = build_kernel(kernel_name, opts);
+      if (kernel_queue_opt.has_value()) {
+        auto kernel_queue = kernel_queue_opt.value();
+        GPUMotionModelPtr motion_model = scrimmage::make_gpu_motion_model(kernel_queue.first, kernel_queue.second, opts);
+        motion_models[motion_model_name] = motion_model;
+      }
+    }
+    return motion_models;
+  }
+
+  cl::Program::Sources GPUController::read_kernels(const std::vector<fs::path>& kernel_src_dirs) {
     auto kernel_src_to_cl_src = [&](KernelSource kernel_src) {
-#if !defined(CL_HPP_ENABLE_PROGRAM_CONSTRUCTION_FROM_ARRAY_COMPATIBILITY)
+#ifndef CL_HPP_ENABLE_PROGRAM_CONSTRUCTION_FROM_ARRAY_COMPATIBILITY
       return kernel_src.src_;
 #else
-      return std::make_pair<const char*, std::size_t>(
-          kernel_src.src_.c_str(), kernel_src.size_);
+      return std::pair<const char*, std::size_t>{
+        kernel_src.src_.c_str(), kernel_src.size()};
 #endif
     };
-    cl::Program::Sources cl_srcs; 
-    std::transform(kernel_sources_.cbegin(), kernel_sources_.cend(), 
-        std::back_insert_iterator(cl_srcs), kernel_src_to_cl_src);
+    cl::Program::Sources ret_srcs;
+    std::vector<KernelSource> kernel_srcs;
+    std::ifstream ifstream;
+    std::stringstream buffer;
+    for(auto kernel_dir : kernel_src_dirs) {
+      fs::directory_iterator kernel_dir_it{kernel_dir};
+      for(auto dir_entry : kernel_dir_it) {
+        fs::path path = dir_entry.path();
+        if(path.extension() != ".cl") { continue; }
+        ifstream.open(path);
+        if(ifstream.fail()) {
+          std::cerr << "Error reading kernel file \'" << path << "\'";
+        } else {
+          buffer << ifstream.rdbuf();
+          std::string src = buffer.str();
+          kernel_srcs.emplace_back(path.stem(), src);
+        }
+        ifstream.close();
+        ifstream.clear();
+        buffer.clear();
+      }
+    }
+    std::transform(kernel_srcs.cbegin(), kernel_srcs.cend(), std::back_inserter(ret_srcs), kernel_src_to_cl_src);
+    return ret_srcs;
+  }
 
-    program_ = cl::Program{context_, cl_srcs, &err};
-    if(check_error(err, "Unable to initalize OpenCL Program")) { return false; }
-    err = program_.build(devices_, opencl_compiler_options_.c_str(), nullptr, nullptr);
+  std::optional<std::pair<cl::Kernel, cl::CommandQueue>> GPUController::build_kernel(
+      const std::string& kernel_name,
+      const KernelBuildOpts& opts) {
+    cl_int err;
+    std::optional<cl::Device> device_opt = pick_device(opts);
+    if(!device_opt.has_value()) {
+      return std::nullopt;
+    }
+    cl::Device& device = device_opt.value();
+    cl::Program::Sources cl_srcs; 
+    std::string compiler_opts;
+
+    cl_srcs = read_kernels(opts.src_dirs);
+
+    cl::Context context{device, nullptr, nullptr, nullptr, &err};
+    if (OpenCLUtils::check_error(err, "Unable to Initalize OpenCL Context")) { return std::nullopt; }
+
+    cl::Program program = cl::Program{context, cl_srcs, &err};
+    if(OpenCLUtils::check_error(err, "Unable to initalize OpenCL Program")) { return std::nullopt; }
+
+    if(opts.single_precision) {
+      compiler_opts += " -D SINGLE_PRECISION";
+    }
+    for(const std::filesystem::path& include_dir : opts.include_dirs) {
+      compiler_opts += " -I " + include_dir.string();
+    }
+
+    err = program.build(device, compiler_opts.c_str(), nullptr, nullptr);
 
     // Display Compiler Error messages, if any.
     if(err != 0) {
       std::vector<std::pair<cl::Device, std::string>> build_logs =
-        program_.getBuildInfo<CL_PROGRAM_BUILD_LOG>();
+        program.getBuildInfo<CL_PROGRAM_BUILD_LOG>();
       std::string build_log = "";
       for(auto device_build_log : build_logs) {
         build_log += "Build Log for " + get_device_name(device_build_log.first) + "\n\n"
           + device_build_log.second + "\n";
       }
-      check_error(err, "Error Building Kernels: Output Build Log:\n" + build_log);
-      return false;
+      OpenCLUtils::check_error(err, "Error Building Kernels: Output Build Log:\n" + build_log);
+      return std::nullopt;
     }
-    for(KernelSource kernel_src : kernel_sources_) {
-      cl::Kernel kernel = cl::Kernel{program_, kernel_src.name_.c_str(), &err};
-      if(!check_error(err, "Unable to Initalize Kernel " + kernel_src.name_)) {
-        printf("Successfully Initalized Kernel \'%s\'\n", kernel_src.name_.c_str());
-        kernels_[kernel_src.name_] = kernel;
-      }
-    }
-    // All Kernels Should be initalized now
-    return true;
-  } 
+    cl::Kernel kernel{program, kernel_name.c_str(), &err};
+    if(OpenCLUtils::check_error(err, "Error creating Kernel \'" + kernel_name + "\'")) { return std::nullopt; }
 
-  void GPUController::set_kernel_sources() {
-    using KernelSource = GPUController::KernelSource; 
-    using std::filesystem::directory_entry, 
-          std::filesystem::recursive_directory_iterator,
-          std::filesystem::path;
+    cl::CommandQueue queue{context, device, 0, &err};
+    if(OpenCLUtils::check_error(err, "Error creating command Queue")) { return std::nullopt; }
 
-    std::error_code ec;
-    recursive_directory_iterator kernel_dir_it{
-      kernel_directory_,
-        std::filesystem::directory_options::follow_directory_symlink,
-        ec};
-
-    if(ec) {
-      fprintf(stderr, "Error Accessing Kernel Directory %s: %s\n", 
-          kernel_directory_.string().c_str(),
-          ec.message().c_str());
-    }
-
-    std::ifstream kernel_reader;
-    std::stringstream buffer;
-    path kernel_file_path;
-    for(directory_entry kernel_file : kernel_dir_it) {
-      kernel_file_path = kernel_file.path();
-      if(!kernel_file.is_regular_file() || kernel_file_path.extension() != ".cl") {
-        continue;
-      }
-      kernel_reader.open(kernel_file_path);            
-      buffer << kernel_reader.rdbuf();
-      kernel_reader.close();
-
-      kernel_sources_.emplace_back(
-          kernel_file_path.stem(),
-          buffer.str(),
-          kernel_file.file_size());
-
-      kernel_reader.clear();
-      buffer.str("");
-      buffer.clear();
-    }
+    return std::pair<cl::Kernel, cl::CommandQueue>{kernel, queue};
   }
 
-  void GPUController::set_compiler_options() {
-    std::string src_include_dir = kernel_directory_.string();
-    opencl_compiler_options_ += " -I " + src_include_dir + " ";
-  }
+  std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts) {
+    std::vector<cl::Platform> platforms;
+    cl::Platform::get(&platforms);
+    std::map<std::string, std::vector<cl::Device>> device_map;
 
-  // * Gets size of cacheline if exitsts. Otherwise return nullopt;
-  std::optional<std::size_t> GPUController::get_cacheline_size() const {
-    if (devices_.size() == 0) {
-      std::cerr << "Error. Trying to get cacheline size, but GPUController is not aware of "
-        "any devices on the platfrom\n";
+    // Choose devices that can support the precision we want
+    for(cl::Platform& platform : platforms) {
+      std::vector<cl::Device> devices;
+      std::string platform_name = platform.getInfo<CL_PLATFORM_NAME>();
+      platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
+      device_map.try_emplace(platform_name);
+      for(auto it = devices.begin(); it != devices.end(); ++it) {
+        if(opts.single_precision || OpenCLUtils::supports_fp64(*it)) {
+          device_map[platform_name].push_back(*it);
+        }
+      }
+    }
+
+    if (device_map.size() == 0 && !opts.single_precision) {
+      std::cerr << "Warning: No Platform found that supports fp64. Try enabling f32 only." << std::endl;
+      return std::nullopt;
+    }
+
+    std::vector<cl::Device> usable_devices;
+    if(opts.preferred_platforms.empty()) {
+      for(auto platform_name_devices : device_map) {
+        const std::vector<cl::Device>& platform_devices = platform_name_devices.second;
+        if (!platform_devices.empty()) {
+          usable_devices.insert(usable_devices.end(), platform_devices.begin(), platform_devices.end());
+        }
+      }
+    } else {
+      for(std::string preferred_platform : opts.preferred_platforms) { 
+        if(device_map.count(preferred_platform) == 0) {
+          std::cerr << "Warning: No Platform named " << preferred_platform << " found. Available Platforms are:\n";
+        } else {
+          std::vector<cl::Device>& platform_devices = device_map[preferred_platform];
+          usable_devices.insert(usable_devices.end(), platform_devices.begin(), platform_devices.end());
+        }
+      }
+    }
+
+    if(usable_devices.empty()) {
+      return std::nullopt;
+    }
+
+    using ClockFreqDevice = std::pair<cl_uint, cl::Device>;
+    std::vector<std::pair<cl_uint, cl::Device>> clock_freq_devices;
+
+    std::transform(usable_devices.begin(), usable_devices.end(), std::back_inserter(clock_freq_devices),
+        [](cl::Device& device) { 
+        cl_int err;
+        cl_uint max_clock_freq = device.getInfo<CL_DEVICE_MAX_CLOCK_FREQUENCY>(&err);
+        if(OpenCLUtils::check_error(err, "Error querying device MAX_CLOCK_FREQUENCY")) {
+        max_clock_freq =  std::numeric_limits<cl_uint>::min();  // Still need to return something, but will not picked
+                                                                // as the device with the highest clock frequency
+        }
+        return std::pair{max_clock_freq, device};
+        });
+
+    auto max_it = std::max_element(clock_freq_devices.cbegin(), clock_freq_devices.cend(),
+        [](const ClockFreqDevice& rhs, const ClockFreqDevice& lhs) {
+        return rhs.first < lhs.first;
+        });
+    if(max_it == clock_freq_devices.end()) {
       return std::nullopt;
     } 
-    const cl::Device& device = devices_[0];
-    if (device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHE_TYPE>() == CL_NONE) {
-      return std::nullopt;
-    }
-    return std::make_optional(device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE>());
+    return std::make_optional(max_it->second);
   }
+
 #endif
 }

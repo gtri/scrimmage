@@ -247,10 +247,12 @@ bool MissionParse::parse(const std::string &filename) {
             std::string nm2 = nm == "entity_interaction" ? name : nm;
             std::string nm3 = nm == "metrics" ? name : nm;
             std::string nm4 = nm == "network" ? name : nm;
+            std::string nm5 = nm == "gpu_kernel" ? name : nm;
 
             attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node->value();
             attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node->value();
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node->value();
+            attributes_[nm5]["ORIGINAL_PLUGIN_NAME"] = node->value();
 
             // Loop through each node's attributes:
             for (rapidxml::xml_attribute<> *attr = node->first_attribute();
@@ -262,11 +264,13 @@ bool MissionParse::parse(const std::string &filename) {
                         attributes_[nm2][kv.first] = kv.second;
                         attributes_[nm3][kv.first] = kv.second;
                         attributes_[nm4][kv.first] = kv.second;
+                        attributes_[nm5][kv.first] = kv.second;
                     }
                 } else {
                     attributes_[nm2][attr->name()] = attr->value();
                     attributes_[nm3][attr->name()] = attr->value();
                     attributes_[nm4][attr->name()] = attr->value();
+                    attributes_[nm5][attr->name()] = attr->value();
                 }
             }
         }

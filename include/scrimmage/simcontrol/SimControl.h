@@ -448,7 +448,6 @@ class SimControl {
 
     GPUControllerPtr gpu_;
 
-    // GPUMotionModel Name : GPUMotionModelPtr
     std::map<std::string, GPUMotionModelPtr> gpu_motion_models_;
 
     std::set<int> ids_used_ = {0};

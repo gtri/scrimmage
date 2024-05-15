@@ -165,6 +165,7 @@ def main():
     colorCycler = cycle(["red", "blue"])
     labelCycler = cycle(["cpu", "gpu"])
     markers = mpl.markers.MarkerStyle.filled_markers[:]
+    z_offset = 0
     for frame_file in [args.cpu_frames, args.gpu_frames]: 
         mkCycler = cycle(markers)
         finalFramesDir = find_frames(frame_file)
@@ -186,7 +187,7 @@ def main():
                 # append each entity's x, y, z position to the appropriate list
                 allentX[conidx].append(con.state.position.x)
                 allentY[conidx].append(con.state.position.y)
-                allentZ[conidx].append(con.state.position.z)
+                allentZ[conidx].append(con.state.position.z + z_offset)
 
         ### Plot data ##
 
@@ -246,6 +247,7 @@ def main():
             numLegCols = 1
         leg = ax.legend(loc='center left',fontsize=9,markerscale=0.8,ncol=numLegCols,bbox_to_anchor=(1,0.5))
         leg.set_draggable(True)
+        z_offset += 100
 
     # Shrink plot's axes to make some room for legend
     axLoc = ax.get_position()
