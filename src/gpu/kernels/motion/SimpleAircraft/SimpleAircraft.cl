@@ -1,25 +1,60 @@
+#include <common.h>
 #include <math_utils.h>
-#include <motion/SimpleAircraft/SimpleAircraft.h>
+#include <scrimmage_defs.h>
 
-__kernel void SimpleAircraft(__global float* states, __global float* controls, 
-                                       float t,
-                                       float dt) {
+enum SimpleAircraftModelParams {
+    SIMPLE_AIRCRAFT_MODEL_X = 0,
+    SIMPLE_AIRCRAFT_MODEL_Y,
+    SIMPLE_AIRCRAFT_MODEL_Z,
+    SIMPLE_AIRCRAFT_MODEL_ROLL,
+    SIMPLE_AIRCRAFT_MODEL_PITCH,
+    SIMPLE_AIRCRAFT_MODEL_YAW,
+    SIMPLE_AIRCRAFT_MODEL_SPEED,
+    SIMPLE_AIRCRAFT_MODEL_NUM_PARAMS
+};
+
+enum SimpleAircraftInputParams {
+    SIMPLE_AIRCRAFT_INPUT_THRUST = 0,
+    SIMPLE_AIRCRAFT_INPUT_ROLL_RATE,
+    SIMPLE_AIRCRAFT_INPUT_PITCH_RATE,
+    SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS
+};
+
+#define MAX_SPEED ((fp_t) 40.0f)
+#define MIN_SPEED ((fp_t) 15.0f)
+#define MAX_ROLL ((fp_t) 30.0f)
+#define MAX_PITCH ((fp_t) 30.0f)
+#define TURNING_RADIUS ((fp_t) 50.0f)
+#define SPEED_TARGET ((fp_t) 50.0f)
+#define RADIUS_SLOPE_PER_SPEED ((fp_t) 0.0f)
+#define MAX_THROTTLE ((fp_t) 100.0f)
+#define MAX_ROLL_RATE ((fp_t) 57.3f)
+#define MAX_PITCH_RATE ((fp_t) 57.3f)
+
+fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t);
+fp8_t state_to_model(fp_t* state);
+void model_to_state(fp8_t model, fp_t* state);
+
+__kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
+                                       fp_t t,
+                                       fp_t dt) {
   int gid, state_offset, control_offset;
-  float state[STATE_NUM_PARAMS], control[INPUT_NUM_PARAMS];
-  float8 x; // Model Vector
-  float4 u; // Control Vector
+  fp_t state[STATE_NUM_PARAMS];
+  fp_t input[SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS];
+  fp8_t x; // Model Vector
+  fp8_t u; // Input Vector
 
   gid = get_global_id(0);
   state_offset = STATE_NUM_PARAMS*gid;
-  control_offset = INPUT_NUM_PARAMS*gid;
+  control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
    
   // Copy state/control information from global entity information to private vars.
   for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
     state[i] = states[state_offset + i];
   }
 
-  for(int i = 0; i < INPUT_NUM_PARAMS; ++i) {
-    u[i] = controls[control_offset + i];
+  for(int i = 0; i < SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS; ++i) {
+    u[i] = inputs[control_offset + i];
   }
 
   x = state_to_model(state); 
@@ -33,64 +68,66 @@ __kernel void SimpleAircraft(__global float* states, __global float* controls,
   }
 }
 
-float8 simple_aircraft_model(float8 x, float4 u, float t) {
-  float8 dxdt;
-  float throttle = u[INPUT_THRUST];
-  float roll_rate = u[INPUT_ROLL_RATE];
-  float pitch_rate = u[INPUT_PITCH_RATE];
+fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t) {
+  fp8_t dxdt;
+  fp_t throttle = u[SIMPLE_AIRCRAFT_INPUT_THRUST];
+  fp_t roll_rate = u[SIMPLE_AIRCRAFT_INPUT_ROLL_RATE];
+  fp_t pitch_rate = u[SIMPLE_AIRCRAFT_INPUT_PITCH_RATE];
 
   throttle = clamp(throttle, -MAX_THROTTLE, MAX_THROTTLE);
   roll_rate = clamp(roll_rate, -MAX_ROLL_RATE, MAX_ROLL_RATE);
   pitch_rate = clamp(pitch_rate, -MAX_PITCH_RATE, MAX_PITCH_RATE);
 
-  float speed = x[MODEL_SPEED]; 
-  float xy_speed = speed*cos(x[MODEL_PITCH]);
-  dxdt[MODEL_X] = xy_speed * cos(x[MODEL_YAW]); 
-  dxdt[MODEL_Y] = xy_speed * sin(x[MODEL_YAW]); 
-  dxdt[MODEL_Z] = -sin(x[MODEL_PITCH])*speed; 
-  dxdt[MODEL_ROLL] = roll_rate;
-  dxdt[MODEL_PITCH] = pitch_rate;
+  
 
-  float current_length = TURNING_RADIUS + RADIUS_SLOPE_PER_SPEED * (speed - SPEED_TARGET);
-  dxdt[MODEL_YAW] = speed/current_length*tan(x[MODEL_ROLL]);
+  fp_t speed = x[SIMPLE_AIRCRAFT_MODEL_SPEED]; 
+  fp_t xy_speed = speed*cos(x[SIMPLE_AIRCRAFT_MODEL_PITCH]);
+  dxdt[SIMPLE_AIRCRAFT_MODEL_X] = xy_speed * cos(x[SIMPLE_AIRCRAFT_MODEL_YAW]); 
+  dxdt[SIMPLE_AIRCRAFT_MODEL_Y] = xy_speed * sin(x[SIMPLE_AIRCRAFT_MODEL_YAW]); 
+  dxdt[SIMPLE_AIRCRAFT_MODEL_Z] = -sin(x[SIMPLE_AIRCRAFT_MODEL_PITCH])*speed; 
+  dxdt[SIMPLE_AIRCRAFT_MODEL_ROLL] = roll_rate;
+  dxdt[SIMPLE_AIRCRAFT_MODEL_PITCH] = pitch_rate;
 
-  dxdt[MODEL_SPEED] = throttle / 5;
+  fp_t current_length = TURNING_RADIUS + RADIUS_SLOPE_PER_SPEED * (speed - SPEED_TARGET);
+  dxdt[SIMPLE_AIRCRAFT_MODEL_YAW] = speed/current_length*tan(x[SIMPLE_AIRCRAFT_MODEL_ROLL]);
+
+  dxdt[SIMPLE_AIRCRAFT_MODEL_SPEED] = throttle / 5;
 
   return dxdt;
 }
 
-float8 state_to_model(float* state) {
-  float8 model;
-  float4 q;
+fp8_t state_to_model(fp_t* state) {
+  fp8_t model;
+  quat_t q;
   q.x = state[STATE_QUAT_X];
   q.y = state[STATE_QUAT_Y];
   q.z = state[STATE_QUAT_Z];
   q.w = state[STATE_QUAT_W];
 
-  model[MODEL_X] = state[STATE_X];
-  model[MODEL_Y] = state[STATE_Y];
-  model[MODEL_Z] = state[STATE_Z];
-  float speed = sqrt(pown(state[STATE_X_VEL], 2) +
+  model[SIMPLE_AIRCRAFT_MODEL_X] = state[STATE_X];
+  model[SIMPLE_AIRCRAFT_MODEL_Y] = state[STATE_Y];
+  model[SIMPLE_AIRCRAFT_MODEL_Z] = state[STATE_Z];
+  fp_t speed = sqrt(pown(state[STATE_X_VEL], 2) +
                             pown(state[STATE_Y_VEL], 2) +
                             pown(state[STATE_Z_VEL], 2)); 
 
-  model[MODEL_SPEED] = clamp(speed, MIN_SPEED, MAX_SPEED);
-  model[MODEL_ROLL] = clamp(quat_roll(q), -MAX_ROLL, MAX_ROLL);
-  model[MODEL_PITCH] = clamp(quat_pitch(q), -MAX_PITCH, MAX_PITCH);
-  model[MODEL_YAW] = quat_yaw(q);
+  model[SIMPLE_AIRCRAFT_MODEL_SPEED] = clamp(speed, MIN_SPEED, MAX_SPEED);
+  model[SIMPLE_AIRCRAFT_MODEL_ROLL] = clamp(quat_roll(q), -MAX_ROLL, MAX_ROLL);
+  model[SIMPLE_AIRCRAFT_MODEL_PITCH] = clamp(quat_pitch(q), -MAX_PITCH, MAX_PITCH);
+  model[SIMPLE_AIRCRAFT_MODEL_YAW] = quat_yaw(q);
   return model;
 }
 
-void model_to_state(float8 model, float* state) {
-  state[STATE_X] = model[MODEL_X]; 
-  state[STATE_Y] = model[MODEL_Y]; 
-  state[STATE_Z] = model[MODEL_Z]; 
+void model_to_state(fp8_t model, fp_t* state) {
+  state[STATE_X] = model[SIMPLE_AIRCRAFT_MODEL_X]; 
+  state[STATE_Y] = model[SIMPLE_AIRCRAFT_MODEL_Y]; 
+  state[STATE_Z] = model[SIMPLE_AIRCRAFT_MODEL_Z]; 
 
-  float speed = model[MODEL_SPEED];
-  float yaw = model[MODEL_YAW];
-  float pitch = model[MODEL_PITCH];
-  float roll = model[MODEL_ROLL];
-  float4 q = quat_from_euler(yaw, pitch, roll);
+  fp_t speed = model[SIMPLE_AIRCRAFT_MODEL_SPEED];
+  fp_t yaw = model[SIMPLE_AIRCRAFT_MODEL_YAW];
+  fp_t pitch = model[SIMPLE_AIRCRAFT_MODEL_PITCH];
+  fp_t roll = model[SIMPLE_AIRCRAFT_MODEL_ROLL];
+  quat_t q = quat_from_euler(yaw, pitch, roll);
   
   state[STATE_QUAT_W] = q.w;
   state[STATE_QUAT_X] = q.x;

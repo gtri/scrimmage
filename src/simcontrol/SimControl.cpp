@@ -221,9 +221,7 @@ bool SimControl::init(const std::string& mission_file,
 void SimControl::init_gpu() {
 #if ENABLE_GPU_ACCELERATION == 1
     gpu_ = std::make_shared<scrimmage::GPUController>();
-    if(!gpu_->init(mp_->kernel_dir())) {
-        std::cerr << "Unable to initalize GPU with kernel directory \"" << mp_->kernel_dir() << "\"\n";
-    }
+    gpu_motion_models_ = gpu_->build_motion_models(mp_);
 #else
     std::cout << "GPU Acceleration Disabled. Using CPU for motion updates.\n"
       "Enable GPU Motion Updates by compiling with -DENABLE_GPU_ACCELERATION \n";
@@ -412,10 +410,6 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     if(params.count("gpu_motion_model") > 0) {
       std::string name = params["gpu_motion_model"];
-      // This may need to be reworked 
-      if (gpu_motion_models_.count(name) == 0 ) {
-        gpu_motion_models_[name] = std::make_shared<GPUMotionModel>(gpu_, name);
-      }
       init_params.gpu_motion_model = gpu_motion_models_[name];
     }
 
@@ -626,6 +620,9 @@ bool SimControl::run_single_step(const int& loop_number) {
     }
 
     run_callbacks(sim_plugin_);
+    
+    // Sync the motion model with sim execution so all values are properly initalized 
+    // prior to stepping
     for(auto gpu_motion_model_pair : gpu_motion_models_) {
       gpu_motion_model_pair.second->init_new_entities(t);
     }
@@ -1071,7 +1068,9 @@ bool SimControl::run() {
     }
     int loop_number = 0;
     while (run_single_step(loop_number++)) {}
-    return finalize();
+    bool result = finalize();
+    return result;
+
 }
 
 bool SimControl::finalize() {
@@ -1673,7 +1672,7 @@ bool SimControl::run_entities() {
                 success &= add_tasks(type, temp_t, motion_dt);
             } else {
                 for (EntityPtr &ent : ents_) {
-                  if (!ent->using_gpu_motion()) {
+                  if (!ent->using_gpu_motion_model()) {
                     auto step = [&](auto p){return p->step(temp_t, motion_dt);};
                     success &= exec_step(getter(ent), step);
                   }

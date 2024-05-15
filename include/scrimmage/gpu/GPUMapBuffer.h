@@ -1,18 +1,19 @@
-#include <scrimmage/gpu/GPUController.h>
+#ifndef INCLUDE_SCRIMMAGE_GPU_GPUBUFFER_H
+#define INCLUDE_SCRIMMAGE_GPU_GPUBUFFER_H
+
+#include <scrimmage/gpu/OpenCLUtils.h>
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
 #endif
 
+#include <cassert>
 #include <filesystem>
 #include <iterator>
 #include <map>
 #include <string>
 #include <vector>
 #include <optional>
-
-#ifndef INCLUDE_SCRIMMAGE_GPU_GPUBUFFER_H
-#define INCLUDE_SCRIMMAGE_GPU_GPUBUFFER_H
 
 namespace scrimmage {
 
@@ -34,14 +35,16 @@ class GPUMapBuffer {
   const_iterator cbegin() { return  const_iterator(&host_buffer_[0]); };
   const_iterator cend() { return const_iterator(&host_buffer_[size_]); };
 
-  GPUMapBuffer(std::shared_ptr<const GPUController> gpu,
+  GPUMapBuffer(cl::CommandQueue queue,
       std::size_t num_elements, cl_mem_flags buffer_flags): 
-    gpu_{gpu},
+    queue_{queue},
+    context_{queue.getInfo<CL_QUEUE_CONTEXT>()},
+    device_{queue.getInfo<CL_QUEUE_DEVICE>()},
     size_{num_elements},
     host_buffer_{nullptr},
     buffer_flags_{buffer_flags | CL_MEM_ALLOC_HOST_PTR} // Tell OpenCL we want to use the ptrs it allocates
   {
-    std::optional<std::size_t> cacheline_size_opt = gpu_->get_cacheline_size();
+    std::optional<std::size_t> cacheline_size_opt = OpenCLUtils::cacheline_size(device_); // This should be for individual devices
     if(cacheline_size_opt.has_value()) {
       buffer_alignment_ = cacheline_size_opt.value();
     } else {
@@ -50,7 +53,7 @@ class GPUMapBuffer {
     capacity_ = next_largest_alignment_size(num_elements * sizeof(T));
   }
 
-  GPUMapBuffer(std::shared_ptr<const GPUController> gpu, cl_mem_flags buffer_flags) : GPUMapBuffer{gpu, 0, buffer_flags} {}
+  GPUMapBuffer(cl::CommandQueue queue, cl_mem_flags buffer_flags) : GPUMapBuffer{queue, 0, buffer_flags} {}
 
   ~GPUMapBuffer() { 
     _unmap_buffer(); 
@@ -89,7 +92,6 @@ class GPUMapBuffer {
   iterator insert(const_iterator pos, std::initializer_list<E> to_insert) {
     return insert(pos, to_insert.begin(), to_insert.end());
   }
-  
  
   void resize(std::size_t n) {
     std::size_t byte_size = n*sizeof(T);
@@ -99,14 +101,10 @@ class GPUMapBuffer {
   bool map(cl_mem_flags map_flags) { 
     bool success = true;
     // Check that underlying memory object exists for device buffer
+    assert(host_buffer_ == nullptr && "GPUMapBuffer is already mapped into memory. Did you forget to unmap the buffer?"); 
     if (device_buffer_.get() == nullptr ||
         device_buffer_.getInfo<CL_MEM_SIZE>() != capacity_) { 
       success &= _allocate_buffer() == CL_SUCCESS;
-    }
-    if (host_buffer_ != nullptr) {
-      // Buffer is already mapped a region of memory. 
-      // Unmap it before mapping a new region to avoid memory issues.
-      unmap();
     }
     success &= _map_buffer(map_flags) == CL_SUCCESS;
     return success;
@@ -163,7 +161,9 @@ class GPUMapBuffer {
   static constexpr std::size_t DEFAULT_BUFFER_ALIGNMENT = 64;
 
   private:
-    std::shared_ptr<const GPUController> gpu_;
+    cl::CommandQueue queue_;
+    cl::Context context_;
+    cl::Device device_;
     std::size_t size_;
     std::size_t capacity_;
     cl::Buffer device_buffer_;
@@ -175,7 +175,7 @@ class GPUMapBuffer {
     cl_int _allocate_buffer() {
       cl_int err = CL_SUCCESS; 
       device_buffer_ = cl::Buffer{
-        gpu_->context(),
+        context_,
         buffer_flags_,
         capacity_,
         nullptr,
@@ -185,7 +185,7 @@ class GPUMapBuffer {
 
     cl_int _map_buffer(cl_mem_flags map_flags) {
       cl_int err = CL_SUCCESS;
-      host_buffer_ = static_cast<T*>(gpu_->queue().enqueueMapBuffer(
+      host_buffer_ = static_cast<T*>(queue_.enqueueMapBuffer(
         device_buffer_,
         BLOCKING_MAP,
         map_flags,
@@ -194,16 +194,19 @@ class GPUMapBuffer {
         nullptr,
         nullptr,
         &err));
+      assert(host_buffer_ != nullptr);
       return err;
     }
 
     cl_int _unmap_buffer() {
       cl_int err = CL_SUCCESS;
-      err = gpu_->queue().enqueueUnmapMemObject(
-          device_buffer_,
-          host_buffer_);
-      host_buffer_ = nullptr;
-      size_ = 0;
+      if (host_buffer_ != nullptr) {
+        err = queue_.enqueueUnmapMemObject(
+            device_buffer_,
+            host_buffer_);
+        host_buffer_ = nullptr;
+        size_ = 0;
+      }
       return err;
     }
 

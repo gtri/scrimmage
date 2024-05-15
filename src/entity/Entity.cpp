@@ -600,7 +600,7 @@ std::unordered_map<std::string, SensorPtr> &Entity::sensors() {
   return sensors_;
 }
 
-bool Entity::using_gpu_motion() {
+bool Entity::using_gpu_motion_model() {
   return gpu_motion_model_ != nullptr;
 }
 

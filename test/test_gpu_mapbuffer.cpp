@@ -31,7 +31,6 @@
 
 #include <gtest/gtest.h>
 
-#include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/gpu/GPUMapBuffer.h>
 
 #include <CL/opencl.hpp>
@@ -48,12 +47,12 @@ class GPUTestFixture : public Test {
   protected:
     GPUTestFixture()
     {
-      gpu = std::make_shared<sc::GPUController>();
-      gpu->init();
-    }
+      cl::Context context{CL_DEVICE_TYPE_GPU};
+      queue = cl::CommandQueue{context};
 
+    }
   public:
-    std::shared_ptr<sc::GPUController> gpu;
+    cl::CommandQueue queue;
 };
 
 using TestingTypes = ::testing::Types<char, int, long, float, double>;
@@ -61,7 +60,7 @@ TYPED_TEST_SUITE(GPUTestFixture, TestingTypes);
 
 
 TYPED_TEST(GPUTestFixture, TestZeroAllocAlignment) {
-  sc::GPUMapBuffer<TypeParam> map_buffer{this->gpu, 0,
+  sc::GPUMapBuffer<TypeParam> map_buffer{this->queue, 0,
     CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
 
   // Zero elements allocated in constructure should result in the 
@@ -76,7 +75,7 @@ TYPED_TEST(GPUTestFixture, TestNonZeroAllocAlignment) {
   for(std::size_t expected_capacity = buff_align; expected_capacity <= max_capacity; expected_capacity *= buff_align) {
     std::size_t num_elements = expected_capacity / sizeof(TypeParam);
     std::cout << "Num elements " << num_elements << std::endl;
-    sc::GPUMapBuffer<TypeParam> map_buffer{this->gpu, num_elements ,
+    sc::GPUMapBuffer<TypeParam> map_buffer{this->queue, num_elements ,
       CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
     ASSERT_EQ(map_buffer.size(), num_elements);
     ASSERT_EQ(map_buffer.capacity(), expected_capacity);
@@ -85,7 +84,7 @@ TYPED_TEST(GPUTestFixture, TestNonZeroAllocAlignment) {
 
 TYPED_TEST(GPUTestFixture, TestBufferReadWrite) {
   std::size_t num_elements = 1<<10;
-  sc::GPUMapBuffer<TypeParam> map_buffer{this->gpu, num_elements,
+  sc::GPUMapBuffer<TypeParam> map_buffer{this->queue, num_elements,
     CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
   
   map_buffer.map(CL_MAP_READ | CL_MAP_WRITE);
@@ -104,7 +103,7 @@ TYPED_TEST(GPUTestFixture, TestEndInsert) {
   std::iota(elements.begin(), elements.end(), 0);
   
   // Make sure that there are no elements in the buffer
-  sc::GPUMapBuffer<TypeParam> map_buffer{this->gpu, 0,
+  sc::GPUMapBuffer<TypeParam> map_buffer{this->queue, 0,
     CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
 
   map_buffer.resize(elements.size()); 
@@ -132,7 +131,7 @@ TYPED_TEST(GPUTestFixture, TestFrontInsert) {
   std::iota(elements.begin(), elements.end(), 0);
   
   // Make sure that there are no elements in the buffer
-  sc::GPUMapBuffer<TypeParam> map_buffer{this->gpu, 0,
+  sc::GPUMapBuffer<TypeParam> map_buffer{this->queue, 0,
     CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
 
   map_buffer.resize(total_elements); 
@@ -170,7 +169,7 @@ TYPED_TEST(GPUTestFixture, TestMiddleInsert) {
   std::iota(elements.begin(), elements.end(), 0);
 
   // Make sure that there are no elements in the buffer
-  sc::GPUMapBuffer<TypeParam> map_buffer{this->gpu, 0,
+  sc::GPUMapBuffer<TypeParam> map_buffer{this->queue, 0,
     CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
 
   map_buffer.resize(total_elements); 
@@ -195,4 +194,27 @@ TYPED_TEST(GPUTestFixture, TestMiddleInsert) {
   }
 
   map_buffer.unmap();
+}
+
+class GPUMapBufferDeathTest : public Test {
+  protected:
+    GPUMapBufferDeathTest()
+    {
+      cl::Context context{CL_DEVICE_TYPE_GPU};
+      queue = cl::CommandQueue{context};
+
+    }
+  public:
+    cl::CommandQueue queue;
+};
+
+TEST_F(GPUMapBufferDeathTest, TestDoubleMapBeforeUnmap) {
+  std::size_t total_elements = 10;
+  sc::GPUMapBuffer<double> map_buffer{this->queue, 0,
+    CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
+
+  map_buffer.resize(total_elements); 
+  map_buffer.map(CL_MAP_READ | CL_MAP_WRITE);
+
+  ASSERT_DEATH(map_buffer.map(CL_MAP_READ | CL_MAP_WRITE), "GPUMapBuffer is already mapped into memory. Did you forget to unmap the buffer?");
 }
