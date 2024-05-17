@@ -47,7 +47,9 @@ __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs,
   gid = get_global_id(0);
   state_offset = STATE_NUM_PARAMS*gid;
   control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
-   
+
+  printf("Hello"); // Try this?
+
   // Copy state/control information from global entity information to private vars.
   for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
     state[i] = states[state_offset + i];
@@ -56,9 +58,8 @@ __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs,
   for(int i = 0; i < SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS; ++i) {
     u[i] = inputs[control_offset + i];
   }
-
   x = state_to_model(state); 
-  int target_id = 1;
+
   // Update x with rk4
   RK4(x, u, t, dt, simple_aircraft_model);
 
@@ -77,8 +78,6 @@ fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t) {
   throttle = clamp(throttle, -MAX_THROTTLE, MAX_THROTTLE);
   roll_rate = clamp(roll_rate, -MAX_ROLL_RATE, MAX_ROLL_RATE);
   pitch_rate = clamp(pitch_rate, -MAX_PITCH_RATE, MAX_PITCH_RATE);
-
-  
 
   fp_t speed = x[SIMPLE_AIRCRAFT_MODEL_SPEED]; 
   fp_t xy_speed = speed*cos(x[SIMPLE_AIRCRAFT_MODEL_PITCH]);

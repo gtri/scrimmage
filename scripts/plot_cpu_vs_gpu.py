@@ -247,6 +247,7 @@ def main():
             numLegCols = 1
         leg = ax.legend(loc='center left',fontsize=9,markerscale=0.8,ncol=numLegCols,bbox_to_anchor=(1,0.5))
         leg.set_draggable(True)
+        # Offset GPU trajectories by 100m
         z_offset += 100
 
     # Shrink plot's axes to make some room for legend

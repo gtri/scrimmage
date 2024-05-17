@@ -89,16 +89,6 @@ namespace scrimmage {
         states_{queue, CL_MEM_READ_WRITE},
         inputs_{queue, CL_MEM_READ_WRITE}
       {}
-      
-      //k
-      //GPUMotionModelImplementation(cl::Kernel kernel, cl::CommandQueue queue, const KernelBuildOpts& opts) : 
-      //  queue_{queue},
-      //  kernel_{kernel},
-      //  input_num_items_{0}, // The number of input parameters.
-      //  states_{queue, CL_MEM_READ_WRITE} {}
-
-      //GPUMotionModelImplementation(std::pair<cl::Kernel, cl::CommandQueue>& kernel_queue, const KernelBuildOpts& opts):
-      //  GPUMotionModelImplementation{kernel_queue.first, kernel_queue.second, opts} {}
 
       void add_entity(EntityPtr entity) {
         to_init_.push_back(entity);
@@ -223,7 +213,7 @@ namespace scrimmage {
             cl::NDRange{num_entities});
 
         CL_CHECK_ERROR(err, "Error Executing Kernel");
-
+        
         queue_.finish();
 #endif
         return true;

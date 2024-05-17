@@ -22,7 +22,6 @@ namespace scrimmage {
  *
  */ 
 
-
 template <typename T>
 class GPUMapBuffer {
   public:
