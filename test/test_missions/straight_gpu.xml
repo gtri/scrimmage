@@ -48,6 +48,7 @@
                       >Boundary</entity_interaction>
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction>GroundCollision</entity_interaction>
+
   <gpu_kernel single_precision="true" 
   src_dirs = "SimpleAircraft" 
   include_dirs = "kernels"
@@ -140,7 +141,7 @@
   <entity>
     <team_id>2</team_id>
     <color>255 0 0</color>
-    <count>30</count>
+    <count>0</count>
     <health>1</health>
     <radius>2</radius>
 
@@ -166,27 +167,4 @@
       <radius>25</radius>
     </base>
   </entity>
-
-  <!-- Entity that is generated during runtime by other plugins -->
-  <entity tag="gen_straight">
-    <count>0</count>
-    <team_id>1</team_id>
-    <health>1</health>
-    <radius>1</radius>
-
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
-    <variance_z>10</variance_z>
-
-    <x>0</x>
-    <y>0</y>
-    <z>0</z>
-    <heading>0</heading>
-
-    <autonomy>Straight</autonomy>
-    <controller>SimpleAircraftControllerPID</controller>
-    <motion_model>SimpleAircraft</motion_model>
-    <visual_model>zephyr-blue</visual_model>
-  </entity>
-
 </runscript>

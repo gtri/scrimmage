@@ -47,7 +47,7 @@ namespace scrimmage {
 
 class MotionModel : public EntityPlugin {
  public:
-    typedef std::vector<float> vector_t;
+    typedef std::vector<double> vector_t;
 
     MotionModel();
     std::string type() override;

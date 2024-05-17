@@ -84,7 +84,7 @@ class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
       };
 
       CompareMissions cm = GetParam();
-      auto cpu_mission_path_opt = find_test_mission(cm.gpu_filename);
+      auto cpu_mission_path_opt = find_test_mission(cm.cpu_filename);
       auto gpu_mission_path_opt = find_test_mission(cm.gpu_filename);
 
       ASSERT_TRUE(cpu_mission_path_opt.has_value());
