@@ -106,15 +106,6 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-//void SimpleAircraft::ode_step(double dt) {
-//    namespace pl = std::placeholders;
-//    auto sys = std::bind(&SimpleAircraft::model, this, pl::_1, pl::_2, pl::_3);
-//    boost::numeric::odeint::runge_kutta4<std::vector<float>> stepper;
-//    std::vector<float> x;
-//    x.insert(x.end(), x_.begin(), x_.end());
-//    stepper.do_step(sys, x, 0, dt);
-//}
-
 bool SimpleAircraft::step(double time, double dt) {
     // Need to saturate state variables before model runs
     x_[ROLL] = clamp(x_[ROLL], -max_roll_, max_roll_);

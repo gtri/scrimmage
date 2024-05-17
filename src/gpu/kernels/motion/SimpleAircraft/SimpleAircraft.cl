@@ -20,20 +20,63 @@ enum SimpleAircraftInputParams {
     SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS
 };
 
-#define MAX_SPEED ((fp_t) 40.0f)
-#define MIN_SPEED ((fp_t) 15.0f)
-#define MAX_ROLL ((fp_t) 30.0f)
-#define MAX_PITCH ((fp_t) 30.0f)
-#define TURNING_RADIUS ((fp_t) 50.0f)
-#define SPEED_TARGET ((fp_t) 50.0f)
-#define RADIUS_SLOPE_PER_SPEED ((fp_t) 0.0f)
-#define MAX_THROTTLE ((fp_t) 100.0f)
-#define MAX_ROLL_RATE ((fp_t) 57.3f)
-#define MAX_PITCH_RATE ((fp_t) 57.3f)
+// Based on values found in SimpleAircraft.xml
+const fp_t TURNING_RADIUS = 13.0;
+const fp_t MIN_SPEED = 15.0;
+const fp_t MAX_SPEED = 40.0;
+const fp_t MAX_ROLL = RADIANS(30.0);
+const fp_t MAX_ROLL_RATE = RADIANS(57.3);
+const fp_t MAX_PITCH = RADIANS(30.0);
+const fp_t MAX_PITCH_RATE = RADIANS(57.3);
+const fp_t SPEED_TARGET = 50.0;
+const fp_t RADIUS_SLOPE_PER_SPEED = 0.0;
+const fp_t MAX_THROTTLE = 100.0;
 
 fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t);
 fp8_t state_to_model(fp_t* state);
 void model_to_state(fp8_t model, fp_t* state);
+
+//void print_model_input(fp8_t model, fp8_t inputs, fp_t t) {
+//    printf("t=%0.16f------------\nModel:\n\tX: %0.16f\n\tY: %0.16f\n\tZ: %0.16f\n\tRoll: %0.16f\n\tPitch: %0.16f\n\tYaw: %0.16f\n\tSpeed: %0.16f\n",
+//        t,
+//        model[SIMPLE_AIRCRAFT_MODEL_X],
+//        model[SIMPLE_AIRCRAFT_MODEL_Y],
+//        model[SIMPLE_AIRCRAFT_MODEL_Z],
+//        model[SIMPLE_AIRCRAFT_MODEL_ROLL],
+//        model[SIMPLE_AIRCRAFT_MODEL_PITCH],
+//        model[SIMPLE_AIRCRAFT_MODEL_YAW],
+//        model[SIMPLE_AIRCRAFT_MODEL_SPEED]);
+//
+//    printf("Inputs:\n\t:Thrust: %f\n\tRoll Rate: %f\n\tPitch Rate: %f\n",
+//        inputs[SIMPLE_AIRCRAFT_INPUT_THRUST],
+//        inputs[SIMPLE_AIRCRAFT_INPUT_ROLL_RATE],
+//        inputs[SIMPLE_AIRCRAFT_INPUT_PITCH_RATE]);
+//    
+//}
+//
+//void print_state(fp_t state[STATE_NUM_PARAMS]) {
+//    printf("State:\n\t"
+//            "X: %f\n\t"
+//            "Y: %f\n\t"
+//            "Z: %f\n\t"
+//            "Vx: %f\n\t"
+//            "Vy: %f\n\t"
+//            "Vz: %f\n\t"
+//            "Qw: %f\n\t"
+//            "Qx: %f\n\t"
+//            "Qy: %f\n\t"
+//            "Qz: %f\n\n",
+//            state[STATE_X], 
+//            state[STATE_Y], 
+//            state[STATE_Z], 
+//            state[STATE_X_VEL], 
+//            state[STATE_Y_VEL], 
+//            state[STATE_Z_VEL], 
+//            state[STATE_QUAT_W], 
+//            state[STATE_QUAT_X], 
+//            state[STATE_QUAT_Y], 
+//            state[STATE_QUAT_Z]);
+//}
 
 __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
                                        fp_t t,
@@ -47,8 +90,6 @@ __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs,
   gid = get_global_id(0);
   state_offset = STATE_NUM_PARAMS*gid;
   control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
-
-  printf("Hello"); // Try this?
 
   // Copy state/control information from global entity information to private vars.
   for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
