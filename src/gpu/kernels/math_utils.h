@@ -10,19 +10,19 @@
 
 typedef fp4_t quat_t;
 // Quanternion-Euler Conversions
-fp_t quat_yaw(fp4_t q) {
-  return atan2(2*(q.w*q.z + q.x*q.y), 1 - 2*(q.y * q.y + q.z * q.z));
+fp_t quat_roll(fp4_t q) {
+    return atan2(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y));
 }
 
 fp_t quat_pitch(fp4_t q) {
   return asin(2 * (q.w * q.y - q.z * q.x));
 }
 
-fp_t quat_roll(fp4_t q) {
-    return atan2(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y));
+fp_t quat_yaw(fp4_t q) {
+  return atan2(2*(q.w * q.z + q.x * q.y), 1 - 2*(q.y * q.y + q.z * q.z));
 }
 
-fp4_t quat_from_euler(fp_t yaw, fp_t  pitch, fp_t roll) {
+fp4_t quat_from_euler(fp_t roll, fp_t pitch, fp_t yaw) {
   fp4_t q;
 
   fp_t sr = sin(roll / 2);

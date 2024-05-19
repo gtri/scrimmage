@@ -254,9 +254,9 @@ namespace scrimmage {
         cl_int err;
         cl_uint max_clock_freq = device.getInfo<CL_DEVICE_MAX_CLOCK_FREQUENCY>(&err);
         if(OpenCLUtils::check_error(err, "Error querying device MAX_CLOCK_FREQUENCY")) {
-        max_clock_freq =  std::numeric_limits<cl_uint>::min();  // Still need to return something, but will not picked
-                                                                // as the device with the highest clock frequency
-        }
+          max_clock_freq =  std::numeric_limits<cl_uint>::min();  // Still need to return something, but will not picked
+                                                                  // as the device with the highest clock frequency
+          }
         return std::pair{max_clock_freq, device};
         });
 

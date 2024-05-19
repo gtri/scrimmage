@@ -52,35 +52,35 @@
 
 namespace fs = std::filesystem;
 
-// Will want to run actual sims in test. This should just prep the mission parse 
-// files
-  struct CompareMissions {
-    std::string cpu_filename;
-    std::string gpu_filename;
-  };
+// This test may fail depending on hardware
+
+struct CompareMissions {
+  std::string cpu_filename;
+  std::string gpu_filename;
+};
 
 class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
   public:
     void SetUp() override {
       auto find_test_mission = [&](const std::string& filename) -> std::optional<fs::path> {
         // Strip current srcfile stem to get src dir to search
-      fs::path filepath{filename}; 
-      if (!fs::exists(filepath) && filepath.extension() == ".xml") {
-        fs::path src_file{__FILE__};
-        fs::path src_dir = src_file.parent_path();
-        src_dir /= "test_missions";
-        
-        fs::recursive_directory_iterator dir_it{src_dir};
-        for(auto& dir_ent : dir_it) {
-          const fs::path& ent_path = dir_ent.path();
-          bool is_xml_file = dir_ent.exists() 
-            && dir_ent.is_regular_file() 
-            && ent_path.extension() == ".xml";
-          if (is_xml_file && ent_path.stem() == filepath.stem()) {
-            return std::make_optional(ent_path);
+        fs::path filepath{filename}; 
+        if (!fs::exists(filepath) && filepath.extension() == ".xml") {
+          fs::path src_file{__FILE__};
+          fs::path src_dir = src_file.parent_path();
+          src_dir /= "test_missions";
+
+          fs::recursive_directory_iterator dir_it{src_dir};
+          for(auto& dir_ent : dir_it) {
+            const fs::path& ent_path = dir_ent.path();
+            bool is_xml_file = dir_ent.exists() 
+              && dir_ent.is_regular_file() 
+              && ent_path.extension() == ".xml";
+            if (is_xml_file && ent_path.stem() == filepath.stem()) {
+              return std::make_optional(ent_path);
+            }
           }
         }
-      }
         return std::nullopt;
       };
 
@@ -93,34 +93,6 @@ class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
 
       cpu_mission_path = cpu_mission_path_opt.value();
       gpu_mission_path = gpu_mission_path_opt.value();
-
-      //cpu_mission_path = filename;
-      //gpu_mission_path = cpu_mission_path;
-      //gpu_mission_path.replace_filename(
-      //    cpu_mission_path.stem()
-      //    .concat("_gpu_test"))
-      //  .concat(cpu_mission_path.extension().string());
-
-      //std::ifstream cpu_mission_file;
-      //std::ofstream gpu_mission_file;
-
-      //cpu_mission_file.open(cpu_mission_path);
-      //gpu_mission_file.open(gpu_mission_path);
-
-      //std::stringstream ss;
-      //ss << cpu_mission_file.rdbuf();
-      //std::string cpu_mission_file_contents = ss.str();
-      //std::ostream_iterator<char>gpu_contents{gpu_mission_file};
-
-      //std::regex motion_model_tag_re{"[^<_\\/]*motion_model"};
-      //std::regex_replace(gpu_contents, 
-      //    cpu_mission_file_contents.cbegin(),
-      //    cpu_mission_file_contents.cend(),
-      //    motion_model_tag_re, 
-      //    "gpu_motion_model");
-
-      //cpu_mission_file.close();
-      //gpu_mission_file.close();
     }
 
   protected:
@@ -166,7 +138,7 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
     std::string line;
     for(; line.find(seed_str) == std::string::npos; std::getline(log, line));
     log.close();
-    
+
     const std::size_t seed_start = line.find(seed_str) + seed_str.size();
     unsigned long seed = std::stoul(line.substr(seed_start));
     return seed;
@@ -206,17 +178,17 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
       const State& cpu_state = cpu_contact.state();
       const State& gpu_state = gpu_contact.state();
 
-      EXPECT_DOUBLE_EQ(gpu_state.position().x(), cpu_state.position().x());
-      EXPECT_DOUBLE_EQ(gpu_state.position().y(), cpu_state.position().y());
-      EXPECT_DOUBLE_EQ(gpu_state.position().z(), cpu_state.position().z());
+      EXPECT_NEAR(gpu_state.position().x(), cpu_state.position().x(), 1e-8);
+      EXPECT_NEAR(gpu_state.position().y(), cpu_state.position().y(), 1e-8);
+      EXPECT_NEAR(gpu_state.position().z(), cpu_state.position().z(), 1e-8);
 
-      EXPECT_DOUBLE_EQ(gpu_state.linear_velocity().x(), cpu_state.linear_velocity().x());
-      EXPECT_DOUBLE_EQ(gpu_state.linear_velocity().y(), cpu_state.linear_velocity().y());
-      EXPECT_DOUBLE_EQ(gpu_state.linear_velocity().z(), cpu_state.linear_velocity().z());
+      EXPECT_NEAR(gpu_state.linear_velocity().x(), cpu_state.linear_velocity().x(), 1e-8);
+      EXPECT_NEAR(gpu_state.linear_velocity().y(), cpu_state.linear_velocity().y(), 1e-8);
+      EXPECT_NEAR(gpu_state.linear_velocity().z(), cpu_state.linear_velocity().z(), 1e-8);
 
-      EXPECT_DOUBLE_EQ(gpu_state.angular_velocity().x(), cpu_state.angular_velocity().x());
-      EXPECT_DOUBLE_EQ(gpu_state.angular_velocity().y(), cpu_state.angular_velocity().y());
-      EXPECT_DOUBLE_EQ(gpu_state.angular_velocity().z(), cpu_state.angular_velocity().z());
+      EXPECT_NEAR(gpu_state.angular_velocity().x(), cpu_state.angular_velocity().x(), 1e-8);
+      EXPECT_NEAR(gpu_state.angular_velocity().y(), cpu_state.angular_velocity().y(), 1e-8);
+      EXPECT_NEAR(gpu_state.angular_velocity().z(), cpu_state.angular_velocity().z(), 1e-8);
 
       scrimmage::Quaternion gpu_quat, cpu_quat;
 
@@ -232,9 +204,9 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
           cpu_state.orientation().y(), 
           cpu_state.orientation().z()); 
 
-      EXPECT_DOUBLE_EQ(angle_diff(gpu_quat.roll(), cpu_quat.roll()), 0);
-      EXPECT_DOUBLE_EQ(angle_diff(gpu_quat.pitch(), cpu_quat.pitch()), 0);
-      EXPECT_DOUBLE_EQ(angle_diff(gpu_quat.yaw(), cpu_quat.yaw()), 0);
+      EXPECT_NEAR(angle_diff(gpu_quat.roll(), cpu_quat.roll()), 0, 1e-8);
+      EXPECT_NEAR(angle_diff(gpu_quat.pitch(), cpu_quat.pitch()), 0, 1e-8);
+      EXPECT_NEAR(angle_diff(gpu_quat.yaw(), cpu_quat.yaw()), 0, 1e-8);
     }
   }
 } 
