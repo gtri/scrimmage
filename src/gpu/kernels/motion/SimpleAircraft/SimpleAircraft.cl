@@ -21,16 +21,16 @@ enum SimpleAircraftInputParams {
 };
 
 // Based on values found in SimpleAircraft.xml
-const fp_t TURNING_RADIUS = 13.0;
-const fp_t MIN_SPEED = 15.0;
-const fp_t MAX_SPEED = 40.0;
-const fp_t MAX_ROLL = RADIANS(30.0);
-const fp_t MAX_ROLL_RATE = RADIANS(57.3);
-const fp_t MAX_PITCH = RADIANS(30.0);
-const fp_t MAX_PITCH_RATE = RADIANS(57.3);
-const fp_t SPEED_TARGET = 50.0;
-const fp_t RADIUS_SLOPE_PER_SPEED = 0.0;
-const fp_t MAX_THROTTLE = 100.0;
+__constant fp_t TURNING_RADIUS = 13.0;
+__constant fp_t MIN_SPEED = 15.0;
+__constant fp_t MAX_SPEED = 40.0;
+__constant fp_t MAX_ROLL = RADIANS(30.0);
+__constant fp_t MAX_ROLL_RATE = RADIANS(57.3);
+__constant fp_t MAX_PITCH = RADIANS(30.0);
+__constant fp_t MAX_PITCH_RATE = RADIANS(57.3);
+__constant fp_t SPEED_TARGET = 50.0;
+__constant fp_t RADIUS_SLOPE_PER_SPEED = 0.0;
+__constant fp_t MAX_THROTTLE = 100.0;
 
 fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t);
 fp8_t state_to_model(fp_t* state);
@@ -152,7 +152,7 @@ fp8_t state_to_model(fp_t* state) {
                             pown(state[STATE_Z_VEL], 2)); 
 
   model[SIMPLE_AIRCRAFT_MODEL_SPEED] = clamp(speed, MIN_SPEED, MAX_SPEED);
-  model[SIMPLE_AIRCRAFT_MODEL_ROLL] = clamp(quat_roll(q), -MAX_ROLL, MAX_ROLL);
+  model[SIMPLE_AIRCRAFT_MODEL_ROLL] = clamp(-quat_roll(q), -MAX_ROLL, MAX_ROLL);
   model[SIMPLE_AIRCRAFT_MODEL_PITCH] = clamp(quat_pitch(q), -MAX_PITCH, MAX_PITCH);
   model[SIMPLE_AIRCRAFT_MODEL_YAW] = quat_yaw(q);
   return model;
@@ -167,7 +167,7 @@ void model_to_state(fp8_t model, fp_t* state) {
   fp_t yaw = model[SIMPLE_AIRCRAFT_MODEL_YAW];
   fp_t pitch = model[SIMPLE_AIRCRAFT_MODEL_PITCH];
   fp_t roll = model[SIMPLE_AIRCRAFT_MODEL_ROLL];
-  quat_t q = quat_from_euler(yaw, pitch, roll);
+  quat_t q = quat_from_euler(-roll, pitch, yaw);
   
   state[STATE_QUAT_W] = q.w;
   state[STATE_QUAT_X] = q.x;
