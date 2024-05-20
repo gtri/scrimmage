@@ -141,8 +141,8 @@ def main():
     #parser.add_argument('--2d', dest='two_d', default=False, action='store_true')
 
     args = parser.parse_args()
-    print(args.cpu_frames)
-    print(args.gpu_frames)
+#    print(args.cpu_frames)
+#    print(args.gpu_frames)
 
 
     ## Preparing 3D trajectory plot
