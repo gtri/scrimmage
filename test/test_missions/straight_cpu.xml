@@ -46,8 +46,20 @@
                       center="0, 0, 500"
                       rpy="0, 0, 0"
                       >Boundary</entity_interaction>
+  <!--
   <entity_interaction>SimpleCollision</entity_interaction>
   <entity_interaction>GroundCollision</entity_interaction>
+  -->
+
+  <gpu_kernel single_precision="true" 
+  src_dirs = "SimpleAircraft" 
+  include_dirs = "kernels"
+  kernel_name = "SimpleAircraft">SimpleAircraftSingle</gpu_kernel>
+
+  <gpu_kernel single_precision="false" 
+  src_dirs = "SimpleAircraft" 
+  include_dirs = "kernels"
+  kernel_name = "SimpleAircraft">SimpleAircraftDouble</gpu_kernel>
 
   <!--
        The following is an example configuration of the BulletCollision plugin
@@ -89,14 +101,14 @@
     <health>1</health>
     <radius>1</radius>
 
-    <variance_x>20</variance_x>
-    <variance_y>20</variance_y>
+    <variance_x>200</variance_x>
+    <variance_y>200</variance_y>
     <variance_z>10</variance_z>
 
     <x>-900</x>
     <y>0</y>
     <z>195</z>
-
+  
     <!-- The vehicle's initial heading, roll, and pitch can be specified -->
     <heading>0</heading>
     <!--<roll>45</roll>-->

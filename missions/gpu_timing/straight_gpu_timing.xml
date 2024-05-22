@@ -109,6 +109,7 @@
     <y>0</y>
     <z>195</z>
   
+    <variance_heading>90</variance_heading>
     <!-- The vehicle's initial heading, roll, and pitch can be specified -->
     <heading>0</heading>
     <!--<roll>45</roll>-->

@@ -56,7 +56,6 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/motion/GPUMotionModel.h>
-#if ENABLE_GPU_ACCELERATION == 1
 #include <scrimmage/common/CSV.h>
 
 #include <scrimmage/math/State.h>
@@ -1092,8 +1091,6 @@ bool SimControl::run() {
     int loop_number = 0;
     start_timer("total");
     while (run_single_step(loop_number++)) {}
-    bool result = finalize();
-    return result;
 
     stop_timer("total");
     CSV timer_log;

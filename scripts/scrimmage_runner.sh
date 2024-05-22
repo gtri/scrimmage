@@ -141,7 +141,7 @@ fi
 IDS_FILES=()
 for i in `seq 1 ${TASKS}`;
 do
-    MISSION=$(readlink -f "${MISSION_FILE_DIR}/${i}.xml")
+    MISSION=$(readlink -f "${MISSION_FILE_DIR}/${i}_mission.xml")
     IDS_FILES=("${IDS_FILES[@]}" "$i" "${MISSION}")
 done
 

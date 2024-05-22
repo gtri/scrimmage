@@ -109,6 +109,8 @@ def ranges_file_to_dict(ranges_file):
                 ranges_dict['count'], _ = convert(child.attrib['count'], 'int')
             if 'vec' in child.attrib:
                 ranges_dict['vec'], cls = convert(child.attrib['vec'], 'str')                
+            if 'scale' in child.attrib:
+                ranges_dict['scale'], cls = convert(child.attrib['scale'], 'str')                
         except (AttributeError, KeyError):
             print('missing type or low or high in element ', child.tag)
 
@@ -148,7 +150,11 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, root_log=None, en
             if 'count' not in desc:
                 raise AttributeError("Param '{}' needs count specified for grid method"
                         .format(param))
-            vals = np.linspace(desc['low'], desc['high'], desc['count']).astype(desc['type'])
+            if 'scale' not in desc or desc['scale'] != "log":
+                vals = np.linspace(desc['low'], desc['high'], desc['count']).astype(desc['type'])
+            else:
+                vals = np.logspace(np.log10(desc['low']), np.log10(desc['high']), desc['count']).astype(desc['type'])
+
             val_options.append(vals)
 
         # combine all lists of options to get every combination
