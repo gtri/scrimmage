@@ -5,8 +5,13 @@
 
 // These should only be used for compile-time constants. The OpenCL implementation
 // provides similar functions
+#ifdef SINGLE_PRECISION
+#define RADIANS(degrees) (M_PI_F * (degrees) / 180);
+#define DEGREES(radians) (180 * M_1_PI_F*(radians));
+#else
 #define RADIANS(degrees) (M_PI * (degrees) / 180);
 #define DEGREES(radians) (180 * M_1_PI*(radians));
+#endif
 
 typedef fp4_t quat_t;
 // Quanternion-Euler Conversions
