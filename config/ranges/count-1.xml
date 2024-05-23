@@ -3,5 +3,6 @@
 <ranges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"           
     name="Number of Entities">
 
-  <count low="10" high="10000" type="int" count="12" scale="log"/>
+  <count low="500" high="1000" type="int" count="5" scale="linear"/>
+
 </ranges>

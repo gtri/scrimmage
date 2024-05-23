@@ -46,10 +46,6 @@
                       center="0, 0, 500"
                       rpy="0, 0, 0"
                       >Boundary</entity_interaction>
-  <!--
-  <entity_interaction>SimpleCollision</entity_interaction>
-  <entity_interaction>GroundCollision</entity_interaction>
-  -->
 
   <gpu_kernel single_precision="true" 
   src_dirs = "SimpleAircraft" 
@@ -83,8 +79,6 @@
                       ground_plane_height="0"
                       >BulletCollision</entity_interaction>
   -->
-
-  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 
   <network>GlobalNetwork</network>
   <network>LocalNetwork</network>

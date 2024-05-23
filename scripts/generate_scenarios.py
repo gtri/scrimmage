@@ -150,11 +150,17 @@ def expand_variable_ranges(ranges_file, num_runs, mission_dir, root_log=None, en
             if 'count' not in desc:
                 raise AttributeError("Param '{}' needs count specified for grid method"
                         .format(param))
-            if 'scale' not in desc or desc['scale'] != "log":
+            if 'scale' not in desc or desc['scale'] == "linear":
                 vals = np.linspace(desc['low'], desc['high'], desc['count']).astype(desc['type'])
-            else:
+            elif desc['scale'] == "log2":
+                vals = np.logspace(np.log2(desc['low']), np.log2(desc['high']), desc['count'], base=2.).astype(desc['type'])
+            elif desc['scale'] == "log":
                 vals = np.logspace(np.log10(desc['low']), np.log10(desc['high']), desc['count']).astype(desc['type'])
-
+            else:
+                raise AttributeError("Scale Param '{}' unrecgonized. Available options are:\n\t'{}'\n\t'{}'\n\t'{}'"
+                        .format(desc['scale'], 'linear', 'log2', 'log'))
+                
+            
             val_options.append(vals)
 
         # combine all lists of options to get every combination

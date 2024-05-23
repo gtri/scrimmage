@@ -26,7 +26,7 @@
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
 
   <plot_tracks>false</plot_tracks>
-  <output_type>all</output_type>
+  <output_type>seed,runtime,summary</output_type>
   <no_bin_logging>false</no_bin_logging>
   <show_plugins>false</show_plugins>
 
@@ -54,6 +54,7 @@
   <gpu_kernel single_precision="true" 
   src_dirs = "SimpleAircraft" 
   include_dirs = "kernels"
+  prefered_platform="Clover"
   kernel_name = "SimpleAircraft">SimpleAircraftSingle</gpu_kernel>
 
   <gpu_kernel single_precision="false" 
@@ -84,6 +85,7 @@
                       >BulletCollision</entity_interaction>
   -->
 
+  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
 
   <network>GlobalNetwork</network>
   <network>LocalNetwork</network>
@@ -108,13 +110,14 @@
     <y>0</y>
     <z>195</z>
   
+    <variance_heading>90</variance_heading>
     <!-- The vehicle's initial heading, roll, and pitch can be specified -->
     <heading>0</heading>
     <!--<roll>45</roll>-->
     <!--<pitch>45</pitch>-->
 
     <controller>SimpleAircraftControllerPID</controller>
-    <gpu_motion_model>SimpleAircraftDouble</gpu_motion_model>
+    <gpu_motion_model>SimpleAircraftSingle</gpu_motion_model>
 
     <visual_model>zephyr-blue</visual_model>
 
@@ -155,7 +158,7 @@
     <heading>180</heading>
     <altitude>200</altitude>
     <controller>SimpleAircraftControllerPID</controller>
-    <gpu_motion_model>SimpleAircraftDouble</gpu_motion_model>
+    <gpu_motion_model>SimpleAircraftSingle</gpu_motion_model>
     <visual_model>zephyr-red</visual_model>
     <autonomy speed="21"
               enable_boundary_control="true">Straight</autonomy>

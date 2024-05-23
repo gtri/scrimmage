@@ -40,9 +40,33 @@ def plot_pie(dataframes, entity_count):
                textprops={'size': 'smaller'})
         ax.set_xlabel(device.upper())
 
-    fig_pie.supxlabel("Entity Count: {}".format(entity_count))
+    fig_pie.supxlabel("Agent Count: {}".format(entity_count))
+    fig_pie.tight_layout()
     fig_pie.savefig(os.environ['HOME'] + "/time_pie_" + str(entity_count) + ".png")
 
+def plot_speedup(dataframes):
+    cpu_data = dataframes[0]
+    gpu_data = dataframes[1]
+
+    mean_cpu_data = cpu_data.groupby("entity_count").mean()
+    mean_gpu_data = gpu_data.groupby("entity_count").mean()
+
+    mean_total_speedup = mean_cpu_data["total"].to_numpy() / mean_gpu_data["total"].to_numpy()
+    mean_motion_speedup = mean_cpu_data["cpu_motion_models"].to_numpy() / mean_gpu_data["gpu_motion_models"].to_numpy()
+
+    entity_counts = mean_cpu_data.index.to_numpy(dtype=float)
+    
+    fig_speedup, ax_speedup = plt.subplots()
+    ax_speedup.scatter(entity_counts, mean_total_speedup, label="Total Simulation", marker=".")
+    ax_speedup.scatter(entity_counts, mean_motion_speedup, label="Motion Updates", marker=".")
+
+    ax_speedup.grid()
+    ax_speedup.legend()
+    ax_speedup.set_xlabel("Number of Agents")
+    ax_speedup.set_ylabel("Speedup")
+    ax_speedup.set_xscale("log")
+    fig_speedup.tight_layout()
+    fig_speedup.savefig(os.environ['HOME'] + "/speedup.png")
 
 
 def main(): 
@@ -56,21 +80,33 @@ def main():
     args = parser.parse_args()
 
     fig_mean, ax_mean = plt.subplots()
-    ax_mean.set_xlabel("Number of Entities")
-    ax_mean.set_ylabel("Time (ms)")
+    ax_mean.set_xlabel("Number of Agents")
+    ax_mean.set_ylabel("Time (s)")
+    ax_mean.set_yscale("log")
+    #ax_mean.set_xscale("log", base=2)
+    ax_mean.set_xscale("log")
+    ax_mean.grid()
 
     fig_mean_frac, ax_mean_frac = plt.subplots()
-    ax_mean_frac.set_xlabel("Number of Entities")
+    ax_mean_frac.set_xlabel("Number of Agents")
     ax_mean_frac.set_ylabel("% of Total Sim Time")
+    #ax_mean_frac.set_xscale("log", base=2)
+    ax_mean_frac.set_xscale("log")
+    ax_mean_frac.grid()
+
+    fig_speedup, ax_speedup = plt.subplots()
+    ax_speedup.set_xlabel("Number of Agents")
+    ax_speedup.set_ylabel("GPU Speedup")
+    ax_speedup.set_xscale("log")
 
     fig_total, ax_total = plt.subplots()
-    ax_total.set_xlabel("Number of Entities")
+    ax_total.set_xlabel("Number of Agents")
     ax_total.set_ylabel("Time (ms)")
 
 
     dataframes = []
 
-    for device in ["cpu", "gpu"]:
+    for (device, color) in zip(["cpu", "gpu"], ["r", "b"]):
         if device == "cpu":
             log_dir = args.cpu_dir
         elif device == "gpu":
@@ -106,10 +142,11 @@ def main():
         mean_device_time_frac = avgs[motion_model + "_frac"]
         std_device_time_frac = np.sqrt(vars[motion_model + "_frac"].to_numpy(dtype=float))
 
-        ax_mean.errorbar(entity_counts, mean_device_time, std_device_time, linestyle="None", marker=".", label=device)
-        ax_mean_frac.errorbar(entity_counts, mean_device_time_frac, std_device_time_frac, linestyle="None", marker=".", label=device) 
+        #ax_mean.errorbar(entity_counts, mean_device_time, std_device_time, linestyle="None", marker=".", label=device)
+        #ax_mean_frac.errorbar(entity_counts, mean_device_time_frac, std_device_time_frac, linestyle="None", marker=".", label=device) 
 
-
+        ax_mean.scatter(entity_counts, 1e-3*mean_device_time, label=device, marker=".", color=color)
+        ax_mean_frac.scatter(entity_counts, 100*mean_device_time_frac, label=device, marker=".", color=color)
 
         ax_mean.legend()
         ax_mean.grid()
@@ -117,11 +154,16 @@ def main():
         ax_mean_frac.legend()
         ax_mean_frac.grid()
 
+        fig_mean.tight_layout()
+        fig_mean_frac.tight_layout()
+        
         fig_mean.savefig(os.environ['HOME'] + "/mean_device_time.png")
         fig_mean_frac.savefig(os.environ['HOME'] + "/mean_frac_device_time.png")
 
-        plot_pie(dataframes, entity_counts[0])
-        plot_pie(dataframes, entity_counts[-1])
+    plot_pie(dataframes, entity_counts[0])
+    plot_pie(dataframes, entity_counts[-1])
+
+    plot_speedup(dataframes)
 
 if __name__ == '__main__':
     main()

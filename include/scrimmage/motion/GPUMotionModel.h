@@ -207,10 +207,14 @@ namespace scrimmage {
         err = kernel_.setArg(3, static_cast<T>(dt));
         CL_CHECK_ERROR(err, "Error setting Kernal Args");
 
+        //err = queue_.enqueueNDRangeKernel(kernel_,
+        //    cl::NullRange, 
+        //    cl::NDRange{num_entities},
+        //    cl::NDRange{num_entities});
         err = queue_.enqueueNDRangeKernel(kernel_,
             cl::NullRange, 
             cl::NDRange{num_entities},
-            cl::NDRange{num_entities});
+            cl::NullRange);
 
         CL_CHECK_ERROR(err, "Error Executing Kernel");
         

@@ -26,7 +26,7 @@
   <gui_update_period>10</gui_update_period> <!-- milliseconds -->
 
   <plot_tracks>false</plot_tracks>
-  <output_type>all</output_type>
+  <output_type>seed,runtime,summary</output_type>
   <no_bin_logging>false</no_bin_logging>
   <show_plugins>false</show_plugins>
 

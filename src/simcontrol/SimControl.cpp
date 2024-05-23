@@ -637,14 +637,14 @@ bool SimControl::run_single_step(const int& loop_number) {
     }
     stop_timer("screenshots");
 
-    start_timer("logging");
-    if (!run_logging()) {
-        if (!limited_verbosity_) {
-            std::cout << "Exiting due to logging exception" << std::endl;
-        }
-        return false;
-    }
-    stop_timer("logging");
+    //start_timer("logging");
+    //if (!run_logging()) {
+    //    if (!limited_verbosity_) {
+    //        std::cout << "Exiting due to logging exception" << std::endl;
+    //    }
+    //    return false;
+    //}
+    //stop_timer("logging");
 
     // Wait loop timer.
     // Stay in loop if currently paused.
@@ -1143,7 +1143,7 @@ bool SimControl::finalize() {
         pub_ent_pres_end_->publish(msg);
     }
 
-    run_logging();
+    //run_logging();
 
     if (display_progress_) cout << endl;
 
