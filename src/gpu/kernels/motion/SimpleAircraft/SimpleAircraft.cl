@@ -38,35 +38,41 @@ void model_to_state(fp8_t model, fp_t* state);
 
 __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
                                        fp_t t,
-                                       fp_t dt) {
+                                       fp_t dt,
+                                       int num_entities) {
   int gid, state_offset, control_offset;
-  fp_t state[STATE_NUM_PARAMS];
-  fp_t input[SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS];
-  fp8_t x; // Model Vector
-  fp8_t u; // Input Vector
-
   gid = get_global_id(0);
+  if(gid < num_entities) {
+    fp_t state[STATE_NUM_PARAMS];
+    fp_t input[SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS];
+    fp8_t x; // Model Vector
+    fp8_t u; // Input Vector
 
-  state_offset = STATE_NUM_PARAMS*gid;
-  control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
 
-  // Copy state/control information from global entity information to private vars.
-  for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
-    state[i] = states[state_offset + i];
+    state_offset = STATE_NUM_PARAMS*gid;
+    control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
+
+    // Copy state/control information from global entity information to private vars.
+    for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
+      state[i] = states[state_offset + i];
+    }
+
+    for(int i = 0; i < SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS; ++i) {
+      u[i] = inputs[control_offset + i];
+    }
+    x = state_to_model(state); 
+
+    // Update x with rk4
+    RK4(x, u, t, dt, simple_aircraft_model);
+
+    model_to_state(x, state);
+    for(int i = 0; i < STATE_NUM_PARAMS; i++) {
+      states[state_offset + i] = state[i];
+    }
   }
-
-  for(int i = 0; i < SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS; ++i) {
-    u[i] = inputs[control_offset + i];
-  }
-  x = state_to_model(state); 
-
-  // Update x with rk4
-  RK4(x, u, t, dt, simple_aircraft_model);
-
-  model_to_state(x, state);
-  for(int i = 0; i < STATE_NUM_PARAMS; i++) {
-    states[state_offset + i] = state[i];
-  }
+//  states[state_offset + STATE_X_ANG_VEL] = (fp_t) gid;
+//  states[state_offset + STATE_Y_ANG_VEL] = (fp_t) num_entities;
+//  states[state_offset + STATE_Z_ANG_VEL] = (fp_t) get_group_id(0);
 }
 
 fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t) {
