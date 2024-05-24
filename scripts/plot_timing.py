@@ -5,6 +5,17 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from cycler import cycler
+
+def set_aspect_ratio(ax, ratio=1):
+    x_left, x_right = ax.get_xlim()     
+    y_low, y_high = ax.get_ylim()     
+
+    x_diff = x_right - x_left
+    y_diff = y_low - y_high
+
+    ax.set_aspect(ratio * abs(x_diff / y_diff))
+
 def plot_pie(dataframes, entity_count):
     # Plot Pi charts 
     fig_pie, axes_pie = plt.subplots(1, 2)
@@ -57,27 +68,28 @@ def plot_speedup(dataframes):
     entity_counts = mean_cpu_data.index.to_numpy(dtype=float)
     
     fig_speedup, ax_speedup = plt.subplots()
-    ax_speedup.scatter(entity_counts, mean_total_speedup, label="Total Simulation", marker=".")
-    ax_speedup.scatter(entity_counts, mean_motion_speedup, label="Motion Updates", marker=".")
+    plot_cycler = (cycler(color=['r', 'b']) + cycler(linestyle=["--", "-."]) + cycler(marker=["o", "s"]))
+    ax_speedup.set_prop_cycle(plot_cycler)
+
+    ax_speedup.plot(entity_counts, mean_total_speedup, label="Total Simulation", markersize=5)
+    ax_speedup.plot(entity_counts, mean_motion_speedup, label="Motion Updates", markersize=5)
 
     ax_speedup.grid()
     ax_speedup.legend()
     ax_speedup.set_xlabel("Number of Agents")
-    ax_speedup.set_ylabel("Speedup")
+    ax_speedup.set_ylabel("CPU Sim Time / GPU Sim Time")
     ax_speedup.set_xscale("log")
+    ax_speedup.set_aspect(0.5)
     fig_speedup.tight_layout()
-    fig_speedup.savefig(os.environ['HOME'] + "/speedup.png")
+    fig_speedup.savefig(os.environ['HOME'] + "/speedup.png", dpi=600)
 
-def set_aspect_ratio(ax, ratio=1):
-    x_left, x_right = ax.get_xlim()     
-    y_left, y_right = ax.get_ylim()     
-
-    x_diff = x_right - x_left
-    y_diff = y_right - y_left
-
-    ax.set_aspect_ratio(ratio * abs(x_diff / y_diff))
 
 def main(): 
+    #plt.rcParams.update({
+    #    "text.usetex": True,
+    #    "font.family": "Helvetica"
+    #    })
+
     parser = argparse.ArgumentParser(
             usage="%(prog)s [cpu_log_dir] [gpu_log_dir]",
             description="Plot timing information for gpu and cpu comparisions"
@@ -90,7 +102,7 @@ def main():
 
     fig_mean, ax_mean = plt.subplots()
     ax_mean.set_xlabel("Number of Agents")
-    ax_mean.set_ylabel("Time (s)")
+    ax_mean.set_ylabel("Total Motion Update Time (s)")
     ax_mean.set_yscale("log")
     #ax_mean.set_xscale("log", base=2)
     ax_mean.set_xscale("log")
@@ -115,7 +127,14 @@ def main():
 
     dataframes = []
 
-    for (device, color) in zip(["cpu", "gpu"], ["r", "b"]):
+    plot_cycler = (cycler(color=['r', 'b']) + cycler(linestyle=["--", "-."]) + cycler(marker=["o", "s"]))
+
+    ax_mean.set_prop_cycle(plot_cycler)
+    ax_mean_frac.set_prop_cycle(plot_cycler)
+
+    markersize = 5
+
+    for device in ["cpu", "gpu"]:
         if device == "cpu":
             log_dir = args.cpu_dir
         elif device == "gpu":
@@ -154,23 +173,23 @@ def main():
         #ax_mean.errorbar(entity_counts, mean_device_time, std_device_time, linestyle="None", marker=".", label=device)
         #ax_mean_frac.errorbar(entity_counts, mean_device_time_frac, std_device_time_frac, linestyle="None", marker=".", label=device) 
 
-        ax_mean.scatter(entity_counts, 1e-3*mean_device_time, label=device, marker=".", color=color)
-        ax_mean_frac.scatter(entity_counts, 100*mean_device_time_frac, label=device, marker=".", color=color)
+        ax_mean.plot(entity_counts, 1e-3*mean_device_time, label=device.upper(), markersize=markersize)
+        ax_mean_frac.plot(entity_counts, 100*mean_device_time_frac, label=device.upper(), markersize=markersize)
 
         ax_mean.legend()
         ax_mean.grid()
+        ax_mean.set_aspect(0.5)
 
         ax_mean_frac.legend()
         ax_mean_frac.grid()
+        ax_mean_frac.set_aspect(0.5)
 
-        set_aspect_ratio(ax_mean, 0.5)
-        set_aspect_ratio(ax_mean_frac, 0.5)
 
         fig_mean.tight_layout()
         fig_mean_frac.tight_layout()
         
-        fig_mean.savefig(os.environ['HOME'] + "/mean_device_time.png")
-        fig_mean_frac.savefig(os.environ['HOME'] + "/mean_frac_device_time.png")
+        fig_mean.savefig(os.environ['HOME'] + "/mean_device_time.png", dpi=600)
+        fig_mean_frac.savefig(os.environ['HOME'] + "/mean_frac_device_time.png", dpi=600)
 
     plot_pie(dataframes, entity_counts[0])
     plot_pie(dataframes, entity_counts[-1])

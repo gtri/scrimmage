@@ -252,8 +252,8 @@ def main():
 
     ratio = .3
     fig_abs, ax_abs = plt.subplots()
-    ax_abs.plot(timestep, pos_abs_err, label="Position")
-    ax_abs.plot(timestep, vel_abs_err, label="Velocity")
+    ax_abs.plot(timestep, pos_abs_err, label="Position", color="blue")
+    ax_abs.plot(timestep, vel_abs_err, label="Velocity", color="red")
     #ax_abs.plot(timestep, quat_abs_err, label="Quaternion")
     ax_abs.legend()
     ax_abs.grid()
@@ -262,11 +262,11 @@ def main():
     x_left, x_right = ax_abs.get_xlim()
     y_low, y_high = ax_abs.get_ylim()
     ax_abs.set_aspect(abs((x_right-x_left)/(y_low-y_high))*ratio)
-    fig_abs.savefig(os.environ['HOME'] + '/trajectory_abs_error_plot.png')
+    fig_abs.savefig(os.environ['HOME'] + '/trajectory_abs_error_plot.png', dpi=600)
 
     fig_rel, ax_rel = plt.subplots()
-    ax_rel.plot(timestep, pos_rel_err, label="Position")
-    ax_rel.plot(timestep, vel_rel_err, label="Velocity")
+    ax_rel.plot(timestep, pos_rel_err, label="Position", color="blue")
+    ax_rel.plot(timestep, vel_rel_err, label="Velocity", color="red")
     #ax_rel.plot(time, quat_rel_err, label="Quaternion")
     ax_rel.legend()
     ax_rel.grid()
@@ -275,7 +275,7 @@ def main():
     x_left, x_right = ax_rel.get_xlim()
     y_low, y_high = ax_rel.get_ylim()
     ax_rel.set_aspect(abs((x_right-x_left)/(y_low-y_high))*ratio)
-    fig_rel.savefig(os.environ['HOME'] + '/trajectory_rel_error_plot.png')
+    fig_rel.savefig(os.environ['HOME'] + '/trajectory_rel_error_plot.png', dpi=600)
 
     fig_eps, ax_eps = plt.subplots()
     #ax_eps.plot(time, pos_eps_err, label="Position")
@@ -285,7 +285,7 @@ def main():
     ax_eps.grid()
     ax_abs.set_xlabel("Number of Timesteps")
     ax_abs.set_ylabel("Epsilon Error")
-    fig_eps.savefig(os.environ['HOME'] + '/trajectory_eps_error_plot.png')
+    fig_eps.savefig(os.environ['HOME'] + '/trajectory_eps_error_plot.png', dpi=600)
 
 
 if __name__ == '__main__':
