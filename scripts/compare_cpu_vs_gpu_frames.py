@@ -202,6 +202,7 @@ def main():
     vel_eps_err = []
 
     time = []
+    dts = []
 
     eps = np.finfo(float).eps
     
@@ -211,6 +212,8 @@ def main():
         gpu_state = gpu_frame.contact[0].state
 
         time.append(cpu_frame.time)
+        if len(time) > 1:
+            dts.append(time[-1] - time[-2])
 
         pos_diff = Vector3d_Diff(cpu_state.position, gpu_state.position)
         vel_diff = Vector3d_Diff(cpu_state.linear_velocity, gpu_state.linear_velocity)
@@ -236,6 +239,9 @@ def main():
         pos_eps_err.append(pos_abs_err[-1] / (pos_eps))
         vel_eps_err.append(vel_abs_err[-1] / (vel_eps))
 
+    dt = np.round(np.mean(dts), 3)
+    timestep = np.array(time) / dt
+    
     pos_rmse = np.sqrt(np.mean(np.power(pos_abs_err, 2)))
     vel_rmse = np.sqrt(np.mean(np.power(vel_abs_err, 2)))
     quat_rmse = np.sqrt(np.mean(np.power(quat_abs_err, 2)))
@@ -244,24 +250,31 @@ def main():
     print("Velocity RMSE: {}".format(vel_rmse))
     print("Quaternion RMSE: {}".format(quat_rmse))
 
+    ratio = .3
     fig_abs, ax_abs = plt.subplots()
-    ax_abs.plot(time, pos_abs_err, label="Position")
-    ax_abs.plot(time, vel_abs_err, label="Velocity")
-    ax_abs.plot(time, quat_abs_err, label="Quaternion")
+    ax_abs.plot(timestep, pos_abs_err, label="Position")
+    ax_abs.plot(timestep, vel_abs_err, label="Velocity")
+    #ax_abs.plot(timestep, quat_abs_err, label="Quaternion")
     ax_abs.legend()
     ax_abs.grid()
-    ax_abs.set_xlabel("Simulation Time")
-    ax_abs.set_ylabel("Abs. Error")
+    ax_abs.set_xlabel("Number of Timesteps")
+    ax_abs.set_ylabel("Absolute Error")
+    x_left, x_right = ax_abs.get_xlim()
+    y_low, y_high = ax_abs.get_ylim()
+    ax_abs.set_aspect(abs((x_right-x_left)/(y_low-y_high))*ratio)
     fig_abs.savefig(os.environ['HOME'] + '/trajectory_abs_error_plot.png')
 
     fig_rel, ax_rel = plt.subplots()
-    ax_rel.plot(time, pos_rel_err, label="Position")
-    ax_rel.plot(time, vel_rel_err, label="Velocity")
+    ax_rel.plot(timestep, pos_rel_err, label="Position")
+    ax_rel.plot(timestep, vel_rel_err, label="Velocity")
     #ax_rel.plot(time, quat_rel_err, label="Quaternion")
     ax_rel.legend()
     ax_rel.grid()
-    ax_abs.set_xlabel("Simulation Time")
-    ax_abs.set_ylabel("Rel. Error")
+    ax_rel.set_xlabel("Number of Timesteps")
+    ax_rel.set_ylabel("Relative Error")
+    x_left, x_right = ax_rel.get_xlim()
+    y_low, y_high = ax_rel.get_ylim()
+    ax_rel.set_aspect(abs((x_right-x_left)/(y_low-y_high))*ratio)
     fig_rel.savefig(os.environ['HOME'] + '/trajectory_rel_error_plot.png')
 
     fig_eps, ax_eps = plt.subplots()
@@ -270,8 +283,8 @@ def main():
     #ax_eps.plot(time, quat_eps_err, label="Quaternion")
     ax_eps.legend()
     ax_eps.grid()
-    ax_abs.set_xlabel("Simulation Time")
-    ax_abs.set_ylabel("Eps")
+    ax_abs.set_xlabel("Number of Timesteps")
+    ax_abs.set_ylabel("Epsilon Error")
     fig_eps.savefig(os.environ['HOME'] + '/trajectory_eps_error_plot.png')
 
 

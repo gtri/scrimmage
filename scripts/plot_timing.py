@@ -68,6 +68,14 @@ def plot_speedup(dataframes):
     fig_speedup.tight_layout()
     fig_speedup.savefig(os.environ['HOME'] + "/speedup.png")
 
+def set_aspect_ratio(ax, ratio=1):
+    x_left, x_right = ax.get_xlim()     
+    y_left, y_right = ax.get_ylim()     
+
+    x_diff = x_right - x_left
+    y_diff = y_right - y_left
+
+    ax.set_aspect_ratio(ratio * abs(x_diff / y_diff))
 
 def main(): 
     parser = argparse.ArgumentParser(
@@ -78,6 +86,7 @@ def main():
     parser.add_argument("cpu_dir")
     parser.add_argument("gpu_dir")
     args = parser.parse_args()
+
 
     fig_mean, ax_mean = plt.subplots()
     ax_mean.set_xlabel("Number of Agents")
@@ -153,6 +162,9 @@ def main():
 
         ax_mean_frac.legend()
         ax_mean_frac.grid()
+
+        set_aspect_ratio(ax_mean, 0.5)
+        set_aspect_ratio(ax_mean_frac, 0.5)
 
         fig_mean.tight_layout()
         fig_mean_frac.tight_layout()

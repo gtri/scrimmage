@@ -52,6 +52,8 @@
 #     $ python2.7 plot_3d_fr.py -f '$HOME/swarm-log/2016-09-22_10-37-38/frames.bin'
 #
 
+# Plots two trajectories against each other (used for CPU vs GPU trajectory comparisons)
+
 from __future__ import division, print_function
 import argparse
 import os
