@@ -103,10 +103,7 @@
     <!--<pitch>45</pitch>-->
 
     <controller>SimpleAircraftControllerPID</controller>
-    <!--
     <motion_model>SimpleAircraft</motion_model>
-    -->
-    <gpu_motion_model>simple_aircraft</gpu_motion_model>
 
     <visual_model>zephyr-blue</visual_model>
 
@@ -147,7 +144,7 @@
     <heading>180</heading>
     <altitude>200</altitude>
     <controller>SimpleAircraftControllerPID</controller>
-    <gpu_motion_model>simple_aircraft</gpu_motion_model>
+    <motion_model>SimpleAircraft</motion_model>
     <visual_model>zephyr-red</visual_model>
     <autonomy speed="21"
               enable_boundary_control="true">Straight</autonomy>
