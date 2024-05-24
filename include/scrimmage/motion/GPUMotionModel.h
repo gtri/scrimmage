@@ -85,10 +85,22 @@ namespace scrimmage {
       GPUMotionModelImplementation(cl::Kernel kernel, cl::CommandQueue queue, const KernelBuildOpts& opts):
         queue_{queue},
         kernel_{kernel},
+        max_work_group_size_{queue.getInfo<CL_QUEUE_DEVICE>().getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>()},
         input_num_items_{0},
         states_{queue, CL_MEM_READ_WRITE},
         inputs_{queue, CL_MEM_READ_WRITE}
-      {}
+      {
+        kernel_.getInfo(CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, &preferred_work_group_size_multiple_);
+
+        /// Make sure these values are not 0.
+        if(preferred_work_group_size_multiple_ == 0) {
+          preferred_work_group_size_multiple_ = 64;
+        }
+
+        if(max_work_group_size_ == 0) {
+          max_work_group_size_ = 256;
+        }
+      }
 
       void add_entity(EntityPtr entity) {
         to_init_.push_back(entity);
@@ -207,11 +219,16 @@ namespace scrimmage {
         err = kernel_.setArg(3, static_cast<T>(dt));
         CL_CHECK_ERROR(err, "Error setting Kernal Args");
 
+        err = kernel_.setArg(4, static_cast<int>(num_entities));
+        CL_CHECK_ERROR(err, "Error setting Kernal Args");
+
+
+        std::size_t global_size = std::ceil(num_entities / static_cast<double>(preferred_work_group_size_multiple_))*preferred_work_group_size_multiple_;
+
         err = queue_.enqueueNDRangeKernel(kernel_,
             cl::NullRange, 
-            cl::NDRange{num_entities},
-            cl::NDRange{num_entities});
-
+            cl::NDRange{global_size},
+            cl::NDRange{preferred_work_group_size_multiple_});
         CL_CHECK_ERROR(err, "Error Executing Kernel");
         
         queue_.finish();
@@ -263,6 +280,8 @@ namespace scrimmage {
 
       cl::CommandQueue queue_;
       cl::Kernel kernel_;
+      std::size_t preferred_work_group_size_multiple_;
+      std::size_t max_work_group_size_;
       std::size_t input_num_items_;
 
       std::vector<EntityPtr> to_init_; // Buffer for initalization. Holds entities 

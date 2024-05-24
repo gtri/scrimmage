@@ -80,33 +80,36 @@ void model_to_state(fp8_t model, fp_t* state);
 
 __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
                                        fp_t t,
-                                       fp_t dt) {
+                                       fp_t dt,
+                                       int num_entities) {
   int gid, state_offset, control_offset;
-  fp_t state[STATE_NUM_PARAMS];
-  fp_t input[SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS];
-  fp8_t x; // Model Vector
-  fp8_t u; // Input Vector
-
   gid = get_global_id(0);
-  state_offset = STATE_NUM_PARAMS*gid;
-  control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
+  if(gid < num_entities) {
+    fp_t state[STATE_NUM_PARAMS];
+    fp_t input[SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS];
+    fp8_t x; // Model Vector
+    fp8_t u; // Input Vector
 
-  // Copy state/control information from global entity information to private vars.
-  for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
-    state[i] = states[state_offset + i];
-  }
+    state_offset = STATE_NUM_PARAMS*gid;
+    control_offset = SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS*gid;
 
-  for(int i = 0; i < SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS; ++i) {
-    u[i] = inputs[control_offset + i];
-  }
-  x = state_to_model(state); 
+    // Copy state/control information from global entity information to private vars.
+    for(int i = 0; i < STATE_NUM_PARAMS; ++i) {
+      state[i] = states[state_offset + i];
+    }
 
-  // Update x with rk4
-  RK4(x, u, t, dt, simple_aircraft_model);
+    for(int i = 0; i < SIMPLE_AIRCRAFT_INPUT_NUM_PARAMS; ++i) {
+      u[i] = inputs[control_offset + i];
+    }
+    x = state_to_model(state); 
 
-  model_to_state(x, state);
-  for(int i = 0; i < STATE_NUM_PARAMS; i++) {
-    states[state_offset + i] = state[i];
+    // Update x with rk4
+    RK4(x, u, t, dt, simple_aircraft_model);
+
+    model_to_state(x, state);
+    for(int i = 0; i < STATE_NUM_PARAMS; i++) {
+      states[state_offset + i] = state[i];
+    }
   }
 }
 
