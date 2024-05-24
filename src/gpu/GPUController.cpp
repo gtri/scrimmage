@@ -1,7 +1,7 @@
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/gpu/OpenCLUtils.h>
-#include <scrimmage/motion/GPUMotionModel.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 

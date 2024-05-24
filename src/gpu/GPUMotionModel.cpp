@@ -32,7 +32,8 @@
 #include <Eigen/Dense>
 
 #include <scrimmage/fwd_decl.h>
-#include <scrimmage/motion/GPUMotionModel.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
+#include <scrimmage/gpu/GPUMotionModelImplementation.h>
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>

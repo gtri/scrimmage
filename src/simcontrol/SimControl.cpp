@@ -55,7 +55,7 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/motion/GPUMotionModel.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
 #include <scrimmage/common/CSV.h>
 
 #include <scrimmage/math/State.h>
@@ -637,14 +637,14 @@ bool SimControl::run_single_step(const int& loop_number) {
     }
     stop_timer("screenshots");
 
-    //start_timer("logging");
-    //if (!run_logging()) {
-    //    if (!limited_verbosity_) {
-    //        std::cout << "Exiting due to logging exception" << std::endl;
-    //    }
-    //    return false;
-    //}
-    //stop_timer("logging");
+    start_timer("logging");
+    if (!run_logging()) {
+        if (!limited_verbosity_) {
+            std::cout << "Exiting due to logging exception" << std::endl;
+        }
+        return false;
+    }
+    stop_timer("logging");
 
     // Wait loop timer.
     // Stay in loop if currently paused.

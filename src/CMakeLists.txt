@@ -37,7 +37,7 @@ set(SRCS
   common/Waypoint.cpp
   common/WaypointListProcessor.cpp
   gpu/GPUController.cpp
-  motion/GPUMotionModel.cpp
+  gpu/GPUMotionModel.cpp
   )
 
 add_library(${LIBRARY_NAME} SHARED

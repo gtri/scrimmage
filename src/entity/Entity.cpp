@@ -46,7 +46,7 @@
 #include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 #include <scrimmage/entity/EntityPluginHelper.h>
-#include <scrimmage/motion/GPUMotionModel.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
 
 #include <iostream>
 #include <iomanip>
