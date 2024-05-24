@@ -55,9 +55,8 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/motion/GPUMotionModel.h>
-#if ENABLE_GPU_ACCELERATION == 1
-#endif
+#include <scrimmage/gpu/GPUMotionModel.h>
+#include <scrimmage/common/CSV.h>
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -637,7 +636,6 @@ bool SimControl::run_single_step(const int& loop_number) {
         }
         return false;
     }
-
     // Wait loop timer.
     // Stay in loop if currently paused.
     bool exit_loop = false;

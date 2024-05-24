@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_MOTION_GPUMOTIONMODEL_H_
-#define INCLUDE_SCRIMMAGE_MOTION_GPUMOTIONMODEL_H_
+#ifndef INCLUDE_SCRIMMAGE_MOTION_GPUMOTIONMODELIMPLEMENTATION_H_
+#define INCLUDE_SCRIMMAGE_MOTION_GPUMOTIONMODELIMPLEMENTATION_H_
 
 #include <Eigen/Dense>
 
@@ -41,6 +41,7 @@
 #include <scrimmage/gpu/GPUMapBuffer.h>
 #include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
@@ -49,17 +50,6 @@
 #include <memory>
 
 namespace scrimmage {
-
-  class GPUMotionModel {
-    public:
-      //GPUMotionModel(std::pair<cl::Kernel, cl::CommandQueue>& kernel_queue, const KernelBuildOpts& opts);
-      //GPUMotionModel(cl::Kernel kernel, cl::CommandQueue queue, const KernelBuildOpts& opts); 
-     // virtual ~GPUMotionModel() = 0;
-      virtual void add_entity(EntityPtr entity) = 0; 
-      virtual VariableIO& get_entity_input(EntityPtr entity) = 0; 
-      virtual void init_new_entities(double time) = 0;
-      virtual bool step(double time, double dt, std::size_t iterations) = 0; // Enque and exeucte kernel
-  };
 
   template<typename T>
     class GPUMotionModelImplementation : public GPUMotionModel {
@@ -85,12 +75,15 @@ namespace scrimmage {
       GPUMotionModelImplementation(cl::Kernel kernel, cl::CommandQueue queue, const KernelBuildOpts& opts):
         queue_{queue},
         kernel_{kernel},
-        max_work_group_size_{queue.getInfo<CL_QUEUE_DEVICE>().getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>()},
+        preferred_work_group_size_multiple_{0},
+        max_work_group_size_{0},
         input_num_items_{0},
         states_{queue, CL_MEM_READ_WRITE},
         inputs_{queue, CL_MEM_READ_WRITE}
       {
-        kernel_.getInfo(CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, &preferred_work_group_size_multiple_);
+        cl::Device device = queue.getInfo<CL_QUEUE_DEVICE>();
+        kernel_.getWorkGroupInfo(device, CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, &preferred_work_group_size_multiple_);
+        max_work_group_size_ = device.getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>();
 
         /// Make sure these values are not 0.
         if(preferred_work_group_size_multiple_ == 0) {
@@ -223,12 +216,10 @@ namespace scrimmage {
         CL_CHECK_ERROR(err, "Error setting Kernal Args");
 
 
-        std::size_t global_size = std::ceil(num_entities / static_cast<double>(preferred_work_group_size_multiple_))*preferred_work_group_size_multiple_;
-
         err = queue_.enqueueNDRangeKernel(kernel_,
             cl::NullRange, 
-            cl::NDRange{global_size},
-            cl::NDRange{preferred_work_group_size_multiple_});
+            cl::NDRange{num_entities},
+            cl::NDRange{num_entities});
         CL_CHECK_ERROR(err, "Error Executing Kernel");
         
         queue_.finish();
