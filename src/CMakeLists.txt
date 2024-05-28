@@ -8,6 +8,7 @@ set(LIB_RELEASE 1)
 
 set(SRCS
 <<<<<<< HEAD
+<<<<<<< HEAD
     autonomy/Autonomy.cpp
     common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
     common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
@@ -97,12 +98,13 @@ target_link_libraries(${LIBRARY_NAME}
 
 target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
-# For now force compilation with openCL
-message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
+  #message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
 if (ENABLE_GPU_ACCELERATION) 
-  #target_sources(${LIBRARY_NAME} PRIVATE
-  #  gpu/GPUController.cpp
-  #  motion/GPUMotionModel.cpp)
+  target_sources(${LIBRARY_NAME} PRIVATE
+    gpu/GPUController.cpp
+    gpu/GPUMotionModel.cpp
+    gpu/OpenCLUtils.cpp
+  )
   target_link_libraries(${LIBRARY_NAME} 
     PUBLIC
     OpenCL::OpenCL

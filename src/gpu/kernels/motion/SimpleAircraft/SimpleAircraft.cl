@@ -78,6 +78,7 @@ void model_to_state(fp8_t model, fp_t* state);
 //            state[STATE_QUAT_Z]);
 //}
 
+
 __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
                                        fp_t t,
                                        fp_t dt,

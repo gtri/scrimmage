@@ -2,7 +2,6 @@
 #define INCLUDE_SCRIMMAGE_GPU_GPUCONTROLLER_H
 
 #include <scrimmage/fwd_decl.h>
-//#include <scrimmage/gpu/KernelExecutionContext.h>
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>
@@ -56,6 +55,8 @@ namespace scrimmage {
       bool build_kernels();
       void set_kernel_sources();
       void set_compiler_options();
+
+      KernelBuildOpts get_kernel_build_opts(const std::map<std::string, std::string>& attributes) const;
 
       cl::Program::Sources read_kernels(const std::vector<std::filesystem::path>& kernel_src_dirs);
 

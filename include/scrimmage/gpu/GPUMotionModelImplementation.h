@@ -93,6 +93,8 @@ namespace scrimmage {
         if(max_work_group_size_ == 0) {
           max_work_group_size_ = 256;
         }
+
+        std::string attribute = kernel_.getInfo<CL_KERNEL_ATTRIBUTES>();
       }
 
       void add_entity(EntityPtr entity) {

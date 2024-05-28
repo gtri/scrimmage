@@ -43,10 +43,51 @@ namespace scrimmage {
     }
   }
 
-  KernelBuildOpts GPUController::get_opts(const std::map<std::string, std::string>& overrides) {
-    KernelBuildOpts opts; 
-    opts.single_precision =  scrimmage::get<bool>("single_precision", overrides, false);
-    return opts;
+  KernelBuildOpts GPUController::get_kernel_build_opts(const std::map<std::string, std::string>& attributes) const {
+    KernelBuildOpts opts;
+    opts.single_precision = scrimmage::get<bool>("single_precision", attributes, false);
+
+    std::string include_dirs_str{scrimmage::get<std::string>("include_dirs", attributes, "kernels")};
+    std::string src_dirs_str{scrimmage::get<std::string>("src_dirs", attributes, "kernels")};
+    std::string preferred_platforms_str{scrimmage::get<std::string>("platforms", attributes, "")};
+
+    std::vector<std::string> include_dirs = scrimmage::str2container<std::vector<std::string>>(include_dirs_str, ",");
+    std::vector<std::string> src_dirs = scrimmage::str2container<std::vector<std::string>>(src_dirs_str, ",");
+
+    opts.preferred_platforms = scrimmage::str2container<std::vector<std::string>>(preferred_platforms_str, ",");
+    
+    auto to_path = [&](std::string filename) -> std::optional<fs::path> {
+      filename = scrimmage::expand_user(filename);
+      if(!fs::exists(filename) && !kernel_dir_.empty()) {
+        // The kernel_dir is not part of the recursive iteration below. Explicitly check if it matches
+        if(kernel_dir_.stem() == filename) {
+          return std::optional<fs::path>{kernel_dir_};
+        }
+        fs::recursive_directory_iterator kernel_dir{kernel_dir_};
+        for(auto dir_entry: kernel_dir) {
+          if(dir_entry.is_directory() && dir_entry.path().stem() == filename) {
+            return std::optional<fs::path>{dir_entry.path()};
+          }
+        }
+      }
+      return std::nullopt;
+    };
+
+    std::vector<std::optional<fs::path>> include_dir_opts; 
+    std::vector<std::optional<fs::path>> src_dir_opts; 
+
+    std::transform(include_dirs.cbegin(), include_dirs.cend(), std::back_inserter(include_dir_opts), to_path);
+    std::transform(src_dirs.cbegin(), src_dirs.cend(), std::back_inserter(src_dir_opts), to_path);
+
+    for(auto include_dir_opt : include_dir_opts) {
+      if(include_dir_opt.has_value()) {opts.include_dirs.push_back(include_dir_opt.value()); }
+    }
+
+    for(auto src_dir_opt : src_dir_opts) {
+      if(src_dir_opt.has_value()) {opts.src_dirs.push_back(src_dir_opt.value()); }
+    }
+
+    return opts; 
   }
 
   std::map<std::string, GPUMotionModelPtr> GPUController::build_motion_models(MissionParsePtr mp) {
@@ -54,7 +95,6 @@ namespace scrimmage {
     namespace fs = std::filesystem;
     std::map<std::string, GPUMotionModelPtr> motion_models;
     for(auto ent_descs : mp->entity_descriptions()) {
-      KernelBuildOpts opts;
       std::map<std::string, std::string>& descriptor = ent_descs.second;
       std::string motion_model_name = descriptor["gpu_motion_model"];
       if (motion_model_name == "") {
@@ -65,50 +105,13 @@ namespace scrimmage {
         continue;
       }
       std::map<std::string, std::string> motion_model_attributes = mp->attributes()[motion_model_name];
-      opts.single_precision = scrimmage::get<bool>("single_precision", motion_model_attributes, false);
+      KernelBuildOpts opts = get_kernel_build_opts(motion_model_attributes);
       std::string kernel_name = scrimmage::get<std::string>("kernel_name", motion_model_attributes, "");
-
-      std::string include_dirs_str{scrimmage::get<std::string>("include_dirs", motion_model_attributes, "kernels")};
-      std::string src_dirs_str{scrimmage::get<std::string>("src_dirs", motion_model_attributes, "kernels")};
-
-      std::vector<std::string> include_dirs = scrimmage::str2container<std::vector<std::string>>(include_dirs_str, ",");
-      std::vector<std::string> src_dirs = scrimmage::str2container<std::vector<std::string>>(src_dirs_str, ",");
-
-      auto to_path = [&](std::string filename) -> std::optional<fs::path> {
-        filename = scrimmage::expand_user(filename);
-        if(!fs::exists(filename) && !kernel_dir_.empty()) {
-          // The kernel_dir is not part of the recursive iteration below. Explicitly check if it matches
-          if(kernel_dir_.stem() == filename) {
-            return std::optional<fs::path>{kernel_dir_};
-          }
-          fs::recursive_directory_iterator kernel_dir{kernel_dir_};
-          for(auto dir_entry: kernel_dir) {
-            if(dir_entry.is_directory() && dir_entry.path().stem() == filename) {
-              return std::optional<fs::path>{dir_entry.path()};
-            }
-          }
-        }
-        return std::nullopt;
-      };
-
-      std::vector<std::optional<fs::path>> include_dir_opts; 
-      std::vector<std::optional<fs::path>> src_dir_opts; 
-
-      std::transform(include_dirs.cbegin(), include_dirs.cend(), std::back_inserter(include_dir_opts), to_path);
-      std::transform(src_dirs.cbegin(), src_dirs.cend(), std::back_inserter(src_dir_opts), to_path);
-
-      for(auto include_dir_opt : include_dir_opts) {
-        if(include_dir_opt.has_value()) {opts.include_dirs.push_back(include_dir_opt.value()); }
-      }
-
-      for(auto src_dir_opt : src_dir_opts) {
-        if(src_dir_opt.has_value()) {opts.src_dirs.push_back(src_dir_opt.value()); }
-      }
 
       std::optional<std::pair<cl::Kernel, cl::CommandQueue>> kernel_queue_opt = build_kernel(kernel_name, opts);
       if (kernel_queue_opt.has_value()) {
         auto kernel_queue = kernel_queue_opt.value();
-        GPUMotionModelPtr motion_model = scrimmage::make_gpu_motion_model(kernel_queue.first, kernel_queue.second, opts);
+        GPUMotionModelPtr motion_model = OpenCLUtils::make_gpu_motion_model(kernel_queue.first, kernel_queue.second, opts);
         motion_models[motion_model_name] = motion_model;
       }
     }
@@ -219,7 +222,7 @@ namespace scrimmage {
     }
 
     if (device_map.size() == 0 && !opts.single_precision) {
-      std::cerr << "Warning: No Platform found that supports fp64. Try enabling f32 only." << std::endl;
+      std::cerr << "Warning: No Platform found that supports double precision. Try enabling single precision." << std::endl;
       return std::nullopt;
     }
 
@@ -234,7 +237,7 @@ namespace scrimmage {
     } else {
       for(std::string preferred_platform : opts.preferred_platforms) { 
         if(device_map.count(preferred_platform) == 0) {
-          std::cerr << "Warning: No Platform named " << preferred_platform << " found. Available Platforms are:\n";
+          std::cerr << "Warning: No Platform named " << preferred_platform << " found.\n";
         } else {
           std::vector<cl::Device>& platform_devices = device_map[preferred_platform];
           usable_devices.insert(usable_devices.end(), platform_devices.begin(), platform_devices.end());
@@ -254,9 +257,9 @@ namespace scrimmage {
         cl_int err;
         cl_uint max_clock_freq = device.getInfo<CL_DEVICE_MAX_CLOCK_FREQUENCY>(&err);
         if(OpenCLUtils::check_error(err, "Error querying device MAX_CLOCK_FREQUENCY")) {
-          max_clock_freq =  std::numeric_limits<cl_uint>::min();  // Still need to return something, but will not picked
-                                                                  // as the device with the highest clock frequency
-          }
+        max_clock_freq =  std::numeric_limits<cl_uint>::min();  // Still need to return something, but will not picked
+                                                                // as the device with the highest clock frequency
+        }
         return std::pair{max_clock_freq, device};
         });
 

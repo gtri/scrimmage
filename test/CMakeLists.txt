@@ -21,7 +21,7 @@ set(test_files
   test_xml_parsers.cpp
   )
 
-if(OpenCL_FOUND)
+  if(ENABLE_GPU_ACCELERATION)
   set(test_files ${test_files} 
     test_gpu_mapbuffer.cpp
     test_compare_gpu_cpu_motion_models.cpp
