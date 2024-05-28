@@ -36,8 +36,7 @@ set(SRCS
   common/GlobalService.cpp
   common/Waypoint.cpp
   common/WaypointListProcessor.cpp
-  gpu/GPUController.cpp
-  gpu/GPUMotionModel.cpp
+  #gpu/GPUController.cpp
   )
 
 add_library(${LIBRARY_NAME} SHARED
@@ -71,12 +70,13 @@ target_link_libraries(${LIBRARY_NAME}
   Boost::chrono
   )
 
-# For now force compilation with openCL
-message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
+  #message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
 if (ENABLE_GPU_ACCELERATION) 
-  #target_sources(${LIBRARY_NAME} PRIVATE
-  #  gpu/GPUController.cpp
-  #  motion/GPUMotionModel.cpp)
+  target_sources(${LIBRARY_NAME} PRIVATE
+    gpu/GPUController.cpp
+    gpu/GPUMotionModel.cpp
+    gpu/OpenCLUtils.cpp
+  )
   target_link_libraries(${LIBRARY_NAME} 
     PUBLIC
     OpenCL::OpenCL

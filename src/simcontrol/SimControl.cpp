@@ -54,9 +54,12 @@
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/CSV.h>
+
+#if ENABLE_GPU_ACCELERATION == 1
 #include <scrimmage/gpu/GPUController.h>
 #include <scrimmage/gpu/GPUMotionModel.h>
-#include <scrimmage/common/CSV.h>
+#endif
 
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
@@ -622,9 +625,11 @@ bool SimControl::run_single_step(const int& loop_number) {
     
     // Sync the motion model with sim execution so all values are properly initalized 
     // prior to stepping
+#if ENABLE_GPU_ACCELERATION == 1
     for(auto gpu_motion_model_pair : gpu_motion_models_) {
       gpu_motion_model_pair.second->init_new_entities(t);
     }
+#endif
 
     if (screenshot_task_.update(t_).first) {
         request_screenshot();
@@ -1659,10 +1664,13 @@ bool SimControl::run_entities() {
             }
         }
     }
+#if ENABLE_GPU_ACCELERATION == 1
     for(auto gpu_motion_model_pair : gpu_motion_models_) {
       GPUMotionModelPtr gpu_motion_model = gpu_motion_model_pair.second;
       gpu_motion_model->step(t_, dt_, mp_->motion_multiplier());
     }
+#endif
+
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // run motion model
         auto step_all = [&](Task::Type type, auto getter) {
