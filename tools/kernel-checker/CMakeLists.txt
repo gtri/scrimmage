@@ -1,9 +1,6 @@
 set (APP_NAME kernel-checker)
 
-file (GLOB SRCS *.cpp)
-file (GLOB HDRS *.h)
-
-add_executable(${APP_NAME} ${SRCS})
+add_executable(${APP_NAME} kernel_checker.cpp)
 
 target_link_libraries(${APP_NAME}
   OpenCL::OpenCL)
