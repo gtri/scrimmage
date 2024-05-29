@@ -36,48 +36,6 @@ fp8_t simple_aircraft_model(fp8_t x, fp8_t u, fp_t t);
 fp8_t state_to_model(fp_t* state);
 void model_to_state(fp8_t model, fp_t* state);
 
-//void print_model_input(fp8_t model, fp8_t inputs, fp_t t) {
-//    printf("t=%0.16f------------\nModel:\n\tX: %0.16f\n\tY: %0.16f\n\tZ: %0.16f\n\tRoll: %0.16f\n\tPitch: %0.16f\n\tYaw: %0.16f\n\tSpeed: %0.16f\n",
-//        t,
-//        model[SIMPLE_AIRCRAFT_MODEL_X],
-//        model[SIMPLE_AIRCRAFT_MODEL_Y],
-//        model[SIMPLE_AIRCRAFT_MODEL_Z],
-//        model[SIMPLE_AIRCRAFT_MODEL_ROLL],
-//        model[SIMPLE_AIRCRAFT_MODEL_PITCH],
-//        model[SIMPLE_AIRCRAFT_MODEL_YAW],
-//        model[SIMPLE_AIRCRAFT_MODEL_SPEED]);
-//
-//    printf("Inputs:\n\t:Thrust: %f\n\tRoll Rate: %f\n\tPitch Rate: %f\n",
-//        inputs[SIMPLE_AIRCRAFT_INPUT_THRUST],
-//        inputs[SIMPLE_AIRCRAFT_INPUT_ROLL_RATE],
-//        inputs[SIMPLE_AIRCRAFT_INPUT_PITCH_RATE]);
-//    
-//}
-//
-//void print_state(fp_t state[STATE_NUM_PARAMS]) {
-//    printf("State:\n\t"
-//            "X: %f\n\t"
-//            "Y: %f\n\t"
-//            "Z: %f\n\t"
-//            "Vx: %f\n\t"
-//            "Vy: %f\n\t"
-//            "Vz: %f\n\t"
-//            "Qw: %f\n\t"
-//            "Qx: %f\n\t"
-//            "Qy: %f\n\t"
-//            "Qz: %f\n\n",
-//            state[STATE_X], 
-//            state[STATE_Y], 
-//            state[STATE_Z], 
-//            state[STATE_X_VEL], 
-//            state[STATE_Y_VEL], 
-//            state[STATE_Z_VEL], 
-//            state[STATE_QUAT_W], 
-//            state[STATE_QUAT_X], 
-//            state[STATE_QUAT_Y], 
-//            state[STATE_QUAT_Z]);
-//}
-
 
 __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
                                        fp_t t,

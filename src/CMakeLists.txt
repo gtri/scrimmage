@@ -36,7 +36,6 @@ set(SRCS
   common/GlobalService.cpp
   common/Waypoint.cpp
   common/WaypointListProcessor.cpp
-  #gpu/GPUController.cpp
   )
 
 add_library(${LIBRARY_NAME} SHARED
@@ -74,7 +73,6 @@ target_link_libraries(${LIBRARY_NAME}
 if (ENABLE_GPU_ACCELERATION) 
   target_sources(${LIBRARY_NAME} PRIVATE
     gpu/GPUController.cpp
-    gpu/GPUMotionModel.cpp
     gpu/OpenCLUtils.cpp
   )
   target_link_libraries(${LIBRARY_NAME} 
