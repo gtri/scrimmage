@@ -34,6 +34,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cstdint>
 
 namespace scrimmage {
 

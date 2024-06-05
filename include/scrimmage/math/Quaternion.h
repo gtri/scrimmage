@@ -35,6 +35,7 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+#include <cstdint>
 
 namespace scrimmage {
 
