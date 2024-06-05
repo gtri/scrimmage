@@ -535,7 +535,7 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
         Moments_torque + Moments_gyro;
 
     if (POSTLAUNCH != launch_state_) {
-        Moments_total == Eigen::Vector3d::Zero();
+        Moments_total = Eigen::Vector3d::Zero();
     }
 
     // Calculate rotational velocites
