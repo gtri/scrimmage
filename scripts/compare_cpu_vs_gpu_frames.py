@@ -237,12 +237,15 @@ def main():
         vel_eps_err.append(vel_abs_err[-1] / (vel_eps))
 
     pos_rmse = np.sqrt(np.mean(np.power(pos_abs_err, 2)))
+    pos_max = np.max(pos_abs_err)
     vel_rmse = np.sqrt(np.mean(np.power(vel_abs_err, 2)))
+    vel_max = np.max(pos_abs_err)
     quat_rmse = np.sqrt(np.mean(np.power(quat_abs_err, 2)))
 
     print("Position RMSE: {}".format(pos_rmse))
+    print("Position Max Error: {}".format(pos_max))
     print("Velocity RMSE: {}".format(vel_rmse))
-    print("Quaternion RMSE: {}".format(quat_rmse))
+    print("Velocity Max Error: {}".format(vel_max))
 
     fig_abs, ax_abs = plt.subplots()
     ax_abs.plot(time, pos_abs_err, label="Position")
@@ -263,6 +266,9 @@ def main():
     ax_abs.set_xlabel("Simulation Time")
     ax_abs.set_ylabel("Rel. Error")
     fig_rel.savefig(os.environ['HOME'] + '/trajectory_rel_error_plot.png')
+
+    print("Max Position Relative Error: {}".format(np.max(pos_rel_err)))
+    print("Max Velocity Relative Error: {}".format(np.max(vel_rel_err)))
 
     fig_eps, ax_eps = plt.subplots()
     #ax_eps.plot(time, pos_eps_err, label="Position")
