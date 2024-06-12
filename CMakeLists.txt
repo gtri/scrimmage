@@ -305,7 +305,6 @@ else()
   add_definitions(-DENABLE_AIRSIM=0)
 endif()
 
-
 ########################################################
 # Recurse into src, share, and plugins
 ########################################################

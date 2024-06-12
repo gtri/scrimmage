@@ -46,15 +46,23 @@ class ShapeDraw : public scrimmage::Autonomy {
     bool step_autonomy(double t, double dt) override;
 
  protected:
+    void draw_circle(double t, double dt);
+    void draw_sphere(double t, double dt);
     void draw_ellipse(double t, double dt);
     void draw_cuboid(double t, double dt);
     void draw_mesh(double t, double dt);
+    void draw_line(double t, double dt);
+    void draw_polyline(double t, double dt);
     int follow_id_;
     bool init_;
 
+    scrimmage_proto::ShapePtr circle_shape_;
+    scrimmage_proto::ShapePtr sphere_shape_;
     scrimmage_proto::ShapePtr ellipse_shape_;
     scrimmage_proto::ShapePtr cuboid_shape_;
     scrimmage_proto::ShapePtr mesh_shape_;
+    scrimmage_proto::ShapePtr line_shape_;
+    scrimmage_proto::ShapePtr polyline_shape_;
 };
 } // namespace autonomy
 } // namespace scrimmage

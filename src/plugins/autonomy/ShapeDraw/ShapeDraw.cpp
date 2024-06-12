@@ -66,15 +66,23 @@ void ShapeDraw::init(std::map<std::string, std::string> &params) {
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
 
+    circle_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
     ellipse_shape_ = std::make_shared<scrimmage_proto::Shape>();
     cuboid_shape_ = std::make_shared<scrimmage_proto::Shape>();
     mesh_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    line_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    polyline_shape_ = std::make_shared<scrimmage_proto::Shape>();
 }
 
 bool ShapeDraw::step_autonomy(double t, double dt) {
+    draw_circle(t, dt);
+    draw_sphere(t, dt);
     draw_ellipse(t, dt);
     draw_cuboid(t, dt);
     draw_mesh(t, dt);
+    draw_line(t, dt);
+    draw_polyline(t, dt);
 
     return true;
 }
@@ -127,12 +135,79 @@ void ShapeDraw::draw_mesh(double t, double dt) {
                         sc::Angles::deg2rad(45.0),
                         sc::Angles::deg2rad(90.0));
     sc::set(mesh_shape_->mutable_mesh()->mutable_quat(), quat);
-    mesh_shape_->mutable_mesh()->set_scale(10.0);
+    mesh_shape_->mutable_mesh()->set_scale(10);
     sc::set(mesh_shape_->mutable_color(), 255, 255, 255);
 
     mesh_shape_->set_persistent(true);
 
     draw_shape(mesh_shape_);
+}
+
+void ShapeDraw::draw_line(double t, double dt) {
+    line_shape_->set_opacity(1.0);
+    sc::set(line_shape_->mutable_line()->mutable_start(), 0, 0, 0);
+    sc::set(line_shape_->mutable_line()->mutable_end(), 200, 0, 0);
+    // corresponds to zephyr-red.xml
+    line_shape_->mutable_line()->set_width(2);
+
+    sc::set(line_shape_->mutable_color(), 0, 255, 255);
+    line_shape_->set_persistent(true);
+    draw_shape(line_shape_);
+}
+
+void ShapeDraw::draw_polyline(double t, double dt) {
+    polyline_shape_->set_opacity(1.0);
+    sc::set(polyline_shape_->mutable_color(), 255, 0, 255);
+    polyline_shape_->set_persistent(true);
+
+    double x = 0;
+    double y = 0;
+    double sgn = 1;
+    polyline_shape_->mutable_polyline()->clear_point();
+    for (int i=0; i<10; ++i) {
+      auto line = polyline_shape_->mutable_polyline()->add_point();
+      // zigzag
+      sc::set(line, x, y, 20);
+      y += 50;
+      x += sgn * 30;
+      sgn *= -1;
+    }
+    draw_shape(polyline_shape_);
+}
+
+void ShapeDraw::draw_circle(double t, double dt) {
+    circle_shape_->set_opacity(1.0);
+    if (t > 5) {
+        std::cout << "Setting circle opacity to low to hide it!" << std::endl;
+        circle_shape_->set_opacity(0.01);
+    }
+
+    circle_shape_->mutable_circle()->set_radius(10);
+
+    sc::Quaternion quat(sc::Angles::deg2rad(0.0),
+                        sc::Angles::deg2rad(0.0),
+                        sc::Angles::deg2rad(45.0));
+    sc::set(circle_shape_->mutable_circle()->mutable_quat(), quat);
+
+    circle_shape_->set_persistent(true);
+    sc::set(circle_shape_->mutable_circle()->mutable_center(), -20, -20, 0);
+    sc::set(circle_shape_->mutable_color(), 0, 0, 255);
+    draw_shape(circle_shape_);
+}
+
+void ShapeDraw::draw_sphere(double t, double dt) {
+    sphere_shape_->set_opacity(1.0);
+    if (t > 5) {
+        std::cout << "Setting sphere opacity to low to hide it!" << std::endl;
+        sphere_shape_->set_opacity(0.01);
+    }
+
+    sphere_shape_->mutable_sphere()->set_radius(20);
+
+    sphere_shape_->set_persistent(true);
+    sc::set(sphere_shape_->mutable_sphere()->mutable_center(), -20, -20, 0);
+    sc::set(sphere_shape_->mutable_color(), 0, 0, 255);
+    draw_shape(sphere_shape_);
 }
 
 } // namespace autonomy
