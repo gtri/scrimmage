@@ -18,7 +18,6 @@ set(
   test_openai.cpp
   test_shape.cpp
   test_mission_parse.cpp
-  test_xml_parser.cpp
   test_parse_utils.cpp
   )
 

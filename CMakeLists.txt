@@ -346,22 +346,6 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   ############################################################
 
   # Download and unpack googletest at configure time
-  #if (NOT TARGET gtest_main)
-  #  configure_file(${PROJECT_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
-  #    googletest-download/CMakeLists.txt)
-  #  execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  #    RESULT_VARIABLE result
-  #    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
-  #  if(result)
-  #    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-  #  endif()
-  #  execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  #    RESULT_VARIABLE result
-  #    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
-  #  if(result)
-  #    message(FATAL_ERROR "Build step for googletest failed: ${result}")
-  #  endif()
-
   FetchContent_Declare(
       googletest
       GIT_REPOSITORY  https://github.com/google/googletest.git      
@@ -370,21 +354,10 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
       GIT_PROGRESS    true
       )
 
-  #  FetchContent_Declare(
-  #      googletest
-  #      URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
-  #      )
-
     # Prevent overriding the parent project's compiler/linker
     # settings on Windows
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(googletest)
-
-    # Add googletest directly to our build. This defines
-    # the gtest and gtest_main targets.
-    #add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
-    #                 ${PROJECT_BINARY_DIR}/googletest-build)
-    #endif()
 
   add_subdirectory(test)
 endif()
