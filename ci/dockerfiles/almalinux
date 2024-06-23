@@ -4,6 +4,8 @@ MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
+RUN useradd -r rhel
+# USER rhel
 # Setup directories to work in
 RUN mkdir -p /root/installs /root/rpms /root/3rd-party
 
@@ -22,40 +24,46 @@ RUN dnf -y update && dnf clean all && dnf -y install \
     rpmlint \
     dnf-utils \
     bzip2-devel \
-    procps
+    procps \
+    openssl \
+    sudo
 
 ###############################################################################
 # Install FPM
 ###############################################################################
 # get the ruby version manager and install
-RUN command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-RUN command curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
-RUN curl -L get.rvm.io | bash -s stable
-RUN source /etc/profile.d/rvm.sh
+RUN gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+RUN curl -sSL http://get.rvm.io | bash -s stable
 
-# install ruby 1.9.3
-RUN source /etc/profile.d/rvm.sh && rvm requirements || true
-RUN source /etc/profile.d/rvm.sh && rvm install 3.0 || true
-RUN source /etc/profile.d/rvm.sh && rvm use 3.0 --default || true
+RUN usermod -a -G rvm root \
+    && usermod -a -G rvm rhel
+
+# USER rhel
+
+RUN source /etc/profile.d/rvm.sh \
+    && rvm pkg install libyaml \
+    && rvm install ruby 3.3.3 \
+    && sudo gem install fpm
+
+# USER root
 
 # install rubygems
 RUN source /etc/profile.d/rvm.sh && rvm rubygems current
 
-# install effing package manager
-RUN source /etc/profile.d/rvm.sh && gem install fpm
-
+USER root
 ###############################################################################
 # The PREFIX used for all built RPM packages
 ARG PKG_PREFIX=/opt/scrimmage
 
 ###############################################################################
-# Install gcc 7.2.0
+# Install gcc 11.3.0
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN wget https://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.xz \
-    && tar xJvf gcc-7.2.0.tar.xz
+RUN wget --no-check-certificate http://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz \
+    && tar xJvf gcc-11.3.0.tar.xz
 
-WORKDIR gcc-7.2.0
+ WORKDIR gcc-11.3.0
+RUN sed -i 's/wget/wget --secure-protocol tlsv1/g' ./contrib/download_prerequisites
 RUN ./contrib/download_prerequisites \
     && ./configure --disable-multilib --enable-languages=c,c++ --prefix=${PKG_PREFIX} \
     && make -j 8 \
@@ -64,10 +72,10 @@ RUN ./contrib/download_prerequisites \
 # Build RPM package, install RPM, test installation
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/gcc \
     && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-gcc --version 7.2.0 \
+           --name scrimmage-gcc --version 11.3.0 \
            --package scrimmage_gcc_VERSION_ARCH.rpm ./ \
     && rpm -ivh /root/installs/gcc/*.rpm \
-    && echo "${PKG_PREFIX}/lib64" > /etc/ld.so.conf.d/scrimmage-gcc72.conf \
+    && echo "${PKG_PREFIX}/lib64" > /etc/ld.so.conf.d/scrimmage-gcc113.conf \
     && ldconfig \
     && ${PKG_PREFIX}/bin/gcc --version
 
@@ -87,7 +95,7 @@ ENV PKG_CONFIG_PATH ${PKG_PREFIX}/lib/pkgconfig
 WORKDIR /root/3rd-party
 RUN git clone https://github.com/Kitware/CMake.git
 WORKDIR CMake
-RUN git checkout v3.5.1
+RUN git checkout release
 
 RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
     ./bootstrap --prefix=${PKG_PREFIX} \
@@ -95,40 +103,40 @@ RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
     && make DESTDIR=/root/installs/cmake install
 
 # Build RPM package for cmake
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/cmake \
+RUN cd /root/installs/cmake \
     && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-cmake --version 3.5.1 \
+           --name scrimmage-cmake --version 3.30.0 \
            --package scrimmage_cmake_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/cmake/*.rpm \
-    && cmake --version
+    && rpm -ivh --nodigest --nofiledigest /root/installs/cmake/*.rpm \
+    && /root/3rd-party/CMake/bin/cmake --version
 
 ###############################################################################
 # Build Python
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN wget https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz
-RUN tar xvf Python-2.7.12.tgz
-WORKDIR Python-2.7.12
+RUN wget https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tgz
+RUN tar xvf Python-3.12.4.tgz
+WORKDIR Python-3.12.4
 RUN LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib:\$$ORIGIN/../lib64' \
     ./configure --prefix=${PKG_PREFIX} --enable-shared --enable-unicode=ucs4 \
     && make -j $(($(nproc)-1)) && make DESTDIR=/root/installs/python install
 
 # Build RPM package for python
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/python \
-    && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-python --version 2.7.12 \
-           --package scrimmage_python_VERSION_ARCH.rpm ./ \
-    && rpm -ivh /root/installs/python/*.rpm \
-    && python --version
+# RUN source /etc/profile.d/rvm.sh && cd /root/installs/python \
+#    && fpm --force --input-type dir --output-type rpm \
+#           --name scrimmage-python --version Python-3.12.4 \
+#           --package scrimmage_python_VERSION_ARCH.rpm ./ \
+#    && rpm -ivh --nodigest --nofiledigest /root/installs/python/*.rpm \
+#    && python --version
 
 ###############################################################################
 # Build Boost
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN wget http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz
-RUN tar xvf boost_1_58_0.tar.gz
-WORKDIR boost_1_58_0
-RUN echo "using gcc : 7.2 : ${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
+RUN wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.85.0/boost_1_85_0.tar.gz
+RUN tar xvf boost_1_85_0.tar.gz
+WORKDIR boost_1_85_0
+RUN echo "using gcc : 11.3 : ${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
     && cp ./tools/build/example/user-config.jam ./tools/build/src/user-config.jam
 
 RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX} \
@@ -138,9 +146,9 @@ RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX} \
 # Build RPM package for boost
 RUN source /etc/profile.d/rvm.sh && cd /root/installs/boost \
     && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-boost --version 1.58 \
+           --name scrimmage-boost --version 1.85 \
            --package scrimmage_boost_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/boost/*.rpm
+    && rpm -ivh --nodigest --nofiledigest /root/installs/boost/*.rpm
 
 # Help other projects find boost
 ENV BOOST_ROOT ${PKG_PREFIX}
@@ -160,7 +168,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/eigen \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-eigen --version 3.3.4 \
            --package scrimmage_eigen_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/eigen/*.rpm
+    && rpm -ivh --nodigest --nofiledigest /root/installs/eigen/*.rpm
 
 ###############################################################################
 # Build GeographicLib
@@ -178,7 +186,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/geographiclib \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-geographiclib --version 1.45 \
            --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/geographiclib/*.rpm
+    && rpm --nodigest --nofiledigest -ivh /root/installs/geographiclib/*.rpm
 
 ###############################################################################
 # RapidXML Package
@@ -195,7 +203,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/rapidxml \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-rapidxml --version 1.00 \
            --package scrimmage_rapidxml_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/rapidxml/*.rpm
+    && rpm --nodigest --nofiledigest -ivh /root/installs/rapidxml/*.rpm
 
 ###############################################################################
 # Build PyBind11
@@ -212,7 +220,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/pybind11 \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-pybind11 --version 2.2.3 \
            --package scrimmage_pybind11_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/pybind11/*.rpm
+    && rpm --nodigest --nofiledigest -ivh /root/installs/pybind11/*.rpm
 
 ###############################################################################
 # Build Protobuf
@@ -231,7 +239,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/protobuf \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-protobuf --version 3.3.0 \
            --package scrimmage_protobuf_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/protobuf/*.rpm
+    && rpm --nodigest --nofiledigest -ivh /root/installs/protobuf/*.rpm
 
 ###############################################################################
 # Build GRPC
@@ -253,7 +261,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/grpc \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-grpc --version 1.2.1 \
            --package scrimmage_grpc_VERSION_ARCH.rpm ./ \
-    && rpm -ivh --force /root/installs/grpc/*.rpm
+    && rpm --nodigest --nofiledigest -ivh --force /root/installs/grpc/*.rpm
 
 ###############################################################################
 # Clone and Setup CMakeDebSrc
@@ -279,7 +287,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/jsbsim \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-jsbsim --version 0.1.0 \
            --package scrimmage_jsbsim_VERSION_ARCH.rpm ./ \
-    && rpm -ivh /root/installs/jsbsim/*.rpm
+    && rpm --nodigest --nofiledigest -ivh /root/installs/jsbsim/*.rpm
 
 ###############################################################################
 # Build VTK
@@ -296,9 +304,9 @@ RUN git clone https://github.com/Kitware/VTK.git \
     && git checkout v6.2.0
 
 # Apply patch to allow gcc 7.2.0
-RUN sed -i 's/345/3457/g' ./VTK/CMake/vtkCompilerExtras.cmake && \
-    sed -i 's/ARGS//g' ./VTK/CMake/vtkCompilerExtras.cmake && \
-    sed -i 's/345/3457/g' ./VTK/CMake/GenerateExportHeader.cmake
+# RUN sed -i 's/345/3457/g' ./VTK/CMake/vtkCompilerExtras.cmake && \
+#    sed -i 's/ARGS//g' ./VTK/CMake/vtkCompilerExtras.cmake && \
+#    sed -i 's/345/3457/g' ./VTK/CMake/GenerateExportHeader.cmake
 
 RUN cd VTK \
     && mkdir build \
@@ -312,7 +320,7 @@ RUN source /etc/profile.d/rvm.sh && cd /root/installs/vtk \
     && fpm --force --input-type dir --output-type rpm \
            --name scrimmage-vtk --version 6.2.0 \
            --package scrimmage_vtk_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh /root/installs/vtk/*.rpm
+    && rpm --nodigest --nofiledigest -ivh /root/installs/vtk/*.rpm
 
 ###############################################################################
 # Build SCRIMMAGE
