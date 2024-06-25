@@ -34,7 +34,7 @@
 #include <scrimmage/parse/XMLParser/XMLParser.h>
 #include <rapidxml/rapidxml.hpp>
 
-#include <memory>
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -95,7 +95,7 @@ namespace scrimmage {
 
   class RapidXMLParserDocument : public XMLParserDocument<RapidXMLParserDocument> {
     public:
-      bool parse_document(const std::string& filename);
+      bool parse_document(std::filesystem::path path);
       bool parse_document(std::vector<char>& filecontent);
       RapidXMLParserNode find_first_node(const std::string& name);
       RapidXMLParserNode find_first_node();

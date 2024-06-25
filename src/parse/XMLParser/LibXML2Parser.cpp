@@ -36,6 +36,8 @@
 #include <libxml/tree.h>
 #include <libxml/xinclude.h>
 
+#include <cassert>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -151,24 +153,24 @@ namespace scrimmage {
     xmlFreeDoc(doc_);
   }
 
-  bool LibXML2ParserDocument::parse_document(const std::string& filename) {
-    std::ifstream file(filename.c_str());
+  bool LibXML2ParserDocument::parse_document(std::filesystem::path path) {
+    namespace fs = std::filesystem;
+    if (fs::is_symlink(path)) {
+      path = fs::read_symlink(path); 
+    }
+    assert(fs::exists(path) && fs::is_regular_file(path));
+    std::ifstream file(path);
     std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
     std::string filecontent_str = buffer.str(); 
     std::vector<char> filecontent(filecontent_str.cbegin(), filecontent_str.cend());
-    filename_ = filename;
+    filename_ = path.string();
     return parse_document(filecontent);
   }
 
   bool LibXML2ParserDocument::parse_document(std::vector<char>& filecontent) {
     LIBXML_TEST_VERSION;
-    //doc_ = xmlReadMemory(filecontent.data(),
-    //    filecontent.size(),
-    //    filename_.c_str(),
-    //    NULL,
-    //    LibXML2ParserDocument::PARSING_OPTIONS);
     doc_ = xmlReadFile(filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
     if (doc_ != nullptr) {
       int ret = xmlXIncludeProcess(doc_);

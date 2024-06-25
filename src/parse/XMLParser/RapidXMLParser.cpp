@@ -104,13 +104,19 @@ bool RapidXMLParserNode::is_valid_node() {
   return node_ != nullptr;
 }
 
-bool RapidXMLParserDocument::parse_document(const std::string& filename) {
-    std::ifstream file(filename.c_str());
+bool RapidXMLParserDocument::parse_document(std::filesystem::path path) {
+    namespace fs = std::filesystem;
+    if (fs::is_symlink(path)) {
+      path = fs::read_symlink(path); 
+    }
+    assert(fs::exists(path) && fs::is_regular_file(path));
+    std::ifstream file(path);
     std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
     std::string filecontent_str = buffer.str(); 
     std::vector<char> filecontent(filecontent_str.cbegin(), filecontent_str.cend());
+    filename_ = path.string();
     return parse_document(filecontent);
 }
 

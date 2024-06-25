@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_XMLPARSER_H 
 #define INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_XMLPARSER_H 
 
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -128,8 +129,8 @@ class XMLParserDocument {
   public:
     using XMLNode = typename XMLParserTraits<T>::child;
     
-    bool parse(const std::string& filename) {
-      return static_cast<T*>(this)->parse_document(filename);   
+    bool parse(const std::filesystem::path& path) {
+      return static_cast<T*>(this)->parse_document(path);   
     }
 
     bool parse(std::vector<char>& filecontent) {
