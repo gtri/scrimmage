@@ -1,24 +1,24 @@
-set(
-  test_files
-  test_csv.cpp
+set(test_files
   test_algorithms.cpp
   test_angles.cpp
   test_collisions.cpp
+  test_csv.cpp
   test_delayed_task.cpp
+  test_entity_configs.cpp
   test_exponential_filter.cpp
   test_find_mission.cpp
   test_id.cpp
+  test_mission_parse.cpp
+  test_openai.cpp
   test_params.cpp
+  test_parse_utils.cpp
   test_quaternion.cpp
   test_rtree.cpp
+  test_shape.cpp
   test_simple.cpp
   test_state.cpp
   test_utilities.cpp
-  test_entity_configs.cpp
-  test_openai.cpp
-  test_shape.cpp
-  test_mission_parse.cpp
-  test_parse_utils.cpp
+  test_xml_parsers.cpp
   )
 
 if (NOT ENABLE_PYTHON_BINDINGS)
