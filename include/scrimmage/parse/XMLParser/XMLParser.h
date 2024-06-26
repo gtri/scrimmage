@@ -83,7 +83,7 @@ namespace scrimmage {
       /*
        * Iterates over only the siblings of a node
        */
-      class SiblingIterator {
+      class ChildIterator {
         public:
           using iterator_category = std::forward_iterator_tag;
           using difference_type   = std::ptrdiff_t;
@@ -91,41 +91,37 @@ namespace scrimmage {
           using pointer           = T*;
           using reference         = T&;
 
-          SiblingIterator(T* node): node_{node} {}
-          SiblingIterator(const SiblingIterator& other): node_{other.node_} {}
-          ~SiblingIterator();
+          ChildIterator(T node): node_{node} {}
+          ChildIterator(const ChildIterator& other): node_{other.node_} {}
+          ~ChildIterator() {}
 
-          reference operator*() const { return *node_; }
-          pointer operator->() { return node_; }
+          reference operator*() { return node_; }
+          pointer operator->() { return &node_; }
 
-          SiblingIterator& operator++() {
-            node_ = &node_->next_sibling();
-            if(node_ != nullptr && !node_->is_valid()) {
-              node_ = nullptr;
+          ChildIterator& operator++() {
+            node_ = node_.next_sibling();
+            if(!node_.is_valid()) {
+              node_ = T{nullptr};
             }
             return *this;
           }
 
-          SiblingIterator& operator++(int) {
-            SiblingIterator& old{*this};
+          ChildIterator& operator++(int) {
+            ChildIterator& old{*this};
             ++(*this);
             return old;
           }
 
-          friend bool operator==(const SiblingIterator& lhs, const SiblingIterator& rhs) {
-            return (lhs.node_ == rhs.node_) || (!lhs->is_valid() && !rhs->is_valid()); 
+          friend bool operator==(const ChildIterator& lhs, const ChildIterator& rhs) {
+            return (lhs.node_ == rhs.node_) || (!lhs.node_.is_valid() && !rhs.node_.is_valid()); 
           }
 
-          friend bool operator!=(const SiblingIterator& lhs, const SiblingIterator& rhs) {
-            return (lhs.node_ != rhs.node_) && (lhs->is_valid() || rhs->is_valid()); 
+          friend bool operator!=(const ChildIterator& lhs, const ChildIterator& rhs) {
+            return (lhs.node_ != rhs.node_) && (lhs.node_.is_valid() || rhs.node_.is_valid()); 
           }
 
         private: 
-          bool is_valid() {
-            return node_ != nullptr && node_->is_valid();
-          }
-
-          T* node_;
+          T node_;
       };
 
       /*
@@ -140,7 +136,7 @@ namespace scrimmage {
           using pointer           = T*;
           using reference         = T&;
 
-          RecursiveIterator(T* node):
+          RecursiveIterator(T node):
             node_{node}
           {}
 
@@ -148,28 +144,29 @@ namespace scrimmage {
             node_{other.node_}, 
             ancestors_{other.ancestors_}
           {}
-          ~RecursiveIterator();
+          ~RecursiveIterator() {};
 
-          reference operator*() const { return *node_; }
-          pointer operator->() { return node_; }
+          reference operator*() { return node_; }
+          pointer operator->() { return &node_; }
 
           RecursiveIterator& operator++() {
-            T* child = node_->get_first_node();
-            T* sibling = node_->get_next_sibling();
-            if (child != nullptr && child->is_valid()) {
+            T child = node_.get_first_node();
+            T sibling = node_.get_next_sibling();
+            if (child.is_valid()) {
               ancestors_.push_back(node_);
               node_ = child;
-            } else if (sibling != nullptr && sibling->is_valid()) {
+            } else if (sibling.is_valid()) {
               node_ = sibling;
             } else {
               // No child or sibling. 
-              node_ = nullptr;
-              while(!ancestors_.empty() && (node_ == nullptr || !node_->is_valid())) {
-                T* parent = ancestors_.pop_back();
-                node_ = parent->get_next_sibling();   
+              node_ = T{nullptr};
+              while(!ancestors_.empty() && (!node_.is_valid())) {
+                T parent = ancestors_.back();
+                ancestors_.pop_back();
+                node_ = parent.get_next_sibling();   
               }
             }
-            if (node_ != nullptr && !node_->is_valid()) { node_ = nullptr; }
+            if (!node_.is_valid()) { node_ = T{nullptr}; }
             return *this;
           }
 
@@ -180,11 +177,11 @@ namespace scrimmage {
           }
 
           friend bool operator==(const RecursiveIterator& lhs, const RecursiveIterator& rhs) {
-            return (lhs.node_ == rhs.node_) || (!lhs->is_valid() && !rhs->is_valid()); 
+            return (lhs.node_ == rhs.node_) || (!lhs.node_.is_valid() && !rhs.node_.is_valid()); 
           }
 
           friend bool operator!=(const RecursiveIterator& lhs, const RecursiveIterator& rhs) {
-            return (lhs.node_ != rhs.node_) && (lhs->is_valid() || rhs->is_valid()); 
+            return !(lhs == rhs);
           }
 
 
@@ -193,8 +190,8 @@ namespace scrimmage {
             return node_ != nullptr && node_->is_valid();
           }
 
-          T* node_;
-          std::vector<T*> ancestors_;
+          T node_;
+          std::vector<T> ancestors_;
       };
 
       T first_node(const std::string& name) {
@@ -237,8 +234,35 @@ namespace scrimmage {
         return static_cast<T*>(this)->node_value();
       }
 
-      bool is_valid() {
-        return static_cast<T*>(this)->is_valid_node();
+      ChildIterator begin() {
+        return ChildIterator{first_node()};
+      }
+
+      ChildIterator end() {
+        return ChildIterator{nullptr};
+      }
+
+      RecursiveIterator recur_begin() {
+        return RecursiveIterator{first_node()};
+      }
+
+      RecursiveIterator recur_end() {
+        return RecursiveIterator{nullptr};
+      }
+
+      bool is_valid() const {
+        return static_cast<const T*>(this)->is_valid_node();
+      }
+
+      friend bool operator==(const XMLParserNode& lhs, const XMLParserNode& rhs) {
+        const T* lhs_ptr = static_cast<const T*>(&lhs);
+        const T* rhs_ptr = static_cast<const T*>(&rhs);
+
+        return (*lhs_ptr == *rhs_ptr) || (!lhs.is_valid() && !rhs.is_valid());
+      }
+
+      friend bool operator!=(const XMLParserNode& lhs, const XMLParserNode& rhs) {
+        return !(lhs == rhs);
       }
     };
 
@@ -246,7 +270,8 @@ namespace scrimmage {
     class XMLParserDocument {
       public:
         using XMLNode = typename XMLParserTraits<T>::child;
-        using NodeSiblingIterator = typename XMLNode::SiblingIterator;
+        using NodeChildIterator = typename XMLNode::ChildIterator;
+        using NodeRecursiveIterator = typename XMLNode::RecursiveIterator;
 
         bool parse(const std::filesystem::path& path) {
           return static_cast<T*>(this)->parse_document(path);   
@@ -264,12 +289,20 @@ namespace scrimmage {
           return static_cast<T*>(this)->find_first_node();
         }
 
-        NodeSiblingIterator begin() {
-          return NodeSiblingIterator{&first_node()};
+        NodeChildIterator begin() {
+          return NodeChildIterator{first_node()};
         }
 
-        NodeSiblingIterator end() {
-          return NodeSiblingIterator{nullptr};
+        NodeChildIterator end() {
+          return NodeChildIterator{nullptr};
+        }
+
+        NodeRecursiveIterator recur_begin() {
+          return NodeRecursiveIterator{first_node()};
+        }
+
+        NodeRecursiveIterator recur_end() {
+          return NodeRecursiveIterator{nullptr};
         }
 
         void set_filename(const std::string& filename) {

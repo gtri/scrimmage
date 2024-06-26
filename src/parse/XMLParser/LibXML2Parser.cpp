@@ -135,17 +135,17 @@ namespace scrimmage {
     return LibXML2ParserAttribute{node_->properties};
   }
 
-  std::string LibXML2ParserNode::node_name() {
+  std::string LibXML2ParserNode::node_name() const {
     return std::string{reinterpret_cast<const char*>(node_->name)};
   }
 
-  std::string LibXML2ParserNode::node_value() {
+  std::string LibXML2ParserNode::node_value() const {
     // Some nodes many not have values
     const char* value = reinterpret_cast<const char*>(xmlNodeGetContent(node_));
     return std::string{(value != nullptr) ? value : ""};
   }
 
-  bool LibXML2ParserNode::is_valid_node() {
+  bool LibXML2ParserNode::is_valid_node() const {
     return node_ != nullptr;
   }
 

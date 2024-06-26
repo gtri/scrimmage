@@ -81,10 +81,14 @@ namespace scrimmage {
       LibXML2ParserAttribute get_first_attribute(const std::string& name);
       LibXML2ParserAttribute get_first_attribute();
 
-      std::string node_name();
-      std::string node_value();
+      std::string node_name() const;
+      std::string node_value() const;
 
-      bool is_valid_node();
+      bool is_valid_node() const;
+
+      friend bool operator==(const LibXML2ParserNode& lhs, const LibXML2ParserNode& rhs) {
+        return lhs.node_ == rhs.node_;
+      }
 
     protected:
       xmlNodePtr node_;

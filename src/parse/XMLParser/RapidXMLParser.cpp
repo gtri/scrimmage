@@ -92,15 +92,15 @@ RapidXMLParserAttribute RapidXMLParserNode::get_first_attribute() {
   return RapidXMLParserAttribute{node_->first_attribute()};
 }
 
-std::string RapidXMLParserNode::node_name() {
+std::string RapidXMLParserNode::node_name() const {
   return std::string{node_->name(), node_->name_size()};
 }
 
-std::string RapidXMLParserNode::node_value() {
+std::string RapidXMLParserNode::node_value() const {
   return std::string{node_->value(), node_->value_size()};
 }
 
-bool RapidXMLParserNode::is_valid_node() {
+bool RapidXMLParserNode::is_valid_node() const {
   return node_ != nullptr;
 }
 

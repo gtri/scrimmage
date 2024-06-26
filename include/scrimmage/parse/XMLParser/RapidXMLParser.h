@@ -79,10 +79,14 @@ namespace scrimmage {
       RapidXMLParserAttribute get_first_attribute(const std::string& name);
       RapidXMLParserAttribute get_first_attribute();
 
-      std::string node_name();
-      std::string node_value();
+      std::string node_name() const;
+      std::string node_value() const;
 
-      bool is_valid_node();
+      bool is_valid_node() const;
+
+      friend bool operator==(const RapidXMLParserNode& lhs, const RapidXMLParserNode& rhs) {
+        return lhs.node_ == rhs.node_;
+      }
 
     protected:
       rapidxml::xml_node<>* node_;
