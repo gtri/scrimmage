@@ -73,20 +73,20 @@ RUN sudo make DESTDIR=/root/installs/gcc install
 
 # Build RPM package, install RPM, test installation
 RUN source /etc/profile.d/rvm.sh 
-# RUN cd /root/installs/gcc
-RUN cd /
+RUN cd /root/installs/gcc
+RUN mkdir -p ./opt/scrimmage
 RUN fpm --force --input-type dir --output-type rpm \
         --name scrimmage-gcc --version 11.3.0 \
-        --package scrimmage_gcc_VERSION_ARCH.rpm /root/installs/gcc
+        --package scrimmage_gcc_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
 # RUN cd /
-RUN sudo rpm -ivh --root=/ /root/3rd-party/gcc-11.3.0/*.rpm
+RUN sudo rpm -ivh --prefix=/ /root/3rd-party/gcc-11.3.0/*.rpm
 RUN echo "${PKG_PREFIX}/lib64" > /etc/ld.so.conf.d/scrimmage-gcc113.conf
 RUN ldconfig
-RUN ${PKG_PREFIX}/bin/gcc --version
+RUN /root/installs/gcc/${PKG_PREFIX}/bin/gcc --version
 
 # Use the new compiler for the following builds
-ENV CC ${PKG_PREFIX}/bin/gcc
-ENV CXX ${PKG_PREFIX}/bin/g++
+ENV CC /root/installs/gcc/${PKG_PREFIX}/bin/gcc
+ENV CXX /root/installs/gcc/${PKG_PREFIX}/bin/g++
 
 # Update standard environment variables
 ENV PATH="${PKG_PREFIX}/bin:${PATH}"
@@ -141,7 +141,7 @@ WORKDIR /root/3rd-party
 RUN wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.85.0/boost_1_85_0.tar.gz
 RUN tar xvf boost_1_85_0.tar.gz
 WORKDIR boost_1_85_0
-RUN echo "using gcc : 11.3 : ${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
+RUN echo "using gcc : 11.3 : /root/installs/gcc/${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
     && cp ./tools/build/example/user-config.jam ./tools/build/src/user-config.jam
 
 RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX} \
@@ -149,11 +149,11 @@ RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX} \
     && sudo ./b2 install
 
 # Build RPM package for boost
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/boost \
-    && fpm --force --input-type dir --output-type rpm \
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/boost
+RUN fpm --force --input-type dir --output-type rpm \
            --name scrimmage-boost --version 1.85 \
-           --package scrimmage_boost_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh --nodigest --nofiledigest /root/installs/boost/*.rpm
+           --package scrimmage_boost_VERSION_ARCH.rpm ./
+RUN rpm -ivh --nodigest --nofiledigest /root/3rd-party/boost_1_85_0/*.rpm
 
 # Help other projects find boost
 ENV BOOST_ROOT ${PKG_PREFIX}
@@ -169,11 +169,13 @@ RUN mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
     && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/eigen install
 
 # Build RPM package for eigen
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/eigen \
-    && fpm --force --input-type dir --output-type rpm \
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/eigen
+WORKDIR /root/installs/eigen
+RUN fpm --force --input-type dir --output-type rpm \
+           -C /root/installs/eigen/ \
            --name scrimmage-eigen --version 3.3.4 \
-           --package scrimmage_eigen_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm -ivh --nodigest --nofiledigest /root/installs/eigen/*.rpm
+           --package scrimmage_eigen_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
+RUN rpm -ivh --force --nodigest --nofiledigest /root/installs/eigen/*.rpm
 
 ###############################################################################
 # Build GeographicLib
@@ -187,11 +189,12 @@ RUN git checkout v1.45 && mkdir build && cd build \
     && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/geographiclib install
 
 # Build RPM package for geographiclib
-RUN source /etc/profile.d/rvm.sh && cd /root/installs/geographiclib \
-    && fpm --force --input-type dir --output-type rpm \
+RUN source /etc/profile.d/rvm.sh && cd /root/installs/geographiclib
+RUN fpm --force --input-type dir --output-type rpm \
+           -C /root/installs/geographiclib/ \
            --name scrimmage-geographiclib --version 1.45 \
-           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
-    && rpm --nodigest --nofiledigest -ivh /root/installs/geographiclib/*.rpm
+           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} 
+RUN rpm --nodigest --nofiledigest -ivh /root/installs/geographiclib/*.rpm
 
 ###############################################################################
 # RapidXML Package
