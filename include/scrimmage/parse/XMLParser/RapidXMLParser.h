@@ -44,16 +44,20 @@ namespace scrimmage {
     public:
       RapidXMLParserAttribute(rapidxml::xml_attribute<>* attribute);
 
-      RapidXMLParserAttribute next_attribute(const std::string& name);
-      RapidXMLParserAttribute next_attribute();
+      RapidXMLParserAttribute next_attribute(const std::string& name) const;
+      RapidXMLParserAttribute next_attribute() const;
 
-      RapidXMLParserAttribute prev_attribute(const std::string& name);
-      RapidXMLParserAttribute prev_attribute();
+      RapidXMLParserAttribute prev_attribute(const std::string& name) const;
+      RapidXMLParserAttribute prev_attribute() const;
 
-      std::string attribute_name();
-      std::string attribute_value();
+      std::string attribute_name() const;
+      std::string attribute_value() const;
 
-      bool is_valid_attribute();
+      bool is_valid_attribute() const;
+      
+      friend bool operator==(const RapidXMLParserAttribute& lhs, const RapidXMLParserAttribute& rhs) {
+        return lhs.attribute_ == rhs.attribute_;
+      }
 
     protected:
       rapidxml::xml_attribute<>* attribute_;
@@ -69,15 +73,17 @@ namespace scrimmage {
 
       RapidXMLParserNode(rapidxml::xml_node<>* node); 
 
-      RapidXMLParserNode get_first_node(const std::string& name);
-      RapidXMLParserNode get_first_node();
-      RapidXMLParserNode get_next_sibling(const std::string& name);
-      RapidXMLParserNode get_next_sibling();
-      RapidXMLParserNode get_prev_sibling(const std::string& name);
-      RapidXMLParserNode get_prev_sibling();
+      RapidXMLParserNode get_first_node(const std::string& name) const;
+      RapidXMLParserNode get_first_node() const;
 
-      RapidXMLParserAttribute get_first_attribute(const std::string& name);
-      RapidXMLParserAttribute get_first_attribute();
+      RapidXMLParserNode get_next_sibling(const std::string& name) const;
+      RapidXMLParserNode get_next_sibling() const;
+
+      RapidXMLParserNode get_prev_sibling(const std::string& name) const;
+      RapidXMLParserNode get_prev_sibling() const;
+
+      RapidXMLParserAttribute get_first_attribute(const std::string& name) const;
+      RapidXMLParserAttribute get_first_attribute() const;
 
       std::string node_name() const;
       std::string node_value() const;
@@ -101,8 +107,9 @@ namespace scrimmage {
     public:
       bool parse_document(std::filesystem::path path);
       bool parse_document(std::vector<char>& filecontent);
-      RapidXMLParserNode find_first_node(const std::string& name);
-      RapidXMLParserNode find_first_node();
+
+      RapidXMLParserNode find_first_node(const std::string& name) const;
+      RapidXMLParserNode find_first_node() const;
 
     protected:
       std::vector<char> filecontent_;

@@ -46,16 +46,20 @@ namespace scrimmage {
     public:
       LibXML2ParserAttribute(xmlAttrPtr attribute);
 
-      LibXML2ParserAttribute next_attribute(const std::string& name);
-      LibXML2ParserAttribute next_attribute();
+      LibXML2ParserAttribute next_attribute(const std::string& name) const;
+      LibXML2ParserAttribute next_attribute() const;
 
-      LibXML2ParserAttribute prev_attribute(const std::string& name);
-      LibXML2ParserAttribute prev_attribute();
+      LibXML2ParserAttribute prev_attribute(const std::string& name) const;
+      LibXML2ParserAttribute prev_attribute() const;
 
-      std::string attribute_name();
-      std::string attribute_value();
+      std::string attribute_name() const;
+      std::string attribute_value() const;
 
-      bool is_valid_attribute();
+      bool is_valid_attribute() const;
+
+      friend bool operator==(const LibXML2ParserAttribute& lhs, const LibXML2ParserAttribute& rhs) {
+        return lhs.attribute_ == rhs.attribute_;  
+      }
 
     protected:
       xmlAttrPtr attribute_;
@@ -70,16 +74,18 @@ namespace scrimmage {
     public:
 
       LibXML2ParserNode(xmlNodePtr node);
+ 
+      LibXML2ParserNode get_first_node(const std::string& name) const ;
+      LibXML2ParserNode get_first_node() const;
 
-      LibXML2ParserNode get_first_node(const std::string& name);
-      LibXML2ParserNode get_first_node();
-      LibXML2ParserNode get_next_sibling(const std::string& name);
-      LibXML2ParserNode get_next_sibling();
-      LibXML2ParserNode get_prev_sibling(const std::string& name);
-      LibXML2ParserNode get_prev_sibling();
+      LibXML2ParserNode get_next_sibling(const std::string& name) const;
+      LibXML2ParserNode get_next_sibling() const;
 
-      LibXML2ParserAttribute get_first_attribute(const std::string& name);
-      LibXML2ParserAttribute get_first_attribute();
+      LibXML2ParserNode get_prev_sibling(const std::string& name) const;
+      LibXML2ParserNode get_prev_sibling() const;
+
+      LibXML2ParserAttribute get_first_attribute(const std::string& name) const;
+      LibXML2ParserAttribute get_first_attribute() const;
 
       std::string node_name() const;
       std::string node_value() const;
@@ -104,13 +110,14 @@ namespace scrimmage {
       ~LibXML2ParserDocument();
       bool parse_document(std::filesystem::path path);
       bool parse_document(std::vector<char>& filecontent);
-      LibXML2ParserNode find_first_node(const std::string& name);
-      LibXML2ParserNode find_first_node();
+      LibXML2ParserNode find_first_node(const std::string& name) const;
+      LibXML2ParserNode find_first_node() const;
 
     protected:
       static constexpr int PARSING_OPTIONS = XML_PARSE_XINCLUDE | XML_PARSE_NOBLANKS; 
 
       xmlDocPtr doc_;
+      std::vector<char> filecontents_;
   };
 
   using LibXML2Parser = LibXML2ParserDocument;

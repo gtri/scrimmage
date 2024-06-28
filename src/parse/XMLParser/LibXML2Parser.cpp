@@ -48,7 +48,7 @@ namespace scrimmage {
   LibXML2ParserAttribute::LibXML2ParserAttribute(xmlAttrPtr attribute): 
     attribute_(attribute) {}
 
-  LibXML2ParserAttribute LibXML2ParserAttribute::next_attribute(const std::string& name) {
+  LibXML2ParserAttribute LibXML2ParserAttribute::next_attribute(const std::string& name) const {
     xmlAttrPtr cur_attr = nullptr;
     const xmlChar* search_name = reinterpret_cast<const xmlChar*>(name.data());
     for(cur_attr = attribute_->next; cur_attr != nullptr; cur_attr = cur_attr->next) {
@@ -58,26 +58,26 @@ namespace scrimmage {
     return LibXML2ParserAttribute{cur_attr};
   }
 
-  LibXML2ParserAttribute LibXML2ParserAttribute::next_attribute() {
+  LibXML2ParserAttribute LibXML2ParserAttribute::next_attribute() const {
     return LibXML2ParserAttribute{attribute_->next};
   }
 
-  std::string LibXML2ParserAttribute::attribute_name() {
+  std::string LibXML2ParserAttribute::attribute_name() const {
     return std::string{reinterpret_cast<const char*>(attribute_->name)};
   }
 
-  std::string LibXML2ParserAttribute::attribute_value() {
+  std::string LibXML2ParserAttribute::attribute_value() const {
     return std::string{reinterpret_cast<const char*>(
         xmlNodeListGetString(attribute_->doc, attribute_->children, 1))};
   }
 
-  bool LibXML2ParserAttribute::is_valid_attribute() {
+  bool LibXML2ParserAttribute::is_valid_attribute() const {
     return attribute_ != nullptr;
   }
 
   LibXML2ParserNode::LibXML2ParserNode(xmlNodePtr node): node_(node) {}
 
-  LibXML2ParserNode LibXML2ParserNode::get_first_node(const std::string& name) {
+  LibXML2ParserNode LibXML2ParserNode::get_first_node(const std::string& name) const {
     xmlNode* cur_node = nullptr;
     const xmlChar* search_name = reinterpret_cast<const xmlChar*>(name.data());
     if(is_valid_node()) {
@@ -91,7 +91,7 @@ namespace scrimmage {
     return LibXML2ParserNode{cur_node};
   }
 
-  LibXML2ParserNode LibXML2ParserNode::get_first_node() {
+  LibXML2ParserNode LibXML2ParserNode::get_first_node() const {
     xmlNode* cur_node = nullptr;
     if(is_valid_node()) {
     for (cur_node = node_->children; cur_node != nullptr; cur_node = cur_node->next) {
@@ -101,7 +101,7 @@ namespace scrimmage {
     return LibXML2ParserNode{ cur_node };
   }
 
-  LibXML2ParserNode LibXML2ParserNode::get_next_sibling(const std::string& name) {
+  LibXML2ParserNode LibXML2ParserNode::get_next_sibling(const std::string& name) const {
     xmlNodePtr cur_node = nullptr;
     const xmlChar* search_name = reinterpret_cast<const xmlChar*>(name.data());
     for (cur_node = node_->next; cur_node != nullptr; cur_node = cur_node->next) {
@@ -111,7 +111,7 @@ namespace scrimmage {
     return LibXML2ParserNode{cur_node};
   }
 
-  LibXML2ParserNode LibXML2ParserNode::get_next_sibling() {
+  LibXML2ParserNode LibXML2ParserNode::get_next_sibling() const {
     xmlNodePtr cur_node = nullptr;
     for (cur_node = node_->next; cur_node != nullptr; cur_node = cur_node->next) {
       if(cur_node->type == XML_ELEMENT_NODE) { break; }
@@ -119,7 +119,7 @@ namespace scrimmage {
     return LibXML2ParserNode{cur_node};
   }
 
-  LibXML2ParserAttribute LibXML2ParserNode::get_first_attribute(const std::string& name) {
+  LibXML2ParserAttribute LibXML2ParserNode::get_first_attribute(const std::string& name) const {
     xmlAttrPtr cur_attr = nullptr;
     const xmlChar* search_name = reinterpret_cast<const xmlChar*>(name.data());
     for(cur_attr = node_->properties; cur_attr != nullptr; cur_attr = cur_attr->next) {
@@ -131,7 +131,7 @@ namespace scrimmage {
     return LibXML2ParserAttribute{cur_attr};
   }
 
-  LibXML2ParserAttribute LibXML2ParserNode::get_first_attribute() {
+  LibXML2ParserAttribute LibXML2ParserNode::get_first_attribute() const {
     return LibXML2ParserAttribute{node_->properties};
   }
 
@@ -140,9 +140,10 @@ namespace scrimmage {
   }
 
   std::string LibXML2ParserNode::node_value() const {
-    // Some nodes many not have values
-    const char* value = reinterpret_cast<const char*>(xmlNodeGetContent(node_));
-    return std::string{(value != nullptr) ? value : ""};
+    char* value = reinterpret_cast<char*>(xmlNodeGetContent(node_));
+    std::string value_str = std::string{(value != nullptr) ? value : ""};
+    xmlFree(value);
+    return value_str;
   }
 
   bool LibXML2ParserNode::is_valid_node() const {
@@ -151,6 +152,7 @@ namespace scrimmage {
 
   LibXML2ParserDocument::~LibXML2ParserDocument() {
     xmlFreeDoc(doc_);
+    xmlCleanupParser();
   }
 
   bool LibXML2ParserDocument::parse_document(std::filesystem::path path) {
@@ -164,9 +166,9 @@ namespace scrimmage {
     buffer << file.rdbuf();
     file.close();
     std::string filecontent_str = buffer.str(); 
-    std::vector<char> filecontent(filecontent_str.cbegin(), filecontent_str.cend());
+    filecontents_.assign(filecontent_str.cbegin(), filecontent_str.cend());
     filename_ = path.string();
-    return parse_document(filecontent);
+    return parse_document(filecontents_);
   }
 
   bool LibXML2ParserDocument::parse_document(std::vector<char>& filecontent) {
@@ -180,7 +182,7 @@ namespace scrimmage {
     }
   }
 
-  LibXML2ParserNode LibXML2ParserDocument::find_first_node(const std::string& name) {
+  LibXML2ParserNode LibXML2ParserDocument::find_first_node(const std::string& name) const {
     xmlNodePtr cur_node = nullptr;
     const xmlChar* search_name = reinterpret_cast<const xmlChar*>(name.data());
     for(cur_node = doc_->children; cur_node != nullptr; cur_node = cur_node->next) {
@@ -190,7 +192,7 @@ namespace scrimmage {
     return LibXML2ParserNode{cur_node}; 
   }
 
-  LibXML2ParserNode LibXML2ParserDocument::find_first_node() {
+  LibXML2ParserNode LibXML2ParserDocument::find_first_node() const {
     xmlNodePtr cur_node = nullptr;
     for(cur_node = doc_->children; cur_node != nullptr; cur_node = cur_node->next) {
       if(cur_node->type == XML_ELEMENT_NODE) { break; }
