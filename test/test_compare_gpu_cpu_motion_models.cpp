@@ -103,7 +103,8 @@ class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
 // Relative to this source file
 INSTANTIATE_TEST_SUITE_P(Missions, TestMotionModels, testing::Values(
       CompareMissions{"./test_missions/straight_cpu.xml", "./test_missions/straight_gpu.xml"},
-      CompareMissions{"./test_missions/straight_cpu.xml", "./test_missions/straight_gpu_threaded.xml"}
+      CompareMissions{"./test_missions/straight_cpu_threaded.xml", "./test_missions/straight_gpu_threaded.xml"},
+      CompareMissions{"./test_missions/straight_cpu_mul.xml", "./test_missions/straight_gpu_mul.xml"}
       )
     );
 

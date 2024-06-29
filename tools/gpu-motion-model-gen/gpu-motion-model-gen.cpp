@@ -6,7 +6,6 @@
 #include <numeric>
 #include <sstream>
 #include <fstream>
-#include <map>
 #include <regex>
 #include <vector>
 
@@ -18,7 +17,6 @@ struct EnumDef {
 
   const std::regex name_regex{R"_((enum\s+)([a-zA-Z]+\w*)(\s+\{))_"};
   const std::regex enumeration_regex{R"_(([a-zA-Z]+\w*(\s*=\s*[^\s,\}]+)?)(?=(,|\s*\})))_"};
-
 
   bool init(const std::string& raw) {
     // Only expect named enums
