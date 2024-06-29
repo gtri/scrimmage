@@ -51,8 +51,6 @@
 
 namespace fs = std::filesystem;
 
-// This test may fail depending on hardware
-
 struct CompareMissions {
   std::string cpu_filename;
   std::string gpu_filename;
@@ -65,9 +63,10 @@ class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
         // Strip current srcfile stem to get src dir to search
         fs::path filepath{filename}; 
         if (!fs::exists(filepath) && filepath.extension() == ".xml") {
+          // Look in the scrimmage mission directory for files 
+
           fs::path src_file{__FILE__};
           fs::path src_dir = src_file.parent_path();
-          src_dir /= "test_missions";
 
           fs::recursive_directory_iterator dir_it{src_dir};
           for(auto& dir_ent : dir_it) {
@@ -82,6 +81,9 @@ class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
         }
         return std::nullopt;
       };
+        
+      // First make sure the env is sourced
+      ASSERT_NE(std::getenv("SCRIMMAGE_KERNEL_PATH"), nullptr);
 
       CompareMissions cm = GetParam();
       auto cpu_mission_path_opt = find_test_mission(cm.cpu_filename);
@@ -98,8 +100,12 @@ class TestMotionModels : public ::testing::TestWithParam<CompareMissions> {
     fs::path cpu_mission_path, gpu_mission_path;
 };
 
+// Relative to this source file
 INSTANTIATE_TEST_SUITE_P(Missions, TestMotionModels, testing::Values(
-      CompareMissions{"straight_cpu.xml", "straight_gpu.xml"}));
+      CompareMissions{"./test_missions/straight_cpu.xml", "./test_missions/straight_gpu.xml"},
+      CompareMissions{"./test_missions/straight_cpu.xml", "./test_missions/straight_gpu_threaded.xml"}
+      )
+    );
 
 TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
   using scrimmage::Log, scrimmage_proto::Frame, scrimmage_proto::Contact, scrimmage_proto::State;
@@ -143,8 +149,8 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
   };
 
   // run_test is older, and produces a boost::optional
-  boost::optional<std::string> cpu_log_dir = scrimmage::run_test(cpu_mission_path.string());
-  auto gpu_log_dir = scrimmage::run_test(gpu_mission_path.string());
+  boost::optional<std::string> cpu_log_dir = scrimmage::run_test(cpu_mission_path.string(), false, false);
+  auto gpu_log_dir = scrimmage::run_test(gpu_mission_path.string(), false, false);
 
   ASSERT_TRUE(cpu_log_dir && gpu_log_dir);
   ASSERT_EQ(get_mission_seed(cpu_log_dir.value()), get_mission_seed(gpu_log_dir.value()));

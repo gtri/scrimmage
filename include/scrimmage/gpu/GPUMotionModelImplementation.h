@@ -98,8 +98,10 @@ namespace scrimmage {
       }
 
       void add_entity(EntityPtr entity) {
-        to_init_.push_back(entity);
-        vars_.try_emplace(entity);
+        entity_mutex_.lock();
+          to_init_.push_back(entity);
+          vars_.try_emplace(entity);
+        entity_mutex_.unlock();
       }
 
       VariableIO& get_entity_input(EntityPtr entity) {
@@ -160,7 +162,7 @@ namespace scrimmage {
           VariableIO& model_input = vars_[entity];
 
           // We only need to copy state information when a new entity is added.
-          // Otherwise the state information of the device is consistant 
+          // Otherwise the state information of the device is consistent 
           // with the host, and we just copy that data back to the host after 
           // every step.
           StatePtr state = entity->state_truth();
@@ -283,6 +285,8 @@ namespace scrimmage {
       std::map<EntityPtr, VariableIO> vars_; // Maps entities to their motion model inputs
       GPUMapBuffer<T> states_, inputs_;
 
+      std::mutex entity_mutex_;
+      std::mutex state_mutex_;
     };
 
   std::shared_ptr<GPUMotionModel> make_gpu_motion_model(
