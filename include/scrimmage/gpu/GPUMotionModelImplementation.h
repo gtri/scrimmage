@@ -204,20 +204,26 @@ namespace scrimmage {
         // Copy motion_inputs to mem objects and execute kenrnels
         cl_int err;
 
+        iterations = std::max(1ul, iterations);
+        dt /= iterations;
+
         err = kernel_.setArg(0, states.device_buffer()); 
-        CL_CHECK_ERROR(err, "Error setting Kernal Args");
+        CL_CHECK_ERROR(err, "Error setting Motion Model State Input Argument");
 
         err = kernel_.setArg(1, inputs.device_buffer()); 
-        CL_CHECK_ERROR(err, "Error setting Kernal Args");
+        CL_CHECK_ERROR(err, "Error setting Motion Model Controller Inputer Argument");
 
         err = kernel_.setArg(2, static_cast<T>(time)); 
-        CL_CHECK_ERROR(err, "Error setting Kernal Args");
+        CL_CHECK_ERROR(err, "Error setting time for kernel motion model");
 
         err = kernel_.setArg(3, static_cast<T>(dt));
-        CL_CHECK_ERROR(err, "Error setting Kernal Args");
+        CL_CHECK_ERROR(err, "Error setting DT for kernel motion model");
 
         err = kernel_.setArg(4, static_cast<int>(num_entities));
-        CL_CHECK_ERROR(err, "Error setting Kernal Args");
+        CL_CHECK_ERROR(err, "Error setting number of entities for kernel motion model");
+
+        err = kernel_.setArg(5, static_cast<int>(iterations));
+        CL_CHECK_ERROR(err, "Error setting number of iterations for kernel motion model");
 
 
         err = queue_.enqueueNDRangeKernel(kernel_,

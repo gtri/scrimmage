@@ -40,7 +40,8 @@ void model_to_state(fp8_t model, fp_t* state);
 __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs, 
                                        fp_t t,
                                        fp_t dt,
-                                       int num_entities) {
+                                       int num_entities,
+                                       int num_iterations) {
   int gid, state_offset, control_offset;
   gid = get_global_id(0);
   if(gid < num_entities) {
@@ -63,7 +64,9 @@ __kernel void SimpleAircraft(__global fp_t* states, __global fp_t* inputs,
     x = state_to_model(state); 
 
     // Update x with rk4
-    RK4(x, u, t, dt, simple_aircraft_model);
+    for(int i = 0; i < num_iterations; i++) {
+      RK4(x, u, t, dt, simple_aircraft_model);
+    }
 
     model_to_state(x, state);
     for(int i = 0; i < STATE_NUM_PARAMS; i++) {
