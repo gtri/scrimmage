@@ -27,7 +27,8 @@ RUN dnf -y update && dnf clean all && dnf -y install \
     procps \
     openssl \
     golang \
-    sudo
+    sudo \
+    openssl-devel
 
 ###############################################################################
 # Install FPM
@@ -235,11 +236,24 @@ RUN fpm --force --input-type dir --output-type rpm \
 # Build Protobuf
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone https://github.com/google/protobuf.git && cd protobuf \
-    && git checkout 25.x && git submodule update --init --recursive
-WORKDIR ./protobuf
-RUN cmake . -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} -Dprotobuf_BUILD_TESTS=OFF && cmake --build . --parallel 10
-RUN make && sudo make DESTDIR=/root/installs/protobuf install
+RUN git clone -b v1.44.x https://github.com/grpc/grpc
+WORKDIR ./grpc
+RUN git submodule update --init --recursive
+
+WORKDIR ./third_party/protobuf
+RUN mkdir -p build
+WORKDIR ./build
+RUN cmake ../cmake \
+  -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
+  -DCMAKE_CXX_STANDARD=17 \
+  -Dprotobuf_BUILD_SHARED_LIBS=ON
+RUN make \
+    && sudo make DESTDIR=/root/installs/protobuf -j $(($(nproc)-1)) install \
+    && ldconfig
+
+
+# RUN ./autogen.sh && ./configure --enable-shared && \
+#     make -j$(nproc) && make -j$(nproc) check && sudo make DESTDIR=/root/installs/protobuf install && make clean && sudo ldconfig
 # Build RPM package
 WORKDIR /root/installs/protobuf
 RUN fpm --force --input-type dir --output-type rpm \
@@ -262,13 +276,21 @@ RUN sudo make install    # Install in /usr/local/ by default
 ###############################################################################
 # Build GRPC
 ###############################################################################
-WORKDIR /root/3rd-party
-RUN git clone -b v1.44.x https://github.com/grpc/grpc
-WORKDIR ./grpc
+WORKDIR /root/3rd-party/grpc
 ENV PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/scrimmage/lib64/pkgconfig/"
-RUN git submodule update --init --recursive
-COPY build_grpc_2.sh ./
-RUN sudo chmod +x build_grpc_2.sh && ./build_grpc_2.sh
+
+RUN mkdir -p cmake/build
+WORKDIR ./cmake/build
+RUN cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DgRPC_INSTALL=ON \
+  -DgRPC_BUILD_TESTS=OFF \
+  -DgRPC_SSL_PROVIDER=package \
+  -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
+  -DCMAKE_CXX_FLAGS=-std=c++17 \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE \
+  ../.. \
+  && make DESTDIR=/root/installs/grpc -j $(($(nproc)-1)) install
 
 # Build RPM package for grpc
 WORKDIR /root/installs/grpc
@@ -334,15 +356,19 @@ RUN fpm --force --input-type dir --output-type rpm \
 # Build SCRIMMAGE
 ###############################################################################
 WORKDIR /root/3rd-party/scrimmage
-RUN mkdir build && cd build \
-    && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+RUN git pull && git status
+RUN mkdir build
+WORKDIR ./build
+RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
                 -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
                 -DENABLE_LD_SO_CONF_INSTALL=OFF \
-		-DPYTHON_LIBRARY='/root/installs/python${PKG_PREFIX}/lib/libpython3.so' \
-		-DPYTHON_INCLUDE_DIR='/root/installs/python/opt/scrimmage/include/python3.12'
-RUN cd build \
-    && LD_LIBRARY_PATH=${PKG_PREFIX}/lib \
-       make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/scrimmage install
+		-DPYTHON_LIBRARY='/root/installs/python/opt/scrimmage/lib/libpython3.so' \
+		-DPYTHON_INCLUDE_DIR='/root/installs/python/opt/scrimmage/include/python3.12' \
+		-DPROTOC='/opt/scrimmage/bin/protoc' \
+		-DPROTOBUF_INCLUDE='/opt/scrimmage/lib/' \
+		-DPROTOBUF_LIBS='/opt/scrimmage/lib64/libprotobuf.so.3.19.2.0'
+RUN LD_LIBRARY_PATH=${PKG_PREFIX}/lib sudo make -j 1 \
+    && sudo make DESTDIR=/root/installs/scrimmage install
 
 # Build RPM package for scrimmage
 WORKDIR /root/installs/scrimmage
