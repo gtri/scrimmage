@@ -357,6 +357,8 @@ RUN fpm --force --input-type dir --output-type rpm \
 ###############################################################################
 WORKDIR /root/3rd-party/scrimmage
 RUN git pull && git status
+RUN git pull
+RUN git pull
 RUN mkdir build
 WORKDIR ./build
 RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
