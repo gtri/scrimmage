@@ -289,8 +289,9 @@ RUN cmake \
   -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
   -DCMAKE_CXX_FLAGS=-std=c++17 \
   -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE \
-  ../.. \
-  && make DESTDIR=/root/installs/grpc -j $(($(nproc)-1)) install
+  -DgRPC_PROTOBUF_PROVIDER=package \
+  ../..
+RUN LD_LIBRARY_PATH=${PKG_PREFIX}/lib64 make DESTDIR=/root/installs/grpc -j $(($(nproc)-1)) install
 
 # Build RPM package for grpc
 WORKDIR /root/installs/grpc
