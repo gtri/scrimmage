@@ -25,10 +25,7 @@ RUN dnf -y update && dnf clean all && dnf -y install \
     dnf-utils \
     bzip2-devel \
     procps \
-    openssl \
-    golang \
-    sudo \
-    openssl-devel
+    sudo
 
 ###############################################################################
 # Install FPM
