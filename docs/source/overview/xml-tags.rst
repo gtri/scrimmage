@@ -483,7 +483,7 @@ Including ill-formed XML Tags
 -----------------------------
 
 It is ocassionaly useful to include a collection of XML nodes that don't share a 
-common parent between themselves and the root node. This is particuaryl common
+common parent between themselves and the root node. This is particularly common
 for parameters that define simulation-wide parameters, or a collection
 of similar tags (e.g. entities). The challenge is that without the root
 ``runscript`` node, these XML nodes would not create a well-formed XML file
