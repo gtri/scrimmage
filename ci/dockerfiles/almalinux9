@@ -1,4 +1,4 @@
-FROM almalinux as builder
+FROM almalinux:9 as builder
 
 MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
@@ -384,7 +384,7 @@ RUN find /root/installs -type f -name '*.rpm' -exec mv -i {} /root/rpms \;
 ###############################################################################
 # Install packages in clean image and run a scrimmage mission
 ###############################################################################
-FROM almalinux as tester
+FROM almalinux:9 as tester
 
 MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
