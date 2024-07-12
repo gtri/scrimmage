@@ -51,6 +51,9 @@
 #include <boost/asio/placeholders.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/basic_datagram_socket.hpp>
+#include <boost/algorithm/clamp.hpp>
+
+using boost::algorithm::clamp;
 
 using std::cout;
 using std::cerr;
@@ -297,7 +300,11 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     // Global frame, roll, pitch, yaw from NED to FRU
     fdm_pkt.roll = state.quat().roll();
-    fdm_pkt.pitch = -state.quat().pitch();
+    // protected pitch
+    double pitch = asin(clamp(
+        2 * (state.quat().w() * state.quat().y() - state.quat().z() * state.quat().x()),
+        -1.0, 1.0));
+    fdm_pkt.pitch = -pitch;
     fdm_pkt.yaw = fdm_pkt.heading;
 
     if (mavproxy_mode_) {

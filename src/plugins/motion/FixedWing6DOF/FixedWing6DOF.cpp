@@ -83,9 +83,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     // Need to rotate axes by 180 degrees around X-axis SCRIMMAGE's global
     // frame uses Z-axis pointing up. Many aircraft equations of motion are
     // specified with Z-axis pointing down.
-    quat_body_ = rot_180_x_axis_ * state_->quat();
-    quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
-                   quat_body_.pitch(), quat_body_.yaw());
+    quat_body_ = rot_180_x_axis_ * sc::Quaternion(state_->quat() * rot_180_x_axis_);
     quat_body_.normalize();
 
     Eigen::Vector3d vel_body(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
@@ -277,9 +275,7 @@ bool FixedWing6DOF::step(double time, double dt) {
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
     delta_rudder_ = clamp(vars_.input(rudder_idx_), delta_rudder_min_, delta_rudder_max_);
 
-    quat_body_ = rot_180_x_axis_ * state_->quat();
-    quat_body_.set(sc::Angles::angle_pi(quat_body_.roll()+M_PI),
-                   quat_body_.pitch(), quat_body_.yaw());
+    quat_body_ = rot_180_x_axis_ * sc::Quaternion(state_->quat() * rot_180_x_axis_);
     quat_body_.normalize();
 
     Eigen::Vector3d local_lin_vel(state_->vel()(0), -state_->vel()(1), -state_->vel()(2));
@@ -381,9 +377,7 @@ bool FixedWing6DOF::step(double time, double dt) {
     Eigen::Vector3d angular_acc_FLU(angular_acc(0), -angular_acc(1), -angular_acc(2));
 
     // Rotate back to Z-axis pointing up
-    state_->quat() = rot_180_x_axis_ * quat_body_;
-    state_->quat().set(sc::Angles::angle_pi(state_->quat().roll()+M_PI),
-                       state_->quat().pitch(), state_->quat().yaw());
+    state_->quat() = rot_180_x_axis_ * sc::Quaternion(quat_body_ * rot_180_x_axis_);
     state_->quat().normalize();
 
     Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate(angular_vel);
