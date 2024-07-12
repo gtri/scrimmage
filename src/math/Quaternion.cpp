@@ -109,6 +109,12 @@ double Quaternion::pitch() const {
     return asin(2 * (w() * y() - z() * x()));
 }
 
+double Quaternion::pitch_safe() const {
+    double argument = 2 * (w() * y() - z() * x());
+    argument = argument > 1.0 ? 1.0 : (argument < -1.0 ? -1.0 : argument);
+    return asin(argument);
+}
+
 double Quaternion::yaw() const {
     return atan2(2 * (w() * z() + x() * y()),
                  1 - 2 * (pow(y(), 2) + pow(z(), 2)));

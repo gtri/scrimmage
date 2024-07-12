@@ -69,6 +69,27 @@ TEST(test_quaternion, euler_convert) {
     EXPECT_NEAR(yaw, quaternion.yaw(), 1e-10);
 }
 
+TEST(test_quaternion, pitch_safe) {
+    double roll = 0.3;
+    double pitch = 0.2;
+    double yaw = 0.1;
+    sc::Quaternion quaternion(roll, pitch, yaw);
+    EXPECT_NEAR(roll, quaternion.roll(), 1e-10);
+    EXPECT_NEAR(pitch, quaternion.pitch(), 1e-10);
+    EXPECT_NEAR(yaw, quaternion.yaw(), 1e-10);
+
+    // check overflows
+    pitch = M_PI/2;
+    quaternion.set(cos(pitch/2), 0.0, sin(pitch/2) + 1e-3, 0.0);
+    EXPECT_TRUE(std::isnan(quaternion.pitch()));
+    EXPECT_NEAR(pitch, quaternion.pitch_safe(), 1e-10);
+
+    pitch = -M_PI/2;
+    quaternion.set(cos(pitch/2), 0.0, sin(pitch/2) - 1e-3, 0.0);
+    EXPECT_TRUE(std::isnan(quaternion.pitch()));
+    EXPECT_NEAR(pitch, quaternion.pitch_safe(), 1e-10);
+}
+
 TEST(test_quaternion, frames) {
     Vector3d vec1(0, 0, 0);
     Vector3d vec2(1, 0, 1);
