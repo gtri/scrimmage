@@ -45,13 +45,13 @@ namespace scrimmage {
 
 class OriginAxes {
  public:
-  void create(int length, vtkSmartPointer<vtkRenderer> &renderer);
+    void create(int length, vtkSmartPointer<vtkRenderer> &renderer);
 
-  void remove();
+    void remove();
 
  protected:
-  vtkSmartPointer<vtkRenderer> renderer_;
-  vtkSmartPointer<vtkAxesActor> axes_;
+    vtkSmartPointer<vtkRenderer> renderer_;
+    vtkSmartPointer<vtkAxesActor> axes_;
 };
 
 }  // namespace scrimmage

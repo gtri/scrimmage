@@ -57,70 +57,70 @@ namespace sc = scrimmage;
 #endif
 
 int main(int argc, char *argv[]) {
-  // Declare the supported options.
-  po::options_description desc("Allowed options");
-  desc.add_options()("help,h", "produce help message")(
-      "plugin-name,p", po::value<std::string>(), "the plugin name")(
-      "verbose,v", "increase debugging output");
+    // Declare the supported options.
+    po::options_description desc("Allowed options");
+    desc.add_options()("help,h", "produce help message")(
+        "plugin-name,p", po::value<std::string>(), "the plugin name")(
+        "verbose,v", "increase debugging output");
 
-  po::positional_options_description p;
-  p.add("plugin-name", -1);
+    po::positional_options_description p;
+    p.add("plugin-name", -1);
 
-  po::variables_map vm;
-  po::store(
-      po::command_line_parser(argc, argv).options(desc).positional(p).run(),
-      vm);
-  po::notify(vm);
+    po::variables_map vm;
+    po::store(
+        po::command_line_parser(argc, argv).options(desc).positional(p).run(),
+        vm);
+    po::notify(vm);
 
-  if (vm.count("help")) {
-    cout << desc << "\n";
-    return 1;
-  }
+    if (vm.count("help")) {
+        cout << desc << "\n";
+        return 1;
+    }
 
-  std::map<std::string, std::string> overrides;
-  std::string plugin_name_xml;
-  if (vm.count("plugin-name")) {
-    plugin_name_xml = vm["plugin-name"].as<std::string>();
-  } else {
-    cout << "plugin-name was not set.\n";
-    return -1;
-  }
+    std::map<std::string, std::string> overrides;
+    std::string plugin_name_xml;
+    if (vm.count("plugin-name")) {
+        plugin_name_xml = vm["plugin-name"].as<std::string>();
+    } else {
+        cout << "plugin-name was not set.\n";
+        return -1;
+    }
 
-  bool verbose = vm.count("verbose");
-  sc::FileSearch file_search;
-  sc::ConfigParse config_parse;
-  config_parse.set_required("library");
-  if (!config_parse.parse(overrides, plugin_name_xml, "SCRIMMAGE_PLUGIN_PATH",
-                          file_search, verbose)) {
-    const std::string plugin_type = "autonomy";
-    std::cout << "Failed to parse: " << plugin_name_xml << " for type "
-              << plugin_type << std::endl;
-    return -2;
-  }
+    bool verbose = vm.count("verbose");
+    sc::FileSearch file_search;
+    sc::ConfigParse config_parse;
+    config_parse.set_required("library");
+    if (!config_parse.parse(overrides, plugin_name_xml, "SCRIMMAGE_PLUGIN_PATH",
+                            file_search, verbose)) {
+        const std::string plugin_type = "autonomy";
+        std::cout << "Failed to parse: " << plugin_name_xml << " for type "
+                  << plugin_type << std::endl;
+        return -2;
+    }
 
-  std::string library_name = config_parse.params()["library"];
+    std::string library_name = config_parse.params()["library"];
 
-  cout << "==========================================" << endl;
-  cout << "Plugin found." << endl;
-  cout << "Name: " << plugin_name_xml << endl;
-  cout << "File: " << config_parse.filename() << endl;
-  cout << "Library: " << library_name << endl;
-  cout << "-------------------------" << endl;
-  cout << "Params: ";
-  config_parse.print_params();
+    cout << "==========================================" << endl;
+    cout << "Plugin found." << endl;
+    cout << "Name: " << plugin_name_xml << endl;
+    cout << "File: " << config_parse.filename() << endl;
+    cout << "Library: " << library_name << endl;
+    cout << "-------------------------" << endl;
+    cout << "Params: ";
+    config_parse.print_params();
 
-  // Find the paths to the libraries
-  std::unordered_map<std::string, std::list<std::string>> so_files;
-  file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files);
+    // Find the paths to the libraries
+    std::unordered_map<std::string, std::list<std::string>> so_files;
+    file_search.find_files("SCRIMMAGE_PLUGIN_PATH", LIB_EXT, so_files);
 
-  scrimmage::PluginManager plugin_mgr;
-  std::list<std::string> plugins_found;
-  plugin_mgr.find_matching_plugins(library_name, so_files, plugins_found);
+    scrimmage::PluginManager plugin_mgr;
+    std::list<std::string> plugins_found;
+    plugin_mgr.find_matching_plugins(library_name, so_files, plugins_found);
 
-  cout << "---------------------------" << endl;
-  cout << "Matching plugin libraries found: " << endl;
-  for (const std::string &str : plugins_found) {
-    cout << str << endl;
-  }
-  return 0;
+    cout << "---------------------------" << endl;
+    cout << "Matching plugin libraries found: " << endl;
+    for (const std::string &str : plugins_found) {
+        cout << str << endl;
+    }
+    return 0;
 }

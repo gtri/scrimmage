@@ -42,41 +42,41 @@ namespace scrimmage {
 namespace controller {
 
 void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
-  l_ = std::stod(params.at("l"));
-  gain_ = std::stod(params.at("gain"));
+    l_ = std::stod(params.at("l"));
+    gain_ = std::stod(params.at("gain"));
 
-  using Type = VariableIO::Type;
-  using Dir = VariableIO::Direction;
+    using Type = VariableIO::Type;
+    using Dir = VariableIO::Direction;
 
-  x_idx_in_ = vars_.declare(Type::position_x, Dir::In);
-  y_idx_in_ = vars_.declare(Type::position_y, Dir::In);
-  z_idx_in_ = vars_.declare(Type::position_z, Dir::In);
+    x_idx_in_ = vars_.declare(Type::position_x, Dir::In);
+    y_idx_in_ = vars_.declare(Type::position_y, Dir::In);
+    z_idx_in_ = vars_.declare(Type::position_z, Dir::In);
 
-  speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);
-  turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);
-  pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);
-  velocity_z_idx_out_ = vars_.declare(Type::velocity_z, Dir::Out);
+    speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);
+    turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);
+    pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);
+    velocity_z_idx_out_ = vars_.declare(Type::velocity_z, Dir::Out);
 }
 
 bool UnicycleControllerPoint::step(double t, double dt) {
-  Eigen::Vector2d des_pos_xy(vars_.input(x_idx_in_), vars_.input(y_idx_in_));
-  Eigen::Vector2d pos_xy = state_->pos().head<2>();
-  Eigen::Vector2d des_vel = gain_ * (des_pos_xy - pos_xy);
+    Eigen::Vector2d des_pos_xy(vars_.input(x_idx_in_), vars_.input(y_idx_in_));
+    Eigen::Vector2d pos_xy = state_->pos().head<2>();
+    Eigen::Vector2d des_vel = gain_ * (des_pos_xy - pos_xy);
 
-  double th = state_->quat().yaw();
+    double th = state_->quat().yaw();
 
-  Eigen::Matrix2d M;
-  M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
-  Eigen::Vector2d u_2d = M * des_vel;
+    Eigen::Matrix2d M;
+    M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
+    Eigen::Vector2d u_2d = M * des_vel;
 
-  vars_.output(speed_idx_out_, u_2d(0));
-  vars_.output(turn_rate_idx_out_, u_2d(1));
-  vars_.output(pitch_rate_idx_out_, 0);
+    vars_.output(speed_idx_out_, u_2d(0));
+    vars_.output(turn_rate_idx_out_, u_2d(1));
+    vars_.output(pitch_rate_idx_out_, 0);
 
-  const double des_z = vars_.input(z_idx_in_);
-  const double z = state_->pos()(2);
-  vars_.output(velocity_z_idx_out_, gain_ * (des_z - z));
-  return true;
+    const double des_z = vars_.input(z_idx_in_);
+    const double z = state_->pos()(2);
+    vars_.output(velocity_z_idx_out_, gain_ * (des_z - z));
+    return true;
 }
 }  // namespace controller
 }  // namespace scrimmage

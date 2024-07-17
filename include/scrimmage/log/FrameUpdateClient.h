@@ -47,18 +47,18 @@
 namespace scrimmage {
 class FrameUpdateClient {
  public:
-  FrameUpdateClient(const std::string &ip, int port);
-  bool send_frame(scrimmage_proto::Frame &frame);
+    FrameUpdateClient(const std::string &ip, int port);
+    bool send_frame(scrimmage_proto::Frame &frame);
 
-  void set_projection(
-      const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    void set_projection(
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
  private:
 #if ENABLE_GRPC == 1
-  std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub_;
+    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub_;
 #endif
-  std::shared_ptr<GeographicLib::LocalCartesian> proj_;
-  Angles angles_to_gps_;
+    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
+    Angles angles_to_gps_;
 };
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_

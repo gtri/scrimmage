@@ -41,8 +41,8 @@
 namespace scrimmage {
 class Frame {
  public:
-  double time_ = 0;
-  ContactMapPtr contacts_;
+    double time_ = 0;
+    ContactMapPtr contacts_;
 };
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_LOG_FRAME_H_

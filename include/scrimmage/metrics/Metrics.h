@@ -43,34 +43,34 @@ namespace scrimmage {
 
 class Metrics : public EntityPlugin {
  public:
-  Metrics();
-  virtual ~Metrics();
+    Metrics();
+    virtual ~Metrics();
 
-  virtual void init();
-  virtual void init(std::map<std::string, std::string> &params);
-  virtual bool step_metrics(double t, double dt);
+    virtual void init();
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step_metrics(double t, double dt);
 
-  virtual void calc_team_scores();
-  virtual void print_team_summaries();
+    virtual void calc_team_scores();
+    virtual void print_team_summaries();
 
-  // Key 1  : Team ID
-  // Value 1: Map of..
-  //                   Key 2  : Header string
-  //                   Value 2: Metric value
-  virtual std::map<int, std::map<std::string, double>> &team_metrics();
+    // Key 1  : Team ID
+    // Value 1: Map of..
+    //                   Key 2  : Header string
+    //                   Value 2: Metric value
+    virtual std::map<int, std::map<std::string, double>> &team_metrics();
 
-  virtual std::list<std::string> &headers();
+    virtual std::list<std::string> &headers();
 
-  virtual std::map<int, double> &team_scores();
+    virtual std::map<int, double> &team_scores();
 
-  bool get_print_team_summary() { return print_team_summary_; }
+    bool get_print_team_summary() { return print_team_summary_; }
 
  protected:
-  std::string weights_file_;
-  std::map<int, std::map<std::string, double>> team_metrics_;
-  std::map<int, double> team_scores_;
-  std::list<std::string> headers_;
-  bool print_team_summary_ = true;
+    std::string weights_file_;
+    std::map<int, std::map<std::string, double>> team_metrics_;
+    std::map<int, double> team_scores_;
+    std::list<std::string> headers_;
+    bool print_team_summary_ = true;
 };
 
 using MetricsPtr = std::shared_ptr<Metrics>;

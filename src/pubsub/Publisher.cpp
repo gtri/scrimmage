@@ -44,8 +44,8 @@ Publisher::Publisher(const std::string& topic,
     : NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
 
 void Publisher::set_debug_info(MessageBasePtr msg, const std::string& type) {
-  msg->debug_info = std::string("  publisher:  ") + "type (" + type +
-                    "), plugin (" + plugin_->name() + ")" + "), id (" +
-                    std::to_string(plugin_->parent()->id().id()) + ")";
+    msg->debug_info = std::string("  publisher:  ") + "type (" + type +
+                      "), plugin (" + plugin_->name() + ")" + "), id (" +
+                      std::to_string(plugin_->parent()->id().id()) + ")";
 }
 }  // namespace scrimmage

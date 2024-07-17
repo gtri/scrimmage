@@ -47,21 +47,21 @@ namespace scrimmage {
 
 class EntityInteraction : public EntityPlugin {
  public:
-  inline virtual bool init(
-      std::map<std::string, std::string>& /*mission_params*/,
-      std::map<std::string, std::string>& /*plugin_params*/) {
-    return true;
-  }
+    inline virtual bool init(
+        std::map<std::string, std::string>& /*mission_params*/,
+        std::map<std::string, std::string>& /*plugin_params*/) {
+        return true;
+    }
 
-  inline virtual bool step_entity_interaction(std::list<EntityPtr>& /*ents*/,
-                                              double /*t*/, double /*dt*/) {
-    return false;
-  }
+    inline virtual bool step_entity_interaction(std::list<EntityPtr>& /*ents*/,
+                                                double /*t*/, double /*dt*/) {
+        return false;
+    }
 
-  inline virtual bool collision_exists(std::list<EntityPtr>& /*ents*/,
-                                       Eigen::Vector3d& /*p*/) {
-    return false;
-  }
+    inline virtual bool collision_exists(std::list<EntityPtr>& /*ents*/,
+                                         Eigen::Vector3d& /*p*/) {
+        return false;
+    }
 
  protected:
 };

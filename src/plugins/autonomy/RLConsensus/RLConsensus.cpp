@@ -54,24 +54,24 @@ namespace scrimmage {
 namespace autonomy {
 
 void RLConsensus::set_environment() {
-  RLSimple::set_environment();
-  reward_range = std::make_pair(0, 1 / parent_->mp()->tend());
+    RLSimple::set_environment();
+    reward_range = std::make_pair(0, 1 / parent_->mp()->tend());
 }
 
 std::tuple<bool, double, pybind11::dict> RLConsensus::calc_reward() {
-  const bool done = false;
-  const double x = state_->pos()(0);
-  auto dist = [&](auto &kv) {
-    return std::abs(kv.second.state()->pos()(0) - x);
-  };
-  auto close = [&](double d) { return std::abs(d) < radius_; };
+    const bool done = false;
+    const double x = state_->pos()(0);
+    auto dist = [&](auto &kv) {
+        return std::abs(kv.second.state()->pos()(0) - x);
+    };
+    auto close = [&](double d) { return std::abs(d) < radius_; };
 
-  const int num_veh = contacts_->size();
-  const int num_close =
-      br::count_if(*contacts_ | ba::transformed(dist), close) - 1;
+    const int num_veh = contacts_->size();
+    const int num_close =
+        br::count_if(*contacts_ | ba::transformed(dist), close) - 1;
 
-  const double reward = num_close / (num_veh * parent_->mp()->tend());
-  return std::make_tuple(done, reward, pybind11::dict());
+    const double reward = num_close / (num_veh * parent_->mp()->tend());
+    return std::make_tuple(done, reward, pybind11::dict());
 }
 
 }  // namespace autonomy

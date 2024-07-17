@@ -42,9 +42,9 @@ namespace scrimmage {
 namespace autonomy {
 class Control3D : public scrimmage::Autonomy {
  public:
-  Control3D();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    Control3D();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

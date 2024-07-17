@@ -51,95 +51,97 @@ namespace scrimmage {
 namespace autonomy {
 
 void Predator::init(std::map<std::string, std::string> &params) {
-  max_speed_ = get<double>("max_speed", params, 21);
-  capture_range_ = get<double>("capture_range", params, 5);
-  prey_team_id_ = get<int>("prey_team_id", params, 1);
+    max_speed_ = get<double>("max_speed", params, 21);
+    capture_range_ = get<double>("capture_range", params, 5);
+    prey_team_id_ = get<int>("prey_team_id", params, 1);
 
-  allow_prey_switching_ = get<bool>("allow_prey_switching", params, false);
+    allow_prey_switching_ = get<bool>("allow_prey_switching", params, false);
 
-  capture_ent_pub_ = advertise("GlobalNetwork", "CaptureEntity");
+    capture_ent_pub_ = advertise("GlobalNetwork", "CaptureEntity");
 
-  follow_id_ = -1;
+    follow_id_ = -1;
 
-  speed_idx_ =
-      vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
-  turn_rate_idx_ =
-      vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-  pitch_rate_idx_ =
-      vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    speed_idx_ =
+        vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    turn_rate_idx_ =
+        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ =
+        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-  desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+                                         VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
                                        VariableIO::Direction::Out);
-  desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                     VariableIO::Direction::Out);
 }
 
 bool Predator::step_autonomy(double t, double dt) {
-  if (contacts_->count(follow_id_) == 0) {
-    follow_id_ = -1;
-  }
+    if (contacts_->count(follow_id_) == 0) {
+        follow_id_ = -1;
+    }
 
-  if (follow_id_ < 0 || allow_prey_switching_) {
-    // Find nearest entity on other team. Loop through each contact, calculate
-    // distance to entity, save the ID of the entity that is closest.
-    double min_dist = std::numeric_limits<double>::infinity();
+    if (follow_id_ < 0 || allow_prey_switching_) {
+        // Find nearest entity on other team. Loop through each contact,
+        // calculate distance to entity, save the ID of the entity that is
+        // closest.
+        double min_dist = std::numeric_limits<double>::infinity();
+        for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
+            // Skip if this contact isn't on team 1 (prey)
+            // if (it->second.id().team_id() == parent_->id().team_id())
+            // continue;
+            if (it->second.id().team_id() != prey_team_id_) continue;
+
+            // Calculate distance to entity
+            double dist = (it->second.state()->pos() - state_->pos()).norm();
+            if (dist < min_dist) {
+                // If this is the minimum distance, save distance and reference
+                // to entity
+                min_dist = dist;
+                follow_id_ = it->first;
+            }
+        }
+    }
+
+    // If any non-team members are within capture range, publish capture
+    // message
     for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-      // Skip if this contact isn't on team 1 (prey)
-      // if (it->second.id().team_id() == parent_->id().team_id()) continue;
-      if (it->second.id().team_id() != prey_team_id_) continue;
+        // Skip if this contact is on the same team
+        if (it->second.id().team_id() == parent_->id().team_id()) continue;
 
-      // Calculate distance to entity
-      double dist = (it->second.state()->pos() - state_->pos()).norm();
-      if (dist < min_dist) {
-        // If this is the minimum distance, save distance and reference
-        // to entity
-        min_dist = dist;
-        follow_id_ = it->first;
-      }
+        // Calculate distance to entity
+        double dist = (it->second.state()->pos() - state_->pos()).norm();
+        // Publish capture message if within capture range
+        if (dist < capture_range_) {
+            auto msg = std::make_shared<Message<sm::CaptureEntity>>();
+            msg->data.set_source_id(parent_->id().id());
+            msg->data.set_target_id(it->second.id().id());
+            capture_ent_pub_->publish(msg);
+        }
     }
-  }
 
-  // If any non-team members are within capture range, publish capture
-  // message
-  for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
-    // Skip if this contact is on the same team
-    if (it->second.id().team_id() == parent_->id().team_id()) continue;
+    // Head toward entity on other team
+    if (contacts_->count(follow_id_) > 0) {
+        // Get a reference to the entity's state.
+        StatePtr ent_state = contacts_->at(follow_id_).state();
 
-    // Calculate distance to entity
-    double dist = (it->second.state()->pos() - state_->pos()).norm();
-    // Publish capture message if within capture range
-    if (dist < capture_range_) {
-      auto msg = std::make_shared<Message<sm::CaptureEntity>>();
-      msg->data.set_source_id(parent_->id().id());
-      msg->data.set_target_id(it->second.id().id());
-      capture_ent_pub_->publish(msg);
+        // Calculate max velocity towards target entity:
+        Eigen::Vector3d v =
+            (ent_state->pos() - state_->pos()).normalized() * max_speed_;
+
+        // Convert to spherical coordinates:
+        double desired_heading = atan2(v(1), v(0));
+        double desired_pitch = atan2(v(2), v.head<2>().norm());
+
+        vars_.output(speed_idx_, max_speed_);
+        vars_.output(turn_rate_idx_,
+                     Angles::angle_pi(desired_heading - state_->quat().yaw()));
+        vars_.output(pitch_rate_idx_,
+                     Angles::angle_pi(desired_pitch + state_->quat().pitch()));
+
+        vars_.output(desired_heading_idx_, desired_heading);
+        vars_.output(desired_speed_idx_, max_speed_);
     }
-  }
 
-  // Head toward entity on other team
-  if (contacts_->count(follow_id_) > 0) {
-    // Get a reference to the entity's state.
-    StatePtr ent_state = contacts_->at(follow_id_).state();
-
-    // Calculate max velocity towards target entity:
-    Eigen::Vector3d v =
-        (ent_state->pos() - state_->pos()).normalized() * max_speed_;
-
-    // Convert to spherical coordinates:
-    double desired_heading = atan2(v(1), v(0));
-    double desired_pitch = atan2(v(2), v.head<2>().norm());
-
-    vars_.output(speed_idx_, max_speed_);
-    vars_.output(turn_rate_idx_,
-                 Angles::angle_pi(desired_heading - state_->quat().yaw()));
-    vars_.output(pitch_rate_idx_,
-                 Angles::angle_pi(desired_pitch + state_->quat().pitch()));
-
-    vars_.output(desired_heading_idx_, desired_heading);
-    vars_.output(desired_speed_idx_, max_speed_);
-  }
-
-  return true;
+    return true;
 }
 }  // namespace autonomy
 }  // namespace scrimmage

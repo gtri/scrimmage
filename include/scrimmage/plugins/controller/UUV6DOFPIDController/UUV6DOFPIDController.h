@@ -46,24 +46,24 @@ namespace controller {
 
 class UUV6DOFPIDController : public scrimmage::Controller {
  public:
-  UUV6DOFPIDController();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
+    UUV6DOFPIDController();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-  // Inputs
-  int desired_altitude_idx_ = 0;
-  int desired_speed_idx_ = 0;
-  int desired_heading_idx_ = 0;
+    // Inputs
+    int desired_altitude_idx_ = 0;
+    int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
 
-  // Outputs
-  int throttle_idx_ = 0;
-  int elevator_idx_ = 0;
-  int rudder_idx_ = 0;
+    // Outputs
+    int throttle_idx_ = 0;
+    int elevator_idx_ = 0;
+    int rudder_idx_ = 0;
 
-  scrimmage::PID heading_pid_;
-  scrimmage::PID pitch_pid_;
-  scrimmage::PID speed_pid_;
+    scrimmage::PID heading_pid_;
+    scrimmage::PID pitch_pid_;
+    scrimmage::PID speed_pid_;
 };
 }  // namespace controller
 }  // namespace scrimmage

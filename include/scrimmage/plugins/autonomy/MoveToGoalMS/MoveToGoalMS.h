@@ -46,15 +46,15 @@ namespace autonomy {
 namespace motor_schemas {
 class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
-  MoveToGoalMS();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    MoveToGoalMS();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  Waypoint wp_;
-  Eigen::Vector3d wp_local_;
+    Waypoint wp_;
+    Eigen::Vector3d wp_local_;
 
-  PID speed_pid_;
+    PID speed_pid_;
 };
 }  // namespace motor_schemas
 }  // namespace autonomy

@@ -47,63 +47,63 @@
 namespace scrimmage {
 
 int PluginManager::check_library(std::string lib_path) {
-  void *lib_handle;
+    void *lib_handle;
 #ifdef __APPLE__
-  lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
+    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
 #else
-  lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 #endif
-  if (!lib_handle) {
-    std::cout << "Trying to open " << lib_path;
-    fprintf(stdout, ", dlopen failed: %s\n", dlerror());
-    std::cout << std::endl;
-    return -1;
-  }
+    if (!lib_handle) {
+        std::cout << "Trying to open " << lib_path;
+        fprintf(stdout, ", dlopen failed: %s\n", dlerror());
+        std::cout << std::endl;
+        return -1;
+    }
 
-  char *error;
+    char *error;
 
-  // Extract the plugin type
-  plugin_type_t type_func;
-  type_func = (plugin_type_t)dlsym(lib_handle, "plugin_type");
-  if ((error = dlerror()) != NULL) {
-    // fputs(error, stderr);
-    std::cout << lib_path << " doesn't contain 'plugin_type'" << std::endl;
-    dlclose(lib_handle);
-    return 1;
-  }
-  std::string plugin_type((*type_func)());
+    // Extract the plugin type
+    plugin_type_t type_func;
+    type_func = (plugin_type_t)dlsym(lib_handle, "plugin_type");
+    if ((error = dlerror()) != NULL) {
+        // fputs(error, stderr);
+        std::cout << lib_path << " doesn't contain 'plugin_type'" << std::endl;
+        dlclose(lib_handle);
+        return 1;
+    }
+    std::string plugin_type((*type_func)());
 
-  // Extract the plugin name
-  plugin_name_t name_func;
-  name_func = (plugin_name_t)dlsym(lib_handle, "plugin_name");
-  if ((error = dlerror()) != NULL) {
-    // fputs(error, stderr);
-    std::cout << lib_path << " doesn't contain 'plugin_name'" << std::endl;
-    dlclose(lib_handle);
-    return 3;
-  }
-  std::string plugin_name((*name_func)());
+    // Extract the plugin name
+    plugin_name_t name_func;
+    name_func = (plugin_name_t)dlsym(lib_handle, "plugin_name");
+    if ((error = dlerror()) != NULL) {
+        // fputs(error, stderr);
+        std::cout << lib_path << " doesn't contain 'plugin_name'" << std::endl;
+        dlclose(lib_handle);
+        return 3;
+    }
+    std::string plugin_name((*name_func)());
 
-  // Ensure the maker function exists, but we don't need to call it
-  dlsym(lib_handle, "maker");
-  if ((error = dlerror()) != NULL) {
-    fputs(error, stderr);
-    std::cout << lib_path << " doesn't contain 'maker'" << std::endl;
-    dlclose(lib_handle);
-    return 4;
-  }
+    // Ensure the maker function exists, but we don't need to call it
+    dlsym(lib_handle, "maker");
+    if ((error = dlerror()) != NULL) {
+        fputs(error, stderr);
+        std::cout << lib_path << " doesn't contain 'maker'" << std::endl;
+        dlclose(lib_handle);
+        return 4;
+    }
 
-  PluginInfo info;
-  info.name = plugin_name;
-  info.type = plugin_type;
-  info.path = lib_path;
-  info.handle = lib_handle;
+    PluginInfo info;
+    info.name = plugin_name;
+    info.type = plugin_type;
+    info.path = lib_path;
+    info.handle = lib_handle;
 
-  plugins_info_[plugin_type][plugin_name] = info;
+    plugins_info_[plugin_type][plugin_name] = info;
 
-  // dlclose(lib_handle);
+    // dlclose(lib_handle);
 
-  return 0;
+    return 0;
 }
 
 PluginManager::PluginManager() : reload_(false) {}
@@ -112,104 +112,105 @@ void PluginManager::print_plugins(const std::string &plugin_type,
                                   const std::string &title,
                                   FileSearch &file_search,
                                   const std::string &env_var_name) {
-  // make sure all files are loaded
-  if (!files_checked_) {
-    file_search.find_files(env_var_name, LIB_EXT, so_files_);
-    files_checked_ = true;
-  }
-
-  for (auto &kv : so_files_) {
-    for (std::string &full_path : kv.second) {
-      check_library(full_path);
+    // make sure all files are loaded
+    if (!files_checked_) {
+        file_search.find_files(env_var_name, LIB_EXT, so_files_);
+        files_checked_ = true;
     }
-  }
 
-  std::cout << "------------------------------" << std::endl;
-  std::cout << title << ": " << std::endl;
-  std::cout << "------------------------------" << std::endl;
-  if (plugins_info_.count(plugin_type) > 0) {
-    for (auto &kv : plugins_info_[plugin_type]) {
-      std::cout << kv.first << std::endl;
+    for (auto &kv : so_files_) {
+        for (std::string &full_path : kv.second) {
+            check_library(full_path);
+        }
     }
-  } else {
-    std::cout << "Plugin type doesn't exist: " << plugin_type << std::endl;
-  }
-  std::cout << "------------------------------" << std::endl;
+
+    std::cout << "------------------------------" << std::endl;
+    std::cout << title << ": " << std::endl;
+    std::cout << "------------------------------" << std::endl;
+    if (plugins_info_.count(plugin_type) > 0) {
+        for (auto &kv : plugins_info_[plugin_type]) {
+            std::cout << kv.first << std::endl;
+        }
+    } else {
+        std::cout << "Plugin type doesn't exist: " << plugin_type << std::endl;
+    }
+    std::cout << "------------------------------" << std::endl;
 }
 
 void PluginManager::print_returned_plugins() {
-  std::cout << "using the following plugins:" << std::endl;
-  for (auto &kv : plugins_info_) {
-    for (auto &kv2 : kv.second) {
-      if (kv2.second.returned) {
-        std::cout << kv.first << "::" << kv2.first << std::endl;
-      }
+    std::cout << "using the following plugins:" << std::endl;
+    for (auto &kv : plugins_info_) {
+        for (auto &kv2 : kv.second) {
+            if (kv2.second.returned) {
+                std::cout << kv.first << "::" << kv2.first << std::endl;
+            }
+        }
     }
-  }
 }
 
 PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type,
                                             std::string &plugin_name) {
-  auto it = plugins_info_.find(plugin_type);
-  if (it != plugins_info_.end()) {
-    auto it2 = it->second.find(plugin_name);
-    if (it2 != it->second.end()) {
-      it2->second.returned = true;
+    auto it = plugins_info_.find(plugin_type);
+    if (it != plugins_info_.end()) {
+        auto it2 = it->second.find(plugin_name);
+        if (it2 != it->second.end()) {
+            it2->second.returned = true;
 
-      if (reload_ && it2->second.handle) {
-        dlclose(it2->second.handle);
-      }
+            if (reload_ && it2->second.handle) {
+                dlclose(it2->second.handle);
+            }
 
-      PluginPtr (*maker_func)(void);
-      // cppcheck-suppress cstyleCast
-      maker_func = (PluginPtr(*)(void))dlsym(it2->second.handle, "maker");
-      char *error;
-      if ((error = dlerror()) != NULL) {
-        fputs(error, stderr);
-        return nullptr;
-      } else {
-        return (*maker_func)();
-      }
+            PluginPtr (*maker_func)(void);
+            // cppcheck-suppress cstyleCast
+            maker_func = (PluginPtr(*)(void))dlsym(it2->second.handle, "maker");
+            char *error;
+            if ((error = dlerror()) != NULL) {
+                fputs(error, stderr);
+                return nullptr;
+            } else {
+                return (*maker_func)();
+            }
+        }
     }
-  }
-  return nullptr;
+    return nullptr;
 }
 
 std::map<std::string, std::unordered_set<std::string>>
 PluginManager::get_commits() {
-  std::map<std::string, std::unordered_set<std::string>> commits;
-  std::string sha;
-  for (auto &kv : plugins_info_) {
-    for (auto &kv2 : kv.second) {
-      scrimmage::PluginInfo &plugin_info = kv2.second;
-      if (!plugin_info.returned) continue;
+    std::map<std::string, std::unordered_set<std::string>> commits;
+    std::string sha;
+    for (auto &kv : plugins_info_) {
+        for (auto &kv2 : kv.second) {
+            scrimmage::PluginInfo &plugin_info = kv2.second;
+            if (!plugin_info.returned) continue;
 
-      std::string path =
-          boost::filesystem::path(plugin_info.path).parent_path().string();
+            std::string path = boost::filesystem::path(plugin_info.path)
+                                   .parent_path()
+                                   .string();
 
-      if ((sha = scrimmage::get_sha(path)) != "") {
-        commits[sha].insert(plugin_info.name);
-      }
+            if ((sha = scrimmage::get_sha(path)) != "") {
+                commits[sha].insert(plugin_info.name);
+            }
+        }
     }
-  }
-  return commits;
+    return commits;
 }
 
 void PluginManager::find_matching_plugins(
     const std::string &plugin_name_so,
     std::unordered_map<std::string, std::list<std::string>> &so_files,
     std::list<std::string> &plugins) {
-  auto it = so_files.find(std::string("lib") + plugin_name_so + LIB_EXT);
-  if (it != so_files.end()) {
-    for (std::string &full_fname : it->second) {
-      if (check_library(full_fname) == 0) {
-        plugins.push_back(full_fname);
-      }
+    auto it = so_files.find(std::string("lib") + plugin_name_so + LIB_EXT);
+    if (it != so_files.end()) {
+        for (std::string &full_fname : it->second) {
+            if (check_library(full_fname) == 0) {
+                plugins.push_back(full_fname);
+            }
+        }
+        if (plugins.size() > 0) {
+            so_files.erase(it);
+        }
     }
-    if (plugins.size() > 0) {
-      so_files.erase(it);
-    }
-  }
 }
 
 void PluginManager::set_reload(bool reload) { reload_ = reload; }

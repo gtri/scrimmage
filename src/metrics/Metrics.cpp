@@ -52,7 +52,7 @@ void Metrics::calc_team_scores() {}
 void Metrics::print_team_summaries() {}
 
 std::map<int, std::map<std::string, double> > &Metrics::team_metrics() {
-  return team_metrics_;
+    return team_metrics_;
 }
 
 std::list<std::string> &Metrics::headers() { return headers_; }

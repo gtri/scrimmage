@@ -50,16 +50,16 @@ class BoundaryBase;
 namespace sensor {
 class GPS : public scrimmage::Sensor {
  public:
-  GPS();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    GPS();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-  bool gps_found_;
-  int boundary_id_;
-  std::vector<int> gps_denied_ids_;
-  PublisherPtr pub_;
-  std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_ = NULL;
+    bool gps_found_;
+    int boundary_id_;
+    std::vector<int> gps_denied_ids_;
+    PublisherPtr pub_;
+    std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_ = NULL;
 
  private:
 };

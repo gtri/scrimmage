@@ -50,37 +50,38 @@ namespace scrimmage {
 namespace autonomy {
 class GraphvizFSM : public scrimmage::Autonomy {
  public:
-  struct DotVertex {
-    std::string name;  //, label, shape;
-  };
+    struct DotVertex {
+        std::string name;  //, label, shape;
+    };
 
-  struct label_t {
-    typedef boost::edge_property_tag kind;
-  };
+    struct label_t {
+        typedef boost::edge_property_tag kind;
+    };
 
-  typedef boost::property<label_t, std::string> EdgeProperty;
+    typedef boost::property<label_t, std::string> EdgeProperty;
 
-  typedef boost::property<boost::graph_name_t, std::string> graph_p;
-  typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS,
-                                DotVertex, EdgeProperty, graph_p, boost::listS>
-      graph_t;
+    typedef boost::property<boost::graph_name_t, std::string> graph_p;
+    typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS,
+                                  DotVertex, EdgeProperty, graph_p,
+                                  boost::listS>
+        graph_t;
 
-  GraphvizFSM();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    GraphvizFSM();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  graph_t fsm_graph_;
-  boost::graph_traits<graph_t>::vertex_descriptor current_state_;
-  scrimmage::PublisherPtr state_pub_;
+    graph_t fsm_graph_;
+    boost::graph_traits<graph_t>::vertex_descriptor current_state_;
+    scrimmage::PublisherPtr state_pub_;
 
-  boost::property_map<graph_t, label_t>::type label_;
+    boost::property_map<graph_t, label_t>::type label_;
 
-  void update_state_info(
-      boost::graph_traits<graph_t>::vertex_descriptor current_state,
-      boost::graph_traits<graph_t>::vertex_descriptor next_state);
+    void update_state_info(
+        boost::graph_traits<graph_t>::vertex_descriptor current_state,
+        boost::graph_traits<graph_t>::vertex_descriptor next_state);
 
-  bool print_current_state_ = false;
+    bool print_current_state_ = false;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

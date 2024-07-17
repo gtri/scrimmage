@@ -1,4 +1,6 @@
 BasedOnStyle: Google
+AccessModifierOffset: -3
+IndentWidth:          4
 ---
 Language:           Cpp
 IncludeCategories:

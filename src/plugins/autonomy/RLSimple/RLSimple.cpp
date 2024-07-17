@@ -43,76 +43,77 @@ namespace scrimmage {
 namespace autonomy {
 
 void RLSimple::init_helper(std::map<std::string, std::string> &params) {
-  x_discrete_ = str2bool(params.at("x_discrete"));
-  y_discrete_ = str2bool(params.at("y_discrete"));
-  ctrl_y_ = str2bool(params.at("ctrl_y"));
+    x_discrete_ = str2bool(params.at("x_discrete"));
+    y_discrete_ = str2bool(params.at("y_discrete"));
+    ctrl_y_ = str2bool(params.at("ctrl_y"));
 
-  bool has_continuous_output = !x_discrete_ || (ctrl_y_ && !y_discrete_);
-  if (has_continuous_output) {
-    max_speed_ = std::stod(params.at("max_speed"));
-  }
+    bool has_continuous_output = !x_discrete_ || (ctrl_y_ && !y_discrete_);
+    if (has_continuous_output) {
+        max_speed_ = std::stod(params.at("max_speed"));
+    }
 
-  using Type = VariableIO::Type;
-  using Dir = VariableIO::Direction;
+    using Type = VariableIO::Type;
+    using Dir = VariableIO::Direction;
 
-  output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
-  output_vel_y_idx_ = vars_.declare(Type::velocity_y, Dir::Out);
-  uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
+    output_vel_x_idx_ = vars_.declare(Type::velocity_x, Dir::Out);
+    output_vel_y_idx_ = vars_.declare(Type::velocity_y, Dir::Out);
+    uint8_t output_vel_z_idx = vars_.declare(Type::velocity_z, Dir::Out);
 
-  vars_.output(output_vel_x_idx_, 0);
-  vars_.output(output_vel_y_idx_, 0);
-  vars_.output(output_vel_z_idx, 0);
+    vars_.output(output_vel_x_idx_, 0);
+    vars_.output(output_vel_y_idx_, 0);
+    vars_.output(output_vel_z_idx, 0);
 
-  radius_ = std::stod(params.at("radius"));
+    radius_ = std::stod(params.at("radius"));
 }
 
 void RLSimple::set_environment() {
-  reward_range = std::make_pair(0, 1);
+    reward_range = std::make_pair(0, 1);
 
-  auto add_output = [&](bool is_discrete) {
-    if (is_discrete) {
-      action_space.discrete_count.push_back(2);  // forward/backward
-    } else {
-      action_space.continuous_extrema.push_back({-max_speed_, max_speed_});
+    auto add_output = [&](bool is_discrete) {
+        if (is_discrete) {
+            action_space.discrete_count.push_back(2);  // forward/backward
+        } else {
+            action_space.continuous_extrema.push_back(
+                {-max_speed_, max_speed_});
+        }
+    };
+
+    add_output(x_discrete_);
+    if (ctrl_y_) {
+        add_output(y_discrete_);
     }
-  };
-
-  add_output(x_discrete_);
-  if (ctrl_y_) {
-    add_output(y_discrete_);
-  }
 }
 
 std::tuple<bool, double, pybind11::dict> RLSimple::calc_reward() {
-  const bool done = false;
-  const double x = state_->pos()(0);
-  const bool within_radius = std::round(std::abs(x)) < radius_;
-  double reward = within_radius ? 1 : 0;
+    const bool done = false;
+    const double x = state_->pos()(0);
+    const bool within_radius = std::round(std::abs(x)) < radius_;
+    double reward = within_radius ? 1 : 0;
 
-  pybind11::dict info;
-  info["x_within_radius"] = within_radius;  // added for test harness
-  return std::make_tuple(done, reward, info);
+    pybind11::dict info;
+    info["x_within_radius"] = within_radius;  // added for test harness
+    return std::make_tuple(done, reward, info);
 }
 
 bool RLSimple::step_helper() {
-  // cppcheck-suppress variableScope
-  int disc_idx = 0;
-  // cppcheck-suppress variableScope
-  int cont_idx = 0;
-  auto getter = [&](auto discrete) -> double {
-    if (discrete) {
-      return action.discrete[disc_idx++] ? 1 : -1;
-    } else {
-      return action.continuous[cont_idx++];
-    }
-  };
+    // cppcheck-suppress variableScope
+    int disc_idx = 0;
+    // cppcheck-suppress variableScope
+    int cont_idx = 0;
+    auto getter = [&](auto discrete) -> double {
+        if (discrete) {
+            return action.discrete[disc_idx++] ? 1 : -1;
+        } else {
+            return action.continuous[cont_idx++];
+        }
+    };
 
-  const double x_vel = getter(x_discrete_);
-  const double y_vel = ctrl_y_ ? getter(y_discrete_) : 0;
+    const double x_vel = getter(x_discrete_);
+    const double y_vel = ctrl_y_ ? getter(y_discrete_) : 0;
 
-  vars_.output(output_vel_x_idx_, x_vel);
-  vars_.output(output_vel_y_idx_, y_vel);
-  return true;
+    vars_.output(output_vel_x_idx_, x_vel);
+    vars_.output(output_vel_y_idx_, y_vel);
+    return true;
 }
 
 }  // namespace autonomy

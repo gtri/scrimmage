@@ -43,28 +43,28 @@ namespace network {
 
 class SphereNetwork : public scrimmage::Network {
  public:
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
 
  protected:
-  bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                    const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                      const scrimmage::EntityPluginPtr &sub_plugin) override;
 
-  bool is_successful_transmission(
-      const scrimmage::EntityPluginPtr &pub_plugin,
-      const scrimmage::EntityPluginPtr &sub_plugin) override;
-  double range_;
-  double prob_transmit_;
+    bool is_successful_transmission(
+        const scrimmage::EntityPluginPtr &pub_plugin,
+        const scrimmage::EntityPluginPtr &sub_plugin) override;
+    double range_;
+    double prob_transmit_;
 
-  // Attributes of a boundary plane that blocks communication. Example use
-  // would be putting a boundary at a water/air intersection such that
-  // communications wouldn't go between water and the surface.
-  double comms_boundary_altitude_ = 0;
-  // The buffer zone around the boundary plane that doesn't directly block
-  // comms
-  double comms_boundary_epsilon_ = 0;
-  bool filter_comms_plane_ = false;
-  bool within_planar_boundary(double z1, double z2);
+    // Attributes of a boundary plane that blocks communication. Example use
+    // would be putting a boundary at a water/air intersection such that
+    // communications wouldn't go between water and the surface.
+    double comms_boundary_altitude_ = 0;
+    // The buffer zone around the boundary plane that doesn't directly block
+    // comms
+    double comms_boundary_epsilon_ = 0;
+    bool filter_comms_plane_ = false;
+    bool within_planar_boundary(double z1, double z2);
 };
 }  // namespace network
 }  // namespace scrimmage

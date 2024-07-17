@@ -45,16 +45,16 @@ namespace controller {
 
 class MultirotorControllerOmega : public motion::Multirotor::Controller {
  public:
-  MultirotorControllerOmega();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
-  Eigen::VectorXd &u() override { return u_; }
+    MultirotorControllerOmega();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
+    Eigen::VectorXd &u() override { return u_; }
 
  protected:
-  Eigen::VectorXd u_;
-  std::shared_ptr<sc::motion::Multirotor> multirotor_;
-  double pwm_max_;
-  double pwm_min_;
+    Eigen::VectorXd u_;
+    std::shared_ptr<sc::motion::Multirotor> multirotor_;
+    double pwm_max_;
+    double pwm_min_;
 };
 }  // namespace controller
 }  // namespace scrimmage

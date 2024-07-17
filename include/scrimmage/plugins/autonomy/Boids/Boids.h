@@ -42,42 +42,42 @@ namespace scrimmage {
 namespace autonomy {
 class Boids : public scrimmage::Autonomy {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  void velocity_controller(Eigen::Vector3d &v);
+    void velocity_controller(Eigen::Vector3d &v);
 
-  bool show_shapes_;
-  double max_speed_;
+    bool show_shapes_;
+    double max_speed_;
 
-  double w_align_;
-  double w_avoid_team_;
-  double w_centroid_;
-  double w_avoid_nonteam_;
-  double w_goal_;
+    double w_align_;
+    double w_avoid_team_;
+    double w_centroid_;
+    double w_avoid_nonteam_;
+    double w_goal_;
 
-  double fov_el_;
-  double fov_az_;
-  double comms_range_;
-  double minimum_team_range_;
-  double minimum_nonteam_range_;
-  double sphere_of_influence_;
+    double fov_el_;
+    double fov_az_;
+    double comms_range_;
+    double minimum_team_range_;
+    double minimum_nonteam_range_;
+    double sphere_of_influence_;
 
-  Eigen::Vector3d goal_;
+    Eigen::Vector3d goal_;
 
-  // variable io
-  int io_vel_x_idx_ = 0;
-  int io_vel_y_idx_ = 0;
-  int io_vel_z_idx_ = 0;
+    // variable io
+    int io_vel_x_idx_ = 0;
+    int io_vel_y_idx_ = 0;
+    int io_vel_z_idx_ = 0;
 
-  int io_vel_idx_ = 0;
-  int io_turn_rate_idx_ = 0;
-  int io_pitch_rate_idx_ = 0;
+    int io_vel_idx_ = 0;
+    int io_turn_rate_idx_ = 0;
+    int io_pitch_rate_idx_ = 0;
 
-  int io_heading_idx_ = 0;
-  int io_altitude_idx_ = 0;
-  int io_desired_speed_idx_ = 0;
+    int io_heading_idx_ = 0;
+    int io_altitude_idx_ = 0;
+    int io_desired_speed_idx_ = 0;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

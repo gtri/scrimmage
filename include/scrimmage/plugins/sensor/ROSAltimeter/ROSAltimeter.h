@@ -50,16 +50,16 @@ namespace sensor {
 
 class ROSAltimeter : public scrimmage::Sensor {
  public:
-  ROSAltimeter();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    ROSAltimeter();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-  std::string vehicle_name_ = "none";
-  std::string ros_namespace_;
-  std::shared_ptr<ros::NodeHandle> nh_;
-  ros::Publisher altimeter_pub_;
-  float monotonic_ = 0.0;
+    std::string vehicle_name_ = "none";
+    std::string ros_namespace_;
+    std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Publisher altimeter_pub_;
+    float monotonic_ = 0.0;
 
  private:
 };

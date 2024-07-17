@@ -55,32 +55,32 @@ namespace controller {
 
 class Joystick {
  public:
-  Joystick();
-  ~Joystick();
+    Joystick();
+    ~Joystick();
 
-  void init(std::map<std::string, std::string> &params, VariableIO &vars,
-            EntityPluginPtr plugin);
-  bool step(double t, double dt, VariableIO &vars);
+    void init(std::map<std::string, std::string> &params, VariableIO &vars,
+              EntityPluginPtr plugin);
+    bool step(double t, double dt, VariableIO &vars);
 
  protected:
-  int joy_fd_ = -1;
-  int *axis_ = NULL;
-  int num_of_axis_ = 0;
-  int num_of_buttons_ = 0;
-  char *button_ = NULL;
-  struct js_event js_;
+    int joy_fd_ = -1;
+    int *axis_ = NULL;
+    int num_of_axis_ = 0;
+    int num_of_buttons_ = 0;
+    char *button_ = NULL;
+    struct js_event js_;
 
-  int min_value = -32767;
-  int max_value = +32767;
+    int min_value = -32767;
+    int max_value = +32767;
 
-  bool print_js_values_ = false;
+    bool print_js_values_ = false;
 
-  std::list<AxisScale> axis_tfs_;
+    std::list<AxisScale> axis_tfs_;
 
-  bool publish_button_state_ = false;
+    bool publish_button_state_ = false;
 
-  scrimmage::PublisherPtr pub_buttons_;
-  std::vector<bool> prev_button_state_;
+    scrimmage::PublisherPtr pub_buttons_;
+    std::vector<bool> prev_button_state_;
 };
 
 }  // namespace controller

@@ -61,60 +61,60 @@ namespace metrics {
 FlagCaptureMetrics::FlagCaptureMetrics() {}
 
 void FlagCaptureMetrics::init(std::map<std::string, std::string> &params) {
-  params_ = params;
+    params_ = params;
 
-  auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
-    scores_[msg->data.entity_id()].increment_flags_taken();
-  };
-  subscribe<sm::FlagTaken>("GlobalNetwork", "FlagTaken", flag_taken_cb);
+    auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
+        scores_[msg->data.entity_id()].increment_flags_taken();
+    };
+    subscribe<sm::FlagTaken>("GlobalNetwork", "FlagTaken", flag_taken_cb);
 
-  auto flag_captured_cb = [&](scrimmage::MessagePtr<sm::FlagCaptured> msg) {
-    scores_[msg->data.entity_id()].increment_flags_captured();
-  };
-  subscribe<sm::FlagCaptured>("GlobalNetwork", "FlagCaptured",
-                              flag_captured_cb);
+    auto flag_captured_cb = [&](scrimmage::MessagePtr<sm::FlagCaptured> msg) {
+        scores_[msg->data.entity_id()].increment_flags_captured();
+    };
+    subscribe<sm::FlagCaptured>("GlobalNetwork", "FlagCaptured",
+                                flag_captured_cb);
 }
 
 bool FlagCaptureMetrics::step_metrics(double t, double dt) { return true; }
 
 void FlagCaptureMetrics::calc_team_scores() {
-  for (auto &kv : scores_) {
-    Score &score = kv.second;
+    for (auto &kv : scores_) {
+        Score &score = kv.second;
 
-    int team_id = (*id_to_team_map_)[kv.first];
+        int team_id = (*id_to_team_map_)[kv.first];
 
-    // Create the score, if necessary
-    if (team_flag_scores_.count(team_id) == 0) {
-      Score score;
-      score.set_weights(params_);
-      team_flag_scores_[team_id] = score;
+        // Create the score, if necessary
+        if (team_flag_scores_.count(team_id) == 0) {
+            Score score;
+            score.set_weights(params_);
+            team_flag_scores_[team_id] = score;
+        }
+        team_flag_scores_[team_id].add_flags_taken(score.flags_taken());
+        team_flag_scores_[team_id].add_flags_captured(score.flags_captured());
     }
-    team_flag_scores_[team_id].add_flags_taken(score.flags_taken());
-    team_flag_scores_[team_id].add_flags_captured(score.flags_captured());
-  }
 
-  for (auto &kv : team_flag_scores_) {
-    int team_id = kv.first;
-    Score &score = kv.second;
-    team_metrics_[team_id]["flags_taken"] = score.flags_taken();
-    team_metrics_[team_id]["flags_captured"] = score.flags_captured();
-    team_scores_[team_id] = score.score();
-  }
+    for (auto &kv : team_flag_scores_) {
+        int team_id = kv.first;
+        Score &score = kv.second;
+        team_metrics_[team_id]["flags_taken"] = score.flags_taken();
+        team_metrics_[team_id]["flags_captured"] = score.flags_captured();
+        team_scores_[team_id] = score.score();
+    }
 
-  // list the headers we want put in the csv file
-  headers_.push_back("flags_taken");
-  headers_.push_back("flags_captured");
+    // list the headers we want put in the csv file
+    headers_.push_back("flags_taken");
+    headers_.push_back("flags_captured");
 }
 
 void FlagCaptureMetrics::print_team_summaries() {
-  for (std::map<int, Score>::iterator it = team_flag_scores_.begin();
-       it != team_flag_scores_.end(); ++it) {
-    cout << "Team ID: " << it->first << endl;
-    cout << "Score: " << it->second.score() << endl;
-    cout << "Flags Taken: " << it->second.flags_taken() << endl;
-    cout << "Flags Captured: " << it->second.flags_captured() << endl;
-    cout << sc::generate_chars("-", 70) << endl;
-  }
+    for (std::map<int, Score>::iterator it = team_flag_scores_.begin();
+         it != team_flag_scores_.end(); ++it) {
+        cout << "Team ID: " << it->first << endl;
+        cout << "Score: " << it->second.score() << endl;
+        cout << "Flags Taken: " << it->second.flags_taken() << endl;
+        cout << "Flags Captured: " << it->second.flags_captured() << endl;
+        cout << sc::generate_chars("-", 70) << endl;
+    }
 }
 }  // namespace metrics
 }  // namespace scrimmage

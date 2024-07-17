@@ -43,23 +43,23 @@ namespace controller {
 
 class UUV6DOFLinearEnergy : public scrimmage::Controller {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-  // Inputs
-  uint8_t in_throttle_idx_ = 0;
-  uint8_t in_elevator_idx_ = 0;
-  uint8_t in_rudder_idx_ = 0;
+    // Inputs
+    uint8_t in_throttle_idx_ = 0;
+    uint8_t in_elevator_idx_ = 0;
+    uint8_t in_rudder_idx_ = 0;
 
-  // Outputs
-  uint8_t out_throttle_idx_ = 0;
-  uint8_t out_elevator_idx_ = 0;
-  uint8_t out_rudder_idx_ = 0;
+    // Outputs
+    uint8_t out_throttle_idx_ = 0;
+    uint8_t out_elevator_idx_ = 0;
+    uint8_t out_rudder_idx_ = 0;
 
-  double energy_ = 1000;
-  double energy_max_ = 5000;
-  double energy_min_ = 0;
+    double energy_ = 1000;
+    double energy_max_ = 5000;
+    double energy_min_ = 0;
 };
 }  // namespace controller
 }  // namespace scrimmage

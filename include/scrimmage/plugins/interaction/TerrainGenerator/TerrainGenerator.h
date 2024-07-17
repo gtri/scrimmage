@@ -46,17 +46,17 @@ namespace interaction {
 
 class TerrainGenerator : public scrimmage::EntityInteraction {
  public:
-  TerrainGenerator();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
-                               double dt) override;
+    TerrainGenerator();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
 
  protected:
-  TerrainMap map_;
-  bool terrain_published_ = false;
-  scrimmage::PublisherPtr terrain_pub_;
-  RandomPtr random_;
+    TerrainMap map_;
+    bool terrain_published_ = false;
+    scrimmage::PublisherPtr terrain_pub_;
+    RandomPtr random_;
 
  private:
 };

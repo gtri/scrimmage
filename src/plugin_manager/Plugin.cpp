@@ -42,12 +42,12 @@ std::string Plugin::name() { return name_; }
 std::string Plugin::type() { return std::string("Plugin"); }
 
 void Plugin::set_name(std::string name) {
-  if (name_set_ == true) {
-    std::cout << "WARNING: Plugin name, " << name << ", being reset. "
-              << "Should only be set once." << std::endl;
-  }
-  name_ = name;
-  name_set_ = true;  // Set only once before warning.
+    if (name_set_ == true) {
+        std::cout << "WARNING: Plugin name, " << name << ", being reset. "
+                  << "Should only be set once." << std::endl;
+    }
+    name_ = name;
+    name_set_ = true;  // Set only once before warning.
 }
 
 }  // namespace scrimmage

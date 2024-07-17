@@ -49,17 +49,17 @@ namespace interaction {
 
 class ROSShapeViz : public scrimmage::EntityInteraction {
  public:
-  ROSShapeViz();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
-                               double dt) override;
+    ROSShapeViz();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
 
  protected:
  private:
-  void shapes_cb(const visualization_msgs::Marker::ConstPtr &msg);
-  std::shared_ptr<ros::NodeHandle> nh_;
-  ros::Subscriber sub_shapes_;
+    void shapes_cb(const visualization_msgs::Marker::ConstPtr &msg);
+    std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Subscriber sub_shapes_;
 };
 }  // namespace interaction
 }  // namespace scrimmage

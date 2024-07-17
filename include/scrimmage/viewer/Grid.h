@@ -47,13 +47,14 @@ namespace scrimmage {
 
 class Grid {
  public:
-  void create(int size, double spacing, vtkSmartPointer<vtkRenderer> &renderer);
+    void create(int size, double spacing,
+                vtkSmartPointer<vtkRenderer> &renderer);
 
-  void remove();
+    void remove();
 
  protected:
-  vtkSmartPointer<vtkRenderer> renderer_;
-  std::list<vtkSmartPointer<vtkActor> > actors_;
+    vtkSmartPointer<vtkRenderer> renderer_;
+    std::list<vtkSmartPointer<vtkActor> > actors_;
 };
 
 }  // namespace scrimmage

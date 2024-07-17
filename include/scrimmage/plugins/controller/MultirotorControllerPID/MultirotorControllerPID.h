@@ -47,19 +47,19 @@ namespace controller {
 
 class MultirotorControllerPID : public scrimmage::Controller {
  public:
-  MultirotorControllerPID();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
-  virtual Eigen::VectorXd &u() { return u_; }
+    MultirotorControllerPID();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
+    virtual Eigen::VectorXd &u() { return u_; }
 
  protected:
-  Eigen::VectorXd u_;
-  std::shared_ptr<sc::motion::Multirotor> multirotor_;
+    Eigen::VectorXd u_;
+    std::shared_ptr<sc::motion::Multirotor> multirotor_;
 
-  std::vector<scrimmage::PID> vel_pids_;
-  scrimmage::PID yaw_pid_;
+    std::vector<scrimmage::PID> vel_pids_;
+    scrimmage::PID yaw_pid_;
 
-  std::vector<scrimmage::PID> angle_pids_;
+    std::vector<scrimmage::PID> angle_pids_;
 };
 }  // namespace controller
 }  // namespace scrimmage

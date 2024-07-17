@@ -79,141 +79,141 @@
 namespace scrimmage {
 
 void Print::init(TimePtr &time, std::string log_dir) {
-  init(time, log_dir, PrintEnums::WRITE_TO::BOTH);
+    init(time, log_dir, PrintEnums::WRITE_TO::BOTH);
 }
 void Print::init(TimePtr &time, std::string log_dir,
                  PrintEnums::WRITE_TO flag) {
-  time_ = time;
-  log_dir_ = log_dir;
-  output_flag_ = flag;
+    time_ = time;
+    log_dir_ = log_dir;
+    output_flag_ = flag;
 
-  if (write_file()) {
-    std::ostringstream filename;
-    filename << log_dir_ << '/' << "console.log";
-    log_stream_.open(filename.str());
-  }
+    if (write_file()) {
+        std::ostringstream filename;
+        filename << log_dir_ << '/' << "console.log";
+        log_stream_.open(filename.str());
+    }
 }
 void Print::close() {
-  if (log_stream_) {
-    log_stream_.close();
-  }
-  time_ = nullptr;
+    if (log_stream_) {
+        log_stream_.close();
+    }
+    time_ = nullptr;
 }
 void Print::flush() {
-  if (log_stream_) {
-    log_stream_.flush();
-  }
+    if (log_stream_) {
+        log_stream_.flush();
+    }
 }
 
 void Print::printDev(PrintData &data, std::string outmessage) {
-  print(std::cout, PrintEnums::WARN_LEVEL::DEV, data, outmessage);
+    print(std::cout, PrintEnums::WARN_LEVEL::DEV, data, outmessage);
 }
 void Print::printInfo(PrintData &data, std::string outmessage) {
-  print(std::cout, PrintEnums::WARN_LEVEL::INFO, data, outmessage);
+    print(std::cout, PrintEnums::WARN_LEVEL::INFO, data, outmessage);
 }
 void Print::printWarning(PrintData &data, std::string outmessage) {
-  print(std::cout, PrintEnums::WARN_LEVEL::WARNING, data, outmessage);
+    print(std::cout, PrintEnums::WARN_LEVEL::WARNING, data, outmessage);
 }
 void Print::printError(PrintData &data, std::string outmessage) {
-  print(std::cerr, PrintEnums::WARN_LEVEL::ERROR, data, outmessage);
+    print(std::cerr, PrintEnums::WARN_LEVEL::ERROR, data, outmessage);
 }
 
 void Print::printDev(EntityPlugin &caller, std::string outmessage) {
-  print(std::cout, PrintEnums::WARN_LEVEL::DEV, caller, outmessage);
+    print(std::cout, PrintEnums::WARN_LEVEL::DEV, caller, outmessage);
 }
 void Print::printInfo(EntityPlugin &caller, std::string outmessage) {
-  print(std::cout, PrintEnums::WARN_LEVEL::INFO, caller, outmessage);
+    print(std::cout, PrintEnums::WARN_LEVEL::INFO, caller, outmessage);
 }
 void Print::printWarning(EntityPlugin &caller, std::string outmessage) {
-  print(std::cerr, PrintEnums::WARN_LEVEL::WARNING, caller, outmessage);
+    print(std::cerr, PrintEnums::WARN_LEVEL::WARNING, caller, outmessage);
 }
 void Print::printError(EntityPlugin &caller, std::string outmessage) {
-  print(std::cerr, PrintEnums::WARN_LEVEL::ERROR, caller, outmessage);
+    print(std::cerr, PrintEnums::WARN_LEVEL::ERROR, caller, outmessage);
 }
 
 const char *Print::getWarningLevel(PrintEnums::WARN_LEVEL e) {
-  const std::map<PrintEnums::WARN_LEVEL, const char *> GetAsStrings{
-      {PrintEnums::WARN_LEVEL::DEV, "DEV"},
-      {PrintEnums::WARN_LEVEL::INFO, "INFO"},
-      {PrintEnums::WARN_LEVEL::WARNING, "WARN"},
-      {PrintEnums::WARN_LEVEL::ERROR, "ERROR"}};
-  auto it = GetAsStrings.find(e);
-  return it == GetAsStrings.end() ? GetAsStrings.begin()->second : it->second;
+    const std::map<PrintEnums::WARN_LEVEL, const char *> GetAsStrings{
+        {PrintEnums::WARN_LEVEL::DEV, "DEV"},
+        {PrintEnums::WARN_LEVEL::INFO, "INFO"},
+        {PrintEnums::WARN_LEVEL::WARNING, "WARN"},
+        {PrintEnums::WARN_LEVEL::ERROR, "ERROR"}};
+    auto it = GetAsStrings.find(e);
+    return it == GetAsStrings.end() ? GetAsStrings.begin()->second : it->second;
 }
 bool Print::write_file() {
-  return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) ||
-          (output_flag_ == PrintEnums::WRITE_TO::FILE_ONLY));
+    return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) ||
+            (output_flag_ == PrintEnums::WRITE_TO::FILE_ONLY));
 }
 bool Print::write_console() {
-  return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) ||
-          (output_flag_ == PrintEnums::WRITE_TO::CONSOLE_ONLY));
+    return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) ||
+            (output_flag_ == PrintEnums::WRITE_TO::CONSOLE_ONLY));
 }
 
 std::string Print::formatTime(double time) {
-  if (std::isnan(time)) {
-    return "-----.---";
-  } else {
-    std::ostringstream o;
-    o << std::internal << std::fixed << std::setprecision(3) << std::setw(9)
-      << std::setfill('0') << time;
-    return o.str();
-  }
+    if (std::isnan(time)) {
+        return "-----.---";
+    } else {
+        std::ostringstream o;
+        o << std::internal << std::fixed << std::setprecision(3) << std::setw(9)
+          << std::setfill('0') << time;
+        return o.str();
+    }
 }
 
 std::string Print::formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data,
                              std::string msg) {
-  std::ostringstream pre;
-  std::ostringstream formattedmsg;
-  std::string entitySection = "";
+    std::ostringstream pre;
+    std::ostringstream formattedmsg;
+    std::string entitySection = "";
 
-  // add entity_id if available
-  if (data.entity_id_ > 0) {
-    entitySection = "[Entity: " + std::to_string(data.entity_id_) + "]";
-  }
-
-  // create our prefix
-  pre << formatTime(data.time_) << "s [" << data.name_ << "]" << entitySection
-      << "[" << Print::getWarningLevel(level) << "]: ";
-
-  // remove last character if it's a newline
-  if (msg.back() == '\n') {
-    msg.pop_back();
-  }
-
-  // iterate and place the prefix at the beginning of each newline
-  formattedmsg << pre.str();
-  for (auto i = msg.cbegin(); i != msg.cend(); ++i) {
-    formattedmsg << *i;
-    // add prefix after each newline
-    if (*i == '\n') {
-      formattedmsg << pre.str();
+    // add entity_id if available
+    if (data.entity_id_ > 0) {
+        entitySection = "[Entity: " + std::to_string(data.entity_id_) + "]";
     }
-  }
 
-  return formattedmsg.str();
+    // create our prefix
+    pre << formatTime(data.time_) << "s [" << data.name_ << "]" << entitySection
+        << "[" << Print::getWarningLevel(level) << "]: ";
+
+    // remove last character if it's a newline
+    if (msg.back() == '\n') {
+        msg.pop_back();
+    }
+
+    // iterate and place the prefix at the beginning of each newline
+    formattedmsg << pre.str();
+    for (auto i = msg.cbegin(); i != msg.cend(); ++i) {
+        formattedmsg << *i;
+        // add prefix after each newline
+        if (*i == '\n') {
+            formattedmsg << pre.str();
+        }
+    }
+
+    return formattedmsg.str();
 }
 
 void Print::print(std::ostream &stream, PrintEnums::WARN_LEVEL level,
                   EntityPlugin &caller, std::string msg) {
-  PrintData pd;
-  pd.time_ = caller.getTime()->t();
-  pd.name_ = caller.name();
-  pd.entity_id_ = caller.parent()->id().id();
+    PrintData pd;
+    pd.time_ = caller.getTime()->t();
+    pd.name_ = caller.name();
+    pd.entity_id_ = caller.parent()->id().id();
 
-  print(stream, level, pd, msg);
+    print(stream, level, pd, msg);
 }
 void Print::print(std::ostream &stream, PrintEnums::WARN_LEVEL level,
                   PrintData &data, std::string msg) {
-  std::ostringstream o;
+    std::ostringstream o;
 
-  o << formatMsg(level, data, msg) << std::endl;
+    o << formatMsg(level, data, msg) << std::endl;
 
-  if (write_file()) {
-    log_stream_ << o.str();
-  }  // write to log file
-  if (write_console()) {
-    stream << o.str();
-  }  // write to console
+    if (write_file()) {
+        log_stream_ << o.str();
+    }  // write to log file
+    if (write_console()) {
+        stream << o.str();
+    }  // write to console
 }
 
 }  // namespace scrimmage

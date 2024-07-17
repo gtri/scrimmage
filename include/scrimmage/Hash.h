@@ -39,11 +39,11 @@
 namespace std {
 template <>
 struct hash<scrimmage::ID> {
-  size_t operator()(scrimmage::ID const& id) const {
-    // assume up to 16 teams and 64 subswarms
-    // for a 32-bit int this leaves 16 bits (up to 65000 ids)
-    return id.team_id() & (id.sub_swarm_id() << 4) & (id.id() << 12);
-  }
+    size_t operator()(scrimmage::ID const& id) const {
+        // assume up to 16 teams and 64 subswarms
+        // for a 32-bit int this leaves 16 bits (up to 65000 ids)
+        return id.team_id() & (id.sub_swarm_id() << 4) & (id.id() << 12);
+    }
 };
 }  // namespace std
 

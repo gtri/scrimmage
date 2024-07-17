@@ -48,25 +48,25 @@ namespace interaction {
 
 class RandomAttrit : public scrimmage::EntityInteraction {
  public:
-  RandomAttrit();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
-                               double dt) override;
+    RandomAttrit();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
 
  protected:
-  bool started_ = false;
-  int team_id_ = -1;
-  std::string decay_method_ = "";
-  double start_wait_time_s_ = 0.0;
-  double duration_s_ = 10.0;
-  std::vector<int> stay_alive_ids_;
-  int total_num_entities_ = 0;
-  double start_num_ent_ = 0.0;
-  double num_ent_ = 0.0;
-  Random random_;
+    bool started_ = false;
+    int team_id_ = -1;
+    std::string decay_method_ = "";
+    double start_wait_time_s_ = 0.0;
+    double duration_s_ = 10.0;
+    std::vector<int> stay_alive_ids_;
+    int total_num_entities_ = 0;
+    double start_num_ent_ = 0.0;
+    double num_ent_ = 0.0;
+    Random random_;
 
-  PublisherPtr attrit_pub_;
+    PublisherPtr attrit_pub_;
 
  private:
 };

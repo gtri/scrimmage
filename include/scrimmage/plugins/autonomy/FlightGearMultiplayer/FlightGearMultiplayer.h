@@ -50,25 +50,25 @@ namespace scrimmage {
 namespace autonomy {
 class FlightGearMultiplayer : public scrimmage::Autonomy {
  public:
-  FlightGearMultiplayer();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    FlightGearMultiplayer();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  std::string callsign_;
-  std::shared_ptr<netSocket> data_socket_;
-  netAddress net_address_;
-  std::string aircraft_model_;
+    std::string callsign_;
+    std::shared_ptr<netSocket> data_socket_;
+    netAddress net_address_;
+    std::string aircraft_model_;
 
-  std::shared_ptr<GeographicLib::Geocentric> earth_;
+    std::shared_ptr<GeographicLib::Geocentric> earth_;
 
-  Angles angles_to_jsbsim_;
+    Angles angles_to_jsbsim_;
 
-  scrimmage::Quaternion fromLonLatRad(float lon, float lat);
+    scrimmage::Quaternion fromLonLatRad(float lon, float lat);
 
-  struct T_MsgHdr header_msg_;
-  struct T_PositionMsg pos_msg_;
-  int msg_size_ = 0;
+    struct T_MsgHdr header_msg_;
+    struct T_PositionMsg pos_msg_;
+    int msg_size_ = 0;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

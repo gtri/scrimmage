@@ -51,95 +51,97 @@ namespace motion {
 
 bool Unicycle::init(std::map<std::string, std::string> &info,
                     std::map<std::string, std::string> &params) {
-  // Declare variables for controllers
-  use_pitch_ = get<bool>("use_pitch", params, use_pitch_);
+    // Declare variables for controllers
+    use_pitch_ = get<bool>("use_pitch", params, use_pitch_);
 
-  speed_idx_ =
-      vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
-  turn_rate_idx_ =
-      vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    speed_idx_ =
+        vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+    turn_rate_idx_ =
+        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
 
-  if (use_pitch_) {
-    pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
-  } else {
-    velocity_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
-  }
+    if (use_pitch_) {
+        pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate,
+                                        VariableIO::Direction::In);
+    } else {
+        velocity_z_idx_ = vars_.declare(VariableIO::Type::velocity_z,
+                                        VariableIO::Direction::In);
+    }
 
-  x_.resize(MODEL_NUM_ITEMS);
-  x_[X] = state_->pos()(0);
-  x_[Y] = state_->pos()(1);
-  x_[Z] = state_->pos()(2);
-  x_[YAW] = state_->quat().yaw();
-  x_[PITCH] = state_->quat().pitch();
+    x_.resize(MODEL_NUM_ITEMS);
+    x_[X] = state_->pos()(0);
+    x_[Y] = state_->pos()(1);
+    x_[Z] = state_->pos()(2);
+    x_[YAW] = state_->quat().yaw();
+    x_[PITCH] = state_->quat().pitch();
 
-  if (use_pitch_) {
-    pitch_rate_max_ = get<double>("pitch_rate_max", params, pitch_rate_max_);
-  } else {
-    velocity_z_max_ = get<double>("velocity_z_max", params, velocity_z_max_);
-  }
+    if (use_pitch_) {
+        pitch_rate_max_ =
+            get<double>("pitch_rate_max", params, pitch_rate_max_);
+    } else {
+        velocity_z_max_ =
+            get<double>("velocity_z_max", params, velocity_z_max_);
+    }
 
-  turn_rate_max_ = get<double>("turn_rate_max", params, turn_rate_max_);
-  vel_max_ = get<double>("vel_max", params, vel_max_);
-  enable_roll_ = get<bool>("enable_roll", params, false);
+    turn_rate_max_ = get<double>("turn_rate_max", params, turn_rate_max_);
+    vel_max_ = get<double>("vel_max", params, vel_max_);
+    enable_roll_ = get<bool>("enable_roll", params, false);
 
-  return true;
+    return true;
 }
 
 bool Unicycle::step(double t, double dt) {
-  // Get inputs and saturate
-  velocity_ = clamp(vars_.input(speed_idx_), -vel_max_, vel_max_);
-  turn_rate_ =
-      clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
-  if (use_pitch_) {
-    pitch_rate_ =
-        clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_, pitch_rate_max_);
-  } else {
-    velocity_z_ =
-        clamp(vars_.input(velocity_z_idx_), -velocity_z_max_, velocity_z_max_);
-  }
+    // Get inputs and saturate
+    velocity_ = clamp(vars_.input(speed_idx_), -vel_max_, vel_max_);
+    turn_rate_ =
+        clamp(vars_.input(turn_rate_idx_), -turn_rate_max_, turn_rate_max_);
+    if (use_pitch_) {
+        pitch_rate_ = clamp(vars_.input(pitch_rate_idx_), -pitch_rate_max_,
+                            pitch_rate_max_);
+    } else {
+        velocity_z_ = clamp(vars_.input(velocity_z_idx_), -velocity_z_max_,
+                            velocity_z_max_);
+    }
 
-  double prev_x = x_[X];
-  double prev_y = x_[Y];
-  double prev_z = x_[Z];
+    double prev_x = x_[X];
+    double prev_y = x_[Y];
+    double prev_z = x_[Z];
 
-  ode_step(dt);
+    ode_step(dt);
 
-  double dx = (x_[X] - prev_x) / dt;
-  double dy = (x_[Y] - prev_y) / dt;
-  double dz = (x_[Z] - prev_z) / dt;
+    double dx = (x_[X] - prev_x) / dt;
+    double dy = (x_[Y] - prev_y) / dt;
+    double dz = (x_[Z] - prev_z) / dt;
 
-  state_->vel()(0) = dx;
-  state_->vel()(1) = dy;
-  state_->vel()(2) = dz;
+    state_->vel()(0) = dx;
+    state_->vel()(1) = dy;
+    state_->vel()(2) = dz;
 
-  state_->pos()(0) = x_[X];
-  state_->pos()(1) = x_[Y];
-  state_->pos()(2) = x_[Z];
+    state_->pos()(0) = x_[X];
+    state_->pos()(1) = x_[Y];
+    state_->pos()(2) = x_[Z];
 
-  double roll = 0;  // TODO: simulate roll if enabled
-  if (enable_roll_ && turn_rate_ != 0) {
-    // see https://en.wikipedia.org/wiki/Standard_rate_turn
-    const double radius = velocity_ / turn_rate_;
-    roll = -atan2(pow(velocity_, 2) / radius, g_);
-  }
-  state_->quat().set(roll, x_[PITCH], x_[YAW]);
+    double roll = 0;  // TODO: simulate roll if enabled
+    if (enable_roll_ && turn_rate_ != 0) {
+        // see https://en.wikipedia.org/wiki/Standard_rate_turn
+        const double radius = velocity_ / turn_rate_;
+        roll = -atan2(pow(velocity_, 2) / radius, g_);
+    }
+    state_->quat().set(roll, x_[PITCH], x_[YAW]);
 
-  return true;
+    return true;
 }
 
 void Unicycle::model(const vector_t &x, vector_t &dxdt, double t) {
-  double xy_speed = velocity_ * cos(x[PITCH]);
-  dxdt[X] = xy_speed * cos(x[YAW]);
-  dxdt[Y] = xy_speed * sin(x[YAW]);
-  dxdt[YAW] = turn_rate_;
-  if (use_pitch_) {
-    dxdt[Z] = -velocity_ * sin(x[PITCH]);
-    dxdt[PITCH] = pitch_rate_;
-  } else {
-    dxdt[Z] = velocity_z_;
-  }
+    double xy_speed = velocity_ * cos(x[PITCH]);
+    dxdt[X] = xy_speed * cos(x[YAW]);
+    dxdt[Y] = xy_speed * sin(x[YAW]);
+    dxdt[YAW] = turn_rate_;
+    if (use_pitch_) {
+        dxdt[Z] = -velocity_ * sin(x[PITCH]);
+        dxdt[PITCH] = pitch_rate_;
+    } else {
+        dxdt[Z] = velocity_z_;
+    }
 }
 }  // namespace motion
 }  // namespace scrimmage

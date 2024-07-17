@@ -63,52 +63,52 @@ namespace motor_schemas {
 MoveToGoalMS::MoveToGoalMS() {}
 
 void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
-  if (sc::get("use_initial_heading", params, false)) {
-    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX() * 1e6;
-    Eigen::Vector3d unit_vector = rel_pos.normalized();
-    unit_vector = state_->quat().rotate(unit_vector);
-    wp_local_ = state_->pos() + unit_vector * rel_pos.norm();
-  } else {
-    std::vector<double> goal_vec;
-    if (sc::get_vec<double>("goal", params, ", ", goal_vec, 3)) {
-      wp_local_ = sc::vec2eigen(goal_vec);
+    if (sc::get("use_initial_heading", params, false)) {
+        Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX() * 1e6;
+        Eigen::Vector3d unit_vector = rel_pos.normalized();
+        unit_vector = state_->quat().rotate(unit_vector);
+        wp_local_ = state_->pos() + unit_vector * rel_pos.norm();
     } else {
-      cout << "Failed to parse MoveToGoalMS' initial goal" << endl;
+        std::vector<double> goal_vec;
+        if (sc::get_vec<double>("goal", params, ", ", goal_vec, 3)) {
+            wp_local_ = sc::vec2eigen(goal_vec);
+        } else {
+            cout << "Failed to parse MoveToGoalMS' initial goal" << endl;
+        }
     }
-  }
 
-  // Initialize PID controller class
-  speed_pid_.set_parameters(sc::get("p_gain", params, 0.5),
-                            sc::get("i_gain", params, 0.0),
-                            sc::get("d_gain", params, 0.0));
-  speed_pid_.set_integral_band(sc::get("integral_band", params, 0.0));
-  speed_pid_.set_setpoint(0.0);
+    // Initialize PID controller class
+    speed_pid_.set_parameters(sc::get("p_gain", params, 0.5),
+                              sc::get("i_gain", params, 0.0),
+                              sc::get("d_gain", params, 0.0));
+    speed_pid_.set_integral_band(sc::get("integral_band", params, 0.0));
+    speed_pid_.set_setpoint(0.0);
 
-  // Convert XYZ goal to lat/lon/alt
-  double lat, lon, alt;
-  parent_->projection()->Reverse(wp_local_(0), wp_local_(1), wp_local_(2), lat,
-                                 lon, alt);
+    // Convert XYZ goal to lat/lon/alt
+    double lat, lon, alt;
+    parent_->projection()->Reverse(wp_local_(0), wp_local_(1), wp_local_(2),
+                                   lat, lon, alt);
 
-  wp_ = Waypoint(lat, lon, alt);
-  wp_.set_time(0);
-  wp_.set_quat(scrimmage::Quaternion(0, 0, 0));
-  wp_.set_position_tolerance(1);
-  wp_.set_quat_tolerance(1);
+    wp_ = Waypoint(lat, lon, alt);
+    wp_.set_time(0);
+    wp_.set_quat(scrimmage::Quaternion(0, 0, 0));
+    wp_.set_position_tolerance(1);
+    wp_.set_quat_tolerance(1);
 
-  auto wp_cb = [&](scrimmage::MessagePtr<Waypoint> msg) {
-    wp_ = msg->data;
-    parent_->projection()->Forward(wp_.latitude(), wp_.longitude(),
-                                   wp_.altitude(), wp_local_(0), wp_local_(1),
-                                   wp_local_(2));
-  };
-  subscribe<Waypoint>("LocalNetwork", "Waypoint", wp_cb);
+    auto wp_cb = [&](scrimmage::MessagePtr<Waypoint> msg) {
+        wp_ = msg->data;
+        parent_->projection()->Forward(wp_.latitude(), wp_.longitude(),
+                                       wp_.altitude(), wp_local_(0),
+                                       wp_local_(1), wp_local_(2));
+    };
+    subscribe<Waypoint>("LocalNetwork", "Waypoint", wp_cb);
 }
 
 bool MoveToGoalMS::step_autonomy(double t, double dt) {
-  double measurement = -(wp_local_ - state_->pos()).norm();
-  double speed_factor = speed_pid_.step(dt, measurement);
-  desired_vector_ = (wp_local_ - state_->pos()).normalized() * speed_factor;
-  return true;
+    double measurement = -(wp_local_ - state_->pos()).norm();
+    double speed_factor = speed_pid_.step(dt, measurement);
+    desired_vector_ = (wp_local_ - state_->pos()).normalized() * speed_factor;
+    return true;
 }
 }  // namespace motor_schemas
 }  // namespace autonomy

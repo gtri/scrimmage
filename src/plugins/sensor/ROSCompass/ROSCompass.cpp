@@ -57,57 +57,57 @@ namespace sensor {
 ROSCompass::ROSCompass() {}
 
 void ROSCompass::init(std::map<std::string, std::string> &params) {
-  // Setup robot namespace
-  vehicle_name_ = sc::get<std::string>("vehicle_name", params, "none");
-  if (vehicle_name_ == "none") {
-    ros_namespace_ =
-        sc::get<std::string>("ros_namespace_prefix", params, "robot");
-    ros_namespace_ += std::to_string(parent_->id().id());
-  } else {
-    ros_namespace_ = vehicle_name_;
-  }
+    // Setup robot namespace
+    vehicle_name_ = sc::get<std::string>("vehicle_name", params, "none");
+    if (vehicle_name_ == "none") {
+        ros_namespace_ =
+            sc::get<std::string>("ros_namespace_prefix", params, "robot");
+        ros_namespace_ += std::to_string(parent_->id().id());
+    } else {
+        ros_namespace_ = vehicle_name_;
+    }
 
-  if (!ros::isInitialized()) {
-    int argc = 0;
-    // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
-    ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
-  }
-  nh_ = std::make_shared<ros::NodeHandle>();
+    if (!ros::isInitialized()) {
+        int argc = 0;
+        // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
+        ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
+    }
+    nh_ = std::make_shared<ros::NodeHandle>();
 
-  // Create Publisher
-  compass_pub_ = nh_->advertise<sensor_msgs::MagneticField>(
-      ros_namespace_ + "/compass", 1);
+    // Create Publisher
+    compass_pub_ = nh_->advertise<sensor_msgs::MagneticField>(
+        ros_namespace_ + "/compass", 1);
 }
 
 bool ROSCompass::step() {
-  // Obtain current state information
-  sc::StatePtr &state = parent_->state_truth();
+    // Obtain current state information
+    sc::StatePtr &state = parent_->state_truth();
 
-  // Scrimmage is in ENU so all outputs are in ENU (East North Up).
+    // Scrimmage is in ENU so all outputs are in ENU (East North Up).
 
-  // Get rotation vector
-  // Rotate Reverse: Get rotation between orientation of the body and ENU
-  // orientation of the north pole (0, 1, 0)
-  Eigen::Vector3d rotation =
-      state->quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));
+    // Get rotation vector
+    // Rotate Reverse: Get rotation between orientation of the body and ENU
+    // orientation of the north pole (0, 1, 0)
+    Eigen::Vector3d rotation =
+        state->quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));
 
-  // Fill Compass Message. We're using the magnetic field message, but the info
-  // is the rotation vector.
-  sensor_msgs::MagneticField compass_msg;
-  compass_msg.magnetic_field.x = rotation.x();
-  compass_msg.magnetic_field.y = rotation.y();
-  compass_msg.magnetic_field.z = rotation.z();
+    // Fill Compass Message. We're using the magnetic field message, but the
+    // info is the rotation vector.
+    sensor_msgs::MagneticField compass_msg;
+    compass_msg.magnetic_field.x = rotation.x();
+    compass_msg.magnetic_field.y = rotation.y();
+    compass_msg.magnetic_field.z = rotation.z();
 
-  // Header
-  std_msgs::Header header;  // empty header
-  // TODO: header.frame = ? // No system for ROS Frame ID's yet
-  header.stamp = ros::Time::now();  // time
-  compass_msg.header = header;
+    // Header
+    std_msgs::Header header;  // empty header
+    // TODO: header.frame = ? // No system for ROS Frame ID's yet
+    header.stamp = ros::Time::now();  // time
+    compass_msg.header = header;
 
-  // Publish Compass information
-  compass_pub_.publish(compass_msg);
+    // Publish Compass information
+    compass_pub_.publish(compass_msg);
 
-  return true;
+    return true;
 }
 }  // namespace sensor
 }  // namespace scrimmage

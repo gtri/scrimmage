@@ -79,22 +79,22 @@ typedef std::shared_ptr<rtree_t> rtreePtr;
 
 class RTree {
  public:
-  void init(const unsigned int &size);
+    void init(const unsigned int &size);
 
-  void add(const Eigen::Vector3d &pos, const ID &id);
-  void nearest_n_neighbors(const Eigen::Vector3d &pos,
-                           std::vector<ID> &neighbors, unsigned int n,
-                           int self_id = -1, int team_id = -1) const;
-  void neighbors_in_range(const Eigen::Vector3d &pos,
-                          std::vector<ID> &neighbors, double dist,
-                          int self_id = -1, int team_id = -1) const;
+    void add(const Eigen::Vector3d &pos, const ID &id);
+    void nearest_n_neighbors(const Eigen::Vector3d &pos,
+                             std::vector<ID> &neighbors, unsigned int n,
+                             int self_id = -1, int team_id = -1) const;
+    void neighbors_in_range(const Eigen::Vector3d &pos,
+                            std::vector<ID> &neighbors, double dist,
+                            int self_id = -1, int team_id = -1) const;
 
  protected:
-  void clear();
+    void clear();
 
-  rtreePtr rtree_ = nullptr;
-  std::map<int, rtreePtr> rtree_team_;
-  int size_ = 0;
+    rtreePtr rtree_ = nullptr;
+    std::map<int, rtreePtr> rtree_team_;
+    int size_ = 0;
 };
 
 typedef std::shared_ptr<RTree> RTreePtr;

@@ -51,17 +51,17 @@ class optional;
 namespace scrimmage {
 class SimControl;
 struct SimUtilsInfo {
-  MissionParsePtr mp;
-  PluginManagerPtr plugin_manager;
-  FileSearchPtr file_search;
-  RTreePtr rtree;
-  PubSubPtr pubsub;
-  PrintPtr printer;
-  TimePtr time;
-  ParameterServerPtr param_server;
-  RandomPtr random;
-  std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;
-  std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;
+    MissionParsePtr mp;
+    PluginManagerPtr plugin_manager;
+    FileSearchPtr file_search;
+    RTreePtr rtree;
+    PubSubPtr pubsub;
+    PrintPtr printer;
+    TimePtr time;
+    ParameterServerPtr param_server;
+    RandomPtr random;
+    std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;
+    std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;
 };
 
 bool create_ent_inters(

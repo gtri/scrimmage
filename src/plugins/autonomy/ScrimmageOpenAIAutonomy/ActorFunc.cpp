@@ -58,48 +58,50 @@ std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> init_actor_func(
     const std::map<std::string, std::string> &params,
     CombineActors combine_actors, UseGlobalSensor global_sensor,
     bool grpc_mode) {
-  if (autonomies.empty()) {
-    return std::make_tuple(OpenAIActions(), OpenAIObservations(),
-                           pybind11::none());
-  }
-
-  OpenAIActions actions;
-  br::copy(autonomies, std::back_inserter(actions.ext_ctrl_vec()));
-  actions.create_action_space(combine_actors == CombineActors::YES);
-
-  OpenAIObservations observations;
-  observations.set_combine_actors(combine_actors == CombineActors::YES);
-  observations.set_global_sensor(global_sensor == UseGlobalSensor::YES);
-
-  for (auto autonomy : autonomies) {
-    observations.add_sensors(autonomy->parent()->sensors());
-    if (global_sensor == UseGlobalSensor::YES) break;
-  }
-
-  observations.create_observation_space(autonomies.size(), true);
-  py::object actor_func = py::none();
-  py::object actor_init_func = py::none();
-
-  if (!grpc_mode) {
-    // get the actor func
-    const std::string module_str = get("module", params, "");
-    if (module_str == "") {
-      std::cout << "ERROR: ActorFunc: Missing parameter: module" << std::endl;
+    if (autonomies.empty()) {
+        return std::make_tuple(OpenAIActions(), OpenAIObservations(),
+                               pybind11::none());
     }
 
-    const std::string actor_init_func_str = get("actor_init_func", params, "");
-    if (actor_init_func_str == "") {
-      std::cout << "ERROR: ActorFunc: Missing parameter: actor_init_func"
-                << std::endl;
+    OpenAIActions actions;
+    br::copy(autonomies, std::back_inserter(actions.ext_ctrl_vec()));
+    actions.create_action_space(combine_actors == CombineActors::YES);
+
+    OpenAIObservations observations;
+    observations.set_combine_actors(combine_actors == CombineActors::YES);
+    observations.set_global_sensor(global_sensor == UseGlobalSensor::YES);
+
+    for (auto autonomy : autonomies) {
+        observations.add_sensors(autonomy->parent()->sensors());
+        if (global_sensor == UseGlobalSensor::YES) break;
     }
 
-    py::object m = py::module::import(module_str.c_str());
-    actor_init_func = m.attr(actor_init_func_str.c_str());
+    observations.create_observation_space(autonomies.size(), true);
+    py::object actor_func = py::none();
+    py::object actor_init_func = py::none();
 
-    actor_func =
-        actor_init_func(actions.action_space, observations.observation, params);
-  }
-  return std::make_tuple(actions, observations, actor_func);
+    if (!grpc_mode) {
+        // get the actor func
+        const std::string module_str = get("module", params, "");
+        if (module_str == "") {
+            std::cout << "ERROR: ActorFunc: Missing parameter: module"
+                      << std::endl;
+        }
+
+        const std::string actor_init_func_str =
+            get("actor_init_func", params, "");
+        if (actor_init_func_str == "") {
+            std::cout << "ERROR: ActorFunc: Missing parameter: actor_init_func"
+                      << std::endl;
+        }
+
+        py::object m = py::module::import(module_str.c_str());
+        actor_init_func = m.attr(actor_init_func_str.c_str());
+
+        actor_func = actor_init_func(actions.action_space,
+                                     observations.observation, params);
+    }
+    return std::make_tuple(actions, observations, actor_func);
 }
 }  // namespace autonomy
 }  // namespace scrimmage

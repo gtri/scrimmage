@@ -52,22 +52,22 @@ namespace interaction {
 
 class CaptureInBoundaryInteraction : public scrimmage::EntityInteraction {
  public:
-  CaptureInBoundaryInteraction();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                               double dt) override;
+    CaptureInBoundaryInteraction();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
+                                 double dt) override;
 
  protected:
-  std::shared_ptr<sci::BoundaryBase> boundary_;
-  scrimmage_proto::Shape boundary_shape_;
-  double capture_range_;
-  int boundary_id_;
-  double cool_down_period_;
-  std::map<int, double> prev_capture_times_;
+    std::shared_ptr<sci::BoundaryBase> boundary_;
+    scrimmage_proto::Shape boundary_shape_;
+    double capture_range_;
+    int boundary_id_;
+    double cool_down_period_;
+    std::map<int, double> prev_capture_times_;
 
-  scrimmage::PublisherPtr non_team_capture_pub_;
-  std::unordered_set<int> already_captured_;
+    scrimmage::PublisherPtr non_team_capture_pub_;
+    std::unordered_set<int> already_captured_;
 
  private:
 };

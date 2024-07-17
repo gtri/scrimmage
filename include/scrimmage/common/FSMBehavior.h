@@ -43,9 +43,9 @@ namespace scrimmage {
 namespace common {
 class FSMBehavior : public scrimmage::Autonomy {
  public:
-  virtual void entered() {}
-  virtual void step_inactive() {}
-  virtual void exited() {}
+    virtual void entered() {}
+    virtual void step_inactive() {}
+    virtual void exited() {}
 
  protected:
 };

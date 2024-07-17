@@ -46,28 +46,28 @@ namespace scrimmage {
 namespace autonomy {
 class MOOSAutonomy : public scrimmage::Autonomy {
  public:
-  MOOSAutonomy();
-  void init(std::map<std::string, std::string> &params) override;
-  bool ready() override;
-  bool step_autonomy(double t, double dt) override;
+    MOOSAutonomy();
+    void init(std::map<std::string, std::string> &params) override;
+    bool ready() override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  void run_moos_node();
+    void run_moos_node();
 
-  std::thread moos_node_thread_;
-  std::thread ivp_thread_;
-  MOOSNode moos_node_;
+    std::thread moos_node_thread_;
+    std::thread ivp_thread_;
+    MOOSNode moos_node_;
 
-  std::string moos_app_name_;
-  std::string moos_script_;
-  std::string moos_mission_file_;
+    std::string moos_app_name_;
+    std::string moos_script_;
+    std::string moos_mission_file_;
 
-  scrimmage::Angles angles_to_moos_;
-  scrimmage::Angles angles_from_moos_;
+    scrimmage::Angles angles_to_moos_;
+    scrimmage::Angles angles_from_moos_;
 
-  int desired_heading_idx_ = 0;
-  int desired_alt_idx_ = 0;
-  int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -54,12 +54,12 @@ namespace scrimmage {
 namespace controller {
 
 void JoystickController::init(std::map<std::string, std::string> &params) {
-  joystick_.init(params, vars_,
-                 std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+    joystick_.init(params, vars_,
+                   std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
 bool JoystickController::step(double t, double dt) {
-  return joystick_.step(t, dt, vars_);
+    return joystick_.step(t, dt, vars_);
 }
 }  // namespace controller
 }  // namespace scrimmage

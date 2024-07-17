@@ -43,15 +43,15 @@ namespace scrimmage {
 namespace controller {
 class FixedWing6DOFControllerPID : public FixedWing6DOF::Controller {
  public:
-  virtual void init(std::map<std::string, std::string> &params);
-  virtual bool step(double t, double dt);
-  virtual std::shared_ptr<Eigen::Vector4d> u() { return u_; }
+    virtual void init(std::map<std::string, std::string> &params);
+    virtual bool step(double t, double dt);
+    virtual std::shared_ptr<Eigen::Vector4d> u() { return u_; }
 
  protected:
-  std::shared_ptr<Eigen::Vector4d> u_;
-  scrimmage::PID heading_pid_;
-  scrimmage::PID alt_pid_;
-  scrimmage::PID vel_pid_;
+    std::shared_ptr<Eigen::Vector4d> u_;
+    scrimmage::PID heading_pid_;
+    scrimmage::PID alt_pid_;
+    scrimmage::PID vel_pid_;
 };
 }  // namespace controller
 }  // namespace scrimmage

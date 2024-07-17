@@ -49,16 +49,16 @@ namespace scrimmage {
 namespace sensor {
 class AltitudeAboveTerrain : public scrimmage::Sensor {
  public:
-  AltitudeAboveTerrain();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    AltitudeAboveTerrain();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-  std::shared_ptr<std::default_random_engine> gener_;
-  std::shared_ptr<std::normal_distribution<double>> noise_;
-  PublisherPtr pub_true_;
-  PublisherPtr pub_noise_;
-  std::shared_ptr<scrimmage::interaction::TerrainMap> map_ = nullptr;
+    std::shared_ptr<std::default_random_engine> gener_;
+    std::shared_ptr<std::normal_distribution<double>> noise_;
+    PublisherPtr pub_true_;
+    PublisherPtr pub_noise_;
+    std::shared_ptr<scrimmage::interaction::TerrainMap> map_ = nullptr;
 
  private:
 };

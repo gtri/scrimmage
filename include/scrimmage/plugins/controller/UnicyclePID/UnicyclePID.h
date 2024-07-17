@@ -45,32 +45,32 @@ namespace controller {
 
 class UnicyclePID : public scrimmage::Controller {
  public:
-  UnicyclePID();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
+    UnicyclePID();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-  // Input variables
-  int desired_heading_idx_ = 0;
-  int desired_alt_idx_ = 0;
-  int desired_speed_idx_ = 0;
+    // Input variables
+    int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
 
-  // Output variables
-  int speed_idx_ = 0;
-  int turn_rate_idx_ = 0;
-  int pitch_rate_idx_ = 0;
-  int roll_rate_idx_ = 0;
+    // Output variables
+    int speed_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
+    int roll_rate_idx_ = 0;
 
-  scrimmage::PID heading_pid_;
-  scrimmage::PID speed_pid_;
-  scrimmage::PID pitch_pid_;
-  scrimmage::PID roll_pid_;
+    scrimmage::PID heading_pid_;
+    scrimmage::PID speed_pid_;
+    scrimmage::PID pitch_pid_;
+    scrimmage::PID roll_pid_;
 
-  bool show_shapes_ = false;
-  scrimmage_proto::ShapePtr line_shape_ =
-      std::make_shared<scrimmage_proto::Shape>();
+    bool show_shapes_ = false;
+    scrimmage_proto::ShapePtr line_shape_ =
+        std::make_shared<scrimmage_proto::Shape>();
 
-  bool use_accel_ = false;
+    bool use_accel_ = false;
 };
 }  // namespace controller
 }  // namespace scrimmage

@@ -58,179 +58,181 @@ namespace scrimmage {
 namespace autonomy {
 
 void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
-  show_shapes_ = sc::get("show_shapes", params, false);
+    show_shapes_ = sc::get("show_shapes", params, false);
 
-  // Discover the output variables that point to the input variables for the
-  // motion model. Setup input variables that mirror the output variables.
-  for (auto &kv : vars_.output_variable_index()) {
-    int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
-    int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
-    io_map_[out_idx] = in_idx;
-  }
-
-  // Subscribe to state information
-  std::string state_topic_name =
-      sc::get<std::string>("state_topic_name", params, "State");
-  std::string network_name =
-      sc::get<std::string>("network_name", params, "LocalNetwork");
-
-  auto state_callback = [&](scrimmage::MessagePtr<std::string> msg) {
-    // If the state didn't change, return immediately.
-    if (current_state_ == msg->data) {
-      return;
+    // Discover the output variables that point to the input variables for the
+    // motion model. Setup input variables that mirror the output variables.
+    for (auto &kv : vars_.output_variable_index()) {
+        int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
+        int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
+        io_map_[out_idx] = in_idx;
     }
 
-    current_state_ = msg->data;
+    // Subscribe to state information
+    std::string state_topic_name =
+        sc::get<std::string>("state_topic_name", params, "State");
+    std::string network_name =
+        sc::get<std::string>("network_name", params, "LocalNetwork");
 
-    // Get the list of autonomies that run in this new state
-    auto autonomy_list = autonomies_.find(current_state_);
-    if (autonomy_list != autonomies_.end()) {
-      running_autonomies_ = autonomy_list->second;
-    } else {
-      running_autonomies_ = default_autonomies_;
-    }
+    auto state_callback = [&](scrimmage::MessagePtr<std::string> msg) {
+        // If the state didn't change, return immediately.
+        if (current_state_ == msg->data) {
+            return;
+        }
 
-    // Call each autonomy's init method to let it know that it is now
-    // running.
-    for (sc::AutonomyPtr autonomy : running_autonomies_) {
-      if (!call_init(autonomy->name(), autonomy)) {
-        cout << "AutonomyExecutor: Failed to reload init for "
-             << autonomy->name() << endl;
-      }
-    }
-  };
-  subscribe<std::string>(network_name, state_topic_name, state_callback);
+        current_state_ = msg->data;
 
-  // Parse the autonomy plugins
-  std::string autonomies_str = sc::get<std::string>("autonomies", params, "");
-  std::vector<std::vector<std::string>> vecs_of_vecs;
-  sc::get_vec_of_vecs(autonomies_str, vecs_of_vecs, " ");
-  for (std::vector<std::string> vecs : vecs_of_vecs) {
-    if (vecs.size() < 1) {
-      std::cout << "Autonomy name missing." << std::endl;
-      continue;
-    }
+        // Get the list of autonomies that run in this new state
+        auto autonomy_list = autonomies_.find(current_state_);
+        if (autonomy_list != autonomies_.end()) {
+            running_autonomies_ = autonomy_list->second;
+        } else {
+            running_autonomies_ = default_autonomies_;
+        }
 
-    std::string autonomy_name = "";
-    std::map<std::string, std::string> autonomy_params;
-    int i = 0;
-    for (std::string str : vecs) {
-      if (i == 0) {
-        autonomy_name = str;
-      } else {
-        // Parse the autonomy parameters (e.g., param_name='value')
-        // Split the param_name and value, with equals sign in between
-        std::vector<std::string> tokens;
-        boost::split(tokens, str, boost::is_any_of("="));
-        if (tokens.size() == 2) {
-          // Remove the quotes from the value
-          tokens[1].erase(std::remove_if(tokens[1].begin(), tokens[1].end(),
-                                         [](unsigned char x) {
+        // Call each autonomy's init method to let it know that it is now
+        // running.
+        for (sc::AutonomyPtr autonomy : running_autonomies_) {
+            if (!call_init(autonomy->name(), autonomy)) {
+                cout << "AutonomyExecutor: Failed to reload init for "
+                     << autonomy->name() << endl;
+            }
+        }
+    };
+    subscribe<std::string>(network_name, state_topic_name, state_callback);
+
+    // Parse the autonomy plugins
+    std::string autonomies_str = sc::get<std::string>("autonomies", params, "");
+    std::vector<std::vector<std::string>> vecs_of_vecs;
+    sc::get_vec_of_vecs(autonomies_str, vecs_of_vecs, " ");
+    for (std::vector<std::string> vecs : vecs_of_vecs) {
+        if (vecs.size() < 1) {
+            std::cout << "Autonomy name missing." << std::endl;
+            continue;
+        }
+
+        std::string autonomy_name = "";
+        std::map<std::string, std::string> autonomy_params;
+        int i = 0;
+        for (std::string str : vecs) {
+            if (i == 0) {
+                autonomy_name = str;
+            } else {
+                // Parse the autonomy parameters (e.g., param_name='value')
+                // Split the param_name and value, with equals sign in between
+                std::vector<std::string> tokens;
+                boost::split(tokens, str, boost::is_any_of("="));
+                if (tokens.size() == 2) {
+                    // Remove the quotes from the value
+                    tokens[1].erase(
+                        std::remove_if(tokens[1].begin(), tokens[1].end(),
+                                       [](unsigned char x) {
                                            return (x == '\"') || (x == '\'');
-                                         }),
-                          tokens[1].end());
-          autonomy_params[tokens[0]] = tokens[1];
+                                       }),
+                        tokens[1].end());
+                    autonomy_params[tokens[0]] = tokens[1];
+                }
+            }
+            ++i;
         }
-      }
-      ++i;
-    }
 
-    sc::ConfigParse config_parse;
-    PluginStatus<Autonomy> status =
-        parent_->plugin_manager()->make_plugin<Autonomy>(
-            "scrimmage::Autonomy", autonomy_name, *(parent_->file_search()),
-            config_parse, autonomy_params, std::set<std::string>{});
-    if (status.status == PluginStatus<Autonomy>::cast_failed) {
-      cout << "AutonomyExecutor Failed to open autonomy plugin: "
-           << autonomy_name << endl;
-    } else if (status.status == PluginStatus<Autonomy>::loaded) {
-      // connect the initialized autonomy plugin's variable output with
-      // the variable input to the controller. This is similar to
-      // connect(autonomy->vars(), controller->vars());
-      // but without the reference to the controller->vars()
-      AutonomyPtr autonomy = status.plugin;
-      autonomy->vars().output_variable_index() = vars_.output_variable_index();
-      autonomy->vars().set_output(vars_.output());
+        sc::ConfigParse config_parse;
+        PluginStatus<Autonomy> status =
+            parent_->plugin_manager()->make_plugin<Autonomy>(
+                "scrimmage::Autonomy", autonomy_name, *(parent_->file_search()),
+                config_parse, autonomy_params, std::set<std::string>{});
+        if (status.status == PluginStatus<Autonomy>::cast_failed) {
+            cout << "AutonomyExecutor Failed to open autonomy plugin: "
+                 << autonomy_name << endl;
+        } else if (status.status == PluginStatus<Autonomy>::loaded) {
+            // connect the initialized autonomy plugin's variable output with
+            // the variable input to the controller. This is similar to
+            // connect(autonomy->vars(), controller->vars());
+            // but without the reference to the controller->vars()
+            AutonomyPtr autonomy = status.plugin;
+            autonomy->vars().output_variable_index() =
+                vars_.output_variable_index();
+            autonomy->vars().set_output(vars_.output());
 
-      // Initialize the autonomy
-      autonomy->set_rtree(rtree_);
-      autonomy->set_parent(parent_);
-      autonomy->set_projection(proj_);
-      autonomy->set_pubsub(parent_->pubsub());
-      autonomy->set_time(time_);
-      autonomy->set_state(state_);
-      autonomy->set_contacts(contacts_);
-      autonomy->set_is_controlling(true);
-      autonomy->set_name(autonomy_name);
-      autonomy->init(config_parse.params());
+            // Initialize the autonomy
+            autonomy->set_rtree(rtree_);
+            autonomy->set_parent(parent_);
+            autonomy->set_projection(proj_);
+            autonomy->set_pubsub(parent_->pubsub());
+            autonomy->set_time(time_);
+            autonomy->set_state(state_);
+            autonomy->set_contacts(contacts_);
+            autonomy->set_is_controlling(true);
+            autonomy->set_name(autonomy_name);
+            autonomy->init(config_parse.params());
 
-      autonomies_config_[autonomy_name] = config_parse;
+            autonomies_config_[autonomy_name] = config_parse;
 
-      // Determine which states in which this autonomy is active
-      std::vector<std::string> states;
-      if (sc::get_vec("states", config_parse.params(), " ,", states)) {
-        // This is a autonomy that only runs in these states
-        for (std::string state : states) {
-          autonomies_[state].push_back(autonomy);
+            // Determine which states in which this autonomy is active
+            std::vector<std::string> states;
+            if (sc::get_vec("states", config_parse.params(), " ,", states)) {
+                // This is a autonomy that only runs in these states
+                for (std::string state : states) {
+                    autonomies_[state].push_back(autonomy);
+                }
+            } else {
+                default_autonomies_.push_back(autonomy);
+            }
         }
-      } else {
-        default_autonomies_.push_back(autonomy);
-      }
     }
-  }
 
-  // Add the default autonomies to each declared state
-  for (scrimmage::AutonomyPtr autonomy : default_autonomies_) {
-    for (auto &kv : autonomies_) {
-      kv.second.push_back(autonomy);
+    // Add the default autonomies to each declared state
+    for (scrimmage::AutonomyPtr autonomy : default_autonomies_) {
+        for (auto &kv : autonomies_) {
+            kv.second.push_back(autonomy);
+        }
     }
-  }
 
-  running_autonomies_ = default_autonomies_;
+    running_autonomies_ = default_autonomies_;
 }
 
 bool AutonomyExecutor::step_autonomy(double t, double dt) {
-  for (sc::AutonomyPtr autonomy : running_autonomies_) {
-    // cout << "Running... " << autonomy->name() << endl;
-    autonomy->shapes().clear();
+    for (sc::AutonomyPtr autonomy : running_autonomies_) {
+        // cout << "Running... " << autonomy->name() << endl;
+        autonomy->shapes().clear();
 
-    for (SubscriberBasePtr &sub : autonomy->subs()) {
-      for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
-        sub->accept(msg);
-      }
-    }
+        for (SubscriberBasePtr &sub : autonomy->subs()) {
+            for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
+                sub->accept(msg);
+            }
+        }
 
-    if (!autonomy->step_autonomy(time_->t(), time_->dt())) {
-      cout << "AutonomyExecutor: autonomy error- " << autonomy->name();
-    }
+        if (!autonomy->step_autonomy(time_->t(), time_->dt())) {
+            cout << "AutonomyExecutor: autonomy error- " << autonomy->name();
+        }
 
-    if (show_shapes_) {
-      std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(),
-                    [&](auto &s) { this->draw_shape(s); });
+        if (show_shapes_) {
+            std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(),
+                          [&](auto &s) { this->draw_shape(s); });
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 bool AutonomyExecutor::call_init(std::string autonomy_name,
                                  sc::AutonomyPtr autonomy_s) {
-  sc::ConfigParse config_parse = autonomies_config_[autonomy_name];
-  AutonomyPtr autonomy = autonomy_s;
-  autonomy->vars().output_variable_index() = vars_.output_variable_index();
-  autonomy->vars().set_output(vars_.output());
+    sc::ConfigParse config_parse = autonomies_config_[autonomy_name];
+    AutonomyPtr autonomy = autonomy_s;
+    autonomy->vars().output_variable_index() = vars_.output_variable_index();
+    autonomy->vars().set_output(vars_.output());
 
-  // Initialize the autonomy
-  autonomy->set_rtree(rtree_);
-  autonomy->set_parent(parent_);
-  autonomy->set_projection(proj_);
-  autonomy->set_pubsub(parent_->pubsub());
-  autonomy->set_time(time_);
-  autonomy->set_state(state_);
-  autonomy->set_contacts(contacts_);
-  autonomy->set_is_controlling(true);
-  // autonomy->set_name(autonomy_name);
-  autonomy->init(config_parse.params());
-  return true;
+    // Initialize the autonomy
+    autonomy->set_rtree(rtree_);
+    autonomy->set_parent(parent_);
+    autonomy->set_projection(proj_);
+    autonomy->set_pubsub(parent_->pubsub());
+    autonomy->set_time(time_);
+    autonomy->set_state(state_);
+    autonomy->set_contacts(contacts_);
+    autonomy->set_is_controlling(true);
+    // autonomy->set_name(autonomy_name);
+    autonomy->init(config_parse.params());
+    return true;
 }
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -63,57 +63,57 @@ namespace autonomy {
 TakeFlag::TakeFlag() {}
 
 void TakeFlag::init(std::map<std::string, std::string> &params) {
-  flag_boundary_id_ = get<int>("flag_boundary_id", params, 1);
-  capture_boundary_id_ = get<int>("capture_boundary_id", params, 1);
+    flag_boundary_id_ = get<int>("flag_boundary_id", params, 1);
+    capture_boundary_id_ = get<int>("capture_boundary_id", params, 1);
 
-  auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
-    std::shared_ptr<sci::BoundaryBase> boundary =
-        sci::Boundary::make_boundary(msg->data);
-    boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
-  };
-  subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
+    auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
+        std::shared_ptr<sci::BoundaryBase> boundary =
+            sci::Boundary::make_boundary(msg->data);
+        boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
+    };
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
-  auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
-    if (msg->data.entity_id() == parent_->id().id() &&
-        msg->data.flag_boundary_id() == flag_boundary_id_) {
-      has_flag_ = true;
-    }
-  };
-  subscribe<sm::FlagTaken>("GlobalNetwork", "FlagTaken", flag_taken_cb);
+    auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
+        if (msg->data.entity_id() == parent_->id().id() &&
+            msg->data.flag_boundary_id() == flag_boundary_id_) {
+            has_flag_ = true;
+        }
+    };
+    subscribe<sm::FlagTaken>("GlobalNetwork", "FlagTaken", flag_taken_cb);
 
-  output_vel_x_idx_ =
-      vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-  output_vel_y_idx_ =
-      vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-  output_vel_z_idx_ =
-      vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ =
+        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ =
+        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ =
+        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool TakeFlag::step_autonomy(double t, double dt) {
-  Eigen::Vector3d desired_point = state_->pos();
-  if (!has_flag_) {
-    // If we don't have the flag yet, head towards it!
-    auto it = boundaries_.find(flag_boundary_id_);
-    if (it != boundaries_.end()) {
-      desired_point = std::get<1>(it->second)->center();
+    Eigen::Vector3d desired_point = state_->pos();
+    if (!has_flag_) {
+        // If we don't have the flag yet, head towards it!
+        auto it = boundaries_.find(flag_boundary_id_);
+        if (it != boundaries_.end()) {
+            desired_point = std::get<1>(it->second)->center();
+        }
+    } else {
+        // Once we have the flag, head towards the return boundary
+        auto it = boundaries_.find(capture_boundary_id_);
+        if (it != boundaries_.end()) {
+            desired_point = std::get<1>(it->second)->center();
+        }
     }
-  } else {
-    // Once we have the flag, head towards the return boundary
-    auto it = boundaries_.find(capture_boundary_id_);
-    if (it != boundaries_.end()) {
-      desired_point = std::get<1>(it->second)->center();
-    }
-  }
 
-  // Convert the desired point into a desired vector, relative to our own
-  // position.
-  Eigen::Vector3d desired_velocity = desired_point - state_->pos();
+    // Convert the desired point into a desired vector, relative to our own
+    // position.
+    Eigen::Vector3d desired_velocity = desired_point - state_->pos();
 
-  vars_.output(output_vel_x_idx_, desired_velocity(0));
-  vars_.output(output_vel_y_idx_, desired_velocity(1));
-  vars_.output(output_vel_z_idx_, desired_velocity(2));
+    vars_.output(output_vel_x_idx_, desired_velocity(0));
+    vars_.output(output_vel_y_idx_, desired_velocity(1));
+    vars_.output(output_vel_z_idx_, desired_velocity(2));
 
-  return true;
+    return true;
 }
 
 }  // namespace autonomy

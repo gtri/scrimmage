@@ -44,24 +44,24 @@ namespace autonomy {
 
 class RLSimple : public ScrimmageOpenAIAutonomy {
  public:
-  void init_helper(std::map<std::string, std::string> &params) override;
-  bool step_helper() override;
+    void init_helper(std::map<std::string, std::string> &params) override;
+    bool step_helper() override;
 
-  void set_environment() override;
-  std::tuple<bool, double, pybind11::dict> calc_reward() override;
+    void set_environment() override;
+    std::tuple<bool, double, pybind11::dict> calc_reward() override;
 
  protected:
-  double radius_;
+    double radius_;
 
-  bool x_discrete_ = true;
+    bool x_discrete_ = true;
 
-  bool ctrl_y_ = false;
-  bool y_discrete_ = true;
+    bool ctrl_y_ = false;
+    bool y_discrete_ = true;
 
-  uint8_t output_vel_x_idx_ = 0;
-  uint8_t output_vel_y_idx_ = 0;
+    uint8_t output_vel_x_idx_ = 0;
+    uint8_t output_vel_y_idx_ = 0;
 
-  double max_speed_ = 0;  // for continuous case
+    double max_speed_ = 0;  // for continuous case
 };
 }  // namespace autonomy
 }  // namespace scrimmage

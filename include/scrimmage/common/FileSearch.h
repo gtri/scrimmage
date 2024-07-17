@@ -47,33 +47,35 @@ namespace scrimmage {
 
 class FileSearch {
  public:
-  void clear();
+    void clear();
 
-  /*! \brief finds a mission file
-   *
-   * The search path is:
-   *  * SCRIMMAGE_MISSION_PATH environment variable
-   *  * /usr/share
-   *  * /usr/local/share
-   */
-  boost::optional<std::string> find_mission(std::string mission,
-                                            bool verbose = false);
+    /*! \brief finds a mission file
+     *
+     * The search path is:
+     *  * SCRIMMAGE_MISSION_PATH environment variable
+     *  * /usr/share
+     *  * /usr/local/share
+     */
+    boost::optional<std::string> find_mission(std::string mission,
+                                              bool verbose = false);
 
-  bool find_file(const std::string &filename, std::string ext,
-                 const std::string &env_var, std::string &result,
-                 bool verbose = false);
-  void find_files(std::string env_var, const std::string &ext,
-                  std::unordered_map<std::string, std::list<std::string>> &out,
-                  bool verbose = false);
+    bool find_file(const std::string &filename, std::string ext,
+                   const std::string &env_var, std::string &result,
+                   bool verbose = false);
+    void find_files(
+        std::string env_var, const std::string &ext,
+        std::unordered_map<std::string, std::list<std::string>> &out,
+        bool verbose = false);
 
  protected:
-  // cache_[env_var][ext][filename] = list of full paths to files with that
-  // filename
-  std::unordered_map<
-      std::string,
-      std::unordered_map<
-          std::string, std::unordered_map<std::string, std::list<std::string>>>>
-      cache_;
+    // cache_[env_var][ext][filename] = list of full paths to files with that
+    // filename
+    std::unordered_map<
+        std::string,
+        std::unordered_map<
+            std::string,
+            std::unordered_map<std::string, std::list<std::string>>>>
+        cache_;
 };
 
 using FileSearchPtr = std::shared_ptr<FileSearch>;

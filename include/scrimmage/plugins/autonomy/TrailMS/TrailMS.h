@@ -41,18 +41,18 @@ namespace scrimmage {
 namespace autonomy {
 class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  int trail_id_ = -1;
-  double trail_range_ = 5.0;
-  bool show_track_point_ = false;
+    int trail_id_ = -1;
+    double trail_range_ = 5.0;
+    bool show_track_point_ = false;
 
-  Eigen::AngleAxisd aa_angle_az_;
-  Eigen::AngleAxisd aa_angle_elev_;
+    Eigen::AngleAxisd aa_angle_az_;
+    Eigen::AngleAxisd aa_angle_elev_;
 
-  scrimmage_proto::ShapePtr sphere_shape_;
+    scrimmage_proto::ShapePtr sphere_shape_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

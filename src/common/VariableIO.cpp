@@ -81,145 +81,149 @@ VariableIO::VariableIO()
       output_(std::make_shared<Eigen::VectorXd>()) {}
 
 std::map<std::string, int> &VariableIO::output_variable_index() {
-  return output_variable_index_;
+    return output_variable_index_;
 }
 
 std::map<std::string, int> &VariableIO::input_variable_index() {
-  return input_variable_index_;
+    return input_variable_index_;
 }
 
 int VariableIO::add_input_variable(const std::string &var) {
-  // If the variable already exists, return its existing index
-  declared_input_variables_.insert(var);
-  auto it = input_variable_index_.find(var);
-  if (it != input_variable_index_.end()) {
-    return it->second;
-  }
+    // If the variable already exists, return its existing index
+    declared_input_variables_.insert(var);
+    auto it = input_variable_index_.find(var);
+    if (it != input_variable_index_.end()) {
+        return it->second;
+    }
 
-  // If it doesn't exist, add it to the map and resize input vector
-  int idx = next_input_variable_index_;
-  input_variable_index_[var] = idx;
-  ++next_input_variable_index_;
-  *input_ = Eigen::VectorXd::Zero(input_variable_index_.size());
-  return idx;
+    // If it doesn't exist, add it to the map and resize input vector
+    int idx = next_input_variable_index_;
+    input_variable_index_[var] = idx;
+    ++next_input_variable_index_;
+    *input_ = Eigen::VectorXd::Zero(input_variable_index_.size());
+    return idx;
 }
 
 int VariableIO::add_output_variable(const std::string &var) {
-  // If the variable already exists, return its existing index
-  declared_output_variables_.insert(var);
-  int idx;
-  auto it = output_variable_index_.find(var);
-  if (it != output_variable_index_.end()) {
-    idx = it->second;
-  } else {
-    // If it doesn't exist, it will be ignored by the next vector
-    idx = output_variable_index_.size();
-    output_variable_index_[var] = idx;
-  }
-  return idx;
+    // If the variable already exists, return its existing index
+    declared_output_variables_.insert(var);
+    int idx;
+    auto it = output_variable_index_.find(var);
+    if (it != output_variable_index_.end()) {
+        idx = it->second;
+    } else {
+        // If it doesn't exist, it will be ignored by the next vector
+        idx = output_variable_index_.size();
+        output_variable_index_[var] = idx;
+    }
+    return idx;
 }
 
 int VariableIO::declare(std::string var, Direction dir) {
-  if (dir == VariableIO::Direction::In) {
-    return add_input_variable(var);
-  } else {
-    return add_output_variable(var);
-  }
+    if (dir == VariableIO::Direction::In) {
+        return add_input_variable(var);
+    } else {
+        return add_output_variable(var);
+    }
 }
 
 int VariableIO::declare(Type type, Direction dir) {
-  std::string var("");
-  auto it = type_map_.find(type);
-  if (it == type_map_.end()) {
-    std::cout << "Warning: Use of invalid VariableIO::Type" << std::endl;
-  } else {
-    var = it->second;
-  }
-  return declare(var, dir);
+    std::string var("");
+    auto it = type_map_.find(type);
+    if (it == type_map_.end()) {
+        std::cout << "Warning: Use of invalid VariableIO::Type" << std::endl;
+    } else {
+        var = it->second;
+    }
+    return declare(var, dir);
 }
 
 double VariableIO::input(int i) { return (*input_)(i); }
 
 void VariableIO::output(int i, double x) {
-  // The plugin writing to the output doesn't know if the index it is writing
-  // to is within the bounds of the input of the next plugin. Connect is
-  // called before output to assign the shared ptr output to point to the
-  // shared pointer input of the next plugin.
-  if (i < output_->size()) (*output_)(i) = x;
+    // The plugin writing to the output doesn't know if the index it is writing
+    // to is within the bounds of the input of the next plugin. Connect is
+    // called before output to assign the shared ptr output to point to the
+    // shared pointer input of the next plugin.
+    if (i < output_->size()) (*output_)(i) = x;
 }
 
 double VariableIO::output(int i) {
-  return i < output_->size() ? (*output_)(i) : NAN;
+    return i < output_->size() ? (*output_)(i) : NAN;
 }
 
 void connect(VariableIO &output, VariableIO &input) {
-  output.output_variable_index() = input.input_variable_index();
-  output.output_ = input.input_;
+    output.output_variable_index() = input.input_variable_index();
+    output.output_ = input.input_;
 }
 
 bool VariableIO::exists(std::string var, Direction dir) {
-  if (dir == VariableIO::Direction::In) {
-    return (input_variable_index_.count(var) > 0);
-  } else {
-    return (output_variable_index_.count(var) > 0);
-  }
+    if (dir == VariableIO::Direction::In) {
+        return (input_variable_index_.count(var) > 0);
+    } else {
+        return (output_variable_index_.count(var) > 0);
+    }
 }
 
 bool VariableIO::exists(Type type, Direction dir) {
-  auto it = type_map_.find(type);
-  if (it == type_map_.end()) {
-    return false;
-  }
-  return exists(it->second, dir);
+    auto it = type_map_.find(type);
+    if (it == type_map_.end()) {
+        return false;
+    }
+    return exists(it->second, dir);
 }
 
 std::set<std::string> VariableIO::declared_input_variables() {
-  return declared_input_variables_;
+    return declared_input_variables_;
 }
 
 std::set<std::string> VariableIO::declared_output_variables() {
-  return declared_output_variables_;
+    return declared_output_variables_;
 }
 
 void VariableIO::set_input(const std::shared_ptr<Eigen::VectorXd> &input) {
-  input_ = input;
+    input_ = input;
 }
 void VariableIO::set_output(const std::shared_ptr<Eigen::VectorXd> &output) {
-  output_ = output;
+    output_ = output;
 }
 
 bool verify_io_connection(VariableIO &output, VariableIO &input) {
-  std::vector<std::string> mismatched_keys;
-  br::set_difference(input.declared_input_variables(),
-                     output.declared_output_variables(),
-                     std::back_inserter(mismatched_keys));
+    std::vector<std::string> mismatched_keys;
+    br::set_difference(input.declared_input_variables(),
+                       output.declared_output_variables(),
+                       std::back_inserter(mismatched_keys));
 
-  return mismatched_keys.empty();
+    return mismatched_keys.empty();
 }
 
 void print_io_error(const std::string &in_name, VariableIO &v) {
-  auto keys = v.input_variable_index() | ba::map_keys;
+    auto keys = v.input_variable_index() | ba::map_keys;
 
-  std::cout << "First, include the VariableIO class in the cpp file: "
-            << "#include <scrimmage/common/VariableIO.h>" << std::endl;
+    std::cout << "First, include the VariableIO class in the cpp file: "
+              << "#include <scrimmage/common/VariableIO.h>" << std::endl;
 
-  std::cout << "Second, place the following in its initializer: " << std::endl;
-  for (const std::string &key : keys) {
-    std::cout << "    " << key << "_idx_ = vars_.declare(" << std::quoted(key)
-              << ", scrimmage::VariableIO::Direction::Out);" << std::endl;
-  }
-
-  std::cout << "Third, place the following in its step function: " << std::endl;
-  for (const std::string &key : keys) {
-    std::cout << "    vars_.output(" << key << "_idx_, value_to_output);"
+    std::cout << "Second, place the following in its initializer: "
               << std::endl;
-  }
-  std::cout << "where value_to_output is what you want " << in_name
-            << " to receive as its input." << std::endl;
+    for (const std::string &key : keys) {
+        std::cout << "    " << key << "_idx_ = vars_.declare("
+                  << std::quoted(key)
+                  << ", scrimmage::VariableIO::Direction::Out);" << std::endl;
+    }
 
-  std::cout << "Third, place following in the class declaration: " << std::endl;
-  for (const std::string &key : keys) {
-    std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
-  }
+    std::cout << "Third, place the following in its step function: "
+              << std::endl;
+    for (const std::string &key : keys) {
+        std::cout << "    vars_.output(" << key << "_idx_, value_to_output);"
+                  << std::endl;
+    }
+    std::cout << "where value_to_output is what you want " << in_name
+              << " to receive as its input." << std::endl;
+
+    std::cout << "Third, place following in the class declaration: "
+              << std::endl;
+    for (const std::string &key : keys) {
+        std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
+    }
 }
 }  // namespace scrimmage

@@ -62,19 +62,19 @@ GlobalNetwork::GlobalNetwork() {}
 
 bool GlobalNetwork::init(std::map<std::string, std::string> &mission_params,
                          std::map<std::string, std::string> &plugin_params) {
-  network_init(mission_params, plugin_params);
-  return true;
+    network_init(mission_params, plugin_params);
+    return true;
 }
 
 bool GlobalNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
                                  const scrimmage::EntityPluginPtr &sub_plugin) {
-  return true;
+    return true;
 }
 
 bool GlobalNetwork::is_successful_transmission(
     const scrimmage::EntityPluginPtr &pub_plugin,
     const scrimmage::EntityPluginPtr &sub_plugin) {
-  return true;
+    return true;
 }
 
 }  // namespace network

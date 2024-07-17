@@ -51,38 +51,38 @@ namespace scrimmage {
 namespace motion {
 class SimpleAircraft : public scrimmage::MotionModel {
  public:
-  virtual std::tuple<int, int, int> version();
+    virtual std::tuple<int, int, int> version();
 
-  bool init(std::map<std::string, std::string> &info,
-            std::map<std::string, std::string> &params) override;
-  bool step(double time, double dt) override;
+    bool init(std::map<std::string, std::string> &info,
+              std::map<std::string, std::string> &params) override;
+    bool step(double time, double dt) override;
 
-  void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t &x, vector_t &dxdt, double t) override;
 
-  void teleport(scrimmage::StatePtr &state) override;
+    void teleport(scrimmage::StatePtr &state) override;
 
  protected:
-  scrimmage::PID heading_pid_;
-  scrimmage::PID alt_pid_;
-  scrimmage::PID vel_pid_;
+    scrimmage::PID heading_pid_;
+    scrimmage::PID alt_pid_;
+    scrimmage::PID vel_pid_;
 
-  double length_{50.0};       // Turning radius
-  double speedTarget_{50.0};  // The speed at which a full turn will result in
-                              // the turning radius being met
-  // The slope at which the turning radius is adjusted based on speed.  Positive
-  // means larger turning radius at higher speeds.
-  double lengthSlopePerSpeed_{0.0};
+    double length_{50.0};       // Turning radius
+    double speedTarget_{50.0};  // The speed at which a full turn will result in
+                                // the turning radius being met
+    // The slope at which the turning radius is adjusted based on speed.
+    // Positive means larger turning radius at higher speeds.
+    double lengthSlopePerSpeed_{0.0};
 
-  double min_velocity_{15.0};
-  double max_velocity_{40.0};
-  double max_roll_{30.0};
-  double max_pitch_{30.0};
-  double max_pitch_rate_{57.3};
-  double max_roll_rate_{57.3};
+    double min_velocity_{15.0};
+    double max_velocity_{40.0};
+    double max_roll_{30.0};
+    double max_pitch_{30.0};
+    double max_pitch_rate_{57.3};
+    double max_roll_rate_{57.3};
 
-  uint8_t throttle_idx_{0};
-  uint8_t roll_rate_idx_{0};
-  uint8_t pitch_rate_idx_{0};
+    uint8_t throttle_idx_{0};
+    uint8_t roll_rate_idx_{0};
+    uint8_t pitch_rate_idx_{0};
 };
 }  // namespace motion
 }  // namespace scrimmage

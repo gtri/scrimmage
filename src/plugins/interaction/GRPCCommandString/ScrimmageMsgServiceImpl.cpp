@@ -44,9 +44,9 @@ ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin)
 grpc::Status scrimmage::ScrimmageMsgServiceImpl::SendCommandString(
     grpc::ServerContext* context, const scrimmage_msgs::CommandString* cmd,
     scrimmage_msgs::CommandAck* reply) {
-  plugin_->push_msg(*cmd);
-  reply->set_success(1);
-  return grpc::Status::OK;
+    plugin_->push_msg(*cmd);
+    reply->set_success(1);
+    return grpc::Status::OK;
 }
 
 }  // namespace scrimmage

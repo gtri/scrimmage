@@ -54,14 +54,14 @@ namespace controller {
 
 void HarmonicOscillatorConstController::init(
     std::map<std::string, std::string> &params) {
-  acceleration_z_ = sc::get<double>("acceleration_z", params, 0);
-  acceleration_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z,
-                                      VariableIO::Direction::Out);
+    acceleration_z_ = sc::get<double>("acceleration_z", params, 0);
+    acceleration_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z,
+                                        VariableIO::Direction::Out);
 }
 
 bool HarmonicOscillatorConstController::step(double t, double dt) {
-  vars_.output(acceleration_z_idx_, acceleration_z_);
-  return true;
+    vars_.output(acceleration_z_idx_, acceleration_z_);
+    return true;
 }
 }  // namespace controller
 }  // namespace scrimmage

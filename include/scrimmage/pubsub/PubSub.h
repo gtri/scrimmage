@@ -55,55 +55,59 @@ using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 class PubSub {
  public:
-  PubSub();
+    PubSub();
 
-  // Key 1: Network name
-  // Key 2: Topic name
-  // Value : List of NetworkDevicePtr's (publishers or subscribers)
-  using TopicMap =
-      std::map<std::string, std::map<std::string, std::list<NetworkDevicePtr>>>;
+    // Key 1: Network name
+    // Key 2: Topic name
+    // Value : List of NetworkDevicePtr's (publishers or subscribers)
+    using TopicMap =
+        std::map<std::string,
+                 std::map<std::string, std::list<NetworkDevicePtr>>>;
 
-  TopicMap &pubs() { return pub_map_; }
-  TopicMap &subs() { return sub_map_; }
+    TopicMap &pubs() { return pub_map_; }
+    TopicMap &subs() { return sub_map_; }
 
-  void add_network_name(const std::string &str);
+    void add_network_name(const std::string &str);
 
-  boost::optional<std::list<NetworkDevicePtr>> find_devices(
-      const std::string &network_name, const std::string &topic_name,
-      TopicMap &devs);
+    boost::optional<std::list<NetworkDevicePtr>> find_devices(
+        const std::string &network_name, const std::string &topic_name,
+        TopicMap &devs);
 
-  boost::optional<std::list<NetworkDevicePtr>> find_pubs(
-      const std::string &network_name, const std::string &topic_name);
+    boost::optional<std::list<NetworkDevicePtr>> find_pubs(
+        const std::string &network_name, const std::string &topic_name);
 
-  boost::optional<std::list<NetworkDevicePtr>> find_subs(
-      const std::string &network_name, const std::string &topic_name);
+    boost::optional<std::list<NetworkDevicePtr>> find_subs(
+        const std::string &network_name, const std::string &topic_name);
 
-  template <class T, class CallbackFunc>
-  SubscriberBasePtr subscribe(const std::string &network_name,
-                              const std::string &topic, CallbackFunc callback,
-                              unsigned int max_queue_size,
-                              bool enable_queue_size, EntityPluginPtr plugin) {
-    if (sub_map_.count(network_name) == 0) {
-      print_str(
-          std::string("WARNING: Subscriber unable to connect to network (") +
-          network_name + ") on topic (" + topic + ")");
+    template <class T, class CallbackFunc>
+    SubscriberBasePtr subscribe(const std::string &network_name,
+                                const std::string &topic, CallbackFunc callback,
+                                unsigned int max_queue_size,
+                                bool enable_queue_size,
+                                EntityPluginPtr plugin) {
+        if (sub_map_.count(network_name) == 0) {
+            print_str(
+                std::string(
+                    "WARNING: Subscriber unable to connect to network (") +
+                network_name + ") on topic (" + topic + ")");
+        }
+
+        SubscriberBasePtr sub = std::make_shared<Subscriber<T, CallbackFunc>>(
+            topic, max_queue_size, enable_queue_size, plugin, callback);
+        sub_map_[network_name][topic].push_back(sub);
+        return sub;
     }
 
-    SubscriberBasePtr sub = std::make_shared<Subscriber<T, CallbackFunc>>(
-        topic, max_queue_size, enable_queue_size, plugin, callback);
-    sub_map_[network_name][topic].push_back(sub);
-    return sub;
-  }
-
-  PublisherPtr advertise(const std::string &network_name,
-                         const std::string &topic,
-                         const unsigned int &max_queue_size,
-                         const bool &enable_queue_size, EntityPluginPtr plugin);
+    PublisherPtr advertise(const std::string &network_name,
+                           const std::string &topic,
+                           const unsigned int &max_queue_size,
+                           const bool &enable_queue_size,
+                           EntityPluginPtr plugin);
 
  protected:
-  TopicMap pub_map_;
-  TopicMap sub_map_;
-  void print_str(const std::string &s);
+    TopicMap pub_map_;
+    TopicMap sub_map_;
+    void print_str(const std::string &s);
 };
 using PubSubPtr = std::shared_ptr<PubSub>;
 }  // namespace scrimmage

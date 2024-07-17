@@ -52,56 +52,57 @@ namespace scrimmage {
 namespace autonomy {
 
 void APITester::write_my_test_values() {
-  csv_.append(CSV::Pairs{{"my_test_bool", my_test_bool_},
-                         {"my_test_int", my_test_int_},
-                         {"my_test_float", my_test_float_},
-                         {"my_test_double", my_test_double_}});
+    csv_.append(CSV::Pairs{{"my_test_bool", my_test_bool_},
+                           {"my_test_int", my_test_int_},
+                           {"my_test_float", my_test_float_},
+                           {"my_test_double", my_test_double_}});
 }
 
 void APITester::init(std::map<std::string, std::string> &params) {
-  // Setup variableIO
-  desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                   VariableIO::Direction::Out);
-  desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
+    // Setup variableIO
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
                                      VariableIO::Direction::Out);
-  desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
                                        VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+                                         VariableIO::Direction::Out);
 
-  // Get default variable values
-  my_test_bool_ = sc::get<bool>("my_test_bool", params, my_test_bool_);
-  my_test_int_ = sc::get<int>("my_test_int", params, my_test_int_);
-  my_test_float_ = sc::get<float>("my_test_float", params, my_test_float_);
-  my_test_double_ = sc::get<double>("my_test_double", params, my_test_double_);
+    // Get default variable values
+    my_test_bool_ = sc::get<bool>("my_test_bool", params, my_test_bool_);
+    my_test_int_ = sc::get<int>("my_test_int", params, my_test_int_);
+    my_test_float_ = sc::get<float>("my_test_float", params, my_test_float_);
+    my_test_double_ =
+        sc::get<double>("my_test_double", params, my_test_double_);
 
-  std::string csv_file_name =
-      sc::get<std::string>("csv_file_name", params, "api_tester.csv");
+    std::string csv_file_name =
+        sc::get<std::string>("csv_file_name", params, "api_tester.csv");
 
-  // Create the csv for saving the variable values
-  if (!csv_.open_output(parent_->mp()->log_dir() + "/" + csv_file_name)) {
-    std::cout << "APITest: Couldn't create output file" << endl;
-  }
-  csv_.set_column_headers(
-      "my_test_bool, my_test_int, my_test_float, my_test_double");
-  write_my_test_values();  // Write initial values to csv
+    // Create the csv for saving the variable values
+    if (!csv_.open_output(parent_->mp()->log_dir() + "/" + csv_file_name)) {
+        std::cout << "APITest: Couldn't create output file" << endl;
+    }
+    csv_.set_column_headers(
+        "my_test_bool, my_test_int, my_test_float, my_test_double");
+    write_my_test_values();  // Write initial values to csv
 
-  // Register the test variables with the parameter server
-  auto bool_cb = [&](const bool &my_test_bool) {
-    this->write_my_test_values();
-  };
-  register_param<bool>("my_test_bool", my_test_bool_, bool_cb);
+    // Register the test variables with the parameter server
+    auto bool_cb = [&](const bool &my_test_bool) {
+        this->write_my_test_values();
+    };
+    register_param<bool>("my_test_bool", my_test_bool_, bool_cb);
 
-  auto int_cb = [&](const int &my_test_int) { this->write_my_test_values(); };
-  register_param<int>("my_test_int", my_test_int_, int_cb);
+    auto int_cb = [&](const int &my_test_int) { this->write_my_test_values(); };
+    register_param<int>("my_test_int", my_test_int_, int_cb);
 
-  auto float_cb = [&](const float &my_test_float) {
-    this->write_my_test_values();
-  };
-  register_param<float>("my_test_float", my_test_float_, float_cb);
+    auto float_cb = [&](const float &my_test_float) {
+        this->write_my_test_values();
+    };
+    register_param<float>("my_test_float", my_test_float_, float_cb);
 
-  auto double_cb = [&](const double &my_test_double) {
-    this->write_my_test_values();
-  };
-  register_param<double>("my_test_double", my_test_double_, double_cb);
+    auto double_cb = [&](const double &my_test_double) {
+        this->write_my_test_values();
+    };
+    register_param<double>("my_test_double", my_test_double_, double_cb);
 }
 
 bool APITester::step_autonomy(double t, double dt) { return true; }

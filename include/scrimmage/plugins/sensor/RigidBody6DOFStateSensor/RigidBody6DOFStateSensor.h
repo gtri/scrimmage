@@ -49,16 +49,16 @@ class RigidBody6DOFBase;
 namespace sensor {
 class RigidBody6DOFStateSensor : public scrimmage::Sensor {
  public:
-  RigidBody6DOFStateSensor();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    RigidBody6DOFStateSensor();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-  std::shared_ptr<std::default_random_engine> gener_;
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-  std::shared_ptr<scrimmage::motion::RigidBody6DOFBase> motion_ = nullptr;
+    std::shared_ptr<std::default_random_engine> gener_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
+    std::shared_ptr<scrimmage::motion::RigidBody6DOFBase> motion_ = nullptr;
 
-  PublisherPtr pub_;
+    PublisherPtr pub_;
 
  private:
 };

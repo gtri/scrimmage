@@ -44,35 +44,35 @@ namespace controller {
 
 void SingleIntegratorControllerWaypoint::init(
     std::map<std::string, std::string> &params) {
-  input_pos_x_idx_ =
-      vars_.declare(VariableIO::Type::position_x, VariableIO::Direction::In);
-  input_pos_y_idx_ =
-      vars_.declare(VariableIO::Type::position_y, VariableIO::Direction::In);
-  input_pos_z_idx_ =
-      vars_.declare(VariableIO::Type::position_z, VariableIO::Direction::In);
+    input_pos_x_idx_ =
+        vars_.declare(VariableIO::Type::position_x, VariableIO::Direction::In);
+    input_pos_y_idx_ =
+        vars_.declare(VariableIO::Type::position_y, VariableIO::Direction::In);
+    input_pos_z_idx_ =
+        vars_.declare(VariableIO::Type::position_z, VariableIO::Direction::In);
 
-  output_vel_x_idx_ =
-      vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-  output_vel_y_idx_ =
-      vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-  output_vel_z_idx_ =
-      vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ =
+        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ =
+        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ =
+        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 
-  gain_ = std::stod(params.at("gain"));
+    gain_ = std::stod(params.at("gain"));
 }
 
 bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
-  const Eigen::Vector3d &p = state_->pos();
+    const Eigen::Vector3d &p = state_->pos();
 
-  const double des_x = vars_.input(input_pos_x_idx_);
-  const double des_y = vars_.input(input_pos_y_idx_);
-  const double des_z = vars_.input(input_pos_z_idx_);
+    const double des_x = vars_.input(input_pos_x_idx_);
+    const double des_y = vars_.input(input_pos_y_idx_);
+    const double des_z = vars_.input(input_pos_z_idx_);
 
-  vars_.output(output_vel_x_idx_, gain_ * (des_x - p(0)));
-  vars_.output(output_vel_y_idx_, gain_ * (des_y - p(1)));
-  vars_.output(output_vel_z_idx_, gain_ * (des_z - p(2)));
+    vars_.output(output_vel_x_idx_, gain_ * (des_x - p(0)));
+    vars_.output(output_vel_y_idx_, gain_ * (des_y - p(1)));
+    vars_.output(output_vel_z_idx_, gain_ * (des_z - p(2)));
 
-  return true;
+    return true;
 }
 
 }  // namespace controller

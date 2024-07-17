@@ -48,45 +48,45 @@ DelayedTask::DelayedTask(double _delay, int repeats)
       task(nullptr),
       repeat_infinitely_(true),
       repeats_left_(-1) {
-  set_repeats(repeats);
+    set_repeats(repeats);
 }
 
 void DelayedTask::set_delay_from_freq(double freq) {
-  delay = freq > 0 ? 1 / freq : 0;
+    delay = freq > 0 ? 1 / freq : 0;
 }
 
 std::pair<bool, bool> DelayedTask::update(double t) {
-  bool updated = false, task_success = true;
-  const bool condition_satisfied = condition ? condition(t) : true;
-  const bool time_good =
-      t >= last_updated_time + delay - eps && t <= end_time + eps;
+    bool updated = false, task_success = true;
+    const bool condition_satisfied = condition ? condition(t) : true;
+    const bool time_good =
+        t >= last_updated_time + delay - eps && t <= end_time + eps;
 
-  if (!disable && !done() && condition_satisfied && time_good) {
-    last_updated_time = t;
-    if (task) {
-      task_success = task(t);
-    }
-    if (!repeat_infinitely_) {
-      repeats_left_--;
-    }
+    if (!disable && !done() && condition_satisfied && time_good) {
+        last_updated_time = t;
+        if (task) {
+            task_success = task(t);
+        }
+        if (!repeat_infinitely_) {
+            repeats_left_--;
+        }
 
-    updated = true;
-  }
-  return std::make_pair(updated, task_success);
+        updated = true;
+    }
+    return std::make_pair(updated, task_success);
 }
 
 bool DelayedTask::done() const {
-  return !repeat_infinitely_ && repeats_left_ < 0;
+    return !repeat_infinitely_ && repeats_left_ < 0;
 }
 
 void DelayedTask::set_repeats(int repeats_left) {
-  repeats_left_ = repeats_left;
-  repeat_infinitely_ = repeats_left_ < 0;
+    repeats_left_ = repeats_left;
+    repeat_infinitely_ = repeats_left_ < 0;
 }
 
 void DelayedTask::set_repeat_infinitely(bool repeat_infinitely) {
-  repeat_infinitely_ = repeat_infinitely;
-  repeats_left_ = -1;
+    repeat_infinitely_ = repeat_infinitely;
+    repeats_left_ = -1;
 }
 
 }  // namespace scrimmage

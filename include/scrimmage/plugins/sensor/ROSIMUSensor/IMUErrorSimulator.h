@@ -40,75 +40,76 @@
 #include <random>
 
 struct NoisyIMUData {
-  Eigen::Vector3d noisyDeltaV;
-  Eigen::Vector3d noisyDeltaTheta;
-  Eigen::Vector3d deltaVErrors;
-  Eigen::Vector3d deltaThetaErrors;
+    Eigen::Vector3d noisyDeltaV;
+    Eigen::Vector3d noisyDeltaTheta;
+    Eigen::Vector3d deltaVErrors;
+    Eigen::Vector3d deltaThetaErrors;
 };
 
 class IMUErrorSimulator {
  public:
-  bool InRunBiasOption;  // false = 1st order Gauss-Markov process, true =
-                         // Barnes-Jarvis model
-  double InitRandomNumberSeed = 1;
-  int RandomNumberSeedsPerInstance = 20;
-  double NominalDeltaT;
-  Eigen::Matrix3d Ma;
-  Eigen::Vector3d AccelScaleFactorErr;
-  Eigen::Vector3d AccelBiasTurnOn;
-  Eigen::Vector3d AccelBiasInRun;
-  Eigen::Vector3d AccelBiasPhi;
-  Eigen::Vector3d AccelBiasInRunStdDev;
-  Eigen::Vector3d TotalAccelBias;
-  Eigen::Vector3d AccelVRWMSStdDev;
-  Eigen::Vector3d AccelVRWMSDraws;
-  Eigen::Vector3d AccelQuantizationResiduals = Eigen::Vector3d(0, 0, 0);
+    bool InRunBiasOption;  // false = 1st order Gauss-Markov process, true =
+                           // Barnes-Jarvis model
+    double InitRandomNumberSeed = 1;
+    int RandomNumberSeedsPerInstance = 20;
+    double NominalDeltaT;
+    Eigen::Matrix3d Ma;
+    Eigen::Vector3d AccelScaleFactorErr;
+    Eigen::Vector3d AccelBiasTurnOn;
+    Eigen::Vector3d AccelBiasInRun;
+    Eigen::Vector3d AccelBiasPhi;
+    Eigen::Vector3d AccelBiasInRunStdDev;
+    Eigen::Vector3d TotalAccelBias;
+    Eigen::Vector3d AccelVRWMSStdDev;
+    Eigen::Vector3d AccelVRWMSDraws;
+    Eigen::Vector3d AccelQuantizationResiduals = Eigen::Vector3d(0, 0, 0);
 
-  Eigen::Matrix3d Mg;
-  Eigen::Vector3d GyroScaleFactorErr;
-  Eigen::Vector3d GyroBiasTurnOn;
-  Eigen::Vector3d GyroBiasInRun;
-  Eigen::Vector3d GyroBiasPhi;
-  Eigen::Vector3d GyroBiasInRunStdDev;
-  Eigen::Vector3d TotalGyroBias;
-  Eigen::Vector3d GyroARWRadStdDev;
-  Eigen::Vector3d GyroARWRadDraws;
-  Eigen::Vector3d GyroQuantizationResiduals;
+    Eigen::Matrix3d Mg;
+    Eigen::Vector3d GyroScaleFactorErr;
+    Eigen::Vector3d GyroBiasTurnOn;
+    Eigen::Vector3d GyroBiasInRun;
+    Eigen::Vector3d GyroBiasPhi;
+    Eigen::Vector3d GyroBiasInRunStdDev;
+    Eigen::Vector3d TotalGyroBias;
+    Eigen::Vector3d GyroARWRadStdDev;
+    Eigen::Vector3d GyroARWRadDraws;
+    Eigen::Vector3d GyroQuantizationResiduals;
 
-  // I did some testing with these, it seems that generation is only repeatable
-  // with separate generator/distribution pairs. If you use multiple
-  // distributions on the same generator or the same distribution on multiple
-  // generators the results are not the same as a unique pair.
-  std::mt19937 InitRNG = std::mt19937(1);  // pass the seed
-  std::mt19937 AccelBiasRNG = std::mt19937(2);
-  std::mt19937 AccelVRWRNG = std::mt19937(3);
-  std::mt19937 GyroBiasRNG = std::mt19937(4);
-  std::mt19937 GyroARWRNG = std::mt19937(5);
+    // I did some testing with these, it seems that generation is only
+    // repeatable with separate generator/distribution pairs. If you use
+    // multiple distributions on the same generator or the same distribution on
+    // multiple generators the results are not the same as a unique pair.
+    std::mt19937 InitRNG = std::mt19937(1);  // pass the seed
+    std::mt19937 AccelBiasRNG = std::mt19937(2);
+    std::mt19937 AccelVRWRNG = std::mt19937(3);
+    std::mt19937 GyroBiasRNG = std::mt19937(4);
+    std::mt19937 GyroARWRNG = std::mt19937(5);
 
-  std::normal_distribution<double> InitDist =
-      std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-  std::normal_distribution<double> AccelBiasDist =
-      std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-  std::normal_distribution<double> AccelVRWDist =
-      std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-  std::normal_distribution<double> GyroBiasDist =
-      std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-  std::normal_distribution<double> GyroARWDist =
-      std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> InitDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> AccelBiasDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> AccelVRWDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> GyroBiasDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> GyroARWDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
 
-  explicit IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget);
+    explicit IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget);
 
-  // generate a 3d vector with the passed in random distribution and generator
-  Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution,
-                               std::mt19937& generator);
+    // generate a 3d vector with the passed in random distribution and generator
+    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution,
+                                 std::mt19937& generator);
 
-  void PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget);
+    void PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget);
 
-  void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget);
+    void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget);
 
-  NoisyIMUData EachCycle(IMUErrorBudgetTemplate& errorBudget,
-                         Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
-                         Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
+    NoisyIMUData EachCycle(
+        IMUErrorBudgetTemplate& errorBudget,
+        Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
+        Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
 };
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_

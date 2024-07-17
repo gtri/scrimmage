@@ -45,13 +45,13 @@ namespace controller {
 
 class DirectController : public scrimmage::Controller {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-  // Key : Output variable index determined by motion model
-  // Value: Input variable index
-  std::map<int, int> io_map_;
+    // Key : Output variable index determined by motion model
+    // Value: Input variable index
+    std::map<int, int> io_map_;
 };
 }  // namespace controller
 }  // namespace scrimmage

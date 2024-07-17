@@ -46,19 +46,19 @@ namespace scrimmage {
 namespace autonomy {
 class TrajectoryRecordPlayback : public scrimmage::Autonomy {
  public:
-  TrajectoryRecordPlayback();
-  ~TrajectoryRecordPlayback();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    TrajectoryRecordPlayback();
+    ~TrajectoryRecordPlayback();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  std::list<TrajectoryPoint> trajs_;
-  std::list<TrajectoryPoint>::iterator it_traj_;
-  bool enable_playback_;
-  bool remove_at_end_;
-  std::string trajectory_filename_;
+    std::list<TrajectoryPoint> trajs_;
+    std::list<TrajectoryPoint>::iterator it_traj_;
+    bool enable_playback_;
+    bool remove_at_end_;
+    std::string trajectory_filename_;
 
-  CSV csv_;
+    CSV csv_;
 
  private:
 };

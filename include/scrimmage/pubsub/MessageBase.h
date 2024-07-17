@@ -40,13 +40,13 @@ namespace scrimmage {
 
 class MessageBase {
  public:
-  virtual ~MessageBase() {}  // http://stackoverflow.com/a/5831797
+    virtual ~MessageBase() {}  // http://stackoverflow.com/a/5831797
 
-  static const int undefined_id = -1;
-  double time;
-  std::string serialized_data;
+    static const int undefined_id = -1;
+    double time;
+    std::string serialized_data;
 
-  std::string debug_info = "";
+    std::string debug_info = "";
 };
 
 using MessageBasePtr = std::shared_ptr<MessageBase>;

@@ -49,52 +49,52 @@ MOOSNode::MOOSNode()
 MOOSNode::~MOOSNode() {}
 
 bool MOOSNode::ready() {
-  deployed_mutex_.lock();
-  bool ready = deployed_;
-  deployed_mutex_.unlock();
-  return ready;
+    deployed_mutex_.lock();
+    bool ready = deployed_;
+    deployed_mutex_.unlock();
+    return ready;
 }
 
 sc::State MOOSNode::desired_state() {
-  desired_mutex_.lock();
-  sc::State s = desired_;
-  desired_mutex_.unlock();
-  return s;
+    desired_mutex_.lock();
+    sc::State s = desired_;
+    desired_mutex_.unlock();
+    return s;
 }
 
 void MOOSNode::set_time_warp(double warp) { time_warp_ = warp; }
 
 bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
-  MOOSMSG_LIST::iterator q;
-  for (q = Mail.begin(); q != Mail.end(); ++q) {
-    CMOOSMsg &msg = *q;
-    std::string key = msg.GetKey();
-    double dval = msg.GetDouble();
+    MOOSMSG_LIST::iterator q;
+    for (q = Mail.begin(); q != Mail.end(); ++q) {
+        CMOOSMsg &msg = *q;
+        std::string key = msg.GetKey();
+        double dval = msg.GetDouble();
 
-    if (key == "DESIRED_HEADING") {
-      desired_mutex_.lock();
-      desired_.quat().set(0, 0, sc::Angles::deg2rad(dval));
-      desired_mutex_.unlock();
-    } else if (key == "DESIRED_SPEED") {
-      desired_mutex_.lock();
-      desired_.vel() = Eigen::Vector3d::UnitX() * dval;
-      desired_mutex_.unlock();
-    } else if (key == "DESIRED_DEPTH") {
-      desired_mutex_.lock();
-      desired_.pos() = -Eigen::Vector3d::UnitZ() * dval;
-      desired_mutex_.unlock();
-    } else if (key == "IVPHELM_STATE") {
-      if (!deployed_) {
-        Notify("DEPLOY", "true");
-        Notify("RETURN", "false");
-        Notify("MOOS_MANUAL_OVERRIDE", "false");
-        deployed_mutex_.lock();
-        deployed_ = true;
-        deployed_mutex_.unlock();
-      }
+        if (key == "DESIRED_HEADING") {
+            desired_mutex_.lock();
+            desired_.quat().set(0, 0, sc::Angles::deg2rad(dval));
+            desired_mutex_.unlock();
+        } else if (key == "DESIRED_SPEED") {
+            desired_mutex_.lock();
+            desired_.vel() = Eigen::Vector3d::UnitX() * dval;
+            desired_mutex_.unlock();
+        } else if (key == "DESIRED_DEPTH") {
+            desired_mutex_.lock();
+            desired_.pos() = -Eigen::Vector3d::UnitZ() * dval;
+            desired_mutex_.unlock();
+        } else if (key == "IVPHELM_STATE") {
+            if (!deployed_) {
+                Notify("DEPLOY", "true");
+                Notify("RETURN", "false");
+                Notify("MOOS_MANUAL_OVERRIDE", "false");
+                deployed_mutex_.lock();
+                deployed_ = true;
+                deployed_mutex_.unlock();
+            }
+        }
     }
-  }
-  return (true);
+    return (true);
 }
 
 /*
@@ -103,9 +103,9 @@ bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
   notifications you want to receive here .
 */
 bool MOOSNode::OnConnectToServer() {
-  DoRegistrations();
-  SetMOOSTimeWarp(time_warp_);
-  return true;
+    DoRegistrations();
+    SetMOOSTimeWarp(time_warp_);
+    return true;
 }
 
 /*
@@ -120,30 +120,30 @@ bool MOOSNode::Iterate() { return true; }
   mission file
 */
 bool MOOSNode::OnStartUp() {
-  appTick_ = 1;
-  commsTick_ = 1;
+    appTick_ = 1;
+    commsTick_ = 1;
 
-  if (!m_MissionReader.GetConfigurationParam("AppTick", appTick_)) {
-    MOOSTrace("Warning, AppTick not set.\n");
-  }
+    if (!m_MissionReader.GetConfigurationParam("AppTick", appTick_)) {
+        MOOSTrace("Warning, AppTick not set.\n");
+    }
 
-  if (!m_MissionReader.GetConfigurationParam("CommsTick", commsTick_)) {
-    MOOSTrace("Warning, CommsTick not set.\n");
-  }
+    if (!m_MissionReader.GetConfigurationParam("CommsTick", commsTick_)) {
+        MOOSTrace("Warning, CommsTick not set.\n");
+    }
 
-  SetAppFreq(appTick_);
-  SetCommsFreq(commsTick_);
+    SetAppFreq(appTick_);
+    SetCommsFreq(commsTick_);
 
-  DoRegistrations();
+    DoRegistrations();
 
-  return true;
+    return true;
 }
 
 void MOOSNode::DoRegistrations() {
-  Register("DESIRED_HEADING", 0.0);
-  Register("DESIRED_SPEED", 0.0);
-  Register("DESIRED_DEPTH", 0.0);
-  Register("IVPHELM_STATE", 0.0);
+    Register("DESIRED_HEADING", 0.0);
+    Register("DESIRED_SPEED", 0.0);
+    Register("DESIRED_DEPTH", 0.0);
+    Register("IVPHELM_STATE", 0.0);
 }
 
 bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
@@ -152,44 +152,44 @@ bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
                                  double depth, std::string type,
                                  std::string mode, double time,
                                  std::string frame_number) {
-  NodeRecord record;
-  record.setName(id);
-  record.setX(nav_x);
-  record.setY(nav_y);
-  record.setSpeed(speed);
-  record.setHeading(heading);
-  record.setDepth(depth);
-  record.setType(type);
-  record.setTimeStamp(MOOSTime());
-  record.setProperty("FRAMENUM", frame_number);
+    NodeRecord record;
+    record.setName(id);
+    record.setX(nav_x);
+    record.setY(nav_y);
+    record.setSpeed(speed);
+    record.setHeading(heading);
+    record.setDepth(depth);
+    record.setType(type);
+    record.setTimeStamp(MOOSTime());
+    record.setProperty("FRAMENUM", frame_number);
 
-  std::string moos_var;
-  switch (report_type) {
-    case OWNSHIP:
-      moos_var = "NODE_REPORT_LOCAL";
-      Notify("NAV_X", nav_x);
-      Notify("NAV_Y", nav_y);
-      Notify("NAV_HEADING", heading);
-      Notify("NAV_SPEED", speed);
-      Notify("NAV_DEPTH", depth);
-      break;
+    std::string moos_var;
+    switch (report_type) {
+        case OWNSHIP:
+            moos_var = "NODE_REPORT_LOCAL";
+            Notify("NAV_X", nav_x);
+            Notify("NAV_Y", nav_y);
+            Notify("NAV_HEADING", heading);
+            Notify("NAV_SPEED", speed);
+            Notify("NAV_DEPTH", depth);
+            break;
 
-    case TRUTH_CONTACT:
-      moos_var = "NODE_REPORT";
-      Notify(moos_var, record.getSpec());
-      break;
+        case TRUTH_CONTACT:
+            moos_var = "NODE_REPORT";
+            Notify(moos_var, record.getSpec());
+            break;
 
-    case SENSOR_CONTACT:
-      record.setProperty("SENSOR_ID", sensor_id);
-      moos_var = "SENSOR_CONTACT";
-      Notify(moos_var, record.getSpec());
-      break;
+        case SENSOR_CONTACT:
+            record.setProperty("SENSOR_ID", sensor_id);
+            moos_var = "SENSOR_CONTACT";
+            Notify(moos_var, record.getSpec());
+            break;
 
-    default:
-      break;
-  }
+        default:
+            break;
+    }
 
-  return true;
+    return true;
 }
 }  // namespace autonomy
 }  // namespace scrimmage

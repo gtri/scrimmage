@@ -45,31 +45,32 @@ namespace scrimmage {
 namespace sensor {
 class SimpleINS : public scrimmage::Sensor {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-  bool gps_fix_;
+    bool gps_fix_;
 
-  PublisherPtr pub_;
-  PublisherPtr pub_cep_;
-  PublisherPtr pub_seastate_;
+    PublisherPtr pub_;
+    PublisherPtr pub_cep_;
+    PublisherPtr pub_seastate_;
 
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>>
+        orient_noise_;
 
-  Eigen::Vector3d pos_error_accum_ = Eigen::Vector3d::Zero();
-  Eigen::Vector3d vel_Nminus1 = Eigen::Vector3d::Zero();
-  Eigen::Vector3d accel_ = Eigen::Vector3d::Zero();
+    Eigen::Vector3d pos_error_accum_ = Eigen::Vector3d::Zero();
+    Eigen::Vector3d vel_Nminus1 = Eigen::Vector3d::Zero();
+    Eigen::Vector3d accel_ = Eigen::Vector3d::Zero();
 
-  Eigen::MatrixXd m_;
-  bool init_m_ = true;
+    Eigen::MatrixXd m_;
+    bool init_m_ = true;
 
-  double surface_timer_ = 0;
-  double prev_time_ = 0;
-  double sea_state_gps_;
-  double SeaState_;
+    double surface_timer_ = 0;
+    double prev_time_ = 0;
+    double sea_state_gps_;
+    double SeaState_;
 };
 }  // namespace sensor
 }  // namespace scrimmage

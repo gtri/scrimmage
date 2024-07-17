@@ -36,19 +36,19 @@
 namespace scrimmage {
 class Battery {
  public:
-  Battery() {}
-  Battery(const double &min, const double &max, const double &current);
-  void add_charge(const double &amount);
-  bool deplete(const double &amount);
-  bool is_full();
-  bool has_charge();
-  const double &current_charge();
-  double charge_percentage();
+    Battery() {}
+    Battery(const double &min, const double &max, const double &current);
+    void add_charge(const double &amount);
+    bool deplete(const double &amount);
+    bool is_full();
+    bool has_charge();
+    const double &current_charge();
+    double charge_percentage();
 
  protected:
-  double min_charge_ = 0;
-  double max_charge_ = 1;
-  double current_charge_ = 1;
+    double min_charge_ = 0;
+    double max_charge_ = 1;
+    double current_charge_ = 1;
 };
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_BATTERY_H_

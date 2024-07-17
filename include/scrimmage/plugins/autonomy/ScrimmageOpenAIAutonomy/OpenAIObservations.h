@@ -55,39 +55,41 @@ namespace autonomy {
 
 class DLL_PUBLIC OpenAIObservations {
  public:
-  OpenAIObservations();
+    OpenAIObservations();
 
-  void create_observation_space(size_t num_entities, bool static_obs_space);
-  pybind11::object update_observation(size_t num_entities,
-                                      bool static_obs_space);
+    void create_observation_space(size_t num_entities, bool static_obs_space);
+    pybind11::object update_observation(size_t num_entities,
+                                        bool static_obs_space);
 
-  std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>&
-  ext_sensor_vec() {
-    return ext_sensor_vec_;
-  }
+    std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>&
+    ext_sensor_vec() {
+        return ext_sensor_vec_;
+    }
 
-  void add_sensors(const std::unordered_map<std::string, SensorPtr>& sensors);
+    void add_sensors(const std::unordered_map<std::string, SensorPtr>& sensors);
 
-  pybind11::object observation_space;
-  pybind11::object observation;
+    pybind11::object observation_space;
+    pybind11::object observation;
 
-  void set_global_sensor(bool global_sensor) { global_sensor_ = global_sensor; }
-  bool get_global_sensor() const { return global_sensor_; }
+    void set_global_sensor(bool global_sensor) {
+        global_sensor_ = global_sensor;
+    }
+    bool get_global_sensor() const { return global_sensor_; }
 
-  void set_combine_actors(bool combine_actors) {
-    combine_actors_ = combine_actors;
-  }
-  bool get_combine_actors() const { return combine_actors_; }
+    void set_combine_actors(bool combine_actors) {
+        combine_actors_ = combine_actors;
+    }
+    bool get_combine_actors() const { return combine_actors_; }
 
  protected:
-  std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>
-      ext_sensor_vec_;
+    std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>
+        ext_sensor_vec_;
 
-  pybind11::object tuple_space_;
-  pybind11::object box_space_;
+    pybind11::object tuple_space_;
+    pybind11::object box_space_;
 
-  bool combine_actors_ = false;
-  bool global_sensor_ = false;
+    bool combine_actors_ = false;
+    bool global_sensor_ = false;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -54,139 +54,140 @@ namespace interaction {
 
 class Cuboid : public BoundaryBase {
  public:
-  Cuboid() {}
+    Cuboid() {}
 
-  Cuboid(Eigen::Vector3d center, double x_length, double y_width,
-         double z_height, scrimmage::Quaternion quat) {
-    double x = x_length / 2.0;
-    double y = y_width / 2.0;
-    double z = z_height / 2.0;
+    Cuboid(Eigen::Vector3d center, double x_length, double y_width,
+           double z_height, scrimmage::Quaternion quat) {
+        double x = x_length / 2.0;
+        double y = y_width / 2.0;
+        double z = z_height / 2.0;
 
-    std::vector<Eigen::Vector3d> points;
-    points.push_back(Eigen::Vector3d(x, y, -z));
-    points.push_back(Eigen::Vector3d(-x, y, -z));
-    points.push_back(Eigen::Vector3d(-x, -y, -z));
-    points.push_back(Eigen::Vector3d(x, -y, -z));
-    points.push_back(Eigen::Vector3d(x, y, z));
-    points.push_back(Eigen::Vector3d(-x, y, z));
-    points.push_back(Eigen::Vector3d(-x, -y, z));
-    points.push_back(Eigen::Vector3d(x, -y, z));
+        std::vector<Eigen::Vector3d> points;
+        points.push_back(Eigen::Vector3d(x, y, -z));
+        points.push_back(Eigen::Vector3d(-x, y, -z));
+        points.push_back(Eigen::Vector3d(-x, -y, -z));
+        points.push_back(Eigen::Vector3d(x, -y, -z));
+        points.push_back(Eigen::Vector3d(x, y, z));
+        points.push_back(Eigen::Vector3d(-x, y, z));
+        points.push_back(Eigen::Vector3d(-x, -y, z));
+        points.push_back(Eigen::Vector3d(x, -y, z));
 
-    // TODO: Handle rotation
+        // TODO: Handle rotation
 
-    for (Eigen::Vector3d &p : points) {
-      p += center;
-    }
-    set_points(points);
-  }
-
-  explicit Cuboid(const scrimmage_proto::Shape &shape)
-      : Cuboid(proto_2_vector3d(shape.cuboid().center()),
-               shape.cuboid().x_length(), shape.cuboid().y_length(),
-               shape.cuboid().z_length(),
-               sc::proto_2_quat(shape.cuboid().quat())) {
-    set_visual(shape.color().r(), shape.color().g(), shape.color().b(),
-               shape.opacity());
-  }
-
-  void compute_dots() {
-    // Source:
-    // http://math.stackexchange.com/questions/1472049/check-if-a-point-is-inside-a-rectangular-shaped-area-3d
-    u = points_[0] - points_[1];
-    v = points_[0] - points_[3];
-    w = points_[0] - points_[4];
-
-    u_dot_P0 = u.dot(points_[0]);
-    u_dot_P1 = u.dot(points_[1]);
-    v_dot_P0 = v.dot(points_[0]);
-    v_dot_P3 = v.dot(points_[3]);
-    w_dot_P0 = w.dot(points_[0]);
-    w_dot_P4 = w.dot(points_[4]);
-  }
-
-  bool contains(Eigen::Vector3d p) override {
-    double u_dot_p = u.dot(p);
-    double v_dot_p = v.dot(p);
-    double w_dot_p = w.dot(p);
-
-    if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
-        (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
-      return true;
-    }
-    return false;
-  }
-
-  const std::vector<Eigen::Vector3d> &points() { return points_; }
-
-  void set_points(std::vector<Eigen::Vector3d> &points) {
-    points_ = points;
-    compute_dots();
-
-    Eigen::Vector3d xy_center = (points[0] + points[2]) / 2;
-    double alt_center = (points[0](2) + points[5](2)) / 2;
-    center_ << xy_center(0), xy_center(1), alt_center;
-
-    // Compute min / max values for x, y, z
-    Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
-                         std::numeric_limits<double>::infinity(),
-                         std::numeric_limits<double>::infinity());
-    Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
-                         -std::numeric_limits<double>::infinity(),
-                         -std::numeric_limits<double>::infinity());
-    for (Eigen::Vector3d p : points) {
-      for (int i = 0; i < 3; i++) {
-        if (p(i) < mins(i)) mins(i) = p(i);
-        if (p(i) > maxs(i)) maxs(i) = p(i);
-      }
-    }
-    extents_.clear();
-    extents_.push_back(
-        std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
-    extents_.push_back(
-        std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
-    extents_.push_back(
-        std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
-  }
-
-  void set_visual(int R, int G, int B, double opacity) override {
-    // Generate the shape
-    if (points_.size() != 8) {
-      cout << "Invalid number of cube points: " << points_.size() << endl;
-      return;
+        for (Eigen::Vector3d &p : points) {
+            p += center;
+        }
+        set_points(points);
     }
 
-    const int num_faces = 6;
-    const int vert_per_face = 4;
-    int vert_lookup[num_faces][vert_per_face] = {
-        {0, 1, 2, 3}, {0, 1, 5, 4}, {0, 3, 7, 4},
-        {6, 5, 4, 7}, {6, 2, 1, 5}, {6, 7, 3, 2},
-    };
-
-    for (int f = 0; f < num_faces; f++) {
-      sc::ShapePtr polygon(new sp::Shape);
-      polygon->set_opacity(opacity);
-      polygon->set_persistent(true);
-      sc::set(polygon->mutable_color(), R, G, B);
-
-      for (int r = 0; r < vert_per_face; r++) {
-        sp::Vector3d *p = polygon->mutable_polygon()->add_point();
-        sc::set(p, points_[vert_lookup[f][r]]);
-      }
-      // shapes_.push_back(polygon);
+    explicit Cuboid(const scrimmage_proto::Shape &shape)
+        : Cuboid(proto_2_vector3d(shape.cuboid().center()),
+                 shape.cuboid().x_length(), shape.cuboid().y_length(),
+                 shape.cuboid().z_length(),
+                 sc::proto_2_quat(shape.cuboid().quat())) {
+        set_visual(shape.color().r(), shape.color().g(), shape.color().b(),
+                   shape.opacity());
     }
-  }
+
+    void compute_dots() {
+        // Source:
+        // http://math.stackexchange.com/questions/1472049/check-if-a-point-is-inside-a-rectangular-shaped-area-3d
+        u = points_[0] - points_[1];
+        v = points_[0] - points_[3];
+        w = points_[0] - points_[4];
+
+        u_dot_P0 = u.dot(points_[0]);
+        u_dot_P1 = u.dot(points_[1]);
+        v_dot_P0 = v.dot(points_[0]);
+        v_dot_P3 = v.dot(points_[3]);
+        w_dot_P0 = w.dot(points_[0]);
+        w_dot_P4 = w.dot(points_[4]);
+    }
+
+    bool contains(Eigen::Vector3d p) override {
+        double u_dot_p = u.dot(p);
+        double v_dot_p = v.dot(p);
+        double w_dot_p = w.dot(p);
+
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) &&
+            (v_dot_P0 > v_dot_p) && (v_dot_p > v_dot_P3) &&
+            (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+            return true;
+        }
+        return false;
+    }
+
+    const std::vector<Eigen::Vector3d> &points() { return points_; }
+
+    void set_points(std::vector<Eigen::Vector3d> &points) {
+        points_ = points;
+        compute_dots();
+
+        Eigen::Vector3d xy_center = (points[0] + points[2]) / 2;
+        double alt_center = (points[0](2) + points[5](2)) / 2;
+        center_ << xy_center(0), xy_center(1), alt_center;
+
+        // Compute min / max values for x, y, z
+        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
+                             std::numeric_limits<double>::infinity(),
+                             std::numeric_limits<double>::infinity());
+        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
+                             -std::numeric_limits<double>::infinity(),
+                             -std::numeric_limits<double>::infinity());
+        for (Eigen::Vector3d p : points) {
+            for (int i = 0; i < 3; i++) {
+                if (p(i) < mins(i)) mins(i) = p(i);
+                if (p(i) > maxs(i)) maxs(i) = p(i);
+            }
+        }
+        extents_.clear();
+        extents_.push_back(
+            std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
+        extents_.push_back(
+            std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
+        extents_.push_back(
+            std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
+    }
+
+    void set_visual(int R, int G, int B, double opacity) override {
+        // Generate the shape
+        if (points_.size() != 8) {
+            cout << "Invalid number of cube points: " << points_.size() << endl;
+            return;
+        }
+
+        const int num_faces = 6;
+        const int vert_per_face = 4;
+        int vert_lookup[num_faces][vert_per_face] = {
+            {0, 1, 2, 3}, {0, 1, 5, 4}, {0, 3, 7, 4},
+            {6, 5, 4, 7}, {6, 2, 1, 5}, {6, 7, 3, 2},
+        };
+
+        for (int f = 0; f < num_faces; f++) {
+            sc::ShapePtr polygon(new sp::Shape);
+            polygon->set_opacity(opacity);
+            polygon->set_persistent(true);
+            sc::set(polygon->mutable_color(), R, G, B);
+
+            for (int r = 0; r < vert_per_face; r++) {
+                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
+                sc::set(p, points_[vert_lookup[f][r]]);
+            }
+            // shapes_.push_back(polygon);
+        }
+    }
 
  protected:
-  std::vector<Eigen::Vector3d> points_;
-  Eigen::Vector3d u;
-  Eigen::Vector3d v;
-  Eigen::Vector3d w;
-  double u_dot_P0 = 0;
-  double u_dot_P1 = 0;
-  double v_dot_P0 = 0;
-  double v_dot_P3 = 0;
-  double w_dot_P0 = 0;
-  double w_dot_P4 = 0;
+    std::vector<Eigen::Vector3d> points_;
+    Eigen::Vector3d u;
+    Eigen::Vector3d v;
+    Eigen::Vector3d w;
+    double u_dot_P0 = 0;
+    double u_dot_P1 = 0;
+    double v_dot_P0 = 0;
+    double v_dot_P3 = 0;
+    double w_dot_P0 = 0;
+    double w_dot_P4 = 0;
 };
 
 }  // namespace interaction

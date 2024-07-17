@@ -45,32 +45,32 @@ namespace scrimmage {
 namespace autonomy {
 class MotorSchemas : public scrimmage::Autonomy {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  bool show_shapes_;
-  bool pub_vel_vec_;
-  double max_speed_;
+    bool show_shapes_;
+    bool pub_vel_vec_;
+    double max_speed_;
 
-  bool add_lower_bound_to_vz_;
-  double vz_lower_bound_;
+    bool add_lower_bound_to_vz_;
+    double vz_lower_bound_;
 
-  int desired_heading_idx_ = 0;
-  int desired_alt_idx_ = 0;
-  int desired_speed_idx_ = 0;
+    int desired_heading_idx_ = 0;
+    int desired_alt_idx_ = 0;
+    int desired_speed_idx_ = 0;
 
-  int output_vel_x_idx_ = 0;
-  int output_vel_y_idx_ = 0;
-  int output_vel_z_idx_ = 0;
+    int output_vel_x_idx_ = 0;
+    int output_vel_y_idx_ = 0;
+    int output_vel_z_idx_ = 0;
 
-  std::string current_state_ = "UNDEFINED_NO_STATE";
+    std::string current_state_ = "UNDEFINED_NO_STATE";
 
-  std::map<std::string, std::list<motor_schemas::BehaviorBasePtr>> behaviors_;
-  std::list<motor_schemas::BehaviorBasePtr> default_behaviors_;
-  std::list<motor_schemas::BehaviorBasePtr> current_behaviors_;
+    std::map<std::string, std::list<motor_schemas::BehaviorBasePtr>> behaviors_;
+    std::list<motor_schemas::BehaviorBasePtr> default_behaviors_;
+    std::list<motor_schemas::BehaviorBasePtr> current_behaviors_;
 
-  scrimmage_proto::ShapePtr line_shape_;
+    scrimmage_proto::ShapePtr line_shape_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

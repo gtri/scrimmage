@@ -48,35 +48,36 @@ namespace interaction {
 
 class ExternalForceField : public scrimmage::EntityInteraction {
  public:
-  enum ForceType { Constant, Variable };
-  ExternalForceField();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
-                               double dt) override;
+    enum ForceType { Constant, Variable };
+    ExternalForceField();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
 
  protected:
-  PublisherPtr pub_;
-  ForceType force_type_ = Constant;
-  Eigen::Vector3d force_ = Eigen::Vector3d::Zero();
+    PublisherPtr pub_;
+    ForceType force_type_ = Constant;
+    Eigen::Vector3d force_ = Eigen::Vector3d::Zero();
 
-  std::shared_ptr<std::normal_distribution<double>> force_change_period_noise_;
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> force_noise_;
+    std::shared_ptr<std::normal_distribution<double>>
+        force_change_period_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> force_noise_;
 
-  double next_sample_time_ = -1.0;
-  void sample_force();
+    double next_sample_time_ = -1.0;
+    void sample_force();
 
-  double moment_enable_min_z_ = -10;
-  double moment_enable_max_z_ = 0.5;
-  double roll_period_ = 1.0;
-  double pitch_period_ = 1.0;
-  double yaw_period_ = 1.0;
-  double roll_amp_ = 0.0;
-  double pitch_amp_ = 0.0;
-  double yaw_amp_ = 0.0;
-  double mag_ = 0.0;
-  double ang_ = 0.0;
-  Eigen::Vector3d moment_ = Eigen::Vector3d::Zero();
+    double moment_enable_min_z_ = -10;
+    double moment_enable_max_z_ = 0.5;
+    double roll_period_ = 1.0;
+    double pitch_period_ = 1.0;
+    double yaw_period_ = 1.0;
+    double roll_amp_ = 0.0;
+    double pitch_amp_ = 0.0;
+    double yaw_amp_ = 0.0;
+    double mag_ = 0.0;
+    double ang_ = 0.0;
+    Eigen::Vector3d moment_ = Eigen::Vector3d::Zero();
 
  private:
 };

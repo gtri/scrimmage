@@ -41,10 +41,10 @@ namespace scrimmage {
 namespace interaction {
 class Map2DInfo {
  public:
-  cv::Mat img;
-  double occupied_thresh;
-  double resolution;
-  Eigen::Vector3d origin;
+    cv::Mat img;
+    double occupied_thresh;
+    double resolution;
+    Eigen::Vector3d origin;
 };
 }  // namespace interaction
 }  // namespace scrimmage

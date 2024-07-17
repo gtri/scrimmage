@@ -52,28 +52,28 @@ namespace interaction {
 
 class FlagCaptureInteraction : public scrimmage::EntityInteraction {
  public:
-  FlagCaptureInteraction();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                               double dt) override;
+    FlagCaptureInteraction();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
+                                 double dt) override;
 
  protected:
-  int flag_boundary_id_ = 0;
-  int capture_boundary_id_ = 0;
+    int flag_boundary_id_ = 0;
+    int capture_boundary_id_ = 0;
 
-  std::shared_ptr<sci::BoundaryBase> flag_boundary_;
-  sp::Shape flag_boundary_shape_;
+    std::shared_ptr<sci::BoundaryBase> flag_boundary_;
+    sp::Shape flag_boundary_shape_;
 
-  std::shared_ptr<sci::BoundaryBase> capture_boundary_;
-  sp::Shape capture_boundary_shape_;
+    std::shared_ptr<sci::BoundaryBase> capture_boundary_;
+    sp::Shape capture_boundary_shape_;
 
-  bool flag_taken_ = false;
-  bool flag_captured_ = false;
-  scrimmage::ID entity_with_flag_;
+    bool flag_taken_ = false;
+    bool flag_captured_ = false;
+    scrimmage::ID entity_with_flag_;
 
-  scrimmage::PublisherPtr flag_taken_pub_;
-  scrimmage::PublisherPtr flag_captured_pub_;
+    scrimmage::PublisherPtr flag_taken_pub_;
+    scrimmage::PublisherPtr flag_captured_pub_;
 
  private:
 };

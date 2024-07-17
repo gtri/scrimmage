@@ -52,15 +52,15 @@ namespace interaction {
 
 class EnforceBoundaryInteraction : public scrimmage::EntityInteraction {
  public:
-  EnforceBoundaryInteraction();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                               double dt) override;
+    EnforceBoundaryInteraction();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
+                                 double dt) override;
 
  protected:
-  std::list<std::shared_ptr<sci::BoundaryBase>> boundaries_;
-  std::set<int> active_boundary_ids_;
+    std::list<std::shared_ptr<sci::BoundaryBase>> boundaries_;
+    std::set<int> active_boundary_ids_;
 
  private:
 };

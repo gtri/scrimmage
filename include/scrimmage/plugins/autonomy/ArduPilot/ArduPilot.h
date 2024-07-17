@@ -58,62 +58,62 @@ class RigidBody6DOFState;
 namespace autonomy {
 class ArduPilot : public scrimmage::Autonomy {
  private:
-  static const int MAX_NUM_SERVOS = 16;
-  // Packet received by Scrimmage with state of ArduPilot servos
-  struct servo_packet {
-    uint16_t servos[MAX_NUM_SERVOS];
-  };
+    static const int MAX_NUM_SERVOS = 16;
+    // Packet received by Scrimmage with state of ArduPilot servos
+    struct servo_packet {
+        uint16_t servos[MAX_NUM_SERVOS];
+    };
 
-  // State packet sent from Scrimmage to ArduPilot
-  struct fdm_packet {
-    uint64_t timestamp_us;  // simulation time in microseconds
-    double latitude, longitude;
-    double altitude;
-    double heading;
-    double speedN, speedE, speedD;
-    double xAccel, yAccel, zAccel;
-    double rollRate, pitchRate, yawRate;
-    double roll, pitch, yaw;
-    double airspeed;
-  };
+    // State packet sent from Scrimmage to ArduPilot
+    struct fdm_packet {
+        uint64_t timestamp_us;  // simulation time in microseconds
+        double latitude, longitude;
+        double altitude;
+        double heading;
+        double speedN, speedE, speedD;
+        double xAccel, yAccel, zAccel;
+        double rollRate, pitchRate, yawRate;
+        double roll, pitch, yaw;
+        double airspeed;
+    };
 
  public:
-  ArduPilot();
-  void init(std::map<std::string, std::string>& params) override;
-  bool step_autonomy(double t, double dt) override;
-  void close(double t) override;
+    ArduPilot();
+    void init(std::map<std::string, std::string>& params) override;
+    bool step_autonomy(double t, double dt) override;
+    void close(double t) override;
 
  protected:
-  bool mavproxy_mode_ = false;
-  bool asynchonous_mode_ = true;
+    bool mavproxy_mode_ = false;
+    bool asynchonous_mode_ = true;
 
-  boost::asio::io_service tx_io_service_;
-  std::shared_ptr<boost::asio::ip::udp::socket> tx_socket_;
-  std::shared_ptr<boost::asio::ip::udp::resolver> tx_resolver_;
-  boost::asio::ip::udp::endpoint tx_endpoint_;
+    boost::asio::io_service tx_io_service_;
+    std::shared_ptr<boost::asio::ip::udp::socket> tx_socket_;
+    std::shared_ptr<boost::asio::ip::udp::resolver> tx_resolver_;
+    boost::asio::ip::udp::endpoint tx_endpoint_;
 
-  std::list<scrimmage::controller::AxisScale> servo_tfs_;
+    std::list<scrimmage::controller::AxisScale> servo_tfs_;
 
-  servo_packet servo_pkt_;
-  std::mutex servo_pkt_mutex_;
+    servo_packet servo_pkt_;
+    std::mutex servo_pkt_mutex_;
 
-  scrimmage::Angles angles_to_gps_;
+    scrimmage::Angles angles_to_gps_;
 
-  fdm_packet state6dof_to_fdm_packet(
-      double t, scrimmage::motion::RigidBody6DOFState& state);
+    fdm_packet state6dof_to_fdm_packet(
+        double t, scrimmage::motion::RigidBody6DOFState& state);
 
-  boost::asio::io_service recv_io_service_;
-  std::shared_ptr<boost::asio::ip::udp::socket> recv_socket_;
-  boost::asio::ip::udp::endpoint recv_remote_endpoint_;
-  boost::array<unsigned char, 100> recv_buffer_;
+    boost::asio::io_service recv_io_service_;
+    std::shared_ptr<boost::asio::ip::udp::socket> recv_socket_;
+    boost::asio::ip::udp::endpoint recv_remote_endpoint_;
+    boost::array<unsigned char, 100> recv_buffer_;
 
-  void start_receive();
-  void parse_receive(const boost::system::error_code& error,
-                     std::size_t num_bytes);
-  void handle_receive(const boost::system::error_code& error,
-                      std::size_t num_bytes);
+    void start_receive();
+    void parse_receive(const boost::system::error_code& error,
+                       std::size_t num_bytes);
+    void handle_receive(const boost::system::error_code& error,
+                        std::size_t num_bytes);
 
-  std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
+    std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

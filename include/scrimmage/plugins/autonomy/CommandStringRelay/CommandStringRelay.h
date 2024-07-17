@@ -41,12 +41,12 @@ namespace scrimmage {
 namespace autonomy {
 class CommandStringRelay : public scrimmage::Autonomy {
  public:
-  CommandStringRelay();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    CommandStringRelay();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  std::map<std::string, scrimmage::PublisherPtr> pubs_;
+    std::map<std::string, scrimmage::PublisherPtr> pubs_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

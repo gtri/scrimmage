@@ -50,19 +50,19 @@ namespace interaction {
 
 class Boundary : public scrimmage::EntityInteraction {
  public:
-  Boundary();
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
-  bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                               double dt) override;
+    Boundary();
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
+                                 double dt) override;
 
-  static std::shared_ptr<BoundaryBase> make_boundary(
-      const scrimmage_proto::Shape &shape);
+    static std::shared_ptr<BoundaryBase> make_boundary(
+        const scrimmage_proto::Shape &shape);
 
  protected:
-  sc::PublisherPtr pub_boundary_;
-  bool boundary_published_ = false;
-  std::shared_ptr<scrimmage_proto::Shape> boundary_shape_;
+    sc::PublisherPtr pub_boundary_;
+    bool boundary_published_ = false;
+    std::shared_ptr<scrimmage_proto::Shape> boundary_shape_;
 };
 }  // namespace interaction
 }  // namespace scrimmage

@@ -45,25 +45,25 @@ namespace scrimmage {
 namespace interaction {
 class SimpleCollision : public scrimmage::EntityInteraction {
  public:
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
 
-  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
-                               double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
 
-  bool collision_exists(std::list<scrimmage::EntityPtr> &ents,
-                        Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<scrimmage::EntityPtr> &ents,
+                          Eigen::Vector3d &p) override;
 
  protected:
-  double collision_range_;
-  double startup_collision_range_;
-  bool startup_collisions_only_;
-  bool enable_team_collisions_;
-  bool enable_non_team_collisions_;
-  bool init_alt_deconflict_;
+    double collision_range_;
+    double startup_collision_range_;
+    bool startup_collisions_only_;
+    bool enable_team_collisions_;
+    bool enable_non_team_collisions_;
+    bool init_alt_deconflict_;
 
-  scrimmage::PublisherPtr team_collision_pub_;
-  scrimmage::PublisherPtr non_team_collision_pub_;
+    scrimmage::PublisherPtr team_collision_pub_;
+    scrimmage::PublisherPtr non_team_collision_pub_;
 };
 }  // namespace interaction
 }  // namespace scrimmage

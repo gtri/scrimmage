@@ -65,60 +65,60 @@ namespace autonomy {
 
 class ROSAirSim : public scrimmage::Autonomy {
  public:
-  ROSAirSim();
-  Eigen::Isometry3f get_vehicle_world_pose_from_NED_to_ENU(
-      Eigen::Isometry3f vehicle_pose_world_NED);
-  Eigen::Isometry3f get_sensor_pose_from_worldNED_to_vehicleENU(
-      Eigen::Isometry3f vehicle_position_NED,
-      Eigen::Isometry3f sensor_position_NED);
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    ROSAirSim();
+    Eigen::Isometry3f get_vehicle_world_pose_from_NED_to_ENU(
+        Eigen::Isometry3f vehicle_pose_world_NED);
+    Eigen::Isometry3f get_sensor_pose_from_worldNED_to_vehicleENU(
+        Eigen::Isometry3f vehicle_position_NED,
+        Eigen::Isometry3f sensor_position_NED);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  std::string vehicle_name_ = "none";
-  bool show_camera_images_ = false;
-  bool pub_image_data_ = true;
-  bool pub_lidar_data_ = true;
-  bool pub_imu_data_ = true;
-  bool ros_python_ = false;
-  bool ros_cartographer_ = false;
+    std::string vehicle_name_ = "none";
+    bool show_camera_images_ = false;
+    bool pub_image_data_ = true;
+    bool pub_lidar_data_ = true;
+    bool pub_imu_data_ = true;
+    bool ros_python_ = false;
+    bool ros_cartographer_ = false;
 
-  // ROS
-  std::shared_ptr<ros::NodeHandle> nh_;
-  std::shared_ptr<image_transport::ImageTransport> it_;
+    // ROS
+    std::shared_ptr<ros::NodeHandle> nh_;
+    std::shared_ptr<image_transport::ImageTransport> it_;
 
-  // Images
-  vector<scrimmage::sensor::AirSimImageType> image_data_;
-  std::vector<image_transport::Publisher> trans_img_publishers_;
-  std::vector<ros::Publisher> img_publishers_;
-  std::vector<ros::Publisher> cam_info_publishers_;
-  bool img_topic_published_ = false;
-  std::mutex img_topic_published_mutex_;
-  std::vector<std::string> camera_names_;
+    // Images
+    vector<scrimmage::sensor::AirSimImageType> image_data_;
+    std::vector<image_transport::Publisher> trans_img_publishers_;
+    std::vector<ros::Publisher> img_publishers_;
+    std::vector<ros::Publisher> cam_info_publishers_;
+    bool img_topic_published_ = false;
+    std::mutex img_topic_published_mutex_;
+    std::vector<std::string> camera_names_;
 
-  // Lidar
-  vector<scrimmage::sensor::AirSimLidarType> lidar_data_;
-  std::vector<ros::Publisher> lidar_publishers_;
-  bool lidar_topic_published_ = false;
-  std::mutex lidar_topic_published_mutex_;
-  std::vector<std::string> lidar_names_;
+    // Lidar
+    vector<scrimmage::sensor::AirSimLidarType> lidar_data_;
+    std::vector<ros::Publisher> lidar_publishers_;
+    bool lidar_topic_published_ = false;
+    std::mutex lidar_topic_published_mutex_;
+    std::vector<std::string> lidar_names_;
 
-  // IMU
-  vector<scrimmage::sensor::AirSimImuType> imu_data_;
-  std::vector<ros::Publisher> imu_publishers_;
-  bool imu_topic_published_ = false;
-  std::mutex imu_topic_published_mutex_;
-  std::vector<std::string> imu_names_;
+    // IMU
+    vector<scrimmage::sensor::AirSimImuType> imu_data_;
+    std::vector<ros::Publisher> imu_publishers_;
+    bool imu_topic_published_ = false;
+    std::mutex imu_topic_published_mutex_;
+    std::vector<std::string> imu_names_;
 
-  ros::Publisher base_scan_pub_;
-  std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
-  static std::shared_ptr<tf2_ros::StaticTransformBroadcaster>
-      static_broadcaster_;
-  geometry_msgs::TransformStamped world_trans_;
-  geometry_msgs::TransformStamped vehicle_trans_;
+    ros::Publisher base_scan_pub_;
+    std::shared_ptr<tf2_ros::TransformBroadcaster> laser_broadcaster_;
+    static std::shared_ptr<tf2_ros::StaticTransformBroadcaster>
+        static_broadcaster_;
+    geometry_msgs::TransformStamped world_trans_;
+    geometry_msgs::TransformStamped vehicle_trans_;
 
-  std::string ros_name_;
-  std::string ros_namespace_;
+    std::string ros_name_;
+    std::string ros_namespace_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -64,54 +64,55 @@ namespace sensor {
 GPS::GPS() : gps_found_(false), boundary_id_(-1) {}
 
 void GPS::init(std::map<std::string, std::string> &params) {
-  // Loading in params
-  if (params.count("gps_denied_ids") > 0) {
-    gps_found_ = str2container(params["gps_denied_ids"], ",", gps_denied_ids_);
-  }
+    // Loading in params
+    if (params.count("gps_denied_ids") > 0) {
+        gps_found_ =
+            str2container(params["gps_denied_ids"], ",", gps_denied_ids_);
+    }
 
-  pub_ = advertise("GlobalNetwork", "GPSStatus");
+    pub_ = advertise("GlobalNetwork", "GPSStatus");
 
-  auto bd_cb = [&](auto &msg) {
-    boundary_id_ = msg->data.id().id();
-    boundary_ = sci::Boundary::make_boundary(msg->data);
-  };
-  subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
+    auto bd_cb = [&](auto &msg) {
+        boundary_id_ = msg->data.id().id();
+        boundary_ = sci::Boundary::make_boundary(msg->data);
+    };
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
 }
 
 bool GPS::step() {
-  // Obtain current state information
-  sc::State ns = *(parent_->state_truth());
+    // Obtain current state information
+    sc::State ns = *(parent_->state_truth());
 
-  auto msg = std::make_shared<Message<sm::GPSStatus>>();
+    auto msg = std::make_shared<Message<sm::GPSStatus>>();
 
-  msg->data.set_sender_id(parent_->id().id());
+    msg->data.set_sender_id(parent_->id().id());
 
-  double lat = 0;
-  double lon = 0;
-  double alt = 0;
-  parent_->projection()->Reverse(ns.pos()(0), ns.pos()(1), ns.pos()(2), lat,
-                                 lon, alt);
-  msg->data.set_lat(lat);
-  msg->data.set_lon(lon);
-  msg->data.set_alt(alt);
+    double lat = 0;
+    double lon = 0;
+    double alt = 0;
+    parent_->projection()->Reverse(ns.pos()(0), ns.pos()(1), ns.pos()(2), lat,
+                                   lon, alt);
+    msg->data.set_lat(lat);
+    msg->data.set_lon(lon);
+    msg->data.set_alt(alt);
 
-  msg->data.set_time(time_->t());
+    msg->data.set_time(time_->t());
 
-  bool gps_fix = true;
-  if (boundary_ != nullptr && gps_found_) {
-    if (std::find(gps_denied_ids_.begin(), gps_denied_ids_.end(),
-                  boundary_id_) != gps_denied_ids_.end() &&
-        boundary_->contains(ns.pos())) {
-      gps_fix = false;
+    bool gps_fix = true;
+    if (boundary_ != nullptr && gps_found_) {
+        if (std::find(gps_denied_ids_.begin(), gps_denied_ids_.end(),
+                      boundary_id_) != gps_denied_ids_.end() &&
+            boundary_->contains(ns.pos())) {
+            gps_fix = false;
+        }
     }
-  }
 
-  msg->data.set_fixed(gps_fix);
+    msg->data.set_fixed(gps_fix);
 
-  // Publish GPS information
-  pub_->publish(msg);
+    // Publish GPS information
+    pub_->publish(msg);
 
-  return true;
+    return true;
 }
 }  // namespace sensor
 }  // namespace scrimmage

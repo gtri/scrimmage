@@ -62,41 +62,41 @@ namespace metrics {
 OpenAIRewards::OpenAIRewards() : Metrics() { print_team_summary_ = false; }
 
 void OpenAIRewards::init(std::map<std::string, std::string> & /*params*/) {
-  auto cb = [&](auto msg) {
-    size_t id;
-    double reward;
-    std::tie(id, reward) = msg->data;
-    auto it = rewards_.find(id);
-    if (it == rewards_.end()) {
-      rewards_[id] = reward;
-    } else {
-      it->second += reward;
-    }
-    print_team_summary_ = true;
-  };
-  subscribe<std::pair<size_t, double>>("GlobalNetwork", "reward", cb);
+    auto cb = [&](auto msg) {
+        size_t id;
+        double reward;
+        std::tie(id, reward) = msg->data;
+        auto it = rewards_.find(id);
+        if (it == rewards_.end()) {
+            rewards_[id] = reward;
+        } else {
+            it->second += reward;
+        }
+        print_team_summary_ = true;
+    };
+    subscribe<std::pair<size_t, double>>("GlobalNetwork", "reward", cb);
 }
 
 void OpenAIRewards::print_team_summaries() {
-  for (auto &kv : rewards_) {
-    std::cout << "Reward for id " << kv.first << " = " << kv.second
-              << std::endl;
-  }
+    for (auto &kv : rewards_) {
+        std::cout << "Reward for id " << kv.first << " = " << kv.second
+                  << std::endl;
+    }
 }
 
 void OpenAIRewards::calc_team_scores() {
-  CSV csv;
-  std::string filename = parent_->mp()->log_dir() + "/rewards.csv";
+    CSV csv;
+    std::string filename = parent_->mp()->log_dir() + "/rewards.csv";
 
-  if (!csv.open_output(filename)) {
-    std::cout << "Couldn't create output file" << endl;
-  }
+    if (!csv.open_output(filename)) {
+        std::cout << "Couldn't create output file" << endl;
+    }
 
-  csv.set_column_headers("id, reward");
-  for (auto &kv : rewards_) {
-    csv.append(CSV::Pairs{{"id", kv.first}, {"reward", kv.second}});
-  }
-  csv.close_output();
+    csv.set_column_headers("id, reward");
+    for (auto &kv : rewards_) {
+        csv.append(CSV::Pairs{{"id", kv.first}, {"reward", kv.second}});
+    }
+    csv.close_output();
 }
 }  // namespace metrics
 }  // namespace scrimmage

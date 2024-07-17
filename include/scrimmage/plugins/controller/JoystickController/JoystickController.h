@@ -53,11 +53,11 @@ namespace scrimmage {
 namespace controller {
 class JoystickController : public scrimmage::Controller {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step(double t, double dt) override;
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
 
  protected:
-  Joystick joystick_;
+    Joystick joystick_;
 };
 }  // namespace controller
 }  // namespace scrimmage

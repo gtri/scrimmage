@@ -5,4 +5,4 @@ clang-format --version 2> /dev/null || (echo "clang-format is not installed. Ple
 
 find ../{src,include,tools} -iname "*.cpp" \
     -o -iname "*.h" \
-    -o -iname "*.hpp" | tee /dev/tty | xargs clang-format -i 
+    -o -iname "*.hpp" | xargs clang-format -i 

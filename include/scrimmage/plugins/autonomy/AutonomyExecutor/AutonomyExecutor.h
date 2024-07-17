@@ -45,24 +45,24 @@ namespace scrimmage {
 namespace autonomy {
 class AutonomyExecutor : public scrimmage::Autonomy {
  public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
-  bool call_init(std::string autonomy_name, sc::AutonomyPtr autonomy_s);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
+    bool call_init(std::string autonomy_name, sc::AutonomyPtr autonomy_s);
 
  protected:
-  bool show_shapes_ = false;
+    bool show_shapes_ = false;
 
-  std::string current_state_ = "UNDEFINED_NO_STATE";
+    std::string current_state_ = "UNDEFINED_NO_STATE";
 
-  std::map<std::string, std::list<scrimmage::AutonomyPtr>> autonomies_;
-  std::list<scrimmage::AutonomyPtr> running_autonomies_;
-  std::list<scrimmage::AutonomyPtr> default_autonomies_;
+    std::map<std::string, std::list<scrimmage::AutonomyPtr>> autonomies_;
+    std::list<scrimmage::AutonomyPtr> running_autonomies_;
+    std::list<scrimmage::AutonomyPtr> default_autonomies_;
 
-  std::map<std::string, sc::ConfigParse> autonomies_config_;
+    std::map<std::string, sc::ConfigParse> autonomies_config_;
 
-  // Key : Output variable index determined by controller
-  // Value: Input variable index
-  std::map<int, int> io_map_;
+    // Key : Output variable index determined by controller
+    // Value: Input variable index
+    std::map<int, int> io_map_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

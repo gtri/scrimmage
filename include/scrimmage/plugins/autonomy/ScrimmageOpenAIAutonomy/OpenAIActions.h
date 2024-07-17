@@ -47,18 +47,18 @@ class ScrimmageOpenAIAutonomy;
 
 class DLL_PUBLIC OpenAIActions {
  public:
-  OpenAIActions();
-  std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &ext_ctrl_vec();
-  void create_action_space(bool combine_actors);
-  void distribute_action(pybind11::object action, bool combine_actors);
+    OpenAIActions();
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &ext_ctrl_vec();
+    void create_action_space(bool combine_actors);
+    void distribute_action(pybind11::object action, bool combine_actors);
 
-  pybind11::object action_space;
+    pybind11::object action_space;
 
  protected:
-  std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> ext_ctrl_vec_;
-  pybind11::object tuple_space_;
-  pybind11::object box_space_;
-  pybind11::object asarray_;
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> ext_ctrl_vec_;
+    pybind11::object tuple_space_;
+    pybind11::object box_space_;
+    pybind11::object asarray_;
 };
 
 }  // namespace autonomy

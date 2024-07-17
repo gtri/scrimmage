@@ -44,23 +44,23 @@ namespace scrimmage {
 namespace interaction {
 class GroundCollision : public scrimmage::EntityInteraction {
  public:
-  GroundCollision();
+    GroundCollision();
 
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
 
-  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
-                               double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t, double dt) override;
 
-  bool collision_exists(std::list<scrimmage::EntityPtr> &ents,
-                        Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<scrimmage::EntityPtr> &ents,
+                          Eigen::Vector3d &p) override;
 
  protected:
-  double ground_collision_z_;
-  scrimmage::PublisherPtr collision_pub_;
-  bool remove_on_collision_;
-  bool enable_startup_collisions_;
-  std::string team_;
+    double ground_collision_z_;
+    scrimmage::PublisherPtr collision_pub_;
+    bool remove_on_collision_;
+    bool enable_startup_collisions_;
+    std::string team_;
 };
 }  // namespace interaction
 }  // namespace scrimmage

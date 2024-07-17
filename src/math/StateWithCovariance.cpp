@@ -47,7 +47,7 @@ StateWithCovariance::StateWithCovariance(const scrimmage::State &state,
                   Eigen::MatrixXd::Identity(cov_num_rows, cov_num_cols)) {}
 
 void StateWithCovariance::set_covariance(const Eigen::MatrixXd &covariance) {
-  covariance_ = covariance;
+    covariance_ = covariance;
 }
 
 const Eigen::MatrixXd &StateWithCovariance::covariance() { return covariance_; }

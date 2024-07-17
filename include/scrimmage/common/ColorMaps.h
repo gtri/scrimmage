@@ -38,7 +38,7 @@
 
 namespace scrimmage {
 struct Color_t {
-  double r, g, b;
+    double r, g, b;
 };
 
 // Matlab's versions of JET to GRAYSCALE

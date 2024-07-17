@@ -37,22 +37,22 @@
 
 namespace scrimmage {
 void ParameterServer::unregister_params(PluginPtr owner) {
-  // For all parameters, remove all parameters owned by this plugin
-  for (auto &kv1 : params_) {
-    for (auto &kv2 : kv1.second) {
-      remove_if_owner(kv2.second, owner);
+    // For all parameters, remove all parameters owned by this plugin
+    for (auto &kv1 : params_) {
+        for (auto &kv2 : kv1.second) {
+            remove_if_owner(kv2.second, owner);
+        }
     }
-  }
 }
 
 bool ParameterServer::remove_if_owner(std::set<ParameterBasePtr> &param_set,
                                       PluginPtr owner) {
-  auto it_param = std::find_if(param_set.begin(), param_set.end(),
-                               [&](auto p) { return p->owner() == owner; });
-  if (it_param != param_set.end()) {
-    param_set.erase(it_param);
-    return true;
-  }
-  return false;
+    auto it_param = std::find_if(param_set.begin(), param_set.end(),
+                                 [&](auto p) { return p->owner() == owner; });
+    if (it_param != param_set.end()) {
+        param_set.erase(it_param);
+        return true;
+    }
+    return false;
 }
 }  // namespace scrimmage

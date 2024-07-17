@@ -39,45 +39,45 @@ namespace scrimmage {
 
 class Timer {
  public:
-  void start_overall_timer();
+    void start_overall_timer();
 
-  boost::posix_time::time_duration elapsed_time();
+    boost::posix_time::time_duration elapsed_time();
 
-  void start_loop_timer();
+    void start_loop_timer();
 
-  void pause_loop_timer();
+    void pause_loop_timer();
 
-  boost::posix_time::time_duration loop_wait();
+    boost::posix_time::time_duration loop_wait();
 
-  void set_iterate_rate(double iterate_rate);
+    void set_iterate_rate(double iterate_rate);
 
-  void set_time_warp(double time_warp);
+    void set_time_warp(double time_warp);
 
-  void update_time_config();
+    void update_time_config();
 
-  static uint64_t getnanotime();
+    static uint64_t getnanotime();
 
-  void inc_warp();
+    void inc_warp();
 
-  void dec_warp();
+    void dec_warp();
 
-  double time_warp();
+    double time_warp();
 
  protected:
-  double time_warp_ = NAN;
-  boost::posix_time::ptime start_time_;
+    double time_warp_ = NAN;
+    boost::posix_time::ptime start_time_;
 
-  boost::posix_time::ptime actual_time_;
+    boost::posix_time::ptime actual_time_;
 
-  boost::posix_time::ptime sim_time_;
-  boost::posix_time::time_duration sim_elapsed_time_;
+    boost::posix_time::ptime sim_time_;
+    boost::posix_time::time_duration sim_elapsed_time_;
 
-  boost::posix_time::ptime loop_timer_;
-  bool loop_timer_running_;
-  boost::posix_time::ptime loop_end_time_;
-  boost::posix_time::time_duration iterate_period_;
-  boost::posix_time::time_duration sim_time_period_;
-  double iterate_rate_;
+    boost::posix_time::ptime loop_timer_;
+    bool loop_timer_running_;
+    boost::posix_time::ptime loop_end_time_;
+    boost::posix_time::time_duration iterate_period_;
+    boost::posix_time::time_duration sim_time_period_;
+    double iterate_rate_;
 };
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_TIMER_H_

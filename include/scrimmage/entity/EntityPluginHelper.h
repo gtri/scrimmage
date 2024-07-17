@@ -66,51 +66,52 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
     std::function<void(std::map<std::string, std::string> &)>
         param_override_func = [](std::map<std::string, std::string> &params) {},
     std::vector<ControllerPtr> controllers = {}, const int &debug_level = 0) {
-  ConfigParse config_parse;
-  PluginStatus<T> status = plugin_manager->make_plugin<T>(
-      "scrimmage::Autonomy", autonomy_name, *file_search, config_parse,
-      overrides, plugin_tags);
-  if (status.status == PluginStatus<T>::cast_failed) {
-    std::cout << "Failed to open autonomy plugin: " << autonomy_name
-              << std::endl;
-  } else if (status.status == PluginStatus<T>::parse_failed) {
-    std::cout << "Parsing of plugin failed: " << autonomy_name << std::endl;
-  } else if (status.status == PluginStatus<T>::loaded) {
-    std::shared_ptr<T> autonomy = status.plugin;
-    // Connect the autonomy to the first controller
-    if (not controllers.empty()) {
-      connect(autonomy->vars(), controllers.front()->vars());
-    }
-    autonomy->set_rtree(rtree);
-    autonomy->set_parent(parent);
-    autonomy->set_projection(proj);
-    autonomy->set_pubsub(pubsub);
-    autonomy->set_time(time);
-    autonomy->set_id_to_team_map(id_to_team_map);
-    autonomy->set_id_to_ent_map(id_to_ent_map);
-    autonomy->set_param_server(param_server);
-    autonomy->set_state(state);
-    autonomy->set_contacts(contacts);
-    autonomy->set_is_controlling(true);
-    autonomy->set_name(autonomy_name);
-    param_override_func(config_parse.params());
+    ConfigParse config_parse;
+    PluginStatus<T> status = plugin_manager->make_plugin<T>(
+        "scrimmage::Autonomy", autonomy_name, *file_search, config_parse,
+        overrides, plugin_tags);
+    if (status.status == PluginStatus<T>::cast_failed) {
+        std::cout << "Failed to open autonomy plugin: " << autonomy_name
+                  << std::endl;
+    } else if (status.status == PluginStatus<T>::parse_failed) {
+        std::cout << "Parsing of plugin failed: " << autonomy_name << std::endl;
+    } else if (status.status == PluginStatus<T>::loaded) {
+        std::shared_ptr<T> autonomy = status.plugin;
+        // Connect the autonomy to the first controller
+        if (not controllers.empty()) {
+            connect(autonomy->vars(), controllers.front()->vars());
+        }
+        autonomy->set_rtree(rtree);
+        autonomy->set_parent(parent);
+        autonomy->set_projection(proj);
+        autonomy->set_pubsub(pubsub);
+        autonomy->set_time(time);
+        autonomy->set_id_to_team_map(id_to_team_map);
+        autonomy->set_id_to_ent_map(id_to_ent_map);
+        autonomy->set_param_server(param_server);
+        autonomy->set_state(state);
+        autonomy->set_contacts(contacts);
+        autonomy->set_is_controlling(true);
+        autonomy->set_name(autonomy_name);
+        param_override_func(config_parse.params());
 
-    if (debug_level > 1) {
-      std::cout << "--------------------------------" << std::endl;
-      std::cout << "Autonomy plugin params: " << autonomy_name << std::endl;
-      std::cout << config_parse;
-    }
-    autonomy->init(config_parse.params());
+        if (debug_level > 1) {
+            std::cout << "--------------------------------" << std::endl;
+            std::cout << "Autonomy plugin params: " << autonomy_name
+                      << std::endl;
+            std::cout << config_parse;
+        }
+        autonomy->init(config_parse.params());
 
-    // get loop rate from plugin's params
-    auto it_loop_rate = config_parse.params().find("loop_rate");
-    if (it_loop_rate != config_parse.params().end()) {
-      const double loop_rate = std::stod(it_loop_rate->second);
-      autonomy->set_loop_rate(loop_rate);
+        // get loop rate from plugin's params
+        auto it_loop_rate = config_parse.params().find("loop_rate");
+        if (it_loop_rate != config_parse.params().end()) {
+            const double loop_rate = std::stod(it_loop_rate->second);
+            autonomy->set_loop_rate(loop_rate);
+        }
+        return boost::optional<std::shared_ptr<T>>{autonomy};
     }
-    return boost::optional<std::shared_ptr<T>>{autonomy};
-  }
-  return boost::none;
+    return boost::none;
 }
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_

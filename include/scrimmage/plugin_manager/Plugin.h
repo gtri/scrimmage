@@ -39,15 +39,15 @@
 namespace scrimmage {
 class Plugin : public std::enable_shared_from_this<Plugin> {
  public:
-  Plugin();
-  virtual ~Plugin();
-  void set_name(std::string name);
-  std::string name();
-  virtual std::string type();
+    Plugin();
+    virtual ~Plugin();
+    void set_name(std::string name);
+    std::string name();
+    virtual std::string type();
 
  protected:
-  std::string name_ = "Unset";
-  bool name_set_ = false;
+    std::string name_ = "Unset";
+    bool name_set_ = false;
 };
 using PluginPtr = std::shared_ptr<Plugin>;
 }  // namespace scrimmage

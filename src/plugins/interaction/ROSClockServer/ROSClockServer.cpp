@@ -59,86 +59,87 @@ ROSClockServer::ROSClockServer() {}
 
 bool ROSClockServer::init(std::map<std::string, std::string> &mission_params,
                           std::map<std::string, std::string> &plugin_params) {
-  // Store the current UNIX time at startup. We will add the simulation time
-  // (which starts at 0 seconds), to this start time when publishing to the
-  // ROS clock server.
-  sim_start_time_ = std::chrono::system_clock::now();
+    // Store the current UNIX time at startup. We will add the simulation time
+    // (which starts at 0 seconds), to this start time when publishing to the
+    // ROS clock server.
+    sim_start_time_ = std::chrono::system_clock::now();
 
-  // initialize ros
-  if (!ros::isInitialized()) {
-    int argc = 0;
-    ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
-  }
+    // initialize ros
+    if (!ros::isInitialized()) {
+        int argc = 0;
+        ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
+    }
 
-  // run once, to preserve original synchronous behavior
-  check_rosmaster();
+    // run once, to preserve original synchronous behavior
+    check_rosmaster();
 
-  // rosmaster check thread
-  running_ = true;
-  check_rosmaster_thread_ =
-      std::thread(&ROSClockServer::check_rosmaster_loop, this);
+    // rosmaster check thread
+    running_ = true;
+    check_rosmaster_thread_ =
+        std::thread(&ROSClockServer::check_rosmaster_loop, this);
 
-  return true;
+    return true;
 }
 
 void ROSClockServer::close(double t) {
-  (void)t;
-  running_ = false;
-  check_rosmaster_thread_.join();
+    (void)t;
+    running_ = false;
+    check_rosmaster_thread_.join();
 }
 
 void ROSClockServer::check_rosmaster() {
-  bool rosmaster_state = ros::master::check();
-  if (prev_rosmaster_state_ == false && rosmaster_state == true) {
-    ros::param::set("/use_sim_time", true);
-    // time to reinitialize
-    nh_ = std::make_shared<ros::NodeHandle>();  // this actually starts the node
-    // Create Publisher
-    pub_mutex_.lock();
-    clock_pub_.shutdown();
-    clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
-    pub_mutex_.unlock();
-  }
-  prev_rosmaster_state_ = rosmaster_state;
+    bool rosmaster_state = ros::master::check();
+    if (prev_rosmaster_state_ == false && rosmaster_state == true) {
+        ros::param::set("/use_sim_time", true);
+        // time to reinitialize
+        nh_ = std::make_shared<ros::NodeHandle>();  // this actually starts the
+                                                    // node
+        // Create Publisher
+        pub_mutex_.lock();
+        clock_pub_.shutdown();
+        clock_pub_ = nh_->advertise<rosgraph_msgs::Clock>("/clock", 1);
+        pub_mutex_.unlock();
+    }
+    prev_rosmaster_state_ = rosmaster_state;
 }
 
 void ROSClockServer::check_rosmaster_loop() {
-  while (running_) {
-    check_rosmaster();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-  }
+    while (running_) {
+        check_rosmaster();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 }
 
 void ROSClockServer::publish_clock_msg(const double &t) {
-  // Add the current simulation time to the system time at the start of the
-  // simulation.
-  std::chrono::time_point<std::chrono::system_clock,
-                          std::chrono::duration<double>>
-      sim_time_point = sim_start_time_ + std::chrono::duration<double>(t);
+    // Add the current simulation time to the system time at the start of the
+    // simulation.
+    std::chrono::time_point<std::chrono::system_clock,
+                            std::chrono::duration<double>>
+        sim_time_point = sim_start_time_ + std::chrono::duration<double>(t);
 
-  // Convert the time_point into a duration that represents double time since
-  // the epoch.
-  std::chrono::duration<double> time_since_epoch =
-      sim_time_point.time_since_epoch();
-  double sim_time = time_since_epoch.count();
+    // Convert the time_point into a duration that represents double time since
+    // the epoch.
+    std::chrono::duration<double> time_since_epoch =
+        sim_time_point.time_since_epoch();
+    double sim_time = time_since_epoch.count();
 
-  // Extract the seconds and nanoseconds to construct the ros::Time message
-  uint32_t sec = std::floor(sim_time);
-  uint32_t nsec = (sim_time - static_cast<double>(sec)) * 1e9;
+    // Extract the seconds and nanoseconds to construct the ros::Time message
+    uint32_t sec = std::floor(sim_time);
+    uint32_t nsec = (sim_time - static_cast<double>(sec)) * 1e9;
 
-  // Create the ros Clock message and publish it
-  rosgraph_msgs::Clock clock_msg;
-  clock_msg.clock = ros::Time(sec, nsec);
+    // Create the ros Clock message and publish it
+    rosgraph_msgs::Clock clock_msg;
+    clock_msg.clock = ros::Time(sec, nsec);
 
-  pub_mutex_.lock();
-  clock_pub_.publish(clock_msg);
-  pub_mutex_.unlock();
+    pub_mutex_.lock();
+    clock_pub_.publish(clock_msg);
+    pub_mutex_.unlock();
 }
 
 bool ROSClockServer::step_entity_interaction(std::list<sc::EntityPtr> &ents,
                                              double t, double dt) {
-  publish_clock_msg(time_->t());
-  return true;
+    publish_clock_msg(time_->t());
+    return true;
 }
 }  // namespace interaction
 }  // namespace scrimmage

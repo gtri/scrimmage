@@ -41,20 +41,20 @@ namespace scrimmage {
 namespace autonomy {
 class ShapeDraw : public scrimmage::Autonomy {
  public:
-  ShapeDraw();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+    ShapeDraw();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step_autonomy(double t, double dt) override;
 
  protected:
-  void draw_ellipse(double t, double dt);
-  void draw_cuboid(double t, double dt);
-  void draw_mesh(double t, double dt);
-  int follow_id_;
-  bool init_;
+    void draw_ellipse(double t, double dt);
+    void draw_cuboid(double t, double dt);
+    void draw_mesh(double t, double dt);
+    int follow_id_;
+    bool init_;
 
-  scrimmage_proto::ShapePtr ellipse_shape_;
-  scrimmage_proto::ShapePtr cuboid_shape_;
-  scrimmage_proto::ShapePtr mesh_shape_;
+    scrimmage_proto::ShapePtr ellipse_shape_;
+    scrimmage_proto::ShapePtr cuboid_shape_;
+    scrimmage_proto::ShapePtr mesh_shape_;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

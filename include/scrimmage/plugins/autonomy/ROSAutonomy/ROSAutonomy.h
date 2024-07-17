@@ -51,36 +51,36 @@ namespace scrimmage {
 namespace autonomy {
 class ROSAutonomy : public scrimmage::Autonomy {
  public:
-  ROSAutonomy();
-  void init(std::map<std::string, std::string>& params) override;
-  bool step_autonomy(double t, double dt) override;
-  void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
+    ROSAutonomy();
+    void init(std::map<std::string, std::string>& params) override;
+    bool step_autonomy(double t, double dt) override;
+    void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
 
  protected:
-  std::shared_ptr<ros::NodeHandle> nh_;
+    std::shared_ptr<ros::NodeHandle> nh_;
 
-  ros::Subscriber cmd_vel_sub_;
-  geometry_msgs::Twist cmd_vel_;
+    ros::Subscriber cmd_vel_sub_;
+    geometry_msgs::Twist cmd_vel_;
 
-  ros::Publisher odom_pub_;
-  ros::Publisher odom_laser_pub_;
-  ros::Publisher base_scan_pub_;
-  ros::Publisher base_pose_truth_pub;
+    ros::Publisher odom_pub_;
+    ros::Publisher odom_laser_pub_;
+    ros::Publisher base_scan_pub_;
+    ros::Publisher base_pose_truth_pub;
 
-  std::shared_ptr<tf::TransformBroadcaster> odom_broadcaster_;
-  geometry_msgs::TransformStamped odom_trans_;
+    std::shared_ptr<tf::TransformBroadcaster> odom_broadcaster_;
+    geometry_msgs::TransformStamped odom_trans_;
 
-  std::shared_ptr<tf::TransformBroadcaster> laser_broadcaster_;
-  geometry_msgs::TransformStamped laser_trans_;
+    std::shared_ptr<tf::TransformBroadcaster> laser_broadcaster_;
+    geometry_msgs::TransformStamped laser_trans_;
 
-  std::string ros_namespace_;
+    std::string ros_namespace_;
 
-  scrimmage::sensor::RayTrace::PointCloud pcl_;
+    scrimmage::sensor::RayTrace::PointCloud pcl_;
 
-  int speed_idx_ = 0;
-  int turn_rate_idx_ = 0;
-  int pitch_rate_idx_ = 0;
-  int velocity_z_idx_ = 0;
+    int speed_idx_ = 0;
+    int turn_rate_idx_ = 0;
+    int pitch_rate_idx_ = 0;
+    int velocity_z_idx_ = 0;
 };
 }  // namespace autonomy
 }  // namespace scrimmage

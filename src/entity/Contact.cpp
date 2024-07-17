@@ -71,7 +71,7 @@ void Contact::set_type(Contact::Type type) { type_ = type; }
 Contact::Type Contact::type() { return type_; }
 
 scrimmage_proto::ContactVisualPtr &Contact::contact_visual() {
-  return contact_visual_;
+    return contact_visual_;
 }
 
 void Contact::set_active(bool active) { active_ = active; }
@@ -81,7 +81,7 @@ void Contact::set_radius(double radius) { radius_ = radius; }
 bool Contact::active() { return active_; }
 
 std::ostream &operator<<(std::ostream &os, const Contact &c) {
-  os << c.id_ << ": " << *c.state_;
-  return os;
+    os << c.id_ << ": " << *c.state_;
+    return os;
 }
 }  // namespace scrimmage

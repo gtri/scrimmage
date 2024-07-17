@@ -44,13 +44,13 @@ namespace scrimmage {
 class ScrimmageMsgServiceImpl final
     : public scrimmage_msgs::ScrimmageMsgService::Service {
  public:
-  explicit ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin);
-  grpc::Status SendCommandString(grpc::ServerContext* context,
-                                 const scrimmage_msgs::CommandString* cmd,
-                                 scrimmage_msgs::CommandAck* reply) override;
+    explicit ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin);
+    grpc::Status SendCommandString(grpc::ServerContext* context,
+                                   const scrimmage_msgs::CommandString* cmd,
+                                   scrimmage_msgs::CommandAck* reply) override;
 
  protected:
-  std::shared_ptr<interaction::GRPCCommandString> plugin_;
+    std::shared_ptr<interaction::GRPCCommandString> plugin_;
 };
 }  // namespace scrimmage
 

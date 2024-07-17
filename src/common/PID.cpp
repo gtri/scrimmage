@@ -60,52 +60,52 @@ PID::PID()
       enable_output_limits_(false) {}
 
 bool PID::init(const std::string &str, const bool &is_angle) {
-  std::vector<std::string> str_vals;
-  boost::split(str_vals, str, boost::is_any_of(","));
+    std::vector<std::string> str_vals;
+    boost::split(str_vals, str, boost::is_any_of(","));
 
-  if (str_vals.size() != 4) {
-    return false;
-  } else {
-    double p = std::stod(str_vals[0]);
-    double i = std::stod(str_vals[1]);
-    double d = std::stod(str_vals[2]);
-    set_parameters(p, i, d);
-
-    set_is_angle(is_angle);
-    if (is_angle) {
-      double i_lim = Angles::deg2rad(std::stod(str_vals[3]));
-      set_integral_band(i_lim);
+    if (str_vals.size() != 4) {
+        return false;
     } else {
-      double i_lim = std::stod(str_vals[3]);
-      set_integral_band(i_lim);
+        double p = std::stod(str_vals[0]);
+        double i = std::stod(str_vals[1]);
+        double d = std::stod(str_vals[2]);
+        set_parameters(p, i, d);
+
+        set_is_angle(is_angle);
+        if (is_angle) {
+            double i_lim = Angles::deg2rad(std::stod(str_vals[3]));
+            set_integral_band(i_lim);
+        } else {
+            double i_lim = std::stod(str_vals[3]);
+            set_integral_band(i_lim);
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 void PID::set_output_limits(const double &min, const double &max,
                             const double &enable) {
-  output_min_ = min;
-  output_max_ = max;
-  enable_output_limits_ = enable;
+    output_min_ = min;
+    output_max_ = max;
+    enable_output_limits_ = enable;
 }
 
 void PID::set_parameters(const double &kp, const double &ki, const double &kd) {
-  kp_ = kp;
-  ki_ = ki;
-  kd_ = kd;
+    kp_ = kp;
+    ki_ = ki;
+    kd_ = kd;
 }
 
 void PID::set_setpoint(const double &setpoint) { setpoint_ = setpoint; }
 
 void PID::set_integral_band(const double &integral_band) {
-  integral_band_ = integral_band;
+    integral_band_ = integral_band;
 }
 
 void PID::reset() {
-  integral_ = 0.0;
-  prev_error_ = 0.0;
-  derivative_ = 0.0;
+    integral_ = 0.0;
+    prev_error_ = 0.0;
+    derivative_ = 0.0;
 }
 
 void PID::set_is_angle(const bool &is_angle) { is_angle_ = is_angle; }
@@ -121,21 +121,21 @@ const double &PID::previous_error() { return prev_error_; }
 const double &PID::derivative() { return derivative_; }
 
 double PID::step(const double &dt, const double &measurement) {
-  error_ = setpoint_ - measurement;
-  if (is_angle_) {
-    error_ = Angles::angle_pi(error_);
-  }
+    error_ = setpoint_ - measurement;
+    if (is_angle_) {
+        error_ = Angles::angle_pi(error_);
+    }
 
-  if (std::abs(error_) > integral_band_) {
-    integral_ = 0;
-  } else {
-    integral_ += error_ * dt;
-  }
+    if (std::abs(error_) > integral_band_) {
+        integral_ = 0;
+    } else {
+        integral_ += error_ * dt;
+    }
 
-  derivative_ = (error_ - prev_error_) / std::max(1.0e-9, dt);
-  double u = kp_ * error_ + ki_ * integral_ + kd_ * derivative_;
-  prev_error_ = error_;
+    derivative_ = (error_ - prev_error_) / std::max(1.0e-9, dt);
+    double u = kp_ * error_ + ki_ * integral_ + kd_ * derivative_;
+    prev_error_ = error_;
 
-  return enable_output_limits_ ? clamp(u, output_min_, output_max_) : u;
+    return enable_output_limits_ ? clamp(u, output_min_, output_max_) : u;
 }
 }  // namespace scrimmage

@@ -46,38 +46,38 @@ namespace scrimmage {
 namespace sensor {
 class LOSSensor : public RayTrace {
  public:
-  LOSSensor();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    LOSSensor();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  private:
-  // Sensor characteristics
-  uint32_t sensor_id_;
-  double last_update_time_;
-  double range_sd_min_;
-  double range_sd_per_unit_;
-  double range_sd_oor_;
-  double oor_return_;
+    // Sensor characteristics
+    uint32_t sensor_id_;
+    double last_update_time_;
+    double range_sd_min_;
+    double range_sd_per_unit_;
+    double range_sd_oor_;
+    double oor_return_;
 
-  // Error characteristics
-  double probability_of_error_;
-  double error_sd_;
-  double probability_oor_error_;
+    // Error characteristics
+    double probability_of_error_;
+    double error_sd_;
+    double probability_oor_error_;
 
-  // For simple tests
-  bool use_flat_earth_;
+    // For simple tests
+    bool use_flat_earth_;
 
-  // For the collision capability
-  bool new_data_;
-  double range_;
-  bool oor_;
-  bool subscribed_;
+    // For the collision capability
+    bool new_data_;
+    double range_;
+    bool oor_;
+    bool subscribed_;
 
-  // For generating errors
-  std::default_random_engine generator_;
+    // For generating errors
+    std::default_random_engine generator_;
 
-  // The output
-  PublisherPtr los_pub_;
+    // The output
+    PublisherPtr los_pub_;
 };
 }  // namespace sensor
 }  // namespace scrimmage

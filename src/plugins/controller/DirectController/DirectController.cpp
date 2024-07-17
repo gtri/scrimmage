@@ -53,21 +53,21 @@ namespace scrimmage {
 namespace controller {
 
 void DirectController::init(std::map<std::string, std::string> &params) {
-  // Discover the output variables that point to the input variables for the
-  // motion model. Setup input variables that mirror the output variables.
-  for (auto &kv : vars_.output_variable_index()) {
-    int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
-    int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
-    io_map_[out_idx] = in_idx;
-  }
+    // Discover the output variables that point to the input variables for the
+    // motion model. Setup input variables that mirror the output variables.
+    for (auto &kv : vars_.output_variable_index()) {
+        int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
+        int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
+        io_map_[out_idx] = in_idx;
+    }
 }
 
 bool DirectController::step(double t, double dt) {
-  // Copy over variableIO data
-  for (auto &kv : io_map_) {
-    vars_.output(kv.first, vars_.input(kv.second));
-  }
-  return true;
+    // Copy over variableIO data
+    for (auto &kv : io_map_) {
+        vars_.output(kv.first, vars_.input(kv.second));
+    }
+    return true;
 }
 }  // namespace controller
 }  // namespace scrimmage

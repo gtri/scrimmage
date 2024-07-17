@@ -59,90 +59,91 @@ AvoidEntityMS::AvoidEntityMS()
     : sphere_of_influence_(10.0), minimum_range_(5.0), avoid_non_team_(true) {}
 
 void AvoidEntityMS::init(std::map<std::string, std::string> &params) {
-  sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
-  minimum_range_ = sc::get<double>("minimum_range", params, 5);
-  avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
-  show_shapes_ = sc::get<bool>("show_shapes", params, false);
+    sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
+    minimum_range_ = sc::get<double>("minimum_range", params, 5);
+    avoid_non_team_ = sc::get<bool>("avoid_non_team", params, true);
+    show_shapes_ = sc::get<bool>("show_shapes", params, false);
 
-  configure_contacts(params);
+    configure_contacts(params);
 }
 
 void AvoidEntityMS::avoidance_vectors(ContactMap &contacts,
                                       std::vector<Eigen::Vector3d> &O_vecs) {
-  for (auto it = contacts.begin(); it != contacts.end(); it++) {
-    // Ignore own position / id
-    if (it->second.id().id() == parent_->id().id()) {
-      continue;
+    for (auto it = contacts.begin(); it != contacts.end(); it++) {
+        // Ignore own position / id
+        if (it->second.id().id() == parent_->id().id()) {
+            continue;
+        }
+
+        if (!avoid_non_team_ &&
+            it->second.id().team_id() != parent_->id().team_id()) {
+            continue;
+        }
+
+        Eigen::Vector3d diff = it->second.state()->pos() - state_->pos();
+
+        double O_mag = 0;
+        double dist = diff.norm();
+
+        if (dist > sphere_of_influence_) {
+            O_mag = 0;
+        } else if (minimum_range_ < dist && dist <= sphere_of_influence_) {
+            O_mag = (sphere_of_influence_ - dist) /
+                    (sphere_of_influence_ - minimum_range_);
+        } else if (dist <= minimum_range_) {
+            O_mag = 1e10;
+        }
+
+        Eigen::Vector3d O_dir = -O_mag * diff.normalized();
+        O_vecs.push_back(O_dir);
     }
-
-    if (!avoid_non_team_ &&
-        it->second.id().team_id() != parent_->id().team_id()) {
-      continue;
-    }
-
-    Eigen::Vector3d diff = it->second.state()->pos() - state_->pos();
-
-    double O_mag = 0;
-    double dist = diff.norm();
-
-    if (dist > sphere_of_influence_) {
-      O_mag = 0;
-    } else if (minimum_range_ < dist && dist <= sphere_of_influence_) {
-      O_mag = (sphere_of_influence_ - dist) /
-              (sphere_of_influence_ - minimum_range_);
-    } else if (dist <= minimum_range_) {
-      O_mag = 1e10;
-    }
-
-    Eigen::Vector3d O_dir = -O_mag * diff.normalized();
-    O_vecs.push_back(O_dir);
-  }
 }
 
 bool AvoidEntityMS::step_autonomy(double t, double dt) {
-  // Compute repulsion vector from each robot contact
-  std::vector<Eigen::Vector3d> O_vecs;
+    // Compute repulsion vector from each robot contact
+    std::vector<Eigen::Vector3d> O_vecs;
 
-  if (use_truth_contacts_) {
-    avoidance_vectors(*contacts_, O_vecs);
-  }
-  if (use_noisy_contacts_) {
-    avoidance_vectors(noisy_contacts_, O_vecs);
-  }
-
-  // Normalize each repulsion vector and sum
-  desired_vector_ << 0, 0, 0;
-  for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
-    if (it->hasNaN()) {
-      continue;  // ignore misbehaved vectors
+    if (use_truth_contacts_) {
+        avoidance_vectors(*contacts_, O_vecs);
     }
-    desired_vector_ += *it;
-  }
-
-  desired_vector_ *= max_vector_length_;
-
-  if (show_shapes_) {
-    // Draw the sphere of influence
-    if (circle_shape_ == nullptr) {
-      circle_shape_ = sc::shape::make_circle(state_->pos(), state_->quat(),
-                                             sphere_of_influence_,
-                                             Eigen::Vector3d(0, 255, 0), 0.2);
+    if (use_noisy_contacts_) {
+        avoidance_vectors(noisy_contacts_, O_vecs);
     }
-    sc::set(circle_shape_->mutable_circle()->mutable_center(), state_->pos());
-    draw_shape(circle_shape_);
 
-    if (line_shape_ == nullptr) {
-      line_shape_ =
-          sc::shape::make_line(state_->pos(), desired_vector_ + state_->pos(),
-                               Eigen::Vector3d(0, 0, 0), 0.75);
+    // Normalize each repulsion vector and sum
+    desired_vector_ << 0, 0, 0;
+    for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
+        if (it->hasNaN()) {
+            continue;  // ignore misbehaved vectors
+        }
+        desired_vector_ += *it;
     }
-    sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
-    sc::set(line_shape_->mutable_line()->mutable_end(),
-            desired_vector_ + state_->pos());
-    draw_shape(line_shape_);
-  }
 
-  return true;
+    desired_vector_ *= max_vector_length_;
+
+    if (show_shapes_) {
+        // Draw the sphere of influence
+        if (circle_shape_ == nullptr) {
+            circle_shape_ = sc::shape::make_circle(
+                state_->pos(), state_->quat(), sphere_of_influence_,
+                Eigen::Vector3d(0, 255, 0), 0.2);
+        }
+        sc::set(circle_shape_->mutable_circle()->mutable_center(),
+                state_->pos());
+        draw_shape(circle_shape_);
+
+        if (line_shape_ == nullptr) {
+            line_shape_ = sc::shape::make_line(state_->pos(),
+                                               desired_vector_ + state_->pos(),
+                                               Eigen::Vector3d(0, 0, 0), 0.75);
+        }
+        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(),
+                desired_vector_ + state_->pos());
+        draw_shape(line_shape_);
+    }
+
+    return true;
 }
 }  // namespace motor_schemas
 }  // namespace autonomy

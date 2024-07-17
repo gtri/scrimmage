@@ -66,98 +66,100 @@ namespace autonomy {
 PyAutonomy::PyAutonomy() { need_reset_ = true; }
 
 void PyAutonomy::init(std::map<std::string, std::string> &params) {
-  py_obj_ = get_py_obj(params);
-  py_obj_.attr("id") = py::cast(parent_->id());
-  init_py_obj(params);
+    py_obj_ = get_py_obj(params);
+    py_obj_.attr("id") = py::cast(parent_->id());
+    init_py_obj(params);
 }
 
 py::object PyAutonomy::get_py_obj(std::map<std::string, std::string> &params) {
-  py::module module = py::module::import(params["module"].c_str());
-  py::object py_obj_class = module.attr(params["class"].c_str());
-  py_obj_ = py_obj_class();
-  return py_obj_;
+    py::module module = py::module::import(params["module"].c_str());
+    py::object py_obj_class = module.attr(params["class"].c_str());
+    py_obj_ = py_obj_class();
+    return py_obj_;
 }
 
 void PyAutonomy::init_py_obj(std::map<std::string, std::string> &params) {
-  py::dict py_params;
-  for (auto &kv : params) {
-    if (kv.first != "module" && kv.first != "class" && kv.first != "library") {
-      py_params[kv.first.c_str()] = py::str(kv.second);
+    py::dict py_params;
+    for (auto &kv : params) {
+        if (kv.first != "module" && kv.first != "class" &&
+            kv.first != "library") {
+            py_params[kv.first.c_str()] = py::str(kv.second);
+        }
     }
-  }
-  // py_obj_.attr("subs") = py::dict();
-  // py_obj_.attr("pubs") = py::dict();
-  py_obj_.attr("shapes") = py::list();
+    // py_obj_.attr("subs") = py::dict();
+    // py_obj_.attr("pubs") = py::dict();
+    py_obj_.attr("shapes") = py::list();
 
-  py::object init = py_obj_.attr("init");
-  init(py_params);
+    py::object init = py_obj_.attr("init");
+    init(py_params);
 }
 
 void PyAutonomy::cache_python_vars() {
-  if (py_state_class_.ptr() == nullptr) {
-    py::module py_scrimmage = py::module::import("scrimmage.bindings");
-    py_state_class_ = py_scrimmage.attr("State");
-    py_quat_class_ = py_scrimmage.attr("Quaternion");
-    py_contact_class_ = py_scrimmage.attr("Contact");
-    py_msg_class_ = py_scrimmage.attr("Message");
+    if (py_state_class_.ptr() == nullptr) {
+        py::module py_scrimmage = py::module::import("scrimmage.bindings");
+        py_state_class_ = py_scrimmage.attr("State");
+        py_quat_class_ = py_scrimmage.attr("Quaternion");
+        py_contact_class_ = py_scrimmage.attr("Contact");
+        py_msg_class_ = py_scrimmage.attr("Message");
 
-    py_contact_types_[sc::Contact::Type::AIRCRAFT] =
-        py_contact_class_.attr("AIRCRAFT");
-    py_contact_types_[sc::Contact::Type::QUADROTOR] =
-        py_contact_class_.attr("QUADROTOR");
-    py_contact_types_[sc::Contact::Type::SPHERE] =
-        py_contact_class_.attr("SPHERE");
-    py_contact_types_[sc::Contact::Type::MESH] = py_contact_class_.attr("MESH");
-    py_contact_types_[sc::Contact::Type::UNKNOWN] =
-        py_contact_class_.attr("UNKNOWN");
+        py_contact_types_[sc::Contact::Type::AIRCRAFT] =
+            py_contact_class_.attr("AIRCRAFT");
+        py_contact_types_[sc::Contact::Type::QUADROTOR] =
+            py_contact_class_.attr("QUADROTOR");
+        py_contact_types_[sc::Contact::Type::SPHERE] =
+            py_contact_class_.attr("SPHERE");
+        py_contact_types_[sc::Contact::Type::MESH] =
+            py_contact_class_.attr("MESH");
+        py_contact_types_[sc::Contact::Type::UNKNOWN] =
+            py_contact_class_.attr("UNKNOWN");
 
-    py::module py_numpy = py::module::import("numpy");
+        py::module py_numpy = py::module::import("numpy");
 
-    py_id_class_ = py_scrimmage.attr("ID");
-  }
+        py_id_class_ = py_scrimmage.attr("ID");
+    }
 }
 
 py::object PyAutonomy::state2py(sc::StatePtr &state) {
-  cache_python_vars();
+    cache_python_vars();
 
-  sc::Quaternion quat = state->quat();
-  Eigen::Vector3d pos = state->pos();
-  Eigen::Vector3d vel = state->vel();
-  Eigen::Vector3d ang_vel = state->ang_vel();
+    sc::Quaternion quat = state->quat();
+    Eigen::Vector3d pos = state->pos();
+    Eigen::Vector3d vel = state->vel();
+    Eigen::Vector3d ang_vel = state->ang_vel();
 
-  py::object py_quat = py_quat_class_(quat.w(), quat.x(), quat.y(), quat.z());
-  py::object py_pos = py::cast(pos);
-  py::object py_vel = py::cast(vel);
-  py::object py_ang_vel = py::cast(ang_vel);
+    py::object py_quat = py_quat_class_(quat.w(), quat.x(), quat.y(), quat.z());
+    py::object py_pos = py::cast(pos);
+    py::object py_vel = py::cast(vel);
+    py::object py_ang_vel = py::cast(ang_vel);
 
-  py::object py_state = py_state_class_(py_pos, py_vel, py_ang_vel, py_quat);
-  return py_state;
+    py::object py_state = py_state_class_(py_pos, py_vel, py_ang_vel, py_quat);
+    return py_state;
 }
 
 py::object PyAutonomy::contact2py(scrimmage::Contact contact) {
-  cache_python_vars();
+    cache_python_vars();
 
-  py::object py_contact = py_contact_class_();
-  scrimmage::ID id = contact.id();
-  py_contact.attr("state") = state2py(contact.state());
-  py_contact.attr("id") =
-      py_id_class_(id.id(), id.sub_swarm_id(), id.team_id());
-  py_contact.attr("type") = py_contact_types_[contact.type()];
+    py::object py_contact = py_contact_class_();
+    scrimmage::ID id = contact.id();
+    py_contact.attr("state") = state2py(contact.state());
+    py_contact.attr("id") =
+        py_id_class_(id.id(), id.sub_swarm_id(), id.team_id());
+    py_contact.attr("type") = py_contact_types_[contact.type()];
 
-  return py_contact;
+    return py_contact;
 }
 
 std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(
     const pybind11::handle &py_handle) {
-  // Convert python shape to c++ shape.
-  py::object shape_obj = py_handle.cast<py::object>();
-  py::function serialize_func =
-      shape_obj.attr("SerializeToString").cast<py::function>();
-  std::shared_ptr<scrimmage_proto::Shape> cpp_shape(
-      new scrimmage_proto::Shape());
-  cpp_shape->ParseFromString(serialize_func().cast<std::string>());
+    // Convert python shape to c++ shape.
+    py::object shape_obj = py_handle.cast<py::object>();
+    py::function serialize_func =
+        shape_obj.attr("SerializeToString").cast<py::function>();
+    std::shared_ptr<scrimmage_proto::Shape> cpp_shape(
+        new scrimmage_proto::Shape());
+    cpp_shape->ParseFromString(serialize_func().cast<std::string>());
 
-  return cpp_shape;
+    return cpp_shape;
 }
 
 // void PyAutonomy::sub_msgs_to_py_subs() {
@@ -235,31 +237,31 @@ std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(
 // }
 
 bool PyAutonomy::step_autonomy(double t, double dt) {
-  cache_python_vars();
+    cache_python_vars();
 
-  py_state_ = state2py(state_);
+    py_state_ = state2py(state_);
 
-  py_obj_.attr("contacts") = py_contacts_;
-  py_obj_.attr("state") = py_state_;
+    py_obj_.attr("contacts") = py_contacts_;
+    py_obj_.attr("state") = py_state_;
 
-  // sub_msgs_to_py_subs();
-  py::object step_autonomy = py_obj_.attr("step_autonomy");
-  bool out = step_autonomy(py::float_(t), py::float_(dt)).cast<bool>();
-  // sync_topics();
-  // py_pub_msgs_to_pubs();
+    // sub_msgs_to_py_subs();
+    py::object step_autonomy = py_obj_.attr("step_autonomy");
+    bool out = step_autonomy(py::float_(t), py::float_(dt)).cast<bool>();
+    // sync_topics();
+    // py_pub_msgs_to_pubs();
 
-  sc::State state = py_obj_.attr("desired_state").cast<sc::State>();
-  *desired_state_ = state;
+    sc::State state = py_obj_.attr("desired_state").cast<sc::State>();
+    *desired_state_ = state;
 
-  py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
-  std::list<std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
-  std::transform(py_shapes.begin(), py_shapes.end(),
-                 std::back_inserter(cpp_shapes), py2shape);
-  // shapes_ = cpp_shapes; // SHAPES TODO
+    py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
+    std::list<std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
+    std::transform(py_shapes.begin(), py_shapes.end(),
+                   std::back_inserter(cpp_shapes), py2shape);
+    // shapes_ = cpp_shapes; // SHAPES TODO
 
-  step_autonomy_called_ = true;
+    step_autonomy_called_ = true;
 
-  return out;
+    return out;
 }
 }  // namespace autonomy
 }  // namespace scrimmage

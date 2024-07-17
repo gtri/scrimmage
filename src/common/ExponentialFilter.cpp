@@ -49,13 +49,13 @@ double ExponentialFilter::get_estimate() const { return estimate_; }
 void ExponentialFilter::set_time_constant(double tau) { time_constant_ = tau; }
 
 double ExponentialFilter::add_estimate(double estimate, double t) {
-  if (time_last_estimate_ < t) {
-    double dt = t - time_last_estimate_;
-    double alpha = 1 - exp(-dt / time_constant_);
-    estimate_ = alpha * estimate + (1 - alpha) * estimate_;
-    time_last_estimate_ = t;
-  }
-  return estimate_;
+    if (time_last_estimate_ < t) {
+        double dt = t - time_last_estimate_;
+        double alpha = 1 - exp(-dt / time_constant_);
+        estimate_ = alpha * estimate + (1 - alpha) * estimate_;
+        time_last_estimate_ = t;
+    }
+    return estimate_;
 }
 
 }  // namespace scrimmage

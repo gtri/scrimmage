@@ -63,184 +63,186 @@ typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
 class Entity : public std::enable_shared_from_this<Entity> {
  public:
-  /*! \name utilities */
-  ///@{
+    /*! \name utilities */
+    ///@{
 
-  bool init(AttributeMap &overrides, std::map<std::string, std::string> &info,
-            std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-            std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-            ContactMapPtr &contacts, MissionParsePtr mp,
-            const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id,
-            int ent_desc_id, PluginManagerPtr plugin_manager,
-            FileSearchPtr &file_search, RTreePtr &rtree, PubSubPtr &pubsub,
-            PrintPtr &printer, TimePtr &time,
-            const ParameterServerPtr &param_server,
-            const GlobalServicePtr &global_services,
-            const std::set<std::string> &plugin_tags,
-            std::function<void(std::map<std::string, std::string> &)>
-                param_override_func,
-            const int &debug_level = 0);
+    bool init(
+        AttributeMap &overrides, std::map<std::string, std::string> &info,
+        std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+        std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
+        ContactMapPtr &contacts, MissionParsePtr mp,
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id,
+        int ent_desc_id, PluginManagerPtr plugin_manager,
+        FileSearchPtr &file_search, RTreePtr &rtree, PubSubPtr &pubsub,
+        PrintPtr &printer, TimePtr &time,
+        const ParameterServerPtr &param_server,
+        const GlobalServicePtr &global_services,
+        const std::set<std::string> &plugin_tags,
+        std::function<void(std::map<std::string, std::string> &)>
+            param_override_func,
+        const int &debug_level = 0);
 
-  void print_plugins(std::ostream &out) const;
+    void print_plugins(std::ostream &out) const;
 
-  bool parse_visual(std::map<std::string, std::string> &info,
-                    MissionParsePtr mp,
-                    std::map<std::string, std::string> &overrides);
+    bool parse_visual(std::map<std::string, std::string> &info,
+                      MissionParsePtr mp,
+                      std::map<std::string, std::string> &overrides);
 
-  void close(double t);
-  void collision();
-  void hit();
-  bool is_alive();
+    void close(double t);
+    void collision();
+    void hit();
+    bool is_alive();
 
-  bool posthumous(double t);
-  void setup_desired_state();
-  bool ready();
+    bool posthumous(double t);
+    void setup_desired_state();
+    bool ready();
 
-  bool call_service(MessageBasePtr req, MessageBasePtr &res,
-                    const std::string &service_name);
+    bool call_service(MessageBasePtr req, MessageBasePtr &res,
+                      const std::string &service_name);
 
-  bool call_service(MessageBasePtr &res, const std::string &service_name) {
-    return call_service(std::make_shared<MessageBase>(), res, service_name);
-  }
-
-  template <class T = MessageBasePtr,
-            class = typename std::enable_if<
-                !std::is_same<T, MessageBasePtr>::value, void>::type>
-  bool call_service(MessageBasePtr req, T &res,
-                    const std::string &service_name) {
-    MessageBasePtr res_base;
-    if (call_service(req, res_base, service_name)) {
-      res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
-      if (res == nullptr) {
-        print(std::string("could not cast for service ") + service_name);
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return false;
+    bool call_service(MessageBasePtr &res, const std::string &service_name) {
+        return call_service(std::make_shared<MessageBase>(), res, service_name);
     }
-  }
 
-  template <class T = MessageBasePtr,
-            class = typename std::enable_if<
-                !std::is_same<T, MessageBasePtr>::value, void>::type>
-  bool call_service(T &res, const std::string &service_name) {
-    return call_service(std::make_shared<MessageBase>(), res, service_name);
-  }
-  ///@}
+    template <class T = MessageBasePtr,
+              class = typename std::enable_if<
+                  !std::is_same<T, MessageBasePtr>::value, void>::type>
+    bool call_service(MessageBasePtr req, T &res,
+                      const std::string &service_name) {
+        MessageBasePtr res_base;
+        if (call_service(req, res_base, service_name)) {
+            res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
+            if (res == nullptr) {
+                print(std::string("could not cast for service ") +
+                      service_name);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
-  /*! \name getters/setters */
-  ///@{
-  StatePtr &state();
-  StatePtr &state_truth();
-  std::vector<AutonomyPtr> &autonomies();
-  MotionModelPtr &motion();
-  std::vector<ControllerPtr> &controllers();
+    template <class T = MessageBasePtr,
+              class = typename std::enable_if<
+                  !std::is_same<T, MessageBasePtr>::value, void>::type>
+    bool call_service(T &res, const std::string &service_name) {
+        return call_service(std::make_shared<MessageBase>(), res, service_name);
+    }
+    ///@}
 
-  void set_id(ID &id);
-  ID &id();
+    /*! \name getters/setters */
+    ///@{
+    StatePtr &state();
+    StatePtr &state_truth();
+    std::vector<AutonomyPtr> &autonomies();
+    MotionModelPtr &motion();
+    std::vector<ControllerPtr> &controllers();
 
-  void set_health_points(int health_points);
-  int health_points();
+    void set_id(ID &id);
+    ID &id();
 
-  std::shared_ptr<GeographicLib::LocalCartesian> projection();
-  void set_projection(
-      const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    void set_health_points(int health_points);
+    int health_points();
 
-  void set_mp(MissionParsePtr mp);
-  MissionParsePtr mp();
+    std::shared_ptr<GeographicLib::LocalCartesian> projection();
+    void set_projection(
+        const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
-  void set_random(RandomPtr random);
-  RandomPtr random();
+    void set_mp(MissionParsePtr mp);
+    MissionParsePtr mp();
 
-  Contact::Type type();
+    void set_random(RandomPtr random);
+    RandomPtr random();
 
-  void set_visual_changed(bool visual_changed);
-  bool visual_changed();
+    Contact::Type type();
 
-  scrimmage_proto::ContactVisualPtr &contact_visual();
+    void set_visual_changed(bool visual_changed);
+    bool visual_changed();
 
-  std::unordered_map<std::string, SensorPtr> &sensors();
-  std::unordered_map<std::string, SensorPtr> sensors(
-      const std::string &sensor_name);
-  SensorPtr sensor(const std::string &sensor_name);
+    scrimmage_proto::ContactVisualPtr &contact_visual();
 
-  // Enables creating services at the entity level
-  std::unordered_map<std::string, Service> &services();
-  // Enables creating services at the global level (especially for entity
-  // interactions, etc.)
-  std::unordered_map<std::string, Service> &global_services();
-  // Enables setting these for entity interactions
-  void set_global_services(const GlobalServicePtr &global_services);
+    std::unordered_map<std::string, SensorPtr> &sensors();
+    std::unordered_map<std::string, SensorPtr> sensors(
+        const std::string &sensor_name);
+    SensorPtr sensor(const std::string &sensor_name);
 
-  std::unordered_map<std::string, MessageBasePtr> &properties();
+    // Enables creating services at the entity level
+    std::unordered_map<std::string, Service> &services();
+    // Enables creating services at the global level (especially for entity
+    // interactions, etc.)
+    std::unordered_map<std::string, Service> &global_services();
+    // Enables setting these for entity interactions
+    void set_global_services(const GlobalServicePtr &global_services);
 
-  void set_active(bool active);
-  bool active();
+    std::unordered_map<std::string, MessageBasePtr> &properties();
 
-  ContactMapPtr &contacts() { return contacts_; }
-  RTreePtr &rtree() { return rtree_; }
+    void set_active(bool active);
+    bool active();
 
-  PluginManagerPtr &plugin_manager() { return plugin_manager_; }
+    ContactMapPtr &contacts() { return contacts_; }
+    RTreePtr &rtree() { return rtree_; }
 
-  FileSearchPtr &file_search() { return file_search_; }
+    PluginManagerPtr &plugin_manager() { return plugin_manager_; }
 
-  PubSubPtr &pubsub() { return pubsub_; }
+    FileSearchPtr &file_search() { return file_search_; }
 
-  PrintPtr &printer() { return printer_; }
+    PubSubPtr &pubsub() { return pubsub_; }
 
-  const ParameterServerPtr &param_server() { return param_server_; }
+    PrintPtr &printer() { return printer_; }
 
-  double radius() { return radius_; }
-  void set_time_ptr(TimePtr t);
-  void set_printer(PrintPtr printer);
+    const ParameterServerPtr &param_server() { return param_server_; }
 
-  ///@}
+    double radius() { return radius_; }
+    void set_time_ptr(TimePtr t);
+    void set_printer(PrintPtr printer);
+
+    ///@}
 
  protected:
-  ID id_;
+    ID id_;
 
-  scrimmage_proto::ContactVisualPtr visual_ =
-      std::make_shared<scrimmage_proto::ContactVisual>();
+    scrimmage_proto::ContactVisualPtr visual_ =
+        std::make_shared<scrimmage_proto::ContactVisual>();
 
-  std::vector<ControllerPtr> controllers_;
-  MotionModelPtr motion_model_;
-  std::vector<AutonomyPtr> autonomies_;
-  MissionParsePtr mp_;
+    std::vector<ControllerPtr> controllers_;
+    MotionModelPtr motion_model_;
+    std::vector<AutonomyPtr> autonomies_;
+    MissionParsePtr mp_;
 
-  int health_points_ = 1;
+    int health_points_ = 1;
 
-  int max_hits_ = -1;
+    int max_hits_ = -1;
 
-  Contact::Type type_ = Contact::Type::AIRCRAFT;
+    Contact::Type type_ = Contact::Type::AIRCRAFT;
 
-  std::shared_ptr<GeographicLib::LocalCartesian> proj_;
+    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
-  RandomPtr random_;
+    RandomPtr random_;
 
-  StatePtr state_;
-  StatePtr state_truth_;
-  std::unordered_map<std::string, MessageBasePtr> properties_;
-  std::unordered_map<std::string, SensorPtr> sensors_;
+    StatePtr state_;
+    StatePtr state_truth_;
+    std::unordered_map<std::string, MessageBasePtr> properties_;
+    std::unordered_map<std::string, SensorPtr> sensors_;
 
-  bool active_ = true;
-  bool visual_changed_ = false;
-  std::unordered_map<std::string, Service> services_;
+    bool active_ = true;
+    bool visual_changed_ = false;
+    std::unordered_map<std::string, Service> services_;
 
-  ContactMapPtr contacts_;
-  RTreePtr rtree_;
+    ContactMapPtr contacts_;
+    RTreePtr rtree_;
 
-  double radius_ = 1;
+    double radius_ = 1;
 
-  void print(const std::string &msg);
-  PluginManagerPtr plugin_manager_;
-  FileSearchPtr file_search_;
-  PubSubPtr pubsub_;
-  PrintPtr printer_;
-  GlobalServicePtr global_services_;
-  ParameterServerPtr param_server_;
-  TimePtr time_;
+    void print(const std::string &msg);
+    PluginManagerPtr plugin_manager_;
+    FileSearchPtr file_search_;
+    PubSubPtr pubsub_;
+    PrintPtr printer_;
+    GlobalServicePtr global_services_;
+    ParameterServerPtr param_server_;
+    TimePtr time_;
 };
 
 using EntityPtr = std::shared_ptr<Entity>;

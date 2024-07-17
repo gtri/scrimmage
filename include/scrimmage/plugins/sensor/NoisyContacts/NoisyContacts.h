@@ -45,15 +45,16 @@ namespace scrimmage {
 namespace sensor {
 class NoisyContacts : public scrimmage::Sensor {
  public:
-  NoisyContacts();
-  void init(std::map<std::string, std::string> &params) override;
-  bool step() override;
+    NoisyContacts();
+    void init(std::map<std::string, std::string> &params) override;
+    bool step() override;
 
  protected:
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
-  std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
-  PublisherPtr pub_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>>
+        orient_noise_;
+    PublisherPtr pub_;
 
  private:
 };

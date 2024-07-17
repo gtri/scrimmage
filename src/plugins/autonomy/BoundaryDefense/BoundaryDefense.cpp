@@ -64,71 +64,71 @@ namespace autonomy {
 BoundaryDefense::BoundaryDefense() {}
 
 void BoundaryDefense::init(std::map<std::string, std::string> &params) {
-  boundary_id_ = sc::get<int>("boundary_id", params, boundary_id_);
+    boundary_id_ = sc::get<int>("boundary_id", params, boundary_id_);
 
-  auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
-    std::shared_ptr<sci::BoundaryBase> boundary =
-        sci::Boundary::make_boundary(msg->data);
-    boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
-  };
-  subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
+    auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
+        std::shared_ptr<sci::BoundaryBase> boundary =
+            sci::Boundary::make_boundary(msg->data);
+        boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
+    };
+    subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
-  output_vel_x_idx_ =
-      vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-  output_vel_y_idx_ =
-      vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-  output_vel_z_idx_ =
-      vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ =
+        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ =
+        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ =
+        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool BoundaryDefense::step_autonomy(double t, double dt) {
-  // Get the active boundary to defend
-  auto it = boundaries_.find(boundary_id_);
-  if (it == boundaries_.end()) {
+    // Get the active boundary to defend
+    auto it = boundaries_.find(boundary_id_);
+    if (it == boundaries_.end()) {
+        return true;
+    }
+
+    // Find the closest entity within the boundary that is not part of the
+    // boundary's team.
+    double min_dist = std::numeric_limits<double>::infinity();
+    sc::StatePtr closest = nullptr;
+    for (auto &kv : *contacts_) {
+        sc::Contact &cnt = kv.second;
+
+        // Ignore same team
+        if (cnt.id().team_id() == std::get<0>(it->second).id().team_id()) {
+            continue;
+        }
+
+        // Is the entity within the boundary?
+        if (std::get<1>(it->second)->contains(cnt.state()->pos())) {
+            if (closest == nullptr ||
+                (state_->pos() - closest->pos()).norm() < min_dist) {
+                closest = cnt.state();
+                min_dist = (state_->pos() - closest->pos()).norm();
+            }
+        }
+    }
+
+    Eigen::Vector3d desired_point;
+    if (closest != nullptr) {
+        // Chase the entity
+        desired_point = closest->pos() + closest->vel() * time_->dt();
+    } else {
+        // If there are no entities to chase, move to center of boundary that
+        // we are trying to defend
+        desired_point = std::get<1>(it->second)->center();
+    }
+
+    // Convert the desired point into a desired vector, relative to our own
+    // position.
+    Eigen::Vector3d desired_velocity = desired_point - state_->pos();
+
+    vars_.output(output_vel_x_idx_, desired_velocity(0));
+    vars_.output(output_vel_y_idx_, desired_velocity(1));
+    vars_.output(output_vel_z_idx_, desired_velocity(2));
+
     return true;
-  }
-
-  // Find the closest entity within the boundary that is not part of the
-  // boundary's team.
-  double min_dist = std::numeric_limits<double>::infinity();
-  sc::StatePtr closest = nullptr;
-  for (auto &kv : *contacts_) {
-    sc::Contact &cnt = kv.second;
-
-    // Ignore same team
-    if (cnt.id().team_id() == std::get<0>(it->second).id().team_id()) {
-      continue;
-    }
-
-    // Is the entity within the boundary?
-    if (std::get<1>(it->second)->contains(cnt.state()->pos())) {
-      if (closest == nullptr ||
-          (state_->pos() - closest->pos()).norm() < min_dist) {
-        closest = cnt.state();
-        min_dist = (state_->pos() - closest->pos()).norm();
-      }
-    }
-  }
-
-  Eigen::Vector3d desired_point;
-  if (closest != nullptr) {
-    // Chase the entity
-    desired_point = closest->pos() + closest->vel() * time_->dt();
-  } else {
-    // If there are no entities to chase, move to center of boundary that
-    // we are trying to defend
-    desired_point = std::get<1>(it->second)->center();
-  }
-
-  // Convert the desired point into a desired vector, relative to our own
-  // position.
-  Eigen::Vector3d desired_velocity = desired_point - state_->pos();
-
-  vars_.output(output_vel_x_idx_, desired_velocity(0));
-  vars_.output(output_vel_y_idx_, desired_velocity(1));
-  vars_.output(output_vel_z_idx_, desired_velocity(2));
-
-  return true;
 }
 }  // namespace autonomy
 }  // namespace scrimmage

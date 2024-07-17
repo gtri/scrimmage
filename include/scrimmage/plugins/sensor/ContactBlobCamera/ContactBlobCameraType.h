@@ -42,22 +42,22 @@ namespace scrimmage {
 namespace sensor {
 class ContactBlobCameraType {
  public:
-  cv::Mat frame;
-  std::map<int, std::vector<cv::Rect>> bounding_boxes;
-  int camera_id;
-  int img_width;
-  int img_height;
-  double max_detect_range;
-  double focal_length;
-  double fps;
-  double az_thresh;
-  double el_thresh;
-  double fn_prob;
-  double fp_prob;
-  int max_false_positives;
-  double roll;
-  double pitch;
-  double yaw;
+    cv::Mat frame;
+    std::map<int, std::vector<cv::Rect>> bounding_boxes;
+    int camera_id;
+    int img_width;
+    int img_height;
+    double max_detect_range;
+    double focal_length;
+    double fps;
+    double az_thresh;
+    double el_thresh;
+    double fn_prob;
+    double fp_prob;
+    int max_false_positives;
+    double roll;
+    double pitch;
+    double yaw;
 };
 }  // namespace sensor
 }  // namespace scrimmage

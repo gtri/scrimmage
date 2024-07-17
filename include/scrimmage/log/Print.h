@@ -46,59 +46,59 @@ class Time;
 using TimePtr = std::shared_ptr<Time>;
 
 struct PrintEnums {
-  enum class WARN_LEVEL : char { DEV = 0, INFO = 1, WARNING = 2, ERROR = 3 };
-  enum class WRITE_TO : char { BOTH = 0, FILE_ONLY = 1, CONSOLE_ONLY = 2 };
+    enum class WARN_LEVEL : char { DEV = 0, INFO = 1, WARNING = 2, ERROR = 3 };
+    enum class WRITE_TO : char { BOTH = 0, FILE_ONLY = 1, CONSOLE_ONLY = 2 };
 };
 
 struct PrintData {
-  PrintData() : time_(std::nan("")), name_("UnknownClass"), entity_id_(-1) {}
-  double time_;
-  std::string name_;
-  int entity_id_;
+    PrintData() : time_(std::nan("")), name_("UnknownClass"), entity_id_(-1) {}
+    double time_;
+    std::string name_;
+    int entity_id_;
 };
 
 class Print {
  public:
-  Print()
-      : time_(nullptr),
-        log_dir_(""),
-        output_flag_(PrintEnums::WRITE_TO::BOTH) {}
+    Print()
+        : time_(nullptr),
+          log_dir_(""),
+          output_flag_(PrintEnums::WRITE_TO::BOTH) {}
 
-  void init(TimePtr &time, std::string log_dir);
-  void init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag);
-  void close();
-  void flush();
+    void init(TimePtr &time, std::string log_dir);
+    void init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag);
+    void close();
+    void flush();
 
-  void printDev(PrintData &data, std::string outmessage);
-  void printInfo(PrintData &data, std::string outmessage);
-  void printWarning(PrintData &data, std::string outmessage);
-  void printError(PrintData &data, std::string outmessage);
+    void printDev(PrintData &data, std::string outmessage);
+    void printInfo(PrintData &data, std::string outmessage);
+    void printWarning(PrintData &data, std::string outmessage);
+    void printError(PrintData &data, std::string outmessage);
 
-  void printDev(EntityPlugin &caller, std::string outmessage);
-  void printInfo(EntityPlugin &caller, std::string outmessage);
-  void printWarning(EntityPlugin &caller, std::string outmessage);
-  void printError(EntityPlugin &caller, std::string outmessage);
+    void printDev(EntityPlugin &caller, std::string outmessage);
+    void printInfo(EntityPlugin &caller, std::string outmessage);
+    void printWarning(EntityPlugin &caller, std::string outmessage);
+    void printError(EntityPlugin &caller, std::string outmessage);
 
  protected:
-  static const char *getWarningLevel(PrintEnums::WARN_LEVEL e);
+    static const char *getWarningLevel(PrintEnums::WARN_LEVEL e);
 
-  static std::string formatTime(double time);
-  static std::string formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data,
-                               std::string msg);
+    static std::string formatTime(double time);
+    static std::string formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data,
+                                 std::string msg);
 
-  void print(std::ostream &stream, PrintEnums::WARN_LEVEL level,
-             EntityPlugin &caller, std::string msg);
-  void print(std::ostream &stream, PrintEnums::WARN_LEVEL level,
-             PrintData &data, std::string msg);
+    void print(std::ostream &stream, PrintEnums::WARN_LEVEL level,
+               EntityPlugin &caller, std::string msg);
+    void print(std::ostream &stream, PrintEnums::WARN_LEVEL level,
+               PrintData &data, std::string msg);
 
  private:
-  TimePtr time_;
-  std::string log_dir_;
-  std::ofstream log_stream_;
-  PrintEnums::WRITE_TO output_flag_;
+    TimePtr time_;
+    std::string log_dir_;
+    std::ofstream log_stream_;
+    PrintEnums::WRITE_TO output_flag_;
 
-  bool write_file();
-  bool write_console();
+    bool write_file();
+    bool write_console();
 };
 
 using PrintPtr = std::shared_ptr<Print>;

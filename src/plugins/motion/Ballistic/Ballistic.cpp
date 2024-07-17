@@ -51,71 +51,71 @@ namespace scrimmage {
 namespace motion {
 
 enum ModelParams {
-  X = 0,
-  Y,
-  Z,
-  X_vel,
-  Y_vel,
-  Z_vel,
-  X_acc,
-  Y_acc,
-  Z_acc,
-  MODEL_NUM_ITEMS
+    X = 0,
+    Y,
+    Z,
+    X_vel,
+    Y_vel,
+    Z_vel,
+    X_acc,
+    Y_acc,
+    Z_acc,
+    MODEL_NUM_ITEMS
 };
 
 bool Ballistic::init(std::map<std::string, std::string> &info,
                      std::map<std::string, std::string> &params) {
-  x_.resize(MODEL_NUM_ITEMS);
-  x_[X] = state_->pos()(0);
-  x_[Y] = state_->pos()(1);
-  x_[Z] = state_->pos()(2);
-  x_[X_vel] = state_->vel()(0);
-  x_[Y_vel] = state_->vel()(1);
-  x_[Z_vel] = state_->vel()(2);
-  x_[X_acc] = 0;
-  x_[Y_acc] = 0;
-  x_[Z_acc] = 0;
+    x_.resize(MODEL_NUM_ITEMS);
+    x_[X] = state_->pos()(0);
+    x_[Y] = state_->pos()(1);
+    x_[Z] = state_->pos()(2);
+    x_[X_vel] = state_->vel()(0);
+    x_[Y_vel] = state_->vel()(1);
+    x_[Z_vel] = state_->vel()(2);
+    x_[X_acc] = 0;
+    x_[Y_acc] = 0;
+    x_[Z_acc] = 0;
 
-  // No orientation
-  state_->quat().set(0, 0, 0);
+    // No orientation
+    state_->quat().set(0, 0, 0);
 
-  return true;
+    return true;
 }
 
 bool Ballistic::step(double time, double dt) {
-  x_[X] = state_->pos()(0);
-  x_[Y] = state_->pos()(1);
-  x_[Z] = state_->pos()(2);
+    x_[X] = state_->pos()(0);
+    x_[Y] = state_->pos()(1);
+    x_[Z] = state_->pos()(2);
 
-  x_[X_vel] = state_->vel()(0);
-  x_[Y_vel] = state_->vel()(1);
-  x_[Z_vel] = state_->vel()(2);
+    x_[X_vel] = state_->vel()(0);
+    x_[Y_vel] = state_->vel()(1);
+    x_[Z_vel] = state_->vel()(2);
 
-  ode_step(dt);
+    ode_step(dt);
 
-  state_->pos()(0) = x_[X];
-  state_->pos()(1) = x_[Y];
-  state_->pos()(2) = x_[Z];
+    state_->pos()(0) = x_[X];
+    state_->pos()(1) = x_[Y];
+    state_->pos()(2) = x_[Z];
 
-  state_->vel()(0) = x_[X_vel];
-  state_->vel()(1) = x_[Y_vel];
-  state_->vel()(2) = x_[Z_vel];
+    state_->vel()(0) = x_[X_vel];
+    state_->vel()(1) = x_[Y_vel];
+    state_->vel()(2) = x_[Z_vel];
 
-  return true;
+    return true;
 }
 
 void Ballistic::model(const vector_t &x, vector_t &dxdt, double t) {
-  dxdt[X] = x[X_vel];
-  dxdt[Y] = x[Y_vel];
-  dxdt[Z] = x[Z_vel];
+    dxdt[X] = x[X_vel];
+    dxdt[Y] = x[Y_vel];
+    dxdt[Z] = x[Z_vel];
 
-  dxdt[X_vel] = x[X_acc];
-  dxdt[Y_vel] = x[Y_acc];
-  dxdt[Z_vel] = x[Z_acc];
+    dxdt[X_vel] = x[X_acc];
+    dxdt[Y_vel] = x[Y_acc];
+    dxdt[Z_vel] = x[Z_acc];
 
-  dxdt[X_acc] = 0;
-  dxdt[Y_acc] = 0;
-  dxdt[Z_acc] = -mass_ * g_;
+    dxdt[X_acc] = 0;
+    dxdt[Y_acc] = 0;
+    dxdt[Z_acc] = -mass_ * g_;
 }
 }  // namespace motion
 }  // namespace scrimmage

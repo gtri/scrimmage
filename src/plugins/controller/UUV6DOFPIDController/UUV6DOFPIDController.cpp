@@ -54,56 +54,56 @@ namespace controller {
 UUV6DOFPIDController::UUV6DOFPIDController() {}
 
 void UUV6DOFPIDController::init(std::map<std::string, std::string> &params) {
-  desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                        VariableIO::Direction::In);
-  desired_speed_idx_ =
-      vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-  desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
+                                          VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
                                        VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+                                         VariableIO::Direction::In);
 
-  throttle_idx_ =
-      vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-  elevator_idx_ =
-      vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-  rudder_idx_ =
-      vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    throttle_idx_ =
+        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    elevator_idx_ =
+        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    rudder_idx_ =
+        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
-  if (!heading_pid_.init(params["heading_pid"], true)) {
-    std::cout << "Failed to set UUV6DOFPIDController heading_pid" << endl;
-  }
-  if (!speed_pid_.init(params["speed_pid"], false)) {
-    std::cout << "Failed to set UUV6DOFPIDController speed_pid" << endl;
-  }
-  if (!pitch_pid_.init(params["pitch_pid"], false)) {
-    std::cout << "Failed to set UUV6DOFPIDController pitch_pid" << endl;
-  }
+    if (!heading_pid_.init(params["heading_pid"], true)) {
+        std::cout << "Failed to set UUV6DOFPIDController heading_pid" << endl;
+    }
+    if (!speed_pid_.init(params["speed_pid"], false)) {
+        std::cout << "Failed to set UUV6DOFPIDController speed_pid" << endl;
+    }
+    if (!pitch_pid_.init(params["pitch_pid"], false)) {
+        std::cout << "Failed to set UUV6DOFPIDController pitch_pid" << endl;
+    }
 }
 
 bool UUV6DOFPIDController::step(double t, double dt) {
-  heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-  double u_rudder = heading_pid_.step(time_->dt(), state_->quat().yaw());
+    heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
+    double u_rudder = heading_pid_.step(time_->dt(), state_->quat().yaw());
 
-  speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-  double u_throttle = speed_pid_.step(time_->dt(), state_->vel().norm());
+    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
+    double u_throttle = speed_pid_.step(time_->dt(), state_->vel().norm());
 
-  // Reconstruct original velocity vector (close, but not exact)
-  double x_vel = vars_.input(desired_speed_idx_) /
-                 sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
-  double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-  Eigen::Vector3d vel(x_vel, y_vel,
-                      vars_.input(desired_altitude_idx_) - state_->pos()(2));
-  vel = vel.normalized() * vars_.input(desired_speed_idx_);
+    // Reconstruct original velocity vector (close, but not exact)
+    double x_vel = vars_.input(desired_speed_idx_) /
+                   sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
+    double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
+    Eigen::Vector3d vel(x_vel, y_vel,
+                        vars_.input(desired_altitude_idx_) - state_->pos()(2));
+    vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
-  // Track desired pitch
-  double desired_pitch = atan2(vel(2), vel.head<2>().norm());
-  pitch_pid_.set_setpoint(desired_pitch);
-  double u_elevator = -pitch_pid_.step(time_->dt(), -state_->quat().pitch());
+    // Track desired pitch
+    double desired_pitch = atan2(vel(2), vel.head<2>().norm());
+    pitch_pid_.set_setpoint(desired_pitch);
+    double u_elevator = -pitch_pid_.step(time_->dt(), -state_->quat().pitch());
 
-  vars_.output(rudder_idx_, u_rudder);
-  vars_.output(elevator_idx_, u_elevator);
-  vars_.output(throttle_idx_, u_throttle);
+    vars_.output(rudder_idx_, u_rudder);
+    vars_.output(elevator_idx_, u_elevator);
+    vars_.output(throttle_idx_, u_throttle);
 
-  return true;
+    return true;
 }
 }  // namespace controller
 }  // namespace scrimmage

@@ -56,26 +56,26 @@ namespace scrimmage {
 // Define interaction style
 class CameraInterface : public vtkInteractorStyleTrackballCamera {
  public:
-  CameraInterface();
+    CameraInterface();
 
-  static CameraInterface* New();
-  // vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
+    static CameraInterface* New();
+    // vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
 
-  virtual void OnKeyPress();
-  virtual void OnLeftButtonDown();
-  virtual void OnLeftButtonUp();
-  virtual void Rotate();
+    virtual void OnKeyPress();
+    virtual void OnLeftButtonDown();
+    virtual void OnLeftButtonUp();
+    virtual void Rotate();
 
-  virtual void OnMiddleButtonUp();
-  virtual void Pan();
-  virtual void Dolly();
+    virtual void OnMiddleButtonUp();
+    virtual void Pan();
+    virtual void Dolly();
 
-  void set_updater(vtkSmartPointer<Updater>& updater) { updater_ = updater; }
+    void set_updater(vtkSmartPointer<Updater>& updater) { updater_ = updater; }
 
  protected:
-  vtkSmartPointer<Updater> updater_;
-  bool enable_object_draw_ = false;
-  std::string last_key_;
+    vtkSmartPointer<Updater> updater_;
+    bool enable_object_draw_ = false;
+    std::string last_key_;
 };
 // vtkStandardNewMacro(CameraInterface);
 }  // namespace scrimmage

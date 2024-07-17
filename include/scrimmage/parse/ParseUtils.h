@@ -59,36 +59,36 @@ bool str2bool(std::string str);
 template <class T>
 std::enable_if_t<!std::is_pointer<T>::value, T> convert(
     const std::string &str) {
-  T num;
-  if (!(std::istringstream(str) >> num)) {
-    num = 0;
-  }
-  return num;
+    T num;
+    if (!(std::istringstream(str) >> num)) {
+        num = 0;
+    }
+    return num;
 }
 
 template <class T>
 std::enable_if_t<std::is_pointer<T>::value, T> convert(const std::string &str) {
-  return nullptr;
+    return nullptr;
 }
 
 template <>
 inline bool convert<bool>(const std::string &str) {
-  return str2bool(str);
+    return str2bool(str);
 }
 template <>
 inline const char *convert<const char *>(const std::string &str) {
-  return str.c_str();
+    return str.c_str();
 }
 template <>
 inline std::string convert<std::string>(const std::string &str) {
-  return str;
+    return str;
 }
 
 template <class T1, class T2 = T1>
 T2 get(const std::string &key, const std::map<std::string, std::string> &map,
        T1 default_val) {
-  auto it = map.find(key);
-  return it == map.end() ? default_val : convert<T2>(it->second);
+    auto it = map.find(key);
+    return it == map.end() ? default_val : convert<T2>(it->second);
 }
 
 // a wrapper around boost so that boost does not have to be included
@@ -99,76 +99,76 @@ std::string remove_whitespace(const std::string &str);
 
 template <typename T>
 T str2container(const std::string &str, const std::string &delims) {
-  T out;
-  std::vector<std::string> tokens;
-  split(tokens, str, delims);
+    T out;
+    std::vector<std::string> tokens;
+    split(tokens, str, delims);
 
-  for (std::string &t : tokens) {
-    if (t.length() > 0) {
-      out.insert(out.end(), convert<typename T::value_type>(t));
+    for (std::string &t : tokens) {
+        if (t.length() > 0) {
+            out.insert(out.end(), convert<typename T::value_type>(t));
+        }
     }
-  }
-  return out;
+    return out;
 }
 
 template <typename T>
 bool str2container(const std::string &str, const std::string &delims, T &result,
                    int size = -1) {
-  T tmp = str2container<T>(str, delims);
-  if (size >= 0 && (unsigned int)size != tmp.size()) {
-    return false;
-  } else {
-    // Only modify vec if it was a valid conversion
-    result = tmp;
-    return true;
-  }
+    T tmp = str2container<T>(str, delims);
+    if (size >= 0 && (unsigned int)size != tmp.size()) {
+        return false;
+    } else {
+        // Only modify vec if it was a valid conversion
+        result = tmp;
+        return true;
+    }
 }
 
 template <typename T>
 // [[deprecated("str2vec is deprecated, use str2container instead")]]
 std::vector<T> str2vec(const std::string &str, const std::string &delims) {
-  std::vector<T> out;
-  std::vector<std::string> tokens;
-  split(tokens, str, delims);
+    std::vector<T> out;
+    std::vector<std::string> tokens;
+    split(tokens, str, delims);
 
-  for (std::string &t : tokens) {
-    if (t.length() > 0) {
-      out.push_back(convert<T>(t));
+    for (std::string &t : tokens) {
+        if (t.length() > 0) {
+            out.push_back(convert<T>(t));
+        }
     }
-  }
-  return out;
+    return out;
 }
 
 template <typename T>
 // [[deprecated("str2vec is deprecated, use str2container instead")]]
 bool str2vec(const std::string &str, const std::string &delims,
              std::vector<T> &vec, int size = -1) {
-  std::vector<T> tmp_vec;
-  std::vector<std::string> tokens;
-  split(tokens, str, delims);
+    std::vector<T> tmp_vec;
+    std::vector<std::string> tokens;
+    split(tokens, str, delims);
 
-  for (std::string &t : tokens) {
-    if (t.length() > 0) {
-      tmp_vec.push_back(convert<T>(t));
+    for (std::string &t : tokens) {
+        if (t.length() > 0) {
+            tmp_vec.push_back(convert<T>(t));
+        }
     }
-  }
 
-  if (size >= 0 && (unsigned int)size != tmp_vec.size()) {
-    return false;
-  } else {
-    // Only modify vec if it was a valid conversion
-    vec = tmp_vec;
-    return true;
-  }
+    if (size >= 0 && (unsigned int)size != tmp_vec.size()) {
+        return false;
+    } else {
+        // Only modify vec if it was a valid conversion
+        vec = tmp_vec;
+        return true;
+    }
 }
 
 template <typename T>
 bool get_vec(const std::string &str,
              const std::map<std::string, std::string> &params,
              const std::string &delims, std::vector<T> &vec, int size = -1) {
-  auto it = params.find(str);
-  return it == params.end() ? false
-                            : str2container(it->second, delims, vec, size);
+    auto it = params.find(str);
+    return it == params.end() ? false
+                              : str2container(it->second, delims, vec, size);
 }
 
 bool get_vec(const std::string &str, std::map<std::string, std::string> &params,
@@ -196,10 +196,10 @@ bool get_vec_of_vecs(const std::string &str,
 bool set_pid_gains(PID &pid, std::string str, bool is_angle = false);
 
 struct PluginOverrides {
-  std::string name;
-  std::map<std::string, std::string> overrides;
-  PluginOverrides(const std::string &n, std::map<std::string, std::string> &o)
-      : name(n), overrides(o) {}
+    std::string name;
+    std::map<std::string, std::string> overrides;
+    PluginOverrides(const std::string &n, std::map<std::string, std::string> &o)
+        : name(n), overrides(o) {}
 };
 
 unsigned int parse_plugin_vector(

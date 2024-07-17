@@ -41,31 +41,31 @@ namespace scrimmage {
 
 class Random {
  public:
-  Random();
+    Random();
 
-  uint32_t get_seed();
-  void seed();
+    uint32_t get_seed();
+    void seed();
 
-  void seed(uint32_t _seed);
+    void seed(uint32_t _seed);
 
-  double rng_uniform();
-  double rng_uniform(double low, double high);
-  double rng_normal();
-  double rng_normal(double mean, double sigma);
-  int rng_uniform_int(int low, int high);  // inclusive of low and high
+    double rng_uniform();
+    double rng_uniform(double low, double high);
+    double rng_normal();
+    double rng_normal(double mean, double sigma);
+    int rng_uniform_int(int low, int high);  // inclusive of low and high
 
-  std::shared_ptr<std::normal_distribution<double>> make_rng_normal(
-      double mean, double sigma);
+    std::shared_ptr<std::normal_distribution<double>> make_rng_normal(
+        double mean, double sigma);
 
-  int rng_discrete_int(std::vector<double> &weights);
+    int rng_discrete_int(std::vector<double> &weights);
 
-  std::shared_ptr<std::default_random_engine> gener() { return gener_; }
+    std::shared_ptr<std::default_random_engine> gener() { return gener_; }
 
  protected:
-  uint32_t seed_;
-  std::shared_ptr<std::default_random_engine> gener_;
-  std::normal_distribution<double> rng_normal_;
-  std::uniform_real_distribution<double> rng_uniform_;
+    uint32_t seed_;
+    std::shared_ptr<std::default_random_engine> gener_;
+    std::normal_distribution<double> rng_normal_;
+    std::uniform_real_distribution<double> rng_uniform_;
 };
 
 typedef std::shared_ptr<Random> RandomPtr;

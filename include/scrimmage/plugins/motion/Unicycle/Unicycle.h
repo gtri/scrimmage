@@ -42,30 +42,30 @@ namespace scrimmage {
 namespace motion {
 class Unicycle : public scrimmage::MotionModel {
  public:
-  bool init(std::map<std::string, std::string> &info,
-            std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string> &info,
+              std::map<std::string, std::string> &params) override;
 
-  bool step(double t, double dt) override;
+    bool step(double t, double dt) override;
 
-  void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t &x, vector_t &dxdt, double t) override;
 
  protected:
-  double turn_rate_max_ = 1.0;
-  double pitch_rate_max_ = 1.0;
-  double velocity_z_max_ = 0.0;
-  double vel_max_ = 1.0;
-  bool enable_roll_ = false;
-  bool use_pitch_ = true;
+    double turn_rate_max_ = 1.0;
+    double pitch_rate_max_ = 1.0;
+    double velocity_z_max_ = 0.0;
+    double vel_max_ = 1.0;
+    bool enable_roll_ = false;
+    bool use_pitch_ = true;
 
-  uint8_t speed_idx_ = 0;
-  uint8_t turn_rate_idx_ = 0;
-  uint8_t pitch_rate_idx_ = 0;
-  uint8_t velocity_z_idx_ = 0;
+    uint8_t speed_idx_ = 0;
+    uint8_t turn_rate_idx_ = 0;
+    uint8_t pitch_rate_idx_ = 0;
+    uint8_t velocity_z_idx_ = 0;
 
-  double velocity_ = 0;
-  double turn_rate_ = 0;
-  double pitch_rate_ = 0;
-  double velocity_z_ = 0;
+    double velocity_ = 0;
+    double turn_rate_ = 0;
+    double pitch_rate_ = 0;
+    double velocity_z_ = 0;
 };
 }  // namespace motion
 }  // namespace scrimmage
