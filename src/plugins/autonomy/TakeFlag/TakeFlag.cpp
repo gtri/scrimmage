@@ -72,7 +72,8 @@ void TakeFlag::init(std::map<std::string, std::string> &params) {
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
     auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
-        if (msg->data.entity_id() == parent_->id().id() && msg->data.flag_boundary_id() == flag_boundary_id_) {
+        if (msg->data.entity_id() == parent_->id().id() &&
+            msg->data.flag_boundary_id() == flag_boundary_id_) {
             has_flag_ = true;
         }
     };

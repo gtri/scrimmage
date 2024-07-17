@@ -52,9 +52,13 @@ namespace interaction {
 
 class Sphere : public BoundaryBase {
  public:
-    Sphere() : BoundaryBase(Eigen::Vector3d(0, 0, 0)), radius_(1.0) {}
+    Sphere()
+        : BoundaryBase(Eigen::Vector3d(0, 0, 0)),
+          radius_(1.0) {}
 
-    Sphere(const double &radius, const Eigen::Vector3d &center) : BoundaryBase(center), radius_(radius) {}
+    Sphere(const double &radius, const Eigen::Vector3d &center)
+        : BoundaryBase(center),
+          radius_(radius) {}
 
     explicit Sphere(const scrimmage_proto::Shape &shape)
         : Sphere(shape.sphere().radius(), proto_2_vector3d(shape.sphere().center())) {}
@@ -81,7 +85,8 @@ class Sphere : public BoundaryBase {
         // Find the smallest cube that covers the entire sphere
         extents_.clear();
         for (unsigned int i = 0; i < 3; i++) {
-            extents_.push_back(std::tuple<double, double>(center_(i) + radius_, center_(i) - radius_));
+            extents_.push_back(
+                std::tuple<double, double>(center_(i) + radius_, center_(i) - radius_));
         }
         return extents_;
     }

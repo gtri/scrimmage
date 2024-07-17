@@ -55,7 +55,8 @@ class Sensor : public EntityPlugin {
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting)
      */
-    template <class T = MessageBase, class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <class T = MessageBase,
+              class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     MessageBasePtr sense(double t) {
         return sensor_msg(t);
     }

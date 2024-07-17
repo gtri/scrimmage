@@ -120,9 +120,11 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
                 boost::split(tokens, str, boost::is_any_of("="));
                 if (tokens.size() == 2) {
                     // Remove the quotes from the value
-                    tokens[1].erase(std::remove_if(tokens[1].begin(), tokens[1].end(),
-                                                   [](unsigned char x) { return (x == '\"') || (x == '\''); }),
-                                    tokens[1].end());
+                    tokens[1].erase(
+                        std::remove_if(tokens[1].begin(),
+                                       tokens[1].end(),
+                                       [](unsigned char x) { return (x == '\"') || (x == '\''); }),
+                        tokens[1].end());
                     autonomy_params[tokens[0]] = tokens[1];
                 }
             }
@@ -130,9 +132,13 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
         }
 
         sc::ConfigParse config_parse;
-        PluginStatus<Autonomy> status = parent_->plugin_manager()->make_plugin<Autonomy>(
-            "scrimmage::Autonomy", autonomy_name, *(parent_->file_search()), config_parse, autonomy_params,
-            std::set<std::string>{});
+        PluginStatus<Autonomy> status =
+            parent_->plugin_manager()->make_plugin<Autonomy>("scrimmage::Autonomy",
+                                                             autonomy_name,
+                                                             *(parent_->file_search()),
+                                                             config_parse,
+                                                             autonomy_params,
+                                                             std::set<std::string>{});
         if (status.status == PluginStatus<Autonomy>::cast_failed) {
             cout << "AutonomyExecutor Failed to open autonomy plugin: " << autonomy_name << endl;
         } else if (status.status == PluginStatus<Autonomy>::loaded) {
@@ -197,7 +203,9 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
         }
 
         if (show_shapes_) {
-            std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(), [&](auto &s) { this->draw_shape(s); });
+            std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(), [&](auto &s) {
+                this->draw_shape(s);
+            });
         }
     }
     return true;

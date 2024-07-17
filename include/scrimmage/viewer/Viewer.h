@@ -61,7 +61,8 @@ class Viewer {
 
     void set_enable_network(bool enable);
 
-    bool init(const std::shared_ptr<MissionParse>& mp, const std::map<std::string, std::string>& camera_params);
+    bool init(const std::shared_ptr<MissionParse>& mp,
+              const std::map<std::string, std::string>& camera_params);
     bool run();
 
  protected:

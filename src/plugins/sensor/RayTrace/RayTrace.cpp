@@ -58,7 +58,10 @@ std::vector<RayTrace::PCRay> RayTrace::PointCloud::get_rays() {
     return return_rays;
 }
 
-RayTrace::RayTrace() : max_range_(0), min_range_(0), max_sample_rate_(0) {}
+RayTrace::RayTrace()
+    : max_range_(0),
+      min_range_(0),
+      max_sample_rate_(0) {}
 
 void RayTrace::init(std::map<std::string, std::string> &params) {
     // Use the same generator as the parent so that the simulation is

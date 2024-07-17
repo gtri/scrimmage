@@ -85,7 +85,8 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
     // Open imu_data CSV for append (app) and set column headers
     std::string csv_filename =
         parent_->mp()->log_dir() + "/imu_data_robot" + std::to_string(parent_->id().id()) + ".csv";
-    if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
+    if (!csv.open_output(csv_filename, std::ios_base::app))
+        std::cout << "Couldn't create csv file" << endl;
     if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
 
     csv.set_column_headers(
@@ -148,11 +149,13 @@ Eigen::Vector3d ROSIMUSensor::gravity_ned_from_lla(Eigen::Vector3d lla) {
 
     double w = sqrt(u2 + e2 * sBeta2) / v;
     double q = 0.5 * ((1.0 + 3.0 * u2 / e2) * atan2(e, u) - 3.0 * u / e);
-    double q0 = 0.5 * ((1.0 + 3.0 * b2 / e2) * atan2(e, earth_semiminor_axis) - 3.0 * earth_semiminor_axis / e);
+    double q0 = 0.5 * ((1.0 + 3.0 * b2 / e2) * atan2(e, earth_semiminor_axis) -
+                       3.0 * earth_semiminor_axis / e);
     double qp = 3.0 * (1.0 + u2 / e2) * (1.0 - (u / e) * atan2(e, u)) - 1.0;
 
     // %   //Mass Attraction Only
-    double Gu = -(wgs84_grav / v2 + omega2 * a2 * e * qp * (0.5 * sBeta2 - 1.0 / 6.0) / (q0 * v2)) / w;
+    double Gu =
+        -(wgs84_grav / v2 + omega2 * a2 * e * qp * (0.5 * sBeta2 - 1.0 / 6.0) / (q0 * v2)) / w;
     double Gb = omega2 * sBeta * cBeta * a2 * q / (w * q0 * v);
     double Psi = atan2(z, sqrt(x2 + y2));
     double sPsi = sin(Psi);
@@ -160,8 +163,10 @@ Eigen::Vector3d ROSIMUSensor::gravity_ned_from_lla(Eigen::Vector3d lla) {
     double Alfa = lla(0) - Psi;
     double sAlfa = sin(Alfa);
     double cAlfa = cos(Alfa);
-    double Gr = Gu * (cPsi * cBeta * u / v + sPsi * sBeta) / w + Gb * (sPsi * cBeta * u / v - cPsi * sBeta) / w;
-    double Gp = -Gu * (sPsi * cBeta * u / v - cPsi * sBeta) / w + Gb * (cPsi * cBeta * u / v + sPsi * sBeta) / w;
+    double Gr = Gu * (cPsi * cBeta * u / v + sPsi * sBeta) / w +
+                Gb * (sPsi * cBeta * u / v - cPsi * sBeta) / w;
+    double Gp = -Gu * (sPsi * cBeta * u / v - cPsi * sBeta) / w +
+                Gb * (cPsi * cBeta * u / v + sPsi * sBeta) / w;
 
     g(0) = -Gr * sAlfa + Gp * cAlfa;
     g(1) = 0.0;
@@ -230,7 +235,8 @@ Eigen::Matrix3d ROSIMUSensor::enu_to_ecef_rotation(double lat, double lon) {
     return rotationMatrix;
 }
 
-Eigen::Vector3d ROSIMUSensor::get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Quaterniond qBodyToECEFt2,
+Eigen::Vector3d ROSIMUSensor::get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat,
+                                              Eigen::Quaterniond qBodyToECEFt2,
                                               double inertialDeltaT) {
     Eigen::Matrix3d CBodyToECEFt1Hat(qBodyToECEFt1Hat);
     Eigen::Matrix3d CBodyToECEFt2(qBodyToECEFt2);
@@ -256,12 +262,14 @@ Eigen::Vector3d ROSIMUSensor::get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Ha
     Eigen::Vector3d EarthRateVector;
     EarthRateVector << 0, 0, earth_rate;
     Eigen::Vector3d deltaThetaBodyWRTInertialInBody =
-        DeltaThetaBodyWRTECEFInBody + inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
+        DeltaThetaBodyWRTECEFInBody +
+        inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
 
     return deltaThetaBodyWRTInertialInBody;
 }
 
-Eigen::Quaterniond ROSIMUSensor::omega_to_q_dot(Eigen::Quaterniond qBToA, Eigen::Vector3d omegaABInB) {
+Eigen::Quaterniond ROSIMUSensor::omega_to_q_dot(Eigen::Quaterniond qBToA,
+                                                Eigen::Vector3d omegaABInB) {
     Eigen::Quaterniond Temp4By1;
     Temp4By1.w() = 0;
     Temp4By1.vec() = omegaABInB;
@@ -270,9 +278,12 @@ Eigen::Quaterniond ROSIMUSensor::omega_to_q_dot(Eigen::Quaterniond qBToA, Eigen:
     return qBToADot;
 }
 
-Eigen::Quaterniond ROSIMUSensor::integrate_quaternion(Eigen::Quaterniond qBToA, Eigen::Vector3d deltaThetasBFrame) {
-    Eigen::Quaterniond QPredictor(qBToA.coeffs() + omega_to_q_dot(qBToA, deltaThetasBFrame).coeffs());
-    Eigen::Quaterniond QCorrector(qBToA.coeffs() + omega_to_q_dot(QPredictor, deltaThetasBFrame).coeffs());
+Eigen::Quaterniond ROSIMUSensor::integrate_quaternion(Eigen::Quaterniond qBToA,
+                                                      Eigen::Vector3d deltaThetasBFrame) {
+    Eigen::Quaterniond QPredictor(qBToA.coeffs() +
+                                  omega_to_q_dot(qBToA, deltaThetasBFrame).coeffs());
+    Eigen::Quaterniond QCorrector(qBToA.coeffs() +
+                                  omega_to_q_dot(QPredictor, deltaThetasBFrame).coeffs());
     // Perform the addition
     Eigen::Quaterniond sum;
     sum.w() = QPredictor.w() + QCorrector.w();            // Add the scalar portion
@@ -282,21 +293,26 @@ Eigen::Quaterniond ROSIMUSensor::integrate_quaternion(Eigen::Quaterniond qBToA, 
     return qBToAUpdated;
 }
 
-Eigen::Quaterniond ROSIMUSensor::propagate_quaternion(Eigen::Quaterniond qBodyToECEFt1Hat,
-                                                      Eigen::Vector3d deltaThetaBodyWRTInertialInBody,
-                                                      double inertialDeltaT) {
+Eigen::Quaterniond ROSIMUSensor::propagate_quaternion(
+    Eigen::Quaterniond qBodyToECEFt1Hat,
+    Eigen::Vector3d deltaThetaBodyWRTInertialInBody,
+    double inertialDeltaT) {
     Eigen::Matrix3d CBodyToECEFt1Hat(qBodyToECEFt1Hat);
 
     Eigen::Vector3d EarthRateVector;
     EarthRateVector << 0, 0, earth_rate;
     Eigen::Vector3d deltaThetaBodyWRTECEFInBodyHat =
-        deltaThetaBodyWRTInertialInBody - inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
-    Eigen::Quaterniond qBodyToECEFt2 = integrate_quaternion(qBodyToECEFt1Hat, deltaThetaBodyWRTECEFInBodyHat);
+        deltaThetaBodyWRTInertialInBody -
+        inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
+    Eigen::Quaterniond qBodyToECEFt2 =
+        integrate_quaternion(qBodyToECEFt1Hat, deltaThetaBodyWRTECEFInBodyHat);
     return qBodyToECEFt2;
 }
 
-Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3d velECEF,
-                                         Eigen::Quaterniond qBodyToECEF, double InertialDeltaT) {
+Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF,
+                                         Eigen::Vector3d velECEF,
+                                         Eigen::Quaterniond qBodyToECEF,
+                                         double InertialDeltaT) {
     double k1 = -1, k2 = -1.25;
 
     Eigen::Vector3d Acct1 = (velECEF - vel_t1) / InertialDeltaT;
@@ -311,8 +327,9 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
     Eigen::Vector3d EarthRateVector;
     EarthRateVector << 0, 0, earth_rate;
     Eigen::Matrix3d EarthRateSkewSym = skew_sym(EarthRateVector);
-    Eigen::Vector3d deltaV = CECEFToBodyTruth * (Acct1 + 2.0 * EarthRateSkewSym * vel_t1 +
-                                                 EarthRateSkewSym * EarthRateSkewSym * pos_ECEF_t1 - GravityECEF);
+    Eigen::Vector3d deltaV =
+        CECEFToBodyTruth * (Acct1 + 2.0 * EarthRateSkewSym * vel_t1 +
+                            EarthRateSkewSym * EarthRateSkewSym * pos_ECEF_t1 - GravityECEF);
     deltaV = deltaV * InertialDeltaT;
 
     Eigen::Matrix3d CBodyToECEFt1Hat(qBody_to_ECEF_hat);
@@ -328,7 +345,8 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
     Eigen::Vector3d AAdd = -k1 * PErr - k2 * VErr;
     deltaV = (deltaV + InertialDeltaT * CBodyToECEFt1Hat.transpose() * AAdd);
 
-    Eigen::Vector3d Ahat = CBodyToECEFt1Hat * deltaV / InertialDeltaT - 2 * EarthRateSkewSym * v_hat -
+    Eigen::Vector3d Ahat = CBodyToECEFt1Hat * deltaV / InertialDeltaT -
+                           2 * EarthRateSkewSym * v_hat -
                            EarthRateSkewSym * EarthRateSkewSym * p_hat + GravityECEF;
     Eigen::Vector3d tmpVhat = v_hat + (InertialDeltaT)*Ahat;
     p_hat = p_hat + (InertialDeltaT)*v_hat + 0.5 * (InertialDeltaT * InertialDeltaT) * Ahat;
@@ -463,7 +481,8 @@ bool ROSIMUSensor::step() {
                                   {"Noisy_dTheta_X", imu_msg.angular_velocity.x},
                                   {"Noisy_dTheta_Y", imu_msg.angular_velocity.y},
                                   {"Noisy_dTheta_Z", imu_msg.angular_velocity.z}},
-                   true, true);
+                   true,
+                   true);
     }
     return true;
 }

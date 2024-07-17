@@ -56,7 +56,8 @@ void WaypointListProcessor::set_waypoint_list(const scrimmage_msgs::WaypointList
             return std::abs(a - b) < std::numeric_limits<double>::epsilon();
         };
         return numbers_are_close(wp0.latitude(), wp1.latitude()) &&
-               numbers_are_close(wp0.longitude(), wp1.longitude()) && numbers_are_close(wp0.altitude(), wp1.altitude());
+               numbers_are_close(wp0.longitude(), wp1.longitude()) &&
+               numbers_are_close(wp0.altitude(), wp1.altitude());
     };
     wp_list_.unique(wps_are_close);
 
@@ -86,7 +87,8 @@ WaypointListProcessor::Status WaypointListProcessor::process(
     return Status::Changed;
 }
 
-std::list<Waypoint>::iterator WaypointListProcessor::next_waypoint(const std::list<Waypoint>::iterator &it_wp) {
+std::list<Waypoint>::iterator WaypointListProcessor::next_waypoint(
+    const std::list<Waypoint>::iterator &it_wp) {
     std::list<Waypoint>::iterator it_next;
     switch (mode_) {
         case scrimmage_msgs::WaypointList::FOLLOW_ONCE:

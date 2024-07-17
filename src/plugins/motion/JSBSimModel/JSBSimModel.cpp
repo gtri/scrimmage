@@ -66,7 +66,8 @@ using ang = scrimmage::Angles;
 
 std::tuple<int, int, int> JSBSimModel::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool JSBSimModel::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool JSBSimModel::init(std::map<std::string, std::string> &info,
+                       std::map<std::string, std::string> &params) {
     angles_from_jsbsim_ = Angles(0, Angles::Type::GPS, Angles::Type::EUCLIDEAN);
     angles_to_jsbsim_ = Angles(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS);
 
@@ -186,19 +187,25 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info, std::map<std::s
     ax_pilot_node_ = mgr->GetNode("accelerations/a-pilot-z-ft_sec2");
 
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
-                                   altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0), state_->pos()(1),
+    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
+                                   longitude_node_->getDoubleValue(),
+                                   altitude_node_->getDoubleValue() * feet2meters,
+                                   state_->pos()(0),
+                                   state_->pos()(1),
                                    state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
-    state_->quat().set(roll_node_->getDoubleValue(), -pitch_node_->getDoubleValue(),
+    state_->quat().set(roll_node_->getDoubleValue(),
+                       -pitch_node_->getDoubleValue(),
                        ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters, vel_north_node_->getDoubleValue() * feet2meters,
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+        vel_north_node_->getDoubleValue() * feet2meters,
         -vel_down_node_->getDoubleValue() * feet2meters;
 
-    state_->ang_vel() << p_node_->getDoubleValue(), q_node_->getDoubleValue(), p_node_->getDoubleValue();
+    state_->ang_vel() << p_node_->getDoubleValue(), q_node_->getDoubleValue(),
+        p_node_->getDoubleValue();
 
     return true;
 }
@@ -224,7 +231,8 @@ bool JSBSimModel::step(double time, double dt) {
         // Set desired altitude (we just need the desired altitude, use the
         // current x,y as placeholders).
         double lat_curr, lon_curr, alt_result;
-        parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), desired_alt, lat_curr, lon_curr, alt_result);
+        parent_->projection()->Reverse(
+            state_->pos()(0), state_->pos()(1), desired_alt, lat_curr, lon_curr, alt_result);
 
         desired_altitude_node_->setDoubleValue(alt_result * meters2feet);
     }
@@ -240,16 +248,21 @@ bool JSBSimModel::step(double time, double dt) {
         output_fg_->Print();
     }
 
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
-                                   altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0), state_->pos()(1),
+    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
+                                   longitude_node_->getDoubleValue(),
+                                   altitude_node_->getDoubleValue() * feet2meters,
+                                   state_->pos()(0),
+                                   state_->pos()(1),
                                    state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
-    state_->quat().set(roll_node_->getDoubleValue(), -pitch_node_->getDoubleValue(),
+    state_->quat().set(roll_node_->getDoubleValue(),
+                       -pitch_node_->getDoubleValue(),
                        ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters, vel_north_node_->getDoubleValue() * feet2meters,
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+        vel_north_node_->getDoubleValue() * feet2meters,
         -vel_down_node_->getDoubleValue() * feet2meters;
 
     // save what was used as the input
@@ -258,7 +271,8 @@ bool JSBSimModel::step(double time, double dt) {
 
 void JSBSimModel::teleport(StatePtr &state) {
     double lat, lon, alt;
-    parent_->projection()->Reverse(state->pos()(0), state->pos()(1), state->pos()(2), lat, lon, alt);
+    parent_->projection()->Reverse(
+        state->pos()(0), state->pos()(1), state->pos()(2), lat, lon, alt);
 
     JSBSim::FGInitialCondition *ic = exec_->GetIC();
     ic->SetLatitudeDegIC(lat);

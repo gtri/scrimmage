@@ -128,11 +128,17 @@ double Angles::angle_diff(double ang1, double ang2) {
     return diff;
 }
 
-double Angles::angle_diff_rad(double ang1, double ang2) { return angle_pi(angle_pi(ang1) - angle_pi(ang2)); }
+double Angles::angle_diff_rad(double ang1, double ang2) {
+    return angle_pi(angle_pi(ang1) - angle_pi(ang2));
+}
 
-double Angles::angle_avg(double ang1, double ang2) { return angle_180(ang2 + angle_diff(ang1, ang2) / 2.0); }
+double Angles::angle_avg(double ang1, double ang2) {
+    return angle_180(ang2 + angle_diff(ang1, ang2) / 2.0);
+}
 
-double Angles::angle_avg_rad(double ang1, double ang2) { return angle_pi(ang2 + angle_diff_rad(ang1, ang2) / 2.0); }
+double Angles::angle_avg_rad(double ang1, double ang2) {
+    return angle_pi(ang2 + angle_diff_rad(ang1, ang2) / 2.0);
+}
 
 void Angles::set_angle(double angle) {
     // Norm the angle

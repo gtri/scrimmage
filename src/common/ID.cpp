@@ -36,9 +36,15 @@
 
 namespace scrimmage {
 
-ID::ID() : id_(0), sub_swarm_id_(0), team_id_(0) {}
+ID::ID()
+    : id_(0),
+      sub_swarm_id_(0),
+      team_id_(0) {}
 
-ID::ID(int id, int sub_swarm_id, int team_id) : id_(id), sub_swarm_id_(sub_swarm_id), team_id_(team_id) {}
+ID::ID(int id, int sub_swarm_id, int team_id)
+    : id_(id),
+      sub_swarm_id_(sub_swarm_id),
+      team_id_(team_id) {}
 
 void ID::set_id(int id) { id_ = id; }
 

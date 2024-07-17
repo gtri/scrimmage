@@ -52,7 +52,9 @@ OpenAIActions::OpenAIActions()
       box_space_(get_gym_space("Box")),
       asarray_(py::module::import("numpy").attr("asarray")) {}
 
-std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &OpenAIActions::ext_ctrl_vec() { return ext_ctrl_vec_; }
+std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &OpenAIActions::ext_ctrl_vec() {
+    return ext_ctrl_vec_;
+}
 
 void OpenAIActions::create_action_space(bool combine_actors) {
     if (ext_ctrl_vec_.empty()) {
@@ -133,8 +135,14 @@ void OpenAIActions::distribute_action(pybind11::object action, bool combine_acto
     };
 
     auto put_actions = [&](auto a, int &disc_action_idx, int &cont_action_idx) {
-        put_action(disc_action_idx, a->action_space.discrete_count.size(), disc_action_data, a->action.discrete);
-        put_action(cont_action_idx, a->action_space.continuous_extrema.size(), cont_action_data, a->action.continuous);
+        put_action(disc_action_idx,
+                   a->action_space.discrete_count.size(),
+                   disc_action_data,
+                   a->action.discrete);
+        put_action(cont_action_idx,
+                   a->action_space.continuous_extrema.size(),
+                   cont_action_data,
+                   a->action.continuous);
     };
 
     if ((ext_ctrl_vec_.size() == 1 || combine_actors)) {

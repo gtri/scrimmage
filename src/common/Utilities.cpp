@@ -49,7 +49,9 @@ namespace fs = boost::filesystem;
 
 namespace scrimmage {
 
-int next_available_id(std::string name, std::map<std::string, std::string> &info, std::map<int, int> &id_map) {
+int next_available_id(std::string name,
+                      std::map<std::string, std::string> &info,
+                      std::map<int, int> &id_map) {
     int id;
     if (info.count(name) > 0) {
         id = std::stoi(info[name]);
@@ -116,7 +118,9 @@ std::string get_version() {
     }
 }
 
-void filter_line(int downsampling_factor, int num_points, std::vector<Eigen::Vector3d> &path,
+void filter_line(int downsampling_factor,
+                 int num_points,
+                 std::vector<Eigen::Vector3d> &path,
                  std::vector<Eigen::Vector3d> &filtered_path) {
     int curvature_sz = path.size() / downsampling_factor;
     std::list<std::pair<int, double>> curvature;

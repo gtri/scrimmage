@@ -53,7 +53,11 @@ class Polyhedron : public BoundaryBase {
  public:
     Polyhedron() {}
 
-    Polyhedron(Eigen::Vector3d center, double x_length, double y_width, double z_height, scrimmage::Quaternion quat) {
+    Polyhedron(Eigen::Vector3d center,
+               double x_length,
+               double y_width,
+               double z_height,
+               scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -96,8 +100,8 @@ class Polyhedron : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) && (v_dot_p > v_dot_P3) &&
-            (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
+            (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
         return false;
@@ -112,9 +116,11 @@ class Polyhedron : public BoundaryBase {
         center_ << xy_center(0), xy_center(1), alt_center;
 
         // Compute min / max values for x, y, z
-        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity(),
+        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
+                             std::numeric_limits<double>::infinity(),
                              std::numeric_limits<double>::infinity());
-        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(), -std::numeric_limits<double>::infinity(),
+        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
+                             -std::numeric_limits<double>::infinity(),
                              -std::numeric_limits<double>::infinity());
         for (Eigen::Vector3d p : points) {
             for (int i = 0; i < 3; i++) {
@@ -138,7 +144,12 @@ class Polyhedron : public BoundaryBase {
         const int num_faces = 6;
         const int vert_per_face = 4;
         int vert_lookup[num_faces][vert_per_face] = {
-            {0, 1, 2, 3}, {0, 1, 5, 4}, {0, 3, 7, 4}, {6, 5, 4, 7}, {6, 2, 1, 5}, {6, 7, 3, 2},
+            {0, 1, 2, 3},
+            {0, 1, 5, 4},
+            {0, 3, 7, 4},
+            {6, 5, 4, 7},
+            {6, 2, 1, 5},
+            {6, 7, 3, 2},
         };
 
         for (int f = 0; f < num_faces; f++) {

@@ -39,10 +39,16 @@
 
 namespace scrimmage {
 
-State::State() : pos_(0, 0, 0), vel_(0, 0, 0), ang_vel_(0, 0, 0) {}
+State::State()
+    : pos_(0, 0, 0),
+      vel_(0, 0, 0),
+      ang_vel_(0, 0, 0) {}
 
 State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Eigen::Vector3d _ang_vel, Quaternion _quat)
-    : pos_(_pos), vel_(_vel), ang_vel_(_ang_vel), quat_(_quat) {}
+    : pos_(_pos),
+      vel_(_vel),
+      ang_vel_(_ang_vel),
+      quat_(_quat) {}
 
 State::~State() {}
 
@@ -73,7 +79,9 @@ bool State::InFieldOfView(State &other, double fov_width, double fov_height) con
     return std::abs(az) < fov_width / 2 && std::abs(el) < fov_height / 2;
 }
 
-Eigen::Vector3d State::rel_pos_local_frame(Eigen::Vector3d &other) const { return quat_.rotate_reverse(other - pos_); }
+Eigen::Vector3d State::rel_pos_local_frame(Eigen::Vector3d &other) const {
+    return quat_.rotate_reverse(other - pos_);
+}
 
 Eigen::Vector3d State::pos_offset(double distance, bool offset_with_velocity) const {
     if (offset_with_velocity) {
@@ -83,7 +91,9 @@ Eigen::Vector3d State::pos_offset(double distance, bool offset_with_velocity) co
     }
 }
 
-Eigen::Vector3d State::orient_global_frame() const { return quat_.rotate(Eigen::Vector3d::UnitX()); }
+Eigen::Vector3d State::orient_global_frame() const {
+    return quat_.rotate(Eigen::Vector3d::UnitX());
+}
 
 double State::rel_az(const Eigen::Vector3d &other) const {
     Eigen::Vector3d diff = other - pos_;
@@ -110,10 +120,12 @@ Eigen::Matrix4d State::tf_matrix(bool enable_translate) {
 std::ostream &operator<<(std::ostream &os, const State &s) {
     const Quaternion &q = s.quat();
 
-    os << "(" << eigen_str(s.pos_, s.output_precision) << "), (" << eigen_str(s.vel_, s.output_precision) << "), ("
-       << eigen_str(s.ang_vel_, s.output_precision) << "), (" << std::setprecision(s.output_precision) << q.roll()
-       << ", " << std::setprecision(s.output_precision) << q.pitch() << ", " << std::setprecision(s.output_precision)
-       << q.yaw() << ")";
+    os << "(" << eigen_str(s.pos_, s.output_precision) << "), ("
+       << eigen_str(s.vel_, s.output_precision) << "), ("
+       << eigen_str(s.ang_vel_, s.output_precision) << "), ("
+       << std::setprecision(s.output_precision) << q.roll() << ", "
+       << std::setprecision(s.output_precision) << q.pitch() << ", "
+       << std::setprecision(s.output_precision) << q.yaw() << ")";
     return os;
 }
 

@@ -34,7 +34,8 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerSimple,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SingleIntegratorControllerSimple,
                 SingleIntegratorControllerSimple_plugin)
 
 namespace scrimmage {

@@ -46,7 +46,9 @@
 
 namespace scrimmage {
 
-Network::Network() : EntityPlugin(), rtree_(std::make_shared<RTree>()) {}
+Network::Network()
+    : EntityPlugin(),
+      rtree_(std::make_shared<RTree>()) {}
 
 bool Network::init(std::map<std::string, std::string> &mission_params,
                    std::map<std::string, std::string> &plugin_params) {
@@ -55,8 +57,10 @@ bool Network::init(std::map<std::string, std::string> &mission_params,
 
 bool Network::network_init(std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
-    auto setup_counts = [](const std::string &str, std::map<std::string, std::string> &plugin_params,
-                           std::map<std::string, unsigned int> &counts, bool &monitor_all) {
+    auto setup_counts = [](const std::string &str,
+                           std::map<std::string, std::string> &plugin_params,
+                           std::map<std::string, unsigned int> &counts,
+                           bool &monitor_all) {
         std::string topics_str = get<std::string>(str, plugin_params, "");
 
         auto topics = str2container<std::vector<std::string>>(topics_str, ", ");
@@ -73,7 +77,8 @@ bool Network::network_init(std::map<std::string, std::string> &mission_params,
 
     // Get communication delay for the network (default is 0)
     comm_delay_ = scrimmage::get<double>("comm_delay", plugin_params, comm_delay_);
-    is_stochastic_delay_ = scrimmage::get<bool>("is_stochastic_delay", plugin_params, is_stochastic_delay_);
+    is_stochastic_delay_ =
+        scrimmage::get<bool>("is_stochastic_delay", plugin_params, is_stochastic_delay_);
 
     setup_counts("monitor_publisher_topics", plugin_params, pub_counts_, monitor_all_pubs_);
     setup_counts("monitor_subscriber_topics", plugin_params, sub_counts_, monitor_all_subs_);
@@ -224,7 +229,8 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     return true;
 }
 
-bool Network::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin, const scrimmage::EntityPluginPtr &sub_plugin) {
+bool Network::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                           const scrimmage::EntityPluginPtr &sub_plugin) {
     return false;
 }
 

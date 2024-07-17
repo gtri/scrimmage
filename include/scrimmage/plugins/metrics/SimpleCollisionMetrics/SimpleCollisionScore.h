@@ -62,7 +62,9 @@ class SimpleCollisionScore {
 
     int entity_count() { return entity_count_; }
     void set_entity_count(int entity_count) { entity_count_ = entity_count; }
-    void set_non_team_collisions(int non_team_collisions) { non_team_collisions_ = non_team_collisions; }
+    void set_non_team_collisions(int non_team_collisions) {
+        non_team_collisions_ = non_team_collisions;
+    }
     void set_team_collisions(int team_collisions) { team_collisions_ = team_collisions; }
     void set_ground_collisions(int ground_collisions) { ground_collisions_ = ground_collisions; }
 

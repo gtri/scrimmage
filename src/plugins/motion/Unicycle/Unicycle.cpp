@@ -48,7 +48,8 @@ enum ModelParams { X = 0, Y, Z, YAW, PITCH, MODEL_NUM_ITEMS };
 namespace scrimmage {
 namespace motion {
 
-bool Unicycle::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool Unicycle::init(std::map<std::string, std::string> &info,
+                    std::map<std::string, std::string> &params) {
     // Declare variables for controllers
     use_pitch_ = get<bool>("use_pitch", params, use_pitch_);
 

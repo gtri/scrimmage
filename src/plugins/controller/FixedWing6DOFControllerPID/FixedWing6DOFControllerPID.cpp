@@ -42,7 +42,8 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerPID,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::FixedWing6DOFControllerPID,
                 FixedWing6DOFControllerPID_plugin)
 
 namespace scrimmage {

@@ -52,11 +52,15 @@ class EntityInteraction : public EntityPlugin {
         return true;
     }
 
-    inline virtual bool step_entity_interaction(std::list<EntityPtr>& /*ents*/, double /*t*/, double /*dt*/) {
+    inline virtual bool step_entity_interaction(std::list<EntityPtr>& /*ents*/,
+                                                double /*t*/,
+                                                double /*dt*/) {
         return false;
     }
 
-    inline virtual bool collision_exists(std::list<EntityPtr>& /*ents*/, Eigen::Vector3d& /*p*/) { return false; }
+    inline virtual bool collision_exists(std::list<EntityPtr>& /*ents*/, Eigen::Vector3d& /*p*/) {
+        return false;
+    }
 
  protected:
 };

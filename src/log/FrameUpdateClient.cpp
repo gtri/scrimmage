@@ -120,5 +120,7 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
     return true;
 }
 
-void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) { proj_ = proj; }
+void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    proj_ = proj;
+}
 }  // namespace scrimmage

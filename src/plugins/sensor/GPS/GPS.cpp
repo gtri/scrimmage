@@ -61,7 +61,9 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::GPS, GPS_plugin)
 namespace scrimmage {
 namespace sensor {
 
-GPS::GPS() : gps_found_(false), boundary_id_(-1) {}
+GPS::GPS()
+    : gps_found_(false),
+      boundary_id_(-1) {}
 
 void GPS::init(std::map<std::string, std::string> &params) {
     // Loading in params
@@ -98,7 +100,8 @@ bool GPS::step() {
 
     bool gps_fix = true;
     if (boundary_ != nullptr && gps_found_) {
-        if (std::find(gps_denied_ids_.begin(), gps_denied_ids_.end(), boundary_id_) != gps_denied_ids_.end() &&
+        if (std::find(gps_denied_ids_.begin(), gps_denied_ids_.end(), boundary_id_) !=
+                gps_denied_ids_.end() &&
             boundary_->contains(ns.pos())) {
             gps_fix = false;
         }

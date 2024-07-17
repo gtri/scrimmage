@@ -60,16 +60,21 @@ double Random::rng_uniform(double low, double high) {
 
 double Random::rng_normal() { return rng_normal_(*gener_); }
 
-double Random::rng_normal(double mean, double sigma) { return std::normal_distribution<double>(mean, sigma)(*gener_); }
+double Random::rng_normal(double mean, double sigma) {
+    return std::normal_distribution<double>(mean, sigma)(*gener_);
+}
 
-int Random::rng_uniform_int(int low, int high) { return std::uniform_int_distribution<int>(low, high)(*gener_); }
+int Random::rng_uniform_int(int low, int high) {
+    return std::uniform_int_distribution<int>(low, high)(*gener_);
+}
 
 int Random::rng_discrete_int(std::vector<double> &weights) {
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     return dist(*gener_);
 }
 
-std::shared_ptr<std::normal_distribution<double>> Random::make_rng_normal(double mean, double sigma) {
+std::shared_ptr<std::normal_distribution<double>> Random::make_rng_normal(double mean,
+                                                                          double sigma) {
     return std::make_shared<std::normal_distribution<double>>(mean, sigma);
 }
 

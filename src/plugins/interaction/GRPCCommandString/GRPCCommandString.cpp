@@ -49,7 +49,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GRPCCommandString, GRPCCommandString_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::GRPCCommandString,
+                GRPCCommandString_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -66,7 +68,9 @@ bool GRPCCommandString::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
+bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                                double t,
+                                                double dt) {
     // Check for new messages:
     msgs_mutex_.lock();
     while (msgs_.size() > 0) {

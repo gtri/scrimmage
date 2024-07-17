@@ -51,7 +51,8 @@ class BoundaryDefense : public scrimmage::Autonomy {
 
  protected:
     int boundary_id_ = -1;
-    std::map<int, std::pair<scrimmage_proto::Shape, std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
+    std::map<int, std::pair<scrimmage_proto::Shape, std::shared_ptr<interaction::BoundaryBase>>>
+        boundaries_;
 
     int output_vel_x_idx_ = 0;
     int output_vel_y_idx_ = 0;

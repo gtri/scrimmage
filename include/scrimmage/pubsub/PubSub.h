@@ -68,7 +68,8 @@ class PubSub {
     void add_network_name(const std::string &str);
 
     boost::optional<std::list<NetworkDevicePtr>> find_devices(const std::string &network_name,
-                                                              const std::string &topic_name, TopicMap &devs);
+                                                              const std::string &topic_name,
+                                                              TopicMap &devs);
 
     boost::optional<std::list<NetworkDevicePtr>> find_pubs(const std::string &network_name,
                                                            const std::string &topic_name);
@@ -77,21 +78,28 @@ class PubSub {
                                                            const std::string &topic_name);
 
     template <class T, class CallbackFunc>
-    SubscriberBasePtr subscribe(const std::string &network_name, const std::string &topic, CallbackFunc callback,
-                                unsigned int max_queue_size, bool enable_queue_size, EntityPluginPtr plugin) {
+    SubscriberBasePtr subscribe(const std::string &network_name,
+                                const std::string &topic,
+                                CallbackFunc callback,
+                                unsigned int max_queue_size,
+                                bool enable_queue_size,
+                                EntityPluginPtr plugin) {
         if (sub_map_.count(network_name) == 0) {
-            print_str(std::string("WARNING: Subscriber unable to connect to network (") + network_name +
-                      ") on topic (" + topic + ")");
+            print_str(std::string("WARNING: Subscriber unable to connect to network (") +
+                      network_name + ") on topic (" + topic + ")");
         }
 
-        SubscriberBasePtr sub =
-            std::make_shared<Subscriber<T, CallbackFunc>>(topic, max_queue_size, enable_queue_size, plugin, callback);
+        SubscriberBasePtr sub = std::make_shared<Subscriber<T, CallbackFunc>>(
+            topic, max_queue_size, enable_queue_size, plugin, callback);
         sub_map_[network_name][topic].push_back(sub);
         return sub;
     }
 
-    PublisherPtr advertise(const std::string &network_name, const std::string &topic,
-                           const unsigned int &max_queue_size, const bool &enable_queue_size, EntityPluginPtr plugin);
+    PublisherPtr advertise(const std::string &network_name,
+                           const std::string &topic,
+                           const unsigned int &max_queue_size,
+                           const bool &enable_queue_size,
+                           EntityPluginPtr plugin);
 
  protected:
     TopicMap pub_map_;

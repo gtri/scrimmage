@@ -48,7 +48,9 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RigidBody6DOFStateSensor, RigidBody6DOFStateSensor_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor,
+                scrimmage::sensor::RigidBody6DOFStateSensor,
+                RigidBody6DOFStateSensor_plugin)
 
 namespace scrimmage {
 namespace sensor {
@@ -80,7 +82,8 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
 
 bool RigidBody6DOFStateSensor::step() {
     if (motion_ == nullptr) {
-        motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
+        motion_ =
+            std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
         if (motion_ == nullptr) {
             cout << "WARNING: Failed to get motion model. Currently only "
                  << "scrimmage::motion::RigidBody6DOFBase and subclasses "
@@ -97,8 +100,10 @@ bool RigidBody6DOFStateSensor::step() {
     msg->data.ang_vel() = parent_->state_truth()->ang_vel();
     msg->data.quat() = parent_->state_truth()->quat();
 
-    msg->data.linear_vel_body() = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->vel());
-    msg->data.ang_vel_body() = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->ang_vel());
+    msg->data.linear_vel_body() =
+        parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->vel());
+    msg->data.ang_vel_body() =
+        parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->ang_vel());
 
     msg->data.linear_accel_body() = motion_->linear_accel_body();
     msg->data.ang_accel_body() = motion_->ang_accel_body();

@@ -43,15 +43,21 @@
 
 namespace scrimmage {
 
-Viewer::Viewer() : enable_network_(false) {}
+Viewer::Viewer()
+    : enable_network_(false) {}
 
-void Viewer::set_incoming_interface(InterfacePtr& incoming_interface) { incoming_interface_ = incoming_interface; }
+void Viewer::set_incoming_interface(InterfacePtr& incoming_interface) {
+    incoming_interface_ = incoming_interface;
+}
 
-void Viewer::set_outgoing_interface(InterfacePtr& outgoing_interface) { outgoing_interface_ = outgoing_interface; }
+void Viewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
+    outgoing_interface_ = outgoing_interface;
+}
 
 void Viewer::set_enable_network(bool enable) { enable_network_ = enable; }
 
-bool Viewer::init(const std::shared_ptr<MissionParse>& mp, const std::map<std::string, std::string>& camera_params) {
+bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
+                  const std::map<std::string, std::string>& camera_params) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 
@@ -104,8 +110,11 @@ bool Viewer::run() {
 
     if (enable_network_) {
         outgoing_interface_->init_network(Interface::client, remote_ip_, remote_port_);
-        network_thread_ =
-            std::thread(&Interface::init_network, &(*incoming_interface_), Interface::server, local_ip_, local_port_);
+        network_thread_ = std::thread(&Interface::init_network,
+                                      &(*incoming_interface_),
+                                      Interface::server,
+                                      local_ip_,
+                                      local_port_);
         network_thread_.detach();
     } else {
         incoming_interface_->set_mode(Interface::shared);
@@ -145,13 +154,18 @@ bool Viewer::run() {
         return false;
     }
 
-    updater->set_camera_reset_params(camera_pos[0], camera_pos[1], camera_pos[2], camera_focal_pos[0],
-                                     camera_focal_pos[1], camera_focal_pos[2]);
+    updater->set_camera_reset_params(camera_pos[0],
+                                     camera_pos[1],
+                                     camera_pos[2],
+                                     camera_focal_pos[0],
+                                     camera_focal_pos[1],
+                                     camera_focal_pos[2]);
     updater->set_show_fps(get("show_fps", camera_params_, false));
 
     updater->set_follow_id(get("follow_id", camera_params_, 1) - 1);
 
-    std::string view_mode = boost::to_upper_copy(get<std::string>("mode", camera_params_, "follow"));
+    std::string view_mode =
+        boost::to_upper_copy(get<std::string>("mode", camera_params_, "follow"));
 
     if (view_mode == "FOLLOW") {
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
@@ -161,7 +175,8 @@ bool Viewer::run() {
     } else if (view_mode == "OFFSET") {
         updater->set_view_mode(Updater::ViewMode::OFFSET);
     } else {
-        std::cout << "Unrecognized attribute \"" << view_mode << "\" for camera_view_mode" << std::endl;
+        std::cout << "Unrecognized attribute \"" << view_mode << "\" for camera_view_mode"
+                  << std::endl;
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
     }
 

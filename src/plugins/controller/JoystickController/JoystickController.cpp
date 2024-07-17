@@ -46,7 +46,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JoystickController, JoystickController_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::JoystickController,
+                JoystickController_plugin)
 
 namespace scrimmage {
 namespace controller {

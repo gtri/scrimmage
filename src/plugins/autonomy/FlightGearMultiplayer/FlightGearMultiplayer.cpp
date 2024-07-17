@@ -55,7 +55,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::FlightGearMultiplayer, FlightGearMultiplayer_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::FlightGearMultiplayer,
+                FlightGearMultiplayer_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -121,7 +123,8 @@ scrimmage::Quaternion FlightGearMultiplayer::fromLonLatRad(float lon, float lat)
     // Eigen::Quaterniond rot2 = R_a * R_b;
 
     float zd2 = static_cast<float>(0.5) * lon;
-    float yd2 = static_cast<float>(-0.25) * static_cast<float>(M_PI) - static_cast<float>(0.5) * lat;
+    float yd2 =
+        static_cast<float>(-0.25) * static_cast<float>(M_PI) - static_cast<float>(0.5) * lat;
     float Szd2 = sin(zd2);
     float Syd2 = sin(yd2);
     float Czd2 = cos(zd2);
@@ -137,7 +140,8 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
 
     // Compute ECEF coordinates from x/y/z lat/lon/alt
     double lat, lon, alt;
-    parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1), state_->pos()(2), lat, lon, alt);
+    parent_->projection()->Reverse(
+        state_->pos()(0), state_->pos()(1), state_->pos()(2), lat, lon, alt);
     double ECEF_X, ECEF_Y, ECEF_Z;
     earth_->Forward(lat, lon, alt, ECEF_X, ECEF_Y, ECEF_Z);
 
@@ -147,11 +151,13 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
 
     // Convert local heading to GPS heading
     angles_to_jsbsim_.set_angle(sc::Angles::rad2deg(state_->quat().yaw()));
-    sc::Quaternion local_quat(state_->quat().roll(), state_->quat().pitch(),
+    sc::Quaternion local_quat(state_->quat().roll(),
+                              state_->quat().pitch(),
                               sc::Angles::deg2rad(angles_to_jsbsim_.angle()));
 
     // Convert local quaternion to ECEF coordinate
-    scrimmage::Quaternion rot = this->fromLonLatRad(sc::Angles::deg2rad(lon), sc::Angles::deg2rad(lat));
+    scrimmage::Quaternion rot =
+        this->fromLonLatRad(sc::Angles::deg2rad(lon), sc::Angles::deg2rad(lat));
 
     // The FlightGear Multiplayer packet expects the orientation to be in
     // angle-axis form, where the axis magnitude is the rotation angle.

@@ -50,8 +50,10 @@ namespace scrimmage {
 namespace interaction {
 
 std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap> draw_graph(
-    scrimmage_msgs::Graph &graph, const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
-    DrawNodeLabels draw_node_labels, EntityPluginPtr plugin) {
+    scrimmage_msgs::Graph &graph,
+    const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
+    DrawNodeLabels draw_node_labels,
+    EntityPluginPtr plugin) {
     const std::vector<int> black{0, 0, 0};
     const std::vector<int> white{255, 255, 255};
     const std::vector<int> blue{0, 0, 255};
@@ -107,7 +109,8 @@ std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeM
     return std::make_tuple(node_shape, edge_shapes, text_shapes);
 }
 
-std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(const scrimmage_msgs::Graph &graph) {
+std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
+    const scrimmage_msgs::Graph &graph) {
     auto to_pos = [&](auto &node) { return std::make_pair(node.id(), node.point()); };
     std::unordered_map<uint64_t, scrimmage_proto::Vector3d> out;
     br::transform(graph.nodes(), std::inserter(out, out.begin()), to_pos);

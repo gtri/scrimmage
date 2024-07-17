@@ -50,8 +50,11 @@ class ConfigParse {
  public:
     ConfigParse();
     void set_required(std::string node_name);
-    bool parse(const std::map<std::string, std::string> &overrides, std::string filename, std::string env_var,
-               FileSearch &file_search, bool verbose = false);
+    bool parse(const std::map<std::string, std::string> &overrides,
+               std::string filename,
+               std::string env_var,
+               FileSearch &file_search,
+               bool verbose = false);
     std::map<std::string, std::string> &params();
     std::string filename();
     std::string directory();
@@ -66,8 +69,10 @@ class ConfigParse {
     std::vector<std::string> required_;
     std::string filename_;
 
-    void recursive_params(rapidxml::xml_node<char> *root, const std::map<std::string, std::string> &overrides,
-                          std::map<std::string, std::string> &params, const std::string &prev);
+    void recursive_params(rapidxml::xml_node<char> *root,
+                          const std::map<std::string, std::string> &overrides,
+                          std::map<std::string, std::string> &params,
+                          const std::string &prev);
 };
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_

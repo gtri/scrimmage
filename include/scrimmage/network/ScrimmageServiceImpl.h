@@ -53,25 +53,32 @@ class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Ser
  public:
     explicit ScrimmageServiceImpl(Interface* interface);
 
-    grpc::Status SendFrame(grpc::ServerContext* context, const scrimmage_proto::Frame* frame,
+    grpc::Status SendFrame(grpc::ServerContext* context,
+                           const scrimmage_proto::Frame* frame,
                            scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendUTMTerrain(grpc::ServerContext* context, const scrimmage_proto::UTMTerrain* terrain,
+    grpc::Status SendUTMTerrain(grpc::ServerContext* context,
+                                const scrimmage_proto::UTMTerrain* terrain,
                                 scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendSimInfo(grpc::ServerContext* context, const scrimmage_proto::SimInfo* sim_info,
+    grpc::Status SendSimInfo(grpc::ServerContext* context,
+                             const scrimmage_proto::SimInfo* sim_info,
                              scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendGUIMsg(grpc::ServerContext* context, const scrimmage_proto::GUIMsg* gui_msg,
+    grpc::Status SendGUIMsg(grpc::ServerContext* context,
+                            const scrimmage_proto::GUIMsg* gui_msg,
                             scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendContactVisual(grpc::ServerContext* context, const scrimmage_proto::ContactVisual* contact_visual,
+    grpc::Status SendContactVisual(grpc::ServerContext* context,
+                                   const scrimmage_proto::ContactVisual* contact_visual,
                                    scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendShapes(grpc::ServerContext* context, const scrimmage_proto::Shapes* shape,
+    grpc::Status SendShapes(grpc::ServerContext* context,
+                            const scrimmage_proto::Shapes* shape,
                             scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status Ready(grpc::ServerContext* context, const google::protobuf::Empty* shape,
+    grpc::Status Ready(grpc::ServerContext* context,
+                       const google::protobuf::Empty* shape,
                        scrimmage_proto::BlankReply* reply) override;
 
     std::promise<void> exit_requested;

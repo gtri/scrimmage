@@ -59,7 +59,9 @@ StatePtr &Autonomy::state() { return state_; }
 
 void Autonomy::set_state(StatePtr &state) { state_ = state; }
 
-void Autonomy::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> &proj) { proj_ = proj; }
+void Autonomy::set_projection(std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    proj_ = proj;
+}
 
 std::string &Autonomy::logging_msg() { return logging_msg_; }
 

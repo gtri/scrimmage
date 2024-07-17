@@ -65,19 +65,31 @@ class Entity : public std::enable_shared_from_this<Entity> {
     /*! \name utilities */
     ///@{
 
-    bool init(AttributeMap &overrides, std::map<std::string, std::string> &info,
+    bool init(AttributeMap &overrides,
+              std::map<std::string, std::string> &info,
               std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map, ContactMapPtr &contacts,
-              MissionParsePtr mp, const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id, int ent_desc_id,
-              PluginManagerPtr plugin_manager, FileSearchPtr &file_search, RTreePtr &rtree, PubSubPtr &pubsub,
-              PrintPtr &printer, TimePtr &time, const ParameterServerPtr &param_server,
-              const GlobalServicePtr &global_services, const std::set<std::string> &plugin_tags,
+              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
+              ContactMapPtr &contacts,
+              MissionParsePtr mp,
+              const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
+              int id,
+              int ent_desc_id,
+              PluginManagerPtr plugin_manager,
+              FileSearchPtr &file_search,
+              RTreePtr &rtree,
+              PubSubPtr &pubsub,
+              PrintPtr &printer,
+              TimePtr &time,
+              const ParameterServerPtr &param_server,
+              const GlobalServicePtr &global_services,
+              const std::set<std::string> &plugin_tags,
               std::function<void(std::map<std::string, std::string> &)> param_override_func,
               const int &debug_level = 0);
 
     void print_plugins(std::ostream &out) const;
 
-    bool parse_visual(std::map<std::string, std::string> &info, MissionParsePtr mp,
+    bool parse_visual(std::map<std::string, std::string> &info,
+                      MissionParsePtr mp,
                       std::map<std::string, std::string> &overrides);
 
     void close(double t);

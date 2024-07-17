@@ -87,7 +87,10 @@ void results_to_neighbors(std::list<point_id_t> &results, std::vector<ID> &neigh
     }
 }
 
-void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos, std::vector<ID> &neighbors, unsigned int n, int self_id,
+void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos,
+                                std::vector<ID> &neighbors,
+                                unsigned int n,
+                                int self_id,
                                 int team_id) const {
     std::list<point_id_t> results;
     point sought(pos(0), pos(1), pos(2));
@@ -112,7 +115,10 @@ void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos, std::vector<ID> &nei
     results_to_neighbors(results, neighbors, self_id);
 }
 
-void RTree::neighbors_in_range(const Eigen::Vector3d &pos, std::vector<ID> &neighbors, double dist, int self_id,
+void RTree::neighbors_in_range(const Eigen::Vector3d &pos,
+                               std::vector<ID> &neighbors,
+                               double dist,
+                               int self_id,
                                int team_id) const {
     // see here: http://stackoverflow.com/a/22910447
     std::list<point_id_t> results;
@@ -121,7 +127,8 @@ void RTree::neighbors_in_range(const Eigen::Vector3d &pos, std::vector<ID> &neig
     double z = pos(2);
     point sought(x, y, z);
 
-    bg::model::box<point> box(point(x - dist, y - dist, z - dist), point(x + dist, y + dist, z + dist));
+    bg::model::box<point> box(point(x - dist, y - dist, z - dist),
+                              point(x + dist, y + dist, z + dist));
 
     auto dist_func = [&](point_id_t const &v) { return bg::distance(v.first, sought) < dist; };
 
@@ -133,7 +140,8 @@ void RTree::neighbors_in_range(const Eigen::Vector3d &pos, std::vector<ID> &neig
             neighbors.clear();
             return;
         } else {
-            it->second->query(bgi::within(box) && bgi::satisfies(dist_func), std::front_inserter(results));
+            it->second->query(bgi::within(box) && bgi::satisfies(dist_func),
+                              std::front_inserter(results));
         }
     }
 

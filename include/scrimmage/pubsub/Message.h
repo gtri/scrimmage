@@ -43,8 +43,11 @@ namespace scrimmage {
 template <class T>
 class Message : public MessageBase {
  public:
-    Message() : MessageBase() {}
-    explicit Message(T _data) : MessageBase(), data(_data) {}
+    Message()
+        : MessageBase() {}
+    explicit Message(T _data)
+        : MessageBase(),
+          data(_data) {}
     T data;
 };
 

@@ -50,7 +50,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::AircraftPIDController, AircraftPIDController_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::AircraftPIDController,
+                AircraftPIDController_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -62,16 +64,19 @@ void AircraftPIDController::init(std::map<std::string, std::string> &params) {
 
     // Setup input variables
     if (use_roll_control_) {
-        desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
+        desired_roll_idx_ =
+            vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
     } else {
-        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+        desired_heading_idx_ =
+            vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
         // Outer loop heading PID
         if (!heading_pid_.init(params["heading_pid"], true)) {
             std::cout << "Failed to set heading PID" << std::endl;
         }
     }
-    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_altitude_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
     // Setup output variables

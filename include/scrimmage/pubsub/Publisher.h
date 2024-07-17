@@ -49,7 +49,9 @@ using MessageBasePtr = std::shared_ptr<MessageBase>;
 class Publisher : public NetworkDevice {
  public:
     Publisher();
-    Publisher(const std::string &topic, const unsigned int &max_queue_size, const bool &enable_queue_size,
+    Publisher(const std::string &topic,
+              const unsigned int &max_queue_size,
+              const bool &enable_queue_size,
               EntityPluginPtr plugin);
 
     template <class T>

@@ -52,7 +52,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::motor_schemas::MoveToGoalMS, MoveToGoalMS_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::motor_schemas::MoveToGoalMS,
+                MoveToGoalMS_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -76,7 +78,8 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
     }
 
     // Initialize PID controller class
-    speed_pid_.set_parameters(sc::get("p_gain", params, 0.5), sc::get("i_gain", params, 0.0),
+    speed_pid_.set_parameters(sc::get("p_gain", params, 0.5),
+                              sc::get("i_gain", params, 0.0),
                               sc::get("d_gain", params, 0.0));
     speed_pid_.set_integral_band(sc::get("integral_band", params, 0.0));
     speed_pid_.set_setpoint(0.0);
@@ -93,7 +96,11 @@ void MoveToGoalMS::init(std::map<std::string, std::string> &params) {
 
     auto wp_cb = [&](scrimmage::MessagePtr<Waypoint> msg) {
         wp_ = msg->data;
-        parent_->projection()->Forward(wp_.latitude(), wp_.longitude(), wp_.altitude(), wp_local_(0), wp_local_(1),
+        parent_->projection()->Forward(wp_.latitude(),
+                                       wp_.longitude(),
+                                       wp_.altitude(),
+                                       wp_local_(0),
+                                       wp_local_(1),
                                        wp_local_(2));
     };
     subscribe<Waypoint>("LocalNetwork", "Waypoint", wp_cb);

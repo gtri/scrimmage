@@ -55,7 +55,9 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::WaypointGenerator, WaypointGenerator_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::WaypointGenerator,
+                WaypointGenerator_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -63,8 +65,8 @@ namespace autonomy {
 WaypointGenerator::WaypointGenerator() {}
 
 void WaypointGenerator::init(std::map<std::string, std::string> &params) {
-    waypoint_color_ =
-        sc::str2container<std::vector<int>>(sc::get<std::string>("waypoint_color", params, "255,0,0"), ",");
+    waypoint_color_ = sc::str2container<std::vector<int>>(
+        sc::get<std::string>("waypoint_color", params, "255,0,0"), ",");
 
     show_waypoints_ = sc::get<bool>("show_waypoints", params, false);
 
@@ -95,7 +97,8 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
 
             Waypoint wp(lat, lon, alt);
             wp.set_time(std::stod(vec[1]));
-            scrimmage::Quaternion quat(sc::Angles::deg2rad(std::stod(vec[5])), sc::Angles::deg2rad(std::stod(vec[6])),
+            scrimmage::Quaternion quat(sc::Angles::deg2rad(std::stod(vec[5])),
+                                       sc::Angles::deg2rad(std::stod(vec[6])),
                                        sc::Angles::deg2rad(std::stod(vec[7])));
             wp.set_quat(quat);
             wp.set_position_tolerance(std::stod(vec[8]));
@@ -167,7 +170,8 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         auto sphere = std::make_shared<scrimmage_proto::Shape>();
         sphere->set_opacity(0.25);
         sphere->set_persistent(true);
-        sc::set(sphere->mutable_color(), waypoint_color_[0], waypoint_color_[1], waypoint_color_[2]);
+        sc::set(
+            sphere->mutable_color(), waypoint_color_[0], waypoint_color_[1], waypoint_color_[2]);
 
         sphere->mutable_sphere()->set_radius(wp.position_tolerance());
         sc::set(sphere->mutable_sphere()->mutable_center(), x, y, z);

@@ -71,7 +71,15 @@ class Log {
 
     Log();
 
-    enum FileType { FRAMES = 0, SHAPES = 1, UTMTERRAIN = 2, SIMINFO = 3, CONTACTVISUAL = 4, GUIMSG = 5, MSG = 6 };
+    enum FileType {
+        FRAMES = 0,
+        SHAPES = 1,
+        UTMTERRAIN = 2,
+        SIMINFO = 3,
+        CONTACTVISUAL = 4,
+        GUIMSG = 5,
+        MSG = 6
+    };
 
     enum Mode { READ = 0, WRITE = 1, NONE };
 
@@ -160,9 +168,12 @@ class Log {
     std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> utm_terrain_;
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visual_;
 
-    bool writeDelimitedTo(const google::protobuf::MessageLite &message, ZeroCopyOutputStreamPtr rawOutput);
+    bool writeDelimitedTo(const google::protobuf::MessageLite &message,
+                          ZeroCopyOutputStreamPtr rawOutput);
 
-    bool readDelimitedFrom(const std::string &filename, ZeroCopyInputStreamPtr rawInput, MessageLitePtr message,
+    bool readDelimitedFrom(const std::string &filename,
+                           ZeroCopyInputStreamPtr rawInput,
+                           MessageLitePtr message,
                            bool &clean_eof);
 
     bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream);

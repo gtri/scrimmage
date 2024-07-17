@@ -95,7 +95,8 @@ void ROSAltimeter::init(std::map<std::string, std::string> &params) {
     // between flights.
     sc::StatePtr &state = parent_->state_truth();
     double lat_init, lon_init, alt_init;
-    parent_->projection()->Reverse(state->pos()(0), state->pos()(1), state->pos()(2), lat_init, lon_init, alt_init);
+    parent_->projection()->Reverse(
+        state->pos()(0), state->pos()(1), state->pos()(2), lat_init, lon_init, alt_init);
     monotonic_ = static_cast<float>(alt_init);
 }
 
@@ -115,7 +116,8 @@ bool ROSAltimeter::step() {
     // monotonic
     double lat, lon, alt;
     // cartesian(x, y, z) to (lat, long, alt) using Geographic lib
-    parent_->projection()->Reverse(state->pos()(0), state->pos()(1), state->pos()(2), lat, lon, alt);
+    parent_->projection()->Reverse(
+        state->pos()(0), state->pos()(1), state->pos()(2), lat, lon, alt);
     alt_msg.monotonic = monotonic_;
     // If you print here monotonic will look like it's changing, but if you
     // ROSTopic echo it will be a static number. cout << alt_msg.monotonic <<

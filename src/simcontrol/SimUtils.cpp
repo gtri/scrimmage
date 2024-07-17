@@ -55,17 +55,26 @@ using std::endl;
 
 namespace scrimmage {
 
-bool create_ent_inters(const SimUtilsInfo &info, ContactMapPtr contacts, std::list<scrimmage_proto::ShapePtr> &shapes,
-                       std::list<EntityInteractionPtr> &ent_inters, const GlobalServicePtr global_services,
-                       const std::set<std::string> &plugin_tags,
-                       std::function<void(std::map<std::string, std::string> &)> param_override_func,
-                       const int &debug_level) {
+bool create_ent_inters(
+    const SimUtilsInfo &info,
+    ContactMapPtr contacts,
+    std::list<scrimmage_proto::ShapePtr> &shapes,
+    std::list<EntityInteractionPtr> &ent_inters,
+    const GlobalServicePtr global_services,
+    const std::set<std::string> &plugin_tags,
+    std::function<void(std::map<std::string, std::string> &)> param_override_func,
+    const int &debug_level) {
     for (std::string ent_inter_name : info.mp->entity_interactions()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides = info.mp->attributes()[ent_inter_name];
 
-        PluginStatus<EntityInteraction> status = info.plugin_manager->make_plugin<EntityInteraction>(
-            "scrimmage::EntityInteraction", ent_inter_name, *info.file_search, config_parse, overrides, plugin_tags);
+        PluginStatus<EntityInteraction> status =
+            info.plugin_manager->make_plugin<EntityInteraction>("scrimmage::EntityInteraction",
+                                                                ent_inter_name,
+                                                                *info.file_search,
+                                                                config_parse,
+                                                                overrides,
+                                                                plugin_tags);
 
         if (status.status == PluginStatus<EntityInteraction>::cast_failed) {
             cout << "Failed to load entity interaction plugin: " << ent_inter_name << endl;
@@ -111,7 +120,9 @@ bool create_ent_inters(const SimUtilsInfo &info, ContactMapPtr contacts, std::li
     return true;
 }
 
-bool create_metrics(const SimUtilsInfo &info, ContactMapPtr contacts, std::list<MetricsPtr> &metrics_list,
+bool create_metrics(const SimUtilsInfo &info,
+                    ContactMapPtr contacts,
+                    std::list<MetricsPtr> &metrics_list,
                     const std::set<std::string> &plugin_tags,
                     std::function<void(std::map<std::string, std::string> &)> param_override_func,
                     const int &debug_level) {
@@ -119,8 +130,13 @@ bool create_metrics(const SimUtilsInfo &info, ContactMapPtr contacts, std::list<
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides = info.mp->attributes()[metrics_name];
 
-        PluginStatus<Metrics> status = info.plugin_manager->make_plugin<Metrics>(
-            "scrimmage::Metrics", metrics_name, *info.file_search, config_parse, overrides, plugin_tags);
+        PluginStatus<Metrics> status =
+            info.plugin_manager->make_plugin<Metrics>("scrimmage::Metrics",
+                                                      metrics_name,
+                                                      *info.file_search,
+                                                      config_parse,
+                                                      overrides,
+                                                      plugin_tags);
 
         if (status.status == PluginStatus<Metrics>::cast_failed) {
             cout << "Failed to load metrics: " << metrics_name << endl;
@@ -172,7 +188,8 @@ std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) { shutdown_handler(signal); }
 }  // namespace
 
-boost::optional<std::string> run_test(const std::string &mission, const bool &init_python,
+boost::optional<std::string> run_test(const std::string &mission,
+                                      const bool &init_python,
                                       const bool &shutdown_python) {
     SimControl simcontrol;
     if (not simcontrol.init(mission, init_python)) {
@@ -210,15 +227,22 @@ boost::optional<std::string> run_test(const std::string &mission, const bool &in
     return out;
 }
 
-bool create_networks(const SimUtilsInfo &info, NetworkMap &networks, const std::set<std::string> &plugin_tags,
+bool create_networks(const SimUtilsInfo &info,
+                     NetworkMap &networks,
+                     const std::set<std::string> &plugin_tags,
                      std::function<void(std::map<std::string, std::string> &)> param_override_func,
                      const int &debug_level) {
     for (std::string network_name : info.mp->network_names()) {
         ConfigParse config_parse;
         std::map<std::string, std::string> &overrides = info.mp->attributes()[network_name];
 
-        PluginStatus<Network> status = info.plugin_manager->make_plugin<Network>(
-            "scrimmage::Network", network_name, *info.file_search, config_parse, overrides, plugin_tags);
+        PluginStatus<Network> status =
+            info.plugin_manager->make_plugin<Network>("scrimmage::Network",
+                                                      network_name,
+                                                      *info.file_search,
+                                                      config_parse,
+                                                      overrides,
+                                                      plugin_tags);
 
         if (status.status == PluginStatus<Network>::cast_failed) {
             cout << "Failed to load network plugin: " << network_name << endl;

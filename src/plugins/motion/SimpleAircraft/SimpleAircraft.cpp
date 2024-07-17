@@ -53,7 +53,8 @@ enum ControlParams { THRUST = 0, TURN_RATE, PITCH_RATE, CONTROL_NUM_ITEMS };
 
 std::tuple<int, int, int> SimpleAircraft::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool SimpleAircraft::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool SimpleAircraft::init(std::map<std::string, std::string> &info,
+                          std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     Quaternion &quat = state_->quat();
@@ -74,9 +75,11 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info, std::map<std
     x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
 
     length_ = get("turning_radius", params, 50.0);
-    speedTarget_ = get("speed_target", params,
+    speedTarget_ = get("speed_target",
+                       params,
                        50.0);  // The "0" speed for adjusting the turning radius
-    lengthSlopePerSpeed_ = get("radius_slope_per_speed", params,
+    lengthSlopePerSpeed_ = get("radius_slope_per_speed",
+                               params,
                                0.0);  // Enables adjusting the turning radius based on speed
 
     state_->pos() << x_[X], x_[Y], x_[Z];
@@ -100,8 +103,8 @@ bool SimpleAircraft::step(double time, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
-    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]),
-        x_[SPEED] * sin(x_[PITCH]);
+    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]),
+        x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
 
     return true;
 }

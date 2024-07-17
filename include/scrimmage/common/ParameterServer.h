@@ -55,9 +55,12 @@ class ParameterServer {
     void unregister_params(PluginPtr owner);
 
     template <class T>
-    bool register_param(const std::string &name, T &variable, std::function<void(const T &value)> callback,
+    bool register_param(const std::string &name,
+                        T &variable,
+                        std::function<void(const T &value)> callback,
                         PluginPtr owner) {
-        auto it = params_[name][typeid(T).name()].emplace(std::make_shared<Parameter<T>>(variable, callback, owner));
+        auto it = params_[name][typeid(T).name()].emplace(
+            std::make_shared<Parameter<T>>(variable, callback, owner));
         return it.second;  // return false if the param already exists
     }
 
@@ -105,7 +108,8 @@ class ParameterServer {
     // Key 1: parameter name (string)
     // Key 2: parameter type (as a string)
     // Value: Set of ParameterBasePtr
-    std::unordered_map<std::string, std::unordered_map<std::string, std::set<ParameterBasePtr>>> params_;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::set<ParameterBasePtr>>>
+        params_;
 };
 using ParameterServerPtr = std::shared_ptr<ParameterServer>;
 }  // namespace scrimmage

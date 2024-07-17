@@ -103,13 +103,19 @@ class Interface {
 
     std::list<std::shared_ptr<scrimmage_proto::Frame> > &frames() { return frames_list_; }
 
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &utm_terrain() { return utm_terrain_list_; }
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &utm_terrain() {
+        return utm_terrain_list_;
+    }
 
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &contact_visual() { return contact_visual_list_; }
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &contact_visual() {
+        return contact_visual_list_;
+    }
 
     std::list<scrimmage_proto::GUIMsg> &gui_msg() { return gui_msg_list_; }
 
-    std::list<scrimmage_proto::WorldPointClicked> &world_point_clicked_msg() { return world_point_clicked_msg_list_; }
+    std::list<scrimmage_proto::WorldPointClicked> &world_point_clicked_msg() {
+        return world_point_clicked_msg_list_;
+    }
 
     std::list<scrimmage_proto::SimInfo> &sim_info() { return sim_info_list_; }
 

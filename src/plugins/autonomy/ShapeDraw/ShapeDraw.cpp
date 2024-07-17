@@ -53,7 +53,9 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ShapeDraw, ShapeDraw_p
 namespace scrimmage {
 namespace autonomy {
 
-ShapeDraw::ShapeDraw() : follow_id_(-1), init_(true) {}
+ShapeDraw::ShapeDraw()
+    : follow_id_(-1),
+      init_(true) {}
 
 void ShapeDraw::init(std::map<std::string, std::string> &params) {
     double initial_speed = sc::get<double>("initial_speed", params, 21);
@@ -85,7 +87,8 @@ void ShapeDraw::draw_ellipse(double t, double dt) {
     ellipse_shape_->mutable_ellipse()->set_x_radius(10);
     ellipse_shape_->mutable_ellipse()->set_y_radius(5);
 
-    sc::Quaternion quat(sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(45.0));
+    sc::Quaternion quat(
+        sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(45.0));
     sc::set(ellipse_shape_->mutable_ellipse()->mutable_quat(), quat);
 
     ellipse_shape_->set_persistent(true);
@@ -101,7 +104,8 @@ void ShapeDraw::draw_cuboid(double t, double dt) {
     cuboid_shape_->mutable_cuboid()->set_y_length(5);
     cuboid_shape_->mutable_cuboid()->set_z_length(5);
 
-    sc::Quaternion quat(sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(45.0), sc::Angles::deg2rad(45.0));
+    sc::Quaternion quat(
+        sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(45.0), sc::Angles::deg2rad(45.0));
     sc::set(cuboid_shape_->mutable_cuboid()->mutable_quat(), quat);
 
     cuboid_shape_->set_persistent(true);
@@ -115,7 +119,8 @@ void ShapeDraw::draw_mesh(double t, double dt) {
     // corresponds to zephyr-red.xml
     mesh_shape_->mutable_mesh()->set_name("zephyr-red");
 
-    sc::Quaternion quat(sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(45.0), sc::Angles::deg2rad(90.0));
+    sc::Quaternion quat(
+        sc::Angles::deg2rad(0.0), sc::Angles::deg2rad(45.0), sc::Angles::deg2rad(90.0));
     sc::set(mesh_shape_->mutable_mesh()->mutable_quat(), quat);
     mesh_shape_->mutable_mesh()->set_scale(10.0);
     sc::set(mesh_shape_->mutable_color(), 255, 255, 255);

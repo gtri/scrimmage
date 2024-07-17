@@ -67,7 +67,8 @@ namespace scrimmage {
 namespace sensor {
 class CameraConfig {
  public:
-    msr::airlib::ImageCaptureBase::ImageType img_type = msr::airlib::ImageCaptureBase::ImageType::Scene;
+    msr::airlib::ImageCaptureBase::ImageType img_type =
+        msr::airlib::ImageCaptureBase::ImageType::Scene;
 
     std::string vehicle_name = "none";
     std::string cam_name = "none";
@@ -128,7 +129,9 @@ class AirSimSensor : public scrimmage::Sensor {
 
  protected:
     std::string vehicle_name_ = "none";
-    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state, int frame_num);
+    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg,
+                   StatePtr& state,
+                   int frame_num);
     scrimmage::CSV csv;
     int airsim_frame_num_ = 0;
 

@@ -51,7 +51,10 @@ struct PrintEnums {
 };
 
 struct PrintData {
-    PrintData() : time_(std::nan("")), name_("UnknownClass"), entity_id_(-1) {}
+    PrintData()
+        : time_(std::nan("")),
+          name_("UnknownClass"),
+          entity_id_(-1) {}
     double time_;
     std::string name_;
     int entity_id_;
@@ -59,7 +62,10 @@ struct PrintData {
 
 class Print {
  public:
-    Print() : time_(nullptr), log_dir_(""), output_flag_(PrintEnums::WRITE_TO::BOTH) {}
+    Print()
+        : time_(nullptr),
+          log_dir_(""),
+          output_flag_(PrintEnums::WRITE_TO::BOTH) {}
 
     void init(TimePtr &time, std::string log_dir);
     void init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag);
@@ -82,8 +88,14 @@ class Print {
     static std::string formatTime(double time);
     static std::string formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data, std::string msg);
 
-    void print(std::ostream &stream, PrintEnums::WARN_LEVEL level, EntityPlugin &caller, std::string msg);
-    void print(std::ostream &stream, PrintEnums::WARN_LEVEL level, PrintData &data, std::string msg);
+    void print(std::ostream &stream,
+               PrintEnums::WARN_LEVEL level,
+               EntityPlugin &caller,
+               std::string msg);
+    void print(std::ostream &stream,
+               PrintEnums::WARN_LEVEL level,
+               PrintData &data,
+               std::string msg);
 
  private:
     TimePtr time_;

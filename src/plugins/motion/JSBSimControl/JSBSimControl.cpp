@@ -85,7 +85,8 @@ JSBSimControl::JSBSimControl() {
 
 std::tuple<int, int, int> JSBSimControl::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool JSBSimControl::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool JSBSimControl::init(std::map<std::string, std::string> &info,
+                         std::map<std::string, std::string> &params) {
     draw_vel_ = sc::get<double>("drawVel", params, 1.0);
     draw_ang_vel_ = sc::get<double>("drawAngVel", params, 10.0);
     draw_acc_ = sc::get<double>("drawAcc", params, 1.0);
@@ -142,7 +143,8 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info, std::map<std:
     ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() * meters2feet);
 
     Eigen::Vector3d lla;
-    parent_->projection()->Reverse(state_->pos()[0], state_->pos()[1], state_->pos()[2], lla[0], lla[1], lla[2]);
+    parent_->projection()->Reverse(
+        state_->pos()[0], state_->pos()[1], state_->pos()[2], lla[0], lla[1], lla[2]);
     ic->SetLatitudeDegIC(lla[0]);
     ic->SetLongitudeDegIC(lla[1]);
     ic->SetAltitudeASLFtIC(lla[2] * meters2feet);
@@ -224,22 +226,29 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info, std::map<std:
     az_pilot_node_ = mgr->GetNode("accelerations/a-pilot-z-ft_sec2");
 
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
-                                   altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0), state_->pos()(1),
+    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
+                                   longitude_node_->getDoubleValue(),
+                                   altitude_node_->getDoubleValue() * feet2meters,
+                                   state_->pos()(0),
+                                   state_->pos()(1),
                                    state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
-    state_->quat().set(roll_node_->getDoubleValue(), -pitch_node_->getDoubleValue(),
+    state_->quat().set(roll_node_->getDoubleValue(),
+                       -pitch_node_->getDoubleValue(),
                        ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters, vel_north_node_->getDoubleValue() * feet2meters,
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+        vel_north_node_->getDoubleValue() * feet2meters,
         -vel_down_node_->getDoubleValue() * feet2meters;
 
-    Eigen::Vector3d ang_vel_FLU(p_node_->getDoubleValue(), -q_node_->getDoubleValue(), -r_node_->getDoubleValue());
+    Eigen::Vector3d ang_vel_FLU(
+        p_node_->getDoubleValue(), -q_node_->getDoubleValue(), -r_node_->getDoubleValue());
     state_->ang_vel() = state_->quat().rotate(ang_vel_FLU);
 
-    Eigen::Vector3d a_FLU(ax_pilot_node_->getDoubleValue(), -ay_pilot_node_->getDoubleValue(),
+    Eigen::Vector3d a_FLU(ax_pilot_node_->getDoubleValue(),
+                          -ay_pilot_node_->getDoubleValue(),
                           -az_pilot_node_->getDoubleValue());
     linear_accel_body_ = state_->quat().rotate(a_FLU);
 
@@ -266,19 +275,25 @@ bool JSBSimControl::step(double time, double dt) {
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
-    parent_->projection()->Forward(latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
-                                   altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0), state_->pos()(1),
+    parent_->projection()->Forward(latitude_node_->getDoubleValue(),
+                                   longitude_node_->getDoubleValue(),
+                                   altitude_node_->getDoubleValue() * feet2meters,
+                                   state_->pos()(0),
+                                   state_->pos()(1),
                                    state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
-    state_->quat().set(roll_node_->getDoubleValue(), -pitch_node_->getDoubleValue(),
+    state_->quat().set(roll_node_->getDoubleValue(),
+                       -pitch_node_->getDoubleValue(),
                        ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters, vel_north_node_->getDoubleValue() * feet2meters,
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
+        vel_north_node_->getDoubleValue() * feet2meters,
         -vel_down_node_->getDoubleValue() * feet2meters;
 
-    Eigen::Vector3d ang_vel_FLU(p_node_->getDoubleValue(), -q_node_->getDoubleValue(), -r_node_->getDoubleValue());
+    Eigen::Vector3d ang_vel_FLU(
+        p_node_->getDoubleValue(), -q_node_->getDoubleValue(), -r_node_->getDoubleValue());
     state_->ang_vel() = state_->quat().rotate(ang_vel_FLU);
 
     Eigen::Vector3d a_FLU(ax_pilot_node_->getDoubleValue() * feet2meters,

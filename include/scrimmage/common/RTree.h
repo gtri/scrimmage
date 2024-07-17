@@ -68,8 +68,10 @@ namespace scrimmage {
 
 typedef boost::geometry::model::point<double, 3, boost::geometry::cs::cartesian> point;
 typedef std::pair<point, ID> point_id_t;
-typedef boost::geometry::index::rtree<point_id_t, boost::geometry::index::dynamic_rstar,
-                                      boost::geometry::index::indexable<point_id_t>, std::equal_to<point_id_t>,
+typedef boost::geometry::index::rtree<point_id_t,
+                                      boost::geometry::index::dynamic_rstar,
+                                      boost::geometry::index::indexable<point_id_t>,
+                                      std::equal_to<point_id_t>,
                                       std::allocator<point_id_t>>
     rtree_t;
 
@@ -80,9 +82,15 @@ class RTree {
     void init(const unsigned int &size);
 
     void add(const Eigen::Vector3d &pos, const ID &id);
-    void nearest_n_neighbors(const Eigen::Vector3d &pos, std::vector<ID> &neighbors, unsigned int n, int self_id = -1,
+    void nearest_n_neighbors(const Eigen::Vector3d &pos,
+                             std::vector<ID> &neighbors,
+                             unsigned int n,
+                             int self_id = -1,
                              int team_id = -1) const;
-    void neighbors_in_range(const Eigen::Vector3d &pos, std::vector<ID> &neighbors, double dist, int self_id = -1,
+    void neighbors_in_range(const Eigen::Vector3d &pos,
+                            std::vector<ID> &neighbors,
+                            double dist,
+                            int self_id = -1,
                             int team_id = -1) const;
 
  protected:

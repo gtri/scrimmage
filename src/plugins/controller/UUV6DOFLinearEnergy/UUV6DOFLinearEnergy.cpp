@@ -45,7 +45,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UUV6DOFLinearEnergy, UUV6DOFLinearEnergy_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::UUV6DOFLinearEnergy,
+                UUV6DOFLinearEnergy_plugin)
 
 namespace scrimmage {
 namespace controller {

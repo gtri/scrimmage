@@ -49,7 +49,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::CommandStringRelay, CommandStringRelay_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::CommandStringRelay,
+                CommandStringRelay_plugin)
 
 namespace scrimmage {
 namespace autonomy {

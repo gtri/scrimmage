@@ -69,7 +69,8 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-bool Unicycle3D::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool Unicycle3D::init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) {
     auto get_max_min = [&params](const std::string &str, double &max, double &min) {
         max = sc::get<double>(str + "_max", params, max);
         min = sc::get<double>(str + "_min", params, -max);
@@ -138,20 +139,25 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info, std::map<std::st
 
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-unicycle-states.csv");
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
+                         "-unicycle-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{
-            "t",    "x",     "y",   "z",     "U",         "V",          "W",         "P",  "Q",  "R",
-            "roll", "pitch", "yaw", "speed", "turn_rate", "pitch_rate", "roll_rate", "Uw", "Vw", "Ww"});
+            "t",         "x",          "y",         "z",    "U",     "V",   "W",
+            "P",         "Q",          "R",         "roll", "pitch", "yaw", "speed",
+            "turn_rate", "pitch_rate", "roll_rate", "Uw",   "Vw",    "Ww"});
     }
     return true;
 }
 
 bool Unicycle3D::step(double t, double dt) {
     // Get inputs and saturate
-    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), turn_rate_min_, turn_rate_max_);
-    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), pitch_rate_min_, pitch_rate_max_);
-    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), roll_rate_min_, roll_rate_max_);
+    turn_rate_ =
+        boost::algorithm::clamp(vars_.input(turn_rate_idx_), turn_rate_min_, turn_rate_max_);
+    pitch_rate_ =
+        boost::algorithm::clamp(vars_.input(pitch_rate_idx_), pitch_rate_min_, pitch_rate_max_);
+    roll_rate_ =
+        boost::algorithm::clamp(vars_.input(roll_rate_idx_), roll_rate_min_, roll_rate_max_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);

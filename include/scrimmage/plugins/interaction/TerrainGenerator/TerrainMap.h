@@ -54,10 +54,17 @@ class TerrainMap {
     enum class Technique { RANDOM_WALK, LINEAR, LINEAR_WALK };
 
     TerrainMap();
-    TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng, std::shared_ptr<std::default_random_engine> gener,
-               const Technique &technique, const Eigen::Vector3d &center, const double &x_length,
-               const double &y_length, const double &x_resolution, const double &y_resolution, const double &z_min,
-               const double &z_max, const Eigen::Vector3d &color);
+    TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
+               std::shared_ptr<std::default_random_engine> gener,
+               const Technique &technique,
+               const Eigen::Vector3d &center,
+               const double &x_length,
+               const double &y_length,
+               const double &x_resolution,
+               const double &y_resolution,
+               const double &z_min,
+               const double &z_max,
+               const Eigen::Vector3d &color);
     explicit TerrainMap(const scrimmage_msgs::Terrain &terrain);
     scrimmage::ShapePtr shape();
     scrimmage_msgs::Terrain proto();

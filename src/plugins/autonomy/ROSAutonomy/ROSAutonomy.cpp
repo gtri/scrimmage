@@ -74,7 +74,8 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1, &ROSAutonomy::cmd_vel_cb, this);
     odom_pub_ = nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/odom", 1);
     base_scan_pub_ = nh_->advertise<sensor_msgs::LaserScan>(ros_namespace_ + "/base_scan", 1);
-    base_pose_truth_pub = nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/base_pose_ground_truth", 1);
+    base_pose_truth_pub =
+        nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/base_pose_ground_truth", 1);
 
     odom_broadcaster_ = std::make_shared<tf::TransformBroadcaster>();
     laser_broadcaster_ = std::make_shared<tf::TransformBroadcaster>();
@@ -91,7 +92,9 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
         tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
     laser_trans_.transform.rotation = laser_quat;
 
-    auto pc_cb = [&](scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) { pcl_ = msg->data; };
+    auto pc_cb = [&](scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) {
+        pcl_ = msg->data;
+    };
     subscribe<sc::sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
 
     vars_.output(speed_idx_, 0);

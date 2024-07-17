@@ -45,7 +45,8 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::HarmonicOscillatorConstController,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::HarmonicOscillatorConstController,
                 HarmonicOscillatorConstController_plugin)
 
 namespace scrimmage {
@@ -53,7 +54,8 @@ namespace controller {
 
 void HarmonicOscillatorConstController::init(std::map<std::string, std::string> &params) {
     acceleration_z_ = sc::get<double>("acceleration_z", params, 0);
-    acceleration_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
+    acceleration_z_idx_ =
+        vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
 }
 
 bool HarmonicOscillatorConstController::step(double t, double dt) {

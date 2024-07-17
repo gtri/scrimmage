@@ -54,8 +54,11 @@ namespace scrimmage {
 namespace autonomy {
 
 std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> init_actor_func(
-    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies, const std::map<std::string, std::string> &params,
-    CombineActors combine_actors, UseGlobalSensor global_sensor, bool grpc_mode) {
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
+    const std::map<std::string, std::string> &params,
+    CombineActors combine_actors,
+    UseGlobalSensor global_sensor,
+    bool grpc_mode) {
     if (autonomies.empty()) {
         return std::make_tuple(OpenAIActions(), OpenAIObservations(), pybind11::none());
     }

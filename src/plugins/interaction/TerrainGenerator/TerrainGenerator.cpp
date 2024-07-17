@@ -50,7 +50,9 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::TerrainGenerator, TerrainGenerator_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::TerrainGenerator,
+                TerrainGenerator_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -63,8 +65,10 @@ bool TerrainGenerator::init(std::map<std::string, std::string> &mission_params,
     double y_length = sc::get<double>("y_length", plugin_params, 500.0);
     double x_resolution = sc::get<double>("x_resolution", plugin_params, 1.0);
     double y_resolution = sc::get<double>("y_resolution", plugin_params, 1.0);
-    double z_min = sc::get<double>("z_min", plugin_params, -std::numeric_limits<double>::infinity());
-    double z_max = sc::get<double>("z_max", plugin_params, +std::numeric_limits<double>::infinity());
+    double z_min =
+        sc::get<double>("z_min", plugin_params, -std::numeric_limits<double>::infinity());
+    double z_max =
+        sc::get<double>("z_max", plugin_params, +std::numeric_limits<double>::infinity());
     double z_std = sc::get<double>("z_std", plugin_params, 1.0);
 
     std::string technique_str = sc::get("technique", plugin_params, "RANDOM_WALK");
@@ -93,25 +97,38 @@ bool TerrainGenerator::init(std::map<std::string, std::string> &mission_params,
 
     std::vector<double> center_vec;
     Eigen::Vector3d center_point(0, 0, 0);
-    if (str2container(sc::get<std::string>("center", plugin_params, "0, 0, 0"), ", ", center_vec, 3)) {
+    if (str2container(
+            sc::get<std::string>("center", plugin_params, "0, 0, 0"), ", ", center_vec, 3)) {
         center_point = vec2eigen(center_vec);
     }
 
     std::vector<double> color_vec;
     Eigen::Vector3d color(0, 0, 0);
-    if (str2container(sc::get<std::string>("color", plugin_params, "0, 255, 0"), ", ", color_vec, 3)) {
+    if (str2container(
+            sc::get<std::string>("color", plugin_params, "0, 255, 0"), ", ", color_vec, 3)) {
         color = vec2eigen(color_vec);
     }
 
-    map_ = TerrainMap(random_->make_rng_normal(0.0, z_std), random_->gener(), technique, center_point, x_length,
-                      y_length, x_resolution, y_resolution, z_min, z_max, color);
+    map_ = TerrainMap(random_->make_rng_normal(0.0, z_std),
+                      random_->gener(),
+                      technique,
+                      center_point,
+                      x_length,
+                      y_length,
+                      x_resolution,
+                      y_resolution,
+                      z_min,
+                      z_max,
+                      color);
 
     terrain_pub_ = advertise("GlobalNetwork", "Terrain");
 
     return true;
 }
 
-bool TerrainGenerator::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
+bool TerrainGenerator::step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                               double t,
+                                               double dt) {
     if (not terrain_published_) {
         terrain_published_ = true;
 

@@ -67,8 +67,10 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
     prob_transmit_ = std::stod(plugin_params.at("prob_transmit"));
     filter_comms_plane_ = sc::get<bool>("filter_comms_plane", plugin_params, filter_comms_plane_);
     if (filter_comms_plane_) {
-        comms_boundary_altitude_ = sc::get<double>("comms_boundary_altitude", plugin_params, comms_boundary_altitude_);
-        comms_boundary_epsilon_ = sc::get<double>("comms_boundary_epsilon", plugin_params, comms_boundary_epsilon_);
+        comms_boundary_altitude_ =
+            sc::get<double>("comms_boundary_altitude", plugin_params, comms_boundary_altitude_);
+        comms_boundary_epsilon_ =
+            sc::get<double>("comms_boundary_epsilon", plugin_params, comms_boundary_epsilon_);
     }
     return true;
 }
@@ -105,7 +107,8 @@ bool SphereNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
     for (sc::ID id : neigh) {
         auto ent_neighbor = id_to_ent_map_->find(id.id());
         if (ent_neighbor == id_to_ent_map_->end()) {
-            std::cout << "Warning: Sphere Network entity id doesn't exists: " << id.id() << std::endl;
+            std::cout << "Warning: Sphere Network entity id doesn't exists: " << id.id()
+                      << std::endl;
             continue;
         }
         if (not filter_comms_plane_) {

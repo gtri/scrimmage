@@ -55,7 +55,8 @@ enum ControlParams { THRUST = 0, ELEVATOR, AILERON, RUDDER, CONTROL_NUM_ITEMS };
 
 std::tuple<int, int, int> RigidBody6DOF::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool RigidBody6DOF::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool RigidBody6DOF::init(std::map<std::string, std::string> &info,
+                         std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
@@ -92,7 +93,8 @@ bool RigidBody6DOF::init(std::map<std::string, std::string> &info, std::map<std:
 
 bool RigidBody6DOF::step(double time, double dt) {
     if (ctrl_u_ == nullptr) {
-        std::shared_ptr<Controller> ctrl = std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
+        std::shared_ptr<Controller> ctrl =
+            std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
         if (ctrl) {
             ctrl_u_ = ctrl->u();
         }
@@ -163,7 +165,8 @@ void RigidBody6DOF::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[W] = 0;  // x[U]*x[Q] - x[V]*x[P] + g*cos(phi)*cos(theta) + F_z / m;
 
     double L = aileron + Ixx * P_dot - Ixz * R_dot - Ixz * x[P] * x[Q] + (Izz - Iyy) * x[R] * x[Q];
-    double M = elevator + Iyy * Q_dot + (Ixx - Izz) * x[P] * x[R] + (Ixz * (pow(x[P], 2) - pow(x[R], 2)));
+    double M =
+        elevator + Iyy * Q_dot + (Ixx - Izz) * x[P] * x[R] + (Ixz * (pow(x[P], 2) - pow(x[R], 2)));
     double N = rudder + Izz * R_dot - Ixz * P_dot + (Iyy - Ixx) * x[P] * x[Q] + Ixz * x[Q] * x[R];
 
     double L_tic = L + Ixz * x[P] * x[Q] - (Izz - Iyy) * x[R] * x[Q];

@@ -46,7 +46,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::ROSShapeViz, ROSShapeViz_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::ROSShapeViz,
+                ROSShapeViz_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -83,7 +85,8 @@ void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr &msg) {
         shape->set_hash_set(true);
 
         draw_shape(shape);
-    } else if (msg->type == visualization_msgs::Marker::SPHERE && msg->action == 0 /* ADD an object */) {
+    } else if (msg->type == visualization_msgs::Marker::SPHERE &&
+               msg->action == 0 /* ADD an object */) {
         Eigen::Vector3d point(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
 
         auto shape = shape::make_sphere(point, msg->scale.x, Eigen::Vector3d(0, 0, 0));

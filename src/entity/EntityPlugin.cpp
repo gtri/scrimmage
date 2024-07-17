@@ -62,7 +62,8 @@ void EntityPlugin::set_parent(EntityPtr parent) { parent_ = parent; }
 
 EntityPtr EntityPlugin::parent() { return parent_; }
 
-void EntityPlugin::set_scoped_property(const std::string &property_name, const MessageBasePtr &property) {
+void EntityPlugin::set_scoped_property(const std::string &property_name,
+                                       const MessageBasePtr &property) {
     parent_->properties()[name() + "/" + property_name] = property;
 }
 
@@ -73,14 +74,19 @@ MessageBasePtr EntityPlugin::get_scoped_property_helper(const std::string &prope
 
 std::list<scrimmage_proto::ShapePtr> &EntityPlugin::shapes() { return shapes_; }
 
-PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic, unsigned int max_queue_size) {
-    return pubsub_->advertise(network_name, topic, max_queue_size, true,
+PublisherPtr EntityPlugin::advertise(std::string network_name,
+                                     std::string topic,
+                                     unsigned int max_queue_size) {
+    return pubsub_->advertise(network_name,
+                              topic,
+                              max_queue_size,
+                              true,
                               std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
 PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic) {
-    return pubsub_->advertise(network_name, topic, 0, false,
-                              std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+    return pubsub_->advertise(
+        network_name, topic, 0, false, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
 void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
@@ -98,7 +104,9 @@ void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
     shapes_.push_back(s);
 }
 
-void EntityPlugin::set_param_server(const ParameterServerPtr &param_server) { param_server_ = param_server; }
+void EntityPlugin::set_param_server(const ParameterServerPtr &param_server) {
+    param_server_ = param_server;
+}
 
 bool EntityPlugin::step_loop_timer(double dt) {
     loop_timer_ -= dt;

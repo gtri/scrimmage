@@ -59,7 +59,8 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ArduPilot, ArduPilot_p
 namespace scrimmage {
 namespace autonomy {
 
-ArduPilot::ArduPilot() : angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
+ArduPilot::ArduPilot()
+    : angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
     for (int i = 0; i < MAX_NUM_SERVOS; i++) {
         servo_pkt_.servos[i] = 0;
     }
@@ -84,9 +85,14 @@ void ArduPilot::init(std::map<std::string, std::string>& params) {
             if (servo >= MAX_NUM_SERVOS) {
                 cout << "Warning: servo_map contains out-of-range servo index" << endl;
             } else {
-                scrimmage::controller::AxisScale at(servo, std::stod(vec[2]), std::stod(vec[3]), std::stod(vec[4]),
-                                                    std::stod(vec[5]), std::stod(vec[6]),
-                                                    vars_.declare(vec[0], VariableIO::Direction::Out));
+                scrimmage::controller::AxisScale at(
+                    servo,
+                    std::stod(vec[2]),
+                    std::stod(vec[3]),
+                    std::stod(vec[4]),
+                    std::stod(vec[5]),
+                    std::stod(vec[6]),
+                    vars_.declare(vec[0], VariableIO::Direction::Out));
                 servo_tfs_.push_back(at);
 
                 // cout << "Mapping servo " << at.axis_index() << " to channel "
@@ -117,15 +123,18 @@ void ArduPilot::init(std::map<std::string, std::string>& params) {
     }
 
     cout << "ArduPilot: sending to udp: " << to_ardupilot_ip << ":" << to_ardupilot_port << endl;
-    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip << ":" << from_ardupilot_port << endl;
+    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip << ":" << from_ardupilot_port
+         << endl;
 
     // Setup transmit socket
-    tx_socket_ = std::make_shared<ba::ip::udp::socket>(tx_io_service_, ba::ip::udp::endpoint(ba::ip::udp::v4(), 0));
+    tx_socket_ = std::make_shared<ba::ip::udp::socket>(tx_io_service_,
+                                                       ba::ip::udp::endpoint(ba::ip::udp::v4(), 0));
     tx_resolver_ = std::make_shared<ba::ip::udp::resolver>(tx_io_service_);
-    tx_endpoint_ = *(tx_resolver_->resolve({ba::ip::udp::v4(), to_ardupilot_ip, std::to_string(to_ardupilot_port)}));
+    tx_endpoint_ = *(tx_resolver_->resolve(
+        {ba::ip::udp::v4(), to_ardupilot_ip, std::to_string(to_ardupilot_port)}));
 
-    recv_socket_ = std::make_shared<ba::ip::udp::socket>(recv_io_service_,
-                                                         ba::ip::udp::endpoint(ba::ip::udp::v4(), from_ardupilot_port));
+    recv_socket_ = std::make_shared<ba::ip::udp::socket>(
+        recv_io_service_, ba::ip::udp::endpoint(ba::ip::udp::v4(), from_ardupilot_port));
     start_receive();
 
     state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
@@ -140,9 +149,12 @@ static double last_print_t = 0;
 static std::chrono::time_point<std::chrono::system_clock> last_print_wall_t;
 void ArduPilot::start_receive() {
     // Enable the receive async callback
-    recv_socket_->async_receive_from(
-        ba::buffer(recv_buffer_), recv_remote_endpoint_,
-        boost::bind(&ArduPilot::handle_receive, this, ba::placeholders::error, ba::placeholders::bytes_transferred));
+    recv_socket_->async_receive_from(ba::buffer(recv_buffer_),
+                                     recv_remote_endpoint_,
+                                     boost::bind(&ArduPilot::handle_receive,
+                                                 this,
+                                                 ba::placeholders::error,
+                                                 ba::placeholders::bytes_transferred));
 }
 
 void ArduPilot::close(double t) {
@@ -168,7 +180,8 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     } else {
         boost::system::error_code error;
         ba::ip::udp::socket::message_flags flags{0};
-        std::size_t nbytes = recv_socket_->receive_from(ba::buffer(recv_buffer_), recv_remote_endpoint_, flags, error);
+        std::size_t nbytes = recv_socket_->receive_from(
+            ba::buffer(recv_buffer_), recv_remote_endpoint_, flags, error);
 
         parse_receive(error, nbytes);
     }
@@ -176,7 +189,8 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     // Copy the received servo commands into the desired state
     servo_pkt_mutex_.lock();
     for (auto servo_tf : servo_tfs_) {
-        vars_.output(servo_tf.vector_index(), servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
+        vars_.output(servo_tf.vector_index(),
+                     servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
         // int prec = 9;
         // cout << std::setprecision(prec) << "servo_out"<<
         // servo_tf.axis_index() <<
@@ -188,8 +202,9 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     if (t - last_print_t > 5) {
         const auto t0 = std::chrono::system_clock::now();
         auto d = std::chrono::duration_cast<std::chrono::microseconds>(t0 - last_print_wall_t);
-        cout << "walltime: " << t0.time_since_epoch().count() << ", simtime: " << t << ", packets tx: " << ntx
-             << ", rx: " << nrx << ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz" << endl;
+        cout << "walltime: " << t0.time_since_epoch().count() << ", simtime: " << t
+             << ", packets tx: " << ntx << ", rx: " << nrx
+             << ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz" << endl;
         last_print_t = t;
         last_print_wall_t = t0;
         last_ntx = 0;
@@ -230,13 +245,18 @@ void ArduPilot::handle_receive(const boost::system::error_code& error, std::size
     start_receive();  // enable async receive for next message
 }
 
-ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(double t, sc::motion::RigidBody6DOFState& state) {
+ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(double t,
+                                                         sc::motion::RigidBody6DOFState& state) {
     fdm_packet fdm_pkt = {0};
 
     fdm_pkt.timestamp_us = t * 1e6;
 
     // x/y/z to lat/lon/alt conversion
-    parent_->projection()->Reverse(state.pos()(0), state.pos()(1), state.pos()(2), fdm_pkt.latitude, fdm_pkt.longitude,
+    parent_->projection()->Reverse(state.pos()(0),
+                                   state.pos()(1),
+                                   state.pos()(2),
+                                   fdm_pkt.latitude,
+                                   fdm_pkt.longitude,
                                    fdm_pkt.altitude);
 
     // convert everything to NED-FRU world and body frames

@@ -36,7 +36,8 @@
 #include <string>
 
 namespace scrimmage {
-Plugin::Plugin() : name_("Plugin") {}
+Plugin::Plugin()
+    : name_("Plugin") {}
 Plugin::~Plugin() {}
 std::string Plugin::name() { return name_; }
 std::string Plugin::type() { return std::string("Plugin"); }

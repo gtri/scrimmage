@@ -38,7 +38,8 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerPID,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::RigidBody6DOFControllerPID,
                 RigidBody6DOFControllerPID_plugin)
 
 namespace scrimmage {

@@ -71,7 +71,8 @@ void CPA::init(std::map<std::string, std::string> &params) {
 
 bool CPA::step_metrics(double t, double dt) {
     // First verify that within time constraints, if they are set
-    bool outside_time = (((min_time_s_ >= 0.0) && (t < min_time_s_)) || ((max_time_s_ > 0.0) && (t > max_time_s_)));
+    bool outside_time =
+        (((min_time_s_ >= 0.0) && (t < min_time_s_)) || ((max_time_s_ > 0.0) && (t > max_time_s_)));
     if (!outside_time) {
         if (!initialized_) {
             for (auto &kv : *id_to_ent_map_) {
@@ -79,7 +80,8 @@ bool CPA::step_metrics(double t, double dt) {
             }
             std::string log_dir = ((*id_to_ent_map_)[1])->mp()->log_dir();
             csv_.open_output(log_dir + "/" + "cpa.csv");
-            csv_.set_column_headers(scrimmage::CSV::Headers{"entity", "cpa", "closest_entity", "time"});
+            csv_.set_column_headers(
+                scrimmage::CSV::Headers{"entity", "cpa", "closest_entity", "time"});
             initialized_ = true;
         }
 
@@ -91,10 +93,12 @@ bool CPA::step_metrics(double t, double dt) {
                     if (kv != kv2) {
                         // Checks if teams are not being checked or if the teams
                         // are the same
-                        if (!team_cpa_ || (kv.second->id().team_id() == kv2.second->id().team_id())) {
+                        if (!team_cpa_ ||
+                            (kv.second->id().team_id() == kv2.second->id().team_id())) {
                             if (kv.second->state_truth() && kv2.second->state_truth()) {
-                                double cur_distance =
-                                    (kv.second->state_truth()->pos() - kv2.second->state_truth()->pos()).norm();
+                                double cur_distance = (kv.second->state_truth()->pos() -
+                                                       kv2.second->state_truth()->pos())
+                                                          .norm();
                                 if (cur_distance < cpa_map_[kv.first].distance()) {
                                     cpa_map_[kv.first].set_distance(cur_distance);
                                     cpa_map_[kv.first].set_closest_entity(kv2.first);

@@ -44,7 +44,8 @@ using PluginPtr = std::shared_ptr<Plugin>;
 
 class ParameterBase {
  public:
-    explicit ParameterBase(PluginPtr &owner) : owner_(owner) {}
+    explicit ParameterBase(PluginPtr &owner)
+        : owner_(owner) {}
     virtual ~ParameterBase() {}
     const PluginPtr &owner() { return owner_; }
 
@@ -56,7 +57,9 @@ template <class T>
 class Parameter : public ParameterBase {
  public:
     Parameter(T &variable, std::function<void(const T &value)> callback, PluginPtr &owner)
-        : ParameterBase(owner), value_(variable), callback_(callback) {}
+        : ParameterBase(owner),
+          value_(variable),
+          callback_(callback) {}
     void set_value(const T &value) {
         value_ = value;
         callback_(value_);

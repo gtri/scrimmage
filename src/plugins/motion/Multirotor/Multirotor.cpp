@@ -54,9 +54,13 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Multirotor, Multiroto
 namespace scrimmage {
 namespace motion {
 
-Multirotor::Multirotor() : write_csv_(false) { x_.resize(MODEL_NUM_ITEMS); }
+Multirotor::Multirotor()
+    : write_csv_(false) {
+    x_.resize(MODEL_NUM_ITEMS);
+}
 
-bool Multirotor::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool Multirotor::init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get<bool>("show_shapes", params, false);
 
     x_.resize(MODEL_NUM_ITEMS);
@@ -148,7 +152,8 @@ bool Multirotor::init(std::map<std::string, std::string> &info, std::map<std::st
 
         r.set_offset(Eigen::Vector3d(std::stod(vec[1]), std::stod(vec[2]), std::stod(vec[3])));
 
-        r.quat() = sc::Quaternion(sc::Angles::deg2rad(std::stod(vec[4])), sc::Angles::deg2rad(std::stod(vec[5])),
+        r.quat() = sc::Quaternion(sc::Angles::deg2rad(std::stod(vec[4])),
+                                  sc::Angles::deg2rad(std::stod(vec[5])),
                                   sc::Angles::deg2rad(std::stod(vec[6])));
         rotors_.push_back(r);
     }
@@ -162,11 +167,13 @@ bool Multirotor::init(std::map<std::string, std::string> &info, std::map<std::st
 
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-states.csv");
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
+                         "-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{"t",    "x",     "y",   "z",   "U",   "V",      "W",      "P",
-                                                 "Q",    "R",     "AXb", "AYb", "AZb", "WXDOTb", "WYDOTb", "WZDOTb",
-                                                 "roll", "pitch", "yaw", "w_1", "w_2", "w_3",    "w_4"});
+        csv_.set_column_headers(
+            sc::CSV::Headers{"t",    "x",     "y",   "z",   "U",   "V",      "W",      "P",
+                             "Q",    "R",     "AXb", "AYb", "AZb", "WXDOTb", "WYDOTb", "WZDOTb",
+                             "roll", "pitch", "yaw", "w_1", "w_2", "w_3",    "w_4"});
     }
 
     return true;
@@ -282,8 +289,9 @@ void Multirotor::model(const vector_t &x, vector_t &dxdt, double t) {
 
     for (unsigned int i = 0; i < rotors_.size(); i++) {
         rotor_thrust(i) = c_T_ * omega_sq(i);
-        if (std::abs(omega[i] - wmin_) < std::numeric_limits<double>::epsilon()) {  // if minimum throttle,
-                                                                                    // servo is off
+        if (std::abs(omega[i] - wmin_) <
+            std::numeric_limits<double>::epsilon()) {  // if minimum throttle,
+                                                       // servo is off
             rotor_thrust[i] = 0.0;
         }
         rotor_torque(i) = rotors_[i].direction() * c_Q_ * omega_sq(i);
@@ -301,8 +309,9 @@ void Multirotor::model(const vector_t &x, vector_t &dxdt, double t) {
 
     // Calculate normal force
     force_ext_body_[2] = force_ext_body_[2] - F_thrust[2];
-    if (force_ext_body_[2] > 0) {                                 // only true if contacting ground
-        force_ext_body_[2] = -1.0 * (F_weight[2]) - F_thrust[2];  // correctly calculate normal force
+    if (force_ext_body_[2] > 0) {  // only true if contacting ground
+        force_ext_body_[2] =
+            -1.0 * (F_weight[2]) - F_thrust[2];  // correctly calculate normal force
     }
 
     if (force_ext_body_[2] < 0) {  // normal force only pushes up from the ground

@@ -59,9 +59,11 @@ void APITester::write_my_test_values() {
 
 void APITester::init(std::map<std::string, std::string> &params) {
     // Setup variableIO
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_alt_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
     // Get default variable values
     my_test_bool_ = sc::get<bool>("my_test_bool", params, my_test_bool_);

@@ -43,7 +43,11 @@ namespace sc = scrimmage;
 namespace scrimmage {
 namespace autonomy {
 
-MOOSNode::MOOSNode() : appTick_(1), commsTick_(1), time_warp_(1), deployed_(false) {}
+MOOSNode::MOOSNode()
+    : appTick_(1),
+      commsTick_(1),
+      time_warp_(1),
+      deployed_(false) {}
 
 MOOSNode::~MOOSNode() {}
 
@@ -145,9 +149,18 @@ void MOOSNode::DoRegistrations() {
     Register("IVPHELM_STATE", 0.0);
 }
 
-bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id, std::string sensor_id, double nav_x,
-                                 double nav_y, double speed, double heading, double depth, std::string type,
-                                 std::string mode, double time, std::string frame_number) {
+bool MOOSNode::PublishNodeReport(NodeReportType_t report_type,
+                                 std::string id,
+                                 std::string sensor_id,
+                                 double nav_x,
+                                 double nav_y,
+                                 double speed,
+                                 double heading,
+                                 double depth,
+                                 std::string type,
+                                 std::string mode,
+                                 double time,
+                                 std::string frame_number) {
     NodeRecord record;
     record.setName(id);
     record.setX(nav_x);

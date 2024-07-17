@@ -46,14 +46,19 @@ namespace scrimmage {
 namespace autonomy {
 
 Waypoint::Waypoint(const double &latitude, const double &longitude, const double &altitude)
-    : latitude_(latitude), longitude_(longitude), altitude_(altitude) {}
+    : latitude_(latitude),
+      longitude_(longitude),
+      altitude_(altitude) {}
 
-Waypoint::Waypoint(const double &x, const double &y, const double &z,
+Waypoint::Waypoint(const double &x,
+                   const double &y,
+                   const double &z,
                    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj->Reverse(x, y, z, latitude_, longitude_, altitude_);
 }
 
-Waypoint::Waypoint(const Eigen::Vector3d &xyz, const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+Waypoint::Waypoint(const Eigen::Vector3d &xyz,
+                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     proj->Reverse(xyz(0), xyz(1), xyz(2), latitude_, longitude_, altitude_);
 }
 
@@ -81,9 +86,15 @@ Waypoint::Waypoint(const scrimmage_msgs::Waypoint &wp)
         altitude_ = get_alt(wp.lla());
     } else if (wp.pos_oneof_case() == sc_msgs::Waypoint::kXyz) {
         // Convert to lat/lon/alt given origin
-        GeographicLib::LocalCartesian proj(wp.xyz().origin().latitude(), wp.xyz().origin().longitude(),
+        GeographicLib::LocalCartesian proj(wp.xyz().origin().latitude(),
+                                           wp.xyz().origin().longitude(),
                                            get_alt(wp.xyz().origin()));
-        proj.Reverse(wp.xyz().xyz().x(), wp.xyz().xyz().y(), wp.xyz().xyz().z(), latitude_, longitude_, altitude_);
+        proj.Reverse(wp.xyz().xyz().x(),
+                     wp.xyz().xyz().y(),
+                     wp.xyz().xyz().z(),
+                     latitude_,
+                     longitude_,
+                     altitude_);
     }
 }
 
@@ -105,7 +116,8 @@ bool Waypoint::is_within_tolerance(const scrimmage::StatePtr &state,
                                    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     Eigen::Vector3d pos;
     proj->Forward(latitude_, longitude_, altitude_, pos(0), pos(1), pos(2));
-    double dist = tolerance_in_2d_ ? (state->pos().head<2>() - pos.head<2>()).norm() : (state->pos() - pos).norm();
+    double dist = tolerance_in_2d_ ? (state->pos().head<2>() - pos.head<2>()).norm()
+                                   : (state->pos() - pos).norm();
     return dist <= position_tolerance_;
 }
 
@@ -118,8 +130,9 @@ void Waypoint::set_quat_tolerance(const double &quat_tol) {
 }
 
 std::ostream &operator<<(std::ostream &os, Waypoint &wp) {
-    os << std::setprecision(10) << wp.time() << ", " << wp.latitude() << ", " << wp.longitude() << ", " << wp.altitude()
-       << wp.quat() << ", " << wp.position_tolerance() << ", " << wp.quat_tolerance();
+    os << std::setprecision(10) << wp.time() << ", " << wp.latitude() << ", " << wp.longitude()
+       << ", " << wp.altitude() << wp.quat() << ", " << wp.position_tolerance() << ", "
+       << wp.quat_tolerance();
     return os;
 }
 

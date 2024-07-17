@@ -36,7 +36,8 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleCarControllerHeading,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SimpleCarControllerHeading,
                 SimpleCarControllerHeading_plugin)
 
 namespace scrimmage {
@@ -52,7 +53,8 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params
     pid_.set_is_angle(true);
 
     input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    input_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     output_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
     output_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);

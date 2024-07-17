@@ -280,7 +280,8 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
     return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
 }
 
-bool SimControl::generate_entity(const int &ent_desc_id, std::map<std::string, std::string> &params,
+bool SimControl::generate_entity(const int &ent_desc_id,
+                                 std::map<std::string, std::string> &params,
                                  AttributeMap &plugin_attr_map) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
@@ -351,10 +352,25 @@ bool SimControl::generate_entity(const int &ent_desc_id, std::map<std::string, s
 
     int id = find_available_id(params);
 
-    bool ent_status =
-        ent->init(plugin_attr_map, params, id_to_team_map_, id_to_ent_map_, contacts_, mp_, proj_, id, ent_desc_id,
-                  plugin_manager_, file_search_, rtree_, pubsub_, printer_, time_, param_server_, global_services_,
-                  std::set<std::string>{}, [](std::map<std::string, std::string> &) {});
+    bool ent_status = ent->init(plugin_attr_map,
+                                params,
+                                id_to_team_map_,
+                                id_to_ent_map_,
+                                contacts_,
+                                mp_,
+                                proj_,
+                                id,
+                                ent_desc_id,
+                                plugin_manager_,
+                                file_search_,
+                                rtree_,
+                                pubsub_,
+                                printer_,
+                                time_,
+                                param_server_,
+                                global_services_,
+                                std::set<std::string>{},
+                                [](std::map<std::string, std::string> &) {});
     contacts_mutex_.unlock();
 
     if (!ent_status) {
@@ -380,8 +396,12 @@ bool SimControl::generate_entity(const int &ent_desc_id, std::map<std::string, s
     ents_.push_back(ent);
     rtree_->add(ent->state()->pos(), ent->id());
     contacts_mutex_.lock();
-    (*contacts_)[ent->id().id()] =
-        Contact(ent->id(), ent->radius(), ent->state_truth(), ent->type(), ent->contact_visual(), ent->properties());
+    (*contacts_)[ent->id().id()] = Contact(ent->id(),
+                                           ent->radius(),
+                                           ent->state_truth(),
+                                           ent->type(),
+                                           ent->contact_visual(),
+                                           ent->properties());
     contacts_mutex_.unlock();
 
     auto msg = std::make_shared<Message<sm::EntityGenerated>>();
@@ -431,7 +451,8 @@ void SimControl::set_autonomy_contacts() {
 bool SimControl::run_networks() {
     bool all_true = true;
     for (auto &kv : *networks_) {
-        bool result = kv.second->step(pubsub_->pubs()[kv.second->name()], pubsub_->subs()[kv.second->name()]);
+        bool result =
+            kv.second->step(pubsub_->pubs()[kv.second->name()], pubsub_->subs()[kv.second->name()]);
         if (!result && kv.second->print_err_on_exit) {
             cout << "Network requested simulation termination: " << kv.second->name() << endl;
         }
@@ -447,7 +468,8 @@ bool SimControl::run_interaction_detection() {
     auto run_interaction = [&](auto ent_inter) {
         bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
         if (!result && ent_inter->print_err_on_exit) {
-            cout << "Entity interaction requested simulation termination: " << ent_inter->name() << endl;
+            cout << "Entity interaction requested simulation termination: " << ent_inter->name()
+                 << endl;
         }
         return result;
     };
@@ -517,7 +539,8 @@ void SimControl::run_remove_inactive() {
             // entity from the id_to_team_map.
             auto it_id_ent = id_to_ent_map_->find(id);
             if (it_id_ent == id_to_ent_map_->end()) {
-                cout << "WARNING: Failed to remove entity ID (" << id << ") from id_to_ent_map" << endl;
+                cout << "WARNING: Failed to remove entity ID (" << id << ") from id_to_ent_map"
+                     << endl;
             } else {
                 id_to_ent_map_->erase(it_id_ent);
             }
@@ -648,7 +671,9 @@ void SimControl::run_threaded() {
     thread_ = std::thread(&SimControl::run, this);
 }
 
-void SimControl::set_running_in_thread(bool running_in_thread) { running_in_thread_ = running_in_thread; }
+void SimControl::set_running_in_thread(bool running_in_thread) {
+    running_in_thread_ = running_in_thread;
+}
 
 bool SimControl::start() {
     setup_logging();
@@ -669,8 +694,10 @@ bool SimControl::start() {
     if (get("show_plugins", mp_->params(), false)) {
         plugin_manager_->print_plugins("scrimmage::Autonomy", "Autonomy Plugins", *file_search_);
         plugin_manager_->print_plugins("scrimmage::MotionModel", "Motion Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
+        plugin_manager_->print_plugins(
+            "scrimmage::Controller", "Controller Plugins", *file_search_);
+        plugin_manager_->print_plugins(
+            "scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
         plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", *file_search_);
         plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
     }
@@ -718,11 +745,15 @@ bool SimControl::start() {
 
     if (mp_->params().count("stream_port") > 0 && mp_->params().count("stream_ip") > 0) {
         if (mp_->network_gui()) {
-            outgoing_interface_->init_network(Interface::client, mp_->params()["stream_ip"],
+            outgoing_interface_->init_network(Interface::client,
+                                              mp_->params()["stream_ip"],
                                               std::stoi(mp_->params()["stream_port"]));
 
-            network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_), Interface::server,
-                                          "localhost", std::stoi(mp_->params()["stream_port"]) + 1);
+            network_thread_ = std::thread(&Interface::init_network,
+                                          &(*incoming_interface_),
+                                          Interface::server,
+                                          "localhost",
+                                          std::stoi(mp_->params()["stream_port"]) + 1);
             network_thread_.detach();
         } else {
             outgoing_interface_->set_mode(Interface::shared);
@@ -735,7 +766,8 @@ bool SimControl::start() {
     }
 
     // If the GlobalNetwork doesn't exist, add it.
-    auto it_global_network = std::find(mp_->network_names().begin(), mp_->network_names().end(), "GlobalNetwork");
+    auto it_global_network =
+        std::find(mp_->network_names().begin(), mp_->network_names().end(), "GlobalNetwork");
     if (it_global_network == mp_->network_names().end()) {
         mp_->network_names().push_back("GlobalNetwork");
     }
@@ -778,7 +810,8 @@ bool SimControl::start() {
     networks_ = std::make_shared<NetworkMap>();
     if (!create_networks(info, *networks_)) return false;
     if (!create_metrics(info, contacts_, metrics_)) return false;
-    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, global_services_)) return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, global_services_))
+        return false;
 
     // Setup simcontrol's pubsub plugin
     pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
@@ -795,7 +828,8 @@ bool SimControl::start() {
     auto gen_ent_cb = [&](auto &msg) {
         auto it_ent_desc_id = mp_->entity_tag_to_id().find(msg->data.entity_tag());
         if (it_ent_desc_id == mp_->entity_tag_to_id().end()) {
-            cout << "ERROR: Failed to find entity_tag, " << msg->data.entity_tag() << ", in mission file." << endl;
+            cout << "ERROR: Failed to find entity_tag, " << msg->data.entity_tag()
+                 << ", in mission file." << endl;
             return;
         }
         // Get the vehicle's params block:
@@ -831,8 +865,9 @@ bool SimControl::start() {
 
         AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
         for (int i = 0; i < msg->data.plugin_param().size(); i++) {
-            plugin_attr_map[msg->data.plugin_param(i).plugin_type()][msg->data.plugin_param(i).tag_name()] =
-                msg->data.plugin_param(i).tag_value();
+            plugin_attr_map[msg->data.plugin_param(i).plugin_type()]
+                           [msg->data.plugin_param(i).tag_name()] =
+                               msg->data.plugin_param(i).tag_value();
         }
 
         // Recreate the rtree with one additional size for this entity.
@@ -900,8 +935,10 @@ bool SimControl::start() {
 
         screenshot_task_.delay = get<double>("min_period", attr, 0.0);
         screenshot_task_.set_repeat_infinitely(true);
-        screenshot_task_.last_updated_time = get<double>("start", attr, 0.0) - screenshot_task_.delay;
-        screenshot_task_.end_time = get<double>("end", attr, std::numeric_limits<double>::infinity());
+        screenshot_task_.last_updated_time =
+            get<double>("start", attr, 0.0) - screenshot_task_.delay;
+        screenshot_task_.end_time =
+            get<double>("end", attr, std::numeric_limits<double>::infinity());
         screenshot_task_.eps = dt_ / 4;
 
         if (screenshot_task_.update(t_).first) {
@@ -1150,18 +1187,21 @@ bool SimControl::end_condition_reached() {
     if (ents_.empty()) {
         auto msg = std::make_shared<Message<sm::NoTeamsPresent>>();
         pub_no_teams_->publish(msg);
-        if (end_conditions_.count(EndConditionFlags::ALL_DEAD) || end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
+        if (end_conditions_.count(EndConditionFlags::ALL_DEAD) ||
+            end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
             std::cout << std::endl << "End of Simulation: No Entities Remaining" << std::endl;
             return true;
         }
     } else if (end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
         const int team1_id = ents_.front()->id().team_id();
-        const bool all_same_team =
-            std::all_of(ents_.rbegin(), ents_.rend(), [&](EntityPtr &ent) { return team1_id == ent->id().team_id(); });
+        const bool all_same_team = std::all_of(ents_.rbegin(), ents_.rend(), [&](EntityPtr &ent) {
+            return team1_id == ent->id().team_id();
+        });
         if (all_same_team) {
             auto msg = std::make_shared<Message<sm::OneTeamPresent>>();
             pub_one_team_->publish(msg);
-            std::cout << std::endl << "End of Simulation: One Team (" << team1_id << ")" << std::endl;
+            std::cout << std::endl
+                      << "End of Simulation: One Team (" << team1_id << ")" << std::endl;
             return true;
         }
     }
@@ -1183,9 +1223,13 @@ bool SimControl::take_step() {
     return value;
 }
 
-void SimControl::set_incoming_interface(InterfacePtr &incoming_interface) { incoming_interface_ = incoming_interface; }
+void SimControl::set_incoming_interface(InterfacePtr &incoming_interface) {
+    incoming_interface_ = incoming_interface;
+}
 
-void SimControl::set_outgoing_interface(InterfacePtr &outgoing_interface) { outgoing_interface_ = outgoing_interface; }
+void SimControl::set_outgoing_interface(InterfacePtr &outgoing_interface) {
+    outgoing_interface_ = outgoing_interface;
+}
 
 void SimControl::run_check_network_msgs() {
     // Do we have any simcontrol message updates from GUI?
@@ -1234,8 +1278,9 @@ void SimControl::run_check_network_msgs() {
 }
 
 bool SimControl::collision_exists(Eigen::Vector3d &p) {
-    return std::any_of(ent_inters_.begin(), ent_inters_.end(),
-                       [&](auto ent_inter) { return ent_inter->collision_exists(ents_, p); });
+    return std::any_of(ent_inters_.begin(), ent_inters_.end(), [&](auto ent_inter) {
+        return ent_inter->collision_exists(ents_, p);
+    });
 }
 
 void SimControl::force_exit() {
@@ -1407,7 +1452,9 @@ void SimControl::worker() {
             } else if (task_type == Task::Type::CONTROLLER) {
                 auto &controllers = ent->controllers();
                 br::for_each(controllers, run_callbacks);
-                auto run = [&](auto &c) { return c->step_loop_timer(temp_dt) ? c->step(temp_t, temp_dt) : true; };
+                auto run = [&](auto &c) {
+                    return c->step_loop_timer(temp_dt) ? c->step(temp_t, temp_dt) : true;
+                };
                 success = std::all_of(controllers.begin(), controllers.end(), run);
             } else if (task_type == Task::Type::MOTION) {
                 success = ent->motion()->step(temp_t, temp_dt);
@@ -1427,7 +1474,8 @@ void SimControl::worker() {
 
 void print_err(EntityPluginPtr p) {
     if (p->print_err_on_exit) {
-        std::cout << "failed to update entity " << p->parent()->id().id() << ", plugin type \"" << p->type() << "\""
+        std::cout << "failed to update entity " << p->parent()->id().id() << ", plugin type \""
+                  << p->type() << "\""
                   << ", plugin name \"" << p->name() << "\"" << std::endl;
     }
 }
@@ -1510,8 +1558,9 @@ bool SimControl::run_entities() {
     } else {
         for (EntityPtr &ent : ents_) {
             for (auto a : ent->autonomies()) {
-                success &=
-                    exec_step(a, [&](auto a) { return a->step_loop_timer(dt_) ? a->step_autonomy(t_, dt_) : true; });
+                success &= exec_step(a, [&](auto a) {
+                    return a->step_loop_timer(dt_) ? a->step_autonomy(t_, dt_) : true;
+                });
             }
         }
     }
@@ -1522,7 +1571,8 @@ bool SimControl::run_entities() {
         // run controllers in a single thread since they are serially connected
         for (EntityPtr &ent : ents_) {
             for (auto c : ent->controllers()) {
-                success &= exec_step(c, [&](auto c) { return c->step_loop_timer(dt_) ? c->step(t_, dt_) : true; });
+                success &= exec_step(
+                    c, [&](auto c) { return c->step_loop_timer(dt_) ? c->step(t_, dt_) : true; });
             }
         }
 
@@ -1545,7 +1595,8 @@ bool SimControl::run_entities() {
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
         if (ent->state()->pos().hasNaN()) {
-            cout << "WARNING: Entity with motion model, " << ent->motion()->name() << ", contains a NaN value." << endl
+            cout << "WARNING: Entity with motion model, " << ent->motion()->name()
+                 << ", contains a NaN value." << endl
                  << "Check your time step values and for NaN values coming "
                  << "from Autonomy and Controller plugins." << endl;
             cout << "Removing entity ID: " << ent->id().id() << endl;
@@ -1656,7 +1707,8 @@ bool SimControl::output_summary() {
         // Add all elements from individual metrics plugin to overall
         // metrics data structure
         for (auto const &team_str_double : metrics->team_metrics()) {
-            team_metrics[team_str_double.first].insert(team_str_double.second.begin(), team_str_double.second.end());
+            team_metrics[team_str_double.first].insert(team_str_double.second.begin(),
+                                                       team_str_double.second.end());
             metrics_empty = false;
         }
 
@@ -1732,7 +1784,9 @@ std::list<EntityPtr> &SimControl::ents() { return ents_; }
 
 EntityPluginPtr SimControl::plugin() { return sim_plugin_; }
 
-std::shared_ptr<std::unordered_map<int, EntityPtr>> SimControl::id_to_entity_map() { return id_to_ent_map_; }
+std::shared_ptr<std::unordered_map<int, EntityPtr>> SimControl::id_to_entity_map() {
+    return id_to_ent_map_;
+}
 
 int SimControl::find_available_id(const std::map<std::string, std::string> &params) {
     // Use the mission file specified ID, if it exists, otherwise, find the
@@ -1743,7 +1797,8 @@ int SimControl::find_available_id(const std::map<std::string, std::string> &para
         try {
             id = std::stoi(it_id->second);
         } catch (...) {
-            cout << "Failed to convert the following <id> tag into an integer: " << it_id->second << endl;
+            cout << "Failed to convert the following <id> tag into an integer: " << it_id->second
+                 << endl;
             id = 0;
         }
     }

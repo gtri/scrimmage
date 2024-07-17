@@ -51,7 +51,9 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::SimpleCaptureMetrics, SimpleCaptureMetrics_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics,
+                scrimmage::metrics::SimpleCaptureMetrics,
+                SimpleCaptureMetrics_plugin)
 
 namespace scrimmage {
 namespace metrics {

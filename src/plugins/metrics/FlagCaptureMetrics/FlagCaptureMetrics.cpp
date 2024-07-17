@@ -52,7 +52,9 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::FlagCaptureMetrics, FlagCaptureMetrics_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics,
+                scrimmage::metrics::FlagCaptureMetrics,
+                FlagCaptureMetrics_plugin)
 
 namespace scrimmage {
 namespace metrics {
@@ -105,7 +107,9 @@ void FlagCaptureMetrics::calc_team_scores() {
 }
 
 void FlagCaptureMetrics::print_team_summaries() {
-    for (std::map<int, Score>::iterator it = team_flag_scores_.begin(); it != team_flag_scores_.end(); ++it) {
+    for (std::map<int, Score>::iterator it = team_flag_scores_.begin();
+         it != team_flag_scores_.end();
+         ++it) {
         cout << "Team ID: " << it->first << endl;
         cout << "Score: " << it->second.score() << endl;
         cout << "Flags Taken: " << it->second.flags_taken() << endl;

@@ -52,7 +52,8 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLConsensusSensor, RLConse
 namespace scrimmage {
 namespace sensor {
 
-RLConsensusSensor::RLConsensusSensor() : ScrimmageOpenAISensor() {}
+RLConsensusSensor::RLConsensusSensor()
+    : ScrimmageOpenAISensor() {}
 
 void RLConsensusSensor::set_observation_space() {
     const int num_veh = parent_->contacts()->size();

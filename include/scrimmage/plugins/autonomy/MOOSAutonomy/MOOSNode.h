@@ -57,9 +57,18 @@ class MOOSNode : public CMOOSApp {
 
     void set_time_warp(double warp);
 
-    bool PublishNodeReport(NodeReportType_t report_type, std::string id, std::string sensor_id, double nav_x,
-                           double nav_y, double speed, double heading, double depth, std::string type, std::string mode,
-                           double time, std::string frame_number);
+    bool PublishNodeReport(NodeReportType_t report_type,
+                           std::string id,
+                           std::string sensor_id,
+                           double nav_x,
+                           double nav_y,
+                           double speed,
+                           double heading,
+                           double depth,
+                           std::string type,
+                           std::string mode,
+                           double time,
+                           std::string frame_number);
 
  protected:
     double appTick_;

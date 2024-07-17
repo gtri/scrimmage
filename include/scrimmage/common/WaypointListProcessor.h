@@ -49,7 +49,8 @@ class WaypointListProcessor {
  public:
     enum class Status { Empty, Invalid, Changed, Unchanged };
     void set_waypoint_list(const scrimmage_msgs::WaypointList &wp_list);
-    Status process(const scrimmage::StatePtr &state, const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    Status process(const scrimmage::StatePtr &state,
+                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
     boost::optional<const Waypoint &> previous_waypoint();
     boost::optional<const Waypoint &> current_waypoint();

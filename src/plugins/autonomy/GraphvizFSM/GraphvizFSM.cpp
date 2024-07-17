@@ -111,7 +111,8 @@ void GraphvizFSM::init(std::map<std::string, std::string> &params) {
         // If the event received is a trigger for the current state, transition
         // to the next state.
         typename boost::graph_traits<graph_t>::out_edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end; ++ei) {
+        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end;
+             ++ei) {
             if (label_(*ei) == msg->data) {
                 this->update_state_info(current_state_, boost::target(*ei, fsm_graph_));
             }
@@ -128,7 +129,8 @@ bool GraphvizFSM::step_autonomy(double t, double dt) {
     // state since this is just a designator for the "initial" state.
     if (boost::out_degree(current_state_, fsm_graph_) == 1) {
         typename boost::graph_traits<graph_t>::out_edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end; ++ei) {
+        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end;
+             ++ei) {
             if (label_(*ei) == std::string("")) {
                 this->update_state_info(current_state_, boost::target(*ei, fsm_graph_));
             }

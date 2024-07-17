@@ -40,7 +40,9 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DoubleIntegrator, DoubleIntegrator_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel,
+                scrimmage::motion::DoubleIntegrator,
+                DoubleIntegrator_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -51,15 +53,20 @@ namespace sc = scrimmage;
 
 enum ModelParams { X, Y, Z, VX, VY, VZ, YAW, YAW_DOT, STATE_SIZE };
 
-DoubleIntegrator::DoubleIntegrator() : motion_model_sets_yaw_(false) { x_.resize(STATE_SIZE); }
+DoubleIntegrator::DoubleIntegrator()
+    : motion_model_sets_yaw_(false) {
+    x_.resize(STATE_SIZE);
+}
 
-bool DoubleIntegrator::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool DoubleIntegrator::init(std::map<std::string, std::string> &info,
+                            std::map<std::string, std::string> &params) {
     max_vel_ = std::stod(params.at("max_vel"));
     max_acc_ = std::stod(params.at("max_acc"));
     motion_model_sets_yaw_ = sc::str2bool(params.at("motion_model_sets_yaw"));
     sim_copter_orientation_ = sc::get<bool>("sim_copter_orientation", params, false);
     sim_copter_max_roll_ = sc::Angles::deg2rad(sc::get<double>("sim_copter_max_roll", params, 30));
-    sim_copter_max_pitch_ = sc::Angles::deg2rad(sc::get<double>("sim_copter_max_pitch", params, 30));
+    sim_copter_max_pitch_ =
+        sc::Angles::deg2rad(sc::get<double>("sim_copter_max_pitch", params, 30));
     max_yaw_vel_ = sc::get<double>("max_yaw_vel", params, 1.0);
     max_yaw_acc_ = sc::get<double>("max_yaw_acc", params, 1.0);
 

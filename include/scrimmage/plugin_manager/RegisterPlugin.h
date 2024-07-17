@@ -44,11 +44,14 @@
 #ifdef __clang__
 // http://clang.llvm.org/docs/UsersManual.html#diagnostics
 // https://stackoverflow.com/a/28907242
-#define REGISTER_PLUGIN(BaseClass, ChildClass, PluginName)                                           \
-    _Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wreturn-type-c-linkage\"") \
-        REGISTER_PLUGIN_HELPER(BaseClass, ChildClass, PluginName) _Pragma("clang diagnostic pop")
+#define REGISTER_PLUGIN(BaseClass, ChildClass, PluginName)              \
+    _Pragma("clang diagnostic push")                                    \
+        _Pragma("clang diagnostic ignored \"-Wreturn-type-c-linkage\"") \
+            REGISTER_PLUGIN_HELPER(BaseClass, ChildClass, PluginName)   \
+                _Pragma("clang diagnostic pop")
 #else
-#define REGISTER_PLUGIN(BaseClass, ChildClass, PluginName) REGISTER_PLUGIN_HELPER(BaseClass, ChildClass, PluginName)
+#define REGISTER_PLUGIN(BaseClass, ChildClass, PluginName) \
+    REGISTER_PLUGIN_HELPER(BaseClass, ChildClass, PluginName)
 #endif
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_REGISTERPLUGIN_H_

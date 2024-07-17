@@ -52,7 +52,8 @@ namespace pl = std::placeholders;
 
 enum ModelParams { X = 0, Y, Z, ROLL, PITCH, YAW, MODEL_NUM_ITEMS };
 
-bool DubinsAirplane::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool DubinsAirplane::init(std::map<std::string, std::string> &info,
+                          std::map<std::string, std::string> &params) {
     // Model limits
     speed_max_ = sc::get<double>("speed_max", params, speed_max_);
     speed_min_ = sc::get<double>("speed_min", params, speed_min_);
@@ -82,7 +83,8 @@ bool DubinsAirplane::init(std::map<std::string, std::string> &info, std::map<std
         csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
                          "-dubinsairplane-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{"t", "x", "y", "z", "roll", "pitch", "yaw", "speed"});
+        csv_.set_column_headers(
+            sc::CSV::Headers{"t", "x", "y", "z", "roll", "pitch", "yaw", "speed"});
     }
     return true;
 }

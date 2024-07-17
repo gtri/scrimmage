@@ -63,8 +63,9 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
             std::string tag_name = prefix + "_" + std::to_string(i);
             std::vector<double> vec;
             double mean, stdev;
-            std::tie(mean, stdev) =
-                get_vec(tag_name, params, " ", vec, 2) ? std::make_pair(vec[0], vec[1]) : std::make_pair(0.0, 1.0);
+            std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2)
+                                        ? std::make_pair(vec[0], vec[1])
+                                        : std::make_pair(0.0, 1.0);
             noise_vec.push_back(parent_->random()->make_rng_normal(mean, stdev));
         }
     };
@@ -100,12 +101,14 @@ bool NoisyContacts::step() {
         }
 
         // add noise in roll, pitch, yaw order
-        state->quat() = state->quat() * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener)) *
+        state->quat() = state->quat() *
+                        Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener)) *
                         Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener)) *
                         Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
         // Construct a new Contact in place
-        msg->data.emplace(kv.second.id().id(), Contact(kv.second.id(), std::static_pointer_cast<State>(state)));
+        msg->data.emplace(kv.second.id().id(),
+                          Contact(kv.second.id(), std::static_pointer_cast<State>(state)));
     }
 
     // Publish the noisy contact map

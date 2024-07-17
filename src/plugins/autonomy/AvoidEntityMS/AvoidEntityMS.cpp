@@ -47,13 +47,18 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::motor_schemas::AvoidEntityMS, AvoidEntityMS_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::motor_schemas::AvoidEntityMS,
+                AvoidEntityMS_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
 
-AvoidEntityMS::AvoidEntityMS() : sphere_of_influence_(10.0), minimum_range_(5.0), avoid_non_team_(true) {}
+AvoidEntityMS::AvoidEntityMS()
+    : sphere_of_influence_(10.0),
+      minimum_range_(5.0),
+      avoid_non_team_(true) {}
 
 void AvoidEntityMS::init(std::map<std::string, std::string> &params) {
     sphere_of_influence_ = sc::get<double>("sphere_of_influence", params, 10);
@@ -118,15 +123,18 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
     if (show_shapes_) {
         // Draw the sphere of influence
         if (circle_shape_ == nullptr) {
-            circle_shape_ = sc::shape::make_circle(state_->pos(), state_->quat(), sphere_of_influence_,
-                                                   Eigen::Vector3d(0, 255, 0), 0.2);
+            circle_shape_ = sc::shape::make_circle(state_->pos(),
+                                                   state_->quat(),
+                                                   sphere_of_influence_,
+                                                   Eigen::Vector3d(0, 255, 0),
+                                                   0.2);
         }
         sc::set(circle_shape_->mutable_circle()->mutable_center(), state_->pos());
         draw_shape(circle_shape_);
 
         if (line_shape_ == nullptr) {
-            line_shape_ =
-                sc::shape::make_line(state_->pos(), desired_vector_ + state_->pos(), Eigen::Vector3d(0, 0, 0), 0.75);
+            line_shape_ = sc::shape::make_line(
+                state_->pos(), desired_vector_ + state_->pos(), Eigen::Vector3d(0, 0, 0), 0.75);
         }
         sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
         sc::set(line_shape_->mutable_line()->mutable_end(), desired_vector_ + state_->pos());

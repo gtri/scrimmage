@@ -47,13 +47,17 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GroundCollision, GroundCollision_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::GroundCollision,
+                GroundCollision_plugin)
 
 namespace scrimmage {
 namespace interaction {
 
 GroundCollision::GroundCollision()
-    : ground_collision_z_(0.0), remove_on_collision_(true), enable_startup_collisions_(true) {}
+    : ground_collision_z_(0.0),
+      remove_on_collision_(true),
+      enable_startup_collisions_(true) {}
 
 bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
@@ -66,8 +70,8 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
     if (plugin_params.count("ground_collision_altitude") > 0 && parent_->mp()) {
         double x, y, z, alt;
         alt = sc::get("ground_collision_altitude", plugin_params, 0.0);
-        parent_->projection()->Forward(parent_->mp()->latitude_origin(), parent_->mp()->longitude_origin(), alt, x, y,
-                                       z);
+        parent_->projection()->Forward(
+            parent_->mp()->latitude_origin(), parent_->mp()->longitude_origin(), alt, x, y, z);
         ground_collision_z_ = z;
     }
 

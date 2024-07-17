@@ -96,7 +96,8 @@ void Straight::init(std::map<std::string, std::string> &params) {
 
     // Register the desired_z parameter with the parameter server
     auto param_cb = [&](const double &desired_z) {
-        std::cout << "desired_z param changed at: " << time_->t() << ", with value: " << desired_z << endl;
+        std::cout << "desired_z param changed at: " << time_->t() << ", with value: " << desired_z
+                  << endl;
     };
     register_param<double>("desired_z", goal_(2), param_cb);
 
@@ -128,7 +129,8 @@ void Straight::init(std::map<std::string, std::string> &params) {
     if (show_text_label_) {
         // Draw a text label (white text) 30 meters in front of vehicle:
         Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
-        text_shape_ = sc::shape::make_text("Hello, SCRIMMAGE!", in_front, Eigen::Vector3d(255, 255, 255));
+        text_shape_ =
+            sc::shape::make_text("Hello, SCRIMMAGE!", in_front, Eigen::Vector3d(255, 255, 255));
 
         // Draw the shape in the 3D viewer
         draw_shape(text_shape_);
@@ -155,8 +157,8 @@ void Straight::init(std::map<std::string, std::string> &params) {
         for (sc::sensor::AirSimImageType a : msg->data) {
             if (show_camera_images_) {
                 // Get Camera Name
-                std::string window_name =
-                    a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" +
+                                          a.camera_config.img_type_name;
                 // for depth images CV imshow expects grayscale image values to
                 // be between 0 and 1.
                 if (a.camera_config.img_type_name == "DepthPerspective" ||
@@ -213,9 +215,11 @@ void Straight::init(std::map<std::string, std::string> &params) {
         pub_gen_ents_ = advertise("GlobalNetwork", "GenerateEntity");
     }
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_alt_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {

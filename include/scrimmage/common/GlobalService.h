@@ -70,7 +70,8 @@ class GlobalService {
         if (call_service(req, res_base, service_name)) {
             res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
             if (res == nullptr) {
-                std::cout << "could not cast for global service " << service_name.c_str() << std::endl;
+                std::cout << "could not cast for global service " << service_name.c_str()
+                          << std::endl;
                 return false;
             } else {
                 return true;

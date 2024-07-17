@@ -39,7 +39,10 @@ namespace scrimmage {
 
 class Time {
  public:
-    Time() : t_(-1), dt_(-1), time_warp_(-1) {}
+    Time()
+        : t_(-1),
+          dt_(-1),
+          time_warp_(-1) {}
 
     double t() const { return t_; }
     double dt() const { return dt_; }

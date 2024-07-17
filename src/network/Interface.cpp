@@ -86,7 +86,8 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
     } else if (mode_ == client) {
 #if ENABLE_GRPC
         std::string result = ip_ + ":" + std::to_string(port_);
-        std::shared_ptr<Channel> channel(grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+        std::shared_ptr<Channel> channel(
+            grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
         std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(
             scrimmage_proto::ScrimmageService::NewStub(channel));
         scrimmage_stub_ = std::move(frame_temp);
@@ -110,8 +111,10 @@ bool Interface::check_ready() {
     // recreate the channel because using the cached version will keep
     // the non-connection
     std::string result = ip_ + ":" + std::to_string(port_);
-    std::shared_ptr<Channel> channel(grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
-    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(scrimmage_proto::ScrimmageService::NewStub(channel));
+    std::shared_ptr<Channel> channel(
+        grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(
+        scrimmage_proto::ScrimmageService::NewStub(channel));
 
     google::protobuf::Empty req;
     scrimmage_proto::BlankReply reply;

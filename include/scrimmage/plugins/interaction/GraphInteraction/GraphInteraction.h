@@ -57,7 +57,9 @@ class GraphInteraction : public scrimmage::EntityInteraction {
     GraphInteraction();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t,
+                                 double dt) override;
 
  protected:
     struct GraphData {
@@ -80,7 +82,9 @@ class GraphInteraction : public scrimmage::EntityInteraction {
 
     typedef boost::adjacency_list<boost::vecS,  // edge storage
                                   boost::vecS,  // vertex storage
-                                  boost::directedS, VertexProperties, EdgeProperties>
+                                  boost::directedS,
+                                  VertexProperties,
+                                  EdgeProperties>
         Graph;
     Graph g_;
 

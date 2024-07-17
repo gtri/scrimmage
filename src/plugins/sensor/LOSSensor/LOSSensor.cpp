@@ -115,7 +115,8 @@ bool LOSSensor::step() {
                 oor_ = msg->data.points[0].oor;
                 new_data_ = true;
             };
-            std::string topic_name = std::to_string(parent_->id().id()) + "/" + name() + "/pointcloud";
+            std::string topic_name =
+                std::to_string(parent_->id().id()) + "/" + name() + "/pointcloud";
             subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", topic_name, pc_cb);
             printf("LOSSensor: Subscribing with topic name %s\n", topic_name.c_str());
         }
@@ -162,8 +163,8 @@ bool LOSSensor::step() {
     if ((oor == false) && (probability_oor_error_ > 0.0)) {
         // Check the random error to see whether it could swap
         // in-range/out-of-range.
-        bool swap_in_out_range =
-            (static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)) < probability_oor_error_;
+        bool swap_in_out_range = (static_cast<double>(std::rand()) /
+                                  static_cast<double>(RAND_MAX)) < probability_oor_error_;
 
         if ((((range < min_range()) || (range > max_range())) && !swap_in_out_range) ||
             (((range > min_range()) && (range < max_range())) && swap_in_out_range)) {
@@ -184,7 +185,8 @@ bool LOSSensor::step() {
     msg->data.set_sensor_id(sensor_id_);
     if (oor == false) {
         // Add error
-        if ((static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)) < probability_of_error_) {
+        if ((static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)) <
+            probability_of_error_) {
             // Add additional error
             std::normal_distribution<double> error_dist(0.0, error_sd_);
             double error = error_dist(generator_);

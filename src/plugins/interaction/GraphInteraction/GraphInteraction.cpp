@@ -67,7 +67,9 @@ namespace fs = ::boost::filesystem;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GraphInteraction, GraphInteraction_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::GraphInteraction,
+                GraphInteraction_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -79,7 +81,8 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
                             std::map<std::string, std::string> &plugin_params) {
     pub_graph_ = advertise("GlobalNetwork", "Graph");
     std::string default_file_name = "default";
-    std::string graph_file_name = sc::get<std::string>("graph_file", plugin_params, default_file_name);
+    std::string graph_file_name =
+        sc::get<std::string>("graph_file", plugin_params, default_file_name);
 
     // If the data tag has been set for this plugin in the  mission file, get
     // the graph and label filenames from that instead of using those above.
@@ -89,7 +92,8 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
         graph_file_name = sc::get<std::string>("graph_file", data_params, default_file_name);
         if (graph_file_name != default_file_name) {
             std::string graph_ext = fs::path(graph_file_name).extension().string();
-            file_search.find_file(graph_file_name, graph_ext, "SCRIMMAGE_DATA_PATH", graph_file_name);
+            file_search.find_file(
+                graph_file_name, graph_ext, "SCRIMMAGE_DATA_PATH", graph_file_name);
         }
     }
 
@@ -162,7 +166,9 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
+bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
+                                               double t,
+                                               double dt) {
     if (ents.empty()) {
         return true;
     }

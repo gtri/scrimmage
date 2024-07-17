@@ -58,7 +58,11 @@ class MotionBattery : public scrimmage::Controller {
 
     class VarLimit {
      public:
-        VarLimit(const int &input, const int &output, const double &rate, const double &value, const bool &lim)
+        VarLimit(const int &input,
+                 const int &output,
+                 const double &rate,
+                 const double &value,
+                 const bool &lim)
             : input_idx(input),
               output_idx(output),
               depletion_rate(rate),
@@ -70,7 +74,9 @@ class MotionBattery : public scrimmage::Controller {
         double value_when_depleted = 0;
         bool limit_when_depleted = false;
 
-        double calc_depletion(const double &input, const double &dt) { return input * depletion_rate * dt; }
+        double calc_depletion(const double &input, const double &dt) {
+            return input * depletion_rate * dt;
+        }
     };
     // Key: variable name
     // Value: VarLimit class unique_ptr with properties

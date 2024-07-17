@@ -55,7 +55,9 @@ class NetworkDevice {
 
     virtual ~NetworkDevice() = default;  // Make NetworkDevice Polymorphic
 
-    NetworkDevice(const std::string& topic, const unsigned int& max_queue_size, const bool& enable_queue_size,
+    NetworkDevice(const std::string& topic,
+                  const unsigned int& max_queue_size,
+                  const bool& enable_queue_size,
                   EntityPluginPtr plugin);
 
     std::string get_topic() const;
@@ -83,7 +85,8 @@ class NetworkDevice {
     int deliver_undelivered_msg(const double& time_now, const bool& is_stochastic_delay = false);
     /* end delay handling */
 
-    template <class T = MessageBase, class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <class T = MessageBase,
+              class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     std::list<MessageBasePtr> pop_msgs() {
         mutex_.lock();
         std::list<MessageBasePtr> msg_list_cast;
@@ -97,8 +100,10 @@ class NetworkDevice {
         return msg_list_cast;
     }
 
-    template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value && std::is_base_of<MessageBase, T>::value, void>>
+    template <class T,
+              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
+                                           std::is_base_of<MessageBase, T>::value,
+                                       void>>
     std::list<std::shared_ptr<T>> pop_msgs() {
         mutex_.lock();
         std::list<std::shared_ptr<T>> msg_list_cast;
@@ -117,8 +122,10 @@ class NetworkDevice {
         return msg_list_cast;
     }
 
-    template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value && !std::is_base_of<MessageBase, T>::value, void>>
+    template <class T,
+              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
+                                           !std::is_base_of<MessageBase, T>::value,
+                                       void>>
     std::list<std::shared_ptr<Message<T>>> pop_msgs() {
         return pop_msgs<Message<T>>();
     }
@@ -130,7 +137,8 @@ class NetworkDevice {
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
-    template <class T = MessageBase, class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <class T = MessageBase,
+              class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     std::list<MessageBasePtr> msgs(bool pop_msgs = true) {
         static_assert(always_false<T>::value,
                       "You are using the old publisher/subscriber interface (i.e., "
@@ -142,8 +150,10 @@ class NetworkDevice {
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
-    template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value && std::is_base_of<MessageBase, T>::value, void>>
+    template <class T,
+              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
+                                           std::is_base_of<MessageBase, T>::value,
+                                       void>>
     std::list<std::shared_ptr<T>> msgs(bool pop_msgs = true) {
         static_assert(always_false<T>::value,
                       "You are using the old publisher/subscriber interface (i.e., "
@@ -155,8 +165,10 @@ class NetworkDevice {
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
-    template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value && !std::is_base_of<MessageBase, T>::value, void>>
+    template <class T,
+              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
+                                           !std::is_base_of<MessageBase, T>::value,
+                                       void>>
     std::list<std::shared_ptr<Message<T>>> msgs(bool pop_msgs = true) {
         static_assert(always_false<T>::value,
                       "You are using the old publisher/subscriber interface (i.e., "

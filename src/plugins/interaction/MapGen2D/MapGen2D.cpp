@@ -120,7 +120,8 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         double height = rect.height * resolution_;
 
         // Convert rectangle into cube shape
-        Eigen::Vector3d center(x + width / 2.0 + x_origin_, y - height / 2.0 + y_origin_,
+        Eigen::Vector3d center(x + width / 2.0 + x_origin_,
+                               y - height / 2.0 + y_origin_,
                                wall_bottom_z_ + wall_height_ / 2.0 + z_origin_);
 
         sc::Quaternion quat(0, 0, 0);

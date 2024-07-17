@@ -36,7 +36,8 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControllerDirect,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::JSBSimModelControllerDirect,
                 JSBSimModelControllerDirect_plugin)
 
 namespace scrimmage {

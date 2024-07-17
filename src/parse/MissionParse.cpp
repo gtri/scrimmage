@@ -88,7 +88,8 @@ bool MissionParse::parse(const std::string &filename) {
         // SCRIMMAGE_MISSION_PATH.
         FileSearch file_search;
         std::string result = "";
-        bool status = file_search.find_file(mission_filename_, "xml", "SCRIMMAGE_MISSION_PATH", result, false);
+        bool status = file_search.find_file(
+            mission_filename_, "xml", "SCRIMMAGE_MISSION_PATH", result, false);
         if (!status) {
             // The mission file wasn't found. Exit.
             cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
@@ -125,7 +126,8 @@ bool MissionParse::parse(const std::string &filename) {
     // Parse the xml tree.
     rapidxml::xml_document<> doc;
     // doc.parse requires a null terminated string that it can modify.
-    std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);  // allocation done here
+    std::vector<char> mission_file_content_vec(mission_file_content_.size() +
+                                               1);  // allocation done here
     mission_file_content_vec.assign(mission_file_content_.begin(),
                                     mission_file_content_.end());  // copy
     mission_file_content_vec.push_back('\0');                      // shouldn't reallocate
@@ -154,7 +156,8 @@ bool MissionParse::parse(const std::string &filename) {
     }
 
     motion_multiplier_ = 1;
-    for (rapidxml::xml_attribute<> *attr = run_node->first_attribute(); attr; attr = attr->next_attribute()) {
+    for (rapidxml::xml_attribute<> *attr = run_node->first_attribute(); attr;
+         attr = attr->next_attribute()) {
         std::string attr_str(attr->name());
         if (attr_str == "start") {
             t0_ = std::stod(attr->value());
@@ -220,14 +223,16 @@ bool MissionParse::parse(const std::string &filename) {
 
         std::string nm = nm_attr->value();
 
-        for (rx::xml_node<> *node = script_node->first_node(); node != 0; node = node->next_sibling()) {
+        for (rx::xml_node<> *node = script_node->first_node(); node != 0;
+             node = node->next_sibling()) {
             param_common[nm][node->name()] = node->value();
         }
     }
 
     // Loop through each node under "runscript" that isn't an entity or base
     attributes_.clear();
-    for (rapidxml::xml_node<> *node = runscript_node->first_node(); node != 0; node = node->next_sibling()) {
+    for (rapidxml::xml_node<> *node = runscript_node->first_node(); node != 0;
+         node = node->next_sibling()) {
         std::string nm = node->name();
         if (nm != "entity" && nm != "base" && nm != "entity_common" && nm != "param_common") {
             params_[nm] = node->value();
@@ -244,7 +249,8 @@ bool MissionParse::parse(const std::string &filename) {
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node->value();
 
             // Loop through each node's attributes:
-            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr; attr = attr->next_attribute()) {
+            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr;
+                 attr = attr->next_attribute()) {
                 std::string attr_name = attr->name();
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
@@ -332,7 +338,8 @@ bool MissionParse::parse(const std::string &filename) {
     std::map<std::string, AttributeMap> entity_common_attributes;
     std::map<std::string, std::map<std::string, std::string>> entity_common;
     std::map<std::string, std::map<std::string, int>> orders;
-    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity_common"); script_node != 0;
+    for (rapidxml::xml_node<> *script_node = runscript_node->first_node("entity_common");
+         script_node != 0;
          script_node = script_node->next_sibling("entity_common")) {
         std::map<std::string, std::string> script_info;
 
@@ -345,7 +352,8 @@ bool MissionParse::parse(const std::string &filename) {
 
         std::string nm = nm_attr->value();
 
-        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0; node = node->next_sibling()) {
+        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
+             node = node->next_sibling()) {
             std::string node_name = node->name();
 
             if (node_name == "name") {
@@ -361,7 +369,8 @@ bool MissionParse::parse(const std::string &filename) {
             }
 
             // Loop through each node's attributes:
-            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr; attr = attr->next_attribute()) {
+            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr;
+                 attr = attr->next_attribute()) {
                 const std::string attr_name = attr->name();
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
@@ -373,7 +382,8 @@ bool MissionParse::parse(const std::string &filename) {
             }
 
             if (script_info.count(node_name) > 0 && node_name.compare("team_id")) {
-                cout << "Warning: entity contains multiple tags for \"" << node_name << "\"" << endl;
+                cout << "Warning: entity contains multiple tags for \"" << node_name << "\""
+                     << endl;
             }
             script_info[node_name] = node->value();
         }
@@ -486,7 +496,8 @@ bool MissionParse::parse(const std::string &filename) {
 
             // If lon/lat/alt are defined, overwrite x/y/z
             if (lon_valid && lat_valid && alt_valid) {
-                proj_->Forward(pos_LLA(1), pos_LLA(0), pos_LLA(2), pos_xyz(0), pos_xyz(1), pos_xyz(2));
+                proj_->Forward(
+                    pos_LLA(1), pos_LLA(0), pos_LLA(2), pos_xyz(0), pos_xyz(1), pos_xyz(2));
             }
             team_info_[team_id].bases.push_back(pos_xyz);
             team_info_[team_id].radii.push_back(radius);
@@ -494,7 +505,8 @@ bool MissionParse::parse(const std::string &filename) {
         }
 
         // Loop through every other element under the "entity" node
-        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0; node = node->next_sibling()) {
+        for (rapidxml::xml_node<> *node = script_node->first_node(); node != 0;
+             node = node->next_sibling()) {
             std::string nm = node->name();
             if (nm == "autonomy") {
                 nm += std::to_string(autonomy_order++);
@@ -510,7 +522,8 @@ bool MissionParse::parse(const std::string &filename) {
             script_info[nm] = node->value();
 
             // Loop through each node's attributes:
-            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr; attr = attr->next_attribute()) {
+            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr;
+                 attr = attr->next_attribute()) {
                 const std::string attr_name = attr->name();
                 if (attr_name == "param_common") {
                     for (auto &kv : param_common[attr->value()]) {
@@ -662,14 +675,16 @@ bool MissionParse::parse(const std::string &filename) {
 
     // Log the bins by default. Don't log the bins if the tag is defined in
     // the mission file and it is set to true.
-    no_bin_logging_ = (params_.count("no_bin_logging") > 0 && str2bool(params_["no_bin_logging"]) == true);
+    no_bin_logging_ =
+        (params_.count("no_bin_logging") > 0 && str2bool(params_["no_bin_logging"]) == true);
 
     return true;
 }
 
 bool MissionParse::create_log_dir() {
     // Create the root_log_dir_ if it doesn't exist:
-    if (not fs::exists(fs::path(root_log_dir_)) && not fs::create_directories(fs::path(root_log_dir_))) {
+    if (not fs::exists(fs::path(root_log_dir_)) &&
+        not fs::create_directories(fs::path(root_log_dir_))) {
         cout << "Failed to create the root_log_dir: " << root_log_dir_ << endl;
         return false;
     }
@@ -713,8 +728,8 @@ bool MissionParse::create_log_dir() {
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
     // false.
-    bool create_latest_dir =
-        not(params_.count("create_latest_dir") > 0 && str2bool(params_["create_latest_dir"]) == false);
+    bool create_latest_dir = not(params_.count("create_latest_dir") > 0 &&
+                                 str2bool(params_["create_latest_dir"]) == false);
 
     if (create_latest_dir) {
         boost::system::error_code ec;
@@ -804,14 +819,21 @@ bool MissionParse::parse_terrain() {
     utm_terrain_->set_enable_terrain(false);
     utm_terrain_->set_enable_extrusion(false);
 
-    if (params_.count("terrain") > 0 && find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
+    if (params_.count("terrain") > 0 &&
+        find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
         double x_easting;
         double y_northing;
         int zone;
         bool northp;
         double gamma, k_scale;
-        GeographicLib::UTMUPS::Forward(latitude_origin(), longitude_origin(), zone, northp, x_easting, y_northing,
-                                       gamma, k_scale);
+        GeographicLib::UTMUPS::Forward(latitude_origin(),
+                                       longitude_origin(),
+                                       zone,
+                                       northp,
+                                       x_easting,
+                                       y_northing,
+                                       gamma,
+                                       k_scale);
 
         // Make sure the projected zone and hemisphere match the input xml
         if (((northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "NORTH") ||
@@ -836,7 +858,8 @@ bool MissionParse::parse_terrain() {
             utm_terrain_->set_system(terrain_parse.params()["system"]);
             utm_terrain_->set_zone(zone);
             utm_terrain_->set_hemisphere(terrain_parse.params()["hemisphere"]);
-            utm_terrain_->set_enable_grid(get<bool>("enable_grid", terrain_parse.params(), "false"));
+            utm_terrain_->set_enable_grid(
+                get<bool>("enable_grid", terrain_parse.params(), "false"));
             utm_terrain_->set_enable_terrain(true);
             return true;
 
@@ -865,7 +888,9 @@ void MissionParse::set_log_dir(const std::string &log_dir) { log_dir_ = log_dir;
 
 std::map<int, AttributeMap> &MissionParse::entity_attributes() { return entity_attributes_; }
 
-std::map<int, std::map<std::string, std::string>> &MissionParse::entity_params() { return entity_params_; }
+std::map<int, std::map<std::string, std::string>> &MissionParse::entity_params() {
+    return entity_params_;
+}
 
 std::map<int, int> &MissionParse::ent_id_to_block_id() { return ent_id_to_block_id_; }
 
@@ -887,14 +912,15 @@ double MissionParse::latitude_origin() { return latitude_origin_; }
 
 double MissionParse::altitude_origin() { return altitude_origin_; }
 
-void MissionParse::set_lat_lon_alt_origin(const double &latitude_origin, const double &longitude_origin,
+void MissionParse::set_lat_lon_alt_origin(const double &latitude_origin,
+                                          const double &longitude_origin,
                                           const double &altitude_origin) {
     latitude_origin_ = latitude_origin;
     longitude_origin_ = longitude_origin;
     altitude_origin_ = altitude_origin;
 
-    proj_ = std::make_shared<GeographicLib::LocalCartesian>(latitude_origin_, longitude_origin_, altitude_origin_,
-                                                            GeographicLib::Geocentric::WGS84());
+    proj_ = std::make_shared<GeographicLib::LocalCartesian>(
+        latitude_origin_, longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
 }
 
 std::map<int, TeamInfo> &MissionParse::team_info() { return team_info_; }

@@ -128,7 +128,8 @@ int main(int argc, char *argv[]) {
         cout << endl;
         cout << "----------------------------------------------------" << endl;
         int i = 0;
-        for (std::map<std::string, std::list<std::string> >::iterator it = scenarios.begin(); it != scenarios.end();
+        for (std::map<std::string, std::list<std::string> >::iterator it = scenarios.begin();
+             it != scenarios.end();
              ++it) {
             name_2_index[i] = it->first;
             std::string select_str = "[" + std::to_string(i) + "]";

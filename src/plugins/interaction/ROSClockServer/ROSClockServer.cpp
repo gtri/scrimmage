@@ -49,7 +49,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::ROSClockServer, ROSClockServer_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::ROSClockServer,
+                ROSClockServer_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -111,8 +113,8 @@ void ROSClockServer::check_rosmaster_loop() {
 void ROSClockServer::publish_clock_msg(const double &t) {
     // Add the current simulation time to the system time at the start of the
     // simulation.
-    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>> sim_time_point =
-        sim_start_time_ + std::chrono::duration<double>(t);
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>>
+        sim_time_point = sim_start_time_ + std::chrono::duration<double>(t);
 
     // Convert the time_point into a duration that represents double time since
     // the epoch.

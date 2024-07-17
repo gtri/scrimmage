@@ -56,9 +56,13 @@ void set(scrimmage_proto::Vector3d *dst, double x, double y, double z) {
     dst->set_z(z);
 }
 
-void set(Eigen::Vector3d &dst, const scrimmage_proto::Color &src) { dst << src.r(), src.g(), src.b(); }
+void set(Eigen::Vector3d &dst, const scrimmage_proto::Color &src) {
+    dst << src.r(), src.g(), src.b();
+}
 
-void set(std::vector<int> &dst, const scrimmage_proto::Color &src) { dst = {src.r(), src.g(), src.b()}; }
+void set(std::vector<int> &dst, const scrimmage_proto::Color &src) {
+    dst = {src.r(), src.g(), src.b()};
+}
 
 void set(scrimmage_proto::Color *dst, const std::vector<int> &src) {
     dst->set_r(src[0]);
@@ -78,7 +82,9 @@ void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src) {
     dst.set_b(src.b());
 }
 
-void set(scrimmage_proto::Color *dst, const Eigen::Vector3d &color) { set(dst, color(0), color(1), color(2)); }
+void set(scrimmage_proto::Color *dst, const Eigen::Vector3d &color) {
+    set(dst, color(0), color(1), color(2));
+}
 
 void set(scrimmage_proto::Color &dst, scrimmage_proto::Color &src) {
     dst.set_r(src.r());
@@ -129,7 +135,11 @@ void set(scrimmage_proto::Quaternion *dst, const Quaternion &src) {
     dst->set_w(src.w());
 }
 
-void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x, const double &y, const double &z) {
+void set(scrimmage_proto::Quaternion *dst,
+         const double &w,
+         const double &x,
+         const double &y,
+         const double &z) {
     dst->set_x(x);
     dst->set_y(y);
     dst->set_z(z);
@@ -181,7 +191,10 @@ void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s, const scrim
     set(color, c);
 }
 
-void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s, const int &r, const int &g, const int &b) {
+void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
+                     const int &r,
+                     const int &g,
+                     const int &b) {
     scrimmage_proto::Color *color = s->add_color();
     set(color, r, g, b);
 }
@@ -219,7 +232,8 @@ StatePtr proto_2_state(const scrimmage_proto::State &proto_state) {
     return std::make_shared<State>(state);
 }
 
-void path_to_lines(std::vector<Eigen::Vector3d> &path, std::shared_ptr<scrimmage_proto::Shape> sample_line,
+void path_to_lines(std::vector<Eigen::Vector3d> &path,
+                   std::shared_ptr<scrimmage_proto::Shape> sample_line,
                    std::shared_ptr<EntityPlugin> p) {
     for (size_t i = 0; i < path.size() - 1; i++) {
         auto ln = std::make_shared<scrimmage_proto::Shape>();
@@ -257,7 +271,8 @@ Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     return frame;
 }
 
-std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_ptr<ContactMap> &contacts) {
+std::shared_ptr<scrimmage_proto::Frame> create_frame(double time,
+                                                     std::shared_ptr<ContactMap> &contacts) {
     std::shared_ptr<scrimmage_proto::Frame> frame(new scrimmage_proto::Frame());
     frame->set_time(time);
 

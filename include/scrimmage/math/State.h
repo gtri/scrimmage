@@ -99,8 +99,9 @@ class State {
      * nullptr if not successful
      */
     template <class T,
-              class = std::enable_if_t<
-                  !std::is_same<T, scrimmage::State>::value && std::is_base_of<scrimmage::State, T>::value, void>>
+              class = std::enable_if_t<!std::is_same<T, scrimmage::State>::value &&
+                                           std::is_base_of<scrimmage::State, T>::value,
+                                       void>>
     static std::shared_ptr<T> cast(std::shared_ptr<scrimmage::State> state) {
         std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(state);
         try {

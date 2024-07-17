@@ -40,7 +40,9 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane3D, DubinsAirplane3D_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel,
+                scrimmage::motion::DubinsAirplane3D,
+                DubinsAirplane3D_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -69,7 +71,8 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-bool DubinsAirplane3D::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
+                            std::map<std::string, std::string> &params) {
     write_csv_ = sc::get<bool>("write_csv", params, false);
 
     // Model limits
@@ -120,8 +123,23 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info, std::map<s
         csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
                          "-dubins-airplane3d-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{"t", "x", "y", "z", "U", "V", "W", "P", "Q", "R", "roll", "pitch",
-                                                 "yaw", "speed", "Uw", "Vw", "Ww"});
+        csv_.set_column_headers(sc::CSV::Headers{"t",
+                                                 "x",
+                                                 "y",
+                                                 "z",
+                                                 "U",
+                                                 "V",
+                                                 "W",
+                                                 "P",
+                                                 "Q",
+                                                 "R",
+                                                 "roll",
+                                                 "pitch",
+                                                 "yaw",
+                                                 "speed",
+                                                 "Uw",
+                                                 "Vw",
+                                                 "Ww"});
     }
     return true;
 }

@@ -99,17 +99,23 @@ class ROSIMUSensor : public scrimmage::Sensor {
     bool first_sample_collected = false;
     Eigen::Vector3d lla_to_ecef(double lat, double lon, double alt);
     Eigen::Matrix3d enu_to_ecef_rotation(double lat, double lon);
-    Eigen::Vector3d get_deltaV(Eigen::Vector3d pos, Eigen::Vector3d vel, Eigen::Quaterniond bodyToEcef, double deltaT);
+    Eigen::Vector3d get_deltaV(Eigen::Vector3d pos,
+                               Eigen::Vector3d vel,
+                               Eigen::Quaterniond bodyToEcef,
+                               double deltaT);
     Eigen::Vector3d ecef_to_lla(Eigen::Vector3d ecef);
     Eigen::Matrix3d ecef_to_ned_rotation(double lat, double lon);
     Eigen::Vector3d gravity_ned_from_lla(Eigen::Vector3d lla);
     Eigen::Matrix3d skew_sym(Eigen::Vector3d vector);
-    Eigen::Vector3d get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Quaterniond qBodyToECEFt2,
+    Eigen::Vector3d get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat,
+                                    Eigen::Quaterniond qBodyToECEFt2,
                                     double inertialDeltaT);
     Eigen::Vector3d inv_skew_sym(Eigen::Matrix3d inputMatrix);
     Eigen::Quaterniond propagate_quaternion(Eigen::Quaterniond qBodyToECEFt1Hat,
-                                            Eigen::Vector3d deltaThetaBodyWRTInertialInBody, double inertialDeltaT);
-    Eigen::Quaterniond integrate_quaternion(Eigen::Quaterniond qBToA, Eigen::Vector3d deltaThetasBFrame);
+                                            Eigen::Vector3d deltaThetaBodyWRTInertialInBody,
+                                            double inertialDeltaT);
+    Eigen::Quaterniond integrate_quaternion(Eigen::Quaterniond qBToA,
+                                            Eigen::Vector3d deltaThetasBFrame);
     Eigen::Quaterniond omega_to_q_dot(Eigen::Quaterniond qBToA, Eigen::Vector3d omegaABInB);
 
  private:

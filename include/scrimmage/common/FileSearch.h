@@ -58,16 +58,22 @@ class FileSearch {
      */
     boost::optional<std::string> find_mission(std::string mission, bool verbose = false);
 
-    bool find_file(const std::string &filename, std::string ext, const std::string &env_var, std::string &result,
+    bool find_file(const std::string &filename,
+                   std::string ext,
+                   const std::string &env_var,
+                   std::string &result,
                    bool verbose = false);
-    void find_files(std::string env_var, const std::string &ext,
-                    std::unordered_map<std::string, std::list<std::string>> &out, bool verbose = false);
+    void find_files(std::string env_var,
+                    const std::string &ext,
+                    std::unordered_map<std::string, std::list<std::string>> &out,
+                    bool verbose = false);
 
  protected:
     // cache_[env_var][ext][filename] = list of full paths to files with that
     // filename
-    std::unordered_map<std::string,
-                       std::unordered_map<std::string, std::unordered_map<std::string, std::list<std::string>>>>
+    std::unordered_map<
+        std::string,
+        std::unordered_map<std::string, std::unordered_map<std::string, std::list<std::string>>>>
         cache_;
 };
 

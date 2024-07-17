@@ -42,7 +42,8 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerVelYaw,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::DoubleIntegratorControllerVelYaw,
                 DoubleIntegratorControllerVelYaw_plugin)
 
 namespace scrimmage {
@@ -51,7 +52,8 @@ namespace controller {
 void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);
     acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);

@@ -89,9 +89,11 @@ void Boids::init(std::map<std::string, std::string> &params) {
     io_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
     io_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    io_desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    io_desired_speed_idx_ =
+        vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     io_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
-    io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    io_altitude_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
 }
 
 bool Boids::step_autonomy(double t, double dt) {
@@ -207,11 +209,12 @@ bool Boids::step_autonomy(double t, double dt) {
     Eigen::Vector3d v_centroid_w_gain = (centroid - state_->pos()).normalized() * w_centroid_;
     Eigen::Vector3d v_align_w_gain = v_align_normed * w_align_;
 
-    double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() + O_nonteam_vec_w_gain.norm() +
-                       v_centroid_w_gain.norm() + v_align_norm;
+    double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() +
+                       O_nonteam_vec_w_gain.norm() + v_centroid_w_gain.norm() + v_align_norm;
 
-    Eigen::Vector3d v_sum =
-        (v_goal_w_gain + O_team_vec_w_gain + O_nonteam_vec_w_gain + v_centroid_w_gain + v_align_w_gain) / sum_norms;
+    Eigen::Vector3d v_sum = (v_goal_w_gain + O_team_vec_w_gain + O_nonteam_vec_w_gain +
+                             v_centroid_w_gain + v_align_w_gain) /
+                            sum_norms;
 
     // Scale velocity to max speed:
     Eigen::Vector3d vel_result = v_sum * max_speed_;

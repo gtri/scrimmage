@@ -58,7 +58,10 @@ REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::OpenAIRewards, OpenAIRew
 namespace scrimmage {
 namespace metrics {
 
-OpenAIRewards::OpenAIRewards() : Metrics() { print_team_summary_ = false; }
+OpenAIRewards::OpenAIRewards()
+    : Metrics() {
+    print_team_summary_ = false;
+}
 
 void OpenAIRewards::init(std::map<std::string, std::string> & /*params*/) {
     auto cb = [&](auto msg) {

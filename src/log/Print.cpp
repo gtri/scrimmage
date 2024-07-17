@@ -78,7 +78,9 @@
 
 namespace scrimmage {
 
-void Print::init(TimePtr &time, std::string log_dir) { init(time, log_dir, PrintEnums::WRITE_TO::BOTH); }
+void Print::init(TimePtr &time, std::string log_dir) {
+    init(time, log_dir, PrintEnums::WRITE_TO::BOTH);
+}
 void Print::init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag) {
     time_ = time;
     log_dir_ = log_dir;
@@ -129,18 +131,21 @@ void Print::printError(EntityPlugin &caller, std::string outmessage) {
 }
 
 const char *Print::getWarningLevel(PrintEnums::WARN_LEVEL e) {
-    const std::map<PrintEnums::WARN_LEVEL, const char *> GetAsStrings{{PrintEnums::WARN_LEVEL::DEV, "DEV"},
-                                                                      {PrintEnums::WARN_LEVEL::INFO, "INFO"},
-                                                                      {PrintEnums::WARN_LEVEL::WARNING, "WARN"},
-                                                                      {PrintEnums::WARN_LEVEL::ERROR, "ERROR"}};
+    const std::map<PrintEnums::WARN_LEVEL, const char *> GetAsStrings{
+        {PrintEnums::WARN_LEVEL::DEV, "DEV"},
+        {PrintEnums::WARN_LEVEL::INFO, "INFO"},
+        {PrintEnums::WARN_LEVEL::WARNING, "WARN"},
+        {PrintEnums::WARN_LEVEL::ERROR, "ERROR"}};
     auto it = GetAsStrings.find(e);
     return it == GetAsStrings.end() ? GetAsStrings.begin()->second : it->second;
 }
 bool Print::write_file() {
-    return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) || (output_flag_ == PrintEnums::WRITE_TO::FILE_ONLY));
+    return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) ||
+            (output_flag_ == PrintEnums::WRITE_TO::FILE_ONLY));
 }
 bool Print::write_console() {
-    return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) || (output_flag_ == PrintEnums::WRITE_TO::CONSOLE_ONLY));
+    return ((output_flag_ == PrintEnums::WRITE_TO::BOTH) ||
+            (output_flag_ == PrintEnums::WRITE_TO::CONSOLE_ONLY));
 }
 
 std::string Print::formatTime(double time) {
@@ -148,7 +153,8 @@ std::string Print::formatTime(double time) {
         return "-----.---";
     } else {
         std::ostringstream o;
-        o << std::internal << std::fixed << std::setprecision(3) << std::setw(9) << std::setfill('0') << time;
+        o << std::internal << std::fixed << std::setprecision(3) << std::setw(9)
+          << std::setfill('0') << time;
         return o.str();
     }
 }
@@ -164,8 +170,8 @@ std::string Print::formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data, std:
     }
 
     // create our prefix
-    pre << formatTime(data.time_) << "s [" << data.name_ << "]" << entitySection << "[" << Print::getWarningLevel(level)
-        << "]: ";
+    pre << formatTime(data.time_) << "s [" << data.name_ << "]" << entitySection << "["
+        << Print::getWarningLevel(level) << "]: ";
 
     // remove last character if it's a newline
     if (msg.back() == '\n') {
@@ -185,7 +191,10 @@ std::string Print::formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data, std:
     return formattedmsg.str();
 }
 
-void Print::print(std::ostream &stream, PrintEnums::WARN_LEVEL level, EntityPlugin &caller, std::string msg) {
+void Print::print(std::ostream &stream,
+                  PrintEnums::WARN_LEVEL level,
+                  EntityPlugin &caller,
+                  std::string msg) {
     PrintData pd;
     pd.time_ = caller.getTime()->t();
     pd.name_ = caller.name();
@@ -193,7 +202,10 @@ void Print::print(std::ostream &stream, PrintEnums::WARN_LEVEL level, EntityPlug
 
     print(stream, level, pd, msg);
 }
-void Print::print(std::ostream &stream, PrintEnums::WARN_LEVEL level, PrintData &data, std::string msg) {
+void Print::print(std::ostream &stream,
+                  PrintEnums::WARN_LEVEL level,
+                  PrintData &data,
+                  std::string msg) {
     std::ostringstream o;
 
     o << formatMsg(level, data, msg) << std::endl;

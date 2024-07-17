@@ -86,7 +86,11 @@ void set(scrimmage_proto::Color *dst, const scrimmage::Color_t &src);
 void set(scrimmage_proto::Color *color, int r, int g, int b);
 void set(scrimmage_proto::Color *color, int grayscale);
 void set(scrimmage_proto::Quaternion *dst, const Quaternion &src);
-void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x, const double &y, const double &z);
+void set(scrimmage_proto::Quaternion *dst,
+         const double &w,
+         const double &x,
+         const double &y,
+         const double &z);
 void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state);
 void set(scrimmage_proto::State *dst, const scrimmage::State &state);
 void set(scrimmage::State &dst, const scrimmage_proto::State &state);
@@ -108,7 +112,8 @@ Eigen::Vector3d proto_2_vector3d(const scrimmage_proto::Vector3d &proto_vector3d
 
 StatePtr proto_2_state(const scrimmage_proto::State &proto_state);
 
-void path_to_lines(std::vector<Eigen::Vector3d> &path, std::shared_ptr<scrimmage_proto::Shape> sample_line,
+void path_to_lines(std::vector<Eigen::Vector3d> &path,
+                   std::shared_ptr<scrimmage_proto::Shape> sample_line,
                    std::shared_ptr<EntityPlugin> p);
 
 std::list<scrimmage_proto::Line> points_to_lines(const std::list<Eigen::Vector3d> &points);
@@ -117,7 +122,8 @@ Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact);
 
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame);
 
-std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_ptr<ContactMap> &contacts);
+std::shared_ptr<scrimmage_proto::Frame> create_frame(double time,
+                                                     std::shared_ptr<ContactMap> &contacts);
 
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_

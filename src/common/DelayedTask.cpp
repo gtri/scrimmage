@@ -36,7 +36,8 @@
 
 namespace scrimmage {
 
-DelayedTask::DelayedTask() : DelayedTask(0, -1) {}
+DelayedTask::DelayedTask()
+    : DelayedTask(0, -1) {}
 
 DelayedTask::DelayedTask(double _delay, int repeats)
     : disable(false),

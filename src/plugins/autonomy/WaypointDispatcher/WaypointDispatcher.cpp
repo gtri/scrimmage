@@ -50,14 +50,17 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::WaypointDispatcher, WaypointDispatcher_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::WaypointDispatcher,
+                WaypointDispatcher_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 Eigen::Vector3d WaypointDispatcher::lla_to_xyz(const Waypoint &wpt) {
     Eigen::Vector3d xyz;
-    parent_->projection()->Forward(wpt.latitude(), wpt.longitude(), wpt.altitude(), xyz(0), xyz(1), xyz(2));
+    parent_->projection()->Forward(
+        wpt.latitude(), wpt.longitude(), wpt.altitude(), xyz(0), xyz(1), xyz(2));
     return xyz;
 }
 
@@ -67,7 +70,8 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
     tolerance_in_2d_ = sc::get<bool>("tolerance_in_2d", params, tolerance_in_2d_);
 
-    std::string waypointlist_network = get<std::string>("waypointlist_network", params, "GlobalNetwork");
+    std::string waypointlist_network =
+        get<std::string>("waypointlist_network", params, "GlobalNetwork");
     std::string waypoint_network = sc::get<std::string>("waypoint_network", params, "LocalNetwork");
 
     wp_pub_ = advertise(waypoint_network, "Waypoint");
@@ -99,16 +103,24 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
     Waypoint curr_wp_lla = *wp_it_;
 
     Eigen::Vector3d wp;
-    parent_->projection()->Forward(curr_wp_lla.latitude(), curr_wp_lla.longitude(), curr_wp_lla.altitude(), wp(0),
-                                   wp(1), wp(2));
+    parent_->projection()->Forward(curr_wp_lla.latitude(),
+                                   curr_wp_lla.longitude(),
+                                   curr_wp_lla.altitude(),
+                                   wp(0),
+                                   wp(1),
+                                   wp(2));
 
     Eigen::Vector3d prev_wp;
     if (prev_wp_it_ == wp_it_) {
         prev_wp = state_->pos();
     } else {
         Waypoint prev_wp_lla = *prev_wp_it_;
-        parent_->projection()->Forward(prev_wp_lla.latitude(), prev_wp_lla.longitude(), prev_wp_lla.altitude(),
-                                       prev_wp(0), prev_wp(1), prev_wp(2));
+        parent_->projection()->Forward(prev_wp_lla.latitude(),
+                                       prev_wp_lla.longitude(),
+                                       prev_wp_lla.altitude(),
+                                       prev_wp(0),
+                                       prev_wp(1),
+                                       prev_wp(2));
     }
 
     Eigen::Vector3d wp_line = wp - prev_wp;
@@ -153,7 +165,8 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
     wp_pub_->publish(wp_msg);
 
     // check if within waypoint tolerance
-    double dist = tolerance_in_2d_ ? (state_->pos().head<2>() - wp.head<2>()).norm() : (state_->pos() - wp).norm();
+    double dist = tolerance_in_2d_ ? (state_->pos().head<2>() - wp.head<2>()).norm()
+                                   : (state_->pos() - wp).norm();
     if (dist <= curr_wp_lla.position_tolerance()) {
         bool done = false;
         switch (wp_list_.mode()) {

@@ -245,8 +245,10 @@ bool CSV::read_csv_from_string(const std::string &csv_str, const bool &contains_
             // Print a warning if the number of comma separated values doesn't
             // match the number of columns
             if (column_headers_.size() != tokens.size()) {
-                cout << "Warning the number of values (" << tokens.size() << ") on line number " << row_num
-                     << " doesn't match the number of column headers: " << column_headers_.size() << endl;
+                cout << "Warning the number of values (" << tokens.size() << ") on line number "
+                     << row_num
+                     << " doesn't match the number of column headers: " << column_headers_.size()
+                     << endl;
             }
             row_num++;
         }
@@ -281,9 +283,10 @@ std::list<std::string> CSV::get_csv_line_elements(const std::string &str) {
     boost::split(tokens, str, boost::is_any_of(","));
     for (unsigned int i = 0; i < tokens.size(); i++) {
         // Remove whitespace
-        tokens[i].erase(
-            std::remove_if(tokens[i].begin(), tokens[i].end(), [](unsigned char x) { return std::isspace(x); }),
-            tokens[i].end());
+        tokens[i].erase(std::remove_if(tokens[i].begin(),
+                                       tokens[i].end(),
+                                       [](unsigned char x) { return std::isspace(x); }),
+                        tokens[i].end());
 
         if (tokens[i] != "") {
             elems.push_back(tokens[i]);
@@ -297,7 +300,9 @@ void CSV::write_headers() { file_out_ << headers_to_string() << endl; }
 void CSV::write_row(const int &row) { file_out_ << row_to_string(row) << endl; }
 
 bool CSV::equals(const CSV &other) {
-    if (not std::equal(column_headers_.begin(), column_headers_.end(), other.column_headers_.begin(),
+    if (not std::equal(column_headers_.begin(),
+                       column_headers_.end(),
+                       other.column_headers_.begin(),
                        other.column_headers_.end())) {
         return false;
     }

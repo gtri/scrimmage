@@ -47,7 +47,9 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::RandomAttrit, RandomAttrit_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::RandomAttrit,
+                RandomAttrit_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -62,7 +64,9 @@ bool RandomAttrit::init(std::map<std::string, std::string> &mission_params,
     duration_s_ = sc::get("duration", plugin_params, 10.0);
     std::vector<std::string> stay_alive_ids_str;
     sc::get_vec("leave_alive", plugin_params, " ", stay_alive_ids_str);
-    std::transform(stay_alive_ids_str.begin(), stay_alive_ids_str.end(), std::back_inserter(stay_alive_ids_),
+    std::transform(stay_alive_ids_str.begin(),
+                   stay_alive_ids_str.end(),
+                   std::back_inserter(stay_alive_ids_),
                    [](const std::string &str) { return std::stoi(str); });
 
     attrit_pub_ = advertise("GlobalNetwork", "AttritAnnounce");
@@ -76,13 +80,15 @@ bool RandomAttrit::step_entity_interaction(std::list<sc::EntityPtr> &ents, doubl
 
     total_num_entities_ = 0;
     std::vector<sc::EntityPtr> cur_ents;
-    std::copy_if(ents.begin(), ents.end(), std::back_inserter(cur_ents), [&](const sc::EntityPtr &ent) {
-        bool is_stay_alive =
-            std::find(stay_alive_ids_.begin(), stay_alive_ids_.end(), ent->id().id()) != stay_alive_ids_.end();
-        bool team_match = ent->id().team_id() == team_id_;
-        if (team_match) total_num_entities_++;
-        return !is_stay_alive && team_match;
-    });
+    std::copy_if(
+        ents.begin(), ents.end(), std::back_inserter(cur_ents), [&](const sc::EntityPtr &ent) {
+            bool is_stay_alive =
+                std::find(stay_alive_ids_.begin(), stay_alive_ids_.end(), ent->id().id()) !=
+                stay_alive_ids_.end();
+            bool team_match = ent->id().team_id() == team_id_;
+            if (team_match) total_num_entities_++;
+            return !is_stay_alive && team_match;
+        });
 
     if (t < start_wait_time_s_) {
         return true;
@@ -97,7 +103,8 @@ bool RandomAttrit::step_entity_interaction(std::list<sc::EntityPtr> &ents, doubl
         double slope = -start_num_ent_ / duration_s_;
         num_ent_ = slope * (t - start_wait_time_s_) + start_num_ent_;
     } else {
-        std::cout << "RandomAttrit: Decay method, " << decay_method_ << ", is not implemented." << std::endl;
+        std::cout << "RandomAttrit: Decay method, " << decay_method_ << ", is not implemented."
+                  << std::endl;
     }
 
     // else if (decay_method_ == "exponential") {

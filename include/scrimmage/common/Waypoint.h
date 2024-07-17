@@ -51,9 +51,12 @@ class Waypoint {
  public:
     Waypoint() = default;
     Waypoint(const double& latitude, const double& longitude, const double& altitude);
-    Waypoint(const double& x, const double& y, const double& z,
+    Waypoint(const double& x,
+             const double& y,
+             const double& z,
              const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
-    Waypoint(const Eigen::Vector3d& xyz, const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
+    Waypoint(const Eigen::Vector3d& xyz,
+             const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
     explicit Waypoint(const scrimmage_msgs::Waypoint& wp);
 
     void set_id(const size_t& id) { id_ = id; }

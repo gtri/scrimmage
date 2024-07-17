@@ -59,7 +59,8 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::Boundary, 
 namespace scrimmage {
 namespace interaction {
 
-Boundary::Boundary() : boundary_shape_(std::make_shared<scrimmage_proto::Shape>()) {}
+Boundary::Boundary()
+    : boundary_shape_(std::make_shared<scrimmage_proto::Shape>()) {}
 
 bool Boundary::init(std::map<std::string, std::string> &mission_params,
                     std::map<std::string, std::string> &plugin_params) {
@@ -104,7 +105,8 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
         sc::set(boundary_shape_->mutable_cuboid()->mutable_quat(), quat);
 
     } else if (type == "polyhedron") {
-        std::string polyhedron_points = sc::get<std::string>("polyhedron_points", plugin_params, "");
+        std::string polyhedron_points =
+            sc::get<std::string>("polyhedron_points", plugin_params, "");
 
         std::vector<std::vector<std::string>> vecs;
         if (!sc::get_vec_of_vecs(polyhedron_points, vecs)) {

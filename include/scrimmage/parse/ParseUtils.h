@@ -137,7 +137,10 @@ std::vector<T> str2vec(const std::string &str, const std::string &delims) {
 
 template <typename T>
 // [[deprecated("str2vec is deprecated, use str2container instead")]]
-bool str2vec(const std::string &str, const std::string &delims, std::vector<T> &vec, int size = -1) {
+bool str2vec(const std::string &str,
+             const std::string &delims,
+             std::vector<T> &vec,
+             int size = -1) {
     std::vector<T> tmp_vec;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
@@ -158,26 +161,38 @@ bool str2vec(const std::string &str, const std::string &delims, std::vector<T> &
 }
 
 template <typename T>
-bool get_vec(const std::string &str, const std::map<std::string, std::string> &params, const std::string &delims,
-             std::vector<T> &vec, int size = -1) {
+bool get_vec(const std::string &str,
+             const std::map<std::string, std::string> &params,
+             const std::string &delims,
+             std::vector<T> &vec,
+             int size = -1) {
     auto it = params.find(str);
     return it == params.end() ? false : str2container(it->second, delims, vec, size);
 }
 
-bool get_vec(const std::string &str, std::map<std::string, std::string> &params, std::vector<std::string> &vec);
+bool get_vec(const std::string &str,
+             std::map<std::string, std::string> &params,
+             std::vector<std::string> &vec);
 
 Eigen::Vector3d vec2eigen(std::vector<double> &vec);
 
-bool find_terrain_files(std::string terrain_name, ConfigParse &terrain_parse,
+bool find_terrain_files(std::string terrain_name,
+                        ConfigParse &terrain_parse,
                         std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
 
-bool find_model_properties(std::string model_name, ConfigParse &cv_parse, FileSearch &file_search,
+bool find_model_properties(std::string model_name,
+                           ConfigParse &cv_parse,
+                           FileSearch &file_search,
                            std::map<std::string, std::string> &overrides,
-                           std::shared_ptr<scrimmage_proto::ContactVisual> &cv, bool &mesh_found, bool &texture_found);
+                           std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
+                           bool &mesh_found,
+                           bool &texture_found);
 
-bool parse_autonomy_data(std::map<std::string, std::string> &params, std::map<std::string, std::string> &data_params);
+bool parse_autonomy_data(std::map<std::string, std::string> &params,
+                         std::map<std::string, std::string> &data_params);
 
-bool get_vec_of_vecs(const std::string &str, std::vector<std::vector<std::string>> &out,
+bool get_vec_of_vecs(const std::string &str,
+                     std::vector<std::vector<std::string>> &out,
                      const std::string &delims = " ,");
 
 bool set_pid_gains(PID &pid, std::string str, bool is_angle = false);
@@ -185,10 +200,13 @@ bool set_pid_gains(PID &pid, std::string str, bool is_angle = false);
 struct PluginOverrides {
     std::string name;
     std::map<std::string, std::string> overrides;
-    PluginOverrides(const std::string &n, std::map<std::string, std::string> &o) : name(n), overrides(o) {}
+    PluginOverrides(const std::string &n, std::map<std::string, std::string> &o)
+        : name(n),
+          overrides(o) {}
 };
 
-unsigned int parse_plugin_vector(const std::string &key, std::map<std::string, std::string> &params,
+unsigned int parse_plugin_vector(const std::string &key,
+                                 std::map<std::string, std::string> &params,
                                  std::list<PluginOverrides> &plugin_overrides_list);
 
 void remove_leading_spaces(std::string &s);

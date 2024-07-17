@@ -103,7 +103,8 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
     subscribe<sm::Charge>("GlobalNetwork", "ChargeAdded", callback_charge_added);
 
     // Service call to get battery charge
-    parent_->services()["get_battery_charge"] = std::bind(&MotionBattery::get_battery_charge, this, pl::_1, pl::_2);
+    parent_->services()["get_battery_charge"] =
+        std::bind(&MotionBattery::get_battery_charge, this, pl::_1, pl::_2);
 
     publish_charge_ = sc::get<bool>("publish_charge", params, publish_charge_);
     pub_charge_percentage_ = advertise("LocalNetwork", "ChargePercentage");
@@ -133,12 +134,15 @@ bool MotionBattery::step(double t, double dt) {
     return true;
 }
 
-bool MotionBattery::get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response) {
+bool MotionBattery::get_battery_charge(scrimmage::MessageBasePtr request,
+                                       scrimmage::MessageBasePtr &response) {
     response = std::make_shared<sc::Message<double>>(battery_.current_charge());
     return true;
 }
 
-double MotionBattery::calculate_charge_usage(const double &throttle, const double &dt) { return 0.0; }
+double MotionBattery::calculate_charge_usage(const double &throttle, const double &dt) {
+    return 0.0;
+}
 
 }  // namespace controller
 }  // namespace scrimmage

@@ -52,7 +52,9 @@ Joystick::~Joystick() {
     free(button_);
 }
 
-void Joystick::init(std::map<std::string, std::string> &params, VariableIO &vars, EntityPluginPtr plugin) {
+void Joystick::init(std::map<std::string, std::string> &params,
+                    VariableIO &vars,
+                    EntityPluginPtr plugin) {
     print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");
@@ -97,8 +99,13 @@ void Joystick::init(std::map<std::string, std::string> &params, VariableIO &vars
             if (axis >= num_of_axis_) {
                 cout << "Warning: axis_map contains out-of-range axis index" << endl;
             } else {
-                AxisScale at(axis, std::stod(vec[2]), std::stod(vec[3]), std::stod(vec[4]), std::stod(vec[5]),
-                             std::stod(vec[6]), vars.declare(vec[0], VariableIO::Direction::Out));
+                AxisScale at(axis,
+                             std::stod(vec[2]),
+                             std::stod(vec[3]),
+                             std::stod(vec[4]),
+                             std::stod(vec[5]),
+                             std::stod(vec[6]),
+                             vars.declare(vec[0], VariableIO::Direction::Out));
                 axis_tfs_.push_back(at);
             }
         }
@@ -106,7 +113,8 @@ void Joystick::init(std::map<std::string, std::string> &params, VariableIO &vars
 
     publish_button_state_ = sc::get<bool>("publish_button_state", params, false);
     std::string button_topic = sc::get<std::string>("button_topic", params, "joystick_buttons");
-    std::string button_network_name = sc::get<std::string>("button_network_name", params, "LocalNetwork");
+    std::string button_network_name =
+        sc::get<std::string>("button_network_name", params, "LocalNetwork");
     if (publish_button_state_) {
         pub_buttons_ = plugin->advertise(button_network_name, button_topic);
     }

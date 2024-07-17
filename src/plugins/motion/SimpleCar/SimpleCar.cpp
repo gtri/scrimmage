@@ -49,7 +49,8 @@ enum ModelParams { X = 0, Y, Z, Z_dot, THETA, MODEL_NUM_ITEMS };
 
 enum ControlParams { FORWARD_VELOCITY = 0, TURN_RATE, CONTROL_NUM_ITEMS };
 
-bool SimpleCar::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool SimpleCar::init(std::map<std::string, std::string> &info,
+                     std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = std::stod(info["x"]);
     x_[Y] = std::stod(info["y"]);

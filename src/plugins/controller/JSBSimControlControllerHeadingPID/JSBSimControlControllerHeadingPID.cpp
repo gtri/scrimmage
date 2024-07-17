@@ -40,7 +40,8 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerHeadingPID,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::JSBSimControlControllerHeadingPID,
                 JSBSimControlControllerHeadingPID_plugin)
 
 namespace scrimmage {

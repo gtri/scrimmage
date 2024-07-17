@@ -40,11 +40,16 @@ namespace pl = std::placeholders;
 
 namespace scrimmage {
 
-MotionModel::MotionModel() : ext_force_(0, 0, 0), ext_moment_(0, 0, 0), mass_(1.0), g_(9.81) {}
+MotionModel::MotionModel()
+    : ext_force_(0, 0, 0),
+      ext_moment_(0, 0, 0),
+      mass_(1.0),
+      g_(9.81) {}
 
 std::string MotionModel::type() { return std::string("MotionModel"); }
 
-bool MotionModel::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool MotionModel::init(std::map<std::string, std::string> &info,
+                       std::map<std::string, std::string> &params) {
     return false;
 }
 

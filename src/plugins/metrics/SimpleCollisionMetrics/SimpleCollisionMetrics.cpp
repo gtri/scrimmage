@@ -52,7 +52,9 @@ namespace sm = scrimmage_msgs;
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::SimpleCollisionMetrics, SimpleCollisionMetrics_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics,
+                scrimmage::metrics::SimpleCollisionMetrics,
+                SimpleCollisionMetrics_plugin)
 
 namespace scrimmage {
 namespace metrics {
@@ -181,7 +183,8 @@ void SimpleCollisionMetrics::calc_team_scores() {
 }
 
 void SimpleCollisionMetrics::print_team_summaries() {
-    for (std::map<int, SimpleCollisionScore>::iterator it = team_coll_scores_.begin(); it != team_coll_scores_.end();
+    for (std::map<int, SimpleCollisionScore>::iterator it = team_coll_scores_.begin();
+         it != team_coll_scores_.end();
          ++it) {
         bool survived = false;
         auto it_survive = surviving_teams_.find(it->first);

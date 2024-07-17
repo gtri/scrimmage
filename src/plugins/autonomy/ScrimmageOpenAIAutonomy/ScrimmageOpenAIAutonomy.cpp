@@ -61,13 +61,16 @@ namespace py = pybind11;
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ScrimmageOpenAIAutonomy, ScrimmageOpenAIAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::ScrimmageOpenAIAutonomy,
+                ScrimmageOpenAIAutonomy_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy()
-    : reward_range(-std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity()),
+    : reward_range(-std::numeric_limits<double>::infinity(),
+                   std::numeric_limits<double>::infinity()),
       tuple_space_(get_gym_space("Tuple")),
       box_space_(get_gym_space("Box")),
       nonlearning_mode_(false) {}
@@ -92,8 +95,8 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
         const std::string port_str = std::to_string(port + parent_->id().id());
         const std::string address = grpc_address_ + ":" + port_str;
 
-        python_cmd_ = std::string("openai_grpc_link.py") + " --port " + port_str + " --actor " + module + ":" +
-                      actor_func_str + " --ip " + grpc_address_;
+        python_cmd_ = std::string("openai_grpc_link.py") + " --port " + port_str + " --actor " +
+                      module + ":" + actor_func_str + " --ip " + grpc_address_;
         auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
         openai_stub_ = sp::OpenAI::NewStub(channel);
     }
@@ -116,17 +119,19 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
                 int attempts = 0;
                 bool done = false;
                 while (attempts++ < 10 && !done) {
-                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/10" << std::endl;
+                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/10"
+                              << std::endl;
                     done = send_env();
                 }
                 // Return an exception saying we could not connect to grpc
                 if (!done) {
-                    const std::string err_msg = std::string("Didn't connect to the grpc server. Make sure") +
-                                                " the grpc client is running and your python" +
-                                                " bindings are up to date." +
-                                                "You can start a grpc server with the followning "
-                                                "command: " +
-                                                python_cmd_;
+                    const std::string err_msg =
+                        std::string("Didn't connect to the grpc server. Make sure") +
+                        " the grpc client is running and your python" +
+                        " bindings are up to date." +
+                        "You can start a grpc server with the followning "
+                        "command: " +
+                        python_cmd_;
                     throw std::runtime_error(err_msg);
                 }
             }
@@ -181,7 +186,8 @@ boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(sp::Obs &observa
     auto deadline = std::chrono::system_clock::now() + std::chrono::milliseconds(500);
     context.set_deadline(deadline);
     grpc::Status status = openai_stub_->GetAction(&context, observation, &action);
-    if (!(status.error_code() == grpc::StatusCode::OK || status.error_code() == grpc::StatusCode::UNKNOWN)) {
+    if (!(status.error_code() == grpc::StatusCode::OK ||
+          status.error_code() == grpc::StatusCode::UNKNOWN)) {
         return boost::none;
     } else if (action.done()) {
         return boost::none;
@@ -237,7 +243,8 @@ bool ScrimmageOpenAIAutonomy::send_env() {
     context.set_deadline(deadline);
     grpc::Status status = openai_stub_->SendEnvironment(&context, env, &reply);
     if (!status.ok()) {
-        std::cout << "Can't Connect: message " << status.error_code() << ", " << status.error_message() << std::endl;
+        std::cout << "Can't Connect: message " << status.error_code() << ", "
+                  << status.error_message() << std::endl;
     }
     return status.ok();
 }

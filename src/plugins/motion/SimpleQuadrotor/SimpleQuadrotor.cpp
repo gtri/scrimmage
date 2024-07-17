@@ -50,7 +50,8 @@ enum ModelParams { X = 0, Y, Z, XDOT, YDOT, ZDOT, YAW, YAWDOT, MODEL_NUM_ITEMS }
 
 enum ControlParams { X_THRUST = 0, Y_THRUST, Z_THRUST, TURN_RATE, CONTROL_NUM_ITEMS };
 
-bool SimpleQuadrotor::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+bool SimpleQuadrotor::init(std::map<std::string, std::string> &info,
+                           std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);

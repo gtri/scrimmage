@@ -228,8 +228,8 @@ class MissionParse {
     std::set<std::string> output_types_;
 
     // Set of all possible output types
-    const std::set<std::string> possible_output_types_ = {"frames",  "summary", "git_commits",
-                                                          "mission", "seed",    "runtime"};
+    const std::set<std::string> possible_output_types_ = {
+        "frames", "summary", "git_commits", "mission", "seed", "runtime"};
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
 }  // namespace scrimmage

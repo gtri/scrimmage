@@ -61,7 +61,12 @@ class GraphvizFSM : public scrimmage::Autonomy {
     typedef boost::property<label_t, std::string> EdgeProperty;
 
     typedef boost::property<boost::graph_name_t, std::string> graph_p;
-    typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, DotVertex, EdgeProperty, graph_p,
+    typedef boost::adjacency_list<boost::vecS,
+                                  boost::vecS,
+                                  boost::directedS,
+                                  DotVertex,
+                                  EdgeProperty,
+                                  graph_p,
                                   boost::listS>
         graph_t;
 

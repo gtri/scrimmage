@@ -38,7 +38,8 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleQuadrotorControllerLQR,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SimpleQuadrotorControllerLQR,
                 SimpleQuadrotorControllerLQR_plugin)
 
 namespace scrimmage {

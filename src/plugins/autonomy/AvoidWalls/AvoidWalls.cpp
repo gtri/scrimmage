@@ -47,7 +47,9 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     double initial_speed = get<double>("initial_speed", params, 21);
     avoid_distance_ = get<double>("avoid_distance", params, 20);
 
-    auto pc_cb = [&](scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) { point_cloud_ = msg->data; };
+    auto pc_cb = [&](scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
+        point_cloud_ = msg->data;
+    };
     subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
 
     heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);

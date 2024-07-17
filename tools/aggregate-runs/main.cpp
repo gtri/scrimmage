@@ -56,7 +56,9 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-void usage(char *argv[]) { cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl << endl; }
+void usage(char *argv[]) {
+    cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl << endl;
+}
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {

@@ -82,7 +82,9 @@ class PluginManager {
 
     PluginManager();
 
-    void print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search,
+    void print_plugins(const std::string &plugin_type,
+                       const std::string &title,
+                       FileSearch &file_search,
                        const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH");
     void print_returned_plugins();
 
@@ -91,8 +93,11 @@ class PluginManager {
                                std::list<std::string> &plugins);
 
     template <class T>
-    PluginStatus<T> make_plugin(std::string plugin_type, const std::string &plugin_name_xml, FileSearch &file_search,
-                                ConfigParse &config_parse, const std::map<std::string, std::string> &overrides,
+    PluginStatus<T> make_plugin(std::string plugin_type,
+                                const std::string &plugin_name_xml,
+                                FileSearch &file_search,
+                                ConfigParse &config_parse,
+                                const std::map<std::string, std::string> &overrides,
                                 const std::set<std::string> &plugin_tags,
                                 const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH") {
         PluginStatus<T> status;
@@ -104,10 +109,11 @@ class PluginManager {
 
         config_parse.set_required("library");
         if (!config_parse.parse(overrides, plugin_name, env_var_name, file_search)) {
-            std::cout << "Failed to parse: " << plugin_name << ".xml for type " << plugin_type << std::endl;
+            std::cout << "Failed to parse: " << plugin_name << ".xml for type " << plugin_type
+                      << std::endl;
             std::cout << "Check that you have sourced ~/.scrimmage/setup.bash "
-                      << "(this sets the environment variable " << env_var_name << " to a directory including "
-                      << plugin_name << ".xml)" << std::endl;
+                      << "(this sets the environment variable " << env_var_name
+                      << " to a directory including " << plugin_name << ".xml)" << std::endl;
             status.status = PluginStatus<T>::parse_failed;
             return status;
         }
@@ -175,7 +181,8 @@ class PluginManager {
             return status;
         }
 
-        std::cout << "ERROR: Could not locate " << plugin_type << "::" << plugin_name_so << std::endl;
+        std::cout << "ERROR: Could not locate " << plugin_type << "::" << plugin_name_so
+                  << std::endl;
         status.status = PluginStatus<T>::missing;
         return status;
     }

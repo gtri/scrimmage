@@ -48,7 +48,9 @@
 
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::SimpleCollision, SimpleCollision_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction,
+                scrimmage::interaction::SimpleCollision,
+                SimpleCollision_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -102,7 +104,8 @@ bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents, double
                     msg->data.set_entity_id_2(ent2->id().id());
                     team_collision_pub_->publish(msg);
 
-                } else if (enable_non_team_collisions_ && ent1->id().team_id() != ent2->id().team_id()) {
+                } else if (enable_non_team_collisions_ &&
+                           ent1->id().team_id() != ent2->id().team_id()) {
                     ent1->collision();
                     ent2->collision();
 

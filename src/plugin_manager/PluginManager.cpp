@@ -106,9 +106,12 @@ int PluginManager::check_library(std::string lib_path) {
     return 0;
 }
 
-PluginManager::PluginManager() : reload_(false) {}
+PluginManager::PluginManager()
+    : reload_(false) {}
 
-void PluginManager::print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search,
+void PluginManager::print_plugins(const std::string &plugin_type,
+                                  const std::string &title,
+                                  FileSearch &file_search,
                                   const std::string &env_var_name) {
     // make sure all files are loaded
     if (!files_checked_) {
@@ -190,9 +193,10 @@ std::map<std::string, std::unordered_set<std::string>> PluginManager::get_commit
     return commits;
 }
 
-void PluginManager::find_matching_plugins(const std::string &plugin_name_so,
-                                          std::unordered_map<std::string, std::list<std::string>> &so_files,
-                                          std::list<std::string> &plugins) {
+void PluginManager::find_matching_plugins(
+    const std::string &plugin_name_so,
+    std::unordered_map<std::string, std::list<std::string>> &so_files,
+    std::list<std::string> &plugins) {
     auto it = so_files.find(std::string("lib") + plugin_name_so + LIB_EXT);
     if (it != so_files.end()) {
         for (std::string &full_fname : it->second) {

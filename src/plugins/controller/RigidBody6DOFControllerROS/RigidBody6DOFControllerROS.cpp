@@ -35,7 +35,8 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerROS,
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::RigidBody6DOFControllerROS,
                 RigidBody6DOFControllerROS_plugin)
 
 namespace scrimmage {
@@ -71,6 +72,8 @@ bool RigidBody6DOFControllerROS::step(double t, double dt) {
     return true;
 }
 
-void RigidBody6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) { cmd_vel_ = *msg; }
+void RigidBody6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
+    cmd_vel_ = *msg;
+}
 }  // namespace controller
 }  // namespace scrimmage
