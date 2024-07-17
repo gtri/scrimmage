@@ -22,6 +22,11 @@ or feature request.
         $ py.test test_cpplint.py
 
 
+   The entire Scrimmage Directory can be formatted via:
+        
+        $ cd scripts/
+        $ ./format_all.sh
+
 3. Push a commit with a meaningful message to your own fork.
 
 4. If you have multiple commits related to the same feature, please consider
