@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
@@ -43,19 +43,19 @@ namespace scrimmage {
 namespace controller {
 class FixedWing6DOFControllerPID : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+  virtual void init(std::map<std::string, std::string> &params);
+  virtual bool step(double t, double dt);
 
  protected:
-    PID heading_pid_;
-    PID alt_pid_;
-    PID vel_pid_;
+  PID heading_pid_;
+  PID alt_pid_;
+  PID vel_pid_;
 
-    int throttle_idx_ = 0;
-    int elevator_idx_ = 0;
-    int aileron_idx_ = 0;
-    int rudder_idx_ = 0;
+  int throttle_idx_ = 0;
+  int elevator_idx_ = 0;
+  int aileron_idx_ = 0;
+  int rudder_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERPID_FIXEDWING6DOFCONTROLLERPID_H_

@@ -33,21 +33,22 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 #define INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 class Plugin : public std::enable_shared_from_this<Plugin> {
  public:
-    Plugin();
-    virtual ~Plugin();
-    void set_name(std::string name);
-    std::string name();
-    virtual std::string type();
+  Plugin();
+  virtual ~Plugin();
+  void set_name(std::string name);
+  std::string name();
+  virtual std::string type();
+
  protected:
-    std::string name_ = "Unset";
-    bool name_set_ = false;
+  std::string name_ = "Unset";
+  bool name_set_ = false;
 };
 using PluginPtr = std::shared_ptr<Plugin>;
-} // namespace scrimmage
+}  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_

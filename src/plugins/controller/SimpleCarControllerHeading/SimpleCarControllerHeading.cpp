@@ -36,34 +36,41 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleCarControllerHeading, SimpleCarControllerHeading_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SimpleCarControllerHeading,
+                SimpleCarControllerHeading_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void SimpleCarControllerHeading::init(std::map<std::string, std::string> &params) {
-    double p_gain = get<double>("p_gain", params, 1);
-    double i_gain = get<double>("i_gain", params, 1);
-    double d_gain = get<double>("d_gain", params, 1);
-    double i_lim = get<double>("i_lim", params, 1);
-    pid_.set_parameters(p_gain, i_gain, d_gain);
-    pid_.set_integral_band(i_lim);
-    pid_.set_is_angle(true);
+void SimpleCarControllerHeading::init(
+    std::map<std::string, std::string> &params) {
+  double p_gain = get<double>("p_gain", params, 1);
+  double i_gain = get<double>("i_gain", params, 1);
+  double d_gain = get<double>("d_gain", params, 1);
+  double i_lim = get<double>("i_lim", params, 1);
+  pid_.set_parameters(p_gain, i_gain, d_gain);
+  pid_.set_integral_band(i_lim);
+  pid_.set_is_angle(true);
 
-    input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+  input_vel_idx_ =
+      vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+  input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+                                     VariableIO::Direction::In);
 
-    output_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
-    output_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+  output_vel_idx_ =
+      vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+  output_turn_rate_idx_ =
+      vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 }
 
 bool SimpleCarControllerHeading::step(double t, double dt) {
-    vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));
-    pid_.set_setpoint(vars_.input(input_heading_idx_));
-    const double turn_rate = pid_.step(dt, state_->quat().yaw());
-    vars_.output(output_turn_rate_idx_, turn_rate);
+  vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));
+  pid_.set_setpoint(vars_.input(input_heading_idx_));
+  const double turn_rate = pid_.step(dt, state_->quat().yaw());
+  vars_.output(output_turn_rate_idx_, turn_rate);
 
-    return true;
+  return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

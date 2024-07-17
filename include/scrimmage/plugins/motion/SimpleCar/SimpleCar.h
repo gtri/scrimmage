@@ -42,20 +42,20 @@ namespace scrimmage {
 namespace motion {
 class SimpleCar : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) override;
-    bool step(double time, double dt) override;
+  bool init(std::map<std::string, std::string> &info,
+            std::map<std::string, std::string> &params) override;
+  bool step(double time, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+  void model(const vector_t &x, vector_t &dxdt, double t) override;
 
  protected:
-    double length_;
-    bool enable_gravity_;
-    double max_velocity_;
+  double length_;
+  bool enable_gravity_;
+  double max_velocity_;
 
-    uint8_t input_speed_idx_;
-    uint8_t input_turn_rate_idx_;
+  uint8_t input_speed_idx_;
+  uint8_t input_turn_rate_idx_;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECAR_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLECAR_SIMPLECAR_H_

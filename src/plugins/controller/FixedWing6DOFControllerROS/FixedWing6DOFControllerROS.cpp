@@ -32,50 +32,59 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.h>
+
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerROS, FixedWing6DOFControllerROS_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::FixedWing6DOFControllerROS,
+                FixedWing6DOFControllerROS_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 namespace sc = scrimmage;
 
-void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params) {
+void FixedWing6DOFControllerROS::init(
+    std::map<std::string, std::string>& params) {
+  aileron_idx_ =
+      vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+  elevator_idx_ =
+      vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+  throttle_idx_ =
+      vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+  rudder_idx_ =
+      vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
-    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
-	elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-	throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-	rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+  if (!ros::isInitialized()) {
+    int argc = 0;
+    std::string name = "simple_aircraft_3d_controller";
+    ros::init(argc, NULL, name);
+  }
+  nh_ = std::make_shared<ros::NodeHandle>();
+  cmd_vel_sub_ = nh_->subscribe("cmd_vel", 1,
+                                &FixedWing6DOFControllerROS::cmd_vel_cb, this);
 
-    if (!ros::isInitialized()) {
-        int argc = 0;
-        std::string name = "simple_aircraft_3d_controller";
-        ros::init(argc, NULL, name);
-    }
-    nh_ = std::make_shared<ros::NodeHandle>();
-    cmd_vel_sub_ = nh_->subscribe("cmd_vel", 1, &FixedWing6DOFControllerROS::cmd_vel_cb, this);
-
-    // Zero out controls
-    cmd_vel_.linear.x = 0;
-    cmd_vel_.angular.y = 0;
-    cmd_vel_.angular.x = 0;
-    cmd_vel_.angular.z = 0;
+  // Zero out controls
+  cmd_vel_.linear.x = 0;
+  cmd_vel_.angular.y = 0;
+  cmd_vel_.angular.x = 0;
+  cmd_vel_.angular.z = 0;
 }
 
 bool FixedWing6DOFControllerROS::step(double t, double dt) {
-    ros::spinOnce();
+  ros::spinOnce();
 
-    vars_.output(throttle_idx_, cmd_vel_.linear.x);
-    vars_.output(elevator_idx_, cmd_vel_.angular.y);
-    vars_.output(aileron_idx_, cmd_vel_.angular.x);
-    vars_.output(rudder_idx_, cmd_vel_.angular.z);
+  vars_.output(throttle_idx_, cmd_vel_.linear.x);
+  vars_.output(elevator_idx_, cmd_vel_.angular.y);
+  vars_.output(aileron_idx_, cmd_vel_.angular.x);
+  vars_.output(rudder_idx_, cmd_vel_.angular.z);
 
-    return true;
+  return true;
 }
 
-void FixedWing6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
-    cmd_vel_ = *msg;
+void FixedWing6DOFControllerROS::cmd_vel_cb(
+    const geometry_msgs::Twist::ConstPtr& msg) {
+  cmd_vel_ = *msg;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

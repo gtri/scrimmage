@@ -35,10 +35,10 @@
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
+#include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
@@ -48,69 +48,71 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Sensor,
-                scrimmage::sensor::RigidBody6DOFStateSensor,
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RigidBody6DOFStateSensor,
                 RigidBody6DOFStateSensor_plugin)
 
 namespace scrimmage {
 namespace sensor {
 
-RigidBody6DOFStateSensor::RigidBody6DOFStateSensor() {
-}
+RigidBody6DOFStateSensor::RigidBody6DOFStateSensor() {}
 
-void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) {
-    // Use the same generator as the parent so that the simulation is
-    // completely deterministic with respect to the simulation seed.
-    gener_ = parent_->random()->gener();
+void RigidBody6DOFStateSensor::init(
+    std::map<std::string, std::string> &params) {
+  // Use the same generator as the parent so that the simulation is
+  // completely deterministic with respect to the simulation seed.
+  gener_ = parent_->random()->gener();
 
-    // Create three independent gaussian noise generators. They will use the
-    // same generator seed.
-    for (int i = 0; i < 3; i++) {
-        std::string tag_name = "pos_noise_" + std::to_string(i);
-        std::vector<double> vec;
-        bool status = get_vec(tag_name, params, " ", vec, 2);
-        if (status) {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
-        } else {
-            pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
-        }
+  // Create three independent gaussian noise generators. They will use the
+  // same generator seed.
+  for (int i = 0; i < 3; i++) {
+    std::string tag_name = "pos_noise_" + std::to_string(i);
+    std::vector<double> vec;
+    bool status = get_vec(tag_name, params, " ", vec, 2);
+    if (status) {
+      pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
+    } else {
+      pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
     }
+  }
 
-    pub_ = advertise("LocalNetwork", "RigidBody6DOFState");
+  pub_ = advertise("LocalNetwork", "RigidBody6DOFState");
 
-    return;
+  return;
 }
 
 bool RigidBody6DOFStateSensor::step() {
+  if (motion_ == nullptr) {
+    motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(
+        parent_->motion());
     if (motion_ == nullptr) {
-        motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
-        if (motion_ == nullptr) {
-            cout << "WARNING: Failed to get motion model. Currently only "
-                 << "scrimmage::motion::RigidBody6DOFBase and subclasses "
-                 << "are supported by RigidBody6DOFStateSensor" << endl;
-            return false;
-        }
+      cout << "WARNING: Failed to get motion model. Currently only "
+           << "scrimmage::motion::RigidBody6DOFBase and subclasses "
+           << "are supported by RigidBody6DOFStateSensor" << endl;
+      return false;
     }
+  }
 
-    auto msg = std::make_shared<Message<motion::RigidBody6DOFState>>();
+  auto msg = std::make_shared<Message<motion::RigidBody6DOFState>>();
 
-    // Copy elements from scrimmage::State
-    msg->data.pos() = parent_->state_truth()->pos();
-    msg->data.vel() = parent_->state_truth()->vel();
-    msg->data.ang_vel() = parent_->state_truth()->ang_vel();
-    msg->data.quat() = parent_->state_truth()->quat();
+  // Copy elements from scrimmage::State
+  msg->data.pos() = parent_->state_truth()->pos();
+  msg->data.vel() = parent_->state_truth()->vel();
+  msg->data.ang_vel() = parent_->state_truth()->ang_vel();
+  msg->data.quat() = parent_->state_truth()->quat();
 
-    msg->data.linear_vel_body() = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->vel());
-    msg->data.ang_vel_body()    = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->ang_vel());
+  msg->data.linear_vel_body() = parent_->state_truth()->quat().rotate_reverse(
+      parent_->state_truth()->vel());
+  msg->data.ang_vel_body() = parent_->state_truth()->quat().rotate_reverse(
+      parent_->state_truth()->ang_vel());
 
-    msg->data.linear_accel_body() = motion_->linear_accel_body();
-    msg->data.ang_accel_body() = motion_->ang_accel_body();
+  msg->data.linear_accel_body() = motion_->linear_accel_body();
+  msg->data.ang_accel_body() = motion_->ang_accel_body();
 
-    msg->data.wind() = motion_->wind();
+  msg->data.wind() = motion_->wind();
 
-    // Return the sensor message.
-    pub_->publish(msg);
-    return true;
+  // Return the sensor message.
+  pub_->publish(msg);
+  return true;
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

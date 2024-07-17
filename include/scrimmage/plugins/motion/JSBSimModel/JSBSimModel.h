@@ -33,95 +33,95 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 
-#include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/motion/MotionModel.h>
 
 #if ENABLE_JSBSIM == 1
 #include <FGFDMExec.h>
-#include <models/FGAircraft.h>
-#include <input_output/FGPropertyManager.h>
 #include <initialization/FGInitialCondition.h>
+#include <input_output/FGPropertyManager.h>
+#include <models/FGAircraft.h>
 #include <models/FGOutput.h>
 
 typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #endif
 
 #include <map>
+#include <memory>
 #include <string>
 #include <tuple>
-#include <memory>
 
 namespace scrimmage {
 class State;
 using StatePtr = std::shared_ptr<State>;
-}
+}  // namespace scrimmage
 
 namespace scrimmage {
 namespace motion {
 
 class JSBSimModel : public MotionModel {
  public:
-    virtual std::tuple<int, int, int> version();
+  virtual std::tuple<int, int, int> version();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
-    virtual bool step(double time, double dt);
+  virtual bool init(std::map<std::string, std::string> &info,
+                    std::map<std::string, std::string> &params);
+  virtual bool step(double time, double dt);
 
-    virtual void teleport(StatePtr &state);
+  virtual void teleport(StatePtr &state);
 
-    bool use_pitch() { return use_pitch_; }
+  bool use_pitch() { return use_pitch_; }
 
  protected:
 #if ENABLE_JSBSIM == 1
-    FGFDMExecPtr exec_;
+  FGFDMExecPtr exec_;
 
-    JSBSim::FGPropertyNode *longitude_node_;
-    JSBSim::FGPropertyNode *latitude_node_;
-    JSBSim::FGPropertyNode *altitude_node_;
+  JSBSim::FGPropertyNode *longitude_node_;
+  JSBSim::FGPropertyNode *latitude_node_;
+  JSBSim::FGPropertyNode *altitude_node_;
 
-    JSBSim::FGPropertyNode *roll_node_;
-    JSBSim::FGPropertyNode *pitch_node_;
-    JSBSim::FGPropertyNode *yaw_node_;
+  JSBSim::FGPropertyNode *roll_node_;
+  JSBSim::FGPropertyNode *pitch_node_;
+  JSBSim::FGPropertyNode *yaw_node_;
 
-    JSBSim::FGPropertyNode *fcs_elevator_cmd_node_;
+  JSBSim::FGPropertyNode *fcs_elevator_cmd_node_;
 
-    JSBSim::FGPropertyNode *desired_heading_node_;
-    JSBSim::FGPropertyNode *desired_altitude_node_;
-    JSBSim::FGPropertyNode *desired_velocity_node_;
-    JSBSim::FGPropertyNode *bank_setpoint_node_;
+  JSBSim::FGPropertyNode *desired_heading_node_;
+  JSBSim::FGPropertyNode *desired_altitude_node_;
+  JSBSim::FGPropertyNode *desired_velocity_node_;
+  JSBSim::FGPropertyNode *bank_setpoint_node_;
 
-    JSBSim::FGPropertyNode *vel_north_node_;
-    JSBSim::FGPropertyNode *vel_east_node_;
-    JSBSim::FGPropertyNode *vel_down_node_;
+  JSBSim::FGPropertyNode *vel_north_node_;
+  JSBSim::FGPropertyNode *vel_east_node_;
+  JSBSim::FGPropertyNode *vel_down_node_;
 
-    JSBSim::FGPropertyNode *p_node_ = nullptr;
-    JSBSim::FGPropertyNode *q_node_ = nullptr;
-    JSBSim::FGPropertyNode *r_node_ = nullptr;
+  JSBSim::FGPropertyNode *p_node_ = nullptr;
+  JSBSim::FGPropertyNode *q_node_ = nullptr;
+  JSBSim::FGPropertyNode *r_node_ = nullptr;
 
-    JSBSim::FGPropertyNode *ax_pilot_node_ = nullptr;
-    JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
-    JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
+  JSBSim::FGPropertyNode *ax_pilot_node_ = nullptr;
+  JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
+  JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
 
-    JSBSim::FGOutputType* output_fg_ = 0;
+  JSBSim::FGOutputType *output_fg_ = 0;
 
-    Angles angles_to_jsbsim_;
-    Angles angles_from_jsbsim_;
+  Angles angles_to_jsbsim_;
+  Angles angles_from_jsbsim_;
 
-    PID heading_pid_;
-    double prev_desired_yaw_;
-    bool heading_lag_initialized_;
+  PID heading_pid_;
+  double prev_desired_yaw_;
+  bool heading_lag_initialized_;
 
-    double dt_;
+  double dt_;
 #endif
-    bool use_pitch_ = false;
+  bool use_pitch_ = false;
 
-    int speed_idx_ = 0;
-    int roll_idx_ = 0;
-    int alt_or_pitch_idx_ = 0;
+  int speed_idx_ = 0;
+  int roll_idx_ = 0;
+  int alt_or_pitch_idx_ = 0;
 
-    bool fg_out_enable_ = false;
+  bool fg_out_enable_ = false;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_

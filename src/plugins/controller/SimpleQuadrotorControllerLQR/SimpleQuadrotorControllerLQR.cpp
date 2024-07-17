@@ -38,57 +38,62 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleQuadrotorControllerLQR, SimpleQuadrotorControllerLQR_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SimpleQuadrotorControllerLQR,
+                SimpleQuadrotorControllerLQR_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 namespace sc = scrimmage;
 
-void SimpleQuadrotorControllerLQR::init(std::map<std::string, std::string> &params) {
-    double p_gain = sc::get("vel_p_gain", params, 1.0);
-    double i_gain = sc::get("vel_i_gain", params, 1.0);
-    double d_gain = sc::get("vel_d_gain", params, 1.0);
-    double i_lim = sc::get("i_lim", params, 1.0);
-    vel_pid_.set_parameters(p_gain, i_gain, d_gain);
-    vel_pid_.set_integral_band(i_lim);
+void SimpleQuadrotorControllerLQR::init(
+    std::map<std::string, std::string> &params) {
+  double p_gain = sc::get("vel_p_gain", params, 1.0);
+  double i_gain = sc::get("vel_i_gain", params, 1.0);
+  double d_gain = sc::get("vel_d_gain", params, 1.0);
+  double i_lim = sc::get("i_lim", params, 1.0);
+  vel_pid_.set_parameters(p_gain, i_gain, d_gain);
+  vel_pid_.set_integral_band(i_lim);
 
-    max_vel_ = std::stod(params["max_vel"]);
+  max_vel_ = std::stod(params["max_vel"]);
 }
 
 bool SimpleQuadrotorControllerLQR::step(double t, double dt) {
-    Eigen::Vector3d &des_pos = desired_state_->pos();
-    double des_yaw = desired_state_->quat().yaw();
+  Eigen::Vector3d &des_pos = desired_state_->pos();
+  double des_yaw = desired_state_->quat().yaw();
 
-    Eigen::Vector3d &pos = state_->pos();
-    Eigen::Vector3d &vel = state_->vel();
-    double yaw = state_->quat().yaw();
-    double xy_speed = vel.head<2>().norm();
+  Eigen::Vector3d &pos = state_->pos();
+  Eigen::Vector3d &vel = state_->vel();
+  double yaw = state_->quat().yaw();
+  double xy_speed = vel.head<2>().norm();
 
-    double yaw_dot =
-        std::isnan(prev_yaw_) ? 0 : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;
-    prev_yaw_ = yaw;
+  double yaw_dot = std::isnan(prev_yaw_)
+                       ? 0
+                       : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;
+  prev_yaw_ = yaw;
 
-    // LQR Altitude Controller:
-    double q1 = 1;
-    double z_thrust = -1.0 / q1 * (pos(2) - des_pos(2)) - sqrt(2.0/q1) * vel(2);
+  // LQR Altitude Controller:
+  double q1 = 1;
+  double z_thrust = -1.0 / q1 * (pos(2) - des_pos(2)) - sqrt(2.0 / q1) * vel(2);
 
-    // LQR Heading Controller:
-    double q2 = 1;
-    double turn_force = -1.0 / q2 * sc::Angles::angle_pi(yaw - des_yaw) - sqrt(2.0/q2) * yaw_dot;
+  // LQR Heading Controller:
+  double q2 = 1;
+  double turn_force = -1.0 / q2 * sc::Angles::angle_pi(yaw - des_yaw) -
+                      sqrt(2.0 / q2) * yaw_dot;
 
-    // If not close to x/y position, use forward velocity:
-    double dist = (des_pos - pos).head<2>().norm();
-    vel_pid_.set_setpoint((dist < 10) ? 0 : dist / 10);
+  // If not close to x/y position, use forward velocity:
+  double dist = (des_pos - pos).head<2>().norm();
+  vel_pid_.set_setpoint((dist < 10) ? 0 : dist / 10);
 
-    double ctrl_vel = vel_pid_.step(dt, xy_speed);
+  double ctrl_vel = vel_pid_.step(dt, xy_speed);
 
-    u_(0) = boost::algorithm::clamp(ctrl_vel, -max_vel_, max_vel_);
-    u_(1) = 0;
-    u_(2) = z_thrust;
-    u_(3) = turn_force;
+  u_(0) = boost::algorithm::clamp(ctrl_vel, -max_vel_, max_vel_);
+  u_(1) = 0;
+  u_(2) = z_thrust;
+  u_(3) = turn_force;
 
-    return true;
+  return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

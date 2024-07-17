@@ -35,30 +35,30 @@
 
 #include <scrimmage/motion/Controller.h>
 
+#include <cmath>
 #include <map>
 #include <string>
-#include <cmath>
 
 namespace scrimmage {
 namespace controller {
 
 class SingleIntegratorControllerWaypoint : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+  virtual void init(std::map<std::string, std::string> &params);
+  virtual bool step(double t, double dt);
 
  protected:
-    int input_pos_x_idx_ = 0;
-    int input_pos_y_idx_ = 0;
-    int input_pos_z_idx_ = 0;
+  int input_pos_x_idx_ = 0;
+  int input_pos_y_idx_ = 0;
+  int input_pos_z_idx_ = 0;
 
-    int output_vel_x_idx_ = 0;
-    int output_vel_y_idx_ = 0;
-    int output_vel_z_idx_ = 0;
+  int output_vel_x_idx_ = 0;
+  int output_vel_y_idx_ = 0;
+  int output_vel_z_idx_ = 0;
 
-    double gain_ = NAN;
+  double gain_ = NAN;
 };
 
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERWAYPOINT_SINGLEINTEGRATORCONTROLLERWAYPOINT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERWAYPOINT_SINGLEINTEGRATORCONTROLLERWAYPOINT_H_

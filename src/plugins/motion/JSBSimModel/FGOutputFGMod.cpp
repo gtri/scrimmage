@@ -39,11 +39,11 @@
 
 #include "models/FGAerodynamics.h"
 #include "models/FGAuxiliary.h"
-#include "models/FGPropulsion.h"
+#include "models/FGFCS.h"
+#include "models/FGGroundReactions.h"
 #include "models/FGMassBalance.h"
 #include "models/FGPropagate.h"
-#include "models/FGGroundReactions.h"
-#include "models/FGFCS.h"
+#include "models/FGPropulsion.h"
 #include "models/propulsion/FGPiston.h"
 #include "models/propulsion/FGTank.h"
 
@@ -52,48 +52,47 @@
 // some NOLINT and cppcheck suppressions.
 
 static const int endianTest = 1;
-#define isLittleEndian (*((char *) &endianTest ) != 0) // NOLINT
+#define isLittleEndian (*((char *)&endianTest) != 0)  // NOLINT
 
 namespace JSBSim {
 
 // TODO: Replace JSBSim's methods for network byte ordering
 static void htond(double &x) {
-    if (isLittleEndian) {
-        int    *Double_Overlay;
-        int     Holding_Buffer;
+  if (isLittleEndian) {
+    int *Double_Overlay;
+    int Holding_Buffer;
 
-        // Double_Overlay = (int *) &x;
-        // cppcheck-suppress invalidPointerCast
-        Double_Overlay = reinterpret_cast<int *>(&x);
-        Holding_Buffer = Double_Overlay[0];
+    // Double_Overlay = (int *) &x;
+    // cppcheck-suppress invalidPointerCast
+    Double_Overlay = reinterpret_cast<int *>(&x);
+    Holding_Buffer = Double_Overlay[0];
 
-        Double_Overlay[0] = htonl(Double_Overlay[1]);
-        Double_Overlay[1] = htonl(Holding_Buffer);
-    } else {
-        return;
-    }
+    Double_Overlay[0] = htonl(Double_Overlay[1]);
+    Double_Overlay[1] = htonl(Holding_Buffer);
+  } else {
+    return;
+  }
 }
 
 // TODO: Replace JSBSim's methods for network byte ordering
 // Float version
 static void htonf(float &x) {
-    if (isLittleEndian) {
-        int    *Float_Overlay;
-        int     Holding_Buffer;
+  if (isLittleEndian) {
+    int *Float_Overlay;
+    int Holding_Buffer;
 
-        // cppcheck-suppress invalidPointerCast
-        Float_Overlay = reinterpret_cast<int *>(&x);
-        Holding_Buffer = Float_Overlay[0];
+    // cppcheck-suppress invalidPointerCast
+    Float_Overlay = reinterpret_cast<int *>(&x);
+    Holding_Buffer = Float_Overlay[0];
 
-        Float_Overlay[0] = htonl(Holding_Buffer);
-    } else {
-        return;
-    }
+    Float_Overlay[0] = htonl(Holding_Buffer);
+  } else {
+    return;
+  }
 }
 
-FGOutputFGMod::FGOutputFGMod(FGFDMExec* fdmex) :
-    FGOutputFG(fdmex) {
-    memset(&fgSockBufMod, 0x0, sizeof(fgSockBufMod));
+FGOutputFGMod::FGOutputFGMod(FGFDMExec *fdmex) : FGOutputFG(fdmex) {
+  memset(&fgSockBufMod, 0x0, sizeof(fgSockBufMod));
 }
 
 void FGOutputFGMod::Print(void) {
@@ -103,146 +102,211 @@ void FGOutputFGMod::Print(void) {
   if (!socket->GetConnectStatus()) return;
 
   SocketDataFillMod(&fgSockBufMod);
-  socket->Send((char *)&fgSockBufMod, length); // NOLINT
+  socket->Send((char *)&fgSockBufMod, length);  // NOLINT
 }
 
-void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
+void FGOutputFGMod::SocketDataFillMod(FGNetFDM *net) {
   unsigned int i;
 
   // Version
   net->version = FG_NET_FDM_VERSION;
 
   // Positions
-  net->longitude = Propagate->GetLocation().GetLongitude(); //
-  net->latitude  = Propagate->GetLocation().GetLatitude(); // GeodLatitudeRad(); // geodetic (radians)
-  net->altitude  = Propagate->GetAltitudeASL()*0.3048; // altitude, above sea level (meters)
-  net->agl       = static_cast<float>(Propagate->GetDistanceAGL()*0.3048); // altitude, above ground level (meters)
+  net->longitude = Propagate->GetLocation().GetLongitude();  //
+  net->latitude =
+      Propagate->GetLocation()
+          .GetLatitude();  // GeodLatitudeRad(); // geodetic (radians)
+  net->altitude = Propagate->GetAltitudeASL() *
+                  0.3048;  // altitude, above sea level (meters)
+  net->agl =
+      static_cast<float>(Propagate->GetDistanceAGL() *
+                         0.3048);  // altitude, above ground level (meters)
 
-  net->phi       = static_cast<float>(Propagate->GetEuler(ePhi)); // roll (radians)
-  net->theta     = static_cast<float>(Propagate->GetEuler(eTht)); // pitch (radians)
-  net->psi       = static_cast<float>(Propagate->GetEuler(ePsi)); // yaw or true heading (radians)
+  net->phi = static_cast<float>(Propagate->GetEuler(ePhi));  // roll (radians)
+  net->theta =
+      static_cast<float>(Propagate->GetEuler(eTht));  // pitch (radians)
+  net->psi = static_cast<float>(
+      Propagate->GetEuler(ePsi));  // yaw or true heading (radians)
 
-  net->alpha     = static_cast<float>(Auxiliary->Getalpha()); // angle of attack (radians)
-  net->beta      = static_cast<float>(Auxiliary->Getbeta()); // side slip angle (radians)
+  net->alpha =
+      static_cast<float>(Auxiliary->Getalpha());  // angle of attack (radians)
+  net->beta =
+      static_cast<float>(Auxiliary->Getbeta());  // side slip angle (radians)
 
   // Velocities
-  net->phidot     = static_cast<float>(Auxiliary->GetEulerRates(ePhi)); // roll rate (radians/sec)
-  net->thetadot   = static_cast<float>(Auxiliary->GetEulerRates(eTht)); // pitch rate (radians/sec)
-  net->psidot     = static_cast<float>(Auxiliary->GetEulerRates(ePsi)); // yaw rate (radians/sec)
-  net->vcas       = static_cast<float>(Auxiliary->GetVcalibratedKTS()); // VCAS, knots
-  net->climb_rate = static_cast<float>(Propagate->Gethdot());           // altitude rate, ft/sec
-  net->v_north    = static_cast<float>(Propagate->GetVel(eNorth));      // north vel in NED frame, fps
-  net->v_east     = static_cast<float>(Propagate->GetVel(eEast));       // east vel in NED frame, fps
-  net->v_down     = static_cast<float>(Propagate->GetVel(eDown));       // down vel in NED frame, fps
+  net->phidot = static_cast<float>(
+      Auxiliary->GetEulerRates(ePhi));  // roll rate (radians/sec)
+  net->thetadot = static_cast<float>(
+      Auxiliary->GetEulerRates(eTht));  // pitch rate (radians/sec)
+  net->psidot = static_cast<float>(
+      Auxiliary->GetEulerRates(ePsi));  // yaw rate (radians/sec)
+  net->vcas =
+      static_cast<float>(Auxiliary->GetVcalibratedKTS());  // VCAS, knots
+  net->climb_rate =
+      static_cast<float>(Propagate->Gethdot());  // altitude rate, ft/sec
+  net->v_north = static_cast<float>(
+      Propagate->GetVel(eNorth));  // north vel in NED frame, fps
+  net->v_east = static_cast<float>(
+      Propagate->GetVel(eEast));  // east vel in NED frame, fps
+  net->v_down = static_cast<float>(
+      Propagate->GetVel(eDown));  // down vel in NED frame, fps
   // ---ADD METHOD TO CALCULATE THESE TERMS---
-  net->v_body_u = static_cast<float>(Propagate->GetUVW(1)); // ECEF speed in body axis
-  net->v_body_v = static_cast<float>(Propagate->GetUVW(2)); // ECEF speed in body axis
-  net->v_body_w = static_cast<float>(Propagate->GetUVW(3)); // ECEF speed in body axis
+  net->v_body_u =
+      static_cast<float>(Propagate->GetUVW(1));  // ECEF speed in body axis
+  net->v_body_v =
+      static_cast<float>(Propagate->GetUVW(2));  // ECEF speed in body axis
+  net->v_body_w =
+      static_cast<float>(Propagate->GetUVW(3));  // ECEF speed in body axis
 
   // Accelerations
-  net->A_X_pilot   = static_cast<float>(Auxiliary->GetPilotAccel(1));    // X body accel, ft/s/s
-  net->A_Y_pilot   = static_cast<float>(Auxiliary->GetPilotAccel(2));    // Y body accel, ft/s/s
-  net->A_Z_pilot   = static_cast<float>(Auxiliary->GetPilotAccel(3));    // Z body accel, ft/s/s
+  net->A_X_pilot =
+      static_cast<float>(Auxiliary->GetPilotAccel(1));  // X body accel, ft/s/s
+  net->A_Y_pilot =
+      static_cast<float>(Auxiliary->GetPilotAccel(2));  // Y body accel, ft/s/s
+  net->A_Z_pilot =
+      static_cast<float>(Auxiliary->GetPilotAccel(3));  // Z body accel, ft/s/s
 
   // Stall
   net->stall_warning = 0.0;  // 0.0 - 1.0 indicating the amount of stall
-  net->slip_deg    = static_cast<float>(Auxiliary->Getbeta(inDegrees));  // slip ball deflection, deg
+  net->slip_deg = static_cast<float>(
+      Auxiliary->Getbeta(inDegrees));  // slip ball deflection, deg
 
   // Engine status
-  if (Propulsion->GetNumEngines() > FGNetFDM::FG_MAX_ENGINES && FDMExec->GetSimTime() == 0.0)
-    cerr << "This vehicle has " << Propulsion->GetNumEngines() << " engines, but the current " << endl
-         << "version of FlightGear's FGNetFDM only supports " << FGNetFDM::FG_MAX_ENGINES << " engines." << endl
-         << "Only the first " << FGNetFDM::FG_MAX_ENGINES << " engines will be used." << endl;
+  if (Propulsion->GetNumEngines() > FGNetFDM::FG_MAX_ENGINES &&
+      FDMExec->GetSimTime() == 0.0)
+    cerr << "This vehicle has " << Propulsion->GetNumEngines()
+         << " engines, but the current " << endl
+         << "version of FlightGear's FGNetFDM only supports "
+         << FGNetFDM::FG_MAX_ENGINES << " engines." << endl
+         << "Only the first " << FGNetFDM::FG_MAX_ENGINES
+         << " engines will be used." << endl;
 
-  net->num_engines = std::min(static_cast<unsigned int>(FGNetFDM::FG_MAX_ENGINES),
-                              Propulsion->GetNumEngines()); // Number of valid engines
+  net->num_engines =
+      std::min(static_cast<unsigned int>(FGNetFDM::FG_MAX_ENGINES),
+               Propulsion->GetNumEngines());  // Number of valid engines
 
-  for (i=0; i < net->num_engines; i++) {
+  for (i = 0; i < net->num_engines; i++) {
     if (Propulsion->GetEngine(i)->GetRunning())
-      net->eng_state[i] = 2;       // Engine state running
+      net->eng_state[i] = 2;  // Engine state running
     else if (Propulsion->GetEngine(i)->GetCranking())
-      net->eng_state[i] = 1;       // Engine state cranking
+      net->eng_state[i] = 1;  // Engine state cranking
     else
-      net->eng_state[i] = 0;       // Engine state off
+      net->eng_state[i] = 0;  // Engine state off
 
     switch (Propulsion->GetEngine(i)->GetType()) {
-    case (FGEngine::etRocket):
+      case (FGEngine::etRocket):
         break;
-    case (FGEngine::etPiston):
-        net->rpm[i]       = static_cast<float>((static_cast<FGPiston *>(Propulsion->GetEngine(i))->getRPM()));
-        net->fuel_flow[i] = static_cast<float>(((static_cast<FGPiston *>(Propulsion->GetEngine(i))->getFuelFlow_gph())));
-        net->fuel_px[i]   = 0; // Fuel pressure, psi  (N/A in current model)
-        net->egt[i]       = static_cast<float>(((static_cast<FGPiston *>(Propulsion->GetEngine(i))->GetEGT())));
-        net->cht[i]       = static_cast<float>(((static_cast<FGPiston *>(Propulsion->GetEngine(i))->getCylinderHeadTemp_degF())));
-        net->mp_osi[i]    = static_cast<float>(((static_cast<FGPiston *>(Propulsion->GetEngine(i))->getManifoldPressure_inHg())));
-        net->oil_temp[i]  = static_cast<float>(((static_cast<FGPiston *>(Propulsion->GetEngine(i))->getOilTemp_degF())));
-        net->oil_px[i]    = static_cast<float>(((static_cast<FGPiston *>(Propulsion->GetEngine(i))->getOilPressure_psi())));
-        net->tit[i]       = 0; // Turbine Inlet Temperature  (N/A for piston)
+      case (FGEngine::etPiston):
+        net->rpm[i] = static_cast<float>(
+            (static_cast<FGPiston *>(Propulsion->GetEngine(i))->getRPM()));
+        net->fuel_flow[i] = static_cast<float>(
+            ((static_cast<FGPiston *>(Propulsion->GetEngine(i))
+                  ->getFuelFlow_gph())));
+        net->fuel_px[i] = 0;  // Fuel pressure, psi  (N/A in current model)
+        net->egt[i] = static_cast<float>(
+            ((static_cast<FGPiston *>(Propulsion->GetEngine(i))->GetEGT())));
+        net->cht[i] = static_cast<float>(
+            ((static_cast<FGPiston *>(Propulsion->GetEngine(i))
+                  ->getCylinderHeadTemp_degF())));
+        net->mp_osi[i] = static_cast<float>(
+            ((static_cast<FGPiston *>(Propulsion->GetEngine(i))
+                  ->getManifoldPressure_inHg())));
+        net->oil_temp[i] = static_cast<float>(
+            ((static_cast<FGPiston *>(Propulsion->GetEngine(i))
+                  ->getOilTemp_degF())));
+        net->oil_px[i] = static_cast<float>(
+            ((static_cast<FGPiston *>(Propulsion->GetEngine(i))
+                  ->getOilPressure_psi())));
+        net->tit[i] = 0;  // Turbine Inlet Temperature  (N/A for piston)
         break;
-    case (FGEngine::etTurbine):
+      case (FGEngine::etTurbine):
         break;
-    case (FGEngine::etTurboprop):
+      case (FGEngine::etTurboprop):
         break;
-    case (FGEngine::etElectric):
+      case (FGEngine::etElectric):
         break;
-    case (FGEngine::etUnknown):
+      case (FGEngine::etUnknown):
         break;
     }
   }
 
   // Consumables
-  if (Propulsion->GetNumTanks() > FGNetFDM::FG_MAX_TANKS && FDMExec->GetSimTime() == 0.0)
-    cerr << "This vehicle has " << Propulsion->GetNumTanks() << " tanks, but the current " << endl
-         << "version of FlightGear's FGNetFDM only supports " << FGNetFDM::FG_MAX_TANKS << " tanks." << endl
-         << "Only the first " << FGNetFDM::FG_MAX_TANKS << " tanks will be used." << endl;
+  if (Propulsion->GetNumTanks() > FGNetFDM::FG_MAX_TANKS &&
+      FDMExec->GetSimTime() == 0.0)
+    cerr << "This vehicle has " << Propulsion->GetNumTanks()
+         << " tanks, but the current " << endl
+         << "version of FlightGear's FGNetFDM only supports "
+         << FGNetFDM::FG_MAX_TANKS << " tanks." << endl
+         << "Only the first " << FGNetFDM::FG_MAX_TANKS
+         << " tanks will be used." << endl;
 
-  net->num_tanks = std::min(static_cast<unsigned int>(FGNetFDM::FG_MAX_TANKS),
-                            Propulsion->GetNumTanks());   // Max number of fuel tanks
+  net->num_tanks =
+      std::min(static_cast<unsigned int>(FGNetFDM::FG_MAX_TANKS),
+               Propulsion->GetNumTanks());  // Max number of fuel tanks
 
-  for (i=0; i < net->num_tanks; i++) {
-      net->fuel_quantity[i] = static_cast<float>((static_cast<FGTank *>(Propulsion->GetTank(i))->GetContents()));
+  for (i = 0; i < net->num_tanks; i++) {
+    net->fuel_quantity[i] = static_cast<float>(
+        (static_cast<FGTank *>(Propulsion->GetTank(i))->GetContents()));
   }
 
   // Gear status
-  if (GroundReactions->GetNumGearUnits() > FGNetFDM::FG_MAX_WHEELS && FDMExec->GetSimTime() == 0.0)
-    cerr << "This vehicle has " << GroundReactions->GetNumGearUnits() << " bogeys, but the current " << endl
-         << "version of FlightGear's FGNetFDM only supports " << FGNetFDM::FG_MAX_WHEELS << " bogeys." << endl
-         << "Only the first " << FGNetFDM::FG_MAX_WHEELS << " bogeys will be used." << endl;
+  if (GroundReactions->GetNumGearUnits() > FGNetFDM::FG_MAX_WHEELS &&
+      FDMExec->GetSimTime() == 0.0)
+    cerr << "This vehicle has " << GroundReactions->GetNumGearUnits()
+         << " bogeys, but the current " << endl
+         << "version of FlightGear's FGNetFDM only supports "
+         << FGNetFDM::FG_MAX_WHEELS << " bogeys." << endl
+         << "Only the first " << FGNetFDM::FG_MAX_WHEELS
+         << " bogeys will be used." << endl;
 
-  net->num_wheels  = std::min(static_cast<int>(FGNetFDM::FG_MAX_WHEELS),
-                              GroundReactions->GetNumGearUnits());
+  net->num_wheels = std::min(static_cast<int>(FGNetFDM::FG_MAX_WHEELS),
+                             GroundReactions->GetNumGearUnits());
 
-  for (i=0; i < net->num_wheels; i++) {
-    net->wow[i]              = GroundReactions->GetGearUnit(i)->GetWOW();
+  for (i = 0; i < net->num_wheels; i++) {
+    net->wow[i] = GroundReactions->GetGearUnit(i)->GetWOW();
     if (GroundReactions->GetGearUnit(i)->GetGearUnitDown())
-      net->gear_pos[i]      = 1;  // gear down, using FCS convention
+      net->gear_pos[i] = 1;  // gear down, using FCS convention
     else
-      net->gear_pos[i]      = 0;  // gear up, using FCS convention
-    net->gear_steer[i]       = static_cast<float>(GroundReactions->GetGearUnit(i)->GetSteerNorm());
-    net->gear_compression[i] = static_cast<float>(GroundReactions->GetGearUnit(i)->GetCompLen());
+      net->gear_pos[i] = 0;  // gear up, using FCS convention
+    net->gear_steer[i] =
+        static_cast<float>(GroundReactions->GetGearUnit(i)->GetSteerNorm());
+    net->gear_compression[i] =
+        static_cast<float>(GroundReactions->GetGearUnit(i)->GetCompLen());
 
-    net->gear_pos[i] = 0; // MOD: Force gear up
+    net->gear_pos[i] = 0;  // MOD: Force gear up
   }
 
   // Environment
-  net->cur_time    = static_cast<uint64_t>(1234567890);    // Friday, Feb 13, 2009, 23:31:30 UTC (not processed by FGFS anyway)
-  net->warp        = 0;                       // offset in seconds to unix time
-  net->visibility  = 25000.0;                 // visibility in meters (for env. effects)
+  net->cur_time =
+      static_cast<uint64_t>(1234567890);  // Friday, Feb 13, 2009, 23:31:30 UTC
+                                          // (not processed by FGFS anyway)
+  net->warp = 0;                          // offset in seconds to unix time
+  net->visibility = 25000.0;  // visibility in meters (for env. effects)
 
   // Control surface positions (normalized values)
-  net->elevator          = static_cast<float>(FCS->GetDePos(ofNorm));    // Norm Elevator Pos, --
-  net->elevator_trim_tab = static_cast<float>(FCS->GetPitchTrimCmd());   // Norm Elev Trim Tab Pos, --
-  net->left_flap         = static_cast<float>(FCS->GetDfPos(ofNorm));    // Norm Flap Pos, --
-  net->right_flap        = static_cast<float>(FCS->GetDfPos(ofNorm));    // Norm Flap Pos, --
-  net->left_aileron      = static_cast<float>(FCS->GetDaLPos(ofNorm));   // Norm L Aileron Pos, --
-  net->right_aileron     = static_cast<float>(FCS->GetDaRPos(ofNorm));   // Norm R Aileron Pos, --
-  net->rudder            = static_cast<float>(FCS->GetDrPos(ofNorm));    // Norm Rudder Pos, --
-  net->nose_wheel        = static_cast<float>(FCS->GetDrPos(ofNorm));    // *** FIX ***  Using Rudder Pos for NWS, --
-  net->speedbrake        = static_cast<float>(FCS->GetDsbPos(ofNorm));   // Norm Speedbrake Pos, --
-  net->spoilers          = static_cast<float>(FCS->GetDspPos(ofNorm));   // Norm Spoiler Pos, --
+  net->elevator =
+      static_cast<float>(FCS->GetDePos(ofNorm));  // Norm Elevator Pos, --
+  net->elevator_trim_tab =
+      static_cast<float>(FCS->GetPitchTrimCmd());  // Norm Elev Trim Tab Pos, --
+  net->left_flap =
+      static_cast<float>(FCS->GetDfPos(ofNorm));  // Norm Flap Pos, --
+  net->right_flap =
+      static_cast<float>(FCS->GetDfPos(ofNorm));  // Norm Flap Pos, --
+  net->left_aileron =
+      static_cast<float>(FCS->GetDaLPos(ofNorm));  // Norm L Aileron Pos, --
+  net->right_aileron =
+      static_cast<float>(FCS->GetDaRPos(ofNorm));  // Norm R Aileron Pos, --
+  net->rudder =
+      static_cast<float>(FCS->GetDrPos(ofNorm));  // Norm Rudder Pos, --
+  net->nose_wheel = static_cast<float>(
+      FCS->GetDrPos(ofNorm));  // *** FIX ***  Using Rudder Pos for NWS, --
+  net->speedbrake =
+      static_cast<float>(FCS->GetDsbPos(ofNorm));  // Norm Speedbrake Pos, --
+  net->spoilers =
+      static_cast<float>(FCS->GetDspPos(ofNorm));  // Norm Spoiler Pos, --
 
   // Convert the net buffer to network format
-  if ( isLittleEndian ) {
+  if (isLittleEndian) {
     net->version = htonl(net->version);
 
     htond(net->longitude);
@@ -274,7 +338,7 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
     htonf(net->stall_warning);
     htonf(net->slip_deg);
 
-    for (i=0; i < net->num_engines; ++i) {
+    for (i = 0; i < net->num_engines; ++i) {
       net->eng_state[i] = htonl(net->eng_state[i]);
       htonf(net->rpm[i]);
       htonf(net->fuel_flow[i]);
@@ -288,12 +352,12 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
     }
     net->num_engines = htonl(net->num_engines);
 
-    for (i=0; i < net->num_tanks; ++i) {
+    for (i = 0; i < net->num_tanks; ++i) {
       htonf(net->fuel_quantity[i]);
     }
     net->num_tanks = htonl(net->num_tanks);
 
-    for (i=0; i < net->num_wheels; ++i) {
+    for (i = 0; i < net->num_wheels; ++i) {
       net->wow[i] = htonl(net->wow[i]);
       htonf(net->gear_pos[i]);
       htonf(net->gear_steer[i]);
@@ -317,4 +381,4 @@ void FGOutputFGMod::SocketDataFillMod(FGNetFDM* net) {
     htonf(net->spoilers);
   }
 }
-} // namespace JSBSim
+}  // namespace JSBSim

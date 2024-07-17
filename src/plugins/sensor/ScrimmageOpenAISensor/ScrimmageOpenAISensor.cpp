@@ -30,11 +30,10 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 
-REGISTER_PLUGIN(scrimmage::Sensor,
-                scrimmage::sensor::ScrimmageOpenAISensor,
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ScrimmageOpenAISensor,
                 ScrimmageOpenAISensor_plugin)
 
 namespace scrimmage {
@@ -42,5 +41,5 @@ namespace sensor {
 
 ScrimmageOpenAISensor::ScrimmageOpenAISensor() : Sensor() {}
 
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

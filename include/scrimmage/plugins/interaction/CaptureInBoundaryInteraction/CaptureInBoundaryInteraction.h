@@ -33,16 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_CAPTUREINBOUNDARYINTERACTION_CAPTUREINBOUNDARYINTERACTION_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_CAPTUREINBOUNDARYINTERACTION_CAPTUREINBOUNDARYINTERACTION_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
-
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
 #include <list>
-#include <string>
+#include <map>
 #include <memory>
+#include <string>
 #include <unordered_set>
 
 namespace sc = scrimmage;
@@ -53,23 +52,25 @@ namespace interaction {
 
 class CaptureInBoundaryInteraction : public scrimmage::EntityInteraction {
  public:
-    CaptureInBoundaryInteraction();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt) override;
- protected:
-    std::shared_ptr<sci::BoundaryBase> boundary_;
-    scrimmage_proto::Shape boundary_shape_;
-    double capture_range_;
-    int boundary_id_;
-    double cool_down_period_;
-    std::map<int, double> prev_capture_times_;
+  CaptureInBoundaryInteraction();
+  bool init(std::map<std::string, std::string> &mission_params,
+            std::map<std::string, std::string> &plugin_params) override;
+  bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
+                               double dt) override;
 
-    scrimmage::PublisherPtr non_team_capture_pub_;
-    std::unordered_set<int> already_captured_;
+ protected:
+  std::shared_ptr<sci::BoundaryBase> boundary_;
+  scrimmage_proto::Shape boundary_shape_;
+  double capture_range_;
+  int boundary_id_;
+  double cool_down_period_;
+  std::map<int, double> prev_capture_times_;
+
+  scrimmage::PublisherPtr non_team_capture_pub_;
+  std::unordered_set<int> already_captured_;
+
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_CAPTUREINBOUNDARYINTERACTION_CAPTUREINBOUNDARYINTERACTION_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_CAPTUREINBOUNDARYINTERACTION_CAPTUREINBOUNDARYINTERACTION_H_

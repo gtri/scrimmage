@@ -34,20 +34,20 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class CommandStringRelay : public scrimmage::Autonomy {
  public:
-    CommandStringRelay();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+  CommandStringRelay();
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
 
  protected:
-    std::map<std::string, scrimmage::PublisherPtr> pubs_;
+  std::map<std::string, scrimmage::PublisherPtr> pubs_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_

@@ -45,22 +45,22 @@ namespace controller {
  */
 class UnicycleControllerPoint : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+  virtual void init(std::map<std::string, std::string> &params);
+  virtual bool step(double t, double dt);
 
  protected:
-    double l_;
-    double gain_;
+  double l_;
+  double gain_;
 
-    uint8_t x_idx_in_ = 0;
-    uint8_t y_idx_in_ = 0;
-    uint8_t z_idx_in_ = 0;
+  uint8_t x_idx_in_ = 0;
+  uint8_t y_idx_in_ = 0;
+  uint8_t z_idx_in_ = 0;
 
-    uint8_t speed_idx_out_ = 0;
-    uint8_t turn_rate_idx_out_ = 0;
-    uint8_t pitch_rate_idx_out_ = 0;
-    uint8_t velocity_z_idx_out_ = 0;
+  uint8_t speed_idx_out_ = 0;
+  uint8_t turn_rate_idx_out_ = 0;
+  uint8_t pitch_rate_idx_out_ = 0;
+  uint8_t velocity_z_idx_out_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_

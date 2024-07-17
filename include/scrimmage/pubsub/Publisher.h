@@ -36,8 +36,8 @@
 #include <scrimmage/pubsub/NetworkDevice.h>
 
 #include <functional>
-#include <string>
 #include <memory>
+#include <string>
 
 #include <boost/type_index.hpp>
 
@@ -48,21 +48,22 @@ using MessageBasePtr = std::shared_ptr<MessageBase>;
 
 class Publisher : public NetworkDevice {
  public:
-    Publisher();
-    Publisher(const std::string &topic, const unsigned int &max_queue_size,
-              const bool& enable_queue_size, EntityPluginPtr plugin);
+  Publisher();
+  Publisher(const std::string &topic, const unsigned int &max_queue_size,
+            const bool &enable_queue_size, EntityPluginPtr plugin);
 
-    template <class T> void publish(const std::shared_ptr<T> &msg, bool add_debug_info = true) {
-        if (add_debug_info) {
-            set_debug_info(msg, boost::typeindex::type_id<T>().pretty_name());
-        }
-        add_msg(msg);
+  template <class T>
+  void publish(const std::shared_ptr<T> &msg, bool add_debug_info = true) {
+    if (add_debug_info) {
+      set_debug_info(msg, boost::typeindex::type_id<T>().pretty_name());
     }
-    std::function<void(MessageBasePtr)> callback;
+    add_msg(msg);
+  }
+  std::function<void(MessageBasePtr)> callback;
 
  protected:
-    void set_debug_info(MessageBasePtr msg, const std::string &type);
+  void set_debug_info(MessageBasePtr msg, const std::string &type);
 };
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_PUBLISHER_H_

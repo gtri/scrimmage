@@ -51,11 +51,12 @@ void Metrics::calc_team_scores() {}
 
 void Metrics::print_team_summaries() {}
 
-std::map<int, std::map<std::string, double> > &Metrics::team_metrics()
-{ return team_metrics_; }
+std::map<int, std::map<std::string, double> > &Metrics::team_metrics() {
+  return team_metrics_;
+}
 
 std::list<std::string> &Metrics::headers() { return headers_; }
 
 std::map<int, double> &Metrics::team_scores() { return team_scores_; }
 
-} // namespace scrimmage
+}  // namespace scrimmage

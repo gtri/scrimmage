@@ -34,22 +34,24 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_SCRIMMAGEMSGSERVICEIMPL_H_
 
 #include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
 #include <scrimmage/msgs/Command.grpc.pb.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
 
-#include <queue>
 #include <memory>
+#include <queue>
 
 namespace scrimmage {
-class ScrimmageMsgServiceImpl final : public scrimmage_msgs::ScrimmageMsgService::Service {
+class ScrimmageMsgServiceImpl final
+    : public scrimmage_msgs::ScrimmageMsgService::Service {
  public:
-    explicit ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin);
-    grpc::Status SendCommandString(grpc::ServerContext* context,
-                                   const scrimmage_msgs::CommandString* cmd,
-                                   scrimmage_msgs::CommandAck* reply) override;
- protected:
-    std::shared_ptr<interaction::GRPCCommandString> plugin_;
-};
-} // namespace scrimmage
+  explicit ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin);
+  grpc::Status SendCommandString(grpc::ServerContext* context,
+                                 const scrimmage_msgs::CommandString* cmd,
+                                 scrimmage_msgs::CommandAck* reply) override;
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_SCRIMMAGEMSGSERVICEIMPL_H_
+ protected:
+  std::shared_ptr<interaction::GRPCCommandString> plugin_;
+};
+}  // namespace scrimmage
+
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_SCRIMMAGEMSGSERVICEIMPL_H_

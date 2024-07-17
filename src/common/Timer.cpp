@@ -39,101 +39,96 @@
 namespace scrimmage {
 
 void Timer::start_overall_timer() {
-    start_time_ = boost::posix_time::microsec_clock::local_time();
-    actual_time_ = start_time_;
-    sim_time_ = start_time_;
-    loop_end_time_ = loop_timer_ + iterate_period_;
-    loop_timer_running_ = false;
+  start_time_ = boost::posix_time::microsec_clock::local_time();
+  actual_time_ = start_time_;
+  sim_time_ = start_time_;
+  loop_end_time_ = loop_timer_ + iterate_period_;
+  loop_timer_running_ = false;
 }
 
 boost::posix_time::time_duration Timer::elapsed_time() {
-    return boost::posix_time::microsec_clock::local_time() - start_time_;
+  return boost::posix_time::microsec_clock::local_time() - start_time_;
 }
 
 void Timer::start_loop_timer() {
-    loop_timer_ = boost::posix_time::microsec_clock::local_time();
-    if (!loop_timer_running_) {
-        // set loop to end on current time
-        loop_end_time_ = loop_timer_;
-        loop_timer_running_ = true;
-    }
-    loop_end_time_ += iterate_period_;
+  loop_timer_ = boost::posix_time::microsec_clock::local_time();
+  if (!loop_timer_running_) {
+    // set loop to end on current time
+    loop_end_time_ = loop_timer_;
+    loop_timer_running_ = true;
+  }
+  loop_end_time_ += iterate_period_;
 
-    actual_time_ = loop_timer_;
+  actual_time_ = loop_timer_;
 
-    sim_time_ += sim_time_period_;
+  sim_time_ += sim_time_period_;
 }
 
-void Timer::pause_loop_timer() {
-    loop_timer_running_ = false;
-}
+void Timer::pause_loop_timer() { loop_timer_running_ = false; }
 
 boost::posix_time::time_duration Timer::loop_wait() {
-    boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
-    if (time > loop_end_time_) {
-        // already took too long, go to next period now.
-        return boost::posix_time::time_duration(0, 0, 0, 0);
-    }
+  boost::posix_time::ptime time =
+      boost::posix_time::microsec_clock::local_time();
+  if (time > loop_end_time_) {
+    // already took too long, go to next period now.
+    return boost::posix_time::time_duration(0, 0, 0, 0);
+  }
 
-    boost::posix_time::time_duration remainder = loop_end_time_ - time;
-    boost::this_thread::sleep(remainder);
+  boost::posix_time::time_duration remainder = loop_end_time_ - time;
+  boost::this_thread::sleep(remainder);
 
-    return remainder;
+  return remainder;
 }
 
 void Timer::set_iterate_rate(double iterate_rate) {
-    iterate_rate_ = iterate_rate;
+  iterate_rate_ = iterate_rate;
 }
 
-void Timer::set_time_warp(double time_warp) {
-    time_warp_ = time_warp;
-}
+void Timer::set_time_warp(double time_warp) { time_warp_ = time_warp; }
 
 void Timer::update_time_config() {
-    if (iterate_rate_ > 0 && time_warp_ > 0) {
-        uint64_t milli = (1.0 / iterate_rate_ * 1000000.0) / time_warp_;
-        iterate_period_ = boost::posix_time::time_duration(0, 0, 0, milli);
-    } else {
-        iterate_period_ = boost::posix_time::time_duration(0, 0, 0, 0);
-    }
-    sim_time_period_ = iterate_period_ * time_warp_;
-    loop_timer_running_ = false;
+  if (iterate_rate_ > 0 && time_warp_ > 0) {
+    uint64_t milli = (1.0 / iterate_rate_ * 1000000.0) / time_warp_;
+    iterate_period_ = boost::posix_time::time_duration(0, 0, 0, milli);
+  } else {
+    iterate_period_ = boost::posix_time::time_duration(0, 0, 0, 0);
+  }
+  sim_time_period_ = iterate_period_ * time_warp_;
+  loop_timer_running_ = false;
 }
 
 uint64_t Timer::getnanotime() {
-    uint64_t nano = 0;
-    timespec ts;
-    // clock_gettime(CLOCK_MONOTONIC, &ts); // Works on FreeBSD
-    clock_gettime(CLOCK_REALTIME, &ts); // Works on Linux
+  uint64_t nano = 0;
+  timespec ts;
+  // clock_gettime(CLOCK_MONOTONIC, &ts); // Works on FreeBSD
+  clock_gettime(CLOCK_REALTIME, &ts);  // Works on Linux
 
-    nano = ts.tv_sec * 1e9 + ts.tv_nsec;
-    return nano;
+  nano = ts.tv_sec * 1e9 + ts.tv_nsec;
+  return nano;
 }
 
 void Timer::inc_warp() {
-    if (time_warp_ == 0) {
-        time_warp_ = 1;
-    } else if (time_warp_ < 2) {
-        time_warp_ *= 2;
-    } else {
-        time_warp_ += 1.0;
-    }
-    update_time_config();
+  if (time_warp_ == 0) {
+    time_warp_ = 1;
+  } else if (time_warp_ < 2) {
+    time_warp_ *= 2;
+  } else {
+    time_warp_ += 1.0;
+  }
+  update_time_config();
 }
 
 void Timer::dec_warp() {
-    if (time_warp_ == 0) {
-        time_warp_ = 1;
-    } else if (time_warp_ < 2) {
-        time_warp_ /= 2;
-    } else {
-        time_warp_ -= 1.0;
-    }
-    update_time_config();
+  if (time_warp_ == 0) {
+    time_warp_ = 1;
+  } else if (time_warp_ < 2) {
+    time_warp_ /= 2;
+  } else {
+    time_warp_ -= 1.0;
+  }
+  update_time_config();
 }
 
-double Timer::time_warp() {
-    return time_warp_;
-}
+double Timer::time_warp() { return time_warp_; }
 
-} // namespace scrimmage
+}  // namespace scrimmage

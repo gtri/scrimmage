@@ -34,87 +34,92 @@
 #define INCLUDE_SCRIMMAGE_COMMON_CSV_H_
 
 #include <fstream>
-#include <map>
 #include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <utility>
-#include <memory>
 
 namespace scrimmage {
 
 class CSV {
  public:
-    typedef std::list<std::string> Headers;
-    typedef std::list<std::pair<std::string, double>> Pairs;
+  typedef std::list<std::string> Headers;
+  typedef std::list<std::pair<std::string, double>> Pairs;
 
-    ~CSV();
+  ~CSV();
 
-    void set_column_headers(const Headers &headers, bool write = true);
+  void set_column_headers(const Headers &headers, bool write = true);
 
-    void set_column_headers(const std::string &headers, bool write = true);
+  void set_column_headers(const std::string &headers, bool write = true);
 
-    bool append(const Pairs &pairs, bool write = true, bool keep_in_memory = false);
+  bool append(const Pairs &pairs, bool write = true,
+              bool keep_in_memory = false);
 
-    bool open_output(const std::string &filename,
-                     std::ios_base::openmode mode = (std::ios_base::out |
-                                                     std::ios_base::trunc));
+  bool open_output(const std::string &filename,
+                   std::ios_base::openmode mode = (std::ios_base::out |
+                                                   std::ios_base::trunc));
 
-    bool output_is_open();
+  bool output_is_open();
 
-    bool close_output();
+  bool close_output();
 
-    bool to_csv(const std::string &filename);
+  bool to_csv(const std::string &filename);
 
-    bool read_csv(const std::string &filename, const bool& contains_header = true);
+  bool read_csv(const std::string &filename,
+                const bool &contains_header = true);
 
-    bool read_csv_from_string(const std::string &str, const bool& contains_header = true);
+  bool read_csv_from_string(const std::string &str,
+                            const bool &contains_header = true);
 
-    void set_no_value_string(const std::string &str);
+  void set_no_value_string(const std::string &str);
 
-    std::string to_string() const;
+  std::string to_string() const;
 
-    size_t rows();
+  size_t rows();
 
-    double at(int row, const std::string &header);
+  double at(int row, const std::string &header);
 
-    friend std::ostream& operator<<(std::ostream& os, const CSV& csv);
+  friend std::ostream &operator<<(std::ostream &os, const CSV &csv);
 
-    bool equals(const CSV& other);
+  bool equals(const CSV &other);
 
-    // double parameters
-    void set_double_precision(int precision) { double_precision_ = precision; }
-    void set_double_fixed(bool is_fixed) { double_is_fixed_ = is_fixed; }
-    void set_double_scientific(bool is_scientific) { double_is_scientific_ = is_scientific; }
+  // double parameters
+  void set_double_precision(int precision) { double_precision_ = precision; }
+  void set_double_fixed(bool is_fixed) { double_is_fixed_ = is_fixed; }
+  void set_double_scientific(bool is_scientific) {
+    double_is_scientific_ = is_scientific;
+  }
 
  protected:
-    std::list<std::string> get_csv_line_elements(const std::string &str);
+  std::list<std::string> get_csv_line_elements(const std::string &str);
 
-    void write_headers();
+  void write_headers();
 
-    void write_row(const int& row);
+  void write_row(const int &row);
 
-    // Key   : column header (name)
-    // Value : column index
-    std::map<std::string, int> column_headers_;
+  // Key   : column header (name)
+  // Value : column index
+  std::map<std::string, int> column_headers_;
 
-    // Key 1 : Row Index
-    // Key 2 : Column Index
-    // Value : Cell Value
-    std::map<int, std::map<int, double>> table_;
-    int next_row_ = 0;
+  // Key 1 : Row Index
+  // Key 2 : Column Index
+  // Value : Cell Value
+  std::map<int, std::map<int, double>> table_;
+  int next_row_ = 0;
 
-    std::ofstream file_out_;
-    std::string no_value_str_ = "NaN";
+  std::ofstream file_out_;
+  std::string no_value_str_ = "NaN";
 
  private:
-    int double_precision_ = 13;
-    bool double_is_fixed_ = true;
-    bool double_is_scientific_ = false;
+  int double_precision_ = 13;
+  bool double_is_fixed_ = true;
+  bool double_is_scientific_ = false;
 
-    std::string headers_to_string() const;
-    std::string rows_to_string() const;
-    std::string row_to_string(const int& i) const;
+  std::string headers_to_string() const;
+  std::string rows_to_string() const;
+  std::string row_to_string(const int &i) const;
 };
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_CSV_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_CSV_H_

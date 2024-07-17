@@ -33,44 +33,44 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 #include <scrimmage/common/CSV.h>
+#include <scrimmage/common/PID.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
 
+#include <limits>
 #include <map>
 #include <string>
-#include <limits>
 
 namespace scrimmage {
 namespace motion {
 class DubinsAirplane3D : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
-    bool step(double t, double dt) override;
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+  bool init(std::map<std::string, std::string> &info,
+            std::map<std::string, std::string> &params) override;
+  bool step(double t, double dt) override;
+  void model(const vector_t &x, vector_t &dxdt, double t) override;
 
  protected:
-    double speed_max_ = +std::numeric_limits<double>::infinity();
-    double speed_min_ = -std::numeric_limits<double>::infinity();
+  double speed_max_ = +std::numeric_limits<double>::infinity();
+  double speed_min_ = -std::numeric_limits<double>::infinity();
 
-    scrimmage::Quaternion quat_world_;
-    scrimmage::Quaternion quat_world_inverse_;
-    scrimmage::Quaternion quat_local_;
+  scrimmage::Quaternion quat_world_;
+  scrimmage::Quaternion quat_world_inverse_;
+  scrimmage::Quaternion quat_local_;
 
-    bool write_csv_;
-    CSV csv_;
+  bool write_csv_;
+  CSV csv_;
 
-    int desired_speed_idx_ = 0;
-    int desired_pitch_idx_ = 0;
-    int desired_roll_idx_ = 0;
+  int desired_speed_idx_ = 0;
+  int desired_pitch_idx_ = 0;
+  int desired_roll_idx_ = 0;
 
-    double speed_ = 0;
-    double pitch_ = 0;
-    double roll_ = 0;
+  double speed_ = 0;
+  double pitch_ = 0;
+  double roll_ = 0;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE3D_DUBINSAIRPLANE3D_H_

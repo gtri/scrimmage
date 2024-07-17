@@ -33,9 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
@@ -44,26 +44,26 @@ namespace scrimmage {
 namespace controller {
 class JSBSimControlControllerHeadingPID : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step(double t, double dt) override;
+  void init(std::map<std::string, std::string> &params) override;
+  bool step(double t, double dt) override;
 
  protected:
-    scrimmage::Angles angles_to_jsbsim_;
-    scrimmage::Angles angles_from_jsbsim_;
+  scrimmage::Angles angles_to_jsbsim_;
+  scrimmage::Angles angles_from_jsbsim_;
 
-    scrimmage::PID heading_pid_;
-    double prev_desired_yaw_;
-    bool heading_lag_initialized_;
+  scrimmage::PID heading_pid_;
+  double prev_desired_yaw_;
+  bool heading_lag_initialized_;
 
-    scrimmage::PID roll_pid_;
-    scrimmage::PID pitch_pid_;
-    scrimmage::PID yaw_pid_;
+  scrimmage::PID roll_pid_;
+  scrimmage::PID pitch_pid_;
+  scrimmage::PID yaw_pid_;
 
-    int throttle_idx_ = 0;
-    int elevator_idx_ = 0;
-    int aileron_idx_ = 0;
-    int rudder_idx_ = 0;
+  int throttle_idx_ = 0;
+  int elevator_idx_ = 0;
+  int aileron_idx_ = 0;
+  int rudder_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_

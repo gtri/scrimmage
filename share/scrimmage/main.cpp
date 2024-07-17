@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
     simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
 
-    std::shared_ptr<std::thread> viewer_thread = nullptr;
+    std::shared_ptr<std::thread> viewer_thread{nullptr};
 
 #if ENABLE_VTK == 0
     // If the GUI wasn't built, un-pause by default.
@@ -202,7 +202,7 @@ int main(int argc, char *argv[]) {
 
     // Join the viewer thread, if it was created
     if (viewer_thread != nullptr) {
-        viewer_thread->join();
+     viewer_thread->join();
     }
 
     return 0;

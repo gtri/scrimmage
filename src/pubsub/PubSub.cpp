@@ -43,63 +43,60 @@ using std::endl;
 
 namespace scrimmage {
 
-PubSub::PubSub() {
-}
+PubSub::PubSub() {}
 
 void PubSub::add_network_name(const std::string &network_name) {
-    pub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
-    sub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
+  pub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
+  sub_map_[network_name] = std::map<std::string, std::list<NetworkDevicePtr>>();
 }
 
 PublisherPtr PubSub::advertise(const std::string &network_name,
                                const std::string &topic,
-                               const unsigned int& max_queue_size,
-                               const bool& enable_queue_size,
+                               const unsigned int &max_queue_size,
+                               const bool &enable_queue_size,
                                EntityPluginPtr plugin) {
-    if (pub_map_.count(network_name) == 0) {
-        cout << "WARNING: " << plugin->name()
-             << " - Publisher unable to connect to network ("
-             << network_name << ") on topic (" << topic << ")" << endl;
-    }
+  if (pub_map_.count(network_name) == 0) {
+    cout << "WARNING: " << plugin->name()
+         << " - Publisher unable to connect to network (" << network_name
+         << ") on topic (" << topic << ")" << endl;
+  }
 
-    PublisherPtr pub = std::make_shared<Publisher>(topic, max_queue_size,
-                                                   enable_queue_size, plugin);
-    pub_map_[network_name][topic].push_back(pub);
-    return pub;
+  PublisherPtr pub = std::make_shared<Publisher>(topic, max_queue_size,
+                                                 enable_queue_size, plugin);
+  pub_map_[network_name][topic].push_back(pub);
+  return pub;
 }
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_devices(
-    const std::string &network_name, const std::string &topic_name, TopicMap &devs) {
-
-    auto it_network = devs.find(network_name);
-    if (it_network == devs.end()) {
-         cout << "Failed to find network while setting up device." << endl;
-         cout << "Network name: " << network_name << endl;
-         cout << "Topic name: " << topic_name << endl;
+    const std::string &network_name, const std::string &topic_name,
+    TopicMap &devs) {
+  auto it_network = devs.find(network_name);
+  if (it_network == devs.end()) {
+    cout << "Failed to find network while setting up device." << endl;
+    cout << "Network name: " << network_name << endl;
+    cout << "Topic name: " << topic_name << endl;
+  } else {
+    auto it_topic_pub = it_network->second.find(topic_name);
+    if (it_topic_pub == it_network->second.end()) {
+      cout << "Failed to find topic while setting up device." << endl;
+      cout << "Network name: " << network_name << endl;
+      cout << "Topic name: " << topic_name << endl;
     } else {
-        auto it_topic_pub = it_network->second.find(topic_name);
-        if (it_topic_pub == it_network->second.end()) {
-            cout << "Failed to find topic while setting up device." << endl;
-            cout << "Network name: " << network_name << endl;
-            cout << "Topic name: " << topic_name << endl;
-        } else {
-            return boost::optional<std::list<NetworkDevicePtr>>(it_topic_pub->second);
-        }
+      return boost::optional<std::list<NetworkDevicePtr>>(it_topic_pub->second);
     }
-    return boost::none;
+  }
+  return boost::none;
 }
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_pubs(
     const std::string &network_name, const std::string &topic_name) {
-    return find_devices(network_name, topic_name, pub_map_);
+  return find_devices(network_name, topic_name, pub_map_);
 }
 
 boost::optional<std::list<NetworkDevicePtr>> PubSub::find_subs(
     const std::string &network_name, const std::string &topic_name) {
-    return find_devices(network_name, topic_name, sub_map_);
+  return find_devices(network_name, topic_name, sub_map_);
 }
 
-void PubSub::print_str(const std::string &s) {
-    std::cout << s << std::endl;
-}
-} // namespace scrimmage
+void PubSub::print_str(const std::string &s) { std::cout << s << std::endl; }
+}  // namespace scrimmage

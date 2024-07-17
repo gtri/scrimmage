@@ -33,19 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/motion/Controller.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 
-#include <map>
-#include <unordered_map>
-#include <set>
-#include <vector>
-#include <string>
 #include <functional>
+#include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include <boost/optional.hpp>
 
@@ -53,70 +53,64 @@ namespace scrimmage {
 
 template <class T>
 boost::optional<std::shared_ptr<T>> make_autonomy(
-    const std::string& autonomy_name,
-    PluginManagerPtr plugin_manager,
-    std::map<std::string, std::string> &overrides,
-    EntityPtr parent,
+    const std::string &autonomy_name, PluginManagerPtr plugin_manager,
+    std::map<std::string, std::string> &overrides, EntityPtr parent,
     StatePtr state,
     std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
     std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
     std::shared_ptr<GeographicLib::LocalCartesian> proj,
-    ContactMapPtr &contacts,
-    FileSearchPtr &file_search,
-    RTreePtr &rtree,
-    PubSubPtr &pubsub,
-    const std::shared_ptr<const Time> &time,
+    ContactMapPtr &contacts, FileSearchPtr &file_search, RTreePtr &rtree,
+    PubSubPtr &pubsub, const std::shared_ptr<const Time> &time,
     const ParameterServerPtr &param_server,
     const std::set<std::string> &plugin_tags = {},
-    std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>& params){},
-    std::vector<ControllerPtr> controllers = {},
-    const int& debug_level = 0) {
-
-    ConfigParse config_parse;
-    PluginStatus<T> status =
-            plugin_manager->make_plugin<T>(
-                "scrimmage::Autonomy", autonomy_name, *file_search,
-                config_parse, overrides, plugin_tags);
-    if (status.status == PluginStatus<T>::cast_failed) {
-        std::cout << "Failed to open autonomy plugin: " << autonomy_name << std::endl;
-    } else if (status.status == PluginStatus<T>::parse_failed) {
-        std::cout << "Parsing of plugin failed: " << autonomy_name << std::endl;
-    } else if (status.status == PluginStatus<T>::loaded) {
-        std::shared_ptr<T> autonomy = status.plugin;
-        // Connect the autonomy to the first controller
-        if (not controllers.empty()) {
-            connect(autonomy->vars(), controllers.front()->vars());
-        }
-        autonomy->set_rtree(rtree);
-        autonomy->set_parent(parent);
-        autonomy->set_projection(proj);
-        autonomy->set_pubsub(pubsub);
-        autonomy->set_time(time);
-        autonomy->set_id_to_team_map(id_to_team_map);
-        autonomy->set_id_to_ent_map(id_to_ent_map);
-        autonomy->set_param_server(param_server);
-        autonomy->set_state(state);
-        autonomy->set_contacts(contacts);
-        autonomy->set_is_controlling(true);
-        autonomy->set_name(autonomy_name);
-        param_override_func(config_parse.params());
-
-        if (debug_level > 1) {
-            std::cout << "--------------------------------" << std::endl;
-            std::cout << "Autonomy plugin params: " << autonomy_name << std::endl;
-            std::cout << config_parse;
-        }
-        autonomy->init(config_parse.params());
-
-        // get loop rate from plugin's params
-        auto it_loop_rate = config_parse.params().find("loop_rate");
-        if (it_loop_rate != config_parse.params().end()) {
-            const double loop_rate = std::stod(it_loop_rate->second);
-            autonomy->set_loop_rate(loop_rate);
-        }
-        return boost::optional<std::shared_ptr<T>>{autonomy};
+    std::function<void(std::map<std::string, std::string> &)>
+        param_override_func = [](std::map<std::string, std::string> &params) {},
+    std::vector<ControllerPtr> controllers = {}, const int &debug_level = 0) {
+  ConfigParse config_parse;
+  PluginStatus<T> status = plugin_manager->make_plugin<T>(
+      "scrimmage::Autonomy", autonomy_name, *file_search, config_parse,
+      overrides, plugin_tags);
+  if (status.status == PluginStatus<T>::cast_failed) {
+    std::cout << "Failed to open autonomy plugin: " << autonomy_name
+              << std::endl;
+  } else if (status.status == PluginStatus<T>::parse_failed) {
+    std::cout << "Parsing of plugin failed: " << autonomy_name << std::endl;
+  } else if (status.status == PluginStatus<T>::loaded) {
+    std::shared_ptr<T> autonomy = status.plugin;
+    // Connect the autonomy to the first controller
+    if (not controllers.empty()) {
+      connect(autonomy->vars(), controllers.front()->vars());
     }
-    return boost::none;
+    autonomy->set_rtree(rtree);
+    autonomy->set_parent(parent);
+    autonomy->set_projection(proj);
+    autonomy->set_pubsub(pubsub);
+    autonomy->set_time(time);
+    autonomy->set_id_to_team_map(id_to_team_map);
+    autonomy->set_id_to_ent_map(id_to_ent_map);
+    autonomy->set_param_server(param_server);
+    autonomy->set_state(state);
+    autonomy->set_contacts(contacts);
+    autonomy->set_is_controlling(true);
+    autonomy->set_name(autonomy_name);
+    param_override_func(config_parse.params());
+
+    if (debug_level > 1) {
+      std::cout << "--------------------------------" << std::endl;
+      std::cout << "Autonomy plugin params: " << autonomy_name << std::endl;
+      std::cout << config_parse;
+    }
+    autonomy->init(config_parse.params());
+
+    // get loop rate from plugin's params
+    auto it_loop_rate = config_parse.params().find("loop_rate");
+    if (it_loop_rate != config_parse.params().end()) {
+      const double loop_rate = std::stod(it_loop_rate->second);
+      autonomy->set_loop_rate(loop_rate);
+    }
+    return boost::optional<std::shared_ptr<T>>{autonomy};
+  }
+  return boost::none;
 }
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_

@@ -32,8 +32,8 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 #define INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 
-#include <utility>
 #include <functional>
+#include <utility>
 
 namespace scrimmage {
 
@@ -42,27 +42,27 @@ namespace scrimmage {
  */
 class DelayedTask {
  public:
-    DelayedTask();
-    DelayedTask(double _delay, int repeats);
+  DelayedTask();
+  DelayedTask(double _delay, int repeats);
 
-    void set_delay_from_freq(double freq);
-    bool done() const;
+  void set_delay_from_freq(double freq);
+  bool done() const;
 
-    void set_repeats(int repeats_left);
-    void set_repeat_infinitely(bool repeat_infinitely);
-    std::pair<bool, bool> update(double t);
+  void set_repeats(int repeats_left);
+  void set_repeat_infinitely(bool repeat_infinitely);
+  std::pair<bool, bool> update(double t);
 
-    bool disable;
-    double delay;
-    double last_updated_time;
-    double end_time;
-    double eps;
-    std::function<bool(double)> condition;
-    std::function<bool(double)> task;
+  bool disable;
+  double delay;
+  double last_updated_time;
+  double end_time;
+  double eps;
+  std::function<bool(double)> condition;
+  std::function<bool(double)> task;
 
  protected:
-    bool repeat_infinitely_;
-    int repeats_left_;
+  bool repeat_infinitely_;
+  int repeats_left_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_

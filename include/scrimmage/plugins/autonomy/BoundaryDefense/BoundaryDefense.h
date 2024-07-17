@@ -36,28 +36,29 @@
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/Shape.pb.h>
 
-#include <string>
 #include <map>
-#include <utility>
 #include <memory>
+#include <string>
+#include <utility>
 
 namespace scrimmage {
 namespace autonomy {
 class BoundaryDefense : public scrimmage::Autonomy {
  public:
-    BoundaryDefense();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+  BoundaryDefense();
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
 
  protected:
-    int boundary_id_ = -1;
-    std::map<int, std::pair<scrimmage_proto::Shape,
-        std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
+  int boundary_id_ = -1;
+  std::map<int, std::pair<scrimmage_proto::Shape,
+                          std::shared_ptr<interaction::BoundaryBase>>>
+      boundaries_;
 
-    int output_vel_x_idx_ = 0;
-    int output_vel_y_idx_ = 0;
-    int output_vel_z_idx_ = 0;
+  int output_vel_x_idx_ = 0;
+  int output_vel_y_idx_ = 0;
+  int output_vel_z_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_

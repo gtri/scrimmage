@@ -30,10 +30,10 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h>
 
 #include <iostream>
@@ -42,59 +42,66 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerVelYaw, DoubleIntegratorControllerVelYaw_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::DoubleIntegratorControllerVelYaw,
+                DoubleIntegratorControllerVelYaw_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+void DoubleIntegratorControllerVelYaw::init(
+    std::map<std::string, std::string> &params) {
+  desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
+                                   VariableIO::Direction::In);
+  desired_speed_idx_ =
+      vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+  desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+                                       VariableIO::Direction::In);
 
-    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);
-    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);
-    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
-    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+  acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x,
+                             VariableIO::Direction::Out);
+  acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y,
+                             VariableIO::Direction::Out);
+  acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z,
+                             VariableIO::Direction::Out);
+  turn_rate_idx_ =
+      vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 
-    if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains"
-             << endl;
-    }
+  if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
+    cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains" << endl;
+  }
 
-    if (!sc::set_pid_gains(speed_pid_, params["speed_pid"])) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw speed pid"
-             << endl;
-    }
+  if (!sc::set_pid_gains(speed_pid_, params["speed_pid"])) {
+    cout << "Failed to set DoubleIntegratorControllerVewYaw speed pid" << endl;
+  }
 
-    if (!sc::set_pid_gains(alt_pid_, params["alt_pid"])) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw alt pid"
-             << endl;
-    }
+  if (!sc::set_pid_gains(alt_pid_, params["alt_pid"])) {
+    cout << "Failed to set DoubleIntegratorControllerVewYaw alt pid" << endl;
+  }
 }
 
 bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
-    alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
-    double alt_u = alt_pid_.step(dt, state_->pos()(2));
+  alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
+  double alt_u = alt_pid_.step(dt, state_->pos()(2));
 
-    double heading = vars_.input(desired_heading_idx_);
-    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    double acc_u = speed_pid_.step(dt, state_->vel().norm());
-    Eigen::Vector2d dir;
-    dir << cos(heading), sin(heading);
+  double heading = vars_.input(desired_heading_idx_);
+  speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
+  double acc_u = speed_pid_.step(dt, state_->vel().norm());
+  Eigen::Vector2d dir;
+  dir << cos(heading), sin(heading);
 
-    // Rotate acceleration into forward direction of double integrator
-    Eigen::Vector2d acc_vec = dir * acc_u;
+  // Rotate acceleration into forward direction of double integrator
+  Eigen::Vector2d acc_vec = dir * acc_u;
 
-    vars_.output(acc_x_idx_, acc_vec(0));
-    vars_.output(acc_y_idx_, acc_vec(1));
-    vars_.output(acc_z_idx_, alt_u);
+  vars_.output(acc_x_idx_, acc_vec(0));
+  vars_.output(acc_y_idx_, acc_vec(1));
+  vars_.output(acc_z_idx_, alt_u);
 
-    yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    double yaw_rate = yaw_pid_.step(dt, state_->quat().yaw());
-    vars_.output(turn_rate_idx_, yaw_rate);
+  yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));
+  double yaw_rate = yaw_pid_.step(dt, state_->quat().yaw());
+  vars_.output(turn_rate_idx_, yaw_rate);
 
-    return true;
+  return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

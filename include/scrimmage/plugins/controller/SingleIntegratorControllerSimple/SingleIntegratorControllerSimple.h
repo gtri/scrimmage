@@ -35,31 +35,31 @@
 
 #include <scrimmage/motion/Controller.h>
 
+#include <cmath>
 #include <map>
 #include <string>
-#include <cmath>
 
 namespace scrimmage {
 namespace controller {
 
 class SingleIntegratorControllerSimple : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+  virtual void init(std::map<std::string, std::string> &params);
+  virtual bool step(double t, double dt);
 
  protected:
-    int input_vel_x_idx_ = 0;
-    int input_vel_y_idx_ = 0;
-    int input_vel_z_idx_ = 0;
+  int input_vel_x_idx_ = 0;
+  int input_vel_y_idx_ = 0;
+  int input_vel_z_idx_ = 0;
 
-    int output_vel_x_idx_ = 0;
-    int output_vel_y_idx_ = 0;
-    int output_vel_z_idx_ = 0;
+  int output_vel_x_idx_ = 0;
+  int output_vel_y_idx_ = 0;
+  int output_vel_z_idx_ = 0;
 
-    double vel_x_ = NAN;
-    double vel_y_ = NAN;
-    double vel_z_ = NAN;
+  double vel_x_ = NAN;
+  double vel_y_ = NAN;
+  double vel_z_ = NAN;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_

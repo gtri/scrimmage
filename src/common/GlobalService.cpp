@@ -31,45 +31,47 @@
 
 #include <scrimmage/common/GlobalService.h>
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 namespace scrimmage {
 
 GlobalService::GlobalService() {
-    // No-op
+  // No-op
 }
 
 GlobalService::~GlobalService() {
-    // Clean up the services
-    services_.clear();
+  // Clean up the services
+  services_.clear();
 }
 
-std::unordered_map<std::string, Service> &GlobalService::services() {return services_;}
+std::unordered_map<std::string, Service> &GlobalService::services() {
+  return services_;
+}
 
 bool GlobalService::call_service(scrimmage::MessageBasePtr req,
-        scrimmage::MessageBasePtr &res, const std::string &service_name) {
-    auto it = services_.find(service_name);
-    if (it == services_.end()) {
-        std::cout << "request for global service ("
-            << service_name
-            << ") that does not exist" << std::endl;
-        std::cout << "Global services are: ";
-        for (auto &kv : services_) {
-            std::cout << kv.first << ", ";
-        }
-        std::cout << std::endl;
-        return false;
+                                 scrimmage::MessageBasePtr &res,
+                                 const std::string &service_name) {
+  auto it = services_.find(service_name);
+  if (it == services_.end()) {
+    std::cout << "request for global service (" << service_name
+              << ") that does not exist" << std::endl;
+    std::cout << "Global services are: ";
+    for (auto &kv : services_) {
+      std::cout << kv.first << ", ";
     }
+    std::cout << std::endl;
+    return false;
+  }
 
-    Service &service = it->second;
-    bool success = service(req, res);
+  Service &service = it->second;
+  bool success = service(req, res);
 
-    if (!success) {
-        std::cout << "call to " << service_name << " failed" << std::endl;
-        return false;
-    } else {
-        return true;
-    }
+  if (!success) {
+    std::cout << "call to " << service_name << " failed" << std::endl;
+    return false;
+  } else {
+    return true;
+  }
 }
 }  // namespace scrimmage

@@ -43,20 +43,20 @@ namespace controller {
 
 class JSBSimModelControllerDirect : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+  virtual void init(std::map<std::string, std::string> &params);
+  virtual bool step(double t, double dt);
 
  protected:
-    bool use_pitch_;
+  bool use_pitch_;
 
-    int input_vel_idx_ = 0;
-    int input_roll_idx_ = 0;
-    int input_alt_or_pitch_idx_ = 0;
+  int input_vel_idx_ = 0;
+  int input_roll_idx_ = 0;
+  int input_alt_or_pitch_idx_ = 0;
 
-    int output_vel_idx_ = 0;
-    int output_roll_idx_ = 0;
-    int output_alt_or_pitch_idx_ = 0;
+  int output_vel_idx_ = 0;
+  int output_roll_idx_ = 0;
+  int output_alt_or_pitch_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_

@@ -33,30 +33,30 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
-#include <scrimmage/common/Waypoint.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/common/Waypoint.h>
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
 class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
-    MoveToGoalMS();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+  MoveToGoalMS();
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
 
  protected:
-    Waypoint wp_;
-    Eigen::Vector3d wp_local_;
+  Waypoint wp_;
+  Eigen::Vector3d wp_local_;
 
-    PID speed_pid_;
+  PID speed_pid_;
 };
-} // namespace motor_schemas
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
+}  // namespace motor_schemas
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_

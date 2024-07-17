@@ -35,24 +35,24 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace autonomy {
 class GoToWaypoint : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
-    void publish_waypoint(double t);
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
+  void publish_waypoint(double t);
 
  protected:
-    bool waypoint_status_;
-    WaypointList wp_list_;
-    std::vector<std::string> waypoint_;
-    scrimmage::PublisherPtr waypoint_list_pub_;
+  bool waypoint_status_;
+  WaypointList wp_list_;
+  std::vector<std::string> waypoint_;
+  scrimmage::PublisherPtr waypoint_list_pub_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_

@@ -139,18 +139,18 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             if (in_interface->gui_msg_update()) {
                 in_interface->gui_msg_mutex.lock();
                 auto &control = in_interface->gui_msg();
-                auto it = control.begin();
-                while (it != control.end()) {
-                    if (it->inc_warp()) {
+                auto control_it = control.begin();
+                while (control_it != control.end()) {
+                    if (control_it->inc_warp()) {
                         timer.inc_warp();
-                    } else if (it->dec_warp()) {
+                    } else if (control_it->dec_warp()) {
                         timer.dec_warp();
-                    } else if (it->toggle_pause()) {
+                    } else if (control_it->toggle_pause()) {
                         paused = !paused;
-                    } else if (it->single_step()) {
+                    } else if (control_it->single_step()) {
                         single_step = true;
                     }
-                    control.erase(it++);
+                    control.erase(control_it++);
                 }
                 in_interface->gui_msg_mutex.unlock();
             }

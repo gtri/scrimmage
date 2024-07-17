@@ -34,31 +34,31 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
 #include <scrimmage/metrics/Metrics.h>
 
-#include "SimpleCollisionScore.h"
-
 #include <map>
 #include <set>
 #include <string>
+
+#include "SimpleCollisionScore.h"
 
 namespace scrimmage {
 namespace metrics {
 class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
-    SimpleCollisionMetrics();
+  SimpleCollisionMetrics();
 
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_metrics(double t, double dt) override;
-    void calc_team_scores() override;
-    void print_team_summaries() override;
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_metrics(double t, double dt) override;
+  void calc_team_scores() override;
+  void print_team_summaries() override;
 
  protected:
-    std::map<int, SimpleCollisionScore> scores_;
-    std::map<int, SimpleCollisionScore> team_coll_scores_;
-    std::map<int, bool> surviving_teams_;
+  std::map<int, SimpleCollisionScore> scores_;
+  std::map<int, SimpleCollisionScore> team_coll_scores_;
+  std::map<int, bool> surviving_teams_;
 
-    std::map<std::string, std::string> params_;
-    bool initialized_ = false;
-    std::set<int> teams_;
+  std::map<std::string, std::string> params_;
+  bool initialized_ = false;
+  std::set<int> teams_;
 };
 }  // namespace metrics
 }  // namespace scrimmage

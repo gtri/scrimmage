@@ -36,17 +36,16 @@
 
 namespace scrimmage {
 
-Publisher::Publisher() {
-}
+Publisher::Publisher() {}
 
-Publisher::Publisher(const std::string &topic, const unsigned int& max_queue_size,
-                     const bool& enable_queue_size, EntityPluginPtr plugin) :
-    NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
+Publisher::Publisher(const std::string& topic,
+                     const unsigned int& max_queue_size,
+                     const bool& enable_queue_size, EntityPluginPtr plugin)
+    : NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
 
-void Publisher::set_debug_info(MessageBasePtr msg, const std::string &type) {
-      msg->debug_info = std::string("  publisher:  ")
-        + "type (" + type
-        + "), plugin (" + plugin_->name() + ")"
-        + "), id (" + std::to_string(plugin_->parent()->id().id()) + ")";
+void Publisher::set_debug_info(MessageBasePtr msg, const std::string& type) {
+  msg->debug_info = std::string("  publisher:  ") + "type (" + type +
+                    "), plugin (" + plugin_->name() + ")" + "), id (" +
+                    std::to_string(plugin_->parent()->id().id()) + ")";
 }
-} // namespace scrimmage
+}  // namespace scrimmage

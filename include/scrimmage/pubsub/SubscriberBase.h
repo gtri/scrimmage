@@ -35,22 +35,22 @@
 
 #include <scrimmage/pubsub/NetworkDevice.h>
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 class SubscriberBase : public NetworkDevice {
  public:
-    SubscriberBase() = default;
-    SubscriberBase(const std::string &topic, unsigned int &max_queue_size,
-                   bool enable_queue_size, EntityPluginPtr plugin) :
-        NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
-    virtual void accept(scrimmage::MessageBasePtr msg) = 0;
+  SubscriberBase() = default;
+  SubscriberBase(const std::string &topic, unsigned int &max_queue_size,
+                 bool enable_queue_size, EntityPluginPtr plugin)
+      : NetworkDevice(topic, max_queue_size, enable_queue_size, plugin) {}
+  virtual void accept(scrimmage::MessageBasePtr msg) = 0;
 
  protected:
-    void print_err(const std::string &type, MessageBasePtr msg) const;
+  void print_err(const std::string &type, MessageBasePtr msg) const;
 };
 
 using SubscriberBasePtr = std::shared_ptr<SubscriberBase>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_

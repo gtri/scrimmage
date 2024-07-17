@@ -35,88 +35,91 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Visibility.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
 
 #include <pybind11/pybind11.h>
 
 #if ENABLE_GRPC
-#include <grpc++/grpc++.h>
 #include <scrimmage/network/ScrimmageServiceImpl.h>
 #include <scrimmage/proto/OpenAI.grpc.pb.h>
+
+#include <grpc++/grpc++.h>
 #endif
 
 #include <map>
-#include <vector>
-#include <string>
-#include <utility>
-#include <tuple>
 #include <memory>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 namespace scrimmage {
 
 struct EnvParams {
-    std::vector<int> discrete_count;
-    std::vector<std::pair<double, double>> continuous_extrema;
+  std::vector<int> discrete_count;
+  std::vector<std::pair<double, double>> continuous_extrema;
 };
 
 struct EnvValues {
-    std::vector<int> discrete;
-    std::vector<double> continuous;
+  std::vector<int> discrete;
+  std::vector<double> continuous;
 };
 
 namespace autonomy {
 
 class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
  public:
-    ScrimmageOpenAIAutonomy();
+  ScrimmageOpenAIAutonomy();
 
-    // normal overrides
-    void init(std::map<std::string, std::string> &params) final;
-    bool step_autonomy(double t, double dt) final;
+  // normal overrides
+  void init(std::map<std::string, std::string> &params) final;
+  bool step_autonomy(double t, double dt) final;
 
-    // new overrides
-    virtual void init_helper(std::map<std::string, std::string> &/*params*/) {}
-    virtual bool step_helper() {return true;}
+  // new overrides
+  virtual void init_helper(std::map<std::string, std::string> & /*params*/) {}
+  virtual bool step_helper() { return true; }
 
-    virtual void set_environment() {}
-    std::tuple<bool, double, pybind11::dict> calculate_reward();
-    std::pair<double, double> reward_range;
-    EnvParams action_space;
-    EnvValues action;
-    int self_id() {return self_id_;}
+  virtual void set_environment() {}
+  std::tuple<bool, double, pybind11::dict> calculate_reward();
+  std::pair<double, double> reward_range;
+  EnvParams action_space;
+  EnvValues action;
+  int self_id() { return self_id_; }
 
  protected:
 #if ENABLE_GRPC
-    std::unique_ptr<scrimmage_proto::OpenAI::Stub> openai_stub_;
-    std::unique_ptr<grpc::Server> server_;
-    boost::optional<scrimmage_proto::Action> get_action(scrimmage_proto::Obs &observation);
-    pybind11::object convert_proto_action(const scrimmage_proto::Action &proto_act);
-    scrimmage_proto::Obs obs_to_proto();
-    bool send_env();
+  std::unique_ptr<scrimmage_proto::OpenAI::Stub> openai_stub_;
+  std::unique_ptr<grpc::Server> server_;
+  boost::optional<scrimmage_proto::Action> get_action(
+      scrimmage_proto::Obs &observation);
+  pybind11::object convert_proto_action(
+      const scrimmage_proto::Action &proto_act);
+  scrimmage_proto::Obs obs_to_proto();
+  bool send_env();
 
-    std::string python_cmd_;
+  std::string python_cmd_;
 #endif
-    std::map<std::string, std::string> params_;
-    pybind11::object tuple_space_, box_space_;
-    int self_id_ = 0;
-    bool first_step_ = true;
-    PublisherPtr pub_reward_ = nullptr;
-    pybind11::object actor_func_ = pybind11::none();
-    bool nonlearning_mode_ = false;
-    OpenAIObservations observations_;
-    OpenAIActions actions_;
+  std::map<std::string, std::string> params_;
+  pybind11::object tuple_space_, box_space_;
+  int self_id_ = 0;
+  bool first_step_ = true;
+  PublisherPtr pub_reward_ = nullptr;
+  pybind11::object actor_func_ = pybind11::none();
+  bool nonlearning_mode_ = false;
+  OpenAIObservations observations_;
+  OpenAIActions actions_;
 #if ENABLE_GRPC
-    bool grpc_mode_ = true;
+  bool grpc_mode_ = true;
 #else
-    bool grpc_mode_ = false;
+  bool grpc_mode_ = false;
 #endif
 
  private:
-    virtual std::tuple<bool, double, pybind11::dict> calc_reward();
-    bool setup_complete_ = false;
+  virtual std::tuple<bool, double, pybind11::dict> calc_reward();
+  bool setup_complete_ = false;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_

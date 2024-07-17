@@ -30,26 +30,31 @@
  *
  */
 
+#include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/ID.h>
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
 namespace scrimmage {
 
 Contact::Contact() : state_(std::make_shared<State>()) {}
 
-Contact::Contact(const ID &id, const StatePtr &state) :
-    id_(id), state_(state) {
-}
+Contact::Contact(const ID &id, const StatePtr &state)
+    : id_(id), state_(state) {}
 
-Contact::Contact(ID &id, double radius, StatePtr &state, Type type,
-                 scrimmage_proto::ContactVisualPtr cv,
-                 const std::unordered_map<std::string, MessageBasePtr> &properties) :
-    id_(id), state_(state), type_(type), contact_visual_(cv),
-    active_(true), radius_(radius), properties_(properties) {}
+Contact::Contact(
+    ID &id, double radius, StatePtr &state, Type type,
+    scrimmage_proto::ContactVisualPtr cv,
+    const std::unordered_map<std::string, MessageBasePtr> &properties)
+    : id_(id),
+      state_(state),
+      type_(type),
+      contact_visual_(cv),
+      active_(true),
+      radius_(radius),
+      properties_(properties) {}
 
 void Contact::set_id(const ID &id) { id_ = id; }
 
@@ -65,8 +70,9 @@ void Contact::set_type(Contact::Type type) { type_ = type; }
 
 Contact::Type Contact::type() { return type_; }
 
-scrimmage_proto::ContactVisualPtr &Contact::contact_visual()
-{ return contact_visual_; }
+scrimmage_proto::ContactVisualPtr &Contact::contact_visual() {
+  return contact_visual_;
+}
 
 void Contact::set_active(bool active) { active_ = active; }
 
@@ -74,8 +80,8 @@ void Contact::set_radius(double radius) { radius_ = radius; }
 
 bool Contact::active() { return active_; }
 
-std::ostream& operator<<(std::ostream& os, const Contact& c) {
-    os << c.id_ << ": " << *c.state_;
-    return os;
+std::ostream &operator<<(std::ostream &os, const Contact &c) {
+  os << c.id_ << ": " << *c.state_;
+  return os;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

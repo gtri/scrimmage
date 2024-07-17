@@ -45,26 +45,26 @@ namespace controller {
 
 class JSBSimModelControllerHeadingPID : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+  virtual void init(std::map<std::string, std::string> &params);
+  virtual bool step(double t, double dt);
 
  protected:
-    Angles angles_to_jsbsim_;
-    Angles angles_from_jsbsim_;
+  Angles angles_to_jsbsim_;
+  Angles angles_from_jsbsim_;
 
-    PID heading_pid_;
-    double prev_desired_yaw_;
-    bool heading_lag_initialized_;
-    double max_bank_;
+  PID heading_pid_;
+  double prev_desired_yaw_;
+  bool heading_lag_initialized_;
+  double max_bank_;
 
-    int input_vel_idx_ = 0;
-    int input_heading_idx_ = 0;
-    int input_alt_idx_ = 0;
+  int input_vel_idx_ = 0;
+  int input_heading_idx_ = 0;
+  int input_alt_idx_ = 0;
 
-    int output_vel_idx_ = 0;
-    int output_bank_idx_ = 0;
-    int output_alt_idx_ = 0;
+  int output_vel_idx_ = 0;
+  int output_bank_idx_ = 0;
+  int output_alt_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMMODELCONTROLLERHEADINGPID_JSBSIMMODELCONTROLLERHEADINGPID_H_

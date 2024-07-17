@@ -35,30 +35,30 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/CSV.h>
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class APITester : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
 
  protected:
-    bool my_test_bool_ = false;
-    int my_test_int_ = 1;
-    float my_test_float_ = 1.2345;
-    double my_test_double_ = 9.87654321;
+  bool my_test_bool_ = false;
+  int my_test_int_ = 1;
+  float my_test_float_ = 1.2345;
+  double my_test_double_ = 9.87654321;
 
-    uint8_t desired_heading_idx_ = 0;
-    uint8_t desired_alt_idx_ = 0;
-    uint8_t desired_speed_idx_ = 0;
+  uint8_t desired_heading_idx_ = 0;
+  uint8_t desired_alt_idx_ = 0;
+  uint8_t desired_speed_idx_ = 0;
 
-    CSV csv_;
+  CSV csv_;
 
-    void write_my_test_values();
+  void write_my_test_values();
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_

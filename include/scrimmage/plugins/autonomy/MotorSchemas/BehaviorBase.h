@@ -37,35 +37,35 @@
 #include <scrimmage/entity/Contact.h>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
 class BehaviorBase : public scrimmage::Autonomy {
  public:
-    BehaviorBase();
-    Eigen::Vector3d &desired_vector();
-    void set_gain(const double &gain);
-    const double &gain();
-    void set_max_vector_length(const double &max_vector_length);
-    void configure_contacts(std::map<std::string, std::string> &params);
+  BehaviorBase();
+  Eigen::Vector3d &desired_vector();
+  void set_gain(const double &gain);
+  const double &gain();
+  void set_max_vector_length(const double &max_vector_length);
+  void configure_contacts(std::map<std::string, std::string> &params);
 
  protected:
-    Eigen::Vector3d desired_vector_;
-    double gain_;
-    double max_vector_length_;
+  Eigen::Vector3d desired_vector_;
+  double gain_;
+  double max_vector_length_;
 
-    // Use truth contacts by default, unless 'contacts' parameter is set
-    bool use_truth_contacts_ = true;
-    bool use_noisy_contacts_ = false;
+  // Use truth contacts by default, unless 'contacts' parameter is set
+  bool use_truth_contacts_ = true;
+  bool use_noisy_contacts_ = false;
 
-    ContactMap noisy_contacts_;
+  ContactMap noisy_contacts_;
 };
 using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
-} // namespace motor_schemas
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace motor_schemas
+}  // namespace autonomy
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_

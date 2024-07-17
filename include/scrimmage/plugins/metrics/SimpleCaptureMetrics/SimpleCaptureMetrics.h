@@ -36,8 +36,8 @@
 #include <scrimmage/metrics/Metrics.h>
 
 #include <iostream>
-#include <set>
 #include <map>
+#include <set>
 #include <string>
 
 using std::cout;
@@ -49,82 +49,80 @@ namespace scrimmage {
 namespace metrics {
 class Score {
  public:
-    Score() {}
+  Score() {}
 
-    bool set_weights(std::map<std::string, std::string> &params) {
-        double w = sc::get<double>("TeamCapture_weight", params, 0.0);
-        weights_["TeamCapture"] = w;
+  bool set_weights(std::map<std::string, std::string> &params) {
+    double w = sc::get<double>("TeamCapture_weight", params, 0.0);
+    weights_["TeamCapture"] = w;
 
-        w = sc::get<double>("NonTeamCapture_weight", params, 0.0);
-        weights_["NonTeamCapture"] = w;
-        return true;
+    w = sc::get<double>("NonTeamCapture_weight", params, 0.0);
+    weights_["NonTeamCapture"] = w;
+    return true;
+  }
+
+  void increment_count(std::string type) {
+    auto it = counts_.find(type);
+    if (it == counts_.end()) {
+      counts_[type] = 1;
+    } else {
+      (it->second)++;
     }
+  }
 
-    void increment_count(std::string type) {
-        auto it = counts_.find(type);
-        if (it == counts_.end()) {
-            counts_[type] = 1;
-        } else {
-            (it->second)++;
-        }
+  void add_count(std::string type, int c) {
+    auto it = counts_.find(type);
+    if (it == counts_.end()) {
+      counts_[type] = c;
+    } else {
+      (it->second) += c;
     }
+  }
 
-    void add_count(std::string type, int c) {
-        auto it = counts_.find(type);
-        if (it == counts_.end()) {
-            counts_[type] = c;
-        } else {
-            (it->second) += c;
-        }
-    }
+  void set_count(std::string type, int c) { counts_[type] = c; }
 
-    void set_count(std::string type, int c) {
-        counts_[type] = c;
+  int count(std::string type) {
+    auto it = counts_.find(type);
+    if (it == counts_.end()) {
+      return 0;
     }
+    return it->second;
+  }
 
-    int count(std::string type) {
-        auto it = counts_.find(type);
-        if (it == counts_.end()) {
-            return 0;
-        }
-        return it->second;
+  double score() {
+    // Apply weights to all scores
+    double s = 0;
+    for (auto &kv : counts_) {
+      auto it = weights_.find(kv.first);
+      if (it != weights_.end()) {
+        s += kv.second * it->second;
+      } else {
+        cout << "Metrics Warning: Count exists without weight" << endl;
+        cout << "Count Name: " << kv.first << endl;
+      }
     }
-
-    double score() {
-        // Apply weights to all scores
-        double s = 0;
-        for (auto &kv : counts_) {
-            auto it = weights_.find(kv.first);
-            if (it != weights_.end()) {
-                s += kv.second * it->second;
-            } else {
-                cout << "Metrics Warning: Count exists without weight" << endl;
-                cout << "Count Name: " << kv.first << endl;
-            }
-        }
-        return s;
-    }
+    return s;
+  }
 
  protected:
-    std::map<std::string, int> counts_;
-    std::map<std::string, double> weights_;
+  std::map<std::string, int> counts_;
+  std::map<std::string, double> weights_;
 };
 
 class SimpleCaptureMetrics : public scrimmage::Metrics {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_metrics(double t, double dt) override;
-    void calc_team_scores() override;
-    void print_team_summaries() override;
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_metrics(double t, double dt) override;
+  void calc_team_scores() override;
+  void print_team_summaries() override;
 
  protected:
-    std::map<int, Score> scores_;
-    std::map<int, Score> team_scores_map_;
-    bool initialized_ = false;
-    std::set<int> teams_;
+  std::map<int, Score> scores_;
+  std::map<int, Score> team_scores_map_;
+  bool initialized_ = false;
+  std::set<int> teams_;
 
-    std::map<std::string, std::string> params_;
+  std::map<std::string, std::string> params_;
 };
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_

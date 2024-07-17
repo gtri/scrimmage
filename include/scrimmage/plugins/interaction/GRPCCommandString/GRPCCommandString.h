@@ -33,16 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
 
+#include <scrimmage/msgs/Command.pb.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <scrimmage/msgs/Command.pb.h>
-
-#include <map>
 #include <list>
-#include <string>
+#include <map>
+#include <mutex>  // NOLINT
 #include <queue>
-#include <thread> // NOLINT
-#include <mutex> // NOLINT
+#include <string>
+#include <thread>  // NOLINT
 
 namespace sc = scrimmage;
 
@@ -51,27 +50,27 @@ namespace interaction {
 
 class GRPCCommandString : public scrimmage::EntityInteraction {
  public:
-    GRPCCommandString();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt) override;
-    void run_server();
+  GRPCCommandString();
+  bool init(std::map<std::string, std::string> &mission_params,
+            std::map<std::string, std::string> &plugin_params) override;
+  bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
+                               double dt) override;
+  void run_server();
 
-    void push_msg(const scrimmage_msgs::CommandString &msg);
+  void push_msg(const scrimmage_msgs::CommandString &msg);
 
  protected:
-    std::string ip_ = "localhost";
-    int port_ = 60000;
-    std::thread network_thread_;
+  std::string ip_ = "localhost";
+  int port_ = 60000;
+  std::thread network_thread_;
 
-    std::mutex msgs_mutex_;
-    std::queue<scrimmage_msgs::CommandString> msgs_;
+  std::mutex msgs_mutex_;
+  std::queue<scrimmage_msgs::CommandString> msgs_;
 
-    std::map<std::string, std::map<std::string, sc::PublisherPtr>> pubs_;
+  std::map<std::string, std::map<std::string, sc::PublisherPtr>> pubs_;
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_

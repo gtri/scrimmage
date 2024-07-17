@@ -38,28 +38,28 @@
 namespace scrimmage {
 class ID {
  public:
-    ID();
+  ID();
 
-    ID(int id, int sub_swarm_id, int team_id);
+  ID(int id, int sub_swarm_id, int team_id);
 
-    void set_id(int id);
-    void set_sub_swarm_id(int sub_swarm_id);
-    void set_team_id(int team_id);
+  void set_id(int id);
+  void set_sub_swarm_id(int sub_swarm_id);
+  void set_team_id(int team_id);
 
-    int id() const;
-    int sub_swarm_id() const;
-    int team_id() const;
+  int id() const;
+  int sub_swarm_id() const;
+  int team_id() const;
 
-    bool operator==(const ID &other) const;
-    bool operator<(const ID &other) const;
+  bool operator==(const ID& other) const;
+  bool operator<(const ID& other) const;
 
-    friend std::ostream& operator<<(std::ostream& os, const scrimmage::ID& id);
+  friend std::ostream& operator<<(std::ostream& os, const scrimmage::ID& id);
 
  protected:
-    int id_;
-    int sub_swarm_id_;
-    int team_id_;
+  int id_;
+  int sub_swarm_id_;
+  int team_id_;
 };
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_ID_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_ID_H_

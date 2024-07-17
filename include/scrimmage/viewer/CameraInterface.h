@@ -33,22 +33,22 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
 
-#include <vtkCommand.h>
-#include <vtkSmartPointer.h>
-#include <vtkProperty.h>
-#include <vtkVersion.h>
-#include <vtkPoints.h>
-#include <vtkCellArray.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
+#include <scrimmage/viewer/Updater.h>
+
 #include <vtkActor.h>
-#include <vtkRenderWindowInteractor.h>
+#include <vtkCellArray.h>
+#include <vtkCommand.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <vtkObjectFactory.h>
+#include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
 #include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
-
-#include <scrimmage/viewer/Updater.h>
+#include <vtkSmartPointer.h>
+#include <vtkVersion.h>
 
 #include <string>
 
@@ -56,28 +56,28 @@ namespace scrimmage {
 // Define interaction style
 class CameraInterface : public vtkInteractorStyleTrackballCamera {
  public:
-    CameraInterface();
+  CameraInterface();
 
-    static CameraInterface* New();
-    // vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
+  static CameraInterface* New();
+  // vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
 
-    virtual void OnKeyPress();
-    virtual void OnLeftButtonDown();
-    virtual void OnLeftButtonUp();
-    virtual void Rotate();
+  virtual void OnKeyPress();
+  virtual void OnLeftButtonDown();
+  virtual void OnLeftButtonUp();
+  virtual void Rotate();
 
-    virtual void OnMiddleButtonUp();
-    virtual void Pan();
-    virtual void Dolly();
+  virtual void OnMiddleButtonUp();
+  virtual void Pan();
+  virtual void Dolly();
 
-    void set_updater(vtkSmartPointer<Updater> & updater) { updater_ = updater; }
+  void set_updater(vtkSmartPointer<Updater>& updater) { updater_ = updater; }
 
  protected:
-    vtkSmartPointer<Updater> updater_;
-    bool enable_object_draw_ = false;
-    std::string last_key_;
+  vtkSmartPointer<Updater> updater_;
+  bool enable_object_draw_ = false;
+  std::string last_key_;
 };
 // vtkStandardNewMacro(CameraInterface);
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_

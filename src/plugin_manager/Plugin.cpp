@@ -32,8 +32,8 @@
 
 #include <scrimmage/entity/EntityPlugin.h>
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 Plugin::Plugin() : name_("Plugin") {}
@@ -42,12 +42,12 @@ std::string Plugin::name() { return name_; }
 std::string Plugin::type() { return std::string("Plugin"); }
 
 void Plugin::set_name(std::string name) {
-    if (name_set_ == true) {
-        std::cout << "WARNING: Plugin name, " << name << ", being reset. "
-                  << "Should only be set once." << std::endl;
-    }
-    name_ = name;
-    name_set_ = true;  // Set only once before warning.
+  if (name_set_ == true) {
+    std::cout << "WARNING: Plugin name, " << name << ", being reset. "
+              << "Should only be set once." << std::endl;
+  }
+  name_ = name;
+  name_set_ = true;  // Set only once before warning.
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

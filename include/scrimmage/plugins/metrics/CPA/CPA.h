@@ -33,13 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_CPA_CPA_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_CPA_CPA_H_
 
-#include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/common/CSV.h>
+#include <scrimmage/metrics/Metrics.h>
 
+#include <limits>
 #include <map>
 #include <string>
 #include <vector>
-#include <limits>
 
 namespace sc = scrimmage;
 
@@ -48,41 +48,42 @@ namespace metrics {
 
 class CPAData {
  public:
-    CPAData() {}
-    double distance() {return distance_;}
-    int closest_entity() {return closest_entity_;}
-    double time() {return time_;}
-    void set_distance(double dist) {distance_ = dist;}
-    void set_closest_entity(int id) {closest_entity_ = id;}
-    void set_time(double t) {time_ = t;}
+  CPAData() {}
+  double distance() { return distance_; }
+  int closest_entity() { return closest_entity_; }
+  double time() { return time_; }
+  void set_distance(double dist) { distance_ = dist; }
+  void set_closest_entity(int id) { closest_entity_ = id; }
+  void set_time(double t) { time_ = t; }
 
  protected:
-    double distance_ = std::numeric_limits<double>::infinity();
-    int closest_entity_ = -1;
-    double time_ = -1;
+  double distance_ = std::numeric_limits<double>::infinity();
+  int closest_entity_ = -1;
+  double time_ = -1;
 };
 
 class CPA : public scrimmage::Metrics {
  public:
-    CPA();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_metrics(double t, double dt) override;
-    void calc_team_scores() override;
-    void print_team_summaries() override;
- protected:
-    std::map<std::string, std::string> params_;
+  CPA();
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_metrics(double t, double dt) override;
+  void calc_team_scores() override;
+  void print_team_summaries() override;
 
-    // Entity Num: CPA, Closest Entity, Time
-    std::map<int, CPAData> cpa_map_;
-    CSV csv_;
-    bool initialized_{false};
-    bool team_cpa_{false};  // Whether checking within a team
-    int team_id_{0};  // If checking a specific team ID
-    double min_time_s_{-1.0};  // For constraining after some event
-    double max_time_s_{-1.0};  // For constraining before some event
+ protected:
+  std::map<std::string, std::string> params_;
+
+  // Entity Num: CPA, Closest Entity, Time
+  std::map<int, CPAData> cpa_map_;
+  CSV csv_;
+  bool initialized_{false};
+  bool team_cpa_{false};     // Whether checking within a team
+  int team_id_{0};           // If checking a specific team ID
+  double min_time_s_{-1.0};  // For constraining after some event
+  double max_time_s_{-1.0};  // For constraining before some event
  private:
 };
 
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_CPA_CPA_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_CPA_CPA_H_

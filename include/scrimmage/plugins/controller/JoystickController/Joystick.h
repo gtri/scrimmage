@@ -35,57 +35,57 @@
 
 #ifndef __APPLE__
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <linux/joystick.h>
-
-#include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Publisher.h>
 
-#include <string>
+#include <fcntl.h>
+#include <linux/joystick.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+
 #include <list>
-#include <vector>
 #include <map>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace controller {
 
 class Joystick {
  public:
-    Joystick();
-    ~Joystick();
+  Joystick();
+  ~Joystick();
 
-    void init(std::map<std::string, std::string> &params, VariableIO &vars,
-              EntityPluginPtr plugin);
-    bool step(double t, double dt, VariableIO &vars);
+  void init(std::map<std::string, std::string> &params, VariableIO &vars,
+            EntityPluginPtr plugin);
+  bool step(double t, double dt, VariableIO &vars);
 
  protected:
-    int joy_fd_ = -1;
-    int *axis_ = NULL;
-    int num_of_axis_ = 0;
-    int num_of_buttons_ = 0;
-	char *button_ = NULL;
-	struct js_event js_;
+  int joy_fd_ = -1;
+  int *axis_ = NULL;
+  int num_of_axis_ = 0;
+  int num_of_buttons_ = 0;
+  char *button_ = NULL;
+  struct js_event js_;
 
-    int min_value = -32767;
-    int max_value = +32767;
+  int min_value = -32767;
+  int max_value = +32767;
 
-    bool print_js_values_ = false;
+  bool print_js_values_ = false;
 
-    std::list<AxisScale> axis_tfs_;
+  std::list<AxisScale> axis_tfs_;
 
-    bool publish_button_state_ = false;
+  bool publish_button_state_ = false;
 
-    scrimmage::PublisherPtr pub_buttons_;
-    std::vector<bool> prev_button_state_;
+  scrimmage::PublisherPtr pub_buttons_;
+  std::vector<bool> prev_button_state_;
 };
 
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage
 
 #endif  // __APPLE__
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICK_H_

@@ -35,34 +35,34 @@
 
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <string>
 #include <map>
-#include <vector>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
 class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
-    AvoidEntityMS();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+  AvoidEntityMS();
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
 
  protected:
-    double sphere_of_influence_;
-    double minimum_range_;
-    bool avoid_non_team_;
+  double sphere_of_influence_;
+  double minimum_range_;
+  bool avoid_non_team_;
 
-    scrimmage_proto::ShapePtr circle_shape_;
-    scrimmage_proto::ShapePtr line_shape_ = nullptr;
+  scrimmage_proto::ShapePtr circle_shape_;
+  scrimmage_proto::ShapePtr line_shape_ = nullptr;
 
-    bool show_shapes_ = false;
+  bool show_shapes_ = false;
 
-    void avoidance_vectors(ContactMap &contacts,
-                           std::vector<Eigen::Vector3d> &O_vecs);
+  void avoidance_vectors(ContactMap &contacts,
+                         std::vector<Eigen::Vector3d> &O_vecs);
 };
-} // namespace motor_schemas
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDENTITYMS_AVOIDENTITYMS_H_
+}  // namespace motor_schemas
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDENTITYMS_AVOIDENTITYMS_H_

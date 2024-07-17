@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
 
-#include <pybind11/pybind11.h>
-
 #include <scrimmage/common/Visibility.h>
 
-#include <utility>
+#include <pybind11/pybind11.h>
+
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace scrimmage {
@@ -47,19 +47,16 @@ namespace autonomy {
 
 pybind11::object DLL_PUBLIC get_gym_space(const std::string &type);
 
-void DLL_PUBLIC to_continuous(
-        std::vector<std::pair<double, double>> &p,
-        pybind11::list &minima,
-        pybind11::list &maxima);
+void DLL_PUBLIC to_continuous(std::vector<std::pair<double, double>> &p,
+                              pybind11::list &minima, pybind11::list &maxima);
 
 void DLL_PUBLIC to_discrete(std::vector<int> &p, pybind11::list &maxima);
 
-pybind11::object DLL_PUBLIC create_space(
-        pybind11::list discrete_maxima,
-        pybind11::list continuous_minima,
-        pybind11::list continuous_maxima);
+pybind11::object DLL_PUBLIC create_space(pybind11::list discrete_maxima,
+                                         pybind11::list continuous_minima,
+                                         pybind11::list continuous_maxima);
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIUTILS_H_

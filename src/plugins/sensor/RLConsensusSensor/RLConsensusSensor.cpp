@@ -30,12 +30,11 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/RLConsensusSensor/RLConsensusSensor.h>
-
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/RLConsensusSensor/RLConsensusSensor.h>
 
 #include <iostream>
 
@@ -48,7 +47,8 @@ namespace sp = scrimmage_proto;
 namespace ba = boost::adaptors;
 namespace br = boost::range;
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLConsensusSensor, RLConsensusSensor_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLConsensusSensor,
+                RLConsensusSensor_plugin)
 
 namespace scrimmage {
 namespace sensor {
@@ -56,24 +56,26 @@ namespace sensor {
 RLConsensusSensor::RLConsensusSensor() : ScrimmageOpenAISensor() {}
 
 void RLConsensusSensor::set_observation_space() {
-    const int num_veh = parent_->contacts()->size();
-    const double inf = std::numeric_limits<double>::infinity();
-    observation_space.continuous_extrema.assign(num_veh, std::make_pair(-inf, inf));
+  const int num_veh = parent_->contacts()->size();
+  const double inf = std::numeric_limits<double>::infinity();
+  observation_space.continuous_extrema.assign(num_veh,
+                                              std::make_pair(-inf, inf));
 }
 
-void RLConsensusSensor::get_observation(double *data, uint32_t beg_idx, uint32_t end_idx) {
-    auto c = parent_->contacts();
-    if (c->size() != end_idx - beg_idx) {
-        std::cout << "RLConsensusSensor::get_observation (end_idx - beg_idx) "
-            << "does not match number of vehicles" << std::endl;
-        return;
-    }
+void RLConsensusSensor::get_observation(double *data, uint32_t beg_idx,
+                                        uint32_t end_idx) {
+  auto c = parent_->contacts();
+  if (c->size() != end_idx - beg_idx) {
+    std::cout << "RLConsensusSensor::get_observation (end_idx - beg_idx) "
+              << "does not match number of vehicles" << std::endl;
+    return;
+  }
 
-    auto ids_view = *c | ba::map_keys;
-    std::set<int> ids(ids_view.begin(), ids_view.end());
+  auto ids_view = *c | ba::map_keys;
+  std::set<int> ids(ids_view.begin(), ids_view.end());
 
-    auto get_x = [&](int id) {return c->at(id).state()->pos()(0);};
-    br::copy(ids | ba::transformed(get_x), data);
+  auto get_x = [&](int id) { return c->at(id).state()->pos()(0); };
+  br::copy(ids | ba::transformed(get_x), data);
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

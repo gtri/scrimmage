@@ -32,54 +32,54 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <tuple>
-#include <memory>
 
 namespace scrimmage {
 namespace motion {
-class RigidBody6DOF : public scrimmage::MotionModel{
+class RigidBody6DOF : public scrimmage::MotionModel {
  public:
-    virtual std::tuple<int, int, int> version();
+  virtual std::tuple<int, int, int> version();
 
-    bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) override;
-    bool step(double time, double dt) override;
+  bool init(std::map<std::string, std::string> &info,
+            std::map<std::string, std::string> &params) override;
+  bool step(double time, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+  void model(const vector_t &x, vector_t &dxdt, double t) override;
 
-    void teleport(scrimmage::StatePtr &state) override;
+  void teleport(scrimmage::StatePtr &state) override;
 
-    class Controller : public scrimmage::Controller {
-     public:
-        virtual std::shared_ptr<Eigen::Vector4d> u() = 0;
-    };
+  class Controller : public scrimmage::Controller {
+   public:
+    virtual std::shared_ptr<Eigen::Vector4d> u() = 0;
+  };
 
-    // cppcheck-suppress passedByValue
-    void set_u(std::shared_ptr<Eigen::Vector4d> u) {ctrl_u_ = u;}
+  // cppcheck-suppress passedByValue
+  void set_u(std::shared_ptr<Eigen::Vector4d> u) { ctrl_u_ = u; }
 
  protected:
-    scrimmage::PID heading_pid_;
-    scrimmage::PID alt_pid_;
-    scrimmage::PID vel_pid_;
+  scrimmage::PID heading_pid_;
+  scrimmage::PID alt_pid_;
+  scrimmage::PID vel_pid_;
 
-    double length_;
-    std::shared_ptr<Eigen::Vector4d> ctrl_u_;
+  double length_;
+  std::shared_ptr<Eigen::Vector4d> ctrl_u_;
 
-    double min_velocity_;
-    double max_velocity_;
-    double max_roll_;
-    double max_pitch_;
+  double min_velocity_;
+  double max_velocity_;
+  double max_roll_;
+  double max_pitch_;
 
-    scrimmage::Quaternion quat_world_;
-    scrimmage::Quaternion quat_local_;
+  scrimmage::Quaternion quat_world_;
+  scrimmage::Quaternion quat_local_;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOF_H_

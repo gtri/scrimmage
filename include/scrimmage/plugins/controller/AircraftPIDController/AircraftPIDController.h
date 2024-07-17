@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <Eigen/Dense>
 
@@ -46,35 +46,35 @@ namespace controller {
 
 class AircraftPIDController : public scrimmage::Controller {
  public:
-    AircraftPIDController();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step(double t, double dt) override;
+  AircraftPIDController();
+  void init(std::map<std::string, std::string> &params) override;
+  bool step(double t, double dt) override;
 
  protected:
-    // Input variables
-    uint8_t desired_roll_idx_ = 0;
-    uint8_t desired_heading_idx_ = 0;
-    uint8_t desired_altitude_idx_ = 0;
-    uint8_t desired_speed_idx_ = 0;
+  // Input variables
+  uint8_t desired_roll_idx_ = 0;
+  uint8_t desired_heading_idx_ = 0;
+  uint8_t desired_altitude_idx_ = 0;
+  uint8_t desired_speed_idx_ = 0;
 
-    // Output variables
-    uint8_t throttle_idx_ = 0;
-    uint8_t elevator_idx_ = 0;
-    uint8_t aileron_idx_ = 0;
-    uint8_t rudder_idx_ = 0;
+  // Output variables
+  uint8_t throttle_idx_ = 0;
+  uint8_t elevator_idx_ = 0;
+  uint8_t aileron_idx_ = 0;
+  uint8_t rudder_idx_ = 0;
 
-    scrimmage::PID pitch_pid_;
-    scrimmage::PID roll_pid_;
+  scrimmage::PID pitch_pid_;
+  scrimmage::PID roll_pid_;
 
-    scrimmage::PID heading_pid_;
-    scrimmage::PID altitude_pid_;
-    scrimmage::PID speed_pid_;
+  scrimmage::PID heading_pid_;
+  scrimmage::PID altitude_pid_;
+  scrimmage::PID speed_pid_;
 
-    double max_pitch_ = 45.0;
-    double max_roll_ = 45.0;
+  double max_pitch_ = 45.0;
+  double max_roll_ = 45.0;
 
-    bool use_roll_control_ = false;
+  bool use_roll_control_ = false;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_

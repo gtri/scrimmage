@@ -31,6 +31,7 @@
  */
 
 #include <scrimmage/pubsub/MessageBase.h>
+
 #include <cmath>
 
 #if ENABLE_PYTHON_BINDINGS == 1
@@ -40,7 +41,8 @@
 namespace scrimmage {
 
 #if ENABLE_PYTHON_BINDINGS == 1
-// void MessageBase::serialize_to_python(std::string module_name, std::string object_name) {
+// void MessageBase::serialize_to_python(std::string module_name, std::string
+// object_name) {
 //     if (serialized_data == "") {
 //         return;
 //     }
@@ -52,5 +54,4 @@ namespace scrimmage {
 // }
 #endif
 
-
-} // namespace scrimmage
+}  // namespace scrimmage

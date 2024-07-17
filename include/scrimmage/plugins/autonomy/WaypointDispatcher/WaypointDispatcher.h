@@ -36,39 +36,42 @@
 #include <scrimmage/common/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class WaypointDispatcher : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_autonomy(double t, double dt) override;
+  void init(std::map<std::string, std::string> &params) override;
+  bool step_autonomy(double t, double dt) override;
 
  protected:
-    Eigen::Vector3d lla_to_xyz(const Waypoint &wpt);
+  Eigen::Vector3d lla_to_xyz(const Waypoint &wpt);
 
-    WaypointList wp_list_;
-    std::list<Waypoint>::iterator wp_it_;
-    std::list<Waypoint>::iterator prev_wp_it_;
-    unsigned int cycles_ = 0;
-    bool returning_stage_ = false;
-    double lead_distance_ = 50;
-    double filter_dist_ = 1;
+  WaypointList wp_list_;
+  std::list<Waypoint>::iterator wp_it_;
+  std::list<Waypoint>::iterator prev_wp_it_;
+  unsigned int cycles_ = 0;
+  bool returning_stage_ = false;
+  double lead_distance_ = 50;
+  double filter_dist_ = 1;
 
-    scrimmage_proto::ShapePtr track_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
-    scrimmage_proto::ShapePtr curr_wp_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
-    scrimmage_proto::ShapePtr prev_wp_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
-    bool show_shapes_ = false;
+  scrimmage_proto::ShapePtr track_sphere_shape_ =
+      std::make_shared<scrimmage_proto::Shape>();
+  scrimmage_proto::ShapePtr curr_wp_sphere_shape_ =
+      std::make_shared<scrimmage_proto::Shape>();
+  scrimmage_proto::ShapePtr prev_wp_sphere_shape_ =
+      std::make_shared<scrimmage_proto::Shape>();
+  bool show_shapes_ = false;
 
-    scrimmage::PublisherPtr wp_pub_;
-    scrimmage::PublisherPtr wp_pub_status_;
+  scrimmage::PublisherPtr wp_pub_;
+  scrimmage::PublisherPtr wp_pub_status_;
 
-    bool tolerance_in_2d_ = false;
+  bool tolerance_in_2d_ = false;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_

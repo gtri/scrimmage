@@ -37,13 +37,14 @@
 namespace JSBSim {
 class FGOutputFGMod : public FGOutputFG {
  public:
-    /// Constructor
-    explicit FGOutputFGMod(FGFDMExec* fdmex);
-    virtual void Print(void);
+  /// Constructor
+  explicit FGOutputFGMod(FGFDMExec* fdmex);
+  virtual void Print(void);
+
  protected:
  private:
-    FGNetFDM fgSockBufMod;
-    void SocketDataFillMod(FGNetFDM* net);
+  FGNetFDM fgSockBufMod;
+  void SocketDataFillMod(FGNetFDM* net);
 };
-} // namespace JSBSim
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_FGOUTPUTFGMOD_H_
+}  // namespace JSBSim
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_FGOUTPUTFGMOD_H_

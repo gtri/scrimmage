@@ -30,13 +30,12 @@
  *
  */
 
-#include <scrimmage/plugins/controller/UUV6DOFLinearEnergy/UUV6DOFLinearEnergy.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/UUV6DOFLinearEnergy/UUV6DOFLinearEnergy.h>
 
 #include <iostream>
 #include <limits>
@@ -54,32 +53,38 @@ namespace scrimmage {
 namespace controller {
 
 void UUV6DOFLinearEnergy::init(std::map<std::string, std::string> &params) {
-    energy_ = sc::get<double>("energy_initial", params, energy_);
-    energy_max_ = sc::get<double>("energy_max", params, energy_max_);
-    energy_min_ = sc::get<double>("energy_min", params, energy_min_);
+  energy_ = sc::get<double>("energy_initial", params, energy_);
+  energy_max_ = sc::get<double>("energy_max", params, energy_max_);
+  energy_min_ = sc::get<double>("energy_min", params, energy_min_);
 
-    in_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
-    in_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
-    in_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
+  in_throttle_idx_ =
+      vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+  in_elevator_idx_ =
+      vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+  in_rudder_idx_ =
+      vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
-    out_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    out_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    out_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+  out_throttle_idx_ =
+      vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+  out_elevator_idx_ =
+      vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+  out_rudder_idx_ =
+      vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool UUV6DOFLinearEnergy::step(double t, double dt) {
-    double throttle = vars_.input(in_throttle_idx_);
-    energy_ -= throttle * dt;
-    if (energy_ <= energy_min_) {
-        energy_ = energy_min_;
-        throttle = 0;
-    }
+  double throttle = vars_.input(in_throttle_idx_);
+  energy_ -= throttle * dt;
+  if (energy_ <= energy_min_) {
+    energy_ = energy_min_;
+    throttle = 0;
+  }
 
-    vars_.output(out_throttle_idx_, throttle);
-    vars_.output(out_elevator_idx_, vars_.input(in_elevator_idx_));
-    vars_.output(out_rudder_idx_, vars_.input(in_rudder_idx_));
+  vars_.output(out_throttle_idx_, throttle);
+  vars_.output(out_elevator_idx_, vars_.input(in_elevator_idx_));
+  vars_.output(out_rudder_idx_, vars_.input(in_rudder_idx_));
 
-    return true;
+  return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

@@ -37,31 +37,31 @@
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
 
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace controller {
 class DoubleIntegratorControllerVelYaw : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step(double t, double dt) override;
+  void init(std::map<std::string, std::string> &params) override;
+  bool step(double t, double dt) override;
 
  protected:
-    scrimmage::PID speed_pid_;
-    scrimmage::PID alt_pid_;
+  scrimmage::PID speed_pid_;
+  scrimmage::PID alt_pid_;
 
-    scrimmage::PID yaw_pid_;
+  scrimmage::PID yaw_pid_;
 
-    int desired_alt_idx_ = 0;
-    int desired_speed_idx_ = 0;
-    int desired_heading_idx_ = 0;
+  int desired_alt_idx_ = 0;
+  int desired_speed_idx_ = 0;
+  int desired_heading_idx_ = 0;
 
-    int acc_x_idx_ = 0;
-    int acc_y_idx_ = 0;
-    int acc_z_idx_ = 0;
-    int turn_rate_idx_ = 0;
+  int acc_x_idx_ = 0;
+  int acc_y_idx_ = 0;
+  int acc_z_idx_ = 0;
+  int turn_rate_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_

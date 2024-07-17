@@ -37,15 +37,14 @@
 // custom specialization of std::hash can be injected in namespace std
 // see http://en.cppreference.com/w/cpp/utility/hash
 namespace std {
-template<> struct hash<scrimmage::ID> {
-    size_t operator()(scrimmage::ID const& id) const {
-        // assume up to 16 teams and 64 subswarms
-        // for a 32-bit int this leaves 16 bits (up to 65000 ids)
-        return id.team_id() &
-            (id.sub_swarm_id() << 4) &
-            (id.id() << 12);
-    }
+template <>
+struct hash<scrimmage::ID> {
+  size_t operator()(scrimmage::ID const& id) const {
+    // assume up to 16 teams and 64 subswarms
+    // for a 32-bit int this leaves 16 bits (up to 65000 ids)
+    return id.team_id() & (id.sub_swarm_id() << 4) & (id.id() << 12);
+  }
 };
-} // namespace std
+}  // namespace std
 
-#endif // INCLUDE_SCRIMMAGE_HASH_H_
+#endif  // INCLUDE_SCRIMMAGE_HASH_H_

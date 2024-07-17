@@ -30,17 +30,15 @@
  *
  */
 
-#include <scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Time.h>
-
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <iostream>
 #include <limits>
@@ -50,89 +48,99 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UnicyclePID,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicyclePID,
                 UnicyclePID_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-UnicyclePID::UnicyclePID() {
-}
+UnicyclePID::UnicyclePID() {}
 
 void UnicyclePID::init(std::map<std::string, std::string> &params) {
-    show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
+  show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+  desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
+                                   VariableIO::Direction::In);
+  desired_speed_idx_ =
+      vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+  desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
+                                       VariableIO::Direction::In);
 
-    // Is the motion model using speed or acceleration input control?
-    std::string input_name = vars_.type_map().at(VariableIO::Type::speed);
-    if (vars_.exists(VariableIO::Type::acceleration_x, VariableIO::Direction::Out)) {
-        input_name = vars_.type_map().at(VariableIO::Type::acceleration_x);
-        use_accel_ = true;
-    }
+  // Is the motion model using speed or acceleration input control?
+  std::string input_name = vars_.type_map().at(VariableIO::Type::speed);
+  if (vars_.exists(VariableIO::Type::acceleration_x,
+                   VariableIO::Direction::Out)) {
+    input_name = vars_.type_map().at(VariableIO::Type::acceleration_x);
+    use_accel_ = true;
+  }
 
-    speed_idx_ = vars_.declare(input_name, VariableIO::Direction::Out);
+  speed_idx_ = vars_.declare(input_name, VariableIO::Direction::Out);
 
-    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
-    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
+  turn_rate_idx_ =
+      vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+  pitch_rate_idx_ =
+      vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+  roll_rate_idx_ =
+      vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
 
-    // Outer loop PIDs
-    if (!heading_pid_.init(params["heading_pid"], true)) {
-        std::cout << "Failed to set heading PID" << std::endl;
-    }
-    if (!pitch_pid_.init(params["pitch_pid"], false)) {
-        std::cout << "Failed to set pitch PID" << std::endl;
-    }
-    if (!roll_pid_.init(params["roll_pid"], false)) {
-        std::cout << "Failed to set roll PID" << std::endl;
-    }
-    if (!speed_pid_.init(params["speed_pid"], false)) {
-        std::cout << "Failed to set speed PID" << std::endl;
-    }
+  // Outer loop PIDs
+  if (!heading_pid_.init(params["heading_pid"], true)) {
+    std::cout << "Failed to set heading PID" << std::endl;
+  }
+  if (!pitch_pid_.init(params["pitch_pid"], false)) {
+    std::cout << "Failed to set pitch PID" << std::endl;
+  }
+  if (!roll_pid_.init(params["roll_pid"], false)) {
+    std::cout << "Failed to set roll PID" << std::endl;
+  }
+  if (!speed_pid_.init(params["speed_pid"], false)) {
+    std::cout << "Failed to set speed PID" << std::endl;
+  }
 }
 
 bool UnicyclePID::step(double t, double dt) {
-    heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), state_->quat().yaw()));
+  heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
+  vars_.output(turn_rate_idx_,
+               heading_pid_.step(time_->dt(), state_->quat().yaw()));
 
-    // Reconstruct original velocity vector (close, but not exact
-    double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
-    double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_) - state_->pos()(2));
-    vel = vel.normalized() * vars_.input(desired_speed_idx_);
+  // Reconstruct original velocity vector (close, but not exact
+  double x_vel = vars_.input(desired_speed_idx_) /
+                 sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
+  double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
+  Eigen::Vector3d vel(x_vel, y_vel,
+                      vars_.input(desired_alt_idx_) - state_->pos()(2));
+  vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
-    // Track desired pitch
-    double desired_pitch = atan2(vel(2), vel.head<2>().norm());
-    pitch_pid_.set_setpoint(desired_pitch);
-    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), - state_->quat().pitch()));
+  // Track desired pitch
+  double desired_pitch = atan2(vel(2), vel.head<2>().norm());
+  pitch_pid_.set_setpoint(desired_pitch);
+  vars_.output(pitch_rate_idx_,
+               -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
 
-    // Track zero roll
-    roll_pid_.set_setpoint(0);
-    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), - state_->quat().roll()));
+  // Track zero roll
+  roll_pid_.set_setpoint(0);
+  vars_.output(roll_rate_idx_,
+               -roll_pid_.step(time_->dt(), -state_->quat().roll()));
 
-    if (show_shapes_) {
-        line_shape_->set_persistent(true);
-        sc::set(line_shape_->mutable_color(), 255, 0, 0);
-        line_shape_->set_opacity(1.0);
-        sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line_shape_->mutable_line()->mutable_end(), vel + state_->pos());
-        draw_shape(line_shape_);
-    }
+  if (show_shapes_) {
+    line_shape_->set_persistent(true);
+    sc::set(line_shape_->mutable_color(), 255, 0, 0);
+    line_shape_->set_opacity(1.0);
+    sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
+    sc::set(line_shape_->mutable_line()->mutable_end(), vel + state_->pos());
+    draw_shape(line_shape_);
+  }
 
-    // Only use PID if controlling acceleration, otherwise, we directly set the
-    // forward speed
-    double desired_speed = vars_.input(desired_speed_idx_);
-    if (use_accel_) {
-        speed_pid_.set_setpoint(desired_speed);
-        desired_speed = speed_pid_.step(time_->dt(), state_->vel().norm());
-    }
-    vars_.output(speed_idx_, desired_speed);
+  // Only use PID if controlling acceleration, otherwise, we directly set the
+  // forward speed
+  double desired_speed = vars_.input(desired_speed_idx_);
+  if (use_accel_) {
+    speed_pid_.set_setpoint(desired_speed);
+    desired_speed = speed_pid_.step(time_->dt(), state_->vel().norm());
+  }
+  vars_.output(speed_idx_, desired_speed);
 
-    return true;
+  return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

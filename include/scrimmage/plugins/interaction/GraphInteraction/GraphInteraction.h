@@ -35,10 +35,10 @@
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
 #include <list>
-#include <string>
+#include <map>
 #include <memory>
+#include <string>
 
 #include <boost/graph/adjacency_list.hpp>
 
@@ -54,43 +54,43 @@ namespace interaction {
 
 class GraphInteraction : public scrimmage::EntityInteraction {
  public:
-    GraphInteraction();
-    bool init(std::map<std::string, std::string> &mission_params,
-                std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                    double t, double dt) override;
+  GraphInteraction();
+  bool init(std::map<std::string, std::string> &mission_params,
+            std::map<std::string, std::string> &plugin_params) override;
+  bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t,
+                               double dt) override;
 
  protected:
-    struct GraphData {
-        std::string Name;
-    };
+  struct GraphData {
+    std::string Name;
+  };
 
-    struct VertexProperties {
-        uint64_t osmid;
-        double x;
-        double y;
-    };
+  struct VertexProperties {
+    uint64_t osmid;
+    double x;
+    double y;
+  };
 
-    struct EdgeProperties {
-        std::string geometry;
-        std::string highway;
-        double length;
-        std::string osmid;
-        std::string name;
-    };
+  struct EdgeProperties {
+    std::string geometry;
+    std::string highway;
+    double length;
+    std::string osmid;
+    std::string name;
+  };
 
-    typedef boost::adjacency_list<
-        boost::vecS,  // edge storage
-        boost::vecS,   // vertex storage
-        boost::directedS,
-        VertexProperties, EdgeProperties> Graph;
-    Graph g_;
+  typedef boost::adjacency_list<boost::vecS,  // edge storage
+                                boost::vecS,  // vertex storage
+                                boost::directedS, VertexProperties,
+                                EdgeProperties>
+      Graph;
+  Graph g_;
 
  private:
-    bool vis_graph_ = true;
-    PublisherPtr pub_graph_;
-    int id_ = 1;
+  bool vis_graph_ = true;
+  PublisherPtr pub_graph_;
+  int id_ = 1;
 };
 }  // namespace interaction
 }  // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_

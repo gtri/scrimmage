@@ -40,18 +40,19 @@
 
 namespace scrimmage {
 namespace controller {
-class SimpleQuadrotorControllerLQR : public motion::SimpleQuadrotor::Controller {
+class SimpleQuadrotorControllerLQR
+    : public motion::SimpleQuadrotor::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
-    bool step(double t, double dt) override;
-    Eigen::Vector4d &u() override {return u_;}
+  void init(std::map<std::string, std::string> &params) override;
+  bool step(double t, double dt) override;
+  Eigen::Vector4d &u() override { return u_; }
 
  protected:
-    Eigen::Vector4d u_;
-    scrimmage::PID vel_pid_;
-    double prev_yaw_ = NAN;
-    double max_vel_;
+  Eigen::Vector4d u_;
+  scrimmage::PID vel_pid_;
+  double prev_yaw_ = NAN;
+  double max_vel_;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_
