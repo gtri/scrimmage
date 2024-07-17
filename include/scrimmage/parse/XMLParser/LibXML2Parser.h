@@ -28,13 +28,12 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H 
-#define INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H 
+#ifndef INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_
+#define INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_
 
-#include <scrimmage/parse/XMLParser/XMLParser.h>
-
-#include <libxml/xmlreader.h>
 #include <libxml/tree.h>
+#include <libxml/xmlreader.h>
+#include <scrimmage/parse/XMLParser/XMLParser.h>
 
 #include <filesystem>
 #include <string>
@@ -42,85 +41,88 @@
 
 namespace scrimmage {
 
-  class LibXML2ParserAttribute : public XMLParserAttribute<LibXML2ParserAttribute> {
-    public:
-      LibXML2ParserAttribute(xmlAttrPtr attribute);
+class LibXML2ParserAttribute
+    : public XMLParserAttribute<LibXML2ParserAttribute> {
+ public:
+  explicit LibXML2ParserAttribute(xmlAttrPtr attribute);
 
-      LibXML2ParserAttribute next_attribute(const std::string& name) const;
-      LibXML2ParserAttribute next_attribute() const;
+  LibXML2ParserAttribute next_attribute(const std::string& name) const;
+  LibXML2ParserAttribute next_attribute() const;
 
-      LibXML2ParserAttribute prev_attribute(const std::string& name) const;
-      LibXML2ParserAttribute prev_attribute() const;
+  LibXML2ParserAttribute prev_attribute(const std::string& name) const;
+  LibXML2ParserAttribute prev_attribute() const;
 
-      std::string attribute_name() const;
-      std::string attribute_value() const;
+  std::string attribute_name() const;
+  std::string attribute_value() const;
 
-      bool is_valid_attribute() const;
+  bool is_valid_attribute() const;
 
-      friend bool operator==(const LibXML2ParserAttribute& lhs, const LibXML2ParserAttribute& rhs) {
-        return lhs.attribute_ == rhs.attribute_;  
-      }
+  friend bool operator==(const LibXML2ParserAttribute& lhs,
+                         const LibXML2ParserAttribute& rhs) {
+    return lhs.attribute_ == rhs.attribute_;
+  }
 
-    protected:
-      xmlAttrPtr attribute_;
-  };
+ protected:
+  xmlAttrPtr attribute_;
+};
 
-  template<>
-    struct XMLParserTraits<class LibXML2ParserNode> {
-      using child = LibXML2ParserAttribute;
-    };
+template <>
+struct XMLParserTraits<class LibXML2ParserNode> {
+  using child = LibXML2ParserAttribute;
+};
 
-  class LibXML2ParserNode : public XMLParserNode<LibXML2ParserNode> {
-    public:
+class LibXML2ParserNode : public XMLParserNode<LibXML2ParserNode> {
+ public:
+  explicit LibXML2ParserNode(xmlNodePtr node);
 
-      LibXML2ParserNode(xmlNodePtr node);
- 
-      LibXML2ParserNode get_first_node(const std::string& name) const ;
-      LibXML2ParserNode get_first_node() const;
+  LibXML2ParserNode get_first_node(const std::string& name) const;
+  LibXML2ParserNode get_first_node() const;
 
-      LibXML2ParserNode get_next_sibling(const std::string& name) const;
-      LibXML2ParserNode get_next_sibling() const;
+  LibXML2ParserNode get_next_sibling(const std::string& name) const;
+  LibXML2ParserNode get_next_sibling() const;
 
-      LibXML2ParserNode get_prev_sibling(const std::string& name) const;
-      LibXML2ParserNode get_prev_sibling() const;
+  LibXML2ParserNode get_prev_sibling(const std::string& name) const;
+  LibXML2ParserNode get_prev_sibling() const;
 
-      LibXML2ParserAttribute get_first_attribute(const std::string& name) const;
-      LibXML2ParserAttribute get_first_attribute() const;
+  LibXML2ParserAttribute get_first_attribute(const std::string& name) const;
+  LibXML2ParserAttribute get_first_attribute() const;
 
-      std::string node_name() const;
-      std::string node_value() const;
+  std::string node_name() const;
+  std::string node_value() const;
 
-      bool is_valid_node() const;
+  bool is_valid_node() const;
 
-      friend bool operator==(const LibXML2ParserNode& lhs, const LibXML2ParserNode& rhs) {
-        return lhs.node_ == rhs.node_;
-      }
+  friend bool operator==(const LibXML2ParserNode& lhs,
+                         const LibXML2ParserNode& rhs) {
+    return lhs.node_ == rhs.node_;
+  }
 
-    protected:
-      xmlNodePtr node_;
-  };
+ protected:
+  xmlNodePtr node_;
+};
 
-  template<>
-    struct XMLParserTraits<class LibXML2ParserDocument> {
-      using child = LibXML2ParserNode;
-    };
+template <>
+struct XMLParserTraits<class LibXML2ParserDocument> {
+  using child = LibXML2ParserNode;
+};
 
-  class LibXML2ParserDocument : public XMLParserDocument<LibXML2ParserDocument> {
-    public:
-      ~LibXML2ParserDocument();
-      bool parse_document(std::filesystem::path path);
-      bool parse_document(std::vector<char>& filecontent);
-      LibXML2ParserNode find_first_node(const std::string& name) const;
-      LibXML2ParserNode find_first_node() const;
+class LibXML2ParserDocument : public XMLParserDocument<LibXML2ParserDocument> {
+ public:
+  ~LibXML2ParserDocument();
+  bool parse_document(std::filesystem::path path);
+  bool parse_document(std::vector<char>& filecontent);
+  LibXML2ParserNode find_first_node(const std::string& name) const;
+  LibXML2ParserNode find_first_node() const;
 
-    protected:
-      static constexpr int PARSING_OPTIONS = XML_PARSE_XINCLUDE | XML_PARSE_NOBLANKS; 
+ protected:
+  static constexpr int PARSING_OPTIONS =
+      XML_PARSE_XINCLUDE | XML_PARSE_NOBLANKS;
 
-      xmlDocPtr doc_;
-      std::vector<char> filecontents_;
-  };
+  xmlDocPtr doc_;
+  std::vector<char> filecontents_;
+};
 
-  using LibXML2Parser = LibXML2ParserDocument;
-}
+using LibXML2Parser = LibXML2ParserDocument;
+}  // namespace scrimmage
 
-#endif //INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H 
+#endif  // INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_

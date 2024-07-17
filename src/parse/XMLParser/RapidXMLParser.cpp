@@ -27,25 +27,27 @@
  * @section DESCRIPTION
  *
  * A general interface for XML parsing used by MissionParse
- * similar to RapidXML interface 
+ * similar to RapidXML interface
  */
 
 #include <scrimmage/parse/XMLParser/RapidXMLParser.h>
 
-#include <rapidxml/rapidxml.hpp>
-
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 
+#include <rapidxml/rapidxml.hpp>
+
 namespace scrimmage {
 
-RapidXMLParserAttribute::RapidXMLParserAttribute(rapidxml::xml_attribute<>* attribute): 
-  attribute_(attribute) {}
+RapidXMLParserAttribute::RapidXMLParserAttribute(
+    rapidxml::xml_attribute<> *attribute)
+    : attribute_(attribute) {}
 
-RapidXMLParserAttribute RapidXMLParserAttribute::next_attribute(const std::string& name) const {
+RapidXMLParserAttribute
+RapidXMLParserAttribute::next_attribute(const std::string &name) const {
   return RapidXMLParserAttribute{attribute_->next_attribute(name.c_str())};
 }
 
@@ -72,9 +74,11 @@ bool RapidXMLParserAttribute::is_valid_attribute() const {
   return attribute_ != nullptr;
 }
 
-RapidXMLParserNode::RapidXMLParserNode(rapidxml::xml_node<>* node): node_(node) {}
+RapidXMLParserNode::RapidXMLParserNode(rapidxml::xml_node<> *node)
+    : node_(node) {}
 
-RapidXMLParserNode RapidXMLParserNode::get_first_node(const std::string& name) const {
+RapidXMLParserNode
+RapidXMLParserNode::get_first_node(const std::string &name) const {
   return RapidXMLParserNode{node_->first_node(name.c_str())};
 }
 
@@ -82,7 +86,8 @@ RapidXMLParserNode RapidXMLParserNode::get_first_node() const {
   return RapidXMLParserNode{node_->first_node()};
 }
 
-RapidXMLParserNode RapidXMLParserNode::get_next_sibling(const std::string& name) const {
+RapidXMLParserNode
+RapidXMLParserNode::get_next_sibling(const std::string &name) const {
   return RapidXMLParserNode{node_->next_sibling(name.c_str())};
 }
 
@@ -90,7 +95,8 @@ RapidXMLParserNode RapidXMLParserNode::get_next_sibling() const {
   return RapidXMLParserNode{node_->next_sibling()};
 }
 
-RapidXMLParserAttribute RapidXMLParserNode::get_first_attribute(const std::string& name) const {
+RapidXMLParserAttribute
+RapidXMLParserNode::get_first_attribute(const std::string &name) const {
   return RapidXMLParserAttribute{node_->first_attribute(name.c_str())};
 }
 
@@ -99,8 +105,8 @@ RapidXMLParserAttribute RapidXMLParserNode::get_first_attribute() const {
 }
 
 std::string RapidXMLParserNode::node_name() const {
-  if(!this->is_valid() || node_->name_size() == 0) {
-      return std::string{""};
+  if (!this->is_valid() || node_->name_size() == 0) {
+    return std::string{""};
   }
   return std::string{node_->name(), node_->name_size()};
 }
@@ -112,47 +118,47 @@ std::string RapidXMLParserNode::node_value() const {
   return std::string{node_->value(), node_->value_size()};
 }
 
-bool RapidXMLParserNode::is_valid_node() const {
-  return node_ != nullptr;
-}
+bool RapidXMLParserNode::is_valid_node() const { return node_ != nullptr; }
 
 bool RapidXMLParserDocument::parse_document(std::filesystem::path path) {
-    namespace fs = std::filesystem;
-    if (fs::is_symlink(path)) {
-      path = fs::read_symlink(path); 
-    }
-    assert(fs::exists(path) && fs::is_regular_file(path));
-    std::ifstream file(path);
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    file.close();
-    std::string filecontent_str = buffer.str(); 
-    std::vector<char> filecontent(filecontent_str.cbegin(), filecontent_str.cend());
-    filename_ = path.string();
-    return parse_document(filecontent);
+  namespace fs = std::filesystem;
+  if (fs::is_symlink(path)) {
+    path = fs::read_symlink(path);
+  }
+  assert(fs::exists(path) && fs::is_regular_file(path));
+  std::ifstream file(path);
+  std::stringstream buffer;
+  buffer << file.rdbuf();
+  file.close();
+  std::string filecontent_str = buffer.str();
+  std::vector<char> filecontent(filecontent_str.cbegin(),
+                                filecontent_str.cend());
+  filename_ = path.string();
+  return parse_document(filecontent);
 }
 
-bool RapidXMLParserDocument::parse_document(std::vector<char>& filecontent) {
+bool RapidXMLParserDocument::parse_document(std::vector<char> &filecontent) {
   filecontent_ = filecontent;
   try {
     // Note: This parse function can hard fail (seg fault, no exception) on
     //       badly formatted xml data. Sometimes it'll except, sometimes not.
     doc_.parse<rapidxml::parse_non_destructive>(filecontent_.data());
   } catch (...) {
-      std::cerr << "scrimmage::MissionParse::parse: Exception during rapidxml::xml_document<>.parse<>()."
-        "Your xml mission file may be ill-formatted\n";
-      return false;
+    std::cerr << "scrimmage::MissionParse::parse: Exception during "
+                 "rapidxml::xml_document<>.parse<>()."
+                 "Your xml mission file may be ill-formatted\n";
+    return false;
   }
   return true;
 }
 
-RapidXMLParserNode RapidXMLParserDocument::find_first_node(const std::string& name) const {
-  return RapidXMLParserNode{doc_.first_node(name.c_str())}; 
+RapidXMLParserNode
+RapidXMLParserDocument::find_first_node(const std::string &name) const {
+  return RapidXMLParserNode{doc_.first_node(name.c_str())};
 }
 
 RapidXMLParserNode RapidXMLParserDocument::find_first_node() const {
-  return RapidXMLParserNode{doc_.first_node()}; 
+  return RapidXMLParserNode{doc_.first_node()};
 }
 
-} //namespace scrimmage
-
+} // namespace scrimmage
